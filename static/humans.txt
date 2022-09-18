@@ -1,0 +1,15 @@
+/* TEAM */
+
+	Frontend developer: Jaroslav Vrána
+	Site: https://www.cebre.us/
+	Twitter: @cebreus69
+	From: Brno, Czech Republic
+
+
+/* SITE */
+
+	Last update: 2022/09/09
+	Language: English
+	Doctype: HTML5
+	Standards: HTML5, CSS3, BEM
+	IDE: VS Code

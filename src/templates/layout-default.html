@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="{{ SITE.meta.lang }}">
+  <head>
+    <meta charset="{{ SITE.meta.charset }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% include "./partials/meta-seo.njk" %}
+
+    {# {% if SITE.meta.lang == 'cs' %}
+      <link rel="preload" href="{{ SITE.baseUrl }}/assets/fonts/font-black-cs.woff2" as="font" type="font/woff2" crossorigin="">
+      <link rel="preload" href="{{ SITE.baseUrl }}/assets/fonts/font-regular-cs.woff2" as="font" type="font/woff2" crossorigin="">
+      <link rel="preload" href="{{ SITE.baseUrl }}/assets/fonts/font-semibold-cs.woff2" as="font" type="font/woff2" crossorigin="">
+    {% else %}
+      <link rel="preload" href="{{ SITE.baseUrl }}/assets/fonts/font-black-en.woff2" as="font" type="font/woff2" crossorigin="">
+      <link rel="preload" href="{{ SITE.baseUrl }}/assets/fonts/font-regular-en.woff2" as="font" type="font/woff2" crossorigin="">
+      <link rel="preload" href="{{ SITE.baseUrl }}/assets/fonts/font-semibold-en.woff2" as="font" type="font/woff2" crossorigin="">
+    {% endif %} #}
+
+    {% include "./partials/meta-open-graph.njk" %}
+    {% include "./partials/meta-twitter-cards.njk" %}
+    {% include "./partials/favicons.njk" %}
+
+    <!-- inject:css -->
+    <!-- endinject -->
+  </head>
+  <body data-version="0.0.0" data-template="{{ pageData.template }}"  data-bs-spy="scroll" data-bs-target="#navbar-offcanvas">
+
+    {% if pageData.page_id === '404' %}
+      {% block content404 %}{% endblock %}
+    {% else %}
+      {% include "./partials/o-header.njk" %}
+      {% block content %}{% endblock %}
+    {% endif %}
+
+    {% block footer %}
+      {% include "./partials/o-footer.njk" %}
+    {% endblock %}
+
+    <!-- inject: bootstrap js -->
+    <!-- inject:js -->
+    <!-- endinject -->
+  </body>
+</html>

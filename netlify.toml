@@ -1,0 +1,131 @@
+[[headers]]
+for = "/"
+[headers.values]
+Content-Security-Policy = "frame-ancestors 'self'; base-uri 'self'"
+Feature-Policy = "microphone 'none'; camera 'none'; usb 'none'"
+Permissions-Policy = "microphone=(), camera=(), usb=()"
+Referrer-Policy = "no-referrer-when-downgrade"
+Strict-Transport-Security = "max-age=15768000"
+X-Content-Type-Options = "nosniff"
+X-Frame-Options = "SAMEORIGIN"
+X-Xss-Protection = "1; mode=block"
+
+[[headers]]
+for = "/*"
+[headers.values]
+Content-Security-Policy = "frame-ancestors 'self'; base-uri 'self'"
+Feature-Policy = "microphone 'none'; camera 'none'; usb 'none'"
+Permissions-Policy = "microphone=(), camera=(), usb=()"
+Referrer-Policy = "no-referrer-when-downgrade"
+Strict-Transport-Security = "max-age=15768000"
+X-Content-Type-Options = "nosniff"
+X-Frame-Options = "SAMEORIGIN"
+X-Xss-Protection = "1; mode=block"
+
+[[headers]]
+for = "*.html"
+[headers.values]
+Content-Security-Policy = "frame-ancestors 'self'; base-uri 'self'"
+Feature-Policy = "microphone 'none'; camera 'none'; usb 'none'"
+Permissions-Policy = "microphone=(), camera=(), usb=()"
+Referrer-Policy = "no-referrer-when-downgrade"
+Strict-Transport-Security = "max-age=15768000"
+X-Content-Type-Options = "nosniff"
+X-Frame-Options = "SAMEORIGIN"
+X-UA-Compatible = "ie=edge"
+X-Xss-Protection = "1; mode=block"
+
+[[headers]]
+for = "*.js"
+[headers.values]
+Cache-Control = "immutable, max-age=31536000"
+Content-Type = "text/javascript; charset=UTF-8"
+X-Content-Type-Options = "nosniff"
+
+[[headers]]
+for = "*.css"
+[headers.values]
+Cache-Control = "immutable, max-age=31536000"
+X-Content-Type-Options = "nosniff"
+
+[[headers]]
+for = "*.ico"
+[headers.values]
+Content-Type = "image/x-icon"
+X-Content-Type-Options = "nosniff"
+
+[[headers]]
+for = "*.svg"
+[headers.values]
+Cache-Control = "immutable, max-age=31536000"
+Content-Type = "image/svg+xml; charset=UTF-8"
+Strict-Transport-Security = "max-age=15768000"
+X-Content-Type-Options = "nosniff"
+
+[[headers]]
+for = "*.woff"
+[headers.values]
+Cache-Control = "immutable, max-age=31556926"
+Content-Type = "font/woff"
+X-Content-Type-Options = "nosniff"
+
+# -----
+# PLUGINS
+# -----
+
+# [[plugins]]
+# package = "netlify-deployment-hours-plugin"
+# [plugins.inputs]
+# # A cron-like expression that expresses when a deployment can occur
+# # Seconds | Minutes| Hours | Day of a month | Month
+# expression = "* * 0-24 * *"
+# # tz database value that expresses the timezone of the expression
+# timezone = "Europe/Prague"
+
+[[plugins]]
+package = "netlify-plugin-checklinks"
+[plugins.inputs]
+checkExternal = false
+entryPoints = [
+  "*.html",
+]
+followSourceMaps = false
+pretty = true
+recursive = true
+skipPatterns = [
+  "#void",
+]
+
+[[plugins]]
+package = "netlify-plugin-no-more-404"
+
+# [[plugins]]
+# package = "@netlify/plugin-lighthouse"
+
+[[plugins]]
+package = "netlify-plugin-inline-critical-css"
+
+# [[plugins]]
+# package = "netlify-plugin-visual-diff"
+
+# [[plugins]]
+# package = "@netlify/plugin-sitemap"
+# [plugins.inputs]
+# exclude = [
+#   './build/404*',
+#   './build/404/*',
+#   './build/admin/*',
+#   './build/de/404*',
+#   './build/de/404/*',
+#   './build/koncerty/page-*',
+# ]
+# trailingSlash = true
+
+# [[plugins]]
+# package = "netlify-plugin-subfont"
+
+# [[plugins]]
+# package = "netlify-plugin-html-validate"
+
+# [[plugins]]
+# package = "@netlify/plugin-a11y"

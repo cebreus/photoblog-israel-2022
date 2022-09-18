@@ -1,0 +1,55 @@
+---
+hooks: {}
+git:
+  changelog: git log --pretty=format:"* %s (%h)" ${latestTag}...HEAD
+  requireCleanWorkingDir: true
+  requireUpstream: true
+  requireCommits: true
+  addUntrackedFiles: false
+  commit: true
+  commitMessage: 'releaseAutomat: release ${version}'
+  commitArgs: ''
+  tag: true
+  tagName: '${version}'
+  tagAnnotation: Release ${version}
+  tagArgs: ''
+  push: true
+  pushArgs: '--follow-tags'
+  pushRepo: origin
+github:
+  release: false
+  releaseName: Release ${version}
+  releaseNotes:
+  preRelease: false
+  draft: false
+  tokenRef: GITHUB_TOKEN
+  assets:
+  host:
+  timeout: 0
+  proxy:
+gitlab:
+  release: false
+npm:
+  publish: false
+plugins:
+  '@release-it/conventional-changelog':
+    infile: CHANGELOG.md
+    header: '# Photoblog Changelog'
+    writerOpts:
+      groupBy: scope
+    preset:
+      name: conventionalcommits
+      types:
+        - type: feat
+          section: Features
+        - type: fix
+          section: Bug Fixes
+        - {}
+  '@j-ulrich/release-it-regex-bumper':
+    in:
+      file: src/templates/layout-default.html
+      type: text/html
+    out:
+      file: src/templates/layout-default.html
+      search: data-version="\d+\.\d+\.\d+
+      replace: data-version="{{versionWithoutPrerelease}}

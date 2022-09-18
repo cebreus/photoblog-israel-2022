@@ -1,0 +1,69 @@
+{% if open_graph.use and open_graph.use === true %}
+  {# Must be type number = without quotation marks #}
+  {% if SITE.open_graph.app_id %}
+    <meta property="fb:app_id" content="{{ SITE.open_graph.app_id }}">
+  {% endif %}
+
+  {% if SITE.open_graph.site_name and SITE.open_graph.site_name | length %}
+    <meta property="og:site_name" content="{{ SITE.open_graph.site_name | striptags | trim }}">
+  {% endif %}
+
+  {% if seo.canonical and seo.canonical | length %}
+    <meta property="og:url" content="{{ [SITE.baseUrl|trim, seo.canonical|trim] | join }}">
+  {% endif %}
+
+  {% if open_graph.type and open_graph.type | length %}
+    <meta property="og:type" content="{{ open_graph.type }}">
+  {% elseif SITE.open_graph.type and SITE.open_graph.type | length %}
+    <meta property="og:type" content="{{ SITE.open_graph.type }}">
+  {% endif %}
+
+  {% if open_graph.title and open_graph.title | length %}
+    <meta property="og:title" content="{{ open_graph.title | striptags | trim }}">
+  {% elseif seo.title and seo.title | length %}
+    <meta property="og:title" content="{{ seo.title | striptags | trim }}">
+  {% elseif title and title | length %}
+    <meta property="og:title" content="{{ title | striptags | trim }}">
+  {% endif %}
+
+  {% if open_graph.description and open_graph.description | length %}
+    <meta property="og:description" content="{{ open_graph.description | striptags | trim }}">
+  {% elseif seo.description and seo.description | length %}
+    <meta property="og:description" content="{{ seo.description | striptags | trim }}">
+  {% elseif description and description | length %}
+    <meta property="og:description" content="{{ description | striptags | trim }}">
+  {% elseif SITE.open_graph.description and SITE.open_graph.description | length %}
+    <meta property="og:description" content="{{ SITE.open_graph.description | striptags | trim }}">
+  {% endif %}
+
+  {% if open_graph
+    .image and open_graph
+    .image[0] | length %}
+    {% for item in open_graph.image %}
+      {% set loopIndex = loop.index %}
+      {% if loopIndex == 1 %}
+        <meta property="og:image" content="{{ SITE.baseUrl }}{{ open_graph.image[0] }}">
+        {% if open_graph.image_text and open_graph.image_text | length %}
+          <meta property="og:image:alt" content="{{ open_graph.image_text }}">
+        {% endif %}
+        {# <meta property="og:image:type" content="png"> #}
+        {# <meta property="og:image:width" content="1200"> #}
+        {# <meta property="og:image:height" content="627"> #}
+      {% elseif loopIndex <= 9 %}
+        <meta property="og:image" content="{{ SITE.baseUrl }}{{ item }}">
+        {# <meta property="og:image:type" content="png"> #}
+        {# <meta property="og:image:width" content="1200"> #}
+        {# <meta property="og:image:height" content="627"> #}
+      {% endif %}
+    {% endfor %}
+  {% elseif SITE.open_graph.image and SITE.open_graph.image[0] | length %}
+    <meta property="og:image" content="{{ SITE.baseUrl }}{{ SITE.open_graph.image[0] }}">
+    {% if SITE.open_graph.image_text and SITE.open_graph.image_text | length %}
+      <meta property="og:image:alt" content="{{ SITE.open_graph.image_text }}">
+    {% endif %}
+    <meta property="og:image:type" content="png">
+    <meta property="og:image:width" content="1280">
+    <meta property="og:image:height" content="640">
+  {% endif %}
+
+{% endif %}

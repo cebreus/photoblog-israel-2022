@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /*.*?
+
+# Sitemap: https://norway-2022.cebre.us/sitemap.xml
