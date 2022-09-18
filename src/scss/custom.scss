@@ -1,0 +1,137 @@
+@use 'sass:map';
+@import '../../node_modules/bootstrap/scss/functions';
+@import '../../node_modules/bootstrap/scss/mixins';
+@import './variables';
+
+// @import './temp/assets/css/fonts';
+
+// Přetížení Bootatrapu
+// --------------
+
+// Set minimum reasonable width on very small devices
+
+body {
+  min-width: 320px;
+}
+
+// Remove viod in the bottom of the alert component
+.alert {
+  p:last-child,
+  ol:last-child,
+  ul:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Reset for SVG images in `<img src=""`
+img:not([src$='.svg']) {
+  max-width: 100%;
+  height: auto;
+}
+
+// Záhlaví webu
+// --------------
+
+.o-header {
+  color: var(--white);
+  background-color: var(--body-color);
+
+  .btn-link {
+    &:focus-within svg,
+    &:hover svg,
+    &:focus svg {
+      fill: var(--orange);
+    }
+  }
+}
+
+article ~ section {
+  padding-top: map.get($spacers, 5);
+}
+
+article + section {
+  @media (orientation: portrait) {
+    padding-top: 0;
+  }
+}
+
+.t-day-heading-small {
+  display: block;
+  font-weight: 400;
+  font-size: 0.4em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  opacity: 0.8;
+
+  &::after,
+  &::before {
+    content: '———';
+    letter-spacing: -0.3em;
+    opacity: 0.34;
+  }
+
+  &::before {
+    margin-right: 1em;
+  }
+
+  &::after {
+    margin-left: 0.5em;
+  }
+}
+
+// stylelint-disable-next-line selector-max-specificity
+body:has(.title-switch__input:checked) .ratio[data-title]::after {
+  opacity: 1;
+}
+
+.title-switch {
+  &:focus-within {
+    box-shadow: var(--btn-focus-box-shadow);
+  }
+
+  .title-switch__input {
+    ~ .title-switch__icon--off {
+      display: none;
+    }
+  }
+
+  .title-switch__input:checked {
+    ~ .title-switch__icon--on {
+      display: none;
+    }
+
+    ~ .title-switch__icon--off {
+      display: inline-block;
+    }
+  }
+}
+
+// Zápatí webu
+// --------------
+
+.o-footer {
+  padding-top: map.get($spacers, 5);
+  padding-bottom: map.get($spacers, 3);
+  color: map.get($grays, '600');
+}
+
+//
+// --------------
+
+@media all and (min-width: 1024px) {
+  body .fancybox__slide {
+    padding-bottom: 1rem;
+  }
+}
+
+.t-overflow-90vw {
+  width: 90vw;
+  max-width: 90vw;
+  object-fit: cover;
+  padding: map.get($spacers, 3);
+  margin: 0 calc(-45vw + 50%);
+  overflow: auto;
+  border-radius: var(--border-radius);
+  background: var(--body-bg);
+  box-shadow: var(--accordion-btn-focus-box-shadow);
+}

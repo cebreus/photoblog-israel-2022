@@ -1,0 +1,24 @@
+############################
+# Folders
+############################
+
+.cache
+.idea
+.temp
+.tmp
+build
+dist
+nbproject
+node_modules
+ssl
+static
+temp
+
+############################
+# Files
+############################
+
+*.min.*
+_variables.scss
+u-debugger.scss
+u-show-grid.scss

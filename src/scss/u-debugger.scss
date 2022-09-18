@@ -1,0 +1,95 @@
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/mixins";
+@import "./variables";
+
+$pink1: #880e4f !default;
+$pink2: #c51162 !default;
+$green1: #1b5e20 !default;
+$green2: #00c853 !default;
+$amber1: #ff6f00 !default;
+$amber2: #ffab00 !default;
+
+@mixin viz($colorDark: #263238, $colorLight: #607d8b) {
+  box-shadow: inset 0 0 0 4px rgba($colorDark, 0.5);
+
+  &:hover {
+    box-shadow: inset 0 0 0 5px rgba($colorDark, 0.9);
+  }
+
+  &::before {
+    border-top-width: 0;
+    border-left-width: 0;
+    background: $colorDark;
+  }
+
+  &[class*="__"] {
+    box-shadow: inset 0 0 0 4px rgba($colorLight, 0.5);
+
+    &:hover {
+      border-radius: 8px 0 8px 8px;
+      box-shadow: inset 0 0 0 5px rgba($colorLight, 0.9);
+    }
+
+    &::before {
+      right: 0;
+      left: auto;
+      border-radius: 0 0 0 0.5rem;
+      background: $colorLight;
+    }
+  }
+}
+
+@if $show-debugger == true {
+  @media screen {
+    img:not([alt]) {
+      border: dashed $red 5px;
+    }
+
+    [class^="o-"],
+    [class^="c-"],
+    [class^="u-"] {
+      position: relative;
+      transition: box-shadow 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+
+      &::before {
+        content: attr(class);
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        padding: 0.2rem 0.5rem;
+        font-weight: normal;
+        font-size: 10px;
+        line-height: 1;
+        text-transform: initial;
+        white-space: nowrap;
+        color: white;
+        border-radius: 0 0 0.5rem 0;
+      }
+    }
+
+    [class^="c-"] {
+      @include viz($green1, $green2);
+    }
+
+    [class^="o-"] {
+      box-shadow: inset 0 0 0 4px rgba($pink1, 0.5);
+
+      &:hover {
+        box-shadow: inset 0 0 0 5px rgba($pink1, 0.9);
+      }
+
+      &::before {
+        background: $pink1;
+      }
+
+      [class^="c-"] {
+        transform: translateY(4px) translateX(4px);
+      }
+    }
+
+    [class^="u-"] {
+      @include viz($amber1, $amber2);
+    }
+  }
+}

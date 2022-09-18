@@ -1,0 +1,107 @@
+$row-col-widths: () !default;
+
+// stylelint-disable-next-line scss/dollar-variable-default
+$row-col-widths: map-merge(
+    (
+      xs: 7.9%,
+      sm: 7.9%,
+      md: 8%,
+      lg: 8.08%,
+      xl: 8.12%
+    ),
+    $row-col-widths
+);
+
+$form-row-col-widths: () !default;
+
+// stylelint-disable-next-line scss/dollar-variable-default
+$form-row-col-widths: map-merge(
+    (
+      xs: 8.18%,
+      sm: 8.18%,
+      md: 8.22%,
+      lg: 8.245%,
+      xl: 8.26%
+    ),
+    $form-row-col-widths
+);
+
+@media screen {
+  @import '../../node_modules/bootstrap/scss/functions';
+  @import '../../node_modules/bootstrap/scss/mixins';
+  @import './variables';
+
+  @if $show-grid == true or $show-grid != info {
+    .row,
+    .form-row {
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        z-index: 1001;
+        display: block;
+        height: 1rem;
+      }
+
+      & > div {
+        position: relative;
+        z-index: 1;
+      }
+    }
+
+    .row {
+      &::after {
+        right: -$grid-gutter-width / 2;
+        left: -$grid-gutter-width / 2;
+
+        @each $breakpoint in map-keys($grid-breakpoints) {
+          @include media-breakpoint-up($breakpoint) {
+            background: repeating-linear-gradient(to right, transparent, transparent $grid-gutter-width, rgba(255, 0, 255, 0.3) $grid-gutter-width, rgba(255, 0, 255, 0.3) #{map-get($row-col-widths, $breakpoint)});
+          }
+        }
+      }
+      // vnoreny grid nejde rozumne udelat díky dynamicke sirce, mozna pres SVG
+    }
+
+    .form-row {
+      &::after {
+        right: -5px;
+        left: -5px;
+
+        @each $breakpoint in map-keys($grid-breakpoints) {
+          @include media-breakpoint-up($breakpoint) {
+            background: repeating-linear-gradient(to right, transparent, transparent $form-grid-gutter-width, rgba(255, 0, 255, 0.3) $form-grid-gutter-width, rgba(255, 0, 255, 0.3) #{map-get($form-row-col-widths, $breakpoint)});
+          }
+        }
+      }
+    }
+  }
+
+  @if $show-grid != false {
+    body::before {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      z-index: 1002003004005;
+      padding: $input-btn-padding-y-sm $input-btn-padding-x-sm;
+      font-weight: bold;
+      font-size: 12px;
+      line-height: 1;
+      font-family: monospace;
+      white-space: pre;
+      //text-transform: uppercase;
+      color: #fff;
+      background: rgba(#f0f, 0.8);
+
+      @each $breakpoint in map-keys($grid-breakpoints) {
+        @include media-breakpoint-up($breakpoint) {
+          // stylelint-disable-next-line
+          content: '#{to-upper-case(#{$breakpoint})} #{map-get($grid-breakpoints, $breakpoint)} \Amaska: ' attr(data-template);
+        }
+      }
+    }
+  }
+}
