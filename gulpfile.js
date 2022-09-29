@@ -19,7 +19,7 @@ require('dotenv').config();
 // Variables
 // --------------
 
-const showLogs = true;
+const showLogs = 'brief';
 
 // Gulp functions
 // --------------

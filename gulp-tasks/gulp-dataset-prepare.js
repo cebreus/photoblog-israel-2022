@@ -113,7 +113,7 @@ const datasetPrepareNotes = (input, output, params = {}) => {
 const datasetNotesAndImages = (input, outputFilename, params = {}) => {
   const files = readFilesSync(input);
 
-  if (params.verbose) {
+  if (params.verbose && params.verbose !== 'brief') {
     log(`         input:          ${input}`);
     log(`         outputFilename: ${outputFilename}`);
     log(`         ${files.length} JSON read`);
