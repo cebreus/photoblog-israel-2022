@@ -15,6 +15,11 @@ const readDirAndFilter = async (inputDir, inputExtMask, params = {}) => {
 
   if (params.verbose) {
     log('🟢 FCE [1] Get all JPGs');
+    log.info(
+      `   🟢 Loaded ${files.length} files '*{.${inputExtMask}}' from '${inputDir}'`
+    );
+  }
+  if (params.verbose && params.verbose !== 'brief') {
     log(`   🟢 inputDir:     ${inputDir}`);
     log(`   🟢 inputExtMask: ${inputExtMask}`);
     log(`   🟢 params:       ${JSON.stringify(params)}`);
@@ -60,7 +65,7 @@ const filterData = async (inputFile, allMetadata, params = {}) => {
   metadata.city = allMetadata.City || '';
   metadata.country = allMetadata.Country || '';
 
-  if (params.verbose) {
+  if (params.verbose && params.verbose !== 'brief') {
     log('🟣 FCE [4] Filter metadata and create new object');
     log(`   🟣 inputFile:   ${inputFile}`);
     log(`   🟣 params:      ${JSON.stringify(params)}`);
@@ -74,7 +79,7 @@ const filterData = async (inputFile, allMetadata, params = {}) => {
 // [4] Save filtered data in JSON, per JPG
 
 const saveFilteredData = async (metadata, outputDir, params = {}) => {
-  if (params.verbose) {
+  if (params.verbose && params.verbose !== 'brief') {
     log('🟤 FCE [5] Save filtered data in JSON, per JPG');
     log(`   🟤 outputDir:   ${outputDir}`);
     log(`   🟤 params:      ${JSON.stringify(params)}`);
@@ -109,7 +114,7 @@ const saveFilteredData = async (metadata, outputDir, params = {}) => {
 // [2] Extract EXIF from images
 
 const extractData = async (inputJpegs, params = {}) => {
-  if (params.verbose) {
+  if (params.verbose && params.verbose !== 'brief') {
     log('🔵 FCE [3] Extract EXIF from image');
     log(`   🔵 inputJpegs:  ${JSON.stringify(inputJpegs)}`);
     log(`   🔵 params:      ${JSON.stringify(params)}`);
@@ -131,6 +136,9 @@ const extractData = async (inputJpegs, params = {}) => {
 const extractAllData = async (inputJpegs, params = {}) => {
   if (params.verbose) {
     log('🟡 FCE [2] Extract all EXIF from images');
+    log.info(`   🟡 Loaded ${inputJpegs.length} files`);
+  }
+  if (params.verbose && params.verbose !== 'brief') {
     log(`   🟡 params:      ${JSON.stringify(params)}`);
     log(`   🟡 inputJpegs:  ${JSON.stringify(inputJpegs)}\n`);
   }
