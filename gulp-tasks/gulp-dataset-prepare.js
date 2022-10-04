@@ -86,13 +86,13 @@ const datasetPrepareNotes = (input, output, params = {}) => {
         return json; // must return JSON object.
       })
     )
+    .pipe(gulp.dest(output))
     .pipe(
       through2.obj((file, enc, cb) => {
         files.push(file.path);
         cb();
       })
     )
-    .pipe(gulp.dest(output))
     .on('end', () => {
       if (params.verbose) {
         log(`         ${files.length} JSON written`);
