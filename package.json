@@ -7,7 +7,7 @@
     "start": "npm run dev",
     "build": "node ./node_modules/gulp/bin/gulp.js -f gulpfile.build.js default",
     "build:validate:html": "node ./node_modules/gulp/bin/gulp.js -f gulpfile.build.js validate",
-    "build:video": "node ./gulp-tasks/gulp-optimize-videos.js",
+    "build:video": "node -e 'require(\"./gulp-tasks/gulp-optimize-videos.js\").execute()'",
     "dev": "node ./node_modules/gulp/bin/gulp.js -f gulpfile.js default",
     "deploy-ftp": "node ./node_modules/gulp/bin/gulp.js -f gulpfile.build.js deployFtp",
     "format": "npx prettier --write **/*.{css,scss,md,js,jsx,ts,tsx,json} && npm run js:fix && npm run css:fix && npm run text:fix",
