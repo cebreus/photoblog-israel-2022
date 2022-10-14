@@ -17,9 +17,14 @@ overrides:
     settings:
       disable/plugins:
         - jsdoc
+parser: '@babel/eslint-parser'
 parserOptions:
+  requireConfigFile: false
+  babelrc: false
+  configFile: false
   ecmaVersion: latest
   sourceType: module
+  presets: ['@babel/preset-env']
 processor: 'disable/disable'
 rules:
   'require-sort/require-sort': [warn, { 'ignoreCase': true }]
