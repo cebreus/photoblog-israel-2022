@@ -46,10 +46,10 @@ plugins:
           section: Bug Fixes
         - {}
   '@j-ulrich/release-it-regex-bumper':
-    in:
-      file: src/templates/layout-default.html
-      type: text/html
     out:
-      file: src/templates/layout-default.html
-      search: data-version="\d+\.\d+\.\d+
-      replace: data-version="{{versionWithoutPrerelease}}
+      - file: src/templates/layout-default.html
+        search: data-version="\d+\.\d+\.\d+
+        replace: data-version="{{versionWithoutPrerelease}}
+      - file: gulpconfig.build.js
+        search: version[:] '\d+\.\d+\.\d+'
+        replace: "version: '{{versionWithoutPrerelease}}'"
