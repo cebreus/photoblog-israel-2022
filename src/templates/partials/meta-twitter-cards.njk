@@ -42,13 +42,13 @@
     {% for item in twitter_cards.image %}
       {% set loopIndex = loop.index %}
       {% if loopIndex == 1 %}
-        <meta property="twitter:image" content="{{ SITE.baseUrl }}{{ twitter_cards.image[0] }}">
+        <meta property="twitter:image" content="{{ BASE_URL }}{{ twitter_cards.image[0] }}">
       {% elseif loopIndex <= 9 %}
-        <meta property="twitter:image" content="{{ SITE.baseUrl }}{{ item }}">
+        <meta property="twitter:image" content="{{ BASE_URL }}{{ item }}">
       {% endif %}
     {% endfor %}
   {% elseif SITE.twitter_cards.image is defined and SITE.twitter_cards.image[0] | length > 0 %}
-    <meta property="twitter:image" content="{{ SITE.baseUrl }}{{ SITE.twitter_cards.image[0] }}">
+    <meta property="twitter:image" content="{{ BASE_URL }}{{ SITE.twitter_cards.image[0] }}">
   {% endif %}
 
 {% endif %}

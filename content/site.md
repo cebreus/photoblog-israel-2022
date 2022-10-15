@@ -1,7 +1,6 @@
 ---
 type: settings
 copyright: Code licensed <a href="https://github.com/twbs/bootstrap/blob/main/LICENSE" target="_blank" rel="license noopener">MIT</a>
-baseUrl: https://norway-2022.cebre.us
 meta:
   lang: cs
   charset: utf-8
@@ -10,7 +9,6 @@ seo:
   title: 𝕊𝕚𝕥𝕖 SEO Title
   description: 𝕊𝕚𝕥𝕖 SEO Description
   robots: index,follow
-  canonical: https://norway-2022.cebre.us/
   iclude_to_sitemap: false
 open_graph:
   use: true

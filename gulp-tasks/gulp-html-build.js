@@ -147,7 +147,18 @@ const buildHtml = (params) => {
       )
       .pipe(
         nunjucksRender({
-          data: { SOURCE: process.env.SOURCE },
+          data: {
+            DATA_DIR: process.env.DATA_DIR,
+            BASE_URL: process.env.BASE_URL,
+            SITE_TITLE: process.env.SITE_TITLE,
+            APP_NAME: process.env.APP_NAME,
+            APP_SHORT_NAME: process.env.APP_SHORT_NAME,
+            APP_DESCRIPTION: process.env.APP_DESCRIPTION,
+            DEVELOPER_NAME: process.env.DEVELOPER_NAME,
+            DEVELOPER_URL: process.env.DEVELOPER_URL,
+            BACKGROUND: process.env.BACKGROUND,
+            THEME_COLOR: process.env.THEME_COLOR,
+          },
           path: params.processPaths,
           manageEnv: (enviroment) => {
             enviroment.addFilter('date', dateFilter);
