@@ -14,7 +14,7 @@
 } %}
 
 {% set seo = {
-  title: '404 Page Not Found — Norway 2022',
+  title: '404 Page Not Found — {{ SITE_TITLE }}',
   robots: 'noindex,follow',
   iclude_to_sitemap: 'false'
 } %}
@@ -24,7 +24,7 @@
   <header class="o-header">
     <div class="container">
       <nav class="navbar">
-        <a class="navbar-brand" href="/">Norway 2022</a>
+        <a class="navbar-brand" href="/">{{ SITE_TITLE }}</a>
       </nav>
     </div>
   </header>

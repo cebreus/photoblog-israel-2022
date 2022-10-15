@@ -58,8 +58,8 @@ const compileVideo = (data, mods, done) => {
     .slice(4, 6)}-${name.split('_')[1].slice(6, 8)}`;
   const time = name.split('_')[2].slice(0, 6);
   const output = `${config.staticBase}/assets/${
-    process.env.SOURCE
-  }/${date}-${process.env.SOURCE.slice(0, -5)}-${time}-cebreus.mp4`;
+    process.env.DATA_DIR
+  }/${date}-${process.env.DATA_DIR.slice(0, -5)}-${time}-cebreus.mp4`;
 
   const params = data.params || {};
   const generalParams = {};

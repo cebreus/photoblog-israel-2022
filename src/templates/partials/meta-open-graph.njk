@@ -9,7 +9,7 @@
   {% endif %}
 
   {% if seo.canonical and seo.canonical | length %}
-    <meta property="og:url" content="{{ [SITE.baseUrl|trim, seo.canonical|trim] | join }}">
+    <meta property="og:url" content="{{ [BASE_URL|trim, seo.canonical|trim] | join }}">
   {% endif %}
 
   {% if open_graph.type and open_graph.type | length %}
@@ -42,7 +42,7 @@
     {% for item in open_graph.image %}
       {% set loopIndex = loop.index %}
       {% if loopIndex == 1 %}
-        <meta property="og:image" content="{{ SITE.baseUrl }}{{ open_graph.image[0] }}">
+        <meta property="og:image" content="{{ BASE_URL }}{{ open_graph.image[0] }}">
         {% if open_graph.image_text and open_graph.image_text | length %}
           <meta property="og:image:alt" content="{{ open_graph.image_text }}">
         {% endif %}
@@ -50,14 +50,14 @@
         {# <meta property="og:image:width" content="1200"> #}
         {# <meta property="og:image:height" content="627"> #}
       {% elseif loopIndex <= 9 %}
-        <meta property="og:image" content="{{ SITE.baseUrl }}{{ item }}">
+        <meta property="og:image" content="{{ BASE_URL }}{{ item }}">
         {# <meta property="og:image:type" content="png"> #}
         {# <meta property="og:image:width" content="1200"> #}
         {# <meta property="og:image:height" content="627"> #}
       {% endif %}
     {% endfor %}
   {% elseif SITE.open_graph.image and SITE.open_graph.image[0] | length %}
-    <meta property="og:image" content="{{ SITE.baseUrl }}{{ SITE.open_graph.image[0] }}">
+    <meta property="og:image" content="{{ BASE_URL }}{{ SITE.open_graph.image[0] }}">
     {% if SITE.open_graph.image_text and SITE.open_graph.image_text | length %}
       <meta property="og:image:alt" content="{{ SITE.open_graph.image_text }}">
     {% endif %}

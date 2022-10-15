@@ -85,15 +85,15 @@ const fontLoadConfig = {
 const faviconSourceFile = `${gfxBase}/favicon/favicons-source.png`;
 const faviconBuild = `${buildBase}/assets/favicons`;
 const faviconGenConfig = {
-  appName: 'Fotky Skandinávie 2022',
-  appShortName: 'Foto Skandinávie',
-  appDescription: 'Fotografické střípky z výletu do Skandinávie.',
-  developerName: 'Jaroslav Vrana',
-  developerURL: `https://${process.env.SOURCE}.cebre.us/`,
-  background: '#0a1d39',
-  theme_color: '#fd7e14',
+  appName: process.env.APP_NAME,
+  appShortName: process.env.APP_SHORT_NAME,
+  appDescription: process.env.APP_DESCRIPTION,
+  developerName: process.env.DEVELOPER_NAME,
+  developerURL: process.env.DEVELOPER_URL,
+  background: process.env.BACKGROUND,
+  theme_color: process.env.THEME_COLOR,
   path: '/assets/favicons/',
-  url: `https://${process.env.SOURCE}.cebre.us/`,
+  url: `${process.env.BASE_URL}/`,
   display: 'standalone',
   lang: 'cs',
   orientation: 'portrait-primary',

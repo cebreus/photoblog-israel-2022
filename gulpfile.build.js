@@ -136,7 +136,7 @@ function datasetPreparePages(done) {
 
 function datasetPrepareNotes(done) {
   return datasetPrepareFnc.datasetPrepareNotes(
-    `${config.contentBase}/${process.env.SOURCE}/*.md`,
+    `${config.contentBase}/${process.env.DATA_DIR}/*.md`,
     `${config.tempBase}/_dataset`,
     {
       verbose: showLogs,
@@ -149,7 +149,7 @@ function datasetPrepareNotes(done) {
 
 function datasetPrepareImages(done) {
   return datasetBuildImagesFnc({
-    inputDir: `${config.contentBase}/${process.env.SOURCE}`,
+    inputDir: `${config.contentBase}/${process.env.DATA_DIR}`,
     inputExtMask: 'jpg|jpeg',
     jsonDir: `${config.tempBase}/_dataset`,
     outputJson: `${config.tempBase}/_dataset-images-notes.json`,
@@ -213,36 +213,36 @@ function images(done) {
   };
 
   imagesResize.previewsBlur(
-    `${config.contentBase}/${process.env.SOURCE}/*.jpg`,
-    `${config.staticBase}/assets/${process.env.SOURCE}/_blur`,
+    `${config.contentBase}/${process.env.DATA_DIR}/*.jpg`,
+    `${config.staticBase}/assets/${process.env.DATA_DIR}/_blur`,
     params
   );
   imagesOptimizeFnc.optimizeJpg(config.imagesJpg, config.gfxBuild, params);
   imagesOptimizeFnc.optimizePng(config.imagesPng, config.gfxBuild, params);
   imagesOptimizeFnc.optimizeSvg(config.imagesSvg, config.gfxBuild, params);
   imagesResize.details(
-    `${config.contentBase}/${process.env.SOURCE}*.jpg`,
-    `${config.staticBase}/assets/${process.env.SOURCE}/details`,
+    `${config.contentBase}/${process.env.DATA_DIR}*.jpg`,
+    `${config.staticBase}/assets/${process.env.DATA_DIR}/details`,
     params
   );
   imagesResize.previews(
-    `${config.contentBase}/${process.env.SOURCE}/*.jpg`,
-    `${config.staticBase}/assets/${process.env.SOURCE}/previews`,
+    `${config.contentBase}/${process.env.DATA_DIR}/*.jpg`,
+    `${config.staticBase}/assets/${process.env.DATA_DIR}/previews`,
     params
   );
   imagesResize.previewsWebp(
-    `${config.contentBase}/${process.env.SOURCE}/*.jpg`,
-    `${config.staticBase}/assets/${process.env.SOURCE}/previews-webp`,
+    `${config.contentBase}/${process.env.DATA_DIR}/*.jpg`,
+    `${config.staticBase}/assets/${process.env.DATA_DIR}/previews-webp`,
     params
   );
   imagesResize.previewsXl(
-    `${config.contentBase}/${process.env.SOURCE}/*.jpg`,
-    `${config.staticBase}/assets/${process.env.SOURCE}/previews-xl`,
+    `${config.contentBase}/${process.env.DATA_DIR}/*.jpg`,
+    `${config.staticBase}/assets/${process.env.DATA_DIR}/previews-xl`,
     params
   );
   imagesResize.previewsXlWebp(
-    `${config.contentBase}/${process.env.SOURCE}/*.jpg`,
-    `${config.staticBase}/assets/${process.env.SOURCE}/previews-xl-webp`,
+    `${config.contentBase}/${process.env.DATA_DIR}/*.jpg`,
+    `${config.staticBase}/assets/${process.env.DATA_DIR}/previews-xl-webp`,
     params
   );
   done();
