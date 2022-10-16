@@ -216,6 +216,14 @@ const buildHtml = (params) => {
           suffix: '',
         })
       )
+      // Improve acessibility of basic tables
+      .pipe(replace(/<th>/gm, '<th scope="col">'))
+      .pipe(
+        base64('', {
+          prefix: '',
+          suffix: '',
+        })
+      )
       .pipe(
         minify({
           collapseWhitespace: true,

@@ -208,6 +208,8 @@ const buildHtml = (params) => {
           params.injectCdnJs.toString().replace(/[, ]+/g, ' ')
         )
       )
+      // Improve acessibility of basic tables
+      .pipe(replace(/<th>/gm, '<th scope="col">'))
       .pipe(
         base64('', {
           prefix: '',
