@@ -360,6 +360,16 @@ function revision(done) {
   return revisionFnc(params);
 }
 
+function postbuild(done) {
+  fs.unlink(`${config.buildBase}/assets/favicons/favicons.njk`, (err) => {
+    if (err) {
+      log.error(err);
+    }
+  });
+  htmlValidate();
+  done();
+}
+
 // Gulp tasks
 // --------------
 
@@ -398,8 +408,8 @@ gulp.task(
     buildPages,
     purgecss,
     revision,
-    replaceHash
-    // htmlValidate
+    replaceHash,
+    postbuild
   )
 );
 
