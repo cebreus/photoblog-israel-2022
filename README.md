@@ -2,15 +2,15 @@
 
 ## `.env` file
 
-    DATA_DIR="norway-2022"
-    BASE_URL="https://norway-2022.cebre.us"
+    DATA_DIR="israel-2022"
+    BASE_URL="https://israel-2022.cebre.us"
 
     # Favicons
 
-    SITE_TITLE="Skandinávie 2022"
-    APP_NAME="Fotky Skandinávie 2022"
-    APP_SHORT_NAME="Foto Skandinávie"
-    APP_DESCRIPTION="Fotografické střípky z výletu do Skandinávie."
+    SITE_TITLE="Izrael 2022"
+    APP_NAME="Fotky Izrael 2022"
+    APP_SHORT_NAME="Foto Izrael"
+    APP_DESCRIPTION="Fotografické střípky z výletu do Izraele a Jordánska."
     DEVELOPER_NAME="Jaroslav Vrana"
     DEVELOPER_URL="https://cebre.us/"
     BACKGROUND="#0a1d39"
