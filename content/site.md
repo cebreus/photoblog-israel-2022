@@ -14,10 +14,10 @@ open_graph:
   use: true
   type: website
   app_id: 408506896213559
-  site_name: Norway 2022
+  site_name: Izrael 2022
   image:
     - /assets/images/open-graph.png
-  image_text: Trip to Norway, June 2022
+  image_text: Trip to Israel and Jordan, October 2022
 twitter_cards:
   use: false
   type: summary_large_image
