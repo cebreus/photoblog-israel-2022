@@ -24,6 +24,7 @@ const imageResizePreviews = {
   crop: true,
   gravity: 'Center',
   sharpen: '0.5x0.5+0.5+0.008',
+  format: 'jpeg',
 };
 
 const imageResizePreviewsXl = {
@@ -34,6 +35,7 @@ const imageResizePreviewsXl = {
   crop: true,
   gravity: 'Center',
   sharpen: '0.5x0.5+0.5+0.008',
+  format: 'jpeg',
 };
 
 const details = (input, output, params = {}) => {
@@ -56,6 +58,7 @@ const details = (input, output, params = {}) => {
         imageMagick: true,
         noProfile: true,
         width: 1280,
+        format: 'jpeg',
         // sharpen: '0.5x0.5+0.5+0.008',
       })
     )
