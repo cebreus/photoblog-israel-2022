@@ -38,8 +38,8 @@ function copyStatic(done) {
   return copyStaticFnc(
     [
       `${config.staticBase}/*`,
+      `${config.staticBase}/**/*`,
       `${config.staticBase}/.*/*`,
-      `${config.staticBase}/assets/**/!(_blur)/*.*`,
     ],
     './static',
     config.buildBase,
@@ -212,11 +212,6 @@ function images(done) {
     },
   };
 
-  imagesResize.previewsBlur(
-    `${config.contentBase}/${process.env.DATA_DIR}/*.jpg`,
-    `${config.staticBase}/assets/${process.env.DATA_DIR}/_blur`,
-    params
-  );
   imagesOptimizeFnc.optimizeJpg(config.imagesJpg, config.gfxBuild, params);
   imagesOptimizeFnc.optimizePng(config.imagesPng, config.gfxBuild, params);
   imagesOptimizeFnc.optimizeSvg(config.imagesSvg, config.gfxBuild, params);

@@ -1,4 +1,3 @@
-const base64 = require('gulp-base64-inline');
 const data = require('gulp-data');
 const dateFilter = require('nunjucks-date-filter-locale');
 const fs = require('fs');
@@ -210,20 +209,8 @@ const buildHtml = (params) => {
       )
       // Remove multi/line comments
       .pipe(replace(/( )*<!--((.*)|[^<]*|[^!]*|[^-]*|[^>]*)-->\n*/gm, ''))
-      .pipe(
-        base64('', {
-          prefix: '',
-          suffix: '',
-        })
-      )
       // Improve acessibility of basic tables
       .pipe(replace(/<th>/gm, '<th scope="col">'))
-      .pipe(
-        base64('', {
-          prefix: '',
-          suffix: '',
-        })
-      )
       .pipe(
         minify({
           collapseWhitespace: true,

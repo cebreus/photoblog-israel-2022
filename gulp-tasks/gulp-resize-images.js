@@ -3,7 +3,6 @@ const gulp = require('gulp');
 const gulpif = require('gulp-if');
 const imagemin = require('gulp-imagemin');
 const imageResize = require('gulp-image-resize');
-const jimp = require('gulp-jimp');
 const log = require('fancy-log');
 const mozjpeg = require('imagemin-mozjpeg');
 const newer = require('gulp-newer');
@@ -157,47 +156,6 @@ const previewsWebp = (input, output, params = {}) => {
     });
 };
 
-const previewsBlur = (input, output, params = {}) => {
-  const rewriteExisting = !!(
-    params.rewriteExisting &&
-    typeof params.rewriteExisting === 'boolean' &&
-    params.rewriteExisting === true
-  );
-
-  if (params.verbose) {
-    log(`    🟠 Start: ${output}`);
-  }
-
-  return gulp
-    .src(input)
-    .pipe(plumber())
-    .pipe(gulpif(!rewriteExisting, newer(output)))
-    .pipe(imageResize(imageResizePreviews))
-    .pipe(
-      jimp({
-        '': {
-          blur: 15,
-        },
-      })
-    )
-    .pipe(
-      imagemin([
-        mozjpeg({
-          quality: 15,
-          progressive: false,
-          smooth: 100,
-        }),
-      ])
-    )
-    .pipe(gulp.dest(output))
-    .on('end', () => {
-      if (params.verbose) {
-        log(`    🟠 End: ${output}`);
-      }
-      params.cb();
-    });
-};
-
 const previewsXl = (input, output, params = {}) => {
   const rewriteExisting = !!(
     params.rewriteExisting &&
@@ -278,7 +236,6 @@ module.exports = {
   details,
   previews,
   previewsWebp,
-  previewsBlur,
   previewsXl,
   previewsXlWebp,
 };
