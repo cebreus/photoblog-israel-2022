@@ -68,11 +68,12 @@
       {% endif %}
       {% endset %}
 
-      <a class="c-gallery__col {{ icoType | trim }} col" data-fancybox="gallery" data-caption="{{ caption | replace(r/\n/g, '') | replace(r/[\s]+/g, ' ') | trim }}" href="../assets/{{ DATA_DIR }}/details/{{ item.fileName | replace(".heic", ".jpeg") }}" aria-label="Zobraz vetší obrázek">
+
+      <a class="c-gallery__col {{ icoType | trim }} col" data-fancybox="gallery" data-caption="{{ caption | replace(r/\n/g, '') | replace(r/[\s]+/g, ' ') | trim }}" href="../assets/{{ DATA_DIR }}/details/{{ item.fileName }}" aria-label="Zobraz vetší obrázek">
         <picture class="c-gallery__pic ratio ratio-16x9" {% if item.where | trim  | length > 0 %} data-title="{{ item.where | trim }}"{% endif %}>
-          <source media="(min-width: 576px) or (max-width: 1399px)" type="image/webp" srcset="../assets/{{ DATA_DIR }}/previews-xl-webp/{{ item.fileName | replace(r/.jpeg|.heic/, ".webp") }}">
-          <source media="(max-width: 575px) or (min-width: 1400px)" type="image/webp" srcset="../assets/{{ DATA_DIR }}/previews-webp/{{ item.fileName | replace(r/.jpeg|.heic/, ".webp") }}">
-          <img src="../assets/{{ DATA_DIR }}/previews-xl/{{ item.fileName | replace(".heic", ".jpeg") }}" width="370" height="208" loading="{% if images.index == 1 and loop.index < 4 %}auto{% else %}lazy{% endif %}" alt="{{ item.where }}">
+          <source media="(min-width: 576px) or (max-width: 1399px)" type="image/webp" srcset="../assets/{{ DATA_DIR }}/previews-xl-webp/{{ item.fileName | replace(".jpg", ".webp")}}">
+          <source media="(max-width: 575px) or (min-width: 1400px)" type="image/webp" srcset="../assets/{{ DATA_DIR }}/previews-webp/{{ item.fileName | replace(".jpg", ".webp")}}">
+          <img src="../assets/{{ DATA_DIR }}/previews-xl/{{ item.fileName }}" width="370" height="208" loading="{% if images.index == 1 and loop.index < 4 %}auto{% else %}lazy{% endif %}" alt="{{ item.where }}">
         </picture>
       </a>
     {% endif %}
