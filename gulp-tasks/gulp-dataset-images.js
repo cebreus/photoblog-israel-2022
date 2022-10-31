@@ -52,13 +52,14 @@ const filterData = async (inputFile, allMetadata, params = {}) => {
   metadata.height = height;
   // `ObjectName` can't be used because err in utf-8 encoding
   metadata.objectName = allMetadata.Headline || '';
+  metadata.caption = allMetadata.Caption || '';
   metadata.location = allMetadata.Location || '';
   if (allMetadata.Headline) {
     metadata.where = allMetadata.Headline;
-  } else if (allMetadata.Sublocation) {
-    metadata.where = allMetadata.Sublocation;
   } else if (allMetadata.Location) {
     metadata.where = allMetadata.Location;
+  } else if (allMetadata.Sublocation) {
+    metadata.where = allMetadata.Sublocation;
   } else {
     metadata.where = '';
   }
