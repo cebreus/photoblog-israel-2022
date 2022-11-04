@@ -164,7 +164,6 @@ Procfile          text
 *.tiff            binary
 *.wbmp            binary
 *.webp            binary
-
 # Audio
 *.kar             binary
 *.m4a             binary
