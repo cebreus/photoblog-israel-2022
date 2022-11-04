@@ -56,30 +56,35 @@
 {% endblock %}
 
 {% block footer %}
-  <footer class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="mainMenu" aria-labelledby="mainMenuLabel">
-    <div class="offcanvas-header">
-      <h2 class="h5 offcanvas-title" id="mainMenuLabel">Hlavní navigace</h2>
-      <button type="button" class="btn-close ms-auto" data-bs-dismiss="offcanvas" aria-label="Zavřít"></button>
-    </div>
-    <nav id="navbar-offcanvas" class="offcanvas-body list-group">
-      {% for key, item in IMAGES %}
-        <a class="list-group-item list-group-item-action py-4 small" href="#day-{{ key }}">
-          <strong class="d-block mb-2">
-            {{ key | date('dddd') | upper }} &#160;
+  <footer class="o-footer mt-5">
+    <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="mainMenu" aria-labelledby="mainMenuLabel">
+      <div class="offcanvas-header">
+        <h2 class="h5 offcanvas-title" id="mainMenuLabel">Hlavní navigace</h2>
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="offcanvas" aria-label="Zavřít"></button>
+      </div>
+      <nav id="navbar-offcanvas" class="offcanvas-body list-group">
+        {% for key, item in IMAGES %}
+          <a class="list-group-item list-group-item-action py-4 small" href="#day-{{ key }}">
+            <strong class="d-block mb-2">
+              {{ key | date('dddd') | upper }} &#160;
             {{ key | date('D. M. YYYY')}}
-          </strong>
-          <br class="d-none">
-          {% for grouper, item in item | groupby('location') %}
-            {% set loc %}{{ grouper | trim | safe }}{% endset %}
-            {% if grouper !== 'undefined' and grouper | length %}
-              {% if not loop.last %}{{ loc }},{% else %}{{ loc }}
+            </strong>
+            <br class="d-none">
+            {% for grouper, item in item | groupby('location') %}
+              {% set loc %}{{ grouper | trim | safe }}{% endset %}
+              {% if grouper !== 'undefined' and grouper | length %}
+                {% if not loop.last %}{{ loc }},{% else %}{{ loc }}
+                {% endif %}
               {% endif %}
-            {% endif %}
-          {% endfor %}
+            {% endfor %}
 
-        </a>
-      {% endfor %}
-    </nav>
+          </a>
+        {% endfor %}
+      </nav>
+    </div>
+    <div class="container">
+      <div class="copyright small text-center">{{ SITE.copyright | safe }}</div>
+    </div>
   </footer>
 
 {% endblock %}

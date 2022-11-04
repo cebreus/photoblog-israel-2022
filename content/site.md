@@ -1,6 +1,6 @@
 ---
 type: settings
-copyright: Code licensed <a href="https://github.com/twbs/bootstrap/blob/main/LICENSE" target="_blank" rel="license noopener">MIT</a>
+copyright: 2022 &#169; <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="license noopener">CC-BY-NC</a>.
 meta:
   lang: cs
   charset: utf-8
