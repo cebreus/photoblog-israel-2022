@@ -1,5 +1,9 @@
 # Photoblog Changelog
 
+## [1.1.0](https://github.com/cebreus/photoblog-israel-2022/compare/1.0.0...1.1.0) (2022-11-04)
+
+*   add lincence info in footer ([f101548](https://github.com/cebreus/photoblog-israel-2022/commit/f1015483a39ec69d3e629648a26b3ebce2ba23b1))
+
 ## 1.0.0 (2022-11-04)
 
 *   `npm run build:video` ([92c0020](https://github.com/cebreus/photoblog-israel-2022/commit/92c0020dac30f127fa6514be200b8ee0d5f321de))
