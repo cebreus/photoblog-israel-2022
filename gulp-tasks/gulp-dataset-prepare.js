@@ -124,7 +124,14 @@ const datasetNotesAndImages = (input, outputFilename, params = {}) => {
     const filePath = file.filepath;
     if (file.stat.size > 0) {
       const data1 = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-      data.push(data1);
+
+      if (params.urgency) {
+        if (data1.urgency) {
+          data.push(data1);
+        }
+      } else {
+        data.push(data1);
+      }
     }
   });
 

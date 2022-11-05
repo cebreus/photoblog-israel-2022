@@ -113,6 +113,22 @@ const buildHtml = (params) => {
           return file;
         })
       )
+      // Add access to best of images data
+      .pipe(
+        data(() => {
+          let file = params.dataSourceImagesBestOf;
+          file = {
+            BESTOF: {
+              ...JSON.parse(
+                fs.readFileSync(file, {
+                  encoding: 'utf8',
+                })
+              ),
+            },
+          };
+          return file;
+        })
+      )
       .pipe(
         gulpif(
           existsJson,

@@ -1,0 +1,90 @@
+{% extends "./layout-default.html" %}
+
+{% set pageData = {
+  page_id: 'israel-2022-best-of',
+  template: 'index'
+} %}
+
+{% block content %}
+  <main>
+    {% if hero %}
+      <article  class="o-main o-main--jumbo">
+        <div class="c-jumbo container">
+          {% if hero.title | length and hero.title | length %}
+            <h1 class="c-jumbo__title">{{ hero.title | safe }}</h1>
+          {% endif %}
+          {% if hero.excerpt | length and hero.excerpt | length %}
+            <div class="c-jumbo__perex col-12 col-lg-7">{{ hero.excerpt | md | safe }}</div>
+          {% endif %}
+          {% if hero.content | length and hero.content | length %}
+            <div class="c-jumbo__content col-12 col-lg-7">{{ hero.content | md | safe }}</div>
+          {% endif %}
+        </div>
+      </article>
+    {% endif %}
+
+    {% if body %}
+      <div class="container">
+        <div class="c-article">
+          {{ body | safe }}
+        </div>
+      </div>
+    {% endif %}
+
+    {% for key, item in BESTOF %}
+      {% set images = loop %}
+      <section class="container-xl" id="day-{{ key }}">
+        <h2 class="text-center pt-5 mb-4">
+          <small class="t-day-heading-small">{{ key | date('dddd')}}</small>
+          {{ key | date('D. M. YYYY')}}
+        </h2>
+
+        <div class="col col-lg-9 col-xl-8 col-xxl-7 mb-5 mx-auto text-center">
+          {% for grouper, item in item | groupby('where') %}
+            {% if grouper !== 'undefined' %}
+              <span class="badge text-bg-light fw-normal">{{grouper}}</span>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        {% include './partials/c-gallery.njk' %}
+
+      </section>
+    {% endfor %}
+
+  </main>
+{% endblock %}
+
+{% block footer %}
+  <footer class="o-footer mt-5">
+    <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="mainMenu" aria-labelledby="mainMenuLabel">
+      <div class="offcanvas-header">
+        <h2 class="h5 offcanvas-title" id="mainMenuLabel">Hlavní navigace</h2>
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="offcanvas" aria-label="Zavřít"></button>
+      </div>
+      <nav id="navbar-offcanvas" class="offcanvas-body list-group">
+        {% for key, item in BESTOF %}
+          <a class="list-group-item list-group-item-action py-4 small" href="#day-{{ key }}">
+            <strong class="d-block mb-2">
+              {{ key | date('dddd') | upper }} &#160;
+            {{ key | date('D. M. YYYY')}}
+            </strong>
+            <br class="d-none">
+            {% for grouper, item in item | groupby('location') %}
+              {% set loc %}{{ grouper | trim | safe }}{% endset %}
+              {% if grouper !== 'undefined' and grouper | length %}
+                {% if not loop.last %}{{ loc }},{% else %}{{ loc }}
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+
+          </a>
+        {% endfor %}
+      </nav>
+    </div>
+    <div class="container">
+      <div class="copyright small text-center">{{ SITE.copyright | safe }}</div>
+    </div>
+  </footer>
+
+{% endblock %}

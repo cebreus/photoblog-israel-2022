@@ -176,6 +176,20 @@ function datasetNotesAndImages(done) {
   );
 }
 
+function datasetNotesAndImagesBestOf(done) {
+  return datasetPrepareFnc.datasetNotesAndImages(
+    `${config.tempBase}/_dataset`,
+    `${config.tempBase}/_dataset-images-notes-best-of.json`,
+    {
+      urgency: 1,
+      verbose: showLogs,
+      cb: () => {
+        done();
+      },
+    }
+  );
+}
+
 // Templates
 
 function buildPages(done) {
@@ -186,6 +200,7 @@ function buildPages(done) {
     processPaths: [config.tplPagesBase, config.tplTemplatesBase],
     siteConfig: `${config.tempBase}/site.json`,
     dataSourceImages: `${config.tempBase}/_dataset-images-notes.json`,
+    dataSourceImagesBestOf: `${config.tempBase}/_dataset-images-notes-best-of.json`,
     dataSource: config.datasetPagesBuild,
     injectCdnJs: config.injectCdnJs,
     injectJs: config.injectJs,
@@ -336,6 +351,7 @@ gulp.task(
     datasetPrepareNotes,
     datasetPrepareImages,
     datasetNotesAndImages,
+    datasetNotesAndImagesBestOf,
     // fontLoad,
     compileSassCore,
     compileSassCustom,
