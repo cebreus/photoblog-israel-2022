@@ -15,17 +15,13 @@ const staticBase = './static';
 const sassBase = `${devBase}/scss`;
 const sassBuild = `${buildBase}/assets/css`;
 const sassAll = [`${sassBase}/*.scss`, `!${sassBase}/_*.scss`];
-// TODO: je potřeba _variables.scss?
 const sassCustom = [
   `${sassBase}/*.scss`,
-  `${sassBase}/_variables.scss`,
   `!${sassBase}/u-*.scss`,
   `!${sassBase}/bootstrap.scss`,
 ];
-// TODO: je potřeba _variables.scss?
-const sassCore = [`${sassBase}/bootstrap.scss`, `${sassBase}/_variables.scss`];
-// TODO: je potřeba _variables.scss?
-const sassUtils = [`${sassBase}/u-*.scss`, `${sassBase}/_variables.scss`];
+const sassCore = [`${sassBase}/bootstrap.scss`];
+const sassUtils = [`${sassBase}/u-*.scss`];
 const injectCss = `${sassBuild}/*.css`;
 
 // JavaScript
