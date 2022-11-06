@@ -1,5 +1,13 @@
 # Photoblog Changelog
 
+## [1.2.0](https://github.com/cebreus/photoblog-israel-2022/compare/1.1.0...1.2.0) (2022-11-06)
+
+*   new page Best of ([f54ddd5](https://github.com/cebreus/photoblog-israel-2022/commit/f54ddd51e18eb4e1dbc50470701228d15ac5ea5f))
+
+### photos
+
+*   **photos:** metadata ([c3014b8](https://github.com/cebreus/photoblog-israel-2022/commit/c3014b8e019a94de317dd91f62bc535f83c62e86))
+
 ## [1.1.0](https://github.com/cebreus/photoblog-israel-2022/compare/1.0.0...1.1.0) (2022-11-04)
 
 *   add lincence info in footer ([f101548](https://github.com/cebreus/photoblog-israel-2022/commit/f1015483a39ec69d3e629648a26b3ebce2ba23b1))
