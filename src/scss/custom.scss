@@ -33,10 +33,21 @@ img:not([src$='.svg']) {
 // --------------
 
 .o-header {
-  color: var(--white);
   background-color: var(--body-color);
 
   .btn-link {
+    text-decoration: none;
+    color: rgb(255 255 255 / 55%);
+
+    svg {
+      transition: fill 0.15s ease-in-out;
+    }
+
+    &:hover,
+    &:focus {
+      color: var(--orange);
+    }
+
     &:focus-within svg,
     &:hover svg,
     &:focus svg {
