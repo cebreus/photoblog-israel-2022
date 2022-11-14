@@ -40,7 +40,7 @@
             {{ key | date('D. M. YYYY')}}
           </h2>
 
-          <div class="col col-lg-9 col-xl-8 col-xxl-7 mb-3 mx-auto text-center lead text-center">
+          <div class="col col-lg-9 col-xl-8 col-xxl-7 mb-3 mx-auto text-center lead">
             {% set cities = [] %}
             {% for grouper, item in item | groupby('city') %}
               {% if grouper !== 'undefined' and grouper | length > 0 %}
