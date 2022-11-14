@@ -1,5 +1,14 @@
 # Photoblog Changelog
 
+## [1.3.0](https://github.com/cebreus/photoblog-israel-2022/compare/1.2.0...1.3.0) (2022-11-14)
+
+*   add body of MD files up gallery ([dc3122f](https://github.com/cebreus/photoblog-israel-2022/commit/dc3122f7e94a654360c9f1d7f64291bd7630fb24))
+*   add to menu “Výběr fotek” for route “/best-of” ([6f452fd](https://github.com/cebreus/photoblog-israel-2022/commit/6f452fdf9fad7374ee8ce51ad8b8bbeb9ddc1080))
+*   icon eye>map pin, add text “Místa” ([c95edb2](https://github.com/cebreus/photoblog-israel-2022/commit/c95edb298ed87e319c8cde7cfb3a3d0a78c2e2b8))
+*   scrollable maps in main content ([7337ae2](https://github.com/cebreus/photoblog-israel-2022/commit/7337ae2e8f4612988174f6a51bde3d13b711b115))
+*   show cities up badges ([64edf69](https://github.com/cebreus/photoblog-israel-2022/commit/64edf695a5a4b5fb614eed1007246533b66570ea))
+*   text fo hamburger icon ([0b38d6e](https://github.com/cebreus/photoblog-israel-2022/commit/0b38d6e88b3962192feb7811dafbe8fb9965f2bd))
+
 ## [1.2.0](https://github.com/cebreus/photoblog-israel-2022/compare/1.1.0...1.2.0) (2022-11-06)
 
 *   new page Best of ([f54ddd5](https://github.com/cebreus/photoblog-israel-2022/commit/f54ddd51e18eb4e1dbc50470701228d15ac5ea5f))
