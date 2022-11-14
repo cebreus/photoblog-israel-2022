@@ -1,4 +1,4 @@
-<div class="c-gallery row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-2 g-md-1 ">
+<div class="c-gallery row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-2 g-md-1">
   {% for item in item %}
 
     {% if item.kind === 'markdown' %}
@@ -30,6 +30,10 @@
           </div>
         {% endif %}
       </div>
+      {% if item.body %}
+        <hr class="col-sm-12 col-lg-12 opacity-0">
+        <div class="col-sm-12 col-lg-12">{{ item.body | md | safe }}</div>
+      {% endif %}
       <hr class="col-sm-12 col-lg-12 opacity-0">
     {% endif %}
 
