@@ -146,3 +146,102 @@ body:has(.title-switch__input:checked) .ratio[data-title]::after {
   background: var(--body-bg);
   box-shadow: var(--accordion-btn-focus-box-shadow);
 }
+
+// .parallax__wrapper {
+//   height: 50vh;
+//   overflow-x: hidden;
+//   overflow-y: auto;
+//   perspective: 300px;
+//   border: solid red;
+// }
+
+// .parallax__group {
+//   position: relative;
+//   height: 100vh;
+//   width: 100vw;
+//   transform-style: preserve-3d;
+// }
+
+// .parallax__layer {
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+// }
+
+// .sky {
+//   background: navy no-repeat center;
+//   background-size: cover;
+//   transform: translateZ(-600px) scale(3);
+//   z-index: 1;
+// }
+
+// .bushes {
+//   background: violet no-repeat center;
+//   background-size: cover;
+//   transform: translateZ(-525px) scale(2.75);
+//   z-index: 2;
+// }
+
+// .water {
+//   background: lime no-repeat center;
+//   background-size: cover;
+//   transform: translateZ(-400px) scale(2.33333333);
+//   z-index: 3;
+// }
+
+.c-map-scroll {
+  --aspect-ratio: 64%;
+
+  max-height: 60vh;
+}
+
+.scroll-container {
+  overflow: auto;
+
+  // scroll-snap-points-y: repeat(300px);
+  // scroll-padding-top: 15vh;
+  counter-reset: section;
+  scroll-snap-type: y mandatory;
+  scroll-snap-type: mandatory;
+}
+
+.scroll-item {
+  position: relative;
+  display: block;
+  counter-increment: section;
+  color: var(--white);
+
+  &::before {
+    content: counter(section);
+    position: absolute;
+    top: 1.5rem;
+    left: calc(100% - 5.5rem);
+    z-index: 1;
+    display: block;
+    width: 4rem;
+    height: 4rem;
+    padding: 0.25em;
+    font-size: 2rem;
+    text-align: center;
+    border-radius: 50%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-color: rgb(0 0 0 / 50%);
+
+    // transition: color 0.15s ease-in-out, background 0.15s ease-in-out;
+  }
+
+  &:hover::before {
+    color: var(--white);
+    background-color: var(--primary);
+  }
+}
+
+.scroll-item-image {
+  display: block;
+  max-height: 100%;
+  margin: auto;
+  scroll-snap-align: start;
+}

@@ -33,39 +33,41 @@
 
     {% for key, item in IMAGES %}
       {% set images = loop %}
-      <section class="container-xl" id="day-{{ key }}">
-        <h2 class="text-center pt-5 mb-4">
-          <small class="t-day-heading-small">{{ key | date('dddd')}}</small>
-          {{ key | date('D. M. YYYY')}}
-        </h2>
+      <section class="" id="day-{{ key }}">
+        <div class="container-xl">
+          <h2 class="text-center pt-5 mb-4">
+            <small class="t-day-heading-small">{{ key | date('dddd')}}</small>
+            {{ key | date('D. M. YYYY')}}
+          </h2>
 
-        <div class="col col-lg-9 col-xl-8 col-xxl-7 mb-3 mx-auto text-center lead text-center">
-          {% set cities = [] %}
-          {% for grouper, item in item | groupby('city') %}
-            {% if grouper !== 'undefined' and grouper | length > 0 %}
-              {% set cities = (cities.push(grouper), cities) %}
-            {% endif %}
-          {% endfor %}
+          <div class="col col-lg-9 col-xl-8 col-xxl-7 mb-3 mx-auto text-center lead text-center">
+            {% set cities = [] %}
+            {% for grouper, item in item | groupby('city') %}
+              {% if grouper !== 'undefined' and grouper | length > 0 %}
+                {% set cities = (cities.push(grouper), cities) %}
+              {% endif %}
+            {% endfor %}
 
-          {% for city in cities %}
-            {{ city | replace(r/\n/g, '') | replace(r/[\s]+/g, ' ') | trim }}
-            {% if cities | length > 1 and not loop.last %} — {% endif %}
-          {% endfor %}
-        </div>
+            {% for city in cities %}
+              {{ city | replace(r/\n/g, '') | replace(r/[\s]+/g, ' ') | trim }}
+              {% if cities | length > 1 and not loop.last %} — {% endif %}
+            {% endfor %}
+          </div>
 
-        <div class="col col-lg-9 col-xl-8 col-xxl-7 mb-5 mx-auto text-center">
-          {% set wheres = [] %}
-          {% for grouper, item in item | groupby('where') %}
-            {% if grouper !== 'undefined' and grouper | length > 0 %}
-              {% set wheres = (wheres.push(grouper), wheres) %}
-            {% endif %}
-          {% endfor %}
+          <div class="col col-lg-9 col-xl-8 col-xxl-7 mb-5 mx-auto text-center">
+            {% set wheres = [] %}
+            {% for grouper, item in item | groupby('where') %}
+              {% if grouper !== 'undefined' and grouper | length > 0 %}
+                {% set wheres = (wheres.push(grouper), wheres) %}
+              {% endif %}
+            {% endfor %}
 
-          {% for where in wheres %}
-            <span class="badge text-bg-light fw-normal">{{ where | replace(r/\n/g, '') | replace(r/[\s]+/g, ' ') | trim }}</span>
-            {% if cities | length > 1 and not loop.last %}
-              <span class='visually-hidden'>&bull;</span>{% endif %}
-          {% endfor %}
+            {% for where in wheres %}
+              <span class="badge text-bg-light fw-normal">{{ where | replace(r/\n/g, '') | replace(r/[\s]+/g, ' ') | trim }}</span>
+              {% if cities | length > 1 and not loop.last %}
+                <span class='visually-hidden'>&bull;</span>{% endif %}
+            {% endfor %}
+          </div>
         </div>
 
         {% include './partials/c-gallery.njk' %}
