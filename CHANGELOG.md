@@ -1,5 +1,9 @@
 # Photoblog Changelog
 
+## [1.3.1](https://github.com/cebreus/photoblog-israel-2022/compare/1.3.0...1.3.1) (2022-11-14)
+
+*   validation err in builded HTML ([6c317fc](https://github.com/cebreus/photoblog-israel-2022/commit/6c317fca6befe075b8134d7ffe89ad5b2c44c4ca))
+
 ## [1.3.0](https://github.com/cebreus/photoblog-israel-2022/compare/1.2.0...1.3.0) (2022-11-14)
 
 *   add body of MD files up gallery ([dc3122f](https://github.com/cebreus/photoblog-israel-2022/commit/dc3122f7e94a654360c9f1d7f64291bd7630fb24))
