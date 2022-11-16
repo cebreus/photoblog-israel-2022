@@ -184,7 +184,8 @@ function datasetNotesAndImagesBestOf(done) {
     `${config.tempBase}/_dataset`,
     `${config.tempBase}/_dataset-images-notes-best-of.json`,
     {
-      urgency: 1,
+      // urgency: 1,
+      keywords: 'prio2',
       verbose: showLogs,
       cb: () => {
         done();

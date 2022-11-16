@@ -125,8 +125,8 @@ const datasetNotesAndImages = (input, outputFilename, params = {}) => {
     if (file.stat.size > 0) {
       const data1 = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 
-      if (params.urgency) {
-        if (data1.urgency) {
+      if (params.keywords) {
+        if (data1.keywords) {
           data.push(data1);
         }
       } else {

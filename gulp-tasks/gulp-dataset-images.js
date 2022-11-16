@@ -40,7 +40,8 @@ const filterData = async (inputFile, allMetadata, params = {}) => {
   metadata.fileName = path.basename(inputFile);
   metadata.date = allMetadata.CreateDate.toISOString();
   metadata.groupBy = allMetadata.CreateDate.toISOString().substring(0, 10);
-  metadata.urgency = allMetadata.Urgency || '';
+  // metadata.urgency = allMetadata.Urgency || '';
+  metadata.keywords = allMetadata.Keywords || '';
   if (path.basename(inputFile).includes('.pano')) {
     metadata.type = 'pano';
   } else if (width > height) {
