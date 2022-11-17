@@ -1,0 +1,38 @@
+---
+type: 'page'
+title_h1: ''
+excerpt: ''
+jumbo: {title: 'Changelog', excerpt: '', content: ''}
+entity_status: {date: '', updated_at: '', workflow_step: 'publish'}
+seo: {title: 'Change log', description: '', robots: 'noindex,follow', canonical: '/changelog'}
+---
+
+{{#each releases}}
+## Version {{title}} ({{isoDate}})
+
+{{#if summary}}
+> {{summary}}
+{{/if}}
+
+{{! List commits with `Breaking change: ` somewhere in the message }}
+{{#commit-list commits heading='### Breaking Changes' message='(BREAKING CHANGE: |Breaking change: )'}}
+- {{subject}}
+{{/commit-list}}
+
+{{#commit-list commits heading='Fixes…' message='fix: '}}
+
+{{/commit-list}}
+
+{{#commit-list commits heading='Code enhancements…' message='refactor: '}}
+
+{{/commit-list}}
+
+{{#commit-list commits heading='### New features' message='feat: ' exclude='(BREAKING CHANGE: |Breaking change: )'}}
+- {{subject}}
+{{/commit-list}}
+
+{{#commit-list commits heading='### Content update' message='docs\(' exclude='(BREAKING CHANGE: |Breaking change: )'}}
+- {{subject}}
+{{/commit-list}}
+
+{{/each}}

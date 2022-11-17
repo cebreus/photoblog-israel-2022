@@ -1,0 +1,44 @@
+{% extends "./layout-default.html" %}
+
+{% set pageData = {
+  page_id: 'changelog',
+  template: 'changelog'
+} %}
+
+{% block content404 %}
+
+  <header class="o-header sticky-top">
+    <div class="container">
+      <nav class="navbar navbar-dark">
+        <a class="navbar-brand text-uppercase fw-bolder" href="/">{{ SITE_TITLE }}</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    {% if hero %}
+      <div class="o-main o-main--jumbo">
+        <div class="c-jumbo container ps-0">
+          {% if hero.title | length and hero.title | length %}
+            <h1 class="c-jumbo__title lh-sm">{{ hero.title | safe }}</h1>
+          {% endif %}
+          {% if hero.excerpt | length and hero.excerpt | length %}
+            <div class="c-jumbo__perex col-12 col-lg-7">{{ hero.excerpt | md | safe }}</div>
+          {% endif %}
+          {% if hero.content | length and hero.content | length %}
+            <div class="c-jumbo__content col-12 col-lg-7">{{ hero.content | md | safe }}</div>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+
+    {% if body %}
+      <div class="container py-5">
+        <div class="c-article">
+          {{ body | replace('feat: ', '') | replace(r/docs\(((?:[^:]*))?\): /gm, '$1 &mdash; ') | safe }}
+        </div>
+      </div>
+    {% endif %}
+  </main>
+
+{% endblock %}
