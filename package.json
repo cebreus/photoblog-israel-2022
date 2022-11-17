@@ -18,6 +18,7 @@
     "text:lint": "npx remark-cli -q .",
     "text:fix": "npx remark-cli -q . -o --",
     "release": "npx release-it",
+    "postrelease": "npx auto-changelog -p -u --commit-limit false -o ./content/pages/changelog/index.md --template changelog.hbs && git add content/pages/changelog/index.md && git commit --amend --no-edit",
     "todo": "node ./node_modules/gulp/bin/gulp.js -f gulpfile.js todo",
     "todo:show": "npx leasot -x -r markdown -A '.txt,coffeeParser' './**/*.{js,html,njk,scss,txt,md,yml}' -i './node_modules/**/*'",
     "pre-commit": "npx lint-staged",

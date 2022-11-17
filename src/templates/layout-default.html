@@ -25,7 +25,7 @@
   </head>
   <body data-version="1.3.1" data-template="{{ pageData.template }}"  data-bs-spy="scroll" data-bs-target="#navbar-offcanvas">
 
-    {% if pageData.page_id === '404' %}
+    {% if pageData.page_id === '404' or pageData.page_id === 'changelog' %}
       {% block content404 %}{% endblock %}
     {% else %}
       {% include "./partials/o-header.njk" %}

@@ -12,6 +12,18 @@
 
 body {
   min-width: 320px;
+
+  // stylelint-disable-next-line selector-no-qualifying-type
+  &[data-template='changelog'] {
+    h2:not(:first-child) {
+      padding-top: map.get($spacers, 4);
+    }
+
+    h3 {
+      font-size: $h6-font-size;
+      color: $gray-600;
+    }
+  }
 }
 
 // Remove viod in the bottom of the alert component

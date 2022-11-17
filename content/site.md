@@ -1,6 +1,9 @@
 ---
 type: settings
-copyright: 2022 &#169; <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="license noopener">CC-BY-NC</a>.
+copyright: |-
+  Cebreus &#169; 2022 <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="license noopener">CC-BY-NC</a> &#8226; 
+  <a href="https://github.com/cebreus/photoblog-israel-2022/releases" target="_blank" rel="license noopener">Fotky ke stažení</a> &#8226; 
+  <a href="/changelog/" target="_blank" rel="license noopener">Change log</a>
 meta:
   lang: cs
   charset: utf-8
