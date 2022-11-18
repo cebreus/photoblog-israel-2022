@@ -34,10 +34,10 @@
     {% if item.maps %}
       <div class="container-xl">
         <div class="c-map-scroll ratio mb-5">
-          <div class="scroll-container">
+          <div class="c-map-scroll__container">
             {% for item in item.maps %}
-              <a class="scroll-item" href="../assets/images/{{ item.src }}" alt="{{ item.name }}" data-fancybox="gallery"  data-caption="{{ item.name }}" aria-label="Zobraz vetší obrázek">
-                <img class="scroll-item-image" src="../assets/images/{{ item.src }}" alt="{{ item.name }}">
+              <a class="c-map-scroll__item" href="../assets/images/{{ item.src }}" alt="{{ item.name }}" data-fancybox="gallery"  data-caption="{{ item.name }}" aria-label="Zobraz vetší obrázek">
+                <img class="c-map-scroll__image" src="../assets/images/{{ item.src }}" alt="{{ item.name }}">
               </a>
             {% endfor %}
           </div>

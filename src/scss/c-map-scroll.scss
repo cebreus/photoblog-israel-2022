@@ -1,0 +1,60 @@
+@use 'sass:map';
+@import '../../node_modules/bootstrap/scss/functions';
+@import '../../node_modules/bootstrap/scss/mixins';
+@import './variables';
+
+.c-map-scroll {
+  // stylelint-disable-next-line plugin/selector-bem-pattern
+  --aspect-ratio: 64%;
+
+  max-height: 60vh;
+}
+
+.c-map-scroll__container {
+  overflow: auto;
+
+  // scroll-snap-points-y: repeat(300px);
+  // scroll-padding-top: 15vh;
+  counter-reset: section;
+  scroll-snap-type: y mandatory;
+  scroll-snap-type: mandatory;
+}
+
+.c-map-scroll__item {
+  position: relative;
+  display: block;
+  counter-increment: section;
+  color: var(--white);
+
+  &::before {
+    content: counter(section);
+    position: absolute;
+    top: clamp(0.5rem, 0.204rem + 1.48vw, 1.5rem);
+    right: clamp(0.5rem, 0.204rem + 1.48vw, 1.5rem);
+    z-index: 1;
+    display: block;
+    width: clamp(2rem, 1.407rem + 2.96vw, 4rem);
+    height: clamp(2rem, 1.407rem + 2.96vw, 4rem);
+    padding: 0.25em;
+    font-size: clamp(1rem, 0.704rem + 1.48vw, 2rem);
+    text-align: center;
+    border-radius: 50%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-color: rgb(0 0 0 / 50%);
+
+    // transition: color 0.15s ease-in-out, background 0.15s ease-in-out;
+  }
+
+  &:hover::before {
+    color: var(--white);
+    background-color: var(--primary);
+  }
+}
+
+.c-map-scroll__item-image {
+  display: block;
+  max-height: 100%;
+  margin: auto;
+  scroll-snap-align: start;
+}
