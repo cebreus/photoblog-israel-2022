@@ -7,15 +7,8 @@
 
 {% block content %}
   <main>
-
-    {% if body %}
-      <div class="container">
-        <div class="c-article">
-          {{ body | safe }}
-        </div>
-      </div>
-    {% endif %}
     {% include './partials/c-jumbo.njk' %}
+    {% include './partials/c-article.njk' %}
 
     {% for key, item in BESTOF %}
       {% set images = loop %}
