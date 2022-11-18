@@ -1,0 +1,15 @@
+{% if jumbo %}
+  <article  class="o-main o-main--jumbo">
+    <div class="c-jumbo container">
+      {% if jumbo.title | length and jumbo.title | length %}
+        <h1 class="c-jumbo__title">{{ jumbo.title | safe }}</h1>
+      {% endif %}
+      {% if jumbo.excerpt | length and jumbo.excerpt | length %}
+        <div class="c-jumbo__perex col-12 col-lg-7">{{ jumbo.excerpt | md | safe }}</div>
+      {% endif %}
+      {% if jumbo.content | length and jumbo.content | length %}
+        <div class="c-jumbo__content col-12 col-lg-7">{{ jumbo.content | md | safe }}</div>
+      {% endif %}
+    </div>
+  </article>
+{% endif %}
