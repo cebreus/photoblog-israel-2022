@@ -7,21 +7,6 @@
 
 {% block content %}
   <main>
-    {% if hero %}
-      <article  class="o-main o-main--jumbo">
-        <div class="c-jumbo container">
-          {% if hero.title | length and hero.title | length %}
-            <h1 class="c-jumbo__title">{{ hero.title | safe }}</h1>
-          {% endif %}
-          {% if hero.excerpt | length and hero.excerpt | length %}
-            <div class="c-jumbo__perex col-12 col-lg-7">{{ hero.excerpt | md | safe }}</div>
-          {% endif %}
-          {% if hero.content | length and hero.content | length %}
-            <div class="c-jumbo__content col-12 col-lg-7">{{ hero.content | md | safe }}</div>
-          {% endif %}
-        </div>
-      </article>
-    {% endif %}
 
     {% if body %}
       <div class="container">
@@ -30,6 +15,7 @@
         </div>
       </div>
     {% endif %}
+    {% include './partials/c-jumbo.njk' %}
 
     {% for key, item in BESTOF %}
       {% set images = loop %}

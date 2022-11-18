@@ -16,21 +16,7 @@
   </header>
 
   <main>
-    {% if hero %}
-      <div class="o-main o-main--jumbo">
-        <div class="c-jumbo container ps-0">
-          {% if hero.title | length and hero.title | length %}
-            <h1 class="c-jumbo__title lh-sm">{{ hero.title | safe }}</h1>
-          {% endif %}
-          {% if hero.excerpt | length and hero.excerpt | length %}
-            <div class="c-jumbo__perex col-12 col-lg-7">{{ hero.excerpt | md | safe }}</div>
-          {% endif %}
-          {% if hero.content | length and hero.content | length %}
-            <div class="c-jumbo__content col-12 col-lg-7">{{ hero.content | md | safe }}</div>
-          {% endif %}
-        </div>
-      </div>
-    {% endif %}
+    {% include './partials/c-jumbo.njk' %}
 
     {% if body %}
       <div class="container py-5">
