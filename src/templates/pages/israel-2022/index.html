@@ -35,12 +35,15 @@
             {{ key | date('D. M. YYYY')}}
             </strong>
             <br class="d-none">
+            {% set locations = [] %}
             {% for grouper, item in item | groupby('location') %}
-              {% set loc %}{{ grouper | trim | safe }}{% endset %}
-              {% if grouper !== 'undefined' and grouper | length %}
-                {% if not loop.last %}{{ loc }},{% else %}{{ loc }}
-                {% endif %}
+              {% if grouper !== 'undefined' and grouper | length > 0 %}
+                {% set locations = (locations.push(grouper), locations) %}
               {% endif %}
+            {% endfor %}
+            {% for location in locations %}
+              {{ location | replace(r/\n/g, '') | replace(r/[\s]+/g, ' ') | trim }}
+              {% if locations | length > 1 and not loop.last %} &bull; {% endif %}
             {% endfor %}
           </a>
         {% endfor %}
