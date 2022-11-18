@@ -2,7 +2,7 @@
 type: 'page'
 title_h1: ''
 excerpt: ''
-hero: { title: 'Changelog', excerpt: '', content: '' }
+jumbo: { title: 'Changelog', excerpt: '', content: '' }
 entity_status: { date: '', updated_at: '', workflow_step: 'publish' }
 seo:
   {
