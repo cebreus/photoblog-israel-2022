@@ -11,13 +11,29 @@ seo:
     robots: 'noindex,follow',
     canonical: '/changelog',
   }
-open_graph: { use: true }
-twitter_cards: { use: true }
 ---
+
+## Version 1.4.0 (2022-11-22)
+
+Fixes…
+
+Code enhancements…
+
+### New features
+
+*   feat: public page Changelog
+*   feat: new XXS breakpoint for c-gallery
+*   feat: 4 images in gallery on wide (XXL) screens
+*   feat: change theme coluor to dark blue
+
+### Content update
+
+*   docs(text): component Hero > Jumbo
+*   docs(photos): copy metadata 'Urgency' > 'Keywords'
 
 ## Version 1.3.1 (2022-11-14)
 
-### Fixes…
+Fixes…
 
 ## Version 1.3.0 (2022-11-14)
 
@@ -35,6 +51,8 @@ twitter_cards: { use: true }
 *   docs(text): notes for days
 
 ## Version 1.2.0 (2022-11-06)
+
+Code enhancements…
 
 ### New features
 
@@ -56,8 +74,6 @@ twitter_cards: { use: true }
 *   docs(photos): add metadata jericho, tel aviv
 *   docs(photos): tagged best of photos
 
-### Code enhancements…
-
 ## Version 1.1.0 (2022-11-04)
 
 ### New features
@@ -71,6 +87,10 @@ twitter_cards: { use: true }
 ## Version 1.0.0 (2022-11-04)
 
 ## Version 0.1.0 (2022-11-04)
+
+Fixes…
+
+Code enhancements…
 
 ### New features
 
@@ -87,7 +107,3 @@ twitter_cards: { use: true }
 *   docs(photos): add metadata 2022-10-20
 *   docs(photos): new JPG from HEIC
 *   docs(photos): new HEIC
-
-### Fixes…
-
-### Code enhancements…
