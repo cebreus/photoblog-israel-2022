@@ -14,7 +14,7 @@
     DEVELOPER_NAME="Jaroslav Vrana"
     DEVELOPER_URL="https://cebre.us/"
     BACKGROUND="#0a1d39"
-    THEME_COLOR="#fd7e14"
+    THEME_COLOR="#0a1d39"
 
     # FTP deployment
 
