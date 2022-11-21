@@ -261,6 +261,16 @@ function images(done) {
     `${config.staticBase}/assets/${process.env.DATA_DIR}/previews-xxs`,
     params
   );
+  imagesResize.maps(
+    `${config.contentBase}/maps/*.png`,
+    `${config.staticBase}/assets/${process.env.DATA_DIR}`,
+    params
+  );
+  imagesResize.mapsWebp(
+    `${config.contentBase}/maps/*.png`,
+    `${config.staticBase}/assets/${process.env.DATA_DIR}`,
+    params
+  );
   done();
 }
 

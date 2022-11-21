@@ -7,6 +7,7 @@ const log = require('fancy-log');
 const mozjpeg = require('imagemin-mozjpeg');
 const newer = require('gulp-newer');
 const plumber = require('gulp-plumber');
+const upng = require('gulp-upng');
 
 /**
  * @description Function for resizing and optimizing JPEG images
@@ -243,12 +244,6 @@ const previewsXlWebp = (input, output, params = {}) => {
 };
 
 const previewsXXS = (input, output, params = {}) => {
-  const rewriteExisting = !!(
-    params.rewriteExisting &&
-    typeof params.rewriteExisting === 'boolean' &&
-    params.rewriteExisting === true
-  );
-
   if (params.verbose) {
     log(`🔵🔵🔵 Start: ${output}`);
   }
@@ -256,7 +251,6 @@ const previewsXXS = (input, output, params = {}) => {
   return gulp
     .src(input)
     .pipe(plumber())
-    .pipe(gulpif(!rewriteExisting, newer(output)))
     .pipe(imageResize(imageResizePreviewsXXS))
     .pipe(
       imagemin([
@@ -278,6 +272,82 @@ const previewsXXS = (input, output, params = {}) => {
     });
 };
 
+const maps = (input, output, params = {}) => {
+  if (params.verbose) {
+    log(`    🟠 Start: ${output}`);
+  }
+
+  return gulp
+    .src(input)
+    .pipe(plumber())
+    .pipe(upng({}))
+    .pipe(gulp.dest(`${output}/details`))
+    .pipe(
+      imageResize({
+        imageMagick: true,
+        noProfile: true,
+        width: 1296, // 1116 XL
+        sharpen: '0.5x0.5+0.5+0.008',
+      })
+    )
+    .pipe(gulp.dest(`${output}/maps-xl`))
+    .pipe(
+      imageResize({
+        imageMagick: true,
+        noProfile: true,
+        width: 321,
+        sharpen: '0.5x0.5+0.5+0.008',
+      })
+    )
+    .pipe(gulp.dest(`${output}/maps-xxs`))
+    .on('end', () => {
+      if (params.verbose) {
+        log(`    🟠 End: ${output}/maps-xl & /maps-xxs & /details`);
+      }
+      params.cb();
+    });
+};
+
+const mapsWebp = (input, output, params = {}) => {
+  if (params.verbose) {
+    log(`  🟠🟠 Start: ${output}`);
+  }
+
+  return gulp
+    .src(input)
+    .pipe(plumber())
+    .pipe(
+      imageResize({
+        imageMagick: true,
+        noProfile: true,
+        width: 1296, // 1116 XL
+        sharpen: '0.5x0.5+0.5+0.008',
+      })
+    )
+    .pipe(
+      cwebp({
+        q: 60,
+        m: 6,
+        mt: true,
+      })
+    )
+    .pipe(gulp.dest(`${output}/maps-xl-webp`))
+    .pipe(
+      imageResize({
+        imageMagick: true,
+        noProfile: true,
+        width: 321,
+        sharpen: '0.5x0.5+0.5+0.008',
+      })
+    )
+    .pipe(gulp.dest(`${output}/maps-xxs-webp`))
+    .on('end', () => {
+      if (params.verbose) {
+        log(`  🟠🟠 End: ${output}/maps-xl-webp & ${output}/maps-xxs-webp`);
+      }
+      params.cb();
+    });
+};
 module.exports = {
   details,
   previews,
@@ -285,4 +355,6 @@ module.exports = {
   previewsXl,
   previewsXlWebp,
   previewsXXS,
+  maps,
+  mapsWebp,
 };
