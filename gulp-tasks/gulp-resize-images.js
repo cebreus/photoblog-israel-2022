@@ -4,6 +4,7 @@ const gulpif = require('gulp-if');
 const imagemin = require('gulp-imagemin');
 const imageResize = require('gulp-image-resize');
 const log = require('fancy-log');
+const mergeStream = require('merge-stream');
 const mozjpeg = require('imagemin-mozjpeg');
 const newer = require('gulp-newer');
 const plumber = require('gulp-plumber');
@@ -44,6 +45,20 @@ const imageResizePreviewsXXS = {
   height: 188,
   crop: true,
   gravity: 'Center',
+  sharpen: '0.5x0.5+0.5+0.008',
+};
+
+const imageResizePreviewsMapsXl = {
+  imageMagick: true,
+  noProfile: true,
+  width: 1296, // 1116 XL
+  sharpen: '0.5x0.5+0.5+0.008',
+};
+
+const imageResizePreviewsMapsXxs = {
+  imageMagick: true,
+  noProfile: true,
+  width: 321,
   sharpen: '0.5x0.5+0.5+0.008',
 };
 
@@ -273,81 +288,129 @@ const previewsXXS = (input, output, params = {}) => {
 };
 
 const maps = (input, output, params = {}) => {
+  const outputDetail = `${output}/maps-details`;
+  const outputXl = `${output}/maps-xl`;
+  const outputXxs = `${output}/maps-xxs`;
+
+  const rewriteExisting = !!(
+    params.rewriteExisting &&
+    typeof params.rewriteExisting === 'boolean' &&
+    params.rewriteExisting === true
+  );
+
   if (params.verbose) {
-    log(`    🟠 Start: ${output}`);
+    log(`    🟠 Start: 'MAPS PNG'  ${output}`);
   }
 
-  return gulp
-    .src(input)
-    .pipe(plumber())
-    .pipe(upng({}))
-    .pipe(gulp.dest(`${output}/details`))
-    .pipe(
-      imageResize({
-        imageMagick: true,
-        noProfile: true,
-        width: 1296, // 1116 XL
-        sharpen: '0.5x0.5+0.5+0.008',
+  return mergeStream(
+    gulp
+      .src(input)
+      .pipe(plumber())
+      .pipe(gulpif(!rewriteExisting, newer(outputDetail)))
+      .pipe(upng({}))
+      .pipe(gulp.dest(outputDetail))
+      .on('end', () => {
+        if (params.verbose) {
+          log(`    🟠 End: 'MAPS PNG'  ${outputDetail}`);
+        }
+        params.cb();
+      }),
+
+    gulp
+      .src(input)
+      .pipe(plumber())
+      .pipe(gulpif(!rewriteExisting, newer(outputXl)))
+      .pipe(imageResize(imageResizePreviewsMapsXl))
+      .pipe(upng({}))
+      .pipe(gulp.dest(outputXl))
+      .on('end', () => {
+        if (params.verbose) {
+          log(`    🟠 End: 'MAPS PNG'  ${outputXl}`);
+        }
+        params.cb();
+      }),
+
+    gulp
+      .src(input)
+      .pipe(plumber())
+      .pipe(gulpif(!rewriteExisting, newer(outputXxs)))
+      .pipe(imageResize(imageResizePreviewsMapsXxs))
+      .pipe(gulp.dest(`${outputXxs}`))
+      .on('end', () => {
+        if (params.verbose) {
+          log(`    🟠 End: 'MAPS PNG'  ${outputXxs}`);
+        }
+        params.cb();
       })
-    )
-    .pipe(gulp.dest(`${output}/maps-xl`))
-    .pipe(
-      imageResize({
-        imageMagick: true,
-        noProfile: true,
-        width: 321,
-        sharpen: '0.5x0.5+0.5+0.008',
-      })
-    )
-    .pipe(gulp.dest(`${output}/maps-xxs`))
-    .on('end', () => {
-      if (params.verbose) {
-        log(`    🟠 End: ${output}/maps-xl & /maps-xxs & /details`);
-      }
-      params.cb();
-    });
+  );
 };
 
 const mapsWebp = (input, output, params = {}) => {
+  const outputXl = `${output}/maps-xl-webp`;
+  const outputXxs = `${output}/maps-xxs-webp`;
+
+  const rewriteExisting = !!(
+    params.rewriteExisting &&
+    typeof params.rewriteExisting === 'boolean' &&
+    params.rewriteExisting === true
+  );
+
   if (params.verbose) {
-    log(`  🟠🟠 Start: ${output}`);
+    log(`  🟠🟠 Start: 'MAPS WEBP' ${output}`);
   }
 
-  return gulp
-    .src(input)
-    .pipe(plumber())
-    .pipe(
-      imageResize({
-        imageMagick: true,
-        noProfile: true,
-        width: 1296, // 1116 XL
-        sharpen: '0.5x0.5+0.5+0.008',
+  return mergeStream(
+    gulp
+      .src(input)
+      .pipe(plumber())
+      .pipe(
+        gulpif(
+          !rewriteExisting,
+          newer({
+            dest: outputXl,
+            ext: '.webp',
+          })
+        )
+      )
+      .pipe(imageResize(imageResizePreviewsMapsXl))
+      .pipe(
+        cwebp({
+          q: 60,
+          m: 6,
+          mt: true,
+        })
+      )
+      .pipe(gulp.dest(`${outputXl}`))
+      .on('end', () => {
+        if (params.verbose) {
+          log(`  🟠🟠 End: 'MAPS WEBP' ${outputXl}`);
+        }
+        params.cb();
+      }),
+
+    gulp
+      .src(input)
+      .pipe(plumber())
+      .pipe(
+        gulpif(
+          !rewriteExisting,
+          newer({
+            dest: outputXxs,
+            ext: '.webp',
+          })
+        )
+      )
+      .pipe(imageResize(imageResizePreviewsMapsXxs))
+      .pipe(gulp.dest(`${outputXxs}`))
+      .on('end', () => {
+        if (params.verbose) {
+          log(`  🟠🟠 End: 'MAPS WEBP' ${outputXxs}`);
+        }
+        params.cb();
       })
-    )
-    .pipe(
-      cwebp({
-        q: 60,
-        m: 6,
-        mt: true,
-      })
-    )
-    .pipe(gulp.dest(`${output}/maps-xl-webp`))
-    .pipe(
-      imageResize({
-        imageMagick: true,
-        noProfile: true,
-        width: 321,
-        sharpen: '0.5x0.5+0.5+0.008',
-      })
-    )
-    .pipe(gulp.dest(`${output}/maps-xxs-webp`))
-    .on('end', () => {
-      if (params.verbose) {
-        log(`  🟠🟠 End: ${output}/maps-xl-webp & ${output}/maps-xxs-webp`);
-      }
-      params.cb();
-    });
+  );
 };
+
 module.exports = {
   details,
   previews,
