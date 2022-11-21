@@ -432,7 +432,8 @@ $paragraph-margin-bottom:   1rem !default;
 
 // scss-docs-start grid-breakpoints
 $grid-breakpoints: (
-  xs: 0,
+  xxs: 0,
+  xs: 360px, // PageSpeed Insights mobile viewport is 360px
   sm: 576px,
   md: 768px,
   lg: 992px,

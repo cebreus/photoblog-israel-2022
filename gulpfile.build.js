@@ -256,6 +256,11 @@ function images(done) {
     `${config.staticBase}/assets/${process.env.DATA_DIR}/previews-xl-webp`,
     params
   );
+  imagesResize.previewsXXS(
+    `${config.contentBase}/${process.env.DATA_DIR}/*.jpg`,
+    `${config.staticBase}/assets/${process.env.DATA_DIR}/previews-xxs`,
+    params
+  );
   done();
 }
 
