@@ -1,0 +1,31 @@
+{% macro headerNav(navItems, currentPageId) %}
+  <ul class="navbar-nav flex-row flex-wrap d-none d-md-flex me-3 mt-1">
+    {% for item in navItems.menu %}
+      {% if currentPageId === item.page_id %}
+        <li class="nav-item me-3">
+          <a class="nav-item nav-link active text-primary" aria-current="page" href="{{ item.url }}">{{ item.name }}</a>
+        </li>
+      {% else %}
+        <li class="nav-item me-3">
+          <a class="nav-item nav-link" href="{{ item.url }}">{{ item.name }}</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{% endmacro %}
+
+{% macro offcanvasNav(navItems, currentPageId) %}
+  <h3 class="visually-hidden">Stránky</h3>
+  <ul class="nav btn-group mb-3 w-100" aria-label="Stránky">
+    {% for item in navItems.menu %}
+      <li class="nav-item me-2">
+        {% if currentPageId === item.page_id %}
+          <a class="btn btn-primary" aria-current="page" href="{{ item.url }}">{{ item.name }}</a>
+          <span class="visually-hidden">(aktuální stránka)</span>
+        {% else %}
+          <a class="btn btn-outline-primary" href="{{ item.url }}">{{ item.name }}</a>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endmacro %}

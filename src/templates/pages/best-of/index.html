@@ -1,4 +1,6 @@
 {% extends "./layout-default.html" %}
+{% from "./partials/_main-nav.njk" import offcanvasNav %}
+{% from "./partials/_offcanvas-menu.njk" import offcanvasNav %}
 
 {% set pageData = {
   page_id: 'best-of',
@@ -22,33 +24,8 @@
 
 {% block footer %}
   <footer class="o-footer mt-5">
-    <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="mainMenu" aria-labelledby="mainMenuLabel">
-      <div class="offcanvas-header">
-        <h2 class="h5 offcanvas-title" id="mainMenuLabel">Hlavní navigace</h2>
-        <button type="button" class="btn-close ms-auto" data-bs-dismiss="offcanvas" aria-label="Zavřít"></button>
-      </div>
-      <nav id="navbar-offcanvas" class="offcanvas-body list-group">
-        {% for key, item in BESTOF %}
-          <a class="list-group-item list-group-item-action py-4 small" href="#day-{{ key }}">
-            <strong class="d-block mb-2">
-              {{ key | date('dddd') | upper }} &#160;
-            {{ key | date('D. M. YYYY')}}
-            </strong>
-            <br class="d-none">
-            {% set locations = [] %}
-            {% for grouper, item in item | groupby('location') %}
-              {% if grouper !== 'undefined' and grouper | length > 0 %}
-                {% set locations = (locations.push(grouper), locations) %}
-              {% endif %}
-            {% endfor %}
-            {% for location in locations %}
-              {{ location | replace(r/\n/g, '') | replace(r/[\s]+/g, ' ') | trim }}
-              {% if locations | length > 1 and not loop.last %} &bull; {% endif %}
-            {% endfor %}
-          </a>
-        {% endfor %}
-      </nav>
-    </div>
+    {{ offcanvasNav(navItems,  pageData.page_id, BESTOF) }}
+
     <div class="container">
       <div class="copyright small text-center">{{ SITE.copyright | safe }}</div>
     </div>

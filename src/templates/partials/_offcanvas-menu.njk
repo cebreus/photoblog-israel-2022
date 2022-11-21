@@ -1,0 +1,37 @@
+{% macro offcanvasNav(navItems, currentPageId, imageData) %}
+  <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="mainMenu" aria-labelledby="mainMenuLabel">
+    <div class="offcanvas-header">
+      <h2 class="h5 offcanvas-title" id="mainMenuLabel">Hlavní navigace</h2>
+      <button type="button" class="btn-close ms-auto" data-bs-dismiss="offcanvas" aria-label="Zavřít"></button>
+    </div>
+
+    <nav id="navbar-offcanvas" class="offcanvas-body">
+      {% from "./_main-nav.njk" import offcanvasNav %}
+      {{ offcanvasNav(navItems, currentPageId) }}
+      <h3 class="visually-hidden">Obsah této strany</h3>
+      <ul class="list-group">
+        {% for key, item in imageData %}
+          <li class="list-group-item list-group-item-action small py-4">
+            <a class="text-decoration-none text-body" href="#day-{{ key }}">
+              <strong class="d-block mb-2">
+                {{ key | date('dddd') | upper }} &#160; {{ key | date('D. M. YYYY')}}
+              </strong>
+              <br class="d-none">
+              {% set locations = [] %}
+              <span class="visually-hidden">Navštívená místa: </span>
+              {% for grouper, item in item | groupby('location') %}
+                {% if grouper !== 'undefined' and grouper | length > 0 %}
+                  {% set locations = (locations.push(grouper), locations) %}
+                {% endif %}
+              {% endfor %}
+              {% for location in locations %}
+                {{ location | replace(r/\n/g, '') | replace(r/[\s]+/g, ' ') | trim }}
+                {% if locations | length > 1 and not loop.last %} &bull; {% endif %}
+              {% endfor %}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </div>
+{% endmacro %}
