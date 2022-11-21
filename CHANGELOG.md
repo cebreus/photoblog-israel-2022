@@ -1,5 +1,15 @@
 # Photoblog Changelog
 
+## [1.4.0](https://github.com/cebreus/photoblog-israel-2022/compare/1.3.1...1.4.0) (2022-11-21)
+
+*   4 images in gallery on wide (XXL) screens ([b8e528a](https://github.com/cebreus/photoblog-israel-2022/commit/b8e528ac7329cca20e95135344a063fe3fcd636f))
+*   change theme coluor to dark blue ([5a15db0](https://github.com/cebreus/photoblog-israel-2022/commit/5a15db0a80ba8062958f3b0c6bc5ec962117266a))
+*   dividers in #navbar-offcanvas ([fcc6449](https://github.com/cebreus/photoblog-israel-2022/commit/fcc644936bb6aafba5cd62ee7f4d3d5a3a0cfdee))
+*   missing \*.jpg fallback on c-gallery 'source' ([bdcaa10](https://github.com/cebreus/photoblog-israel-2022/commit/bdcaa1033fe667e6de3cb037ae69a04798250f08))
+*   new XXS breakpoint for c-gallery ([8a4895e](https://github.com/cebreus/photoblog-israel-2022/commit/8a4895e390f8ee1bff8504415cc9d56d6f4693ab))
+*   public page Changelog ([338afc0](https://github.com/cebreus/photoblog-israel-2022/commit/338afc08e4d5acf3dfad2aed94e5b462a77f73e3))
+*   validation of a HTML ([b6a841e](https://github.com/cebreus/photoblog-israel-2022/commit/b6a841e9580bb62d73b4968da8e4daa159650acc))
+
 ## [1.3.1](https://github.com/cebreus/photoblog-israel-2022/compare/1.3.0...1.3.1) (2022-11-14)
 
 *   validation err in builded HTML ([6c317fc](https://github.com/cebreus/photoblog-israel-2022/commit/6c317fca6befe075b8134d7ffe89ad5b2c44c4ca))
