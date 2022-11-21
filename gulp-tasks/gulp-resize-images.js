@@ -36,6 +36,16 @@ const imageResizePreviewsXl = {
   sharpen: '0.5x0.5+0.5+0.008',
 };
 
+const imageResizePreviewsXXS = {
+  imageMagick: true,
+  noProfile: true,
+  width: 335,
+  height: 188,
+  crop: true,
+  gravity: 'Center',
+  sharpen: '0.5x0.5+0.5+0.008',
+};
+
 const details = (input, output, params = {}) => {
   const rewriteExisting = !!(
     params.rewriteExisting &&
@@ -232,10 +242,47 @@ const previewsXlWebp = (input, output, params = {}) => {
     });
 };
 
+const previewsXXS = (input, output, params = {}) => {
+  const rewriteExisting = !!(
+    params.rewriteExisting &&
+    typeof params.rewriteExisting === 'boolean' &&
+    params.rewriteExisting === true
+  );
+
+  if (params.verbose) {
+    log(`🔵🔵🔵 Start: ${output}`);
+  }
+
+  return gulp
+    .src(input)
+    .pipe(plumber())
+    .pipe(gulpif(!rewriteExisting, newer(output)))
+    .pipe(imageResize(imageResizePreviewsXXS))
+    .pipe(
+      imagemin([
+        mozjpeg({
+          quality: 60,
+          quantTable: 2,
+          dcScanOpt: 2,
+          tune: 'ms-ssim',
+          dct: 'float',
+        }),
+      ])
+    )
+    .pipe(gulp.dest(output))
+    .on('end', () => {
+      if (params.verbose) {
+        log(`🔵🔵🔵 End: ${output}`);
+      }
+      params.cb();
+    });
+};
+
 module.exports = {
   details,
   previews,
   previewsWebp,
   previewsXl,
   previewsXlWebp,
+  previewsXXS,
 };
