@@ -16,7 +16,7 @@
 
 {% macro offcanvasNav(navItems, currentPageId) %}
   <h3 class="visually-hidden">Stránky</h3>
-  <ul class="nav btn-group mb-3 w-100" aria-label="Stránky">
+  <ul class="nav btn-group mb-3 w-100">
     {% for item in navItems.menu %}
       <li class="nav-item me-2">
         {% if currentPageId === item.page_id %}

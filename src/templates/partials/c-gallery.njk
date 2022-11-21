@@ -99,7 +99,7 @@
             <source media="(max-width: 575px) or (min-width: 1400px)" type="image/webp" srcset="../assets/{{ DATA_DIR }}/previews-webp/{{ item.fileName | replace(".jpg", ".webp")}}">
             <source media="(max-width: 575px) or (min-width: 1400px)"  srcset="../assets/{{ DATA_DIR }}/previews/{{ item.fileName }}">
 
-            <img src="../assets/{{ DATA_DIR }}/previews-xxs/{{ item.fileName }}" width="335" height="188" loading="{% if images.index == 1 and loop.index < 4 %}auto{% else %}lazy{% endif %}" alt="{{ item.where }}">
+            <img src="../assets/{{ DATA_DIR }}/previews-xxs/{{ item.fileName }}" width="335" height="188" loading="{% if images.index == 1 and loop.index < 4 %}eager{% else %}lazy{% endif %}" alt="{{ item.where }}">
           </picture>
         </a>
       {% endif %}

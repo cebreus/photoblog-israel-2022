@@ -4,7 +4,7 @@ title_h1:
 excerpt:
 jumbo:
   title: Izrael 2022
-  excerpt: Best of&#133; Fotografické střípky z výletu do Izraele a Jordánska.
+  excerpt: Best of… Fotografické střípky z výletu do Izraele a Jordánska.
   content: ''
 
 entity_status:
