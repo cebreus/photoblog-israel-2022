@@ -230,6 +230,7 @@ const buildHtml = (params) => {
       .pipe(
         minify({
           collapseWhitespace: true,
+          collapseBooleanAttributes: true,
         })
       )
       .pipe(

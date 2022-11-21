@@ -1,4 +1,6 @@
 const gulp = require('gulp');
+const minify = require('gulp-htmlmin');
+
 const sri = require('gulp-sri-hash');
 
 /**
@@ -10,13 +12,22 @@ const sri = require('gulp-sri-hash');
  */
 
 const sriHash = (input, output, params = {}) => {
-  return gulp
-    .src(input)
-    .pipe(sri())
-    .pipe(gulp.dest(output))
-    .on('end', () => {
-      params.cb();
-    });
+  return (
+    gulp
+      .src(input)
+      .pipe(sri())
+      // Duplity from `./gulp-html-build.js` because 'sri' converts `defer` to `defer=""`
+      .pipe(
+        minify({
+          collapseWhitespace: true,
+          collapseBooleanAttributes: true,
+        })
+      )
+      .pipe(gulp.dest(output))
+      .on('end', () => {
+        params.cb();
+      })
+  );
 };
 
 module.exports = sriHash;
