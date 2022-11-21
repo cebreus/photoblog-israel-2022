@@ -223,6 +223,8 @@ const buildHtml = (params) => {
           params.injectCdnJs.toString().replace(/[, ]+/g, ' ')
         )
       )
+      // Performance optimisation on local JS libraries
+      .pipe(replace('<script src="/assets/', '<script defer src="/assets/'))
       // Remove multi/line comments
       .pipe(replace(/( )*<!--((.*)|[^<]*|[^!]*|[^-]*|[^>]*)-->\n*/gm, ''))
       // Improve acessibility of basic tables
