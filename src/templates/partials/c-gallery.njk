@@ -36,8 +36,15 @@
         <div class="c-map-scroll ratio mb-5">
           <div class="c-map-scroll__container">
             {% for item in item.maps %}
-              <a class="c-map-scroll__item" href="../assets/images/{{ item.src }}" alt="{{ item.name }}" data-fancybox="gallery"  data-caption="{{ item.name }}" aria-label="Zobraz vetší obrázek">
-                <img class="c-map-scroll__image" src="../assets/images/{{ item.src }}" alt="{{ item.name }}">
+              <a class="c-map-scroll__item" href="../assets/{{ DATA_DIR }}/maps-details/{{ item.src }}"  data-fancybox="gallery"  data-caption="{{ item.name }}" aria-label="Zobraz vetší obrázek">
+                <picture>
+                  <source media="(min-width: 361px)" type="image/webp" srcset="../assets/{{ DATA_DIR }}/maps-xl-webp/{{ item.src | replace(".png", ".webp")}}">
+                  <source media="(min-width: 361px)" srcset="../assets/{{ DATA_DIR }}/maps-xl/{{ item.src }}">
+
+                  <source media="(max-width: 360px)" type="image/webp" srcset="../assets/{{ DATA_DIR }}/maps-xxs-webp/{{ item.src | replace(".png", ".webp")}}">
+
+                  <img class="c-map-scroll__image" src="../assets/{{ DATA_DIR }}/maps-xxs/{{ item.src }}" width="1296" height="843" alt="{{ item.name }}">
+                </picture>
               </a>
             {% endfor %}
           </div>
