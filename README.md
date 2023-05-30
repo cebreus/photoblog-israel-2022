@@ -1,6 +1,8 @@
-# Photoblog Scandinavia 2022
+# Photoblog Israel 2022
 
-## `.env` file
+> An auto-generated photo blog from the metadata of the images.
+
+## File `.env`
 
     DATA_DIR="israel-2022"
     BASE_URL="https://israel-2022.cebre.us"
