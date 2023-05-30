@@ -1,5 +1,9 @@
 # Photoblog Changelog
 
+## [1.4.2](https://github.com/cebreus/photoblog-israel-2022/compare/1.4.0...1.4.2) (2023-05-30)
+
+> Allow indexing, accessibility improvements, Netlify deployment fix.
+
 ## [1.4.1](https://github.com/cebreus/photoblog-israel-2022/compare/1.4.0...1.4.1) (2023-05-30)
 
 > Security updates.
