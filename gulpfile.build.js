@@ -277,17 +277,11 @@ function images(done) {
 // Favicons
 
 function favicons(done) {
-  return faviconsFnc(
-    config.faviconSourceFile,
-    config.faviconBuild,
-    {
-      config: config.faviconGenConfig,
-      verbose: showLogs,
-      cb: () => {
-        done();
-      },
-    },
-    () => {
+  return faviconsFnc(config.faviconSourceFile, config.faviconBuild, {
+    config: config.faviconGenConfig,
+    verbose: showLogs,
+    cb: () => {
+      done();
       // Move `favicon.ico` to project root
       fs.rename(
         `${config.faviconBuild}/favicon.ico`,
@@ -328,8 +322,8 @@ function favicons(done) {
           );
         }
       );
-    }
-  );
+    },
+  });
 }
 
 // Fonts
