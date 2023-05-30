@@ -1,5 +1,13 @@
 # Photoblog Changelog
 
+## [1.4.3](https://github.com/cebreus/photoblog-israel-2022/compare/1.4.1...1.4.3) (2023-05-30)
+
+*   accessibility ([ab8f265](https://github.com/cebreus/photoblog-israel-2022/commit/ab8f2650aa0ff5ad10a20b03b0f8292aa82aeed5))
+*   icon and webmanifest placement ([7ffbdb2](https://github.com/cebreus/photoblog-israel-2022/commit/7ffbdb211b954e91083cef0e301f36ec37693581))
+*   missing font files ([7a3a52e](https://github.com/cebreus/photoblog-israel-2022/commit/7a3a52eb5de46e0d42f4ea6db8933c2c4ed7423e))
+*   netlify deployment ([f205fac](https://github.com/cebreus/photoblog-israel-2022/commit/f205faca89eaf54340cf8f9370a0b77e84255c31))
+*   npm upgrade in build tasks ([d48e039](https://github.com/cebreus/photoblog-israel-2022/commit/d48e039ac7ac1a113df604a1e7c2ac270ca49d98))
+
 ## [1.4.2](https://github.com/cebreus/photoblog-israel-2022/compare/1.4.0...1.4.2) (2023-05-30)
 
 > Allow indexing, accessibility improvements, Netlify deployment fix.
