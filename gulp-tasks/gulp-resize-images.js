@@ -40,8 +40,8 @@ const imageResizePreviewsXl = {
 const imageResizePreviewsXXS = {
   imageMagick: true,
   noProfile: true,
-  width: 335,
-  height: 188,
+  width: 190,
+  height: 107,
   crop: true,
   gravity: 'Center',
   sharpen: '0.5x0.5+0.5+0.008',
@@ -57,7 +57,7 @@ const imageResizePreviewsMapsXl = {
 const imageResizePreviewsMapsXxs = {
   imageMagick: true,
   noProfile: true,
-  width: 321,
+  width: 388,
   sharpen: '0.5x0.5+0.5+0.008',
 };
 
@@ -346,6 +346,7 @@ const maps = (input, output, params = {}) => {
       .pipe(plumber())
       .pipe(gulpif(!rewriteExisting, newer(outputXxs)))
       .pipe(imageResize(imageResizePreviewsMapsXxs))
+      .pipe(upng({}))
       .pipe(gulp.dest(`${outputXxs}`))
       .on('end', () => {
         if (params.verbose) {
@@ -412,6 +413,13 @@ const mapsWebp = (input, output, params = {}) => {
         )
       )
       .pipe(imageResize(imageResizePreviewsMapsXxs))
+      .pipe(
+        cwebp({
+          q: 60,
+          m: 6,
+          mt: true,
+        })
+      )
       .pipe(gulp.dest(`${outputXxs}`))
       .on('end', () => {
         if (params.verbose) {
