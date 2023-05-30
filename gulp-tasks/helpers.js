@@ -1,4 +1,5 @@
 const fs = require('fs');
+const log = require('fancy-log');
 const path = require('path');
 
 /**
@@ -77,8 +78,26 @@ const mkdirr = (dir) => {
   }
 };
 
+/**
+ * Load a plugin dynamically.
+ *
+ * @param {string} plugin - Name of the plugin to load.
+ * @returns {*} - The loaded plugin module.
+ * @throws {Error} - If the plugin fails to load.
+ */
+async function loadPlugin(plugin) {
+  try {
+    const module = await import(plugin);
+    return module.default || module;
+  } catch (error) {
+    log.error(`Failed to load plugin: ${plugin}`);
+    throw error;
+  }
+}
+
 module.exports = {
   groupBy,
+  loadPlugin,
   mkdirr,
   readFilesSync,
   sortByDate,

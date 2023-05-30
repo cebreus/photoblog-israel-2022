@@ -1,14 +1,13 @@
 const cwebp = require('gulp-cwebp');
 const gulp = require('gulp');
 const gulpif = require('gulp-if');
-const imagemin = require('gulp-imagemin');
 const imageResize = require('gulp-image-resize');
 const log = require('fancy-log');
 const mergeStream = require('merge-stream');
-const mozjpeg = require('imagemin-mozjpeg');
 const newer = require('gulp-newer');
 const plumber = require('gulp-plumber');
 const upng = require('gulp-upng');
+const { loadPlugin } = require('./helpers');
 
 /**
  * @description Function for resizing and optimizing JPEG images
@@ -62,7 +61,10 @@ const imageResizePreviewsMapsXxs = {
   sharpen: '0.5x0.5+0.5+0.008',
 };
 
-const details = (input, output, params = {}) => {
+const details = async (input, output, params = {}) => {
+  const imagemin = await loadPlugin('gulp-imagemin');
+  const mozjpeg = await loadPlugin('imagemin-mozjpeg');
+
   const rewriteExisting = !!(
     params.rewriteExisting &&
     typeof params.rewriteExisting === 'boolean' &&
@@ -105,7 +107,10 @@ const details = (input, output, params = {}) => {
     });
 };
 
-const previews = (input, output, params = {}) => {
+const previews = async (input, output, params = {}) => {
+  const imagemin = await loadPlugin('gulp-imagemin');
+  const mozjpeg = await loadPlugin('imagemin-mozjpeg');
+
   const rewriteExisting = !!(
     params.rewriteExisting &&
     typeof params.rewriteExisting === 'boolean' &&
@@ -182,7 +187,10 @@ const previewsWebp = (input, output, params = {}) => {
     });
 };
 
-const previewsXl = (input, output, params = {}) => {
+const previewsXl = async (input, output, params = {}) => {
+  const imagemin = await loadPlugin('gulp-imagemin');
+  const mozjpeg = await loadPlugin('imagemin-mozjpeg');
+
   const rewriteExisting = !!(
     params.rewriteExisting &&
     typeof params.rewriteExisting === 'boolean' &&
@@ -258,7 +266,10 @@ const previewsXlWebp = (input, output, params = {}) => {
     });
 };
 
-const previewsXXS = (input, output, params = {}) => {
+const previewsXXS = async (input, output, params = {}) => {
+  const imagemin = await loadPlugin('gulp-imagemin');
+  const mozjpeg = await loadPlugin('imagemin-mozjpeg');
+
   if (params.verbose) {
     log(`🔵🔵🔵 Start: ${output}`);
   }
