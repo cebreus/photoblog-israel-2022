@@ -1,11 +1,10 @@
 const gulp = require('gulp');
 const gulpif = require('gulp-if');
-const imagemin = require('gulp-imagemin');
 const log = require('fancy-log');
-const mozjpeg = require('imagemin-mozjpeg');
 const newer = require('gulp-newer');
 const plumber = require('gulp-plumber');
 const upng = require('gulp-upng');
+const { loadPlugin } = require('./helpers');
 
 /**
  * @description Function for optimizing JPEG images
@@ -14,8 +13,9 @@ const upng = require('gulp-upng');
  * @param {boolean} params.rewriteExisting Switcher for rewriting files
  * @returns {*} Optimized JPEG images
  */
-
-const optimizeJpg = (input, output, params = {}) => {
+const optimizeJpg = async (input, output, params = {}) => {
+  const imagemin = await loadPlugin('gulp-imagemin');
+  const mozjpeg = await loadPlugin('imagemin-mozjpeg');
   const rewriteExisting = !!(
     params.rewriteExisting &&
     typeof params.rewriteExisting === 'boolean' &&
@@ -54,7 +54,6 @@ const optimizeJpg = (input, output, params = {}) => {
  * @param {boolean} params.rewriteExisting Switcher for rewriting files
  * @returns {*} Optimized PNG images
  */
-
 const optimizePng = (input, output, params = {}) => {
   const rewriteExisting = !!(
     params.rewriteExisting &&
@@ -87,8 +86,10 @@ const optimizePng = (input, output, params = {}) => {
  * @param {boolean} params.rewriteExisting Switcher for rewriting files
  * @returns {*} Optimized SVG images
  */
+const optimizeSvg = async (input, output, params = {}) => {
+  const imagemin = await loadPlugin('gulp-imagemin');
+  const svgo = await loadPlugin('imagemin-svgo');
 
-const optimizeSvg = (input, output, params = {}) => {
   const rewriteExisting = !!(
     params.rewriteExisting &&
     typeof params.rewriteExisting === 'boolean' &&
@@ -104,7 +105,7 @@ const optimizeSvg = (input, output, params = {}) => {
     .pipe(gulpif(!rewriteExisting, newer(output)))
     .pipe(
       imagemin([
-        imagemin.svgo({
+        svgo({
           plugins: [
             {
               removeViewBox: false,
