@@ -14,7 +14,7 @@ entity_status:
 seo:
   title: Izrael 2022
   description: Fotografické střípky z výletu do Izraele a Jordánska.
-  robots: noindex,follow
+  robots: index,follow
   canonical: '/'
 open_graph:
   use: true
