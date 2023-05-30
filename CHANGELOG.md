@@ -1,5 +1,9 @@
 # Photoblog Changelog
 
+## [1.4.1](https://github.com/cebreus/photoblog-israel-2022/compare/1.4.0...1.4.1) (2023-05-30)
+
+> Security updates.
+
 ## [1.4.0](https://github.com/cebreus/photoblog-israel-2022/compare/1.3.1...1.4.0) (2022-11-21)
 
 *   4 images in gallery on wide (XXL) screens ([b8e528a](https://github.com/cebreus/photoblog-israel-2022/commit/b8e528ac7329cca20e95135344a063fe3fcd636f))
