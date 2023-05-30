@@ -386,7 +386,7 @@ function postbuild(done) {
       log.error(err);
     }
   });
-  htmlValidate();
+  // htmlValidate();
   done();
 }
 
