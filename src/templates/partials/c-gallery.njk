@@ -38,12 +38,12 @@
             {% for item in item.maps %}
               <a class="c-map-scroll__item" href="../assets/{{ DATA_DIR }}/maps-details/{{ item.src }}"  data-fancybox="gallery"  data-caption="{{ item.name }}" aria-label="Zobraz vetší obrázek">
                 <picture>
-                  <source media="(min-width: 361px)" type="image/webp" srcset="../assets/{{ DATA_DIR }}/maps-xl-webp/{{ item.src | replace(".png", ".webp")}}">
-                  <source media="(min-width: 361px)" srcset="../assets/{{ DATA_DIR }}/maps-xl/{{ item.src }}">
+                  <source media="(min-width: 576px)" type="image/webp" srcset="../assets/{{ DATA_DIR }}/maps-xl-webp/{{ item.src | replace(".png", ".webp")}}">
+                  <source media="(min-width: 576px)" type="image/png" srcset="../assets/{{ DATA_DIR }}/maps-xl/{{ item.src }}">
 
-                  <source media="(max-width: 360px)" type="image/webp" srcset="../assets/{{ DATA_DIR }}/maps-xxs-webp/{{ item.src | replace(".png", ".webp")}}">
+                  <source media="(max-width: 575px)" type="image/webp" srcset="../assets/{{ DATA_DIR }}/maps-xxs-webp/{{ item.src | replace(".png", ".webp")}}">
 
-                  <img class="c-map-scroll__image" src="../assets/{{ DATA_DIR }}/maps-xxs/{{ item.src }}" width="1296" height="843" alt="{{ item.name }}">
+                  <img class="c-map-scroll__image w-100" src="../assets/{{ DATA_DIR }}/maps-xxs/{{ item.src }}" width="388" height="252" alt="{{ item.name }}">
                 </picture>
               </a>
             {% endfor %}
@@ -101,12 +101,12 @@
         <a class="c-gallery__col {{ icoType | trim }} col" data-fancybox="gallery" data-caption="{{ caption | replace(r/\n/g, '') | replace(r/[\s]+/g, ' ') | trim }}" href="../assets/{{ DATA_DIR }}/details/{{ item.fileName }}" aria-label="Zobraz vetší obrázek">
           <picture class="c-gallery__pic ratio ratio-16x9" {% if item.where | trim  | length > 0 %} data-title="{{ item.where | trim }}"{% endif %}>
             <source media="(min-width: 576px) or (max-width: 1399px)" type="image/webp" srcset="../assets/{{ DATA_DIR }}/previews-xl-webp/{{ item.fileName | replace(".jpg", ".webp")}}">
-            <source media="(min-width: 576px) or (max-width: 1399px)"  srcset="../assets/{{ DATA_DIR }}/previews-xl/{{ item.fileName }}">
+            <source media="(min-width: 576px) or (max-width: 1399px)" type="image/jpeg" srcset="../assets/{{ DATA_DIR }}/previews-xl/{{ item.fileName }}">
 
             <source media="(max-width: 575px) or (min-width: 1400px)" type="image/webp" srcset="../assets/{{ DATA_DIR }}/previews-webp/{{ item.fileName | replace(".jpg", ".webp")}}">
-            <source media="(max-width: 575px) or (min-width: 1400px)"  srcset="../assets/{{ DATA_DIR }}/previews/{{ item.fileName }}">
+            <source media="(max-width: 575px) or (min-width: 1400px)" type="image/jpeg" srcset="../assets/{{ DATA_DIR }}/previews/{{ item.fileName }}">
 
-            <img src="../assets/{{ DATA_DIR }}/previews-xxs/{{ item.fileName }}" width="335" height="188" loading="{% if images.index == 1 and loop.index < 4 %}eager{% else %}lazy{% endif %}" alt="{{ item.where }}">
+            <img src="../assets/{{ DATA_DIR }}/previews-xxs/{{ item.fileName }}" width="190" height="107" loading="{% if images.index == 1 and loop.index < 4 %}eager{% else %}lazy{% endif %}" alt="{{ item.where }}">
           </picture>
         </a>
       {% endif %}
