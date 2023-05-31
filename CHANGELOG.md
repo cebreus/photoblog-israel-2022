@@ -1,5 +1,9 @@
 # Photoblog Changelog
 
+## [1.4.4](https://github.com/cebreus/photoblog-israel-2022/compare/1.4.1...1.4.4) (2023-05-31)
+
+*   preload font files ([64cebb7](https://github.com/cebreus/photoblog-israel-2022/commit/64cebb7cc7ea162e0fb999ead64a989c4c182135))
+
 ## [1.4.3](https://github.com/cebreus/photoblog-israel-2022/compare/1.4.1...1.4.3) (2023-05-30)
 
 *   accessibility ([ab8f265](https://github.com/cebreus/photoblog-israel-2022/commit/ab8f2650aa0ff5ad10a20b03b0f8292aa82aeed5))
