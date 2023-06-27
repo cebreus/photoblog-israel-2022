@@ -42,7 +42,7 @@
                   <source media="(min-width: 576px)" type="image/png" srcset="../assets/{{ DATA_DIR }}/maps-xl/{{ item.src }}">
 
                   <source media="(max-width: 575px)" type="image/webp" srcset="../assets/{{ DATA_DIR }}/maps-xxs-webp/{{ item.src | replace(".png", ".webp")}}">
-                  <img class="c-map-scroll__image w-100" src="../assets/{{ DATA_DIR }}/maps-xxs/{{ item.src }}" width="388" height="252" alt="{{ item.name }}">
+                  <img class="c-map-scroll__image w-100" src="../assets/{{ DATA_DIR }}/maps-xxs/{{ item.src }}" width="388" height="252" alt="{{ item.name }}" loading="{% if loop.index == 1 %}eager{% else %}lazy{% endif %}">
                 </picture>
               </a>
             {% endfor %}
