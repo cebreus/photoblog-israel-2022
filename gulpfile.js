@@ -283,6 +283,15 @@ function fontLoad(done) {
   });
 }
 
+function buildTodo(done) {
+  todoFnc({
+    verbose: showLogs,
+    cb: () => {
+      done();
+    },
+  });
+}
+
 // Watch
 // --------------
 
@@ -354,7 +363,7 @@ gulp.task('images', images);
 
 gulp.task('fonts', fontLoad);
 
-gulp.task('todo', todoFnc);
+gulp.task('todo', buildTodo);
 
 gulp.task(
   'serve',
@@ -374,7 +383,7 @@ gulp.task(
     compileSassUtils,
     processJs,
     buildPages,
-    todoFnc,
+    buildTodo,
     gulp.parallel(watchFiles, hotReload.browserSync)
   )
 );

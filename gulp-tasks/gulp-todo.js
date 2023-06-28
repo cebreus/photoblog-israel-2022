@@ -1,32 +1,58 @@
-const cp = require('child_process');
+const { exec } = require('child_process');
+const fs = require('fs');
 const gulp = require('gulp');
-const gulpClean = require('gulp-clean');
-const gulpif = require('gulp-if');
+const log = require('fancy-log');
 const replace = require('gulp-replace');
+const through2 = require('through2');
 const todo = require('gulp-todo');
 
 /**
- * @description Create list of TODOs and FIXMEs from source code
- * @returns {*} Compiled file
+ * @description A function to generate a TODO.md file
+ * @param {object} params - The function parameters.
+ * @returns {Stream} Compiled file
  */
+const buildTodo = (params = {}) => {
+  let todoExist = false;
 
-const buildTodo = () => {
-  // generate a todo.md from your javascript files
+  const filePath = './TODO.md';
+
+  if (fs.existsSync(filePath)) {
+    fs.unlinkSync(filePath);
+    log('         Existing TODO.md file deleted.');
+  }
+
   return gulp
-    .src(['*.js', '!(node_modules)**/*.js'])
+    .src(['**/*.{js,css,scss,md}', '!node_modules/**'])
     .pipe(todo())
-    .pipe(replace('### ', '## '))
+    .pipe(replace('### ', '# '))
     .pipe(
-      gulpif(
-        (file) => {
-          return file.todos && Boolean(file.todos.length);
-        },
-        gulp.dest('./'),
-        gulpClean()
-      )
+      through2.obj(function processFile(file, _, cb) {
+        if (file.todos?.length) {
+          todoExist = true;
+          this.push(file);
+        }
+        cb();
+      })
     )
-    .on('finish', () => {
-      return cp.exec('npx remark-cli -q ./TODO.md -o -- && git add ./TODO.md');
+    .pipe(gulp.dest('./'))
+    .on('end', async () => {
+      if (!todoExist) {
+        log('         No TODOs found.');
+        params.cb?.();
+        return;
+      }
+
+      try {
+        await exec(
+          `npx remark-cli -q ${filePath} -o -- && git add ${filePath}`
+        );
+        if (params.verbose) {
+          log('         ToDos created.');
+        }
+      } catch (error) {
+        console.error(`exec error: ${error}`);
+      }
+      params.cb?.();
     });
 };
 
