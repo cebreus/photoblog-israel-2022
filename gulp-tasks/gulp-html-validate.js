@@ -1,21 +1,35 @@
 const gulp = require('gulp');
+const log = require('fancy-log');
 const validate = require('gulp-html-validate');
 
-const htmlValidate = (input) => {
-  return (
-    gulp
-      .src(input)
+/**
+ * @function htmlValidate
+ * @description Validates HTML files with `html-validate` and logs the results.
+ * @param {string} input Path to the HTML files to be validated.
+ * @param {object} [params={}] An optional parameters object.
+ * @param {boolean} [params.verbose=false] If true, logs additional information.
+ * @param {function} [params.cb=null] An optional callback function to be called when validation is done.
+ * @returns {stream.Transform} A gulp stream which can be piped to other functions or tasks.
+ */
 
-      // Aaply the `html-validate` report to each file object, so these
-      // can be used by other modules.
-      .pipe(validate())
+const htmlValidate = (input, params = {}) => {
+  const cb = params.cb || (() => {});
 
-      // Output `html-validate` results to the console.
-      .pipe(validate.format())
+  if (typeof cb !== 'function') {
+    throw new Error('Callback in params should be of type function.');
+  }
 
-      // Make gulp to exit with an error code if any error(s) occurred.
-      .pipe(validate.failAfterError())
-  );
+  return gulp
+    .src(input)
+    .pipe(validate())
+    .pipe(validate.format())
+    .pipe(validate.failAfterError())
+    .on('end', () => {
+      if (params.verbose) {
+        log(`         HTML validation in ${input}`);
+      }
+      cb();
+    });
 };
 
 module.exports = htmlValidate;
