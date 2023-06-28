@@ -108,7 +108,7 @@ const saveFilteredData = async (metadata, outputDir, params = {}) => {
         return log(err);
       }
       if (params.verbose) {
-        log(`   🟤 File ${outputJson} is written`);
+        log(`   🟤 Written file '${outputJson}'`);
       }
       return params.cb();
     });
@@ -195,7 +195,7 @@ const mergeFilteredDataAndSave = async (inputDir, outputFile, params = {}) => {
       return log.error(err);
     }
     if (params.verbose) {
-      log(`   🟩 File ${outputFile} is written\n\n`);
+      log(`   🟩 Written file '${outputFile}'\n\n`);
     }
     return params.cb();
   });

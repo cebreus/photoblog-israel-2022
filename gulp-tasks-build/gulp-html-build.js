@@ -11,6 +11,7 @@ const nunjucksRender = require('gulp-nunjucks-render');
 const plumber = require('gulp-plumber');
 const rename = require('gulp-rename');
 const replace = require('gulp-replace');
+const { loadEnvVariables, readJson } = require('../gulp-tasks/helpers');
 require('dotenv').config();
 
 /**
@@ -26,14 +27,32 @@ require('dotenv').config();
  */
 
 const buildHtml = (params) => {
-  // eslint-disable-next-line global-require, import/no-dynamic-require
-  const localeSettings = require(`.${params.siteConfig}`);
-  const renameCondition = !!params.rename;
+  const localeSettings = readJson(`${params.siteConfig}`);
   dateFilter.setLocale(localeSettings.meta.lang);
+  const cb = params.cb || (() => {});
+  const envVariables = loadEnvVariables([
+    'DATA_DIR',
+    'BASE_URL',
+    'SITE_TITLE',
+    'APP_NAME',
+    'APP_SHORT_NAME',
+    'APP_DESCRIPTION',
+    'DEVELOPER_NAME',
+    'DEVELOPER_URL',
+    'BACKGROUND',
+    'THEME_COLOR',
+  ]);
+  const renameCondition = !!params.rename;
   let currentFile = '';
+  let dataSourceFile = {};
   let existsJson = false;
   let findJson = true;
   let oldDataSource = '';
+  let oldSourceFile = '';
+
+  if (typeof cb !== 'function') {
+    throw new Error('Callback in params should be of type function.');
+  }
 
   if (params.dataSource.includes('.json')) {
     if (typeof params.dataSource !== 'object') {
@@ -46,7 +65,7 @@ const buildHtml = (params) => {
         existsJson = true;
         findJson = false;
       } catch (error) {
-        log(`buildHtml(): JSON file ${element} doesn't exists.`);
+        log.error(`buildHtml(): JSON file ${element} doesn't exists.`);
         existsJson = false;
         findJson = false;
       }
@@ -84,95 +103,56 @@ const buildHtml = (params) => {
           }
         })
       )
-      // Add access to site configuration
       .pipe(
         data(() => {
-          let file = params.siteConfig;
-          file = {
+          const siteFile = {
             SITE: {
-              ...JSON.parse(fs.readFileSync(file)),
+              ...JSON.parse(fs.readFileSync(params.siteConfig)),
             },
           };
-          return file;
-        })
-      )
-      // Add access to all images data
-      .pipe(
-        data(() => {
-          let file = params.dataSourceImages;
-          file = {
+          const imagesFile = {
             IMAGES: {
               ...JSON.parse(
-                fs.readFileSync(file, {
-                  encoding: 'utf8',
-                })
+                fs.readFileSync(params.dataSourceImages, { encoding: 'utf8' })
               ),
             },
           };
-          return file;
-        })
-      )
-      // Add access to best of images data
-      .pipe(
-        data(() => {
-          let file = params.dataSourceImagesBestOf;
-          file = {
+          const bestOfFile = {
             BESTOF: {
               ...JSON.parse(
-                fs.readFileSync(file, {
+                fs.readFileSync(params.dataSourceImagesBestOf, {
                   encoding: 'utf8',
                 })
               ),
             },
           };
-          return file;
-        })
-      )
-      .pipe(
-        gulpif(
-          existsJson,
-          data(() => {
-            let file;
+          if (existsJson) {
             params.dataSource.forEach((element) => {
-              file = {
-                ...file,
+              dataSourceFile = {
+                ...dataSourceFile,
                 ...JSON.parse(fs.readFileSync(element)),
               };
             });
-            return file;
-          })
-        )
-      )
-      .pipe(
-        gulpif(
-          findJson,
-          data(() => {
-            if (currentFile.dirname !== '.') {
-              const file = JSON.parse(
-                fs.readFileSync(
-                  `${process.cwd()}/${params.dataSource}/${oldDataSource}.json`
-                )
-              );
-              return file;
-            }
-            return '';
-          })
-        )
+          }
+          if (findJson && currentFile.dirname !== '.') {
+            oldSourceFile = JSON.parse(
+              fs.readFileSync(
+                `${process.cwd()}/${params.dataSource}/${oldDataSource}.json`
+              )
+            );
+          }
+          return {
+            ...siteFile,
+            ...imagesFile,
+            ...bestOfFile,
+            ...dataSourceFile,
+            ...oldSourceFile,
+          };
+        })
       )
       .pipe(
         nunjucksRender({
-          data: {
-            DATA_DIR: process.env.DATA_DIR,
-            BASE_URL: process.env.BASE_URL,
-            SITE_TITLE: process.env.SITE_TITLE,
-            APP_NAME: process.env.APP_NAME,
-            APP_SHORT_NAME: process.env.APP_SHORT_NAME,
-            APP_DESCRIPTION: process.env.APP_DESCRIPTION,
-            DEVELOPER_NAME: process.env.DEVELOPER_NAME,
-            DEVELOPER_URL: process.env.DEVELOPER_URL,
-            BACKGROUND: process.env.BACKGROUND,
-            THEME_COLOR: process.env.THEME_COLOR,
-          },
+          data: envVariables,
           path: params.processPaths,
           manageEnv: (enviroment) => {
             enviroment.addFilter('date', dateFilter);
@@ -247,7 +227,10 @@ const buildHtml = (params) => {
       )
       .pipe(gulp.dest(params.output))
       .on('end', () => {
-        params.cb();
+        if (params.verbose) {
+          log('         HTML files are builded.');
+        }
+        cb();
       })
   );
 };

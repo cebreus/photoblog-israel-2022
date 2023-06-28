@@ -10,7 +10,7 @@
     "build:video": "node -e 'require(\"./gulp-tasks/gulp-optimize-videos.js\").execute()'",
     "dev": "node ./node_modules/gulp/bin/gulp.js -f gulpfile.js default",
     "deploy-ftp": "node ./node_modules/gulp/bin/gulp.js -f gulpfile.build.js deployFtp",
-    "format": "npx prettier --write **/*.{css,scss,md,js,jsx,ts,tsx,json} && npm run js:fix && npm run css:fix && npm run text:fix",
+    "format": "npx prettier **/*.{css,scss,md,js,json} --write --list-different && npm run js:fix && npm run css:fix && npm run text:fix",
     "css:lint": "npx stylelint **/*.scss",
     "css:fix": "npx stylelint --fix **/*.scss",
     "js:lint": "npx eslint '**/*.js'",
@@ -137,8 +137,8 @@
     "node": ">=16"
   },
   "lint-staged": {
-    "*.{css,scss,md,js,jsx,ts,tsx,json}": [
-      "prettier --write"
+    "*.{css,scss,md,js,json}": [
+      "prettier --write --list-different"
     ],
     "*.js": [
       "eslint --fix"

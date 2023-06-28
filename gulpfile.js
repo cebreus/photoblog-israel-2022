@@ -24,8 +24,13 @@ const showLogs = 'brief';
 // Gulp functions
 // --------------
 
-function cleanFolders() {
-  return cleanFnc(config.buildBase);
+function cleanFolders(done) {
+  return cleanFnc(config.buildBase, {
+    verbose: showLogs,
+    cb: () => {
+      done();
+    },
+  });
 }
 
 function copyStatic(done) {
@@ -38,6 +43,7 @@ function copyStatic(done) {
     config.staticBase,
     config.buildBase,
     {
+      verbose: showLogs,
       cb: () => {
         done();
       },
@@ -362,8 +368,6 @@ gulp.task(
 gulp.task('images', images);
 
 gulp.task('fonts', fontLoad);
-
-gulp.task('todo', buildTodo);
 
 gulp.task(
   'serve',

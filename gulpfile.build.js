@@ -30,8 +30,13 @@ const showLogs = false;
 // Gulp functions
 // --------------
 
-function cleanFolders() {
-  return cleanFnc([config.tempBase, config.buildBase]);
+function cleanFolders(done) {
+  return cleanFnc([config.tempBase, config.buildBase], {
+    verbose: showLogs,
+    cb: () => {
+      done();
+    },
+  });
 }
 
 function copyStatic(done) {
@@ -41,9 +46,10 @@ function copyStatic(done) {
       `${config.staticBase}/**/*`,
       `${config.staticBase}/.*/*`,
     ],
-    './static',
+    config.staticBase,
     config.buildBase,
     {
+      verbose: showLogs,
       cb: () => {
         done();
       },
@@ -52,11 +58,14 @@ function copyStatic(done) {
 }
 
 function htmlValidate() {
-  return htmlValidateFnc(`${config.buildBase}/**/*.html`);
+  return htmlValidateFnc(`${config.buildBase}/**/*.html`, {
+    verbose: showLogs,
+  });
 }
 
 function deployFtp(done) {
   return deployFtpFnc(`${config.buildBase}/**`, `${config.buildBase}/`, '.', {
+    verbose: showLogs,
     cb: () => {
       done();
     },
@@ -72,6 +81,7 @@ function compileSassAll(done) {
     'index.min.css',
     config.postcssPluginsBase,
     {
+      verbose: showLogs,
       cb: () => {
         done();
       },
@@ -85,6 +95,7 @@ function purgecss(done) {
     [`${config.buildBase}/**/*.html`],
     config.buildBase,
     {
+      verbose: showLogs,
       cb: () => {
         done();
       },
@@ -98,6 +109,7 @@ function processJs(done) {
   const params = {
     concatFiles: true,
     outputConcatPrefixFileName: 'app',
+    verbose: showLogs,
     cb: () => {
       done();
     },
@@ -210,6 +222,7 @@ function buildPages(done) {
     injectJs: config.injectJs,
     injectCss: config.injectCss,
     injectIgnorePath: config.buildBase.replace('./', ''),
+    verbose: showLogs,
     cb: () => {
       done();
     },
@@ -345,6 +358,7 @@ function fontLoad(done) {
         `${config.tempBase}/assets/font`,
         `${config.buildBase}/assets/font`,
         {
+          verbose: showLogs,
           cb: () => {
             done();
           },
@@ -356,6 +370,7 @@ function fontLoad(done) {
 
 function replaceHash(done) {
   return replaceHashFnc(`${config.buildBase}/**/*.html`, config.buildBase, {
+    verbose: showLogs,
     cb: () => {
       done();
     },
@@ -372,6 +387,7 @@ function revision(done) {
     outputRevision: config.buildBase,
     outputRewrite: config.buildBase,
     ouputManifest: `${config.tempBase}/revision`,
+    verbose: showLogs,
     cb: () => {
       done();
     },
