@@ -48,6 +48,7 @@ img:not([src$='.svg']) {
   background-color: var(--body-color);
 
   .btn-link {
+    font-weight: $font-weight-semibold;
     text-decoration: none;
     color: rgb(255 255 255 / 55%);
 
@@ -80,7 +81,7 @@ article + section {
 
 .t-day-heading-small {
   display: block;
-  font-weight: 400;
+  font-weight: $font-weight-normal;
   font-size: 0.4em;
   letter-spacing: 0.05em;
   text-transform: uppercase;
