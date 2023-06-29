@@ -2,16 +2,6 @@
 
 // stylelint-disable-next-line selector-no-qualifying-type
 html[lang='cs'] {
-  @mixin font-family-overrides {
-    ascent-override: 108%; // Segoe UI
-    descent-override: 25%; // Segoe UI
-    // line-gap-override: 0%
-    // ascent-override: 95%; // Roboto
-    // descent-override: 25%; // Roboto
-    // ascent-override: 110%; // Arial
-    // descent-override: 31%; // Arial
-  }
-
   @font-face {
     font-style: normal;
     font-weight: 900;
@@ -20,8 +10,16 @@ html[lang='cs'] {
 
     // prettier-ignore
     src: url('/assets/fonts/font-black-cs.woff2') format('woff2'), url('/assets/fonts/font-black-cs.woff') format('woff');
+  }
 
-    @include font-family-overrides();
+  @font-face {
+    font-style: normal;
+    font-weight: 900;
+    font-family: MyFont-fallback;
+    ascent-override: 100%;
+    line-gap-override: normal;
+    size-adjust: 98%;
+    src: local('Arial Bold'), local('Arial');
   }
 
   // @font-face {
@@ -31,8 +29,6 @@ html[lang='cs'] {
   //   // prettier-ignore
   //   src: url('/assets/fonts/font-bold-cs.woff2') format('woff2'), url('/assets/fonts/font-bold-cs.woff') format('woff');
   //   font-display: swap;
-
-  //   @include font-family-overrides;
   // }
 
   @font-face {
@@ -43,8 +39,16 @@ html[lang='cs'] {
 
     // prettier-ignore
     src: url('/assets/fonts/font-semibold-cs.woff2') format('woff2'), url('/assets/fonts/font-semibold-cs.woff') format('woff');
+  }
 
-    @include font-family-overrides();
+  @font-face {
+    font-style: normal;
+    font-weight: 600;
+    font-family: MyFont-fallback;
+    ascent-override: 96%;
+    line-gap-override: normal;
+    size-adjust: 98%;
+    src: local('Arial');
   }
 
   // @font-face {
@@ -54,8 +58,6 @@ html[lang='cs'] {
   //   // prettier-ignore
   //   src: url('/assets/fonts/font-semibold-cs.woff2') format('woff2'), url('/assets/fonts/font-semibold-cs.woff') format('woff');
   //   font-display: swap;
-
-  //   @include font-family-overrides;
   // }
 
   @font-face {
@@ -66,7 +68,15 @@ html[lang='cs'] {
 
     // prettier-ignore
     src: url('/assets/fonts/font-regular-cs.woff2') format('woff2'), url('/assets/fonts/font-regular-cs.woff') format('woff');
+  }
 
-    @include font-family-overrides();
+  @font-face {
+    font-style: normal;
+    font-weight: 400;
+    font-family: MyFont-fallback;
+    ascent-override: 94%;
+    line-gap-override: normal;
+    size-adjust: 98%;
+    src: local('Arial');
   }
 }
