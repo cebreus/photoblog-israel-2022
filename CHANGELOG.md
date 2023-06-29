@@ -1,5 +1,10 @@
 # Photoblog Changelog
 
+## [1.5.0](https://github.com/cebreus/photoblog-israel-2022/compare/1.4.4...1.5.0) (2023-06-29)
+
+*   improved logging, error handling ([ebb68bc](https://github.com/cebreus/photoblog-israel-2022/commit/ebb68bc170a702d994d8b66255c57f2de71e0bc0))
+*   lazyload for '.c-map-scroll\_\_image' ([f125c8c](https://github.com/cebreus/photoblog-israel-2022/commit/f125c8c18e1682a4017cae970ee1bc570b1825af))
+
 ## [1.4.4](https://github.com/cebreus/photoblog-israel-2022/compare/1.4.1...1.4.4) (2023-05-31)
 
 *   preload font files ([64cebb7](https://github.com/cebreus/photoblog-israel-2022/commit/64cebb7cc7ea162e0fb999ead64a989c4c182135))
