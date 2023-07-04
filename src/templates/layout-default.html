@@ -17,7 +17,15 @@
     <meta charset="{{ SITE.meta.charset }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    {% include "./partials/meta-seo.njk" %}
+    {% if (seo.title is defined and seo.title | length > 0) 
+      or(title is defined and title | length > 0) %}
+      <title>{{ (seo.title or title) | striptags | trim }}</title>
+    {% elseif SITE.seo.title is defined and SITE.seo.title | length > 0 %}
+      <title>{{ (SITE.seo.title ) | striptags | trim }}</title>
+    {% endif %}
+
+    <!-- inject:css -->
+    <!-- endinject -->
 
     {% if SITE.meta.lang == 'cs' %}
       <link rel="preload" href="{{ BASE_URL }}/assets/fonts/font-black-cs.woff2" as="font" type="font/woff2" crossorigin="">
@@ -29,12 +37,11 @@
       <link rel="preload" href="{{ BASE_URL }}/assets/fonts/font-semibold-en.woff2" as="font" type="font/woff2" crossorigin="">
     {% endif %}
 
+    {% include "./partials/meta-seo.njk" %}
     {% include "./partials/meta-open-graph.njk" %}
     {% include "./partials/meta-twitter-cards.njk" %}
     {% include "./partials/favicons.njk" %}
 
-    <!-- inject:css -->
-    <!-- endinject -->
   </head>
   <body data-version="1.5.0" data-template="{{ pageData.template }}"  data-bs-spy="scroll" data-bs-target="#navbar-offcanvas">
 
