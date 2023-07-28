@@ -1,5 +1,12 @@
 # Photoblog Changelog
 
+## [1.6.0](https://github.com/cebreus/photoblog-israel-2022/compare/1.5.0...1.6.0) (2023-07-28)
+
+*   f-mods ([0054e9f](https://github.com/cebreus/photoblog-israel-2022/commit/0054e9f00102ae89d025d960f0e7cf8d63804bfe))
+*   font weight and load optimisation ([1206577](https://github.com/cebreus/photoblog-israel-2022/commit/1206577508797f2a1289c5f11a24cb1a2fa91321))
+*   image loading logic ([8ac72f4](https://github.com/cebreus/photoblog-israel-2022/commit/8ac72f4d8523f52cefdef66fd46fc56e04343169))
+*   optimise head tag order ([8844a51](https://github.com/cebreus/photoblog-israel-2022/commit/8844a51e0a7b92b724bbad1bce7ef3e011e61f86))
+
 ## [1.5.0](https://github.com/cebreus/photoblog-israel-2022/compare/1.4.4...1.5.0) (2023-06-29)
 
 *   improved logging, error handling ([ebb68bc](https://github.com/cebreus/photoblog-israel-2022/commit/ebb68bc170a702d994d8b66255c57f2de71e0bc0))
