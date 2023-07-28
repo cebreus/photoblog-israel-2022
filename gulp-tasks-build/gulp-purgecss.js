@@ -37,6 +37,7 @@ const purgeCss = (inputCss, inputHtml, outputCss, params = {}) => {
             'open',
             'scroll',
             'show',
+            'loaded',
           ],
         },
         // rejected: true,

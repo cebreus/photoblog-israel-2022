@@ -203,3 +203,39 @@ body:has(.title-switch__input:checked) .ratio[data-title]::after {
 //   transform: translateZ(-400px) scale(2.33333333);
 //   z-index: 3;
 // }
+
+// blured images as backgound
+
+.blurred-img {
+  display: block;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.blurred-img picture::after {
+  opacity: 0;
+  animation: pulse 2.5s infinite;
+}
+
+.blurred-img.loaded picture::after {
+  animation: none;
+}
+
+.blurred-img img {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.blurred-img.loaded img {
+  opacity: 1;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.2;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
