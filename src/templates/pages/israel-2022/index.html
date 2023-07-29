@@ -13,6 +13,7 @@
     {% include './partials/c-article.njk' %}
 
     {% for key, item in IMAGES %}
+      {% set main_loop_number = loop.index %}
       {% set images = loop %}
       <section id="day-{{ key }}">
         {% include './partials/c-day-content.njk' %}
