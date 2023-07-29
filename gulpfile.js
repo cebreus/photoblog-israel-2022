@@ -59,7 +59,9 @@ function compileSassCore(done) {
     config.sassBuild,
     'bootstrap.css',
     config.postcssPluginsBase,
+
     {
+      verbose: showLogs,
       cb: () => {
         done();
       },
@@ -74,6 +76,7 @@ function compileSassCustom(done) {
     'custom.css',
     config.postcssPluginsBase,
     {
+      verbose: showLogs,
       cb: () => {
         done();
       },
@@ -88,6 +91,7 @@ function compileSassUtils(done) {
     'utils.css',
     config.postcssPluginsBase,
     {
+      verbose: showLogs,
       cb: () => {
         done();
       },
@@ -101,6 +105,7 @@ function processJs(done) {
   const params = {
     concatFiles: false,
     outputConcatPrefixFileName: 'app',
+    verbose: showLogs,
     cb: () => {
       done();
     },
@@ -280,13 +285,30 @@ function images(done) {
 // Fonts
 
 function fontLoad(done) {
-  fontLoadFnc(config.fontloadFile, config.tempBase, {
-    config: config.fontLoadConfig,
-    verbose: showLogs,
-    cb: () => {
-      done();
+  return fontLoadFnc(
+    config.fontloadFile,
+    config.tempBase,
+    {
+      config: config.fontLoadConfig,
+      verbose: showLogs,
+      cb: () => {
+        done();
+      },
     },
-  });
+    () => {
+      copyStaticFnc(
+        `${config.tempBase}/assets/font/**/*`,
+        `${config.tempBase}/assets/font`,
+        `${config.buildBase}/assets/font`,
+        {
+          verbose: showLogs,
+          cb: () => {
+            done();
+          },
+        }
+      );
+    }
+  );
 }
 
 function buildTodo(done) {
