@@ -245,7 +245,7 @@ function images(done) {
   imagesOptimizeFnc.optimizePng(config.imagesPng, config.gfxBuild, params);
   imagesOptimizeFnc.optimizeSvg(config.imagesSvg, config.gfxBuild, params);
   imagesResize.details(
-    `${config.contentBase}/${process.env.DATA_DIR}*.jpg`,
+    `${config.contentBase}/${process.env.DATA_DIR}/*.jpg`,
     `${config.staticBase}/assets/${process.env.DATA_DIR}/details`,
     params
   );
