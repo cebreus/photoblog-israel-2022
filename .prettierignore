@@ -21,6 +21,7 @@ temp
 *.html
 *.min.*
 _variables.scss
+_variables-dark.scss
 package-lock.json
 u-debugger.scss
 u-show-grid.scss

@@ -20,5 +20,6 @@ temp
 
 *.min.*
 _variables.scss
+_variables-dark.scss
 u-debugger.scss
 u-show-grid.scss
