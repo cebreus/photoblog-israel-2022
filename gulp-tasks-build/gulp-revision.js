@@ -46,7 +46,7 @@ const revision = async (params) => {
       .on('end', () => {
         if (params.verbose) {
           log(
-            `         Unique asset hashes, updates HTML references, removes old hashes done.`
+            `         Unique asset hashes, updates HTML references, removes old hashes done.`,
           );
         }
         cb();

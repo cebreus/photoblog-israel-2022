@@ -53,7 +53,7 @@ function copyStatic(done) {
       cb: () => {
         done();
       },
-    }
+    },
   );
 }
 
@@ -85,7 +85,7 @@ function compileSassAll(done) {
       cb: () => {
         done();
       },
-    }
+    },
   );
 }
 
@@ -99,7 +99,7 @@ function purgecss(done) {
       cb: () => {
         done();
       },
-    }
+    },
   );
 }
 
@@ -129,7 +129,7 @@ function datasetPrepareSite(done) {
       cb: () => {
         done();
       },
-    }
+    },
   );
 }
 
@@ -142,7 +142,7 @@ function datasetPreparePages(done) {
       cb: () => {
         done();
       },
-    }
+    },
   );
 }
 
@@ -155,7 +155,7 @@ function datasetPrepareNotes(done) {
       cb: () => {
         done();
       },
-    }
+    },
   );
 }
 
@@ -187,7 +187,7 @@ function datasetNotesAndImages(done) {
       cb: () => {
         done();
       },
-    }
+    },
   );
 }
 
@@ -202,7 +202,7 @@ function datasetNotesAndImagesBestOf(done) {
       cb: () => {
         done();
       },
-    }
+    },
   );
 }
 
@@ -247,42 +247,42 @@ function images(done) {
   imagesResize.details(
     `${config.contentBase}/${process.env.DATA_DIR}/*.jpg`,
     `${config.staticBase}/assets/${process.env.DATA_DIR}/details`,
-    params
+    params,
   );
   imagesResize.previews(
     `${config.contentBase}/${process.env.DATA_DIR}/*.jpg`,
     `${config.staticBase}/assets/${process.env.DATA_DIR}/previews`,
-    params
+    params,
   );
   imagesResize.previewsWebp(
     `${config.contentBase}/${process.env.DATA_DIR}/*.jpg`,
     `${config.staticBase}/assets/${process.env.DATA_DIR}/previews-webp`,
-    params
+    params,
   );
   imagesResize.previewsXl(
     `${config.contentBase}/${process.env.DATA_DIR}/*.jpg`,
     `${config.staticBase}/assets/${process.env.DATA_DIR}/previews-xl`,
-    params
+    params,
   );
   imagesResize.previewsXlWebp(
     `${config.contentBase}/${process.env.DATA_DIR}/*.jpg`,
     `${config.staticBase}/assets/${process.env.DATA_DIR}/previews-xl-webp`,
-    params
+    params,
   );
   imagesResize.previewsXXS(
     `${config.contentBase}/${process.env.DATA_DIR}/*.jpg`,
     `${config.staticBase}/assets/${process.env.DATA_DIR}/previews-xxs`,
-    params
+    params,
   );
   imagesResize.maps(
     `${config.contentBase}/maps/*.png`,
     `${config.staticBase}/assets/${process.env.DATA_DIR}`,
-    params
+    params,
   );
   imagesResize.mapsWebp(
     `${config.contentBase}/maps/*.png`,
     `${config.staticBase}/assets/${process.env.DATA_DIR}`,
-    params
+    params,
   );
   done();
 }
@@ -301,7 +301,7 @@ function favicons(done) {
         `${config.buildBase}/favicon.ico`,
         (err) => {
           if (err) throw err;
-        }
+        },
       );
 
       // Move `favicons.njk` and edit file content
@@ -331,9 +331,9 @@ function favicons(done) {
                   log.error(err3);
                 }
               }
-            }
+            },
           );
-        }
+        },
       );
     },
   });
@@ -362,9 +362,9 @@ function fontLoad(done) {
           cb: () => {
             done();
           },
-        }
+        },
       );
-    }
+    },
   );
 }
 
@@ -417,7 +417,7 @@ gulp.task('dataset', gulp.parallel(datasetPrepareSite, datasetPreparePages));
 
 gulp.task(
   'html',
-  gulp.series(datasetPrepareSite, datasetPreparePages, buildPages)
+  gulp.series(datasetPrepareSite, datasetPreparePages, buildPages),
 );
 
 gulp.task('images', images);
@@ -446,8 +446,8 @@ gulp.task(
     purgecss,
     revision,
     replaceHash,
-    postbuild
-  )
+    postbuild,
+  ),
 );
 
 gulp.task('deployFtp', gulp.series('build', deployFtp));

@@ -38,7 +38,7 @@ const buildTodo = (params = {}) => {
           this.push(file);
         }
         callback();
-      })
+      }),
     )
     .pipe(gulp.dest('./'))
     .on('end', async () => {
@@ -50,7 +50,7 @@ const buildTodo = (params = {}) => {
 
       try {
         await exec(
-          `npx remark-cli -q ${filePath} -o -- && git add ${filePath}`
+          `npx remark-cli -q ${filePath} -o -- && git add ${filePath}`,
         );
         if (params.verbose) {
           log('         ToDos created.');

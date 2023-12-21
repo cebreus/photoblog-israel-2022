@@ -6,12 +6,12 @@ Photoblog Israel 2022 is a unique photo blog providing users with an interactive
 
 ## Features
 
-*   **Daily Photo Display**: Each day of the journey is represented by a collection of photos. Users can browse the days and see the images captured each day.
-*   **Related Content**: Along with the photos, the blog provides related content about the places and locations captured in the images. This gives users a deeper understanding and context of their viewing images.
-*   **Interactive Experience**: The blog is designed to be interactive. Users can click on images to view them in larger sizes, read the descriptions, and explore related content.
-*   **Optimized for Performance**: The blog is optimized for performance despite being a photo-heavy website. Images are loaded efficiently to ensure a smooth user experience.
-*   **FTP Deployment**: The project supports FTP deployment, making it easy to publish updates to the blog.
-*   **Netlify Deployment**: The project supports deployment on Netlify, making it easy to publish updates to the blog.
+* **Daily Photo Display**: Each day of the journey is represented by a collection of photos. Users can browse the days and see the images captured each day.
+* **Related Content**: Along with the photos, the blog provides related content about the places and locations captured in the images. This gives users a deeper understanding and context of their viewing images.
+* **Interactive Experience**: The blog is designed to be interactive. Users can click on images to view them in larger sizes, read the descriptions, and explore related content.
+* **Optimized for Performance**: The blog is optimized for performance despite being a photo-heavy website. Images are loaded efficiently to ensure a smooth user experience.
+* **FTP Deployment**: The project supports FTP deployment, making it easy to publish updates to the blog.
+* **Netlify Deployment**: The project supports deployment on Netlify, making it easy to publish updates to the blog.
 
 ## Installation
 
@@ -49,14 +49,14 @@ FTP_PASSWORD=
 
 The project provides several npm scripts for development and building:
 
-*   `pnpm start`: Starts the development server.
-*   `pnpm build`: Builds the project.
-*   `pnpm build:validate:html`: Validates the HTML of the built project.
-*   `pnpm build:video`: Optimizes video files.
-*   `pnpm dev`: Starts the development server.
-*   `pnpm deploy-ftp`: Deploys the project via FTP.
-*   `pnpm format`: Formats the codebase.
-*   `pnpm release`: Creates a new release.
+* `pnpm start`: Starts the development server.
+* `pnpm build`: Builds the project.
+* `pnpm build:validate:html`: Validates the HTML of the built project.
+* `pnpm build:video`: Optimizes video files.
+* `pnpm dev`: Starts the development server.
+* `pnpm deploy-ftp`: Deploys the project via FTP.
+* `pnpm format`: Formats the codebase.
+* `pnpm release`: Creates a new release.
 
 ## Changelog
 
