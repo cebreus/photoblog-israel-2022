@@ -32,8 +32,8 @@ function processBlurredImage(blurredImageDiv, index) {
   blurredImageDiv.dataset.count = index + 1;
   log(
     `[${blurredImageDiv.dataset.count}] 🔽 Start processing: ${getFilename(
-      blurredImageDiv
-    )}`
+      blurredImageDiv,
+    )}`,
   );
 
   const img = blurredImageDiv.querySelector('img');

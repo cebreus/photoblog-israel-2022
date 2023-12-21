@@ -41,7 +41,7 @@ const purgeCss = (inputCss, inputHtml, outputCss, params = {}) => {
           ],
         },
         // rejected: true,
-      })
+      }),
     )
     .pipe(gulp.dest(outputCss))
     .on('end', () => {

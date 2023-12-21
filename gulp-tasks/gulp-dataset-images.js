@@ -16,7 +16,7 @@ const readDirAndFilter = async (inputDir, inputExtMask, params = {}) => {
   if (params.verbose) {
     log('🟢 FCE [1] Get all JPGs');
     log.info(
-      `   🟢 Loaded ${files.length} files '*{.${inputExtMask}}' from '${inputDir}'`
+      `   🟢 Loaded ${files.length} files '*{.${inputExtMask}}' from '${inputDir}'`,
     );
   }
   if (params.verbose && params.verbose !== 'brief') {
@@ -97,10 +97,10 @@ const saveFilteredData = async (metadata, outputDir, params = {}) => {
     const dateHelper = metadata.date;
     const outputJson = `${outputDir}/${dateHelper.substring(
       0,
-      10
+      10,
     )}-${dateHelper.substring(11, 13)}${dateHelper.substring(
       14,
-      16
+      16,
     )}${dateHelper.substring(17, 19)}.json`;
 
     fs.writeFileSync(outputJson, JSON.stringify(metadata), 'utf8', (err) => {
@@ -178,7 +178,7 @@ const mergeFilteredDataAndSave = async (inputDir, outputFile, params = {}) => {
     }
   } else if (params.verbose) {
     log.info(
-      `   🟩 Loaded ${files.length} files '*.${fileExt}' from '${inputDir}'`
+      `   🟩 Loaded ${files.length} files '*.${fileExt}' from '${inputDir}'`,
     );
   }
 
@@ -209,7 +209,7 @@ async function datasetBuildImages(params) {
   const jpegs = await readDirAndFilter(
     params.inputDir,
     params.inputExtMask,
-    params
+    params,
   );
 
   await extractAllData(jpegs, params);
@@ -217,7 +217,7 @@ async function datasetBuildImages(params) {
   const mergeSave = await mergeFilteredDataAndSave(
     params.jsonDir,
     params.outputJson,
-    params
+    params,
   );
 
   return mergeSave;

@@ -38,7 +38,7 @@ const optimizeJpg = async (input, output, params = {}) => {
           quantTable: 3,
           dcScanOpt: 2,
         }),
-      ])
+      ]),
     )
     .pipe(gulp.dest(output))
     .on('end', () => {
@@ -119,7 +119,7 @@ const optimizeSvg = async (input, output, params = {}) => {
             },
           ],
         }),
-      ])
+      ]),
     )
     .pipe(gulp.dest(output))
     .on('end', () => {

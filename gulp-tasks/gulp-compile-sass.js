@@ -26,7 +26,7 @@ const compileSass = (
   output,
   outputConcatFileName,
   postcssPluginsBase,
-  params = {}
+  params = {},
 ) => {
   const cb = params.cb || (() => {});
 

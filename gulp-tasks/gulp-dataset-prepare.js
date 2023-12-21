@@ -68,7 +68,7 @@ function prepareDataset(input, output, params = {}, jsonModifier = undefined) {
           log(`         Written file '${file.path}'`);
         }
         cb();
-      })
+      }),
     )
     .on('end', () => {
       if (params.verbose) {

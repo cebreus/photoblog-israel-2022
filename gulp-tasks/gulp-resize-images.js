@@ -85,7 +85,7 @@ const details = async (input, output, params = {}) => {
         noProfile: true,
         width: 1280,
         // sharpen: '0.5x0.5+0.5+0.008',
-      })
+      }),
     )
     .pipe(
       imagemin([
@@ -96,7 +96,7 @@ const details = async (input, output, params = {}) => {
           tune: 'ms-ssim',
           dct: 'float',
         }),
-      ])
+      ]),
     )
     .pipe(gulp.dest(output))
     .on('end', () => {
@@ -135,7 +135,7 @@ const previews = async (input, output, params = {}) => {
           tune: 'ms-ssim',
           dct: 'float',
         }),
-      ])
+      ]),
     )
     .pipe(gulp.dest(output))
     .on('end', () => {
@@ -166,8 +166,8 @@ const previewsWebp = (input, output, params = {}) => {
         newer({
           dest: output,
           ext: '.webp',
-        })
-      )
+        }),
+      ),
     )
     .pipe(imageResize(imageResizePreviews))
     .pipe(
@@ -175,7 +175,7 @@ const previewsWebp = (input, output, params = {}) => {
         q: 60,
         m: 6,
         mt: true,
-      })
+      }),
     )
     .pipe(gulp.dest(output))
     .on('end', () => {
@@ -215,7 +215,7 @@ const previewsXl = async (input, output, params = {}) => {
           tune: 'ms-ssim',
           dct: 'float',
         }),
-      ])
+      ]),
     )
     .pipe(gulp.dest(output))
     .on('end', () => {
@@ -246,8 +246,8 @@ const previewsXlWebp = (input, output, params = {}) => {
         newer({
           dest: output,
           ext: '.webp',
-        })
-      )
+        }),
+      ),
     )
     .pipe(imageResize(imageResizePreviewsXl))
     .pipe(
@@ -255,7 +255,7 @@ const previewsXlWebp = (input, output, params = {}) => {
         q: 60,
         m: 6,
         mt: true,
-      })
+      }),
     )
     .pipe(gulp.dest(output))
     .on('end', () => {
@@ -287,7 +287,7 @@ const previewsXXS = async (input, output, params = {}) => {
           tune: 'ms-ssim',
           dct: 'float',
         }),
-      ])
+      ]),
     )
     .pipe(gulp.dest(output))
     .on('end', () => {
@@ -353,7 +353,7 @@ const maps = (input, output, params = {}) => {
           log(`    🟠 End: 'MAPS PNG'  ${outputXxs}`);
         }
         params.cb();
-      })
+      }),
   );
 };
 
@@ -381,8 +381,8 @@ const mapsWebp = (input, output, params = {}) => {
           newer({
             dest: outputXl,
             ext: '.webp',
-          })
-        )
+          }),
+        ),
       )
       .pipe(imageResize(imageResizePreviewsMapsXl))
       .pipe(
@@ -390,7 +390,7 @@ const mapsWebp = (input, output, params = {}) => {
           q: 60,
           m: 6,
           mt: true,
-        })
+        }),
       )
       .pipe(gulp.dest(`${outputXl}`))
       .on('end', () => {
@@ -409,8 +409,8 @@ const mapsWebp = (input, output, params = {}) => {
           newer({
             dest: outputXxs,
             ext: '.webp',
-          })
-        )
+          }),
+        ),
       )
       .pipe(imageResize(imageResizePreviewsMapsXxs))
       .pipe(
@@ -418,7 +418,7 @@ const mapsWebp = (input, output, params = {}) => {
           q: 60,
           m: 6,
           mt: true,
-        })
+        }),
       )
       .pipe(gulp.dest(`${outputXxs}`))
       .on('end', () => {
@@ -426,7 +426,7 @@ const mapsWebp = (input, output, params = {}) => {
           log(`  🟠🟠 End: 'MAPS WEBP' ${outputXxs}`);
         }
         params.cb();
-      })
+      }),
   );
 };
 

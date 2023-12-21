@@ -146,6 +146,9 @@ dependencies:
   imagemin-svgo:
     specifier: ^10.0.1
     version: 10.0.1
+  marked:
+    specifier: ^11.1.0
+    version: 11.1.0
   merge-stream:
     specifier: ^2.0.0
     version: 2.0.0
@@ -235,9 +238,6 @@ devDependencies:
   lint-staged:
     specifier: ^14.0.1
     version: 14.0.1
-  marked:
-    specifier: ^11.1.0
-    version: 11.1.0
   prettier:
     specifier: ^3.1.1
     version: 3.1.1
@@ -9365,7 +9365,7 @@ packages:
     resolution: {integrity: sha512-fvKJWAPEafVj1dwGwcPI5mBB/0pvViL6NlCbNDG1HOIRwwAU/jeMoFxfbRLuirO1wRH7m4yPvBqD/O1wyWvayw==}
     engines: {node: '>= 18'}
     hasBin: true
-    dev: true
+    dev: false
 
   /matchdep@2.0.0:
     resolution: {integrity: sha512-LFgVbaHIHMqCRuCZyfCtUOq9/Lnzhi7Z0KFUE2fhD54+JN2jLh3hC02RLkqauJ3U4soU6H1J3tfj/Byk7GoEjA==}

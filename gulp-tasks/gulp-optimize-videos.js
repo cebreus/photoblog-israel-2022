@@ -80,7 +80,7 @@ function getFormattedName(input) {
   const datePart = name.split('_')[1];
   const date = `${datePart.slice(0, 4)}-${datePart.slice(
     4,
-    6
+    6,
   )}-${datePart.slice(6, 8)}`;
   const time = name.split('_')[2].slice(0, 6);
 
@@ -122,7 +122,7 @@ const compileVideo = ({ input, params = {} }, { silent = false }) => {
           log(
             'Percent complete: %s, ETA: %s',
             progress.percentComplete,
-            progress.eta
+            progress.eta,
           );
         }
       })
@@ -147,8 +147,8 @@ const processFiles = (files, mods) => {
       Promise.all(
         currentBatch.map((file) => {
           return compileVideo(file, mods);
-        })
-      )
+        }),
+      ),
     );
   }, Promise.resolve());
 };

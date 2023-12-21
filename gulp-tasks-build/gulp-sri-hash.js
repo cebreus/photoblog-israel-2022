@@ -28,7 +28,7 @@ const sriHash = (input, output, params = {}) => {
         minify({
           collapseWhitespace: true,
           collapseBooleanAttributes: true,
-        })
+        }),
       )
       .pipe(gulp.dest(output))
       .on('end', () => {
