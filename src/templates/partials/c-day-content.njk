@@ -1,10 +1,10 @@
-<div class="container-xl">
+<div data-cy="day-head" class="container-xl">
   <h2 class="text-center pt-5 mb-4">
     <small class="t-day-heading-small">{{ key | date('dddd')}}</small>
     {{ key | date('D. M. YYYY')}}
   </h2>
 
-  <div class="col col-lg-9 col-xl-8 col-xxl-7 mb-3 mx-auto text-center lead">
+  <div data-cy="day-cities" class="col col-lg-9 col-xl-8 col-xxl-7 mb-3 mx-auto text-center lead">
     {% set cities = [] %}
     {% for grouper, item in item | groupby('city') %}
       {% if grouper !== 'undefined' and grouper | length > 0 %}
@@ -18,7 +18,7 @@
     {% endfor %}
   </div>
 
-  <div class="col-sm-10 col-lg-8 col-xxl-7 mx-auto mb-5 text-center">
+  <div data-cy="day-where" class="col-sm-10 col-lg-8 col-xxl-7 mx-auto mb-5 text-center">
     {% set wheres = [] %}
     {% for grouper, item in item | groupby('where') %}
       {% if grouper !== 'undefined' and grouper | length > 0 %}
