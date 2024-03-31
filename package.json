@@ -22,7 +22,7 @@
     "todo": "node ./node_modules/gulp/bin/gulp.js -f gulpfile.js todo",
     "todo:show": "npx leasot -x -r markdown -A '.txt,coffeeParser' './**/*.{js,html,njk,scss,txt,md,yml}' -i './node_modules/**/*'",
     "pre-commit": "npx lint-staged",
-    "prepare": "rm -rf .husky && npx husky install && npx husky set .husky/pre-commit 'npm run pre-commit' && npx husky set .husky/commit-msg 'npx --no-install commitlint --edit'"
+    "prepare": "husky || true"
   },
   "repository": {
     "type": "git",
