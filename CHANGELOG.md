@@ -1,5 +1,7 @@
 # Photoblog Changelog
 
+## [1.8.2](https://github.com/cebreus/photoblog-israel-2022/compare/1.8.1...1.8.2) (2024-03-31)
+
 ## [1.8.1](https://github.com/cebreus/photoblog-israel-2022/compare/1.8.0...1.8.1) (2024-03-31)
 
 * prepare script in package.json ([8159346](https://github.com/cebreus/photoblog-israel-2022/commit/8159346097f069e8fed59bb10a810e7c9b7082ea))
