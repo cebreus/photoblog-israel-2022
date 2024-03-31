@@ -1,5 +1,10 @@
 # Photoblog Changelog
 
+## [1.8.0](https://github.com/cebreus/photoblog-israel-2022/compare/1.7.0...1.8.0) (2024-03-31)
+
+
+* add location objects to dataset and update gallery template ([3d45700](https://github.com/cebreus/photoblog-israel-2022/commit/3d45700eb0d064ebfe502f0fd5b0f7f4d6bdec18))
+
 ## [1.7.0](https://github.com/cebreus/photoblog-israel-2022/compare/1.5.0...1.7.0) (2023-12-21)
 
 * balanced text in headings ([3081514](https://github.com/cebreus/photoblog-israel-2022/commit/30815141f4d7d7e84c1a043a40ab4c4b7abbb4ea))
