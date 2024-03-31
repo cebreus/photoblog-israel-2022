@@ -22,6 +22,12 @@ function ensureCbIsFunction(params) {
   return cb;
 }
 
+function subtractOneSecond(isoDateString) {
+  const date = new Date(isoDateString);
+  date.setSeconds(date.getSeconds() - 1);
+  return date.toISOString();
+}
+
 function modifyPath(path) {
   if (path.dirname === '.' && path.basename === 'index') {
     return {
@@ -86,8 +92,8 @@ const datasetPrepareNotes = (input, output, params = {}) => {
 };
 
 const datasetNotesAndImages = (input, outputFilename, params = {}) => {
-  const files = readFilesSync(input);
   const callback = ensureCbIsFunction(params);
+  const files = readFilesSync(input);
 
   if (params.verbose && params.verbose !== 'brief') {
     log(`         input:          ${input}`);
@@ -95,24 +101,67 @@ const datasetNotesAndImages = (input, outputFilename, params = {}) => {
     log(`         ${files.length} JSON read`);
   }
 
-  let dataset = files
+  const dataset = files
     .filter((file) => file.stat.size > 0)
     .map((file) => JSON.parse(fs.readFileSync(file.filepath, 'utf8')))
     .filter((data) => (params.keywords ? data.keywords : true));
 
   dataset.sort(sortByDate);
-  dataset = groupBy(dataset, 'groupBy');
 
-  fs.writeFile(outputFilename, JSON.stringify(dataset), 'utf8', (err) => {
-    if (err) {
-      return log.error(err);
+  let modifiedDataset = [];
+  let previousWhere = '';
+  let whereCount = 0;
+  let insertPosition = 0;
+  let firstInGroup = null;
+
+  dataset.forEach((item) => {
+    if (item.where && item.where === previousWhere) {
+      whereCount += 1;
+      if (whereCount === 1) {
+        firstInGroup = item;
+      }
+      if (whereCount === 2) {
+        const adjustedDate = subtractOneSecond(firstInGroup.date);
+
+        modifiedDataset.splice(insertPosition, 0, {
+          kind: 'location',
+          where: item.where,
+          date: adjustedDate,
+          groupBy: firstInGroup.groupBy,
+          city: item.city,
+        });
+        if (params.verbose) {
+          log(
+            `Inserted 'location' kind object for '${item.where}' at the start of its group.`,
+          );
+        }
+      }
+    } else {
+      insertPosition = modifiedDataset.length;
+      whereCount = 1;
+      firstInGroup = item;
     }
-    if (params.verbose) {
-      log(`         Written file '${outputFilename}'`);
-    }
-    callback();
-    return null;
+    modifiedDataset.push(item);
+    previousWhere = item.where;
   });
+
+  modifiedDataset = groupBy(modifiedDataset, 'groupBy');
+
+  fs.writeFile(
+    outputFilename,
+    JSON.stringify(modifiedDataset),
+    'utf8',
+    (err) => {
+      if (err) {
+        return log.error(err);
+      }
+      if (params.verbose) {
+        log(`         Written file '${outputFilename}'`);
+      }
+      callback();
+      return null;
+    },
+  );
 };
 
 module.exports = {

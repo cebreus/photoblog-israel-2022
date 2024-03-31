@@ -70,6 +70,17 @@
 <div class="container-xl">
   <div class="c-gallery row row-cols-1 row-cols-xs-2 row-cols-lg-3 row-cols-xxl-4 g-2">
     {% for item in item %}
+      {% if item.kind === 'location' %}
+        <div class="c-gallery__col col ">
+          <div class="c-gallery__pic ratio ratio-16x9  bg-secondary-subtle">
+            <div class="p-4 d-flex align-items-start flex-column">
+            <div class="fs-5">{{ item.city }}</div>
+            {{ item.where }}
+          </div>
+          </div>
+        </div>
+      {% endif %}
+
       {% if item.kind === 'image' %}
 
         {% set date %}
