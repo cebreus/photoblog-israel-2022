@@ -49,6 +49,10 @@ jobs:
         working-directory: bun-svelte-photoblog
         run: bun install
 
+      - name: Lint (Biome)
+        working-directory: bun-svelte-photoblog
+        run: bun run lint:ci
+
       - name: Unit tests (fast)
         working-directory: bun-svelte-photoblog
         run: bun run test:unit:images

@@ -1,10 +1,12 @@
 # Testování generování obrázků a blur assetů (Bun + SvelteKit)
 
 Cíl: spolehlivě otestovat CLI generátor [generate-images.ts](bun-svelte-photoblog/scripts/generate-images.ts:1) včetně:
+
 - hlavních přepínačů (variants, formats, quality, manifest, concurrency, watch, clean, gif mód)
-- nové skupiny blur.* přepínačů (parita s [gen-blured-images.sh](gen-blured-images.sh:1)), včetně kombinací formátů a parametrů
+- nové skupiny blur.\* přepínačů (parita s [gen-blured-images.sh](gen-blured-images.sh:1)), včetně kombinací formátů a parametrů
 
 Testy jsou navrženy pro běh na runtime Bun a v prostředí SvelteKit v balíčku `bun-svelte-photoblog`. Testovací strategie zahrnuje:
+
 - jednotkové testy (parsování, výchozí hodnoty, normalizace cest, kvality)
 - integrační testy CLI s kurátorovanou sadou fixtur (generovaných za běhu)
 - end‑to‑end testy kompletní sady (manifest + blur výstupy)
@@ -74,6 +76,7 @@ Pro minimalizaci flakiness:
 Vytvořte konfig v kořeni subbalíčku:
 
 [vitest.config.images.ts](bun-svelte-photoblog/vitest.config.images.ts:1)
+
 ```ts
 import { defineConfig } from 'vitest/config';
 import path from 'node:path';
@@ -110,6 +113,7 @@ export default defineConfig({
 Rozšířte skripty:
 
 [bun-svelte-photoblog/package.json](bun-svelte-photoblog/package.json:6)
+
 ```json
 {
   "scripts": {
@@ -125,7 +129,9 @@ Rozšířte skripty:
 ## Pomocné utility
 
 ### FS helpers
+
 [fsHelpers.listTree()](bun-svelte-photoblog/tests/utils/fs-helpers.ts:1)
+
 ```ts
 import fs from 'node:fs';
 import path from 'node:path';
@@ -142,12 +148,14 @@ export async function listTree(root: string): Promise<string[]> {
   }
   walk(root);
   out.sort((a, b) => a.localeCompare(b));
-  return out.map(p => p.replaceAll(path.sep, '/'));
+  return out.map((p) => p.replaceAll(path.sep, '/'));
 }
 ```
 
 ### Image assert a pixelmatch
+
 [imageAssert.compareImagesWithTolerance()](bun-svelte-photoblog/tests/utils/image-assert.ts:1)
+
 ```ts
 import sharp from 'sharp';
 import pixelmatch from 'pixelmatch';
@@ -158,45 +166,89 @@ export type PixelCompareOptions = {
   maxDiffPixels?: number; // absolutní limit odlišných pixelů
 };
 
-export async function toPngBuffer(inputPath: string, width?: number): Promise<Buffer> {
+export async function toPngBuffer(
+  inputPath: string,
+  width?: number,
+): Promise<Buffer> {
   const img = sharp(inputPath);
   const meta = await img.metadata();
-  const resized = width ? img.resize({ width, fit: 'inside', withoutEnlargement: true }) : img;
+  const resized = width
+    ? img.resize({ width, fit: 'inside', withoutEnlargement: true })
+    : img;
   // Vždy převést do PNG pro pixelmatch
   return await resized.png({ compressionLevel: 9 }).toBuffer();
 }
 
-export async function compareImagesWithTolerance(aPath: string, bPath: string, opts: PixelCompareOptions = {}) {
+export async function compareImagesWithTolerance(
+  aPath: string,
+  bPath: string,
+  opts: PixelCompareOptions = {},
+) {
   const threshold = opts.threshold ?? 0.1;
   const maxDiffPixels = opts.maxDiffPixels ?? 0;
 
-  const [aBuf, bBuf] = await Promise.all([toPngBuffer(aPath), toPngBuffer(bPath)]);
+  const [aBuf, bBuf] = await Promise.all([
+    toPngBuffer(aPath),
+    toPngBuffer(bPath),
+  ]);
   const aPng = PNG.sync.read(aBuf);
   const bPng = PNG.sync.read(bBuf);
 
   if (aPng.width !== bPng.width || aPng.height !== bPng.height) {
-    throw new Error(`Dimension mismatch: ${aPng.width}x${aPng.height} vs ${bPng.width}x${bPng.height}`);
+    throw new Error(
+      `Dimension mismatch: ${aPng.width}x${aPng.height} vs ${bPng.width}x${bPng.height}`,
+    );
   }
 
   const diff = new PNG({ width: aPng.width, height: aPng.height });
-  const diffCount = pixelmatch(aPng.data, bPng.data, diff.data, aPng.width, aPng.height, { threshold });
+  const diffCount = pixelmatch(
+    aPng.data,
+    bPng.data,
+    diff.data,
+    aPng.width,
+    aPng.height,
+    { threshold },
+  );
 
   if (diffCount > maxDiffPixels) {
-    return { ok: false, diffCount, width: aPng.width, height: aPng.height, diffPngBuffer: PNG.sync.write(diff) };
+    return {
+      ok: false,
+      diffCount,
+      width: aPng.width,
+      height: aPng.height,
+      diffPngBuffer: PNG.sync.write(diff),
+    };
   }
   return { ok: true, diffCount, width: aPng.width, height: aPng.height };
 }
 ```
 
 ### Manifest normalizace
+
 [manifestAssert.normalizeManifest()](bun-svelte-photoblog/tests/utils/manifest-assert.ts:1)
+
 ```ts
 type Variant = { width: number; height: number; path: string; bytes: number };
-type VariantsByFormat = { avif?: Variant[]; webp?: Variant[]; jpeg?: Variant[] };
+type VariantsByFormat = {
+  avif?: Variant[];
+  webp?: Variant[];
+  jpeg?: Variant[];
+};
 type Entry = {
-  original: { width: number | null; height: number | null; format: string | null; bytes: number; path: string | null; };
+  original: {
+    width: number | null;
+    height: number | null;
+    format: string | null;
+    bytes: number;
+    path: string | null;
+  };
   variants: VariantsByFormat;
-  placeholder: { base64: string | null; width: number | null; height: number | null; type: string | null } | null;
+  placeholder: {
+    base64: string | null;
+    width: number | null;
+    height: number | null;
+    type: string | null;
+  } | null;
   color: string | null;
   hash: string;
   outputs: string[];
@@ -206,15 +258,29 @@ export function normalizeManifest(m: Record<string, Entry>) {
   const out: Record<string, any> = {};
   for (const k of Object.keys(m).sort()) {
     const e = m[k];
-    const nv = (x?: Variant[]) => (x ? x.map(v => ({ width: v.width, height: v.height, path: v.path })) : undefined);
+    const nv = (x?: Variant[]) =>
+      x
+        ? x.map((v) => ({ width: v.width, height: v.height, path: v.path }))
+        : undefined;
     out[k] = {
-      original: { width: e.original.width, height: e.original.height, format: e.original.format, path: e.original.path },
+      original: {
+        width: e.original.width,
+        height: e.original.height,
+        format: e.original.format,
+        path: e.original.path,
+      },
       variants: {
         avif: nv(e.variants.avif),
         webp: nv(e.variants.webp),
         jpeg: nv(e.variants.jpeg),
       },
-      placeholder: e.placeholder ? { width: e.placeholder.width, height: e.placeholder.height, type: e.placeholder.type } : null,
+      placeholder: e.placeholder
+        ? {
+            width: e.placeholder.width,
+            height: e.placeholder.height,
+            type: e.placeholder.type,
+          }
+        : null,
       color: e.color,
       outputs: [...e.outputs].sort(),
     };
@@ -224,7 +290,9 @@ export function normalizeManifest(m: Record<string, Entry>) {
 ```
 
 ### Process helpers (spawn CLI, temp dirs)
+
 [processHelpers.runCli()](bun-svelte-photoblog/tests/utils/process-helpers.ts:1)
+
 ```ts
 import { spawn } from 'node:child_process';
 import path from 'node:path';
@@ -236,42 +304,56 @@ export function tmpDir(prefix: string): string {
   return p;
 }
 
-export async function runCli(args: string[], opts?: { cwd?: string; env?: Record<string, string>; timeoutMs?: number }) {
-  return new Promise<{ code: number; stdout: string; stderr: string }>((resolve, reject) => {
-    const proc = spawn('bun', ['scripts/generate-images.ts', ...args], {
-      cwd: opts?.cwd,
-      env: { ...process.env, SHARP_NUM_THREADS: '1', TZ: 'UTC', ...(opts?.env || {}) },
-      stdio: ['ignore', 'pipe', 'pipe'],
-    });
-    const timeout = setTimeout(() => {
-      proc.kill('SIGKILL');
-      reject(new Error('CLI timeout'));
-    }, opts?.timeoutMs ?? 60000);
+export async function runCli(
+  args: string[],
+  opts?: { cwd?: string; env?: Record<string, string>; timeoutMs?: number },
+) {
+  return new Promise<{ code: number; stdout: string; stderr: string }>(
+    (resolve, reject) => {
+      const proc = spawn('bun', ['scripts/generate-images.ts', ...args], {
+        cwd: opts?.cwd,
+        env: {
+          ...process.env,
+          SHARP_NUM_THREADS: '1',
+          TZ: 'UTC',
+          ...(opts?.env || {}),
+        },
+        stdio: ['ignore', 'pipe', 'pipe'],
+      });
+      const timeout = setTimeout(() => {
+        proc.kill('SIGKILL');
+        reject(new Error('CLI timeout'));
+      }, opts?.timeoutMs ?? 60000);
 
-    let stdout = ''; let stderr = '';
-    proc.stdout.on('data', (d) => stdout += String(d));
-    proc.stderr.on('data', (d) => stderr += String(d));
-    proc.on('close', (code) => {
-      clearTimeout(timeout);
-      resolve({ code: code ?? -1, stdout, stderr });
-    });
-    proc.on('error', (e) => {
-      clearTimeout(timeout);
-      reject(e);
-    });
-  });
+      let stdout = '';
+      let stderr = '';
+      proc.stdout.on('data', (d) => (stdout += String(d)));
+      proc.stderr.on('data', (d) => (stderr += String(d)));
+      proc.on('close', (code) => {
+        clearTimeout(timeout);
+        resolve({ code: code ?? -1, stdout, stderr });
+      });
+      proc.on('error', (e) => {
+        clearTimeout(timeout);
+        reject(e);
+      });
+    },
+  );
 }
 ```
 
 ### Fixtury (generované za běhu)
+
 [fixtures.buildInputSet()](bun-svelte-photoblog/tests/utils/fixtures.ts:1)
+
 ```ts
 import fs from 'node:fs';
 import path from 'node:path';
 import sharp from 'sharp';
 
 // Malý base64 animovaný GIF (2 snímky, 2x2 px) – jen pro detekci animace
-const tinyAnimatedGifBase64 = 'R0lGODlhAgACAPAAAP///wAAACH5BAAAAAAALAAAAAACAAIAAAICRAEAOw==';
+const tinyAnimatedGifBase64 =
+  'R0lGODlhAgACAPAAAP///wAAACH5BAAAAAAALAAAAAACAAIAAAICRAEAOw==';
 // Malý JPEG s EXIF orientací 6 (base64) – vzorek připravený se zapnutou EXIF orientací
 // Pozn.: pro jednoduchost můžete nahradit programovým vytvořením a externí EXIF zápisem, zde přímo embedováno
 const jpegExifOrientation6Base64 = '...'; // volitelně vyplňte později, test může přeskočit pokud není
@@ -282,26 +364,54 @@ export async function buildInputSet(dir: string) {
   // 1) PNG s průhledností 40x30
   const pngAlpha = path.join(dir, 'alpha.png');
   await sharp({
-    create: { width: 40, height: 30, channels: 4, background: { r: 0, g: 255, b: 0, alpha: 0.25 } }
-  }).png().toFile(pngAlpha);
+    create: {
+      width: 40,
+      height: 30,
+      channels: 4,
+      background: { r: 0, g: 255, b: 0, alpha: 0.25 },
+    },
+  })
+    .png()
+    .toFile(pngAlpha);
 
   // 2) Velký JPEG 4000x3000 pro downscale
   const bigJpeg = path.join(dir, 'big.jpg');
   await sharp({
-    create: { width: 4000, height: 3000, channels: 3, background: { r: 120, g: 50, b: 180 } }
-  }).jpeg({ quality: 85 }).toFile(bigJpeg);
+    create: {
+      width: 4000,
+      height: 3000,
+      channels: 3,
+      background: { r: 120, g: 50, b: 180 },
+    },
+  })
+    .jpeg({ quality: 85 })
+    .toFile(bigJpeg);
 
   // 3) Malý JPEG (portrait) 600x900
   const portraitJpeg = path.join(dir, 'portrait.jpg');
   await sharp({
-    create: { width: 600, height: 900, channels: 3, background: { r: 30, g: 60, b: 240 } }
-  }).jpeg({ quality: 80 }).toFile(portraitJpeg);
+    create: {
+      width: 600,
+      height: 900,
+      channels: 3,
+      background: { r: 30, g: 60, b: 240 },
+    },
+  })
+    .jpeg({ quality: 80 })
+    .toFile(portraitJpeg);
 
   // 4) WEBP 300x300
   const webpImg = path.join(dir, 'square.webp');
   await sharp({
-    create: { width: 300, height: 300, channels: 3, background: { r: 255, g: 200, b: 0 } }
-  }).webp({ quality: 80 }).toFile(webpImg);
+    create: {
+      width: 300,
+      height: 300,
+      channels: 3,
+      background: { r: 255, g: 200, b: 0 },
+    },
+  })
+    .webp({ quality: 80 })
+    .toFile(webpImg);
 
   // 5) Malý animovaný GIF
   const animGif = path.join(dir, 'anim.gif');
@@ -310,7 +420,10 @@ export async function buildInputSet(dir: string) {
   // 6) (Optional) JPEG s EXIF orientací 6
   if (jpegExifOrientation6Base64 !== '...') {
     const exifJpeg = path.join(dir, 'exif-orient-6.jpg');
-    fs.writeFileSync(exifJpeg, Buffer.from(jpegExifOrientation6Base64, 'base64'));
+    fs.writeFileSync(
+      exifJpeg,
+      Buffer.from(jpegExifOrientation6Base64, 'base64'),
+    );
   }
 
   return { pngAlpha, bigJpeg, portraitJpeg, webpImg, animGif };
@@ -322,7 +435,9 @@ export async function buildInputSet(dir: string) {
 ## Jednotkové testy
 
 ### parseArgs – sanity (spuštění CLI, kontrola důsledků)
+
 [parseArgs.unit.spec.ts](bun-svelte-photoblog/tests/unit/parseArgs.unit.spec.ts:1)
+
 ```ts
 import { describe, it, expect } from 'vitest';
 import path from 'node:path';
@@ -360,8 +475,12 @@ describe('CLI parseArgs sanity via observable effects', () => {
 
     // Složky pro JPEG/WEBP varianty existují
     const tree = await listTree(outDir);
-    const jpegFolders = tree.filter(p => /\/(details|previews|previews-xl|previews-xxs)\/.+\.jpg$/.test(p));
-    const webpFolders = tree.filter(p => /\/(details|previews|previews-xl|previews-xxs)-webp\/.+\.webp$/.test(p));
+    const jpegFolders = tree.filter((p) =>
+      /\/(details|previews|previews-xl|previews-xxs)\/.+\.jpg$/.test(p),
+    );
+    const webpFolders = tree.filter((p) =>
+      /\/(details|previews|previews-xl|previews-xxs)-webp\/.+\.webp$/.test(p),
+    );
     expect(jpegFolders.length).toBeGreaterThan(0);
     expect(webpFolders.length).toBeGreaterThan(0);
   });
@@ -369,7 +488,9 @@ describe('CLI parseArgs sanity via observable effects', () => {
 ```
 
 ### Kvalita a cesty – normalizace
+
 [quality-and-paths.unit.spec.ts](bun-svelte-photoblog/tests/unit/quality-and-paths.unit.spec.ts:1)
+
 ```ts
 import { describe, it, expect } from 'vitest';
 import path from 'node:path';
@@ -384,26 +505,41 @@ describe('Quality and output path conventions', () => {
     // vytvoř malý vstup 100x80
     const sharp = (await import('sharp')).default;
     const input = path.join(inDir, 'small.jpg');
-    await sharp({ create: { width: 100, height: 80, channels: 3, background: { r: 10, g: 20, b: 30 } } })
-      .jpeg({ quality: 80 }).toFile(input);
+    await sharp({
+      create: {
+        width: 100,
+        height: 80,
+        channels: 3,
+        background: { r: 10, g: 20, b: 30 },
+      },
+    })
+      .jpeg({ quality: 80 })
+      .toFile(input);
 
     const outDir = tmpDir('img-out');
     const manifest = path.join(outDir, 'images.manifest.json');
 
-    const res = await runCli([
-      `--src=${inDir}`,
-      `--out=${outDir}`,
-      `--manifest=${manifest}`,
-      `--allow-upscale=false`,
-      `--formats=jpeg`,
-      `--concurrency=1`
-    ], { cwd: CWD });
+    const res = await runCli(
+      [
+        `--src=${inDir}`,
+        `--out=${outDir}`,
+        `--manifest=${manifest}`,
+        `--allow-upscale=false`,
+        `--formats=jpeg`,
+        `--concurrency=1`,
+      ],
+      { cwd: CWD },
+    );
     expect(res.code).toBe(0);
 
     // detail 1280 by se neměl upscalovat -> výstup <= 100 šířka
-    const details = fs.readdirSync(path.join(outDir, 'details')).filter(x => x.endsWith('.jpg'));
+    const details = fs
+      .readdirSync(path.join(outDir, 'details'))
+      .filter((x) => x.endsWith('.jpg'));
     expect(details.length).toBe(1);
-    const meta = await (await import('sharp')).default(path.join(outDir, 'details', details[0])).metadata();
+    const meta = await (await import('sharp'))
+      .default(path.join(outDir, 'details', details[0]))
+      .metadata();
     expect((meta.width ?? 0) <= 100).toBe(true);
   });
 });
@@ -414,7 +550,9 @@ describe('Quality and output path conventions', () => {
 ## Integrační testy – hlavní build
 
 ### Generování a snapshot manifestu
+
 [generate-images.int.spec.ts](bun-svelte-photoblog/tests/integration/generate-images.int.spec.ts:1)
+
 ```ts
 import { describe, it, expect } from 'vitest';
 import path from 'node:path';
@@ -434,17 +572,20 @@ describe('Integration: main images generation', () => {
     const outDir = tmpDir('int-out');
     const manifest = path.join(outDir, 'images.manifest.json');
 
-    const res = await runCli([
-      `--src=${inDir}`,
-      `--out=${outDir}`,
-      `--manifest=${manifest}`,
-      `--formats=avif,webp,jpeg`,
-      `--quality.avif=50`,
-      `--quality.webp=60`,
-      `--quality.jpeg=80`,
-      `--concurrency=1`,
-      `--clean=true`,
-    ], { cwd: CWD, timeoutMs: 120000 });
+    const res = await runCli(
+      [
+        `--src=${inDir}`,
+        `--out=${outDir}`,
+        `--manifest=${manifest}`,
+        `--formats=avif,webp,jpeg`,
+        `--quality.avif=50`,
+        `--quality.webp=60`,
+        `--quality.jpeg=80`,
+        `--concurrency=1`,
+        `--clean=true`,
+      ],
+      { cwd: CWD, timeoutMs: 120000 },
+    );
     expect(res.code).toBe(0);
 
     // Manifest snapshot (normalizovaný)
@@ -454,7 +595,9 @@ describe('Integration: main images generation', () => {
 
     // Strom výstupů – seznam relativních cest
     const tree = await listTree(outDir);
-    const rel = tree.map(p => path.posix.relative(outDir.replaceAll(path.sep, '/'), p));
+    const rel = tree.map((p) =>
+      path.posix.relative(outDir.replaceAll(path.sep, '/'), p),
+    );
     expect(rel).toMatchSnapshot();
   });
 });
@@ -465,6 +608,7 @@ describe('Integration: main images generation', () => {
 ## Integrační testy – blur pipeline
 
 [blur-assets.int.spec.ts](bun-svelte-photoblog/tests/integration/blur-assets.int.spec.ts:1)
+
 ```ts
 import { describe, it, expect } from 'vitest';
 import path from 'node:path';
@@ -481,7 +625,10 @@ async function uniqueColorCountPng(pngPath: string) {
   const png = PNG.sync.read(buf);
   const set = new Set<string>();
   for (let i = 0; i < png.data.length; i += 4) {
-    const r = png.data[i], g = png.data[i+1], b = png.data[i+2], a = png.data[i+3];
+    const r = png.data[i],
+      g = png.data[i + 1],
+      b = png.data[i + 2],
+      a = png.data[i + 3];
     set.add(`${r},${g},${b},${a}`);
   }
   return set.size;
@@ -493,21 +640,24 @@ describe('Integration: blur assets generation', () => {
     await buildInputSet(src);
     const out = tmpDir('blur-out');
 
-    const res = await runCli([
-      `--blur.enable=true`,
-      `--blur.only=true`,
-      `--blur.src=${src}`,
-      `--blur.out=${out}`,
-      `--blur.width=24`,
-      `--blur.colors=32`,
-      `--blur.formats=png`,
-      `--blur.pngCompression=9`,
-      `--blur.pngQuality=50`,
-      `--concurrency=1`,
-    ], { cwd: CWD, timeoutMs: 120000 });
+    const res = await runCli(
+      [
+        `--blur.enable=true`,
+        `--blur.only=true`,
+        `--blur.src=${src}`,
+        `--blur.out=${out}`,
+        `--blur.width=24`,
+        `--blur.colors=32`,
+        `--blur.formats=png`,
+        `--blur.pngCompression=9`,
+        `--blur.pngQuality=50`,
+        `--concurrency=1`,
+      ],
+      { cwd: CWD, timeoutMs: 120000 },
+    );
     expect(res.code).toBe(0);
 
-    const files = fs.readdirSync(out).filter(x => x.endsWith('.png'));
+    const files = fs.readdirSync(out).filter((x) => x.endsWith('.png'));
     expect(files.length).toBeGreaterThan(0);
 
     // Kontrola rozměru a přibližného počtu barev
@@ -526,38 +676,44 @@ describe('Integration: blur assets generation', () => {
     const out = tmpDir('blur-out2');
 
     // první běh
-    let res = await runCli([
-      `--blur.enable=true`,
-      `--blur.only=true`,
-      `--blur.src=${src}`,
-      `--blur.out=${out}`,
-      `--blur.formats=png,avif,jpeg`,
-      `--blur.width=24`,
-      `--blur.colors=16`,
-      `--concurrency=1`,
-    ], { cwd: CWD });
+    let res = await runCli(
+      [
+        `--blur.enable=true`,
+        `--blur.only=true`,
+        `--blur.src=${src}`,
+        `--blur.out=${out}`,
+        `--blur.formats=png,avif,jpeg`,
+        `--blur.width=24`,
+        `--blur.colors=16`,
+        `--concurrency=1`,
+      ],
+      { cwd: CWD },
+    );
     expect(res.code).toBe(0);
 
     const files1 = fs.readdirSync(out);
-    expect(files1.some(f => f.endsWith('.png'))).toBe(true);
-    expect(files1.some(f => f.endsWith('.avif'))).toBe(true);
-    expect(files1.some(f => f.endsWith('.jpg'))).toBe(true);
+    expect(files1.some((f) => f.endsWith('.png'))).toBe(true);
+    expect(files1.some((f) => f.endsWith('.avif'))).toBe(true);
+    expect(files1.some((f) => f.endsWith('.jpg'))).toBe(true);
 
     // druhý běh s clean
-    res = await runCli([
-      `--blur.enable=true`,
-      `--blur.only=true`,
-      `--blur.src=${src}`,
-      `--blur.out=${out}`,
-      `--blur.formats=png`,
-      `--blur.clean=true`,
-      `--concurrency=1`,
-    ], { cwd: CWD });
+    res = await runCli(
+      [
+        `--blur.enable=true`,
+        `--blur.only=true`,
+        `--blur.src=${src}`,
+        `--blur.out=${out}`,
+        `--blur.formats=png`,
+        `--blur.clean=true`,
+        `--concurrency=1`,
+      ],
+      { cwd: CWD },
+    );
     expect(res.code).toBe(0);
 
     const files2 = fs.readdirSync(out);
     // měly by zůstat jen png
-    expect(files2.every(f => f.endsWith('.png'))).toBe(true);
+    expect(files2.every((f) => f.endsWith('.png'))).toBe(true);
   });
 });
 ```
@@ -567,6 +723,7 @@ describe('Integration: blur assets generation', () => {
 ## Watch režim – izolovaný integrační test
 
 [watch-mode.int.spec.ts](bun-svelte-photoblog/tests/integration/watch-mode.int.spec.ts:1)
+
 ```ts
 import { describe, it, expect } from 'vitest';
 import path from 'node:path';
@@ -586,32 +743,57 @@ describe('Watch mode reacts to file changes', () => {
     // initial one file
     const sharp = (await import('sharp')).default;
     const first = path.join(inDir, 'first.jpg');
-    await sharp({ create: { width: 800, height: 600, channels: 3, background: { r: 1, g: 2, b: 3 } } })
-      .jpeg({ quality: 80 }).toFile(first);
+    await sharp({
+      create: {
+        width: 800,
+        height: 600,
+        channels: 3,
+        background: { r: 1, g: 2, b: 3 },
+      },
+    })
+      .jpeg({ quality: 80 })
+      .toFile(first);
 
-    const proc = spawn('bun', ['scripts/generate-images.ts',
-      `--src=${inDir}`, `--out=${outDir}`, `--manifest=${manifest}`, '--watch=true', '--concurrency=1'
-    ], { cwd: CWD, env: { ...process.env, SHARP_NUM_THREADS: '1' } });
+    const proc = spawn(
+      'bun',
+      [
+        'scripts/generate-images.ts',
+        `--src=${inDir}`,
+        `--out=${outDir}`,
+        `--manifest=${manifest}`,
+        '--watch=true',
+        '--concurrency=1',
+      ],
+      { cwd: CWD, env: { ...process.env, SHARP_NUM_THREADS: '1' } },
+    );
 
     let stdout = '';
-    proc.stdout.on('data', d => stdout += String(d));
+    proc.stdout.on('data', (d) => (stdout += String(d)));
 
     // počkej krátce na initial build
-    await new Promise(r => setTimeout(r, 4000));
+    await new Promise((r) => setTimeout(r, 4000));
 
     expect(fs.existsSync(manifest)).toBe(true);
 
     // přidej soubor
     const second = path.join(inDir, 'second.jpg');
-    await sharp({ create: { width: 1200, height: 900, channels: 3, background: { r: 10, g: 20, b: 30 } } })
-      .jpeg({ quality: 80 }).toFile(second);
+    await sharp({
+      create: {
+        width: 1200,
+        height: 900,
+        channels: 3,
+        background: { r: 10, g: 20, b: 30 },
+      },
+    })
+      .jpeg({ quality: 80 })
+      .toFile(second);
 
     // dej watch módu čas zachytit update
-    await new Promise(r => setTimeout(r, 4000));
+    await new Promise((r) => setTimeout(r, 4000));
 
     const details = path.join(outDir, 'details');
     expect(fs.existsSync(details)).toBe(true);
-    const files = fs.readdirSync(details).filter(f => f.endsWith('.jpg'));
+    const files = fs.readdirSync(details).filter((f) => f.endsWith('.jpg'));
     expect(files.length).toBeGreaterThanOrEqual(2);
 
     proc.kill('SIGTERM');
@@ -624,6 +806,7 @@ describe('Watch mode reacts to file changes', () => {
 ## End‑to‑end test – kompletní běh včetně blur
 
 [full-run.e2e.spec.ts](bun-svelte-photoblog/tests/e2e-images/full-run.e2e.spec.ts:1)
+
 ```ts
 import { describe, it, expect } from 'vitest';
 import path from 'node:path';
@@ -642,33 +825,39 @@ describe('E2E: main build + blur pass', () => {
     const manifest = path.join(outDir, 'images.manifest.json');
     const blurOut = tmpDir('e2e-blurs');
 
-    let res = await runCli([
-      `--src=${inDir}`,
-      `--out=${outDir}`,
-      `--manifest=${manifest}`,
-      `--formats=avif,webp,jpeg`,
-      `--concurrency=1`,
-      `--clean=true`,
-    ], { cwd: CWD, timeoutMs: 180000 });
+    let res = await runCli(
+      [
+        `--src=${inDir}`,
+        `--out=${outDir}`,
+        `--manifest=${manifest}`,
+        `--formats=avif,webp,jpeg`,
+        `--concurrency=1`,
+        `--clean=true`,
+      ],
+      { cwd: CWD, timeoutMs: 180000 },
+    );
     expect(res.code).toBe(0);
 
-    res = await runCli([
-      `--blur.enable=true`,
-      `--blur.only=true`,
-      `--blur.src=${path.join(outDir, 'previews-xl')}`, // parita s legacy: zdroj blur z previews-xl
-      `--blur.out=${blurOut}`,
-      `--blur.formats=png`,
-      `--concurrency=1`,
-    ], { cwd: CWD, timeoutMs: 120000 });
+    res = await runCli(
+      [
+        `--blur.enable=true`,
+        `--blur.only=true`,
+        `--blur.src=${path.join(outDir, 'previews-xl')}`, // parita s legacy: zdroj blur z previews-xl
+        `--blur.out=${blurOut}`,
+        `--blur.formats=png`,
+        `--concurrency=1`,
+      ],
+      { cwd: CWD, timeoutMs: 120000 },
+    );
     expect(res.code).toBe(0);
 
     // sanity
     const tree = await listTree(outDir);
-    expect(tree.some(p => p.endsWith('.avif'))).toBe(true);
-    expect(tree.some(p => p.endsWith('.webp'))).toBe(true);
-    expect(tree.some(p => p.endsWith('.jpg'))).toBe(true);
+    expect(tree.some((p) => p.endsWith('.avif'))).toBe(true);
+    expect(tree.some((p) => p.endsWith('.webp'))).toBe(true);
+    expect(tree.some((p) => p.endsWith('.jpg'))).toBe(true);
 
-    const blurs = fs.readdirSync(blurOut).filter(x => x.endsWith('.png'));
+    const blurs = fs.readdirSync(blurOut).filter((x) => x.endsWith('.png'));
     expect(blurs.length).toBeGreaterThan(0);
   });
 });
@@ -681,24 +870,57 @@ describe('E2E: main build + blur pass', () => {
 - Využijeme `vi.mock` pro `$lib/images.manifest.json` a otestujeme vytvořený HTML výstup v SSR render bez spuštění prohlížeče.
 
 [Picture.ssr.spec.ts](bun-svelte-photoblog/tests/unit/Picture.ssr.spec.ts:1)
+
 ```ts
 import { describe, it, expect, vi } from 'vitest';
 
 vi.mock('$lib/images.manifest.json', () => ({
   default: {
     'content/israel-2022/sample.jpg': {
-      original: { width: 1200, height: 800, format: 'jpeg', bytes: 123, path: '/images/israel-2022/details/sample.jpg' },
-      variants: {
-        avif: [{ width: 534, height: 300, path: '/images/israel-2022/previews-avif/sample.avif', bytes: 1 }],
-        webp: [{ width: 534, height: 300, path: '/images/israel-2022/previews-webp/sample.webp', bytes: 1 }],
-        jpeg: [{ width: 534, height: 300, path: '/images/israel-2022/previews/sample.jpg', bytes: 1 }],
+      original: {
+        width: 1200,
+        height: 800,
+        format: 'jpeg',
+        bytes: 123,
+        path: '/images/israel-2022/details/sample.jpg',
       },
-      placeholder: { base64: null, width: 24, height: null, type: 'image/jpeg' },
+      variants: {
+        avif: [
+          {
+            width: 534,
+            height: 300,
+            path: '/images/israel-2022/previews-avif/sample.avif',
+            bytes: 1,
+          },
+        ],
+        webp: [
+          {
+            width: 534,
+            height: 300,
+            path: '/images/israel-2022/previews-webp/sample.webp',
+            bytes: 1,
+          },
+        ],
+        jpeg: [
+          {
+            width: 534,
+            height: 300,
+            path: '/images/israel-2022/previews/sample.jpg',
+            bytes: 1,
+          },
+        ],
+      },
+      placeholder: {
+        base64: null,
+        width: 24,
+        height: null,
+        type: 'image/jpeg',
+      },
       color: '#112233',
       hash: 'deadbeef',
       outputs: ['/images/israel-2022/previews/sample.jpg'],
-    }
-  }
+    },
+  },
 }));
 
 describe('Picture SSR', async () => {
@@ -711,7 +933,7 @@ describe('Picture SSR', async () => {
       srcKey: 'content/israel-2022/sample.jpg',
       alt: 'Sample',
       sizes: '100vw',
-      placeholder: 'background'
+      placeholder: 'background',
     });
 
     expect(html).toContain('type="image/avif"');
@@ -737,12 +959,13 @@ describe('Picture SSR', async () => {
 ## GitHub Actions (Linux, matrix Bun/Node, libvips, artefakty)
 
 [.github/workflows/images-ci.yml](.github/workflows/images-ci.yml:1)
+
 ```yaml
 name: Images CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
 
 jobs:
@@ -750,8 +973,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        bun_version: [ '1.1.20', 'latest' ]
-        node_version: [ '20' ]
+        bun_version: ['1.1.20', 'latest']
+        node_version: ['20']
     env:
       TZ: UTC
       SHARP_NUM_THREADS: 1
