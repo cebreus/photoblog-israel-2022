@@ -1,0 +1,95 @@
+<script>
+  // Jednoduchá hlavička s třídami kompatibilními s Nunjucks partialem o-header.njk.
+  // Bez SvelteKit $app/stores a bez TS, aby nevznikaly typové chyby v editoru.
+  const nav = [
+    { name: 'Vše', page_id: 'israel-2022', url: '/' },
+    { name: 'Výběr fotek', page_id: 'best-of', url: '/best-of' },
+  ];
+
+  let isOffcanvasOpen = false;
+  function openOffcanvas(ev) {
+    ev?.preventDefault?.();
+    isOffcanvasOpen = true;
+    const evCustom = new CustomEvent('openoffcanvas', { bubbles: true });
+    dispatchEvent(evCustom);
+  }
+</script>
+
+<header class="o-header sticky-top">
+  <div class="container">
+    <nav class="navbar navbar-dark">
+      <a class="navbar-brand text-uppercase fw-bolder" href="/">Israel 2022</a>
+
+      <a
+        class="visually-hidden-focusable btn btn-warning"
+        href="#mainMenu"
+        aria-controls="mainMenu"
+        aria-labelledby="mainMenuLabel"
+        on:click={openOffcanvas}
+      >
+        Přejít k navigaci
+      </a>
+
+      <ul class="navbar-nav flex-row flex-wrap d-none d-md-flex me-3 mt-1">
+        {#each nav as item}
+          <li class="nav-item me-3">
+            <a class="nav-item nav-link" href={item.url}>{item.name}</a>
+          </li>
+        {/each}
+      </ul>
+
+      <label
+        class="title-switch btn btn-link ms-auto"
+        title="Zobraz popisky nad fotografiemi"
+        aria-label="Zobraz popisky nad fotografiemi"
+      >
+        <input
+          class="title-switch__input visually-hidden"
+          type="checkbox"
+          role="switch"
+        />
+        <svg
+          class="title-switch__icon title-switch__icon--on"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="#fff"
+          ><path
+            d="M12 2C8.137 2 5 5.137 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.863-3.137-7-7-7Zm0 9.5A2.502 2.502 0 0 1 9.5 9c0-1.379 1.121-2.5 2.5-2.5s2.5 1.121 2.5 2.5-1.121 2.5-2.5 2.5Zm0 0"
+          /></svg
+        >
+        <svg
+          class="title-switch__icon title-switch__icon--off"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="#fff"
+          ><path
+            d="M12 6.5c1.379 0 2.5 1.121 2.5 2.5 0 .734-.324 1.39-.828 1.852L17.3 14.48C18.273 12.621 19 10.684 19 9c0-3.863-3.137-7-7-7a6.96 6.96 0 0 0-5.035 2.145l3.183 3.183A2.5 2.5 0 0 1 12 6.5Zm4.375 9.602-4.625-4.625-.11-.114L3.27 3 2 4.273l3.18 3.18A6.928 6.928 0 0 0 5 9c0 5.25 7 13 7 13s1.672-1.852 3.375-4.352L18.727 21 20 19.727Zm0 0"
+          /></svg
+        >
+        <span class="ms-1 d-none d-sm-inline align-middle">Místa</span>
+      </label>
+
+      <button
+        class="btn btn-link"
+        type="button"
+        aria-controls="mainMenu"
+        aria-labelledby="mainMenuLabel"
+        on:click={openOffcanvas}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="24"
+          viewBox="0 0 24 24"
+          width="24"
+          fill="#fff"
+          ><path d="M0 0h24v24H0V0z" fill="none" /><path
+            d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
+          /></svg
+        >
+        <span class="align-middle">Menu</span>
+      </button>
+    </nav>
+  </div>
+</header>

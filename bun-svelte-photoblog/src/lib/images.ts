@@ -18,6 +18,23 @@ export type Placeholder = {
   height: number | null;
   type: string | null;
 };
+
+/**
+ * EXIF/IPTC metadata přítomná v manifestu (volitelná).
+ * Slouží k seskupování a popiskům na úrovni runtime.
+ */
+export type Meta = {
+  date: string | null;
+  groupBy: string | null;
+  city?: string | null;
+  where?: string | null;
+  country?: string | null;
+  keywords?: string[] | string | null;
+  objectName?: string | null;
+  caption?: string | null;
+  type?: string | null;
+};
+
 export type ManifestEntry = {
   original: {
     width: number | null;
@@ -31,6 +48,7 @@ export type ManifestEntry = {
   color: string | null;
   hash: string;
   outputs: string[];
+  meta?: Meta; // doplněno pro dataset.ts
 };
 export type Manifest = Record<string, ManifestEntry>;
 

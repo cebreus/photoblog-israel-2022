@@ -11,7 +11,8 @@ import crypto from 'node:crypto';
 import fg from 'fast-glob';
 import pc from 'picocolors';
 import { SingleBar } from 'cli-progress';
-import type { Quality, GifMode, VariantType, VariantConfig } from '../src/lib/types/images';
+import type { Quality, GifMode, VariantType, VariantConfig, Meta } from '../src/lib/types/images';
+import exifr from 'exifr';
 
 type SharpModule = typeof import('sharp');
 type SharpInstance = ReturnType<SharpModule>;
@@ -296,6 +297,7 @@ type ManifestEntry = {
   color: string | null; // hex #RRGGBB
   hash: string; // SHA-1 of original
   outputs: string[]; // public paths for cleaning
+  meta?: Meta; // EXIF/IPTC metadata for grouping and captions
 };
 
 type Manifest = Record<string, ManifestEntry>;
@@ -743,6 +745,49 @@ async function processSourceFile(absSrc: string, cache: Cache): Promise<{ key: s
     const meta2 = await readMetadata(absSrc);
     const { width: oW2, height: oH2 } = orientedDims(meta2.width, meta2.height, (meta2 as any).orientation ?? null);
 
+    // --- EXIF/IPTC extrakce pro manifest.meta ---
+    let exif: any = null;
+    try {
+      exif = await exifr.parse(absSrc, { tiff: false, xmp: true, exif: true, iptc: true });
+    } catch {
+      // ignore EXIF failures
+    }
+    const dateIso =
+      exif?.CreateDate instanceof Date
+        ? exif.CreateDate.toISOString()
+        : exif?.DateTimeOriginal instanceof Date
+          ? exif.DateTimeOriginal.toISOString()
+          : null;
+    const groupBy = dateIso ? dateIso.substring(0, 10) : null;
+    const where = exif?.Headline || exif?.Location || exif?.Sublocation || '';
+    const city = exif?.City || '';
+    const country = exif?.Country || '';
+    const keywordsRaw = (exif?.Keywords ?? null) as string[] | string | null;
+    const keywords = Array.isArray(keywordsRaw)
+      ? keywordsRaw
+      : typeof keywordsRaw === 'string'
+        ? keywordsRaw.split(/[,;]\s*/).filter(Boolean)
+        : null;
+    const objectName = exif?.Headline || '';
+    const caption = exif?.Caption || exif?.ImageDescription || '';
+    let typeHint: string | null = null;
+    if (base.includes('.pano')) {
+      typeHint = 'pano';
+    } else if (oW2 && oH2) {
+      typeHint = oW2 > oH2 ? 'landscape' : oW2 < oH2 ? 'portrait' : null;
+    }
+    const metaObj = {
+      date: dateIso,
+      groupBy,
+      city,
+      where,
+      country,
+      keywords,
+      objectName,
+      caption,
+      type: typeHint,
+    };
+
     const outputsList: string[] = [];
 
     // Decide processing mode
@@ -830,7 +875,8 @@ async function processSourceFile(absSrc: string, cache: Cache): Promise<{ key: s
       placeholder: placeholder,
       color,
       hash,
-      outputs: outputsList.sort()
+      outputs: outputsList.sort(),
+      meta: metaObj,
     };
 
     // Update cache

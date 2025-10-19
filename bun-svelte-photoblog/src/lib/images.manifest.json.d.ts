@@ -21,6 +21,22 @@ export type Placeholder = {
   type: string | null; // např. "image/jpeg"
 };
 
+/**
+ * EXIF/IPTC metadata pro runtime seskupování a popisky.
+ */
+export type Meta = {
+  date: string | null;            // ISO řetězec z EXIF (DateTimeOriginal/CreateDate)
+  groupBy: string | null;         // YYYY-MM-DD (prvních 10 znaků z date)
+  city?: string | null;
+  where?: string | null;          // Headline/Location/Sublocation fallback
+  country?: string | null;
+  keywords?: string[] | string | null; // např. obsahuje 'prio2' pro best-of
+  objectName?: string | null;     // Headline
+  caption?: string | null;        // Caption/ImageDescription
+  type?: string | null;           // 'landscape' | 'portrait' | 'pano' | ...
+};
+
+
 export type ManifestEntry = {
   original: {
     width: number | null;

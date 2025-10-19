@@ -23,6 +23,24 @@ export type Placeholder = {
   type: string | null;
 };
 
+/**
+ * EXIF/ITPC metadata odvozená z originálů; používá se pro seskupování a popisky.
+ */
+export type Meta = {
+  date: string | null;            // ISO string (např. z CreateDate/DateTimeOriginal)
+  groupBy: string | null;         // YYYY-MM-DD (prvních 10 znaků date)
+  city?: string | null;
+  where?: string | null;          // Headline/Location/Sublocation fallback
+  country?: string | null;
+  keywords?: string[] | string | null; // seznam/řetězec tagů; např. obsahuje 'prio2' pro best-of
+  objectName?: string | null;     // Headline
+  caption?: string | null;        // Caption/ImageDescription
+  /**
+   * Heuristický typ snímku; např. 'landscape' | 'portrait' | 'pano' ...
+   */
+  type?: string | null;
+};
+
 export type ManifestEntry = {
   original: {
     width: number | null;
@@ -36,6 +54,7 @@ export type ManifestEntry = {
   color: string | null;
   hash: string;
   outputs: string[];
+  meta?: Meta;                     // doplněno: EXIF/ITPC metadata
 };
 
 export type Manifest = Record<string, ManifestEntry>;
