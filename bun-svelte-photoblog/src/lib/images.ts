@@ -44,7 +44,8 @@ export function findImage(srcKey: string): ManifestEntry | undefined {
 }
 
 export function buildSrcSet(entry: ManifestEntry, format: keyof VariantsByFormat): string {
-  const list = entry.variants[format] ?? [];
+  // Obrana proti starším/nekonzistentním manifestům, kde může být variants = undefined
+  const list = entry.variants?.[format] ?? [];
   return list.map((v) => `${v.path} ${v.width}w`).join(', ');
 }
 
@@ -55,19 +56,19 @@ function pickLargest(variants?: Variant[]): Variant | undefined {
 
 export function pickFallback(entry: ManifestEntry): { src: string; type: string } | null {
   // Prefer JPEG, then WEBP, then original (if kept), else any available
-  const largestJpeg = pickLargest(entry.variants.jpeg);
+  const largestJpeg = pickLargest(entry.variants?.jpeg);
   if (largestJpeg) return { src: largestJpeg.path, type: 'image/jpeg' };
-  const largestWebp = pickLargest(entry.variants.webp);
+  const largestWebp = pickLargest(entry.variants?.webp);
   if (largestWebp) return { src: largestWebp.path, type: 'image/webp' };
-  if (entry.original.path) {
+  if (entry.original && entry.original.path) {
     const fmt = (entry.original.format ?? 'jpeg').toLowerCase();
     const type = fmt === 'jpg' ? 'image/jpeg' : `image/${fmt}`;
     return { src: entry.original.path, type };
   }
   // As a last resort, take any format
-  const anyFmt = (['jpeg', 'webp', 'avif'] as const).find((f) => (entry.variants[f]?.length ?? 0) > 0);
+  const anyFmt = (['jpeg', 'webp', 'avif'] as const).find((f) => (entry.variants?.[f]?.length ?? 0) > 0);
   if (anyFmt) {
-    const v = pickLargest(entry.variants[anyFmt]);
+    const v = pickLargest(entry.variants?.[anyFmt]);
     if (v) return { src: v.path, type: `image/${anyFmt}` };
   }
   return null;
@@ -86,12 +87,12 @@ export function getImgFallback(entry: ManifestEntry, sizes = '100vw'): { src: st
   // Use JPEG srcset if available, otherwise WEBP, finally original
   const jpegSet = buildSrcSet(entry, 'jpeg');
   if (jpegSet) {
-    const jpegLargest = pickLargest(entry.variants.jpeg);
+    const jpegLargest = pickLargest(entry.variants?.jpeg);
     return { src: jpegLargest?.path ?? jpegSet.split(',')[0].split(' ')[0], srcset: jpegSet, sizes, type: 'image/jpeg' };
   }
   const webpSet = buildSrcSet(entry, 'webp');
   if (webpSet) {
-    const webpLargest = pickLargest(entry.variants.webp);
+    const webpLargest = pickLargest(entry.variants?.webp);
     return { src: webpLargest?.path ?? webpSet.split(',')[0].split(' ')[0], srcset: webpSet, sizes, type: 'image/webp' };
   }
   const fb = pickFallback(entry);

@@ -95,7 +95,7 @@
       {:else}
         <!-- Worst-case if no variants exist -->
         <img
-          src={entry.original.path || ''}
+          src={(entry.original && entry.original.path) || ''}
           {alt}
           loading={imgLoading}
           {decoding}
