@@ -20,14 +20,16 @@
     "images:watch": "bun scripts/generate-images.ts --watch",
     "images:blur": "bun scripts/generate-images.ts --blur.enable=true --blur.only=true",
     "images:all": "bun run images:build && bun run images:blur",
-    "prebuild": "bun run images:build"
+    "prebuild": "bun run lint:ci && bun run images:build",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "format": "biome format --write . && prettier \"**/*.{svelte,md,html,css}\" --plugin prettier-plugin-svelte --write",
+    "format:check": "biome format --write=false . && prettier \"**/*.{svelte,md,html,css}\" --plugin prettier-plugin-svelte --check",
+    "lint:ci": "biome check --reporter=summary --diagnostic-level=warn ."
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.2.6",
     "@playwright/test": "^1.55.1",
-    "cli-progress": "^3.12.0",
-    "fast-glob": "^3.3.2",
-    "picocolors": "^1.0.0",
-    "sharp": "^0.33.5",
     "@sveltejs/adapter-static": "^3.0.9",
     "@sveltejs/kit": "^2.43.2",
     "@sveltejs/vite-plugin-svelte": "^6.2.0",
@@ -37,7 +39,15 @@
     "@types/sharp": "^0.32.0",
     "@vitest/browser": "^3.2.4",
     "bun-types": "^1.1.20",
+    "cli-progress": "^3.12.0",
+    "fast-glob": "^3.3.2",
+    "picocolors": "^1.0.0",
+    "pixelmatch": "^5.3.0",
     "playwright": "^1.55.1",
+    "pngjs": "^7.0.0",
+    "prettier": "^3",
+    "prettier-plugin-svelte": "^3.2.6",
+    "sharp": "^0.33.5",
     "svelte": "^5.39.5",
     "svelte-check": "^4.3.2",
     "tailwindcss": "^4.1.13",
@@ -45,8 +55,6 @@
     "vite": "^7.1.7",
     "vite-plugin-devtools-json": "^1.0.0",
     "vitest": "^3.2.4",
-    "vitest-browser-svelte": "^1.1.0",
-    "pixelmatch": "^5.3.0",
-    "pngjs": "^7.0.0"
+    "vitest-browser-svelte": "^1.1.0"
   }
 }
