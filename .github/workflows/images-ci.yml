@@ -1,0 +1,77 @@
+name: Images CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  test-images:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        bun_version: [ '1.1.20', 'latest' ]
+        node_version: [ '20' ]
+    env:
+      TZ: UTC
+      SHARP_NUM_THREADS: 1
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install system deps (libvips, imagemagick optional)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libvips imagemagick
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node_version }}
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: ${{ matrix.bun_version }}
+
+      - name: Cache bun deps
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.bun/install/cache
+            bun-svelte-photoblog/node_modules
+          key: ${{ runner.os }}-bun-${{ matrix.bun_version }}-${{ hashFiles('bun-svelte-photoblog/package.json', 'bun-svelte-photoblog/pnpm-lock.yaml', 'bun-svelte-photoblog/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-${{ matrix.bun_version }}-
+
+      - name: Install deps
+        working-directory: bun-svelte-photoblog
+        run: bun install
+
+      - name: Unit tests (fast)
+        working-directory: bun-svelte-photoblog
+        run: bun run test:unit:images
+
+      - name: Images tests (integration + e2e)
+        working-directory: bun-svelte-photoblog
+        run: bun run test:images
+
+      - name: Collect metrics
+        if: always()
+        working-directory: bun-svelte-photoblog
+        run: |
+          echo "## Metrics" >> $GITHUB_STEP_SUMMARY
+          FILES=$(find tests/outputs -type f 2>/dev/null | wc -l || true)
+          echo "Generated files (tests/outputs): $FILES" >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: images-test-artifacts
+          path: |
+            bun-svelte-photoblog/tests/outputs/**
+            bun-svelte-photoblog/tests/**/*.snap
+            bun-svelte-photoblog/tests/**/*.diff.png
+          if-no-files-found: ignore

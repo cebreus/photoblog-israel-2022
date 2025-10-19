@@ -11,27 +11,25 @@ import crypto from 'node:crypto';
 import fg from 'fast-glob';
 import pc from 'picocolors';
 import { SingleBar } from 'cli-progress';
+import type { Quality, GifMode, VariantType, VariantConfig } from '../src/lib/types/images';
 
 type SharpModule = typeof import('sharp');
 type SharpInstance = ReturnType<SharpModule>;
 let sharp: SharpModule | null = null;
 
 // -----------------------------
-// CLI parsing
+// Encoding constants (Fáze 4: magické hodnoty)
 // -----------------------------
 
-type Quality = { avif: number; webp: number; jpeg: number };
-type GifMode = 'copy' | 'convert';
-
-// Gulp-compatible variant types
-type VariantType = 'details' | 'previews' | 'previews-xl' | 'previews-xxs';
-type VariantConfig = {
-  folder: string;
-  width?: number;
-  height?: number;
-  crop?: boolean;
-  quality: { jpeg: number; webp: number; avif: number };
-};
+const ENCODING_CONSTANTS = {
+  LQIP_QUALITY: 40,
+  LQIP_CHROMA_SUBSAMPLING: '4:2:0' as const,
+  AVIF_EFFORT: 5,
+  WEBP_EFFORT: 4,
+  JPEG_PROGRESSIVE: true,
+  JPEG_MOZJPEG: false,
+  ICC_PROFILE: 'srgb' as const,
+} as const;
 
 const VARIANT_CONFIGS: Record<VariantType, VariantConfig> = {
   'details': {
@@ -62,6 +60,8 @@ const VARIANT_CONFIGS: Record<VariantType, VariantConfig> = {
   }
 };
 
+type BlurFormats = Array<'png' | 'avif' | 'jpeg'>;
+
 type Args = {
   src: string;
   out: string;
@@ -80,6 +80,20 @@ type Args = {
   quiet: boolean;
   lqipWidth: number;
   limit: number;
+
+  // Blur assets (legacy parity) - standalone file generation (PNG-8/AVIF/JPEG)
+  blurEnable: boolean;
+  blurOnly: boolean;
+  blurSrc: string;
+  blurOut: string;
+  blurWidth: number;
+  blurColors: number;
+  blurFormats: BlurFormats;
+  blurPngCompression: number; // 0-9
+  blurPngQuality: number; // 0-100 (palette quantization quality)
+  blurAvifQuality: number; // 1-100
+  blurJpegQuality: number; // 1-100
+  blurClean: boolean;
 };
 
 const DEFAULTS: Args = {
@@ -100,7 +114,22 @@ const DEFAULTS: Args = {
   quiet: false,
   lqipWidth: 24,
   limit: 0,
-};;
+
+  // Defaults aligned with legacy gen-blured-images.sh behaviour
+  blurEnable: false,
+  blurOnly: false,
+  // legacy previews-xl source and blurs destination live in parent repo's static/assets/...
+  blurSrc: path.resolve(process.cwd(), '../static/assets/israel-2022/previews-xl'),
+  blurOut: path.resolve(process.cwd(), '../static/assets/israel-2022/blurs'),
+  blurWidth: 24,
+  blurColors: 32,
+  blurFormats: ['png'],
+  blurPngCompression: 9,
+  blurPngQuality: 50,
+  blurAvifQuality: 50,
+  blurJpegQuality: 40,
+  blurClean: false,
+};
 
 function parseArgs(argv: string[]): Args {
   const out: Args = { ...DEFAULTS };
@@ -166,6 +195,45 @@ function parseArgs(argv: string[]): Args {
       case 'limit':
         out.limit = parseInt(v, 10);
         break;
+
+      // --- Blur CLI group ---
+      case 'blur.enable':
+        out.blurEnable = v === 'true';
+        break;
+      case 'blur.only':
+        out.blurOnly = v === 'true';
+        break;
+      case 'blur.src':
+        out.blurSrc = path.resolve(process.cwd(), v);
+        break;
+      case 'blur.out':
+        out.blurOut = path.resolve(process.cwd(), v);
+        break;
+      case 'blur.width':
+        out.blurWidth = Math.max(1, parseInt(v, 10) || DEFAULTS.blurWidth);
+        break;
+      case 'blur.colors':
+        out.blurColors = Math.max(2, parseInt(v, 10) || DEFAULTS.blurColors);
+        break;
+      case 'blur.formats':
+        out.blurFormats = v.split(',').map((x) => x.trim().toLowerCase() as any).filter((x) => ['png', 'avif', 'jpeg'].includes(x));
+        break;
+      case 'blur.pngCompression':
+        out.blurPngCompression = Math.max(0, Math.min(9, parseInt(v, 10) || DEFAULTS.blurPngCompression));
+        break;
+      case 'blur.pngQuality':
+        out.blurPngQuality = Math.max(0, Math.min(100, parseInt(v, 10) || DEFAULTS.blurPngQuality));
+        break;
+      case 'blur.avifQuality':
+        out.blurAvifQuality = Math.max(1, Math.min(100, parseInt(v, 10) || DEFAULTS.blurAvifQuality));
+        break;
+      case 'blur.jpegQuality':
+        out.blurJpegQuality = Math.max(1, Math.min(100, parseInt(v, 10) || DEFAULTS.blurJpegQuality));
+        break;
+      case 'blur.clean':
+        out.blurClean = v === 'true';
+        break;
+
       default:
         // ignore unknown flags
         break;
@@ -287,20 +355,6 @@ function normalizeFormat(format: string | null | undefined): string | null {
   return f;
 }
 
-function mimeFromExt(ext: string) {
-  switch (ext) {
-    case 'avif': return 'image/avif';
-    case 'webp': return 'image/webp';
-    case 'jpeg':
-    case 'jpg': return 'image/jpeg';
-    case 'png': return 'image/png';
-    case 'gif': return 'image/gif';
-    case 'svg': return 'image/svg+xml';
-    case 'tiff':
-    case 'tif': return 'image/tiff';
-    default: return 'application/octet-stream';
-  }
-}
 
 function getProjectStaticRoot(): string {
   // static is at <project>/static
@@ -481,8 +535,12 @@ async function generatePlaceholder(absPath: string, widthTarget: number): Promis
     const { width, height } = orientedDims(meta.width ?? null, meta.height ?? null, meta.orientation ?? null);
     const resized = img
       .resize({ width: widthTarget, withoutEnlargement: true, fit: 'inside' })
-      .withMetadata({ icc: 'srgb' })
-      .jpeg({ quality: 40, chromaSubsampling: '4:2:0', progressive: true });
+      .withMetadata({ icc: ENCODING_CONSTANTS.ICC_PROFILE })
+      .jpeg({
+        quality: ENCODING_CONSTANTS.LQIP_QUALITY,
+        chromaSubsampling: ENCODING_CONSTANTS.LQIP_CHROMA_SUBSAMPLING,
+        progressive: ENCODING_CONSTANTS.JPEG_PROGRESSIVE
+      });
     const buf = await resized.toBuffer();
     return {
       base64: buf.toString('base64'),
@@ -507,18 +565,30 @@ async function dominantColorHex(absPath: string): Promise<string | null> {
   }
 }
 
-function computeTargetWidths(originalWidth: number | null, sizes: number[], allowUpscale: boolean): number[] {
-  const unique = Array.from(new Set(sizes)).sort((a, b) => a - b);
-  if (!originalWidth) return unique;
-  if (allowUpscale) return unique;
-  return unique.filter((w) => w <= originalWidth);
-}
 
-async function copyFilePreserve(absSrc: string, absOut: string): Promise<number> {
-  await ensureDir(path.dirname(absOut));
-  await fsp.copyFile(absSrc, absOut);
-  const bytes = await fileBytes(absOut);
-  return bytes;
+// Helper: Apply format-specific encoding to Sharp instance (DRY + constants)
+function applyFormat(
+  img: SharpInstance,
+  format: 'avif' | 'webp' | 'jpeg',
+  quality: number
+): SharpInstance {
+  switch (format) {
+    case 'avif':
+      return img.avif({
+        quality,
+        effort: ENCODING_CONSTANTS.AVIF_EFFORT,
+        chromaSubsampling: ENCODING_CONSTANTS.LQIP_CHROMA_SUBSAMPLING
+      });
+    case 'webp':
+      return img.webp({ quality, effort: ENCODING_CONSTANTS.WEBP_EFFORT });
+    case 'jpeg':
+      return img.jpeg({
+        quality,
+        chromaSubsampling: ENCODING_CONSTANTS.LQIP_CHROMA_SUBSAMPLING,
+        progressive: ENCODING_CONSTANTS.JPEG_PROGRESSIVE,
+        mozjpeg: ENCODING_CONSTANTS.JPEG_MOZJPEG
+      });
+  }
 }
 
 async function transformVariant(
@@ -538,7 +608,7 @@ async function transformVariant(
   const ext = format === 'jpeg' ? 'jpg' : format;
   const outFile = path.join(outFolder, `${baseName}.${ext}`);
 
-  const img = typeof imgOrSrc === 'string' ? sharp(imgOrSrc).rotate().withMetadata({ icc: 'srgb' }) : imgOrSrc;
+  const img = typeof imgOrSrc === 'string' ? sharp(imgOrSrc).rotate().withMetadata({ icc: ENCODING_CONSTANTS.ICC_PROFILE }) : imgOrSrc;
 
   // Apply resize based on config
   if (config.crop && config.height) {
@@ -558,69 +628,19 @@ async function transformVariant(
     });
   }
 
-  // Apply format and quality
+  // Apply format and quality using helper
   const quality = format === 'avif' ? config.quality.avif : format === 'webp' ? config.quality.webp : config.quality.jpeg;
-  if (format === 'avif') {
-    img.avif({ quality, effort: 5, chromaSubsampling: '4:2:0' });
-  } else if (format === 'webp') {
-    img.webp({ quality, effort: 4 });
-  } else {
-    img.jpeg({ quality, chromaSubsampling: '4:2:0', progressive: true, mozjpeg: false });
-  } await img.toFile(outFile);
-  const bytes = await fileBytes(outFile);
+  applyFormat(img, format, quality);
 
-  // Get actual dimensions
-  let outW = config.width || 0, outH = config.height || 0;
-  try {
-    const meta = await sharp(outFile).metadata();
-    outW = meta.width || outW;
-    outH = meta.height || outH;
-  } catch {
-    // ignore
-  }
+  // Use toFile() return value to get output info
+  const info = await img.toFile(outFile);
+  const outW = info.width;
+  const outH = info.height;
+  const bytes = info.size;
 
   return { bytes, publicPath: publicPathFromOutAbs(outFile), width: outW, height: outH };
 }
 
-async function transformAndWrite(
-  imgOrSrc: SharpInstance | string,
-  outDirAbs: string,
-  base: string,
-  width: number,
-  format: 'avif' | 'webp' | 'jpeg',
-  quality: Quality
-): Promise<{ bytes: number; publicPath: string; width: number; height: number }> {
-  if (!sharp) throw new Error('Sharp not loaded');
-  await ensureDir(outDirAbs);
-  const outFile = path.join(outDirAbs, `${base}.w${width}.${format}`);
-  const img = typeof imgOrSrc === 'string' ? sharp(imgOrSrc).rotate().withMetadata({ icc: 'srgb' }) : imgOrSrc;
-  img.resize({ width, fit: 'inside', withoutEnlargement: true });
-  switch (format) {
-    case 'avif':
-      img.avif({ quality: quality.avif, effort: 5, chromaSubsampling: '4:2:0' });
-      break;
-    case 'webp':
-      img.webp({ quality: quality.webp, effort: 4 });
-      break;
-    case 'jpeg':
-      img.jpeg({ quality: quality.jpeg, chromaSubsampling: '4:2:0', progressive: true, mozjpeg: false });
-      break;
-  }
-  await img.toFile(outFile);
-  const bytes = await fileBytes(outFile);
-
-  // Determine final width/height after processing (read metadata of output)
-  let outW = width, outH = 0;
-  try {
-    const meta = await sharp(outFile).metadata();
-    outW = meta.width ?? width;
-    outH = meta.height ?? 0;
-  } catch {
-    // ignore
-  }
-
-  return { bytes, publicPath: publicPathFromOutAbs(outFile), width: outW, height: outH };
-}
 
 // -----------------------------
 // Cache handling
@@ -753,7 +773,7 @@ async function processSourceFile(absSrc: string, cache: Cache): Promise<{ key: s
       const tasks: Array<Promise<void>> = [];
 
       // Load image once
-      const baseImg = sharp(absSrc).rotate().withMetadata({ icc: 'srgb' });
+      const baseImg = sharp(absSrc).rotate().withMetadata({ icc: ENCODING_CONSTANTS.ICC_PROFILE });
 
       // placeholder + color
       const phPromise = generatePlaceholder(absSrc, ARGS.lqipWidth).then((ph) => { placeholder = ph; });
@@ -982,6 +1002,146 @@ async function cleanOrphans(manifest: Manifest): Promise<{ removed: number }> {
 }
 
 // -----------------------------
+// Blur assets (legacy parity) generator
+// -----------------------------
+
+async function discoverBlurSources(srcDir: string): Promise<string[]> {
+  // Allow nested structure, common photo extensions used by legacy step
+  const patterns = ['**/*.jpg', '**/*.jpeg', '**/*.png'];
+  const entries = await fg(patterns, { cwd: srcDir, dot: false, absolute: true, onlyFiles: true, followSymbolicLinks: true });
+  entries.sort();
+  return entries;
+}
+
+
+async function cleanBlurOutDir(outDir: string) {
+  const all = await fg(['**/*'], { cwd: outDir, absolute: true, onlyFiles: true, followSymbolicLinks: true });
+  let removed = 0;
+  for (const abs of all) {
+    if (!isInsideDir(abs, outDir)) continue;
+    await fsp.unlink(abs).catch(() => { });
+    removed++;
+  }
+  if (removed > 0) {
+    log.info(`Clean blur: odstraněno ${removed} souborů z ${toPosix(path.relative(process.cwd(), outDir))}`);
+  }
+}
+
+async function generateBlurAssets(): Promise<{ processed: number; outputs: number; errors: number }> {
+  if (!sharp) {
+    log.error('Blur generování vyžaduje knihovnu "sharp". Spusťte instalaci nebo použijte --fallback=copy (bez efektu blur).');
+    return { processed: 0, outputs: 0, errors: 1 };
+  }
+
+  const srcDir = ARGS.blurSrc;
+  const outDir = ARGS.blurOut;
+
+  await ensureDir(outDir);
+
+  if (ARGS.blurClean) {
+    await cleanBlurOutDir(outDir);
+  }
+
+  const sources = await discoverBlurSources(srcDir);
+  const originalCount = sources.length;
+  const limited = ARGS.limit > 0 ? sources.slice(0, ARGS.limit) : sources;
+
+  log.info(`Blur: nalezeno zdrojů: ${limited.length}${ARGS.limit > 0 ? ` (limit ${ARGS.limit} z ${originalCount})` : ''} (${toPosix(path.relative(process.cwd(), srcDir))})`);
+  log.verbose('Blur formáty:', ARGS.blurFormats.join(', '), '| width =', ARGS.blurWidth, '| colors =', ARGS.blurColors);
+
+  const bar = ARGS.quiet ? null : new SingleBar({
+    format: 'Blur [{bar}] {percentage}% | {value}/{total} | ETA: {eta}s',
+    barCompleteChar: '\u2588',
+    barIncompleteChar: '\u2591',
+    hideCursor: true
+  });
+  if (bar) bar.start(limited.length, 0);
+
+  let processed = 0;
+  let outputs = 0;
+  let errors = 0;
+
+  const tasks: Array<Promise<void>> = [];
+
+  for (const abs of limited) {
+    tasks.push((async () => {
+      try {
+        const base = path.basename(abs, path.extname(abs));
+        // Prepare target file names per format
+        const targets: Array<{ fmt: 'png' | 'avif' | 'jpeg'; outFile: string }> = [];
+
+        for (const fmt of ARGS.blurFormats) {
+          let outFile = path.join(outDir, `${base}.${fmt === 'jpeg' ? 'jpg' : fmt}`);
+          targets.push({ fmt: fmt as any, outFile });
+        }
+
+        // Process once and fork by format using clone()
+        const img = sharp!(abs).rotate().resize({
+          width: ARGS.blurWidth,
+          fit: 'inside',
+          withoutEnlargement: true
+          // kernel default is Lanczos3 which aligns with legacy '-filter Lanczos'
+        });
+
+        for (const t of targets) {
+          const dir = path.dirname(t.outFile);
+          await ensureDir(dir);
+
+          const clone = img.clone();
+          if (t.fmt === 'png') {
+            clone.png({
+              palette: true,
+              colors: ARGS.blurColors,
+              quality: ARGS.blurPngQuality,
+              compressionLevel: ARGS.blurPngCompression,
+              effort: 4
+            });
+          } else if (t.fmt === 'avif') {
+            clone.avif({
+              quality: ARGS.blurAvifQuality,
+              effort: 5,
+              chromaSubsampling: '4:2:0'
+            });
+          } else {
+            clone.jpeg({
+              quality: ARGS.blurJpegQuality,
+              chromaSubsampling: '4:2:0',
+              progressive: true,
+              mozjpeg: false
+            });
+          }
+
+          await clone.toFile(t.outFile);
+          outputs++;
+        }
+
+      } catch (e: any) {
+        errors++;
+        log.warn('Blur chyba:', e?.message || String(e));
+      } finally {
+        processed++;
+        if (bar) {
+          bar.update(processed);
+          bar.render();
+        }
+      }
+    })());
+  }
+
+  await runWithConcurrency(tasks, ARGS.concurrency as number);
+  if (bar) bar.stop();
+  if (!ARGS.quiet) process.stdout.write('\n');
+
+  if (errors > 0) {
+    log.warn(`Blur dokončeno s chybami: ${errors} položek`);
+  } else {
+    log.info(`Blur dokončeno. Vstupy: ${processed}, výstupy: ${outputs}`);
+  }
+
+  return { processed, outputs, errors };
+}
+
+// -----------------------------
 // Watch mode
 // -----------------------------
 
@@ -1025,15 +1185,24 @@ async function handleFileEvent(fileAbs: string, type: 'create' | 'update' | 'del
 // -----------------------------
 
 async function main() {
-  // Validate dirs
+  // Validate dirs for main pipeline
   await ensureDir(CTX.outRoot);
   await ensureDir(path.dirname(CTX.manifestPath));
 
-  // Load sharp or setup fallback
+  // Load sharp or setup fallback (needed for both main and blur)
   await loadSharpOrExplain();
   if (process.exitCode === 1 && ARGS.fallback !== 'copy') {
     // sharp missing and no fallback -> terminate
     process.exit(1);
+    return;
+  }
+
+  // Standalone BLUR mode (no main build)
+  if (ARGS.blurEnable && ARGS.blurOnly) {
+    const { errors } = await generateBlurAssets();
+    if (errors > 0) {
+      process.exit(1);
+    }
     return;
   }
 
@@ -1071,11 +1240,23 @@ async function main() {
   } else {
     const { manifest, errors } = await buildAll();
     if (ARGS.clean) await cleanOrphans(manifest);
-    if (errors > 0) {
-      log.error(`Dokončeno s chybami: ${errors} položek`);
-      process.exit(1);
+
+    // Optional blur pass after main build
+    if (ARGS.blurEnable) {
+      const blurRes = await generateBlurAssets();
+      if (errors === 0 && blurRes.errors === 0) {
+        log.info('Dokončeno bez chyb (včetně blur).');
+      } else {
+        log.error(`Dokončeno s chybami: main=${errors}, blur=${blurRes.errors}`);
+        process.exit(1);
+      }
     } else {
-      log.info('Dokončeno bez chyb.');
+      if (errors > 0) {
+        log.error(`Dokončeno s chybami: ${errors} položek`);
+        process.exit(1);
+      } else {
+        log.info('Dokončeno bez chyb.');
+      }
     }
   }
 }
