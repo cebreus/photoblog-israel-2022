@@ -76,6 +76,8 @@ Thumbs.db
 .eslintcache
 .husky
 .idea
+.images-cache.json
+.mcp.json
 .netlify
 .temp
 .tmp
