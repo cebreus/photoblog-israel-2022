@@ -4,19 +4,20 @@
   "files": {
     "includes": [
       "**/./**",
-      "!**/node_modules/**",
-      "!**/build/**",
-      "!**/dist/**",
-      "!**/.svelte-kit/**",
-      "!**/.vite/**",
-      "!**/static/images/**",
+      "!**/node_modules",
+      "!**/build",
+      "!**/dist",
+      "!**/.svelte-kit",
+      "!**/.vite",
+      "!**/static/images",
       "!**/static/**/*.jpg",
       "!**/static/**/*.jpeg",
       "!**/static/**/*.png",
       "!**/static/**/*.webp",
       "!**/static/**/*.avif",
-      "!**/e2e/**/screenshots/**",
-      "!**/tests/outputs/**"
+      "!**/e2e/**/screenshots",
+      "!**/tests/outputs",
+      "!**/*.css"
     ]
   },
   "formatter": {
