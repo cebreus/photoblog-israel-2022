@@ -1,7 +1,8 @@
 <script>
-  // @ts-nocheck
-  /** @type {import('./$types').PageData} */
   export let data;
+
+  import PhotoGrid from '$lib/components/PhotoGrid.svelte';
+  import Hero from '$lib/components/Hero.svelte';
 
   const groups = data.groups ?? [];
   const page = data.page ?? null;
@@ -17,12 +18,21 @@
   const pathPreviewsXLJpeg = (e) => pickVariantPath(e, 'jpeg', 'previews-xl');
   const pathPreviewsWebp = (e) => pickVariantPath(e, 'webp', 'previews');
   const pathPreviewsJpeg = (e) => pickVariantPath(e, 'jpeg', 'previews');
+
+  // Fallback na originál v případě, že varianty nebyly vygenerované (např. --fallback=copy)
+  function originalPath(e) {
+    return (e && e.original && e.original.path) || undefined;
+  }
+
   const pathPreviewsXXS = (e) =>
     pickVariantPath(e, 'jpeg', 'previews-xxs') ||
-    pickVariantPath(e, 'webp', 'previews-xxs');
-  const pathDetailsJpeg = (e) =>
+    pickVariantPath(e, 'webp', 'previews-xxs') ||
+    originalPath(e);
+
+  const pathDetailsHref = (e) =>
     pickVariantPath(e, 'jpeg', 'details') ||
-    pickVariantPath(e, 'webp', 'details');
+    pickVariantPath(e, 'webp', 'details') ||
+    originalPath(e);
 
   function fmtDate(d) {
     try {
@@ -66,24 +76,8 @@
   }
 </script>
 
-{#if page?.jumbo}
-  <article class="o-main o-main--jumbo">
-    <div class="c-jumbo container">
-      {#if page.jumbo.title}
-        <h1 class="c-jumbo__title">{@html page.jumbo.title}</h1>
-      {/if}
-      {#if page.jumbo.html?.excerpt}
-        <div class="c-jumbo__perex col-12 col-lg-7">
-          {@html page.jumbo.html.excerpt}
-        </div>
-      {/if}
-      {#if page.jumbo.html?.content}
-        <div class="c-jumbo__content col-12 col-lg-7">
-          {@html page.jumbo.html.content}
-        </div>
-      {/if}
-    </div>
-  </article>
+{#if true}
+  <Hero />
 {/if}
 
 <main>
@@ -123,66 +117,11 @@
         <div
           class="c-gallery row row-cols-1 row-cols-xs-2 row-cols-lg-3 row-cols-xxl-4 g-2"
         >
-          {#each group.items as it (it.id)}
-            {#if it.kind === 'location'}
-              <div class="c-gallery__col col">
-                <div
-                  class="c-gallery__pic ratio ratio-16x9 bg-secondary-subtle"
-                >
-                  <div class="p-4 d-flex align-items-start flex-column">
-                    <div class="fs-5">{it.city}</div>
-                    {it.where}
-                  </div>
-                </div>
-              </div>
-            {:else}
-              <a
-                class="c-gallery__col col"
-                data-fancybox="gallery"
-                href={pathDetailsJpeg(it)}
-                aria-label="Zobraz vetší obrázek"
-              >
-                <picture
-                  class="c-gallery__pic ratio ratio-16x9 {groupIndex === 0
-                    ? 'blurred-img'
-                    : ''}"
-                  data-title={(it.where || '').trim()}
-                >
-                  {#if pathPreviewsXLWebp(it)}<source
-                      media="(min-width: 576px) or (max-width: 1399px)"
-                      type="image/webp"
-                      srcset={pathPreviewsXLWebp(it)}
-                    />{/if}
-                  {#if pathPreviewsXLJpeg(it)}<source
-                      media="(min-width: 576px) or (max-width: 1399px)"
-                      type="image/jpeg"
-                      srcset={pathPreviewsXLJpeg(it)}
-                    />{/if}
-                  {#if pathPreviewsWebp(it)}<source
-                      media="(max-width: 575px) or (min-width: 1400px)"
-                      type="image/webp"
-                      srcset={pathPreviewsWebp(it)}
-                    />{/if}
-                  {#if pathPreviewsJpeg(it)}<source
-                      media="(max-width: 575px) or (min-width: 1400px)"
-                      type="image/jpeg"
-                      srcset={pathPreviewsJpeg(it)}
-                    />{/if}
-                  <img
-                    src={pathPreviewsXXS(it) ||
-                      pathPreviewsJpeg(it) ||
-                      pathPreviewsXLJpeg(it)}
-                    loading={groupIndex === 0 ? 'eager' : 'lazy'}
-                    alt={it.where || it.city || it.id}
-                  />
-                </picture>
-              </a>
-            {/if}
-          {/each}
+          <PhotoGrid {group} showBlur={groupIndex === 0} />
         </div>
       </div>
 
-      <div class="mt-4" data-cy="day-meta">
+      <!-- <div class="mt-4" data-cy="day-meta">
         <h3 class="h5 text-center mb-3">Obrázky — metainformace</h3>
         <div class="container">
           {#each group.items.filter((i) => i && i.kind === 'image') as img (img.id)}
@@ -240,7 +179,9 @@
                         ><th scope="row">Keywords</th><td
                           >{Array.isArray(img.meta?.keywords)
                             ? img.meta.keywords.join(', ')
-                            : img.meta?.keywords || '—'}</td
+                            : img.meta?.keywords
+                              ? String(img.meta.keywords)
+                              : '—'}</td
                         ></tr
                       >
                       <tr
@@ -287,7 +228,6 @@
                   )}</code
                 ></pre>
 
-              <!-- JSON-LD strukturovaná data pro každý snímek -->
               <script type="application/ld+json">
                 {JSON.stringify({
                   "@context": "https://schema.org",
@@ -295,8 +235,8 @@
                   "identifier": img.id,
                   "name": (img.where || img.city || img.id),
                   "dateCreated": img.date || null,
-                  "contentUrl": pathDetailsJpeg(img),
-                  "thumbnailUrl": pathPreviewsXXS(img) || pathPreviewsJpeg(img) || pathPreviewsXLJpeg(img),
+                  "contentUrl": pathDetailsHref(img) || originalPath(img),
+                  "thumbnailUrl": pathPreviewsXXS(img) || pathPreviewsJpeg(img) || pathPreviewsXLJpeg(img) || originalPath(img),
                   "width": img.original?.width || null,
                   "height": img.original?.height || null,
                   "encodingFormat": "image/jpeg",
@@ -308,7 +248,7 @@
             </details>
           {/each}
         </div>
-      </div>
+      </div> -->
     </section>
   {/each}
 </main>

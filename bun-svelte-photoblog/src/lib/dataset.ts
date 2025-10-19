@@ -102,9 +102,11 @@ export function buildDayGroups(manifest: Manifest, options: { bestOf?: boolean }
   for (const [fileKey, entry] of Object.entries(manifest)) {
     const meta = (entry as any).meta || null;
 
-    // Vynechat manifest položky bez meta.groupBy (nejsou to fotografie nebo chybí EXIF)
-    const groupBy = meta?.groupBy ?? null;
-    if (!groupBy) continue;
+    // Fallback: pokud chybí meta.groupBy (např. první běh s --fallback=copy), zařaď do skupiny '_unknown'
+    const groupKey =
+      (meta?.groupBy && typeof meta.groupBy === 'string' && (meta.groupBy as string).length >= 4)
+        ? (meta.groupBy as string)
+        : '_unknown';
 
     // BestOf filtr: musí obsahovat 'prio2' (podporujeme string i string[])
     if (options.bestOf) {
@@ -119,15 +121,15 @@ export function buildDayGroups(manifest: Manifest, options: { bestOf?: boolean }
       id,
       fileKey,
       date: meta?.date ?? null,
-      groupBy,
+      groupBy: groupKey,
       city: meta?.city ?? null,
       where: meta?.where ?? null,
       type: (meta?.type as string | null) ?? null,
     });
 
-    const list = byDay.get(groupBy) || [];
+    const list = byDay.get(groupKey) || [];
     list.push(imageItem);
-    byDay.set(groupBy, list);
+    byDay.set(groupKey, list);
   }
 
   // Post-processing: řazení a vložení location sentinelů
