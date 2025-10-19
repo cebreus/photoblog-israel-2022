@@ -8,67 +8,76 @@
     type ManifestEntry,
   } from '$lib/images';
 
-  export let srcKey: string;
-  export let alt: string;
-  export let sizes: string = '100vw';
-  export let loading: 'eager' | 'lazy' = 'lazy';
-  export let decoding: 'async' | 'sync' | 'auto' = 'async';
-  export let style: string = '';
-  export let priority: boolean = false;
-  export let placeholder: 'none' | 'background' | 'blur' = 'background';
+  type Props = {
+    srcKey: string;
+    alt: string;
+    sizes?: string;
+    loading?: 'eager' | 'lazy';
+    decoding?: 'async' | 'sync' | 'auto';
+    style?: string;
+    priority?: boolean;
+    placeholder?: 'none' | 'background' | 'blur';
+    class?: string;
+  };
 
-  let entry: ManifestEntry | undefined;
-  let loaded = false;
+  let {
+    srcKey,
+    alt,
+    sizes = '100vw',
+    loading = 'lazy',
+    decoding = 'async',
+    style = '',
+    priority = false,
+    placeholder = 'background',
+    class: className = '',
+  }: Props = $props();
 
-  // Explicit typing to satisfy Svelte TS for attributes
-  let fetchpriority: 'auto' | 'high' | 'low' | null | undefined = undefined;
-  let imgLoading: 'eager' | 'lazy' = 'lazy';
+  let loaded = $state(false);
 
-  $: entry = findImage(srcKey);
-  $: imgOptions = entry ? getImgFallback(entry, sizes) : null;
-  $: sources = entry ? getSources(entry, sizes) : [];
-  $: fetchpriority = priority ? 'high' : undefined;
-  $: imgLoading = priority ? 'eager' : loading;
+  // Derived values instead of $effect
+  let entry = $derived(findImage(srcKey));
+  let imgOptions = $derived(entry ? getImgFallback(entry, sizes) : null);
+  let sources = $derived(entry ? getSources(entry, sizes) : []);
+  let fetchpriority: 'auto' | 'high' | 'low' | undefined = $derived(
+    priority ? 'high' : undefined,
+  );
+  let imgLoading = $derived(priority ? 'eager' : loading);
 
   function handleLoad() {
     loaded = true;
   }
 
   // Inline styles for placeholder/color background mode
-  $: placeholderStyle =
+  let placeholderStyle = $derived(
     placeholder === 'background' && entry
       ? [dominantColorStyle(entry), placeholderBackgroundStyle(entry)]
           .filter(Boolean)
           .join('')
-      : dominantColorStyle(entry) || '';
+      : dominantColorStyle(entry) || '',
+  );
 
   // For blur mode we render an extra absolutely-positioned LQIP img
-  $: lqipUrl =
+  let lqipUrl = $derived(
     entry?.placeholder?.base64 && entry?.placeholder?.type
       ? `data:${entry.placeholder.type};base64,${entry.placeholder.base64}`
-      : undefined;
+      : undefined,
+  );
 </script>
 
 {#if !entry}
   <!-- Fallback if manifest key is missing -->
-  <img
-    {alt}
-    class={$$props.class}
-    style={$$props.style}
-    loading={imgLoading}
-    {decoding}
-  />
+  <img {alt} class={className} {style} loading={imgLoading} {decoding} />
 {:else}
   <div
-    class={`pb-picture ${loaded ? 'is-loaded' : ''} ${$$props.class ?? ''}`}
-    style={`${placeholderStyle}${$$props.style ?? ''}`}
+    class={`pb-picture ${loaded ? 'is-loaded' : ''} ${className}`}
+    style={`${placeholderStyle}${style}`}
   >
     {#if placeholder === 'blur' && lqipUrl}
       <img aria-hidden="true" alt="" class="pb-picture__lqip" src={lqipUrl} />
     {/if}
 
     <picture>
-      {#each sources as s}
+      {#each sources as s (s.type)}
         <source type={s.type} srcset={s.srcset} sizes={s.sizes} />
       {/each}
       {#if imgOptions}
@@ -81,7 +90,7 @@
           {decoding}
           {fetchpriority}
           class="pb-picture__img"
-          on:load={handleLoad}
+          onload={handleLoad}
         />
       {:else}
         <!-- Worst-case if no variants exist -->
@@ -92,7 +101,7 @@
           {decoding}
           {fetchpriority}
           class="pb-picture__img"
-          on:load={handleLoad}
+          onload={handleLoad}
         />
       {/if}
     </picture>
