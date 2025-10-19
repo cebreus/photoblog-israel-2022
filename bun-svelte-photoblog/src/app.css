@@ -1,2 +1,90 @@
 @import 'tailwindcss';
+
 @plugin '@tailwindcss/typography';
+
+@layer components {
+  .header {
+    @apply bg-gray-900 text-white p-4;
+  }
+
+  .header__wrapper {
+    @apply max-w-7xl mx-auto;
+  }
+
+  .nav__list {
+    @apply flex gap-4 list-none p-0 m-0;
+  }
+
+  .nav__link {
+    @apply font-semibold text-gray-400 no-underline transition-colors;
+  }
+
+  .nav__link:hover,
+  .nav__link[aria-current='page'] {
+    @apply text-orange-500;
+  }
+
+  .main {
+    @apply flex-grow;
+  }
+
+  .footer {
+    @apply text-center py-12 px-4 bg-gray-100 text-gray-600;
+  }
+
+  .footer__wrapper {
+    @apply max-w-7xl mx-auto;
+  }
+
+  .nav-footer__list {
+    @apply flex justify-center gap-4 list-none p-0 m-0 mb-4;
+  }
+
+  .copyright {
+    @apply text-sm;
+  }
+
+  .section--fullscreen {
+    @apply min-h-[80vh] flex items-center justify-center text-center;
+  }
+
+  .section--intro {
+    @apply bg-gray-900 text-white;
+  }
+
+  .intro__title {
+    @apply text-5xl font-black mb-4;
+  }
+
+  .intro__perex {
+    @apply text-xl max-w-2xl mx-auto mb-8;
+  }
+
+  .photoblog-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4 md:p-6;
+  }
+
+  .photoblog-item-container {
+    @apply bg-white rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105;
+  }
+
+  .photoblog-item__figure {
+    @apply m-0;
+  }
+
+  .photoblog-item__img {
+    @apply w-full h-auto object-cover;
+  }
+
+  .photoblog-item__caption {
+    @apply p-6;
+  }
+
+  .photoblog-item__caption-content {
+    @apply mb-4 max-w-none;
+  }
+
+  .photoblog-item__meta {
+    @apply text-sm text-gray-500 flex justify-between border-t pt-4 mt-4;
+  }
+}
