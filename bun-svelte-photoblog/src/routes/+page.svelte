@@ -181,6 +181,134 @@
           {/each}
         </div>
       </div>
+
+      <div class="mt-4" data-cy="day-meta">
+        <h3 class="h5 text-center mb-3">Obrázky — metainformace</h3>
+        <div class="container">
+          {#each group.items.filter((i) => i && i.kind === 'image') as img (img.id)}
+            <details class="mb-3">
+              <summary
+                ><strong>{img.id}</strong> — {img.where || img.city || '—'} ({fmtDate(
+                  img.date,
+                )})</summary
+              >
+
+              <div class="row small mt-2">
+                <div class="col-12 col-md-6">
+                  <table class="table table-sm table-striped">
+                    <tbody>
+                      <tr><th scope="row">ID</th><td>{img.id}</td></tr>
+                      <tr
+                        ><th scope="row">Datum</th><td>{img.date || '—'}</td
+                        ></tr
+                      >
+                      <tr><th scope="row">Den</th><td>{group.key}</td></tr>
+                      <tr
+                        ><th scope="row">Město</th><td>{img.city || '—'}</td
+                        ></tr
+                      >
+                      <tr
+                        ><th scope="row">Místo (where)</th><td
+                          >{img.where || '—'}</td
+                        ></tr
+                      >
+                      <tr><th scope="row">Typ</th><td>{img.type || '—'}</td></tr
+                      >
+                      <tr
+                        ><th scope="row">Rozměry</th><td
+                          >{img.original?.width || '—'} × {img.original
+                            ?.height || '—'}</td
+                        ></tr
+                      >
+                      <tr
+                        ><th scope="row">Poměr stran</th><td>
+                          {#if img.original?.width && img.original?.height}
+                            {(img.original.width / img.original.height).toFixed(
+                              2,
+                            )}
+                          {:else}—{/if}
+                        </td></tr
+                      >
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <table class="table table-sm table-striped">
+                    <tbody>
+                      <tr
+                        ><th scope="row">Keywords</th><td
+                          >{Array.isArray(img.meta?.keywords)
+                            ? img.meta.keywords.join(', ')
+                            : img.meta?.keywords || '—'}</td
+                        ></tr
+                      >
+                      <tr
+                        ><th scope="row">Caption</th><td
+                          >{img.meta?.caption || '—'}</td
+                        ></tr
+                      >
+                      <tr
+                        ><th scope="row">ObjectName</th><td
+                          >{img.meta?.objectName || '—'}</td
+                        ></tr
+                      >
+                      <tr
+                        ><th scope="row">Country</th><td
+                          >{img.meta?.country || '—'}</td
+                        ></tr
+                      >
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <pre class="small bg-light p-2 border rounded"><code
+                  >{JSON.stringify(
+                    {
+                      id: img.id,
+                      date: img.date,
+                      groupBy: group.key,
+                      city: img.city,
+                      where: img.where,
+                      type: img.type,
+                      size: {
+                        width: img.original?.width,
+                        height: img.original?.height,
+                      },
+                      ratio:
+                        img.original?.width && img.original?.height
+                          ? img.original.width / img.original.height
+                          : null,
+                      meta: img.meta || {},
+                    },
+                    null,
+                    2,
+                  )}</code
+                ></pre>
+
+              <!-- JSON-LD strukturovaná data pro každý snímek -->
+              <script type="application/ld+json">
+                {JSON.stringify({
+                  "@context": "https://schema.org",
+                  "@type": "Photograph",
+                  "identifier": img.id,
+                  "name": (img.where || img.city || img.id),
+                  "dateCreated": img.date || null,
+                  "contentUrl": pathDetailsJpeg(img),
+                  "thumbnailUrl": pathPreviewsXXS(img) || pathPreviewsJpeg(img) || pathPreviewsXLJpeg(img),
+                  "width": img.original?.width || null,
+                  "height": img.original?.height || null,
+                  "encodingFormat": "image/jpeg",
+                  "locationCreated": (img.where || img.city) ? { "@type": "Place", "name": (img.where || img.city) } : undefined,
+                  "keywords": Array.isArray(img.meta?.keywords) ? img.meta.keywords : (img.meta?.keywords ? String(img.meta.keywords).split(/[;,]\s*/).filter(Boolean) : undefined),
+                  "about": img.meta?.caption || undefined
+                }, null, 2)}
+              </script>
+            </details>
+          {/each}
+        </div>
+      </div>
     </section>
   {/each}
 </main>
