@@ -1,4 +1,4 @@
-import type { Manifest, ImageEntry, ImageSource } from './types/manifest';
+import type { Manifest, PhotoDay, ImageEntry, ImageSource } from './types/manifest';
 import manifest from '$lib/images.manifest.json' with { type: 'json' };
 
 const typedManifest: Manifest = manifest as unknown as Manifest;
@@ -7,8 +7,8 @@ export function getManifest(): Manifest {
   return typedManifest;
 }
 
-export function getPhotoDays() {
-  return typedManifest.photoDays || [];
+export function getPhotoDays(): PhotoDay[] {
+  return typedManifest.photoDays ?? [];
 }
 
 /**

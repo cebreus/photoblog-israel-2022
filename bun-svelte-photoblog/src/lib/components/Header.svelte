@@ -1,48 +1,23 @@
 <script lang="ts">
   import type { MenuManifest } from '$lib/types/manifest';
-  import {
-    Menu,
-    Home,
-    Star,
-    FileText,
-    ChevronRight,
-    Calendar,
-  } from '@lucide/svelte';
+  import { Menu, ChevronRight, Calendar } from '@lucide/svelte';
   import Button, {
     buttonVariants,
   } from '$lib/components/ui/button/button.svelte';
-
   import * as Sheet from '$lib/components/ui/sheet';
-  import { page } from '$app/stores';
-  import { base } from '$app/paths';
   import * as Sidebar from '$lib/components/ui/sidebar';
-  import slugify from 'slugify';
 
-  export let menu: MenuManifest = [];
-
-  function getCzechDate(dateStr: string) {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString('cs-CZ', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  }
-
-  import { get } from 'svelte/store';
-
-  const baseNoSlash = base.replace(/\/$/, '');
+  export let menuItems: MenuManifest = [];
 </script>
 
 <header class="sticky top-0 border-b bg-background text-foreground z-10">
   <div class="container mx-auto py-3 flex items-center gap-4">
     <div class="flex-1 flex items-center gap-8">
       <a href="/" class="text-lg font-semibold uppercase">Izrael 2022</a>
-      <div class="flex items-center gap-1">
+      <!-- <div class="flex items-center gap-1">
         <Button size="sm" variant="ghost" href="/">Vše</Button>
         <Button size="sm" variant="ghost" href="/best-of">Výběr</Button>
-      </div>
+      </div> -->
     </div>
 
     <Sheet.Root>
@@ -83,23 +58,23 @@
           <Sidebar.Menu>
             <Sidebar.Group>
               <Sidebar.GroupLabel>Dny</Sidebar.GroupLabel>
-              {#each menu as day (day.id)}
+              {#each menuItems as menuDay (menuDay.id)}
                 <Sidebar.MenuItem>
                   <Sidebar.MenuButton>
                     {#snippet child({ props })}
-                      <a href={day.id} {...props}>
+                      <a href={menuDay.id} {...props}>
                         <Calendar />
-                        {day.label}
+                        {menuDay.label}
                         <ChevronRight class="ml-auto size-4" />
                       </a>
                     {/snippet}
                   </Sidebar.MenuButton>
 
                   <Sidebar.MenuSub>
-                    {#each day.locations as loc (loc.id)}
+                    {#each menuDay.locations as menuLocation (menuLocation.id)}
                       <Sidebar.MenuSubItem>
-                        <Sidebar.MenuSubButton href={loc.id}>
-                          {loc.label}
+                        <Sidebar.MenuSubButton href={menuLocation.id}>
+                          {menuLocation.label}
                         </Sidebar.MenuSubButton>
                       </Sidebar.MenuSubItem>
                     {/each}

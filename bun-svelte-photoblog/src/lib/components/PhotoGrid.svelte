@@ -9,18 +9,18 @@
     items: (ImageEntry | Separator)[];
   }>();
 
-  function getStoryHtml(item: Separator) {
-    return item.storyContent ? marked.parse(item.storyContent) : '';
+  function renderStoryHtml(separator: Separator) {
+    return separator.storyContent ? marked.parse(separator.storyContent) : '';
   }
 
-  function findFallback(item: ImageEntry): ImageSource | undefined {
-    return item.sources.find((s) => s.variant === 'fallback');
+  function findFallbackSource(image: ImageEntry): ImageSource | undefined {
+    return image.sources.find((source) => source.variant === 'fallback');
   }
 </script>
 
 {#each items as item (item.type === 'image' ? item.src : item.location)}
   {#if item.type === 'image'}
-    {@const fallback = findFallback(item)}
+    {@const fallback = findFallbackSource(item)}
     <!-- style="background-image: url(/images/israel-2022/{item.placeholder});" -->
     <figure
       class={`bg-cover bg-center bg-[${item.placeholderColor}] rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105`}
@@ -46,7 +46,7 @@
       {/if}
     </figure>
   {:else if item.type === 'separator'}
-    {@const sepId = (item as any).id}
+    {@const separatorId = item.id}
     {#if item.storyContent}
       <Dialog.Root>
         <Dialog.Trigger
@@ -75,16 +75,16 @@
           </Dialog.Header>
           <div
             class="prose prose-sm dark:prose-invert max-w-none mt-4"
-            id={sepId}
+            id={separatorId}
           >
-            {@html getStoryHtml(item)}
+            {@html renderStoryHtml(item)}
           </div>
         </Dialog.Content>
       </Dialog.Root>
     {:else}
       <div
         class="aspect-video flex flex-col items-center justify-center p-4 bg-slate-100 dark:bg-slate-800/50 rounded-lg shadow-lg"
-        id={sepId}
+        id={separatorId}
       >
         <h3 class="text-lg">{item.location}</h3>
         {#if item.city}

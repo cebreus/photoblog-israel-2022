@@ -11,7 +11,7 @@
   <link rel="icon" href={favicon} />
 </svelte:head>
 
-<Header menu={data.menu} />
+<Header menuItems={data.menu} />
 
 {@render children?.()}
 

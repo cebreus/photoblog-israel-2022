@@ -25,7 +25,7 @@
     Fotky ke stažení
     <ExternalLink />
   </Button>
-  <Button
+  <!-- <Button
     variant="link"
     href="/changelog/"
     target="_blank"
@@ -33,5 +33,5 @@
   >
     Change log
     <ExternalLink />
-  </Button>
+  </Button> -->
 </footer>

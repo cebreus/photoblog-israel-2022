@@ -1,1 +1,3 @@
-// place files you want to import through the `$lib` alias in this folder.
+// Central export surface for the `$lib` alias.
+export { getPhotoDays } from './images';
+export { getMenuItems } from './menu';
