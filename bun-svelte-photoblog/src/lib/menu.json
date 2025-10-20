@@ -1,0 +1,268 @@
+[
+  {
+    "id": "day-2022-10-20",
+    "date": "2022-10-20",
+    "label": "čtvrtek 20. října 2022",
+    "locations": [
+      {
+        "id": "loc-bahaisticke-zahrady",
+        "label": "Baha’istické zahrady"
+      },
+      {
+        "id": "loc-bazilika-zvestovani",
+        "label": "Bazilika Zvěstování"
+      },
+      {
+        "id": "loc-dzazzarova-mesita",
+        "label": "Džazzárova mešita"
+      },
+      {
+        "id": "loc-kostel-sv-josefa",
+        "label": "Kostel sv. Josefa"
+      },
+      {
+        "id": "loc-krizacka-pevnost",
+        "label": "Křižácká pevnost"
+      },
+      {
+        "id": "loc-templarsky-tunel",
+        "label": "Templářský tunel"
+      },
+      {
+        "id": "loc-turecke-lazne",
+        "label": "Turecké lázně"
+      },
+      {
+        "id": "loc-unknown",
+        "label": "Unknown"
+      }
+    ]
+  },
+  {
+    "id": "day-2022-10-21",
+    "date": "2022-10-21",
+    "label": "pátek 21. října 2022",
+    "locations": [
+      {
+        "id": "loc-kostel-blahoslavenstvi",
+        "label": "Kostel Blahoslavenství"
+      },
+      {
+        "id": "loc-kana-galilejska",
+        "label": "Kána Galilejská"
+      },
+      {
+        "id": "loc-synagoga-abuhav",
+        "label": "Synagoga Abuhav"
+      },
+      {
+        "id": "loc-synagoga-ari-ashkenazi",
+        "label": "Synagoga Ari Ashkenazi"
+      },
+      {
+        "id": "loc-unknown",
+        "label": "Unknown"
+      },
+      {
+        "id": "loc-yardenit",
+        "label": "Yardenit"
+      }
+    ]
+  },
+  {
+    "id": "day-2022-10-22",
+    "date": "2022-10-22",
+    "label": "sobota 22. října 2022",
+    "locations": [
+      {
+        "id": "loc-gerasa",
+        "label": "Gerasa"
+      },
+      {
+        "id": "loc-memorial-church-of-moses",
+        "label": "Memorial Church of Moses"
+      },
+      {
+        "id": "loc-peace-land-work-shop",
+        "label": "Peace land work shop"
+      },
+      {
+        "id": "loc-unknown",
+        "label": "Unknown"
+      }
+    ]
+  },
+  {
+    "id": "day-2022-10-23",
+    "date": "2022-10-23",
+    "label": "neděle 23. října 2022",
+    "locations": [
+      {
+        "id": "loc-alanbat-hotel",
+        "label": "Alanbat Hotel"
+      },
+      {
+        "id": "loc-petra",
+        "label": "Petra"
+      }
+    ]
+  },
+  {
+    "id": "day-2022-10-24",
+    "date": "2022-10-24",
+    "label": "pondělí 24. října 2022",
+    "locations": [
+      {
+        "id": "loc-berenice-beach-club",
+        "label": "Berenice Beach Club"
+      },
+      {
+        "id": "loc-unknown",
+        "label": "Unknown"
+      },
+      {
+        "id": "loc-wadi-rum",
+        "label": "Wadi Rum"
+      }
+    ]
+  },
+  {
+    "id": "day-2022-10-25",
+    "date": "2022-10-25",
+    "label": "úterý 25. října 2022",
+    "locations": [
+      {
+        "id": "loc-masada",
+        "label": "Masada"
+      },
+      {
+        "id": "loc-unknown",
+        "label": "Unknown"
+      }
+    ]
+  },
+  {
+    "id": "day-2022-10-26",
+    "date": "2022-10-26",
+    "label": "středa 26. října 2022",
+    "locations": [
+      {
+        "id": "loc-cardo",
+        "label": "Cardo"
+      },
+      {
+        "id": "loc-chram-boziho-hrobu",
+        "label": "Chrám Božího hrobu"
+      },
+      {
+        "id": "loc-hrob-panny-marie",
+        "label": "Hrob Panny Marie"
+      },
+      {
+        "id": "loc-kostel-dominus-flevit",
+        "label": "Kostel Dominus Flevit"
+      },
+      {
+        "id": "loc-kostel-narodu",
+        "label": "Kostel národů"
+      },
+      {
+        "id": "loc-namesti-u-zapadni-zdi",
+        "label": "Náměstí u Západní zdi"
+      },
+      {
+        "id": "loc-olivova-hora",
+        "label": "Olivová hora"
+      },
+      {
+        "id": "loc-sionska-brana",
+        "label": "Sionská brána"
+      },
+      {
+        "id": "loc-skalni-dom",
+        "label": "Skalní dóm"
+      },
+      {
+        "id": "loc-unknown",
+        "label": "Unknown"
+      },
+      {
+        "id": "loc-veceradlo",
+        "label": "Večeřadlo"
+      },
+      {
+        "id": "loc-zapadni-zed-zed-narku",
+        "label": "Západní zeď (Zeď nářků)"
+      },
+      {
+        "id": "loc-hrobka-krale-davida",
+        "label": "hrobka krále Davida"
+      }
+    ]
+  },
+  {
+    "id": "day-2022-10-27",
+    "date": "2022-10-27",
+    "label": "čtvrtek 27. října 2022",
+    "locations": [
+      {
+        "id": "loc-chram-narozeni-pane",
+        "label": "Chrám Narození Páně"
+      },
+      {
+        "id": "loc-jeskyne-mleka-panny-marie",
+        "label": "Jeskyně Mléka Panny Marie"
+      },
+      {
+        "id": "loc-kaple-sv-kateriny",
+        "label": "Kaple sv. Kateřiny"
+      },
+      {
+        "id": "loc-knesset",
+        "label": "Knesset"
+      },
+      {
+        "id": "loc-unknown",
+        "label": "Unknown"
+      },
+      {
+        "id": "loc-yad-vashem",
+        "label": "Yad Vashem"
+      }
+    ]
+  },
+  {
+    "id": "day-2022-10-28",
+    "date": "2022-10-28",
+    "label": "pátek 28. října 2022",
+    "locations": [
+      {
+        "id": "loc-ramat-gan",
+        "label": "Ramat Gan"
+      },
+      {
+        "id": "loc-tell-es-sultan",
+        "label": "Tell es-Sultan"
+      }
+    ]
+  },
+  {
+    "id": "day-2022-10-29",
+    "date": "2022-10-29",
+    "label": "sobota 29. října 2022",
+    "locations": [
+      {
+        "id": "loc-ptaci-mozaiky",
+        "label": "Ptačí mozaiky"
+      },
+      {
+        "id": "loc-unknown",
+        "label": "Unknown"
+      },
+      {
+        "id": "loc-rimske-divadlo",
+        "label": "Římské divadlo"
+      }
+    ]
+  }
+]
