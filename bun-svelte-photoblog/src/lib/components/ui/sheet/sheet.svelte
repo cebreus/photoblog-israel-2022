@@ -1,5 +1,4 @@
 <script lang="ts">
-  // @ts-nocheck
   import { createEventDispatcher } from 'svelte';
   export let open = false;
   const dispatch = createEventDispatcher();
