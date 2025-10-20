@@ -6,6 +6,6 @@ export async function load() {
   const photoDays: PhotoDay[] = getPhotoDays();
 
   return {
-    days: photoDays
+    photoDays,
   };
 }

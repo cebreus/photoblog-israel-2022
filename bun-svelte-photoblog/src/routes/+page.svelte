@@ -6,7 +6,7 @@
 
   let { data } = $props<{ data: PageData }>();
 
-  const photoDays = data.dataset || [];
+  const photoDays = data.photoDays || [];
 
   function formatDateForDisplay(dateValue: string | Date): string {
     return new Intl.DateTimeFormat('cs-CZ', {
