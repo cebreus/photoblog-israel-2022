@@ -15,7 +15,7 @@
   import * as Sheet from '$lib/components/ui/sheet';
   import { page } from '$app/stores';
   import { base } from '$app/paths';
-  import menu from '$lib/menu.json';
+  import menu from '$lib/menu.manifest.json';
   import * as Sidebar from '$lib/components/ui/sidebar';
   import slugify from 'slugify';
 

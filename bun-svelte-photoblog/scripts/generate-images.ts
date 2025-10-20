@@ -219,8 +219,8 @@ async function runIncrementalBuild() {
       return { id: dayId, date: d.date, label, locations };
     });
 
-    await saveJSON(path.join(process.cwd(), 'src/lib/menu.json'), menu);
-    log.info('Generated lightweight menu JSON at src/lib/menu.json');
+    await saveJSON(path.join(process.cwd(), 'src/lib/menu.manifest.json'), menu);
+    log.info('Generated lightweight menu manifest at src/lib/menu.manifest.json');
   } catch (e: any) {
     log.warn('Could not generate menu JSON:', e?.message ?? e);
   }
