@@ -11,7 +11,22 @@ import { SingleBar } from 'cli-progress';
 import { config } from './config';
 import exifr from 'exifr';
 import matter from 'gray-matter';
-import type { ImageEntry, PhotoDay, Manifest, Cache, CacheFileEntry, ScriptArgs, QualityTypes, ImageSource, StoryDataMap, StoryData, Separator } from '../src/types';
+import type {
+  ImageEntry,
+  PhotoDay,
+  Manifest,
+  Cache,
+  CacheFileEntry,
+  ScriptArgs,
+  QualityTypes,
+  ImageSource,
+  StoryDataMap,
+  StoryData,
+  Separator,
+  MenuManifest,
+  MenuDay,
+  AspectRatio
+} from '../src/lib/types/manifest';
 import slugify from 'slugify';
 
 // --- Type Definitions ---
@@ -35,7 +50,7 @@ async function saveJSON(file: string, data: any) {
   await fsp.writeFile(file, JSON.stringify(data, null, 2) + '\n', 'utf8');
 }
 
-function getAspectRatioName(width: number, height: number): string {
+function getAspectRatioName(width: number, height: number): AspectRatio {
   const ratio = width / height;
   if (Math.abs(ratio - 1) < 0.05) return 'square';
   if (ratio > 2.2) return 'panorama';
@@ -45,7 +60,7 @@ function getAspectRatioName(width: number, height: number): string {
   if (Math.abs(ratio - 9 / 16) < 0.05) return 'portrait-9-16';
   if (Math.abs(ratio - 2 / 3) < 0.05) return 'portrait-2-3';
   if (Math.abs(ratio - 3 / 4) < 0.05) return 'portrait-3-4';
-  return ratio > 1 ? 'landscape' : 'portrait';
+  return ratio > 1 ? 'landscape-4-3' : 'portrait-3-4'; // Fallback for general landscape/portrait
 }
 
 // --- Concurrency Limiter ---
@@ -82,14 +97,14 @@ function createConcurrencyLimiter(limit: number) {
 
 // -- Argument Parsing & Logging --
 function parseArgs(argv: string[]): ScriptArgs {
-  const args = {
+  const args: Omit<ScriptArgs, 'concurrency'> & { concurrency: number | 'auto' } = {
     concurrency: config.script.concurrency,
     limit: config.script.limit,
     watch: false,
     clean: false,
     verbose: false,
     quiet: false,
-    manifestOnly: false,
+    manifestOnly: false
   };
 
   for (const arg of argv) {
@@ -97,12 +112,24 @@ function parseArgs(argv: string[]): ScriptArgs {
     const [k, vRaw] = arg.slice(2).split('=');
     const v = vRaw ?? 'true';
     switch (k) {
-      case 'watch': args.watch = v === 'true'; break;
-      case 'clean': args.clean = v === 'true'; break;
-      case 'verbose': args.verbose = v === 'true'; break;
-      case 'quiet': args.quiet = v === 'true'; break;
-      case 'limit': args.limit = parseInt(v, 10); break;
-      case 'concurrency': args.concurrency = v === 'auto' ? 'auto' : parseInt(v, 10); break;
+      case 'watch':
+        args.watch = v === 'true';
+        break;
+      case 'clean':
+        args.clean = v === 'true';
+        break;
+      case 'verbose':
+        args.verbose = v === 'true';
+        break;
+      case 'quiet':
+        args.quiet = v === 'true';
+        break;
+      case 'limit':
+        args.limit = parseInt(v, 10);
+        break;
+      case 'concurrency':
+        args.concurrency = v === 'auto' ? 'auto' : parseInt(v, 10);
+        break;
       case 'manifest-only':
       case 'manifestOnly':
         args.manifestOnly = v === 'true';
@@ -186,13 +213,17 @@ async function runIncrementalBuild() {
 
   const limiter = createConcurrencyLimiter(ARGS.concurrency);
 
-  const results = (await Promise.all(toProcess.map(async file => {
-    return limiter(async () => {
-      const result = await processImage(file);
-      if (bar) bar.increment();
-      return result;
-    });
-  }))).filter((r): r is NonNullable<typeof r> => r !== null);
+  const results = (
+    (await Promise.all(
+      toProcess.map(async (file) => {
+        return limiter(async () => {
+          const result = await processImage(file);
+          if (bar) bar.increment();
+          return result;
+        });
+      })
+    )) as any[]
+  ).filter((r): r is NonNullable<typeof r> => r !== null);
 
   if (bar) bar.stop();
 
@@ -207,15 +238,24 @@ async function runIncrementalBuild() {
 
   // Also generate a lightweight menu JSON for the header/menu component.
   try {
-    const menu = finalManifest.photoDays.map((d: any) => {
+    const menu: MenuManifest = finalManifest.photoDays.map((d: PhotoDay) => {
       const rawDayId = d.id || d.date;
       const dayId = String(rawDayId).startsWith('day-') ? String(rawDayId) : 'day-' + String(rawDayId);
-      const label = new Date(d.date).toLocaleDateString('cs-CZ', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-      const locations = (d.items || []).filter((it: any) => it.type === 'separator').map((s: any) => {
-        const rawLocId = s.id || slugify(s.location || 'unknown', { lower: true, strict: true });
-        const locId = String(rawLocId).startsWith('loc-') ? String(rawLocId) : 'loc-' + String(rawLocId);
-        return { id: locId, label: s.location };
+      const label = new Date(d.date).toLocaleDateString('cs-CZ', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
       });
+      const locations = (d.items || [])
+        .filter((it): it is Separator => it.type === 'separator')
+        .map((s: Separator) => {
+          const rawLocId = s.id || slugify(s.location || 'unknown', { lower: true, strict: true });
+          const locId = String(rawLocId).startsWith('loc-')
+            ? String(rawLocId)
+            : 'loc-' + String(rawLocId);
+          return { id: locId, label: s.location };
+        });
       return { id: dayId, date: d.date, label, locations };
     });
 
@@ -333,15 +373,28 @@ async function processImage(absPath: string) {
         if (!ARGS.manifestOnly) {
           await ensureDir(path.dirname(fullOutPath));
           const resizedInstance = sharp(fileBuffer).resize(variantConfig.resize);
-          applyFormat(resizedInstance, typedFormat, config.encoding.quality[typedFormat]);
+          applyFormat(
+            resizedInstance,
+            typedFormat,
+            config.encoding.quality[typedFormat as keyof typeof config.encoding.quality]
+          );
           info = await resizedInstance.toFile(fullOutPath);
         } else {
           const resizedInstance = sharp(fileBuffer).resize(variantConfig.resize);
-          applyFormat(resizedInstance, typedFormat, config.encoding.quality[typedFormat]);
+          applyFormat(
+            resizedInstance,
+            typedFormat,
+            config.encoding.quality[typedFormat as keyof typeof config.encoding.quality]
+          );
           info = (await resizedInstance.toBuffer({ resolveWithObject: true })).info;
         }
 
-        sources.push({ variant: variantKey, type: `image/${typedFormat}`, path: fullPath, width: info.width });
+        sources.push({
+          variant: variantKey as ImageSource['variant'],
+          type: `image/${typedFormat}` as ImageSource['type'],
+          path: fullPath,
+          width: info.width
+        });
       }
     }
 
@@ -408,10 +461,15 @@ async function updateManifest(results: any[], deletedKeys: string[], storyData: 
   const manifest: Manifest = await loadJSON(CTX.manifestPath, { photoDays: [] });
 
   // Process deletions - robustly handle old and new structures
-  manifest.photoDays.forEach((day: any) => {
-    const items = day.items || day.images || [];
-    day.items = items.filter((item: any) => item.type === 'separator' || !deletedKeys.some(key => item.src.startsWith(path.basename(key, path.extname(key)))));
-    delete day.images; // remove old property if it exists
+  manifest.photoDays.forEach((day: PhotoDay) => {
+    const items = day.items || [];
+    day.items = items.filter(
+      (item: ImageEntry | Separator) =>
+        item.type === 'separator' ||
+        !deletedKeys.some((key) =>
+          item.src.startsWith(path.basename(key, path.extname(key)))
+        )
+    );
   });
   manifest.photoDays = manifest.photoDays.filter((day: PhotoDay) => day.items.length > 0);
 
@@ -427,7 +485,7 @@ async function updateManifest(results: any[], deletedKeys: string[], storyData: 
   // Process additions/updates
   for (const date of Object.keys(resultsByDate)) {
     const dayResults = resultsByDate[date];
-    let day: PhotoDay | undefined = manifest.photoDays.find(d => d.date === date);
+    let day: PhotoDay | undefined = manifest.photoDays.find((d: PhotoDay) => d.date === date);
 
     if (!day) {
       const newDay: any = { date, items: [], id: 'day-' + date };
@@ -438,12 +496,18 @@ async function updateManifest(results: any[], deletedKeys: string[], storyData: 
     // Add/update images
     if (!day) continue;
     for (const result of dayResults) {
-      day.items = day.items.filter(item => item.type === 'separator' || !item.src.startsWith(path.basename(result.key, path.extname(result.key))));
+      day.items = day.items.filter(
+        (item) =>
+          item.type === 'separator' ||
+          !item.src.startsWith(path.basename(result.key, path.extname(result.key)))
+      );
       day.items.push(result.image);
     }
 
     // Rebuild the entire day's items with separators
-    const imagesForDay = day.items.filter(item => item.type === 'image') as ImageEntry[];
+    const imagesForDay = day.items.filter(
+      (item) => item.type === 'image'
+    ) as ImageEntry[];
     imagesForDay.sort((a, b) => a.src.localeCompare(b.src));
 
     const itemsWithSeparators: (ImageEntry | Separator)[] = [];
@@ -461,16 +525,15 @@ async function updateManifest(results: any[], deletedKeys: string[], storyData: 
     // Create new items array with separators
     for (const location of Object.keys(imagesByLocation).sort()) {
       const group = imagesByLocation[location];
+      const story = storyData[location];
       if (group.length > 2) {
-        const story = storyData[location];
         const separator: Separator = {
+          id: 'loc-' + slugify(location, { lower: true, strict: true }),
           type: 'separator',
           location: location,
           city: group[0].exif?.city || '',
           ...(story && { storyTitle: story.title, storyContent: story.content })
         };
-        // attach an id for linking
-        (separator as any).id = 'loc-' + slugify(location, { lower: true, strict: true });
         itemsWithSeparators.push(separator);
       }
       itemsWithSeparators.push(...group);
@@ -479,7 +542,7 @@ async function updateManifest(results: any[], deletedKeys: string[], storyData: 
     day.items = itemsWithSeparators;
   }
 
-  manifest.photoDays.sort((a, b) => a.date.localeCompare(b.date));
+  manifest.photoDays.sort((a: PhotoDay, b: PhotoDay) => a.date.localeCompare(b.date));
   return manifest;
 }
 

@@ -1,5 +1,5 @@
-<script>
-  // @ts-nocheck
+<script lang="ts">
+  import type { MenuManifest } from '$lib/types/manifest';
   import {
     Menu,
     Home,
@@ -15,11 +15,12 @@
   import * as Sheet from '$lib/components/ui/sheet';
   import { page } from '$app/stores';
   import { base } from '$app/paths';
-  import menu from '$lib/menu.manifest.json';
   import * as Sidebar from '$lib/components/ui/sidebar';
   import slugify from 'slugify';
 
-  function getCzechDate(dateStr) {
+  export let menu: MenuManifest = [];
+
+  function getCzechDate(dateStr: string) {
     const date = new Date(dateStr);
     return date.toLocaleDateString('cs-CZ', {
       weekday: 'long',
@@ -32,13 +33,6 @@
   import { get } from 'svelte/store';
 
   const baseNoSlash = base.replace(/\/$/, '');
-
-  function anchorHref(id) {
-    // read page synchronously when building href
-    const p = get(page);
-    const isHome = p.url.pathname.replace(/\/$/, '') === baseNoSlash;
-    return isHome ? `#${id}` : `${baseNoSlash}#${id}`;
-  }
 </script>
 
 <header class="sticky top-0 border-b bg-background text-foreground z-10">
@@ -51,25 +45,22 @@
       </div>
     </div>
 
-    <div class="ml-auto">
-      <Sheet.Root>
-        <Sheet.Trigger
-          class={buttonVariants({
-            size: 'sm',
-            variant: 'icon',
-          })}
-        >
-          <Menu />
-        </Sheet.Trigger>
+    <Sheet.Root>
+      <Sheet.Trigger
+        class={buttonVariants({
+          size: 'sm',
+          variant: 'ghost',
+        })}
+      >
+        <Menu />
+      </Sheet.Trigger>
 
-        <Sheet.Content side="right">
-          <Sheet.Header>
-            <Sheet.Title c>Menu</Sheet.Title>
-          </Sheet.Header>
-          <nav
-            class="flex flex-col gap-2 mx-2 overflow-y-auto max-h-[80vh] pr-2"
-          >
-            <Button
+      <Sheet.Content side="right" class="overflow-y-auto">
+        <Sheet.Header>
+          <Sheet.Title>Menu</Sheet.Title>
+        </Sheet.Header>
+        <nav class="flex flex-col gap-2 mx-2 pr-2">
+          <!-- <Button
               variant="ghost"
               size="sm"
               href="/"
@@ -87,37 +78,38 @@
             >
               <Star class="size-4" />
               <span>Výběr fotek</span>
-            </Button>
+            </Button> -->
 
-            <Sidebar.Menu>
-              <Sidebar.Group>
-                <Sidebar.GroupLabel>Dny</Sidebar.GroupLabel>
-                {#each menu as day (day.id)}
-                  <Sidebar.MenuItem>
-                    <Sidebar.MenuButton as="a" href={anchorHref(day.id)}>
-                      <Calendar />
-                      {day.label}
-                      <ChevronRight class="ml-auto size-4" />
-                    </Sidebar.MenuButton>
+          <Sidebar.Menu>
+            <Sidebar.Group>
+              <Sidebar.GroupLabel>Dny</Sidebar.GroupLabel>
+              {#each menu as day (day.id)}
+                <Sidebar.MenuItem>
+                  <Sidebar.MenuButton>
+                    {#snippet child({ props })}
+                      <a href={day.id} {...props}>
+                        <Calendar />
+                        {day.label}
+                        <ChevronRight class="ml-auto size-4" />
+                      </a>
+                    {/snippet}
+                  </Sidebar.MenuButton>
 
-                    <Sidebar.MenuSub
-                      open={day.date === $page.url.pathname.split('/')[2] ||
-                        $page.url.hash === `#${day.id}`}
-                    >
-                      {#each day.locations as loc (loc.id)}
-                        <Sidebar.MenuSubItem>
-                          <Sidebar.MenuSubButton href={anchorHref(loc.id)}>
-                            {loc.label}
-                          </Sidebar.MenuSubButton>
-                        </Sidebar.MenuSubItem>
-                      {/each}
-                    </Sidebar.MenuSub>
-                  </Sidebar.MenuItem>
-                {/each}
-              </Sidebar.Group>
-            </Sidebar.Menu>
+                  <Sidebar.MenuSub>
+                    {#each day.locations as loc (loc.id)}
+                      <Sidebar.MenuSubItem>
+                        <Sidebar.MenuSubButton href={loc.id}>
+                          {loc.label}
+                        </Sidebar.MenuSubButton>
+                      </Sidebar.MenuSubItem>
+                    {/each}
+                  </Sidebar.MenuSub>
+                </Sidebar.MenuItem>
+              {/each}
+            </Sidebar.Group>
+          </Sidebar.Menu>
 
-            <Sheet.Close
+          <!-- <Sheet.Close
               class={buttonVariants({
                 size: 'sm',
                 variant: 'outline',
@@ -125,10 +117,9 @@
               })}
             >
               Zavřít
-            </Sheet.Close>
-          </nav>
-        </Sheet.Content>
-      </Sheet.Root>
-    </div>
+            </Sheet.Close> -->
+        </nav>
+      </Sheet.Content>
+    </Sheet.Root>
   </div>
 </header>

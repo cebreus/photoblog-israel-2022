@@ -6,7 +6,7 @@
 
   let { data } = $props<{ data: PageData }>();
 
-  const days = data.days || [];
+  const days = data.dataset || [];
 
   function fmtDate(d: string | Date): string {
     try {

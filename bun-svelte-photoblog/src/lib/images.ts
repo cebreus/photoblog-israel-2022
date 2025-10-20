@@ -1,17 +1,15 @@
-import type { Manifest, ImageEntry } from '../types';
-import manifest from '$lib/images.manifest.json';
+import type { Manifest, ImageEntry, ImageSource } from './types/manifest';
+import manifest from '$lib/images.manifest.json' with { type: 'json' };
 
-const typedManifest = manifest as unknown as Manifest;
+const typedManifest: Manifest = manifest as unknown as Manifest;
 
-export function getManifest() {
+export function getManifest(): Manifest {
   return typedManifest;
 }
 
 export function getPhotoDays() {
   return typedManifest.photoDays || [];
 }
-
-
 
 /**
  * Gathers all available image sources from all variants and groups them by type.
@@ -36,7 +34,7 @@ export function getSources(item: ImageEntry) {
     .map(([type, srcsetParts]) => {
       return {
         type: type,
-        srcset: srcsetParts.join(', '),
+        srcset: srcsetParts.join(', ')
       };
     })
     .sort((a, b) => {

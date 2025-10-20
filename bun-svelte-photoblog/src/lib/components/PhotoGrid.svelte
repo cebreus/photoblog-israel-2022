@@ -1,6 +1,6 @@
 <script lang="ts">
   import { getSources } from '$lib/images';
-  import type { ImageEntry, Separator, ImageSource } from '../../types';
+  import type { ImageEntry, Separator, ImageSource } from '$lib/types/manifest';
   import { buttonVariants } from '$lib/components/ui/button';
   import { marked } from 'marked';
   import * as Dialog from '$lib/components/ui/dialog';
