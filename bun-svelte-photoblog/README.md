@@ -1,102 +1,117 @@
-# Bun Svelte Photoblog – generátor obrázků a blur assetů
+# Fotoblog Israel 2022 (SvelteKit & Bun)
 
-Tento balíček poskytuje generátor obrázků (AVIF/WEBP/JPEG) a volitelné generování „blur“ assetů (PNG-8/AVIF/JPEG) pro nový SvelteKit fotoblog. Jádro je v [generate-images.ts](bun-svelte-photoblog/scripts/generate-images.ts:1) a runtime integrace v [images.ts](bun-svelte-photoblog/src/lib/images.ts:1) a [Picture.svelte](bun-svelte-photoblog/src/lib/components/Picture.svelte:1).
+Tento projekt je moderní implementací fotoblogu, postavenou na **SvelteKit** a poháněnou **Bun** jakožto JavaScript runtime i balíčkovacím manažerem. Využívá **Vite** pro build proces a **Tailwind CSS** pro stylování.
 
-Klíčové vlastnosti
+Jádrem projektu je pokročilý skript pro **generování a optimalizaci obrázků**, který automatizuje přípravu různých formátů a velikostí pro web, včetně LQIP (Low-Quality Image Placeholders) a dominantních barev pro plynulé načítání.
 
-- Více variant obrázků (details, previews, previews-xl, previews-xxs) s pevnými rozměry kompatibilními s původní Gulp větví.
-- Formáty AVIF, WEBP, JPEG s nastavitelnou kvalitou.
-- Manifest s kompletními metadaty a cestami.
-- LQIP placeholder (base64) + dominantní barva pro plynulé načítání.
-- Volitelné generování „blur“ souborů v duchu [gen-blured-images.sh](gen-blured-images.sh:1) (PNG-8 paletizace, šířka 24 px, barvy 32, Lanczos).
-- Watch mód, cache, čištění osiřelých souborů, paralelizace.
+## Klíčové technologie
 
-Instalace
+- **Framework**: [SvelteKit](https://kit.svelte.dev/)
+- **Runtime a bundler**: [Bun](https://bun.sh/)
+- **Build nástroj**: [Vite](https://vitejs.dev/)
+- **Stylování**: [Tailwind CSS](https://tailwindcss.com/)
+- **Generování obrázků**: [Sharp](https://sharp.pixelplumbing.com/) (vlastní skript)
+- **Testování**: [Vitest](https://vitest.dev/) (unit & integration), [Playwright](https://playwright.dev/) (E2E)
+- **Linting a formátování**: [Biome](https://biomejs.dev/), [Prettier](https://prettier.io/), [Stylelint](https://stylelint.io/)
 
-- Přejděte do složky subprojektu:
-  - cd bun-svelte-photoblog
-- Nainstalujte závislosti:
-  - bun install
-- Systémové knihovny pro Sharp (libvips):
-  - macOS: brew install vips
-  - Debian/Ubuntu: sudo apt-get update && sudo apt-get install -y libvips
+## Instalace
 
-Poznámka k cestám
+1.  **Přejděte do složky projektu:**
+    ```bash
+    cd bun-svelte-photoblog
+    ```
+2.  **Nainstalujte závislosti:**
+    ```bash
+    bun install
+    ```
+3.  **Nainstalujte systémové knihovny pro Sharp (libvips):**
+    - **macOS:** `brew install vips`
+    - **Debian/Ubuntu:** `sudo apt-get update && sudo apt-get install -y libvips`
 
-- Výchozí hodnoty ve skriptu předpokládají běh v tomto adresáři. Zdrojové fotky jsou ale v nadřazeném repozitáři ve složce content. Doporučené volby:
-  - --src=../content/israel-2022
-  - --out=./static/images/israel-2022
-  - --manifest=./src/lib/images.manifest.json
+## Dostupné skripty
 
-Skripty
+Následující skripty jsou definovány v `package.json` a spouští se pomocí `bun run <nazev_skriptu>`:
 
-- images:build → vygeneruje běžné varianty podle výchozích hodnot
-- images:watch → sleduje změny vstupů a inkrementálně regeneruje
-- images:blur → pouze generuje blur assety podle skupiny --blur.\*
-- images:all → sekvenčně spustí images:build a images:blur
+- `dev`: Spustí vývojový server s hot-reloadingem.
+- `build`: Sestaví produkční verzi aplikace (včetně generování obrázků díky `prebuild` kroku).
+- `preview`: Spustí lokální server pro náhled produkční verze.
+- `test`: Spustí všechny unit, integrační a E2E testy.
+- `test:unit`: Spustí unit testy pomocí Vitest.
+- `test:e2e`: Spustí end-to-end testy pomocí Playwright.
+- `lint`: Zkontroluje kód pomocí Biome a Stylelint.
+- `format`: Automaticky zformátuje kód pomocí Biome a Prettier.
 
-Základní použití
+## Generování obrázků
 
-- Build běžných obrázků s doporučenými cestami:
-  - bun scripts/generate-images.ts --src=../content/israel-2022 --out=./static/images/israel-2022 --manifest=./src/lib/images.manifest.json
-- Watch mód:
-  - bun scripts/generate-images.ts --src=../content/israel-2022 --watch=true
-- Čištění osiřelých souborů po buildu:
-  - bun scripts/generate-images.ts --src=../content/israel-2022 --clean=true
+Skript `scripts/generate-images.ts` je centrálním nástrojem pro zpracování fotografií.
 
-CLI parametry – běžné generování
-Implementace: [parseArgs()](bun-svelte-photoblog/scripts/generate-images.ts:105)
+### Klíčové vlastnosti
 
-- --src=PATH: zdrojové obrázky (výchozí content/israel-2022)
-- --out=PATH: cílová složka (výchozí static/images/israel-2022)
-- --manifest=PATH: výstupní manifest (výchozí src/lib/images.manifest.json)
-- --variants=list: details,previews,previews-xl,previews-xxs
-- --formats=list: avif,webp,jpeg (výchozí všechny)
-- --quality.avif=1-100 (výchozí 50)
-- --quality.webp=1-100 (výchozí 60)
-- --quality.jpeg=1-100 (výchozí 80)
-- --allow-upscale=true|false (výchozí false)
-- --keep-original=true|false (výchozí false)
-- --gif=copy|convert (výchozí copy; animované GIF se konzervativně kopírují)
-- --concurrency=N|auto (výchozí 4; auto = CPU-1)
-- --watch=true|false
-- --clean=true|false: odstranění osiřelých souborů po buildu
-- --fallback=none|copy: copy = bez transformací při chybě Sharp/libvips
-- --verbose=true|false, --quiet=true|false
-- --lqipWidth=N (výchozí 24)
-- --limit=N (0 = bez omezení)
+- **Více variant obrázků**: `details`, `previews`, `previews-xl`, `previews-xxs`.
+- **Moderní formáty**: AVIF, WebP, JPEG s nastavitelnou kvalitou.
+- **Manifest**: Generuje `images.manifest.json` s metadaty a cestami pro snadné použití v aplikaci.
+- **LQIP a dominantní barva**: Pro plynulé načítání a vizuální stabilitu.
+- **Blur assety**: Volitelné generování rozmazaných placeholderů.
+- **Optimalizace**: Watch mód, cache, čištění osiřelých souborů, paralelizace.
 
-Odvození variant a výstupů
+### Skripty pro obrázky
 
-- Konfigurace variant: [VARIANT_CONFIGS](bun-svelte-photoblog/scripts/generate-images.ts:36)
-- Výstupní struktura:
-  - details, previews, previews-xl, previews-xxs pro JPEG
-  - složky s příponou -webp a -avif pro moderní formáty
+- `images:build`: Vygeneruje standardní sady obrázků.
+- `images:watch`: Sleduje zdrojovou složku a automaticky regeneruje obrázky při změně.
+- `images:blur`: Vygeneruje pouze rozmazané "blur" assety.
+- `images:all`: Spustí `images:build` a následně `images:blur`.
 
-Manifest a runtime
+### Základní použití (CLI)
 
-- Manifest: ./src/lib/images.manifest.json (typy a helpery v [images.ts](bun-svelte-photoblog/src/lib/images.ts:1))
-- UI komponenta: [Picture.svelte](bun-svelte-photoblog/src/lib/components/Picture.svelte:1)
-  - placeholder: 'none' | 'background' | 'blur'
-  - blur režim používá LQIP data URL a CSS filter pro plynulý přechod
+Skript lze spouštět i přímo s vlastními parametry. Cesty ke zdrojovým a cílovým složkám je třeba upravit, protože obsah je v nadřazeném adresáři.
 
-CLI parametry – blur assety (parita s gen-blured-images.sh)
-Implementace generátoru: [generateBlurAssets()](bun-svelte-photoblog/scripts/generate-images.ts:1110)
+- **Build běžných obrázků:**
+  ```bash
+  bun scripts/generate-images.ts --src=../content/israel-2022 --out=./static/images/israel-2022 --manifest=./src/lib/images.manifest.json
+  ```
+- **Watch mód:**
+  ```bash
+  bun scripts/generate-images.ts --src=../content/israel-2022 --watch=true
+  ```
+- **Čištění osiřelých souborů:**
+  ```bash
+  bun scripts/generate-images.ts --src=../content/israel-2022 --clean=true
+  ```
 
-- --blur.enable=true|false: zapnutí blur fáze
-- --blur.only=true|false: spustí jen blur bez hlavního buildu
-- --blur.src=PATH: zdroj (výchozí ../static/assets/israel-2022/previews-xl)
-- --blur.out=PATH: cíl (výchozí ../static/assets/israel-2022/blurs)
-- --blur.width=N: šířka (výchozí 24)
-- --blur.colors=N: počet barev pro PNG paletu (výchozí 32)
-- --blur.formats=list: png,avif,jpeg (výchozí png)
-- --blur.pngCompression=0-9 (výchozí 9)
-- --blur.pngQuality=0-100 (výchozí 50)
-- --blur.avifQuality=1-100 (výchozí 50)
-- --blur.jpegQuality=1-100 (výchozí 40)
-- --blur.clean=true|false: smazat cílový adresář před generováním
+### CLI parametry
 
-Příklady blur generování
+Kompletní seznam parametrů je k dispozici v horní části souboru `scripts/generate-images.ts`. Níže jsou uvedeny ty nejdůležitější.
+
+#### Běžné generování
+
+- `--src`: Cesta ke zdrojovým obrázkům.
+- `--out`: Cílová složka pro vygenerované obrázky.
+- `--manifest`: Cesta k výstupnímu manifestu.
+- `--variants`: Seznam variant k generování (např. `details,previews`).
+- `--formats`: Seznam formátů (např. `avif,webp,jpeg`).
+- `--quality.*`: Nastavení kvality pro jednotlivé formáty (např. `--quality.avif=50`).
+- `--watch`: Zapnutí watch módu.
+- `--clean`: Odstranění osiřelých souborů po buildu.
+- `--limit`: Omezí počet zpracovaných obrázků (užitečné pro testování).
+
+#### Generování "blur" assetů
+
+- `--blur.enable=true`: Zapnutí generování blur assetů.
+- `--blur.only=true`: Spustí pouze generování blur assetů.
+- `--blur.src`: Zdrojová složka pro blur (typicky varianta `previews-xl`).
+- `--blur.out`: Cílová složka pro blur assety.
+- `--blur.width`: Cílová šířka (výchozí: 24px).
+- `--blur.colors`: Počet barev pro PNG paletu.
+
+## Struktura projektu
+
+- `src/`: Zdrojový kód aplikace SvelteKit.
+  - `lib/`: Sdílené komponenty, utility a runtime kód pro obrázky.
+  - `routes/`: Struktura stránek a API endpointů.
+- `content/`: Zdrojový obsah (Markdown soubory, originální fotografie).
+- `static/`: Statické soubory, včetně vygenerovaných obrázků.
+- `scripts/`: Pomocné skripty (včetně `generate-images.ts`).
+- `tests/`: Unit, integrační a E2E testy.
 
 - Pouze blur s výchozími hodnotami (parita s legacy):
   - bun run images:blur
