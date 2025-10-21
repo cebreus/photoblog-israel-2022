@@ -1,10 +1,28 @@
 {
 	"mcpServers": {
+		"bun": {
+			"command": "bunx",
+			"args": [
+				"-y",
+				"mcp-bun@latest"
+			],
+			"env": {
+				"DISABLE_NOTIFICATIONS": "true"
+			}
+		},
 		"svelte": {
 			"command": "npx",
 			"args": [
 				"-y",
 				"@sveltejs/mcp"
+			],
+			"env": {}
+		},
+		"jsrepo": {
+			"command": "npx",
+			"args": [
+				"jsrepo",
+				"mcp"
 			]
 		}
 	}
