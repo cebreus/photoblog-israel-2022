@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { MenuManifest } from '$lib/types/manifest';
-  import { Menu, ChevronRight, Calendar } from '@lucide/svelte';
+  import type { MenuManifest } from "$lib/types/manifest";
+  import { Menu, ChevronRight, Calendar } from "@lucide/svelte";
   import Button, {
     buttonVariants,
-  } from '$lib/components/ui/button/button.svelte';
-  import * as Sheet from '$lib/components/ui/sheet';
-  import * as Sidebar from '$lib/components/ui/sidebar';
+  } from "$lib/components/ui/button/button.svelte";
+  import * as Sheet from "$lib/components/ui/sheet";
+  import * as Sidebar from "$lib/components/ui/sidebar";
 
   export let menuItems: MenuManifest = [];
 </script>
@@ -23,8 +23,8 @@
     <Sheet.Root>
       <Sheet.Trigger
         class={buttonVariants({
-          size: 'sm',
-          variant: 'ghost',
+          size: "sm",
+          variant: "ghost",
         })}
       >
         <Menu />
@@ -62,7 +62,7 @@
                 <Sidebar.MenuItem>
                   <Sidebar.MenuButton>
                     {#snippet child({ props })}
-                      <a href={menuDay.id} {...props}>
+                      <a href="#{menuDay.id}" {...props}>
                         <Calendar />
                         {menuDay.label}
                         <ChevronRight class="ml-auto size-4" />
@@ -73,7 +73,7 @@
                   <Sidebar.MenuSub>
                     {#each menuDay.locations as menuLocation (menuLocation.id)}
                       <Sidebar.MenuSubItem>
-                        <Sidebar.MenuSubButton href={menuLocation.id}>
+                        <Sidebar.MenuSubButton href="#{menuLocation.id}">
                           {menuLocation.label}
                         </Sidebar.MenuSubButton>
                       </Sidebar.MenuSubItem>
