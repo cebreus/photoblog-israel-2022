@@ -2,12 +2,15 @@ test-results
 node_modules
 
 # Output
-.output
-.vercel
+.generated/
 .netlify
+.output
+.temp/
+.vercel
 .wrangler
 /.svelte-kit
 /build
+build-*
 
 # OS
 .DS_Store
