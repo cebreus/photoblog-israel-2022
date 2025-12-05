@@ -241,6 +241,7 @@ async function runIncrementalBuild() {
     const menu: MenuManifest = finalManifest.photoDays.map((d: PhotoDay) => {
       const rawDayId = d.id || d.date;
       const dayId = String(rawDayId).startsWith('day-') ? String(rawDayId) : 'day-' + String(rawDayId);
+      const dayHref = `/#${dayId}`;
       const label = new Date(d.date).toLocaleDateString('cs-CZ', {
         weekday: 'long',
         year: 'numeric',
@@ -254,9 +255,10 @@ async function runIncrementalBuild() {
           const locId = String(rawLocId).startsWith('loc-')
             ? String(rawLocId)
             : 'loc-' + String(rawLocId);
-          return { id: locId, label: s.location };
+          const locHref = `/#${locId}`;
+          return { id: locId, label: s.location, href: locHref };
         });
-      return { id: dayId, date: d.date, label, locations };
+      return { id: dayId, date: d.date, label, href: dayHref, locations };
     });
 
     await saveJSON(path.join(process.cwd(), 'src/lib/menu.manifest.json'), menu);
@@ -365,7 +367,7 @@ async function processImage(absPath: string) {
         const folderSuffix = typedFormat === 'jpeg' ? '' : `-${typedFormat}`;
         const fullFolderName = variantConfig.folderName + folderSuffix;
         const outPath = toPosix(path.join(fullFolderName, `${baseName}.${typedFormat}`));
-        const fullPath = `/images/israel-2022/${outPath}`;
+        const fullPath = `${config.paths.urlPrefix}/images/${outPath}`;
         outputs.push(outPath);
 
         const fullOutPath = path.join(CTX.outRoot, outPath);
@@ -431,7 +433,7 @@ async function processImage(absPath: string) {
         sources.push({
           variant: outputKey,
           type: `image/${typedFormat}`,
-          path: `/images/israel-2022/${outPath}`,
+          path: `${config.paths.urlPrefix}/images/${outPath}`,
           width: info.width,
           height: info.height,
         } as ImageSource);
