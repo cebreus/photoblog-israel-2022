@@ -1,106 +1,132 @@
 import { promises as fs } from 'fs';
 import path from 'path';
-import { favicons } from 'favicons';
+import { favicons, type FaviconOptions } from 'favicons';
 import matter from 'gray-matter';
-import { config as projectConfig } from './config';
 
-async function run() {
-	const sourceDir = path.resolve(projectConfig.paths.source);
-	const siteConfigPath = path.join(sourceDir, 'site.md');
-	let sourceFile;
-	let manifestConfig = {};
-	let lang = 'cs-CZ'; // Initialize lang with a default value
+type SiteConfig = {
+	sourceFile: string;
+	lang: string;
+	manifestConfig: Partial<FaviconOptions>;
+};
 
+/**
+ * Loads and validates the site-specific configuration from the corresponding site.md file.
+ * @param contentDir The directory of the content to be processed.
+ * @returns A validated configuration object.
+ * @throws An error if the config file or any required keys are missing.
+ */
+async function loadSiteConfig(contentDir: string): Promise<SiteConfig> {
+	const sourceDirPath = path.resolve('content', contentDir);
+	const siteConfigPath = path.join(sourceDirPath, 'site.md');
+
+	let siteConfigFile: string;
 	try {
-		const siteConfigFile = await fs.readFile(siteConfigPath, 'utf8');
-		const { data } = matter(siteConfigFile);
-
-		if (data.favicon) {
-			sourceFile = path.join(sourceDir, data.favicon);
-		}
-		if (data.manifest) {
-			manifestConfig = data.manifest;
-		}
-		if (data.meta?.lang) { // Update lang if found in site.md
-			lang = data.meta.lang;
-		}
+		siteConfigFile = await fs.readFile(siteConfigPath, 'utf8');
 	} catch (error) {
-		console.warn(`Could not read or parse ${siteConfigPath}.`, error);
+		throw new Error(
+			`[favicon-gen] Failed to read site config at ${siteConfigPath}. Please ensure the file exists.`,
+		);
 	}
 
-	if (!sourceFile) {
-		console.warn(`"favicon" key not found in ${siteConfigPath}, or file is unreadable. Skipping generation.`);
-		return;
+	const { data } = matter(siteConfigFile);
+
+	if (!data.favicon) {
+		throw new Error(`[favicon-gen] Config error: 'favicon' key is missing in ${siteConfigPath}.`);
+	}
+	if (!data.manifest) {
+		throw new Error(`[favicon-gen] Config error: 'manifest' key is missing in ${siteConfigPath}.`);
+	}
+	if (!data.meta?.lang) {
+		throw new Error(
+			`[favicon-gen] Config error: 'meta.lang' key is missing in ${siteConfigPath}.`,
+		);
 	}
 
+	const sourceFile = path.join(sourceDirPath, data.favicon);
 	try {
 		await fs.access(sourceFile);
-		console.log(`Using source file: ${sourceFile}`);
 	} catch (error) {
-		console.error(`Source file not found at path: ${sourceFile}. Please check the 'favicon' path in ${siteConfigPath}.`);
-		process.exit(1);
+		throw new Error(
+			`[favicon-gen] Source file not found at path: ${sourceFile}. Please check the 'favicon' path in ${siteConfigPath}.`,
+		);
 	}
 
-	const outDir = path.resolve('./static/assets/favicons');
-	await fs.mkdir(outDir, { recursive: true });
+	return {
+		sourceFile,
+		lang: data.meta.lang,
+		manifestConfig: data.manifest,
+	};
+}
 
-	// Merge defaults with config from site.md
-	const configuration = {
-		...manifestConfig, // Spread the loaded config from site.md first
-		path: '/assets/favicons/', // This should be controlled by the script's output structure
-		logging: false,
-		online: false,
-		preferOnline: false,
-		lang: lang, // Use the dynamically set lang
-		icons: { // Sensible defaults for icons, can be overridden by site.md manifest config
-			android: true,
-			appleIcon: true,
-			appleStartup: true,
-			coast: false,
-			favicons: true,
-			firefox: false,
-			windows: true,
-			yandex: false,
-			...(manifestConfig.icons || {}), // Allow overriding specific icons from site.md
-		},
+/**
+ * Main function to generate favicons based on explicit configuration.
+ */
+async function run() {
+	console.log('[favicon-gen] Starting favicon generation...');
+
+	const contentDir = process.env.CONTENT_DIR;
+	if (!contentDir) {
+		throw new Error(
+			"[favicon-gen] 'CONTENT_DIR' environment variable is not set. Please specify which content to process.",
+		);
+	}
+	console.log(`[favicon-gen] Using content directory: ${contentDir}`);
+
+	const config = await loadSiteConfig(contentDir);
+	console.log(`[favicon-gen] Using source file: ${config.sourceFile}`);
+
+	const staticDir = `static/${contentDir}`;
+	const assetsOutDir = path.resolve(staticDir, 'assets', 'favicons');
+	const tempDir = '.temp';
+
+	await fs.mkdir(assetsOutDir, { recursive: true });
+	await fs.mkdir(tempDir, { recursive: true });
+
+	// The only values the script now defines are the dynamic path and ensuring logging is off.
+	// All other settings MUST come from the site.md manifest config.
+	const configuration: Partial<FaviconOptions> = {
+		...config.manifestConfig,
+		path: `/${contentDir}/assets/favicons/`,
+		lang: config.lang,
+		logging: false, // Force logging off as we do our own.
 	};
 
 	try {
-		const response = await favicons(sourceFile, configuration);
+		const response = await favicons(config.sourceFile, configuration);
 
-		// Handle favicon.ico separately: write to static/ and remove its link from generated HTML
+		// Handle favicon.ico separately
 		const faviconIco = response.images.find((image) => image.name === 'favicon.ico');
-		const faviconIcoLink = '<link rel="icon" type="image/x-icon" href="/assets/favicons/favicon.ico">';
-
 		if (faviconIco) {
-			await fs.writeFile(path.resolve('./static/favicon.ico'), faviconIco.contents);
-			console.log('Wrote static/favicon.ico');
-			// Remove the favicon.ico from the images array so it's not written twice to assets/favicons
+			const faviconIcoPath = path.resolve(staticDir, 'favicon.ico');
+			await fs.writeFile(faviconIcoPath, faviconIco.contents);
+			console.log(`[favicon-gen] Wrote ${faviconIcoPath}`);
+
+			// Remove the favicon.ico from the images array so it's not written twice
 			response.images = response.images.filter((image) => image.name !== 'favicon.ico');
-			// Remove the corresponding link tag from HTML
-			response.html = response.html.filter(
-				(htmlLine) => htmlLine.trim() !== faviconIcoLink.trim(),
-			);
 		}
 
 		await Promise.all(
-			response.images.map(async (image) =>
-				fs.writeFile(path.join(outDir, image.name), image.contents),
+			response.images.map((image) =>
+				fs.writeFile(path.join(assetsOutDir, image.name), image.contents),
 			),
 		);
-		console.log('Wrote images');
+		console.log(`[favicon-gen] Wrote images to ${assetsOutDir}`);
 
 		await Promise.all(
-			response.files.map(async (file) => fs.writeFile(path.join(outDir, file.name), file.contents)),
+			response.files.map((file) => fs.writeFile(path.join(assetsOutDir, file.name), file.contents)),
 		);
-		console.log('Wrote files (manifests, etc.) to assets/favicons');
+		console.log(`[favicon-gen] Wrote manifest files to ${assetsOutDir}`);
 
-		await fs.writeFile(path.join(outDir, 'favicons.html'), response.html.join('\n'));
-		console.log('Wrote favicons.html to assets/favicons');
+		const tempFaviconHtmlPath = path.join(tempDir, 'favicons.html');
+		const finalHtml = response.html
+			.filter((htmlLine) => !htmlLine.includes('favicon.ico"'))
+			.join('\n');
+		await fs.writeFile(tempFaviconHtmlPath, finalHtml);
+		console.log(`[favicon-gen] Wrote temporary favicons.html to ${tempFaviconHtmlPath}`);
 
-		console.log('Favicons generated successfully using dynamic config.');
+		console.log('[favicon-gen] Favicons generated successfully.');
 	} catch (error) {
-		console.error('Error during favicon generation:', error);
+		console.error('[favicon-gen] Error during favicon generation:', error);
 		process.exit(1);
 	}
 }

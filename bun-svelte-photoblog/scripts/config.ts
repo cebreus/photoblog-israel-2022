@@ -4,13 +4,21 @@
  * Centrální konfigurační soubor pro skript na generování obrázků.
  * Definuje cesty, varianty obrázků, kvalitu a další parametry.
  */
+
+// Read content directory from environment variable, with a default
+const contentDir = process.env.CONTENT_DIR || 'israel-2022';
+console.log(`Using content directory: ${contentDir}`);
+
+
 export const config = {
   // --- Cesty ---
   paths: {
-    source: 'content/israel-2022',
-    output: 'static/images/israel-2022',
+    source: `content/${contentDir}`,
+    output: `static/${contentDir}/images`, // Generated images go into a subfolder of 'static'
+    urlPrefix: `/${contentDir}`, // The URL prefix will be the content directory name
     manifest: 'src/lib/images.manifest.json',
-    cache: '.images-cache.json',
+    cache: `.temp/images-${contentDir}.cache.json`,
+    tmp: '.temp',
   },
 
   // --- Konfigurace variant pro <picture> element ---

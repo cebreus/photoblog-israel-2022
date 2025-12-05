@@ -4,8 +4,13 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "vite dev",
-    "build": "vite build",
+    "dev": "bun run dev:israel",
+    "dev:israel": "CONTENT_DIR=israel-2022 bun run images:build && CONTENT_DIR=israel-2022 bun run favicons:build && vite dev",
+    "dev:egypt": "CONTENT_DIR=egypt-2025 bun run images:build && CONTENT_DIR=egypt-2025 bun run favicons:build && vite dev",
+    "build": "CONTENT_DIR=israel-2022 bun run generate && vite build",
+    "build:israel": "CONTENT_DIR=israel-2022 OUTPUT_DIR=build-israel-2022 bun run build",
+    "build:egypt": "CONTENT_DIR=egypt-2025 OUTPUT_DIR=build-egypt-2025 bun run build",
+    "generate": "CONTENT_DIR=israel-2022 bun run images:build && CONTENT_DIR=israel-2022 bun run favicons:build",
     "preview": "vite preview",
     "prepare": "svelte-kit sync || echo ''",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -20,7 +25,7 @@
     "images:watch": "bun scripts/generate-images.ts --watch",
     "images:blur": "bun scripts/generate-images.ts --blur.enable=true --blur.only=true",
     "images:all": "bun run images:build && bun run images:blur",
-    "prebuild": "bun run lint:ci && bun run images:build",
+    "favicons:build": "bun scripts/generate-favicons.ts",
     "lint": "biome check . && bun run lint:css",
     "lint:css": "stylelint '**/*.css'",
     "lint:fix": "biome check --write .",
@@ -81,5 +86,9 @@
     "gray-matter": "^4.0.3",
     "marked": "^12.0.2",
     "slugify": "^1.6.6"
+  },
+  "_comment_overrides_vite_vitest_type_fix": "Forces a single version of the 'vite' package across the entire project. Resolves type conflicts between 'vite' (used directly) and 'vitest' (which brings its own 'vite' dependency), otherwise leading to TypeScript errors.",
+  "overrides": {
+    "vite": "^7.2.6"
   }
 }
