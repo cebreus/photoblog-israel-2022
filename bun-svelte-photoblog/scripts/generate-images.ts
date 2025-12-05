@@ -155,6 +155,13 @@ const log = {
   verbose: (...msg: any[]) => ARGS.verbose && !ARGS.quiet && console.log(pc.dim('[images]'), ...msg),
 };
 
+const contentDir = process.env.CONTENT_DIR;
+if (!contentDir) {
+    log.error("'CONTENT_DIR' environment variable is not set. Please specify which content to process.");
+    process.exit(1);
+}
+log.verbose(`Processing content for: ${contentDir}`);
+
 // --- Global Context ---
 const CTX = {
   srcRoot: path.resolve(process.cwd(), config.paths.source),
@@ -264,7 +271,8 @@ async function runIncrementalBuild() {
     await saveJSON(path.join(process.cwd(), 'src/lib/menu.manifest.json'), menu);
     log.info('Generated lightweight menu manifest at src/lib/menu.manifest.json');
   } catch (e: any) {
-    log.warn('Could not generate menu JSON:', e?.message ?? e);
+    log.error('Could not generate menu JSON:', e?.message ?? e);
+    process.exit(1);
   }
 
   log.info(`Build finished in ${(performance.now() - startTime).toFixed(2)}ms.`);
