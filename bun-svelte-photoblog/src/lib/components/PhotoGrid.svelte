@@ -1,25 +1,25 @@
 <script lang="ts">
-  import { getSources } from '$lib/images';
-  import type { ImageEntry, Separator, ImageSource } from '$lib/types/manifest';
-  import { buttonVariants } from '$lib/components/ui/button';
-  import { marked } from 'marked';
-  import * as Dialog from '$lib/components/ui/dialog';
+  import { getSources } from "$lib/images";
+  import type { ImageEntry, Separator, ImageSource } from "$lib/types/manifest";
+  import { buttonVariants } from "$lib/components/ui/button";
+  import { marked } from "marked";
+  import * as Dialog from "$lib/components/ui/dialog";
 
   let { items } = $props<{
     items: (ImageEntry | Separator)[];
   }>();
 
   function renderStoryHtml(separator: Separator) {
-    return separator.storyContent ? marked.parse(separator.storyContent) : '';
+    return separator.storyContent ? marked.parse(separator.storyContent) : "";
   }
 
   function findFallbackSource(image: ImageEntry): ImageSource | undefined {
-    return image.sources.find((source) => source.variant === 'fallback');
+    return image.sources.find((source) => source.variant === "fallback");
   }
 </script>
 
-{#each items as item (item.type === 'image' ? item.src : item.location)}
-  {#if item.type === 'image'}
+{#each items as item (item.type === "image" ? item.src : item.location)}
+  {#if item.type === "image"}
     {@const fallback = findFallbackSource(item)}
     <!-- style="background-image: url(/images/israel-2022/{item.placeholder});" -->
     <figure
@@ -45,7 +45,7 @@
         </picture>
       {/if}
     </figure>
-  {:else if item.type === 'separator'}
+  {:else if item.type === "separator"}
     {@const separatorId = item.id}
     {#if item.storyContent}
       <Dialog.Root>
@@ -58,9 +58,9 @@
           {/if}
           <span
             class={buttonVariants({
-              size: 'sm',
-              variant: 'link',
-              class: 'text-sm mt-2',
+              size: "sm",
+              variant: "link",
+              class: "text-sm mt-2",
             })}
           >
             Zobrazit příběh

@@ -49,12 +49,14 @@ Projekt klade velký důraz na **výkon a optimalizaci obrázků** - jádrem je 
 ### 1.3 Aktuální technologický stack
 
 #### Runtime a Build Tools
+
 - **Runtime**: [Bun](https://bun.sh/) - JavaScript runtime i package manager
 - **Framework**: [SvelteKit](https://kit.svelte.dev/) v2.43+ s Svelte 5.39+
 - **Build Tool**: [Vite](https://vitejs.dev/) v7.1+
 - **Adapter**: `@sveltejs/adapter-static` - generování statického výstupu
 
 #### Frontend
+
 - **UI Framework**: Svelte 5 (s runes API)
 - **CSS Framework**: Tailwind CSS v4.1+ s `@tailwindcss/vite` plugin
 - **UI Components**: bits-ui (headless komponenty)
@@ -65,15 +67,18 @@ Projekt klade velký důraz na **výkon a optimalizaci obrázků** - jádrem je 
   - `tw-animate-css` - animace
 
 #### Image Processing
+
 - **Image Library**: [Sharp](https://sharp.pixelplumbing.com/) v0.33+ (vyžaduje libvips)
 - **EXIF Extraction**: exifr v7.1+
 - **Pixel Comparison**: pixelmatch v5.3+, pngjs v7.0+
 
 #### Content Processing
+
 - **Markdown**: marked v12.0+, gray-matter v4.0+
 - **Slugification**: slugify v1.6+
 
 #### Development & Testing
+
 - **TypeScript**: v5.9+
 - **Linting/Formatting**:
   - Biome v2.2+ (hlavní linter a formatter)
@@ -87,6 +92,7 @@ Projekt klade velký důraz na **výkon a optimalizaci obrázků** - jádrem je 
 - **Pre-commit**: lint-staged
 
 #### Dependencies Management
+
 - **Node Version**: >=24 (specifikováno v engines)
 - **Package Manager**: Bun (lockfile: bun.lock)
 
@@ -264,11 +270,13 @@ bun-svelte-photoblog/               # Root adresář SvelteKit aplikace
 #### 2.2.1 Content Layer (`../content/`)
 
 **Oddělení obsahu od aplikace**: Content je v nadřazeném adresáři, protože:
+
 - Umožňuje sdílení obsahu mezi různými verzemi aplikace
 - Odděluje data od logiky
 - Usnadňuje správu a verzování obsahu
 
 **Struktura content/**:
+
 ```
 content/
 ├─ israel-2022/              # Denní fotografie (organizované po dnech)
@@ -337,6 +345,7 @@ src/
 ```
 
 **SvelteKit routing konvence**:
+
 - `+page.svelte` = stránka
 - `+page.server.ts` = server-side data loading
 - `+page.ts` = client-side data loading
@@ -485,9 +494,10 @@ Tato sekce poskytuje kompletní přehled všech konfiguračních souborů v root
 **Účel**: Hlavní konfigurační soubor pro SvelteKit framework
 
 **Obsah**:
+
 ```javascript
-import adapter from '@sveltejs/adapter-static';
-import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+import adapter from "@sveltejs/adapter-static";
+import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 
 const config = {
   preprocess: vitePreprocess(),
@@ -498,6 +508,7 @@ export default config;
 ```
 
 **Klíčové konfigurace**:
+
 - **preprocess**: `vitePreprocess()` - použití Vite preprocessoru pro Svelte soubory
   - Umožňuje TypeScript v `<script lang="ts">`
   - Umožňuje PostCSS/Tailwind v `<style>`
@@ -508,6 +519,7 @@ export default config;
   - Vhodné pro Netlify, Vercel, GitHub Pages, atd.
 
 **Vliv na build**:
+
 - Určuje jak se Svelte komponenty kompilují
 - Řídí výstupní formát (statický vs. SSR server)
 - Určuje preprocessing pipeline
@@ -520,11 +532,12 @@ export default config;
 **Účel**: Konfigurace Vite build toolu a Vitest testing frameworku
 
 **Obsah**:
+
 ```typescript
-import devtoolsJson from 'vite-plugin-devtools-json';
-import tailwindcss from '@tailwindcss/vite';
-import { defineConfig } from 'vitest/config';
-import { sveltekit } from '@sveltejs/kit/vite';
+import devtoolsJson from "vite-plugin-devtools-json";
+import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from "vitest/config";
+import { sveltekit } from "@sveltejs/kit/vite";
 
 export default defineConfig({
   plugins: [tailwindcss(), sveltekit(), devtoolsJson()],
@@ -532,37 +545,38 @@ export default defineConfig({
     expect: { requireAssertions: true },
     projects: [
       {
-        extends: './vite.config.ts',
+        extends: "./vite.config.ts",
         test: {
-          name: 'client',
-          environment: 'browser',
+          name: "client",
+          environment: "browser",
           browser: {
             enabled: true,
-            provider: 'playwright',
-            instances: [{ browser: 'chromium' }]
+            provider: "playwright",
+            instances: [{ browser: "chromium" }],
           },
-          include: ['src/**/*.svelte.{test,spec}.{js,ts}'],
-          exclude: ['src/lib/server/**'],
-          setupFiles: ['./vitest-setup-client.ts']
-        }
+          include: ["src/**/*.svelte.{test,spec}.{js,ts}"],
+          exclude: ["src/lib/server/**"],
+          setupFiles: ["./vitest-setup-client.ts"],
+        },
       },
       {
-        extends: './vite.config.ts',
+        extends: "./vite.config.ts",
         test: {
-          name: 'server',
-          environment: 'node',
-          include: ['src/**/*.{test,spec}.{js,ts}'],
-          exclude: ['src/**/*.svelte.{test,spec}.{js,ts}']
-        }
-      }
-    ]
-  }
+          name: "server",
+          environment: "node",
+          include: ["src/**/*.{test,spec}.{js,ts}"],
+          exclude: ["src/**/*.svelte.{test,spec}.{js,ts}"],
+        },
+      },
+    ],
+  },
 });
 ```
 
 **Klíčové konfigurace**:
 
 **Plugins**:
+
 1. `tailwindcss()` - Tailwind CSS v4 Vite plugin
    - Zpracovává Tailwind direktivy (@tailwind base, components, utilities)
    - JIT (Just-In-Time) compilation
@@ -575,6 +589,7 @@ export default defineConfig({
    - Export dev dat do JSON
 
 **Test konfigurace** (Vitest):
+
 - **Dva testing projekty**:
   1. **Client** (browser testy):
      - Environment: `browser` (Playwright)
@@ -588,6 +603,7 @@ export default defineConfig({
      - Exclude: Svelte komponenty
 
 **Vliv na build**:
+
 - Určuje Vite plugins pipeline
 - Řídí testing strategii (browser vs node)
 - Určuje HMR chování v dev módu
@@ -598,21 +614,22 @@ export default defineConfig({
 **Účel**: Specializovaná Vitest konfigurace pro testování image generation pipeline
 
 **Obsah**:
+
 ```typescript
-import { defineConfig } from 'vitest/config';
-import path from 'node:path';
-import { svelte } from '@sveltejs/vite-plugin-svelte';
+import { defineConfig } from "vitest/config";
+import path from "node:path";
+import { svelte } from "@sveltejs/vite-plugin-svelte";
 
 export default defineConfig({
   plugins: [svelte()],
   test: {
-    environment: 'node',
+    environment: "node",
     testTimeout: 60000,
     hookTimeout: 30000,
     include: [
-      'tests/unit/**/*.spec.ts',
-      'tests/integration/**/*.spec.ts',
-      'tests/e2e-images/**/*.spec.ts',
+      "tests/unit/**/*.spec.ts",
+      "tests/integration/**/*.spec.ts",
+      "tests/e2e-images/**/*.spec.ts",
     ],
     sequence: {
       concurrent: false,
@@ -620,13 +637,14 @@ export default defineConfig({
     },
     globals: true,
     alias: {
-      $lib: path.resolve(__dirname, './src/lib'),
+      $lib: path.resolve(__dirname, "./src/lib"),
     },
   },
 });
 ```
 
 **Klíčové konfigurace**:
+
 - **environment**: `node` - všechny image testy běží v Node.js (ne browser)
 - **testTimeout**: 60s - delší timeout pro image processing
 - **sequence.concurrent**: `false` - testy běží sériově (determinismus)
@@ -637,6 +655,7 @@ export default defineConfig({
   - E2E image testy: `tests/e2e-images/**/*.spec.ts`
 
 **Spouštění**:
+
 ```bash
 bun run test:unit:images    # Unit testy pro image processing
 bun run test:images         # Integration a E2E image testy
@@ -651,9 +670,10 @@ bun run test:all            # Všechny image testy
 **Účel**: Konfigurace Tailwind CSS frameworku
 
 **Obsah**:
+
 ```typescript
 export default {
-  content: ['./src/**/*.{html,js,svelte,ts}'],
+  content: ["./src/**/*.{html,js,svelte,ts}"],
   theme: {
     extend: {},
   },
@@ -662,6 +682,7 @@ export default {
 ```
 
 **Klíčové konfigurace**:
+
 - **content**: Definuje soubory, které Tailwind skenuje pro použité třídy
   - `./src/**/*.{html,js,svelte,ts}` - všechny soubory v src/
   - Umožňuje tree-shaking (purge) nepoužitých CSS tříd
@@ -678,6 +699,7 @@ export default {
 **Účel**: Konfigurace TypeScript compileru
 
 **Obsah**:
+
 ```json
 {
   "extends": "./.svelte-kit/tsconfig.json",
@@ -696,6 +718,7 @@ export default {
 ```
 
 **Klíčové konfigurace**:
+
 - **extends**: `./.svelte-kit/tsconfig.json` - rozšiřuje SvelteKit generovaný tsconfig
   - SvelteKit automaticky generuje tsconfig s path aliases ($lib, atd.)
 - **strict**: `true` - přísný TypeScript mód
@@ -706,6 +729,7 @@ export default {
 - **moduleResolution**: `bundler` - moderní module resolution pro bundlery
 
 **Path aliases** (spravované SvelteKit):
+
 - `$lib` → `src/lib`
 - `$lib/*` → `src/lib/*`
 
@@ -717,6 +741,7 @@ export default {
 **Účel**: Konfigurace Biome linteru a formatteru (alternativa k ESLint + Prettier)
 
 **Obsah**:
+
 ```json
 {
   "$schema": "https://biomejs.dev/schemas/2.2.6/schema.json",
@@ -757,20 +782,24 @@ export default {
 **Klíčové konfigurace**:
 
 **Files (exclude patterns)**:
+
 - Ignoruje `node_modules`, `build`, `.svelte-kit` (build artefakty)
 - Ignoruje obrázky (`static/images/**`, `*.jpg`, `*.webp`, atd.)
 - Ignoruje test outputs a screenshots
 - Ignoruje CSS soubory (zpracovává Stylelint)
 
 **Formatter**:
+
 - Indent: 2 mezery
 - Line width: 100 znaků
 - Style: standardní JS/TS formatting
 
 **Linter**:
+
 - Rules: `recommended` - použití doporučených Biome pravidel
 
 **Spouštění**:
+
 ```bash
 bun run lint           # Biome check + Stylelint
 bun run lint:fix       # Biome auto-fix
@@ -783,12 +812,10 @@ bun run format         # Biome + Prettier formatting
 **Účel**: Konfigurace Stylelint pro CSS linting
 
 **Obsah**:
+
 ```json
 {
-  "extends": [
-    "stylelint-config-standard",
-    "stylelint-config-tailwindcss"
-  ],
+  "extends": ["stylelint-config-standard", "stylelint-config-tailwindcss"],
   "rules": {
     "selector-class-pattern": "^[a-z]([a-z0-9-]+)?(__([a-z0-9]+(-[a-z0-9]+)*))?(--([a-z0-9]+(-[a-z0-9]+)*))?$"
   }
@@ -796,6 +823,7 @@ bun run format         # Biome + Prettier formatting
 ```
 
 **Klíčové konfigurace**:
+
 - **extends**:
   - `stylelint-config-standard` - základní CSS pravidla
   - `stylelint-config-tailwindcss` - podpora Tailwind direktivů (@tailwind, @apply, atd.)
@@ -804,6 +832,7 @@ bun run format         # Biome + Prettier formatting
   - Tailwind třídy jsou povoleny (díky tailwindcss config)
 
 **Spouštění**:
+
 ```bash
 bun run lint:css       # Stylelint check
 ```
@@ -813,7 +842,8 @@ bun run lint:css       # Stylelint check
 **Cesta**: `/.stylelintignore`
 **Účel**: Definuje soubory ignorované Stylelint
 
-*Poznámka: Soubor nebyl poskytnut v analýze, ale typicky obsahuje:*
+_Poznámka: Soubor nebyl poskytnut v analýze, ale typicky obsahuje:_
+
 ```
 node_modules/
 build/
@@ -828,19 +858,21 @@ build/
 **Účel**: Konfigurace Playwright E2E testů
 
 **Obsah**:
+
 ```typescript
-import { defineConfig } from '@playwright/test';
+import { defineConfig } from "@playwright/test";
 
 export default defineConfig({
   webServer: {
-    command: 'npm run build && npm run preview',
-    port: 4173
+    command: "npm run build && npm run preview",
+    port: 4173,
   },
-  testDir: 'e2e'
+  testDir: "e2e",
 });
 ```
 
 **Klíčové konfigurace**:
+
 - **webServer**: Automaticky spouští aplikaci před testy
   - Command: `npm run build && npm run preview`
     - Nejprve builduje production verzi
@@ -849,6 +881,7 @@ export default defineConfig({
 - **testDir**: `e2e` - adresář s E2E testy
 
 **Workflow**:
+
 1. Playwright automaticky spustí `npm run build`
 2. Pak spustí `npm run preview` (production preview server)
 3. Počká až server běží na portu 4173
@@ -856,6 +889,7 @@ export default defineConfig({
 5. Po testech ukončí server
 
 **Spouštění**:
+
 ```bash
 bun run test:e2e       # Spustí Playwright E2E testy
 ```
@@ -865,7 +899,8 @@ bun run test:e2e       # Spustí Playwright E2E testy
 **Cesta**: `/vitest-setup-client.ts`
 **Účel**: Setup soubor pro Vitest browser testy (client projekt)
 
-*Poznámka: Obsah souboru nebyl poskytnut, ale typicky obsahuje:*
+_Poznámka: Obsah souboru nebyl poskytnut, ale typicky obsahuje:_
+
 - Globální test utilities
 - Mock setup
 - Browser-specific polyfills
@@ -878,6 +913,7 @@ bun run test:e2e       # Spustí Playwright E2E testy
 **Účel**: Konfigurace shadcn-svelte UI knihovny
 
 **Obsah**:
+
 ```json
 {
   "$schema": "https://shadcn-svelte.com/schema.json",
@@ -898,6 +934,7 @@ bun run test:e2e       # Spustí Playwright E2E testy
 ```
 
 **Klíčové konfigurace**:
+
 - **tailwind**:
   - `css`: `src/app.css` - hlavní CSS soubor s Tailwind direktivami
   - `baseColor`: `slate` - základní barevná paleta
@@ -909,6 +946,7 @@ bun run test:e2e       # Spustí Playwright E2E testy
 - **registry**: shadcn-svelte komponenty registry
 
 **Použití**:
+
 ```bash
 npx shadcn-svelte add button    # Přidá button komponentu do $lib/components/ui/
 ```
@@ -923,6 +961,7 @@ npx shadcn-svelte add button    # Přidá button komponentu do $lib/components/u
 **Viz sekce 1.3 a 11 pro detailní analýzu dependencies.**
 
 **Klíčové skripty**:
+
 - **Development**: `dev`, `check`, `check:watch`
 - **Building**: `build`, `prebuild`, `preview`
 - **Testing**: `test`, `test:unit`, `test:e2e`, `test:images`, `test:all`
@@ -936,6 +975,7 @@ npx shadcn-svelte add button    # Přidá button komponentu do $lib/components/u
 **Účel**: Bun lockfile (ekvivalent package-lock.json)
 
 **Vlastnosti**:
+
 - Zajišťuje deterministické instalace dependencies
 - Rychlejší než npm/yarn lockfiles
 - Binární formát (optimalizovaný pro rychlost)
@@ -947,7 +987,8 @@ npx shadcn-svelte add button    # Přidá button komponentu do $lib/components/u
 **Cesta**: `/.gitignore`
 **Účel**: Definuje soubory ignorované Git
 
-*Typický obsah (nebyl poskytnut v analýze):*
+_Typický obsah (nebyl poskytnut v analýze):_
+
 ```
 node_modules/
 build/
@@ -963,6 +1004,7 @@ static/images/israel-2022/
 ```
 
 **Klíčové ignorované položky**:
+
 - `node_modules/` - dependencies
 - `build/` - production build
 - `.svelte-kit/` - SvelteKit cache
@@ -976,7 +1018,8 @@ static/images/israel-2022/
 **Cesta**: `/.lintstagedrc.json`
 **Účel**: Konfigurace lint-staged pro pre-commit hooks
 
-*Poznámka: Obsah souboru nebyl poskytnut, ale typicky obsahuje:*
+_Poznámka: Obsah souboru nebyl poskytnut, ale typicky obsahuje:_
+
 ```json
 {
   "*.{js,ts,svelte}": ["biome check --write", "git add"],
@@ -985,6 +1028,7 @@ static/images/israel-2022/
 ```
 
 **Workflow**:
+
 1. Před každým commitem spouští lint-staged
 2. Lint-staged spustí linting a formátování na staged souborech
 3. Automaticky opraví problémy (`--write`, `--fix`)
@@ -997,12 +1041,14 @@ static/images/israel-2022/
 **Cesta**: `/.nvmrc`
 **Účel**: Specifikuje Node.js verzi pro nvm (Node Version Manager)
 
-*Poznámka: Obsah nebyl poskytnut, ale typicky obsahuje:*
+_Poznámka: Obsah nebyl poskytnut, ale typicky obsahuje:_
+
 ```
 24
 ```
 
 **Použití**:
+
 ```bash
 nvm use          # Aktivuje správnou Node verzi
 ```
@@ -1012,7 +1058,8 @@ nvm use          # Aktivuje správnou Node verzi
 **Cesta**: `/.npmrc`
 **Účel**: NPM konfigurace
 
-*Poznámka: Obsah nebyl poskytnut, ale může obsahovat:*
+_Poznámka: Obsah nebyl poskytnut, ale může obsahovat:_
+
 ```
 engine-strict=true
 ```
@@ -1025,6 +1072,7 @@ engine-strict=true
 **Účel**: Cache pro `scripts/generate-images.ts`
 
 **Struktura**:
+
 ```json
 {
   "version": 1,
@@ -1039,6 +1087,7 @@ engine-strict=true
 ```
 
 **Funkce**:
+
 - Trackuje zpracované obrázky (hash + modification time)
 - Přeskakuje zpracování nezmněných obrázků
 - Výrazně zrychluje opakované buildy
@@ -1173,7 +1222,6 @@ Runtime:
 
 ---
 
-
 ## 6. Features implementované v projektu
 
 Tato sekce popisuje klíčové features a funkcionality implementované v projektu.
@@ -1201,6 +1249,7 @@ Tato sekce popisuje klíčové features a funkcionality implementované v projek
 ```
 
 **Klíčové vlastnosti**:
+
 - **`lang="cs"`**: Čeština jako hlavní jazyk
 - **`data-sveltekit-preload-data="hover"`**: Preloading strategie
   - Data se načítají při hover nad linkem
@@ -1213,6 +1262,7 @@ Tato sekce popisuje klíčové features a funkcionality implementované v projek
   - Hydratuje se na klientovi
 
 **Preload strategie**:
+
 - `hover` (default): Preload při hover (nejlepší UX/performance balance)
 - `tap`: Preload při touch/click
 - `off`: Žádný preload
@@ -1226,8 +1276,8 @@ Tato sekce popisuje klíčové features a funkcionality implementované v projek
 
 ```css
 /* 1. Import Tailwind CSS v4 */
-@import 'tailwindcss';
-@import 'tw-animate-css';
+@import "tailwindcss";
+@import "tw-animate-css";
 
 /* 2. Plugin pro typografii */
 @plugin '@tailwindcss/typography';
@@ -1274,6 +1324,7 @@ Tato sekce popisuje klíčové features a funkcionality implementované v projek
 **Design system**:
 
 **Color tokens** (OKLCH color space):
+
 - `--background` / `--foreground`: Base colors
 - `--primary` / `--primary-foreground`: Primary actions
 - `--secondary` / `--secondary-foreground`: Secondary actions
@@ -1286,21 +1337,24 @@ Tato sekce popisuje klíčové features a funkcionality implementované v projek
 - `--chart-1` through `--chart-5`: Chart colors
 
 **Proč OKLCH?**
+
 - Perceptuálně uniformní (lepší než HSL)
 - Lepší gamut coverage (wider color space)
 - Smoothější gradients
 - Moderní standard (CSS Color Module Level 4)
 
 **Border radius scale**:
+
 ```css
---radius: 0.625rem;      /* Base (10px) */
---radius-sm: 0.425rem;   /* Small (6.8px) */
---radius-md: 0.525rem;   /* Medium (8.4px) */
---radius-lg: 0.625rem;   /* Large (10px) */
---radius-xl: 0.825rem;   /* XL (13.2px) */
+--radius: 0.625rem; /* Base (10px) */
+--radius-sm: 0.425rem; /* Small (6.8px) */
+--radius-md: 0.525rem; /* Medium (8.4px) */
+--radius-lg: 0.625rem; /* Large (10px) */
+--radius-xl: 0.825rem; /* XL (13.2px) */
 ```
 
 **Dark mode**:
+
 - Class-based: `.dark` class na root elementu
 - Custom variant: `@custom-variant dark (&:is(.dark *))`
 - Usage: `bg-background dark:bg-dark-background`
@@ -1321,6 +1375,7 @@ src/routes/
 ```
 
 **Naming conventions**:
+
 - `+page.svelte` = Stránka (route endpoint)
 - `+page.server.ts` = Server-side data loading
 - `+page.ts` = Client-side data loading
@@ -1335,8 +1390,8 @@ src/routes/
 **Cesta**: `src/routes/+layout.server.ts`
 
 ```typescript
-import type { PhotoDay, MenuManifest } from '$lib/types/manifest';
-import { getPhotoDays, getMenuItems } from '$lib';
+import type { PhotoDay, MenuManifest } from "$lib/types/manifest";
+import { getPhotoDays, getMenuItems } from "$lib";
 
 export async function load() {
   const photoDays: PhotoDay[] = getPhotoDays();
@@ -1347,12 +1402,14 @@ export async function load() {
 ```
 
 **Funkce**:
+
 - Běží **pouze na serveru** (při SSG build time)
 - Načítá data z manifestu (`images.manifest.json`)
 - Vrací data dostupná ve všech child routes
 - Data jsou serializována a posílána klientovi
 
 **Data flow**:
+
 ```
 Build time:
   images.manifest.json (disk)
@@ -1381,19 +1438,20 @@ export const prerender = true;
 ```
 
 **Konfigurace**:
+
 - **`prerender = true`**: Zapíná SSG (Static Site Generation)
 - Aplikuje se na všechny child routes
 - SvelteKit při buildu generuje statický HTML
 - Výsledek: `build/index.html` (pre-rendered)
 
 **SSG vs SSR**:
-|                 | SSG (`prerender = true`)     | SSR (`prerender = false`)  |
+| | SSG (`prerender = true`) | SSR (`prerender = false`) |
 | --------------- | ---------------------------- | -------------------------- |
-| **Build time**  | Generuje HTML při buildu     | Bez HTML generování        |
-| **Runtime**     | Statický HTML (instant load) | Server renderuje on-demand |
-| **Deployment**  | Statický hosting (CDN)       | Node.js server             |
-| **SEO**         | Perfektní (crawlable HTML)   | Perfektní (crawlable HTML) |
-| **Performance** | Nejrychlejší (CDN edge)      | Rychlý (server rendering)  |
+| **Build time** | Generuje HTML při buildu | Bez HTML generování |
+| **Runtime** | Statický HTML (instant load) | Server renderuje on-demand |
+| **Deployment** | Statický hosting (CDN) | Node.js server |
+| **SEO** | Perfektní (crawlable HTML) | Perfektní (crawlable HTML) |
+| **Performance** | Nejrychlejší (CDN edge) | Rychlý (server rendering) |
 
 #### 6.2.4 +layout.svelte - Layout komponenta
 
@@ -1401,10 +1459,10 @@ export const prerender = true;
 
 ```svelte
 <script lang="ts">
-  import Header from '$lib/components/Header.svelte';
-  import Footer from '$lib/components/Footer.svelte';
-  import favicon from '$lib/assets/favicon.svg?url';
-  import '../app.css';
+  import Header from "$lib/components/Header.svelte";
+  import Footer from "$lib/components/Footer.svelte";
+  import favicon from "$lib/assets/favicon.svg?url";
+  import "../app.css";
 
   let { data, children } = $props();
 </script>
@@ -1423,11 +1481,13 @@ export const prerender = true;
 **Klíčové vlastnosti**:
 
 **Svelte 5 runes**:
+
 - `let { data, children } = $props()` - Props destructuring (Svelte 5)
   - `data`: Data z `+layout.server.ts` load funkce
   - `children`: Render snippet (child routes)
 
 **Layout struktura**:
+
 ```
 <svelte:head>    → Meta tags, favicon
 <Header>         → Sticky header s menu
@@ -1436,11 +1496,13 @@ export const prerender = true;
 ```
 
 **Render snippet** (`children`):
+
 - Svelte 5 feature (replacement pro `<slot>`)
 - Syntax: `{@render children?.()}`
 - Optional chaining: `?.()` (safe render)
 
 **CSS import**:
+
 - `import '../app.css'` - Globální styly
 - Importuje se v layout (aplikuje se na všechny stránky)
 
@@ -1449,8 +1511,8 @@ export const prerender = true;
 **Cesta**: `src/routes/+page.server.ts`
 
 ```typescript
-import type { PhotoDay } from '$lib/types/manifest';
-import { getPhotoDays } from '$lib/images';
+import type { PhotoDay } from "$lib/types/manifest";
+import { getPhotoDays } from "$lib/images";
 
 export async function load() {
   const photoDays: PhotoDay[] = getPhotoDays();
@@ -1462,11 +1524,13 @@ export async function load() {
 ```
 
 **Funkce**:
+
 - Načítá data specifická pro homepage
 - Běží na serveru (build time při SSG)
 - Vrací `photoDays` array pro PhotoGrid
 
 **Data merging**:
+
 ```typescript
 // V +page.svelte:
 let { data } = $props<{ data: PageData }>();
@@ -1483,25 +1547,25 @@ let { data } = $props<{ data: PageData }>();
 
 ```svelte
 <script lang="ts">
-  import PhotoGrid from '$lib/components/PhotoGrid.svelte';
-  import { Badge } from '$lib/components/ui/badge/';
-  import Hero from '$lib/components/Hero.svelte';
-  import type { PageData } from './$types';
+  import PhotoGrid from "$lib/components/PhotoGrid.svelte";
+  import { Badge } from "$lib/components/ui/badge/";
+  import Hero from "$lib/components/Hero.svelte";
+  import type { PageData } from "./$types";
 
   let { data } = $props<{ data: PageData }>();
 
   const photoDays = data.photoDays || [];
 
   function formatDateForDisplay(dateValue: string | Date): string {
-    return new Intl.DateTimeFormat('cs-CZ', {
-      day: 'numeric',
-      month: 'numeric',
-      year: 'numeric',
+    return new Intl.DateTimeFormat("cs-CZ", {
+      day: "numeric",
+      month: "numeric",
+      year: "numeric",
     }).format(new Date(dateValue));
   }
 
   function formatWeekdayCzech(dateValue: string | Date): string {
-    return new Intl.DateTimeFormat('cs-CZ', { weekday: 'long' }).format(
+    return new Intl.DateTimeFormat("cs-CZ", { weekday: "long" }).format(
       new Date(dateValue),
     );
   }
@@ -1515,7 +1579,9 @@ let { data } = $props<{ data: PageData }>();
     <section id={daySectionId} class="container mx-auto py-8">
       <div data-cy="day-head" class="max-w-xl mx-auto text-center mb-12">
         <h2 class="mb-1 text-3xl">
-          <span class="block mb-1 text-xs font-normal tracking-[0.05em] uppercase ...">
+          <span
+            class="block mb-1 text-xs font-normal tracking-[0.05em] uppercase ..."
+          >
             {formatWeekdayCzech(day.date)}
           </span>
           {formatDateForDisplay(day.date)}
@@ -1523,12 +1589,15 @@ let { data } = $props<{ data: PageData }>();
 
         {#if day.cities && day.cities.length > 0}
           <div data-cy="day-cities" class="mb-6 text-lg">
-            {day.cities.join(' — ')}
+            {day.cities.join(" — ")}
           </div>
         {/if}
 
         {#if day.locations && day.locations.length > 0}
-          <div data-cy="day-where" class="mx-auto mb-5 gap-2 flex flex-wrap justify-center">
+          <div
+            data-cy="day-where"
+            class="mx-auto mb-5 gap-2 flex flex-wrap justify-center"
+          >
             {#each day.locations as locationName (locationName)}
               <Badge variant="secondary">{locationName}</Badge>
             {/each}
@@ -1536,7 +1605,9 @@ let { data } = $props<{ data: PageData }>();
         {/if}
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+      >
         <PhotoGrid items={day.items} />
       </div>
     </section>
@@ -1559,6 +1630,7 @@ let { data } = $props<{ data: PageData }>();
      - **PhotoGrid**: Responsive grid s fotografiemi
 
 **Responsive grid**:
+
 ```css
 grid-cols-1           /* Mobile: 1 column */
 sm:grid-cols-2        /* ≥640px: 2 columns */
@@ -1567,12 +1639,14 @@ xl:grid-cols-4        /* ≥1280px: 4 columns */
 ```
 
 **Svelte features**:
+
 - `{#each}` loop s key (`day.date`)
 - `{@const}` inline constants
 - `{#if}` conditionals
 - `data-cy` attributes (Cypress E2E testing)
 
 **Internationalization**:
+
 - `Intl.DateTimeFormat('cs-CZ')` - Nativní i18n API
 - Weekday: `{ weekday: 'long' }` → "čtvrtek"
 - Date: `{ day: 'numeric', month: 'numeric', year: 'numeric' }` → "21. 3. 2022"
@@ -1586,10 +1660,11 @@ Centrální TypeScript types pro celou aplikaci.
 #### 6.3.1 Core types
 
 **ImageSource** - Varianta obrázku:
+
 ```typescript
 export type ImageSource = {
-  variant: 'default' | 'xl' | 'detail' | 'fallback';
-  type: 'image/webp' | 'image/jpeg' | 'image/avif';
+  variant: "default" | "xl" | "detail" | "fallback";
+  type: "image/webp" | "image/jpeg" | "image/avif";
   path: string;
   width: number;
   height?: number;
@@ -1597,10 +1672,11 @@ export type ImageSource = {
 ```
 
 **ImageEntry** - Kompletní fotografie:
+
 ```typescript
 export type ImageEntry = {
   id: string;
-  type: 'image';
+  type: "image";
   src: string;
   alt: string;
   title: string;
@@ -1622,9 +1698,10 @@ export type ImageEntry = {
 ```
 
 **Separator** - Location marker:
+
 ```typescript
 export type Separator = {
-  type: 'separator';
+  type: "separator";
   location: string;
   city: string;
   storyContent?: string;
@@ -1633,6 +1710,7 @@ export type Separator = {
 ```
 
 **PhotoDay** - Den fotografií:
+
 ```typescript
 export type PhotoDay = {
   date: string;
@@ -1642,6 +1720,7 @@ export type PhotoDay = {
 ```
 
 **Manifest** - Root struktura:
+
 ```typescript
 export type Manifest = {
   photoDays: PhotoDay[];
@@ -1649,6 +1728,7 @@ export type Manifest = {
 ```
 
 **MenuManifest** - Menu data:
+
 ```typescript
 export type MenuDay = {
   id: string;
@@ -1696,18 +1776,19 @@ Components:
 **Cesta**: `src/lib/index.ts`
 
 ```typescript
-export { getPhotoDays } from './images';
-export { getMenuItems } from './menu';
+export { getPhotoDays } from "./images";
+export { getMenuItems } from "./menu";
 ```
 
 **Účel**: Centrální export surface pro `$lib` alias
 
 **Usage**:
+
 ```typescript
-import { getPhotoDays, getMenuItems } from '$lib';
+import { getPhotoDays, getMenuItems } from "$lib";
 // vs
-import { getPhotoDays } from '$lib/images';
-import { getMenuItems } from '$lib/menu';
+import { getPhotoDays } from "$lib/images";
+import { getMenuItems } from "$lib/menu";
 ```
 
 #### 6.4.2 images.ts - Manifest utilities
@@ -1715,8 +1796,13 @@ import { getMenuItems } from '$lib/menu';
 **Cesta**: `src/lib/images.ts`
 
 ```typescript
-import type { Manifest, PhotoDay, ImageEntry, ImageSource } from './types/manifest';
-import manifest from '$lib/images.manifest.json' with { type: 'json' };
+import type {
+  Manifest,
+  PhotoDay,
+  ImageEntry,
+  ImageSource,
+} from "./types/manifest";
+import manifest from "$lib/images.manifest.json" with { type: "json" };
 
 const typedManifest: Manifest = manifest as unknown as Manifest;
 
@@ -1743,13 +1829,13 @@ export function getSources(item: ImageEntry) {
   return Object.entries(sourcesByType)
     .map(([type, srcsetParts]) => ({
       type: type,
-      srcset: srcsetParts.join(', ')
+      srcset: srcsetParts.join(", "),
     }))
     .sort((a, b) => {
-      if (a.type.includes('avif')) return -1;
-      if (b.type.includes('avif')) return 1;
-      if (a.type.includes('webp')) return -1;
-      if (b.type.includes('webp')) return 1;
+      if (a.type.includes("avif")) return -1;
+      if (b.type.includes("avif")) return 1;
+      if (a.type.includes("webp")) return -1;
+      if (b.type.includes("webp")) return 1;
       return 0;
     });
 }
@@ -1758,6 +1844,7 @@ export function getSources(item: ImageEntry) {
 **Klíčové funkce**:
 
 **`getSources(item)`** - Generuje `<picture>` sources:
+
 ```typescript
 // Input:
 {
@@ -1795,11 +1882,13 @@ export function getSources(item: ImageEntry) {
 ```
 
 **Format prioritization**:
+
 1. **AVIF**: Nejlepší komprese (první v `<picture>`)
 2. **WebP**: Dobrá komprese, široká podpora (druhý)
 3. **JPEG**: Fallback pro starší prohlížeče (poslední)
 
 **Responsive images**:
+
 - `srcset` s width descriptors (`370w`, `534w`)
 - Browser vybere nejvhodnější velikost podle viewport
 - `sizes` attribute určuje viewport breakpoints
@@ -1821,7 +1910,9 @@ Detailní analýza všech Svelte komponent v aplikaci.
 
 <section class="py-24 container mx-auto">
   <div class="grid items-center gap-8 lg:grid-cols-2">
-    <div class="flex flex-col items-center text-center lg:items-start lg:text-left">
+    <div
+      class="flex flex-col items-center text-center lg:items-start lg:text-left"
+    >
       <h1 class="my-6 text-pretty text-3xl font-bold lg:text-5xl">
         Izrael 2022
       </h1>
@@ -1837,6 +1928,7 @@ Detailní analýza všech Svelte komponent v aplikaci.
 **Funkce**: Jednoduchá úvodní sekce s názvem a popisem
 
 **Responsive design**:
+
 - Mobile: Center aligned
 - Desktop (`lg:`): Left aligned
 - Typography scale: `text-3xl` → `lg:text-5xl`
@@ -1847,29 +1939,31 @@ Detailní analýza všech Svelte komponent v aplikaci.
 
 ```svelte
 <script lang="ts">
-  import { getSources } from '$lib/images';
-  import type { ImageEntry, Separator, ImageSource } from '$lib/types/manifest';
-  import { buttonVariants } from '$lib/components/ui/button';
-  import { marked } from 'marked';
-  import * as Dialog from '$lib/components/ui/dialog';
+  import { getSources } from "$lib/images";
+  import type { ImageEntry, Separator, ImageSource } from "$lib/types/manifest";
+  import { buttonVariants } from "$lib/components/ui/button";
+  import { marked } from "marked";
+  import * as Dialog from "$lib/components/ui/dialog";
 
   let { items } = $props<{
     items: (ImageEntry | Separator)[];
   }>();
 
   function renderStoryHtml(separator: Separator) {
-    return separator.storyContent ? marked.parse(separator.storyContent) : '';
+    return separator.storyContent ? marked.parse(separator.storyContent) : "";
   }
 
   function findFallbackSource(image: ImageEntry): ImageSource | undefined {
-    return image.sources.find((source) => source.variant === 'fallback');
+    return image.sources.find((source) => source.variant === "fallback");
   }
 </script>
 
-{#each items as item (item.type === 'image' ? item.src : item.location)}
-  {#if item.type === 'image'}
+{#each items as item (item.type === "image" ? item.src : item.location)}
+  {#if item.type === "image"}
     {@const fallback = findFallbackSource(item)}
-    <figure class={`bg-cover bg-center bg-[${item.placeholderColor}] rounded-lg ...`}>
+    <figure
+      class={`bg-cover bg-center bg-[${item.placeholderColor}] rounded-lg ...`}
+    >
       {#if fallback}
         <picture>
           {#each getSources(item) as source (source.type)}
@@ -1890,14 +1984,22 @@ Detailní analýza všech Svelte komponent v aplikaci.
         </picture>
       {/if}
     </figure>
-  {:else if item.type === 'separator'}
+  {:else if item.type === "separator"}
     <Dialog.Root>
-      <Dialog.Trigger class="aspect-video flex flex-col items-center justify-center p-4 bg-slate-100 dark:bg-slate-800/50 rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 hover:ring-2 hover:ring-primary focus:outline-none">
+      <Dialog.Trigger
+        class="aspect-video flex flex-col items-center justify-center p-4 bg-slate-100 dark:bg-slate-800/50 rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 hover:ring-2 hover:ring-primary focus:outline-none"
+      >
         <h3 class="text-lg">{item.location}</h3>
         {#if item.city}
           <p class="text-sm text-muted-foreground">{item.city}</p>
         {/if}
-        <span class={buttonVariants({ size: 'sm', variant: 'link', class: 'text-sm mt-2' })}>
+        <span
+          class={buttonVariants({
+            size: "sm",
+            variant: "link",
+            class: "text-sm mt-2",
+          })}
+        >
           Zobrazit příběh
         </span>
       </Dialog.Trigger>
@@ -1920,6 +2022,7 @@ Detailní analýza všech Svelte komponent v aplikaci.
 **Klíčové vlastnosti**:
 
 **1. Responsive `<picture>` element**:
+
 ```html
 <picture>
   <source type="image/avif" srcset="..." />
@@ -1929,6 +2032,7 @@ Detailní analýza všech Svelte komponent v aplikaci.
 ```
 
 **2. Sizes attribute** (responsive breakpoints):
+
 ```
 (min-width: 1280px) 25vw  → XL: 4 columns (25% viewport)
 (min-width: 1024px) 33vw  → LG: 3 columns (33% viewport)
@@ -1937,22 +2041,26 @@ Detailní analýza všech Svelte komponent v aplikaci.
 ```
 
 **3. Lazy loading**:
+
 - `loading="lazy"` - Native browser lazy loading
 - Images load pouze když jsou v/blízko viewportu
 - Šetří bandwidth a zrychluje initial load
 
 **4. Placeholder color**:
+
 - `bg-[${item.placeholderColor}]` - Dynamic Tailwind class
 - Dominant color jako placeholder (před načtením obrázku)
 - Smooth loading experience (no layout shift)
 
 **5. Separator cards**:
+
 - Dialog trigger s location info
 - Click otevře modal s story content
 - Markdown rendered do HTML (`marked.parse()`)
 - Prose styling (`prose prose-sm dark:prose-invert`)
 
 **6. Hover effects**:
+
 - `hover:scale-105` - Subtle zoom on hover
 - `transition-transform duration-300` - Smooth animation
 
@@ -1962,11 +2070,13 @@ Detailní analýza všech Svelte komponent v aplikaci.
 
 ```svelte
 <script lang="ts">
-  import type { MenuManifest } from '$lib/types/manifest';
-  import { Menu, ChevronRight, Calendar } from '@lucide/svelte';
-  import Button, { buttonVariants } from '$lib/components/ui/button/button.svelte';
-  import * as Sheet from '$lib/components/ui/sheet';
-  import * as Sidebar from '$lib/components/ui/sidebar';
+  import type { MenuManifest } from "$lib/types/manifest";
+  import { Menu, ChevronRight, Calendar } from "@lucide/svelte";
+  import Button, {
+    buttonVariants,
+  } from "$lib/components/ui/button/button.svelte";
+  import * as Sheet from "$lib/components/ui/sheet";
+  import * as Sidebar from "$lib/components/ui/sidebar";
 
   export let menuItems: MenuManifest = [];
 </script>
@@ -1978,7 +2088,7 @@ Detailní analýza všech Svelte komponent v aplikaci.
     </div>
 
     <Sheet.Root>
-      <Sheet.Trigger class={buttonVariants({ size: 'sm', variant: 'ghost' })}>
+      <Sheet.Trigger class={buttonVariants({ size: "sm", variant: "ghost" })}>
         <Menu />
       </Sheet.Trigger>
 
@@ -2003,17 +2113,20 @@ Detailní analýza všech Svelte komponent v aplikaci.
 **Klíčové vlastnosti**:
 
 **1. Sticky header**:
+
 - `sticky top-0` - Fixní header při scrollu
 - `z-10` - Z-index pro overlay
 - `border-b` - Separátor od obsahu
 
 **2. Sheet (drawer) pattern**:
+
 - Mobile-friendly side drawer
 - Slide-in from right
 - Backdrop overlay (click to close)
 - Scrollable content (`overflow-y-auto`)
 
 **3. Sidebar menu**:
+
 - Structured menu s groups
 - Day-based navigation (anchor links)
 - Location sub-items
@@ -2027,6 +2140,7 @@ Jednoduchá patička s copyright a odkazy.
 ### 7.5 UI Component Library (src/lib/components/ui/)
 
 **Struktura**:
+
 ```
 ui/
 ├─ badge/              # Badge komponenty (labels, tags)
@@ -2044,12 +2158,14 @@ ui/
 ```
 
 **Architektura**:
+
 - **Headless components**: bits-ui (behavior without styling)
 - **Styled wrappers**: Tailwind CSS styling wrapping bits-ui
 - **Variants system**: tailwind-variants for consistent variants
 - **Composability**: Každá komponenta je kompozovatelná
 
 **Example - Button variants**:
+
 ```typescript
 const buttonVariants = tv({
   base: "inline-flex items-center justify-center rounded-md ...",
@@ -2075,11 +2191,11 @@ const buttonVariants = tv({
 ```
 
 **Usage**:
+
 ```svelte
 <Button variant="secondary" size="sm">Click me</Button>
 <Button variant="ghost">Ghost button</Button>
 ```
-
 
 ---
 
@@ -2090,12 +2206,14 @@ Projekt využívá **Bun runtime** pro spouštění skriptů a task management. 
 ### 8.1 NPM scripts přehled
 
 **Development scripts**:
+
 ```bash
 bun run dev              # Vite dev server (HMR)
 bun run preview          # Preview production build
 ```
 
 **Build scripts**:
+
 ```bash
 bun run build            # Full production build
 bun run prebuild         # Linting + image generation
@@ -2103,6 +2221,7 @@ bun run check            # TypeScript type checking
 ```
 
 **Image generation scripts**:
+
 ```bash
 bun run images:build     # Generate optimized images
 bun run images:watch     # Watch mode (auto-regenerate)
@@ -2111,6 +2230,7 @@ bun run images:all       # Build + blur
 ```
 
 **Testing scripts**:
+
 ```bash
 bun run test             # All tests (unit + E2E)
 bun run test:unit        # Unit tests only
@@ -2119,6 +2239,7 @@ bun run test:images      # Image generation tests
 ```
 
 **Code quality scripts**:
+
 ```bash
 bun run lint             # Biome + Stylelint
 bun run lint:fix         # Auto-fix issues
@@ -2129,12 +2250,14 @@ bun run format:check     # Check formatting
 ### 8.2 Bun-specific features
 
 **Proč Bun místo Node.js?**
+
 - **Rychlost**: 3-4x rychlejší než Node.js
 - **Built-in TypeScript**: Nativní podpora TS bez transpilace
 - **Kompatibilita**: Drop-in replacement pro Node.js
 - **Package manager**: Rychlejší než npm/yarn
 
 **Klíčové scripty využívající Bun**:
+
 - `scripts/generate-images.ts` - běží přímo v Bun runtime
 - `vitest.config.ts` - využívá Bun pro rychlé testy
 
@@ -2254,6 +2377,7 @@ Tato sekce popisuje kompletní build pipeline od zdrojových souborů po product
 **Kroky**:
 
 **1. Linting** (`bun run lint`):
+
 ```bash
 # Biome check (JavaScript/TypeScript)
 biome check .
@@ -2267,6 +2391,7 @@ stylelint "**/*.css"
 ```
 
 **2. Image generation** (`bun run images:build`):
+
 ```bash
 # Generate optimized images + manifest
 bun run scripts/generate-images.ts
@@ -2286,6 +2411,7 @@ Output:
 ```
 
 **Výstupy prebuild**:
+
 - `static/images/israel-2022/` - Optimalizované obrázky (všechny varianty a formáty)
 - `src/lib/images.manifest.json` - Runtime manifest s metadaty
 - `.images-cache.json` - Cache pro rychlejší opakované buildy
@@ -2299,6 +2425,7 @@ Output:
 **Kroky**:
 
 **1. TypeScript compilation**:
+
 ```
 src/**/*.ts → JavaScript (ES modules)
 - Type checking (strict mode)
@@ -2307,6 +2434,7 @@ src/**/*.ts → JavaScript (ES modules)
 ```
 
 **2. Svelte compilation**:
+
 ```
 src/**/*.svelte → JavaScript + CSS
 - Svelte compiler (Svelte 5)
@@ -2316,6 +2444,7 @@ src/**/*.svelte → JavaScript + CSS
 ```
 
 **3. Tailwind CSS processing**:
+
 ```
 src/app.css → optimized CSS
 - @tailwind directives expansion
@@ -2325,6 +2454,7 @@ src/app.css → optimized CSS
 ```
 
 **4. Asset optimization**:
+
 ```
 - Code splitting (dynamic imports)
 - Tree shaking (remove unused code)
@@ -2334,6 +2464,7 @@ src/app.css → optimized CSS
 ```
 
 **5. SSG (Static Site Generation)**:
+
 ```
 Routes → Pre-rendered HTML
 - +layout.server.ts load() executed
@@ -2344,6 +2475,7 @@ Routes → Pre-rendered HTML
 ```
 
 **Build výstup** (console):
+
 ```bash
 vite v7.1.2 building for production...
 ✓ 245 modules transformed.
@@ -2366,6 +2498,7 @@ build/_app/immutable/assets/*.css    12.89 kB │ gzip:  3.45 kB
 ### 9.5 Build optimalizace
 
 **Code splitting**:
+
 ```javascript
 // Automatické code splitting na route level
 src/routes/+page.svelte        → build/_app/immutable/nodes/0.js
@@ -2376,26 +2509,32 @@ const HeavyComponent = () => import('./HeavyComponent.svelte');
 ```
 
 **Tree shaking**:
+
 ```javascript
 // Nepoužitý kód je automaticky odstraněn
-import { getPhotoDays } from '$lib'; // ✓ Used
-import { unusedFunction } from '$lib'; // ✗ Removed from bundle
+import { getPhotoDays } from "$lib"; // ✓ Used
+import { unusedFunction } from "$lib"; // ✗ Removed from bundle
 ```
 
 **Minification**:
+
 ```javascript
 // Before (development)
 function calculateAspectRatio(width, height) {
   const ratio = width / height;
-  if (Math.abs(ratio - 1) < 0.05) return 'square';
-  return 'landscape';
+  if (Math.abs(ratio - 1) < 0.05) return "square";
+  return "landscape";
 }
 
 // After (production)
-function c(w,h){const r=w/h;return Math.abs(r-1)<.05?'square':'landscape'}
+function c(w, h) {
+  const r = w / h;
+  return Math.abs(r - 1) < 0.05 ? "square" : "landscape";
+}
 ```
 
 **CSS optimization**:
+
 ```css
 /* Before (all Tailwind utilities) - ~3MB */
 .container { ... }
@@ -2411,6 +2550,7 @@ function c(w,h){const r=w/h;return Math.abs(r-1)<.05?'square':'landscape'}
 ```
 
 **Image optimization** (už v prebuild):
+
 - Multiple formats (AVIF < WebP < JPEG)
 - Multiple sizes (responsive srcset)
 - LQIP placeholders (smooth loading)
@@ -2423,6 +2563,7 @@ function c(w,h){const r=w/h;return Math.abs(r-1)<.05?'square':'landscape'}
 **Účel**: Lokální testování production buildu
 
 **Workflow**:
+
 ```bash
 # 1. Build production
 bun run build
@@ -2466,27 +2607,30 @@ open http://localhost:4173
 | **Incremental** | **~15s**  | With image cache             |
 
 **Cache strategie**:
+
 - `.images-cache.json` - Přeskakuje nezmněné obrázky (90%+ time save)
 - `.svelte-kit/` - SvelteKit build cache
 - `node_modules/.vite/` - Vite dependency cache
 
 **Build optimalizace tips**:
+
 1. **Use image cache**: `--clean=false` pokud nepotřebuješ full rebuild
 2. **Limit images**: `--limit=10` pro rychlé testování
 3. **Manifest-only**: `--manifest-only=true` když měníš jen story content
 4. **Watch mode**: `bun run images:watch` v development (auto-regenerate)
+
 ---
 
 ## 10. Deployment konfigurace
 
 Tato sekce popisuje deployment možnosti a konfiguraci pro produkční nasazení.
 
-
 ### 10.1 Deployment options
 
 **Deployment options**:
 
 #### **Option 1: Vercel** (doporučeno)
+
 ```bash
 # Install Vercel CLI
 bun add -D vercel
@@ -2499,6 +2643,7 @@ vercel
 ```
 
 **Vercel config** (vercel.json):
+
 ```json
 {
   "buildCommand": "bun run build",
@@ -2508,6 +2653,7 @@ vercel
 ```
 
 #### **Option 2: Netlify**
+
 ```bash
 # netlify.toml
 [build]
@@ -2519,6 +2665,7 @@ vercel
 ```
 
 #### **Option 3: GitHub Pages**
+
 ```bash
 # .github/workflows/deploy.yml
 name: Deploy to GitHub Pages
@@ -2543,6 +2690,7 @@ jobs:
 ```
 
 #### **Option 4: Cloudflare Pages**
+
 ```bash
 # Build settings
 Build command: bun run build
@@ -2551,6 +2699,7 @@ Node version: 24
 ```
 
 #### **Option 5: Custom server** (Nginx)
+
 ```nginx
 server {
   listen 80;
@@ -2576,12 +2725,14 @@ server {
 ### 10.2 Environment variables
 
 **Runtime variables** (none - statický build):
+
 ```
 # Projekt nepoužívá runtime environment variables
 # Všechna data jsou embedded v HTML při buildu
 ```
 
 **Build-time variables** (optional):
+
 ```bash
 # .env.production
 PUBLIC_SITE_URL=https://photoblog.example.com
@@ -2589,8 +2740,9 @@ PUBLIC_GA_ID=G-XXXXXXXXXX
 ```
 
 **Usage v Svelte**:
+
 ```typescript
-import { PUBLIC_SITE_URL } from '$env/static/public';
+import { PUBLIC_SITE_URL } from "$env/static/public";
 
 const url = PUBLIC_SITE_URL; // https://photoblog.example.com
 ```
@@ -2598,6 +2750,7 @@ const url = PUBLIC_SITE_URL; // https://photoblog.example.com
 ### 10.3 Production checklist
 
 **Před deploymentem**:
+
 - [ ] `bun run lint` - No errors
 - [ ] `bun run check` - TypeScript check OK
 - [ ] `bun run test` - All tests pass
@@ -2609,6 +2762,7 @@ const url = PUBLIC_SITE_URL; // https://photoblog.example.com
 - [ ] Analytics configured (optional)
 
 **Performance checklist**:
+
 - [ ] Images optimized (AVIF/WebP)
 - [ ] LQIP placeholders
 - [ ] Lazy loading enabled
@@ -2619,13 +2773,13 @@ const url = PUBLIC_SITE_URL; // https://photoblog.example.com
 - [ ] Gzip/Brotli compression (server)
 
 **SEO checklist**:
+
 - [ ] Semantic HTML
 - [ ] Meta description
 - [ ] Title tags
 - [ ] robots.txt
 - [ ] Sitemap (optional)
 - [ ] Structured data (optional)
-
 
 ---
 
@@ -2639,10 +2793,10 @@ Projekt využívá **Bun** jako package manager. Tato sekce popisuje klíčové 
 
 ```json
 {
-  "exifr": "^7.1.3",        // EXIF metadata extraction
-  "gray-matter": "^4.0.3",  // Markdown frontmatter parsing
-  "marked": "^12.0.2",      // Markdown to HTML
-  "slugify": "^1.6.6"       // URL slug generation
+  "exifr": "^7.1.3", // EXIF metadata extraction
+  "gray-matter": "^4.0.3", // Markdown frontmatter parsing
+  "marked": "^12.0.2", // Markdown to HTML
+  "slugify": "^1.6.6" // URL slug generation
 }
 ```
 
@@ -2662,17 +2816,20 @@ Celkem **73 dev dependencies**.
 ### 11.3 Kritické závislosti
 
 **Sharp** (Image processing):
+
 - Vyžaduje **libvips** system library
 - macOS: `brew install vips`
 - Linux: `apt-get install libvips`
 
 **Bun runtime**:
+
 - Minimální verze: Node >=24 (pro kompatibilitu)
 - Doporučeno: Bun 1.0+
 
 ### 11.4 Peer dependencies
 
 Projekt nemá explicitní peer dependencies, ale některé balíčky očekávají:
+
 - `svelte` ^5.39.5
 - `tailwindcss` ^4.1.13
 
@@ -2701,11 +2858,13 @@ Projekt odděluje **obsah** (content) od **aplikace** (src). Tato sekce popisuje
 ### 12.2 Foto management
 
 **Organizace**:
+
 - Fotky organizované **po dnech** (složka = datum YYYY-MM-DD)
 - Jeden den = jedna složka
 - Formát: **JPEG** (originály)
 
 **EXIF metadata** (automaticky extrahovaná):
+
 - Datum a čas pořízení
 - GPS souřadnice (pokud dostupné)
 - Orientace fotky
@@ -2716,11 +2875,13 @@ Projekt odděluje **obsah** (content) od **aplikace** (src). Tato sekce popisuje
 ### 12.3 Story system
 
 **Story soubory** (`story.md`):
+
 - Markdown soubor v adresáři dne
 - Popisuje místa nebo události daného dne
 - Podporuje **frontmatter** (YAML metadata)
 
 **Příklad story.md**:
+
 ```markdown
 ---
 location: Jerusalem
@@ -2735,6 +2896,7 @@ Navštívili jsme Západní zeď a procházeli se Starým městem...
 ```
 
 **Zpracování**:
+
 - `gray-matter` - parse frontmatter
 - `marked` - convert Markdown → HTML
 - `slugify` - generate URL-friendly slugs
@@ -2762,6 +2924,7 @@ Tato sekce poskytuje detailní analýzu jádra projektu - systému pro generová
 **Účel**: Automatizovaná generace optimalizovaných obrázků z originálních JPEG fotografií
 
 **Klíčové vlastnosti**:
+
 - Generování **variant** (různé velikosti): `details`, `previews`, `previews-xl`, `previews-xxs`
 - Generování **formátů** (různé kódování): AVIF, WebP, JPEG
 - Extrakce **EXIF metadata** (datum, GPS, orientace)
@@ -2773,6 +2936,7 @@ Tato sekce poskytuje detailní analýzu jádra projektu - systému pro generová
 - **Paralelní zpracování** (využití všech CPU jader)
 
 **Výkonnostní optimalizace**:
+
 - AVIF: Moderní formát, až 50% menší než JPEG
 - WebP: 25-35% menší než JPEG s podobnou kvalitou
 - JPEG: Fallback pro starší prohlížeče
@@ -2789,45 +2953,45 @@ Tato sekce poskytuje detailní analýzu jádra projektu - systému pro generová
 ```typescript
 export const config = {
   paths: {
-    source: 'content/israel-2022',          // Originální JPEG
-    output: 'static/images/israel-2022',    // Výstupní adresář
-    manifest: 'src/lib/images.manifest.json', // Runtime manifest
-    cache: '.images-cache.json',            // Cache file
+    source: "content/israel-2022", // Originální JPEG
+    output: "static/images/israel-2022", // Výstupní adresář
+    manifest: "src/lib/images.manifest.json", // Runtime manifest
+    cache: ".images-cache.json", // Cache file
   },
 
   variants: {
-    'default': {
-      media: '(max-width: 575px), (min-width: 1400px)',
+    default: {
+      media: "(max-width: 575px), (min-width: 1400px)",
       resize: { width: 370, height: 208, crop: true },
-      folderName: 'previews'
+      folderName: "previews",
     },
-    'xl': {
-      media: '(min-width: 576px) and (max-width: 1399px)',
+    xl: {
+      media: "(min-width: 576px) and (max-width: 1399px)",
       resize: { width: 534, height: 300, crop: true },
-      folderName: 'previews-xl'
+      folderName: "previews-xl",
     },
   },
 
   otherOutputs: {
-    'detail': {
+    detail: {
       resize: { width: 1280 },
-      format: 'jpeg',
-      folderName: 'details'
+      format: "jpeg",
+      folderName: "details",
     },
-    'fallback': {
+    fallback: {
       resize: { width: 190, height: 107, crop: true },
-      folderName: 'previews-xxs'
+      folderName: "previews-xxs",
     },
-    'placeholder': {
+    placeholder: {
       resize: { width: 24 },
       blur: true,
-      format: 'png',
-      folderName: 'blurs'
-    }
+      format: "png",
+      folderName: "blurs",
+    },
   },
 
   encoding: {
-    formats: ['webp', 'jpeg', 'avif'],
+    formats: ["webp", "jpeg", "avif"],
     quality: {
       jpeg: 80,
       webp: 65,
@@ -2837,23 +3001,23 @@ export const config = {
       jpeg: {
         progressive: true,
         mozjpeg: false,
-        chromaSubsampling: '4:2:0',
+        chromaSubsampling: "4:2:0",
       },
       webp: { effort: 4 },
-      avif: { effort: 5, chromaSubsampling: '4:2:0' },
+      avif: { effort: 5, chromaSubsampling: "4:2:0" },
       blur: {
         png: {
           palette: true,
           colors: 32,
           quality: 50,
           compressionLevel: 9,
-        }
-      }
-    }
+        },
+      },
+    },
   },
 
   script: {
-    concurrency: 'auto',
+    concurrency: "auto",
     limit: 0,
   },
 };
@@ -2898,6 +3062,7 @@ export const config = {
 | **JPEG** | 80      | Fallback (všechny prohlížeče)                | 100% (baseline)      | progressive, chroma: 4:2:0 |
 
 **Concurrency**:
+
 - `'auto'`: Počet CPU jader - 1
 - Číslo: Pevný počet paralelních workerů
 
@@ -2967,11 +3132,11 @@ generate-images.ts
 **1. Cache management**:
 
 ```typescript
-const CACHE_VERSION = 7;  // Increment to invalidate cache
+const CACHE_VERSION = 7; // Increment to invalidate cache
 
 type CacheFileEntry = {
-  hash: string;      // SHA-1 hash of file content
-  mtime: number;     // Modification timestamp
+  hash: string; // SHA-1 hash of file content
+  mtime: number; // Modification timestamp
   processed: boolean; // Processing completed
 };
 
@@ -2982,6 +3147,7 @@ type Cache = {
 ```
 
 **Cache workflow**:
+
 1. Načti `.images-cache.json`
 2. Pro každý obrázek:
    - Spočítej SHA-1 hash
@@ -3022,7 +3188,7 @@ async function extractEXIF(imagePath: string) {
 async function processImage(
   inputPath: string,
   outputDir: string,
-  config: Config
+  config: Config,
 ): Promise<ImageEntry> {
   const sharp = await getSharp();
   const img = sharp(inputPath);
@@ -3041,7 +3207,7 @@ async function processImage(
     const resized = img.clone().resize({
       width: variantConfig.resize.width,
       height: variantConfig.resize.height,
-      fit: variantConfig.resize.crop ? 'cover' : 'inside',
+      fit: variantConfig.resize.crop ? "cover" : "inside",
       withoutEnlargement: !config.allowUpscale,
     });
 
@@ -3051,28 +3217,31 @@ async function processImage(
         outputDir,
         variantConfig.folderName,
         inputPath,
-        format
+        format,
       );
 
       await ensureDir(path.dirname(outputPath));
 
-      if (format === 'avif') {
-        await resized.clone()
+      if (format === "avif") {
+        await resized
+          .clone()
           .avif({
             quality: config.encoding.quality.avif,
             effort: config.encoding.sharp.avif.effort,
             chromaSubsampling: config.encoding.sharp.avif.chromaSubsampling,
           })
           .toFile(outputPath);
-      } else if (format === 'webp') {
-        await resized.clone()
+      } else if (format === "webp") {
+        await resized
+          .clone()
           .webp({
             quality: config.encoding.quality.webp,
             effort: config.encoding.sharp.webp.effort,
           })
           .toFile(outputPath);
-      } else if (format === 'jpeg') {
-        await resized.clone()
+      } else if (format === "jpeg") {
+        await resized
+          .clone()
           .jpeg({
             quality: config.encoding.quality.jpeg,
             progressive: config.encoding.sharp.jpeg.progressive,
@@ -3098,17 +3267,18 @@ async function processImage(
   }
 
   // 3. LQIP placeholder
-  const placeholderBuffer = await img.clone()
+  const placeholderBuffer = await img
+    .clone()
     .resize({ width: 24 })
     .blur(20)
     .png()
     .toBuffer();
 
-  const placeholderBase64 = `data:image/png;base64,${placeholderBuffer.toString('base64')}`;
+  const placeholderBase64 = `data:image/png;base64,${placeholderBuffer.toString("base64")}`;
 
   // 4. Dominant color
   const stats = await img.clone().resize(1, 1).raw().toBuffer();
-  const dominantColor = `#${stats[0].toString(16).padStart(2, '0')}${stats[1].toString(16).padStart(2, '0')}${stats[2].toString(16).padStart(2, '0')}`;
+  const dominantColor = `#${stats[0].toString(16).padStart(2, "0")}${stats[1].toString(16).padStart(2, "0")}${stats[2].toString(16).padStart(2, "0")}`;
 
   // 5. Return ImageEntry
   return {
@@ -3124,12 +3294,14 @@ async function processImage(
       base64: placeholderBase64,
       width: 24,
       height: Math.round(24 / (metadata.width! / metadata.height!)),
-      type: 'image/png',
+      type: "image/png",
     },
     color: dominantColor,
     exif: await extractEXIF(inputPath),
     hash: sha1(await fsp.readFile(inputPath)),
-    outputs: Object.values(variants).flat().map(v => v.path),
+    outputs: Object.values(variants)
+      .flat()
+      .map((v) => v.path),
   };
 }
 ```
@@ -3139,7 +3311,7 @@ async function processImage(
 ```typescript
 async function generateManifest(
   processedImages: ImageEntry[],
-  stories: StoryDataMap
+  stories: StoryDataMap,
 ): Promise<Manifest> {
   // Group by day (from EXIF date or filename)
   const dayGroups = groupByDay(processedImages);
@@ -3147,8 +3319,8 @@ async function generateManifest(
   const photoDays: PhotoDay[] = [];
 
   for (const [date, images] of Object.entries(dayGroups)) {
-    const items = images.map(img => ({
-      type: 'image' as const,
+    const items = images.map((img) => ({
+      type: "image" as const,
       ...img,
     }));
 
@@ -3170,7 +3342,7 @@ async function generateManifest(
   photoDays.sort((a, b) => a.date.localeCompare(b.date));
 
   return {
-    version: '1.0',
+    version: "1.0",
     generatedAt: new Date().toISOString(),
     photoDays: photoDays,
   };
@@ -3213,19 +3385,19 @@ function createConcurrencyLimiter(limit: number) {
 ```
 
 **Usage**:
+
 ```typescript
 const limiter = createConcurrencyLimiter(4); // 4 parallel workers
 
 await Promise.all(
-  images.map(img =>
-    limiter(() => processImage(img, outputDir, config))
-  )
+  images.map((img) => limiter(() => processImage(img, outputDir, config))),
 );
 ```
 
 #### 5.3.3 CLI argumenty
 
 **Hlavní pipeline**:
+
 - `--src=<path>`: Zdrojový adresář s JPEG
 - `--out=<path>`: Výstupní adresář
 - `--manifest=<path>`: Cesta k manifestu
@@ -3238,6 +3410,7 @@ await Promise.all(
 - `--manifest-only=true`: Regenerovat pouze manifest (bez zpracování obrázků)
 
 **Blur assets**:
+
 - `--blur.enable=true`: Zapnout blur generování
 - `--blur.only=true`: Pouze blur (bez hlavního pipeline)
 - `--blur.src=<path>`: Zdrojový adresář pro blur
@@ -3257,20 +3430,26 @@ await Promise.all(
 ```typescript
 // Definice výchozích hodnot
 export const DEFAULTS: Args = {
-  src: path.resolve(process.cwd(), 'content/israel-2022'),
-  out: path.resolve(process.cwd(), 'static/images/israel-2022'),
-  manifest: path.resolve(process.cwd(), 'src/lib/images.manifest.json'),
-  variants: ['details', 'previews', 'previews-xl', 'previews-xxs'],
-  formats: ['avif', 'webp', 'jpeg'],
+  src: path.resolve(process.cwd(), "content/israel-2022"),
+  out: path.resolve(process.cwd(), "static/images/israel-2022"),
+  manifest: path.resolve(process.cwd(), "src/lib/images.manifest.json"),
+  variants: ["details", "previews", "previews-xl", "previews-xxs"],
+  formats: ["avif", "webp", "jpeg"],
   quality: { avif: 50, webp: 60, jpeg: 80 },
   // ... další defaults
 };
 
 // Map-based handler pro lepší maintainability (OCP principle)
 const ARG_HANDLERS: Record<string, ArgHandler> = {
-  'src': (v, a) => { a.src = path.resolve(process.cwd(), v); },
-  'out': (v, a) => { a.out = path.resolve(process.cwd(), v); },
-  'quality.avif': (v, a) => { a.quality.avif = parseInt(v, 10); },
+  src: (v, a) => {
+    a.src = path.resolve(process.cwd(), v);
+  },
+  out: (v, a) => {
+    a.out = path.resolve(process.cwd(), v);
+  },
+  "quality.avif": (v, a) => {
+    a.quality.avif = parseInt(v, 10);
+  },
   // ... další handlers
 };
 
@@ -3278,9 +3457,9 @@ export function parseArgs(argv: string[]): Args {
   const out: Args = { ...DEFAULTS };
 
   for (const arg of argv) {
-    if (!arg.startsWith('--')) continue;
-    const [k, vRaw] = arg.slice(2).split('=');
-    const v = vRaw ?? 'true';
+    if (!arg.startsWith("--")) continue;
+    const [k, vRaw] = arg.slice(2).split("=");
+    const v = vRaw ?? "true";
 
     const handler = ARG_HANDLERS[k];
     if (handler) {
@@ -3289,7 +3468,7 @@ export function parseArgs(argv: string[]): Args {
   }
 
   // Post-processing: resolve 'auto' concurrency
-  if (out.concurrency === 'auto') {
+  if (out.concurrency === "auto") {
     out.concurrency = Math.max(1, (os.cpus()?.length || 2) - 1);
   }
 
@@ -3298,6 +3477,7 @@ export function parseArgs(argv: string[]): Args {
 ```
 
 **Výhody map-based přístupu**:
+
 - **Open/Closed Principle**: Snadné přidávání nových argumentů bez změny logiky
 - **Type-safe**: TypeScript validace handlers
 - **Testovatelné**: Každý handler lze testovat izolovaně
@@ -3345,6 +3525,7 @@ static/images/israel-2022/
 ```
 
 **Naming convention**:
+
 - Originál: `content/israel-2022/2022-03-21/IMG_0001.jpg`
 - Output: `static/images/israel-2022/previews/2022-03-21_001.jpg`
 - Pattern: `YYYY-MM-DD_NNN.<ext>`
@@ -3516,6 +3697,7 @@ bun run images:watch
 ### 14.3 Linting workflow
 
 **Pre-commit hooks** (lint-staged):
+
 ```bash
 # Automaticky se spustí při git commit
 - Biome: Check & format JavaScript/TypeScript
@@ -3524,6 +3706,7 @@ bun run images:watch
 ```
 
 **Manuální linting**:
+
 ```bash
 bun run lint           # Check only
 bun run lint:fix       # Auto-fix
@@ -3549,6 +3732,7 @@ bun run test:all
 ### 14.5 Content updates
 
 **Přidání nových fotek**:
+
 ```bash
 # 1. Přidat JPEG do content/israel-2022/YYYY-MM-DD/
 # 2. (Optional) Vytvořit story.md
@@ -3559,6 +3743,7 @@ bun run dev
 ```
 
 **Změna existujících fotek**:
+
 ```bash
 # Cache automaticky detekuje změny podle mtime
 bun run images:build  # Regeneruje jen změněné
@@ -3583,18 +3768,21 @@ git push  # Vercel/Netlify auto-deploy
 **Časté problémy**:
 
 1. **Sharp install fails**
+
    ```bash
    brew install vips
    bun install
    ```
 
 2. **Cache issues**
+
    ```bash
    rm -rf .images-cache.json
    bun run images:build
    ```
 
 3. **Type errors**
+
    ```bash
    bun run check
    ```
@@ -3614,17 +3802,20 @@ Projekt implementuje **komprehenzivní testing strategii** pokrývající všech
 ### 15.1 Přehled testing strategie
 
 **Testovací úrovně**:
+
 1. **Unit testy** - Izolované funkce (CLI parsing, utility funkce)
 2. **Integration testy** - Kompletní image generation pipeline
 3. **E2E testy** - Browser testing (Playwright)
 4. **Visual regression** - Pixel-perfect porovnání obrázků
 
 **Testing frameworky**:
+
 - **Vitest** v3.2+ - Unit a integration testy (rychlé, Vite-native)
 - **Playwright** v1.55+ - E2E browser testy
 - **Sharp** + **pixelmatch** - Visual regression testing
 
 **Konfigurace**:
+
 - `vitest.config.images.ts` - Specializovaná konfigurace pro image testy
 - `playwright.config.ts` - E2E testing konfigurace
 - `vite.config.ts` - Client/server testing projects
@@ -3673,6 +3864,7 @@ e2e/
 **Lokace**: `tests/unit/images-cli.unit.spec.ts`
 
 **Co testují**:
+
 - CLI argument parsing
 - Výchozí hodnoty parametrů
 - Kvalita a komprese nastavení
@@ -3680,18 +3872,19 @@ e2e/
 - Upscaling pravidla
 
 **Příklad - CLI parsing test**:
-```typescript
-import { describe, it, expect } from 'vitest';
-import { runCli, tmpDir } from '../utils/process-helpers';
-import { buildInputSet } from '../utils/fixtures';
 
-describe('CLI (generate-images.ts) – základní chování a parsování parametrů', () => {
-  it('aplikuje overrides pro out/manifest/formats/quality', async () => {
-    const inDir = tmpDir('img-in');
+```typescript
+import { describe, it, expect } from "vitest";
+import { runCli, tmpDir } from "../utils/process-helpers";
+import { buildInputSet } from "../utils/fixtures";
+
+describe("CLI (generate-images.ts) – základní chování a parsování parametrů", () => {
+  it("aplikuje overrides pro out/manifest/formats/quality", async () => {
+    const inDir = tmpDir("img-in");
     await buildInputSet(inDir);
 
-    const outDir = tmpDir('img-out');
-    const manifest = path.join(outDir, 'images.manifest.json');
+    const outDir = tmpDir("img-out");
+    const manifest = path.join(outDir, "images.manifest.json");
 
     const args = [
       `--src=${inDir}`,
@@ -3713,18 +3906,22 @@ describe('CLI (generate-images.ts) – základní chování a parsování parame
 
     // Ověř strukturu výstupu
     const tree = await listTree(outDir);
-    const jpegFiles = tree.filter((p) => /\/(details|previews|previews-xl|previews-xxs)\/.+\.jpg$/.test(p));
-    const webpFiles = tree.filter((p) => /\/(details|previews|previews-xl|previews-xxs)-webp\/.+\.webp$/.test(p));
+    const jpegFiles = tree.filter((p) =>
+      /\/(details|previews|previews-xl|previews-xxs)\/.+\.jpg$/.test(p),
+    );
+    const webpFiles = tree.filter((p) =>
+      /\/(details|previews|previews-xl|previews-xxs)-webp\/.+\.webp$/.test(p),
+    );
 
     expect(jpegFiles.length).toBeGreaterThan(0);
     expect(webpFiles.length).toBeGreaterThan(0);
 
     // Sanity: žádné AVIF (nebyly vyžádány)
-    const avifFiles = tree.filter((p) => p.endsWith('.avif'));
+    const avifFiles = tree.filter((p) => p.endsWith(".avif"));
     expect(avifFiles.length).toBe(0);
   });
 
-  it('respektuje --allow-upscale=false', async () => {
+  it("respektuje --allow-upscale=false", async () => {
     // Testuje, že detail varianta se nezvětšuje nad původní šířku
     // ...
   });
@@ -3732,6 +3929,7 @@ describe('CLI (generate-images.ts) – základní chování a parsování parame
 ```
 
 **Klíčové vlastnosti**:
+
 - **Rychlé** (< 5s per test)
 - **Deterministické** (stejné výstupy vždy)
 - **Izolované** (čištění tmp dirs před/po testu)
@@ -3743,6 +3941,7 @@ describe('CLI (generate-images.ts) – základní chování a parsování parame
 **Lokace**: `tests/integration/generate-and-blur.int.spec.ts`
 
 **Co testují**:
+
 - Kompletní image generation (všechny varianty + formáty)
 - Manifest generování a struktura
 - Blur assets generování
@@ -3752,14 +3951,15 @@ describe('CLI (generate-images.ts) – základní chování a parsování parame
 - Orphan file cleanup
 
 **Příklad - Integration test**:
+
 ```typescript
-describe('Integration: main images generation', () => {
-  it('produces deterministic manifest and expected directory tree', async () => {
-    const inDir = tmpDir('int-in');
+describe("Integration: main images generation", () => {
+  it("produces deterministic manifest and expected directory tree", async () => {
+    const inDir = tmpDir("int-in");
     await buildInputSet(inDir);
 
-    const outDir = tmpDir('int-out');
-    const manifest = path.join(outDir, 'images.manifest.json');
+    const outDir = tmpDir("int-out");
+    const manifest = path.join(outDir, "images.manifest.json");
 
     const res = await runCli(
       [
@@ -3773,12 +3973,12 @@ describe('Integration: main images generation', () => {
         `--concurrency=1`,
         `--clean=true`,
       ],
-      { cwd: CWD, timeoutMs: 180000 }
+      { cwd: CWD, timeoutMs: 180000 },
     );
     expect(res.code).toBe(0);
 
     // Manifest snapshot (normalized)
-    const data = JSON.parse(fs.readFileSync(manifest, 'utf8'));
+    const data = JSON.parse(fs.readFileSync(manifest, "utf8"));
     const normalized = normalizeManifest(data);
     expect(normalized).toMatchSnapshot();
 
@@ -3788,12 +3988,12 @@ describe('Integration: main images generation', () => {
     expect(rel).toMatchSnapshot();
 
     // Sanity checks
-    expect(tree.some((p) => p.endsWith('.avif'))).toBe(true);
-    expect(tree.some((p) => p.endsWith('.webp'))).toBe(true);
-    expect(tree.some((p) => p.endsWith('.jpg'))).toBe(true);
+    expect(tree.some((p) => p.endsWith(".avif"))).toBe(true);
+    expect(tree.some((p) => p.endsWith(".webp"))).toBe(true);
+    expect(tree.some((p) => p.endsWith(".jpg"))).toBe(true);
   });
 
-  it('respects GIF mode (copy) for animated GIF inputs', async () => {
+  it("respects GIF mode (copy) for animated GIF inputs", async () => {
     // Testuje, že animované GIFy se kopírují, ne převádějí
     // ...
   });
@@ -3801,11 +4001,13 @@ describe('Integration: main images generation', () => {
 ```
 
 **Snapshot testing**:
+
 - **Manifest snapshots**: JSON normalizované (sort keys, remove timestamps)
 - **Directory tree snapshots**: Relativní cesty, deterministické pořadí
 - **Automatická update**: `vitest -u` pro update snapshots
 
 **Klíčové vlastnosti**:
+
 - **Středně rychlé** (30-60s per test)
 - **Snapshot-based** (porovnání s golden outputs)
 - **Real Sharp processing** (skutečné Sharp/libvips operace)
@@ -3819,6 +4021,7 @@ describe('Integration: main images generation', () => {
 **Framework**: Playwright
 
 **Co testují**:
+
 - Homepage rendering
 - Komponenty visibility
 - Navigation
@@ -3826,16 +4029,17 @@ describe('Integration: main images generation', () => {
 - Interactive elements
 
 **Příklad - Playwright test**:
-```typescript
-import { expect, test } from '@playwright/test';
 
-test('home page has expected h1', async ({ page }) => {
-  await page.goto('/');
-  await expect(page.locator('h1')).toBeVisible();
+```typescript
+import { expect, test } from "@playwright/test";
+
+test("home page has expected h1", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator("h1")).toBeVisible();
 });
 
-test('photo grid loads images', async ({ page }) => {
-  await page.goto('/');
+test("photo grid loads images", async ({ page }) => {
+  await page.goto("/");
 
   // Wait for lazy-loaded images
   const images = page.locator('img[loading="lazy"]');
@@ -3846,8 +4050,8 @@ test('photo grid loads images', async ({ page }) => {
   expect(count).toBeGreaterThan(0);
 });
 
-test('navigation menu opens on click', async ({ page }) => {
-  await page.goto('/');
+test("navigation menu opens on click", async ({ page }) => {
+  await page.goto("/");
 
   // Click menu button
   await page.click('button[aria-label="Menu"]');
@@ -3858,23 +4062,26 @@ test('navigation menu opens on click', async ({ page }) => {
 ```
 
 **Playwright konfigurace** (`playwright.config.ts`):
+
 ```typescript
 export default defineConfig({
   webServer: {
-    command: 'npm run build && npm run preview',
-    port: 4173
+    command: "npm run build && npm run preview",
+    port: 4173,
   },
-  testDir: 'e2e'
+  testDir: "e2e",
 });
 ```
 
 **Workflow**:
+
 1. Playwright spustí `npm run build` (production build)
 2. Spustí `npm run preview` (preview server na portu 4173)
 3. Spustí testy v Chromium
 4. Ukončí server
 
 **Klíčové vlastnosti**:
+
 - **Pomalé** (2-5 min celý suite)
 - **Visual testing** (screenshot comparison)
 - **Cross-browser** (Chromium, Firefox, WebKit)
@@ -3885,13 +4092,13 @@ export default defineConfig({
 **Visual regression testing** pomocí `pixelmatch`:
 
 ```typescript
-import { PNG } from 'pngjs';
-import pixelmatch from 'pixelmatch';
+import { PNG } from "pngjs";
+import pixelmatch from "pixelmatch";
 
 async function compareImages(
   actualPath: string,
   expectedPath: string,
-  threshold: number = 0.1
+  threshold: number = 0.1,
 ): Promise<{ match: boolean; diffPixels: number }> {
   const actual = PNG.sync.read(fs.readFileSync(actualPath));
   const expected = PNG.sync.read(fs.readFileSync(expectedPath));
@@ -3907,7 +4114,7 @@ async function compareImages(
     diff.data,
     actual.width,
     actual.height,
-    { threshold }
+    { threshold },
   );
 
   const totalPixels = actual.width * actual.height;
@@ -3915,7 +4122,7 @@ async function compareImages(
 
   return {
     match: diffPercentage < 0.1, // 0.1% tolerance
-    diffPixels
+    diffPixels,
   };
 }
 ```
@@ -3930,6 +4137,7 @@ TZ=UTC                   # UTC timezone
 ```
 
 **Proč?**
+
 - Sharp/libvips může generovat mírně odlišné výstupy v multi-threaded módu
 - Timezone ovlivňuje datum/čas v EXIF
 - Concurrency ovlivňuje pořadí zpracování
@@ -3937,6 +4145,7 @@ TZ=UTC                   # UTC timezone
 ### 15.7 Test utilities
 
 **fs-helpers.ts** - Filesystem utilities:
+
 ```typescript
 export async function listTree(dir: string): Promise<string[]> {
   const entries: string[] = [];
@@ -3954,6 +4163,7 @@ export async function listTree(dir: string): Promise<string[]> {
 ```
 
 **manifest-assert.ts** - Manifest validation:
+
 ```typescript
 export function normalizeManifest(manifest: any): any {
   // Remove timestamps, normalize paths, sort keys
@@ -3966,6 +4176,7 @@ export function normalizeManifest(manifest: any): any {
 ```
 
 **fixtures.ts** - Test fixture generator:
+
 ```typescript
 export async function buildInputSet(dir: string): Promise<void> {
   await fs.mkdir(dir, { recursive: true });
@@ -3977,8 +4188,8 @@ export async function buildInputSet(dir: string): Promise<void> {
         width: 800,
         height: 600,
         channels: 3,
-        background: { r: 100 + i * 20, g: 150, b: 200 }
-      }
+        background: { r: 100 + i * 20, g: 150, b: 200 },
+      },
     });
     await img.jpeg().toFile(path.join(dir, `test-${i}.jpg`));
   }
@@ -4004,6 +4215,7 @@ export async function buildInputSet(dir: string): Promise<void> {
 ```
 
 **Příklady použití**:
+
 ```bash
 # Všechny testy
 bun run test
@@ -4077,6 +4289,7 @@ jobs:
 ```
 
 **Klíčové nastavení pro CI**:
+
 - Install `libvips` (Sharp dependency)
 - Set `SHARP_NUM_THREADS=1` (determinismus)
 - Set `TZ=UTC` (timezone consistency)
@@ -4102,11 +4315,11 @@ bun run test:unit -- --coverage
 ```
 
 **Coverage goals**:
+
 - Scripts (image generation): >90%
 - Lib utilities: >80%
 - Components: >70% (vizuální komponenty jsou těžko testovatelné)
 
 ---
-
 
 _Dokumentace byla úspěšně reorganizována podle původního zadání. Poslední aktualizace: 2025-10-21_

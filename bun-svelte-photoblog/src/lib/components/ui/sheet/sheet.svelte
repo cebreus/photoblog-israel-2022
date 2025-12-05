@@ -1,13 +1,13 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher } from "svelte";
   export let open = false;
   const dispatch = createEventDispatcher();
   function close() {
     open = false;
-    dispatch('close');
+    dispatch("close");
   }
   function onOverlayKey(e: KeyboardEvent) {
-    if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
+    if (e.key === "Escape" || e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       close();
     }
@@ -17,7 +17,7 @@
 <div
   class="fixed inset-0 z-50"
   aria-hidden={!open}
-  style:display={open ? 'block' : 'none'}
+  style:display={open ? "block" : "none"}
 >
   <div
     class="fixed inset-0 bg-black/50"

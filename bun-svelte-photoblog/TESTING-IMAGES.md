@@ -78,19 +78,19 @@ Vytvořte konfig v kořeni subbalíčku:
 [vitest.config.images.ts](bun-svelte-photoblog/vitest.config.images.ts:1)
 
 ```ts
-import { defineConfig } from 'vitest/config';
-import path from 'node:path';
+import { defineConfig } from "vitest/config";
+import path from "node:path";
 
 export default defineConfig({
   test: {
-    environment: 'node',
+    environment: "node",
     testTimeout: 60000,
     hookTimeout: 30000,
     // Jednotkové testy paralelně, integrační a e2e sériově
     include: [
-      'tests/unit/**/*.spec.ts',
-      'tests/integration/**/*.spec.ts',
-      'tests/e2e-images/**/*.spec.ts',
+      "tests/unit/**/*.spec.ts",
+      "tests/integration/**/*.spec.ts",
+      "tests/e2e-images/**/*.spec.ts",
     ],
     sequence: {
       concurrent: false,
@@ -100,7 +100,7 @@ export default defineConfig({
     },
     globals: true,
     alias: {
-      $lib: path.resolve(__dirname, './src/lib'),
+      $lib: path.resolve(__dirname, "./src/lib"),
     },
   },
 });
@@ -133,8 +133,8 @@ Rozšířte skripty:
 [fsHelpers.listTree()](bun-svelte-photoblog/tests/utils/fs-helpers.ts:1)
 
 ```ts
-import fs from 'node:fs';
-import path from 'node:path';
+import fs from "node:fs";
+import path from "node:path";
 
 export async function listTree(root: string): Promise<string[]> {
   const out: string[] = [];
@@ -148,7 +148,7 @@ export async function listTree(root: string): Promise<string[]> {
   }
   walk(root);
   out.sort((a, b) => a.localeCompare(b));
-  return out.map((p) => p.replaceAll(path.sep, '/'));
+  return out.map((p) => p.replaceAll(path.sep, "/"));
 }
 ```
 
@@ -157,9 +157,9 @@ export async function listTree(root: string): Promise<string[]> {
 [imageAssert.compareImagesWithTolerance()](bun-svelte-photoblog/tests/utils/image-assert.ts:1)
 
 ```ts
-import sharp from 'sharp';
-import pixelmatch from 'pixelmatch';
-import { PNG } from 'pngjs';
+import sharp from "sharp";
+import pixelmatch from "pixelmatch";
+import { PNG } from "pngjs";
 
 export type PixelCompareOptions = {
   threshold?: number; // 0..1
@@ -173,7 +173,7 @@ export async function toPngBuffer(
   const img = sharp(inputPath);
   const meta = await img.metadata();
   const resized = width
-    ? img.resize({ width, fit: 'inside', withoutEnlargement: true })
+    ? img.resize({ width, fit: "inside", withoutEnlargement: true })
     : img;
   // Vždy převést do PNG pro pixelmatch
   return await resized.png({ compressionLevel: 9 }).toBuffer();
@@ -294,10 +294,10 @@ export function normalizeManifest(m: Record<string, Entry>) {
 [processHelpers.runCli()](bun-svelte-photoblog/tests/utils/process-helpers.ts:1)
 
 ```ts
-import { spawn } from 'node:child_process';
-import path from 'node:path';
-import os from 'node:os';
-import fs from 'node:fs';
+import { spawn } from "node:child_process";
+import path from "node:path";
+import os from "node:os";
+import fs from "node:fs";
 
 export function tmpDir(prefix: string): string {
   const p = fs.mkdtempSync(path.join(os.tmpdir(), `${prefix}-`));
@@ -310,30 +310,30 @@ export async function runCli(
 ) {
   return new Promise<{ code: number; stdout: string; stderr: string }>(
     (resolve, reject) => {
-      const proc = spawn('bun', ['scripts/generate-images.ts', ...args], {
+      const proc = spawn("bun", ["scripts/generate-images.ts", ...args], {
         cwd: opts?.cwd,
         env: {
           ...process.env,
-          SHARP_NUM_THREADS: '1',
-          TZ: 'UTC',
+          SHARP_NUM_THREADS: "1",
+          TZ: "UTC",
           ...(opts?.env || {}),
         },
-        stdio: ['ignore', 'pipe', 'pipe'],
+        stdio: ["ignore", "pipe", "pipe"],
       });
       const timeout = setTimeout(() => {
-        proc.kill('SIGKILL');
-        reject(new Error('CLI timeout'));
+        proc.kill("SIGKILL");
+        reject(new Error("CLI timeout"));
       }, opts?.timeoutMs ?? 60000);
 
-      let stdout = '';
-      let stderr = '';
-      proc.stdout.on('data', (d) => (stdout += String(d)));
-      proc.stderr.on('data', (d) => (stderr += String(d)));
-      proc.on('close', (code) => {
+      let stdout = "";
+      let stderr = "";
+      proc.stdout.on("data", (d) => (stdout += String(d)));
+      proc.stderr.on("data", (d) => (stderr += String(d)));
+      proc.on("close", (code) => {
         clearTimeout(timeout);
         resolve({ code: code ?? -1, stdout, stderr });
       });
-      proc.on('error', (e) => {
+      proc.on("error", (e) => {
         clearTimeout(timeout);
         reject(e);
       });
@@ -347,22 +347,22 @@ export async function runCli(
 [fixtures.buildInputSet()](bun-svelte-photoblog/tests/utils/fixtures.ts:1)
 
 ```ts
-import fs from 'node:fs';
-import path from 'node:path';
-import sharp from 'sharp';
+import fs from "node:fs";
+import path from "node:path";
+import sharp from "sharp";
 
 // Malý base64 animovaný GIF (2 snímky, 2x2 px) – jen pro detekci animace
 const tinyAnimatedGifBase64 =
-  'R0lGODlhAgACAPAAAP///wAAACH5BAAAAAAALAAAAAACAAIAAAICRAEAOw==';
+  "R0lGODlhAgACAPAAAP///wAAACH5BAAAAAAALAAAAAACAAIAAAICRAEAOw==";
 // Malý JPEG s EXIF orientací 6 (base64) – vzorek připravený se zapnutou EXIF orientací
 // Pozn.: pro jednoduchost můžete nahradit programovým vytvořením a externí EXIF zápisem, zde přímo embedováno
-const jpegExifOrientation6Base64 = '...'; // volitelně vyplňte později, test může přeskočit pokud není
+const jpegExifOrientation6Base64 = "..."; // volitelně vyplňte později, test může přeskočit pokud není
 
 export async function buildInputSet(dir: string) {
   fs.mkdirSync(dir, { recursive: true });
 
   // 1) PNG s průhledností 40x30
-  const pngAlpha = path.join(dir, 'alpha.png');
+  const pngAlpha = path.join(dir, "alpha.png");
   await sharp({
     create: {
       width: 40,
@@ -375,7 +375,7 @@ export async function buildInputSet(dir: string) {
     .toFile(pngAlpha);
 
   // 2) Velký JPEG 4000x3000 pro downscale
-  const bigJpeg = path.join(dir, 'big.jpg');
+  const bigJpeg = path.join(dir, "big.jpg");
   await sharp({
     create: {
       width: 4000,
@@ -388,7 +388,7 @@ export async function buildInputSet(dir: string) {
     .toFile(bigJpeg);
 
   // 3) Malý JPEG (portrait) 600x900
-  const portraitJpeg = path.join(dir, 'portrait.jpg');
+  const portraitJpeg = path.join(dir, "portrait.jpg");
   await sharp({
     create: {
       width: 600,
@@ -401,7 +401,7 @@ export async function buildInputSet(dir: string) {
     .toFile(portraitJpeg);
 
   // 4) WEBP 300x300
-  const webpImg = path.join(dir, 'square.webp');
+  const webpImg = path.join(dir, "square.webp");
   await sharp({
     create: {
       width: 300,
@@ -414,15 +414,15 @@ export async function buildInputSet(dir: string) {
     .toFile(webpImg);
 
   // 5) Malý animovaný GIF
-  const animGif = path.join(dir, 'anim.gif');
-  fs.writeFileSync(animGif, Buffer.from(tinyAnimatedGifBase64, 'base64'));
+  const animGif = path.join(dir, "anim.gif");
+  fs.writeFileSync(animGif, Buffer.from(tinyAnimatedGifBase64, "base64"));
 
   // 6) (Optional) JPEG s EXIF orientací 6
-  if (jpegExifOrientation6Base64 !== '...') {
-    const exifJpeg = path.join(dir, 'exif-orient-6.jpg');
+  if (jpegExifOrientation6Base64 !== "...") {
+    const exifJpeg = path.join(dir, "exif-orient-6.jpg");
     fs.writeFileSync(
       exifJpeg,
-      Buffer.from(jpegExifOrientation6Base64, 'base64'),
+      Buffer.from(jpegExifOrientation6Base64, "base64"),
     );
   }
 
@@ -439,22 +439,22 @@ export async function buildInputSet(dir: string) {
 [parseArgs.unit.spec.ts](bun-svelte-photoblog/tests/unit/parseArgs.unit.spec.ts:1)
 
 ```ts
-import { describe, it, expect } from 'vitest';
-import path from 'node:path';
-import fs from 'node:fs';
-import { runCli, tmpDir } from '../utils/process-helpers';
-import { listTree } from '../utils/fs-helpers';
-import { buildInputSet } from '../utils/fixtures';
+import { describe, it, expect } from "vitest";
+import path from "node:path";
+import fs from "node:fs";
+import { runCli, tmpDir } from "../utils/process-helpers";
+import { listTree } from "../utils/fs-helpers";
+import { buildInputSet } from "../utils/fixtures";
 
-const CWD = path.resolve(__dirname, '../../');
+const CWD = path.resolve(__dirname, "../../");
 
-describe('CLI parseArgs sanity via observable effects', () => {
-  it('applies defaults and custom overrides for out/manifest/formats/quality', async () => {
-    const inDir = tmpDir('img-in');
+describe("CLI parseArgs sanity via observable effects", () => {
+  it("applies defaults and custom overrides for out/manifest/formats/quality", async () => {
+    const inDir = tmpDir("img-in");
     await buildInputSet(inDir);
 
-    const outDir = tmpDir('img-out');
-    const manifest = path.join(outDir, 'images.manifest.json');
+    const outDir = tmpDir("img-out");
+    const manifest = path.join(outDir, "images.manifest.json");
 
     const args = [
       `--src=${inDir}`,
@@ -492,19 +492,19 @@ describe('CLI parseArgs sanity via observable effects', () => {
 [quality-and-paths.unit.spec.ts](bun-svelte-photoblog/tests/unit/quality-and-paths.unit.spec.ts:1)
 
 ```ts
-import { describe, it, expect } from 'vitest';
-import path from 'node:path';
-import fs from 'node:fs';
-import { runCli, tmpDir } from '../utils/process-helpers';
+import { describe, it, expect } from "vitest";
+import path from "node:path";
+import fs from "node:fs";
+import { runCli, tmpDir } from "../utils/process-helpers";
 
-const CWD = path.resolve(__dirname, '../../');
+const CWD = path.resolve(__dirname, "../../");
 
-describe('Quality and output path conventions', () => {
-  it('respects --allow-upscale=false and outputs folder naming scheme', async () => {
-    const inDir = tmpDir('img-in');
+describe("Quality and output path conventions", () => {
+  it("respects --allow-upscale=false and outputs folder naming scheme", async () => {
+    const inDir = tmpDir("img-in");
     // vytvoř malý vstup 100x80
-    const sharp = (await import('sharp')).default;
-    const input = path.join(inDir, 'small.jpg');
+    const sharp = (await import("sharp")).default;
+    const input = path.join(inDir, "small.jpg");
     await sharp({
       create: {
         width: 100,
@@ -516,8 +516,8 @@ describe('Quality and output path conventions', () => {
       .jpeg({ quality: 80 })
       .toFile(input);
 
-    const outDir = tmpDir('img-out');
-    const manifest = path.join(outDir, 'images.manifest.json');
+    const outDir = tmpDir("img-out");
+    const manifest = path.join(outDir, "images.manifest.json");
 
     const res = await runCli(
       [
@@ -534,11 +534,11 @@ describe('Quality and output path conventions', () => {
 
     // detail 1280 by se neměl upscalovat -> výstup <= 100 šířka
     const details = fs
-      .readdirSync(path.join(outDir, 'details'))
-      .filter((x) => x.endsWith('.jpg'));
+      .readdirSync(path.join(outDir, "details"))
+      .filter((x) => x.endsWith(".jpg"));
     expect(details.length).toBe(1);
-    const meta = await (await import('sharp'))
-      .default(path.join(outDir, 'details', details[0]))
+    const meta = await (await import("sharp"))
+      .default(path.join(outDir, "details", details[0]))
       .metadata();
     expect((meta.width ?? 0) <= 100).toBe(true);
   });
@@ -554,23 +554,23 @@ describe('Quality and output path conventions', () => {
 [generate-images.int.spec.ts](bun-svelte-photoblog/tests/integration/generate-images.int.spec.ts:1)
 
 ```ts
-import { describe, it, expect } from 'vitest';
-import path from 'node:path';
-import fs from 'node:fs';
-import { runCli, tmpDir } from '../utils/process-helpers';
-import { buildInputSet } from '../utils/fixtures';
-import { normalizeManifest } from '../utils/manifest-assert';
-import { listTree } from '../utils/fs-helpers';
+import { describe, it, expect } from "vitest";
+import path from "node:path";
+import fs from "node:fs";
+import { runCli, tmpDir } from "../utils/process-helpers";
+import { buildInputSet } from "../utils/fixtures";
+import { normalizeManifest } from "../utils/manifest-assert";
+import { listTree } from "../utils/fs-helpers";
 
-const CWD = path.resolve(__dirname, '../../');
+const CWD = path.resolve(__dirname, "../../");
 
-describe('Integration: main images generation', () => {
-  it('produces deterministic manifest and expected directory tree', async () => {
-    const inDir = tmpDir('int-in');
+describe("Integration: main images generation", () => {
+  it("produces deterministic manifest and expected directory tree", async () => {
+    const inDir = tmpDir("int-in");
     await buildInputSet(inDir);
 
-    const outDir = tmpDir('int-out');
-    const manifest = path.join(outDir, 'images.manifest.json');
+    const outDir = tmpDir("int-out");
+    const manifest = path.join(outDir, "images.manifest.json");
 
     const res = await runCli(
       [
@@ -589,14 +589,14 @@ describe('Integration: main images generation', () => {
     expect(res.code).toBe(0);
 
     // Manifest snapshot (normalizovaný)
-    const data = JSON.parse(fs.readFileSync(manifest, 'utf8'));
+    const data = JSON.parse(fs.readFileSync(manifest, "utf8"));
     const normalized = normalizeManifest(data);
     expect(normalized).toMatchSnapshot();
 
     // Strom výstupů – seznam relativních cest
     const tree = await listTree(outDir);
     const rel = tree.map((p) =>
-      path.posix.relative(outDir.replaceAll(path.sep, '/'), p),
+      path.posix.relative(outDir.replaceAll(path.sep, "/"), p),
     );
     expect(rel).toMatchSnapshot();
   });
@@ -610,18 +610,18 @@ describe('Integration: main images generation', () => {
 [blur-assets.int.spec.ts](bun-svelte-photoblog/tests/integration/blur-assets.int.spec.ts:1)
 
 ```ts
-import { describe, it, expect } from 'vitest';
-import path from 'node:path';
-import fs from 'node:fs';
-import { runCli, tmpDir } from '../utils/process-helpers';
-import { buildInputSet } from '../utils/fixtures';
-import sharp from 'sharp';
+import { describe, it, expect } from "vitest";
+import path from "node:path";
+import fs from "node:fs";
+import { runCli, tmpDir } from "../utils/process-helpers";
+import { buildInputSet } from "../utils/fixtures";
+import sharp from "sharp";
 
-const CWD = path.resolve(__dirname, '../../');
+const CWD = path.resolve(__dirname, "../../");
 
 async function uniqueColorCountPng(pngPath: string) {
   const buf = await sharp(pngPath).png().toBuffer();
-  const { PNG } = await import('pngjs');
+  const { PNG } = await import("pngjs");
   const png = PNG.sync.read(buf);
   const set = new Set<string>();
   for (let i = 0; i < png.data.length; i += 4) {
@@ -634,11 +634,11 @@ async function uniqueColorCountPng(pngPath: string) {
   return set.size;
 }
 
-describe('Integration: blur assets generation', () => {
-  it('generates PNG-8 palette with expected width and approx. color count', async () => {
-    const src = tmpDir('blur-in');
+describe("Integration: blur assets generation", () => {
+  it("generates PNG-8 palette with expected width and approx. color count", async () => {
+    const src = tmpDir("blur-in");
     await buildInputSet(src);
-    const out = tmpDir('blur-out');
+    const out = tmpDir("blur-out");
 
     const res = await runCli(
       [
@@ -657,7 +657,7 @@ describe('Integration: blur assets generation', () => {
     );
     expect(res.code).toBe(0);
 
-    const files = fs.readdirSync(out).filter((x) => x.endsWith('.png'));
+    const files = fs.readdirSync(out).filter((x) => x.endsWith(".png"));
     expect(files.length).toBeGreaterThan(0);
 
     // Kontrola rozměru a přibližného počtu barev
@@ -670,10 +670,10 @@ describe('Integration: blur assets generation', () => {
     }
   });
 
-  it('supports multi-format blur outputs (png,avif,jpeg) and clean mode', async () => {
-    const src = tmpDir('blur-in2');
+  it("supports multi-format blur outputs (png,avif,jpeg) and clean mode", async () => {
+    const src = tmpDir("blur-in2");
     await buildInputSet(src);
-    const out = tmpDir('blur-out2');
+    const out = tmpDir("blur-out2");
 
     // první běh
     let res = await runCli(
@@ -692,9 +692,9 @@ describe('Integration: blur assets generation', () => {
     expect(res.code).toBe(0);
 
     const files1 = fs.readdirSync(out);
-    expect(files1.some((f) => f.endsWith('.png'))).toBe(true);
-    expect(files1.some((f) => f.endsWith('.avif'))).toBe(true);
-    expect(files1.some((f) => f.endsWith('.jpg'))).toBe(true);
+    expect(files1.some((f) => f.endsWith(".png"))).toBe(true);
+    expect(files1.some((f) => f.endsWith(".avif"))).toBe(true);
+    expect(files1.some((f) => f.endsWith(".jpg"))).toBe(true);
 
     // druhý běh s clean
     res = await runCli(
@@ -713,7 +713,7 @@ describe('Integration: blur assets generation', () => {
 
     const files2 = fs.readdirSync(out);
     // měly by zůstat jen png
-    expect(files2.every((f) => f.endsWith('.png'))).toBe(true);
+    expect(files2.every((f) => f.endsWith(".png"))).toBe(true);
   });
 });
 ```
@@ -725,24 +725,24 @@ describe('Integration: blur assets generation', () => {
 [watch-mode.int.spec.ts](bun-svelte-photoblog/tests/integration/watch-mode.int.spec.ts:1)
 
 ```ts
-import { describe, it, expect } from 'vitest';
-import path from 'node:path';
-import fs from 'node:fs';
-import { spawn } from 'node:child_process';
-import { tmpDir } from '../utils/process-helpers';
-import { buildInputSet } from '../utils/fixtures';
+import { describe, it, expect } from "vitest";
+import path from "node:path";
+import fs from "node:fs";
+import { spawn } from "node:child_process";
+import { tmpDir } from "../utils/process-helpers";
+import { buildInputSet } from "../utils/fixtures";
 
-const CWD = path.resolve(__dirname, '../../');
+const CWD = path.resolve(__dirname, "../../");
 
-describe('Watch mode reacts to file changes', () => {
-  it('creates outputs on new file and updates on change', async () => {
-    const inDir = tmpDir('watch-in');
-    const outDir = tmpDir('watch-out');
-    const manifest = path.join(outDir, 'images.manifest.json');
+describe("Watch mode reacts to file changes", () => {
+  it("creates outputs on new file and updates on change", async () => {
+    const inDir = tmpDir("watch-in");
+    const outDir = tmpDir("watch-out");
+    const manifest = path.join(outDir, "images.manifest.json");
 
     // initial one file
-    const sharp = (await import('sharp')).default;
-    const first = path.join(inDir, 'first.jpg');
+    const sharp = (await import("sharp")).default;
+    const first = path.join(inDir, "first.jpg");
     await sharp({
       create: {
         width: 800,
@@ -755,20 +755,20 @@ describe('Watch mode reacts to file changes', () => {
       .toFile(first);
 
     const proc = spawn(
-      'bun',
+      "bun",
       [
-        'scripts/generate-images.ts',
+        "scripts/generate-images.ts",
         `--src=${inDir}`,
         `--out=${outDir}`,
         `--manifest=${manifest}`,
-        '--watch=true',
-        '--concurrency=1',
+        "--watch=true",
+        "--concurrency=1",
       ],
-      { cwd: CWD, env: { ...process.env, SHARP_NUM_THREADS: '1' } },
+      { cwd: CWD, env: { ...process.env, SHARP_NUM_THREADS: "1" } },
     );
 
-    let stdout = '';
-    proc.stdout.on('data', (d) => (stdout += String(d)));
+    let stdout = "";
+    proc.stdout.on("data", (d) => (stdout += String(d)));
 
     // počkej krátce na initial build
     await new Promise((r) => setTimeout(r, 4000));
@@ -776,7 +776,7 @@ describe('Watch mode reacts to file changes', () => {
     expect(fs.existsSync(manifest)).toBe(true);
 
     // přidej soubor
-    const second = path.join(inDir, 'second.jpg');
+    const second = path.join(inDir, "second.jpg");
     await sharp({
       create: {
         width: 1200,
@@ -791,12 +791,12 @@ describe('Watch mode reacts to file changes', () => {
     // dej watch módu čas zachytit update
     await new Promise((r) => setTimeout(r, 4000));
 
-    const details = path.join(outDir, 'details');
+    const details = path.join(outDir, "details");
     expect(fs.existsSync(details)).toBe(true);
-    const files = fs.readdirSync(details).filter((f) => f.endsWith('.jpg'));
+    const files = fs.readdirSync(details).filter((f) => f.endsWith(".jpg"));
     expect(files.length).toBeGreaterThanOrEqual(2);
 
-    proc.kill('SIGTERM');
+    proc.kill("SIGTERM");
   });
 });
 ```
@@ -808,22 +808,22 @@ describe('Watch mode reacts to file changes', () => {
 [full-run.e2e.spec.ts](bun-svelte-photoblog/tests/e2e-images/full-run.e2e.spec.ts:1)
 
 ```ts
-import { describe, it, expect } from 'vitest';
-import path from 'node:path';
-import fs from 'node:fs';
-import { runCli, tmpDir } from '../utils/process-helpers';
-import { buildInputSet } from '../utils/fixtures';
-import { listTree } from '../utils/fs-helpers';
+import { describe, it, expect } from "vitest";
+import path from "node:path";
+import fs from "node:fs";
+import { runCli, tmpDir } from "../utils/process-helpers";
+import { buildInputSet } from "../utils/fixtures";
+import { listTree } from "../utils/fs-helpers";
 
-const CWD = path.resolve(__dirname, '../../');
+const CWD = path.resolve(__dirname, "../../");
 
-describe('E2E: main build + blur pass', () => {
-  it('produces main variants and blur files without errors', async () => {
-    const inDir = tmpDir('e2e-in');
+describe("E2E: main build + blur pass", () => {
+  it("produces main variants and blur files without errors", async () => {
+    const inDir = tmpDir("e2e-in");
     await buildInputSet(inDir);
-    const outDir = tmpDir('e2e-out');
-    const manifest = path.join(outDir, 'images.manifest.json');
-    const blurOut = tmpDir('e2e-blurs');
+    const outDir = tmpDir("e2e-out");
+    const manifest = path.join(outDir, "images.manifest.json");
+    const blurOut = tmpDir("e2e-blurs");
 
     let res = await runCli(
       [
@@ -842,7 +842,7 @@ describe('E2E: main build + blur pass', () => {
       [
         `--blur.enable=true`,
         `--blur.only=true`,
-        `--blur.src=${path.join(outDir, 'previews-xl')}`, // parita s legacy: zdroj blur z previews-xl
+        `--blur.src=${path.join(outDir, "previews-xl")}`, // parita s legacy: zdroj blur z previews-xl
         `--blur.out=${blurOut}`,
         `--blur.formats=png`,
         `--concurrency=1`,
@@ -853,11 +853,11 @@ describe('E2E: main build + blur pass', () => {
 
     // sanity
     const tree = await listTree(outDir);
-    expect(tree.some((p) => p.endsWith('.avif'))).toBe(true);
-    expect(tree.some((p) => p.endsWith('.webp'))).toBe(true);
-    expect(tree.some((p) => p.endsWith('.jpg'))).toBe(true);
+    expect(tree.some((p) => p.endsWith(".avif"))).toBe(true);
+    expect(tree.some((p) => p.endsWith(".webp"))).toBe(true);
+    expect(tree.some((p) => p.endsWith(".jpg"))).toBe(true);
 
-    const blurs = fs.readdirSync(blurOut).filter((x) => x.endsWith('.png'));
+    const blurs = fs.readdirSync(blurOut).filter((x) => x.endsWith(".png"));
     expect(blurs.length).toBeGreaterThan(0);
   });
 });
@@ -872,24 +872,24 @@ describe('E2E: main build + blur pass', () => {
 [Picture.ssr.spec.ts](bun-svelte-photoblog/tests/unit/Picture.ssr.spec.ts:1)
 
 ```ts
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi } from "vitest";
 
-vi.mock('$lib/images.manifest.json', () => ({
+vi.mock("$lib/images.manifest.json", () => ({
   default: {
-    'content/israel-2022/sample.jpg': {
+    "content/israel-2022/sample.jpg": {
       original: {
         width: 1200,
         height: 800,
-        format: 'jpeg',
+        format: "jpeg",
         bytes: 123,
-        path: '/images/israel-2022/details/sample.jpg',
+        path: "/images/israel-2022/details/sample.jpg",
       },
       variants: {
         avif: [
           {
             width: 534,
             height: 300,
-            path: '/images/israel-2022/previews-avif/sample.avif',
+            path: "/images/israel-2022/previews-avif/sample.avif",
             bytes: 1,
           },
         ],
@@ -897,7 +897,7 @@ vi.mock('$lib/images.manifest.json', () => ({
           {
             width: 534,
             height: 300,
-            path: '/images/israel-2022/previews-webp/sample.webp',
+            path: "/images/israel-2022/previews-webp/sample.webp",
             bytes: 1,
           },
         ],
@@ -905,7 +905,7 @@ vi.mock('$lib/images.manifest.json', () => ({
           {
             width: 534,
             height: 300,
-            path: '/images/israel-2022/previews/sample.jpg',
+            path: "/images/israel-2022/previews/sample.jpg",
             bytes: 1,
           },
         ],
@@ -914,31 +914,31 @@ vi.mock('$lib/images.manifest.json', () => ({
         base64: null,
         width: 24,
         height: null,
-        type: 'image/jpeg',
+        type: "image/jpeg",
       },
-      color: '#112233',
-      hash: 'deadbeef',
-      outputs: ['/images/israel-2022/previews/sample.jpg'],
+      color: "#112233",
+      hash: "deadbeef",
+      outputs: ["/images/israel-2022/previews/sample.jpg"],
     },
   },
 }));
 
-describe('Picture SSR', async () => {
-  it('renders sources and img with expected attributes', async () => {
-    const mod = await import('$lib/components/Picture.svelte');
+describe("Picture SSR", async () => {
+  it("renders sources and img with expected attributes", async () => {
+    const mod = await import("$lib/components/Picture.svelte");
     const Component = mod.default;
 
     // SSR render metoda je dostupná na .render()
     const { html } = Component.render({
-      srcKey: 'content/israel-2022/sample.jpg',
-      alt: 'Sample',
-      sizes: '100vw',
-      placeholder: 'background',
+      srcKey: "content/israel-2022/sample.jpg",
+      alt: "Sample",
+      sizes: "100vw",
+      placeholder: "background",
     });
 
     expect(html).toContain('type="image/avif"');
     expect(html).toContain('type="image/webp"');
-    expect(html).toContain('<img');
+    expect(html).toContain("<img");
     expect(html).toContain('alt="Sample"');
   });
 });
@@ -973,8 +973,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        bun_version: ['1.1.20', 'latest']
-        node_version: ['20']
+        bun_version: ["1.1.20", "latest"]
+        node_version: ["20"]
     env:
       TZ: UTC
       SHARP_NUM_THREADS: 1

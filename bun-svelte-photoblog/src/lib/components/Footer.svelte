@@ -1,6 +1,6 @@
 <script>
-  import { Button } from '$lib/components/ui/button';
-  import { ExternalLink } from '@lucide/svelte';
+  import { Button } from "$lib/components/ui/button";
+  import { ExternalLink } from "@lucide/svelte";
 </script>
 
 <footer

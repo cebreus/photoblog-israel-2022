@@ -20,6 +20,7 @@ This is a modern SvelteKit photoblog powered by Bun runtime and featuring an adv
 ## Common Commands
 
 ### Development
+
 ```bash
 bun install              # Install dependencies
 bun run dev              # Start dev server with hot-reload
@@ -27,12 +28,14 @@ bun run preview          # Preview production build locally
 ```
 
 ### Building
+
 ```bash
 bun run build            # Full production build (runs prebuild -> images:build -> vite build)
 bun run prebuild         # Runs linting and image generation
 ```
 
 ### Image Generation
+
 ```bash
 bun run images:build     # Generate all image variants and manifest
 bun run images:watch     # Watch mode for automatic regeneration
@@ -41,6 +44,7 @@ bun run images:all       # Run both build and blur sequentially
 ```
 
 The image generation script (`scripts/generate-images.ts`) supports extensive CLI options:
+
 - `--src=<path>`: Source image directory
 - `--out=<path>`: Output directory for generated images
 - `--manifest=<path>`: Path to output manifest JSON
@@ -52,6 +56,7 @@ The image generation script (`scripts/generate-images.ts`) supports extensive CL
 - `--verbose=true`: Detailed logging
 
 ### Testing
+
 ```bash
 bun run test             # Run all tests (unit + E2E)
 bun run test:unit        # Unit tests only
@@ -60,6 +65,7 @@ bun run test:all         # All image-related tests (unit + integration + E2E)
 ```
 
 ### Code Quality
+
 ```bash
 bun run lint             # Check code with Biome and Stylelint
 bun run lint:fix         # Auto-fix issues with Biome
@@ -91,6 +97,7 @@ The core of this project is the image generation system (`scripts/generate-image
    - Story content from markdown files
 
 **Key features:**
+
 - Intelligent caching (`.images-cache.json`) to skip unchanged files
 - Parallel processing with configurable concurrency
 - Watch mode for development
@@ -123,6 +130,7 @@ All types are centralized in `src/lib/types/manifest.ts`:
 - `Separator`: Location markers in the photo grid
 
 These types are shared between:
+
 - Build-time scripts (`scripts/generate-images.ts`)
 - Runtime code (`src/lib/images.ts`)
 - SvelteKit routes and components
@@ -157,6 +165,7 @@ These types are shared between:
 ### System Requirements
 
 **Sharp requires libvips to be installed:**
+
 - macOS: `brew install vips`
 - Debian/Ubuntu: `sudo apt-get install -y libvips`
 
@@ -200,5 +209,6 @@ The blur intensity seen in UI is controlled by CSS (`filter: blur(20px)` in comp
 - **Vitest browser mode**: Tests Svelte components in real browser environment
 
 Run specific test suites:
+
 - `bun run test:unit:images`: Unit tests for image processing
 - `bun run test:images`: Integration and E2E image tests

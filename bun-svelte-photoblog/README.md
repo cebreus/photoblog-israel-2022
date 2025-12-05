@@ -13,27 +13,27 @@ Například `CONTENT_DIR=israel-2022` řekne všem skriptům, aby pracovaly s da
 Projekt je rozdělen na tři hlavní vrstvy:
 
 1.  **Obsah (`content/<nazev-galerie>`)**:
-    -   Obsahuje zdrojové soubory pro každou galerii.
-    -   `pics/`: Zdrojové fotografie ve vysokém rozlišení.
-    -   `site.md`: Hlavní konfigurační soubor pro danou galerii (názvy, popisky, nastavení pro generování favicon a PWA manifestu).
-    -   `favicons-source.png`: Zdrojový obrázek pro generování favicon.
+    - Obsahuje zdrojové soubory pro každou galerii.
+    - `pics/`: Zdrojové fotografie ve vysokém rozlišení.
+    - `site.md`: Hlavní konfigurační soubor pro danou galerii (názvy, popisky, nastavení pro generování favicon a PWA manifestu).
+    - `favicons-source.png`: Zdrojový obrázek pro generování favicon.
 
 2.  **Veřejné soubory (`static/<nazev-galerie>`)**:
-    -   Obsahuje veřejně přístupné, vygenerované soubory.
-    -   Adresářová struktura zde zrcadlí strukturu v `content/`.
-    -   `images/`: Optimalizované varianty obrázků (AVIF, WebP, JPEG).
-    -   `assets/favicons/`: Vygenerované favikony a manifesty.
+    - Obsahuje veřejně přístupné, vygenerované soubory.
+    - Adresářová struktura zde zrcadlí strukturu v `content/`.
+    - `images/`: Optimalizované varianty obrázků (AVIF, WebP, JPEG).
+    - `assets/favicons/`: Vygenerované favikony a manifesty.
 
 3.  **Aplikace (`src/`)**:
-    -   Samotná SvelteKit aplikace, která je pro všechny galerie stejná.
-    -   Načítá data (`images.manifest.json`, `menu.manifest.json`) vygenerovaná do `src/lib/` a na jejich základě dynamicky sestavuje stránky.
+    - Samotná SvelteKit aplikace, která je pro všechny galerie stejná.
+    - Načítá data (`images.manifest.json`, `menu.manifest.json`) vygenerovaná do `src/lib/` a na jejich základě dynamicky sestavuje stránky.
 
 ## Instalace
 
 1.  Ujistěte se, že máte nainstalovaný [Bun](https://bun.sh/).
 2.  Nainstalujte systémové knihovny pro `sharp` (vyžaduje `libvips`):
-    -   **macOS:** `brew install vips`
-    -   **Debian/Ubuntu:** `sudo apt-get update && sudo apt-get install -y libvips`
+    - **macOS:** `brew install vips`
+    - **Debian/Ubuntu:** `sudo apt-get update && sudo apt-get install -y libvips`
 3.  Nainstalujte závislosti projektu:
     ```bash
     bun install
@@ -45,37 +45,42 @@ Všechny klíčové akce se nyní spouštějí pomocí skriptů, které interně
 
 ### Vývoj
 
--   **Spuštění vývojového serveru pro konkrétní galerii:**
-    ```bash
-    # Spustí dev server pro galerii 'israel-2022'
-    bun run dev:israel
+- **Spuštění vývojového serveru pro konkrétní galerii:**
 
-    # Spustí dev server pro galerii 'egypt-2025'
-    bun run dev:egypt
-    ```
--   Obecný příkaz `bun run dev` je aliasem pro `bun run dev:israel`.
+  ```bash
+  # Spustí dev server pro galerii 'israel-2022'
+  bun run dev:israel
+
+  # Spustí dev server pro galerii 'egypt-2025'
+  bun run dev:egypt
+  ```
+
+- Obecný příkaz `bun run dev` je aliasem pro `bun run dev:israel`.
 
 ### Sestavení pro produkci (Build)
 
--   **Sestavení konkrétní galerie do odděleného adresáře:**
-    ```bash
-    # Sestaví web pro 'israel-2022' do adresáře 'build-israel-2022/'
-    bun run build:israel
+- **Sestavení konkrétní galerie do odděleného adresáře:**
 
-    # Sestaví web pro 'egypt-2025' do adresáře 'build-egypt-2025/'
-    bun run build:egypt
-    ```
--   Obecný příkaz `bun run build` sestaví výchozí galerii (`israel-2022`) do standardního adresáře `build/`.
+  ```bash
+  # Sestaví web pro 'israel-2022' do adresáře 'build-israel-2022/'
+  bun run build:israel
+
+  # Sestaví web pro 'egypt-2025' do adresáře 'build-egypt-2025/'
+  bun run build:egypt
+  ```
+
+- Obecný příkaz `bun run build` sestaví výchozí galerii (`israel-2022`) do standardního adresáře `build/`.
 
 ### Ruční generování assetů
 
 Tyto příkazy jsou užitečné pro jednorázovou aktualizaci souborů bez spouštění serveru. Jsou řízeny proměnnou `CONTENT_DIR`.
 
--   `bun run generate`: Spustí generování obrázků i favicon pro výchozí galerii (`israel-2022`).
--   `bun run images:build`: Spustí pouze generování obrázků.
--   `bun run favicons:build`: Spustí pouze generování favicon.
+- `bun run generate`: Spustí generování obrázků i favicon pro výchozí galerii (`israel-2022`).
+- `bun run images:build`: Spustí pouze generování obrázků.
+- `bun run favicons:build`: Spustí pouze generování favicon.
 
 **Příklad s kontextem:**
+
 ```bash
 # Vygeneruje obrázky pouze pro galerii 'egypt-2025'
 CONTENT_DIR=egypt-2025 bun run images:build
