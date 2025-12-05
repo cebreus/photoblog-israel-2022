@@ -6,7 +6,7 @@
   let { data, children } = $props();
 </script>
 
-<Header menuItems={data.menu} />
+<Header menuItems={data.menuItems} />
 
 {@render children?.()}
 

@@ -62,7 +62,7 @@
                 <Sidebar.MenuItem>
                   <Sidebar.MenuButton>
                     {#snippet child({ props })}
-                      <a href="#{menuDay.id}" {...props}>
+                      <a href={menuDay.href} {...props}>
                         <Calendar />
                         {menuDay.label}
                         <ChevronRight class="ml-auto size-4" />
@@ -73,7 +73,7 @@
                   <Sidebar.MenuSub>
                     {#each menuDay.locations as menuLocation (menuLocation.id)}
                       <Sidebar.MenuSubItem>
-                        <Sidebar.MenuSubButton href="#{menuLocation.id}">
+                        <Sidebar.MenuSubButton href={menuLocation.href}>
                           {menuLocation.label}
                         </Sidebar.MenuSubButton>
                       </Sidebar.MenuSubItem>

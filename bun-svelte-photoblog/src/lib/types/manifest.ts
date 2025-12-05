@@ -75,6 +75,7 @@ export type Manifest = {
 export type MenuLocation = {
   id: string;
   label: string;
+  href: string;
 };
 
 /** Represents a day entry in the lightweight `menu.manifest.json`. */
@@ -82,7 +83,8 @@ export type MenuDay = {
   id: string;
   date: string;
   label: string;
-  locations: { id: string; label: string }[];
+  href: string;
+  locations: MenuLocation[];
   items?: PhotoDayItem[];
 };
 

@@ -1,23 +1,22 @@
 <script lang="ts">
-  import PhotoGrid from '$lib/components/PhotoGrid.svelte';
-  import { Badge } from '$lib/components/ui/badge/';
-  import Hero from '$lib/components/Hero.svelte';
-  import type { PageData } from './$types';
+  import PhotoGrid from "$lib/components/PhotoGrid.svelte";
+  import { Badge } from "$lib/components/ui/badge/";
+  import Hero from "$lib/components/Hero.svelte";
+  import type { PageData } from "./$types";
 
   let { data } = $props<{ data: PageData }>();
-
-  const photoDays = data.photoDays || [];
+  let photoDays = $derived(data.photoDays || []);
 
   function formatDateForDisplay(dateValue: string | Date): string {
-    return new Intl.DateTimeFormat('cs-CZ', {
-      day: 'numeric',
-      month: 'numeric',
-      year: 'numeric',
+    return new Intl.DateTimeFormat("cs-CZ", {
+      day: "numeric",
+      month: "numeric",
+      year: "numeric",
     }).format(new Date(dateValue));
   }
 
   function formatWeekdayCzech(dateValue: string | Date): string {
-    return new Intl.DateTimeFormat('cs-CZ', { weekday: 'long' }).format(
+    return new Intl.DateTimeFormat("cs-CZ", { weekday: "long" }).format(
       new Date(dateValue),
     );
   }
@@ -33,14 +32,15 @@
         <h2 class="mb-1 text-3xl">
           <span
             class="block mb-1 text-xs font-normal tracking-[0.05em] uppercase before:content-['———'] before:tracking-[-0.3em] before:opacity-[0.34] before:mr-4 after:content-['———'] after:tracking-[-0.3em] after:opacity-[0.34] after:ml-3"
-            >{formatWeekdayCzech(day.date)}</span
           >
+            {formatWeekdayCzech(day.date)}
+          </span>
           {formatDateForDisplay(day.date)}
         </h2>
 
         {#if day.cities && day.cities.length > 0}
           <div data-cy="day-cities" class="mb-6 text-lg">
-            {day.cities.join(' — ')}
+            {day.cities.join(" — ")}
           </div>
         {/if}
 
