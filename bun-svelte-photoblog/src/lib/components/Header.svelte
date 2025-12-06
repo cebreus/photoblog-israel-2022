@@ -4,11 +4,11 @@
   import Button, {
     buttonVariants,
   } from "$lib/components/ui/button/button.svelte";
-  import * as Sheet from "$lib/components/ui/sheet";
+  import * as Offcanvas from "$lib/components/offcanvas";
   import * as Sidebar from "$lib/components/ui/sidebar";
-  import { Collapsible } from "bits-ui"; // Import Collapsible components directly from bits-ui
-  import { page } from "$app/stores"; // Import $page store
-  import { activeSectionIds } from "$lib/stores/scrollspy"; // Import the activeSectionIds store
+  import { Collapsible } from "bits-ui";
+  import { page } from "$app/stores";
+  import { activeSectionIds } from "$lib/stores/scrollspy";
 
   export let menuItems: MenuManifest = [];
 </script>
@@ -17,50 +17,25 @@
   <div class="container mx-auto py-3 flex items-center gap-4">
     <div class="flex-1 flex items-center gap-8">
       <a href="/" class="text-lg font-semibold uppercase">Izrael 2022</a>
-      <!-- <div class="flex items-center gap-1">
-          <Button size="sm" variant="ghost" href="/">Vše</Button>
-          <Button size="sm" variant="ghost" href="/best-of">Výběr</Button>
-        </div> -->
     </div>
 
-    <Sheet.Root>
-      <Sheet.Trigger
+    <Offcanvas.Root>
+      <Offcanvas.Trigger
         class={buttonVariants({
           size: "sm",
           variant: "ghost",
         })}
       >
         <Menu />
-      </Sheet.Trigger>
+      </Offcanvas.Trigger>
 
-      <Sheet.Content side="right" class="overflow-y-auto">
-        <Sheet.Header>
-          <Sheet.Title>Menu</Sheet.Title>
-        </Sheet.Header>
+      <Offcanvas.Content side="right" className="overflow-y-auto">
+        <div class="py-4 px-6 border-b">
+          <h2 class="text-md font-semibold">Menu</h2>
+        </div>
         <nav class="flex flex-col gap-2 mx-2 pr-2">
-          <!-- <Button
-                variant="ghost"
-                size="sm"
-                href="/"
-                class="w-full justify-start items-center gap-3"
-              >
-                <Home class="size-4" />
-                <span>Vše</span>
-              </Button>
-  
-              <Button
-                variant="ghost"
-                size="sm"
-                href="/best-of"
-                class="w-full justify-start items-center gap-3"
-              >
-                <Star class="size-4" />
-                <span>Výběr fotek</span>
-              </Button> -->
-
           <Sidebar.Menu>
             <Sidebar.Group>
-              <!-- <Sidebar.GroupLabel>Dny</Sidebar.GroupLabel> -->
               {#each menuItems as menuDay (menuDay.id)}
                 {@const isHashActiveDay = $page.url.hash === menuDay.href}
                 {@const isScrollspyActiveDay = $activeSectionIds.has(
@@ -128,7 +103,7 @@
                 Zavřít
               </Sheet.Close> -->
         </nav>
-      </Sheet.Content>
-    </Sheet.Root>
+      </Offcanvas.Content>
+    </Offcanvas.Root>
   </div>
 </header>
