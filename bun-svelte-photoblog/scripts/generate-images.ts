@@ -298,7 +298,7 @@ async function runIncrementalBuild() {
       const dayId = String(rawDayId).startsWith("day-")
         ? String(rawDayId)
         : "day-" + String(rawDayId);
-      const dayHref = `/#${dayId}`;
+      const dayHref = `#${dayId}`;
       const label = new Date(d.date).toLocaleDateString("cs-CZ", {
         weekday: "long",
         year: "numeric",
@@ -336,7 +336,7 @@ async function runIncrementalBuild() {
         const locId =
           "loc-" + slugify(locationName, { lower: true, strict: true });
         const isDimmed = group.length <= 2;
-        let href = `/#${locId}`;
+        let href = `#${locId}`;
         let firstPhotoExifDate: string | undefined;
 
         if (group.length > 0) {
@@ -345,7 +345,7 @@ async function runIncrementalBuild() {
             firstPhotoExifDate = firstImage.exif.date;
           }
           if (isDimmed) {
-            href = `/#${firstImage.id}`;
+            href = `#${firstImage.id}`;
           }
         }
 
