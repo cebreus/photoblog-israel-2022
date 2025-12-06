@@ -29,7 +29,7 @@
       id={item.id}
       class={`bg-cover bg-center bg-[${
         item.placeholderColor
-      }] rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105 ${
+      }] rounded-lg overflow-hidden duration-500 outline-background hover:outline-orange-100 outline-4 outline-offset-2 transition-[outline-color] ease-in-out ${
         $debug ? "flex flex-col" : ""
       }`}
     >
@@ -63,7 +63,7 @@
     {#if item.storyContent}
       <Dialog.Root>
         <Dialog.Trigger
-          class="aspect-video flex flex-col items-center justify-center p-4 bg-slate-100 dark:bg-slate-800/50 rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 hover:ring-2 hover:ring-primary focus:outline-none"
+          class="aspect-video flex flex-col items-center justify-center p-4 bg-linear-to-br from-slate-100 to-slate-300 rounded-lg duration-500 outline-background hover:outline-orange-100 outline-4 outline-offset-2 transition-[outline-color] ease-in-out"
         >
           <h3 class="text-lg">{item.location}</h3>
           {#if item.city}
@@ -97,7 +97,7 @@
       </Dialog.Root>
     {:else}
       <div
-        class="aspect-video flex flex-col items-center justify-center p-4 bg-slate-100 dark:bg-slate-800/50 rounded-lg shadow-lg"
+        class="aspect-video flex flex-col items-center justify-center p-4 bg-linear-to-br from-slate-100 to-slate-300 rounded-lg"
         id={separatorId}
         use:useScrollspy={{ id: separatorId }}
       >
