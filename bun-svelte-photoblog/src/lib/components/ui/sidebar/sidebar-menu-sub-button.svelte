@@ -10,16 +10,18 @@
     child,
     class: className,
     size = "md",
-    isActive = false,
+    isHashActive = false,
+    isScrollspyActive = false,
     isDimmed = false,
-    firstPhotoExifDate, // Accept new prop
+    firstPhotoExifDate,
     ...restProps
   }: WithElementRef<HTMLAnchorAttributes> & {
     child?: Snippet<[{ props: Record<string, unknown> }]>;
     size?: "sm" | "md";
-    isActive?: boolean;
+    isHashActive?: boolean;
+    isScrollspyActive?: boolean;
     isDimmed?: boolean;
-    firstPhotoExifDate?: string; // New prop type
+    firstPhotoExifDate?: string;
   } = $props();
 
   const formattedTime = $derived(
@@ -34,17 +36,21 @@
   const mergedProps = $derived({
     class: cn(
       "text-sidebar-foreground ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground active:bg-sidebar-accent active:text-sidebar-accent-foreground [&>svg]:text-sidebar-accent-foreground outline-hidden flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 focus-visible:ring-2",
-      "data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground",
       "data-[dimmed=true]:opacity-50 data-[dimmed=true]:cursor-default",
       size === "sm" && "text-xs",
       size === "md" && "text-sm",
       "group-data-[collapsible=icon]:hidden",
       className,
+      isScrollspyActive && "bg-yellow-50 dark:bg-yellow-900",
+      isHashActive &&
+        !isScrollspyActive &&
+        "bg-sidebar-accent text-sidebar-accent-foreground",
     ),
     "data-slot": "sidebar-menu-sub-button",
     "data-sidebar": "menu-sub-button",
     "data-size": size,
-    "data-active": isActive,
+    "data-active": isHashActive,
+    "data-scrollspy-active": isScrollspyActive,
     "data-dimmed": isDimmed,
     ...restProps,
   });

@@ -6,6 +6,7 @@
   import * as Dialog from "$lib/components/ui/dialog";
   import { debug } from "$lib/stores/debug";
   import JsonViewer from "$lib/components/debug/JsonViewer.svelte";
+  import { useScrollspy } from "$lib/actions/scrollspy"; // Import the useScrollspy action
 
   let { items } = $props<{
     items: (ImageEntry | Separator)[];
@@ -88,6 +89,7 @@
           <div
             class="prose prose-sm dark:prose-invert max-w-none mt-4"
             id={separatorId}
+            use:useScrollspy={{ id: separatorId }}
           >
             {@html renderStoryHtml(item)}
           </div>
@@ -97,6 +99,7 @@
       <div
         class="aspect-video flex flex-col items-center justify-center p-4 bg-slate-100 dark:bg-slate-800/50 rounded-lg shadow-lg"
         id={separatorId}
+        use:useScrollspy={{ id: separatorId }}
       >
         <h3 class="text-lg">{item.location}</h3>
         {#if item.city}

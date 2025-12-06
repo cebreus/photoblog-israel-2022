@@ -8,6 +8,7 @@
   import * as Sidebar from "$lib/components/ui/sidebar";
   import { Collapsible } from "bits-ui"; // Import Collapsible components directly from bits-ui
   import { page } from "$app/stores"; // Import $page store
+  import { activeSectionIds } from "$lib/stores/scrollspy"; // Import the activeSectionIds store
 
   export let menuItems: MenuManifest = [];
 </script>
@@ -17,9 +18,9 @@
     <div class="flex-1 flex items-center gap-8">
       <a href="/" class="text-lg font-semibold uppercase">Izrael 2022</a>
       <!-- <div class="flex items-center gap-1">
-        <Button size="sm" variant="ghost" href="/">Vše</Button>
-        <Button size="sm" variant="ghost" href="/best-of">Výběr</Button>
-      </div> -->
+          <Button size="sm" variant="ghost" href="/">Vše</Button>
+          <Button size="sm" variant="ghost" href="/best-of">Výběr</Button>
+        </div> -->
     </div>
 
     <Sheet.Root>
@@ -38,34 +39,40 @@
         </Sheet.Header>
         <nav class="flex flex-col gap-2 mx-2 pr-2">
           <!-- <Button
-              variant="ghost"
-              size="sm"
-              href="/"
-              class="w-full justify-start items-center gap-3"
-            >
-              <Home class="size-4" />
-              <span>Vše</span>
-            </Button>
-
-            <Button
-              variant="ghost"
-              size="sm"
-              href="/best-of"
-              class="w-full justify-start items-center gap-3"
-            >
-              <Star class="size-4" />
-              <span>Výběr fotek</span>
-            </Button> -->
+                variant="ghost"
+                size="sm"
+                href="/"
+                class="w-full justify-start items-center gap-3"
+              >
+                <Home class="size-4" />
+                <span>Vše</span>
+              </Button>
+  
+              <Button
+                variant="ghost"
+                size="sm"
+                href="/best-of"
+                class="w-full justify-start items-center gap-3"
+              >
+                <Star class="size-4" />
+                <span>Výběr fotek</span>
+              </Button> -->
 
           <Sidebar.Menu>
             <Sidebar.Group>
               <!-- <Sidebar.GroupLabel>Dny</Sidebar.GroupLabel> -->
               {#each menuItems as menuDay (menuDay.id)}
-                {@const isDayActive = $page.url.hash === menuDay.href}
+                {@const isHashActiveDay = $page.url.hash === menuDay.href}
+                {@const isScrollspyActiveDay = $activeSectionIds.has(
+                  menuDay.id,
+                )}
                 <Collapsible.Root open={true} class="group/collapsible">
                   {#snippet child({ props })}
                     <Sidebar.MenuItem {...props}>
-                      <Sidebar.MenuButton isActive={isDayActive}>
+                      <Sidebar.MenuButton
+                        isHashActive={isHashActiveDay}
+                        isScrollspyActive={false}
+                      >
                         {#snippet child({ props })}
                           <div class="flex items-center w-full" {...props}>
                             <a
@@ -86,12 +93,15 @@
                       <Collapsible.Content>
                         <Sidebar.MenuSub>
                           {#each menuDay.locations as menuLocation (menuLocation.id)}
-                            {@const isLocationActive =
+                            {@const isHashActiveLocation =
                               $page.url.hash === menuLocation.href}
+                            {@const isScrollspyActiveLocation =
+                              $activeSectionIds.has(menuLocation.id)}
                             <Sidebar.MenuSubItem>
                               <Sidebar.MenuSubButton
                                 href={menuLocation.href}
-                                isActive={isLocationActive}
+                                isHashActive={isHashActiveLocation}
+                                isScrollspyActive={isScrollspyActiveLocation}
                                 isDimmed={menuLocation.isDimmed}
                                 firstPhotoExifDate={menuLocation.firstPhotoExifDate}
                               >
@@ -109,14 +119,14 @@
           </Sidebar.Menu>
 
           <!-- <Sheet.Close
-              class={buttonVariants({
-                size: 'sm',
-                variant: 'outline',
-                class: 'mr-auto mt-4',
-              })}
-            >
-              Zavřít
-            </Sheet.Close> -->
+                class={buttonVariants({
+                  size: 'sm',
+                  variant: 'outline',
+                  class: 'mr-auto mt-4',
+                })}
+              >
+                Zavřít
+              </Sheet.Close> -->
         </nav>
       </Sheet.Content>
     </Sheet.Root>

@@ -48,12 +48,14 @@
     child,
     variant = "default",
     size = "default",
-    isActive = false,
+    isHashActive = false,
+    isScrollspyActive = false,
     tooltipContent,
     tooltipContentProps,
     ...restProps
   }: WithElementRef<HTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & {
-    isActive?: boolean;
+    isHashActive?: boolean;
+    isScrollspyActive?: boolean;
     variant?: SidebarMenuButtonVariant;
     size?: SidebarMenuButtonSize;
     tooltipContent?: Snippet | string;
@@ -66,11 +68,19 @@
   const sidebar = useSidebar();
 
   const buttonProps = $derived({
-    class: cn(sidebarMenuButtonVariants({ variant, size }), className),
+    class: cn(
+      sidebarMenuButtonVariants({ variant, size }),
+      className,
+      isScrollspyActive && "bg-yellow-50 dark:bg-yellow-900",
+      isHashActive &&
+        !isScrollspyActive &&
+        "bg-sidebar-accent text-sidebar-accent-foreground",
+    ),
     "data-slot": "sidebar-menu-button",
     "data-sidebar": "menu-button",
     "data-size": size,
-    "data-active": isActive,
+    "data-active": isHashActive,
+    "data-scrollspy-active": isScrollspyActive,
     ...restProps,
   });
 </script>

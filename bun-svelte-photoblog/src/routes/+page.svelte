@@ -3,6 +3,8 @@
   import { Badge } from "$lib/components/ui/badge/";
   import Hero from "$lib/components/Hero.svelte";
   import type { PageData } from "./$types";
+  import { useScrollspy } from "$lib/actions/scrollspy"; // Import the useScrollspy action
+  import type { PhotoDay } from "$lib/types/manifest"; // Import types
 
   let { data } = $props<{ data: PageData }>();
   let photoDays = $derived(data.photoDays || []);
@@ -27,7 +29,11 @@
 <main>
   {#each photoDays as day (day.date)}
     {@const daySectionId = day.id ?? `day-${day.date}`}
-    <section id={daySectionId} class="container mx-auto py-8">
+    <section
+      id={daySectionId}
+      class="container mx-auto py-8"
+      use:useScrollspy={{ id: daySectionId }}
+    >
       <div data-cy="day-head" class="max-w-xl mx-auto text-center mb-12">
         <h2 class="mb-1 text-3xl">
           <span
