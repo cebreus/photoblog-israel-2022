@@ -250,7 +250,7 @@ async function runIncrementalBuild() {
     for (const key of toDelete) {
       const outputs = cache.files[key]?.outputs || [];
       for (const p of outputs)
-        await fsp.unlink(path.join(CTX.outRoot, p)).catch(() => { });
+        await fsp.unlink(path.join(CTX.outRoot, p)).catch(() => {});
       delete cache.files[key];
     }
   }
@@ -258,8 +258,8 @@ async function runIncrementalBuild() {
   const bar = ARGS.quiet
     ? null
     : new SingleBar({
-      format: "Processing [{bar}] {percentage}% | {value}/{total}",
-    });
+        format: "Processing [{bar}] {percentage}% | {value}/{total}",
+      });
   if (bar) bar.start(toProcess.length, 0);
 
   const limiter = createConcurrencyLimiter(ARGS.concurrency);
@@ -513,7 +513,7 @@ async function processImage(absPath: string) {
             resizedInstance,
             typedFormat,
             config.encoding.quality[
-            typedFormat as keyof typeof config.encoding.quality
+              typedFormat as keyof typeof config.encoding.quality
             ],
           );
           info = await resizedInstance.toFile(fullOutPath);
@@ -525,7 +525,7 @@ async function processImage(absPath: string) {
             resizedInstance,
             typedFormat,
             config.encoding.quality[
-            typedFormat as keyof typeof config.encoding.quality
+              typedFormat as keyof typeof config.encoding.quality
             ],
           );
           info = (await resizedInstance.toBuffer({ resolveWithObject: true }))
@@ -755,8 +755,8 @@ async function cleanAllOutputs() {
   log.warn(
     `Cleaning all generated files in ${toPosix(CTX.outRoot)} and the cache...`,
   );
-  await fsp.rm(CTX.outRoot, { recursive: true, force: true }).catch(() => { });
-  await fsp.rm(CTX.cachePath, { force: true }).catch(() => { });
+  await fsp.rm(CTX.outRoot, { recursive: true, force: true }).catch(() => {});
+  await fsp.rm(CTX.cachePath, { force: true }).catch(() => {});
   await fsp.mkdir(CTX.outRoot, { recursive: true });
 }
 
