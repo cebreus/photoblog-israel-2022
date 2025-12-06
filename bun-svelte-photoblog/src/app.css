@@ -179,3 +179,15 @@
     scroll-margin-top: 72px; /* Adjust to your sticky header's height */
   }
 }
+
+/* When .show-locations is applied on <html> we render each figure's location in ::after */
+.show-locations figure[data-location]:not([data-location=""]) {
+  /* ensure pseudo-element is positioned relative to the figure */
+  @apply relative;
+}
+
+.show-locations figure[data-location]:not([data-location=""])::after {
+  content: attr(data-location);
+
+  @apply absolute bottom-0 left-0 w-full p-4 text-sm leading-none text-white bg-linear-to-t pt-8 from-slate-800/90 via-slate-800/80 to-transparent pointer-events-none;
+}

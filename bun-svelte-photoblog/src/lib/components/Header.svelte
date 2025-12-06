@@ -1,6 +1,12 @@
 <script lang="ts">
   import type { MenuManifest } from "$lib/types/manifest";
-  import { Menu, ChevronRight, Calendar } from "@lucide/svelte";
+  import {
+    Menu,
+    ChevronRight,
+    Calendar,
+    MapPin,
+    MapPinOff,
+  } from "@lucide/svelte";
   import Button, {
     buttonVariants,
   } from "$lib/components/ui/button/button.svelte";
@@ -9,6 +15,7 @@
   import { Collapsible } from "bits-ui";
   import { page } from "$app/stores";
   import { activeSectionIds } from "$lib/stores/scrollspy";
+  import { showLocationPins } from "$lib/stores/mapLocations";
 
   export let menuItems: MenuManifest = [];
 </script>
@@ -22,6 +29,20 @@
     </div>
 
     <Offcanvas.Root>
+      <!-- new toggle button to show/hide photo location pins -->
+      <Button
+        onclick={() => showLocationPins.update((v) => !v)}
+        aria-pressed={$showLocationPins}
+        title={$showLocationPins ? "Skrýt lokace" : "Zobrazit lokace"}
+        class={`${buttonVariants({ size: "icon", variant: "ghost" })} `}
+      >
+        {#if $showLocationPins}
+          <MapPin strokeWidth={2.5} aria-label="Skrýt lokace" />
+        {:else}
+          <MapPinOff strokeWidth={2.5} aria-label="Zobrazit lokace" />
+        {/if}
+      </Button>
+
       <Offcanvas.Trigger
         class={buttonVariants({
           size: "icon",
