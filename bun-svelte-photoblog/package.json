@@ -29,7 +29,7 @@
     "lint": "biome check . && bun run lint:css",
     "lint:css": "stylelint '**/*.css'",
     "lint:fix": "biome check --write .",
-    "format": "biome format --write . && prettier \"**/*.{svelte,md,html,css}\" --plugin prettier-plugin-svelte --write",
+    "format": "biome format --write . && prettier \"**/*.{svelte,md,html,css,ts}\" --plugin prettier-plugin-svelte -w -l",
     "format:check": "biome format --write=false . && prettier \"**/*.{svelte,md,html,css}\" --plugin prettier-plugin-svelte --check",
     "lint:ci": "biome check --reporter=summary --diagnostic-level=warn ."
   },
