@@ -7,6 +7,7 @@
   import { debug } from "$lib/stores/debug";
   import JsonViewer from "$lib/components/debug/JsonViewer.svelte";
   import { useScrollspy } from "$lib/actions/scrollspy"; // Import the useScrollspy action
+  import AspectRatioIcon from "$lib/components/AspectRatioIcon.svelte";
 
   let { items } = $props<{
     items: (ImageEntry | Separator)[];
@@ -18,6 +19,10 @@
 
   function findFallbackSource(image: ImageEntry): ImageSource | undefined {
     return image.sources.find((source) => source.variant === "fallback");
+  }
+
+  function shouldShowAspectRatioIcon(aspectRatio: string): boolean {
+    return !aspectRatio.startsWith("landscape");
   }
 </script>
 
@@ -52,6 +57,9 @@
             height={fallback.height}
           />
         </picture>
+        {#if shouldShowAspectRatioIcon(item.aspectRatio)}
+          <AspectRatioIcon aspectRatio={item.aspectRatio} />
+        {/if}
       {/if}
       {#if $debug}
         <div class="bg-black bg-opacity-75 p-2 w-full">
