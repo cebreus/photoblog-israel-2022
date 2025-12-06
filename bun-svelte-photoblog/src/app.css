@@ -8,11 +8,11 @@
 :root {
   --radius: 0.625rem;
   --background: oklch(100% 0 0deg);
-  --foreground: oklch(12.9% 0.042 264.695deg);
+  --foreground: var(--color-slate-800);
   --card: oklch(100% 0 0deg);
-  --card-foreground: oklch(12.9% 0.042 264.695deg);
+  --card-foreground: var(--color-slate-800); /* oklch(12.9% 0.042 264.695deg) */
   --popover: oklch(100% 0 0deg);
-  --popover-foreground: oklch(12.9% 0.042 264.695deg);
+  --popover-foreground: var(--color-slate-800);
   --primary: oklch(20.8% 0.042 265.755deg);
   --primary-foreground: oklch(98.4% 0.003 247.858deg);
   --secondary: oklch(96.8% 0.007 247.896deg);
@@ -22,8 +22,8 @@
   --accent: oklch(96.8% 0.007 247.896deg);
   --accent-foreground: oklch(20.8% 0.042 265.755deg);
   --destructive: oklch(57.7% 0.245 27.325deg);
-  --border: oklch(92.9% 0.013 255.508deg);
-  --input: oklch(92.9% 0.013 255.508deg);
+  --border: var(--color-slate-200); /* oklch(92.9% 0.013 255.508deg) */
+  --input: var(--color-slate-200);
   --ring: oklch(70.4% 0.04 256.788deg);
   --chart-1: oklch(64.6% 0.222 41.116deg);
   --chart-2: oklch(60% 0.118 184.704deg);
@@ -31,23 +31,23 @@
   --chart-4: oklch(82.8% 0.189 84.429deg);
   --chart-5: oklch(76.9% 0.188 70.08deg);
   --sidebar: oklch(98.4% 0.003 247.858deg);
-  --sidebar-foreground: oklch(12.9% 0.042 264.695deg);
+  --sidebar-foreground: var(--color-slate-800);
   --sidebar-primary: oklch(20.8% 0.042 265.755deg);
   --sidebar-primary-foreground: oklch(98.4% 0.003 247.858deg);
   --sidebar-accent: oklch(96.8% 0.007 247.896deg);
   --sidebar-accent-foreground: oklch(20.8% 0.042 265.755deg);
-  --sidebar-border: oklch(92.9% 0.013 255.508deg);
+  --sidebar-border: var(--color-slate-200);
   --sidebar-ring: oklch(70.4% 0.04 256.788deg);
 }
 
 .dark {
-  --background: oklch(12.9% 0.042 264.695deg);
+  --background: var(--color-slate-800);
   --foreground: oklch(98.4% 0.003 247.858deg);
   --card: oklch(20.8% 0.042 265.755deg);
   --card-foreground: oklch(98.4% 0.003 247.858deg);
   --popover: oklch(20.8% 0.042 265.755deg);
   --popover-foreground: oklch(98.4% 0.003 247.858deg);
-  --primary: oklch(92.9% 0.013 255.508deg);
+  --primary: var(--color-slate-200);
   --primary-foreground: oklch(20.8% 0.042 265.755deg);
   --secondary: oklch(27.9% 0.041 260.031deg);
   --secondary-foreground: oklch(98.4% 0.003 247.858deg);
