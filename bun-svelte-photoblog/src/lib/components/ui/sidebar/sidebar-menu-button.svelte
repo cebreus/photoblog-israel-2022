@@ -88,7 +88,7 @@
 {#snippet Button({
   props,
 }: {
-  props?: Record; /* Using `any` for mergeProps compatibility, see https://github.com/huntabyte/bits-ui/issues/212 */
+  props?: Record<string, any>; /* Using `any` for mergeProps compatibility, see https://github.com/huntabyte/bits-ui/issues/212 */
 })}
   {@const mergedProps = mergeProps(buttonProps, props)}
   {#if child}

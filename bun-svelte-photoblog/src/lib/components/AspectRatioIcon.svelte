@@ -5,9 +5,9 @@
     aspectRatio: string;
   }>();
 
-  const isSquare = aspectRatio === "square";
-  const isPortrait = aspectRatio.startsWith("portrait");
-  const isPanorama = aspectRatio === "panorama";
+  const isSquare = $derived(aspectRatio === "square");
+  const isPortrait = $derived(aspectRatio.startsWith("portrait"));
+  const isPanorama = $derived(aspectRatio === "panorama");
 </script>
 
 <div
