@@ -81,6 +81,7 @@
                           href={menuLocation.href}
                           isActive={isLocationActive}
                           isDimmed={menuLocation.isDimmed}
+                          firstPhotoExifDate={menuLocation.firstPhotoExifDate}
                         >
                           {menuLocation.label}
                         </Sidebar.MenuSubButton>

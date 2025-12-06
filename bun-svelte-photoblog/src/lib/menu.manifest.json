@@ -9,49 +9,57 @@
         "id": "loc-bahaisticke-zahrady",
         "label": "Baha’istické zahrady",
         "href": "/#loc-bahaisticke-zahrady",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-20T06:50:41.000Z"
       },
       {
         "id": "loc-krizacka-pevnost",
         "label": "Křižácká pevnost",
         "href": "/#loc-krizacka-pevnost",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-20T08:43:58.000Z"
       },
       {
         "id": "loc-dzazzarova-mesita",
         "label": "Džazzárova mešita",
         "href": "/#loc-dzazzarova-mesita",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-20T10:10:05.000Z"
       },
       {
         "id": "loc-turecke-lazne",
         "label": "Turecké lázně",
         "href": "/#loc-turecke-lazne",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-20T10:28:36.000Z"
       },
       {
         "id": "loc-templarsky-tunel",
         "label": "Templářský tunel",
         "href": "/#loc-templarsky-tunel",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-20T10:51:14.000Z"
       },
       {
         "id": "loc-pristav",
         "label": "Přístav",
         "href": "/#img-img0937",
-        "isDimmed": true
+        "isDimmed": true,
+        "firstPhotoExifDate": "2022-10-20T11:10:07.000Z"
       },
       {
         "id": "loc-bazilika-zvestovani",
         "label": "Bazilika Zvěstování",
         "href": "/#loc-bazilika-zvestovani",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-20T13:46:00.000Z"
       },
       {
         "id": "loc-kostel-sv-josefa",
         "label": "Kostel sv. Josefa",
         "href": "/#loc-kostel-sv-josefa",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-20T14:31:29.000Z"
       }
     ]
   },
@@ -65,37 +73,43 @@
         "id": "loc-kana-galilejska",
         "label": "Kána Galilejská",
         "href": "/#loc-kana-galilejska",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-21T06:35:45.000Z"
       },
       {
         "id": "loc-synagoga-ari-ashkenazi",
         "label": "Synagoga Ari Ashkenazi",
         "href": "/#loc-synagoga-ari-ashkenazi",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-21T08:24:24.000Z"
       },
       {
         "id": "loc-synagoga-abuhav",
         "label": "Synagoga Abuhav",
         "href": "/#loc-synagoga-abuhav",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-21T09:29:19.000Z"
       },
       {
         "id": "loc-restaurant-dalia-taverna",
         "label": "Restaurant Dalia Taverna",
         "href": "/#img-img1138",
-        "isDimmed": true
+        "isDimmed": true,
+        "firstPhotoExifDate": "2022-10-21T11:57:48.000Z"
       },
       {
         "id": "loc-kostel-blahoslavenstvi",
         "label": "Kostel Blahoslavenství",
         "href": "/#loc-kostel-blahoslavenstvi",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-21T12:48:53.000Z"
       },
       {
         "id": "loc-yardenit",
         "label": "Yardenit",
         "href": "/#loc-yardenit",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-21T14:05:07.000Z"
       }
     ]
   },
@@ -109,25 +123,29 @@
         "id": "loc-gerasa",
         "label": "Gerasa",
         "href": "/#loc-gerasa",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-22T09:57:19.000Z"
       },
       {
         "id": "loc-memorial-church-of-moses",
         "label": "Memorial Church of Moses",
         "href": "/#loc-memorial-church-of-moses",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-22T13:22:24.000Z"
       },
       {
         "id": "loc-hora-nebo",
         "label": "hora Nebo",
         "href": "/#img-img1421",
-        "isDimmed": true
+        "isDimmed": true,
+        "firstPhotoExifDate": "2022-10-22T13:43:55.000Z"
       },
       {
         "id": "loc-peace-land-work-shop",
         "label": "Peace land work shop",
         "href": "/#loc-peace-land-work-shop",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-22T14:18:04.000Z"
       }
     ]
   },
@@ -141,19 +159,22 @@
         "id": "loc-alanbat-hotel",
         "label": "Alanbat Hotel",
         "href": "/#loc-alanbat-hotel",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-23T05:08:30.000Z"
       },
       {
         "id": "loc-petra-museum",
         "label": "Petra Museum",
         "href": "/#img-img1458",
-        "isDimmed": true
+        "isDimmed": true,
+        "firstPhotoExifDate": "2022-10-23T06:20:36.000Z"
       },
       {
         "id": "loc-petra",
         "label": "Petra",
         "href": "/#loc-petra",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-23T06:32:57.000Z"
       }
     ]
   },
@@ -167,13 +188,15 @@
         "id": "loc-wadi-rum",
         "label": "Wadi Rum",
         "href": "/#loc-wadi-rum",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-24T09:30:00.000Z"
       },
       {
         "id": "loc-berenice-beach-club",
         "label": "Berenice Beach Club",
         "href": "/#loc-berenice-beach-club",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-24T14:41:58.000Z"
       }
     ]
   },
@@ -187,19 +210,22 @@
         "id": "loc-crystal-hotel",
         "label": "Crystal Hotel",
         "href": "/#img-img1975",
-        "isDimmed": true
+        "isDimmed": true,
+        "firstPhotoExifDate": "2022-10-25T05:04:28.000Z"
       },
       {
         "id": "loc-dead-sea-factories",
         "label": "Dead Sea Factories",
         "href": "/#img-img1996",
-        "isDimmed": true
+        "isDimmed": true,
+        "firstPhotoExifDate": "2022-10-25T09:48:55.000Z"
       },
       {
         "id": "loc-masada",
         "label": "Masada",
         "href": "/#loc-masada",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-25T10:29:13.000Z"
       }
     ]
   },
@@ -213,145 +239,169 @@
         "id": "loc-lvi-brana",
         "label": "Lví brána",
         "href": "/#img-img2111",
-        "isDimmed": true
+        "isDimmed": true,
+        "firstPhotoExifDate": "2022-10-26T06:22:47.000Z"
       },
       {
         "id": "loc-church-of-the-condemnation",
         "label": "Church of the Condemnation",
         "href": "/#img-img2122",
-        "isDimmed": true
+        "isDimmed": true,
+        "firstPhotoExifDate": "2022-10-26T06:36:44.000Z"
       },
       {
         "id": "loc-ecce-homo",
         "label": "Ecce Homo",
         "href": "/#img-img2137",
-        "isDimmed": true
+        "isDimmed": true,
+        "firstPhotoExifDate": "2022-10-26T06:46:47.000Z"
       },
       {
         "id": "loc-ecce-homo-basilika",
         "label": "Ecce-Homo-Basilika",
         "href": "/#img-img2141",
-        "isDimmed": true
+        "isDimmed": true,
+        "firstPhotoExifDate": "2022-10-26T06:48:52.000Z"
       },
       {
         "id": "loc-kostel-panny-marie-bolestne",
         "label": "Kostel Panny Marie Bolestné",
         "href": "/#img-img2146",
-        "isDimmed": true
+        "isDimmed": true,
+        "firstPhotoExifDate": "2022-10-26T06:52:53.000Z"
       },
       {
         "id": "loc-synagoga-ohel-jicchak",
         "label": "Synagoga Ohel Jicchak",
         "href": "/#img-img2165",
-        "isDimmed": true
+        "isDimmed": true,
+        "firstPhotoExifDate": "2022-10-26T07:11:31.000Z"
       },
       {
         "id": "loc-namesti-u-zapadni-zdi",
         "label": "Náměstí u Západní zdi",
         "href": "/#loc-namesti-u-zapadni-zdi",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-26T07:18:08.000Z"
       },
       {
         "id": "loc-zapadni-zed-zed-narku",
         "label": "Západní zeď (Zeď nářků)",
         "href": "/#loc-zapadni-zed-zed-narku",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-26T07:35:53.000Z"
       },
       {
         "id": "loc-minaret-al-facharija",
         "label": "Minaret al-Facharíja",
         "href": "/#img-img2197",
-        "isDimmed": true
+        "isDimmed": true,
+        "firstPhotoExifDate": "2022-10-26T07:57:41.000Z"
       },
       {
         "id": "loc-mesita-al-aksa",
         "label": "Mešita al-Aksá",
         "href": "/#img-img2202",
-        "isDimmed": true
+        "isDimmed": true,
+        "firstPhotoExifDate": "2022-10-26T08:00:04.000Z"
       },
       {
         "id": "loc-skalni-dom",
         "label": "Skalní dóm",
         "href": "/#loc-skalni-dom",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-26T08:06:36.000Z"
       },
       {
         "id": "loc-damasska-brana",
         "label": "Damašská brána",
         "href": "/#img-img2231",
-        "isDimmed": true
+        "isDimmed": true,
+        "firstPhotoExifDate": "2022-10-26T08:45:51.000Z"
       },
       {
         "id": "loc-olivova-hora",
         "label": "Olivová hora",
         "href": "/#loc-olivova-hora",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-26T09:05:44.000Z"
       },
       {
         "id": "loc-kostel-dominus-flevit",
         "label": "Kostel Dominus Flevit",
         "href": "/#loc-kostel-dominus-flevit",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-26T09:50:54.000Z"
       },
       {
         "id": "loc-church-of-mary-magdalene",
         "label": "Church of Mary Magdalene",
         "href": "/#img-img2254",
-        "isDimmed": true
+        "isDimmed": true,
+        "firstPhotoExifDate": "2022-10-26T10:04:23.000Z"
       },
       {
         "id": "loc-getsemanska-zahrada",
         "label": "Getsemanská zahrada",
         "href": "/#img-img2259",
-        "isDimmed": true
+        "isDimmed": true,
+        "firstPhotoExifDate": "2022-10-26T10:24:24.000Z"
       },
       {
         "id": "loc-kostel-narodu",
         "label": "Kostel národů",
         "href": "/#loc-kostel-narodu",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-26T10:25:00.000Z"
       },
       {
         "id": "loc-hrob-panny-marie",
         "label": "Hrob Panny Marie",
         "href": "/#loc-hrob-panny-marie",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-26T10:42:04.000Z"
       },
       {
         "id": "loc-veceradlo",
         "label": "Večeřadlo",
         "href": "/#loc-veceradlo",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-26T11:29:50.000Z"
       },
       {
         "id": "loc-hrobka-krale-davida",
         "label": "hrobka krále Davida",
         "href": "/#loc-hrobka-krale-davida",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-26T11:48:14.000Z"
       },
       {
         "id": "loc-sionska-brana",
         "label": "Sionská brána",
         "href": "/#loc-sionska-brana",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-26T11:59:11.000Z"
       },
       {
         "id": "loc-cardo",
         "label": "Cardo",
         "href": "/#loc-cardo",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-26T12:07:43.000Z"
       },
       {
         "id": "loc-chram-boziho-hrobu",
         "label": "Chrám Božího hrobu",
         "href": "/#loc-chram-boziho-hrobu",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-26T13:26:48.000Z"
       },
       {
         "id": "loc-jaffska-brana",
         "label": "Jaffská brána",
         "href": "/#img-img2465",
-        "isDimmed": true
+        "isDimmed": true,
+        "firstPhotoExifDate": "2022-10-26T14:48:08.000Z"
       }
     ]
   },
@@ -365,43 +415,50 @@
         "id": "loc-knesset-menorah",
         "label": "Knesset Menorah",
         "href": "/#img-img2468",
-        "isDimmed": true
+        "isDimmed": true,
+        "firstPhotoExifDate": "2022-10-27T06:27:58.000Z"
       },
       {
         "id": "loc-knesset",
         "label": "Knesset",
         "href": "/#loc-knesset",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-27T06:43:02.000Z"
       },
       {
         "id": "loc-yad-vashem",
         "label": "Yad Vashem",
         "href": "/#loc-yad-vashem",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-27T07:30:00.000Z"
       },
       {
         "id": "loc-chram-narozeni-pane",
         "label": "Chrám Narození Páně",
         "href": "/#loc-chram-narozeni-pane",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-27T11:46:38.000Z"
       },
       {
         "id": "loc-kaple-sv-kateriny",
         "label": "Kaple sv. Kateřiny",
         "href": "/#loc-kaple-sv-kateriny",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-27T12:57:49.000Z"
       },
       {
         "id": "loc-mariin-dum-v-nazarethu",
         "label": "Mariin dům v Nazarethu",
         "href": "/#img-img2589",
-        "isDimmed": true
+        "isDimmed": true,
+        "firstPhotoExifDate": "2022-10-27T13:00:58.000Z"
       },
       {
         "id": "loc-jeskyne-mleka-panny-marie",
         "label": "Jeskyně Mléka Panny Marie",
         "href": "/#loc-jeskyne-mleka-panny-marie",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-27T13:30:44.000Z"
       }
     ]
   },
@@ -415,25 +472,29 @@
         "id": "loc-tell-es-sultan",
         "label": "Tell es-Sultan",
         "href": "/#loc-tell-es-sultan",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-28T08:47:53.000Z"
       },
       {
         "id": "loc-jericho",
         "label": "Jericho",
         "href": "/#img-img2629",
-        "isDimmed": true
+        "isDimmed": true,
+        "firstPhotoExifDate": "2022-10-28T09:11:04.000Z"
       },
       {
         "id": "loc-gan-armon",
         "label": "Gan Armon",
         "href": "/#img-img2634",
-        "isDimmed": true
+        "isDimmed": true,
+        "firstPhotoExifDate": "2022-10-28T11:15:32.000Z"
       },
       {
         "id": "loc-ramat-gan",
         "label": "Ramat Gan",
         "href": "/#loc-ramat-gan",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-28T14:44:01.000Z"
       }
     ]
   },
@@ -447,31 +508,36 @@
         "id": "loc-ramat-gan",
         "label": "Ramat Gan",
         "href": "/#img-img2717",
-        "isDimmed": true
+        "isDimmed": true,
+        "firstPhotoExifDate": "2022-10-29T04:06:16.000Z"
       },
       {
         "id": "loc-rimske-divadlo",
         "label": "Římské divadlo",
         "href": "/#loc-rimske-divadlo",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-29T07:17:47.000Z"
       },
       {
         "id": "loc-hypodrom",
         "label": "Hypodrom",
         "href": "/#img-img2764",
-        "isDimmed": true
+        "isDimmed": true,
+        "firstPhotoExifDate": "2022-10-29T07:56:35.000Z"
       },
       {
         "id": "loc-ptaci-mozaiky",
         "label": "Ptačí mozaiky",
         "href": "/#loc-ptaci-mozaiky",
-        "isDimmed": false
+        "isDimmed": false,
+        "firstPhotoExifDate": "2022-10-29T09:31:38.000Z"
       },
       {
         "id": "loc-akvadukt",
         "label": "Akvadukt",
         "href": "/#img-img2810",
-        "isDimmed": true
+        "isDimmed": true,
+        "firstPhotoExifDate": "2022-10-29T09:45:53.000Z"
       }
     ]
   }

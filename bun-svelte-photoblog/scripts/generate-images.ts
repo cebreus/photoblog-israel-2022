@@ -335,23 +335,26 @@ async function runIncrementalBuild() {
         );
         const locId =
           "loc-" + slugify(locationName, { lower: true, strict: true });
-        const isActive = group.length > 2;
+        const isDimmed = group.length <= 2;
         let href = `/#${locId}`;
+        let firstPhotoExifDate: string | undefined;
 
-        if (!isActive && group.length > 0) {
-          // If inactive, link to the first image of the group
-          const firstImageId = group[0].id;
-          href = `/#${firstImageId}`;
+        if (group.length > 0) {
+          const firstImage = group[0];
+          if (firstImage.exif?.date) {
+            firstPhotoExifDate = firstImage.exif.date;
+          }
+          if (isDimmed) {
+            href = `/#${firstImage.id}`;
+          }
         }
 
         return {
           id: locId,
-
           label: locationName,
-
           href: href,
-
-          isDimmed: group.length <= 2, // Dimmed if there are 2 or fewer photos
+          isDimmed: isDimmed,
+          firstPhotoExifDate: firstPhotoExifDate,
         };
       });
       return { id: dayId, date: d.date, label, href: dayHref, locations };
