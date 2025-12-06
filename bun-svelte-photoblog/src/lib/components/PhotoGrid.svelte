@@ -33,11 +33,10 @@
     <figure
       data-location={item.exif?.location ?? ""}
       id={item.id}
-      class={`relative bg-cover bg-center bg-[${
-        item.placeholderColor
-      }] rounded-lg overflow-hidden duration-500 outline-background hover:outline-orange-100 outline-4 outline-offset-2 transition-[outline-color] ease-in-out ${
+      class={`relative bg-cover bg-center rounded-lg overflow-hidden duration-500 outline-background hover:outline-orange-100 outline-4 outline-offset-2 transition-[outline-color] ease-in-out ${
         $debug ? "flex flex-col" : ""
       }`}
+      style="background-color: {item.placeholderColor}"
     >
       {#if fallback}
         <picture class={`${$debug ? "shrink-0" : ""}`}>
