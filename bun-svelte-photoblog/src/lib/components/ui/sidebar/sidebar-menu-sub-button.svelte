@@ -41,7 +41,7 @@
       size === "md" && "text-sm",
       "group-data-[collapsible=icon]:hidden",
       className,
-      isScrollspyActive && "bg-yellow-100 dark:bg-yellow-800",
+      isScrollspyActive && "bg-orange-50 dark:bg-orange-700",
       isHashActive &&
         !isScrollspyActive &&
         "bg-sidebar-accent text-sidebar-accent-foreground",
