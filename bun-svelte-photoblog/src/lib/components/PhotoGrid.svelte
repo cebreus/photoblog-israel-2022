@@ -4,6 +4,8 @@
   import { buttonVariants } from "$lib/components/ui/button";
   import { marked } from "marked";
   import * as Dialog from "$lib/components/ui/dialog";
+  import { debug } from "$lib/stores/debug";
+  import JsonViewer from "$lib/components/debug/JsonViewer.svelte";
 
   let { items } = $props<{
     items: (ImageEntry | Separator)[];
@@ -23,10 +25,15 @@
     {@const fallback = findFallbackSource(item)}
     <!-- style="background-image: url(/images/israel-2022/{item.placeholder});" -->
     <figure
-      class={`bg-cover bg-center bg-[${item.placeholderColor}] rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105`}
+      id={item.id}
+      class={`bg-cover bg-center bg-[${
+        item.placeholderColor
+      }] rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105 ${
+        $debug ? "flex flex-col" : ""
+      }`}
     >
       {#if fallback}
-        <picture>
+        <picture class={`${$debug ? "flex-shrink-0" : ""}`}>
           {#each getSources(item) as source (source.type)}
             <source
               type={source.type}
@@ -43,6 +50,11 @@
             height={fallback.height}
           />
         </picture>
+      {/if}
+      {#if $debug}
+        <div class="bg-black bg-opacity-75 p-2 w-full">
+          <JsonViewer data={item} />
+        </div>
       {/if}
     </figure>
   {:else if item.type === "separator" && item.location}

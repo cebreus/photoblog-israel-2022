@@ -6,6 +6,7 @@
   } from "$lib/components/ui/button/button.svelte";
   import * as Sheet from "$lib/components/ui/sheet";
   import * as Sidebar from "$lib/components/ui/sidebar";
+  import { page } from "$app/stores"; // Import $page store
 
   export let menuItems: MenuManifest = [];
 </script>

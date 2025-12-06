@@ -2,7 +2,11 @@
   "photoDays": [
     {
       "date": "2022-10-20",
-      "cities": ["Haifa", "Akko", "Nazaret"],
+      "cities": [
+        "Haifa",
+        "Akko",
+        "Nazaret"
+      ],
       "locations": [
         "Baha’istické zahrady",
         "Křižácká pevnost",
@@ -4660,7 +4664,12 @@
     },
     {
       "date": "2022-10-21",
-      "cities": ["Kanna", "Safed", "Migdal", "Tabgha"],
+      "cities": [
+        "Kanna",
+        "Safed",
+        "Migdal",
+        "Tabgha"
+      ],
       "locations": [
         "Kána Galilejská",
         "Synagoga Ari Ashkenazi",
@@ -8004,7 +8013,10 @@
     },
     {
       "date": "2022-10-22",
-      "cities": ["Džaraš", "hora Nebo"],
+      "cities": [
+        "Džaraš",
+        "hora Nebo"
+      ],
       "locations": [
         "Gerasa",
         "Memorial Church of Moses",
@@ -12843,8 +12855,14 @@
     },
     {
       "date": "2022-10-23",
-      "cities": ["Wadi Musa"],
-      "locations": ["Alanbat Hotel", "Petra Museum", "Petra"],
+      "cities": [
+        "Wadi Musa"
+      ],
+      "locations": [
+        "Alanbat Hotel",
+        "Petra Museum",
+        "Petra"
+      ],
       "items": [
         {
           "id": "loc-alanbat-hotel",
@@ -20638,8 +20656,13 @@
     },
     {
       "date": "2022-10-24",
-      "cities": ["Aqaba"],
-      "locations": ["Wadi Rum", "Berenice Beach Club"],
+      "cities": [
+        "Aqaba"
+      ],
+      "locations": [
+        "Wadi Rum",
+        "Berenice Beach Club"
+      ],
       "items": [
         {
           "id": "loc-wadi-rum",
@@ -22863,8 +22886,15 @@
     },
     {
       "date": "2022-10-25",
-      "cities": ["Aqaba", "Eilat"],
-      "locations": ["Crystal Hotel", "Dead Sea Factories", "Masada"],
+      "cities": [
+        "Aqaba",
+        "Eilat"
+      ],
+      "locations": [
+        "Crystal Hotel",
+        "Dead Sea Factories",
+        "Masada"
+      ],
       "items": [
         {
           "id": "img-img1975",
@@ -25850,7 +25880,9 @@
     },
     {
       "date": "2022-10-26",
-      "cities": ["Jeruzalém"],
+      "cities": [
+        "Jeruzalém"
+      ],
       "locations": [
         "Lví brána",
         "Church of the Condemnation",
@@ -34921,7 +34953,10 @@
     },
     {
       "date": "2022-10-27",
-      "cities": ["Jeruzalém", "Betlém"],
+      "cities": [
+        "Jeruzalém",
+        "Betlém"
+      ],
       "locations": [
         "Knesset Menorah",
         "Knesset",
@@ -38201,8 +38236,16 @@
     },
     {
       "date": "2022-10-28",
-      "cities": ["Jericho", "Tel Aviv"],
-      "locations": ["Tell es-Sultan", "Jericho", "Gan Armon", "Ramat Gan"],
+      "cities": [
+        "Jericho",
+        "Tel Aviv"
+      ],
+      "locations": [
+        "Tell es-Sultan",
+        "Jericho",
+        "Gan Armon",
+        "Ramat Gan"
+      ],
       "items": [
         {
           "id": "loc-tell-es-sultan",
@@ -40305,7 +40348,10 @@
     },
     {
       "date": "2022-10-29",
-      "cities": ["Tel Aviv", "Caesarea"],
+      "cities": [
+        "Tel Aviv",
+        "Caesarea"
+      ],
       "locations": [
         "Ramat Gan",
         "Římské divadlo",
