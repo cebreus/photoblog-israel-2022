@@ -250,7 +250,7 @@ async function runIncrementalBuild() {
     for (const key of toDelete) {
       const outputs = cache.files[key]?.outputs || [];
       for (const p of outputs)
-        await fsp.unlink(path.join(CTX.outRoot, p)).catch(() => {});
+        await fsp.unlink(path.join(CTX.outRoot, p)).catch(() => { });
       delete cache.files[key];
     }
   }
@@ -258,8 +258,8 @@ async function runIncrementalBuild() {
   const bar = ARGS.quiet
     ? null
     : new SingleBar({
-        format: "Processing [{bar}] {percentage}% | {value}/{total}",
-      });
+      format: "Processing [{bar}] {percentage}% | {value}/{total}",
+    });
   if (bar) bar.start(toProcess.length, 0);
 
   const limiter = createConcurrencyLimiter(ARGS.concurrency);
@@ -513,7 +513,7 @@ async function processImage(absPath: string) {
             resizedInstance,
             typedFormat,
             config.encoding.quality[
-              typedFormat as keyof typeof config.encoding.quality
+            typedFormat as keyof typeof config.encoding.quality
             ],
           );
           info = await resizedInstance.toFile(fullOutPath);
@@ -525,7 +525,7 @@ async function processImage(absPath: string) {
             resizedInstance,
             typedFormat,
             config.encoding.quality[
-              typedFormat as keyof typeof config.encoding.quality
+            typedFormat as keyof typeof config.encoding.quality
             ],
           );
           info = (await resizedInstance.toBuffer({ resolveWithObject: true }))
@@ -680,9 +680,8 @@ async function updateManifest(
     // Sort images chronologically by EXIF date
     imagesForDay.sort((a, b) => a.exif.date.localeCompare(b.exif.date));
 
-    const itemsWithSeparators: (ImageEntry | Separator)[] = [];
     const imagesByLocation: Record<string, ImageEntry[]> = {};
-    const locationFirstImageDate: Map<string, string> = new Map();
+    // (we will build final items array below while iterating imagesForDay)
 
     // Group images by location and record the first image date for each location
     for (const image of imagesForDay) {
@@ -692,28 +691,30 @@ async function updateManifest(
       }
       imagesByLocation[location].push(image);
 
-      // Record the earliest date for each location
-      if (!locationFirstImageDate.has(location) && image.exif.date) {
-        locationFirstImageDate.set(location, image.exif.date);
-      }
+      // (earliest date no longer needed — we keep chronological order instead)
     }
 
-    // Sort locations based on the chronological order of their first image
-    const sortedLocations = Object.keys(imagesByLocation)
-      .filter((loc) => loc !== "Unknown") // Filter 'Unknown' locations
-      .sort((a, b) => {
-        const dateA = locationFirstImageDate.get(a) || "";
-        const dateB = locationFirstImageDate.get(b) || "";
-        return dateA.localeCompare(dateB);
-      });
+    // Build final items array while preserving the chronological order
+    // Primary sorting stays by date (imagesForDay is already sorted). When we
+    // encounter the first image for a known location with enough images
+    // (group length > 2) we insert one separator right before that first
+    // image. This keeps dates primary and still introduces per-location
+    // separators in a natural chronological place.
+    const itemsWithSeparators: (ImageEntry | Separator)[] = [];
+    const seenLocations = new Set<string>();
 
-    // Create new items array with separators for known locations
-    for (const location of sortedLocations) {
-      const group = imagesByLocation[location];
-      const story = storyData[location];
+    for (const image of imagesForDay) {
+      const location = image.exif?.location || "Unknown";
+      const group = imagesByLocation[location] || [];
 
-      // Only create a separator if the location is known and the group is large enough
-      if (group.length > 2) {
+      // If this is the first time we see this known location and the group
+      // is large enough, add a separator right here (before the first image)
+      if (
+        location !== "Unknown" &&
+        group.length > 2 &&
+        !seenLocations.has(location)
+      ) {
+        const story = storyData[location];
         const separator: Separator = {
           id: "loc-" + slugify(location, { lower: true, strict: true }),
           type: "separator",
@@ -725,16 +726,11 @@ async function updateManifest(
           }),
         };
         itemsWithSeparators.push(separator);
+        seenLocations.add(location);
       }
 
-      // Always add the images of the group
-      itemsWithSeparators.push(...group);
-    }
-
-    // Add images from 'Unknown' location without a separator, if any
-    const unknownImages = imagesByLocation["Unknown"];
-    if (unknownImages) {
-      itemsWithSeparators.push(...unknownImages);
+      // Always append the current image (this preserves chronological order)
+      itemsWithSeparators.push(image);
     }
 
     day.items = itemsWithSeparators;
@@ -759,8 +755,8 @@ async function cleanAllOutputs() {
   log.warn(
     `Cleaning all generated files in ${toPosix(CTX.outRoot)} and the cache...`,
   );
-  await fsp.rm(CTX.outRoot, { recursive: true, force: true }).catch(() => {});
-  await fsp.rm(CTX.cachePath, { force: true }).catch(() => {});
+  await fsp.rm(CTX.outRoot, { recursive: true, force: true }).catch(() => { });
+  await fsp.rm(CTX.cachePath, { force: true }).catch(() => { });
   await fsp.mkdir(CTX.outRoot, { recursive: true });
 }
 
