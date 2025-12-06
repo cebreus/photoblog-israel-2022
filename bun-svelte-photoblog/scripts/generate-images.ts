@@ -250,7 +250,7 @@ async function runIncrementalBuild() {
     for (const key of toDelete) {
       const outputs = cache.files[key]?.outputs || [];
       for (const p of outputs)
-        await fsp.unlink(path.join(CTX.outRoot, p)).catch(() => {});
+        await fsp.unlink(path.join(CTX.outRoot, p)).catch(() => { });
       delete cache.files[key];
     }
   }
@@ -258,8 +258,8 @@ async function runIncrementalBuild() {
   const bar = ARGS.quiet
     ? null
     : new SingleBar({
-        format: "Processing [{bar}] {percentage}% | {value}/{total}",
-      });
+      format: "Processing [{bar}] {percentage}% | {value}/{total}",
+    });
   if (bar) bar.start(toProcess.length, 0);
 
   const limiter = createConcurrencyLimiter(ARGS.concurrency);
@@ -459,6 +459,74 @@ async function processImage(absPath: string) {
     const city = exif.City || "";
     const titleParts = [...locations, city].filter(Boolean);
 
+    // helper normalizer for text fields
+    const normText = (v: any) => {
+      if (!v && v !== 0) return undefined;
+      const s = String(v).trim();
+      if (s === "") return undefined;
+      return s;
+    };
+
+    // Gather raw candidates from common places (EXIF/IPTC/XMP)
+    const rawTitle =
+      exif.ObjectName ||
+      exif.Headline ||
+      exif.Title ||
+      exif["dc:title"] ||
+      exif.ImageDescription;
+    const rawDescription =
+      exif.ImageDescription ||
+      exif.Caption ||
+      exif.CaptionAbstract ||
+      exif["dc:description"];
+    const rawCaption =
+      exif.Caption || exif.CaptionAbstract || exif.ImageDescription;
+
+    // Normalised strings
+    const titleNorm = normText(rawTitle);
+    const descNorm = normText(rawDescription);
+    const captionNorm = normText(rawCaption);
+
+    // Deduplicate / choose canonical usage. Priority for display: caption > title > description
+    // If all equal -> keep only caption. If two equal -> prefer caption/title ordering.
+    let chosenCaption = captionNorm;
+    let chosenTitle = titleNorm;
+    let chosenDescription = descNorm;
+
+    if (
+      captionNorm &&
+      titleNorm &&
+      captionNorm === titleNorm &&
+      captionNorm === descNorm
+    ) {
+      // everything equal -> keep only caption
+      chosenTitle = undefined;
+      chosenDescription = undefined;
+    } else {
+      if (captionNorm && titleNorm && captionNorm === titleNorm) {
+        // caption == title -> keep caption, drop title
+        chosenTitle = undefined;
+      }
+      if (titleNorm && descNorm && titleNorm === descNorm) {
+        // title == description -> keep title, drop description
+        chosenDescription = undefined;
+      }
+      // ensure if no caption but title exists we prefer title as caption in UI where needed
+    }
+
+    // Author cascade: many possible tags. Prefer IPTC Byline / XMP dc:creator / Creator, then EXIF Artist/Author.
+    const getFirst = (v: any) => (Array.isArray(v) ? v[0] : v);
+    const rawAuthorCandidate =
+      exif.Byline ||
+      getFirst(exif["dc:creator"]) ||
+      exif.Creator ||
+      exif.BylineTitle ||
+      exif.Artist ||
+      exif.Author ||
+      exif.CreatorWorkEmail ||
+      exif.CreatorWorkURL;
+    const authorNorm = normText(rawAuthorCandidate);
+
     const outputs: string[] = [];
     const sources: ImageSource[] = [];
 
@@ -466,19 +534,33 @@ async function processImage(absPath: string) {
       id: "img-" + slugify(baseName, { lower: true, strict: true }), // Add ID here
       type: "image",
       src: path.basename(absPath),
-      alt:
-        locations.join(", ") ||
-        exif.ImageDescription ||
-        exif.ObjectName ||
-        "Photoblog image",
+      alt: (() => {
+        const parts: string[] = [];
+        const cap = chosenCaption ?? chosenTitle ?? undefined;
+        if (cap) parts.push(String(cap).trim());
+        if (exif.Location) parts.push(String(exif.Location).trim());
+        if (exif.City) parts.push(String(exif.City).trim());
+        return parts.length
+          ? parts.join(", ")
+          : exif.ImageDescription || exif.ObjectName || "Photoblog image";
+      })(),
+      // Keep original behaviour: prefer location/city title (titleParts) and
+      // fall back to IPTC/XMP or other EXIF fields if location is absent.
       title:
-        titleParts.join(", ") || exif.ObjectName || exif.ImageDescription || "",
+        titleParts.join(", ") ||
+        (titleNorm ?? exif.ObjectName) ||
+        exif.ImageDescription ||
+        "",
+      // caption sits immediately under title in the JSON output
+      caption: chosenCaption ?? chosenTitle ?? undefined,
       width: originalMeta.width,
       height: originalMeta.height,
       aspectRatio: getAspectRatioName(
         originalMeta.width || 1,
         originalMeta.height || 1,
       ),
+      // placeholder (small blurred image) should precede placeholderColor
+      placeholder: undefined,
       placeholderColor,
       exif: {
         date: (exif.DateTimeOriginal || exif.CreateDate)?.toISOString(),
@@ -488,7 +570,68 @@ async function processImage(absPath: string) {
         latitude: exif.latitude,
         longitude: exif.longitude,
         orientation: exif.Orientation,
+        // IPTC/XMP fields — use deduplicated/chosen values so exif.* doesn't repeat identical text
+        title: chosenTitle ?? undefined,
+        description: chosenDescription ?? undefined,
+        // caption is often stored in IPTC Caption/CaptionAbstract — keep it as a separate field
+        caption: chosenCaption ?? undefined,
+        keywords: (() => {
+          const k = exif.Keywords || exif.Subject || exif["dc:subject"];
+          if (!k) return undefined;
+          if (Array.isArray(k)) return k.map(String);
+          if (typeof k === "string") return k.split(/\s*,\s*/).filter(Boolean);
+          return undefined;
+        })(),
+        // store the raw author-ish tag as we'll expose a canonical author at the top level
+        author:
+          normText(
+            exif.Byline ||
+            exif.Artist ||
+            getFirst(exif["dc:creator"]) ||
+            exif.Creator ||
+            exif.Author,
+          ) || undefined,
+        copyright: exif.Copyright || exif.CopyrightNotice,
+        category: exif.Category || exif.CategoryCode,
       },
+      // convenience fields to avoid drilling into exif at runtime
+      author: authorNorm,
+      // top-level caption sits right after title (we keep it if available)
+      // canonical top-level convenience values mirrored from exif when available
+      date:
+        (exif.DateTimeOriginal || exif.CreateDate)?.toISOString?.() ??
+        undefined,
+      location: normText(exif.Location || exif.Sublocation) ?? undefined,
+      city: normText(exif.City) ?? undefined,
+      latitude: exif.latitude ?? undefined,
+      longitude: exif.longitude ?? undefined,
+      // only expose top-level description if it is distinct from caption/title
+      description: (() => {
+        const topTitle = (
+          (titleNorm ?? titleParts.join(", ")) ||
+          exif.ObjectName ||
+          exif.ImageDescription ||
+          ""
+        ).trim();
+        const topCaption = (chosenCaption ?? chosenTitle ?? undefined) as
+          | string
+          | undefined;
+        const topDesc = descNorm ?? undefined;
+        if (!topDesc) return undefined;
+        const descTrim = topDesc.trim();
+        if (topCaption && descTrim === topCaption.trim()) return undefined;
+        if (topTitle && descTrim === topTitle.trim()) return undefined;
+        return topDesc;
+      })(),
+      copyright: normText(exif.Copyright || exif.CopyrightNotice) ?? undefined,
+      category: normText(exif.Category || exif.CategoryCode) ?? undefined,
+      keywords: (() => {
+        const k = exif.Keywords || exif.Subject || exif["dc:subject"];
+        if (!k) return undefined;
+        if (Array.isArray(k)) return k.map(String);
+        if (typeof k === "string") return k.split(/\s*,\s*/).filter(Boolean);
+        return undefined;
+      })(),
     };
 
     for (const [variantKey, variantConfig] of Object.entries(config.variants)) {
@@ -513,7 +656,7 @@ async function processImage(absPath: string) {
             resizedInstance,
             typedFormat,
             config.encoding.quality[
-              typedFormat as keyof typeof config.encoding.quality
+            typedFormat as keyof typeof config.encoding.quality
             ],
           );
           info = await resizedInstance.toFile(fullOutPath);
@@ -525,7 +668,7 @@ async function processImage(absPath: string) {
             resizedInstance,
             typedFormat,
             config.encoding.quality[
-              typedFormat as keyof typeof config.encoding.quality
+            typedFormat as keyof typeof config.encoding.quality
             ],
           );
           info = (await resizedInstance.toBuffer({ resolveWithObject: true }))
@@ -678,7 +821,9 @@ async function updateManifest(
       (item) => item.type === "image",
     ) as ImageEntry[];
     // Sort images chronologically by EXIF date
-    imagesForDay.sort((a, b) => a.exif.date.localeCompare(b.exif.date));
+    imagesForDay.sort((a, b) =>
+      (a.exif?.date ?? "").localeCompare(b.exif?.date ?? ""),
+    );
 
     const imagesByLocation: Record<string, ImageEntry[]> = {};
     // (we will build final items array below while iterating imagesForDay)
@@ -755,8 +900,8 @@ async function cleanAllOutputs() {
   log.warn(
     `Cleaning all generated files in ${toPosix(CTX.outRoot)} and the cache...`,
   );
-  await fsp.rm(CTX.outRoot, { recursive: true, force: true }).catch(() => {});
-  await fsp.rm(CTX.cachePath, { force: true }).catch(() => {});
+  await fsp.rm(CTX.outRoot, { recursive: true, force: true }).catch(() => { });
+  await fsp.rm(CTX.cachePath, { force: true }).catch(() => { });
   await fsp.mkdir(CTX.outRoot, { recursive: true });
 }
 

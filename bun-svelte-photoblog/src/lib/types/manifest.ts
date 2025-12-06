@@ -21,6 +21,14 @@ export type ExifData = {
   latitude?: number;
   longitude?: number;
   orientation?: string;
+  // IPTC/XMP fields commonly used in the dataset
+  title?: string;
+  caption?: string;
+  description?: string;
+  keywords?: string[];
+  author?: string;
+  copyright?: string;
+  category?: string;
 };
 
 /** Represents a single image entry in the manifest, including all its metadata and sources. */
@@ -35,6 +43,19 @@ export type ImageEntry = {
   aspectRatio?: AspectRatio;
   placeholderColor?: string;
   placeholder?: string;
+  // convenience top-level fields derived from EXIF/IPTC
+  author?: string;
+  keywords?: string[];
+  caption?: string;
+  // additional canonical convenience fields (mirrored from exif.* for runtime ease)
+  date?: string; // ISO date string — canonical source for time
+  location?: string; // canonical place/location (e.g., "Křižácká pevnost")
+  city?: string; // canonical city
+  latitude?: number;
+  longitude?: number;
+  description?: string; // normalized description / long caption
+  copyright?: string;
+  category?: string;
   exif?: {
     date?: string;
     location?: string;
@@ -43,6 +64,14 @@ export type ImageEntry = {
     latitude?: number;
     longitude?: number;
     orientation?: number;
+    // preserve IPTC/XMP fields from the original files (optional)
+    title?: string;
+    caption?: string;
+    description?: string;
+    keywords?: string[];
+    author?: string;
+    copyright?: string;
+    category?: string;
   };
   sources: ImageSource[];
 };
