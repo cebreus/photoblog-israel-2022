@@ -34,7 +34,7 @@
       }`}
     >
       {#if fallback}
-        <picture class={`${$debug ? "flex-shrink-0" : ""}`}>
+        <picture class={`${$debug ? "shrink-0" : ""}`}>
           {#each getSources(item) as source (source.type)}
             <source
               type={source.type}
