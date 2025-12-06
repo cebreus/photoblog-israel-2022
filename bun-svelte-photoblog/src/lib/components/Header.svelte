@@ -55,7 +55,7 @@
                           <div class="flex items-center w-full" {...props}>
                             <a
                               href={menuDay.href}
-                              class="flex items-center gap-2 flex-grow"
+                              class="flex items-center gap-2 grow"
                             >
                               <Calendar class="size-4" />
                               {menuDay.label}
