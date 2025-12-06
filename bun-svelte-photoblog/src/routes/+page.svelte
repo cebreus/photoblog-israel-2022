@@ -4,7 +4,7 @@
   import Hero from "$lib/components/Hero.svelte";
   import type { PageData } from "./$types";
   import { useScrollspy } from "$lib/actions/scrollspy"; // Import the useScrollspy action
-  import type { PhotoDay } from "$lib/types/manifest"; // Import types
+  import { useFancybox } from "$lib/actions/fancybox";
 
   let { data } = $props<{ data: PageData }>();
   let photoDays = $derived(data.photoDays || []);
@@ -33,6 +33,7 @@
       id={daySectionId}
       class="container mx-auto py-8"
       use:useScrollspy={{ id: daySectionId }}
+      use:useFancybox
     >
       <div data-cy="day-head" class="max-w-xl mx-auto text-center my-12">
         <h2 class="mb-1 text-3xl">

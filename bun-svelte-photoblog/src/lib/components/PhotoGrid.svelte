@@ -21,6 +21,13 @@
     return image.sources.find((source) => source.variant === "fallback");
   }
 
+  function findDetailSource(image: ImageEntry): ImageSource | undefined {
+    return (
+      image.sources.find((source) => source.variant === "detail") ??
+      image.sources[0]
+    );
+  }
+
   function shouldShowAspectRatioIcon(aspectRatio: string): boolean {
     return !aspectRatio.startsWith("landscape");
   }
@@ -30,42 +37,50 @@
   {#if item.type === "image"}
     {@const fallback = findFallbackSource(item)}
     <!-- style="background-image: url(/images/israel-2022/{item.placeholder});" -->
-    <figure
-      data-location={item?.caption ?? item?.location ?? ""}
-      id={item.id}
-      class={`relative bg-cover bg-center rounded-lg overflow-hidden duration-500 outline-background hover:outline-orange-100 outline-4 outline-offset-2 transition-[outline-color] ease-in-out ${
-        $debug ? "flex flex-col" : ""
-      }`}
-      style="background-color: {item.placeholderColor}"
+    {@const detailSource = findDetailSource(item)}
+    <a
+      data-fancybox="gallery"
+      data-caption={item.alt}
+      href={detailSource?.path}
+      class="block focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-200 rounded-lg"
     >
-      {#if fallback}
-        <picture class={`${$debug ? "shrink-0" : ""}`}>
-          {#each getSources(item) as source (source.type)}
-            <source
-              type={source.type}
-              srcset={source.srcset}
-              sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+      <figure
+        data-location={item?.caption ?? item?.location ?? ""}
+        id={item.id}
+        class={`relative bg-cover bg-center rounded-lg overflow-hidden duration-500 outline-background hover:outline-orange-100 outline-4 outline-offset-2 transition-[outline-color] ease-in-out ${
+          $debug ? "flex flex-col" : ""
+        }`}
+        style="background-color: {item.placeholderColor}"
+      >
+        {#if fallback}
+          <picture class={`${$debug ? "shrink-0" : ""}`}>
+            {#each getSources(item) as source (source.type)}
+              <source
+                type={source.type}
+                srcset={source.srcset}
+                sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+              />
+            {/each}
+            <img
+              src={fallback.path}
+              alt={item.alt}
+              loading="lazy"
+              class="w-full h-full object-cover cursor-zoom-in"
+              width={fallback.width}
+              height={fallback.height}
             />
-          {/each}
-          <img
-            src={fallback.path}
-            alt={item.alt}
-            loading="lazy"
-            class="w-full h-full object-cover"
-            width={fallback.width}
-            height={fallback.height}
-          />
-        </picture>
-        {#if shouldShowAspectRatioIcon(item.aspectRatio)}
-          <AspectRatioIcon aspectRatio={item.aspectRatio} />
+          </picture>
+          {#if shouldShowAspectRatioIcon(item.aspectRatio)}
+            <AspectRatioIcon aspectRatio={item.aspectRatio} />
+          {/if}
         {/if}
-      {/if}
-      {#if $debug}
-        <div class="bg-black bg-opacity-75 p-2 w-full">
-          <JsonViewer data={item} />
-        </div>
-      {/if}
-    </figure>
+        {#if $debug}
+          <div class="bg-black bg-opacity-75 p-2 w-full">
+            <JsonViewer data={item} />
+          </div>
+        {/if}
+      </figure>
+    </a>
   {:else if item.type === "separator" && item.location}
     {@const separatorId = item.id}
     {#if item.storyContent}
