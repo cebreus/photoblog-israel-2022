@@ -13,8 +13,10 @@
   export let menuItems: MenuManifest = [];
 </script>
 
-<header class="sticky top-0 border-b bg-background text-foreground z-10">
-  <div class="container mx-auto py-3 flex items-center gap-4">
+<header
+  class="sticky top-0 border-b bg-slate-800 text-slate-100 z-10 border-slate-700"
+>
+  <div class="container mx-auto py-2.5 flex items-center gap-4">
     <div class="flex-1 flex items-center gap-8">
       <a href="/" class="text-lg font-semibold uppercase">Izrael 2022</a>
     </div>
@@ -22,14 +24,17 @@
     <Offcanvas.Root>
       <Offcanvas.Trigger
         class={buttonVariants({
-          size: "sm",
+          size: "icon",
           variant: "ghost",
         })}
       >
         <Menu />
       </Offcanvas.Trigger>
 
-      <Offcanvas.Content side="right" className="overflow-y-auto">
+      <Offcanvas.Content
+        side="right"
+        className="overflow-y-auto text-foreground "
+      >
         <div class="py-4 px-6 border-b">
           <h2 class="text-md font-semibold">Menu</h2>
         </div>
@@ -38,9 +43,7 @@
             <Sidebar.Group>
               {#each menuItems as menuDay (menuDay.id)}
                 {@const isHashActiveDay = $page.url.hash === menuDay.href}
-                {@const isScrollspyActiveDay = $activeSectionIds.has(
-                  menuDay.id,
-                )}
+
                 <Collapsible.Root open={true} class="group/collapsible">
                   {#snippet child({ props })}
                     <Sidebar.MenuItem {...props}>
