@@ -34,7 +34,7 @@
       class="container mx-auto py-8"
       use:useScrollspy={{ id: daySectionId }}
     >
-      <div data-cy="day-head" class="max-w-xl mx-auto text-center mb-12">
+      <div data-cy="day-head" class="max-w-xl mx-auto text-center my-12">
         <h2 class="mb-1 text-3xl">
           <span
             class="block mb-1 text-xs font-normal tracking-[0.05em] uppercase before:content-['———'] before:tracking-[-0.3em] before:opacity-[0.34] before:mr-4 after:content-['———'] after:tracking-[-0.3em] after:opacity-[0.34] after:ml-3"
