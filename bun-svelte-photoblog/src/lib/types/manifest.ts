@@ -6,8 +6,8 @@
 
 /** Represents a single image source variant (e.g., a specific width in WebP or AVIF format). */
 export type ImageSource = {
-  variant: 'default' | 'xl' | 'detail' | 'fallback';
-  type: 'image/webp' | 'image/jpeg' | 'image/avif';
+  variant: "default" | "xl" | "detail" | "fallback";
+  type: "image/webp" | "image/jpeg" | "image/avif";
   path: string;
   width: number;
   height?: number; // Optional as not all variants might have it
@@ -26,7 +26,7 @@ export type ExifData = {
 /** Represents a single image entry in the manifest, including all its metadata and sources. */
 export type ImageEntry = {
   id: string;
-  type: 'image';
+  type: "image";
   src: string;
   alt: string;
   title: string;
@@ -49,7 +49,7 @@ export type ImageEntry = {
 
 /** Represents a separator in the photo grid, often used to denote a new location or section. */
 export type Separator = {
-  type: 'separator';
+  type: "separator";
   location: string;
   city: string;
   storyContent?: string;
@@ -78,6 +78,7 @@ export type MenuLocation = {
   href: string;
   isActive?: boolean;
   isDimmed?: boolean;
+  firstPhotoExifDate?: string;
 };
 
 /** Represents a day entry in the lightweight `menu.manifest.json`. */
@@ -94,7 +95,7 @@ export type MenuManifest = MenuDay[];
 
 // --- Types for script/generate-images.ts ---
 
-export type QualityTypes = 'jpeg' | 'webp' | 'avif';
+export type QualityTypes = "jpeg" | "webp" | "avif";
 
 export type ScriptArgs = {
   concurrency: number;
@@ -129,11 +130,11 @@ export type StoryData = {
 export type StoryDataMap = Record<string, StoryData>;
 
 export type AspectRatio =
-  | 'square'
-  | 'panorama'
-  | 'landscape-16-9'
-  | 'landscape-3-2'
-  | 'landscape-4-3'
-  | 'portrait-9-16'
-  | 'portrait-2-3'
-  | 'portrait-3-4';
+  | "square"
+  | "panorama"
+  | "landscape-16-9"
+  | "landscape-3-2"
+  | "landscape-4-3"
+  | "portrait-9-16"
+  | "portrait-2-3"
+  | "portrait-3-4";

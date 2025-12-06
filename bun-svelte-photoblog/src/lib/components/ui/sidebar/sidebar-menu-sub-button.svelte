@@ -2,6 +2,7 @@
   import { cn, type WithElementRef } from "$lib/utils.js";
   import type { Snippet } from "svelte";
   import type { HTMLAnchorAttributes } from "svelte/elements";
+  import Badge from "$lib/components/ui/badge/badge.svelte"; // Import Badge component
 
   let {
     ref = $bindable(null),
@@ -11,13 +12,24 @@
     size = "md",
     isActive = false,
     isDimmed = false,
+    firstPhotoExifDate, // Accept new prop
     ...restProps
   }: WithElementRef<HTMLAnchorAttributes> & {
     child?: Snippet<[{ props: Record<string, unknown> }]>;
     size?: "sm" | "md";
     isActive?: boolean;
     isDimmed?: boolean;
+    firstPhotoExifDate?: string; // New prop type
   } = $props();
+
+  const formattedTime = $derived(
+    firstPhotoExifDate
+      ? new Date(firstPhotoExifDate).toLocaleTimeString("cs-CZ", {
+          hour: "2-digit",
+          minute: "2-digit",
+        })
+      : undefined,
+  );
 
   const mergedProps = $derived({
     class: cn(
@@ -42,6 +54,9 @@
   {@render child({ props: mergedProps })}
 {:else}
   <a bind:this={ref} {...mergedProps}>
+    {#if formattedTime}
+      <Badge variant="outline">{formattedTime}</Badge>
+    {/if}
     {@render children?.()}
   </a>
 {/if}

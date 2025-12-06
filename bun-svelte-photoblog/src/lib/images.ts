@@ -1,5 +1,10 @@
-import type { Manifest, PhotoDay, ImageEntry, ImageSource } from './types/manifest';
-import manifest from '$lib/images.manifest.json' with { type: 'json' };
+import type {
+  Manifest,
+  PhotoDay,
+  ImageEntry,
+  ImageSource,
+} from "./types/manifest";
+import manifest from "$lib/images.manifest.json" with { type: "json" };
 
 const typedManifest: Manifest = manifest as unknown as Manifest;
 
@@ -34,19 +39,17 @@ export function getSources(item: ImageEntry) {
     .map(([type, srcsetParts]) => {
       return {
         type: type,
-        srcset: srcsetParts.join(', ')
+        srcset: srcsetParts.join(", "),
       };
     })
     .sort((a, b) => {
       // Prefer AVIF > WebP > JPEG
-      if (a.type.includes('avif')) return -1;
-      if (b.type.includes('avif')) return 1;
-      if (a.type.includes('webp')) return -1;
-      if (b.type.includes('webp')) return 1;
+      if (a.type.includes("avif")) return -1;
+      if (b.type.includes("avif")) return 1;
+      if (a.type.includes("webp")) return -1;
+      if (b.type.includes("webp")) return 1;
       return 0;
     });
 
   return result;
 }
-
-

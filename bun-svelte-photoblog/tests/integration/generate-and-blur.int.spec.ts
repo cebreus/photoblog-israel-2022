@@ -1,21 +1,21 @@
-import { describe, it, expect } from 'vitest';
-import path from 'node:path';
-import fs from 'node:fs';
-import sharp from 'sharp';
-import { runCli, tmpDir } from '../utils/process-helpers';
-import { buildInputSet } from '../utils/fixtures';
-import { normalizeManifest } from '../utils/manifest-assert';
-import { listTree } from '../utils/fs-helpers';
+import { describe, it, expect } from "vitest";
+import path from "node:path";
+import fs from "node:fs";
+import sharp from "sharp";
+import { runCli, tmpDir } from "../utils/process-helpers";
+import { buildInputSet } from "../utils/fixtures";
+import { normalizeManifest } from "../utils/manifest-assert";
+import { listTree } from "../utils/fs-helpers";
 
-const CWD = path.resolve(__dirname, '../../');
+const CWD = path.resolve(__dirname, "../../");
 
-describe('Integration: main images generation', () => {
-  it('produces deterministic manifest and expected directory tree', async () => {
-    const inDir = tmpDir('int-in');
+describe("Integration: main images generation", () => {
+  it("produces deterministic manifest and expected directory tree", async () => {
+    const inDir = tmpDir("int-in");
     await buildInputSet(inDir);
 
-    const outDir = tmpDir('int-out');
-    const manifest = path.join(outDir, 'images.manifest.json');
+    const outDir = tmpDir("int-out");
+    const manifest = path.join(outDir, "images.manifest.json");
 
     const res = await runCli(
       [
@@ -29,33 +29,37 @@ describe('Integration: main images generation', () => {
         `--concurrency=1`,
         `--clean=true`,
       ],
-      { cwd: CWD, timeoutMs: 180000 }
+      { cwd: CWD, timeoutMs: 180000 },
     );
-    expect({ code: res.code, stderr: res.stderr.slice(0, 500) }).toEqual(expect.objectContaining({ code: 0 }));
+    expect({ code: res.code, stderr: res.stderr.slice(0, 500) }).toEqual(
+      expect.objectContaining({ code: 0 }),
+    );
 
     // Manifest snapshot (normalized)
     expect(fs.existsSync(manifest)).toBe(true);
-    const data = JSON.parse(fs.readFileSync(manifest, 'utf8'));
+    const data = JSON.parse(fs.readFileSync(manifest, "utf8"));
     const normalized = normalizeManifest(data);
     expect(normalized).toMatchSnapshot();
 
     // Directory tree snapshot (relative to outDir)
     const tree = await listTree(outDir);
-    const rel = tree.map((p) => path.posix.relative(outDir.replaceAll(path.sep, '/'), p));
+    const rel = tree.map((p) =>
+      path.posix.relative(outDir.replaceAll(path.sep, "/"), p),
+    );
     expect(rel).toMatchSnapshot();
 
     // Sanity: variants should exist across formats
-    expect(tree.some((p) => p.endsWith('.avif'))).toBe(true);
-    expect(tree.some((p) => p.endsWith('.webp'))).toBe(true);
-    expect(tree.some((p) => p.endsWith('.jpg'))).toBe(true);
+    expect(tree.some((p) => p.endsWith(".avif"))).toBe(true);
+    expect(tree.some((p) => p.endsWith(".webp"))).toBe(true);
+    expect(tree.some((p) => p.endsWith(".jpg"))).toBe(true);
   });
 
-  it('respects GIF mode (copy) for animated GIF inputs', async () => {
-    const inDir = tmpDir('int-in-gif');
+  it("respects GIF mode (copy) for animated GIF inputs", async () => {
+    const inDir = tmpDir("int-in-gif");
     await buildInputSet(inDir);
 
-    const outDir = tmpDir('int-out-gif');
-    const manifest = path.join(outDir, 'images.manifest.json');
+    const outDir = tmpDir("int-out-gif");
+    const manifest = path.join(outDir, "images.manifest.json");
 
     const res = await runCli(
       [
@@ -68,21 +72,21 @@ describe('Integration: main images generation', () => {
         `--clean=true`,
         `--limit=1`,
       ],
-      { cwd: CWD, timeoutMs: 120000 }
+      { cwd: CWD, timeoutMs: 120000 },
     );
     expect(res.code).toBe(0);
 
     // Expect the original GIF to be mirrored (copy) into out directory structure
     // We don't know exact subfolder, check presence anywhere under outDir
     const tree = await listTree(outDir);
-    const gifCopies = tree.filter((p) => p.toLowerCase().endsWith('.gif'));
+    const gifCopies = tree.filter((p) => p.toLowerCase().endsWith(".gif"));
     expect(gifCopies.length).toBeGreaterThan(0);
   });
 });
 
 async function uniqueColorCountPng(pngPath: string) {
   const buf = await sharp(pngPath).png().toBuffer();
-  const { PNG } = await import('pngjs');
+  const { PNG } = await import("pngjs");
   const png = PNG.sync.read(buf);
   const set = new Set<string>();
   for (let i = 0; i < png.data.length; i += 4) {
@@ -95,11 +99,11 @@ async function uniqueColorCountPng(pngPath: string) {
   return set.size;
 }
 
-describe('Integration: blur assets generation', () => {
-  it('generates PNG-8 palette with expected width and approx. color count', async () => {
-    const src = tmpDir('blur-in');
+describe("Integration: blur assets generation", () => {
+  it("generates PNG-8 palette with expected width and approx. color count", async () => {
+    const src = tmpDir("blur-in");
     await buildInputSet(src);
-    const out = tmpDir('blur-out');
+    const out = tmpDir("blur-out");
 
     const res = await runCli(
       [
@@ -114,11 +118,13 @@ describe('Integration: blur assets generation', () => {
         `--blur.pngQuality=50`,
         `--concurrency=1`,
       ],
-      { cwd: CWD, timeoutMs: 120000 }
+      { cwd: CWD, timeoutMs: 120000 },
     );
-    expect({ code: res.code, stderr: res.stderr.slice(0, 500) }).toEqual(expect.objectContaining({ code: 0 }));
+    expect({ code: res.code, stderr: res.stderr.slice(0, 500) }).toEqual(
+      expect.objectContaining({ code: 0 }),
+    );
 
-    const files = fs.readdirSync(out).filter((x) => x.endsWith('.png'));
+    const files = fs.readdirSync(out).filter((x) => x.endsWith(".png"));
     expect(files.length).toBeGreaterThan(0);
 
     // Width <= 24 and approximate color count <= 32 + tolerance
@@ -131,10 +137,10 @@ describe('Integration: blur assets generation', () => {
     }
   });
 
-  it('supports multi-format blur outputs (png,avif,jpeg) and clean mode', async () => {
-    const src = tmpDir('blur-in2');
+  it("supports multi-format blur outputs (png,avif,jpeg) and clean mode", async () => {
+    const src = tmpDir("blur-in2");
     await buildInputSet(src);
-    const out = tmpDir('blur-out2');
+    const out = tmpDir("blur-out2");
 
     // first run: multiple formats
     let res = await runCli(
@@ -148,14 +154,14 @@ describe('Integration: blur assets generation', () => {
         `--blur.colors=16`,
         `--concurrency=1`,
       ],
-      { cwd: CWD, timeoutMs: 120000 }
+      { cwd: CWD, timeoutMs: 120000 },
     );
     expect(res.code).toBe(0);
 
     let files = fs.readdirSync(out);
-    expect(files.some((f) => f.endsWith('.png'))).toBe(true);
-    expect(files.some((f) => f.endsWith('.avif'))).toBe(true);
-    expect(files.some((f) => f.endsWith('.jpg'))).toBe(true);
+    expect(files.some((f) => f.endsWith(".png"))).toBe(true);
+    expect(files.some((f) => f.endsWith(".avif"))).toBe(true);
+    expect(files.some((f) => f.endsWith(".jpg"))).toBe(true);
 
     // second run with clean: only png should remain
     res = await runCli(
@@ -168,12 +174,12 @@ describe('Integration: blur assets generation', () => {
         `--blur.clean=true`,
         `--concurrency=1`,
       ],
-      { cwd: CWD, timeoutMs: 120000 }
+      { cwd: CWD, timeoutMs: 120000 },
     );
     expect(res.code).toBe(0);
 
     files = fs.readdirSync(out);
     expect(files.length).toBeGreaterThan(0);
-    expect(files.every((f) => f.endsWith('.png'))).toBe(true);
+    expect(files.every((f) => f.endsWith(".png"))).toBe(true);
   });
 });

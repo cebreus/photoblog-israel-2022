@@ -1,5 +1,5 @@
-import fs from 'node:fs';
-import path from 'node:path';
+import fs from "node:fs";
+import path from "node:path";
 
 export async function listTree(root: string): Promise<string[]> {
   const out: string[] = [];
@@ -15,7 +15,7 @@ export async function listTree(root: string): Promise<string[]> {
     walk(root);
   }
   out.sort((a, b) => a.localeCompare(b));
-  return out.map((p) => p.replaceAll(path.sep, '/'));
+  return out.map((p) => p.replaceAll(path.sep, "/"));
 }
 
 export function ensureEmptyDir(dir: string) {

@@ -1,25 +1,25 @@
-import { describe, it, expect } from 'vitest';
-import path from 'node:path';
-import fs from 'node:fs';
-import sharp from 'sharp';
-import { runCli, tmpDir } from '../utils/process-helpers';
-import { listTree } from '../utils/fs-helpers';
-import { buildInputSet } from '../utils/fixtures';
+import { describe, it, expect } from "vitest";
+import path from "node:path";
+import fs from "node:fs";
+import sharp from "sharp";
+import { runCli, tmpDir } from "../utils/process-helpers";
+import { listTree } from "../utils/fs-helpers";
+import { buildInputSet } from "../utils/fixtures";
 
-const CWD = path.resolve(__dirname, '../../');
+const CWD = path.resolve(__dirname, "../../");
 
 /**
  * Jednotkové testy CLI přes pozorovatelné efekty (souborový systém).
  * - Ověří parsování parametrů, výchozí hodnoty a vybrané přepínače
  * - Ověří pravidla pro upscaling a výstupní strukturu složek
  */
-describe('CLI (generate-images.ts) – základní chování a parsování parametrů', () => {
-  it('aplikuje overrides pro out/manifest/formats/quality a generuje očekávané složky a soubory', async () => {
-    const inDir = tmpDir('img-in');
+describe("CLI (generate-images.ts) – základní chování a parsování parametrů", () => {
+  it("aplikuje overrides pro out/manifest/formats/quality a generuje očekávané složky a soubory", async () => {
+    const inDir = tmpDir("img-in");
     await buildInputSet(inDir);
 
-    const outDir = tmpDir('img-out');
-    const manifest = path.join(outDir, 'images.manifest.json');
+    const outDir = tmpDir("img-out");
+    const manifest = path.join(outDir, "images.manifest.json");
 
     const args = [
       `--src=${inDir}`,
@@ -45,21 +45,25 @@ describe('CLI (generate-images.ts) – základní chování a parsování parame
 
     // Složky a soubory pro JPEG (bez suffixu) a WEBP (s -webp suffixem) existují
     const tree = await listTree(outDir);
-    const jpegFiles = tree.filter((p) => /\/(details|previews|previews-xl|previews-xxs)\/.+\.jpg$/.test(p));
-    const webpFiles = tree.filter((p) => /\/(details|previews|previews-xl|previews-xxs)-webp\/.+\.webp$/.test(p));
+    const jpegFiles = tree.filter((p) =>
+      /\/(details|previews|previews-xl|previews-xxs)\/.+\.jpg$/.test(p),
+    );
+    const webpFiles = tree.filter((p) =>
+      /\/(details|previews|previews-xl|previews-xxs)-webp\/.+\.webp$/.test(p),
+    );
 
     expect(jpegFiles.length).toBeGreaterThan(0);
     expect(webpFiles.length).toBeGreaterThan(0);
 
     // Sanity: žádné AVIF, protože nebyl vyžádán
-    const avifFiles = tree.filter((p) => p.endsWith('.avif'));
+    const avifFiles = tree.filter((p) => p.endsWith(".avif"));
     expect(avifFiles.length).toBe(0);
   });
 
-  it('respektuje --allow-upscale=false: detail varianta se nezvětšuje nad původní šířku', async () => {
-    const inDir = tmpDir('img-in-small');
+  it("respektuje --allow-upscale=false: detail varianta se nezvětšuje nad původní šířku", async () => {
+    const inDir = tmpDir("img-in-small");
     // vytvoř malý vstup 100x80
-    const input = path.join(inDir, 'small.jpg');
+    const input = path.join(inDir, "small.jpg");
     await sharp({
       create: {
         width: 100,
@@ -71,8 +75,8 @@ describe('CLI (generate-images.ts) – základní chování a parsování parame
       .jpeg({ quality: 80 })
       .toFile(input);
 
-    const outDir = tmpDir('img-out-small');
-    const manifest = path.join(outDir, 'images.manifest.json');
+    const outDir = tmpDir("img-out-small");
+    const manifest = path.join(outDir, "images.manifest.json");
 
     const res = await runCli(
       [
@@ -87,10 +91,12 @@ describe('CLI (generate-images.ts) – základní chování a parsování parame
     );
     expect(res.code).toBe(0);
 
-    const detailsDir = path.join(outDir, 'details');
+    const detailsDir = path.join(outDir, "details");
     expect(fs.existsSync(detailsDir)).toBe(true);
 
-    const details = fs.readdirSync(detailsDir).filter((x) => x.endsWith('.jpg'));
+    const details = fs
+      .readdirSync(detailsDir)
+      .filter((x) => x.endsWith(".jpg"));
     expect(details.length).toBe(1);
     const meta = await sharp(path.join(detailsDir, details[0])).metadata();
 
@@ -98,12 +104,12 @@ describe('CLI (generate-images.ts) – základní chování a parsování parame
     expect((meta.width ?? 0) <= 100).toBe(true);
   });
 
-  it('mod --clean=true odstraní osiřelé soubory mezi běhy', async () => {
-    const inDir = tmpDir('img-in-clean');
+  it("mod --clean=true odstraní osiřelé soubory mezi běhy", async () => {
+    const inDir = tmpDir("img-in-clean");
     await buildInputSet(inDir);
 
-    const outDir = tmpDir('img-out-clean');
-    const manifest = path.join(outDir, 'images.manifest.json');
+    const outDir = tmpDir("img-out-clean");
+    const manifest = path.join(outDir, "images.manifest.json");
 
     // první běh – tři formáty
     let res = await runCli(
@@ -135,8 +141,8 @@ describe('CLI (generate-images.ts) – základní chování a parsování parame
 
     const tree = await listTree(outDir);
     // již nesmí existovat .webp a .avif po clean
-    expect(tree.some((p) => p.endsWith('.webp'))).toBe(false);
-    expect(tree.some((p) => p.endsWith('.avif'))).toBe(false);
-    expect(tree.some((p) => p.endsWith('.jpg'))).toBe(true);
+    expect(tree.some((p) => p.endsWith(".webp"))).toBe(false);
+    expect(tree.some((p) => p.endsWith(".avif"))).toBe(false);
+    expect(tree.some((p) => p.endsWith(".jpg"))).toBe(true);
   });
 });

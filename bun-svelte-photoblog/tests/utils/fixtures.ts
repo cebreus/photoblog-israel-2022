@@ -1,13 +1,13 @@
-import fs from 'node:fs';
-import path from 'node:path';
-import sharp from 'sharp';
+import fs from "node:fs";
+import path from "node:path";
+import sharp from "sharp";
 
 /**
  * Malý 2x2 animovaný GIF (2 snímky), base64.
  * Zdroj: ručně připravený minimální GIF; slouží pouze k detekci animace v testech.
  */
 const TINY_ANIM_GIF_BASE64 =
-  'R0lGODlhAgACAPEAAAAAAP///wAAACH5BAEAAAIALAAAAAACAAIAAAIEhI+py+0Po5yUFADs=';
+  "R0lGODlhAgACAPEAAAAAAP///wAAACH5BAEAAAIALAAAAAACAAIAAAIEhI+py+0Po5yUFADs=";
 
 /**
  * Vytvoří kurátorovanou sadu fixtur ve složce dir.
@@ -22,7 +22,7 @@ export async function buildInputSet(dir: string) {
   fs.mkdirSync(dir, { recursive: true });
 
   // 1) PNG s průhledností 40x30
-  const pngAlpha = path.join(dir, 'alpha.png');
+  const pngAlpha = path.join(dir, "alpha.png");
   await sharp({
     create: {
       width: 40,
@@ -35,7 +35,7 @@ export async function buildInputSet(dir: string) {
     .toFile(pngAlpha);
 
   // 2) Velký JPEG 4000x3000 pro downscale
-  const bigJpeg = path.join(dir, 'big.jpg');
+  const bigJpeg = path.join(dir, "big.jpg");
   await sharp({
     create: {
       width: 4000,
@@ -48,7 +48,7 @@ export async function buildInputSet(dir: string) {
     .toFile(bigJpeg);
 
   // 3) Malý JPEG (portrait) 600x900
-  const portraitJpeg = path.join(dir, 'portrait.jpg');
+  const portraitJpeg = path.join(dir, "portrait.jpg");
   await sharp({
     create: {
       width: 600,
@@ -61,7 +61,7 @@ export async function buildInputSet(dir: string) {
     .toFile(portraitJpeg);
 
   // 4) WEBP 300x300
-  const webpImg = path.join(dir, 'square.webp');
+  const webpImg = path.join(dir, "square.webp");
   await sharp({
     create: {
       width: 300,
@@ -74,12 +74,12 @@ export async function buildInputSet(dir: string) {
     .toFile(webpImg);
 
   // 5) Malý animovaný GIF (2 snímky)
-  const animGif = path.join(dir, 'anim.gif');
-  fs.writeFileSync(animGif, Buffer.from(TINY_ANIM_GIF_BASE64, 'base64'));
+  const animGif = path.join(dir, "anim.gif");
+  fs.writeFileSync(animGif, Buffer.from(TINY_ANIM_GIF_BASE64, "base64"));
 
   // 6) JPEG s EXIF orientací = 6
   // Pozn.: Sharp podporuje zapsání EXIF Orientation přes withMetadata({ orientation }).
-  const exifOrient6 = path.join(dir, 'exif-orient-6.jpg');
+  const exifOrient6 = path.join(dir, "exif-orient-6.jpg");
   await sharp({
     create: {
       width: 600,

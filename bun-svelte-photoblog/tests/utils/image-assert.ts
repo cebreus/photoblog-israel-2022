@@ -1,6 +1,6 @@
-import sharp from 'sharp';
-import pixelmatch from 'pixelmatch';
-import { PNG } from 'pngjs';
+import sharp from "sharp";
+import pixelmatch from "pixelmatch";
+import { PNG } from "pngjs";
 
 export type PixelCompareOptions = {
   threshold?: number; // 0..1
@@ -8,9 +8,14 @@ export type PixelCompareOptions = {
   resizeWidth?: number; // volitelné sjednocení šířky před porovnáním
 };
 
-export async function toPngBuffer(inputPath: string, width?: number): Promise<Buffer> {
+export async function toPngBuffer(
+  inputPath: string,
+  width?: number,
+): Promise<Buffer> {
   const img = sharp(inputPath);
-  const resized = width ? img.resize({ width, fit: 'inside', withoutEnlargement: true }) : img;
+  const resized = width
+    ? img.resize({ width, fit: "inside", withoutEnlargement: true })
+    : img;
   // Převod do PNG kvůli pixelmatch
   return await resized.png({ compressionLevel: 9 }).toBuffer();
 }
@@ -24,7 +29,7 @@ export async function toPngBuffer(inputPath: string, width?: number): Promise<Bu
 export async function compareImagesWithTolerance(
   aPath: string,
   bPath: string,
-  opts: PixelCompareOptions = {}
+  opts: PixelCompareOptions = {},
 ) {
   const threshold = opts.threshold ?? 0.1;
   const maxDiffPixels = opts.maxDiffPixels ?? 0;
@@ -37,14 +42,29 @@ export async function compareImagesWithTolerance(
   const bPng = PNG.sync.read(bBuf);
 
   if (aPng.width !== bPng.width || aPng.height !== bPng.height) {
-    throw new Error(`Dimension mismatch: ${aPng.width}x${aPng.height} vs ${bPng.width}x${bPng.height}`);
+    throw new Error(
+      `Dimension mismatch: ${aPng.width}x${aPng.height} vs ${bPng.width}x${bPng.height}`,
+    );
   }
 
   const diff = new PNG({ width: aPng.width, height: aPng.height });
-  const diffCount = pixelmatch(aPng.data, bPng.data, diff.data, aPng.width, aPng.height, { threshold });
+  const diffCount = pixelmatch(
+    aPng.data,
+    bPng.data,
+    diff.data,
+    aPng.width,
+    aPng.height,
+    { threshold },
+  );
 
   if (diffCount > maxDiffPixels) {
-    return { ok: false, diffCount, width: aPng.width, height: aPng.height, diffPngBuffer: PNG.sync.write(diff) };
+    return {
+      ok: false,
+      diffCount,
+      width: aPng.width,
+      height: aPng.height,
+      diffPngBuffer: PNG.sync.write(diff),
+    };
   }
   return { ok: true, diffCount, width: aPng.width, height: aPng.height };
 }

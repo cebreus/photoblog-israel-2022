@@ -1,6 +1,6 @@
-import { defineConfig } from 'vitest/config';
-import path from 'node:path';
-import { svelte } from '@sveltejs/vite-plugin-svelte';
+import { defineConfig } from "vitest/config";
+import path from "node:path";
+import { svelte } from "@sveltejs/vite-plugin-svelte";
 
 export default defineConfig({
   plugins: [
@@ -8,13 +8,13 @@ export default defineConfig({
     svelte(),
   ],
   test: {
-    environment: 'node',
+    environment: "node",
     testTimeout: 60000,
     hookTimeout: 30000,
     include: [
-      'tests/unit/**/*.spec.ts',
-      'tests/integration/**/*.spec.ts',
-      'tests/e2e-images/**/*.spec.ts',
+      "tests/unit/**/*.spec.ts",
+      "tests/integration/**/*.spec.ts",
+      "tests/e2e-images/**/*.spec.ts",
     ],
     sequence: {
       concurrent: false,
@@ -22,7 +22,7 @@ export default defineConfig({
     },
     globals: true,
     alias: {
-      $lib: path.resolve(__dirname, './src/lib'),
+      $lib: path.resolve(__dirname, "./src/lib"),
     },
   },
 });

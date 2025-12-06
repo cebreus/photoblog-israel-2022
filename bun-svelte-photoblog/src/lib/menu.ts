@@ -1,10 +1,10 @@
-import type { MenuManifest } from '$lib/types/manifest';
-import menuManifest from '$lib/menu.manifest.json' with { type: 'json' };
+import type { MenuManifest } from "$lib/types/manifest";
+import menuManifest from "$lib/menu.manifest.json" with { type: "json" };
 
 const menuItems: MenuManifest = Array.isArray(menuManifest)
-    ? (menuManifest as MenuManifest)
-    : [];
+  ? (menuManifest as MenuManifest)
+  : [];
 
 export function getMenuItems(): MenuManifest {
-    return menuItems;
+  return menuItems;
 }

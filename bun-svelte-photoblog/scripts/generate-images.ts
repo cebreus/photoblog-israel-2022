@@ -199,6 +199,7 @@ const CTX = {
 // --- Main Orchestration ---
 async function main() {
   await loadSharpOrExplain();
+
   if (ARGS.clean) await cleanAllOutputs();
 
   if (ARGS.watch) {
@@ -264,7 +265,7 @@ async function runIncrementalBuild() {
   const limiter = createConcurrencyLimiter(ARGS.concurrency);
 
   const results = (
-    (await Promise.all(
+    await Promise.all(
       toProcess.map(async (file) => {
         return limiter(async () => {
           const result = await processImage(file);
@@ -272,7 +273,7 @@ async function runIncrementalBuild() {
           return result;
         });
       }),
-    )) as any[]
+    )
   ).filter((r): r is NonNullable<typeof r> => r !== null);
 
   if (bar) bar.stop();

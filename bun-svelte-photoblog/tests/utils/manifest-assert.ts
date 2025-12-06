@@ -4,12 +4,32 @@
  * ponechá strukturu (rozměry, cesty, formáty, placeholder metainformace).
  */
 
-export type Variant = { width: number; height: number; path: string; bytes: number };
-export type VariantsByFormat = { avif?: Variant[]; webp?: Variant[]; jpeg?: Variant[] };
-export type Placeholder = { base64: string | null; width: number | null; height: number | null; type: string | null } | null;
+export type Variant = {
+  width: number;
+  height: number;
+  path: string;
+  bytes: number;
+};
+export type VariantsByFormat = {
+  avif?: Variant[];
+  webp?: Variant[];
+  jpeg?: Variant[];
+};
+export type Placeholder = {
+  base64: string | null;
+  width: number | null;
+  height: number | null;
+  type: string | null;
+} | null;
 
 export type ManifestEntry = {
-  original: { width: number | null; height: number | null; format: string | null; bytes: number; path: string | null };
+  original: {
+    width: number | null;
+    height: number | null;
+    format: string | null;
+    bytes: number;
+    path: string | null;
+  };
   variants: VariantsByFormat;
   placeholder: Placeholder;
   color: string | null;
@@ -21,9 +41,22 @@ export type Manifest = Record<string, ManifestEntry>;
 
 type NormalizedVariant = { width: number; height: number; path: string };
 type NormalizedEntry = {
-  original: { width: number | null; height: number | null; format: string | null; path: string | null };
-  variants: { avif?: NormalizedVariant[]; webp?: NormalizedVariant[]; jpeg?: NormalizedVariant[] };
-  placeholder: { width: number | null; height: number | null; type: string | null } | null;
+  original: {
+    width: number | null;
+    height: number | null;
+    format: string | null;
+    path: string | null;
+  };
+  variants: {
+    avif?: NormalizedVariant[];
+    webp?: NormalizedVariant[];
+    jpeg?: NormalizedVariant[];
+  };
+  placeholder: {
+    width: number | null;
+    height: number | null;
+    type: string | null;
+  } | null;
   color: string | null;
   outputs: string[];
 };
@@ -32,7 +65,9 @@ type NormalizedEntry = {
  * Seřadí a normalizuje varianty (bez bytes), placeholder (bez base64),
  * a outputs (seřazené). Vrátí stabilní JSON-serializovatelnou strukturu.
  */
-export function normalizeManifest(m: Manifest): Record<string, NormalizedEntry> {
+export function normalizeManifest(
+  m: Manifest,
+): Record<string, NormalizedEntry> {
   const out: Record<string, NormalizedEntry> = {};
   const keys = Object.keys(m).sort((a, b) => a.localeCompare(b));
   for (const k of keys) {
@@ -40,8 +75,8 @@ export function normalizeManifest(m: Manifest): Record<string, NormalizedEntry> 
     const mapV = (arr?: Variant[]) =>
       arr
         ? arr
-          .map((v) => ({ width: v.width, height: v.height, path: v.path }))
-          .sort((a, b) => a.width - b.width || a.path.localeCompare(b.path))
+            .map((v) => ({ width: v.width, height: v.height, path: v.path }))
+            .sort((a, b) => a.width - b.width || a.path.localeCompare(b.path))
         : undefined;
 
     out[k] = {
@@ -58,10 +93,10 @@ export function normalizeManifest(m: Manifest): Record<string, NormalizedEntry> 
       },
       placeholder: e.placeholder
         ? {
-          width: e.placeholder.width,
-          height: e.placeholder.height,
-          type: e.placeholder.type,
-        }
+            width: e.placeholder.width,
+            height: e.placeholder.height,
+            type: e.placeholder.type,
+          }
         : null,
       color: e.color,
       outputs: [...e.outputs].sort((a, b) => a.localeCompare(b)),
