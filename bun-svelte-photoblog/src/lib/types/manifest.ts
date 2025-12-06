@@ -76,6 +76,8 @@ export type MenuLocation = {
   id: string;
   label: string;
   href: string;
+  isActive?: boolean;
+  isDimmed?: boolean;
 };
 
 /** Represents a day entry in the lightweight `menu.manifest.json`. */

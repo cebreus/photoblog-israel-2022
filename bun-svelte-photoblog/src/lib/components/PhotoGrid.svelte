@@ -45,7 +45,7 @@
         </picture>
       {/if}
     </figure>
-  {:else if item.type === "separator"}
+  {:else if item.type === "separator" && item.location}
     {@const separatorId = item.id}
     {#if item.storyContent}
       <Dialog.Root>

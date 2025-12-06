@@ -59,8 +59,9 @@
             <Sidebar.Group>
               <Sidebar.GroupLabel>Dny</Sidebar.GroupLabel>
               {#each menuItems as menuDay (menuDay.id)}
+                {@const isDayActive = $page.url.hash === menuDay.href}
                 <Sidebar.MenuItem>
-                  <Sidebar.MenuButton>
+                  <Sidebar.MenuButton isActive={isDayActive}>
                     {#snippet child({ props })}
                       <a href={menuDay.href} {...props}>
                         <Calendar />
@@ -72,8 +73,14 @@
 
                   <Sidebar.MenuSub>
                     {#each menuDay.locations as menuLocation (menuLocation.id)}
+                      {@const isLocationActive =
+                        $page.url.hash === menuLocation.href}
                       <Sidebar.MenuSubItem>
-                        <Sidebar.MenuSubButton href={menuLocation.href}>
+                        <Sidebar.MenuSubButton
+                          href={menuLocation.href}
+                          isActive={isLocationActive}
+                          isDimmed={menuLocation.isDimmed}
+                        >
                           {menuLocation.label}
                         </Sidebar.MenuSubButton>
                       </Sidebar.MenuSubItem>
