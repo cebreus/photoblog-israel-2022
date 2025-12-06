@@ -6,6 +6,7 @@
   } from "$lib/components/ui/button/button.svelte";
   import * as Sheet from "$lib/components/ui/sheet";
   import * as Sidebar from "$lib/components/ui/sidebar";
+  import { Collapsible } from "bits-ui"; // Import Collapsible components directly from bits-ui
   import { page } from "$app/stores"; // Import $page store
 
   export let menuItems: MenuManifest = [];
@@ -58,37 +59,51 @@
 
           <Sidebar.Menu>
             <Sidebar.Group>
-              <Sidebar.GroupLabel>Dny</Sidebar.GroupLabel>
+              <!-- <Sidebar.GroupLabel>Dny</Sidebar.GroupLabel> -->
               {#each menuItems as menuDay (menuDay.id)}
                 {@const isDayActive = $page.url.hash === menuDay.href}
-                <Sidebar.MenuItem>
-                  <Sidebar.MenuButton isActive={isDayActive}>
-                    {#snippet child({ props })}
-                      <a href={menuDay.href} {...props}>
-                        <Calendar />
-                        {menuDay.label}
-                        <ChevronRight class="ml-auto size-4" />
-                      </a>
-                    {/snippet}
-                  </Sidebar.MenuButton>
-
-                  <Sidebar.MenuSub>
-                    {#each menuDay.locations as menuLocation (menuLocation.id)}
-                      {@const isLocationActive =
-                        $page.url.hash === menuLocation.href}
-                      <Sidebar.MenuSubItem>
-                        <Sidebar.MenuSubButton
-                          href={menuLocation.href}
-                          isActive={isLocationActive}
-                          isDimmed={menuLocation.isDimmed}
-                          firstPhotoExifDate={menuLocation.firstPhotoExifDate}
-                        >
-                          {menuLocation.label}
-                        </Sidebar.MenuSubButton>
-                      </Sidebar.MenuSubItem>
-                    {/each}
-                  </Sidebar.MenuSub>
-                </Sidebar.MenuItem>
+                <Collapsible.Root open={true} class="group/collapsible">
+                  {#snippet child({ props })}
+                    <Sidebar.MenuItem {...props}>
+                      <Sidebar.MenuButton isActive={isDayActive}>
+                        {#snippet child({ props })}
+                          <div class="flex items-center w-full" {...props}>
+                            <a
+                              href={menuDay.href}
+                              class="flex items-center gap-2 flex-grow"
+                            >
+                              <Calendar class="size-4" />
+                              {menuDay.label}
+                            </a>
+                            <Collapsible.Trigger class="ml-auto">
+                              <ChevronRight
+                                class="size-4 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
+                              />
+                            </Collapsible.Trigger>
+                          </div>
+                        {/snippet}
+                      </Sidebar.MenuButton>
+                      <Collapsible.Content>
+                        <Sidebar.MenuSub>
+                          {#each menuDay.locations as menuLocation (menuLocation.id)}
+                            {@const isLocationActive =
+                              $page.url.hash === menuLocation.href}
+                            <Sidebar.MenuSubItem>
+                              <Sidebar.MenuSubButton
+                                href={menuLocation.href}
+                                isActive={isLocationActive}
+                                isDimmed={menuLocation.isDimmed}
+                                firstPhotoExifDate={menuLocation.firstPhotoExifDate}
+                              >
+                                {menuLocation.label}
+                              </Sidebar.MenuSubButton>
+                            </Sidebar.MenuSubItem>
+                          {/each}
+                        </Sidebar.MenuSub>
+                      </Collapsible.Content>
+                    </Sidebar.MenuItem>
+                  {/snippet}
+                </Collapsible.Root>
               {/each}
             </Sidebar.Group>
           </Sidebar.Menu>
