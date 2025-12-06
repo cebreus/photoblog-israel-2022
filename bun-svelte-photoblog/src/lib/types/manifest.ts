@@ -131,6 +131,7 @@ export type StoryDataMap = Record<string, StoryData>;
 
 export type AspectRatio =
   | "square"
+  | "sphere"
   | "panorama"
   | "landscape-16-9"
   | "landscape-3-2"

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { RectangleVertical, Square, Cylinder } from "@lucide/svelte";
+  import { RectangleVertical, Square, Cylinder, Circle } from "@lucide/svelte";
 
   let { aspectRatio } = $props<{
     aspectRatio: string;
@@ -8,6 +8,7 @@
   const isSquare = $derived(aspectRatio === "square");
   const isPortrait = $derived(aspectRatio.startsWith("portrait"));
   const isPanorama = $derived(aspectRatio === "panorama");
+  const isSphere = $derived(aspectRatio === "sphere");
 </script>
 
 <div
@@ -19,5 +20,7 @@
     <RectangleVertical class="w-4 h-4" />
   {:else if isPanorama}
     <Cylinder class="w-4 h-4" />
+  {:else if isSphere}
+    <Circle class="w-4 h-4" />
   {/if}
 </div>
