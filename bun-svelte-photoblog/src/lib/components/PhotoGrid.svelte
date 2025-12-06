@@ -31,7 +31,7 @@
     {@const fallback = findFallbackSource(item)}
     <!-- style="background-image: url(/images/israel-2022/{item.placeholder});" -->
     <figure
-      data-location={item.exif?.location ?? ""}
+      data-location={item?.caption ?? item?.location ?? ""}
       id={item.id}
       class={`relative bg-cover bg-center rounded-lg overflow-hidden duration-500 outline-background hover:outline-orange-100 outline-4 outline-offset-2 transition-[outline-color] ease-in-out ${
         $debug ? "flex flex-col" : ""
