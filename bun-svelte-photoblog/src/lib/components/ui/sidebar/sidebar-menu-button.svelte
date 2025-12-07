@@ -27,6 +27,13 @@
   export type SidebarMenuButtonSize = VariantProps<
     typeof sidebarMenuButtonVariants
   >["size"];
+
+  type ButtonSnippetProps = {
+    props?: Record<
+      string,
+      unknown
+    >; /* Using `any` for mergeProps compatibility, see https://github.com/huntabyte/bits-ui/issues/212 */
+  };
 </script>
 
 <script lang="ts">
@@ -85,11 +92,7 @@
   });
 </script>
 
-{#snippet Button({
-  props,
-}: {
-  props?: Record; /* Using `any` for mergeProps compatibility, see https://github.com/huntabyte/bits-ui/issues/212 */
-})}
+{#snippet Button({ props }: ButtonSnippetProps)}
   {@const mergedProps = mergeProps(buttonProps, props)}
   {#if child}
     {@render child({ props: mergedProps })}

@@ -3,7 +3,13 @@
   import AgendaOffcanvas from "$lib/components/header/AgendaOffcanvas.svelte";
   import FiltersOffcanvas from "$lib/components/header/FiltersOffcanvas.svelte";
 
+  type AuthorStats = {
+    name: string;
+    count: number;
+  };
+
   export let menuItems: MenuManifest = [];
+  export let authors: AuthorStats[] = [];
 </script>
 
 <header
@@ -14,7 +20,7 @@
       <a href="/" class="text-lg font-semibold uppercase">Izrael 2022</a>
     </div>
 
-    <FiltersOffcanvas />
+    <FiltersOffcanvas {authors} />
     <AgendaOffcanvas {menuItems} />
   </div>
 </header>

@@ -14,6 +14,8 @@
   }: {
     children: Snippet;
     class?: string;
+    // allow arbitrary passthrough attributes (data-testid etc.)
+    [key: string]: any;
   } = $props();
 
   const { toggleOpen } = getContext<OffcanvasContext>(OFFCANVAS_CONTEXT_KEY);

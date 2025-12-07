@@ -5,6 +5,7 @@
   import { marked } from "marked";
   import * as Dialog from "$lib/components/ui/dialog";
   import { debug } from "$lib/stores/debug";
+  import { selectedAuthors } from "$lib/stores/filters";
   import JsonViewer from "$lib/components/debug/JsonViewer.svelte";
   import { useScrollspy } from "$lib/actions/scrollspy"; // Import the useScrollspy action
   import AspectRatioIcon from "$lib/components/AspectRatioIcon.svelte";
@@ -31,6 +32,15 @@
   function shouldShowAspectRatioIcon(aspectRatio: string): boolean {
     return !aspectRatio.startsWith("landscape");
   }
+
+  $effect(() => {
+    if ($debug) {
+      console.debug("PhotoGrid render", {
+        items: items.length,
+        selectedAuthors: $selectedAuthors,
+      });
+    }
+  });
 </script>
 
 {#each items as item (item.type === "image" ? item.src : item.location)}
