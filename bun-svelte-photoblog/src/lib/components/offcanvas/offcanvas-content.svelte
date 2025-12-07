@@ -5,6 +5,7 @@
     type OffcanvasContext,
   } from "./offcanvas-context";
   import type { Snippet } from "svelte";
+  import type { HTMLAttributes } from "svelte/elements";
   import { cn } from "$lib/utils.js";
   import XIcon from "@lucide/svelte/icons/x"; // Import XIcon
   import Button, {
@@ -20,7 +21,7 @@
     children: Snippet;
     className?: string;
     side?: "top" | "bottom" | "left" | "right";
-  } = $props();
+  } & HTMLAttributes<HTMLDivElement> = $props();
 
   const { openStore, toggleOpen } = getContext<OffcanvasContext>(
     OFFCANVAS_CONTEXT_KEY,
