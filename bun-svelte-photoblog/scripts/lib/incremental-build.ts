@@ -146,18 +146,20 @@ async function loadCache(
 ) {
   let cache: Cache = await loadJSON(cachePath, {
     version: cacheVersion,
-    configHash,
+    configHash: "",
     files: {},
   });
 
+  let wasReset = false;
   if (cache.configHash !== configHash || cache.version !== cacheVersion) {
     logger.warn(
       "Config, cache version, or script change detected. Forcing full rebuild.",
     );
     await fsp.rm(outRoot, { recursive: true, force: true }).catch(ignoreError);
     cache = { version: cacheVersion, configHash, files: {} };
+    wasReset = true;
   }
-  return cache;
+  return { cache, wasReset };
 }
 
 async function findSourceFiles(srcRoot: string, limit: number | 0) {
@@ -237,6 +239,7 @@ async function updateCacheAndManifests({
   paths,
   shouldWriteSiteManifests,
   configHash,
+  wasReset,
 }: {
   cache: Cache;
   results: ProcessedImageResult[];
@@ -250,6 +253,7 @@ async function updateCacheAndManifests({
   };
   shouldWriteSiteManifests: boolean;
   configHash: string;
+  wasReset: boolean;
 }) {
   for (const res of results) {
     cache.files[res.key] = {
@@ -264,9 +268,13 @@ async function updateCacheAndManifests({
 
   let finalManifest: Manifest = { photoDays: [] };
   if (shouldWriteSiteManifests) {
-    const existingManifest = await loadJSON(paths.manifestPath, {
-      photoDays: [],
-    });
+    // If we reset the cache/build, we should ALSO start with a fresh manifest
+    // to avoid keeping entries from a previous configuration (e.g. different CONTENT_DIR).
+    const existingManifest = wasReset
+      ? { photoDays: [] }
+      : await loadJSON(paths.manifestPath, {
+          photoDays: [],
+        });
     finalManifest = updateManifest(
       results,
       toDelete,
@@ -324,7 +332,7 @@ export async function runIncrementalBuild(
     );
   }
 
-  const cache = await loadCache(
+  const { cache, wasReset } = await loadCache(
     CTX.cachePath,
     CTX.configHash,
     CTX.outRoot,
@@ -371,6 +379,7 @@ export async function runIncrementalBuild(
     },
     shouldWriteSiteManifests: CTX.shouldWriteSiteManifests,
     configHash: CTX.configHash,
+    wasReset,
   });
 
   logger.info(
