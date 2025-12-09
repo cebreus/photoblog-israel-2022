@@ -7,15 +7,17 @@ interface ScrollspyOptions {
   threshold?: number | number[];
 }
 
-// Default rootMargin to account for a sticky header of 64px
 const DEFAULT_ROOT_MARGIN = "-64px 0px 0px 0px";
-const DEFAULT_THRESHOLD = 0; // Trigger as soon as any part of the target is visible
+// Trigger as soon as any part of the target is visible
+const DEFAULT_THRESHOLD = 0;
 
-// Performance optimization: reuse IntersectionObservers that share the same
-// rootMargin + threshold configuration. Each observer keeps a map of nodes
-// -> id so the callback can update the store while only performing a single
-// store update per observer callback (batching), instead of updating for
-// every entry which can hurt performance with many elements.
+/**
+ * Performance optimization: reuse IntersectionObservers that share the same
+ * rootMargin + threshold configuration. Each observer keeps a map of nodes
+ * -> id so the callback can update the store while only performing a single
+ * store update per observer callback (batching), instead of updating for
+ * every entry which can hurt performance with many elements.
+ */
 type ObserverKey = string;
 const observerRegistry = new Map<
   ObserverKey,
@@ -33,6 +35,12 @@ function makeObserverKey(
   return `${rootMargin ?? DEFAULT_ROOT_MARGIN}|${t}`;
 }
 
+/**
+ * Action to track which section is currently active in the viewport.
+ * Updates the `activeSectionIds` store.
+ *
+ * Uses shared observers for performance.
+ */
 export const useScrollspy: Action<HTMLElement, ScrollspyOptions> = (
   node,
   options,
