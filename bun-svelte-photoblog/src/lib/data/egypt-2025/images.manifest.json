@@ -33,7 +33,7 @@
             {
               "variant": "default",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/IMG_0953.jpg",
+              "path": "/egypt-2025/images/previews/IMG_0953.jpeg",
               "width": 370
             },
             {
@@ -51,7 +51,7 @@
             {
               "variant": "xl",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/IMG_0953.jpg",
+              "path": "/egypt-2025/images/previews-xl/IMG_0953.jpeg",
               "width": 534
             },
             {
@@ -63,14 +63,14 @@
             {
               "variant": "detail",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/IMG_0953.jpg",
+              "path": "/egypt-2025/images/details/IMG_0953.jpeg",
               "width": 1280,
               "height": 960
             },
             {
               "variant": "fallback",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/IMG_0953.jpg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_0953.jpeg",
               "width": 190,
               "height": 107
             }
