@@ -2,6 +2,9 @@ import { promises as fs } from "fs";
 import path from "path";
 import { favicons, type FaviconOptions } from "favicons";
 import matter from "gray-matter";
+import { createLogger } from "./lib/logger";
+
+const logger = createLogger("favicons");
 
 type SiteConfig = {
   sourceFile: string;
@@ -66,7 +69,7 @@ async function loadSiteConfig(contentDir: string): Promise<SiteConfig> {
  * Main function to generate favicons based on explicit configuration.
  */
 async function run() {
-  console.log("[favicon-gen] Starting favicon generation...");
+  logger.info("Starting favicon generation...");
 
   const contentDir = process.env.CONTENT_DIR;
   if (!contentDir) {
@@ -74,10 +77,10 @@ async function run() {
       "[favicon-gen] 'CONTENT_DIR' environment variable is not set. Please specify which content to process.",
     );
   }
-  console.log(`[favicon-gen] Using content directory: ${contentDir}`);
+  logger.info(`[favicon-gen] Using content directory: ${contentDir}`);
 
   const config = await loadSiteConfig(contentDir);
-  console.log(`[favicon-gen] Using source file: ${config.sourceFile}`);
+  logger.info(`[favicon-gen] Using source file: ${config.sourceFile}`);
 
   const staticDir = `static/${contentDir}`;
   const assetsOutDir = path.resolve(staticDir, "assets", "favicons");
@@ -95,55 +98,62 @@ async function run() {
     logging: false, // Force logging off as we do our own.
   };
 
-  try {
-    const response = await favicons(config.sourceFile, configuration);
+  const response = await favicons(config.sourceFile, configuration);
 
-    // Handle favicon.ico separately
-    const faviconIco = response.images.find(
-      (image) => image.name === "favicon.ico",
-    );
-    if (faviconIco) {
-      const faviconIcoPath = path.resolve(staticDir, "favicon.ico");
-      await fs.writeFile(faviconIcoPath, faviconIco.contents);
-      console.log(`[favicon-gen] Wrote ${faviconIcoPath}`);
+  // Handle favicon.ico separately
+  function isFaviconIco(image: { name: string }) {
+    return image.name === "favicon.ico";
+  }
 
-      // Remove the favicon.ico from the images array so it's not written twice
-      response.images = response.images.filter(
-        (image) => image.name !== "favicon.ico",
-      );
+  const faviconIco = response.images.find(isFaviconIco);
+  let imagesToWrite = response.images;
+  if (faviconIco) {
+    const faviconIcoPath = path.resolve(staticDir, "favicon.ico");
+    await fs.writeFile(faviconIcoPath, faviconIco.contents);
+    logger.info(`[favicon-gen] Wrote ${faviconIcoPath}`);
+
+    // Remove the favicon.ico from the images array so it's not written twice
+    function isNotFavicon(image: { name: string }) {
+      return image.name !== "favicon.ico";
     }
+    imagesToWrite = response.images.filter(isNotFavicon);
+  }
 
-    await Promise.all(
-      response.images.map((image) =>
-        fs.writeFile(path.join(assetsOutDir, image.name), image.contents),
-      ),
-    );
-    console.log(`[favicon-gen] Wrote images to ${assetsOutDir}`);
+  function writeImage(image: { name: string; contents: any }) {
+    return fs.writeFile(path.join(assetsOutDir, image.name), image.contents);
+  }
+  await Promise.all(imagesToWrite.map(writeImage));
+  logger.info(`[favicon-gen] Wrote images to ${assetsOutDir}`);
 
-    await Promise.all(
-      response.files.map((file) =>
-        fs.writeFile(path.join(assetsOutDir, file.name), file.contents),
-      ),
-    );
-    console.log(`[favicon-gen] Wrote manifest files to ${assetsOutDir}`);
+  function writeFile(file: { name: string; contents: any }) {
+    return fs.writeFile(path.join(assetsOutDir, file.name), file.contents);
+  }
 
-    const tempFaviconHtmlPath = path.join(tempDir, "favicons.html");
-    const finalHtml = response.html
-      .filter((htmlLine) => !htmlLine.includes('favicon.ico"'))
-      .join("\n");
-    await fs.writeFile(tempFaviconHtmlPath, finalHtml);
-    console.log(
-      `[favicon-gen] Wrote temporary favicons.html to ${tempFaviconHtmlPath}`,
-    );
+  await Promise.all(response.files.map(writeFile));
+  logger.info(`Wrote manifest files to ${assetsOutDir}`);
 
-    console.log("[favicon-gen] Favicons generated successfully.");
-  } catch (error) {
-    console.error("[favicon-gen] Error during favicon generation:", error);
+  const tempFaviconHtmlPath = path.join(tempDir, "favicons.html");
+  function filterOutIco(htmlLine: string) {
+    return !htmlLine.includes('favicon.ico"');
+  }
+  const finalHtml = response.html.filter(filterOutIco).join("\n");
+  await fs.writeFile(tempFaviconHtmlPath, finalHtml);
+  logger.info(
+    `[favicon-gen] Wrote temporary favicons.html to ${tempFaviconHtmlPath}`,
+  );
+
+  logger.info("[favicon-gen] Favicons generated successfully.");
+}
+
+async function executeRun(): Promise<void> {
+  try {
+    await run();
+  } catch (e: any) {
+    logger.error("[favicon-gen] An error occurred during favicon generation.", {
+      error: e?.message ?? e,
+    });
     process.exit(1);
   }
 }
 
-run().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+executeRun();
