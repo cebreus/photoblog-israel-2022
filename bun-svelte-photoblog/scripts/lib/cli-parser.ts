@@ -1,21 +1,27 @@
 /**
  * CLI argument parsing with map-based approach for better maintainability.
- * Refactored from monolithic switch statement to handler map (OCP principle).
  */
 
 import path from "node:path";
 import os from "node:os";
 import type { Quality, GifMode, VariantType } from "../../src/lib/types/images";
+import { ImageFormat, ImageVariant } from "../../src/lib/types/images";
+import type { QualityTypes } from "../../src/lib/types/manifest";
+import { config } from "../config";
 
-type BlurFormats = Array<"png" | "avif" | "jpeg">;
+type QualityFormat = Extract<ImageFormat, "avif" | "webp" | "jpeg">;
+type BlurFormat = Extract<ImageFormat, "png" | "avif" | "jpeg">;
+type BlurFormats = Array<BlurFormat>;
 
-export type Args = {
+export type CliOptions = {
   // Main pipeline
   src: string;
   out: string;
   manifest: string;
+  manifestOnly: boolean;
+  cache?: string;
   variants: VariantType[];
-  formats: Array<"avif" | "webp" | "jpeg">;
+  formats: Array<QualityFormat>;
   quality: Quality;
   allowUpscale: boolean;
   keepOriginal: boolean;
@@ -44,174 +50,270 @@ export type Args = {
   blurClean: boolean;
 };
 
-export const DEFAULTS: Args = {
-  src: path.resolve(process.cwd(), "content/israel-2022"),
-  out: path.resolve(process.cwd(), "static/images/israel-2022"),
-  manifest: path.resolve(process.cwd(), "src/lib/images.manifest.json"),
-  variants: ["details", "previews", "previews-xl", "previews-xxs"],
-  formats: ["avif", "webp", "jpeg"],
-  quality: { avif: 50, webp: 60, jpeg: 80 },
+const QUALITY_FORMATS: readonly QualityFormat[] = [
+  ImageFormat.AVIF,
+  ImageFormat.WEBP,
+  ImageFormat.JPEG,
+];
+
+const BLUR_FORMATS: readonly BlurFormat[] = [
+  ImageFormat.PNG,
+  ImageFormat.AVIF,
+  ImageFormat.JPEG,
+];
+
+const VARIANT_TYPES: readonly string[] = [
+  ImageVariant.DETAILS,
+  ImageVariant.PREVIEWS,
+  ImageVariant.PREVIEWS_XL,
+  ImageVariant.PREVIEWS_XXS,
+];
+
+const GIF_MODES: readonly GifMode[] = ["copy", "convert"];
+
+function isGifMode(value: string): value is GifMode {
+  return GIF_MODES.some(function equals(v) {
+    return v === value;
+  });
+}
+
+function isQualityType(x: string): x is QualityFormat {
+  return QUALITY_FORMATS.some(function equals(v) {
+    return v === x;
+  });
+}
+
+function isBlurFormat(x: string): x is BlurFormat {
+  return BLUR_FORMATS.some(function equals(v) {
+    return v === x;
+  });
+}
+
+function isVariantType(x: string): x is VariantType {
+  return VARIANT_TYPES.includes(x);
+}
+
+function parseQualityTypes(input: string): QualityTypes[] {
+  return input.split(",").map(trimLower).filter(isQualityType);
+}
+
+function parseBlurFormats(input: string): BlurFormats {
+  return input.split(",").map(trimLower).filter(isBlurFormat);
+}
+
+function parseVariantTypes(input: string): VariantType[] {
+  return input.split(",").map(trimVariant).filter(isVariantType);
+}
+
+function trimLower(s: string): string {
+  return s.trim().toLowerCase();
+}
+
+function trimVariant(s: string): string {
+  return s.trim();
+}
+
+export const DEFAULT_CLI_OPTIONS: CliOptions = {
+  src: "",
+  out: "",
+  manifest: "",
+  manifestOnly: false,
+  variants: [
+    ImageVariant.DETAILS,
+    ImageVariant.PREVIEWS,
+    ImageVariant.PREVIEWS_XL,
+    ImageVariant.PREVIEWS_XXS,
+  ],
+  formats: [...config.encoding.formats],
+  quality: { ...config.encoding.quality },
   allowUpscale: false,
   keepOriginal: false,
   gif: "copy",
-  concurrency: 4,
+  concurrency: config.script.concurrency,
   watch: false,
   clean: false,
   fallback: "none",
   verbose: false,
   quiet: false,
-  lqipWidth: 24,
-  limit: 0,
+  lqipWidth: config.outputs.placeholder.resize.width,
+  limit: config.script.limit,
 
-  blurEnable: false,
-  blurOnly: false,
-  blurSrc: path.resolve(
-    process.cwd(),
-    "../static/assets/israel-2022/previews-xl",
-  ),
-  blurOut: path.resolve(process.cwd(), "../static/assets/israel-2022/blurs"),
-  blurWidth: 24,
-  blurColors: 32,
-  blurFormats: ["png"],
-  blurPngCompression: 9,
-  blurPngQuality: 50,
-  blurAvifQuality: 50,
-  blurJpegQuality: 40,
-  blurClean: false,
+  blurEnable: config.blur.enable,
+  blurOnly: config.blur.only,
+  blurSrc: config.blur.src,
+  blurOut: config.blur.out,
+  blurWidth: config.blur.width,
+  blurColors: config.blur.colors,
+  blurFormats: [...config.blur.formats],
+  blurPngCompression: config.blur.pngCompression,
+  blurPngQuality: config.blur.pngQuality,
+  blurAvifQuality: config.blur.avifQuality,
+  blurJpegQuality: config.blur.jpegQuality,
+  blurClean: config.blur.clean,
 };
 
-type ArgHandler = (value: string, args: Args) => void;
+type ArgHandler = (value: string, args: CliOptions) => void;
 
-const ARG_HANDLERS: Record<string, ArgHandler> = {
-  src: (v, a) => {
+const CLI_FLAG_HANDLERS: Record<string, ArgHandler> = {
+  src: function handleSrc(v, a) {
     a.src = path.resolve(process.cwd(), v);
   },
-  out: (v, a) => {
+  out: function handleOut(v, a) {
     a.out = path.resolve(process.cwd(), v);
   },
-  manifest: (v, a) => {
+  manifest: function handleManifest(v, a) {
     a.manifest = path.resolve(process.cwd(), v);
   },
-  variants: (v, a) => {
-    a.variants = v
-      .split(",")
-      .map((x) => x.trim() as VariantType)
-      .filter((x) =>
-        ["details", "previews", "previews-xl", "previews-xxs"].includes(x),
-      );
+  "manifest-only": function handleManifestOnly(v, a) {
+    a.manifestOnly = v === "true";
   },
-  formats: (v, a) => {
-    a.formats = v
-      .split(",")
-      .map((x) => x.trim().toLowerCase() as any)
-      .filter((x) => ["avif", "webp", "jpeg"].includes(x));
+  manifestOnly: function handleManifestOnlyAlias(v, a) {
+    a.manifestOnly = v === "true";
   },
-  "quality.avif": (v, a) => {
-    a.quality.avif = parseInt(v, 10);
+  cache: function handleCache(v, a) {
+    a.cache = path.resolve(process.cwd(), v);
   },
-  "quality.webp": (v, a) => {
-    a.quality.webp = parseInt(v, 10);
+  variants: function handleVariants(v, a) {
+    a.variants = parseVariantTypes(v);
   },
-  "quality.jpeg": (v, a) => {
-    a.quality.jpeg = parseInt(v, 10);
+  formats: function handleFormats(v, a) {
+    a.formats = parseQualityTypes(v);
   },
-  "allow-upscale": (v, a) => {
+  "quality.avif": function handleQualityAvif(v, a) {
+    const quality = parseInt(v, 10);
+    if (!Number.isNaN(quality)) {
+      a.quality.avif = Math.max(1, Math.min(100, quality));
+    }
+  },
+  "quality.webp": function handleQualityWebp(v, a) {
+    const quality = parseInt(v, 10);
+    if (!Number.isNaN(quality)) {
+      a.quality.webp = Math.max(1, Math.min(100, quality));
+    }
+  },
+  "quality.jpeg": function handleQualityJpeg(v, a) {
+    const quality = parseInt(v, 10);
+    if (!Number.isNaN(quality)) {
+      a.quality.jpeg = Math.max(1, Math.min(100, quality));
+    }
+  },
+  "allow-upscale": function handleAllowUpscale(v, a) {
     a.allowUpscale = v === "true";
   },
-  "keep-original": (v, a) => {
+  "keep-original": function handleKeepOriginal(v, a) {
     a.keepOriginal = v === "true";
   },
-  gif: (v, a) => {
-    a.gif = (v as GifMode) ?? "copy";
+  gif: function handleGif(v, a) {
+    if (isGifMode(v)) {
+      a.gif = v;
+    }
   },
-  concurrency: (v, a) => {
-    a.concurrency = v === "auto" ? "auto" : Math.max(1, parseInt(v, 10) || 1);
+  concurrency: function handleConcurrency(v, a) {
+    if (v === "auto") {
+      a.concurrency = "auto";
+    } else {
+      const num = parseInt(v, 10);
+      if (!Number.isNaN(num)) {
+        a.concurrency = Math.max(1, num);
+      }
+    }
   },
-  watch: (v, a) => {
+  watch: function handleWatch(v, a) {
     a.watch = v === "true";
   },
-  clean: (v, a) => {
+  clean: function handleClean(v, a) {
     a.clean = v === "true";
   },
-  fallback: (v, a) => {
+  fallback: function handleFallback(v, a) {
     a.fallback = v === "copy" ? "copy" : "none";
   },
-  verbose: (v, a) => {
+  verbose: function handleVerbose(v, a) {
     a.verbose = v === "true";
   },
-  quiet: (v, a) => {
+  quiet: function handleQuiet(v, a) {
     a.quiet = v === "true";
   },
-  lqipWidth: (v, a) => {
-    a.lqipWidth = parseInt(v, 10);
+  lqipWidth: function handleLqipWidth(v, a) {
+    const width = parseInt(v, 10);
+    if (!Number.isNaN(width)) {
+      a.lqipWidth = Math.max(1, width);
+    }
   },
-  limit: (v, a) => {
-    a.limit = parseInt(v, 10);
+  limit: function handleLimit(v, a) {
+    const limit = parseInt(v, 10);
+    if (!Number.isNaN(limit)) {
+      a.limit = Math.max(0, limit);
+    }
   },
 
   // Blur group
-  "blur.enable": (v, a) => {
+  "blur.enable": function handleBlurEnable(v, a) {
     a.blurEnable = v === "true";
   },
-  "blur.only": (v, a) => {
+  "blur.only": function handleBlurOnly(v, a) {
     a.blurOnly = v === "true";
   },
-  "blur.src": (v, a) => {
+  "blur.src": function handleBlurSrc(v, a) {
     a.blurSrc = path.resolve(process.cwd(), v);
   },
-  "blur.out": (v, a) => {
+  "blur.out": function handleBlurOut(v, a) {
     a.blurOut = path.resolve(process.cwd(), v);
   },
-  "blur.width": (v, a) => {
-    a.blurWidth = Math.max(1, parseInt(v, 10) || DEFAULTS.blurWidth);
+  "blur.width": function handleBlurWidth(v, a) {
+    const width = parseInt(v, 10);
+    if (!Number.isNaN(width)) {
+      a.blurWidth = Math.max(1, width);
+    }
   },
-  "blur.colors": (v, a) => {
-    a.blurColors = Math.max(2, parseInt(v, 10) || DEFAULTS.blurColors);
+  "blur.colors": function handleBlurColors(v, a) {
+    const colors = parseInt(v, 10);
+    if (!Number.isNaN(colors)) {
+      a.blurColors = Math.max(2, Math.min(256, colors));
+    }
   },
-  "blur.formats": (v, a) => {
-    a.blurFormats = v
-      .split(",")
-      .map((x) => x.trim().toLowerCase() as any)
-      .filter((x) => ["png", "avif", "jpeg"].includes(x));
+  "blur.formats": function handleBlurFormats(v, a) {
+    a.blurFormats = parseBlurFormats(v);
   },
-  "blur.pngCompression": (v, a) => {
-    a.blurPngCompression = Math.max(
-      0,
-      Math.min(9, parseInt(v, 10) || DEFAULTS.blurPngCompression),
-    );
+  "blur.pngCompression": function handleBlurPngCompression(v, a) {
+    const compression = parseInt(v, 10);
+    if (!Number.isNaN(compression)) {
+      a.blurPngCompression = Math.max(0, Math.min(9, compression));
+    }
   },
-  "blur.pngQuality": (v, a) => {
-    a.blurPngQuality = Math.max(
-      0,
-      Math.min(100, parseInt(v, 10) || DEFAULTS.blurPngQuality),
-    );
+  "blur.pngQuality": function handleBlurPngQuality(v, a) {
+    const quality = parseInt(v, 10);
+    if (!Number.isNaN(quality)) {
+      a.blurPngQuality = Math.max(0, Math.min(100, quality));
+    }
   },
-  "blur.avifQuality": (v, a) => {
-    a.blurAvifQuality = Math.max(
-      1,
-      Math.min(100, parseInt(v, 10) || DEFAULTS.blurAvifQuality),
-    );
+  "blur.avifQuality": function handleBlurAvifQuality(v, a) {
+    const quality = parseInt(v, 10);
+    if (!Number.isNaN(quality)) {
+      a.blurAvifQuality = Math.max(1, Math.min(100, quality));
+    }
   },
-  "blur.jpegQuality": (v, a) => {
-    a.blurJpegQuality = Math.max(
-      1,
-      Math.min(100, parseInt(v, 10) || DEFAULTS.blurJpegQuality),
-    );
+  "blur.jpegQuality": function handleBlurJpegQuality(v, a) {
+    const quality = parseInt(v, 10);
+    if (!Number.isNaN(quality)) {
+      a.blurJpegQuality = Math.max(1, Math.min(100, quality));
+    }
   },
-  "blur.clean": (v, a) => {
+  "blur.clean": function handleBlurClean(v, a) {
     a.blurClean = v === "true";
   },
 };
 
-export function parseArgs(argv: string[]): Args {
-  const out: Args = { ...DEFAULTS };
+export function parseCliArguments(argv: string[]): CliOptions {
+  // Use structuredClone to avoid mutating the global DEFAULT_CLI_OPTIONS
+  // when modifying nested properties like 'quality'.
+  const out: CliOptions = structuredClone(DEFAULT_CLI_OPTIONS);
 
   for (const arg of argv) {
     if (!arg.startsWith("--")) continue;
     const [k, vRaw] = arg.slice(2).split("=");
     const v = vRaw ?? "true";
 
-    const handler = ARG_HANDLERS[k];
+    const handler = CLI_FLAG_HANDLERS[k];
     if (handler) {
       handler(v, out);
     }

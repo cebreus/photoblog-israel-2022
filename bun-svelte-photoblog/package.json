@@ -87,7 +87,8 @@
     "favicons": "^7.2.0",
     "gray-matter": "^4.0.3",
     "marked": "^12.0.2",
-    "slugify": "^1.6.6"
+    "slugify": "^1.6.6",
+    "winston": "^3.19.0"
   },
   "_comment_overrides_vite_vitest_type_fix": "Forces a single version of the 'vite' package across the entire project. Resolves type conflicts between 'vite' (used directly) and 'vitest' (which brings its own 'vite' dependency), otherwise leading to TypeScript errors.",
   "overrides": {

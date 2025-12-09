@@ -3,6 +3,21 @@
  * Používáno v generate-images.ts, images.ts, Picture.svelte a testech.
  */
 
+export const ImageFormat = {
+  AVIF: "avif",
+  WEBP: "webp",
+  JPEG: "jpeg",
+  PNG: "png",
+} as const;
+export type ImageFormat = (typeof ImageFormat)[keyof typeof ImageFormat];
+
+export enum ImageVariant {
+  DETAILS = "details",
+  PREVIEWS = "previews",
+  PREVIEWS_XL = "previews-xl",
+  PREVIEWS_XXS = "previews-xxs",
+}
+
 export type Variant = {
   width: number;
   height: number;
@@ -11,9 +26,9 @@ export type Variant = {
 };
 
 export type VariantsByFormat = {
-  avif?: Variant[];
-  webp?: Variant[];
-  jpeg?: Variant[];
+  [ImageFormat.AVIF]?: Variant[];
+  [ImageFormat.WEBP]?: Variant[];
+  [ImageFormat.JPEG]?: Variant[];
 };
 
 export type Placeholder = {
@@ -60,13 +75,13 @@ export type ManifestEntry = {
 export type Manifest = Record<string, ManifestEntry>;
 
 // Generator-specific types
-export type Quality = { avif: number; webp: number; jpeg: number };
+export type Quality = {
+  [ImageFormat.AVIF]: number;
+  [ImageFormat.WEBP]: number;
+  [ImageFormat.JPEG]: number;
+};
 export type GifMode = "copy" | "convert";
-export type VariantType =
-  | "details"
-  | "previews"
-  | "previews-xl"
-  | "previews-xxs";
+export type VariantType = `${ImageVariant}`;
 
 export type VariantConfig = {
   folder: string;

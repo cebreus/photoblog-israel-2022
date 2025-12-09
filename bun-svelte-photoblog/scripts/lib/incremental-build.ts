@@ -1,0 +1,358 @@
+import fsp from "node:fs/promises";
+import path from "node:path";
+import os from "node:os";
+import fg from "fast-glob";
+import { SingleBar } from "cli-progress";
+import { config } from "../config";
+import type {
+  Manifest,
+  Cache,
+  StoryDataMap,
+} from "../../src/lib/types/manifest";
+import { createLogger } from "./logger";
+import { ensureDir } from "./image-utils";
+import {
+  buildGeneratorManifest,
+  generateMenuManifest,
+  updateManifest,
+} from "./manifest-builder";
+import type { ProcessedImageResult } from "./image-processor";
+import { processImage, type ImageProcessOptions } from "./image-processor";
+import matter from "gray-matter";
+
+const logger = createLogger("images");
+
+function ignoreError(_err?: unknown): void {
+  // intentionally empty
+}
+
+function returnFalse(_err?: unknown): boolean {
+  return false;
+}
+
+async function fileExists(file: string) {
+  try {
+    await fsp.access(file);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function loadJSON<T>(file: string, fallback: T): Promise<T> {
+  try {
+    const content = await fsp.readFile(file, "utf8");
+    return JSON.parse(content);
+  } catch {
+    return fallback;
+  }
+}
+
+async function saveJSON(file: string, data: unknown) {
+  await ensureDir(path.dirname(file));
+  await fsp.writeFile(file, JSON.stringify(data, null, 2) + "\n", "utf8");
+}
+
+export async function loadStoryData(
+  contentRoot: string,
+): Promise<StoryDataMap> {
+  const storyFiles = await fg("**/*.md", {
+    cwd: contentRoot,
+    absolute: true,
+  });
+  const storyDataMap: StoryDataMap = {};
+  for (const file of storyFiles) {
+    try {
+      const fileContent = await fsp.readFile(file, "utf8");
+      const { data, content } = matter(fileContent);
+      if (data.location) {
+        storyDataMap[data.location] = {
+          title: data.title || "",
+          content: content.trim(),
+          location: data.location,
+        };
+      }
+    } catch (e: any) {
+      logger.warn(`Could not parse story file ${file}: ${e.message}`);
+    }
+  }
+  logger.verbose(
+    `Loaded ${Object.keys(storyDataMap).length} story entries from Markdown.`,
+  );
+  return storyDataMap;
+}
+
+async function detectChanges(
+  sourceFiles: string[],
+  cache: Cache,
+  srcRoot: string,
+) {
+  const toProcess: string[] = [];
+  const knownKeys = new Set(Object.keys(cache.files));
+
+  for (const file of sourceFiles) {
+    const key = path.posix.normalize(path.relative(srcRoot, file));
+    knownKeys.delete(key);
+    const stats = await fsp.stat(file);
+    const cached = cache.files[key];
+
+    if (!cached || cached.mtimeMs !== stats.mtimeMs) {
+      toProcess.push(file);
+      continue;
+    }
+
+    const outputsExist = await Promise.all(
+      cached.outputs.map((p) =>
+        fileExists(path.join(srcRoot, "..", p)).catch(returnFalse),
+      ),
+    );
+
+    if (outputsExist.some((exists) => !exists)) {
+      logger.verbose(`Output file missing for ${key}, reprocessing.`);
+      toProcess.push(file);
+    }
+  }
+  return { toProcess, toDelete: Array.from(knownKeys) };
+}
+
+async function loadCache(
+  cachePath: string,
+  configHash: string,
+  outRoot: string,
+  cacheVersion: number,
+) {
+  let cache: Cache = await loadJSON(cachePath, {
+    version: cacheVersion,
+    configHash,
+    files: {},
+  });
+
+  if (cache.configHash !== configHash || cache.version !== cacheVersion) {
+    logger.warn(
+      "Config, cache version, or script change detected. Forcing full rebuild.",
+    );
+    await fsp.rm(outRoot, { recursive: true, force: true }).catch(ignoreError);
+    cache = { version: cacheVersion, configHash, files: {} };
+  }
+  return cache;
+}
+
+async function findSourceFiles(srcRoot: string, limit: number | 0) {
+  const inputExts = config.script.inputExtensions;
+  const sourceFiles = await fg(`**/*.{${inputExts.join(",")}}`, {
+    cwd: srcRoot,
+    absolute: true,
+    dot: false,
+  });
+  if (limit > 0) sourceFiles.splice(limit);
+  return sourceFiles;
+}
+
+async function pruneDeleted(toDelete: string[], cache: Cache, outRoot: string) {
+  if (toDelete.length === 0) return;
+
+  const deleteKey = async (key: string) => {
+    const outputs = cache.files[key]?.outputs || [];
+    delete cache.files[key];
+    await Promise.all(
+      outputs.map((p) => fsp.unlink(path.join(outRoot, p)).catch(ignoreError)),
+    );
+  };
+
+  await Promise.all(toDelete.map(deleteKey));
+}
+
+async function processImages(
+  toProcess: string[],
+  {
+    concurrency,
+    quiet,
+    ...options
+  }: { concurrency: number | "auto"; quiet: boolean } & ImageProcessOptions,
+): Promise<ProcessedImageResult[]> {
+  if (toProcess.length === 0) return [];
+
+  const resolvedConcurrency =
+    typeof concurrency === "number"
+      ? concurrency
+      : Math.max(1, (os.cpus()?.length || 2) - 1);
+  logger.info(`Using concurrency: ${resolvedConcurrency}`);
+
+  const bar = quiet
+    ? null
+    : new SingleBar({
+        format: "Processing [{bar}] {percentage}% | {value}/{total}",
+      });
+  bar?.start(toProcess.length, 0);
+
+  const results: ProcessedImageResult[] = [];
+  let index = 0;
+
+  const workerLoop = async () => {
+    while (index < toProcess.length) {
+      const pos = index++;
+      if (pos >= toProcess.length) break;
+      // eslint-disable-next-line no-await-in-loop
+      const res = await processImage(toProcess[pos], options);
+      if (res) results.push(res);
+      bar?.increment();
+    }
+  };
+
+  const pool = Array.from({ length: resolvedConcurrency }, workerLoop);
+  await Promise.all(pool);
+
+  bar?.stop();
+  return results;
+}
+
+async function updateCacheAndManifests({
+  cache,
+  results,
+  toDelete,
+  storyData,
+  paths,
+  shouldWriteSiteManifests,
+  configHash,
+}: {
+  cache: Cache;
+  results: ProcessedImageResult[];
+  toDelete: string[];
+  storyData: StoryDataMap;
+  paths: {
+    cachePath: string;
+    generatorManifestPath: string;
+    manifestPath: string;
+    menuManifestPath: string;
+  };
+  shouldWriteSiteManifests: boolean;
+  configHash: string;
+}) {
+  for (const res of results) {
+    cache.files[res.key] = {
+      hash: res.hash,
+      mtimeMs: res.mtimeMs,
+      outputs: res.outputs,
+    };
+  }
+  cache.configHash = configHash;
+
+  const generatorManifest = buildGeneratorManifest(results);
+
+  let finalManifest: Manifest = { photoDays: [] };
+  if (shouldWriteSiteManifests) {
+    const existingManifest = await loadJSON(paths.manifestPath, {
+      photoDays: [],
+    });
+    finalManifest = updateManifest(
+      results,
+      toDelete,
+      storyData,
+      existingManifest,
+    );
+  }
+
+  const savePromises = [
+    saveJSON(paths.cachePath, cache),
+    saveJSON(paths.generatorManifestPath, generatorManifest),
+  ];
+
+  if (shouldWriteSiteManifests) {
+    savePromises.push(saveJSON(paths.manifestPath, finalManifest));
+    const menuManifest = generateMenuManifest(finalManifest);
+    savePromises.push(saveJSON(paths.menuManifestPath, menuManifest));
+  }
+
+  await Promise.all(savePromises);
+}
+
+export async function runIncrementalBuild(
+  CTX: {
+    srcRoot: string;
+    contentRoot: string;
+    outRoot: string;
+    manifestPath: string;
+    cachePath: string;
+    generatorManifestPath: string;
+    menuManifestPath: string;
+    shouldWriteSiteManifests: boolean;
+    configHash: string;
+  },
+  ARGS: {
+    concurrency: number | "auto";
+    manifestOnly: boolean;
+    quiet: boolean;
+    limit: number | 0;
+  },
+  opts: {
+    hasGifCopy?: boolean;
+    allowUpscale?: boolean;
+    formats?: any[];
+    qualityOverrides?: Record<string, number>;
+    cacheVersion?: number;
+  } = {},
+  storyLoader = loadStoryData,
+) {
+  const startTime = performance.now();
+  logger.info("Starting incremental build...");
+  if (ARGS.manifestOnly) {
+    logger.info(
+      "Manifest-only mode enabled. Skipping writes for generated images.",
+    );
+  }
+
+  const cache = await loadCache(
+    CTX.cachePath,
+    CTX.configHash,
+    CTX.outRoot,
+    opts.cacheVersion ?? 1,
+  );
+
+  const [storyData, sourceFiles] = await Promise.all([
+    storyLoader(CTX.contentRoot),
+    findSourceFiles(CTX.srcRoot, ARGS.limit),
+  ]);
+
+  const { toProcess, toDelete } = await detectChanges(
+    sourceFiles,
+    cache,
+    CTX.srcRoot,
+  );
+
+  logger.info(
+    `Found: ${toProcess.length} new/modified, ${toDelete.length} deleted.`,
+  );
+
+  await pruneDeleted(toDelete, cache, CTX.outRoot);
+
+  const results = await processImages(toProcess, {
+    ...ARGS,
+    srcRoot: CTX.srcRoot,
+    outRoot: CTX.outRoot,
+    hasGifCopy: opts.hasGifCopy ?? false,
+    allowUpscale: opts.allowUpscale ?? false,
+    formats: opts.formats ?? [...config.encoding.formats],
+    qualityOverrides: opts.qualityOverrides ?? {},
+  });
+
+  await updateCacheAndManifests({
+    cache,
+    results,
+    toDelete,
+    storyData,
+    paths: {
+      cachePath: CTX.cachePath,
+      generatorManifestPath: CTX.generatorManifestPath,
+      manifestPath: CTX.manifestPath,
+      menuManifestPath: CTX.menuManifestPath,
+    },
+    shouldWriteSiteManifests: CTX.shouldWriteSiteManifests,
+    configHash: CTX.configHash,
+  });
+
+  logger.info(
+    `Build finished in ${(performance.now() - startTime).toFixed(2)}ms.`,
+  );
+}
+
+export default runIncrementalBuild;

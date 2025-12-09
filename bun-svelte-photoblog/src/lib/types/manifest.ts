@@ -7,7 +7,7 @@
 /** Represents a single image source variant (e.g., a specific width in WebP or AVIF format). */
 export type ImageSource = {
   variant: "default" | "xl" | "detail" | "fallback";
-  type: "image/webp" | "image/jpeg" | "image/avif";
+  type: "image/webp" | "image/jpeg" | "image/avif" | "image/gif";
   path: string;
   width: number;
   height?: number; // Optional as not all variants might have it
@@ -27,6 +27,7 @@ export type ExifData = {
   description?: string;
   keywords?: string[];
   author?: string;
+  authorSlug?: string;
   copyright?: string;
   category?: string;
 };
@@ -45,6 +46,7 @@ export type ImageEntry = {
   placeholder?: string;
   // convenience top-level fields derived from EXIF/IPTC
   author?: string;
+  authorSlug?: string; // canonical slug for author, added at build time
   keywords?: string[];
   caption?: string;
   // additional canonical convenience fields (mirrored from exif.* for runtime ease)
@@ -82,6 +84,7 @@ export type Separator = {
   location: string;
   city: string;
   storyContent?: string;
+  storyHtml?: string; // pre-rendered HTML generated at build time
   id: string;
 };
 
@@ -124,10 +127,15 @@ export type MenuManifest = MenuDay[];
 
 // --- Types for script/generate-images.ts ---
 
-export type QualityTypes = "jpeg" | "webp" | "avif";
+import { ImageFormat } from "./images";
+
+export type QualityTypes =
+  | (typeof ImageFormat.JPEG)
+  | (typeof ImageFormat.WEBP)
+  | (typeof ImageFormat.AVIF);
 
 export type ScriptArgs = {
-  concurrency: number;
+  concurrency: number | "auto";
   limit: number;
   watch: boolean;
   clean: boolean;
@@ -167,4 +175,12 @@ export type AspectRatio =
   | "landscape-4-3"
   | "portrait-9-16"
   | "portrait-2-3"
-  | "portrait-3-4";
+  | "portrait-3-4"
+  | `landscape-${number}-${number}`
+  | `portrait-${number}-${number}`;
+
+export type Author = {
+  name: string;
+  count: number;
+  slug?: string;
+};
