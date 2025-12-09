@@ -1,6 +1,19 @@
 type FancyboxOptions = Record<string, unknown>;
 
-// Svelte action to bind Fancybox 6 on the client only. Lazily imports JS + CSS.
+// Minimal type definition for the Fancybox static object
+type FancyboxStatic = {
+  bind: (
+    node: HTMLElement,
+    selector: string,
+    options: Record<string, unknown>,
+  ) => void;
+  destroy: () => void;
+};
+
+/**
+ * Svelte action to bind Fancybox 6 on the client only.
+ * Lazily imports JS + CSS to reduce initial bundle size.
+ */
 export function useFancybox(
   node: HTMLElement,
   {
@@ -16,7 +29,7 @@ export function useFancybox(
       import("@fancyapps/ui/dist/fancybox/fancybox.css"),
     ]);
 
-    const fancybox = Fancybox as any;
+    const fancybox = Fancybox as unknown as FancyboxStatic;
 
     fancybox.bind(node, selector, {
       Carousel: {
@@ -25,7 +38,8 @@ export function useFancybox(
         },
       },
       on: {
-        ready: (fb: any) => fb?.plugins?.Thumbs?.hide?.(),
+        ready: (fb: { plugins?: { Thumbs?: { hide?: () => void } } }) =>
+          fb?.plugins?.Thumbs?.hide?.(),
       },
       ...options,
     });
