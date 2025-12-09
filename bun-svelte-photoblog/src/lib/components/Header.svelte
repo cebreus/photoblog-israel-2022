@@ -6,6 +6,7 @@
   type AuthorStats = {
     name: string;
     count: number;
+    slug?: string;
   };
 
   export let menuItems: MenuManifest = [];
