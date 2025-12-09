@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { computeTotals } from "../../src/lib/filter-utils";
+import { computeTotals } from "../../src/lib/utils";
 import type {
   PhotoDay,
   ImageEntry,
