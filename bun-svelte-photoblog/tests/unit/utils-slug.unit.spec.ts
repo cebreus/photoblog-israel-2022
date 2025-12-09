@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { toSlug } from "../../src/lib/utils";
+import { toSlug } from "../../src/lib/utils/strings";
 
 describe("toSlug", () => {
   it("slugifies simple names", () => {

@@ -1,2 +1,2 @@
-export { getPhotoDays } from "./images";
-export { getMenuItems } from "./menu";
+export { getPhotoDays } from "./utils/images";
+export { getMenuItems } from "./utils/menu";

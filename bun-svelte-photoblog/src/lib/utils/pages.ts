@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 import matter from "gray-matter";
-import { marked } from "marked";
+import { renderMarkdown } from "$lib/utils/markup";
 
 export type PageFrontMatter = {
   type?: string;
@@ -46,7 +46,7 @@ export async function loadPage(route: string): Promise<PageData> {
   const file = path.join(CONTENT_ROOT, route, "index.md");
   const raw = await fs.readFile(file, "utf8");
   const { data, content } = matter(raw);
-  const fm = (data || {}) as PageFrontMatter;
+  const fm: PageFrontMatter = data || {};
 
   const jumbo = fm.jumbo
     ? {
@@ -54,17 +54,13 @@ export async function loadPage(route: string): Promise<PageData> {
         excerpt: fm.jumbo.excerpt ?? "",
         content: fm.jumbo.content ?? "",
         html: {
-          excerpt: fm.jumbo.excerpt
-            ? (marked.parse(fm.jumbo.excerpt) as string)
-            : "",
-          content: fm.jumbo.content
-            ? (marked.parse(fm.jumbo.content) as string)
-            : "",
+          excerpt: fm.jumbo.excerpt ? renderMarkdown(fm.jumbo.excerpt) : "",
+          content: fm.jumbo.content ? renderMarkdown(fm.jumbo.content) : "",
         },
       }
     : null;
 
-  const bodyHtml = content ? (marked.parse(content) as string) : "";
+  const bodyHtml = content ? renderMarkdown(content) : "";
 
   return {
     route,

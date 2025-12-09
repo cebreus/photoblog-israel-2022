@@ -6,8 +6,8 @@
   } from "./offcanvas-context";
   import type { Snippet } from "svelte";
   import type { HTMLAttributes } from "svelte/elements";
-  import { cn } from "$lib/utils.js";
-  import XIcon from "@lucide/svelte/icons/x"; // Import XIcon
+  import { cn } from "$lib/utils";
+  import {XIcon} from "@lucide/svelte";
   import Button, {
     buttonVariants,
   } from "$lib/components/ui/button/button.svelte"; // Import Button and buttonVariants

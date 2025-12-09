@@ -8,7 +8,7 @@ import type {
   Separator,
   StoryDataMap,
 } from "../../src/lib/types/manifest";
-import { slugify } from "./image-utils";
+import { toSlug } from "../../src/lib/utils/strings"; // Corrected import
 
 function parseMarkdown(content: string): string {
   const parsed = marked.parse(content);
@@ -215,7 +215,7 @@ export function updateManifest(
         const story = storyData[location];
         const storyContent = story?.content?.trim();
         const separator: Separator = {
-          id: "loc-" + slugify(location),
+          id: "loc-" + toSlug(location), // Using toSlug
           type: "separator",
           location: location,
           city: group[0].exif?.city || "",
@@ -290,7 +290,7 @@ function mapLocationToMenuItem(
     return item.type === "image" && item.exif?.location === locationName;
   }
   const group = day.items.filter(isImageInLocation);
-  const locId = "loc-" + slugify(locationName);
+  const locId = "loc-" + toSlug(locationName); // Using toSlug
   const isDimmed = group.length <= 2;
 
   let href = `#${locId}`;

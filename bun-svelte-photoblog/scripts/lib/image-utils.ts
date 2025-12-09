@@ -1,6 +1,5 @@
 import fsp from "node:fs/promises";
 import crypto from "node:crypto";
-import slugifyLib from "slugify";
 import type { AspectRatio } from "../../src/lib/types/manifest";
 
 type LandscapeRatio = `landscape-${number}-${number}`;
@@ -101,12 +100,4 @@ export async function ensureDir(dir: string): Promise<void> {
 
 export function sha1(buf: Buffer | Uint8Array | string): string {
   return crypto.createHash("sha1").update(buf).digest("hex");
-}
-
-/**
- * Create a slugified string suitable for ids and filenames.
- */
-
-export function slugify(text: string): string {
-  return slugifyLib(text, { lower: true, strict: true });
 }

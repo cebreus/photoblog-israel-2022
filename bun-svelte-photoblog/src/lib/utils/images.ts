@@ -3,10 +3,17 @@ import type {
   PhotoDay,
   ImageEntry,
   ImageSource,
-} from "./types/manifest";
+} from "../types/manifest";
 import manifest from "$lib/images.manifest.json" with { type: "json" };
 
-const typedManifest: Manifest = manifest as unknown as Manifest;
+// Helper to validate/cast the manifest safely
+function isManifest(acc: unknown): acc is Manifest {
+  return typeof acc === "object" && acc !== null && "photoDays" in acc;
+}
+
+const typedManifest: Manifest = isManifest(manifest)
+  ? manifest
+  : { photoDays: [] };
 
 export function getManifest(): Manifest {
   return typedManifest;

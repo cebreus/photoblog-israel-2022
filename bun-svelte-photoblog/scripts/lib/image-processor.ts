@@ -17,8 +17,8 @@ import {
   normalizeText,
   ensureDir,
   sha1,
-  slugify,
 } from "./image-utils";
+import { toSlug } from "../../src/lib/utils/strings"; // Corrected import
 
 const logger = createLogger("images");
 
@@ -256,7 +256,7 @@ export async function createImageEntry(
   );
 
   return {
-    id: "img-" + slugify(baseName),
+    id: "img-" + toSlug(baseName), // Using toSlug
     type: "image",
     src: path.basename(absPath),
     alt: getAltText(exif, captionCanonical, titleCanonical),
@@ -288,7 +288,7 @@ export async function createImageEntry(
       category: normalizeText(exif.Category || exif.CategoryCode),
     },
     author: authorCanonical,
-    authorSlug: authorCanonical ? slugify(authorCanonical) : undefined,
+    authorSlug: authorCanonical ? toSlug(authorCanonical) : undefined, // Using toSlug
     date: (exif.DateTimeOriginal || exif.CreateDate)?.toISOString?.(),
     sources: [],
   };
@@ -455,7 +455,7 @@ async function copyGif(
   }
 
   const image: ImageEntry = {
-    id: "img-" + slugify(baseName),
+    id: "img-" + toSlug(baseName), // Using toSlug
     type: "image",
     src: path.basename(absPath),
     alt: "Animated GIF image",

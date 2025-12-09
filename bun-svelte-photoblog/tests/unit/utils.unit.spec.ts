@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { pluralizeCzech, pluralizeCount } from "../../src/lib/utils";
+import { pluralizeCzech, pluralizeCount } from "../../src/lib/utils/strings";
 
 describe("pluralizeCzech and pluralizeCount", () => {
   it("pluralizes fotka correctly", () => {
