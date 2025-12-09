@@ -65,11 +65,34 @@ export async function loadStoryData(
     try {
       const fileContent = await fsp.readFile(file, "utf8");
       const { data, content } = matter(fileContent);
+      const storyBody = (data.content || content).trim();
+      const filename = path.basename(file, ".md");
       if (data.location) {
         storyDataMap[data.location] = {
           title: data.title || "",
-          content: content.trim(),
+          content: storyBody,
           location: data.location,
+        };
+      } else if (data.date) {
+        // ... handled below
+      } else {
+        // Fallback: use filename as location key
+        storyDataMap[filename] = {
+          title: data.title || "",
+          content: storyBody,
+          location: filename,
+        };
+      }
+
+      if (data.date) {
+        const dateStr =
+          data.date instanceof Date
+            ? data.date.toISOString().substring(0, 10)
+            : String(data.date).substring(0, 10);
+        storyDataMap[dateStr] = {
+          title: data.title || "",
+          content: storyBody,
+          date: dateStr,
         };
       }
     } catch (e: any) {

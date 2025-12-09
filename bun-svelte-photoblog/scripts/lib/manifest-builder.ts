@@ -213,6 +213,7 @@ export function updateManifest(
         !seenLocations.has(location)
       ) {
         const story = storyData[location];
+
         const storyContent = story?.content?.trim();
         const separator: Separator = {
           id: "loc-" + toSlug(location), // Using toSlug
@@ -223,7 +224,6 @@ export function updateManifest(
             ? {
                 storyTitle: story.title,
                 storyContent,
-                storyHtml: parseMarkdown(storyContent),
               }
             : {}),
         };
@@ -239,6 +239,47 @@ export function updateManifest(
   function compareDayDate(a: PhotoDay, b: PhotoDay): number {
     return a.date.localeCompare(b.date);
   }
+
+  // Recalculate cities and locations for ALL days to ensure consistency
+  // regardless of whether they were updated in this run.
+  // Recalculate cities, locations, and story for ALL days, and enforce field order.
+  manifest.photoDays = manifest.photoDays.map((day) => {
+    const uniqueCities = new Set<string>();
+    const uniqueLocations = new Set<string>();
+    const cities: string[] = [];
+    const locations: string[] = [];
+
+    // Filter only images to avoid duplicates from separators
+    const images = (day.items || []).filter(
+      (i) => i.type === "image",
+    ) as ImageEntry[];
+
+    for (const image of images) {
+      const city = image.exif?.city;
+      if (city && !uniqueCities.has(city)) {
+        uniqueCities.add(city);
+        cities.push(city);
+      }
+      const loc = image.exif?.location;
+      if (loc && !uniqueLocations.has(loc)) {
+        uniqueLocations.add(loc);
+        locations.push(loc);
+      }
+    }
+
+    const story = storyData[day.date]?.content;
+
+    // Return new object with enforced key order
+    return {
+      date: day.date,
+      cities,
+      locations,
+      story,
+      items: day.items,
+      id: day.id || `day-${day.date}`,
+    };
+  });
+
   manifest.photoDays.sort(compareDayDate);
   return manifest;
 }

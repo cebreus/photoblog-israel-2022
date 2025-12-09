@@ -3,11 +3,12 @@
   import { Badge } from "$lib/components/ui/badge/";
   import Hero from "$lib/components/Hero.svelte";
   import type { PageData } from "./$types";
-  import { useScrollspy } from "$lib/actions/scrollspy"; // Import the useScrollspy action
+  import { useScrollspy } from "$lib/actions/scrollspy";
   import { useFancybox } from "$lib/actions/fancybox";
   import { selectedAuthors, showSeparators } from "$lib/stores/filters";
   import type { ImageEntry, Separator, PhotoDay } from "$lib/types/manifest";
-  import { filterGalleryItems } from "$lib/filter-utils";
+  import { filterGalleryItems } from "$lib/utils/gallery";
+  import { formatDateForDisplay, formatWeekdayCzech } from "$lib/utils/strings";
 
   let { data } = $props<{ data: PageData }>();
   type PhotoDayWithMeta = PhotoDay & {
@@ -15,28 +16,25 @@
     locations?: string[];
   };
 
-  let photoDays = $derived<PhotoDayWithMeta[]>(data.photoDays || []);
-
-  function formatDateForDisplay(dateValue: string | Date): string {
-    return new Intl.DateTimeFormat("cs-CZ", {
-      day: "numeric",
-      month: "numeric",
-      year: "numeric",
-    }).format(new Date(dateValue));
-  }
-
-  function formatWeekdayCzech(dateValue: string | Date): string {
-    return new Intl.DateTimeFormat("cs-CZ", { weekday: "long" }).format(
-      new Date(dateValue),
-    );
-  }
+  /**
+   * Compute page-specific filtered days.
+   * Preserves page metadata like cities/locations.
+   */
+  let photoDays = $derived(
+    (data.photoDays || [])
+      .map((day: PhotoDayWithMeta) => ({
+        ...day,
+        items: filterGalleryItems(day.items, $selectedAuthors, $showSeparators),
+      }))
+      .filter((d: PhotoDayWithMeta) => d.items && d.items.length > 0),
+  );
 </script>
 
 <Hero />
 
 <!-- visible count moved to FiltersOffcanvas header -->
 
-{#if $selectedAuthors.length > 0 && !photoDays.some( (day) => day.items.some((item) => item.type === "image" && item.author && $selectedAuthors.includes(item.author)), )}
+{#if $selectedAuthors.length > 0 && photoDays.length === 0}
   <div
     class="container mx-auto py-12 text-center text-sm text-muted-foreground"
   >
@@ -47,12 +45,7 @@
 <main>
   {#each photoDays as day (day.date)}
     {@const daySectionId = day.id ?? `day-${day.date}`}
-    {@const filteredItems = filterGalleryItems(
-      day.items,
-      $selectedAuthors,
-      $showSeparators,
-    )}
-    {#if filteredItems.length > 0}
+    {#if day.items.length > 0}
       <section
         id={daySectionId}
         class="container mx-auto py-8"
@@ -90,7 +83,7 @@
         <div
           class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
         >
-          <PhotoGrid items={filteredItems} />
+          <PhotoGrid items={day.items} />
         </div>
       </section>
     {/if}

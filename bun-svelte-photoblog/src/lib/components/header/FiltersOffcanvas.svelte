@@ -1,103 +1,121 @@
 <script lang="ts">
   import { buttonVariants } from "$lib/components/ui/button/button.svelte";
   import * as Offcanvas from "$lib/components/offcanvas";
-  import { showLocationPins } from "$lib/stores/mapLocations";
-  import { selectedAuthors, showSeparators } from "$lib/stores/filters";
+  import { showPhotoLabels } from "$lib/stores/photoLabels";
+  import {
+    selectedAuthors,
+    showSeparators,
+    visiblePhotos,
+  } from "$lib/stores/filters";
   import { Switch } from "$lib/components/ui/switch";
   import { SlidersHorizontal } from "@lucide/svelte";
   import { Badge } from "$lib/components/ui/badge/";
-  import { pluralizeCzech, pluralizeCount } from "$lib/utils";
-  // import { filtersSyncing } from "$lib/stores/filters"; // unused import removed
-  import { debug } from "$lib/stores/debug";
+  import { pluralizeCzech, pluralizeCount, toSlug } from "$lib/utils/strings";
   import { get as getStore } from "svelte/store";
-  import { getPhotoDays } from "$lib/images";
-  import { filterGalleryItems } from "$lib/filter-utils";
+  import { getMenuItems } from "$lib/utils/menu";
+  import { debug } from "$lib/stores/debug";
+  import type { Author, MenuDay } from "$lib/types/manifest";
+
   type AuthorStats = {
     name: string;
     count: number;
+    slug?: string;
   };
 
   let { authors = [] } = $props<{ authors?: AuthorStats[] }>();
 
-  import { onMount } from "svelte";
-
-  // from the passed authors list.
-  onMount(() => {
-    const initial = $selectedAuthors;
-    if ((!initial || initial.length === 0) && authors.length > 0) {
-      selectedAuthors.set(authors.map((a: AuthorStats) => a.name));
-    }
-  });
+  // initial population of selectedAuthors is handled centrally in +layout.svelte
 
   let totalPhotos = $state(0);
   let totalAuthors = $state(0);
-  let totalLocations = $state(0);
+  const totalLocations = getMenuItems().reduce(
+    (acc: number, day: MenuDay) => acc + day.locations.length,
+    0,
+  );
 
-  $effect(() => {
-    totalPhotos = authors.reduce(
-      (sum: number, author: AuthorStats) => sum + author.count,
-      0,
-    );
+  $effect(updateTotals);
+
+  function updateTotals() {
+    totalPhotos = authors.reduce(sumAuthorCounts, 0);
     totalAuthors = authors.length;
-  });
+  }
 
-  // visible items counter for the whole site based on canonical manifest
-  let visiblePhotos = $state(0);
+  function sumAuthorCounts(sum: number, author: AuthorStats): number {
+    return sum + author.count;
+  }
 
-  $effect(() => {
-    const days = getPhotoDays();
-    visiblePhotos = days.reduce((sum, day) => {
-      const filtered = filterGalleryItems(
-        day.items,
-        $selectedAuthors,
-        $showSeparators,
-      );
-      return sum + filtered.filter((it) => (it as any).type === "image").length;
-    }, 0);
-  });
+  // visiblePhotos and totalLocations are derived stores — read them with $visiblePhotos / $totalLocations in template
 
   // compute total unique locations across manifest
-  $effect(() => {
-    const days = getPhotoDays();
-    const set = new Set<string>();
-    for (const d of days) {
-      // PhotoDay type doesn't currently include `locations` in the TS model
-      // so read it defensively via any to satisfy the compiler and runtime.
-      const locs = (d as any).locations;
-      if (locs && Array.isArray(locs)) {
-        for (const loc of locs) set.add(loc);
-      }
-    }
-    totalLocations = set.size;
-  });
+  // total unique locations is set above in the same computeTotals effect
 
-  // no bulk select controls — kept filters minimal per request
+  function getAuthorSlug(a: AuthorStats) {
+    return a.slug ?? toSlug(a.name);
+  }
 
-  function toggleAuthor(name: string) {
-    // debug: log previous selection and intended outcome
+  /**
+   * Toggles an author's selection status.
+   * Implements subtractive logic: empty selection equals "all selected".
+   */
+  function toggleAuthor(slug: string, displayName?: string) {
     const previous = $selectedAuthors;
-    if (getStore(debug))
-      console.debug("filters: toggleAuthor start", { name, previous });
+    if (getStore(debug)) {
+      console.debug("filters: toggleAuthor start", {
+        slug,
+        name: displayName,
+        previous,
+      });
+    }
 
-    selectedAuthors.update((current) => {
-      const isSelected = current.includes(name);
+    selectedAuthors.update(function updateSelection(current) {
+      let effectiveCurrent = current;
 
-      const next = isSelected
-        ? current.filter((author) => author !== name)
-        : [...current, name];
-      // small debug after update — executed synchronously by update callback
-      // but we also log after update in a separate microtask for guaranteed visibility
-      setTimeout(() => {
-        if (getStore(debug))
-          console.debug("filters: toggleAuthor result", {
-            name,
-            prev: current,
-            next,
-          });
-      }, 0);
+      // Resolve "All" or "None" states to concrete list
+      if (current.length === 0) {
+        effectiveCurrent = authors.map(getAuthorSlug);
+      } else if (current.includes("none")) {
+        effectiveCurrent = [];
+      }
+
+      const isSelected = effectiveCurrent.includes(slug);
+      let next: string[];
+
+      if (isSelected) {
+        // Deselecting one author
+        next = effectiveCurrent.filter(function excludeSlug(s) {
+          return s !== slug;
+        });
+      } else {
+        // Selecting one author
+        next = [...effectiveCurrent, slug];
+      }
+
+      // 2. Resolve final state to store
+      const allSlugs = authors.map(getAuthorSlug);
+
+      if (next.length === 0) {
+        // User deselected everyone -> explicitly "none" to hide all
+        return ["none"];
+      }
+
+      if (next.length === allSlugs.length) {
+        // User selected everyone again -> reset to empty [] (implicit all)
+        return [];
+      }
 
       return next;
     });
+  }
+
+  // Event handler factories
+  function createToggleHandler(slug: string, name: string) {
+    return function handleToggle() {
+      toggleAuthor(slug, name);
+    };
+  }
+
+  function stopPropagation(e: Event) {
+    e.stopPropagation();
   }
 </script>
 
@@ -133,11 +151,11 @@
           class="font-semibold text-foreground text-lg tracking-tight"
           data-testid="filters-stats-photos"
         >
-          <span class="mr-2">{totalPhotos}</span>
-          <span class="text-slate-400">/</span>
-          <span class="ml-2">{visiblePhotos}</span>
+          {totalPhotos}
+          <span class="text-slate-300">/</span>
+          {$visiblePhotos}
         </div>
-        <div class="text-xs text-slate-500">Fotky (celkem / zobrazeno)</div>
+        <div class="text-xs text-slate-500">Fotky / zobrazeno</div>
       </div>
 
       <div>
@@ -165,12 +183,12 @@
       data-testid="filters-location-control"
     >
       <div>
-        <p class="text-sm font-semibold">Zobrazit lokace</p>
-        <p class="text-xs text-slate-400">Zobrazí označení míst na mapě</p>
+        <p class="text-sm font-semibold">Zobrazit popisky</p>
+        <p class="text-xs text-slate-400">Zobrazí popisky u fotek</p>
       </div>
       <Switch
-        bind:checked={$showLocationPins}
-        aria-label={$showLocationPins ? "Skrýt lokace" : "Zobrazit lokace"}
+        bind:checked={$showPhotoLabels}
+        aria-label={$showPhotoLabels ? "Skrýt popisky" : "Zobrazit popisky"}
         data-testid="filters-location-switch"
       />
     </div>
@@ -193,19 +211,24 @@
       </div>
       <div class="flex flex-col gap-3">
         {#each authors as author (author.name)}
-          {@const isActive = $selectedAuthors.includes(author.name)}
+          {@const slugKey = author.slug ?? toSlug(author.name)}
+          {@const isActive =
+            $selectedAuthors.length === 0 ||
+            ($selectedAuthors.includes(slugKey) &&
+              !$selectedAuthors.includes("none"))}
+          {@const testIdKey = slugKey}
           <div
             class={`flex items-center justify-between text-sm ${
               isActive ? "text-primary" : "text-slate-100"
             }`}
-            data-testid={`filters-author-${author.name.replace(/\s+/g, "-")}`}
+            data-testid={`filters-author-${testIdKey}`}
             role="button"
             tabindex="0"
-            onclick={() => toggleAuthor(author.name)}
-            onkeydown={(event) => {
+            onclick={createToggleHandler(slugKey, author.name)}
+            onkeydown={function handleKeydown(event) {
               if (event.key === " " || event.key === "Enter") {
                 event.preventDefault();
-                toggleAuthor(author.name);
+                toggleAuthor(slugKey, author.name);
               }
             }}
           >
@@ -216,16 +239,16 @@
             <span
               class="inline-flex"
               role="presentation"
-              onclick={(e) => e.stopPropagation()}
-              onkeydown={(e) => e.stopPropagation()}
+              onclick={stopPropagation}
+              onkeydown={stopPropagation}
             >
               <Switch
                 checked={isActive}
                 aria-label={isActive
                   ? `Vypnout filtr ${author.name}`
                   : `Zapnout filtr ${author.name}`}
-                data-testid={`filters-author-switch-${author.name.replace(/\s+/g, "-")}`}
-                onCheckedChange={() => toggleAuthor(author.name)}
+                data-testid={`filters-author-switch-${testIdKey}`}
+                onCheckedChange={createToggleHandler(slugKey, author.name)}
               />
             </span>
           </div>

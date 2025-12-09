@@ -1,12 +1,8 @@
 import { getPhotoDays, getMenuItems } from "$lib";
-import type { MenuManifest, PhotoDay } from "$lib/types/manifest";
+import type { MenuManifest, PhotoDay, Author } from "$lib/types/manifest";
+import { toSlug } from "$lib/utils/strings"; // Corrected import
 
-type AuthorStats = {
-  name: string;
-  count: number;
-};
-
-function gatherAuthors(photoDays: PhotoDay[]): AuthorStats[] {
+function gatherAuthors(photoDays: PhotoDay[]): Author[] {
   const counts = new Map<string, number>();
 
   for (const day of photoDays) {
@@ -22,14 +18,18 @@ function gatherAuthors(photoDays: PhotoDay[]): AuthorStats[] {
   }
 
   return Array.from(counts.entries())
-    .map(([name, count]) => ({ name, count }))
+    .map(([name, count]) => ({
+      name,
+      count,
+      slug: name ? toSlug(name) : "", // Using toSlug
+    }))
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export const load = async () => {
   const photoDays = getPhotoDays();
   const menuItems: MenuManifest = getMenuItems();
-  const authors: AuthorStats[] = gatherAuthors(photoDays);
+  const authors: Author[] = gatherAuthors(photoDays);
 
   return {
     photoDays,

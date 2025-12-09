@@ -6,10 +6,10 @@
 
 /** Represents a single image source variant (e.g., a specific width in WebP or AVIF format). */
 export type ImageSource = {
-  variant: "default" | "xl" | "detail" | "fallback";
-  type: "image/webp" | "image/jpeg" | "image/avif" | "image/gif";
+  variant: "default" | "xl" | "detail" | "fallback" | "placeholder";
+  type: "image/webp" | "image/jpeg" | "image/avif" | "image/gif" | "image/png";
   path: string;
-  width: number;
+  width?: number;
   height?: number; // Optional as not all variants might have it
 };
 
@@ -83,8 +83,8 @@ export type Separator = {
   type: "separator";
   location: string;
   city: string;
+  storyTitle?: string;
   storyContent?: string;
-  storyHtml?: string; // pre-rendered HTML generated at build time
   id: string;
 };
 
@@ -96,6 +96,9 @@ export type PhotoDay = {
   date: string;
   id: string;
   items: (ImageEntry | Separator)[];
+  cities?: string[];
+  locations?: string[];
+  story?: string;
 };
 
 /** The root object of the entire `images.manifest.json`. */
@@ -130,9 +133,9 @@ export type MenuManifest = MenuDay[];
 import { ImageFormat } from "./images";
 
 export type QualityTypes =
-  | (typeof ImageFormat.JPEG)
-  | (typeof ImageFormat.WEBP)
-  | (typeof ImageFormat.AVIF);
+  | typeof ImageFormat.JPEG
+  | typeof ImageFormat.WEBP
+  | typeof ImageFormat.AVIF;
 
 export type ScriptArgs = {
   concurrency: number | "auto";
@@ -161,7 +164,8 @@ export type Cache = {
 export type StoryData = {
   title: string;
   content: string;
-  location: string;
+  location?: string;
+  date?: string;
 };
 
 export type StoryDataMap = Record<string, StoryData>;

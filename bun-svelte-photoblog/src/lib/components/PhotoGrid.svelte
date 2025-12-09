@@ -1,8 +1,7 @@
 <script lang="ts">
-  import { getSources } from "$lib/images";
+  import { getSources } from "$lib/utils/images";
   import type { ImageEntry, Separator, ImageSource } from "$lib/types/manifest";
   import { buttonVariants } from "$lib/components/ui/button";
-  import { marked } from "marked";
   import * as Dialog from "$lib/components/ui/dialog";
   import { debug } from "$lib/stores/debug";
   import { selectedAuthors } from "$lib/stores/filters";
@@ -10,37 +9,43 @@
   import { useScrollspy } from "$lib/actions/scrollspy"; // Import the useScrollspy action
   import AspectRatioIcon from "$lib/components/AspectRatioIcon.svelte";
 
+  type DisplayItem = ImageEntry | (Separator & { storyContent?: string });
+
   let { items } = $props<{
-    items: (ImageEntry | Separator)[];
+    items: DisplayItem[];
   }>();
 
-  function renderStoryHtml(separator: Separator) {
-    return separator.storyContent ? marked.parse(separator.storyContent) : "";
+  function isFallback(source: ImageSource) {
+    return source.variant === "fallback";
   }
 
   function findFallbackSource(image: ImageEntry): ImageSource | undefined {
-    return image.sources.find((source) => source.variant === "fallback");
+    return image.sources.find(isFallback);
+  }
+
+  function isDetail(source: ImageSource) {
+    return source.variant === "detail";
   }
 
   function findDetailSource(image: ImageEntry): ImageSource | undefined {
-    return (
-      image.sources.find((source) => source.variant === "detail") ??
-      image.sources[0]
-    );
+    return image.sources.find(isDetail) ?? image.sources[0];
   }
 
-  function shouldShowAspectRatioIcon(aspectRatio: string): boolean {
+  function shouldShowAspectRatioIcon(aspectRatio: string | undefined): boolean {
+    if (!aspectRatio) return false;
     return !aspectRatio.startsWith("landscape");
   }
 
-  $effect(() => {
+  $effect(debugLog);
+
+  function debugLog() {
     if ($debug) {
       console.debug("PhotoGrid render", {
         items: items.length,
         selectedAuthors: $selectedAuthors,
       });
     }
-  });
+  }
 </script>
 
 {#each items as item (item.type === "image" ? item.src : item.location)}
@@ -55,7 +60,7 @@
       class="block focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-200 rounded-lg"
     >
       <figure
-        data-location={item?.caption ?? item?.location ?? ""}
+        data-label={item?.location ?? item?.caption ?? ""}
         id={item.id}
         class={`relative bg-cover bg-center rounded-lg overflow-hidden duration-500 outline-background hover:outline-orange-100 outline-4 outline-offset-2 transition-[outline-color] ease-in-out ${
           $debug ? "flex flex-col" : ""
@@ -124,7 +129,7 @@
             id={separatorId}
             use:useScrollspy={{ id: separatorId }}
           >
-            {@html renderStoryHtml(item)}
+            {@html item.storyContent}
           </div>
         </Dialog.Content>
       </Dialog.Root>
