@@ -1,0 +1,196 @@
+import { describe, it, expect } from "vitest";
+import { updateManifest } from "../../scripts/lib/manifest-builder";
+import type { ProcessedImageResult } from "../../scripts/lib/image-processor";
+import type { Manifest, StoryDataMap } from "../../src/lib/types/manifest";
+
+describe("manifest-builder: updateManifest", () => {
+  it("aggregates cities and locations into PhotoDay and populates stories", () => {
+    // 1. Mock Data
+    const mockImage1: ProcessedImageResult = {
+      key: "israel-2022/IMG_1.jpg",
+      hash: "abc",
+      mtimeMs: 123,
+      bytes: 1000,
+      outputs: [],
+      image: {
+        id: "img-1",
+        type: "image",
+        src: "IMG_1.jpg",
+        alt: "",
+        title: "",
+        sources: [],
+        exif: {
+          date: "2022-10-20T10:00:00.000Z",
+          city: "Haifa",
+          location: "Baha’istické zahrady",
+        },
+      },
+    };
+
+    const mockImage2: ProcessedImageResult = {
+      key: "israel-2022/IMG_2.jpg",
+      hash: "def",
+      mtimeMs: 124,
+      bytes: 1000,
+      outputs: [],
+      image: {
+        id: "img-2",
+        type: "image",
+        src: "IMG_2.jpg",
+        alt: "",
+        title: "",
+        sources: [],
+        exif: {
+          date: "2022-10-20T12:00:00.000Z", // Same day
+          city: "Akko",
+          location: "Citadela",
+        },
+      },
+    };
+
+    // New Day
+    const mockImage3: ProcessedImageResult = {
+      key: "israel-2022/IMG_3.jpg",
+      hash: "ghi",
+      mtimeMs: 125,
+      bytes: 1000,
+      outputs: [],
+      image: {
+        id: "img-3",
+        type: "image",
+        src: "IMG_3.jpg",
+        alt: "",
+        title: "",
+        sources: [],
+        exif: {
+          date: "2022-10-21T10:00:00.000Z",
+          city: "Nazareth",
+          location: "Bazilika Zvěstování",
+        },
+      },
+    };
+
+    // Add more images to trigger separator (>2 images required)
+    const mockImage1b: ProcessedImageResult = {
+      key: "israel-2022/IMG_1b.jpg",
+      hash: "abc2",
+      mtimeMs: 123,
+      bytes: 1000,
+      outputs: [],
+      image: {
+        id: "img-1b",
+        type: "image",
+        src: "IMG_1b.jpg",
+        alt: "",
+        title: "",
+        sources: [],
+        exif: {
+          date: "2022-10-20T10:05:00.000Z",
+          city: "Haifa",
+          location: "Baha’istické zahrady",
+        },
+      },
+    };
+
+    const mockImage1c: ProcessedImageResult = {
+      key: "israel-2022/IMG_1c.jpg",
+      hash: "abc3",
+      mtimeMs: 123,
+      bytes: 1000,
+      outputs: [],
+      image: {
+        id: "img-1c",
+        type: "image",
+        src: "IMG_1c.jpg",
+        alt: "",
+        title: "",
+        sources: [],
+        exif: {
+          date: "2022-10-20T10:10:00.000Z",
+          city: "Haifa",
+          location: "Baha’istické zahrady",
+        },
+      },
+    };
+
+    const results = [
+      mockImage1,
+      mockImage1b,
+      mockImage1c,
+      mockImage2,
+      mockImage3,
+    ];
+
+    const storyData: StoryDataMap = {
+      // Story for a location
+      "Baha’istické zahrady": {
+        title: "Gardens Title",
+        content: "Gardens Content",
+        location: "Baha’istické zahrady",
+      },
+      // Story for a day
+      "2022-10-20": {
+        title: "Day 1 Title",
+        content: "Day 1 Content",
+        date: "2022-10-20",
+      },
+    };
+
+    const existingManifest: Manifest = { photoDays: [] };
+
+    // 2. Execution
+    const manifest = updateManifest(
+      results,
+      [], // deletedKeys
+      storyData,
+      existingManifest,
+    );
+
+    // 3. Assertions
+
+    // Check Day 1 (2022-10-20)
+    const day1 = manifest.photoDays.find((d) => d.date === "2022-10-20");
+    expect(day1).toBeDefined();
+    if (!day1) return;
+
+    // Cities and Locations aggregation
+    expect(day1.cities).toEqual(["Haifa", "Akko"]);
+    expect(day1.locations).toEqual(["Baha’istické zahrady", "Citadela"]);
+
+    // Day Story
+    expect(day1.story).toBe("Day 1 Content");
+
+    // JSON Field Order (Check keys of the object)
+    const dayKeys = Object.keys(day1);
+    const expectedOrder = [
+      "date",
+      "cities",
+      "locations",
+      "story",
+      "items",
+      "id",
+    ];
+    // We filter keys to only check the ones we care about ordering for, or exact match if possible
+    // Note: 'items' and 'id' position matters.
+    expect(dayKeys).toEqual(expectedOrder);
+
+    // Check Separator Story in items
+    // First item should be separator for Baha’istické zahrady (aggregated logic creates separators)
+    const separator = day1.items.find(
+      (i) => i.type === "separator" && i.location === "Baha’istické zahrady",
+    );
+    expect(separator).toBeDefined();
+    if (separator?.type === "separator") {
+      expect(separator.storyContent).toBe("Gardens Content");
+      expect(separator.storyTitle).toBe("Gardens Title");
+      // User requested removal of storyHtml
+      expect(separator).not.toHaveProperty("storyHtml");
+    }
+
+    // Check Day 2 (2022-10-21)
+    const day2 = manifest.photoDays.find((d) => d.date === "2022-10-21");
+    expect(day2).toBeDefined();
+    expect(day2?.cities).toEqual(["Nazareth"]);
+    expect(day2?.story).toBeUndefined(); // No story for this day
+  });
+});
