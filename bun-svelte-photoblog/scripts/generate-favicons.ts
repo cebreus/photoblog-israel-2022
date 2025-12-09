@@ -80,7 +80,9 @@ async function run() {
   logger.info(`[favicon-gen] Using content directory: ${contentDir}`);
 
   const config = await loadSiteConfig(contentDir);
-  logger.info(`[favicon-gen] Using source file: ${config.sourceFile}`);
+  logger.info(
+    `[favicon-gen] Using source file: ${path.relative(process.cwd(), config.sourceFile)}`,
+  );
 
   const staticDir = `static/${contentDir}`;
   const assetsOutDir = path.resolve(staticDir, "assets", "favicons");
@@ -110,7 +112,9 @@ async function run() {
   if (faviconIco) {
     const faviconIcoPath = path.resolve(staticDir, "favicon.ico");
     await fs.writeFile(faviconIcoPath, faviconIco.contents);
-    logger.info(`[favicon-gen] Wrote ${faviconIcoPath}`);
+    logger.info(
+      `[favicon-gen] Wrote ${path.relative(process.cwd(), faviconIcoPath)}`,
+    );
 
     // Remove the favicon.ico from the images array so it's not written twice
     function isNotFavicon(image: { name: string }) {
@@ -123,14 +127,18 @@ async function run() {
     return fs.writeFile(path.join(assetsOutDir, image.name), image.contents);
   }
   await Promise.all(imagesToWrite.map(writeImage));
-  logger.info(`[favicon-gen] Wrote images to ${assetsOutDir}`);
+  logger.info(
+    `[favicon-gen] Wrote images to ${path.relative(process.cwd(), assetsOutDir)}`,
+  );
 
   function writeFile(file: { name: string; contents: any }) {
     return fs.writeFile(path.join(assetsOutDir, file.name), file.contents);
   }
 
   await Promise.all(response.files.map(writeFile));
-  logger.info(`Wrote manifest files to ${assetsOutDir}`);
+  logger.info(
+    `[favicon-gen] Wrote manifest files to ${path.relative(process.cwd(), assetsOutDir)}`,
+  );
 
   const tempFaviconHtmlPath = path.join(tempDir, "favicons.html");
   function filterOutIco(htmlLine: string) {
