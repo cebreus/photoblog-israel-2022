@@ -1,0 +1,340 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Integration: main images generation > produces deterministic manifest and expected directory tree 1`] = `
+{
+  "alpha.png": {
+    "color": "rgb(8,248,8)",
+    "original": {
+      "format": "png",
+      "height": 30,
+      "path": "alpha.png",
+      "width": 40,
+    },
+    "outputs": [
+      "blurs/alpha.png",
+      "details/alpha.jpg",
+      "previews-avif/alpha.avif",
+      "previews-webp/alpha.webp",
+      "previews-xl-avif/alpha.avif",
+      "previews-xl-webp/alpha.webp",
+      "previews-xl/alpha.jpg",
+      "previews-xxs/alpha.jpg",
+      "previews/alpha.jpg",
+    ],
+    "placeholder": {
+      "height": null,
+      "type": null,
+      "width": null,
+    },
+    "variants": {
+      "avif": [
+        {
+          "height": null,
+          "path": "/israel-2022/images/previews-avif/alpha.avif",
+          "width": 370,
+        },
+        {
+          "height": null,
+          "path": "/israel-2022/images/previews-xl-avif/alpha.avif",
+          "width": 534,
+        },
+      ],
+      "jpeg": [
+        {
+          "height": 30,
+          "path": "/israel-2022/images/details/alpha.jpg",
+          "width": 40,
+        },
+        {
+          "height": 30,
+          "path": "/israel-2022/images/previews-xxs/alpha.jpg",
+          "width": 40,
+        },
+        {
+          "height": null,
+          "path": "/israel-2022/images/previews/alpha.jpg",
+          "width": 370,
+        },
+        {
+          "height": null,
+          "path": "/israel-2022/images/previews-xl/alpha.jpg",
+          "width": 534,
+        },
+      ],
+      "webp": [
+        {
+          "height": null,
+          "path": "/israel-2022/images/previews-webp/alpha.webp",
+          "width": 370,
+        },
+        {
+          "height": null,
+          "path": "/israel-2022/images/previews-xl-webp/alpha.webp",
+          "width": 534,
+        },
+      ],
+    },
+  },
+  "big.jpg": {
+    "color": "rgb(120,56,184)",
+    "original": {
+      "format": "jpg",
+      "height": 3000,
+      "path": "big.jpg",
+      "width": 4000,
+    },
+    "outputs": [
+      "blurs/big.png",
+      "details/big.jpg",
+      "previews-avif/big.avif",
+      "previews-webp/big.webp",
+      "previews-xl-avif/big.avif",
+      "previews-xl-webp/big.webp",
+      "previews-xl/big.jpg",
+      "previews-xxs/big.jpg",
+      "previews/big.jpg",
+    ],
+    "placeholder": {
+      "height": null,
+      "type": null,
+      "width": null,
+    },
+    "variants": {
+      "avif": [
+        {
+          "height": null,
+          "path": "/israel-2022/images/previews-avif/big.avif",
+          "width": 370,
+        },
+        {
+          "height": null,
+          "path": "/israel-2022/images/previews-xl-avif/big.avif",
+          "width": 534,
+        },
+      ],
+      "jpeg": [
+        {
+          "height": 107,
+          "path": "/israel-2022/images/previews-xxs/big.jpg",
+          "width": 190,
+        },
+        {
+          "height": null,
+          "path": "/israel-2022/images/previews/big.jpg",
+          "width": 370,
+        },
+        {
+          "height": null,
+          "path": "/israel-2022/images/previews-xl/big.jpg",
+          "width": 534,
+        },
+        {
+          "height": 960,
+          "path": "/israel-2022/images/details/big.jpg",
+          "width": 1280,
+        },
+      ],
+      "webp": [
+        {
+          "height": null,
+          "path": "/israel-2022/images/previews-webp/big.webp",
+          "width": 370,
+        },
+        {
+          "height": null,
+          "path": "/israel-2022/images/previews-xl-webp/big.webp",
+          "width": 534,
+        },
+      ],
+    },
+  },
+  "exif-orient-6.jpg": {
+    "color": "rgb(200,24,56)",
+    "original": {
+      "format": "jpg",
+      "height": 400,
+      "path": "exif-orient-6.jpg",
+      "width": 600,
+    },
+    "outputs": [
+      "blurs/exif-orient-6.png",
+      "details/exif-orient-6.jpg",
+      "previews-avif/exif-orient-6.avif",
+      "previews-webp/exif-orient-6.webp",
+      "previews-xl-avif/exif-orient-6.avif",
+      "previews-xl-webp/exif-orient-6.webp",
+      "previews-xl/exif-orient-6.jpg",
+      "previews-xxs/exif-orient-6.jpg",
+      "previews/exif-orient-6.jpg",
+    ],
+    "placeholder": {
+      "height": null,
+      "type": null,
+      "width": null,
+    },
+    "variants": {
+      "avif": [
+        {
+          "height": null,
+          "path": "/israel-2022/images/previews-avif/exif-orient-6.avif",
+          "width": 370,
+        },
+        {
+          "height": null,
+          "path": "/israel-2022/images/previews-xl-avif/exif-orient-6.avif",
+          "width": 534,
+        },
+      ],
+      "jpeg": [
+        {
+          "height": 107,
+          "path": "/israel-2022/images/previews-xxs/exif-orient-6.jpg",
+          "width": 190,
+        },
+        {
+          "height": null,
+          "path": "/israel-2022/images/previews/exif-orient-6.jpg",
+          "width": 370,
+        },
+        {
+          "height": null,
+          "path": "/israel-2022/images/previews-xl/exif-orient-6.jpg",
+          "width": 534,
+        },
+        {
+          "height": 400,
+          "path": "/israel-2022/images/details/exif-orient-6.jpg",
+          "width": 600,
+        },
+      ],
+      "webp": [
+        {
+          "height": null,
+          "path": "/israel-2022/images/previews-webp/exif-orient-6.webp",
+          "width": 370,
+        },
+        {
+          "height": null,
+          "path": "/israel-2022/images/previews-xl-webp/exif-orient-6.webp",
+          "width": 534,
+        },
+      ],
+    },
+  },
+  "portrait.jpg": {
+    "color": "rgb(24,56,232)",
+    "original": {
+      "format": "jpg",
+      "height": 900,
+      "path": "portrait.jpg",
+      "width": 600,
+    },
+    "outputs": [
+      "blurs/portrait.png",
+      "details/portrait.jpg",
+      "previews-avif/portrait.avif",
+      "previews-webp/portrait.webp",
+      "previews-xl-avif/portrait.avif",
+      "previews-xl-webp/portrait.webp",
+      "previews-xl/portrait.jpg",
+      "previews-xxs/portrait.jpg",
+      "previews/portrait.jpg",
+    ],
+    "placeholder": {
+      "height": null,
+      "type": null,
+      "width": null,
+    },
+    "variants": {
+      "avif": [
+        {
+          "height": null,
+          "path": "/israel-2022/images/previews-avif/portrait.avif",
+          "width": 370,
+        },
+        {
+          "height": null,
+          "path": "/israel-2022/images/previews-xl-avif/portrait.avif",
+          "width": 534,
+        },
+      ],
+      "jpeg": [
+        {
+          "height": 107,
+          "path": "/israel-2022/images/previews-xxs/portrait.jpg",
+          "width": 190,
+        },
+        {
+          "height": null,
+          "path": "/israel-2022/images/previews/portrait.jpg",
+          "width": 370,
+        },
+        {
+          "height": null,
+          "path": "/israel-2022/images/previews-xl/portrait.jpg",
+          "width": 534,
+        },
+        {
+          "height": 900,
+          "path": "/israel-2022/images/details/portrait.jpg",
+          "width": 600,
+        },
+      ],
+      "webp": [
+        {
+          "height": null,
+          "path": "/israel-2022/images/previews-webp/portrait.webp",
+          "width": 370,
+        },
+        {
+          "height": null,
+          "path": "/israel-2022/images/previews-xl-webp/portrait.webp",
+          "width": 534,
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`Integration: main images generation > produces deterministic manifest and expected directory tree 2`] = `
+[
+  "blurs/alpha.png",
+  "blurs/big.png",
+  "blurs/exif-orient-6.png",
+  "blurs/portrait.png",
+  "details/alpha.jpg",
+  "details/big.jpg",
+  "details/exif-orient-6.jpg",
+  "details/portrait.jpg",
+  "images.manifest.json",
+  "previews-avif/alpha.avif",
+  "previews-avif/big.avif",
+  "previews-avif/exif-orient-6.avif",
+  "previews-avif/portrait.avif",
+  "previews-webp/alpha.webp",
+  "previews-webp/big.webp",
+  "previews-webp/exif-orient-6.webp",
+  "previews-webp/portrait.webp",
+  "previews-xl-avif/alpha.avif",
+  "previews-xl-avif/big.avif",
+  "previews-xl-avif/exif-orient-6.avif",
+  "previews-xl-avif/portrait.avif",
+  "previews-xl-webp/alpha.webp",
+  "previews-xl-webp/big.webp",
+  "previews-xl-webp/exif-orient-6.webp",
+  "previews-xl-webp/portrait.webp",
+  "previews-xl/alpha.jpg",
+  "previews-xl/big.jpg",
+  "previews-xl/exif-orient-6.jpg",
+  "previews-xl/portrait.jpg",
+  "previews-xxs/alpha.jpg",
+  "previews-xxs/big.jpg",
+  "previews-xxs/exif-orient-6.jpg",
+  "previews-xxs/portrait.jpg",
+  "previews/alpha.jpg",
+  "previews/big.jpg",
+  "previews/exif-orient-6.jpg",
+  "previews/portrait.jpg",
+]
+`;

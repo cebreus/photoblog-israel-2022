@@ -137,12 +137,12 @@ describe("Integration: blur assets generation", () => {
     }
   });
 
-  it("supports multi-format blur outputs (png,avif,jpeg) and clean mode", async () => {
+  it("generates blur outputs as PNG only and cleans extras", async () => {
     const src = tmpDir("blur-in2");
     await buildInputSet(src);
     const out = tmpDir("blur-out2");
 
-    // first run: multiple formats
+    // first run: even if multiple requested, only png is produced
     let res = await runCli(
       [
         `--blur.enable=true`,
@@ -160,8 +160,8 @@ describe("Integration: blur assets generation", () => {
 
     let files = fs.readdirSync(out);
     expect(files.some((f) => f.endsWith(".png"))).toBe(true);
-    expect(files.some((f) => f.endsWith(".avif"))).toBe(true);
-    expect(files.some((f) => f.endsWith(".jpg"))).toBe(true);
+    expect(files.some((f) => f.endsWith(".avif"))).toBe(false);
+    expect(files.some((f) => f.endsWith(".jpg"))).toBe(false);
 
     // second run with clean: only png should remain
     res = await runCli(

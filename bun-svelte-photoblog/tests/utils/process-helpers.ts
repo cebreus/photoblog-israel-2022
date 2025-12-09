@@ -25,6 +25,10 @@ export async function runCli(
         stdio: ["ignore", "pipe", "pipe"],
       });
 
+      console.log(
+        `Executing command: bun scripts/generate-images.ts ${args.join(" ")}`,
+      );
+
       const timeout = setTimeout(() => {
         try {
           proc.kill("SIGKILL");
@@ -35,14 +39,22 @@ export async function runCli(
       let stdout = "";
       let stderr = "";
 
-      proc.stdout.on("data", (d) => (stdout += String(d)));
-      proc.stderr.on("data", (d) => (stderr += String(d)));
+      proc.stdout.on("data", (d) => {
+        stdout += String(d);
+        console.log(`STDOUT: ${String(d)}`);
+      });
+      proc.stderr.on("data", (d) => {
+        stderr += String(d);
+        console.error(`STDERR: ${String(d)}`);
+      });
       proc.on("close", (code) => {
         clearTimeout(timeout);
+        console.log(`Command exited with code: ${code}`);
         resolve({ code: code ?? -1, stdout, stderr });
       });
       proc.on("error", (e) => {
         clearTimeout(timeout);
+        console.error(`Command error: ${e.message}`);
         reject(e);
       });
     },

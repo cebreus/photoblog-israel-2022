@@ -75,16 +75,16 @@ export function normalizeManifest(
     const mapV = (arr?: Variant[]) =>
       arr
         ? arr
-            .map((v) => ({ width: v.width, height: v.height, path: v.path }))
+            .map((v) => ({ height: v.height, path: v.path, width: v.width }))
             .sort((a, b) => a.width - b.width || a.path.localeCompare(b.path))
         : undefined;
 
     out[k] = {
       original: {
-        width: e.original.width,
-        height: e.original.height,
         format: e.original.format,
+        height: e.original.height,
         path: e.original.path,
+        width: e.original.width,
       },
       variants: {
         avif: mapV(e.variants.avif),
@@ -93,9 +93,9 @@ export function normalizeManifest(
       },
       placeholder: e.placeholder
         ? {
-            width: e.placeholder.width,
             height: e.placeholder.height,
             type: e.placeholder.type,
+            width: e.placeholder.width,
           }
         : null,
       color: e.color,
