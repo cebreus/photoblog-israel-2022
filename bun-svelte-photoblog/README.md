@@ -28,6 +28,10 @@ Projekt je rozdělen na tři hlavní vrstvy:
     - Samotná SvelteKit aplikace, která je pro všechny galerie stejná.
     - Načítá data (`images.manifest.json`, `menu.manifest.json`) vygenerovaná do `src/lib/` a na jejich základě dynamicky sestavuje stránky.
 
+### Author slugs & shareable filters
+
+The app treats author filter values as canonical slugs for URL sharing and state. The build step produces `authorSlug` on each image entry inside `src/lib/images.manifest.json` and separator items may contain `storyHtml` (pre-rendered HTML of markdown stories). The client mapping accepts legacy display names for backward compatibility but will write and prefer slug values in the `authors=` CSV parameter in the URL. This makes filter links smaller and stable for sharing.
+
 ## Instalace
 
 1.  Ujistěte se, že máte nainstalovaný [Bun](https://bun.sh/).
@@ -54,6 +58,8 @@ Všechny klíčové akce se nyní spouštějí pomocí skriptů, které interně
   # Spustí dev server pro galerii 'egypt-2025'
   bun run dev:egypt
   ```
+
+  > **Poznámka:** Dev příkazy používají flag `--manifestOnly` pro skript `images:build`. To znamená, že při startu se pouze rychle přepočítá manifest, ale negenerují se znovu všechny obrázky (pokud už existují). To výrazně zrychluje start serveru. Pro plné přegenerování použijte `bun run images:build`.
 
 - Obecný příkaz `bun run dev` je aliasem pro `bun run dev:israel`.
 

@@ -121,7 +121,7 @@ Projekt klade velký důraz na **výkon a optimalizaci obrázků** - jádrem je 
 │  ├─ Ukládá do static/images/israel-2022/                    │
 │  └─ Vytváří manifest: src/lib/images.manifest.json          │
 │                                                              │
-│  Cache: .images-cache.json (optimalizace přeskakování)      │
+│  Cache: .temp/images-israel-2022.cache.json (hash cache)    │
 └──────────────────┬──────────────────────────────────────────┘
                    │
                    ▼
@@ -171,9 +171,9 @@ Projekt klade velký důraz na **výkon a optimalizaci obrázků** - jádrem je 
 Projekt je navržen jako **statická webová stránka** (Static Site Generation - SSG):
 
 1. **Build proces**:
-   - `bun run prebuild` - Linting + generování obrázků
-   - `bun run build` - SvelteKit build (Vite)
-   - Výstup: adresář `build/` s kompletní statickou stránkou
+   - `bun run generate` - Generování obrázků a favicon
+   - `vite build` - SvelteKit build
+   - Výstup: adresář `build/` (nebo `build-israel-2022/`) s kompletní statickou stránkou
 
 2. **Deployment možnosti**:
    - **Vercel, Netlify, Cloudflare Pages** - Push-to-deploy
@@ -361,51 +361,37 @@ src/
 ```
 scripts/
 ├─ config.ts                 # Centrální konfigurace
-│                            # - Varianty obrázků (details, previews, xxs)
-│                            # - Formáty (AVIF, WebP, JPEG)
-│                            # - Kvalita a komprese
-│                            # - Cesty k adresářům
+│                            # - Varianty obrázků, formáty, kvalita
+│                            # - Cesty (source, output, cache)
 │
-├─ generate-images.ts        # Hlavní skript pro generování obrázků
-│                            # - Načítání JPEG z content/israel-2022/
-│                            # - Extrakce EXIF metadata
-│                            # - Generování variant a formátů
-│                            # - Vytváření manifestu
-│                            # - Caching (.images-cache.json)
-│                            # - Watch mode
+├─ generate-images.ts        # Hlavní skript (entry point)
+│
+├─ generate-favicons.ts      # Generování favicon
 │
 └─ lib/
-   └─ cli-parser.ts          # Parser CLI argumentů
-                             # - Parsování --src, --out, --manifest atd.
-                             # - Výchozí hodnoty
-                             # - Validace
+   ├─ cli-parser.ts          # Parser CLI argumentů
+   ├─ incremental-build.ts   # Logika inkrementálního buildu
+   ├─ image-processor.ts     # Zpracování jednoho obrázku (Sharp)
+   ├─ manifest-builder.ts    # Vytváření manifestů
+   └─ logger.ts              # Winston logger konfigurace
 ```
 
 #### 2.2.4 Testing Layer (`tests/`, `e2e/`)
 
 ```
 tests/
-├─ unit/                     # Unit testy (izolované funkce)
-│  ├─ parseArgs.unit.spec.ts
-│  └─ quality-and-paths.unit.spec.ts
+├─ unit/                     # Unit testy
+│  ├─ images-cli.unit.spec.ts # Testování CLI argumentů a defaults
+│  ├─ manifest-builder.unit.spec.ts # Testování generování manifestu
+│  └─ ...
 │
-├─ integration/              # Integration testy (celý pipeline)
-│  ├─ generate-images.int.spec.ts
-│  ├─ blur-assets.int.spec.ts
-│  └─ watch-mode.int.spec.ts
+├─ integration/              # Integration testy
+│  └─ generate-and-blur.int.spec.ts # Komplexní test generování a blur
 │
-├─ e2e-images/               # E2E testy pro image generation
-│  └─ full-run.e2e.spec.ts
-│
-└─ utils/                    # Test utilities
-   ├─ fs-helpers.ts          # Filesystem helper funkce
-   ├─ image-assert.ts        # Image comparison funkce
-   ├─ manifest-assert.ts     # Manifest validation funkce
-   ├─ process-helpers.ts     # Process spawn helpers
-   └─ fixtures.ts            # Test fixture generátory
+└─ utils/                    # Test utilities (fixtures, helpers)
 
 e2e/
-└─ demo.test.ts              # Playwright E2E test (browser testing)
+└─ demo.test.ts              # Playwright E2E test
 ```
 
 ### 2.3 Vztah mezi zdrojovými soubory a buildovaným výstupem
@@ -448,9 +434,10 @@ json                                                      chunks/[hash].js
 
 **Build proces flow**:
 
-1. **Pre-build** (`bun run prebuild`):
-   - Linting (Biome + Stylelint)
-   - Image generation (`scripts/generate-images.ts`)
+1. **Generate** (`bun run generate`):
+   - Spouští `images:build` a `favicons:build`
+   - `images:build` využívá inkrementální cache (`.temp/images-*.cache.json`)
+   - `dev` command používá `--manifestOnly` pro rychlý start (generuje jen JSON, pokud obrázky existují)
 
 2. **Main build** (`bun run build` = `vite build`):
    - SvelteKit compilation (Svelte → JavaScript)
@@ -2414,6 +2401,11 @@ Output:
 
 - `static/images/israel-2022/` - Optimalizované obrázky (všechny varianty a formáty)
 - `src/lib/images.manifest.json` - Runtime manifest s metadaty
+  - Note: The manifest now includes canonical `authorSlug` on image entries
+    (generated at build time) and `storyHtml` for separator items when a
+    story is present (pre-rendered markdown). The client treats author
+    selections as slug-first and will write concise `authors=` CSV parameters
+    to the URL for sharing.
 - `.images-cache.json` - Cache pro rychlejší opakované buildy
 
 ### 9.4 Main build fáze (Vite)
