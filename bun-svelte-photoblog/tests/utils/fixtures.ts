@@ -12,11 +12,11 @@ const TINY_ANIM_GIF_BASE64 =
 /**
  * Vytvoří kurátorovanou sadu fixtur ve složce dir.
  * - alpha.png (40x30, s alfou)
- * - big.jpg (4000x3000) – pro downscale testy
- * - portrait.jpg (600x900) – pro crop/cover testy
+ * - big.jpeg (4000x3000) – pro downscale testy
+ * - portrait.jpeg (600x900) – pro crop/cover testy
  * - square.webp (300x300) – vstup v moderním formátu
  * - anim.gif (2x2 animovaný) – test gif režimu
- * - exif-orient-6.jpg (600x400 s EXIF Orientation=6) – test orientace
+ * - exif-orient-6.jpeg (600x400 s EXIF Orientation=6) – test orientace
  */
 export async function buildInputSet(dir: string) {
   fs.mkdirSync(dir, { recursive: true });
@@ -35,7 +35,7 @@ export async function buildInputSet(dir: string) {
     .toFile(pngAlpha);
 
   // 2) Velký JPEG 4000x3000 pro downscale
-  const bigJpeg = path.join(dir, "big.jpg");
+  const bigJpeg = path.join(dir, "big.jpeg");
   await sharp({
     create: {
       width: 4000,
@@ -48,7 +48,7 @@ export async function buildInputSet(dir: string) {
     .toFile(bigJpeg);
 
   // 3) Malý JPEG (portrait) 600x900
-  const portraitJpeg = path.join(dir, "portrait.jpg");
+  const portraitJpeg = path.join(dir, "portrait.jpeg");
   await sharp({
     create: {
       width: 600,
@@ -79,7 +79,7 @@ export async function buildInputSet(dir: string) {
 
   // 6) JPEG s EXIF orientací = 6
   // Pozn.: Sharp podporuje zapsání EXIF Orientation přes withMetadata({ orientation }).
-  const exifOrient6 = path.join(dir, "exif-orient-6.jpg");
+  const exifOrient6 = path.join(dir, "exif-orient-6.jpeg");
   await sharp({
     create: {
       width: 600,

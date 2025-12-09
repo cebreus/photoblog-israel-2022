@@ -365,7 +365,7 @@ async function generateVariant(
   options: ImageProcessOptions,
   originalMeta: import("sharp").Metadata,
 ) {
-  const outExt = format === "jpeg" ? "jpg" : format;
+  const outExt = format === "jpeg" ? "jpeg" : format;
   const variantFolder =
     format === ImageFormat.JPEG
       ? variantConfig.folderName
@@ -420,7 +420,7 @@ async function generateOtherOutput(
 ) {
   const format =
     "format" in outputConfig ? outputConfig.format : ImageFormat.JPEG;
-  const outExt = format === "jpeg" ? "jpg" : format;
+  const outExt = format === "jpeg" ? "jpeg" : format;
   const outPath = path.posix.normalize(
     path.join(outputConfig.folderName, `${baseName}.${outExt}`),
   );

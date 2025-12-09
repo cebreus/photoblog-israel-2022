@@ -46,7 +46,7 @@ describe("CLI (generate-images.ts) – základní chování a parsování parame
     // Složky a soubory pro JPEG (bez suffixu) a WEBP (s -webp suffixem) existují
     const tree = await listTree(outDir);
     const jpegFiles = tree.filter((p) =>
-      /\/(details|previews|previews-xl|previews-xxs)\/.+\.jpg$/.test(p),
+      /\/(details|previews|previews-xl|previews-xxs)\/.+\.jpeg$/.test(p),
     );
     const webpFiles = tree.filter((p) =>
       /\/(details|previews|previews-xl|previews-xxs)-webp\/.+\.webp$/.test(p),
@@ -63,7 +63,7 @@ describe("CLI (generate-images.ts) – základní chování a parsování parame
   it("respektuje --allow-upscale=false: detail varianta se nezvětšuje nad původní šířku", async () => {
     const inDir = tmpDir("img-in-small");
     // vytvoř malý vstup 100x80
-    const input = path.join(inDir, "small.jpg");
+    const input = path.join(inDir, "small.jpeg");
     await sharp({
       create: {
         width: 100,
@@ -96,7 +96,7 @@ describe("CLI (generate-images.ts) – základní chování a parsování parame
 
     const details = fs
       .readdirSync(detailsDir)
-      .filter((x) => x.endsWith(".jpg"));
+      .filter((x) => x.endsWith(".jpeg"));
     expect(details.length).toBe(1);
     const meta = await sharp(path.join(detailsDir, details[0])).metadata();
 
@@ -143,6 +143,6 @@ describe("CLI (generate-images.ts) – základní chování a parsování parame
     // již nesmí existovat .webp a .avif po clean
     expect(tree.some((p) => p.endsWith(".webp"))).toBe(false);
     expect(tree.some((p) => p.endsWith(".avif"))).toBe(false);
-    expect(tree.some((p) => p.endsWith(".jpg"))).toBe(true);
+    expect(tree.some((p) => p.endsWith(".jpeg"))).toBe(true);
   });
 });

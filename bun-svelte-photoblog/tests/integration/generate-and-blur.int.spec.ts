@@ -51,7 +51,7 @@ describe("Integration: main images generation", () => {
     // Sanity: variants should exist across formats
     expect(tree.some((p) => p.endsWith(".avif"))).toBe(true);
     expect(tree.some((p) => p.endsWith(".webp"))).toBe(true);
-    expect(tree.some((p) => p.endsWith(".jpg"))).toBe(true);
+    expect(tree.some((p) => p.endsWith(".jpeg"))).toBe(true);
   });
 
   it("respects GIF mode (copy) for animated GIF inputs", async () => {
@@ -161,7 +161,7 @@ describe("Integration: blur assets generation", () => {
     let files = fs.readdirSync(out);
     expect(files.some((f) => f.endsWith(".png"))).toBe(true);
     expect(files.some((f) => f.endsWith(".avif"))).toBe(false);
-    expect(files.some((f) => f.endsWith(".jpg"))).toBe(false);
+    expect(files.some((f) => f.endsWith(".jpeg"))).toBe(false);
 
     // second run with clean: only png should remain
     res = await runCli(

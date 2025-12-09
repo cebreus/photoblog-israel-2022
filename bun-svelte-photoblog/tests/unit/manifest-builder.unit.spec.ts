@@ -7,7 +7,7 @@ describe("manifest-builder: updateManifest", () => {
   it("aggregates cities and locations into PhotoDay and populates stories", () => {
     // 1. Mock Data
     const mockImage1: ProcessedImageResult = {
-      key: "israel-2022/IMG_1.jpg",
+      key: "israel-2022/IMG_1.jpeg",
       hash: "abc",
       mtimeMs: 123,
       bytes: 1000,
@@ -15,7 +15,7 @@ describe("manifest-builder: updateManifest", () => {
       image: {
         id: "img-1",
         type: "image",
-        src: "IMG_1.jpg",
+        src: "IMG_1.jpeg",
         alt: "",
         title: "",
         sources: [],
@@ -28,7 +28,7 @@ describe("manifest-builder: updateManifest", () => {
     };
 
     const mockImage2: ProcessedImageResult = {
-      key: "israel-2022/IMG_2.jpg",
+      key: "israel-2022/IMG_2.jpeg",
       hash: "def",
       mtimeMs: 124,
       bytes: 1000,
@@ -36,7 +36,7 @@ describe("manifest-builder: updateManifest", () => {
       image: {
         id: "img-2",
         type: "image",
-        src: "IMG_2.jpg",
+        src: "IMG_2.jpeg",
         alt: "",
         title: "",
         sources: [],
@@ -50,7 +50,7 @@ describe("manifest-builder: updateManifest", () => {
 
     // New Day
     const mockImage3: ProcessedImageResult = {
-      key: "israel-2022/IMG_3.jpg",
+      key: "israel-2022/IMG_3.jpeg",
       hash: "ghi",
       mtimeMs: 125,
       bytes: 1000,
@@ -58,7 +58,7 @@ describe("manifest-builder: updateManifest", () => {
       image: {
         id: "img-3",
         type: "image",
-        src: "IMG_3.jpg",
+        src: "IMG_3.jpeg",
         alt: "",
         title: "",
         sources: [],
@@ -72,7 +72,7 @@ describe("manifest-builder: updateManifest", () => {
 
     // Add more images to trigger separator (>2 images required)
     const mockImage1b: ProcessedImageResult = {
-      key: "israel-2022/IMG_1b.jpg",
+      key: "israel-2022/IMG_1b.jpeg",
       hash: "abc2",
       mtimeMs: 123,
       bytes: 1000,
@@ -80,7 +80,7 @@ describe("manifest-builder: updateManifest", () => {
       image: {
         id: "img-1b",
         type: "image",
-        src: "IMG_1b.jpg",
+        src: "IMG_1b.jpeg",
         alt: "",
         title: "",
         sources: [],
@@ -93,7 +93,7 @@ describe("manifest-builder: updateManifest", () => {
     };
 
     const mockImage1c: ProcessedImageResult = {
-      key: "israel-2022/IMG_1c.jpg",
+      key: "israel-2022/IMG_1c.jpeg",
       hash: "abc3",
       mtimeMs: 123,
       bytes: 1000,
@@ -101,7 +101,7 @@ describe("manifest-builder: updateManifest", () => {
       image: {
         id: "img-1c",
         type: "image",
-        src: "IMG_1c.jpg",
+        src: "IMG_1c.jpeg",
         alt: "",
         title: "",
         sources: [],
