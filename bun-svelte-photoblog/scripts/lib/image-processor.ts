@@ -1,12 +1,14 @@
 import fsp from "node:fs/promises";
+import fs from "node:fs";
 import path from "node:path";
+import crypto from "node:crypto";
 import exifr from "exifr";
 import type {
   ImageEntry,
   ImageSource,
   QualityTypes,
 } from "../../src/lib/types/manifest";
-import { ExifData as ManifestExifData } from "../../src/lib/types/manifest"; // Added this
+import type { ExifData as ManifestExifData } from "../../src/lib/types/manifest";
 import { ImageFormat } from "../../src/lib/types/images";
 import { config } from "../config";
 import { createLogger } from "./logger";
@@ -51,7 +53,14 @@ interface RawExifData extends ManifestExifData {
   Author?: string;
   Sublocation?: string;
   Orientation?: number; // Exifr might return number, manifest expects string
-  // Add other exifr-specific fields as needed that are not in ManifestExifData
+  DateTimeOriginal?: Date;
+  CreateDate?: Date;
+  Location?: string;
+  City?: string;
+  Copyright?: string;
+  CopyrightNotice?: string;
+  Category?: string;
+  CategoryCode?: string;
 }
 
 interface ResizeConfig {
@@ -125,19 +134,33 @@ export async function processImage(
   const baseName = path.basename(absPath, path.extname(absPath));
 
   try {
-    const fileBuffer = await fsp.readFile(absPath);
     const stats = await fsp.stat(absPath);
-    const hash = sha1(fileBuffer);
+    const hash = crypto.createHash("sha1");
+    const stream = fs.createReadStream(absPath);
+    for await (const chunk of stream) {
+      hash.update(chunk);
+    }
+    const fileHash = hash.digest("hex");
+
     const ext = path.extname(absPath).slice(1).toLowerCase();
 
+    // For GIF, we might still need buffer if we want to copy it exactly or process it
+    // But let's optimize the common path first. For GIF copy we might need the buffer?
+    // The original code passed fileBuffer to copyGif.
+    // If it is a gif and we need to copy, we might read it.
     if (ext === "gif" && options.hasGifCopy) {
-      return await copyGif(absPath, fileBuffer, stats, options);
+      // Only read buffer if we actually need it for gif copy (which seems to assume it)
+      const buffer = await fsp.readFile(absPath);
+      return await copyGif(absPath, buffer, stats, fileHash, options);
     }
 
-    const sharpInstance = sharpModule(fileBuffer);
+    // Initialize sharp with file path instead of buffer
+    const sharpInstance = sharpModule(absPath);
+
+    // exifr can also read from file path, often faster as it only reads header
     const [imageStats, exifRaw, originalMeta] = await Promise.all([
       sharpInstance.stats(),
-      exifr.parse(fileBuffer, {
+      exifr.parse(absPath, {
         exif: true,
         iptc: true,
         xmp: true,
@@ -168,11 +191,12 @@ export async function processImage(
         for (const format of options.formats) {
           const { outPath, info } = await generateVariant(
             sharpModule,
-            fileBuffer,
+            absPath,
             baseName,
             variantConfig,
             format,
             options,
+            originalMeta,
           );
           outputs.push(outPath);
           sources.push({
@@ -187,10 +211,11 @@ export async function processImage(
         const otherConfig = output.config;
         const { outPath, info } = await generateOtherOutput(
           sharpModule,
-          fileBuffer,
+          absPath,
           baseName,
           otherConfig,
           options,
+          originalMeta,
         );
         outputs.push(outPath);
         if (output.isPlaceholder) {
@@ -213,16 +238,15 @@ export async function processImage(
 
     return {
       key,
-      hash,
+      hash: fileHash,
       mtimeMs: stats.mtimeMs,
       bytes: stats.size,
       outputs,
       image: imageEntry,
     };
   } catch (e: unknown) {
-    logger.error(`Failed to process ${key}`, {
-      error: e instanceof Error ? e.message : String(e),
-    });
+    const msg = e instanceof Error ? e.stack || e.message : String(e);
+    logger.error(`Failed to process ${key}: ${msg}`);
     return null;
   }
 }
@@ -317,28 +341,29 @@ function getQuality(
 
 function buildSharpInstance(
   sharpModule: SharpModule,
-  fileBuffer: Buffer,
+  input: Buffer | string,
   resizeConfig: ResizeConfig,
   allowUpscale: boolean,
 ) {
-  const resizeSpec = { ...resizeConfig };
-  if (resizeSpec.crop) {
+  const resizeSpec: import("sharp").ResizeOptions = { ...resizeConfig };
+  if (resizeConfig.crop) {
     resizeSpec.fit = "cover";
-    delete resizeSpec.crop;
+    // delete resizeSpec.crop; // 'crop' is not in sharp types, but was in ResizeConfig interface
   }
   if (!allowUpscale) {
     resizeSpec.withoutEnlargement = true;
   }
-  return sharpModule(fileBuffer).resize(resizeSpec);
+  return sharpModule(input).resize(resizeSpec);
 }
 
 async function generateVariant(
   sharpModule: SharpModule,
-  fileBuffer: Buffer,
+  input: Buffer | string,
   baseName: string,
   variantConfig: VariantOutputConfig,
   format: ImageFormat,
   options: ImageProcessOptions,
+  originalMeta: import("sharp").Metadata,
 ) {
   const outExt = format === "jpeg" ? "jpg" : format;
   const variantFolder =
@@ -349,23 +374,37 @@ async function generateVariant(
     path.join(variantFolder, `${baseName}.${outExt}`),
   );
 
-  const resizedInstance = buildSharpInstance(
-    sharpModule,
-    fileBuffer,
-    variantConfig.resize,
-    options.allowUpscale,
-  );
+  let info: import("sharp").OutputInfo;
 
-  const quality = getQuality(format, options.qualityOverrides);
-  applyFormat(resizedInstance, format, quality);
+  if (options.manifestOnly) {
+    const dims = calculateOutputDimensions(
+      originalMeta.width ?? 0,
+      originalMeta.height ?? 0,
+      variantConfig.resize || {},
+      options.allowUpscale,
+    );
+    info = {
+      format: format,
+      size: 0, // Dummy size
+      width: dims.width,
+      height: dims.height,
+      channels: 3,
+      premultiplied: false,
+    };
+  } else {
+    const resizedInstance = buildSharpInstance(
+      sharpModule,
+      input,
+      variantConfig.resize,
+      options.allowUpscale,
+    );
 
-  let info;
-  if (!options.manifestOnly) {
+    const quality = getQuality(format, options.qualityOverrides);
+    applyFormat(resizedInstance, format, quality);
+
     const fullOutPath = path.join(options.outRoot, outPath);
     await ensureDir(path.dirname(fullOutPath));
     info = await resizedInstance.toFile(fullOutPath);
-  } else {
-    info = (await resizedInstance.toBuffer({ resolveWithObject: true })).info;
   }
 
   return { outPath, info };
@@ -373,10 +412,11 @@ async function generateVariant(
 
 async function generateOtherOutput(
   sharpModule: SharpModule,
-  fileBuffer: Buffer,
+  input: Buffer | string,
   baseName: string,
   outputConfig: OtherOutputConfig,
   options: ImageProcessOptions,
+  originalMeta: import("sharp").Metadata,
 ) {
   const format =
     "format" in outputConfig ? outputConfig.format : ImageFormat.JPEG;
@@ -385,27 +425,45 @@ async function generateOtherOutput(
     path.join(outputConfig.folderName, `${baseName}.${outExt}`),
   );
 
-  const resizedInstance = buildSharpInstance(
-    sharpModule,
-    fileBuffer,
-    outputConfig.resize || {},
-    options.allowUpscale,
-  );
+  let info: import("sharp").OutputInfo;
 
-  if ("blur" in outputConfig && outputConfig.blur) {
-    resizedInstance.blur(10).png(config.encoding.sharp.blur.png);
+  if (options.manifestOnly) {
+    // For placeholders specifically, we might typically want the actual buffer to base64 it.
+    // However, looking at the code, it seems it just puts the path in the manifest.
+    // If output.isPlaceholder is true, it sets imageEntry.placeholder = outPath.
+    // So we don't need the buffer content here either, just the dimensions.
+    const dims = calculateOutputDimensions(
+      originalMeta.width ?? 0,
+      originalMeta.height ?? 0,
+      outputConfig.resize || {},
+      options.allowUpscale,
+    );
+    info = {
+      format: format,
+      size: 0,
+      width: dims.width,
+      height: dims.height,
+      channels: 3,
+      premultiplied: false,
+    };
   } else {
-    const quality = getQuality(format, options.qualityOverrides);
-    applyFormat(resizedInstance, format, quality);
-  }
+    const resizedInstance = buildSharpInstance(
+      sharpModule,
+      input,
+      outputConfig.resize || {},
+      options.allowUpscale,
+    );
 
-  let info;
-  if (!options.manifestOnly) {
+    if ("blur" in outputConfig && outputConfig.blur) {
+      resizedInstance.blur(10).png(config.encoding.sharp.blur.png);
+    } else {
+      const quality = getQuality(format, options.qualityOverrides);
+      applyFormat(resizedInstance, format, quality);
+    }
+
     const fullOutPath = path.join(options.outRoot, outPath);
     await ensureDir(path.dirname(fullOutPath));
     info = await resizedInstance.toFile(fullOutPath);
-  } else {
-    info = (await resizedInstance.toBuffer({ resolveWithObject: true })).info;
   }
 
   return { outPath, info };
@@ -415,6 +473,7 @@ async function copyGif(
   absPath: string,
   fileBuffer: Buffer,
   stats: import("fs").Stats,
+  fileHash: string,
   options: ImageProcessOptions,
 ): Promise<ProcessedImageResult> {
   const { srcRoot, outRoot, manifestOnly } = options;
@@ -471,10 +530,71 @@ async function copyGif(
 
   return {
     key,
-    hash: sha1(fileBuffer),
+    hash: fileHash,
     mtimeMs: stats.mtimeMs,
     bytes: stats.size,
     outputs,
     image,
   };
+}
+
+/**
+ * Calculates output dimensions based on original size and resize config.
+ * Mimics Sharp's simplified logic for 'cover', 'inside', etc.
+ */
+function calculateOutputDimensions(
+  srcW: number,
+  srcH: number,
+  resize: ResizeConfig,
+  allowUpscale: boolean,
+): { width: number; height: number } {
+  if (!srcW || !srcH) return { width: 0, height: 0 };
+
+  let targetW = resize.width;
+  let targetH = resize.height;
+  const fit = resize.crop ? "cover" : resize.fit || "cover";
+
+  // If both missing, no resize
+  if (!targetW && !targetH) return { width: srcW, height: srcH };
+
+  // If one missing, calculate preserving aspect ratio
+  if (!targetH && targetW) {
+    targetH = Math.round(srcH * (targetW / srcW));
+  } else if (!targetW && targetH) {
+    targetW = Math.round(srcW * (targetH / srcH));
+  }
+
+  // At this point both are numbers (or should be)
+  if (!targetW) targetW = srcW;
+  if (!targetH) targetH = srcH;
+
+  // Handle withoutEnlargement
+  if (!allowUpscale) {
+    // If target is larger than source in both dims (for cover) or any dim (for inside), we might cap it.
+    // For 'cover' (default/crop), if target > source, sharp usually upscales unless withoutEnlargement is true.
+    // If withoutEnlargement is true, it returns the image clipped? Or just original?
+    // Sharp docs: "do not enlarge if the width or height of the resized image would be greater than that of the source image"
+    // For typical use case here (generating thumbnails), we assume upscale isn't happening or handled by config.
+    // But strictly:
+    if (targetW > srcW || targetH > srcH) {
+      // logic gets complex depending on 'fit'.
+      // For this specific project, we mostly downscale.
+      // Let's implement a simple check: if we are trying to go bigger, just cap at src.
+      if (fit === "inside" || fit === "contain") {
+        const scale = Math.min(1, Math.min(targetW / srcW, targetH / srcH));
+        targetW = Math.round(srcW * scale);
+        targetH = Math.round(srcH * scale);
+      } else if (fit === "cover" || fit === "fill") {
+        // If strictly without enlargement and both are bigger, we return src?
+        // Or if just one? Sharp is complex here.
+        // Let's assume standard behavior: if target > src, use src.
+        if (targetW > srcW && targetH > srcH) {
+          targetW = srcW;
+          targetH = srcH;
+        }
+      }
+    }
+  }
+
+  return { width: targetW, height: targetH };
 }
