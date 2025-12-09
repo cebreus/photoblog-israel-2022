@@ -74,6 +74,74 @@
   --sidebar-ring: oklch(55.1% 0.027 264.364deg);
 }
 
+@theme {
+  /* Custom blue palette, standard hue/chroma, extended to 950 */
+  --color-blue-50: oklch(94.8% 0.05 250deg);
+  --color-blue-100: oklch(90.6% 0.07 248deg);
+  --color-blue-200: oklch(83.6% 0.09 246deg);
+  --color-blue-300: oklch(74.4% 0.12 244deg);
+  --color-blue-400: oklch(63.2% 0.15 242deg);
+  --color-blue-500: oklch(52% 0.18 240deg);
+  --color-blue-600: oklch(43% 0.19 238deg);
+  --color-blue-700: oklch(35% 0.19 236deg);
+  --color-blue-800: oklch(28% 0.18 234deg);
+  --color-blue-900: oklch(21% 0.17 232deg);
+  --color-blue-950: oklch(15% 0.15 230deg);
+
+  /* Custom slate color scale with a slightly bluer hue (251°) and raised chroma curve for richer blue tones */
+  --color-slate-50: oklch(97% 0.024 250deg);
+  --color-slate-100: oklch(92% 0.029 252deg);
+  --color-slate-200: oklch(86% 0.039 254deg);
+  --color-slate-300: oklch(78% 0.055 256deg);
+  --color-slate-400: oklch(68% 0.065 258deg);
+  --color-slate-500: oklch(58% 0.071 260deg);
+  --color-slate-600: oklch(48% 0.071 262deg);
+  --color-slate-700: oklch(38% 0.069 264deg);
+  --color-slate-800: oklch(31% 0.067 266deg);
+  --color-slate-900: oklch(26% 0.066 268deg);
+  --color-slate-950: oklch(23.25% 0.065 270deg);
+
+  /* slate uses Tailwind slate lightness stops but keeps the same bluish hue as slate (251°) with slightly softer chroma so it still reads cool yet richer than vanilla slate
+  --color-slate-50: oklch(98.42% 0.015 250deg);
+  --color-slate-100: oklch(96.83% 0.019 250deg);
+  --color-slate-200: oklch(92.88% 0.027 250deg);
+  --color-slate-300: oklch(87.38% 0.038 250deg);
+  --color-slate-400: oklch(71.07% 0.048 250deg);
+  --color-slate-500: oklch(55.44% 0.055 250deg);
+  --color-slate-600: oklch(44.55% 0.053 250deg);
+  --color-slate-700: oklch(37.17% 0.049 250deg);
+  --color-slate-800: oklch(27.95% 0.046 250deg);
+  --color-slate-900: oklch(20.77% 0.043 250deg);
+  --color-slate-950: oklch(12.88% 0.041 250deg); 
+  */
+
+  /* Custom orange palette follows Tailwind orange lightness stops but reuses the slate chroma curve, anchored so corange-400 matches #fd7e14 (oklch 72.65% 0.1832 51.48deg) */
+  --color-orange-50: oklch(94.85% 0.061 51.48deg);
+  --color-orange-100: oklch(92.31% 0.0763 51.48deg);
+  --color-orange-200: oklch(87.04% 0.1068 51.48deg);
+  --color-orange-300: oklch(80.55% 0.1526 51.48deg);
+  --color-orange-400: oklch(72.65% 0.1832 51.48deg);
+  --color-orange-500: oklch(67.38% 0.1987 51.48deg);
+  --color-orange-600: oklch(61.5% 0.1987 51.48deg);
+  --color-orange-700: oklch(52.23% 0.1922 51.48deg);
+  --color-orange-800: oklch(43.87% 0.1862 51.48deg);
+  --color-orange-900: oklch(37.73% 0.1846 51.48deg);
+  --color-orange-950: oklch(23.48% 0.1822 51.48deg);
+
+  /* Custom red palette follows Tailwind red lightness stops and slate chroma progression, anchored so cred-600 matches #ed0b36 (oklch 59.96% 0.2385 22.39deg) */
+  --color-red-50: oklch(99.3% 0.0734 22.39deg);
+  --color-red-100: oklch(95.81% 0.0917 22.39deg);
+  --color-red-200: oklch(90.7% 0.1284 22.39deg);
+  --color-red-300: oklch(83.02% 0.1835 22.39deg);
+  --color-red-400: oklch(73.31% 0.2201 22.39deg);
+  --color-red-500: oklch(65.93% 0.2385 22.39deg);
+  --color-red-600: oklch(59.96% 0.2385 22.39deg);
+  --color-red-700: oklch(50.54% 0.2311 22.39deg);
+  --color-red-800: oklch(44.37% 0.2238 22.39deg);
+  --color-red-900: oklch(39.58% 0.2219 22.39deg);
+  --color-red-950: oklch(25.75% 0.219 22.39deg);
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -110,58 +178,6 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-
-  /* Custom cblue color scale with a slightly bluer hue (251°) and raised chroma curve for richer blue tones */
-  --color-cblue-50: oklch(97% 0.024 250deg);
-  --color-cblue-100: oklch(92% 0.029 252deg);
-  --color-cblue-200: oklch(86% 0.039 254deg);
-  --color-cblue-300: oklch(78% 0.055 256deg);
-  --color-cblue-400: oklch(68% 0.065 258deg);
-  --color-cblue-500: oklch(58% 0.071 260deg);
-  --color-cblue-600: oklch(48% 0.071 262deg);
-  --color-cblue-700: oklch(38% 0.069 264deg);
-  --color-cblue-800: oklch(31% 0.067 266deg);
-  --color-cblue-900: oklch(26% 0.066 268deg);
-  --color-cblue-950: oklch(23.25% 0.065 270deg);
-
-  /* cslate uses Tailwind slate lightness stops but keeps the same bluish hue as cblue (251°) with slightly softer chroma so it still reads cool yet richer than vanilla slate */
-  --color-slate-50: oklch(98.42% 0.015 250deg);
-  --color-slate-100: oklch(96.83% 0.019 250deg);
-  --color-slate-200: oklch(92.88% 0.027 250deg);
-  --color-slate-300: oklch(87.38% 0.038 250deg);
-  --color-slate-400: oklch(71.07% 0.048 250deg);
-  --color-slate-500: oklch(55.44% 0.055 250deg);
-  --color-slate-600: oklch(44.55% 0.053 250deg);
-  --color-slate-700: oklch(37.17% 0.049 250deg);
-  --color-slate-800: oklch(27.95% 0.046 250deg);
-  --color-slate-900: oklch(20.77% 0.043 250deg);
-  --color-slate-950: oklch(12.88% 0.041 250deg);
-
-  /* Custom orange palette follows Tailwind orange lightness stops but reuses the cblue chroma curve, anchored so corange-400 matches #fd7e14 (oklch 72.65% 0.1832 51.48deg) */
-  --color-orange-50: oklch(94.85% 0.061 51.48deg);
-  --color-orange-100: oklch(92.31% 0.0763 51.48deg);
-  --color-orange-200: oklch(87.04% 0.1068 51.48deg);
-  --color-orange-300: oklch(80.55% 0.1526 51.48deg);
-  --color-orange-400: oklch(72.65% 0.1832 51.48deg);
-  --color-orange-500: oklch(67.38% 0.1987 51.48deg);
-  --color-orange-600: oklch(61.5% 0.1987 51.48deg);
-  --color-orange-700: oklch(52.23% 0.1922 51.48deg);
-  --color-orange-800: oklch(43.87% 0.1862 51.48deg);
-  --color-orange-900: oklch(37.73% 0.1846 51.48deg);
-  --color-orange-950: oklch(23.48% 0.1822 51.48deg);
-
-  /* Custom red palette follows Tailwind red lightness stops and cblue chroma progression, anchored so cred-600 matches #ed0b36 (oklch 59.96% 0.2385 22.39deg) */
-  --color-red-50: oklch(99.3% 0.0734 22.39deg);
-  --color-red-100: oklch(95.81% 0.0917 22.39deg);
-  --color-red-200: oklch(90.7% 0.1284 22.39deg);
-  --color-red-300: oklch(83.02% 0.1835 22.39deg);
-  --color-red-400: oklch(73.31% 0.2201 22.39deg);
-  --color-red-500: oklch(65.93% 0.2385 22.39deg);
-  --color-red-600: oklch(59.96% 0.2385 22.39deg);
-  --color-red-700: oklch(50.54% 0.2311 22.39deg);
-  --color-red-800: oklch(44.37% 0.2238 22.39deg);
-  --color-red-900: oklch(39.58% 0.2219 22.39deg);
-  --color-red-950: oklch(25.75% 0.219 22.39deg);
 }
 
 @layer base {
