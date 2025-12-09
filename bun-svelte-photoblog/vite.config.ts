@@ -2,9 +2,17 @@ import devtoolsJson from "vite-plugin-devtools-json";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vitest/config";
 import { sveltekit } from "@sveltejs/kit/vite";
+import path from "path";
+
+const contentDir = process.env.CONTENT_DIR || "israel-2022";
 
 export default defineConfig({
   plugins: [tailwindcss(), sveltekit(), devtoolsJson()],
+  resolve: {
+    alias: {
+      $manifests: path.resolve(__dirname, "src/lib/data", contentDir),
+    },
+  },
   test: {
     expect: { requireAssertions: true },
     projects: [

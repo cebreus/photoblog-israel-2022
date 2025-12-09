@@ -128,6 +128,53 @@ export type MenuDay = {
 
 export type MenuManifest = MenuDay[];
 
+/** Represents global site settings from site.md */
+export type SiteManifest = {
+  favicon?: string;
+  type?: string;
+  copyright?: string;
+  meta?: {
+    lang?: string;
+    charset?: string;
+    author?: string;
+  };
+  seo?: {
+    title?: string;
+    description?: string;
+    robots?: string;
+    include_to_sitemap?: boolean;
+  };
+  open_graph?: {
+    use?: boolean;
+    type?: string;
+    app_id?: number;
+    site_name?: string;
+    image?: string[];
+    image_text?: string;
+  };
+  twitter_cards?: {
+    use?: boolean;
+    type?: string;
+    image?: string[];
+    site?: string;
+    creator?: string;
+  };
+  manifest?: {
+    appName?: string;
+    appShortName?: string;
+    appDescription?: string;
+    developerName?: string;
+    developerURL?: string;
+    background?: string;
+    theme_color?: string;
+    display?: string;
+    orientation?: string;
+    start_url?: string;
+    version?: string;
+    icons?: Record<string, boolean>;
+  };
+};
+
 // --- Types for script/generate-images.ts ---
 
 import { ImageFormat } from "./images";

@@ -1,0 +1,83 @@
+{
+  "photoDays": [
+    {
+      "date": "2025-11-23",
+      "cities": [],
+      "locations": [],
+      "items": [
+        {
+          "id": "img-img0953",
+          "type": "image",
+          "src": "IMG_0953.jpeg",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4032,
+          "height": 3024,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_0953.png",
+          "placeholderColor": "rgb(8,120,152)",
+          "exif": {
+            "date": "2025-11-23T10:16:07.000Z",
+            "latitude": 27.18498888888889,
+            "longitude": 33.964486111111114,
+            "orientation": "Rotate 90 CW"
+          },
+          "date": "2025-11-23T10:16:07.000Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_0953.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_0953.jpg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_0953.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_0953.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_0953.jpg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_0953.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_0953.jpg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_0953.jpg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        }
+      ],
+      "id": "day-2025-11-23"
+    }
+  ]
+}

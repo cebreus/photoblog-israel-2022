@@ -7,7 +7,7 @@
   import { browser } from "$app/environment";
   import { showPhotoLabels } from "$lib/stores/photoLabels";
   import { debug } from "$lib/stores/debug";
-  import type { Author, MenuManifest } from "$lib/types/manifest";
+  import type { Author, MenuManifest, SiteManifest } from "$lib/types/manifest";
   import { initUrlSync } from "$lib/stores/url-sync";
 
   // Explicitly type props instead of relying on loose inferred types
@@ -15,6 +15,7 @@
     data: {
       authors: Author[];
       menuItems: MenuManifest;
+      siteManifest: SiteManifest;
     };
     children?: import("svelte").Snippet;
   }
@@ -40,6 +41,28 @@
 
 <svelte:head>
   {@html faviconHtml}
+  {#if data.siteManifest?.seo}
+    <title>{data.siteManifest.seo.title}</title>
+    {#if data.siteManifest.seo.description}
+      <meta name="description" content={data.siteManifest.seo.description} />
+    {/if}
+    {#if data.siteManifest.seo.robots}
+      <meta name="robots" content={data.siteManifest.seo.robots} />
+    {/if}
+  {/if}
+
+  {#if data.siteManifest?.open_graph?.use}
+    <meta
+      property="og:site_name"
+      content={data.siteManifest.open_graph.site_name}
+    />
+    <meta property="og:type" content={data.siteManifest.open_graph.type} />
+    {#if data.siteManifest.open_graph.image}
+      {#each data.siteManifest.open_graph.image as img}
+        <meta property="og:image" content={img} />
+      {/each}
+    {/if}
+  {/if}
 </svelte:head>
 
 <Header menuItems={data.menuItems} authors={data.authors} />

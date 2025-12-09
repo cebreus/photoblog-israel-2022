@@ -1,7 +1,10 @@
 <script lang="ts">
+  import { page } from "$app/stores";
   // import { ArrowRight, ArrowUpRight } from '@lucide/svelte';
   // import Badge from '$lib/components/ui/badge/badge.svelte';
   // import Button from '$lib/components/ui/button/button.svelte';
+
+  const siteManifest = $derived($page.data.siteManifest);
 </script>
 
 <section
@@ -22,14 +25,14 @@
         class="my-6 text-pretty text-3xl font-bold lg:text-5xl text-transparent bg-clip-text bg-gradient-to-br from-orange-400 to-red-600"
         data-testid="hero-title"
       >
-        Izrael 2022
+        {siteManifest?.open_graph?.site_name}
       </h1>
 
       <p
         class="text-slate-300 mb-8 max-w-xl lg:text-lg text-balance"
         data-testid="hero-description"
       >
-        Fotografické střípky z výletu do Izraele a Jordánska.
+        {siteManifest?.manifest?.appDescription}
       </p>
     </div>
 

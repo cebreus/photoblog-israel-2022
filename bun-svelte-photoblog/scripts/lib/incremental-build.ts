@@ -105,6 +105,22 @@ export async function loadStoryData(
   return storyDataMap;
 }
 
+async function generateSiteManifest(srcRoot: string): Promise<any> {
+  const siteMdPath = path.join(srcRoot, "site.md");
+  if (!(await fileExists(siteMdPath))) {
+    logger.warn(`site.md not found at ${siteMdPath}`);
+    return {};
+  }
+  try {
+    const content = await fsp.readFile(siteMdPath, "utf8");
+    const { data } = matter(content);
+    return data;
+  } catch (e: any) {
+    logger.error(`Failed to parse site.md: ${e.message}`);
+    return {};
+  }
+}
+
 async function detectChanges(
   sourceFiles: string[],
   cache: Cache,
@@ -240,6 +256,7 @@ async function updateCacheAndManifests({
   shouldWriteSiteManifests,
   configHash,
   wasReset,
+  srcRoot,
 }: {
   cache: Cache;
   results: ProcessedImageResult[];
@@ -250,10 +267,12 @@ async function updateCacheAndManifests({
     generatorManifestPath: string;
     manifestPath: string;
     menuManifestPath: string;
+    siteManifestPath: string;
   };
   shouldWriteSiteManifests: boolean;
   configHash: string;
   wasReset: boolean;
+  srcRoot: string;
 }) {
   for (const res of results) {
     cache.files[res.key] = {
@@ -292,6 +311,10 @@ async function updateCacheAndManifests({
     savePromises.push(saveJSON(paths.manifestPath, finalManifest));
     const menuManifest = generateMenuManifest(finalManifest);
     savePromises.push(saveJSON(paths.menuManifestPath, menuManifest));
+
+    // Generate site manifest
+    const siteManifest = await generateSiteManifest(srcRoot);
+    savePromises.push(saveJSON(paths.siteManifestPath, siteManifest));
   }
 
   await Promise.all(savePromises);
@@ -306,6 +329,7 @@ export async function runIncrementalBuild(
     cachePath: string;
     generatorManifestPath: string;
     menuManifestPath: string;
+    siteManifestPath: string;
     shouldWriteSiteManifests: boolean;
     configHash: string;
   },
@@ -376,10 +400,12 @@ export async function runIncrementalBuild(
       generatorManifestPath: CTX.generatorManifestPath,
       manifestPath: CTX.manifestPath,
       menuManifestPath: CTX.menuManifestPath,
+      siteManifestPath: CTX.siteManifestPath,
     },
     shouldWriteSiteManifests: CTX.shouldWriteSiteManifests,
     configHash: CTX.configHash,
     wasReset,
+    srcRoot: CTX.srcRoot,
   });
 
   logger.info(

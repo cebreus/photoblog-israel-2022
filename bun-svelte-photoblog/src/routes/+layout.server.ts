@@ -1,5 +1,10 @@
-import { getPhotoDays, getMenuItems } from "$lib";
-import type { MenuManifest, PhotoDay, Author } from "$lib/types/manifest";
+import { getPhotoDays, getMenuItems, getSiteManifest } from "$lib";
+import type {
+  MenuManifest,
+  PhotoDay,
+  Author,
+  SiteManifest,
+} from "$lib/types/manifest";
 import { toSlug } from "$lib/utils/strings"; // Corrected import
 
 function gatherAuthors(photoDays: PhotoDay[]): Author[] {
@@ -30,10 +35,12 @@ export const load = async () => {
   const photoDays = getPhotoDays();
   const menuItems: MenuManifest = getMenuItems();
   const authors: Author[] = gatherAuthors(photoDays);
+  const siteManifest: SiteManifest = getSiteManifest();
 
   return {
     photoDays,
     menuItems,
     authors,
+    siteManifest,
   };
 };

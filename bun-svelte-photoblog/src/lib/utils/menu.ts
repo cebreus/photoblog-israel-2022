@@ -1,5 +1,5 @@
 import type { MenuManifest } from "$lib/types/manifest";
-import menuManifest from "$lib/menu.manifest.json" with { type: "json" };
+import menuManifest from "$manifests/menu.manifest.json" with { type: "json" };
 
 function isMenuManifest(x: unknown): x is MenuManifest {
   return Array.isArray(x);

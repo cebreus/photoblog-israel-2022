@@ -95,7 +95,12 @@ function initializeContext() {
       overrideManifestPath ??
         path.join(config.paths.tmp, "generator.manifest.json"),
     ),
-    menuManifestPath: path.resolve(process.cwd(), "src/lib/menu.manifest.json"),
+    menuManifestPath: path.resolve(
+      process.cwd(),
+      config.paths.dataRoot,
+      "menu.manifest.json",
+    ),
+    siteManifestPath: path.resolve(process.cwd(), config.paths.siteManifest),
     shouldWriteSiteManifests:
       !overrideManifestPath || overrideManifestPath === defaultManifestPath,
     configHash: sha1(Buffer.from(JSON.stringify(config))),

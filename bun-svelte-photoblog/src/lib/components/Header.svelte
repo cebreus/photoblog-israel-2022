@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { page } from "$app/stores";
   import type { MenuManifest } from "$lib/types/manifest";
   import AgendaOffcanvas from "$lib/components/header/AgendaOffcanvas.svelte";
   import FiltersOffcanvas from "$lib/components/header/FiltersOffcanvas.svelte";
@@ -9,8 +10,12 @@
     slug?: string;
   };
 
-  export let menuItems: MenuManifest = [];
-  export let authors: AuthorStats[] = [];
+  let {
+    menuItems = [],
+    authors = [],
+  }: { menuItems?: MenuManifest; authors?: AuthorStats[] } = $props();
+
+  const siteManifest = $derived($page.data.siteManifest);
 </script>
 
 <header
@@ -18,7 +23,9 @@
 >
   <div class="container mx-auto py-2.5 flex items-center gap-4">
     <div class="flex-1 flex items-center gap-8">
-      <a href="/" class="text-lg font-semibold uppercase">Izrael 2022</a>
+      <a href="/" class="text-lg font-semibold uppercase"
+        >{siteManifest?.open_graph?.site_name}</a
+      >
     </div>
 
     <FiltersOffcanvas {authors} />

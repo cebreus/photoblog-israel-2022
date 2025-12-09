@@ -4,7 +4,7 @@ import type {
   ImageEntry,
   ImageSource,
 } from "../types/manifest";
-import manifest from "$lib/images.manifest.json" with { type: "json" };
+import manifest from "$manifests/images.manifest.json" with { type: "json" };
 
 // Helper to validate/cast the manifest safely
 function isManifest(acc: unknown): acc is Manifest {

@@ -15,8 +15,10 @@ export const config = {
     source: `content/${contentDir}`,
     output: `static/${contentDir}/images`,
     urlPrefix: `/${contentDir}`,
-    manifest: "src/lib/images.manifest.json",
-    cache: `.temp/images-${contentDir}.cache.json`,
+    dataRoot: `src/lib/data/${contentDir}`,
+    manifest: `src/lib/data/${contentDir}/images.manifest.json`,
+    siteManifest: `src/lib/data/${contentDir}/site.manifest.json`,
+    cache: `.temp/${contentDir}/images.cache.json`,
     tmp: ".temp",
   },
 

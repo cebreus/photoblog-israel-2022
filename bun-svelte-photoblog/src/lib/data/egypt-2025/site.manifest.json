@@ -1,0 +1,56 @@
+{
+  "favicon": "favicons-source.png",
+  "type": "settings",
+  "copyright": "Cebreus &#169; 2025 <a href=\"http://creativecommons.org/licenses/by-nc/4.0/\" target=\"_blank\" rel=\"license noopener\">CC-BY-NC</a>",
+  "meta": {
+    "lang": "cs",
+    "charset": "utf-8",
+    "author": "humans.txt"
+  },
+  "seo": {
+    "title": "Fotoblog Egypt 2025",
+    "description": "Fotky a příběhy z egyptské cesty 2025",
+    "robots": "index,follow",
+    "iclude_to_sitemap": false
+  },
+  "open_graph": {
+    "use": true,
+    "type": "website",
+    "app_id": 408506896213559,
+    "site_name": "Fotoblog Egypt 2025",
+    "image": [
+      "/assets/images/egypt-2025/open-graph.png"
+    ],
+    "image_text": "Výlet do Egypta, podzim 2025"
+  },
+  "twitter_cards": {
+    "use": false,
+    "type": "summary_large_image",
+    "image": [],
+    "site": "@cebreus69",
+    "creator": "@cebreus69"
+  },
+  "manifest": {
+    "appName": "Fotky Egypt 2025",
+    "appShortName": "Foto Egypt",
+    "appDescription": "Fotografické střípky z podzimní cesty do Egypta 2025.",
+    "developerName": "Jaroslav Vrana",
+    "developerURL": "https://cebre.us",
+    "background": "#0a1d39",
+    "theme_color": "#0a1d39",
+    "display": "standalone",
+    "orientation": "any",
+    "start_url": "/",
+    "version": "1.0",
+    "icons": {
+      "favicons": true,
+      "appleIcon": true,
+      "android": false,
+      "appleStartup": false,
+      "coast": false,
+      "firefox": false,
+      "windows": false,
+      "yandex": false
+    }
+  }
+}
