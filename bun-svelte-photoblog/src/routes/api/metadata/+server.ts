@@ -74,6 +74,18 @@ export async function POST({ request }) {
     tags["XMP:Creator"] = metadata.author;
     tags["IFD0:Artist"] = metadata.author;
   }
+  if (metadata.country !== undefined) {
+    tags["IPTC:Country-PrimaryLocationName"] = metadata.country;
+    tags["XMP:Country"] = metadata.country;
+  }
+  if (metadata.countryCode !== undefined) {
+    tags["IPTC:Country-PrimaryLocationCode"] = metadata.countryCode;
+    tags["XMP:CountryCode"] = metadata.countryCode;
+  }
+  if (metadata.state !== undefined) {
+    tags["IPTC:Province-State"] = metadata.state;
+    tags["XMP:State"] = metadata.state;
+  }
 
   // If no valid tags to write, exit early but successfully (nothing to do)
   if (Object.keys(tags).length === 0) {

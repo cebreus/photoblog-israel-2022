@@ -62,6 +62,9 @@ interface RawExifData extends ManifestExifData {
   CopyrightNotice?: string;
   Category?: string;
   CategoryCode?: string;
+  Country?: string;
+  CountryCode?: string;
+  State?: string;
   latitude?: number;
   longitude?: number;
 }
@@ -215,6 +218,11 @@ export async function processImage(
           : (exifTags.CreateDate as any),
       Location: exifTags.Location || (exifTags["Sub-location"] as string),
       City: exifTags.City,
+      Country: exifTags.Country || exifTags["Country-PrimaryLocationName"],
+      CountryCode:
+        (exifTags["Country-PrimaryLocationCode"] as string) ||
+        exifTags.CountryCode,
+      State: exifTags["Province-State"] || exifTags.State,
       Copyright: exifTags.Copyright,
       CopyrightNotice: exifTags.CopyrightNotice,
       Category: exifTags.Category,
@@ -306,7 +314,7 @@ export async function processImage(
     if (tempFilePath) {
       try {
         await fsp.unlink(tempFilePath);
-      } catch (_) { }
+      } catch (_) {}
     }
   }
 }
@@ -320,23 +328,23 @@ export async function createImageEntry(
 ): Promise<ImageEntry> {
   const titleCanonical = normalizeText(
     exif.ObjectName ||
-    exif.Headline ||
-    exif.Title ||
-    exif["dc:title"] ||
-    exif.ImageDescription,
+      exif.Headline ||
+      exif.Title ||
+      exif["dc:title"] ||
+      exif.ImageDescription,
   );
   const captionCanonical = normalizeText(
     exif.Caption || exif.CaptionAbstract || exif.ImageDescription,
   );
   const authorCanonical = normalizeText(
     exif.Byline ||
-    (Array.isArray(exif["dc:creator"])
-      ? exif["dc:creator"][0]
-      : exif["dc:creator"]) ||
-    exif.Creator ||
-    exif.BylineTitle ||
-    exif.Artist ||
-    exif.Author,
+      (Array.isArray(exif["dc:creator"])
+        ? exif["dc:creator"][0]
+        : exif["dc:creator"]) ||
+      exif.Creator ||
+      exif.BylineTitle ||
+      exif.Artist ||
+      exif.Author,
   );
 
   // Normalize orientation to what manifest expects (string usually in this project)
@@ -402,6 +410,9 @@ export async function createImageEntry(
       author: authorCanonical,
       copyright: normalizeText(exif.Copyright || exif.CopyrightNotice),
       category: normalizeText(exif.Category || exif.CategoryCode),
+      country: exif.Country,
+      countryCode: exif.CountryCode,
+      state: exif.State,
     },
     author: authorCanonical,
     authorSlug: authorCanonical ? toSlug(authorCanonical) : undefined,

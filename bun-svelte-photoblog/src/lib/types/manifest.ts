@@ -30,6 +30,10 @@ export type ExifData = {
   authorSlug?: string;
   copyright?: string;
   category?: string;
+  country?: string;
+  countryCode?: string;
+  state?: string;
+  sublocation?: string;
 };
 
 /** Represents a single image entry in the manifest, including all its metadata and sources. */
@@ -76,6 +80,9 @@ export type ImageEntry = {
     author?: string;
     copyright?: string;
     category?: string;
+    country?: string;
+    countryCode?: string;
+    state?: string;
   };
   sources: ImageSource[];
 };

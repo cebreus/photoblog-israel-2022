@@ -11,6 +11,7 @@
   import { Pencil, X, Trash2 } from "lucide-svelte";
   import { selection, editMode } from "$lib/stores/editorState";
   import { superForm } from "sveltekit-superforms";
+  import * as Accordion from "$lib/components/ui/accordion";
 
   type DisplayItem = ImageEntry | Separator;
 
@@ -24,6 +25,9 @@
     author: "",
     location: "",
     city: "",
+    state: "",
+    country: "",
+    countryCode: "",
     caption: "",
     keywords: "",
   };
@@ -47,6 +51,9 @@
   let commonAuthor = $state<string | null>(null);
   let commonLocation = $state<string | null>(null);
   let commonCity = $state<string | null>(null);
+  let commonState = $state<string | null>(null);
+  let commonCountry = $state<string | null>(null);
+  let commonCountryCode = $state<string | null>(null);
   let commonCaption = $state<string | null>(null);
   let commonKeywords = $state<string | null>(null);
 
@@ -63,6 +70,10 @@
     items.filter(
       (item: DisplayItem) => item.type === "image" && $selection.has(item.id),
     ) as ImageEntry[],
+  );
+
+  let activeImage = $derived(
+    selectedImages.length === 1 ? selectedImages[0] : null,
   );
 
   // Open/Close visibility logic
@@ -122,8 +133,11 @@
 
     const commonTitleValue = getCommon((i) => i.exif?.title);
     const commonAuthorValue = getCommon((i) => i.author);
-    const commonLocationValue = getCommon((i) => i.location); // Using i.location as per ImageEntry interface
+    const commonLocationValue = getCommon((i) => i.location);
     const commonCityValue = getCommon((i) => i.city);
+    const commonStateValue = getCommon((i) => i.exif?.state);
+    const commonCountryValue = getCommon((i) => i.exif?.country);
+    const commonCountryCodeValue = getCommon((i) => i.exif?.countryCode);
     const commonCaptionValue = getCommon((i) => i.caption);
     const commonKeywordsValue = getCommon((i) => i.keywords?.join(", "));
 
@@ -138,6 +152,15 @@
 
     $formData.city = commonCityValue ?? "";
     commonCity = commonCityValue;
+
+    $formData.state = commonStateValue ?? "";
+    commonState = commonStateValue;
+
+    $formData.country = commonCountryValue ?? "";
+    commonCountry = commonCountryValue;
+
+    $formData.countryCode = commonCountryCodeValue ?? "";
+    commonCountryCode = commonCountryCodeValue;
 
     $formData.caption = commonCaptionValue ?? "";
     commonCaption = commonCaptionValue;
@@ -173,6 +196,21 @@
             : data.city === ""
               ? undefined
               : data.city,
+          state: explicitClears.state
+            ? null
+            : data.state === ""
+              ? undefined
+              : data.state,
+          country: explicitClears.country
+            ? null
+            : data.country === ""
+              ? undefined
+              : data.country,
+          countryCode: explicitClears.countryCode
+            ? null
+            : data.countryCode === ""
+              ? undefined
+              : data.countryCode,
           caption: explicitClears.caption
             ? null
             : data.caption === ""
@@ -328,56 +366,181 @@
         <Form.FieldErrors />
       </Form.Field>
 
-      <Form.Field {form} name="location">
-        <Form.Control>
-          {#snippet children({ props })}
-            <Form.Label>Místo</Form.Label>
-            <div class="flex gap-2">
-              <Input
-                {...props}
-                bind:value={$formData.location}
-                oninput={() => handleInput("location")}
-              />
-              <Button
-                variant={explicitClears.location ? "destructive" : "outline"}
-                size="icon"
-                type="button"
-                onclick={() => handleExplicitClear("location")}
-                title="Smazat hodnotu"
-              >
-                <Trash2 class="size-4" />
-              </Button>
-            </div>
-          {/snippet}
-        </Form.Control>
-        <Form.FieldErrors />
-      </Form.Field>
+      <!-- Geografická data -->
+      <Accordion.Root type="single" value="geo">
+        <Accordion.Item value="geo">
+          <Accordion.Trigger class="text-sm font-medium">
+            Geografické údaje
+          </Accordion.Trigger>
+          <Accordion.Content class="border-b mb-2">
+            <div class="space-y-4 pt-2">
+              <Form.Field {form} name="location">
+                <Form.Control>
+                  {#snippet children({ props })}
+                    <Form.Label>Místo</Form.Label>
+                    <div class="flex gap-2">
+                      <Input
+                        {...props}
+                        bind:value={$formData.location}
+                        oninput={() => handleInput("location")}
+                      />
+                      <Button
+                        variant={explicitClears.location
+                          ? "destructive"
+                          : "outline"}
+                        size="icon"
+                        type="button"
+                        onclick={() => handleExplicitClear("location")}
+                        title="Smazat hodnotu"
+                      >
+                        <Trash2 class="size-4" />
+                      </Button>
+                    </div>
+                  {/snippet}
+                </Form.Control>
+                <Form.FieldErrors />
+              </Form.Field>
 
-      <Form.Field {form} name="city">
-        <Form.Control>
-          {#snippet children({ props })}
-            <Form.Label>Město</Form.Label>
-            <div class="flex gap-2">
-              <Input
-                {...props}
-                bind:value={$formData.city}
-                oninput={() => handleInput("city")}
-              />
-              <Button
-                variant={explicitClears.city ? "destructive" : "outline"}
-                size="icon"
-                type="button"
-                onclick={() => handleExplicitClear("city")}
-                title="Smazat hodnotu"
-              >
-                <Trash2 class="size-4" />
-              </Button>
-            </div>
-          {/snippet}
-        </Form.Control>
+              <Form.Field {form} name="city">
+                <Form.Control>
+                  {#snippet children({ props })}
+                    <Form.Label>Město</Form.Label>
+                    <div class="flex gap-2">
+                      <Input
+                        {...props}
+                        bind:value={$formData.city}
+                        oninput={() => handleInput("city")}
+                      />
+                      <Button
+                        variant={explicitClears.city
+                          ? "destructive"
+                          : "outline"}
+                        size="icon"
+                        type="button"
+                        onclick={() => handleExplicitClear("city")}
+                        title="Smazat hodnotu"
+                      >
+                        <Trash2 class="size-4" />
+                      </Button>
+                    </div>
+                  {/snippet}
+                </Form.Control>
+                <Form.FieldErrors />
+              </Form.Field>
 
-        <Form.FieldErrors />
-      </Form.Field>
+              <Form.Field {form} name="state">
+                <Form.Control>
+                  {#snippet children({ props })}
+                    <Form.Label>Stát / Provincie</Form.Label>
+                    <div class="flex gap-2">
+                      <Input
+                        {...props}
+                        bind:value={$formData.state}
+                        oninput={() => handleInput("state")}
+                      />
+                      <Button
+                        variant={explicitClears.state
+                          ? "destructive"
+                          : "outline"}
+                        size="icon"
+                        type="button"
+                        onclick={() => handleExplicitClear("state")}
+                        title="Smazat hodnotu"
+                      >
+                        <Trash2 class="size-4" />
+                      </Button>
+                    </div>
+                  {/snippet}
+                </Form.Control>
+                <Form.FieldErrors />
+              </Form.Field>
+
+              <Form.Field {form} name="country">
+                <Form.Control>
+                  {#snippet children({ props })}
+                    <Form.Label>Země</Form.Label>
+                    <div class="flex gap-2">
+                      <Input
+                        {...props}
+                        bind:value={$formData.country}
+                        oninput={() => handleInput("country")}
+                      />
+                      <Button
+                        variant={explicitClears.country
+                          ? "destructive"
+                          : "outline"}
+                        size="icon"
+                        type="button"
+                        onclick={() => handleExplicitClear("country")}
+                        title="Smazat hodnotu"
+                      >
+                        <Trash2 class="size-4" />
+                      </Button>
+                    </div>
+                  {/snippet}
+                </Form.Control>
+                <Form.FieldErrors />
+              </Form.Field>
+
+              <Form.Field {form} name="countryCode">
+                <Form.Control>
+                  {#snippet children({ props })}
+                    <Form.Label>Kód</Form.Label>
+                    <div class="flex gap-2">
+                      <Input
+                        {...props}
+                        bind:value={$formData.countryCode}
+                        oninput={() => handleInput("countryCode")}
+                      />
+                      <Button
+                        variant={explicitClears.countryCode
+                          ? "destructive"
+                          : "outline"}
+                        size="icon"
+                        type="button"
+                        onclick={() => handleExplicitClear("countryCode")}
+                        title="Smazat hodnotu"
+                      >
+                        <Trash2 class="size-4" />
+                      </Button>
+                    </div>
+                  {/snippet}
+                </Form.Control>
+                <Form.FieldErrors />
+              </Form.Field>
+
+              {#if activeImage?.googleMapsUrl || activeImage?.mapyCzUrl}
+                <div class="flex flex-col gap-2 pt-2">
+                  <div class="flex gap-2 flex-wrap">
+                    {#if activeImage.googleMapsUrl}
+                      <Button
+                        variant="link"
+                        size="sm"
+                        href={activeImage.googleMapsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Google Maps
+                      </Button>
+                    {/if}
+                    {#if activeImage.mapyCzUrl}
+                      <Button
+                        variant="link"
+                        size="sm"
+                        href={activeImage.mapyCzUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Mapy.cz
+                      </Button>
+                    {/if}
+                  </div>
+                </div>
+              {/if}
+            </div>
+          </Accordion.Content>
+        </Accordion.Item>
+      </Accordion.Root>
 
       <Form.Field {form} name="keywords">
         <Form.Control>
