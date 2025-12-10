@@ -6,13 +6,11 @@
   import { Textarea } from "$lib/components/ui/textarea";
   import { Badge } from "$lib/components/ui/badge";
   import * as Form from "$lib/components/ui/form";
-  import { Label } from "$lib/components/ui/label";
   import type { ImageEntry, Separator } from "$lib/types/manifest";
   import { toast } from "svelte-sonner";
   import { Pencil, X } from "lucide-svelte";
   import { selection, editMode } from "$lib/stores/editorState";
   import { superForm } from "sveltekit-superforms";
-  // Removed Zod due to runtime version conflict causing 500 errors
 
   type DisplayItem = ImageEntry | Separator;
 
@@ -23,6 +21,7 @@
   // Manual initial data (replaces Schema)
   const initialData = {
     title: "",
+    author: "",
     city: "",
     caption: "",
     keywords: "",
@@ -44,6 +43,7 @@
 
   // Track whether multiple selected images share a common value
   let commonTitle = $state<string | null>(null);
+  let commonAuthor = $state<string | null>(null);
   let commonCity = $state<string | null>(null);
   let commonCaption = $state<string | null>(null);
   let commonKeywords = $state<string | null>(null);
@@ -114,12 +114,16 @@
     };
 
     const commonTitleValue = getCommon((i) => i.title);
+    const commonAuthorValue = getCommon((i) => i.author);
     const commonCityValue = getCommon((i) => i.city);
     const commonCaptionValue = getCommon((i) => i.caption);
     const commonKeywordsValue = getCommon((i) => i.keywords?.join(", "));
 
     $formData.title = commonTitleValue ?? "";
     commonTitle = commonTitleValue;
+
+    $formData.author = commonAuthorValue ?? "";
+    commonAuthor = commonAuthorValue;
 
     $formData.city = commonCityValue ?? "";
     commonCity = commonCityValue;
@@ -140,6 +144,10 @@
         metadata: {
           title:
             data.title === "" && commonTitle === null ? undefined : data.title,
+          author:
+            data.author === "" && commonAuthor === null
+              ? undefined
+              : data.author,
           city: data.city === "" && commonCity === null ? undefined : data.city,
           caption:
             data.caption === "" && commonCaption === null
@@ -185,25 +193,21 @@
     variant="ghost"
     size="icon"
     onclick={toggleEditMode}
-    class={isEditMode ? "text-orange-500 hover:text-orange-600" : ""}
     title="Přepnout režim úprav"
+    aria-label="Přepnout režim úprav"
+    data-testid="edit-offcanvas-trigger"
   >
-    <Pencil size={20} />
+    <Pencil strokeWidth={2.5} />
   </Button>
 
   {#if $selection.size > 0}
     <div class="w-px h-6 bg-slate-700 mx-2"></div>
-    <Button
-      variant="ghost"
-      size="sm"
-      onclick={() => selection.clear()}
-      class="text-slate-300 hover:text-white"
-    >
-      Vymazat ({$selection.size})
+    <Button variant="ghost" size="sm" onclick={() => selection.clear()}>
+      Odebrat ({$selection.size})
     </Button>
-    <Button variant="secondary" size="sm" onclick={() => (isOpen = true)}
-      >Upravit</Button
-    >
+    <Button variant="secondary" size="sm" onclick={() => (isOpen = true)}>
+      Upravit
+    </Button>
   {/if}
 </div>
 
@@ -258,6 +262,16 @@
           {#snippet children({ props })}
             <Form.Label>Název</Form.Label>
             <Input {...props} bind:value={$formData.title} />
+          {/snippet}
+        </Form.Control>
+        <Form.FieldErrors />
+      </Form.Field>
+
+      <Form.Field {form} name="author">
+        <Form.Control>
+          {#snippet children({ props })}
+            <Form.Label>Autor</Form.Label>
+            <Input {...props} bind:value={$formData.author} />
           {/snippet}
         </Form.Control>
         <Form.FieldErrors />

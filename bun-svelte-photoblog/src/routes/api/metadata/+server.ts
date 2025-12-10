@@ -62,6 +62,11 @@ export async function POST({ request }) {
     tags["IPTC:Keywords"] = metadata.keywords;
     tags["XMP:Subject"] = metadata.keywords;
   }
+  if (metadata.author) {
+    tags["IPTC:By-line"] = metadata.author;
+    tags["XMP:Creator"] = metadata.author;
+    tags["IFD0:Artist"] = metadata.author;
+  }
 
   // If no valid tags to write, exit early but successfully (nothing to do)
   if (Object.keys(tags).length === 0) {
