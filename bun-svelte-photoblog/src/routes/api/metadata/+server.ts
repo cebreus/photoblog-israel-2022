@@ -21,18 +21,18 @@ function findImageById(
 
 export async function POST({ request }) {
   if (!dev) {
-    throw error(403, "Metadata editing is only allowed in development mode.");
+    throw error(403, "Úprava metadat je povolena pouze v režimu vývoje.");
   }
 
   const { imageIds, metadata } = await request.json();
 
   if (!Array.isArray(imageIds) || imageIds.length === 0) {
-    throw error(400, "No image IDs provided.");
+    throw error(400, "Nebyla poskytnuta žádná ID obrázků.");
   }
 
   const contentDir = process.env.CONTENT_DIR;
   if (!contentDir) {
-    throw error(500, "CONTENT_DIR environment variable is not set.");
+    throw error(500, "Proměnná prostředí CONTENT_DIR není nastavena.");
   }
 
   const results = {
@@ -65,7 +65,7 @@ export async function POST({ request }) {
 
   // If no valid tags to write, exit early but successfully (nothing to do)
   if (Object.keys(tags).length === 0) {
-    return json({ message: "No metadata changes detected", results });
+    return json({ message: "Nebyla detekována žádná změna metadat", results });
   }
 
   // Read manifest dynamically
@@ -74,7 +74,7 @@ export async function POST({ request }) {
     `src/lib/data/${contentDir}/images.manifest.json`,
   );
   if (!fs.existsSync(manifestPath)) {
-    throw error(500, `Manifest not found at ${manifestPath}`);
+    throw error(500, `Manifest nebyl nalezen na ${manifestPath}`);
   }
   const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
 
@@ -84,7 +84,7 @@ export async function POST({ request }) {
     try {
       const imageEntry = findImageById(manifest as Manifest, id);
       if (!imageEntry) {
-        throw new Error(`Image ID ${id} not found in manifest.`);
+        throw new Error(`ID obrázku ${id} nebylo nalezeno v manifestu.`);
       }
 
       // ... inside the loop
@@ -118,7 +118,7 @@ export async function POST({ request }) {
   // but in a long-running server, keeping the singleton alive is fine/intended.
 
   return json({
-    message: "Batch processing complete",
+    message: "Zpracování dávky dokončeno",
     stats: {
       total: imageIds.length,
       success: results.success.length,

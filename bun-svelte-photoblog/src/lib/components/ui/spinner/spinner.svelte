@@ -10,7 +10,7 @@
 
 <Loader2Icon
   role="status"
-  aria-label="Loading"
+  aria-label="Načítání"
   class={cn("size-4 animate-spin", className)}
   {...restProps}
 />

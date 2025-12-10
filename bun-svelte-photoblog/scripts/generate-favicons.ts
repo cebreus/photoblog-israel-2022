@@ -112,9 +112,7 @@ async function run() {
   if (faviconIco) {
     const faviconIcoPath = path.resolve(staticDir, "favicon.ico");
     await fs.writeFile(faviconIcoPath, faviconIco.contents);
-    logger.info(
-      `Wrote ${path.relative(process.cwd(), faviconIcoPath)}`,
-    );
+    logger.info(`Wrote ${path.relative(process.cwd(), faviconIcoPath)}`);
 
     // Remove the favicon.ico from the images array so it's not written twice
     function isNotFavicon(image: { name: string }) {
@@ -127,9 +125,7 @@ async function run() {
     return fs.writeFile(path.join(assetsOutDir, image.name), image.contents);
   }
   await Promise.all(imagesToWrite.map(writeImage));
-  logger.info(
-    `Wrote images to ${path.relative(process.cwd(), assetsOutDir)}`,
-  );
+  logger.info(`Wrote images to ${path.relative(process.cwd(), assetsOutDir)}`);
 
   function writeFile(file: { name: string; contents: any }) {
     return fs.writeFile(path.join(assetsOutDir, file.name), file.contents);
@@ -146,9 +142,7 @@ async function run() {
   }
   const finalHtml = response.html.filter(filterOutIco).join("\n");
   await fs.writeFile(tempFaviconHtmlPath, finalHtml);
-  logger.info(
-    `Wrote temporary favicons.html to ${tempFaviconHtmlPath}`,
-  );
+  logger.info(`Wrote temporary favicons.html to ${tempFaviconHtmlPath}`);
 
   logger.info("Favicons generated successfully.");
 }

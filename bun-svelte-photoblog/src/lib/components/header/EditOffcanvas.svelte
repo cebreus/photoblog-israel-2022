@@ -41,13 +41,11 @@
 
   const { form: formData, enhance } = form;
 
-  // Placeholders
-  let placeholders = $state({
-    title: "",
-    city: "",
-    caption: "",
-    keywords: "",
-  });
+  // Track whether multiple selected images share a common value
+  let commonTitle = $state<string | null>(null);
+  let commonCity = $state<string | null>(null);
+  let commonCaption = $state<string | null>(null);
+  let commonKeywords = $state<string | null>(null);
 
   // Derived state from stores (Centralized logic via urlSync.ts)
   let imageIds = $derived(Array.from($selection));
@@ -114,24 +112,22 @@
       return first;
     };
 
-    const commonTitle = getCommon((i) => i.title);
-    const commonCity = getCommon((i) => i.city);
-    const commonCaption = getCommon((i) => i.caption);
-    const commonKeywords = getCommon((i) => i.keywords?.join(", "));
+    const commonTitleValue = getCommon((i) => i.title);
+    const commonCityValue = getCommon((i) => i.city);
+    const commonCaptionValue = getCommon((i) => i.caption);
+    const commonKeywordsValue = getCommon((i) => i.keywords?.join(", "));
 
-    $formData.title = commonTitle ?? "";
-    placeholders.title =
-      commonTitle === null ? "Mixed values" : "Title / Object Name";
+    $formData.title = commonTitleValue ?? "";
+    commonTitle = commonTitleValue;
 
-    $formData.city = commonCity ?? "";
-    placeholders.city = commonCity === null ? "Mixed values" : "City";
+    $formData.city = commonCityValue ?? "";
+    commonCity = commonCityValue;
 
-    $formData.caption = commonCaption ?? "";
-    placeholders.caption = commonCaption === null ? "Mixed values" : "Caption";
+    $formData.caption = commonCaptionValue ?? "";
+    commonCaption = commonCaptionValue;
 
-    $formData.keywords = commonKeywords ?? "";
-    placeholders.keywords =
-      commonKeywords === null ? "Mixed values" : "Keywords (comma separated)";
+    $formData.keywords = commonKeywordsValue ?? "";
+    commonKeywords = commonKeywordsValue;
   }
 
   async function handleSubmit(data: typeof initialData) {
@@ -142,19 +138,14 @@
         imageIds,
         metadata: {
           title:
-            data.title === "" && placeholders.title === "Mixed values"
-              ? undefined
-              : data.title,
-          city:
-            data.city === "" && placeholders.city === "Mixed values"
-              ? undefined
-              : data.city,
+            data.title === "" && commonTitle === null ? undefined : data.title,
+          city: data.city === "" && commonCity === null ? undefined : data.city,
           caption:
-            data.caption === "" && placeholders.caption === "Mixed values"
+            data.caption === "" && commonCaption === null
               ? undefined
               : data.caption,
           keywords:
-            data.keywords === "" && placeholders.keywords === "Mixed values"
+            data.keywords === "" && commonKeywords === null
               ? undefined
               : data.keywords
                   ?.split(",")
@@ -171,10 +162,16 @@
 
       if (!res.ok) {
         const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData.message || "Failed to update metadata");
+        throw new Error(
+          errorData.message || "Nepodařilo se aktualizovat metadata",
+        );
       }
 
-      toast.success(`Saved ${imageIds.length} images.`);
+      toast.success(
+        imageIds.length === 1
+          ? `Uložen ${imageIds.length} obrázek.`
+          : `Uloženo ${imageIds.length} obrázků.`,
+      );
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       toast.error(msg);
@@ -188,7 +185,7 @@
     size="icon"
     onclick={toggleEditMode}
     class={isEditMode ? "text-orange-500 hover:text-orange-600" : ""}
-    title="Toggle Edit Mode"
+    title="Přepnout režim úprav"
   >
     <Pencil size={20} />
   </Button>
@@ -201,10 +198,10 @@
       onclick={() => selection.clear()}
       class="text-slate-300 hover:text-white"
     >
-      Clear ({$selection.size})
+      Vymazat ({$selection.size})
     </Button>
     <Button variant="secondary" size="sm" onclick={() => (isOpen = true)}
-      >Edit</Button
+      >Upravit</Button
     >
   {/if}
 </div>
@@ -215,13 +212,13 @@
     className="w-[400px] sm:w-[540px] overflow-y-auto border-l p-6"
   >
     <div class="flex flex-col space-y-2 text-center sm:text-left mb-6">
-      <h2 class="text-lg font-semibold text-foreground">Edit Metadata</h2>
+      <h2 class="text-lg font-semibold text-foreground">Upravit metadata</h2>
       <div class="text-sm text-muted-foreground flex flex-col gap-2">
-        <span
-          >Editing {imageIds.length} image{imageIds.length === 1
-            ? ""
-            : "s"}:</span
-        >
+        <span>
+          {imageIds.length === 1
+            ? `Úprava ${imageIds.length} obrázku:`
+            : `Úprava ${imageIds.length} obrázků:`}
+        </span>
         <div class="flex flex-wrap gap-1">
           {#each selectedImages as img (img.id)}
             <Badge
@@ -232,7 +229,7 @@
               <button
                 onclick={() => removeImage(img.id)}
                 class="text-muted-foreground hover:text-foreground p-0.5 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-                title="Remove from selection"
+                title="Odebrat z výběru"
                 type="button"
               >
                 <X size={12} />
@@ -258,12 +255,8 @@
       <Form.Field {form} name="title">
         <Form.Control>
           {#snippet children({ props })}
-            <Form.Label>Title</Form.Label>
-            <Input
-              {...props}
-              bind:value={$formData.title}
-              placeholder={placeholders.title}
-            />
+            <Form.Label>Název</Form.Label>
+            <Input {...props} bind:value={$formData.title} />
           {/snippet}
         </Form.Control>
         <Form.FieldErrors />
@@ -272,12 +265,8 @@
       <Form.Field {form} name="city">
         <Form.Control>
           {#snippet children({ props })}
-            <Form.Label>City</Form.Label>
-            <Input
-              {...props}
-              bind:value={$formData.city}
-              placeholder={placeholders.city}
-            />
+            <Form.Label>Město</Form.Label>
+            <Input {...props} bind:value={$formData.city} />
           {/snippet}
         </Form.Control>
         <Form.FieldErrors />
@@ -286,12 +275,11 @@
       <Form.Field {form} name="caption">
         <Form.Control>
           {#snippet children({ props })}
-            <Form.Label>Caption</Form.Label>
+            <Form.Label>Popisek</Form.Label>
             <textarea
               {...props}
               bind:value={$formData.caption}
-              placeholder={placeholders.caption}
-              class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              class="flex min-h-20 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             ></textarea>
           {/snippet}
         </Form.Control>
@@ -301,12 +289,8 @@
       <Form.Field {form} name="keywords">
         <Form.Control>
           {#snippet children({ props })}
-            <Form.Label>Keywords</Form.Label>
-            <Input
-              {...props}
-              bind:value={$formData.keywords}
-              placeholder={placeholders.keywords}
-            />
+            <Form.Label>Klíčová slova</Form.Label>
+            <Input {...props} bind:value={$formData.keywords} />
           {/snippet}
         </Form.Control>
         <Form.FieldErrors />
@@ -315,7 +299,7 @@
       <div
         class="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 mt-6"
       >
-        <Button type="submit">Save changes</Button>
+        <Button type="submit">Uložit změny</Button>
       </div>
     </form>
   </Offcanvas.Content>
