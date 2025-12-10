@@ -8,7 +8,7 @@
   import * as Form from "$lib/components/ui/form";
   import type { ImageEntry, Separator } from "$lib/types/manifest";
   import { toast } from "svelte-sonner";
-  import { Pencil, X } from "lucide-svelte";
+  import { Pencil, X, Trash2 } from "lucide-svelte";
   import { selection, editMode } from "$lib/stores/editorState";
   import { superForm } from "sveltekit-superforms";
 
@@ -22,6 +22,7 @@
   const initialData = {
     title: "",
     author: "",
+    location: "",
     city: "",
     caption: "",
     keywords: "",
@@ -44,9 +45,13 @@
   // Track whether multiple selected images share a common value
   let commonTitle = $state<string | null>(null);
   let commonAuthor = $state<string | null>(null);
+  let commonLocation = $state<string | null>(null);
   let commonCity = $state<string | null>(null);
   let commonCaption = $state<string | null>(null);
   let commonKeywords = $state<string | null>(null);
+
+  // Track explicit deletion requests to prevent accidental empty string overwrites
+  let explicitClears = $state<Record<string, boolean>>({});
 
   // Derived state from stores (Centralized logic via urlSync.ts)
   let imageIds = $derived(Array.from($selection));
@@ -100,6 +105,8 @@
   }
 
   function populateForm() {
+    // Reset explicit clears when repopulating
+    explicitClears = {};
     const images = findImages();
     if (images.length === 0) return;
 
@@ -113,8 +120,9 @@
       return first;
     };
 
-    const commonTitleValue = getCommon((i) => i.title);
+    const commonTitleValue = getCommon((i) => i.exif?.title);
     const commonAuthorValue = getCommon((i) => i.author);
+    const commonLocationValue = getCommon((i) => i.location); // Using i.location as per ImageEntry interface
     const commonCityValue = getCommon((i) => i.city);
     const commonCaptionValue = getCommon((i) => i.caption);
     const commonKeywordsValue = getCommon((i) => i.keywords?.join(", "));
@@ -124,6 +132,9 @@
 
     $formData.author = commonAuthorValue ?? "";
     commonAuthor = commonAuthorValue;
+
+    $formData.location = commonLocationValue ?? "";
+    commonLocation = commonLocationValue;
 
     $formData.city = commonCityValue ?? "";
     commonCity = commonCityValue;
@@ -142,19 +153,34 @@
       const payload = {
         imageIds,
         metadata: {
-          title:
-            data.title === "" && commonTitle === null ? undefined : data.title,
-          author:
-            data.author === "" && commonAuthor === null
+          title: explicitClears.title
+            ? null
+            : data.title === ""
+              ? undefined
+              : data.title,
+          author: explicitClears.author
+            ? null
+            : data.author === ""
               ? undefined
               : data.author,
-          city: data.city === "" && commonCity === null ? undefined : data.city,
-          caption:
-            data.caption === "" && commonCaption === null
+          location: explicitClears.location
+            ? null
+            : data.location === ""
+              ? undefined
+              : data.location,
+          city: explicitClears.city
+            ? null
+            : data.city === ""
+              ? undefined
+              : data.city,
+          caption: explicitClears.caption
+            ? null
+            : data.caption === ""
               ? undefined
               : data.caption,
-          keywords:
-            data.keywords === "" && commonKeywords === null
+          keywords: explicitClears.keywords
+            ? null
+            : data.keywords === ""
               ? undefined
               : data.keywords
                   ?.split(",")
@@ -186,6 +212,17 @@
       toast.error(msg);
     }
   }
+
+  function handleExplicitClear(field: keyof typeof initialData) {
+    $formData[field] = "";
+    explicitClears[field] = true;
+  }
+
+  function handleInput(field: keyof typeof initialData) {
+    if (explicitClears[field]) {
+      explicitClears[field] = false;
+    }
+  }
 </script>
 
 <div class="flex items-center gap-2">
@@ -203,7 +240,7 @@
   {#if $selection.size > 0}
     <div class="w-px h-6 bg-slate-700 mx-2"></div>
     <Button variant="ghost" size="sm" onclick={() => selection.clear()}>
-      Odebrat ({$selection.size})
+      Zrušit výběr ({$selection.size})
     </Button>
     <Button variant="secondary" size="sm" onclick={() => (isOpen = true)}>
       Upravit
@@ -266,21 +303,51 @@
         }
       }}
     >
-      <Form.Field {form} name="title">
+      <Form.Field {form} name="caption">
         <Form.Control>
           {#snippet children({ props })}
-            <Form.Label>Název</Form.Label>
-            <Input {...props} bind:value={$formData.title} />
+            <Form.Label>Popisek</Form.Label>
+            <div class="flex gap-2 items-start">
+              <Textarea
+                {...props}
+                bind:value={$formData.caption}
+                oninput={() => handleInput("caption")}
+              />
+              <Button
+                variant={explicitClears.caption ? "destructive" : "outline"}
+                size="icon"
+                type="button"
+                onclick={() => handleExplicitClear("caption")}
+                title="Smazat hodnotu"
+              >
+                <Trash2 class="size-4" />
+              </Button>
+            </div>
           {/snippet}
         </Form.Control>
         <Form.FieldErrors />
       </Form.Field>
 
-      <Form.Field {form} name="author">
+      <Form.Field {form} name="location">
         <Form.Control>
           {#snippet children({ props })}
-            <Form.Label>Autor</Form.Label>
-            <Input {...props} bind:value={$formData.author} />
+            <Form.Label>Místo</Form.Label>
+            <div class="flex gap-2">
+              <Input
+                {...props}
+                bind:value={$formData.location}
+                oninput={() => handleInput("location")}
+              />
+              <Button
+                variant={explicitClears.location ? "destructive" : "outline"}
+                size="icon"
+                type="button"
+                onclick={() => handleExplicitClear("location")}
+                title="Smazat hodnotu"
+              >
+                <Trash2 class="size-4" />
+              </Button>
+            </div>
           {/snippet}
         </Form.Control>
         <Form.FieldErrors />
@@ -290,19 +357,25 @@
         <Form.Control>
           {#snippet children({ props })}
             <Form.Label>Město</Form.Label>
-            <Input {...props} bind:value={$formData.city} />
+            <div class="flex gap-2">
+              <Input
+                {...props}
+                bind:value={$formData.city}
+                oninput={() => handleInput("city")}
+              />
+              <Button
+                variant={explicitClears.city ? "destructive" : "outline"}
+                size="icon"
+                type="button"
+                onclick={() => handleExplicitClear("city")}
+                title="Smazat hodnotu"
+              >
+                <Trash2 class="size-4" />
+              </Button>
+            </div>
           {/snippet}
         </Form.Control>
-        <Form.FieldErrors />
-      </Form.Field>
 
-      <Form.Field {form} name="caption">
-        <Form.Control>
-          {#snippet children({ props })}
-            <Form.Label>Popisek</Form.Label>
-            <Textarea {...props} bind:value={$formData.caption} />
-          {/snippet}
-        </Form.Control>
         <Form.FieldErrors />
       </Form.Field>
 
@@ -310,7 +383,72 @@
         <Form.Control>
           {#snippet children({ props })}
             <Form.Label>Klíčová slova</Form.Label>
-            <Input {...props} bind:value={$formData.keywords} />
+            <div class="flex gap-2">
+              <Input
+                {...props}
+                bind:value={$formData.keywords}
+                oninput={() => handleInput("keywords")}
+              />
+              <Button
+                variant={explicitClears.keywords ? "destructive" : "outline"}
+                size="icon"
+                type="button"
+                onclick={() => handleExplicitClear("keywords")}
+                title="Smazat hodnotu"
+              >
+                <Trash2 class="size-4" />
+              </Button>
+            </div>
+          {/snippet}
+        </Form.Control>
+        <Form.FieldErrors />
+      </Form.Field>
+
+      <Form.Field {form} name="author">
+        <Form.Control>
+          {#snippet children({ props })}
+            <Form.Label>Autor</Form.Label>
+            <div class="flex gap-2">
+              <Input
+                {...props}
+                bind:value={$formData.author}
+                oninput={() => handleInput("author")}
+              />
+              <Button
+                variant={explicitClears.author ? "destructive" : "outline"}
+                size="icon"
+                type="button"
+                onclick={() => handleExplicitClear("author")}
+                title="Smazat hodnotu"
+              >
+                <Trash2 class="size-4" />
+              </Button>
+            </div>
+          {/snippet}
+        </Form.Control>
+        <Form.FieldErrors />
+      </Form.Field>
+
+      <Form.Field {form} name="title">
+        <Form.Control>
+          {#snippet children({ props })}
+            <Form.Label>Název</Form.Label>
+            <div class="flex gap-2">
+              <Input
+                {...props}
+                bind:value={$formData.title}
+                oninput={() => handleInput("title")}
+              />
+              <Button
+                variant={explicitClears.title ? "destructive" : "outline"}
+                size="icon"
+                type="button"
+                onclick={() => handleExplicitClear("title")}
+                title="Smazat hodnotu"
+              >
+                <Trash2 class="size-4" />
+              </Button>
+            </div>
           {/snippet}
         </Form.Control>
         <Form.FieldErrors />

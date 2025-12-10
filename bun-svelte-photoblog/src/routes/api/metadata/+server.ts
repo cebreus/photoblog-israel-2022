@@ -43,26 +43,33 @@ export async function POST({ request }) {
   const contentRoot = path.resolve(process.cwd(), "content", contentDir);
 
   // Map metadata fields to ExifTool tags
+  // Map metadata fields to ExifTool tags
   // We prioritize IPTC and XMP for broad compatibility
-  const tags: Record<string, string | string[]> = {};
+  const tags: Record<string, string | string[] | null> = {};
 
-  if (metadata.title) {
+  if (metadata.title !== undefined) {
     tags["IPTC:ObjectName"] = metadata.title;
     tags["XMP:Title"] = metadata.title;
   }
-  if (metadata.caption) {
+  if (metadata.caption !== undefined) {
     tags["IPTC:Caption-Abstract"] = metadata.caption;
     tags["XMP:Description"] = metadata.caption;
   }
-  if (metadata.city) {
+  if (metadata.city !== undefined) {
     tags["IPTC:City"] = metadata.city;
     tags["XMP:City"] = metadata.city;
   }
-  if (metadata.keywords && Array.isArray(metadata.keywords)) {
-    tags["IPTC:Keywords"] = metadata.keywords;
-    tags["XMP:Subject"] = metadata.keywords;
+  if (metadata.location !== undefined) {
+    tags["IPTC:Sub-location"] = metadata.location;
+    tags["XMP:Location"] = metadata.location;
   }
-  if (metadata.author) {
+  if (metadata.keywords !== undefined) {
+    if (metadata.keywords === null || Array.isArray(metadata.keywords)) {
+      tags["IPTC:Keywords"] = metadata.keywords;
+      tags["XMP:Subject"] = metadata.keywords;
+    }
+  }
+  if (metadata.author !== undefined) {
     tags["IPTC:By-line"] = metadata.author;
     tags["XMP:Creator"] = metadata.author;
     tags["IFD0:Artist"] = metadata.author;

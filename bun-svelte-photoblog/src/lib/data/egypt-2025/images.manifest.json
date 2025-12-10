@@ -2,27 +2,38 @@
   "photoDays": [
     {
       "date": "2025-11-21",
-      "cities": [],
-      "locations": [],
+      "cities": [
+        "Brno"
+      ],
+      "locations": [
+        "Hlavní nádraží"
+      ],
       "items": [
         {
           "id": "img-img8056",
           "type": "image",
           "src": "IMG_8056.HEIC",
-          "alt": "Photoblog image",
-          "title": "",
+          "alt": "Hlavní nádraží, Brno",
+          "title": "Hlavní nádraží, Brno",
           "width": 8064,
           "height": 6048,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/IMG_8056.png",
           "placeholderColor": "rgb(216,200,184)",
           "exif": {
-            "date": "2025-11-21T16:58:02.000Z",
-            "latitude": 49.19141666666666,
-            "longitude": 16.613500000000002,
-            "orientation": "Horizontal (normal)"
+            "date": "2025-11-21T16:58:02.299Z",
+            "location": "Hlavní nádraží",
+            "city": "Brno",
+            "latitude": 49.191417,
+            "longitude": 16.6135,
+            "orientation": 1,
+            "author": "Cebreus"
           },
-          "date": "2025-11-21T16:58:02.000Z",
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Hlavní nádraží",
+          "city": "Brno",
+          "date": "2025-11-21T16:58:02.299Z",
           "sources": [
             {
               "variant": "default",
@@ -96,10 +107,13 @@
           "placeholder": "blurs/IMG_8057.png",
           "placeholderColor": "rgb(56,104,152)",
           "exif": {
-            "date": "2025-11-22T04:57:54.000Z",
-            "orientation": "Horizontal (normal)"
+            "date": "2025-11-22T04:57:54.694Z",
+            "orientation": 1,
+            "author": "Cebreus"
           },
-          "date": "2025-11-22T04:57:54.000Z",
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "date": "2025-11-22T04:57:54.694Z",
           "sources": [
             {
               "variant": "default",
@@ -173,12 +187,15 @@
           "placeholder": "blurs/IMG_8061.png",
           "placeholderColor": "rgb(136,168,200)",
           "exif": {
-            "date": "2025-11-23T08:47:20.000Z",
-            "latitude": 27.206202777777776,
-            "longitude": 33.85543055555556,
-            "orientation": "Horizontal (normal)"
+            "date": "2025-11-23T07:47:20.705Z",
+            "latitude": 27.206203,
+            "longitude": 33.855431,
+            "orientation": 1,
+            "author": "Cebreus"
           },
-          "date": "2025-11-23T08:47:20.000Z",
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "date": "2025-11-23T07:47:20.705Z",
           "sources": [
             {
               "variant": "default",
@@ -244,12 +261,15 @@
           "placeholder": "blurs/IMG_8066.png",
           "placeholderColor": "rgb(136,168,200)",
           "exif": {
-            "date": "2025-11-23T09:00:42.000Z",
-            "latitude": 27.194755555555556,
-            "longitude": 33.876488888888886,
-            "orientation": "Horizontal (normal)"
+            "date": "2025-11-23T08:00:42.473Z",
+            "latitude": 27.194756,
+            "longitude": 33.876489,
+            "orientation": 1,
+            "author": "Cebreus"
           },
-          "date": "2025-11-23T09:00:42.000Z",
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "date": "2025-11-23T08:00:42.473Z",
           "sources": [
             {
               "variant": "default",
@@ -298,77 +318,6 @@
               "variant": "fallback",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/previews-xxs/IMG_8066.jpeg",
-              "width": 190,
-              "height": 107
-            }
-          ]
-        },
-        {
-          "id": "img-img0953",
-          "type": "image",
-          "src": "IMG_0953.HEIC",
-          "alt": "Photoblog image",
-          "title": "",
-          "width": 3024,
-          "height": 4032,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/IMG_0953.png",
-          "placeholderColor": "rgb(8,120,152)",
-          "exif": {
-            "date": "2025-11-23T10:16:07.000Z",
-            "latitude": 27.18498888888889,
-            "longitude": 33.964486111111114,
-            "orientation": "Rotate 90 CW"
-          },
-          "date": "2025-11-23T10:16:07.000Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/IMG_0953.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/IMG_0953.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/IMG_0953.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/IMG_0953.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/IMG_0953.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/IMG_0953.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/IMG_0953.jpeg",
-              "width": 1280,
-              "height": 1707
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/IMG_0953.jpeg",
               "width": 190,
               "height": 107
             }

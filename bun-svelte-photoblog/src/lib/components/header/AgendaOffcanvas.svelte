@@ -40,13 +40,13 @@
             {@const isHashActiveDay = $page.url.hash === menuDay.href}
 
             <Collapsible.Root open={true} class="group/collapsible">
-              {#snippet child({ props }: { props: HTMLAttributes<HTMLElement> })}
+              {#snippet child({ props }: { props: HTMLAttributes })}
                 <Sidebar.MenuItem {...props}>
                   <Sidebar.MenuButton
                     isHashActive={isHashActiveDay}
                     isScrollspyActive={false}
                   >
-                    {#snippet child({ props }: { props: HTMLAttributes<HTMLElement> })}
+                    {#snippet child({ props }: { props: HTMLAttributes })}
                       <div class="flex items-center w-full" {...props}>
                         <a
                           href={menuDay.href}

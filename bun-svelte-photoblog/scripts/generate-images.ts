@@ -9,7 +9,7 @@ import type { ScriptArgs, QualityTypes } from "../src/lib/types/manifest";
 import { parseCliArguments, type CliOptions } from "./lib/cli-parser";
 import { createLogger } from "./lib/logger";
 
-import { processImage } from "./lib/image-processor";
+import { processImage, cleanup } from "./lib/image-processor";
 import incrementalRun from "./lib/incremental-build";
 import { runBlurBuild } from "./lib/blur-processor";
 import { sha1 } from "./lib/image-utils";
@@ -171,6 +171,9 @@ async function executeMain(): Promise<void> {
         (errAny?.stack ?? String(errAny)),
     );
     process.exit(1);
+  } finally {
+    // Ensure ExifTool process is closed so the script can exit
+    await cleanup();
   }
 }
 

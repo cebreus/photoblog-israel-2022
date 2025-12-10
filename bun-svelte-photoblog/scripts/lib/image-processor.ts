@@ -2,7 +2,7 @@ import fsp from "node:fs/promises";
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
-import exifr from "exifr";
+import { exiftool } from "exiftool-vendored";
 import type {
   ImageEntry,
   ImageSource,
@@ -18,9 +18,8 @@ import {
   getKeywords,
   normalizeText,
   ensureDir,
-  sha1,
 } from "./image-utils";
-import { toSlug } from "../../src/lib/utils/strings"; // Corrected import
+import { toSlug } from "../../src/lib/utils/strings";
 import { execSync } from "node:child_process";
 import os from "node:os";
 
@@ -48,21 +47,23 @@ interface RawExifData extends ManifestExifData {
   Caption?: string;
   CaptionAbstract?: string;
   Byline?: string;
-  "dc:creator"?: string | string[]; // Can be string or array
+  "dc:creator"?: string | string[];
   Creator?: string;
   BylineTitle?: string;
   Artist?: string;
   Author?: string;
   Sublocation?: string;
-  Orientation?: number; // Exifr might return number, manifest expects string
-  DateTimeOriginal?: Date;
-  CreateDate?: Date;
+  Orientation?: number | string; // ExifTool returns string/number
+  DateTimeOriginal?: Date | string;
+  CreateDate?: Date | string;
   Location?: string;
   City?: string;
   Copyright?: string;
   CopyrightNotice?: string;
   Category?: string;
   CategoryCode?: string;
+  latitude?: number;
+  longitude?: number;
 }
 
 interface ResizeConfig {
@@ -113,6 +114,10 @@ export function requireSharp(): SharpModule {
   return sharp;
 }
 
+export async function cleanup(): Promise<void> {
+  await exiftool.end();
+}
+
 function ignoreError(_err?: unknown): void {
   // Intentionally empty
 }
@@ -154,18 +159,12 @@ export async function processImage(
 
     const ext = path.extname(absPath).slice(1).toLowerCase();
 
-    // For GIF, we might still need buffer if we want to copy it exactly or process it
-    // But let's optimize the common path first. For GIF copy we might need the buffer?
-    // The original code passed fileBuffer to copyGif.
-    // If it is a gif and we need to copy, we might read it.
     if (ext === "gif" && options.hasGifCopy) {
-      // Only read buffer if we actually need it for gif copy (which seems to assume it)
       const buffer = await fsp.readFile(absPath);
       return await copyGif(absPath, buffer, stats, fileHash, options);
     }
 
     if (ext === "heic" || ext === "heif") {
-      // Convert HEIC to temporary JPEG using vips (which has libheif support)
       const tmpDir = os.tmpdir();
       tempFilePath = path.join(tmpDir, `${baseName}_converted.jpg`);
       try {
@@ -175,24 +174,53 @@ export async function processImage(
         logger.warn(
           `Failed to convert HEIC via vips for ${absPath}: ${convErr}`,
         );
-        // Fall back to original path; Sharp will likely fail again
       }
     }
 
-    // Initialize sharp with the (possibly converted) file path
     const sharpInstance = sharpModule(processingPath);
 
-    // exifr can also read from file path, often faster as it only reads header
-    const [imageStats, exifRaw, originalMeta] = await Promise.all([
+    // Use exiftool to read metadata (it's robust for HEIC/XMP)
+    // We run it on the ORIGINAL file (absPath), not the converted JPG, to get full original metadata
+    const [imageStats, exifTags, originalMeta] = await Promise.all([
       sharpInstance.stats(),
-      exifr.parse(absPath, {
-        exif: true,
-        iptc: true,
-        xmp: true,
-        multiSegment: true,
-      }),
+      exiftool.read(absPath),
       sharpInstance.metadata(),
     ]);
+
+    // Map ExifTool tags to our RawExifData structure
+    // We access properties using bracket notation for keys that contain hyphens or are strictly typed in Tags
+    const exifRaw: Partial<RawExifData> = {
+      ObjectName: exifTags.ObjectName,
+      Headline: exifTags.Headline,
+      Title: exifTags.Title,
+      "dc:title": exifTags.Title,
+      ImageDescription: exifTags.ImageDescription || exifTags.Description,
+      Caption: exifTags.Description || exifTags["Caption-Abstract"],
+      CaptionAbstract: exifTags["Caption-Abstract"],
+      Byline: exifTags["By-line"],
+      "dc:creator": exifTags.Creator,
+      Creator: exifTags.Creator,
+      BylineTitle: exifTags["By-lineTitle"],
+      Artist: exifTags.Artist,
+      Author: exifTags.Author,
+      Sublocation: exifTags["Sub-location"] as string,
+      Orientation: exifTags.Orientation, // ExifTool returns string/number
+      DateTimeOriginal:
+        typeof exifTags.DateTimeOriginal === "object"
+          ? exifTags.DateTimeOriginal.toDate()
+          : (exifTags.DateTimeOriginal as any),
+      CreateDate:
+        typeof exifTags.CreateDate === "object"
+          ? exifTags.CreateDate.toDate()
+          : (exifTags.CreateDate as any),
+      Location: exifTags.Location || (exifTags["Sub-location"] as string),
+      City: exifTags.City,
+      Copyright: exifTags.Copyright,
+      CopyrightNotice: exifTags.CopyrightNotice,
+      Category: exifTags.Category,
+      latitude: Number(exifTags.GPSLatitude) || undefined,
+      longitude: Number(exifTags.GPSLongitude) || undefined,
+    };
 
     const dominant = imageStats?.dominant || { r: 0, g: 0, b: 0 };
     const placeholderColor = `rgb(${dominant.r},${dominant.g},${dominant.b})`;
@@ -203,7 +231,7 @@ export async function processImage(
     const imageEntry = await createImageEntry(
       baseName,
       absPath,
-      exifRaw || {},
+      exifRaw,
       originalMeta,
       placeholderColor,
     );
@@ -311,13 +339,33 @@ export async function createImageEntry(
       exif.Author,
   );
 
+  // Normalize orientation to what manifest expects (string usually in this project)
+  // But ExifTool might return number or string.
+  // We'll leave it as is if it's compatible or just toString() it?
+  // Current project seems to use "Horizontal (normal)" strings from ExifTool
+
+  // Safe date parsing
+  let isoDate: string | undefined;
+  try {
+    const d = exif.DateTimeOriginal || exif.CreateDate;
+    if (d instanceof Date) {
+      isoDate = d.toISOString();
+    } else if (typeof d === "string") {
+      isoDate = new Date(d).toISOString();
+    }
+  } catch (e) {
+    // ignore invalid date
+  }
+
   return {
-    id: "img-" + toSlug(baseName), // Using toSlug
+    id: "img-" + toSlug(baseName),
     type: "image",
     src: path.basename(absPath),
     alt: getAltText(exif, captionCanonical, titleCanonical),
     title:
-      [exif.Sublocation, exif.Location, exif.City].filter(Boolean).join(", ") ||
+      [exif.Sublocation, exif.Location, exif.City, exif.Title]
+        .filter(Boolean)
+        .join(", ") ||
       titleCanonical ||
       "",
     caption: captionCanonical,
@@ -330,13 +378,14 @@ export async function createImageEntry(
     placeholder: undefined,
     placeholderColor,
     exif: {
-      date: (exif.DateTimeOriginal || exif.CreateDate)?.toISOString(),
+      date: isoDate,
       location: exif.Location,
       city: exif.City,
+      title: exif.Title || exif.ObjectName, // Expose raw title
       sublocation: exif.Sublocation,
       latitude: exif.latitude,
       longitude: exif.longitude,
-      orientation: exif.Orientation,
+      orientation: exif.Orientation as any, // Cast as it might be varied
       description: normalizeText(exif.ImageDescription || undefined),
       keywords: getKeywords(exif),
       author: authorCanonical,
@@ -344,8 +393,10 @@ export async function createImageEntry(
       category: normalizeText(exif.Category || exif.CategoryCode),
     },
     author: authorCanonical,
-    authorSlug: authorCanonical ? toSlug(authorCanonical) : undefined, // Using toSlug
-    date: (exif.DateTimeOriginal || exif.CreateDate)?.toISOString?.(),
+    authorSlug: authorCanonical ? toSlug(authorCanonical) : undefined,
+    location: exif.Sublocation || exif.Location,
+    city: exif.City, // Top-level city for frontend convenience
+    date: isoDate,
     sources: [],
   };
 }
@@ -380,7 +431,6 @@ function buildSharpInstance(
   const resizeSpec: import("sharp").ResizeOptions = { ...resizeConfig };
   if (resizeConfig.crop) {
     resizeSpec.fit = "cover";
-    // delete resizeSpec.crop; // 'crop' is not in sharp types, but was in ResizeConfig interface
   }
   if (!allowUpscale) {
     resizeSpec.withoutEnlargement = true;
@@ -417,7 +467,7 @@ async function generateVariant(
     );
     info = {
       format: format,
-      size: 0, // Dummy size
+      size: 0,
       width: dims.width,
       height: dims.height,
       channels: 3,
@@ -460,10 +510,6 @@ async function generateOtherOutput(
   let info: import("sharp").OutputInfo;
 
   if (options.manifestOnly) {
-    // For placeholders specifically, we might typically want the actual buffer to base64 it.
-    // However, looking at the code, it seems it just puts the path in the manifest.
-    // If output.isPlaceholder is true, it sets imageEntry.placeholder = outPath.
-    // So we don't need the buffer content here either, just the dimensions.
     const dims = calculateOutputDimensions(
       originalMeta.width ?? 0,
       originalMeta.height ?? 0,
@@ -546,7 +592,7 @@ async function copyGif(
   }
 
   const image: ImageEntry = {
-    id: "img-" + toSlug(baseName), // Using toSlug
+    id: "img-" + toSlug(baseName),
     type: "image",
     src: path.basename(absPath),
     alt: "Animated GIF image",
@@ -570,10 +616,6 @@ async function copyGif(
   };
 }
 
-/**
- * Calculates output dimensions based on original size and resize config.
- * Mimics Sharp's simplified logic for 'cover', 'inside', etc.
- */
 function calculateOutputDimensions(
   srcW: number,
   srcH: number,
@@ -586,40 +628,24 @@ function calculateOutputDimensions(
   let targetH = resize.height;
   const fit = resize.crop ? "cover" : resize.fit || "cover";
 
-  // If both missing, no resize
   if (!targetW && !targetH) return { width: srcW, height: srcH };
 
-  // If one missing, calculate preserving aspect ratio
   if (!targetH && targetW) {
     targetH = Math.round(srcH * (targetW / srcW));
   } else if (!targetW && targetH) {
     targetW = Math.round(srcW * (targetH / srcH));
   }
 
-  // At this point both are numbers (or should be)
   if (!targetW) targetW = srcW;
   if (!targetH) targetH = srcH;
 
-  // Handle withoutEnlargement
   if (!allowUpscale) {
-    // If target is larger than source in both dims (for cover) or any dim (for inside), we might cap it.
-    // For 'cover' (default/crop), if target > source, sharp usually upscales unless withoutEnlargement is true.
-    // If withoutEnlargement is true, it returns the image clipped? Or just original?
-    // Sharp docs: "do not enlarge if the width or height of the resized image would be greater than that of the source image"
-    // For typical use case here (generating thumbnails), we assume upscale isn't happening or handled by config.
-    // But strictly:
     if (targetW > srcW || targetH > srcH) {
-      // logic gets complex depending on 'fit'.
-      // For this specific project, we mostly downscale.
-      // Let's implement a simple check: if we are trying to go bigger, just cap at src.
       if (fit === "inside" || fit === "contain") {
         const scale = Math.min(1, Math.min(targetW / srcW, targetH / srcH));
         targetW = Math.round(srcW * scale);
         targetH = Math.round(srcH * scale);
       } else if (fit === "cover" || fit === "fill") {
-        // If strictly without enlargement and both are bigger, we return src?
-        // Or if just one? Sharp is complex here.
-        // Let's assume standard behavior: if target > src, use src.
         if (targetW > srcW && targetH > srcH) {
           targetW = srcW;
           targetH = srcH;
