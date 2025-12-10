@@ -9,6 +9,9 @@
   import type { ImageEntry, Separator, PhotoDay } from "$lib/types/manifest";
   import { filterGalleryItems } from "$lib/utils/gallery";
   import { formatDateForDisplay, formatWeekdayCzech } from "$lib/utils/strings";
+  import { editMode, selection } from "$lib/stores/editorState";
+  import { Button } from "$lib/components/ui/button";
+  import { CheckSquare, Square } from "lucide-svelte";
 
   let { data } = $props<{ data: PageData }>();
   type PhotoDayWithMeta = PhotoDay & {
@@ -52,7 +55,10 @@
         use:useScrollspy={{ id: daySectionId }}
         use:useFancybox
       >
-        <div data-cy="day-head" class="max-w-xl mx-auto text-center my-12">
+        <div
+          data-cy="day-head"
+          class="max-w-xl mx-auto text-center my-12 relative group"
+        >
           <h2 class="mb-1 text-3xl">
             <span
               class="block mb-1 text-xs font-normal tracking-[0.05em] uppercase before:content-['———'] before:tracking-[-0.3em] before:opacity-[0.34] before:mr-4 after:content-['———'] after:tracking-[-0.3em] after:opacity-[0.34] after:ml-3"
@@ -76,6 +82,39 @@
               {#each day.locations as locationName (locationName)}
                 <Badge variant="secondary">{locationName}</Badge>
               {/each}
+            </div>
+          {/if}
+
+          {#if $editMode}
+            {@const dayImageIds = day.items
+              .filter((i) => i.type === "image")
+              .map((i) => i.id)}
+            {@const allSelected =
+              dayImageIds.length > 0 &&
+              dayImageIds.every((id) => $selection.has(id))}
+            <div
+              class="flex justify-center gap-2 mt-4 opacity-100 transition-opacity"
+            >
+              <Button
+                variant="outline"
+                size="sm"
+                class="gap-2"
+                onclick={() => {
+                  if (allSelected) {
+                    selection.removeMultiple(dayImageIds);
+                  } else {
+                    selection.addMultiple(dayImageIds);
+                  }
+                }}
+              >
+                {#if allSelected}
+                  <Square size={14} />
+                  Zrušit výběr dne
+                {:else}
+                  <CheckSquare size={14} />
+                  Vybrat celý den
+                {/if}
+              </Button>
             </div>
           {/if}
         </div>

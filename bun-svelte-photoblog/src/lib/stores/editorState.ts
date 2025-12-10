@@ -26,6 +26,16 @@ function createSelectionStore() {
         ids.delete(id);
         return new Set(ids);
       }),
+    addMultiple: (newIds: string[]) =>
+      update((ids) => {
+        newIds.forEach((id) => ids.add(id));
+        return new Set(ids);
+      }),
+    removeMultiple: (removeIds: string[]) =>
+      update((ids) => {
+        removeIds.forEach((id) => ids.delete(id));
+        return new Set(ids);
+      }),
   };
 }
 

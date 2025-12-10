@@ -225,6 +225,15 @@
             : `Úprava ${imageIds.length} obrázků:`}
         </span>
         <div class="flex flex-wrap gap-1">
+          {#if selectedImages.length > 1}
+            <Badge
+              variant="destructive"
+              class="font-mono text-xs cursor-pointer hover:bg-destructive/90"
+              onclick={() => selection.clear()}
+            >
+              Odebrat vše
+            </Badge>
+          {/if}
           {#each selectedImages as img (img.id)}
             <Badge
               variant="secondary"
