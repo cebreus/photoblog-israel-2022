@@ -126,6 +126,8 @@
       size: "icon",
       variant: "ghost",
     })}
+    aria-label="Otevřít filtry"
+    title="Otevřít filtry"
     data-testid="filters-offcanvas-trigger"
   >
     <SlidersHorizontal strokeWidth={2.5} />

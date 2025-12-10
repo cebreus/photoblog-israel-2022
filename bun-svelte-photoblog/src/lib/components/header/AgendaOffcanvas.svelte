@@ -18,8 +18,11 @@
       size: "icon",
       variant: "ghost",
     })}
+    aria-label="Otevřít agendu"
+    title="Otevřít agendu"
+    data-testid="agenda-offcanvas-trigger"
   >
-    <CalendarClock />
+    <CalendarClock strokeWidth={2.5} />
   </Offcanvas.Trigger>
 
   <Offcanvas.Content
@@ -37,13 +40,13 @@
             {@const isHashActiveDay = $page.url.hash === menuDay.href}
 
             <Collapsible.Root open={true} class="group/collapsible">
-              {#snippet child({ props }: { props: HTMLAttributes })}
+              {#snippet child({ props }: { props: HTMLAttributes<HTMLElement> })}
                 <Sidebar.MenuItem {...props}>
                   <Sidebar.MenuButton
                     isHashActive={isHashActiveDay}
                     isScrollspyActive={false}
                   >
-                    {#snippet child({ props }: { props: HTMLAttributes })}
+                    {#snippet child({ props }: { props: HTMLAttributes<HTMLElement> })}
                       <div class="flex items-center w-full" {...props}>
                         <a
                           href={menuDay.href}
