@@ -16,10 +16,10 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "test:unit": "vitest",
-    "test": "sh -c 'npm run test:unit -- \"$@\"' -- && npm run test:e2e",
+    "test": "sh -c 'bun run test:unit -- \"$@\"' -- && bun run test:e2e",
     "test:e2e": "playwright test",
-    "test:unit:images": "vitest -c vitest.config.images.ts --run --reporter verbose --include tests/unit/**/*.spec.ts",
-    "test:images": "SHARP_NUM_THREADS=1 vitest -c vitest.config.images.ts --run --reporter verbose --include tests/integration/**/*.spec.ts --include tests/e2e-images/**/*.spec.ts",
+    "test:unit:images": "vitest -c vitest.config.images.ts --run --reporter verbose tests/unit/**/*.spec.ts",
+    "test:images": "SHARP_NUM_THREADS=1 vitest -c vitest.config.images.ts --run --reporter verbose tests/integration/**/*.spec.ts tests/e2e-images/**/*.spec.ts",
     "test:all": "bun run test:unit:images && bun run test:images",
     "images:build": "bun scripts/generate-images.ts",
     "images:watch": "bun scripts/generate-images.ts --watch",
@@ -77,9 +77,6 @@
     "vite-plugin-devtools-json": "^1.0.0",
     "vitest": "^3.2.4",
     "vitest-browser-svelte": "^1.1.0"
-  },
-  "engines": {
-    "node": ">=24"
   },
   "dependencies": {
     "@fancyapps/ui": "^6.1.7",

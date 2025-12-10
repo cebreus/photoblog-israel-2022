@@ -13,7 +13,7 @@ Zajistit spolehlivost CLI generátoru obrázků (`scripts/generate-images.ts`) v
 
 ## Strategie testování
 
-Testy jsou rozděleny do tří úrovní a běží v prostředí Bun (pro unit/integration) a Node/Playwright (pro E2E).
+Testy jsou rozděleny do tří úrovní a běží v prostředí Bun (pro unit/integration) a Playwright (pro E2E).
 
 1.  **Jednotkové testy (Unit Tests)**:
     - Testují izolované funkce (parsování argumentů, normalizace cest, logika manifestu).

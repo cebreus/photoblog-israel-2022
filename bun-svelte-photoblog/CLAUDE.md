@@ -158,7 +158,7 @@ These types are shared between:
 - **Adapter**: `@sveltejs/adapter-static` (static site generation)
 - **Preprocessor**: `vitePreprocess()` for Svelte compilation
 - **Tailwind**: v4 with `@tailwindcss/vite` plugin
-- **Vitest**: Configured for both client (browser) and server (node) tests
+- **Vitest**: Configured for both client (browser) and server tests
 
 ## Important Notes
 

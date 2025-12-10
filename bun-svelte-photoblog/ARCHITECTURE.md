@@ -851,8 +851,9 @@ import { defineConfig } from "@playwright/test";
 
 export default defineConfig({
   webServer: {
-    command: "npm run build && npm run preview",
+    command: "bun run build && bun run preview",
     port: 4173,
+    reuseExistingServer: !process.env.CI,
   },
   testDir: "e2e",
 });
@@ -861,16 +862,17 @@ export default defineConfig({
 **Klíčové konfigurace**:
 
 - **webServer**: Automaticky spouští aplikaci před testy
-  - Command: `npm run build && npm run preview`
+  - Command: `bun run build && bun run preview`
     - Nejprve builduje production verzi
     - Pak spouští preview server
   - Port: 4173 (výchozí Vite preview port)
+  - Reuse: `true` (pokud už server běží, použije ho - rychlejší dev)
 - **testDir**: `e2e` - adresář s E2E testy
 
 **Workflow**:
 
-1. Playwright automaticky spustí `npm run build`
-2. Pak spustí `npm run preview` (production preview server)
+1. Playwright automaticky spustí `bun run build`
+2. Pak spustí `bun run preview` (production preview server)
 3. Počká až server běží na portu 4173
 4. Spustí testy z `e2e/` adresáře
 5. Po testech ukončí server
@@ -4058,7 +4060,7 @@ test("navigation menu opens on click", async ({ page }) => {
 ```typescript
 export default defineConfig({
   webServer: {
-    command: "npm run build && npm run preview",
+    command: "bun run build && bun run preview",
     port: 4173,
   },
   testDir: "e2e",
@@ -4067,8 +4069,8 @@ export default defineConfig({
 
 **Workflow**:
 
-1. Playwright spustí `npm run build` (production build)
-2. Spustí `npm run preview` (preview server na portu 4173)
+1. Playwright spustí `bun run build` (production build)
+2. Spustí `bun run preview` (preview server na portu 4173)
 3. Spustí testy v Chromium
 4. Ukončí server
 
