@@ -1,19 +1,317 @@
 {
   "photoDays": [
     {
+      "date": "2025-11-21",
+      "cities": [],
+      "locations": [],
+      "items": [
+        {
+          "id": "img-img8056",
+          "type": "image",
+          "src": "IMG_8056.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8056.png",
+          "placeholderColor": "rgb(216,200,184)",
+          "exif": {
+            "date": "2025-11-21T16:58:02.000Z",
+            "latitude": 49.19141666666666,
+            "longitude": 16.613500000000002,
+            "orientation": "Horizontal (normal)"
+          },
+          "date": "2025-11-21T16:58:02.000Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8056.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8056.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8056.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8056.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8056.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8056.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8056.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8056.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        }
+      ],
+      "id": "day-2025-11-21"
+    },
+    {
+      "date": "2025-11-22",
+      "cities": [],
+      "locations": [],
+      "items": [
+        {
+          "id": "img-img8057",
+          "type": "image",
+          "src": "IMG_8057.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8057.png",
+          "placeholderColor": "rgb(56,104,152)",
+          "exif": {
+            "date": "2025-11-22T04:57:54.000Z",
+            "orientation": "Horizontal (normal)"
+          },
+          "date": "2025-11-22T04:57:54.000Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8057.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8057.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8057.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8057.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8057.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8057.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8057.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8057.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        }
+      ],
+      "id": "day-2025-11-22"
+    },
+    {
       "date": "2025-11-23",
       "cities": [],
       "locations": [],
       "items": [
         {
-          "id": "img-img0953",
+          "id": "img-img8061",
           "type": "image",
-          "src": "IMG_0953.jpeg",
+          "src": "IMG_8061.HEIC",
           "alt": "Photoblog image",
           "title": "",
           "width": 4032,
           "height": 3024,
           "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8061.png",
+          "placeholderColor": "rgb(136,168,200)",
+          "exif": {
+            "date": "2025-11-23T08:47:20.000Z",
+            "latitude": 27.206202777777776,
+            "longitude": 33.85543055555556,
+            "orientation": "Horizontal (normal)"
+          },
+          "date": "2025-11-23T08:47:20.000Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8061.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8061.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8061.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8061.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8061.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8061.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8061.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8061.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8066",
+          "type": "image",
+          "src": "IMG_8066.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 3244,
+          "height": 2433,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8066.png",
+          "placeholderColor": "rgb(136,168,200)",
+          "exif": {
+            "date": "2025-11-23T09:00:42.000Z",
+            "latitude": 27.194755555555556,
+            "longitude": 33.876488888888886,
+            "orientation": "Horizontal (normal)"
+          },
+          "date": "2025-11-23T09:00:42.000Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8066.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8066.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8066.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8066.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8066.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8066.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8066.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8066.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img0953",
+          "type": "image",
+          "src": "IMG_0953.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 3024,
+          "height": 4032,
+          "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/IMG_0953.png",
           "placeholderColor": "rgb(8,120,152)",
           "exif": {
@@ -65,7 +363,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/details/IMG_0953.jpeg",
               "width": 1280,
-              "height": 960
+              "height": 1707
             },
             {
               "variant": "fallback",
