@@ -33,6 +33,8 @@
           "authorSlug": "cebreus",
           "location": "Hlavní nádraží",
           "city": "Brno",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=49.191417,16.6135",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=16.6135&y=49.191417&z=12",
           "date": "2025-11-21T16:58:02.299Z",
           "sources": [
             {
@@ -195,6 +197,8 @@
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=27.206203,33.855431",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=33.855431&y=27.206203&z=15",
           "date": "2025-11-23T07:47:20.705Z",
           "sources": [
             {
@@ -269,6 +273,8 @@
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=27.194756,33.876489",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=33.876489&y=27.194756&z=15",
           "date": "2025-11-23T08:00:42.473Z",
           "sources": [
             {

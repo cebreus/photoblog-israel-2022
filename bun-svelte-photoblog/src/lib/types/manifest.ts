@@ -58,6 +58,8 @@ export type ImageEntry = {
   description?: string; // normalized description / long caption
   copyright?: string;
   category?: string;
+  googleMapsUrl?: string;
+  mapyCzUrl?: string;
   exif?: {
     date?: string;
     location?: string;

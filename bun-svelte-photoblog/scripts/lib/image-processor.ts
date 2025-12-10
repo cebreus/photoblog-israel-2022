@@ -306,7 +306,7 @@ export async function processImage(
     if (tempFilePath) {
       try {
         await fsp.unlink(tempFilePath);
-      } catch (_) {}
+      } catch (_) { }
     }
   }
 }
@@ -320,23 +320,23 @@ export async function createImageEntry(
 ): Promise<ImageEntry> {
   const titleCanonical = normalizeText(
     exif.ObjectName ||
-      exif.Headline ||
-      exif.Title ||
-      exif["dc:title"] ||
-      exif.ImageDescription,
+    exif.Headline ||
+    exif.Title ||
+    exif["dc:title"] ||
+    exif.ImageDescription,
   );
   const captionCanonical = normalizeText(
     exif.Caption || exif.CaptionAbstract || exif.ImageDescription,
   );
   const authorCanonical = normalizeText(
     exif.Byline ||
-      (Array.isArray(exif["dc:creator"])
-        ? exif["dc:creator"][0]
-        : exif["dc:creator"]) ||
-      exif.Creator ||
-      exif.BylineTitle ||
-      exif.Artist ||
-      exif.Author,
+    (Array.isArray(exif["dc:creator"])
+      ? exif["dc:creator"][0]
+      : exif["dc:creator"]) ||
+    exif.Creator ||
+    exif.BylineTitle ||
+    exif.Artist ||
+    exif.Author,
   );
 
   // Normalize orientation to what manifest expects (string usually in this project)
@@ -356,6 +356,17 @@ export async function createImageEntry(
   } catch (e) {
     // ignore invalid date
   }
+
+  // Map URLs
+  const googleMapsUrl =
+    exif.latitude && exif.longitude
+      ? `https://www.google.com/maps/search/?api=1&query=${exif.latitude},${exif.longitude}`
+      : undefined;
+
+  const mapyCzUrl =
+    exif.latitude && exif.longitude
+      ? `https://mapy.cz/zakladni?x=${exif.longitude}&y=${exif.latitude}&z=12`
+      : undefined;
 
   return {
     id: "img-" + toSlug(baseName),
@@ -396,6 +407,8 @@ export async function createImageEntry(
     authorSlug: authorCanonical ? toSlug(authorCanonical) : undefined,
     location: exif.Sublocation || exif.Location,
     city: exif.City, // Top-level city for frontend convenience
+    googleMapsUrl,
+    mapyCzUrl,
     date: isoDate,
     sources: [],
   };
