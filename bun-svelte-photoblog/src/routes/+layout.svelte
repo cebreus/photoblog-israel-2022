@@ -8,7 +8,8 @@
   import { showPhotoLabels } from "$lib/stores/photoLabels";
   import { debug } from "$lib/stores/debug";
   import type { Author, MenuManifest, SiteManifest } from "$lib/types/manifest";
-  import { initUrlSync } from "$lib/stores/url-sync";
+  import { initUrlSync } from "$lib/stores/urlSync";
+  import { Toaster } from "$lib/components/ui/sonner";
 
   // Explicitly type props instead of relying on loose inferred types
   interface Props {
@@ -70,3 +71,5 @@
 {@render children?.()}
 
 <Footer />
+
+<Toaster position="top-right" />

@@ -181,9 +181,9 @@ describe("manifest-builder: updateManifest", () => {
     );
     expect(separator).toBeDefined();
     if (separator?.type === "separator") {
-      expect(separator.storyContent).toBe("Gardens Content");
-      expect(separator.storyTitle).toBe("Gardens Title");
-      // User requested removal of storyHtml
+      // marked.parse wraps simple text in <p> tag by default and adds newline
+      expect(separator.story?.trim()).toBe("<p>Gardens Content</p>");
+      expect(separator).not.toHaveProperty("storyContent");
       expect(separator).not.toHaveProperty("storyHtml");
     }
 

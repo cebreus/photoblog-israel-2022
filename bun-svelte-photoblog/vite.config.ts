@@ -8,6 +8,9 @@ const contentDir = process.env.CONTENT_DIR || "israel-2022";
 
 export default defineConfig({
   plugins: [tailwindcss(), sveltekit(), devtoolsJson()],
+  ssr: {
+    noExternal: ["svelte-sonner"],
+  },
   resolve: {
     alias: {
       $manifests: path.resolve(__dirname, "src/lib/data", contentDir),

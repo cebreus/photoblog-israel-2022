@@ -84,7 +84,7 @@ export type Separator = {
   location: string;
   city: string;
   storyTitle?: string;
-  storyContent?: string;
+  story?: string;
   id: string;
 };
 

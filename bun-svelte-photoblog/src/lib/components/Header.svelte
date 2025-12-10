@@ -1,8 +1,9 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import type { MenuManifest } from "$lib/types/manifest";
+  import type { MenuManifest, PhotoDay } from "$lib/types/manifest";
   import AgendaOffcanvas from "$lib/components/header/AgendaOffcanvas.svelte";
   import FiltersOffcanvas from "$lib/components/header/FiltersOffcanvas.svelte";
+  import EditOffcanvas from "$lib/components/header/EditOffcanvas.svelte";
 
   type AuthorStats = {
     name: string;
@@ -16,6 +17,9 @@
   }: { menuItems?: MenuManifest; authors?: AuthorStats[] } = $props();
 
   const siteManifest = $derived($page.data.siteManifest);
+  const items = $derived(
+    ($page.data.photoDays as PhotoDay[])?.flatMap((day) => day.items) ?? [],
+  );
 </script>
 
 <header
@@ -28,6 +32,9 @@
       >
     </div>
 
+    {#if import.meta.env.DEV}
+      <EditOffcanvas {items} />
+    {/if}
     <FiltersOffcanvas {authors} />
     <AgendaOffcanvas {menuItems} />
   </div>

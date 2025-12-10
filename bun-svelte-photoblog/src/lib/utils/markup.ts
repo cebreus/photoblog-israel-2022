@@ -6,15 +6,10 @@ import type { Separator } from "$lib/types/manifest";
  * so rendering/parsing is testable and lives in the data/transform layer.
  */
 export function renderStoryHtml(
-  storyContent: string | undefined,
+  story: string | undefined,
   preRenderedHtml?: string,
 ): string {
-  if (!storyContent && !preRenderedHtml) return "";
-  if (preRenderedHtml) return preRenderedHtml;
-
-  if (!storyContent) return "";
-  const parsed = marked.parse(storyContent);
-  return typeof parsed === "string" ? parsed : "";
+  return preRenderedHtml ?? story ?? "";
 }
 
 /**

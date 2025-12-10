@@ -7,6 +7,7 @@ import {
   showSeparators,
 } from "$lib/stores/filters";
 import { showPhotoLabels } from "$lib/stores/photoLabels";
+import { selection, editMode } from "$lib/stores/editorState";
 import type { Author } from "$lib/types/manifest";
 import { toSlug } from "$lib/utils/strings";
 import { get } from "svelte/store";
@@ -86,6 +87,15 @@ function initializeFiltersFromUrl(url: URL) {
 
   showSeparators.set(url.searchParams.get("separators") !== "0");
   showPhotoLabels.set(url.searchParams.get("labels") === "1");
+
+  const editCsv = url.searchParams.get("edit");
+  if (editCsv) {
+    const ids = new Set(editCsv.split(",").filter(Boolean));
+    selection.set(ids);
+  } else {
+    selection.set(new Set());
+  }
+  editMode.set(url.searchParams.get("editMode") === "true");
 }
 
 let debounceTimer: ReturnType<typeof setTimeout>;
@@ -127,6 +137,19 @@ function syncUrlFromFilters() {
       params.set("labels", "1");
     } else {
       params.delete("labels");
+    }
+
+    const $selection = get(selection);
+    if ($selection.size > 0) {
+      params.set("edit", Array.from($selection).join(","));
+    } else {
+      params.delete("edit");
+    }
+
+    if (get(editMode)) {
+      params.set("editMode", "true");
+    } else {
+      params.delete("editMode");
     }
 
     const next = `${$page.url.pathname}${
@@ -171,6 +194,8 @@ export function initUrlSync(initialAuthors: Author[]) {
   selectedAuthors.subscribe(syncUrlFromFilters);
   showSeparators.subscribe(syncUrlFromFilters);
   showPhotoLabels.subscribe(syncUrlFromFilters);
+  selection.subscribe(syncUrlFromFilters);
+  editMode.subscribe(syncUrlFromFilters);
 
   // 3. When URL changes (e.g., back/forward button), update the filter stores
   page.subscribe((newPage) => {

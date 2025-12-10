@@ -6,19 +6,7 @@ import type { Separator } from "$lib/types/manifest";
  * so rendering/parsing is testable and lives in the data/transform layer.
  */
 export function renderStoryHtml(separator: Separator): string {
-  // Prefer pre-rendered HTML when available (build step can emit storyHtml).
-  if (!separator) return "";
-  const preRendered = separator.storyHtml;
-  if (preRendered) return preRendered;
-
-  // Render markdown if available
-  if (!separator.storyContent) return "";
-
-  // marked parsing can be sync or async depending on options, here assuming sync
-  const parsed = marked.parse(separator.storyContent);
-  if (typeof parsed === "string") return parsed;
-  // Fallback if marked returns a Promise (should not happen with defaults)
-  return "";
+  return separator.story ?? "";
 }
 
 /**

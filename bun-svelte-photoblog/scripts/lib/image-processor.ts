@@ -172,7 +172,9 @@ export async function processImage(
         execSync(`vips copy "${absPath}" "${tempFilePath}"`);
         processingPath = tempFilePath;
       } catch (convErr) {
-        logger.warn(`Failed to convert HEIC via vips for ${absPath}: ${convErr}`);
+        logger.warn(
+          `Failed to convert HEIC via vips for ${absPath}: ${convErr}`,
+        );
         // Fall back to original path; Sharp will likely fail again
       }
     }

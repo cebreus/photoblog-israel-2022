@@ -105,8 +105,12 @@ export async function loadStoryData(
   return storyDataMap;
 }
 
-async function generateSiteManifest(srcRoot: string): Promise<any> {
-  const siteMdPath = path.join(srcRoot, "site.md");
+async function generateSiteManifest(): Promise<any> {
+  const siteMdPath = path.resolve(
+    process.cwd(),
+    config.paths.siteSource,
+    "site.md",
+  );
   if (!(await fileExists(siteMdPath))) {
     logger.warn(`site.md not found at ${siteMdPath}`);
     return {};
@@ -313,7 +317,7 @@ async function updateCacheAndManifests({
     savePromises.push(saveJSON(paths.menuManifestPath, menuManifest));
 
     // Generate site manifest
-    const siteManifest = await generateSiteManifest(srcRoot);
+    const siteManifest = await generateSiteManifest();
     savePromises.push(saveJSON(paths.siteManifestPath, siteManifest));
   }
 

@@ -223,7 +223,7 @@ export function updateManifest(
           ...(story && storyContent
             ? {
                 storyTitle: story.title,
-                storyContent,
+                story: parseMarkdown(storyContent),
               }
             : {}),
         };

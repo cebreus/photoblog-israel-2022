@@ -6,13 +6,15 @@
 import { ImageFormat } from "../src/lib/types/images";
 import path from "node:path";
 
-// Read content directory from environment variable, with a default
+const IMAGE_SUBDIR = "pics";
+
 const contentDir = process.env.CONTENT_DIR || "israel-2022";
 console.log(`Using content directory: ${contentDir}`);
 
 export const config = {
   paths: {
-    source: `content/${contentDir}`,
+    source: `content/${contentDir}/${IMAGE_SUBDIR}`,
+    siteSource: `content/${contentDir}`,
     output: `static/${contentDir}/images`,
     urlPrefix: `/${contentDir}`,
     dataRoot: `src/lib/data/${contentDir}`,
