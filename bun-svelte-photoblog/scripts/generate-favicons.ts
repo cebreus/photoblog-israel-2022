@@ -27,7 +27,7 @@ async function loadSiteConfig(contentDir: string): Promise<SiteConfig> {
     siteConfigFile = await fs.readFile(siteConfigPath, "utf8");
   } catch (error) {
     throw new Error(
-      `[favicon-gen] Failed to read site config at ${siteConfigPath}. Please ensure the file exists.`,
+      `Failed to read site config at ${siteConfigPath}. Please ensure the file exists.`,
     );
   }
 
@@ -35,17 +35,17 @@ async function loadSiteConfig(contentDir: string): Promise<SiteConfig> {
 
   if (!data.favicon) {
     throw new Error(
-      `[favicon-gen] Config error: 'favicon' key is missing in ${siteConfigPath}.`,
+      `Config error: 'favicon' key is missing in ${siteConfigPath}.`,
     );
   }
   if (!data.manifest) {
     throw new Error(
-      `[favicon-gen] Config error: 'manifest' key is missing in ${siteConfigPath}.`,
+      `Config error: 'manifest' key is missing in ${siteConfigPath}.`,
     );
   }
   if (!data.meta?.lang) {
     throw new Error(
-      `[favicon-gen] Config error: 'meta.lang' key is missing in ${siteConfigPath}.`,
+      `Config error: 'meta.lang' key is missing in ${siteConfigPath}.`,
     );
   }
 
@@ -54,7 +54,7 @@ async function loadSiteConfig(contentDir: string): Promise<SiteConfig> {
     await fs.access(sourceFile);
   } catch (error) {
     throw new Error(
-      `[favicon-gen] Source file not found at path: ${sourceFile}. Please check the 'favicon' path in ${siteConfigPath}.`,
+      `Source file not found at path: ${sourceFile}. Please check the 'favicon' path in ${siteConfigPath}.`,
     );
   }
 
@@ -74,14 +74,14 @@ async function run() {
   const contentDir = process.env.CONTENT_DIR;
   if (!contentDir) {
     throw new Error(
-      "[favicon-gen] 'CONTENT_DIR' environment variable is not set. Please specify which content to process.",
+      "'CONTENT_DIR' environment variable is not set. Please specify which content to process.",
     );
   }
-  logger.info(`[favicon-gen] Using content directory: ${contentDir}`);
+  logger.info(`Using content directory: ${contentDir}`);
 
   const config = await loadSiteConfig(contentDir);
   logger.info(
-    `[favicon-gen] Using source file: ${path.relative(process.cwd(), config.sourceFile)}`,
+    `Using source file: ${path.relative(process.cwd(), config.sourceFile)}`,
   );
 
   const staticDir = `static/${contentDir}`;
@@ -113,7 +113,7 @@ async function run() {
     const faviconIcoPath = path.resolve(staticDir, "favicon.ico");
     await fs.writeFile(faviconIcoPath, faviconIco.contents);
     logger.info(
-      `[favicon-gen] Wrote ${path.relative(process.cwd(), faviconIcoPath)}`,
+      `Wrote ${path.relative(process.cwd(), faviconIcoPath)}`,
     );
 
     // Remove the favicon.ico from the images array so it's not written twice
@@ -128,7 +128,7 @@ async function run() {
   }
   await Promise.all(imagesToWrite.map(writeImage));
   logger.info(
-    `[favicon-gen] Wrote images to ${path.relative(process.cwd(), assetsOutDir)}`,
+    `Wrote images to ${path.relative(process.cwd(), assetsOutDir)}`,
   );
 
   function writeFile(file: { name: string; contents: any }) {
@@ -137,7 +137,7 @@ async function run() {
 
   await Promise.all(response.files.map(writeFile));
   logger.info(
-    `[favicon-gen] Wrote manifest files to ${path.relative(process.cwd(), assetsOutDir)}`,
+    `Wrote manifest files to ${path.relative(process.cwd(), assetsOutDir)}`,
   );
 
   const tempFaviconHtmlPath = path.join(tempDir, "favicons.html");
@@ -147,17 +147,17 @@ async function run() {
   const finalHtml = response.html.filter(filterOutIco).join("\n");
   await fs.writeFile(tempFaviconHtmlPath, finalHtml);
   logger.info(
-    `[favicon-gen] Wrote temporary favicons.html to ${tempFaviconHtmlPath}`,
+    `Wrote temporary favicons.html to ${tempFaviconHtmlPath}`,
   );
 
-  logger.info("[favicon-gen] Favicons generated successfully.");
+  logger.info("Favicons generated successfully.");
 }
 
 async function executeRun(): Promise<void> {
   try {
     await run();
   } catch (e: any) {
-    logger.error("[favicon-gen] An error occurred during favicon generation.", {
+    logger.error("An error occurred during favicon generation.", {
       error: e?.message ?? e,
     });
     process.exit(1);
