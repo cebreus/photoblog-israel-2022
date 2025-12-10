@@ -21,6 +21,8 @@ import {
   sha1,
 } from "./image-utils";
 import { toSlug } from "../../src/lib/utils/strings"; // Corrected import
+import { execSync } from "node:child_process";
+import os from "node:os";
 
 const logger = createLogger("images");
 
@@ -116,12 +118,16 @@ function ignoreError(_err?: unknown): void {
 }
 
 export function buildOutputDefinitions(): OutputDefinition[] {
-  return Object.entries(config.outputs).map(([k, value]) => ({
-    key: k as keyof typeof config.outputs,
-    mode: value.kind,
-    config: value,
-    isPlaceholder: Boolean(value.isPlaceholder) || k === "placeholder",
-  }));
+  return Object.entries(config.outputs).map(([k, value]) => {
+    const isOther = value.kind === "other";
+    return {
+      key: k as keyof typeof config.outputs,
+      mode: value.kind,
+      config: value,
+      // isPlaceholder only exists for other outputs
+      isPlaceholder: isOther && Boolean((value as any).isPlaceholder),
+    };
+  });
 }
 
 export async function processImage(
@@ -132,6 +138,10 @@ export async function processImage(
   const sharpModule = requireSharp();
   const key = path.posix.normalize(path.relative(options.srcRoot, absPath));
   const baseName = path.basename(absPath, path.extname(absPath));
+
+  // Declare tempFilePath and processingPath outside the try so they are visible in catch
+  let processingPath = absPath;
+  let tempFilePath: string | null = null;
 
   try {
     const stats = await fsp.stat(absPath);
@@ -154,8 +164,21 @@ export async function processImage(
       return await copyGif(absPath, buffer, stats, fileHash, options);
     }
 
-    // Initialize sharp with file path instead of buffer
-    const sharpInstance = sharpModule(absPath);
+    if (ext === "heic" || ext === "heif") {
+      // Convert HEIC to temporary JPEG using vips (which has libheif support)
+      const tmpDir = os.tmpdir();
+      tempFilePath = path.join(tmpDir, `${baseName}_converted.jpg`);
+      try {
+        execSync(`vips copy "${absPath}" "${tempFilePath}"`);
+        processingPath = tempFilePath;
+      } catch (convErr) {
+        logger.warn(`Failed to convert HEIC via vips for ${absPath}: ${convErr}`);
+        // Fall back to original path; Sharp will likely fail again
+      }
+    }
+
+    // Initialize sharp with the (possibly converted) file path
+    const sharpInstance = sharpModule(processingPath);
 
     // exifr can also read from file path, often faster as it only reads header
     const [imageStats, exifRaw, originalMeta] = await Promise.all([
@@ -187,11 +210,11 @@ export async function processImage(
 
     for (const output of outputDefinitions) {
       if (output.mode === "variant") {
-        const variantConfig = output.config;
+        const variantConfig = output.config as VariantOutputConfig;
         for (const format of options.formats) {
           const { outPath, info } = await generateVariant(
             sharpModule,
-            absPath,
+            processingPath,
             baseName,
             variantConfig,
             format,
@@ -208,10 +231,10 @@ export async function processImage(
           });
         }
       } else {
-        const otherConfig = output.config;
+        const otherConfig = output.config as OtherOutputConfig;
         const { outPath, info } = await generateOtherOutput(
           sharpModule,
-          absPath,
+          processingPath,
           baseName,
           otherConfig,
           options,
@@ -248,6 +271,13 @@ export async function processImage(
     const msg = e instanceof Error ? e.stack || e.message : String(e);
     logger.error(`Failed to process ${key}: ${msg}`);
     return null;
+  } finally {
+    // Clean up temporary file if it was created
+    if (tempFilePath) {
+      try {
+        await fsp.unlink(tempFilePath);
+      } catch (_) {}
+    }
   }
 }
 

@@ -102,6 +102,8 @@ export const config = {
       ImageFormat.WEBP,
       ImageFormat.AVIF,
       "gif",
+      "heic",
+      "HEIC",
     ],
   },
 
