@@ -24,7 +24,7 @@
 
   <Offcanvas.Content
     side="right"
-    className="overflow-y-auto text-foreground"
+    className="overflow-y-auto text-foreground dark:bg-slate-900"
     data-testid="agenda-offcanvas"
   >
     <div class="py-4 px-6 border-b">

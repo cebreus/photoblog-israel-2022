@@ -8,7 +8,8 @@
     visiblePhotos,
   } from "$lib/stores/filters";
   import { Switch } from "$lib/components/ui/switch";
-  import { SlidersHorizontal } from "@lucide/svelte";
+  import { SlidersHorizontal, Sun, Moon, Monitor } from "lucide-svelte";
+  import { setMode, resetMode, mode } from "mode-watcher";
   import { Badge } from "$lib/components/ui/badge/";
   import { pluralizeCzech, pluralizeCount, toSlug } from "$lib/utils/strings";
   import { get as getStore } from "svelte/store";
@@ -132,30 +133,32 @@
 
   <Offcanvas.Content
     side="right"
-    className="overflow-y-auto text-foreground"
+    className="overflow-y-auto text-foreground dark:bg-slate-900"
     data-testid="filters-offcanvas"
   >
     <div class="py-4 px-6 border-b">
       <h2 class="text-md font-semibold">Filtry</h2>
     </div>
 
-    <!-- stats block: photos (total/visible) / authors / locations -->
     <div
-      class="relative px-6 py-4 border-b grid grid-cols-3 gap-4 text-center text-sm text-slate-400 bg-slate-100"
+      class="relative px-6 py-4 border-b grid grid-cols-3 gap-4 text-center text-sm text-slate-400 bg-slate-100 dark:bg-slate-950"
       data-testid="filters-stats"
     >
-      <!-- debounce UI indicator removed per request; keep data-testid attributes intact -->
-      <!-- All three columns follow the same visual pattern: large number(s) on top, small label below -->
       <div>
         <div
           class="font-semibold text-foreground text-lg tracking-tight"
           data-testid="filters-stats-photos"
         >
-          {totalPhotos}
-          <span class="text-slate-300">/</span>
+          {#if totalPhotos > 0}
+            {totalPhotos}
+            <span class="text-slate-300">/</span>
+          {/if}
           {$visiblePhotos}
         </div>
-        <div class="text-xs text-slate-500">Fotky / zobrazeno</div>
+        <div class="text-xs text-slate-500">
+          Fotky{#if totalPhotos > 0}
+            / zobrazeno{/if}
+        </div>
       </div>
 
       <div>
@@ -203,56 +206,93 @@
         data-testid="filters-separators-switch"
       />
     </div>
-    <div class="px-6 py-4 border-b space-y-3">
-      <div class="flex items-center justify-between">
-        <p class="text-sm font-semibold">Autoři</p>
-        <!-- intentionally no bulk controls -->
-        <!-- removed aggregate counts from author header; stats are shown above -->
-      </div>
-      <div class="flex flex-col gap-3">
-        {#each authors as author (author.name)}
-          {@const slugKey = author.slug ?? toSlug(author.name)}
-          {@const isActive =
-            $selectedAuthors.length === 0 ||
-            ($selectedAuthors.includes(slugKey) &&
-              !$selectedAuthors.includes("none"))}
-          {@const testIdKey = slugKey}
-          <div
-            class={`flex items-center justify-between text-sm ${
-              isActive ? "text-primary" : "text-slate-100"
-            }`}
-            data-testid={`filters-author-${testIdKey}`}
-            role="button"
-            tabindex="0"
-            onclick={createToggleHandler(slugKey, author.name)}
-            onkeydown={function handleKeydown(event) {
-              if (event.key === " " || event.key === "Enter") {
-                event.preventDefault();
-                toggleAuthor(slugKey, author.name);
-              }
-            }}
-          >
-            <span class="flex items-center gap-2">
-              <span>{author.name}</span>
-              <Badge variant="outline">{author.count}</Badge>
-            </span>
-            <span
-              class="inline-flex"
-              role="presentation"
-              onclick={stopPropagation}
-              onkeydown={stopPropagation}
+
+    {#if authors.length > 0}
+      <div class="px-6 py-4 border-b space-y-3">
+        <div class="flex items-center justify-between">
+          <p class="text-sm font-semibold">Autoři</p>
+        </div>
+        <div class="flex flex-col gap-3">
+          {#each authors as author (author.name)}
+            {@const slugKey = author.slug ?? toSlug(author.name)}
+            {@const isActive =
+              $selectedAuthors.length === 0 ||
+              ($selectedAuthors.includes(slugKey) &&
+                !$selectedAuthors.includes("none"))}
+            {@const testIdKey = slugKey}
+            <div
+              class={`flex items-center justify-between text-sm ${
+                isActive ? "text-primary" : "text-slate-100"
+              }`}
+              data-testid={`filters-author-${testIdKey}`}
+              role="button"
+              tabindex="0"
+              onclick={createToggleHandler(slugKey, author.name)}
+              onkeydown={function handleKeydown(event) {
+                if (event.key === " " || event.key === "Enter") {
+                  event.preventDefault();
+                  toggleAuthor(slugKey, author.name);
+                }
+              }}
             >
-              <Switch
-                checked={isActive}
-                aria-label={isActive
-                  ? `Vypnout filtr ${author.name}`
-                  : `Zapnout filtr ${author.name}`}
-                data-testid={`filters-author-switch-${testIdKey}`}
-                onCheckedChange={createToggleHandler(slugKey, author.name)}
-              />
-            </span>
-          </div>
-        {/each}
+              <span class="flex items-center gap-2">
+                <span>{author.name}</span>
+                <Badge variant="outline">{author.count}</Badge>
+              </span>
+              <span
+                class="inline-flex"
+                role="presentation"
+                onclick={stopPropagation}
+                onkeydown={stopPropagation}
+              >
+                <Switch
+                  checked={isActive}
+                  aria-label={isActive
+                    ? `Vypnout filtr ${author.name}`
+                    : `Zapnout filtr ${author.name}`}
+                  data-testid={`filters-author-switch-${testIdKey}`}
+                  onCheckedChange={createToggleHandler(slugKey, author.name)}
+                />
+              </span>
+            </div>
+          {/each}
+        </div>
+      </div>
+    {/if}
+
+    <div class="px-6 py-4 border-b flex items-center justify-between gap-4">
+      <div>
+        <p class="text-sm font-semibold">Vzhled</p>
+        <!-- <p class="text-xs text-slate-400">Přepnout tmavý režim</p> -->
+      </div>
+      <div class="flex items-center border border-border rounded-lg p-1 gap-1">
+        <button
+          class="inline-flex h-8 w-8 items-center justify-center rounded-md transition-all hover:bg-slate-100 hover:text-foreground dark:hover:bg-slate-800 {mode?.current ===
+          'light'
+            ? 'bg-slate-200 text-foreground shadow-sm dark:bg-slate-700'
+            : 'text-slate-400'}"
+          onclick={() => setMode("light")}
+          aria-label="Světlý režim"
+        >
+          <Sun class="h-4 w-4" />
+        </button>
+        <button
+          class="inline-flex h-8 w-8 items-center justify-center rounded-md transition-all hover:bg-slate-100 hover:text-foreground dark:hover:bg-slate-800 text-slate-400"
+          onclick={() => resetMode()}
+          aria-label="Systémový režim"
+        >
+          <Monitor class="h-4 w-4" />
+        </button>
+        <button
+          class="inline-flex h-8 w-8 items-center justify-center rounded-md transition-all hover:bg-slate-100 hover:text-foreground dark:hover:bg-slate-800 {mode?.current ===
+          'dark'
+            ? 'bg-slate-200 text-foreground shadow-sm dark:bg-slate-700'
+            : 'text-slate-400'}"
+          onclick={() => setMode("dark")}
+          aria-label="Tmavý režim"
+        >
+          <Moon class="h-4 w-4" />
+        </button>
       </div>
     </div>
   </Offcanvas.Content>

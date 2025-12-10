@@ -209,7 +209,7 @@
 <Offcanvas.Root bind:open={isOpen}>
   <Offcanvas.Content
     side="right"
-    className="w-[400px] sm:w-[540px] overflow-y-auto border-l p-6"
+    className="overflow-y-auto border-l p-6 dark:bg-slate-9"
   >
     <div class="flex flex-col space-y-2 text-center sm:text-left mb-6">
       <h2 class="text-lg font-semibold text-foreground">Upravit metadata</h2>

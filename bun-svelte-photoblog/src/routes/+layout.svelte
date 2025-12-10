@@ -3,6 +3,7 @@
   import Footer from "$lib/components/Footer.svelte";
   import faviconHtml from "../../.temp/favicons.html?raw";
   import "../app.css";
+  import { ModeWatcher } from "mode-watcher";
   import { page } from "$app/stores";
   import { browser } from "$app/environment";
   import { showPhotoLabels } from "$lib/stores/photoLabels";
@@ -65,6 +66,8 @@
     {/if}
   {/if}
 </svelte:head>
+
+<ModeWatcher />
 
 <Header menuItems={data.menuItems} authors={data.authors} />
 
