@@ -3,6 +3,7 @@
   import * as Offcanvas from "$lib/components/offcanvas";
   import { Button } from "$lib/components/ui/button";
   import { Input } from "$lib/components/ui/input";
+  import { Textarea } from "$lib/components/ui/textarea";
   import { Badge } from "$lib/components/ui/badge";
   import * as Form from "$lib/components/ui/form";
   import { Label } from "$lib/components/ui/label";
@@ -209,7 +210,7 @@
 <Offcanvas.Root bind:open={isOpen}>
   <Offcanvas.Content
     side="right"
-    className="overflow-y-auto border-l p-6 dark:bg-slate-9"
+    className="overflow-y-auto border-l p-6 dark:bg-slate-900"
   >
     <div class="flex flex-col space-y-2 text-center sm:text-left mb-6">
       <h2 class="text-lg font-semibold text-foreground">Upravit metadata</h2>
@@ -276,11 +277,7 @@
         <Form.Control>
           {#snippet children({ props })}
             <Form.Label>Popisek</Form.Label>
-            <textarea
-              {...props}
-              bind:value={$formData.caption}
-              class="flex min-h-20 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            ></textarea>
+            <Textarea {...props} bind:value={$formData.caption} />
           {/snippet}
         </Form.Control>
         <Form.FieldErrors />
