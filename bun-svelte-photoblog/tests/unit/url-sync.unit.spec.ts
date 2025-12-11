@@ -22,3 +22,30 @@ describe("parseBooleanParam", () => {
     expect(parseBooleanParam("yes")).toBe(undefined);
   });
 });
+
+describe("URL parameter behavior", () => {
+  it("parseBooleanParam returns undefined for '1' and '0'", () => {
+    // Ensure backward compat values are NOT accepted
+    expect(parseBooleanParam("1")).toBe(undefined);
+    expect(parseBooleanParam("0")).toBe(undefined);
+  });
+
+  it("parseBooleanParam accepts case-insensitive true/false", () => {
+    expect(parseBooleanParam("True")).toBe(true);
+    expect(parseBooleanParam("False")).toBe(false);
+    expect(parseBooleanParam("TrUe")).toBe(true);
+    expect(parseBooleanParam("fAlSe")).toBe(false);
+  });
+
+  it("parseBooleanParam trims whitespace", () => {
+    expect(parseBooleanParam("  true  ")).toBe(true);
+    expect(parseBooleanParam("\tfalse\n")).toBe(false);
+  });
+
+  it("parseBooleanParam rejects other truthy/falsy strings", () => {
+    expect(parseBooleanParam("yes")).toBe(undefined);
+    expect(parseBooleanParam("no")).toBe(undefined);
+    expect(parseBooleanParam("on")).toBe(undefined);
+    expect(parseBooleanParam("off")).toBe(undefined);
+  });
+});
