@@ -3,12 +3,18 @@
   import type { ImageEntry, Separator, ImageSource } from "$lib/types/manifest";
   import { buttonVariants } from "$lib/components/ui/button";
   import * as Dialog from "$lib/components/ui/dialog";
+  import * as ContextMenu from "$lib/components/ui/context-menu";
   import { debug } from "$lib/stores/debug";
   import { selectedAuthors } from "$lib/stores/filters";
   import JsonViewer from "$lib/components/debug/JsonViewer.svelte";
   import { useScrollspy } from "$lib/actions/scrollspy"; // Import the useScrollspy action
   import AspectRatioIcon from "$lib/components/AspectRatioIcon.svelte";
+  import DeleteImageDialog from "$lib/components/DeleteImageDialog.svelte";
   import { selection, editMode } from "$lib/stores/editorState";
+  import { toast } from "svelte-sonner";
+  import { invalidateAll } from "$app/navigation";
+  import { page } from "$app/stores";
+  import { Trash2 } from "lucide-svelte";
 
   let { items } = $props<{
     items: DisplayItem[];
@@ -54,6 +60,64 @@
   function shouldShowAspectRatioIcon(aspectRatio: string | undefined): boolean {
     if (!aspectRatio) return false;
     return !aspectRatio.startsWith("landscape");
+  }
+
+  let isDeleting = $state(false);
+  let deleteDialogOpen = $state(false);
+  let imageToDelete = $state<ImageEntry | null>(null);
+
+  function openDeleteDialog(item: ImageEntry) {
+    imageToDelete = item;
+    deleteDialogOpen = true;
+  }
+
+  async function confirmDelete() {
+    if (!imageToDelete) return;
+
+    isDeleting = true;
+    try {
+      const itemsToDelete = [{ id: imageToDelete.id, src: imageToDelete.src }];
+
+      const res = await fetch("/api/images", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: itemsToDelete }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.message || "Chyba při mazání souboru");
+      }
+
+      const result = await res.json();
+
+      if (result.errors && result.errors.length > 0) {
+        result.errors.forEach((e: string) => toast.warning(e));
+      }
+
+      if (result.deleted.length > 0) {
+        toast.success(`Úspěšně smazán soubor. Stránka se obnoví.`);
+      }
+
+      // Close dialog
+      deleteDialogOpen = false;
+
+      // Remove from selection if selected
+      if ($selection.has(imageToDelete.id)) {
+        selection.remove(imageToDelete.id);
+      }
+
+      // Refresh data to remove deleted image from grid
+      await invalidateAll();
+
+      // Clear the imageToDelete
+      imageToDelete = null;
+    } catch (e: any) {
+      console.error(e);
+      toast.error(`Nepodařilo se smazat soubor: ${e.message}`);
+    } finally {
+      isDeleting = false;
+    }
   }
 
   $effect(debugLog);
@@ -127,95 +191,116 @@
   {@const detailSource = findDetailSource(item)}
   {@const isSelected = $selection.has(item.id)}
 
-  <svelte:element
-    this={isEditMode ? "div" : "a"}
-    href={isEditMode ? undefined : detailSource?.path}
-    data-fancybox={isEditMode ? undefined : "gallery"}
-    data-caption={isEditMode ? undefined : item.alt}
-    class="relative block rounded-lg group text-left"
-    data-testid={`image-container-${item.id}`}
-  >
-    <figure
-      data-label={item?.location ?? item?.caption ?? ""}
-      id={item.id}
-      data-testid="image-figure-{item.id}"
-      class={`relative bg-cover bg-center rounded-lg overflow-hidden duration-500 outline-background 
+  <ContextMenu.Root>
+    <ContextMenu.Trigger
+      class="relative block rounded-lg group text-left"
+      data-testid={`image-container-${item.id}`}
+      disabled={!isEditMode}
+    >
+      <svelte:element
+        this={isEditMode ? "div" : "a"}
+        href={isEditMode ? undefined : detailSource?.path}
+        data-fancybox={isEditMode ? undefined : "gallery"}
+        data-caption={isEditMode ? undefined : item.alt}
+        class="relative block rounded-lg group text-left"
+      >
+        <figure
+          data-label={item?.location ?? item?.caption ?? ""}
+          id={item.id}
+          data-testid="image-figure-{item.id}"
+          class={`relative bg-cover bg-center rounded-lg overflow-hidden duration-500 outline-background 
           ${isSelected ? "outline-4 outline-blue-500 ring-2 ring-blue-300" : "hover:outline-orange-100 outline-4 outline-offset-2"} 
           transition-[outline-color] ease-in-out ${$debug ? "flex flex-col" : ""}`}
-      style={`background-color: ${item.placeholderColor}`}
-    >
-      <picture class={`${$debug ? "shrink-0" : ""}`}>
-        {#each getSources(item) as source (source.type)}
-          <source
-            type={source.type}
-            srcset={source.srcset}
-            sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          />
-        {/each}
-        <img
-          src={fallback.path}
-          alt={item.alt}
-          loading="lazy"
-          class="w-full h-full object-cover cursor-zoom-in"
-          width={fallback.width}
-          height={fallback.height}
-          data-testid="image-{item.id}"
-        />
-      </picture>
-      {#if shouldShowAspectRatioIcon(item.aspectRatio)}
-        <AspectRatioIcon aspectRatio={item.aspectRatio} />
-      {/if}
-
-      {#if $debug}
-        <div class="bg-black bg-opacity-75 p-2 w-full">
-          <JsonViewer data={item} />
-        </div>
-      {/if}
-
-      {#if isEditMode}
-        <!-- svelte-ignore a11y_click_events_have_key_events -->
-        <!-- svelte-ignore a11y_no_static_element_interactions -->
-        <div
-          class={`absolute inset-0 bg-black/10 transition-colors cursor-pointer ${isSelected ? "bg-blue-500/20" : "hover:bg-black/20"}`}
-          data-testid="image-edit-overlay-{item.id}"
-          onclick={(e: MouseEvent) => handleImageClick(item.id, e)}
+          style={`background-color: ${item.placeholderColor}`}
         >
-          <!-- svelte-ignore a11y_no_static_element_interactions -->
-          <div
-            class="absolute bottom-2 left-2 right-2 pointer-events-auto select-text"
-            onclick={(e) => e.stopPropagation()}
-          >
-            {@render MetadataTable({ item })}
-          </div>
-          <div class="absolute top-2 right-2 pointer-events-auto">
-            <div
-              class={`w-6 h-6 rounded border border-white ${isSelected ? "bg-blue-500" : "bg-black/50"} flex items-center justify-center shrink-0`}
-              data-testid="image-checkbox-{item.id}"
-            >
-              {#if isSelected}
-                <svg
-                  data-testid="image-selection-checkbox"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="3"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="text-white"
-                  ><polyline points="20 6 9 17 4 12"></polyline></svg
-                >
-              {/if}
+          <picture class={`${$debug ? "shrink-0" : ""}`}>
+            {#each getSources(item) as source (source.type)}
+              <source
+                type={source.type}
+                srcset={source.srcset}
+                sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+              />
+            {/each}
+            <img
+              src={fallback.path}
+              alt={item.alt}
+              loading="lazy"
+              class="w-full h-full object-cover cursor-zoom-in"
+              width={fallback.width}
+              height={fallback.height}
+              data-testid="image-{item.id}"
+            />
+          </picture>
+          {#if shouldShowAspectRatioIcon(item.aspectRatio)}
+            <AspectRatioIcon aspectRatio={item.aspectRatio} />
+          {/if}
+
+          {#if $debug}
+            <div class="bg-black bg-opacity-75 p-2 w-full">
+              <JsonViewer data={item} />
             </div>
-          </div>
-        </div>
-      {:else}
-        <span class="sr-only">Open detail</span>
-      {/if}
-    </figure>
-  </svelte:element>
+          {/if}
+
+          {#if isEditMode}
+            <!-- svelte-ignore a11y_click_events_have_key_events -->
+            <!-- svelte-ignore a11y_no_static_element_interactions -->
+            <div
+              class={`absolute inset-0 bg-black/10 transition-colors cursor-pointer ${isSelected ? "bg-blue-500/20" : "hover:bg-black/20"}`}
+              data-testid="image-edit-overlay-{item.id}"
+              onclick={(e: MouseEvent) => handleImageClick(item.id, e)}
+            >
+              <!-- svelte-ignore a11y_no_static_element_interactions -->
+              <div
+                class="absolute bottom-2 left-2 right-2 pointer-events-auto select-text"
+                onclick={(e) => e.stopPropagation()}
+              >
+                {@render MetadataTable({ item })}
+              </div>
+              <div class="absolute top-2 right-2 pointer-events-auto">
+                <div
+                  class={`w-6 h-6 rounded border border-white ${isSelected ? "bg-blue-500" : "bg-black/50"} flex items-center justify-center shrink-0`}
+                  data-testid="image-checkbox-{item.id}"
+                >
+                  {#if isSelected}
+                    <svg
+                      data-testid="image-selection-checkbox"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="3"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="text-white"
+                      ><polyline points="20 6 9 17 4 12"></polyline></svg
+                    >
+                  {/if}
+                </div>
+              </div>
+            </div>
+          {:else}
+            <span class="sr-only">Open detail</span>
+          {/if}
+        </figure>
+      </svelte:element>
+    </ContextMenu.Trigger>
+
+    {#if isEditMode}
+      <ContextMenu.Portal>
+        <ContextMenu.Content class="w-56">
+          <ContextMenu.Item
+            class="flex items-center gap-2 text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-950"
+            onclick={() => openDeleteDialog(item)}
+          >
+            <Trash2 class="h-4 w-4" />
+            <span>Smazat obrázek</span>
+          </ContextMenu.Item>
+        </ContextMenu.Content>
+      </ContextMenu.Portal>
+    {/if}
+  </ContextMenu.Root>
 {/snippet}
 
 {#each items as item (item.type === "image" ? item.src : item.location)}
@@ -226,7 +311,7 @@
     {#if item.story}
       <Dialog.Root>
         <Dialog.Trigger
-          class="aspect-video flex flex-col items-center justify-center p-4 bg-linear-to-br from-slate-100 to-slate-300 rounded-lg duration-500 outline-background hover:outline-orange-100 outline-4 outline-offset-2 transition-[outline-color] ease-in-out"
+          class="aspect-video flex flex-col items-center justify-center p-4 bg-linear-to-br from-slate-100 to-slate-300 rounded-lg duration-500 outline-background hover:outline-orange-100 outline-4 outline-offset-2 transition-[outline-color] ease-in-out dark:from-slate-700 dark:to-slate-800"
           data-testid="separator-trigger-{separatorId}"
         >
           <h3 class="text-lg" data-testid="separator-location">
@@ -270,7 +355,7 @@
       </Dialog.Root>
     {:else}
       <div
-        class="aspect-video flex flex-col items-center justify-center p-4 bg-linear-to-br from-slate-100 to-slate-300 rounded-lg"
+        class="aspect-video flex flex-col items-center justify-center p-4 bg-linear-to-br from-slate-100 to-slate-300 rounded-lg dark:from-slate-700 dark:to-slate-800"
         id={separatorId}
         use:useScrollspy={{ id: separatorId }}
         data-testid="separator-simple-{separatorId}"
@@ -285,3 +370,12 @@
     {/if}
   {/if}
 {/each}
+
+{#if imageToDelete}
+  <DeleteImageDialog
+    bind:open={deleteDialogOpen}
+    images={[imageToDelete]}
+    {isDeleting}
+    onConfirm={confirmDelete}
+  />
+{/if}
