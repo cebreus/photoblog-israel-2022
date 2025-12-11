@@ -155,8 +155,10 @@ function syncUrlFromFilters() {
     }
 
     if (get(debug)) {
+      console.log("urlSync: debug is TRUE, setting URL param");
       params.set("debug", "1");
     } else {
+      console.log("urlSync: debug is FALSE, removing URL param");
       params.delete("debug");
     }
 
@@ -208,6 +210,8 @@ export function initUrlSync(initialAuthors: Author[]) {
 
   // 3. When URL changes (e.g., back/forward button), update the filter stores
   page.subscribe((newPage) => {
+    if (get(filtersSyncing)) return;
+
     if (newPage.url.toString() !== lastUrl.toString()) {
       lastUrl = newPage.url;
       initializeFiltersFromUrl(newPage.url);

@@ -12,6 +12,8 @@
   import { selection, editMode } from "$lib/stores/editorState";
   import { superForm } from "sveltekit-superforms";
   import * as Accordion from "$lib/components/ui/accordion";
+  import * as Dialog from "$lib/components/ui/dialog";
+  import { buttonVariants } from "$lib/components/ui/button";
 
   type DisplayItem = ImageEntry | Separator;
 
@@ -330,6 +332,50 @@
       toast.error("Chyba při stahování dat.");
     } finally {
       isFetchingGeo = false;
+    }
+  }
+
+  let deleteOpen = $state(false);
+  let isDeleting = $state(false);
+
+  async function handleDelete() {
+    if (imageIds.length === 0) return;
+    isDeleting = true;
+    try {
+      // Prepare payload with source paths
+      const itemsToDelete = selectedImages.map((img) => ({
+        id: img.id,
+        src: img.src,
+      }));
+
+      const res = await fetch("/api/images", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: itemsToDelete }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.message || "Chyba při mazání souborů");
+      }
+
+      const result = await res.json();
+      toast.success(
+        `Úspěšně smazáno ${result.deleted.length} souborů. Stránka se obnoví.`,
+      );
+
+      // Clear selection and close dialog
+      selection.clear();
+      deleteOpen = false;
+      isOpen = false;
+
+      // Force reload to update grid
+      window.location.reload();
+    } catch (e: any) {
+      console.error(e);
+      toast.error(`Nepodařilo se smazat soubory: ${e.message}`);
+    } finally {
+      isDeleting = false;
     }
   }
 </script>
@@ -788,8 +834,54 @@
       </Form.Field>
 
       <div
-        class="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 mt-6"
+        class="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 mt-6 items-center"
       >
+        <Dialog.Root bind:open={deleteOpen}>
+          <Dialog.Trigger
+            class={buttonVariants({ variant: "destructive", size: "sm" })}
+          >
+            Smazat {imageIds.length}
+            {imageIds.length === 1 ? "položku" : "položek"}
+          </Dialog.Trigger>
+          <Dialog.Content>
+            <Dialog.Header>
+              <Dialog.Title>Opravdu smazat?</Dialog.Title>
+              <Dialog.Description>
+                Tato akce je nevratná. Následující soubory budou trvale smazány
+                z disku:
+              </Dialog.Description>
+            </Dialog.Header>
+            <div class="max-h-[300px] overflow-y-auto my-4 border rounded p-2">
+              <ul class="space-y-2">
+                {#each selectedImages as img}
+                  <li class="flex items-center gap-3 text-sm">
+                    <img
+                      src={img.src}
+                      alt={img.alt}
+                      class="w-10 h-10 object-cover rounded bg-muted"
+                    />
+                    <span class="font-mono text-xs"
+                      >{img.src.split("/").pop()}</span
+                    >
+                  </li>
+                {/each}
+              </ul>
+            </div>
+            <Dialog.Footer>
+              <Button variant="outline" onclick={() => (deleteOpen = false)}>
+                Zrušit
+              </Button>
+              <Button
+                variant="destructive"
+                onclick={handleDelete}
+                disabled={isDeleting}
+              >
+                {isDeleting ? "Mazání..." : "Potvrdit smazání"}
+              </Button>
+            </Dialog.Footer>
+          </Dialog.Content>
+        </Dialog.Root>
+
         <Button type="submit">Uložit změny</Button>
       </div>
     </form>

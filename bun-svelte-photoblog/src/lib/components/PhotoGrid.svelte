@@ -57,6 +57,7 @@
   $effect(debugLog);
 
   function debugLog() {
+    console.log("PhotoGrid debug store value:", $debug);
     if ($debug) {
       console.debug("PhotoGrid render", {
         items: items.length,

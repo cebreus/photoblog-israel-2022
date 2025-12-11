@@ -31,8 +31,6 @@
     }
   });
 
-  // Initialize debug store from URL
-  $effect(() => debug.initializeFromUrl($page.url));
   // Handle body class for photo labels visibility
   $effect(() => {
     if (browser) {
