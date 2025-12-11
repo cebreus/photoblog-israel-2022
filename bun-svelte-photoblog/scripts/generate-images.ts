@@ -1,4 +1,5 @@
-/// <reference types="@types/bun" />
+// Suppress macOS GNotificationCenterDelegate warnings
+process.env.GLIB_LOG_LEVEL = "critical";
 
 import fsp from "node:fs/promises";
 import path from "node:path";
@@ -13,6 +14,7 @@ import { processImage, cleanup } from "./lib/image-processor";
 import incrementalRun from "./lib/incremental-build";
 import { runBlurBuild } from "./lib/blur-processor";
 import { sha1 } from "./lib/image-utils";
+import { initModels } from "./lib/face-detection";
 
 // Runtime overrides from CLI flags.
 let RUNTIME_RAW: Partial<CliOptions> = {};
@@ -20,7 +22,7 @@ let RUNTIME_FORMATS = [...config.encoding.formats];
 let RUNTIME_QUALITY_OVERRIDES: Partial<Record<QualityTypes, number>> = {};
 let RUNTIME_ALLOW_UPSCALE = false;
 
-const CACHE_VERSION = 10;
+const CACHE_VERSION = 11;
 
 // CLI parsing - Mutable for testing
 let parsed = parseCliArguments(process.argv.slice(2));
@@ -138,6 +140,9 @@ export async function main() {
     process.exit(1);
   }
   logger.verbose(`Processing content for: ${contentDir}`);
+
+  // Initialize face detection models (downloads if missing)
+  await initModels();
 
   // sharp is loaded where it's actually needed by workers (processImage) or blur processor
 

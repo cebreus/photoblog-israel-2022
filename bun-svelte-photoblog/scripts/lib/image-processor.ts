@@ -23,8 +23,10 @@ import { toSlug } from "../../src/lib/utils/strings";
 import { execSync } from "node:child_process";
 import os from "node:os";
 import { METADATA_STANDARDS } from "../../src/lib/metadata-standards";
-// @ts-expect-error - xxhash-wasm types might be missing
+// xxhash-wasm types might be missing
 import xxhash from "xxhash-wasm";
+import { detectFaces, type FaceBox } from "./face-detection";
+import { calculateSmartCrop } from "./smart-crop";
 
 let xxhashModule: any = null;
 async function getXxhash() {
@@ -286,6 +288,39 @@ export async function processImage(
     const dominant = imageStats?.dominant || { r: 0, g: 0, b: 0 };
     const placeholderColor = `rgb(${dominant.r},${dominant.g},${dominant.b})`;
 
+    // Detect faces for smart cropping
+    let faces: FaceBox[] = [];
+    if (!options.manifestOnly) {
+      try {
+        const detectWidth = 800;
+        // Resize for faster detection
+        const buffer = await sharpModule(processingPath)
+          .resize({ width: detectWidth, withoutEnlargement: true })
+          .toBuffer();
+
+        const detected = await detectFaces(buffer);
+
+        // Scale boxes back to original dimensions
+        // We need the dimensions of the resized image to calculate scale
+        const resizedMeta = await sharpModule(buffer).metadata();
+        const scale = (originalMeta.width || 1) / (resizedMeta.width || 1);
+
+        faces = detected.map((b) => ({
+          x: b.x * scale,
+          y: b.y * scale,
+          width: b.width * scale,
+          height: b.height * scale,
+        }));
+
+        if (faces.length > 0) {
+          logger.verbose(`Detected ${faces.length} faces in ${key}`);
+        }
+      } catch (e) {
+        logger.warn(`Face detection failed for ${key}: ${e}`);
+        // Continue without faces
+      }
+    }
+
     const outputs: string[] = [];
     const sources: ImageSource[] = [];
 
@@ -311,6 +346,8 @@ export async function processImage(
             format,
             options,
             originalMeta,
+            faces,
+            output.key,
           );
           outputs.push(outPath);
           sources.push({
@@ -519,6 +556,8 @@ async function generateVariant(
   format: ImageFormat,
   options: ImageProcessOptions,
   originalMeta: import("sharp").Metadata,
+  faces: FaceBox[] = [],
+  variantKey?: string,
 ) {
   const outExt = format === "jpeg" ? "jpeg" : format;
   const variantFolder =
@@ -547,12 +586,46 @@ async function generateVariant(
       premultiplied: false,
     };
   } else {
-    const resizedInstance = buildSharpInstance(
-      sharpModule,
-      input,
-      variantConfig.resize,
-      options.allowUpscale,
-    );
+    const allowSmartCrop =
+      faces.length > 0 &&
+      variantConfig.resize?.crop &&
+      ["default", "xl", "fallback"].includes(variantKey || "");
+
+    let cropRect = null;
+    if (allowSmartCrop) {
+      cropRect = calculateSmartCrop(
+        originalMeta.width ?? 0,
+        originalMeta.height ?? 0,
+        faces,
+        variantConfig.resize!.width!,
+        variantConfig.resize!.height!,
+      );
+    }
+
+    let resizedInstance: import("sharp").Sharp;
+
+    if (cropRect) {
+      resizedInstance = sharpModule(input)
+        .extract({
+          left: Math.round(cropRect.left),
+          top: Math.round(cropRect.top),
+          width: Math.round(cropRect.width),
+          height: Math.round(cropRect.height),
+        })
+        .resize({
+          width: variantConfig.resize!.width,
+          height: variantConfig.resize!.height,
+          // We already cropped to aspect ratio, so just resize logic is fine.
+          // Sharp default fit is cover, but we provide exact AR match usually.
+        });
+    } else {
+      resizedInstance = buildSharpInstance(
+        sharpModule,
+        input,
+        variantConfig.resize,
+        options.allowUpscale,
+      );
+    }
 
     const quality = getQuality(format, options.qualityOverrides);
     applyFormat(resizedInstance, format, quality);
