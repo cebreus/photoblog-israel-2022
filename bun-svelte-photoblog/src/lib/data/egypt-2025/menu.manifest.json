@@ -19,13 +19,58 @@
     "date": "2025-11-22",
     "label": "sobota 22. listopadu 2025",
     "href": "#day-2025-11-22",
-    "locations": []
+    "locations": [
+      {
+        "id": "loc-blend-club-aqua-resort",
+        "label": "Blend Club Aqua Resort",
+        "href": "#img-img20251122171652",
+        "isDimmed": true,
+        "firstPhotoExifDate": "2025-11-22T15:16:54.608Z"
+      }
+    ]
   },
   {
     "id": "day-2025-11-23",
     "date": "2025-11-23",
     "label": "neděle 23. listopadu 2025",
     "href": "#day-2025-11-23",
+    "locations": [
+      {
+        "id": "loc-paradise-plaz",
+        "label": "Paradise pláž",
+        "href": "#loc-paradise-plaz",
+        "isDimmed": false,
+        "firstPhotoExifDate": "2025-11-23T09:49:51.745Z"
+      }
+    ]
+  },
+  {
+    "id": "day-2025-11-24",
+    "date": "2025-11-24",
+    "label": "pondělí 24. listopadu 2025",
+    "href": "#day-2025-11-24",
+    "locations": [
+      {
+        "id": "loc-pyramid-front-hotel",
+        "label": "Pyramid Front Hotel",
+        "href": "#img-img8116",
+        "isDimmed": true,
+        "firstPhotoExifDate": "2025-11-24T13:59:49.023Z"
+      },
+      {
+        "id": "loc-cairo-tower",
+        "label": "Cairo Tower",
+        "href": "#img-img8122",
+        "isDimmed": true,
+        "firstPhotoExifDate": "2025-11-24T19:12:12.832Z"
+      }
+    ]
+  },
+  {
+    "id": "day-2025-11-25",
+    "date": "2025-11-25",
+    "label": "úterý 25. listopadu 2025",
+    "href": "#day-2025-11-25",
     "locations": []
   }
 ]

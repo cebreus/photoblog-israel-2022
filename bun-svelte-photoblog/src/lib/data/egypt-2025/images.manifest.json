@@ -97,8 +97,12 @@
     },
     {
       "date": "2025-11-22",
-      "cities": [],
-      "locations": [],
+      "cities": [
+        "Hurgada"
+      ],
+      "locations": [
+        "Blend Club Aqua Resort"
+      ],
       "items": [
         {
           "id": "img-img8057",
@@ -114,7 +118,9 @@
           "exif": {
             "date": "2025-11-22T04:57:54.694Z",
             "orientation": 1,
-            "author": "Cebreus"
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -171,6 +177,88 @@
               "height": 107
             }
           ]
+        },
+        {
+          "id": "img-img20251122171652",
+          "type": "image",
+          "src": "IMG_20251122_171652.jpg",
+          "alt": "Blend Club Aqua Resort, Hurgada",
+          "title": "Blend Club Aqua Resort, Blend Club Aqua Resort, Hurgada",
+          "width": 4000,
+          "height": 3000,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_20251122_171652.png",
+          "placeholderColor": "rgb(24,24,24)",
+          "exif": {
+            "date": "2025-11-22T15:16:54.608Z",
+            "location": "Blend Club Aqua Resort",
+            "city": "Hurgada",
+            "sublocation": "Blend Club Aqua Resort",
+            "latitude": 27.093507,
+            "longitude": 33.839129,
+            "author": "Fin?a",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Fin?a",
+          "authorSlug": "fina",
+          "location": "Blend Club Aqua Resort",
+          "city": "Hurgada",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=27.093507,33.839129",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=33.839129&y=27.093507&z=12",
+          "date": "2025-11-22T15:16:54.608Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_20251122_171652.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_20251122_171652.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_20251122_171652.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_20251122_171652.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_20251122_171652.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_20251122_171652.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_20251122_171652.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_20251122_171652.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
         }
       ],
       "id": "day-2025-11-22"
@@ -178,24 +266,27 @@
     {
       "date": "2025-11-23",
       "cities": [
-        "Hurgada"
+        "Hurgáda",
+        "Giftun ostrov"
       ],
-      "locations": [],
+      "locations": [
+        "Paradise pláž"
+      ],
       "items": [
         {
           "id": "img-img8061",
           "type": "image",
           "src": "IMG_8061.HEIC",
-          "alt": "Hurgada",
-          "title": "Hurgada",
+          "alt": "Hurgáda",
+          "title": "Hurgáda",
           "width": 4032,
-          "height": 3024,
-          "aspectRatio": "landscape-4-3",
+          "height": 2268,
+          "aspectRatio": "landscape-16-9",
           "placeholder": "blurs/IMG_8061.png",
-          "placeholderColor": "rgb(136,168,200)",
+          "placeholderColor": "rgb(168,184,200)",
           "exif": {
             "date": "2025-11-23T07:47:20.705Z",
-            "city": "Hurgada",
+            "city": "Hurgáda",
             "latitude": 27.206203,
             "longitude": 33.855431,
             "orientation": 1,
@@ -205,7 +296,7 @@
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
-          "city": "Hurgada",
+          "city": "Hurgáda",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=27.206203,33.855431",
           "mapyCzUrl": "https://mapy.cz/zakladni?x=33.855431&y=27.206203&z=12",
           "date": "2025-11-23T07:47:20.705Z",
@@ -251,7 +342,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/details/IMG_8061.jpeg",
               "width": 1280,
-              "height": 960
+              "height": 720
             },
             {
               "variant": "fallback",
@@ -263,76 +354,894 @@
           ]
         },
         {
-          "id": "img-img8066",
+          "id": "img-img8067",
           "type": "image",
-          "src": "IMG_8066.HEIC",
-          "alt": "Photoblog image",
-          "title": "",
-          "width": 3244,
-          "height": 2433,
+          "src": "IMG_8067.HEIC",
+          "alt": "Hurgáda",
+          "title": "Hurgáda",
+          "width": 4032,
+          "height": 3024,
           "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/IMG_8066.png",
-          "placeholderColor": "rgb(136,168,200)",
+          "placeholder": "blurs/IMG_8067.png",
+          "placeholderColor": "rgb(120,200,232)",
           "exif": {
-            "date": "2025-11-23T08:00:42.473Z",
-            "latitude": 27.194756,
-            "longitude": 33.876489,
+            "date": "2025-11-23T08:21:39.433Z",
+            "city": "Hurgáda",
+            "latitude": 27.185853,
+            "longitude": 33.918689,
             "orientation": 1,
-            "author": "Cebreus"
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=27.194756,33.876489",
-          "mapyCzUrl": "https://mapy.cz/zakladni?x=33.876489&y=27.194756&z=12",
-          "date": "2025-11-23T08:00:42.473Z",
+          "city": "Hurgáda",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=27.185853,33.918689",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=33.918689&y=27.185853&z=12",
+          "date": "2025-11-23T08:21:39.433Z",
           "sources": [
             {
               "variant": "default",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/IMG_8066.webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8067.webp",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/IMG_8066.jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8067.jpeg",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/IMG_8066.avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8067.avif",
               "width": 370
             },
             {
               "variant": "xl",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/IMG_8066.webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8067.webp",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/IMG_8066.jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8067.jpeg",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/IMG_8066.avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8067.avif",
               "width": 534
             },
             {
               "variant": "detail",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/IMG_8066.jpeg",
+              "path": "/egypt-2025/images/details/IMG_8067.jpeg",
               "width": 1280,
               "height": 960
             },
             {
               "variant": "fallback",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/IMG_8066.jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8067.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img0953",
+          "type": "image",
+          "src": "IMG_0953.HEIC",
+          "alt": "Hurgáda",
+          "title": "Hurgáda",
+          "width": 3024,
+          "height": 3024,
+          "aspectRatio": "square",
+          "placeholder": "blurs/IMG_0953.png",
+          "placeholderColor": "rgb(8,120,152)",
+          "exif": {
+            "date": "2025-11-23T09:16:07.495Z",
+            "city": "Hurgáda",
+            "latitude": 27.184989,
+            "longitude": 33.964486,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Hurgáda",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=27.184989,33.964486",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=33.964486&y=27.184989&z=12",
+          "date": "2025-11-23T09:16:07.495Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_0953.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_0953.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_0953.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_0953.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_0953.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_0953.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_0953.jpeg",
+              "width": 1280,
+              "height": 1280
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_0953.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "loc-paradise-plaz",
+          "type": "separator",
+          "location": "Paradise pláž",
+          "city": "Giftun ostrov"
+        },
+        {
+          "id": "img-img8071",
+          "type": "image",
+          "src": "IMG_8071.HEIC",
+          "alt": "Paradise pláž, Giftun ostrov",
+          "title": "Paradise pláž, Giftun ostrov",
+          "width": 4032,
+          "height": 2268,
+          "aspectRatio": "landscape-16-9",
+          "placeholder": "blurs/IMG_8071.png",
+          "placeholderColor": "rgb(136,168,200)",
+          "exif": {
+            "date": "2025-11-23T09:49:51.745Z",
+            "location": "Paradise pláž",
+            "city": "Giftun ostrov",
+            "latitude": 27.180319,
+            "longitude": 33.961003,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Paradise pláž",
+          "city": "Giftun ostrov",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=27.180319,33.961003",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=33.961003&y=27.180319&z=12",
+          "date": "2025-11-23T09:49:51.745Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8071.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8071.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8071.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8071.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8071.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8071.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8071.jpeg",
+              "width": 1280,
+              "height": 720
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8071.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8075",
+          "type": "image",
+          "src": "IMG_8075.HEIC",
+          "alt": "Paradise pláž, Giftun ostrov",
+          "title": "Paradise pláž, Giftun ostrov",
+          "width": 3024,
+          "height": 4032,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8075.png",
+          "placeholderColor": "rgb(200,216,216)",
+          "exif": {
+            "date": "2025-11-23T11:58:50.874Z",
+            "location": "Paradise pláž",
+            "city": "Giftun ostrov",
+            "latitude": 27.180739,
+            "longitude": 33.954819,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Paradise pláž",
+          "city": "Giftun ostrov",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=27.180739,33.954819",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=33.954819&y=27.180739&z=12",
+          "date": "2025-11-23T11:58:50.874Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8075.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8075.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8075.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8075.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8075.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8075.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8075.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8075.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8078",
+          "type": "image",
+          "src": "IMG_8078.HEIC",
+          "alt": "Paradise pláž, Giftun ostrov",
+          "title": "Paradise pláž, Giftun ostrov",
+          "width": 4032,
+          "height": 3024,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8078.png",
+          "placeholderColor": "rgb(216,232,216)",
+          "exif": {
+            "date": "2025-11-23T12:11:51.697Z",
+            "location": "Paradise pláž",
+            "city": "Giftun ostrov",
+            "latitude": 27.181469,
+            "longitude": 33.954211,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Paradise pláž",
+          "city": "Giftun ostrov",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=27.181469,33.954211",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=33.954211&y=27.181469&z=12",
+          "date": "2025-11-23T12:11:51.697Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8078.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8078.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8078.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8078.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8078.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8078.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8078.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8078.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8079",
+          "type": "image",
+          "src": "IMG_8079.HEIC",
+          "alt": "Paradise pláž, Giftun ostrov",
+          "title": "Paradise pláž, Giftun ostrov",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8079.png",
+          "placeholderColor": "rgb(200,216,216)",
+          "exif": {
+            "date": "2025-11-23T12:14:11.168Z",
+            "location": "Paradise pláž",
+            "city": "Giftun ostrov",
+            "latitude": 27.18145,
+            "longitude": 33.954206,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Paradise pláž",
+          "city": "Giftun ostrov",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=27.18145,33.954206",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=33.954206&y=27.18145&z=12",
+          "date": "2025-11-23T12:14:11.168Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8079.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8079.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8079.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8079.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8079.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8079.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8079.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8079.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8083",
+          "type": "image",
+          "src": "IMG_8083.HEIC",
+          "alt": "Hurgáda",
+          "title": "Hurgáda",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8083.png",
+          "placeholderColor": "rgb(8,152,248)",
+          "exif": {
+            "date": "2025-11-23T14:12:28.519Z",
+            "city": "Hurgáda",
+            "latitude": 27.231594,
+            "longitude": 33.847489,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Hurgáda",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=27.231594,33.847489",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=33.847489&y=27.231594&z=12",
+          "date": "2025-11-23T14:12:28.519Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8083.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8083.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8083.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8083.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8083.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8083.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8083.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8083.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8088",
+          "type": "image",
+          "src": "IMG_8088.HEIC",
+          "alt": "Hurgáda",
+          "title": "Hurgáda",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8088.png",
+          "placeholderColor": "rgb(8,216,232)",
+          "exif": {
+            "date": "2025-11-23T14:14:44.448Z",
+            "city": "Hurgáda",
+            "latitude": 27.231561,
+            "longitude": 33.847478,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Hurgáda",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=27.231561,33.847478",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=33.847478&y=27.231561&z=12",
+          "date": "2025-11-23T14:14:44.448Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8088.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8088.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8088.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8088.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8088.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8088.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8088.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8088.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8090",
+          "type": "image",
+          "src": "IMG_8090.HEIC",
+          "alt": "Hurgáda",
+          "title": "Hurgáda",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8090.png",
+          "placeholderColor": "rgb(8,200,232)",
+          "exif": {
+            "date": "2025-11-23T14:14:50.978Z",
+            "city": "Hurgáda",
+            "latitude": 27.23155,
+            "longitude": 33.847478,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Hurgáda",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=27.23155,33.847478",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=33.847478&y=27.23155&z=12",
+          "date": "2025-11-23T14:14:50.978Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8090.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8090.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8090.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8090.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8090.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8090.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8090.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8090.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8091",
+          "type": "image",
+          "src": "IMG_8091.HEIC",
+          "alt": "Hurgáda",
+          "title": "Hurgáda",
+          "width": 4032,
+          "height": 3024,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8091.png",
+          "placeholderColor": "rgb(8,104,104)",
+          "exif": {
+            "date": "2025-11-23T14:15:14.410Z",
+            "city": "Hurgáda",
+            "latitude": 27.231419,
+            "longitude": 33.847839,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Hurgáda",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=27.231419,33.847839",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=33.847839&y=27.231419&z=12",
+          "date": "2025-11-23T14:15:14.410Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8091.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8091.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8091.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8091.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8091.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8091.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8091.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8091.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8096",
+          "type": "image",
+          "src": "IMG_8096.HEIC",
+          "alt": "Hurgáda",
+          "title": "Hurgáda",
+          "width": 3392,
+          "height": 1908,
+          "aspectRatio": "landscape-16-9",
+          "placeholder": "blurs/IMG_8096.png",
+          "placeholderColor": "rgb(8,8,8)",
+          "exif": {
+            "date": "2025-11-23T14:29:54.295Z",
+            "city": "Hurgáda",
+            "latitude": 27.234167,
+            "longitude": 33.850431,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Hurgáda",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=27.234167,33.850431",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=33.850431&y=27.234167&z=12",
+          "date": "2025-11-23T14:29:54.295Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8096.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8096.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8096.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8096.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8096.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8096.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8096.jpeg",
+              "width": 1280,
+              "height": 720
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8096.jpeg",
               "width": 190,
               "height": 107
             }
@@ -340,6 +1249,1715 @@
         }
       ],
       "id": "day-2025-11-23"
+    },
+    {
+      "date": "2025-11-24",
+      "cities": [
+        "Gíza",
+        "Káhira"
+      ],
+      "locations": [
+        "Pyramid Front Hotel",
+        "Cairo Tower"
+      ],
+      "items": [
+        {
+          "id": "img-img8101",
+          "type": "image",
+          "src": "IMG_8101.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4917,
+          "height": 2766,
+          "aspectRatio": "landscape-16-9",
+          "placeholder": "blurs/IMG_8101.png",
+          "placeholderColor": "rgb(152,184,200)",
+          "exif": {
+            "date": "2025-11-24T07:22:40.702Z",
+            "latitude": 27.418864,
+            "longitude": 33.616456,
+            "orientation": 1,
+            "author": "Cebreus"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=27.418864,33.616456",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=33.616456&y=27.418864&z=12",
+          "date": "2025-11-24T07:22:40.702Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8101.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8101.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8101.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8101.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8101.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8101.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8101.jpeg",
+              "width": 1280,
+              "height": 720
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8101.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8102",
+          "type": "image",
+          "src": "IMG_8102.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 8064,
+          "height": 4536,
+          "aspectRatio": "landscape-16-9",
+          "placeholder": "blurs/IMG_8102.png",
+          "placeholderColor": "rgb(56,56,40)",
+          "exif": {
+            "date": "2025-11-24T10:28:43.878Z",
+            "latitude": 29.337067,
+            "longitude": 32.473689,
+            "orientation": 1,
+            "author": "Cebreus"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.337067,32.473689",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=32.473689&y=29.337067&z=12",
+          "date": "2025-11-24T10:28:43.878Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8102.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8102.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8102.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8102.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8102.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8102.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8102.jpeg",
+              "width": 1280,
+              "height": 720
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8102.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8104",
+          "type": "image",
+          "src": "IMG_8104.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4032,
+          "height": 2268,
+          "aspectRatio": "landscape-16-9",
+          "placeholder": "blurs/IMG_8104.png",
+          "placeholderColor": "rgb(184,200,184)",
+          "exif": {
+            "date": "2025-11-24T11:35:06.964Z",
+            "latitude": 29.903728,
+            "longitude": 31.760311,
+            "orientation": 1,
+            "author": "Cebreus"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.903728,31.760311",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=31.760311&y=29.903728&z=12",
+          "date": "2025-11-24T11:35:06.964Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8104.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8104.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8104.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8104.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8104.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8104.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8104.jpeg",
+              "width": 1280,
+              "height": 720
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8104.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8116",
+          "type": "image",
+          "src": "IMG_8116.HEIC",
+          "alt": "Pyramid Front Hotel, Gíza",
+          "title": "Pyramid Front Hotel, Gíza",
+          "width": 4032,
+          "height": 3024,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8116.png",
+          "placeholderColor": "rgb(232,216,184)",
+          "exif": {
+            "date": "2025-11-24T13:59:49.023Z",
+            "location": "Pyramid Front Hotel",
+            "city": "Gíza",
+            "latitude": 29.989728,
+            "longitude": 31.137211,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Pyramid Front Hotel",
+          "city": "Gíza",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.989728,31.137211",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=31.137211&y=29.989728&z=12",
+          "date": "2025-11-24T13:59:49.023Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8116.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8116.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8116.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8116.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8116.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8116.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8116.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8116.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img20251124162238",
+          "type": "image",
+          "src": "IMG_20251124_162238.jpg",
+          "alt": "Pyramid Front Hotel, Gíza",
+          "title": "Pyramid Front Hotel, Pyramid Front Hotel, Gíza",
+          "width": 4000,
+          "height": 3000,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_20251124_162238.png",
+          "placeholderColor": "rgb(24,24,24)",
+          "exif": {
+            "date": "2025-11-24T14:22:41.300Z",
+            "location": "Pyramid Front Hotel",
+            "city": "Gíza",
+            "sublocation": "Pyramid Front Hotel",
+            "latitude": 29.989652,
+            "longitude": 31.137222,
+            "author": "Fin?a",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Fin?a",
+          "authorSlug": "fina",
+          "location": "Pyramid Front Hotel",
+          "city": "Gíza",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.989652,31.137222",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=31.137222&y=29.989652&z=12",
+          "date": "2025-11-24T14:22:41.300Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_20251124_162238.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_20251124_162238.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_20251124_162238.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_20251124_162238.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_20251124_162238.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_20251124_162238.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_20251124_162238.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_20251124_162238.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8122",
+          "type": "image",
+          "src": "IMG_8122.HEIC",
+          "alt": "Cairo Tower, Káhira",
+          "title": "Cairo Tower, Káhira",
+          "width": 8064,
+          "height": 4536,
+          "aspectRatio": "landscape-16-9",
+          "placeholder": "blurs/IMG_8122.png",
+          "placeholderColor": "rgb(24,24,24)",
+          "exif": {
+            "date": "2025-11-24T19:12:12.832Z",
+            "location": "Cairo Tower",
+            "city": "Káhira",
+            "latitude": 30.046328,
+            "longitude": 31.225058,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Cairo Tower",
+          "city": "Káhira",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=30.046328,31.225058",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=31.225058&y=30.046328&z=12",
+          "date": "2025-11-24T19:12:12.832Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8122.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8122.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8122.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8122.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8122.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8122.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8122.jpeg",
+              "width": 1280,
+              "height": 720
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8122.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8126",
+          "type": "image",
+          "src": "IMG_8126.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8126.png",
+          "placeholderColor": "rgb(24,24,24)",
+          "exif": {
+            "date": "2025-11-24T19:12:44.785Z",
+            "latitude": 30.046289,
+            "longitude": 31.225019,
+            "orientation": 1,
+            "author": "Cebreus"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=30.046289,31.225019",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=31.225019&y=30.046289&z=12",
+          "date": "2025-11-24T19:12:44.785Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8126.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8126.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8126.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8126.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8126.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8126.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8126.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8126.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8127",
+          "type": "image",
+          "src": "IMG_8127.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 3024,
+          "height": 4032,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8127.png",
+          "placeholderColor": "rgb(24,24,24)",
+          "exif": {
+            "date": "2025-11-24T19:15:34.831Z",
+            "latitude": 30.046167,
+            "longitude": 31.224408,
+            "orientation": 6,
+            "author": "Cebreus"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=30.046167,31.224408",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=31.224408&y=30.046167&z=12",
+          "date": "2025-11-24T19:15:34.831Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8127.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8127.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8127.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8127.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8127.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8127.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8127.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8127.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8128",
+          "type": "image",
+          "src": "IMG_8128.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 9590,
+          "height": 3824,
+          "aspectRatio": "panorama",
+          "placeholder": "blurs/IMG_8128.png",
+          "placeholderColor": "rgb(24,24,24)",
+          "exif": {
+            "date": "2025-11-24T19:15:50.304Z",
+            "latitude": 30.045903,
+            "longitude": 31.224342,
+            "orientation": 1,
+            "author": "Cebreus"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=30.045903,31.224342",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=31.224342&y=30.045903&z=12",
+          "date": "2025-11-24T19:15:50.304Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8128.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8128.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8128.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8128.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8128.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8128.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8128.jpeg",
+              "width": 1280,
+              "height": 510
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8128.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8130",
+          "type": "image",
+          "src": "IMG_8130.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4032,
+          "height": 3024,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8130.png",
+          "placeholderColor": "rgb(232,216,184)",
+          "exif": {
+            "date": "2025-11-24T19:53:25.914Z",
+            "latitude": 30.046456,
+            "longitude": 31.224281,
+            "orientation": 1,
+            "author": "Cebreus"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=30.046456,31.224281",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=31.224281&y=30.046456&z=12",
+          "date": "2025-11-24T19:53:25.914Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8130.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8130.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8130.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8130.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8130.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8130.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8130.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8130.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8131",
+          "type": "image",
+          "src": "IMG_8131.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 2071,
+          "height": 2762,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8131.png",
+          "placeholderColor": "rgb(8,8,8)",
+          "exif": {
+            "date": "2025-11-24T19:55:51.829Z",
+            "latitude": 30.046494,
+            "longitude": 31.224275,
+            "orientation": 1,
+            "author": "Cebreus"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=30.046494,31.224275",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=31.224275&y=30.046494&z=12",
+          "date": "2025-11-24T19:55:51.829Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8131.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8131.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8131.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8131.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8131.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8131.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8131.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8131.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8133",
+          "type": "image",
+          "src": "IMG_8133.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 2177,
+          "height": 2903,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8133.png",
+          "placeholderColor": "rgb(8,8,8)",
+          "exif": {
+            "date": "2025-11-24T19:56:12.427Z",
+            "latitude": 30.046544,
+            "longitude": 31.224289,
+            "orientation": 1,
+            "author": "Cebreus"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=30.046544,31.224289",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=31.224289&y=30.046544&z=12",
+          "date": "2025-11-24T19:56:12.427Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8133.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8133.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8133.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8133.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8133.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8133.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8133.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8133.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8135",
+          "type": "image",
+          "src": "IMG_8135.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 3853,
+          "height": 2889,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8135.png",
+          "placeholderColor": "rgb(24,56,104)",
+          "exif": {
+            "date": "2025-11-24T19:59:49.747Z",
+            "latitude": 30.046597,
+            "longitude": 31.224453,
+            "orientation": 1,
+            "author": "Cebreus"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=30.046597,31.224453",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=31.224453&y=30.046597&z=12",
+          "date": "2025-11-24T19:59:49.747Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8135.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8135.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8135.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8135.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8135.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8135.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8135.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8135.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8137",
+          "type": "image",
+          "src": "IMG_8137.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 6529,
+          "height": 4897,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8137.png",
+          "placeholderColor": "rgb(24,24,24)",
+          "exif": {
+            "date": "2025-11-24T20:01:38.250Z",
+            "latitude": 30.046731,
+            "longitude": 31.224947,
+            "orientation": 1,
+            "author": "Cebreus"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=30.046731,31.224947",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=31.224947&y=30.046731&z=12",
+          "date": "2025-11-24T20:01:38.250Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8137.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8137.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8137.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8137.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8137.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8137.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8137.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8137.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8138",
+          "type": "image",
+          "src": "IMG_8138.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4032,
+          "height": 3024,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8138.png",
+          "placeholderColor": "rgb(8,8,8)",
+          "exif": {
+            "date": "2025-11-24T20:01:41.311Z",
+            "latitude": 30.046731,
+            "longitude": 31.22495,
+            "orientation": 1,
+            "author": "Cebreus"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=30.046731,31.22495",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=31.22495&y=30.046731&z=12",
+          "date": "2025-11-24T20:01:41.311Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8138.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8138.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8138.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8138.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8138.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8138.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8138.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8138.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8140",
+          "type": "image",
+          "src": "IMG_8140.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 3024,
+          "height": 4032,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8140.png",
+          "placeholderColor": "rgb(8,8,8)",
+          "exif": {
+            "date": "2025-11-24T20:02:12.639Z",
+            "latitude": 30.046525,
+            "longitude": 31.22505,
+            "orientation": 6,
+            "author": "Cebreus"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=30.046525,31.22505",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=31.22505&y=30.046525&z=12",
+          "date": "2025-11-24T20:02:12.639Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8140.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8140.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8140.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8140.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8140.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8140.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8140.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8140.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img20251124220257",
+          "type": "image",
+          "src": "IMG_20251124_220257.jpg",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 3000,
+          "height": 4000,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_20251124_220257.png",
+          "placeholderColor": "rgb(8,8,8)",
+          "exif": {
+            "date": "2025-11-24T20:02:59.045Z",
+            "latitude": 29.990084,
+            "longitude": 31.127183,
+            "author": "Cebreus"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.990084,31.127183",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=31.127183&y=29.990084&z=12",
+          "date": "2025-11-24T20:02:59.045Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_20251124_220257.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_20251124_220257.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_20251124_220257.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_20251124_220257.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_20251124_220257.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_20251124_220257.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_20251124_220257.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_20251124_220257.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8142",
+          "type": "image",
+          "src": "IMG_8142.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 2499,
+          "height": 1406,
+          "aspectRatio": "landscape-16-9",
+          "placeholder": "blurs/IMG_8142.png",
+          "placeholderColor": "rgb(184,152,120)",
+          "exif": {
+            "date": "2025-11-24T20:57:17.465Z",
+            "latitude": 30.029828,
+            "longitude": 31.178367,
+            "orientation": 1,
+            "author": "Cebreus"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=30.029828,31.178367",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=31.178367&y=30.029828&z=12",
+          "date": "2025-11-24T20:57:17.465Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8142.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8142.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8142.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8142.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8142.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8142.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8142.jpeg",
+              "width": 1280,
+              "height": 720
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8142.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        }
+      ],
+      "id": "day-2025-11-24"
+    },
+    {
+      "date": "2025-11-25",
+      "cities": [],
+      "locations": [],
+      "items": [
+        {
+          "id": "img-img8145",
+          "type": "image",
+          "src": "IMG_8145.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4032,
+          "height": 2268,
+          "aspectRatio": "landscape-16-9",
+          "placeholder": "blurs/IMG_8145.png",
+          "placeholderColor": "rgb(88,88,72)",
+          "exif": {
+            "date": "2025-11-25T04:03:45.285Z",
+            "latitude": 29.989697,
+            "longitude": 31.137239,
+            "orientation": 1,
+            "author": "Cebreus"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.989697,31.137239",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=31.137239&y=29.989697&z=12",
+          "date": "2025-11-25T04:03:45.285Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8145.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8145.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8145.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8145.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8145.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8145.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8145.jpeg",
+              "width": 1280,
+              "height": 720
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8145.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8146",
+          "type": "image",
+          "src": "IMG_8146.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 1720,
+          "height": 1290,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8146.png",
+          "placeholderColor": "rgb(152,200,216)",
+          "exif": {
+            "date": "2025-11-25T06:57:30.192Z",
+            "latitude": 31.109164,
+            "longitude": 29.877317,
+            "orientation": 1,
+            "author": "Cebreus"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.109164,29.877317",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=29.877317&y=31.109164&z=12",
+          "date": "2025-11-25T06:57:30.192Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8146.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8146.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8146.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8146.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8146.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8146.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8146.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8146.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img20251125122855",
+          "type": "image",
+          "src": "IMG_20251125_122855.jpg",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4000,
+          "height": 3000,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_20251125_122855.png",
+          "placeholderColor": "rgb(152,152,152)",
+          "exif": {
+            "date": "2025-11-25T10:28:58.783Z",
+            "latitude": 30.029717,
+            "longitude": 31.192757,
+            "author": "Fin?a"
+          },
+          "author": "Fin?a",
+          "authorSlug": "fina",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=30.029717,31.192757",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=31.192757&y=30.029717&z=12",
+          "date": "2025-11-25T10:28:58.783Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_20251125_122855.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_20251125_122855.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_20251125_122855.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_20251125_122855.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_20251125_122855.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_20251125_122855.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_20251125_122855.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_20251125_122855.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img20251125122910",
+          "type": "image",
+          "src": "IMG_20251125_122910.jpg",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4000,
+          "height": 3000,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_20251125_122910.png",
+          "placeholderColor": "rgb(200,216,232)",
+          "exif": {
+            "date": "2025-11-25T10:29:10.734Z",
+            "latitude": 30.029717,
+            "longitude": 31.192757,
+            "author": "Fin?a"
+          },
+          "author": "Fin?a",
+          "authorSlug": "fina",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=30.029717,31.192757",
+          "mapyCzUrl": "https://mapy.cz/zakladni?x=31.192757&y=30.029717&z=12",
+          "date": "2025-11-25T10:29:10.734Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_20251125_122910.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_20251125_122910.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_20251125_122910.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_20251125_122910.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_20251125_122910.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_20251125_122910.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_20251125_122910.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_20251125_122910.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        }
+      ],
+      "id": "day-2025-11-25"
     }
   ]
 }
