@@ -35,6 +35,27 @@ function getNameSlugPair(a: Author): [string, string | undefined] {
   return [a.name, a.slug];
 }
 
+// --- Helpers ---
+
+/**
+ * Parses `1`/`0` and `true`/`false` (case-insensitive) into booleans.
+ * Returns `undefined` for null or unknown values.
+ */
+export function parseBooleanParam(value: string | null): boolean | undefined {
+  if (value == null) return undefined;
+  const v = value.trim().toLowerCase();
+  if (v === "true") return true;
+  if (v === "false") return false;
+  return undefined;
+}
+
+/**
+ * Encodes a boolean into a canonical string used in URLs.
+ */
+function encodeBooleanParam(value: boolean) {
+  return value ? "true" : "false";
+}
+
 // --- Logic ---
 
 /**
@@ -86,8 +107,11 @@ function initializeFiltersFromUrl(url: URL) {
     }
   }
 
-  showSeparators.set(url.searchParams.get("separators") !== "0");
-  showPhotoLabels.set(url.searchParams.get("labels") === "1");
+  const separatorsParam = parseBooleanParam(url.searchParams.get("separators"));
+  if (separatorsParam !== undefined) showSeparators.set(separatorsParam);
+
+  const labelsParam = parseBooleanParam(url.searchParams.get("labels"));
+  if (labelsParam !== undefined) showPhotoLabels.set(labelsParam);
 
   const editCsv = url.searchParams.get("edit");
   if (editCsv) {
@@ -96,8 +120,10 @@ function initializeFiltersFromUrl(url: URL) {
   } else {
     selection.set(new Set());
   }
-  editMode.set(url.searchParams.get("editMode") === "true");
-  debug.set(url.searchParams.get("debug") === "1");
+  const editModeParam = parseBooleanParam(url.searchParams.get("editMode"));
+  if (editModeParam !== undefined) editMode.set(editModeParam);
+  const debugParam = parseBooleanParam(url.searchParams.get("debug"));
+  if (debugParam !== undefined) debug.set(debugParam);
 }
 
 let debounceTimer: ReturnType<typeof setTimeout>;
@@ -129,17 +155,9 @@ function syncUrlFromFilters() {
       params.set("authors", slugs.join(","));
     }
 
-    if (get(showSeparators) === false) {
-      params.set("separators", "0");
-    } else {
-      params.delete("separators");
-    }
+    params.set("separators", encodeBooleanParam(get(showSeparators)));
 
-    if (get(showPhotoLabels)) {
-      params.set("labels", "1");
-    } else {
-      params.delete("labels");
-    }
+    params.set("labels", encodeBooleanParam(get(showPhotoLabels)));
 
     const $selection = get(selection);
     if ($selection.size > 0) {
@@ -148,19 +166,9 @@ function syncUrlFromFilters() {
       params.delete("edit");
     }
 
-    if (get(editMode)) {
-      params.set("editMode", "true");
-    } else {
-      params.delete("editMode");
-    }
+    params.set("editMode", encodeBooleanParam(get(editMode)));
 
-    if (get(debug)) {
-      console.log("urlSync: debug is TRUE, setting URL param");
-      params.set("debug", "1");
-    } else {
-      console.log("urlSync: debug is FALSE, removing URL param");
-      params.delete("debug");
-    }
+    params.set("debug", encodeBooleanParam(get(debug)));
 
     const next = `${$page.url.pathname}${
       params.toString() ? `?${params.toString()}` : ""
