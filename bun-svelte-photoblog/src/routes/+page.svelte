@@ -7,30 +7,36 @@
   import { useFancybox } from "$lib/actions/fancybox";
   import { selectedAuthors, showSeparators } from "$lib/stores/filters";
   import type { ImageEntry, Separator, PhotoDay } from "$lib/types/manifest";
-  import { filterGalleryItems } from "$lib/utils/gallery";
-  import { formatDateForDisplay, formatWeekdayCzech } from "$lib/utils/strings";
+  import { filterGalleryItems, mergeSparseDays } from "$lib/utils/gallery";
+  import {
+    formatDateForDisplay,
+    formatWeekdayCzech,
+    formatDateRange,
+  } from "$lib/utils/strings";
   import { editMode, selection } from "$lib/stores/editorState";
   import { Button } from "$lib/components/ui/button";
   import { CheckSquare, Square } from "lucide-svelte";
 
   let { data } = $props<{ data: PageData }>();
-  type PhotoDayWithMeta = PhotoDay & {
-    cities?: string[];
-    locations?: string[];
-  };
 
   /**
    * Compute page-specific filtered days.
    * Preserves page metadata like cities/locations.
    */
-  let photoDays = $derived(
+  let filteredDays = $derived(
     (data.photoDays || [])
-      .map((day: PhotoDayWithMeta) => ({
+      .map((day: PhotoDay) => ({
         ...day,
         items: filterGalleryItems(day.items, $selectedAuthors, $showSeparators),
       }))
-      .filter((d: PhotoDayWithMeta) => d.items && d.items.length > 0),
+      .filter((d: PhotoDay) => d.items && d.items.length > 0),
   );
+
+  /**
+   * Merges days with very few photos (<=2) into combined sections
+   * to avoid massive headers for tiny content.
+   */
+  let photoDays = $derived(mergeSparseDays(filteredDays));
 </script>
 
 <Hero />
@@ -46,7 +52,7 @@
 {/if}
 
 <main>
-  {#each photoDays as day (day.date)}
+  {#each photoDays as day (day.id ?? `day-${day.date}`)}
     {@const daySectionId = day.id ?? `day-${day.date}`}
     {#if day.items.length > 0}
       <section
@@ -59,13 +65,30 @@
           data-cy="day-head"
           class="max-w-xl mx-auto text-center my-12 relative group"
         >
-          <h2 class="mb-1 text-3xl">
-            <span
-              class="block mb-1 text-xs font-normal tracking-[0.05em] uppercase before:content-['———'] before:tracking-[-0.3em] before:opacity-[0.34] before:mr-4 after:content-['———'] after:tracking-[-0.3em] after:opacity-[0.34] after:ml-3"
-            >
-              {formatWeekdayCzech(day.date)}
-            </span>
-            {formatDateForDisplay(day.date)}
+          <h2 class="mb-1 text-3xl leading-snug">
+            {#if day.mergedDates}
+              <span
+                class="block mb-1 text-xs font-normal tracking-[0.05em] uppercase before:content-['———'] before:tracking-[-0.3em] before:opacity-[0.34] before:mr-4 after:content-['———'] after:tracking-[-0.3em] after:opacity-[0.34] after:ml-3"
+              >
+                {#if day.mergedDates.length === 2}
+                  {formatWeekdayCzech(day.mergedDates[0])} a {formatWeekdayCzech(
+                    day.mergedDates[1],
+                  )}
+                {:else}
+                  {formatWeekdayCzech(day.mergedDates[0])}—{formatWeekdayCzech(
+                    day.mergedDates[day.mergedDates.length - 1],
+                  )}
+                {/if}
+              </span>
+              {formatDateRange(day.mergedDates)}
+            {:else}
+              <span
+                class="block mb-1 text-xs font-normal tracking-[0.05em] uppercase before:content-['———'] before:tracking-[-0.3em] before:opacity-[0.34] before:mr-4 after:content-['———'] after:tracking-[-0.3em] after:opacity-[0.34] after:ml-3"
+              >
+                {formatWeekdayCzech(day.date)}
+              </span>
+              {formatDateForDisplay(day.date)}
+            {/if}
           </h2>
 
           {#if day.cities && day.cities.length > 0}
@@ -109,10 +132,10 @@
               >
                 {#if allSelected}
                   <Square size={14} />
-                  Zrušit výběr dne
+                  {day.mergedDates ? "Zrušit výběr dnů" : "Zrušit výběr dne"}
                 {:else}
                   <CheckSquare size={14} />
-                  Vybrat celý den
+                  {day.mergedDates ? "Vybrat celé dny" : "Vybrat celý den"}
                 {/if}
               </Button>
             </div>

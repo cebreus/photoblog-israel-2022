@@ -108,6 +108,7 @@ export type PhotoDay = {
   cities?: string[];
   locations?: string[];
   story?: string;
+  mergedDates?: string[];
 };
 
 /** The root object of the entire `images.manifest.json`. */

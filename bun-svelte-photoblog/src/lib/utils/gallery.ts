@@ -55,3 +55,61 @@ export function computeTotals(
     totalLocations: uniqueLocations.size,
   };
 }
+
+/**
+ * Merges days with very few photos (<=2) into combined sections
+ * to avoid massive headers for tiny content.
+ */
+export function mergeSparseDays(days: PhotoDay[]): PhotoDay[] {
+  const result: PhotoDay[] = [];
+  let pendingMerge: PhotoDay[] = [];
+
+  const flushMerge = () => {
+    if (pendingMerge.length === 0) return;
+
+    if (pendingMerge.length === 1) {
+      result.push(pendingMerge[0]);
+      pendingMerge = [];
+      return;
+    }
+
+    // Merge pending days
+    // We take the ID/date of the first one as basic identity
+    // but we add mergedDates to signal UI handling.
+    const first = pendingMerge[0];
+    const items = pendingMerge.flatMap((d) => d.items);
+    const cities = Array.from(
+      new Set(pendingMerge.flatMap((d) => d.cities ?? [])),
+    ).filter(Boolean);
+    const locations = Array.from(
+      new Set(pendingMerge.flatMap((d) => d.locations ?? [])),
+    ).filter(Boolean);
+
+    const merged: PhotoDay = {
+      ...first,
+      id: pendingMerge.map((d) => d.id ?? `day-${d.date}`).join("--"),
+      items,
+      cities,
+      locations,
+      mergedDates: pendingMerge.map((d) => d.date),
+    };
+
+    result.push(merged);
+    pendingMerge = [];
+  };
+
+  for (const day of days) {
+    // Threshold: 2 photos or fewer (count only images)
+    const imageCount = day.items.filter((i) => i.type === "image").length;
+
+    if (imageCount <= 2) {
+      pendingMerge.push(day);
+    } else {
+      flushMerge();
+      result.push(day);
+    }
+  }
+  flushMerge();
+
+  return result;
+}
