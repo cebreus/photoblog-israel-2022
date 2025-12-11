@@ -89,14 +89,19 @@
   ]}
 
   <div data-testid="image-metadata-container">
-    <table class="w-full text-[10px] bg-slate-900/70 rounded-sm" data-testid="image-metadata-table">
+    <table
+      class="w-full text-[10px] bg-slate-900/70 rounded-sm"
+      data-testid="image-metadata-table"
+    >
       <tbody>
         {#each metadataRows as field, index}
           <tr
             class={index < metadataRows.length - 1
               ? "border-b border-slate-600"
               : ""}
-            data-testid="metadata-row-{field.label.toLowerCase().replace(/\s+/g, '-')}"
+            data-testid="metadata-row-{field.label
+              .toLowerCase()
+              .replace(/\s+/g, '-')}"
           >
             <td
               class="px-1 align-top text-muted-foreground font-medium min-w-16 pb-0.5 whitespace-nowrap"
@@ -123,21 +128,12 @@
   {@const isSelected = $selection.has(item.id)}
 
   <svelte:element
-    this={isEditMode ? "button" : "a"}
-    type={isEditMode ? "button" : undefined}
+    this={isEditMode ? "div" : "a"}
     href={isEditMode ? undefined : detailSource?.path}
-    role={isEditMode ? "button" : undefined}
     data-fancybox={isEditMode ? undefined : "gallery"}
     data-caption={isEditMode ? undefined : item.alt}
     class="relative block rounded-lg group text-left"
     data-testid={`image-container-${item.id}`}
-    onclick={isEditMode
-      ? (e: MouseEvent | KeyboardEvent) => handleImageClick(item.id, e)
-      : undefined}
-    onkeydown={isEditMode
-      ? (e: KeyboardEvent) => handleImageClick(item.id, e)
-      : undefined}
-    aria-pressed={isEditMode ? isSelected : undefined}
   >
     <figure
       data-label={item?.location ?? item?.caption ?? ""}
@@ -177,18 +173,23 @@
       {/if}
 
       {#if isEditMode}
+        <!-- svelte-ignore a11y_click_events_have_key_events -->
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
         <div
-          class={`absolute inset-0 bg-black/10 transition-colors ${isSelected ? "bg-blue-500/20" : "hover:bg-black/20"}`}
+          class={`absolute inset-0 bg-black/10 transition-colors cursor-pointer ${isSelected ? "bg-blue-500/20" : "hover:bg-black/20"}`}
           data-testid="image-edit-overlay-{item.id}"
+          onclick={(e: MouseEvent) => handleImageClick(item.id, e)}
         >
+          <!-- svelte-ignore a11y_no_static_element_interactions -->
           <div
-            class="absolute bottom-2 left-2 right-2 select-none pointer-events-none"
+            class="absolute bottom-2 left-2 right-2 pointer-events-auto select-text"
+            onclick={(e) => e.stopPropagation()}
           >
             {@render MetadataTable({ item })}
           </div>
-          <div class="absolute top-2 right-2">
+          <div class="absolute top-2 right-2 pointer-events-auto">
             <div
-              class={`w-6 h-6 rounded border border-white ${isSelected ? "bg-blue-500" : "bg-black/50"} flex items-center justify-center`}
+              class={`w-6 h-6 rounded border border-white ${isSelected ? "bg-blue-500" : "bg-black/50"} flex items-center justify-center shrink-0`}
               data-testid="image-checkbox-{item.id}"
             >
               {#if isSelected}
@@ -228,9 +229,16 @@
           class="aspect-video flex flex-col items-center justify-center p-4 bg-linear-to-br from-slate-100 to-slate-300 rounded-lg duration-500 outline-background hover:outline-orange-100 outline-4 outline-offset-2 transition-[outline-color] ease-in-out"
           data-testid="separator-trigger-{separatorId}"
         >
-          <h3 class="text-lg" data-testid="separator-location">{item.location}</h3>
+          <h3 class="text-lg" data-testid="separator-location">
+            {item.location}
+          </h3>
           {#if item.city}
-            <p class="text-sm text-muted-foreground" data-testid="separator-city">{item.city}</p>
+            <p
+              class="text-sm text-muted-foreground"
+              data-testid="separator-city"
+            >
+              {item.city}
+            </p>
           {/if}
           <span
             class={buttonVariants({
@@ -267,7 +275,9 @@
         use:useScrollspy={{ id: separatorId }}
         data-testid="separator-simple-{separatorId}"
       >
-        <h3 class="text-lg" data-testid="separator-location">{item.location}</h3>
+        <h3 class="text-lg" data-testid="separator-location">
+          {item.location}
+        </h3>
         {#if item.city}
           <p class="text-sm text-muted-foreground mt-1">{item.city}</p>
         {/if}
