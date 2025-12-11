@@ -60,8 +60,8 @@
       {
         "id": "loc-cairo-tower",
         "label": "Cairo Tower",
-        "href": "#img-img8122",
-        "isDimmed": true,
+        "href": "#loc-cairo-tower",
+        "isDimmed": false,
         "firstPhotoExifDate": "2025-11-24T19:12:12.832Z"
       }
     ]
@@ -71,6 +71,14 @@
     "date": "2025-11-25",
     "label": "úterý 25. listopadu 2025",
     "href": "#day-2025-11-25",
-    "locations": []
+    "locations": [
+      {
+        "id": "loc-velke-egyptske-muzeum",
+        "label": "Velké egyptské muzeum",
+        "href": "#img-img20251125122855",
+        "isDimmed": true,
+        "firstPhotoExifDate": "2025-11-25T10:28:58.783Z"
+      }
+    ]
   }
 ]
