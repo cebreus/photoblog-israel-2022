@@ -177,4 +177,4 @@ export async function executeMain(): Promise<void> {
   }
 }
 
-// executeMain();
+executeMain();

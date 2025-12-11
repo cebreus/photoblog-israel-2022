@@ -356,7 +356,7 @@ export async function runIncrementalBuild(
   logger.info("Starting incremental build...");
   if (ARGS.manifestOnly) {
     logger.info(
-      "Manifest-only mode enabled. Skipping writes for generated images.",
+      "Manifest-only mode enabled. Skipping image processing, generating manifests only.",
     );
   }
 
@@ -367,14 +367,45 @@ export async function runIncrementalBuild(
     opts.cacheVersion ?? 1,
   );
 
-  const [storyData, sourceFiles] = await Promise.all([
-    storyLoader(CTX.contentRoot),
-    findSourceFiles(CTX.srcRoot, ARGS.limit),
-  ]);
+  const storyData = await storyLoader(CTX.contentRoot);
+
+  // In manifest-only mode, skip image processing entirely
+  if (ARGS.manifestOnly) {
+    await updateCacheAndManifests({
+      cache,
+      results: [],
+      toDelete: [],
+      storyData,
+      paths: {
+        cachePath: CTX.cachePath,
+        generatorManifestPath: CTX.generatorManifestPath,
+        manifestPath: CTX.manifestPath,
+        menuManifestPath: CTX.menuManifestPath,
+        siteManifestPath: CTX.siteManifestPath,
+      },
+      shouldWriteSiteManifests: CTX.shouldWriteSiteManifests,
+      configHash: CTX.configHash,
+      wasReset,
+      srcRoot: CTX.srcRoot,
+    });
+    logger.info(
+      `Manifest generation finished in ${(performance.now() - startTime).toFixed(2)}ms.`,
+    );
+    return;
+  }
+
+  const { cache: cacheAfter, wasReset: wasResetAfter } = await loadCache(
+    CTX.cachePath,
+    CTX.configHash,
+    CTX.outRoot,
+    opts.cacheVersion ?? 1,
+  );
+
+  const sourceFiles = await findSourceFiles(CTX.srcRoot, ARGS.limit);
 
   const { toProcess, toDelete } = await detectChanges(
     sourceFiles,
-    cache,
+    cacheAfter,
     CTX.srcRoot,
   );
 
@@ -382,7 +413,7 @@ export async function runIncrementalBuild(
     `Found: ${toProcess.length} new/modified, ${toDelete.length} deleted.`,
   );
 
-  await pruneDeleted(toDelete, cache, CTX.outRoot);
+  await pruneDeleted(toDelete, cacheAfter, CTX.outRoot);
 
   const results = await processImages(toProcess, {
     ...ARGS,
@@ -395,7 +426,7 @@ export async function runIncrementalBuild(
   });
 
   await updateCacheAndManifests({
-    cache,
+    cache: cacheAfter,
     results,
     toDelete,
     storyData,
@@ -408,7 +439,7 @@ export async function runIncrementalBuild(
     },
     shouldWriteSiteManifests: CTX.shouldWriteSiteManifests,
     configHash: CTX.configHash,
-    wasReset,
+    wasReset: wasResetAfter,
     srcRoot: CTX.srcRoot,
   });
 
