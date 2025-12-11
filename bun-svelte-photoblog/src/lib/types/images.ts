@@ -80,7 +80,6 @@ export type Quality = {
   [ImageFormat.WEBP]: number;
   [ImageFormat.JPEG]: number;
 };
-export type GifMode = "copy" | "convert";
 export type VariantType = `${ImageVariant}`;
 
 export type VariantConfig = {

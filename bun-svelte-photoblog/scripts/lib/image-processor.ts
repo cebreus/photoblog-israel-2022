@@ -89,7 +89,6 @@ export type ImageProcessOptions = {
   manifestOnly: boolean;
   srcRoot: string;
   outRoot: string;
-  hasGifCopy: boolean;
   allowUpscale: boolean;
   formats: ImageFormat[];
   qualityOverrides: Partial<Record<QualityTypes, number>>;
@@ -161,11 +160,6 @@ export async function processImage(
     const fileHash = hash.digest("hex");
 
     const ext = path.extname(absPath).slice(1).toLowerCase();
-
-    if (ext === "gif" && options.hasGifCopy) {
-      const buffer = await fsp.readFile(absPath);
-      return await copyGif(absPath, buffer, stats, fileHash, options);
-    }
 
     if (ext === "heic" || ext === "heif") {
       const tmpDir = os.tmpdir();
@@ -569,75 +563,6 @@ async function generateOtherOutput(
   }
 
   return { outPath, info };
-}
-
-async function copyGif(
-  absPath: string,
-  fileBuffer: Buffer,
-  stats: import("fs").Stats,
-  fileHash: string,
-  options: ImageProcessOptions,
-): Promise<ProcessedImageResult> {
-  const { srcRoot, outRoot, manifestOnly } = options;
-  const key = path.posix.normalize(path.relative(srcRoot, absPath));
-  const baseName = path.basename(absPath, path.extname(absPath));
-
-  const outputs: string[] = [];
-  const sources: ImageSource[] = [];
-
-  const outputDefinitions = buildOutputDefinitions();
-
-  await loadSharpOrExplain();
-  const sharpModule = requireSharp();
-  const meta = await sharpModule(fileBuffer).metadata().catch(ignoreError);
-  const knownWidth = meta?.width;
-  const knownHeight = meta?.height;
-
-  for (const output of outputDefinitions) {
-    if (output.mode !== "variant") continue;
-
-    const outPath = path.posix.normalize(
-      path.join(output.config.folderName, `${baseName}.gif`),
-    );
-    outputs.push(outPath);
-
-    if (!manifestOnly) {
-      const fullOutPath = path.join(outRoot, outPath);
-      await ensureDir(path.dirname(fullOutPath));
-      await fsp.copyFile(absPath, fullOutPath).catch(ignoreError);
-    }
-
-    sources.push({
-      variant: output.key,
-      type: "image/gif",
-      path: `${config.paths.urlPrefix}/images/${outPath}`,
-      width: knownWidth,
-    });
-  }
-
-  const image: ImageEntry = {
-    id: "img-" + toSlug(baseName),
-    type: "image",
-    src: path.basename(absPath),
-    alt: "Animated GIF image",
-    title: baseName,
-    width: knownWidth,
-    height: knownHeight,
-    aspectRatio:
-      knownWidth && knownHeight
-        ? getAspectRatioName(knownWidth, knownHeight)
-        : undefined,
-    sources,
-  };
-
-  return {
-    key,
-    hash: fileHash,
-    mtimeMs: stats.mtimeMs,
-    bytes: stats.size,
-    outputs,
-    image,
-  };
 }
 
 function calculateOutputDimensions(

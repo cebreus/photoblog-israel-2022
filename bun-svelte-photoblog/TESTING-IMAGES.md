@@ -6,7 +6,7 @@ Tento dokument popisuje strategii a implementaci testování pro skript `generat
 
 Zajistit spolehlivost CLI generátoru obrázků (`scripts/generate-images.ts`) včetně:
 
-- **Hlavních přepínačů**: variants, formats, quality, manifest, concurrency, watch, clean, gif mód.
+- **Hlavních přepínačů**: variants, formats, quality, manifest, concurrency, watch, clean.
 - **Blur pipeliny**: generování LQIP (Low-Quality Image Placeholders) a blur assetů.
 - **Integrity dat**: kontrola vygenerovaného manifestu (`images.manifest.json`) a struktury adresářů.
 - **Determinismu**: zajištění konzistentních výstupů pro cache a snapshot testy.
@@ -84,15 +84,12 @@ Tento soubor obsahuje klíčové integrační scénáře:
 
 1.  **Main Images Generation**:
     - Spustí CLI s plnou sadou parametrů (formats, quality, clean).
-    - Vygeneruje vstupní sadu obrázků (JPEG, PNG, GIF).
+    - Vygeneruje vstupní sadu obrázků (JPEG, PNG).
     - Ověří, že vznikl `images.manifest.json`.
     - Porovná normalizovaný manifest se snapshotem.
     - Ověří strukturu výstupních adresářů.
 
-2.  **GIF Handling**:
-    - Ověřuje režim `--gif=copy`, kdy se animované GIFy pouze kopírují a nekonvertují.
-
-3.  **Blur Assets**:
+2.  **Blur Assets**:
     - Testuje generování malých PNG palet (blur placeholders).
     - Ověřuje rozměry a počet barev (PNG-8, max 32 barev).
     - Ověřuje čistící režim (`--clean`), který odstraní nepotřebné formáty z předchozích běhů.
@@ -115,6 +112,6 @@ Testuje funkci `buildGeneratorManifest` a `updateManifest`:
 
 ## Pomocné utility
 
-- **`fixtures.ts`**: Místo ukládání binárních obrázků do gitu si testy generují vstupy (JPEG, PNG, GIF) za běhu pomocí knihovny Sharp. To šetří místo v repozitáři a dává plnou kontrolu nad vstupními daty.
+- **`fixtures.ts`**: Místo ukládání binárních obrázků do gitu si testy generují vstupy (JPEG, PNG) za běhu pomocí knihovny Sharp. To šetří místo v repozitáři a dává plnou kontrolu nad vstupními daty.
 - **`process-helpers.ts`**: Wrapper nad `spawn` pro spouštění `scripts/generate-images.ts` jako child procesu. Řeší timeouty a zachytávání stdout/stderr.
 - **`manifest-assert.ts`**: Normalizuje JSON manifest (řadí klíče, odstraňuje absolutní cesty), aby byl stabilní pro snapshot matching.

@@ -49,11 +49,6 @@ function isSrcArgFlag(a: string) {
 }
 const hasSrcArg = process.argv.slice(2).some(isSrcArgFlag);
 
-function isGifArgFlag(a: string) {
-  return a.startsWith("--gif=") || a === "--gif";
-}
-const hasGifArg = process.argv.slice(2).some(isGifArgFlag);
-
 const CTX = initializeContext();
 
 function resolveConcurrency(value: number | "auto") {
@@ -142,7 +137,6 @@ export async function main() {
       `Watch mode enabled. Watching ${path.posix.normalize(CTX.srcRoot)} and ${path.posix.normalize(CTX.contentRoot)}.`,
     );
     await incrementalRun(CTX, ARGS, {
-      hasGifCopy: hasGifArg && RUNTIME_RAW.gif === "copy",
       allowUpscale: RUNTIME_ALLOW_UPSCALE,
       formats: RUNTIME_FORMATS,
       qualityOverrides: RUNTIME_QUALITY_OVERRIDES,
@@ -150,7 +144,6 @@ export async function main() {
     });
   } else {
     await incrementalRun(CTX, ARGS, {
-      hasGifCopy: hasGifArg && RUNTIME_RAW.gif === "copy",
       allowUpscale: RUNTIME_ALLOW_UPSCALE,
       formats: RUNTIME_FORMATS,
       qualityOverrides: RUNTIME_QUALITY_OVERRIDES,

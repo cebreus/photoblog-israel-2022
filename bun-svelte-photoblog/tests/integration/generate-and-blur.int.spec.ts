@@ -53,35 +53,6 @@ describe("Integration: main images generation", () => {
     expect(tree.some((p) => p.endsWith(".webp"))).toBe(true);
     expect(tree.some((p) => p.endsWith(".jpeg"))).toBe(true);
   });
-
-  it("respects GIF mode (copy) for animated GIF inputs", async () => {
-    const inDir = tmpDir("int-in-gif");
-    await buildInputSet(inDir);
-
-    const outDir = tmpDir("int-out-gif");
-    const manifest = path.join(outDir, "images.manifest.json");
-
-    const res = await runCli(
-      [
-        `--src=${inDir}`,
-        `--out=${outDir}`,
-        `--manifest=${manifest}`,
-        `--gif=copy`,
-        `--formats=jpeg`,
-        `--concurrency=1`,
-        `--clean=true`,
-        `--limit=1`,
-      ],
-      { cwd: CWD, timeoutMs: 120000 },
-    );
-    expect(res.code).toBe(0);
-
-    // Expect the original GIF to be mirrored (copy) into out directory structure
-    // We don't know exact subfolder, check presence anywhere under outDir
-    const tree = await listTree(outDir);
-    const gifCopies = tree.filter((p) => p.toLowerCase().endsWith(".gif"));
-    expect(gifCopies.length).toBeGreaterThan(0);
-  });
 });
 
 async function uniqueColorCountPng(pngPath: string) {

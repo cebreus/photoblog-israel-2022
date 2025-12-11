@@ -3,19 +3,11 @@ import path from "node:path";
 import sharp from "sharp";
 
 /**
- * Malý 2x2 animovaný GIF (2 snímky), base64.
- * Zdroj: ručně připravený minimální GIF; slouží pouze k detekci animace v testech.
- */
-const TINY_ANIM_GIF_BASE64 =
-  "R0lGODlhAgACAPEAAAAAAP///wAAACH5BAEAAAIALAAAAAACAAIAAAIEhI+py+0Po5yUFADs=";
-
-/**
  * Vytvoří kurátorovanou sadu fixtur ve složce dir.
  * - alpha.png (40x30, s alfou)
  * - big.jpeg (4000x3000) – pro downscale testy
  * - portrait.jpeg (600x900) – pro crop/cover testy
  * - square.webp (300x300) – vstup v moderním formátu
- * - anim.gif (2x2 animovaný) – test gif režimu
  * - exif-orient-6.jpeg (600x400 s EXIF Orientation=6) – test orientace
  */
 export async function buildInputSet(dir: string) {
@@ -73,11 +65,7 @@ export async function buildInputSet(dir: string) {
     .webp({ quality: 80 })
     .toFile(webpImg);
 
-  // 5) Malý animovaný GIF (2 snímky)
-  const animGif = path.join(dir, "anim.gif");
-  fs.writeFileSync(animGif, Buffer.from(TINY_ANIM_GIF_BASE64, "base64"));
-
-  // 6) JPEG s EXIF orientací = 6
+  // 5) JPEG s EXIF orientací = 6
   // Pozn.: Sharp podporuje zapsání EXIF Orientation přes withMetadata({ orientation }).
   const exifOrient6 = path.join(dir, "exif-orient-6.jpeg");
   await sharp({
@@ -97,7 +85,6 @@ export async function buildInputSet(dir: string) {
     bigJpeg,
     portraitJpeg,
     webpImg,
-    animGif,
     exifOrient6,
     dir,
   };

@@ -344,7 +344,6 @@ export async function runIncrementalBuild(
     limit: number | 0;
   },
   opts: {
-    hasGifCopy?: boolean;
     allowUpscale?: boolean;
     formats?: any[];
     qualityOverrides?: Record<string, number>;
@@ -419,7 +418,6 @@ export async function runIncrementalBuild(
     ...ARGS,
     srcRoot: CTX.srcRoot,
     outRoot: CTX.outRoot,
-    hasGifCopy: opts.hasGifCopy ?? false,
     allowUpscale: opts.allowUpscale ?? false,
     formats: opts.formats ?? [...config.encoding.formats],
     qualityOverrides: opts.qualityOverrides ?? {},

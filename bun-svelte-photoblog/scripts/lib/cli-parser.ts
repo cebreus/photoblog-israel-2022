@@ -4,7 +4,7 @@
 
 import path from "node:path";
 import os from "node:os";
-import type { Quality, GifMode, VariantType } from "../../src/lib/types/images";
+import type { Quality, VariantType } from "../../src/lib/types/images";
 import { ImageFormat, ImageVariant } from "../../src/lib/types/images";
 import type { QualityTypes } from "../../src/lib/types/manifest";
 import { config } from "../config";
@@ -25,7 +25,6 @@ export type CliOptions = {
   quality: Quality;
   allowUpscale: boolean;
   keepOriginal: boolean;
-  gif: GifMode;
   concurrency: number | "auto";
   watch: boolean;
   clean: boolean;
@@ -68,14 +67,6 @@ const VARIANT_TYPES: readonly string[] = [
   ImageVariant.PREVIEWS_XL,
   ImageVariant.PREVIEWS_XXS,
 ];
-
-const GIF_MODES: readonly GifMode[] = ["copy", "convert"];
-
-function isGifMode(value: string): value is GifMode {
-  return GIF_MODES.some(function equals(v) {
-    return v === value;
-  });
-}
 
 function isQualityType(x: string): x is QualityFormat {
   return QUALITY_FORMATS.some(function equals(v) {
@@ -128,7 +119,6 @@ export const DEFAULT_CLI_OPTIONS: CliOptions = {
   quality: { ...config.encoding.quality },
   allowUpscale: false,
   keepOriginal: false,
-  gif: "copy",
   concurrency: config.script.concurrency,
   watch: false,
   clean: false,
@@ -202,11 +192,6 @@ const CLI_FLAG_HANDLERS: Record<string, ArgHandler> = {
   },
   "keep-original": function handleKeepOriginal(v, a) {
     a.keepOriginal = v === "true";
-  },
-  gif: function handleGif(v, a) {
-    if (isGifMode(v)) {
-      a.gif = v;
-    }
   },
   concurrency: function handleConcurrency(v, a) {
     if (v === "auto") {

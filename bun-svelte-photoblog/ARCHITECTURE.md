@@ -3940,7 +3940,6 @@ describe("CLI (generate-images.ts) – základní chování a parsování parame
 - Manifest generování a struktura
 - Blur assets generování
 - Watch mode (file watcher)
-- GIF handling
 - Cache mechanismus
 - Orphan file cleanup
 
@@ -3985,11 +3984,6 @@ describe("Integration: main images generation", () => {
     expect(tree.some((p) => p.endsWith(".avif"))).toBe(true);
     expect(tree.some((p) => p.endsWith(".webp"))).toBe(true);
     expect(tree.some((p) => p.endsWith(".jpg"))).toBe(true);
-  });
-
-  it("respects GIF mode (copy) for animated GIF inputs", async () => {
-    // Testuje, že animované GIFy se kopírují, ne převádějí
-    // ...
   });
 });
 ```

@@ -26,7 +26,6 @@ vi.mock("sharp", () => {
     webp: vi.fn(() => mockSharpInstance),
     avif: vi.fn(() => mockSharpInstance),
     png: vi.fn(() => mockSharpInstance),
-    gif: vi.fn(() => mockSharpInstance),
     toFile: vi.fn((file) => {
       // Simulate writing a file to memfs
       vol.writeFileSync(file, Buffer.from("mock-image-content"));
