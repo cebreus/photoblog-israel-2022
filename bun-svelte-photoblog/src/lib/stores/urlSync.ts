@@ -112,7 +112,9 @@ function initializeFiltersFromUrl(url: URL) {
   if (url.searchParams.has("no-separators")) {
     showSeparators.set(false);
   } else {
-    const separatorsParam = parseBooleanParam(url.searchParams.get("separators"));
+    const separatorsParam = parseBooleanParam(
+      url.searchParams.get("separators"),
+    );
     if (separatorsParam !== undefined) showSeparators.set(separatorsParam);
   }
 
@@ -209,7 +211,12 @@ function syncUrlFromFilters() {
     if (debugVal === true) params.set("debug", "");
 
     // Serialize params but render presence-only keys without trailing '='
-    const presenceOnlyKeys = new Set(["labels", "editMode", "debug", "no-separators"]);
+    const presenceOnlyKeys = new Set([
+      "labels",
+      "editMode",
+      "debug",
+      "no-separators",
+    ]);
     const rawPairs = params.toString().split("&").filter(Boolean);
     const normalizedPairs = rawPairs.map((p) => {
       // p is like "key=value" or "key=" for empty value

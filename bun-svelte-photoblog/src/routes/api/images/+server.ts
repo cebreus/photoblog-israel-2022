@@ -380,22 +380,26 @@ export const PATCH: RequestHandler = async ({ request }) => {
                 }
                 if (filteredUpdates.city) {
                   imageItem.city = filteredUpdates.city as string;
-                  if (imageItem.exif) imageItem.exif.city = filteredUpdates.city as string;
+                  if (imageItem.exif)
+                    imageItem.exif.city = filteredUpdates.city as string;
                 }
                 if (filteredUpdates.location) {
                   imageItem.location = filteredUpdates.location as string;
                   if (imageItem.exif)
-                    imageItem.exif.location = filteredUpdates.location as string;
+                    imageItem.exif.location =
+                      filteredUpdates.location as string;
                 }
                 if (filteredUpdates.author) {
                   imageItem.author = filteredUpdates.author as string;
-                  if (imageItem.exif) imageItem.exif.author = filteredUpdates.author as string;
+                  if (imageItem.exif)
+                    imageItem.exif.author = filteredUpdates.author as string;
                 }
                 if (filteredUpdates.country && imageItem.exif) {
                   imageItem.exif.country = filteredUpdates.country as string;
                 }
                 if (filteredUpdates.countryCode && imageItem.exif) {
-                  imageItem.exif.countryCode = filteredUpdates.countryCode as string;
+                  imageItem.exif.countryCode =
+                    filteredUpdates.countryCode as string;
                 }
                 if (filteredUpdates.state && imageItem.exif) {
                   imageItem.exif.state = filteredUpdates.state as string;

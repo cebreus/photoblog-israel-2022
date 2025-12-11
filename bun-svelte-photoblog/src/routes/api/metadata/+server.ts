@@ -166,10 +166,14 @@ export async function POST({ request }) {
  */
 function regenerateManifest(contentDir: string): Promise<void> {
   return new Promise((resolve, reject) => {
-    const proc = spawn("bun", ["scripts/generate-images.ts", "--manifestOnly"], {
-      env: { ...process.env, CONTENT_DIR: contentDir },
-      stdio: ["ignore", "pipe", "pipe"],
-    });
+    const proc = spawn(
+      "bun",
+      ["scripts/generate-images.ts", "--manifestOnly"],
+      {
+        env: { ...process.env, CONTENT_DIR: contentDir },
+        stdio: ["ignore", "pipe", "pipe"],
+      },
+    );
 
     let stderr = "";
     proc.stderr?.on("data", (data) => {
@@ -177,14 +181,20 @@ function regenerateManifest(contentDir: string): Promise<void> {
     });
 
     proc.on("error", (err) => {
-      reject(new Error(`Failed to spawn manifest regeneration: ${err.message}`));
+      reject(
+        new Error(`Failed to spawn manifest regeneration: ${err.message}`),
+      );
     });
 
     proc.on("close", (code) => {
       if (code === 0) {
         resolve();
       } else {
-        reject(new Error(`Manifest regeneration exited with code ${code}: ${stderr}`));
+        reject(
+          new Error(
+            `Manifest regeneration exited with code ${code}: ${stderr}`,
+          ),
+        );
       }
     });
   });
