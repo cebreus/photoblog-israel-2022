@@ -1,24 +1,29 @@
 import { describe, it, expect } from "vitest";
-import { renderStoryHtml, renderMarkdown } from "../../src/lib/utils/markup";
+import { renderStoryHtml, renderMarkdown } from "../../src/lib/markup";
+import type { Separator } from "../../src/lib/types/manifest";
 
 describe("renderStoryHtml", () => {
-  it("returns empty string for missing content", () => {
-    // @ts-ignore
-    expect(renderStoryHtml(undefined)).toBe("");
+  it("returns empty string when separator.story is missing", () => {
+    const separator: Separator = {
+      type: "separator",
+      id: "sep-1",
+      location: "Location",
+      city: "City",
+      story: undefined,
+    };
+    expect(renderStoryHtml(separator)).toBe("");
   });
 
-  it("renders basic markdown", () => {
-    const out = renderStoryHtml("# Hello");
-    // should include an <h1> for '# Hello'
-    expect(out.includes("<h1") || out.includes("<h1>")).toBe(true);
-  });
-
-  it("returns pre-rendered storyHtml when present", () => {
-    const pre = "<p>pre-rendered</p>";
-    // If pre-rendered content is provided as second arg, it should be returned
-    const out = renderStoryHtml("some markdown", pre);
-
-    expect(out).toBe(pre);
+  it("returns the pre-rendered HTML story from the separator object", () => {
+    const htmlStory = "<h1>Hello</h1><p>This is a story.</p>";
+    const separator: Separator = {
+      type: "separator",
+      id: "sep-2",
+      location: "Location",
+      city: "City",
+      story: htmlStory,
+    };
+    expect(renderStoryHtml(separator)).toBe(htmlStory);
   });
 });
 

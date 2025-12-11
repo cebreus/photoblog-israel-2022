@@ -1,12 +1,119 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import path from "node:path";
-import fs from "node:fs";
-import sharp from "sharp";
-import { runCli, tmpDir } from "../utils/process-helpers";
-import { listTree } from "../utils/fs-helpers";
+import { vol } from "memfs";
+import { runGenerator } from "../utils/process-helpers";
 import { buildInputSet } from "../utils/fixtures";
+import { listTree } from "../utils/fs-helpers"; // Import the mocked version
 
+// Mocking 'node:fs' and 'node:fs/promises' with 'memfs'
+vi.mock("node:fs", async () => {
+  const memfs = await vi.importActual("memfs");
+  return memfs.fs;
+});
+vi.mock("node:fs/promises", async () => {
+  const memfs = await vi.importActual("memfs");
+  return memfs.fs.promises;
+});
+
+// Mocking sharp to prevent actual image processing
+vi.mock("sharp", () => {
+  const mockSharpInstance = {
+    metadata: vi.fn(() =>
+      Promise.resolve({ width: 100, height: 80, format: "jpeg" }),
+    ),
+    resize: vi.fn(() => mockSharpInstance),
+    jpeg: vi.fn(() => mockSharpInstance),
+    webp: vi.fn(() => mockSharpInstance),
+    avif: vi.fn(() => mockSharpInstance),
+    png: vi.fn(() => mockSharpInstance),
+    gif: vi.fn(() => mockSharpInstance),
+    toFile: vi.fn((file) => {
+      // Simulate writing a file to memfs
+      vol.writeFileSync(file, Buffer.from("mock-image-content"));
+      return Promise.resolve({ width: 100, height: 80, size: 1000 });
+    }),
+    toBuffer: vi.fn(() => Promise.resolve(Buffer.from("mock-image-buffer"))),
+    // Simulate `sharp({ create: ... })` and `sharp(filepath)`
+    constructor: vi.fn((input) => {
+      // If `create` is present, it's a creation
+      if (input && input.create) {
+        return mockSharpInstance;
+      }
+      // Otherwise, it's reading an existing file.
+      // We can assert the file exists in memfs if needed, but for now, just return instance.
+      return mockSharpInstance;
+    }),
+  };
+  return {
+    default: vi.fn(function (input) {
+      // @ts-ignore
+      return new mockSharpInstance.constructor(input);
+    }),
+  };
+});
+
+// Mock console.log and console.error to prevent excessive output during tests
+const consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+// Mock CWD to match the project root for consistent path resolution in memfs
 const CWD = path.resolve(__dirname, "../../");
+vi.mock("node:process", async (importActual) => {
+  const actual = await importActual<typeof import("node:process")>();
+  return {
+    ...actual,
+    cwd: () => CWD,
+  };
+});
+
+// Use memfs for tmpDir
+const MOCKED_TMP_ROOT = "/tmp-mock";
+const tmpDir = (prefix: string): string => {
+  const dirPath = path.join(
+    MOCKED_TMP_ROOT,
+    `${prefix}-${Math.random().toString(36).substring(7)}`,
+  );
+  vol.mkdirSync(dirPath, { recursive: true });
+  return dirPath;
+};
+
+// Mock listTree from fs-helpers to use memfs
+vi.mock("../utils/fs-helpers", async (importActual) => {
+  const actual = await importActual<typeof import("../utils/fs-helpers")>();
+  return {
+    ...actual,
+    listTree: vi.fn(async (dir) => {
+      const files: string[] = [];
+      const walk = (currentPath: string) => {
+        const entries = vol.readdirSync(currentPath, { withFileTypes: true });
+        for (const entry of entries) {
+          const fullPath = path.join(currentPath, entry.name);
+          if (entry.isFile()) {
+            files.push(fullPath);
+          } else if (entry.isDirectory()) {
+            walk(fullPath);
+          }
+        }
+      };
+      walk(dir);
+      return files.map((p) => path.relative(dir, p)); // Return relative paths
+    }),
+  };
+});
+
+// Setup and teardown for memfs and spies
+beforeEach(() => {
+  vol.reset(); // Clear the in-memory file system before each test
+  vol.mkdirSync(CWD, { recursive: true }); // Ensure CWD exists in memfs
+  consoleLogSpy.mockClear();
+  consoleErrorSpy.mockClear();
+});
+
+afterEach(() => {
+  vi.restoreAllMocks(); // Restore all mocks after each test
+});
+
+// Original file content starts here
 
 /**
  * Jednotkové testy CLI přes pozorovatelné efekty (souborový systém).

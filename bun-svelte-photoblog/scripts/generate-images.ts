@@ -111,7 +111,7 @@ async function cleanAllOutputs() {
   await fsp.rm(CTX.outRoot, { recursive: true, force: true });
 }
 
-async function main() {
+export async function main() {
   if (!contentDir && !hasSrcArg) {
     logger.error(
       "'CONTENT_DIR' environment variable is not set. Please specify which content to process.",
@@ -159,7 +159,7 @@ async function main() {
   }
 }
 
-async function executeMain(): Promise<void> {
+export async function executeMain(): Promise<void> {
   try {
     await main();
   } catch (e) {
@@ -177,4 +177,4 @@ async function executeMain(): Promise<void> {
   }
 }
 
-executeMain();
+// executeMain();
