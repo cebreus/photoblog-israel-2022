@@ -81,7 +81,8 @@
     "vite": "^7.2.7",
     "vite-plugin-devtools-json": "^1.0.0",
     "vitest": "^3.2.4",
-    "vitest-browser-svelte": "^1.1.0"
+    "vitest-browser-svelte": "^1.1.0",
+    "xxhash-wasm": "^1.1.0"
   },
   "dependencies": {
     "@fancyapps/ui": "^6.1.7",

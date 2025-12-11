@@ -6,6 +6,10 @@ import fs from "node:fs";
 import { dev } from "$app/environment";
 import { spawn } from "node:child_process";
 import type { Manifest, ImageEntry } from "$lib/types/manifest";
+import {
+  getExifToolWriteTags,
+  type MetadataKey,
+} from "$lib/metadata-standards";
 
 function findImageById(
   manifestData: Manifest,
@@ -43,50 +47,20 @@ export async function POST({ request }) {
 
   const contentRoot = path.resolve(process.cwd(), "content", contentDir);
 
-  // Map metadata fields to ExifTool tags
-  // Map metadata fields to ExifTool tags
-  // We prioritize IPTC and XMP for broad compatibility
-  const tags: Record<string, string | string[] | null> = {};
+  const updates: Partial<Record<MetadataKey, string | string[] | null>> = {};
 
-  if (metadata.title !== undefined) {
-    tags["IPTC:ObjectName"] = metadata.title;
-    tags["XMP:Title"] = metadata.title;
-  }
-  if (metadata.caption !== undefined) {
-    tags["IPTC:Caption-Abstract"] = metadata.caption;
-    tags["XMP:Description"] = metadata.caption;
-  }
-  if (metadata.city !== undefined) {
-    tags["IPTC:City"] = metadata.city;
-    tags["XMP:City"] = metadata.city;
-  }
-  if (metadata.location !== undefined) {
-    tags["IPTC:Sub-location"] = metadata.location;
-    tags["XMP:Location"] = metadata.location;
-  }
-  if (metadata.keywords !== undefined) {
-    if (metadata.keywords === null || Array.isArray(metadata.keywords)) {
-      tags["IPTC:Keywords"] = metadata.keywords;
-      tags["XMP:Subject"] = metadata.keywords;
-    }
-  }
-  if (metadata.author !== undefined) {
-    tags["IPTC:By-line"] = metadata.author;
-    tags["XMP:Creator"] = metadata.author;
-    tags["IFD0:Artist"] = metadata.author;
-  }
-  if (metadata.country !== undefined) {
-    tags["IPTC:Country-PrimaryLocationName"] = metadata.country;
-    tags["XMP:Country"] = metadata.country;
-  }
-  if (metadata.countryCode !== undefined) {
-    tags["IPTC:Country-PrimaryLocationCode"] = metadata.countryCode;
-    tags["XMP:CountryCode"] = metadata.countryCode;
-  }
-  if (metadata.state !== undefined) {
-    tags["IPTC:Province-State"] = metadata.state;
-    tags["XMP:State"] = metadata.state;
-  }
+  if (metadata.title !== undefined) updates.title = metadata.title;
+  if (metadata.caption !== undefined) updates.caption = metadata.caption;
+  if (metadata.city !== undefined) updates.city = metadata.city;
+  if (metadata.location !== undefined) updates.location = metadata.location;
+  if (metadata.keywords !== undefined) updates.keywords = metadata.keywords;
+  if (metadata.author !== undefined) updates.author = metadata.author;
+  if (metadata.country !== undefined) updates.country = metadata.country;
+  if (metadata.countryCode !== undefined)
+    updates.countryCode = metadata.countryCode;
+  if (metadata.state !== undefined) updates.state = metadata.state;
+
+  const tags = getExifToolWriteTags(updates);
 
   // If no valid tags to write, exit early but successfully (nothing to do)
   if (Object.keys(tags).length === 0) {
@@ -126,7 +100,7 @@ export async function POST({ request }) {
       // We rely on exiftool-vendored's promise rejection for file issues.
 
       await exiftool.write(filePath, tags, {
-        writeArgs: ["-overwrite_original", "-coding=utf8", "-m"], // -m for ignore minor errors
+        writeArgs: ["-overwrite_original", "-m", "-charset", "iptc=UTF8"], // -m for ignore minor errors
       });
 
       results.success.push(id);

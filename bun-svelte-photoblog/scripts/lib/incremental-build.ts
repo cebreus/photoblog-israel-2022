@@ -129,6 +129,7 @@ async function detectChanges(
   sourceFiles: string[],
   cache: Cache,
   srcRoot: string,
+  outRoot: string,
 ) {
   const toProcess: string[] = [];
   const knownKeys = new Set(Object.keys(cache.files));
@@ -146,7 +147,7 @@ async function detectChanges(
 
     const outputsExist = await Promise.all(
       cached.outputs.map((p) =>
-        fileExists(path.join(srcRoot, "..", p)).catch(returnFalse),
+        fileExists(path.join(outRoot, p)).catch(returnFalse),
       ),
     );
 
@@ -406,6 +407,7 @@ export async function runIncrementalBuild(
     sourceFiles,
     cacheAfter,
     CTX.srcRoot,
+    CTX.outRoot,
   );
 
   logger.info(

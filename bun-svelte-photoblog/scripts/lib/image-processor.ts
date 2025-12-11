@@ -22,6 +22,17 @@ import {
 import { toSlug } from "../../src/lib/utils/strings";
 import { execSync } from "node:child_process";
 import os from "node:os";
+import { METADATA_STANDARDS } from "../../src/lib/metadata-standards";
+// @ts-expect-error - xxhash-wasm types might be missing
+import xxhash from "xxhash-wasm";
+
+let xxhashModule: any = null;
+async function getXxhash() {
+  if (!xxhashModule) {
+    xxhashModule = await (xxhash as any)();
+  }
+  return xxhashModule;
+}
 
 const logger = createLogger("images");
 
@@ -152,12 +163,15 @@ export async function processImage(
 
   try {
     const stats = await fsp.stat(absPath);
-    const hash = crypto.createHash("sha1");
+
+    // Use xxhash for much faster non-cryptographic hashing
+    const { create64 } = await getXxhash();
+    const hasher = create64();
     const stream = fs.createReadStream(absPath);
     for await (const chunk of stream) {
-      hash.update(chunk);
+      hasher.update(chunk);
     }
-    const fileHash = hash.digest("hex");
+    const fileHash = hasher.digest().toString(16);
 
     const ext = path.extname(absPath).slice(1).toLowerCase();
 
@@ -184,24 +198,60 @@ export async function processImage(
       sharpInstance.metadata(),
     ]);
 
+    // We access properties using keys defined in our shared Metadata Standards
+    // const { METADATA_STANDARDS } = await import("../../src/lib/metadata-standards");
+
+    function getStandardValue(
+      key: keyof typeof METADATA_STANDARDS,
+    ): string | undefined {
+      const config = METADATA_STANDARDS[key];
+      for (const tag of config.read) {
+        // Check exact match first
+        const val = (exifTags as any)[tag];
+        // Handle array values (like keywords or creators) - take first or join?
+        // Metadata standards imply single canonical string values mostly, except keywords.
+        // But for extraction, we prefer string unless keyword.
+        if (val !== undefined && val !== null && val !== "") {
+          if (Array.isArray(val)) {
+            return val[0]; // Take first item if array (e.g. Creator array)
+          }
+          return String(val);
+        }
+      }
+      return undefined;
+    }
+
+    function getKeywordsList(): string[] | undefined {
+      const config = METADATA_STANDARDS.keywords;
+      for (const tag of config.read) {
+        const val = (exifTags as any)[tag];
+        if (val) {
+          if (Array.isArray(val)) return val;
+          return [String(val)];
+        }
+      }
+      return undefined;
+    }
+
     // Map ExifTool tags to our RawExifData structure
-    // We access properties using bracket notation for keys that contain hyphens or are strictly typed in Tags
+    // We populate specific fields needed by createImageEntry, plus the canonical ones
     const exifRaw: Partial<RawExifData> = {
+      // Historical mappings for components depending on them
       ObjectName: exifTags.ObjectName,
       Headline: exifTags.Headline,
-      Title: exifTags.Title,
+      Title: getStandardValue("title"), // Use standard (prefers XMP)
       "dc:title": exifTags.Title,
       ImageDescription: exifTags.ImageDescription || exifTags.Description,
-      Caption: exifTags.Description || exifTags["Caption-Abstract"],
+      Caption: getStandardValue("caption"), // Use standard
       CaptionAbstract: exifTags["Caption-Abstract"],
       Byline: exifTags["By-line"],
       "dc:creator": exifTags.Creator,
-      Creator: exifTags.Creator,
+      Creator: getStandardValue("author"), // Use standard
       BylineTitle: exifTags["By-lineTitle"],
       Artist: exifTags.Artist,
-      Author: exifTags.Author,
+      Author: getStandardValue("author"),
       Sublocation: exifTags["Sub-location"] as string,
-      Orientation: exifTags.Orientation, // ExifTool returns string/number
+      Orientation: exifTags.Orientation,
       DateTimeOriginal:
         typeof exifTags.DateTimeOriginal === "object"
           ? exifTags.DateTimeOriginal.toDate()
@@ -210,19 +260,28 @@ export async function processImage(
         typeof exifTags.CreateDate === "object"
           ? exifTags.CreateDate.toDate()
           : (exifTags.CreateDate as any),
-      Location: exifTags.Location || (exifTags["Sub-location"] as string),
-      City: exifTags.City,
-      Country: exifTags.Country || exifTags["Country-PrimaryLocationName"],
-      CountryCode:
-        (exifTags["Country-PrimaryLocationCode"] as string) ||
-        exifTags.CountryCode,
-      State: exifTags["Province-State"] || exifTags.State,
+      Location: getStandardValue("location"),
+      City: getStandardValue("city"),
+      Country: getStandardValue("country"),
+      CountryCode: getStandardValue("countryCode"),
+      State: getStandardValue("state"),
       Copyright: exifTags.Copyright,
       CopyrightNotice: exifTags.CopyrightNotice,
       Category: exifTags.Category,
       latitude: Number(exifTags.GPSLatitude) || undefined,
       longitude: Number(exifTags.GPSLongitude) || undefined,
+      // Keywords are special as array
+      // But RawExifData doesn't seem to have keywords property explicitly typed?
+      // Checking interface: RawExifData extends ManifestExifData.
+      // ManifestExifData has keywords?: string[].
     };
+
+    // Assign keywords manually as the interface might expect it
+    // Wait, RawExifData definition in this file (lines 41-70) does NOT have keywords.
+    // But it extends ManifestExifData which DOES (line 11 says `type ExifData as ManifestExifData`).
+    // Let's verify src/lib/types/manifest.ts content?
+    // Assuming ManifestExifData has it.
+    (exifRaw as any).keywords = getKeywordsList();
 
     const dominant = imageStats?.dominant || { r: 0, g: 0, b: 0 };
     const placeholderColor = `rgb(${dominant.r},${dominant.g},${dominant.b})`;
@@ -375,12 +434,7 @@ export async function createImageEntry(
     type: "image",
     src: path.basename(absPath),
     alt: getAltText(exif, captionCanonical, titleCanonical),
-    title:
-      [exif.Sublocation, exif.Location, exif.City, exif.Title]
-        .filter(Boolean)
-        .join(", ") ||
-      titleCanonical ||
-      "",
+    title: titleCanonical || "",
     caption: captionCanonical,
     width: originalMeta.width,
     height: originalMeta.height,
@@ -410,6 +464,7 @@ export async function createImageEntry(
     },
     author: authorCanonical,
     authorSlug: authorCanonical ? toSlug(authorCanonical) : undefined,
+    keywords: getKeywords(exif),
     location: exif.Sublocation || exif.Location,
     city: exif.City, // Top-level city for frontend convenience
     googleMapsUrl,

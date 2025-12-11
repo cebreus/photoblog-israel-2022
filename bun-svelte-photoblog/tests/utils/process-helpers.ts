@@ -2,7 +2,6 @@ import { spawn } from "node:child_process";
 import path from "node:path";
 import os from "node:os";
 import fs from "node:fs";
-import { executeMain } from "../../scripts/generate-images";
 
 export function tmpDir(prefix: string): string {
   const p = fs.mkdtempSync(path.join(os.tmpdir(), `${prefix}-`));
@@ -109,6 +108,9 @@ export async function runGenerator(
     };
 
     try {
+      const { executeMain, resetCliState } =
+        await import("../../scripts/generate-images");
+      resetCliState(); // Force re-parsing of ARGS based on new process.argv
       await executeMain();
     } catch (e: any) {
       if (!e.message.startsWith("Process exited with code")) {

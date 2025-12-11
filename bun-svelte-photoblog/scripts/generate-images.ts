@@ -20,14 +20,14 @@ let RUNTIME_FORMATS = [...config.encoding.formats];
 let RUNTIME_QUALITY_OVERRIDES: Partial<Record<QualityTypes, number>> = {};
 let RUNTIME_ALLOW_UPSCALE = false;
 
-const CACHE_VERSION = 9;
+const CACHE_VERSION = 10;
 
-// CLI parsing
-const parsed = parseCliArguments(process.argv.slice(2));
+// CLI parsing - Mutable for testing
+let parsed = parseCliArguments(process.argv.slice(2));
 
 type ExtendedScriptArgs = ScriptArgs & { __raw: CliOptions };
 
-const ARGS: ExtendedScriptArgs = {
+let ARGS: ExtendedScriptArgs = {
   concurrency: parsed.concurrency,
   limit: parsed.limit,
   watch: parsed.watch,
@@ -38,18 +38,42 @@ const ARGS: ExtendedScriptArgs = {
   __raw: parsed,
 };
 
-const logger = createLogger("images");
+let logger = createLogger("images");
 if (ARGS.quiet) logger.silent = true;
 if (ARGS.verbose) logger.level = "verbose";
 
 // Context
-const contentDir = process.env.CONTENT_DIR;
+let contentDir = process.env.CONTENT_DIR;
 function isSrcArgFlag(a: string) {
   return a.startsWith("--src=") || a.startsWith("--blur.src=");
 }
-const hasSrcArg = process.argv.slice(2).some(isSrcArgFlag);
+let hasSrcArg = process.argv.slice(2).some(isSrcArgFlag);
 
-const CTX = initializeContext();
+export function resetCliState() {
+  parsed = parseCliArguments(process.argv.slice(2));
+  ARGS = {
+    concurrency: parsed.concurrency,
+    limit: parsed.limit,
+    watch: parsed.watch,
+    clean: parsed.clean,
+    verbose: parsed.verbose,
+    quiet: parsed.quiet,
+    manifestOnly: parsed.manifestOnly ?? false,
+    __raw: parsed,
+  };
+  RUNTIME_RAW = {};
+  RUNTIME_FORMATS = [...config.encoding.formats];
+  RUNTIME_QUALITY_OVERRIDES = {};
+  RUNTIME_ALLOW_UPSCALE = false;
+  logger = createLogger("images");
+  if (ARGS.quiet) logger.silent = true;
+  if (ARGS.verbose) logger.level = "verbose";
+  contentDir = process.env.CONTENT_DIR;
+  hasSrcArg = process.argv.slice(2).some(isSrcArgFlag);
+  CTX = initializeContext();
+}
+
+let CTX = initializeContext();
 
 function resolveConcurrency(value: number | "auto") {
   if (value === "auto") {

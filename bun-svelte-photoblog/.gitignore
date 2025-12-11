@@ -1,4 +1,7 @@
 test-results
+playwright-report/
+tmp-test-artifacts/
+tmp-integration/
 node_modules
 
 # Output

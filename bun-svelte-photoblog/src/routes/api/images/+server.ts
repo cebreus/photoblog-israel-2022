@@ -267,56 +267,19 @@ export const PATCH: RequestHandler = async ({ request }) => {
       continue;
     }
 
-    // Build exiftool tags from updates
-    // Filter out undefined values first
+    // Build exiftool tags from updates using the shared standard
+    // Filter out undefined values first (though the helper handles null, undefined isn't ideal in loops)
     const filteredUpdates = Object.fromEntries(
       Object.entries(updates).filter(([, v]) => v !== undefined),
-    ) as Record<string, string | string[]>;
+    ) as Record<string, string | string[] | null>;
 
     console.log("Filtered updates for content dir", contentDir, ":", {
       original: updates,
       filtered: filteredUpdates,
     });
 
-    const tags: Record<string, string | string[] | null> = {};
-
-    if (filteredUpdates.title) {
-      tags["IPTC:ObjectName"] = filteredUpdates.title;
-      tags["XMP:Title"] = filteredUpdates.title;
-    }
-    if (filteredUpdates.caption) {
-      tags["IPTC:Caption-Abstract"] = filteredUpdates.caption;
-      tags["XMP:Description"] = filteredUpdates.caption;
-    }
-    if (filteredUpdates.city) {
-      tags["IPTC:City"] = filteredUpdates.city;
-      tags["XMP:City"] = filteredUpdates.city;
-    }
-    if (filteredUpdates.location) {
-      tags["IPTC:Sub-location"] = filteredUpdates.location;
-      tags["XMP:Location"] = filteredUpdates.location;
-    }
-    if (filteredUpdates.keywords) {
-      tags["IPTC:Keywords"] = filteredUpdates.keywords;
-      tags["XMP:Subject"] = filteredUpdates.keywords;
-    }
-    if (filteredUpdates.author) {
-      tags["IPTC:By-line"] = filteredUpdates.author;
-      tags["XMP:Creator"] = filteredUpdates.author;
-      tags["IFD0:Artist"] = filteredUpdates.author;
-    }
-    if (filteredUpdates.country) {
-      tags["IPTC:Country-PrimaryLocationName"] = filteredUpdates.country;
-      tags["XMP:Country"] = filteredUpdates.country;
-    }
-    if (filteredUpdates.countryCode) {
-      tags["IPTC:Country-PrimaryLocationCode"] = filteredUpdates.countryCode;
-      tags["XMP:CountryCode"] = filteredUpdates.countryCode;
-    }
-    if (filteredUpdates.state) {
-      tags["IPTC:Province-State"] = filteredUpdates.state;
-      tags["XMP:State"] = filteredUpdates.state;
-    }
+    const { getExifToolWriteTags } = await import("$lib/metadata-standards");
+    const tags = getExifToolWriteTags(filteredUpdates as any);
 
     if (Object.keys(tags).length === 0) {
       errors.push("Žádná metadata k aktualizaci");
@@ -360,7 +323,13 @@ export const PATCH: RequestHandler = async ({ request }) => {
 
         // Write metadata to file using exiftool
         await exiftool.write(filePath, tags, {
-          writeArgs: ["-overwrite_original", "-coding=utf8", "-m"],
+          writeArgs: [
+            "-overwrite_original",
+            "-coding=utf8",
+            "-m",
+            "-charset",
+            "iptc=UTF8",
+          ],
         });
 
         updated.push(item.src);

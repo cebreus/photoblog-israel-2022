@@ -69,4 +69,30 @@ describe("Geocode API", () => {
       expect(e.body?.message).toContain("Bad Gateway");
     }
   });
+
+  it("should prefer English name (Latin) fallback if Czech is missing, avoiding local script", async () => {
+    const url = new URL("http://localhost/api/geocode?lat=31.7767&lng=35.2278");
+    const mockFetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        // Simulation of Jaffa Gate in Jerusalem
+        name: "שער יפו", // Hebrew default (local)
+        namedetails: {
+          name: "שער יפו",
+          "name:he": "שער יפו",
+          "name:en": "Jaffa Gate",
+          // "name:cs": missing
+        },
+        address: {
+          city: "Jerusalem",
+          country_code: "il",
+        },
+      }),
+    });
+
+    const response = await GET({ url, fetch: mockFetch } as any);
+    const data = await response.json();
+
+    expect(data.location).toBe("Jaffa Gate");
+  });
 });

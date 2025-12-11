@@ -53,8 +53,11 @@ export async function GET({ url, fetch }) {
     // Try to find a Czech name for the specific location if available in namedetails
     // This often helps with "location" (sublocation) field if the result is a specific POI
     const locationNameCs = namedetails["name:cs"];
+    const locationNameEn = namedetails["name:en"]; // Fallback to English/Latin
+
     const locationName =
       locationNameCs ||
+      locationNameEn ||
       data.name ||
       address.suburb ||
       address.neighbourhood ||
