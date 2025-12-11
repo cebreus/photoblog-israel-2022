@@ -8,6 +8,7 @@ import {
 } from "$lib/stores/filters";
 import { showPhotoLabels } from "$lib/stores/photoLabels";
 import { selection, editMode } from "$lib/stores/editorState";
+import { debug } from "$lib/stores/debug";
 import type { Author } from "$lib/types/manifest";
 import { toSlug } from "$lib/utils/strings";
 import { get } from "svelte/store";
@@ -96,6 +97,7 @@ function initializeFiltersFromUrl(url: URL) {
     selection.set(new Set());
   }
   editMode.set(url.searchParams.get("editMode") === "true");
+  debug.set(url.searchParams.get("debug") === "1");
 }
 
 let debounceTimer: ReturnType<typeof setTimeout>;
@@ -152,6 +154,12 @@ function syncUrlFromFilters() {
       params.delete("editMode");
     }
 
+    if (get(debug)) {
+      params.set("debug", "1");
+    } else {
+      params.delete("debug");
+    }
+
     const next = `${$page.url.pathname}${
       params.toString() ? `?${params.toString()}` : ""
     }${$page.url.hash}`;
@@ -196,6 +204,7 @@ export function initUrlSync(initialAuthors: Author[]) {
   showPhotoLabels.subscribe(syncUrlFromFilters);
   selection.subscribe(syncUrlFromFilters);
   editMode.subscribe(syncUrlFromFilters);
+  debug.subscribe(syncUrlFromFilters);
 
   // 3. When URL changes (e.g., back/forward button), update the filter stores
   page.subscribe((newPage) => {

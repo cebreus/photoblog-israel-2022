@@ -130,7 +130,9 @@
             <div
               class={`absolute inset-0 bg-black/10 transition-colors ${isSelected ? "bg-blue-500/20" : "hover:bg-black/20"}`}
             >
-              <div class="absolute bottom-2 left-2 right-2 select-none pointer-events-none">
+              <div
+                class="absolute bottom-2 left-2 right-2 select-none pointer-events-none"
+              >
                 <span
                   class="bg-black/70 text-white text-[10px] font-mono px-1.5 py-0.5 rounded shadow-sm inline-block max-w-full truncate"
                 >

@@ -4,6 +4,9 @@
   import AgendaOffcanvas from "$lib/components/header/AgendaOffcanvas.svelte";
   import FiltersOffcanvas from "$lib/components/header/FiltersOffcanvas.svelte";
   import EditOffcanvas from "$lib/components/header/EditOffcanvas.svelte";
+  import { Button } from "$lib/components/ui/button";
+  import { Bug } from "lucide-svelte";
+  import { debug } from "$lib/stores/debug";
 
   type AuthorStats = {
     name: string;
@@ -33,6 +36,16 @@
     </div>
 
     {#if import.meta.env.DEV}
+      <Button
+        variant="ghost"
+        size="icon"
+        onclick={() => debug.update((v: boolean) => !v)}
+        title="Přepnout režim ladění"
+        aria-label="Přepnout režim ladění"
+        data-testid="debug-trigger"
+      >
+        <Bug strokeWidth={2.5} />
+      </Button>
       <EditOffcanvas {items} />
     {/if}
     <FiltersOffcanvas {authors} />
