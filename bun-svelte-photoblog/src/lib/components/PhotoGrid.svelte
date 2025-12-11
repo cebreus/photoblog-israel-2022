@@ -88,14 +88,15 @@
     { label: "Název", value: item.exif?.title },
   ]}
 
-  <div class="_max-h-32 overflow-y-auto">
-    <table class="w-full text-[10px] bg-slate-900/70 rounded-sm">
+  <div data-testid="image-metadata-container">
+    <table class="w-full text-[10px] bg-slate-900/70 rounded-sm" data-testid="image-metadata-table">
       <tbody>
         {#each metadataRows as field, index}
           <tr
             class={index < metadataRows.length - 1
               ? "border-b border-slate-600"
               : ""}
+            data-testid="metadata-row-{field.label.toLowerCase().replace(/\s+/g, '-')}"
           >
             <td
               class="px-1 align-top text-muted-foreground font-medium min-w-16 pb-0.5 whitespace-nowrap"
@@ -141,6 +142,7 @@
     <figure
       data-label={item?.location ?? item?.caption ?? ""}
       id={item.id}
+      data-testid="image-figure-{item.id}"
       class={`relative bg-cover bg-center rounded-lg overflow-hidden duration-500 outline-background 
           ${isSelected ? "outline-4 outline-blue-500 ring-2 ring-blue-300" : "hover:outline-orange-100 outline-4 outline-offset-2"} 
           transition-[outline-color] ease-in-out ${$debug ? "flex flex-col" : ""}`}
@@ -161,6 +163,7 @@
           class="w-full h-full object-cover cursor-zoom-in"
           width={fallback.width}
           height={fallback.height}
+          data-testid="image-{item.id}"
         />
       </picture>
       {#if shouldShowAspectRatioIcon(item.aspectRatio)}
@@ -176,6 +179,7 @@
       {#if isEditMode}
         <div
           class={`absolute inset-0 bg-black/10 transition-colors ${isSelected ? "bg-blue-500/20" : "hover:bg-black/20"}`}
+          data-testid="image-edit-overlay-{item.id}"
         >
           <div
             class="absolute bottom-2 left-2 right-2 select-none pointer-events-none"
@@ -185,6 +189,7 @@
           <div class="absolute top-2 right-2">
             <div
               class={`w-6 h-6 rounded border border-white ${isSelected ? "bg-blue-500" : "bg-black/50"} flex items-center justify-center`}
+              data-testid="image-checkbox-{item.id}"
             >
               {#if isSelected}
                 <svg
@@ -221,10 +226,11 @@
       <Dialog.Root>
         <Dialog.Trigger
           class="aspect-video flex flex-col items-center justify-center p-4 bg-linear-to-br from-slate-100 to-slate-300 rounded-lg duration-500 outline-background hover:outline-orange-100 outline-4 outline-offset-2 transition-[outline-color] ease-in-out"
+          data-testid="separator-trigger-{separatorId}"
         >
-          <h3 class="text-lg">{item.location}</h3>
+          <h3 class="text-lg" data-testid="separator-location">{item.location}</h3>
           {#if item.city}
-            <p class="text-sm text-muted-foreground">{item.city}</p>
+            <p class="text-sm text-muted-foreground" data-testid="separator-city">{item.city}</p>
           {/if}
           <span
             class={buttonVariants({
@@ -232,6 +238,7 @@
               variant: "link",
               class: "text-sm mt-2",
             })}
+            data-testid="separator-show-story"
           >
             Zobrazit příběh
           </span>
@@ -247,6 +254,7 @@
             class="prose prose-sm dark:prose-invert max-w-none mt-4"
             id={separatorId}
             use:useScrollspy={{ id: separatorId }}
+            data-testid="separator-story-{separatorId}"
           >
             {@html item.story}
           </div>
@@ -257,8 +265,9 @@
         class="aspect-video flex flex-col items-center justify-center p-4 bg-linear-to-br from-slate-100 to-slate-300 rounded-lg"
         id={separatorId}
         use:useScrollspy={{ id: separatorId }}
+        data-testid="separator-simple-{separatorId}"
       >
-        <h3 class="text-lg">{item.location}</h3>
+        <h3 class="text-lg" data-testid="separator-location">{item.location}</h3>
         {#if item.city}
           <p class="text-sm text-muted-foreground mt-1">{item.city}</p>
         {/if}
