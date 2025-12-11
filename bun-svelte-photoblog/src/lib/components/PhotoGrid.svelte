@@ -10,11 +10,13 @@
   import { useScrollspy } from "$lib/actions/scrollspy"; // Import the useScrollspy action
   import AspectRatioIcon from "$lib/components/AspectRatioIcon.svelte";
   import DeleteImageDialog from "$lib/components/DeleteImageDialog.svelte";
+  import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
   import { selection, editMode } from "$lib/stores/editorState";
+  import { metadataClipboard } from "$lib/stores/metadataClipboard";
   import { toast } from "svelte-sonner";
   import { invalidateAll } from "$app/navigation";
   import { page } from "$app/stores";
-  import { Trash2 } from "lucide-svelte";
+  import { Trash2, Copy } from "lucide-svelte";
 
   let { items } = $props<{
     items: DisplayItem[];
@@ -65,6 +67,10 @@
   let isDeleting = $state(false);
   let deleteDialogOpen = $state(false);
   let imageToDelete = $state<ImageEntry | null>(null);
+
+  let isPastingOpen = $state(false);
+  let imagesToPaste = $state<ImageEntry[]>([]);
+  let isApplyingPaste = $state(false);
 
   function openDeleteDialog(item: ImageEntry) {
     imageToDelete = item;
@@ -117,6 +123,102 @@
       toast.error(`Nepodařilo se smazat soubor: ${e.message}`);
     } finally {
       isDeleting = false;
+    }
+  }
+
+  function handleCopyMetadata(item: ImageEntry) {
+    metadataClipboard.copy(item);
+    toast.success(`Metadata zkopírována z "${item.src.split("/").pop()}"`);
+  }
+
+  function handlePasteMetadata(item: ImageEntry) {
+    const clipboard = $metadataClipboard;
+
+    // Prevent pasting to the same image that was copied
+    if (clipboard.sourceImage?.id === item.id) {
+      toast.error(
+        "Nemůžete vkládat metadata do stejného obrázku, ze kterého jste je kopírovali",
+      );
+      return;
+    }
+
+    imagesToPaste = [item];
+    isPastingOpen = true;
+  }
+
+  async function confirmPaste(fieldsToApply: Record<string, boolean>) {
+    const clipboard = $metadataClipboard;
+
+    if (!clipboard.data || imagesToPaste.length === 0) return;
+
+    isApplyingPaste = true;
+    try {
+      const updatePayload = {
+        images: imagesToPaste.map((img) => ({
+          id: img.id,
+          src: img.src,
+        })),
+        updates: {
+          title:
+            fieldsToApply.title && clipboard.data.title
+              ? clipboard.data.title
+              : undefined,
+          author:
+            fieldsToApply.author && clipboard.data.author
+              ? clipboard.data.author
+              : undefined,
+          location:
+            fieldsToApply.location && clipboard.data.location
+              ? clipboard.data.location
+              : undefined,
+          city:
+            fieldsToApply.city && clipboard.data.city
+              ? clipboard.data.city
+              : undefined,
+          state:
+            fieldsToApply.state && clipboard.data.state
+              ? clipboard.data.state
+              : undefined,
+          country:
+            fieldsToApply.country && clipboard.data.country
+              ? clipboard.data.country
+              : undefined,
+          countryCode:
+            fieldsToApply.countryCode && clipboard.data.countryCode
+              ? clipboard.data.countryCode
+              : undefined,
+          caption:
+            fieldsToApply.caption && clipboard.data.caption
+              ? clipboard.data.caption
+              : undefined,
+          keywords:
+            fieldsToApply.keywords && clipboard.data.keywords?.length
+              ? clipboard.data.keywords
+              : undefined,
+        },
+      };
+
+      const res = await fetch("/api/images", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatePayload),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.message || "Chyba při ukládání metadata");
+      }
+
+      isPastingOpen = false;
+      toast.success("Metadata úspěšně vložena");
+
+      // Refresh data
+      await invalidateAll();
+    } catch (e: any) {
+      console.error(e);
+      toast.error(`Chyba: ${e.message}`);
+    } finally {
+      isApplyingPaste = false;
     }
   }
 
@@ -291,6 +393,26 @@
       <ContextMenu.Portal>
         <ContextMenu.Content class="w-56">
           <ContextMenu.Item
+            class="flex items-center gap-2"
+            onclick={() => handleCopyMetadata(item)}
+          >
+            <Copy class="h-4 w-4" />
+            <span>Kopírovat metadata</span>
+          </ContextMenu.Item>
+
+          {#if $metadataClipboard.sourceImage?.id !== item.id && $metadataClipboard.data}
+            <ContextMenu.Item
+              class="flex items-center gap-2"
+              onclick={() => handlePasteMetadata(item)}
+            >
+              <Copy class="h-4 w-4 rotate-180" />
+              <span>Vložit metadata</span>
+            </ContextMenu.Item>
+          {/if}
+
+          <ContextMenu.Separator />
+
+          <ContextMenu.Item
             class="flex items-center gap-2 text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-950"
             onclick={() => openDeleteDialog(item)}
           >
@@ -377,5 +499,16 @@
     images={[imageToDelete]}
     {isDeleting}
     onConfirm={confirmDelete}
+  />
+{/if}
+
+{#if imagesToPaste.length > 0 && $metadataClipboard.data}
+  <MetadataPasteDialog
+    bind:open={isPastingOpen}
+    images={imagesToPaste}
+    sourceImage={$metadataClipboard.sourceImage!}
+    clipboardData={$metadataClipboard.data}
+    isApplying={isApplyingPaste}
+    onConfirm={confirmPaste}
   />
 {/if}

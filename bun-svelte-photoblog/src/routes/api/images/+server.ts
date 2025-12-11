@@ -2,6 +2,7 @@ import { json, type RequestHandler } from "@sveltejs/kit";
 import fs from "node:fs/promises";
 import path from "node:path";
 import type { Manifest } from "$lib/types/manifest";
+import { exiftool } from "exiftool-vendored";
 
 export const DELETE: RequestHandler = async ({ request }) => {
   if (!import.meta.env.DEV) {
@@ -201,4 +202,242 @@ export const DELETE: RequestHandler = async ({ request }) => {
   }
 
   return json({ success: true, deleted, errors });
+};
+
+export const PATCH: RequestHandler = async ({ request }) => {
+  if (!import.meta.env.DEV) {
+    return json({ message: "Forbidden" }, { status: 403 });
+  }
+
+  const { images, updates } = await request.json();
+
+  console.log("PATCH /api/images request:", { images, updates });
+
+  if (!images || !Array.isArray(images) || !updates) {
+    return json({ message: "Invalid request" }, { status: 400 });
+  }
+
+  const contentRoot = path.resolve(process.cwd(), "content");
+  const dataRoot = path.resolve(process.cwd(), "src/lib/data");
+
+  const errors: string[] = [];
+  const updated: string[] = [];
+
+  // Group items by content directory
+  const itemsByContentDir: Record<string, typeof images> = {};
+  const defaultContentDir = process.env.CONTENT_DIR;
+
+  for (const item of images) {
+    if (!item.src) continue;
+
+    const parts = item.src.split("/");
+    if (parts.length >= 3 && parts[1] === "images") {
+      const contentDirKey = parts[2];
+      if (!itemsByContentDir[contentDirKey]) {
+        itemsByContentDir[contentDirKey] = [];
+      }
+      itemsByContentDir[contentDirKey].push(item);
+    } else if (defaultContentDir) {
+      if (!itemsByContentDir[defaultContentDir]) {
+        itemsByContentDir[defaultContentDir] = [];
+      }
+      itemsByContentDir[defaultContentDir].push(item);
+    }
+  }
+
+  // Process each content directory
+  for (const [contentDir, contentDirItems] of Object.entries(
+    itemsByContentDir,
+  )) {
+    const physicalRoot = path.join(contentRoot, contentDir);
+    const manifestPath = path.join(
+      dataRoot,
+      contentDir,
+      "images.manifest.json",
+    );
+
+    let manifest: Manifest | null = null;
+    let manifestModified = false;
+
+    try {
+      const manifestContent = await fs.readFile(manifestPath, "utf-8");
+      manifest = JSON.parse(manifestContent);
+    } catch (e) {
+      errors.push(`Nepodařilo se načíst manifest pro ${contentDir}`);
+      continue;
+    }
+
+    // Build exiftool tags from updates
+    // Filter out undefined values first
+    const filteredUpdates = Object.fromEntries(
+      Object.entries(updates).filter(([, v]) => v !== undefined),
+    ) as Record<string, string | string[]>;
+
+    console.log("Filtered updates for content dir", contentDir, ":", {
+      original: updates,
+      filtered: filteredUpdates,
+    });
+
+    const tags: Record<string, string | string[] | null> = {};
+
+    if (filteredUpdates.title) {
+      tags["IPTC:ObjectName"] = filteredUpdates.title;
+      tags["XMP:Title"] = filteredUpdates.title;
+    }
+    if (filteredUpdates.caption) {
+      tags["IPTC:Caption-Abstract"] = filteredUpdates.caption;
+      tags["XMP:Description"] = filteredUpdates.caption;
+    }
+    if (filteredUpdates.city) {
+      tags["IPTC:City"] = filteredUpdates.city;
+      tags["XMP:City"] = filteredUpdates.city;
+    }
+    if (filteredUpdates.location) {
+      tags["IPTC:Sub-location"] = filteredUpdates.location;
+      tags["XMP:Location"] = filteredUpdates.location;
+    }
+    if (filteredUpdates.keywords) {
+      tags["IPTC:Keywords"] = filteredUpdates.keywords;
+      tags["XMP:Subject"] = filteredUpdates.keywords;
+    }
+    if (filteredUpdates.author) {
+      tags["IPTC:By-line"] = filteredUpdates.author;
+      tags["XMP:Creator"] = filteredUpdates.author;
+      tags["IFD0:Artist"] = filteredUpdates.author;
+    }
+    if (filteredUpdates.country) {
+      tags["IPTC:Country-PrimaryLocationName"] = filteredUpdates.country;
+      tags["XMP:Country"] = filteredUpdates.country;
+    }
+    if (filteredUpdates.countryCode) {
+      tags["IPTC:Country-PrimaryLocationCode"] = filteredUpdates.countryCode;
+      tags["XMP:CountryCode"] = filteredUpdates.countryCode;
+    }
+    if (filteredUpdates.state) {
+      tags["IPTC:Province-State"] = filteredUpdates.state;
+      tags["XMP:State"] = filteredUpdates.state;
+    }
+
+    if (Object.keys(tags).length === 0) {
+      errors.push("Žádná metadata k aktualizaci");
+      continue;
+    }
+
+    // Update each image file
+    for (const item of contentDirItems) {
+      try {
+        // Find the physical file
+        let physicalDir = physicalRoot;
+        const srcParts = item.src.split("/");
+        const fileName = srcParts[srcParts.length - 1];
+        const nameWithoutExt = path.parse(fileName).name;
+
+        // Try direct path first
+        let filePath = path.join(physicalRoot, fileName);
+        if (!(await fs.stat(filePath).catch(() => null))) {
+          // Try pics subdirectory
+          const candidate = path.join(physicalRoot, "pics", fileName);
+          if (await fs.stat(candidate).catch(() => null)) {
+            filePath = candidate;
+          } else {
+            // Try searching for file with same name but different extension
+            const searchDir = await fs
+              .readdir(path.join(physicalRoot, "pics"))
+              .catch(() => []);
+            const candidates = searchDir.filter(
+              (f) =>
+                path.parse(f).name.toLowerCase() ===
+                nameWithoutExt.toLowerCase(),
+            );
+
+            if (candidates.length > 0) {
+              filePath = path.join(physicalRoot, "pics", candidates[0]);
+            } else {
+              throw new Error(`Soubor ${fileName} nebyl nalezen`);
+            }
+          }
+        }
+
+        // Write metadata to file using exiftool
+        await exiftool.write(filePath, tags, {
+          writeArgs: ["-overwrite_original", "-coding=utf8", "-m"],
+        });
+
+        updated.push(item.src);
+
+        // Update manifest with new values if present
+        if (manifest) {
+          let found = false;
+          for (const day of manifest.photoDays) {
+            for (const imageItem of day.items) {
+              if (imageItem.type === "image" && imageItem.id === item.id) {
+                // Update top-level fields
+                if (filteredUpdates.title && imageItem.exif) {
+                  imageItem.exif.title = filteredUpdates.title as string;
+                }
+                if (filteredUpdates.caption && imageItem.exif) {
+                  imageItem.exif.caption = filteredUpdates.caption as string;
+                }
+                if (filteredUpdates.city) {
+                  imageItem.city = filteredUpdates.city as string;
+                  if (imageItem.exif) imageItem.exif.city = filteredUpdates.city as string;
+                }
+                if (filteredUpdates.location) {
+                  imageItem.location = filteredUpdates.location as string;
+                  if (imageItem.exif)
+                    imageItem.exif.location = filteredUpdates.location as string;
+                }
+                if (filteredUpdates.author) {
+                  imageItem.author = filteredUpdates.author as string;
+                  if (imageItem.exif) imageItem.exif.author = filteredUpdates.author as string;
+                }
+                if (filteredUpdates.country && imageItem.exif) {
+                  imageItem.exif.country = filteredUpdates.country as string;
+                }
+                if (filteredUpdates.countryCode && imageItem.exif) {
+                  imageItem.exif.countryCode = filteredUpdates.countryCode as string;
+                }
+                if (filteredUpdates.state && imageItem.exif) {
+                  imageItem.exif.state = filteredUpdates.state as string;
+                }
+                if (filteredUpdates.keywords) {
+                  imageItem.keywords = Array.isArray(filteredUpdates.keywords)
+                    ? filteredUpdates.keywords
+                    : [filteredUpdates.keywords as string];
+                  if (imageItem.exif) {
+                    imageItem.exif.keywords = imageItem.keywords;
+                  }
+                }
+
+                found = true;
+                manifestModified = true;
+                break;
+              }
+            }
+            if (found) break;
+          }
+        }
+      } catch (e: any) {
+        errors.push(`Chyba při aktualizaci ${item.src}: ${e.message}`);
+      }
+    }
+
+    // Save updated manifest
+    if (manifest && manifestModified) {
+      try {
+        await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2));
+      } catch (e: any) {
+        errors.push(`Chyba při uložení manifestu: ${e.message}`);
+      }
+    }
+  }
+
+  if (updated.length === 0) {
+    return json(
+      { message: "Nepodařilo se aktualizovat metadata", errors },
+      { status: 500 },
+    );
+  }
+
+  return json({ success: true, updated, errors });
 };

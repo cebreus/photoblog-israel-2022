@@ -108,10 +108,21 @@ function initializeFiltersFromUrl(url: URL) {
   }
 
   const separatorsParam = parseBooleanParam(url.searchParams.get("separators"));
-  if (separatorsParam !== undefined) showSeparators.set(separatorsParam);
+  // Presence-only flag: `no-separators` (preferred) means disabled.
+  if (url.searchParams.has("no-separators")) {
+    showSeparators.set(false);
+  } else {
+    const separatorsParam = parseBooleanParam(url.searchParams.get("separators"));
+    if (separatorsParam !== undefined) showSeparators.set(separatorsParam);
+  }
 
-  const labelsParam = parseBooleanParam(url.searchParams.get("labels"));
-  if (labelsParam !== undefined) showPhotoLabels.set(labelsParam);
+  // Presence-only flag: `labels` (no value) means enabled.
+  if (url.searchParams.has("labels")) {
+    showPhotoLabels.set(true);
+  } else {
+    const labelsParam = parseBooleanParam(url.searchParams.get("labels"));
+    if (labelsParam !== undefined) showPhotoLabels.set(labelsParam);
+  }
 
   const editCsv = url.searchParams.get("edit");
   if (editCsv) {
@@ -120,10 +131,20 @@ function initializeFiltersFromUrl(url: URL) {
   } else {
     selection.set(new Set());
   }
-  const editModeParam = parseBooleanParam(url.searchParams.get("editMode"));
-  if (editModeParam !== undefined) editMode.set(editModeParam);
-  const debugParam = parseBooleanParam(url.searchParams.get("debug"));
-  if (debugParam !== undefined) debug.set(debugParam);
+  // Presence-only flags: `editMode` and `debug` mean enabled when present.
+  if (url.searchParams.has("editMode")) {
+    editMode.set(true);
+  } else {
+    const editModeParam = parseBooleanParam(url.searchParams.get("editMode"));
+    if (editModeParam !== undefined) editMode.set(editModeParam);
+  }
+
+  if (url.searchParams.has("debug")) {
+    debug.set(true);
+  } else {
+    const debugParam = parseBooleanParam(url.searchParams.get("debug"));
+    if (debugParam !== undefined) debug.set(debugParam);
+  }
 }
 
 let debounceTimer: ReturnType<typeof setTimeout>;
@@ -155,9 +176,22 @@ function syncUrlFromFilters() {
       params.set("authors", slugs.join(","));
     }
 
-    params.set("separators", encodeBooleanParam(get(showSeparators)));
+    // Only include non-default values in the URL so clearing filters removes the query string.
+    const separatorsVal = get(showSeparators);
+    // Prefer presence-only inverted flag `no-separators` to indicate disabled state.
+    params.delete("separators");
+    if (separatorsVal === false) {
+      params.set("no-separators", "");
+    } else {
+      params.delete("no-separators");
+    }
 
-    params.set("labels", encodeBooleanParam(get(showPhotoLabels)));
+    const labelsVal = get(showPhotoLabels);
+    // Presence-only flag `labels` means enabled.
+    params.delete("labels");
+    if (labelsVal === true) {
+      params.set("labels", "");
+    }
 
     const $selection = get(selection);
     if ($selection.size > 0) {
@@ -166,13 +200,28 @@ function syncUrlFromFilters() {
       params.delete("edit");
     }
 
-    params.set("editMode", encodeBooleanParam(get(editMode)));
+    const editModeVal = get(editMode);
+    params.delete("editMode");
+    if (editModeVal === true) params.set("editMode", "");
 
-    params.set("debug", encodeBooleanParam(get(debug)));
+    const debugVal = get(debug);
+    params.delete("debug");
+    if (debugVal === true) params.set("debug", "");
 
-    const next = `${$page.url.pathname}${
-      params.toString() ? `?${params.toString()}` : ""
-    }${$page.url.hash}`;
+    // Serialize params but render presence-only keys without trailing '='
+    const presenceOnlyKeys = new Set(["labels", "editMode", "debug", "no-separators"]);
+    const rawPairs = params.toString().split("&").filter(Boolean);
+    const normalizedPairs = rawPairs.map((p) => {
+      // p is like "key=value" or "key=" for empty value
+      const idx = p.indexOf("=");
+      if (idx === -1) return p;
+      const key = p.slice(0, idx);
+      const val = p.slice(idx + 1);
+      if (val === "" && presenceOnlyKeys.has(key)) return key;
+      return p;
+    });
+    const newQuery = normalizedPairs.join("&");
+    const next = `${$page.url.pathname}${newQuery ? `?${newQuery}` : ""}${$page.url.hash}`;
     const current = $page.url.href.replace($page.url.origin, "");
 
     if (next === current) {
@@ -186,6 +235,12 @@ function syncUrlFromFilters() {
         noScroll: true,
         keepFocus: true,
       });
+      // Update the cached lastUrl to reflect the new URL we just navigated to
+      try {
+        lastUrl = new URL(next, $page.url.origin);
+      } catch (e) {
+        // ignore if we cannot construct the URL for some reason
+      }
       // After navigation, the page store will update, which will trigger the subscription below
     } finally {
       filtersSyncing.set(false);

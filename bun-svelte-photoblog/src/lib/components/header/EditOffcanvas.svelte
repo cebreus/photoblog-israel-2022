@@ -14,6 +14,8 @@
   import { superForm } from "sveltekit-superforms";
   import * as Accordion from "$lib/components/ui/accordion";
   import DeleteImageDialog from "$lib/components/DeleteImageDialog.svelte";
+  import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
+  import { metadataClipboard } from "$lib/stores/metadataClipboard";
 
   type DisplayItem = ImageEntry | Separator;
 
@@ -337,6 +339,101 @@
 
   let deleteOpen = $state(false);
   let isDeleting = $state(false);
+
+  let isPastingOpen = $state(false);
+  let isApplyingPaste = $state(false);
+
+  function handlePasteMetadata() {
+    const clipboard = $metadataClipboard;
+
+    if (!clipboard.data) {
+      toast.error("Žádná metadata v clipboard");
+      return;
+    }
+
+    isPastingOpen = true;
+  }
+
+  async function confirmPaste(fieldsToApply: Record<string, boolean>) {
+    const clipboard = $metadataClipboard;
+
+    if (!clipboard.data || imageIds.length === 0) return;
+
+    isApplyingPaste = true;
+    try {
+      const updatePayload = {
+        images: selectedImages.map((img) => ({
+          id: img.id,
+          src: img.src,
+        })),
+        updates: {
+          title:
+            fieldsToApply.title && clipboard.data.title
+              ? clipboard.data.title
+              : undefined,
+          author:
+            fieldsToApply.author && clipboard.data.author
+              ? clipboard.data.author
+              : undefined,
+          location:
+            fieldsToApply.location && clipboard.data.location
+              ? clipboard.data.location
+              : undefined,
+          city:
+            fieldsToApply.city && clipboard.data.city
+              ? clipboard.data.city
+              : undefined,
+          state:
+            fieldsToApply.state && clipboard.data.state
+              ? clipboard.data.state
+              : undefined,
+          country:
+            fieldsToApply.country && clipboard.data.country
+              ? clipboard.data.country
+              : undefined,
+          countryCode:
+            fieldsToApply.countryCode && clipboard.data.countryCode
+              ? clipboard.data.countryCode
+              : undefined,
+          caption:
+            fieldsToApply.caption && clipboard.data.caption
+              ? clipboard.data.caption
+              : undefined,
+          keywords:
+            fieldsToApply.keywords && clipboard.data.keywords?.length
+              ? clipboard.data.keywords
+              : undefined,
+        },
+      };
+
+      console.log("Sending PATCH payload:", updatePayload);
+
+      const res = await fetch("/api/images", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatePayload),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.message || "Chyba při ukládání metadata");
+      }
+
+      isPastingOpen = false;
+      toast.success("Metadata úspěšně vložena");
+
+      // Refresh data
+      await invalidateAll();
+
+      // Close offcanvas
+      isOpen = false;
+    } catch (e: any) {
+      console.error(e);
+      toast.error(`Chyba: ${e.message}`);
+    } finally {
+      isApplyingPaste = false;
+    }
+  }
 
   async function handleDelete() {
     if (imageIds.length === 0) return;
@@ -850,7 +947,7 @@
       </Form.Field>
 
       <div
-        class="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 mt-6 items-center"
+        class="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 mt-6 items-center gap-2"
       >
         <Button
           variant="destructive"
@@ -860,9 +957,21 @@
           data-testid="delete-pics-trigger"
         >
           Smazat {imageIds.length}
-          {imageIds.length === 1 ? "položku" : "položek"}
         </Button>
-        <Button type="submit">Uložit změny</Button>
+
+        {#if $metadataClipboard.data}
+          <Button
+            variant="outline"
+            size="sm"
+            type="button"
+            onclick={handlePasteMetadata}
+            title="Vložit metadata z clipboard"
+          >
+            Vložit metadata
+          </Button>
+        {/if}
+
+        <Button type="submit">Uložit</Button>
       </div>
     </form>
 
@@ -872,5 +981,16 @@
       {isDeleting}
       onConfirm={handleDelete}
     />
+
+    {#if selectedImages.length > 0 && $metadataClipboard.data}
+      <MetadataPasteDialog
+        bind:open={isPastingOpen}
+        images={selectedImages}
+        sourceImage={$metadataClipboard.sourceImage!}
+        clipboardData={$metadataClipboard.data}
+        isApplying={isApplyingPaste}
+        onConfirm={confirmPaste}
+      />
+    {/if}
   </Offcanvas.Content>
 </Offcanvas.Root>
