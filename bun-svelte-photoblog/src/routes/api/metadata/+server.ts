@@ -4,6 +4,7 @@ import path from "node:path";
 import process from "node:process";
 import fs from "node:fs";
 import { dev } from "$app/environment";
+import { spawn } from "node:child_process";
 import type { Manifest, ImageEntry } from "$lib/types/manifest";
 
 function findImageById(
@@ -141,6 +142,14 @@ export async function POST({ request }) {
   // We should probably end the exiftool process if we were a script,
   // but in a long-running server, keeping the singleton alive is fine/intended.
 
+  // Regenerate manifest with updated metadata
+  try {
+    await regenerateManifest(contentDir);
+  } catch (err) {
+    console.error("Error regenerating manifest:", err);
+    // Don't fail the response - metadata was saved successfully, just log the issue
+  }
+
   return json({
     message: "Zpracování dávky dokončeno",
     stats: {
@@ -149,5 +158,34 @@ export async function POST({ request }) {
       failed: results.failed.length,
     },
     results,
+  });
+}
+
+/**
+ * Regenerate the manifest by spawning `bun scripts/generate-images.ts --manifestOnly`
+ */
+function regenerateManifest(contentDir: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const proc = spawn("bun", ["scripts/generate-images.ts", "--manifestOnly"], {
+      env: { ...process.env, CONTENT_DIR: contentDir },
+      stdio: ["ignore", "pipe", "pipe"],
+    });
+
+    let stderr = "";
+    proc.stderr?.on("data", (data) => {
+      stderr += data.toString();
+    });
+
+    proc.on("error", (err) => {
+      reject(new Error(`Failed to spawn manifest regeneration: ${err.message}`));
+    });
+
+    proc.on("close", (code) => {
+      if (code === 0) {
+        resolve();
+      } else {
+        reject(new Error(`Manifest regeneration exited with code ${code}: ${stderr}`));
+      }
+    });
   });
 }

@@ -250,6 +250,8 @@
           ? `Uložen ${imageIds.length} obrázek.`
           : `Uloženo ${imageIds.length} obrázků.`,
       );
+      // Invalidate server data to refresh manifest with updated metadata
+      await invalidateAll();
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       toast.error(msg);
@@ -309,6 +311,8 @@
         field: keyof typeof initialData,
         value: string | undefined,
       ) => {
+        // Do not repopulate a field the user explicitly cleared
+        if (explicitClears[field]) return;
         if (value && value !== snapshot[field]) {
           newPrevious[field] = snapshot[field];
           $formData[field] = value;
