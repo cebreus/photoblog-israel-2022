@@ -1,5 +1,7 @@
 <script lang="ts">
   import { page } from "$app/stores";
+  import { invalidateAll, goto } from "$app/navigation";
+  import { browser } from "$app/environment";
   import * as Offcanvas from "$lib/components/offcanvas";
   import { Button } from "$lib/components/ui/button";
   import { Input } from "$lib/components/ui/input";
@@ -360,17 +362,33 @@
       }
 
       const result = await res.json();
-      toast.success(
-        `Úspěšně smazáno ${result.deleted.length} souborů. Stránka se obnoví.`,
-      );
 
-      // Clear selection and close dialog
-      selection.clear();
+      if (result.errors && result.errors.length > 0) {
+        result.errors.forEach((e: string) => toast.warning(e));
+      }
+
+      if (result.deleted.length > 0) {
+        toast.success(
+          `Úspěšně smazáno ${result.deleted.length} souborů. Stránka se obnoví.`,
+        );
+      }
+
+      // Close dialog immediately
       deleteOpen = false;
-      isOpen = false;
 
-      // Force reload to update grid
-      window.location.reload();
+      // 1. Remove 'edit' param via navigation to update URL source-of-truth
+      // This triggers urlSync -> clears selection store -> closes offcanvas
+      const newUrl = new URL($page.url);
+      newUrl.searchParams.delete("edit");
+
+      await goto(newUrl, {
+        replaceState: true,
+        noScroll: true,
+        keepFocus: true,
+      });
+
+      // 2. Refresh data to remove deleted image from grid
+      await invalidateAll();
     } catch (e: any) {
       console.error(e);
       toast.error(`Nepodařilo se smazat soubory: ${e.message}`);
@@ -836,54 +854,63 @@
       <div
         class="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 mt-6 items-center"
       >
-        <Dialog.Root bind:open={deleteOpen}>
-          <Dialog.Trigger
-            class={buttonVariants({ variant: "destructive", size: "sm" })}
-          >
-            Smazat {imageIds.length}
-            {imageIds.length === 1 ? "položku" : "položek"}
-          </Dialog.Trigger>
-          <Dialog.Content>
-            <Dialog.Header>
-              <Dialog.Title>Opravdu smazat?</Dialog.Title>
-              <Dialog.Description>
-                Tato akce je nevratná. Následující soubory budou trvale smazány
-                z disku:
-              </Dialog.Description>
-            </Dialog.Header>
-            <div class="max-h-[300px] overflow-y-auto my-4 border rounded p-2">
-              <ul class="space-y-2">
-                {#each selectedImages as img}
-                  <li class="flex items-center gap-3 text-sm">
-                    <img
-                      src={img.src}
-                      alt={img.alt}
-                      class="w-10 h-10 object-cover rounded bg-muted"
-                    />
-                    <span class="font-mono text-xs"
-                      >{img.src.split("/").pop()}</span
-                    >
-                  </li>
-                {/each}
-              </ul>
-            </div>
-            <Dialog.Footer>
-              <Button variant="outline" onclick={() => (deleteOpen = false)}>
-                Zrušit
-              </Button>
-              <Button
-                variant="destructive"
-                onclick={handleDelete}
-                disabled={isDeleting}
-              >
-                {isDeleting ? "Mazání..." : "Potvrdit smazání"}
-              </Button>
-            </Dialog.Footer>
-          </Dialog.Content>
-        </Dialog.Root>
-
+        <Button
+          variant="destructive"
+          size="sm"
+          type="button"
+          onclick={() => (deleteOpen = true)}
+          data-testid="delete-pics-trigger"
+        >
+          Smazat {imageIds.length}
+          {imageIds.length === 1 ? "položku" : "položek"}
+        </Button>
         <Button type="submit">Uložit změny</Button>
       </div>
     </form>
+
+    <Dialog.Root bind:open={deleteOpen}>
+      <Dialog.Content>
+        <Dialog.Header>
+          <Dialog.Title>Opravdu smazat?</Dialog.Title>
+          <Dialog.Description>
+            Tato akce je nevratná. Následující soubory budou trvale smazány z
+            disku:
+          </Dialog.Description>
+        </Dialog.Header>
+        <div class="max-h-[300px] overflow-y-auto my-4 border rounded p-2">
+          <ul class="space-y-2">
+            {#each selectedImages as img}
+              <li class="flex items-center gap-3 text-sm">
+                <img
+                  src={img.sources.find((s) => s.variant === "fallback")?.path}
+                  alt={img.alt}
+                  class="w-20 h-20 object-cover rounded bg-muted"
+                />
+                <span class="font-mono text-xs">{img.src.split("/").pop()}</span
+                >
+              </li>
+            {/each}
+          </ul>
+        </div>
+        <Dialog.Footer>
+          <Button
+            variant="outline"
+            type="button"
+            onclick={() => (deleteOpen = false)}
+          >
+            Zrušit
+          </Button>
+          <Button
+            variant="destructive"
+            type="button"
+            onclick={handleDelete}
+            disabled={isDeleting}
+            data-testid="delete-pics-confirm"
+          >
+            {isDeleting ? "Mazání..." : "Potvrdit smazání"}
+          </Button>
+        </Dialog.Footer>
+      </Dialog.Content>
+    </Dialog.Root>
   </Offcanvas.Content>
 </Offcanvas.Root>
