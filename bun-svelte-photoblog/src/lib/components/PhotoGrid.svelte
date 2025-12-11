@@ -18,8 +18,10 @@
   let isEditMode = $derived($editMode);
   let hasSelection = $derived($selection.size > 0);
 
-  function handleImageClick(id: string, e: MouseEvent) {
+  function handleImageClick(id: string, e: MouseEvent | KeyboardEvent) {
     if (!isEditMode) return;
+    if (e instanceof KeyboardEvent && e.key !== "Enter" && e.key !== " ")
+      return;
     e.preventDefault();
     selection.toggle(id);
   }
@@ -67,106 +69,152 @@
   }
 </script>
 
-{#each items as item (item.type === "image" ? item.src : item.location)}
-  {#if item.type === "image"}
-    {@const fallback = findFallbackSource(item)}
-    <!-- style="background-image: url(/images/israel-2022/{item.placeholder});" -->
-    {@const detailSource = findDetailSource(item)}
-    {@const isSelected = $selection.has(item.id)}
-    <!-- svelte-ignore a11y_click_events_have_key_events -->
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div
-      class="relative block rounded-lg group"
-      onclick={(e) => isEditMode && handleImageClick(item.id, e)}
-      data-testid={`image-container-${item.id}`}
-    >
-      <a
-        data-fancybox={isEditMode ? undefined : "gallery"}
-        data-caption={item.alt}
-        href={detailSource?.path}
-        class={`block focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-200 rounded-lg ${isEditMode ? "pointer-events-none" : ""}`}
-        onclick={(e) => {
-          if (isEditMode) {
-            e.preventDefault();
-          }
-        }}
-      >
-        <figure
-          data-label={item?.location ?? item?.caption ?? ""}
-          id={item.id}
-          class={`relative bg-cover bg-center rounded-lg overflow-hidden duration-500 outline-background 
+{#snippet MetadataTable({ item }: { item: ImageEntry })}
+  {@const fileName = item.src.split("/").pop() ?? item.src}
+  {@const metadataRows = [
+    { label: "Soubor", value: fileName },
+    { label: "Popisek", value: item.caption },
+    { label: "Místo", value: item.location },
+    { label: "Město", value: item.city },
+    { label: "Stát / Provincie", value: item.exif?.state },
+    {
+      label: "Země",
+      value: item.exif?.country
+        ? `${item.exif.country}${item.exif.countryCode ? ` (${item.exif.countryCode})` : ""}`
+        : item.exif?.countryCode || "∅",
+    },
+    { label: "Klíčová slova", value: item.keywords?.join(", ") },
+    { label: "Autor", value: item.author },
+    { label: "Název", value: item.exif?.title },
+  ]}
+
+  <div class="_max-h-32 overflow-y-auto">
+    <table class="w-full text-[10px] bg-slate-900/70 rounded-sm">
+      <tbody>
+        {#each metadataRows as field, index}
+          <tr
+            class={index < metadataRows.length - 1
+              ? "border-b border-slate-600"
+              : ""}
+          >
+            <td
+              class="px-1 align-top text-muted-foreground font-medium min-w-16 pb-0.5 whitespace-nowrap"
+            >
+              {field.label}
+            </td>
+            <td class="font-mono truncate max-w-full min-w-0 w-full pb-0.5">
+              {#if field.value}
+                {field.value}
+              {:else}
+                <span class="text-muted-foreground">-</span>
+              {/if}
+            </td>
+          </tr>
+        {/each}
+      </tbody>
+    </table>
+  </div>
+{/snippet}
+
+{#snippet ImageItem({ item }: { item: ImageEntry })}
+  {@const fallback = findFallbackSource(item)!}
+  {@const detailSource = findDetailSource(item)}
+  {@const isSelected = $selection.has(item.id)}
+
+  <svelte:element
+    this={isEditMode ? "button" : "a"}
+    type={isEditMode ? "button" : undefined}
+    href={isEditMode ? undefined : detailSource?.path}
+    role={isEditMode ? "button" : undefined}
+    data-fancybox={isEditMode ? undefined : "gallery"}
+    data-caption={isEditMode ? undefined : item.alt}
+    class="relative block rounded-lg group text-left"
+    data-testid={`image-container-${item.id}`}
+    onclick={isEditMode
+      ? (e: MouseEvent | KeyboardEvent) => handleImageClick(item.id, e)
+      : undefined}
+    onkeydown={isEditMode
+      ? (e: KeyboardEvent) => handleImageClick(item.id, e)
+      : undefined}
+    aria-pressed={isEditMode ? isSelected : undefined}
+  >
+    <figure
+      data-label={item?.location ?? item?.caption ?? ""}
+      id={item.id}
+      class={`relative bg-cover bg-center rounded-lg overflow-hidden duration-500 outline-background 
           ${isSelected ? "outline-4 outline-blue-500 ring-2 ring-blue-300" : "hover:outline-orange-100 outline-4 outline-offset-2"} 
           transition-[outline-color] ease-in-out ${$debug ? "flex flex-col" : ""}`}
-          style="background-color: {item.placeholderColor}"
-        >
-          {#if fallback}
-            <picture class={`${$debug ? "shrink-0" : ""}`}>
-              {#each getSources(item) as source (source.type)}
-                <source
-                  type={source.type}
-                  srcset={source.srcset}
-                  sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                />
-              {/each}
-              <img
-                src={fallback.path}
-                alt={item.alt}
-                loading="lazy"
-                class="w-full h-full object-cover cursor-zoom-in"
-                width={fallback.width}
-                height={fallback.height}
-              />
-            </picture>
-            {#if shouldShowAspectRatioIcon(item.aspectRatio)}
-              <AspectRatioIcon aspectRatio={item.aspectRatio} />
-            {/if}
-          {/if}
-          {#if $debug}
-            <div class="bg-black bg-opacity-75 p-2 w-full">
-              <JsonViewer data={item} />
-            </div>
-          {/if}
+      style={`background-color: ${item.placeholderColor}`}
+    >
+      <picture class={`${$debug ? "shrink-0" : ""}`}>
+        {#each getSources(item) as source (source.type)}
+          <source
+            type={source.type}
+            srcset={source.srcset}
+            sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+          />
+        {/each}
+        <img
+          src={fallback.path}
+          alt={item.alt}
+          loading="lazy"
+          class="w-full h-full object-cover cursor-zoom-in"
+          width={fallback.width}
+          height={fallback.height}
+        />
+      </picture>
+      {#if shouldShowAspectRatioIcon(item.aspectRatio)}
+        <AspectRatioIcon aspectRatio={item.aspectRatio} />
+      {/if}
 
-          {#if isEditMode}
+      {#if $debug}
+        <div class="bg-black bg-opacity-75 p-2 w-full">
+          <JsonViewer data={item} />
+        </div>
+      {/if}
+
+      {#if isEditMode}
+        <div
+          class={`absolute inset-0 bg-black/10 transition-colors ${isSelected ? "bg-blue-500/20" : "hover:bg-black/20"}`}
+        >
+          <div
+            class="absolute bottom-2 left-2 right-2 select-none pointer-events-none"
+          >
+            {@render MetadataTable({ item })}
+          </div>
+          <div class="absolute top-2 right-2">
             <div
-              class={`absolute inset-0 bg-black/10 transition-colors ${isSelected ? "bg-blue-500/20" : "hover:bg-black/20"}`}
+              class={`w-6 h-6 rounded border border-white ${isSelected ? "bg-blue-500" : "bg-black/50"} flex items-center justify-center`}
             >
-              <div
-                class="absolute bottom-2 left-2 right-2 select-none pointer-events-none"
-              >
-                <span
-                  class="bg-black/70 text-white text-[10px] font-mono px-1.5 py-0.5 rounded shadow-sm inline-block max-w-full truncate"
+              {#if isSelected}
+                <svg
+                  data-testid="image-selection-checkbox"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="text-white"
+                  ><polyline points="20 6 9 17 4 12"></polyline></svg
                 >
-                  {item.src.split("/").pop()}
-                </span>
-              </div>
-              <div class="absolute top-2 right-2">
-                <div
-                  class={`w-6 h-6 rounded border border-white ${isSelected ? "bg-blue-500" : "bg-black/50"} flex items-center justify-center`}
-                >
-                  {#if isSelected}
-                    <svg
-                      data-testid="image-selection-checkbox"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="3"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      class="text-white"
-                      ><polyline points="20 6 9 17 4 12"></polyline></svg
-                    >
-                  {/if}
-                </div>
-              </div>
+              {/if}
             </div>
-          {/if}
-        </figure>
-      </a>
-    </div>
+          </div>
+        </div>
+      {:else}
+        <span class="sr-only">Open detail</span>
+      {/if}
+    </figure>
+  </svelte:element>
+{/snippet}
+
+{#each items as item (item.type === "image" ? item.src : item.location)}
+  {#if item.type === "image"}
+    {@render ImageItem({ item })}
   {:else if item.type === "separator" && item.location}
     {@const separatorId = item.id}
     {#if item.story}
