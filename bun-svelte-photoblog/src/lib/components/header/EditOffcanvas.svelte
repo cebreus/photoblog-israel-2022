@@ -8,7 +8,7 @@
   import * as Form from "$lib/components/ui/form";
   import type { ImageEntry, Separator } from "$lib/types/manifest";
   import { toast } from "svelte-sonner";
-  import { Pencil, X, Trash2 } from "lucide-svelte";
+  import { Pencil, X, Trash2, RotateCcw } from "lucide-svelte";
   import { selection, editMode } from "$lib/stores/editorState";
   import { superForm } from "sveltekit-superforms";
   import * as Accordion from "$lib/components/ui/accordion";
@@ -116,8 +116,9 @@
   }
 
   function populateForm() {
-    // Reset explicit clears when repopulating
+    // Reset explicit clears and previous values when repopulating (switching images)
     explicitClears = {};
+    previousGeoValues = {};
     const images = findImages();
     if (images.length === 0) return;
 
@@ -261,6 +262,76 @@
       explicitClears[field] = false;
     }
   }
+
+  let isFetchingGeo = $state(false);
+  let previousGeoValues = $state<Partial<typeof initialData>>({});
+
+  function restoreGeoValue(field: keyof typeof initialData) {
+    if (previousGeoValues[field] !== undefined) {
+      $formData[field] = previousGeoValues[field]!;
+      // Update explicit clears: if restored value is empty, mark as explicit clear?
+      // Or just unmark explicit clear if it has value.
+      if ($formData[field]) {
+        explicitClears[field] = false;
+      } else {
+        // If restoring empty, usually we want to treat it as "cleared"
+        explicitClears[field] = true;
+      }
+
+      const newPrev = { ...previousGeoValues };
+      delete newPrev[field];
+      previousGeoValues = newPrev;
+    }
+  }
+
+  async function handleFetchGeoData() {
+    if (!activeImage?.exif?.latitude || !activeImage?.exif?.longitude) {
+      toast.error("Obrázek nemá GPS souřadnice.");
+      return;
+    }
+
+    isFetchingGeo = true;
+    try {
+      const { latitude, longitude } = activeImage.exif;
+      const res = await fetch(`/api/geocode?lat=${latitude}&lng=${longitude}`);
+
+      if (!res.ok) throw new Error("Nepodařilo se načíst data z mapy.");
+
+      const data = await res.json();
+      const snapshot = { ...$formData };
+      const newPrevious: typeof previousGeoValues = {};
+
+      const applyField = (
+        field: keyof typeof initialData,
+        value: string | undefined,
+      ) => {
+        if (value && value !== snapshot[field]) {
+          newPrevious[field] = snapshot[field];
+          $formData[field] = value;
+          explicitClears[field] = false;
+        }
+      };
+
+      applyField("city", data.city);
+      applyField("state", data.state);
+      applyField("country", data.country);
+      applyField("countryCode", data.countryCode);
+      applyField("location", data.location);
+
+      previousGeoValues = newPrevious;
+
+      if (Object.keys(newPrevious).length > 0) {
+        toast.success("Data byla načtena z mapy (změny lze vrátit).");
+      } else {
+        toast.info("Data z mapy se shodují s aktuálními.");
+      }
+    } catch (e) {
+      console.error(e);
+      toast.error("Chyba při stahování dat.");
+    } finally {
+      isFetchingGeo = false;
+    }
+  }
 </script>
 
 <div class="flex items-center gap-2">
@@ -396,6 +467,23 @@
                         <Trash2 class="size-4" />
                       </Button>
                     </div>
+                    {#if previousGeoValues.location !== undefined}
+                      <button
+                        type="button"
+                        class="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 mt-1 transition-colors group"
+                        onclick={() => restoreGeoValue("location")}
+                        title="Kliknutím vrátíte popisek"
+                      >
+                        <RotateCcw
+                          size={10}
+                          class="group-hover:-rotate-90 transition-transform"
+                        />
+                        Původní:
+                        <span class="font-mono bg-muted px-1 rounded"
+                          >{previousGeoValues.location || "∅"}</span
+                        >
+                      </button>
+                    {/if}
                   {/snippet}
                 </Form.Control>
                 <Form.FieldErrors />
@@ -423,6 +511,23 @@
                         <Trash2 class="size-4" />
                       </Button>
                     </div>
+                    {#if previousGeoValues.city !== undefined}
+                      <button
+                        type="button"
+                        class="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 mt-1 transition-colors group"
+                        onclick={() => restoreGeoValue("city")}
+                        title="Kliknutím vrátíte původní hodnotu"
+                      >
+                        <RotateCcw
+                          size={10}
+                          class="group-hover:-rotate-90 transition-transform"
+                        />
+                        Původní:
+                        <span class="font-mono bg-muted px-1 rounded"
+                          >{previousGeoValues.city || "∅"}</span
+                        >
+                      </button>
+                    {/if}
                   {/snippet}
                 </Form.Control>
                 <Form.FieldErrors />
@@ -450,6 +555,23 @@
                         <Trash2 class="size-4" />
                       </Button>
                     </div>
+                    {#if previousGeoValues.state !== undefined}
+                      <button
+                        type="button"
+                        class="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 mt-1 transition-colors group"
+                        onclick={() => restoreGeoValue("state")}
+                        title="Kliknutím vrátíte původní hodnotu"
+                      >
+                        <RotateCcw
+                          size={10}
+                          class="group-hover:-rotate-90 transition-transform"
+                        />
+                        Původní:
+                        <span class="font-mono bg-muted px-1 rounded"
+                          >{previousGeoValues.state || "∅"}</span
+                        >
+                      </button>
+                    {/if}
                   {/snippet}
                 </Form.Control>
                 <Form.FieldErrors />
@@ -477,6 +599,23 @@
                         <Trash2 class="size-4" />
                       </Button>
                     </div>
+                    {#if previousGeoValues.country !== undefined}
+                      <button
+                        type="button"
+                        class="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 mt-1 transition-colors group"
+                        onclick={() => restoreGeoValue("country")}
+                        title="Kliknutím vrátíte původní hodnotu"
+                      >
+                        <RotateCcw
+                          size={10}
+                          class="group-hover:-rotate-90 transition-transform"
+                        />
+                        Původní:
+                        <span class="font-mono bg-muted px-1 rounded"
+                          >{previousGeoValues.country || "∅"}</span
+                        >
+                      </button>
+                    {/if}
                   {/snippet}
                 </Form.Control>
                 <Form.FieldErrors />
@@ -504,6 +643,23 @@
                         <Trash2 class="size-4" />
                       </Button>
                     </div>
+                    {#if previousGeoValues.countryCode !== undefined}
+                      <button
+                        type="button"
+                        class="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 mt-1 transition-colors group"
+                        onclick={() => restoreGeoValue("countryCode")}
+                        title="Kliknutím vrátíte původní hodnotu"
+                      >
+                        <RotateCcw
+                          size={10}
+                          class="group-hover:-rotate-90 transition-transform"
+                        />
+                        Původní:
+                        <span class="font-mono bg-muted px-1 rounded"
+                          >{previousGeoValues.countryCode || "∅"}</span
+                        >
+                      </button>
+                    {/if}
                   {/snippet}
                 </Form.Control>
                 <Form.FieldErrors />
@@ -532,6 +688,20 @@
                         rel="noopener noreferrer"
                       >
                         Mapy.cz
+                      </Button>
+                    {/if}
+                    {#if activeImage?.exif?.latitude && activeImage?.exif?.longitude}
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        class="ml-auto"
+                        disabled={isFetchingGeo}
+                        onclick={(e) => {
+                          e.stopPropagation();
+                          handleFetchGeoData();
+                        }}
+                      >
+                        {isFetchingGeo ? "Stahuji..." : "Získat z webu"}
                       </Button>
                     {/if}
                   </div>

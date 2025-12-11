@@ -27,7 +27,10 @@
             "latitude": 49.191417,
             "longitude": 16.6135,
             "orientation": 1,
-            "author": "Cebreus"
+            "author": "Cebreus",
+            "country": "Česko",
+            "countryCode": "CZ",
+            "state": "Jihomoravský kraj"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -174,15 +177,17 @@
     },
     {
       "date": "2025-11-23",
-      "cities": [],
+      "cities": [
+        "Hurgada"
+      ],
       "locations": [],
       "items": [
         {
           "id": "img-img8061",
           "type": "image",
           "src": "IMG_8061.HEIC",
-          "alt": "Photoblog image",
-          "title": "",
+          "alt": "Hurgada",
+          "title": "Hurgada",
           "width": 4032,
           "height": 3024,
           "aspectRatio": "landscape-4-3",
@@ -190,13 +195,17 @@
           "placeholderColor": "rgb(136,168,200)",
           "exif": {
             "date": "2025-11-23T07:47:20.705Z",
+            "city": "Hurgada",
             "latitude": 27.206203,
             "longitude": 33.855431,
             "orientation": 1,
-            "author": "Cebreus"
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
+          "city": "Hurgada",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=27.206203,33.855431",
           "mapyCzUrl": "https://mapy.cz/zakladni?x=33.855431&y=27.206203&z=12",
           "date": "2025-11-23T07:47:20.705Z",

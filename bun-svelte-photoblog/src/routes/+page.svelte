@@ -87,11 +87,11 @@
 
           {#if $editMode}
             {@const dayImageIds = day.items
-              .filter((i) => i.type === "image")
-              .map((i) => i.id)}
+              .filter((i: ImageEntry | Separator) => i.type === "image")
+              .map((i: ImageEntry | Separator) => i.id)}
             {@const allSelected =
               dayImageIds.length > 0 &&
-              dayImageIds.every((id) => $selection.has(id))}
+              dayImageIds.every((id: string) => $selection.has(id))}
             <div
               class="flex justify-center gap-2 mt-4 opacity-100 transition-opacity"
             >
