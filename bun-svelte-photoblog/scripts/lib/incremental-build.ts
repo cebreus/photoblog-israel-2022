@@ -369,30 +369,9 @@ export async function runIncrementalBuild(
 
   const storyData = await storyLoader(CTX.contentRoot);
 
-  // In manifest-only mode, skip image processing entirely
-  if (ARGS.manifestOnly) {
-    await updateCacheAndManifests({
-      cache,
-      results: [],
-      toDelete: [],
-      storyData,
-      paths: {
-        cachePath: CTX.cachePath,
-        generatorManifestPath: CTX.generatorManifestPath,
-        manifestPath: CTX.manifestPath,
-        menuManifestPath: CTX.menuManifestPath,
-        siteManifestPath: CTX.siteManifestPath,
-      },
-      shouldWriteSiteManifests: CTX.shouldWriteSiteManifests,
-      configHash: CTX.configHash,
-      wasReset,
-      srcRoot: CTX.srcRoot,
-    });
-    logger.info(
-      `Manifest generation finished in ${(performance.now() - startTime).toFixed(2)}ms.`,
-    );
-    return;
-  }
+  // In manifest-only mode, we still want to detect changes (metadata updates)
+  // and run processImages (which skips encoding but reads metadata).
+  // So we REMOVE the early return block that was here.
 
   const { cache: cacheAfter, wasReset: wasResetAfter } = await loadCache(
     CTX.cachePath,
@@ -425,9 +404,12 @@ export async function runIncrementalBuild(
     qualityOverrides: opts.qualityOverrides ?? {},
   });
 
+  // Always update manifest, even if results (processed images) are empty.
+  // This allows metadata-only updates (like author/geo changes) to be reflected in manifests
+  // without needing to re-process the images themselves.
   await updateCacheAndManifests({
     cache: cacheAfter,
-    results,
+    results, // Can be empty if no images changed
     toDelete,
     storyData,
     paths: {
