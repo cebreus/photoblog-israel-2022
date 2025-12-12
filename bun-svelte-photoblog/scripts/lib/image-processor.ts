@@ -461,11 +461,6 @@ export async function createImageEntry(
       ? `https://www.google.com/maps/search/?api=1&query=${exif.latitude},${exif.longitude}`
       : undefined;
 
-  const mapyCzUrl =
-    exif.latitude && exif.longitude
-      ? `https://mapy.cz/zakladni?x=${exif.longitude}&y=${exif.latitude}&z=12`
-      : undefined;
-
   return {
     id: "img-" + toSlug(baseName),
     type: "image",
@@ -505,7 +500,6 @@ export async function createImageEntry(
     location: exif.Sublocation || exif.Location,
     city: exif.City, // Top-level city for frontend convenience
     googleMapsUrl,
-    mapyCzUrl,
     date: isoDate,
     sources: [],
   };
