@@ -80,11 +80,46 @@
     "href": "#day-2025-11-25",
     "locations": [
       {
-        "id": "loc-velke-egyptske-muzeum",
-        "label": "Velké egyptské muzeum",
-        "href": "#img-img20251125122855",
+        "id": "loc-hrobka-z-ulice-tigran",
+        "label": "Hrobka z ulice Tigran",
+        "href": "#loc-hrobka-z-ulice-tigran",
+        "isDimmed": false,
+        "firstPhotoExifDate": "2025-11-25T07:27:36.058Z"
+      },
+      {
+        "id": "loc-katakomby-kom-el-shoqafa",
+        "label": "Katakomby Kom el Shoqafa",
+        "href": "#loc-katakomby-kom-el-shoqafa",
+        "isDimmed": false,
+        "firstPhotoExifDate": "2025-11-25T07:29:44.983Z"
+      },
+      {
+        "id": "loc-serapeum",
+        "label": "Serapeum",
+        "href": "#loc-serapeum",
+        "isDimmed": false,
+        "firstPhotoExifDate": "2025-11-25T08:24:09.133Z"
+      },
+      {
+        "id": "loc-rimsky-amfiteatr",
+        "label": "Římský amfiteátr",
+        "href": "#loc-rimsky-amfiteatr",
+        "isDimmed": false,
+        "firstPhotoExifDate": "2025-11-25T09:15:58.184Z"
+      },
+      {
+        "id": "loc-alexandrijska-opera",
+        "label": "Alexandrijská opera",
+        "href": "#img-img8261",
         "isDimmed": true,
-        "firstPhotoExifDate": "2025-11-25T10:28:58.783Z"
+        "firstPhotoExifDate": "2025-11-25T10:06:38.624Z"
+      },
+      {
+        "id": "loc-alexandrijska-knihovna",
+        "label": "Alexandrijská knihovna",
+        "href": "#loc-alexandrijska-knihovna",
+        "isDimmed": false,
+        "firstPhotoExifDate": "2025-11-25T10:21:18.095Z"
       }
     ]
   },
