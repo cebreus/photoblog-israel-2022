@@ -74,7 +74,9 @@ function initializeFiltersFromUrl(url: URL) {
       const slugSet = new Set(authors.map(getSlug));
       const nameToSlug = new Map(authors.map(getNameSlugPair));
       for (const token of parsed) {
-        if (slugSet.has(token)) {
+        if (token === "unknown") {
+          slugs.push("");
+        } else if (slugSet.has(token)) {
           slugs.push(token);
         } else {
           const slug = nameToSlug.get(token);
@@ -88,13 +90,14 @@ function initializeFiltersFromUrl(url: URL) {
     } else {
       for (const token of parsed) slugs.push(toSlug(token));
     }
-    selectedAuthors.set(slugs.filter(Boolean));
+    selectedAuthors.set(slugs);
   } else {
     const authorParams = url.searchParams.getAll("author");
     if (authorParams.length > 0) {
       const slugs =
         authors.length > 0
           ? (authorParams.map((a) => {
+              if (a === "unknown") return "";
               const slugMatch = authors.find((x) => x.slug === a);
               if (slugMatch) return slugMatch.slug;
               const nameMatch = authors.find((x) => x.name === a);
@@ -102,7 +105,7 @@ function initializeFiltersFromUrl(url: URL) {
               return toSlug(a);
             }) as string[])
           : authorParams.map(toSlug);
-      selectedAuthors.set(slugs.filter(Boolean));
+      selectedAuthors.set(slugs);
     } else {
       selectedAuthors.set([]);
     }
@@ -190,7 +193,10 @@ function syncUrlFromFilters() {
       const slugSet = new Set(authors.map(getSlug));
       const nameToSlug = new Map(authors.map(getNameSlugPair));
       const slugs = $selectedAuthors
-        .map((x) => (slugSet.has(x) ? x : (nameToSlug.get(x) ?? toSlug(x))))
+        .map((x) => {
+          if (x === "") return "unknown";
+          return slugSet.has(x) ? x : (nameToSlug.get(x) ?? toSlug(x));
+        })
         .map(encodeToken);
       params.set("authors", slugs.join(","));
     }
