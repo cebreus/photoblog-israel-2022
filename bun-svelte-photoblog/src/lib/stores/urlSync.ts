@@ -9,6 +9,7 @@ import {
 import { showPhotoLabels } from "$lib/stores/photoLabels";
 import { selection, editMode } from "$lib/stores/editorState";
 import { debug } from "$lib/stores/debug";
+import { activeTab, isSidebarOpen } from "$lib/stores/uiState";
 import type { Author } from "$lib/types/manifest";
 import { toSlug } from "$lib/utils/strings";
 import { get } from "svelte/store";
@@ -147,6 +148,22 @@ function initializeFiltersFromUrl(url: URL) {
     const debugParam = parseBooleanParam(url.searchParams.get("debug"));
     if (debugParam !== undefined) debug.set(debugParam);
   }
+
+  const tabParam = url.searchParams.get("tab");
+  if (tabParam) {
+    activeTab.set(tabParam);
+  } else {
+    activeTab.set("agenda");
+  }
+
+  // Presence-only flag: `sidebar` means enabled (open).
+  if (url.searchParams.has("sidebar")) {
+    isSidebarOpen.set(true);
+  } else {
+    // If param is missing, we assume sidebar should be closed (or strictly follow URL state).
+    // User requested explicit param for OPEN state.
+    isSidebarOpen.set(false);
+  }
 }
 
 let debounceTimer: ReturnType<typeof setTimeout>;
@@ -210,12 +227,23 @@ function syncUrlFromFilters() {
     params.delete("debug");
     if (debugVal === true) params.set("debug", "");
 
+    const activeTabVal = get(activeTab);
+    params.delete("tab");
+    if (activeTabVal !== "agenda") {
+      params.set("tab", activeTabVal);
+    }
+
+    const isSidebarOpenVal = get(isSidebarOpen);
+    params.delete("sidebar");
+    if (isSidebarOpenVal === true) params.set("sidebar", "");
+
     // Serialize params but render presence-only keys without trailing '='
     const presenceOnlyKeys = new Set([
       "labels",
       "editMode",
       "debug",
       "no-separators",
+      "sidebar",
     ]);
     const rawPairs = params.toString().split("&").filter(Boolean);
     const normalizedPairs = rawPairs.map((p) => {
@@ -277,6 +305,8 @@ export function initUrlSync(initialAuthors: Author[]) {
   selection.subscribe(syncUrlFromFilters);
   editMode.subscribe(syncUrlFromFilters);
   debug.subscribe(syncUrlFromFilters);
+  activeTab.subscribe(syncUrlFromFilters);
+  isSidebarOpen.subscribe(syncUrlFromFilters);
 
   // 3. When URL changes (e.g., back/forward button), update the filter stores
   page.subscribe((newPage) => {

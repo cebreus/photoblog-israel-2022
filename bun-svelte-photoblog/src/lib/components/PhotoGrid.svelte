@@ -18,6 +18,8 @@
   import { page } from "$app/stores";
   import { Trash2, Copy } from "lucide-svelte";
 
+  import { toSlug } from "$lib/utils/strings";
+
   let { items } = $props<{
     items: DisplayItem[];
   }>();
@@ -25,6 +27,28 @@
   // Derived edit mode state
   let isEditMode = $derived($editMode);
   let hasSelection = $derived($selection.size > 0);
+
+  // Identify images that start a new location block (dimmed locations)
+  // Maps image ID -> scrollspy ID ("loc-{slug}")
+  let dimmedLocationMap = $derived.by(() => {
+    const map = new Map<string, string>();
+    let currentLoc = "";
+
+    for (const item of items) {
+      if (item.type === "separator") {
+        currentLoc = item.location;
+      } else if (item.type === "image") {
+        // Retrieve location from ImageEntry (it has top-level location property)
+        const itemLoc = item.location;
+        if (itemLoc && itemLoc !== "Unknown" && itemLoc !== currentLoc) {
+          // This image starts a new implicit location block
+          map.set(item.id, `loc-${toSlug(itemLoc)}`);
+          currentLoc = itemLoc;
+        }
+      }
+    }
+    return map;
+  });
 
   function handleImageClick(id: string, e: MouseEvent | KeyboardEvent) {
     if (!isEditMode) return;
@@ -230,6 +254,7 @@
       console.debug("PhotoGrid render", {
         items: items.length,
         selectedAuthors: $selectedAuthors,
+        dimmedLocations: dimmedLocationMap,
       });
     }
   }
@@ -256,14 +281,14 @@
 
   <div data-testid="image-metadata-container">
     <table
-      class="w-full text-[10px] bg-slate-900/70 rounded-sm"
+      class="w-full text-[10px] bg-white/70 dark:bg-slate-900/70 rounded-sm"
       data-testid="image-metadata-table"
     >
       <tbody>
         {#each metadataRows as field, index}
           <tr
             class={index < metadataRows.length - 1
-              ? "border-b border-slate-600"
+              ? "border-b border-slate-400 dark:border-slate-600"
               : ""}
             data-testid="metadata-row-{field.label
               .toLowerCase()
@@ -292,6 +317,7 @@
   {@const fallback = findFallbackSource(item)!}
   {@const detailSource = findDetailSource(item)}
   {@const isSelected = $selection.has(item.id)}
+  {@const scrollspyId = dimmedLocationMap.get(item.id)}
 
   <ContextMenu.Root>
     <ContextMenu.Trigger
@@ -315,6 +341,14 @@
           transition-[outline-color] ease-in-out ${$debug ? "flex flex-col" : ""}`}
           style={`background-color: ${item.placeholderColor}`}
         >
+          {#if scrollspyId}
+            <div
+              id={scrollspyId}
+              use:useScrollspy={{ id: scrollspyId }}
+              class="absolute inset-0 pointer-events-none"
+              data-testid="scrollspy-anchor-{scrollspyId}"
+            ></div>
+          {/if}
           <picture class={`${$debug ? "shrink-0" : ""}`}>
             {#each getSources(item) as source (source.type)}
               <source

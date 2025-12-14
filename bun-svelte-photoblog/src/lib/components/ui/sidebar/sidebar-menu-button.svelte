@@ -78,7 +78,7 @@
     class: cn(
       sidebarMenuButtonVariants({ variant, size }),
       className,
-      isScrollspyActive && "bg-yellow-100 dark:bg-yellow-800",
+      isScrollspyActive && "text-orange-500 dark:text-orange-400",
       isHashActive &&
         !isScrollspyActive &&
         "bg-sidebar-accent text-sidebar-accent-foreground",

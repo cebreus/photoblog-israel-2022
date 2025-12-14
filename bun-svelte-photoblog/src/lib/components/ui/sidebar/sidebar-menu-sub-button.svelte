@@ -41,7 +41,8 @@
       size === "md" && "text-sm",
       "group-data-[collapsible=icon]:hidden",
       className,
-      isScrollspyActive && "bg-orange-50 dark:bg-orange-700",
+      // isScrollspyActive &&
+      //   "bg-orange-100 dark:text-orange-100 dark:bg-orange-900 data-[dimmed=true]:text-sidebar-foreground",
       isHashActive &&
         !isScrollspyActive &&
         "bg-sidebar-accent text-sidebar-accent-foreground",
@@ -61,9 +62,15 @@
 {:else}
   <a bind:this={ref} {...mergedProps}>
     {#if formattedTime}
-      <Badge variant="outline" class="text-sidebar-foreground/50"
-        >{formattedTime}</Badge
+      <Badge
+        variant="outline"
+        class={cn(
+          "text-sidebar-foreground/50",
+          isScrollspyActive && "text-orange-300 border-orange-300/50",
+        )}
       >
+        {formattedTime}
+      </Badge>
     {/if}
     {@render children?.()}
   </a>

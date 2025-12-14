@@ -4,13 +4,13 @@
   import faviconHtml from "../../.temp/favicons.html?raw";
   import "../app.css";
   import { ModeWatcher } from "mode-watcher";
-  import { page } from "$app/stores";
   import { browser } from "$app/environment";
   import { showPhotoLabels } from "$lib/stores/photoLabels";
-  import { debug } from "$lib/stores/debug";
   import type { Author, MenuManifest, SiteManifest } from "$lib/types/manifest";
   import { initUrlSync } from "$lib/stores/urlSync";
   import { Toaster } from "$lib/components/ui/sonner";
+  import * as Sidebar from "$lib/components/ui/sidebar";
+  import AppSidebar from "$lib/components/AppSidebar.svelte";
 
   // Explicitly type props instead of relying on loose inferred types
   interface Props {
@@ -67,10 +67,19 @@
 
 <ModeWatcher />
 
-<Header menuItems={data.menuItems} authors={data.authors} />
+<Sidebar.Provider style="--sidebar-width: 24rem;">
+  <Sidebar.Inset>
+    <div class="flex flex-col min-h-screen">
+      <Header menuItems={data.menuItems} authors={data.authors} />
 
-{@render children?.()}
+      <main class="flex flex-1 flex-col">
+        {@render children?.()}
+      </main>
 
-<Footer />
+      <Footer />
+    </div>
+  </Sidebar.Inset>
+  <AppSidebar menuItems={data.menuItems} authors={data.authors} side="right" />
+</Sidebar.Provider>
 
 <Toaster position="top-right" />

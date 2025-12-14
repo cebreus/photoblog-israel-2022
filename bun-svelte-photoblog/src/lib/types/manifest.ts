@@ -63,7 +63,7 @@ export type ImageEntry = {
   copyright?: string;
   category?: string;
   googleMapsUrl?: string;
-  mapyCzUrl?: string;
+
   exif?: {
     date?: string;
     location?: string;
