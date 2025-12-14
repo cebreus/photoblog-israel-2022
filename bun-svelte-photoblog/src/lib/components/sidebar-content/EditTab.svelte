@@ -9,10 +9,12 @@
   import type { ImageEntry, Separator } from "$lib/types/manifest";
   import { toast } from "svelte-sonner";
   import { X, Trash2, RotateCcw } from "lucide-svelte";
+  import { fade } from "svelte/transition";
   import { selection, editMode } from "$lib/stores/editorState";
   import { superForm } from "sveltekit-superforms";
   import * as Accordion from "$lib/components/ui/accordion";
   import { metadataClipboard } from "$lib/stores/metadataClipboard";
+  import { Spinner } from "$lib/components/ui/spinner";
 
   type DisplayItem = ImageEntry | Separator;
 
@@ -149,9 +151,12 @@
     commonKeywords = commonKeywordsValue;
   }
 
+  let isSaving = $state(false);
+
   async function handleSubmit(data: typeof initialData) {
     if (imageIds.length === 0) return;
 
+    isSaving = true;
     try {
       const payload = {
         imageIds,
@@ -249,6 +254,8 @@
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       toast.error(msg);
+    } finally {
+      isSaving = false;
     }
   }
 
@@ -431,7 +438,20 @@
   }
 </script>
 
-<div class="flex flex-col h-full" data-testid="edit-tab">
+<div class="flex flex-col h-full relative" data-testid="edit-tab">
+  {#if isSaving}
+    <div
+      class="absolute inset-0 z-50 bg-background/80 flex items-center justify-center backdrop-blur-sm transition-all duration-200"
+      transition:fade={{ duration: 200 }}
+    >
+      <div class="flex flex-col items-center gap-3">
+        <Spinner size="lg" />
+        <span class="text-sm text-muted-foreground font-medium animate-pulse"
+          >Ukládám metadata...</span
+        >
+      </div>
+    </div>
+  {/if}
   {#if selectedImages.length > 0}
     <div
       class="flex flex-wrap gap-1 p-4 pt-2 border-b"
