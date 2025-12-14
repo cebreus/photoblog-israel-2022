@@ -73,7 +73,14 @@
 <Sidebar.Root bind:ref {collapsible} {side} {...restProps}>
   <Tabs.Root
     value={$activeTab}
-    onValueChange={(v) => ($activeTab = v)}
+    onValueChange={(v) => {
+      $activeTab = v;
+      if (v === "edit") {
+        editMode.enable();
+      } else {
+        editMode.disable();
+      }
+    }}
     class="flex flex-col h-full w-full"
   >
     <Sidebar.Header class="p-0">
@@ -84,7 +91,6 @@
           <Tabs.Trigger
             value="agenda"
             class="flex-1 gap-2 data-[state=active]:bg-sidebar-accent data-[state=active]:text-sidebar-accent-foreground"
-            onclick={() => editMode.disable()}
           >
             <Calendar class="size-4" />
             <span class="sr-only sm:not-sr-only">Agenda</span>
@@ -92,7 +98,6 @@
           <Tabs.Trigger
             value="filters"
             class="flex-1 gap-2 data-[state=active]:bg-sidebar-accent data-[state=active]:text-sidebar-accent-foreground"
-            onclick={() => editMode.disable()}
           >
             <SlidersHorizontal class="size-4" />
             <span class="sr-only sm:not-sr-only">Filtry</span>
@@ -101,7 +106,6 @@
             <Tabs.Trigger
               value="edit"
               class="flex-1 gap-2 data-[state=active]:bg-sidebar-accent data-[state=active]:text-sidebar-accent-foreground"
-              onclick={() => editMode.enable()}
             >
               <Pencil class="size-4" />
               <span class="sr-only sm:not-sr-only">Editace</span>
