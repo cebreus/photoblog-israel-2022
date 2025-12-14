@@ -3287,6 +3287,160 @@
           ]
         },
         {
+          "id": "img-img8147",
+          "type": "image",
+          "src": "IMG_8147.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 6048,
+          "height": 8064,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8147.png",
+          "placeholderColor": "rgb(216,216,216)",
+          "exif": {
+            "date": "2025-11-25T07:27:08.949Z",
+            "latitude": 31.1788,
+            "longitude": 29.893006,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.1788,29.893006",
+          "date": "2025-11-25T07:27:08.949Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8147.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8147.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8147.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8147.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8147.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8147.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8147.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8147.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8148",
+          "type": "image",
+          "src": "IMG_8148.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4032,
+          "height": 3024,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8148.png",
+          "placeholderColor": "rgb(88,72,56)",
+          "exif": {
+            "date": "2025-11-25T07:27:36.058Z",
+            "latitude": 31.178472,
+            "longitude": 29.892917,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178472,29.892917",
+          "date": "2025-11-25T07:27:36.058Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8148.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8148.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8148.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8148.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8148.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8148.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8148.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8148.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
           "id": "img-img1012",
           "type": "image",
           "src": "IMG_1012.HEIC",
@@ -3437,6 +3591,468 @@
           ]
         },
         {
+          "id": "img-img8149",
+          "type": "image",
+          "src": "IMG_8149.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4032,
+          "height": 3024,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8149.png",
+          "placeholderColor": "rgb(72,56,40)",
+          "exif": {
+            "date": "2025-11-25T07:28:11.182Z",
+            "latitude": 31.178444,
+            "longitude": 29.892933,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178444,29.892933",
+          "date": "2025-11-25T07:28:11.182Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8149.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8149.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8149.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8149.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8149.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8149.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8149.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8149.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8150",
+          "type": "image",
+          "src": "IMG_8150.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4032,
+          "height": 3024,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8150.png",
+          "placeholderColor": "rgb(104,88,72)",
+          "exif": {
+            "date": "2025-11-25T07:28:18.255Z",
+            "latitude": 31.178433,
+            "longitude": 29.892933,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178433,29.892933",
+          "date": "2025-11-25T07:28:18.255Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8150.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8150.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8150.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8150.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8150.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8150.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8150.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8150.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8153",
+          "type": "image",
+          "src": "IMG_8153.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 3024,
+          "height": 4032,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8153.png",
+          "placeholderColor": "rgb(120,104,88)",
+          "exif": {
+            "date": "2025-11-25T07:28:52.771Z",
+            "latitude": 31.178428,
+            "longitude": 29.893131,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178428,29.893131",
+          "date": "2025-11-25T07:28:52.771Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8153.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8153.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8153.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8153.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8153.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8153.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8153.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8153.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8154",
+          "type": "image",
+          "src": "IMG_8154.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8154.png",
+          "placeholderColor": "rgb(72,72,72)",
+          "exif": {
+            "date": "2025-11-25T07:29:44.983Z",
+            "latitude": 31.178306,
+            "longitude": 29.893253,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178306,29.893253",
+          "date": "2025-11-25T07:29:44.983Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8154.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8154.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8154.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8154.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8154.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8154.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8154.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8154.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8155",
+          "type": "image",
+          "src": "IMG_8155.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8155.png",
+          "placeholderColor": "rgb(168,168,168)",
+          "exif": {
+            "date": "2025-11-25T07:30:05.030Z",
+            "latitude": 31.178258,
+            "longitude": 29.893239,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178258,29.893239",
+          "date": "2025-11-25T07:30:05.030Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8155.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8155.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8155.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8155.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8155.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8155.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8155.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8155.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8156",
+          "type": "image",
+          "src": "IMG_8156.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 6048,
+          "height": 8064,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8156.png",
+          "placeholderColor": "rgb(136,120,104)",
+          "exif": {
+            "date": "2025-11-25T07:30:51.329Z",
+            "latitude": 31.1783,
+            "longitude": 29.893311,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.1783,29.893311",
+          "date": "2025-11-25T07:30:51.329Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8156.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8156.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8156.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8156.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8156.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8156.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8156.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8156.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
           "id": "img-img1015",
           "type": "image",
           "src": "IMG_1015.HEIC",
@@ -3506,6 +4122,2615 @@
               "variant": "fallback",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/previews-xxs/IMG_1015.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8161",
+          "type": "image",
+          "src": "IMG_8161.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4032,
+          "height": 3024,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8161.png",
+          "placeholderColor": "rgb(104,88,72)",
+          "exif": {
+            "date": "2025-11-25T07:37:37.142Z",
+            "latitude": 31.178297,
+            "longitude": 29.893286,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178297,29.893286",
+          "date": "2025-11-25T07:37:37.142Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8161.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8161.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8161.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8161.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8161.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8161.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8161.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8161.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8162",
+          "type": "image",
+          "src": "IMG_8162.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 6048,
+          "height": 8064,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8162.png",
+          "placeholderColor": "rgb(104,88,72)",
+          "exif": {
+            "date": "2025-11-25T07:38:07.058Z",
+            "latitude": 31.178297,
+            "longitude": 29.893286,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178297,29.893286",
+          "date": "2025-11-25T07:38:07.058Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8162.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8162.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8162.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8162.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8162.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8162.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8162.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8162.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8163",
+          "type": "image",
+          "src": "IMG_8163.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 3024,
+          "height": 4032,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8163.png",
+          "placeholderColor": "rgb(24,24,24)",
+          "exif": {
+            "date": "2025-11-25T07:38:12.052Z",
+            "latitude": 31.178297,
+            "longitude": 29.893286,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178297,29.893286",
+          "date": "2025-11-25T07:38:12.052Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8163.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8163.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8163.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8163.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8163.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8163.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8163.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8163.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8164",
+          "type": "image",
+          "src": "IMG_8164.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8164.png",
+          "placeholderColor": "rgb(120,120,104)",
+          "exif": {
+            "date": "2025-11-25T07:42:49.676Z",
+            "latitude": 31.178297,
+            "longitude": 29.893289,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178297,29.893289",
+          "date": "2025-11-25T07:42:49.676Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8164.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8164.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8164.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8164.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8164.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8164.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8164.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8164.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8165",
+          "type": "image",
+          "src": "IMG_8165.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 6048,
+          "height": 8064,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8165.png",
+          "placeholderColor": "rgb(136,120,88)",
+          "exif": {
+            "date": "2025-11-25T07:43:06.731Z",
+            "latitude": 31.178297,
+            "longitude": 29.893289,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178297,29.893289",
+          "date": "2025-11-25T07:43:06.731Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8165.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8165.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8165.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8165.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8165.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8165.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8165.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8165.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8166",
+          "type": "image",
+          "src": "IMG_8166.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 6048,
+          "height": 8064,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8166.png",
+          "placeholderColor": "rgb(104,88,72)",
+          "exif": {
+            "date": "2025-11-25T07:43:14.323Z",
+            "latitude": 31.178297,
+            "longitude": 29.893289,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178297,29.893289",
+          "date": "2025-11-25T07:43:14.323Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8166.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8166.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8166.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8166.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8166.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8166.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8166.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8166.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8167",
+          "type": "image",
+          "src": "IMG_8167.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8167.png",
+          "placeholderColor": "rgb(72,56,40)",
+          "exif": {
+            "date": "2025-11-25T07:43:30.516Z",
+            "latitude": 31.178297,
+            "longitude": 29.893289,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178297,29.893289",
+          "date": "2025-11-25T07:43:30.516Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8167.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8167.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8167.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8167.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8167.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8167.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8167.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8167.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8169",
+          "type": "image",
+          "src": "IMG_8169.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8169.png",
+          "placeholderColor": "rgb(104,88,72)",
+          "exif": {
+            "date": "2025-11-25T07:44:47.720Z",
+            "latitude": 31.178297,
+            "longitude": 29.893289,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178297,29.893289",
+          "date": "2025-11-25T07:44:47.720Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8169.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8169.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8169.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8169.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8169.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8169.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8169.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8169.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8171",
+          "type": "image",
+          "src": "IMG_8171.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 6048,
+          "height": 8064,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8171.png",
+          "placeholderColor": "rgb(24,24,24)",
+          "exif": {
+            "date": "2025-11-25T07:45:24.672Z",
+            "latitude": 31.178297,
+            "longitude": 29.893289,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178297,29.893289",
+          "date": "2025-11-25T07:45:24.672Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8171.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8171.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8171.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8171.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8171.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8171.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8171.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8171.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8172",
+          "type": "image",
+          "src": "IMG_8172.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 6048,
+          "height": 8064,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8172.png",
+          "placeholderColor": "rgb(88,72,56)",
+          "exif": {
+            "date": "2025-11-25T07:45:30.175Z",
+            "latitude": 31.178297,
+            "longitude": 29.893289,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178297,29.893289",
+          "date": "2025-11-25T07:45:30.175Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8172.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8172.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8172.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8172.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8172.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8172.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8172.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8172.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8174",
+          "type": "image",
+          "src": "IMG_8174.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4032,
+          "height": 3024,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8174.png",
+          "placeholderColor": "rgb(120,104,88)",
+          "exif": {
+            "date": "2025-11-25T07:46:06.932Z",
+            "latitude": 31.178297,
+            "longitude": 29.893289,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178297,29.893289",
+          "date": "2025-11-25T07:46:06.932Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8174.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8174.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8174.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8174.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8174.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8174.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8174.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8174.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8175",
+          "type": "image",
+          "src": "IMG_8175.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4032,
+          "height": 3024,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8175.png",
+          "placeholderColor": "rgb(88,72,56)",
+          "exif": {
+            "date": "2025-11-25T07:46:14.988Z",
+            "latitude": 31.178297,
+            "longitude": 29.893289,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178297,29.893289",
+          "date": "2025-11-25T07:46:14.988Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8175.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8175.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8175.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8175.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8175.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8175.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8175.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8175.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8177",
+          "type": "image",
+          "src": "IMG_8177.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4032,
+          "height": 3024,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8177.png",
+          "placeholderColor": "rgb(72,56,40)",
+          "exif": {
+            "date": "2025-11-25T07:48:05.231Z",
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "date": "2025-11-25T07:48:05.231Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8177.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8177.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8177.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8177.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8177.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8177.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8177.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8177.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8178",
+          "type": "image",
+          "src": "IMG_8178.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 3024,
+          "height": 4032,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8178.png",
+          "placeholderColor": "rgb(88,72,56)",
+          "exif": {
+            "date": "2025-11-25T07:48:15.716Z",
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "date": "2025-11-25T07:48:15.716Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8178.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8178.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8178.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8178.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8178.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8178.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8178.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8178.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8179",
+          "type": "image",
+          "src": "IMG_8179.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8179.png",
+          "placeholderColor": "rgb(168,152,136)",
+          "exif": {
+            "date": "2025-11-25T07:48:49.181Z",
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "date": "2025-11-25T07:48:49.181Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8179.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8179.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8179.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8179.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8179.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8179.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8179.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8179.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8180",
+          "type": "image",
+          "src": "IMG_8180.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 3024,
+          "height": 4032,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8180.png",
+          "placeholderColor": "rgb(88,72,56)",
+          "exif": {
+            "date": "2025-11-25T07:49:33.487Z",
+            "latitude": 31.1783,
+            "longitude": 29.893289,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.1783,29.893289",
+          "date": "2025-11-25T07:49:33.487Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8180.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8180.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8180.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8180.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8180.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8180.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8180.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8180.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8182",
+          "type": "image",
+          "src": "IMG_8182.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 3024,
+          "height": 4032,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8182.png",
+          "placeholderColor": "rgb(120,104,88)",
+          "exif": {
+            "date": "2025-11-25T07:49:43.386Z",
+            "latitude": 31.175489,
+            "longitude": 29.893022,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.175489,29.893022",
+          "date": "2025-11-25T07:49:43.386Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8182.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8182.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8182.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8182.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8182.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8182.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8182.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8182.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8185",
+          "type": "image",
+          "src": "IMG_8185.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8185.png",
+          "placeholderColor": "rgb(72,56,40)",
+          "exif": {
+            "date": "2025-11-25T07:50:27.375Z",
+            "latitude": 31.176958,
+            "longitude": 29.893236,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.176958,29.893236",
+          "date": "2025-11-25T07:50:27.375Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8185.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8185.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8185.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8185.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8185.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8185.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8185.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8185.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8187",
+          "type": "image",
+          "src": "IMG_8187.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 6048,
+          "height": 8064,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8187.png",
+          "placeholderColor": "rgb(88,72,56)",
+          "exif": {
+            "date": "2025-11-25T07:52:35.111Z",
+            "latitude": 31.177739,
+            "longitude": 29.893325,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.177739,29.893325",
+          "date": "2025-11-25T07:52:35.111Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8187.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8187.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8187.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8187.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8187.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8187.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8187.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8187.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8189",
+          "type": "image",
+          "src": "IMG_8189.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4032,
+          "height": 3024,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8189.png",
+          "placeholderColor": "rgb(136,120,88)",
+          "exif": {
+            "date": "2025-11-25T07:54:30.446Z",
+            "latitude": 31.178522,
+            "longitude": 29.892964,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178522,29.892964",
+          "date": "2025-11-25T07:54:30.446Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8189.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8189.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8189.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8189.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8189.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8189.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8189.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8189.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8190",
+          "type": "image",
+          "src": "IMG_8190.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4032,
+          "height": 3024,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8190.png",
+          "placeholderColor": "rgb(88,72,56)",
+          "exif": {
+            "date": "2025-11-25T07:56:26.310Z",
+            "latitude": 31.178489,
+            "longitude": 29.892956,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178489,29.892956",
+          "date": "2025-11-25T07:56:26.310Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8190.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8190.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8190.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8190.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8190.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8190.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8190.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8190.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8191",
+          "type": "image",
+          "src": "IMG_8191.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 3024,
+          "height": 4032,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8191.png",
+          "placeholderColor": "rgb(104,104,88)",
+          "exif": {
+            "date": "2025-11-25T07:57:10.841Z",
+            "latitude": 31.178494,
+            "longitude": 29.892958,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178494,29.892958",
+          "date": "2025-11-25T07:57:10.841Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8191.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8191.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8191.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8191.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8191.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8191.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8191.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8191.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8192",
+          "type": "image",
+          "src": "IMG_8192.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8192.png",
+          "placeholderColor": "rgb(88,120,184)",
+          "exif": {
+            "date": "2025-11-25T08:02:56.046Z",
+            "latitude": 31.178525,
+            "longitude": 29.893164,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178525,29.893164",
+          "date": "2025-11-25T08:02:56.046Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8192.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8192.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8192.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8192.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8192.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8192.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8192.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8192.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8194",
+          "type": "image",
+          "src": "IMG_8194.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8194.png",
+          "placeholderColor": "rgb(88,88,72)",
+          "exif": {
+            "date": "2025-11-25T08:04:12.196Z",
+            "latitude": 31.178561,
+            "longitude": 29.892867,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178561,29.892867",
+          "date": "2025-11-25T08:04:12.196Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8194.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8194.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8194.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8194.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8194.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8194.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8194.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8194.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8195",
+          "type": "image",
+          "src": "IMG_8195.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 3024,
+          "height": 4032,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8195.png",
+          "placeholderColor": "rgb(120,168,216)",
+          "exif": {
+            "date": "2025-11-25T08:04:35.368Z",
+            "latitude": 31.178344,
+            "longitude": 29.892817,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178344,29.892817",
+          "date": "2025-11-25T08:04:35.368Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8195.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8195.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8195.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8195.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8195.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8195.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8195.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8195.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8196",
+          "type": "image",
+          "src": "IMG_8196.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 3024,
+          "height": 4032,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8196.png",
+          "placeholderColor": "rgb(40,72,136)",
+          "exif": {
+            "date": "2025-11-25T08:06:36.685Z",
+            "latitude": 31.178953,
+            "longitude": 29.892739,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178953,29.892739",
+          "date": "2025-11-25T08:06:36.685Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8196.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8196.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8196.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8196.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8196.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8196.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8196.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8196.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8198",
+          "type": "image",
+          "src": "IMG_8198.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8198.png",
+          "placeholderColor": "rgb(120,104,88)",
+          "exif": {
+            "date": "2025-11-25T08:24:09.133Z",
+            "latitude": 31.181322,
+            "longitude": 29.896389,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.181322,29.896389",
+          "date": "2025-11-25T08:24:09.133Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8198.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8198.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8198.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8198.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8198.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8198.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8198.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8198.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8199",
+          "type": "image",
+          "src": "IMG_8199.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4032,
+          "height": 3024,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8199.png",
+          "placeholderColor": "rgb(56,56,56)",
+          "exif": {
+            "date": "2025-11-25T08:25:14.725Z",
+            "latitude": 31.181539,
+            "longitude": 29.896136,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.181539,29.896136",
+          "date": "2025-11-25T08:25:14.725Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8199.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8199.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8199.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8199.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8199.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8199.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8199.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8199.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8200",
+          "type": "image",
+          "src": "IMG_8200.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4032,
+          "height": 3024,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8200.png",
+          "placeholderColor": "rgb(120,136,152)",
+          "exif": {
+            "date": "2025-11-25T08:25:44.250Z",
+            "latitude": 31.181683,
+            "longitude": 29.896181,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.181683,29.896181",
+          "date": "2025-11-25T08:25:44.250Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8200.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8200.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8200.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8200.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8200.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8200.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8200.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8200.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8202",
+          "type": "image",
+          "src": "IMG_8202.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4032,
+          "height": 3024,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8202.png",
+          "placeholderColor": "rgb(56,88,136)",
+          "exif": {
+            "date": "2025-11-25T08:26:27.017Z",
+            "latitude": 31.181983,
+            "longitude": 29.896047,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.181983,29.896047",
+          "date": "2025-11-25T08:26:27.017Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8202.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8202.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8202.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8202.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8202.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8202.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8202.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8202.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8203",
+          "type": "image",
+          "src": "IMG_8203.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8203.png",
+          "placeholderColor": "rgb(88,88,88)",
+          "exif": {
+            "date": "2025-11-25T08:27:02.680Z",
+            "latitude": 31.18225,
+            "longitude": 29.895936,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.18225,29.895936",
+          "date": "2025-11-25T08:27:02.680Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8203.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8203.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8203.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8203.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8203.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8203.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8203.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8203.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8204",
+          "type": "image",
+          "src": "IMG_8204.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 1614,
+          "height": 2152,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8204.png",
+          "placeholderColor": "rgb(56,104,184)",
+          "exif": {
+            "date": "2025-11-25T08:28:14.323Z",
+            "latitude": 31.182556,
+            "longitude": 29.896422,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.182556,29.896422",
+          "date": "2025-11-25T08:28:14.323Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8204.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8204.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8204.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8204.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8204.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8204.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8204.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8204.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8205",
+          "type": "image",
+          "src": "IMG_8205.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8205.png",
+          "placeholderColor": "rgb(200,184,152)",
+          "exif": {
+            "date": "2025-11-25T08:30:02.391Z",
+            "latitude": 31.182042,
+            "longitude": 29.896642,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.182042,29.896642",
+          "date": "2025-11-25T08:30:02.391Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8205.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8205.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8205.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8205.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8205.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8205.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8205.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8205.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8206",
+          "type": "image",
+          "src": "IMG_8206.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 6048,
+          "height": 8064,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8206.png",
+          "placeholderColor": "rgb(24,56,104)",
+          "exif": {
+            "date": "2025-11-25T08:30:34.271Z",
+            "latitude": 31.182153,
+            "longitude": 29.896478,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.182153,29.896478",
+          "date": "2025-11-25T08:30:34.271Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8206.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8206.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8206.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8206.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8206.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8206.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8206.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8206.jpeg",
               "width": 190,
               "height": 107
             }
@@ -3587,6 +6812,622 @@
           ]
         },
         {
+          "id": "img-img8207",
+          "type": "image",
+          "src": "IMG_8207.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 6048,
+          "height": 8064,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8207.png",
+          "placeholderColor": "rgb(72,56,40)",
+          "exif": {
+            "date": "2025-11-25T08:34:04.738Z",
+            "latitude": 31.181969,
+            "longitude": 29.896672,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.181969,29.896672",
+          "date": "2025-11-25T08:34:04.738Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8207.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8207.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8207.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8207.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8207.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8207.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8207.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8207.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8210",
+          "type": "image",
+          "src": "IMG_8210.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8210.png",
+          "placeholderColor": "rgb(56,40,24)",
+          "exif": {
+            "date": "2025-11-25T08:34:19.785Z",
+            "latitude": 31.181964,
+            "longitude": 29.896739,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.181964,29.896739",
+          "date": "2025-11-25T08:34:19.785Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8210.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8210.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8210.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8210.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8210.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8210.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8210.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8210.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8212",
+          "type": "image",
+          "src": "IMG_8212.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 2864,
+          "height": 3819,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8212.png",
+          "placeholderColor": "rgb(56,40,24)",
+          "exif": {
+            "date": "2025-11-25T08:35:10.393Z",
+            "latitude": 31.181986,
+            "longitude": 29.896781,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.181986,29.896781",
+          "date": "2025-11-25T08:35:10.393Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8212.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8212.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8212.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8212.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8212.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8212.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8212.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8212.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8213",
+          "type": "image",
+          "src": "IMG_8213.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 6048,
+          "height": 8064,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8213.png",
+          "placeholderColor": "rgb(72,56,40)",
+          "exif": {
+            "date": "2025-11-25T08:37:10.958Z",
+            "latitude": 31.182083,
+            "longitude": 29.896642,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.182083,29.896642",
+          "date": "2025-11-25T08:37:10.958Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8213.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8213.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8213.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8213.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8213.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8213.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8213.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8213.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8214",
+          "type": "image",
+          "src": "IMG_8214.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4032,
+          "height": 3024,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8214.png",
+          "placeholderColor": "rgb(56,40,40)",
+          "exif": {
+            "date": "2025-11-25T08:40:25.725Z",
+            "latitude": 31.182186,
+            "longitude": 29.896531,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.182186,29.896531",
+          "date": "2025-11-25T08:40:25.725Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8214.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8214.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8214.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8214.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8214.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8214.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8214.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8214.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8215",
+          "type": "image",
+          "src": "IMG_8215.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 3024,
+          "height": 4032,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8215.png",
+          "placeholderColor": "rgb(72,56,40)",
+          "exif": {
+            "date": "2025-11-25T08:41:13.046Z",
+            "latitude": 31.182186,
+            "longitude": 29.896531,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.182186,29.896531",
+          "date": "2025-11-25T08:41:13.046Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8215.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8215.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8215.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8215.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8215.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8215.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8215.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8215.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8217",
+          "type": "image",
+          "src": "IMG_8217.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8217.png",
+          "placeholderColor": "rgb(56,40,24)",
+          "exif": {
+            "date": "2025-11-25T08:42:06.708Z",
+            "latitude": 31.182186,
+            "longitude": 29.896531,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.182186,29.896531",
+          "date": "2025-11-25T08:42:06.708Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8217.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8217.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8217.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8217.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8217.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8217.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8217.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8217.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8218",
+          "type": "image",
+          "src": "IMG_8218.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 6048,
+          "height": 8064,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8218.png",
+          "placeholderColor": "rgb(56,88,136)",
+          "exif": {
+            "date": "2025-11-25T08:48:25.082Z",
+            "latitude": 31.1821,
+            "longitude": 29.896528,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.1821,29.896528",
+          "date": "2025-11-25T08:48:25.082Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8218.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8218.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8218.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8218.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8218.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8218.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8218.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8218.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
           "id": "img-img1049",
           "type": "image",
           "src": "IMG_1049.HEIC",
@@ -3656,6 +7497,1854 @@
               "variant": "fallback",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/previews-xxs/IMG_1049.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8219",
+          "type": "image",
+          "src": "IMG_8219.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4032,
+          "height": 3024,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8219.png",
+          "placeholderColor": "rgb(56,88,152)",
+          "exif": {
+            "date": "2025-11-25T08:50:50.159Z",
+            "latitude": 31.181697,
+            "longitude": 29.896933,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.181697,29.896933",
+          "date": "2025-11-25T08:50:50.159Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8219.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8219.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8219.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8219.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8219.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8219.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8219.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8219.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8220",
+          "type": "image",
+          "src": "IMG_8220.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8220.png",
+          "placeholderColor": "rgb(56,104,168)",
+          "exif": {
+            "date": "2025-11-25T08:50:52.055Z",
+            "latitude": 31.181703,
+            "longitude": 29.896928,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.181703,29.896928",
+          "date": "2025-11-25T08:50:52.055Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8220.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8220.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8220.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8220.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8220.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8220.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8220.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8220.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8221",
+          "type": "image",
+          "src": "IMG_8221.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4032,
+          "height": 3024,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8221.png",
+          "placeholderColor": "rgb(72,120,184)",
+          "exif": {
+            "date": "2025-11-25T08:50:53.642Z",
+            "latitude": 31.181706,
+            "longitude": 29.896922,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.181706,29.896922",
+          "date": "2025-11-25T08:50:53.642Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8221.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8221.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8221.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8221.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8221.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8221.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8221.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8221.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8222",
+          "type": "image",
+          "src": "IMG_8222.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4032,
+          "height": 3024,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8222.png",
+          "placeholderColor": "rgb(72,120,184)",
+          "exif": {
+            "date": "2025-11-25T08:50:55.254Z",
+            "latitude": 31.181708,
+            "longitude": 29.896922,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.181708,29.896922",
+          "date": "2025-11-25T08:50:55.254Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8222.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8222.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8222.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8222.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8222.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8222.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8222.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8222.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8224",
+          "type": "image",
+          "src": "IMG_8224.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4032,
+          "height": 3024,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8224.png",
+          "placeholderColor": "rgb(8,8,8)",
+          "exif": {
+            "date": "2025-11-25T08:52:26.844Z",
+            "latitude": 31.181864,
+            "longitude": 29.897139,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.181864,29.897139",
+          "date": "2025-11-25T08:52:26.844Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8224.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8224.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8224.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8224.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8224.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8224.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8224.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8224.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8225",
+          "type": "image",
+          "src": "IMG_8225.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8225.png",
+          "placeholderColor": "rgb(168,184,200)",
+          "exif": {
+            "date": "2025-11-25T09:15:58.184Z",
+            "latitude": 31.193972,
+            "longitude": 29.903742,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.193972,29.903742",
+          "date": "2025-11-25T09:15:58.184Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8225.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8225.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8225.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8225.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8225.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8225.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8225.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8225.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8229",
+          "type": "image",
+          "src": "IMG_8229.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8229.png",
+          "placeholderColor": "rgb(152,136,120)",
+          "exif": {
+            "date": "2025-11-25T09:19:52.720Z",
+            "latitude": 31.194325,
+            "longitude": 29.903844,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.194325,29.903844",
+          "date": "2025-11-25T09:19:52.720Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8229.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8229.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8229.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8229.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8229.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8229.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8229.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8229.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8230",
+          "type": "image",
+          "src": "IMG_8230.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4032,
+          "height": 3024,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8230.png",
+          "placeholderColor": "rgb(40,56,8)",
+          "exif": {
+            "date": "2025-11-25T09:20:06.894Z",
+            "latitude": 31.194278,
+            "longitude": 29.903789,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.194278,29.903789",
+          "date": "2025-11-25T09:20:06.894Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8230.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8230.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8230.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8230.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8230.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8230.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8230.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8230.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8233",
+          "type": "image",
+          "src": "IMG_8233.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 2422,
+          "height": 3229,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8233.png",
+          "placeholderColor": "rgb(152,136,120)",
+          "exif": {
+            "date": "2025-11-25T09:28:04.319Z",
+            "latitude": 31.195428,
+            "longitude": 29.905267,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.195428,29.905267",
+          "date": "2025-11-25T09:28:04.319Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8233.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8233.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8233.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8233.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8233.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8233.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8233.jpeg",
+              "width": 1280,
+              "height": 1706
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8233.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8234",
+          "type": "image",
+          "src": "IMG_8234.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 3024,
+          "height": 3024,
+          "aspectRatio": "square",
+          "placeholder": "blurs/IMG_8234.png",
+          "placeholderColor": "rgb(168,152,136)",
+          "exif": {
+            "date": "2025-11-25T09:29:39.304Z",
+            "latitude": 31.195608,
+            "longitude": 29.905356,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.195608,29.905356",
+          "date": "2025-11-25T09:29:39.304Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8234.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8234.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8234.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8234.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8234.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8234.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8234.jpeg",
+              "width": 1280,
+              "height": 1280
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8234.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8235",
+          "type": "image",
+          "src": "IMG_8235.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 3024,
+          "height": 4032,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8235.png",
+          "placeholderColor": "rgb(136,136,136)",
+          "exif": {
+            "date": "2025-11-25T09:30:04.395Z",
+            "latitude": 31.195681,
+            "longitude": 29.905467,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.195681,29.905467",
+          "date": "2025-11-25T09:30:04.395Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8235.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8235.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8235.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8235.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8235.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8235.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8235.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8235.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8236",
+          "type": "image",
+          "src": "IMG_8236.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4032,
+          "height": 3024,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8236.png",
+          "placeholderColor": "rgb(120,120,120)",
+          "exif": {
+            "date": "2025-11-25T09:30:50.891Z",
+            "latitude": 31.195544,
+            "longitude": 29.905406,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.195544,29.905406",
+          "date": "2025-11-25T09:30:50.891Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8236.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8236.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8236.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8236.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8236.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8236.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8236.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8236.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8237",
+          "type": "image",
+          "src": "IMG_8237.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 3024,
+          "height": 4032,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8237.png",
+          "placeholderColor": "rgb(152,136,104)",
+          "exif": {
+            "date": "2025-11-25T09:30:58.714Z",
+            "latitude": 31.195494,
+            "longitude": 29.905411,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.195494,29.905411",
+          "date": "2025-11-25T09:30:58.714Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8237.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8237.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8237.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8237.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8237.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8237.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8237.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8237.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8238",
+          "type": "image",
+          "src": "IMG_8238.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8238.png",
+          "placeholderColor": "rgb(168,168,168)",
+          "exif": {
+            "date": "2025-11-25T09:31:35.233Z",
+            "latitude": 31.195442,
+            "longitude": 29.905792,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.195442,29.905792",
+          "date": "2025-11-25T09:31:35.233Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8238.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8238.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8238.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8238.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8238.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8238.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8238.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8238.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8239",
+          "type": "image",
+          "src": "IMG_8239.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 6252,
+          "height": 4689,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8239.png",
+          "placeholderColor": "rgb(184,184,168)",
+          "exif": {
+            "date": "2025-11-25T09:31:45.426Z",
+            "latitude": 31.195622,
+            "longitude": 29.905303,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.195622,29.905303",
+          "date": "2025-11-25T09:31:45.426Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8239.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8239.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8239.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8239.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8239.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8239.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8239.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8239.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8241",
+          "type": "image",
+          "src": "IMG_8241.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4032,
+          "height": 3024,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8241.png",
+          "placeholderColor": "rgb(200,184,168)",
+          "exif": {
+            "date": "2025-11-25T09:40:58.982Z",
+            "latitude": 31.195214,
+            "longitude": 29.903528,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.195214,29.903528",
+          "date": "2025-11-25T09:40:58.982Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8241.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8241.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8241.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8241.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8241.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8241.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8241.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8241.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8243",
+          "type": "image",
+          "src": "IMG_8243.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8243.png",
+          "placeholderColor": "rgb(184,200,200)",
+          "exif": {
+            "date": "2025-11-25T09:43:18.448Z",
+            "latitude": 31.194631,
+            "longitude": 29.903947,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.194631,29.903947",
+          "date": "2025-11-25T09:43:18.448Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8243.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8243.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8243.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8243.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8243.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8243.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8243.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8243.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8244",
+          "type": "image",
+          "src": "IMG_8244.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4032,
+          "height": 3024,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8244.png",
+          "placeholderColor": "rgb(216,216,200)",
+          "exif": {
+            "date": "2025-11-25T09:43:22.008Z",
+            "latitude": 31.194631,
+            "longitude": 29.90395,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.194631,29.90395",
+          "date": "2025-11-25T09:43:22.008Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8244.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8244.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8244.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8244.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8244.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8244.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8244.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8244.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8249",
+          "type": "image",
+          "src": "IMG_8249.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 6048,
+          "height": 8064,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8249.png",
+          "placeholderColor": "rgb(152,136,120)",
+          "exif": {
+            "date": "2025-11-25T09:50:10.856Z",
+            "latitude": 31.19485,
+            "longitude": 29.903372,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.19485,29.903372",
+          "date": "2025-11-25T09:50:10.856Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8249.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8249.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8249.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8249.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8249.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8249.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8249.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8249.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8251",
+          "type": "image",
+          "src": "IMG_8251.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8251.png",
+          "placeholderColor": "rgb(168,152,120)",
+          "exif": {
+            "date": "2025-11-25T09:50:48.210Z",
+            "latitude": 31.194869,
+            "longitude": 29.903386,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.194869,29.903386",
+          "date": "2025-11-25T09:50:48.210Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8251.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8251.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8251.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8251.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8251.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8251.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8251.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8251.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8252",
+          "type": "image",
+          "src": "IMG_8252.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8252.png",
+          "placeholderColor": "rgb(216,216,200)",
+          "exif": {
+            "date": "2025-11-25T09:54:44.046Z",
+            "latitude": 31.194283,
+            "longitude": 29.903539,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.194283,29.903539",
+          "date": "2025-11-25T09:54:44.046Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8252.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8252.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8252.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8252.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8252.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8252.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8252.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8252.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8253",
+          "type": "image",
+          "src": "IMG_8253.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8253.png",
+          "placeholderColor": "rgb(232,232,216)",
+          "exif": {
+            "date": "2025-11-25T09:55:23.164Z",
+            "latitude": 31.194214,
+            "longitude": 29.903575,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.194214,29.903575",
+          "date": "2025-11-25T09:55:23.164Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8253.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8253.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8253.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8253.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8253.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8253.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8253.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8253.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8254",
+          "type": "image",
+          "src": "IMG_8254.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 6770,
+          "height": 5078,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/IMG_8254.png",
+          "placeholderColor": "rgb(200,200,200)",
+          "exif": {
+            "date": "2025-11-25T09:56:55.230Z",
+            "latitude": 31.194433,
+            "longitude": 29.903861,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.194433,29.903861",
+          "date": "2025-11-25T09:56:55.230Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8254.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8254.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8254.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8254.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8254.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8254.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8254.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8254.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8261",
+          "type": "image",
+          "src": "IMG_8261.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 2551,
+          "height": 3401,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8261.png",
+          "placeholderColor": "rgb(216,200,184)",
+          "exif": {
+            "date": "2025-11-25T10:06:38.624Z",
+            "latitude": 31.196419,
+            "longitude": 29.902097,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.196419,29.902097",
+          "date": "2025-11-25T10:06:38.624Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8261.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8261.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8261.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8261.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8261.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8261.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8261.jpeg",
+              "width": 1280,
+              "height": 1706
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8261.jpeg",
               "width": 190,
               "height": 107
             }
@@ -4047,6 +9736,160 @@
               "variant": "fallback",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/previews-xxs/IMG_20251125_122910.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8264",
+          "type": "image",
+          "src": "IMG_8264.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4859,
+          "height": 2733,
+          "aspectRatio": "landscape-16-9",
+          "placeholder": "blurs/IMG_8264.png",
+          "placeholderColor": "rgb(8,8,8)",
+          "exif": {
+            "date": "2025-11-25T10:29:11.436Z",
+            "latitude": 31.208628,
+            "longitude": 29.908961,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.208628,29.908961",
+          "date": "2025-11-25T10:29:11.436Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8264.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8264.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8264.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8264.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8264.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8264.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8264.jpeg",
+              "width": 1280,
+              "height": 720
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8264.jpeg",
+              "width": 190,
+              "height": 107
+            }
+          ]
+        },
+        {
+          "id": "img-img8266",
+          "type": "image",
+          "src": "IMG_8266.HEIC",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 3024,
+          "height": 4032,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/IMG_8266.png",
+          "placeholderColor": "rgb(216,232,232)",
+          "exif": {
+            "date": "2025-11-25T10:31:29.164Z",
+            "latitude": 31.207986,
+            "longitude": 29.909,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.207986,29.909",
+          "date": "2025-11-25T10:31:29.164Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_8266.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_8266.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_8266.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_8266.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_8266.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_8266.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_8266.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_8266.jpeg",
               "width": 190,
               "height": 107
             }
