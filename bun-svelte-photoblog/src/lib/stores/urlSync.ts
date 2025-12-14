@@ -7,7 +7,11 @@ import {
   showSeparators,
 } from "$lib/stores/filters";
 import { showPhotoLabels } from "$lib/stores/photoLabels";
-import { selection, editMode } from "$lib/stores/editorState";
+import {
+  selection,
+  editMode,
+  showMetadataOverlay,
+} from "$lib/stores/editorState";
 import { debug } from "$lib/stores/debug";
 import { activeTab, isSidebarOpen } from "$lib/stores/uiState";
 import type { Author } from "$lib/types/manifest";
@@ -62,7 +66,7 @@ function encodeBooleanParam(value: boolean) {
 /**
  * Updates the Svelte stores based on the current URL's query parameters.
  */
-function initializeFiltersFromUrl(url: URL) {
+export function initializeFiltersFromUrl(url: URL) {
   if (!browser) return;
 
   const csv = url.searchParams.get("authors");
@@ -123,11 +127,31 @@ function initializeFiltersFromUrl(url: URL) {
   }
 
   // Presence-only flag: `labels` (no value) means enabled.
+  // Presence-only flag: `labels` (no value) means enabled.
   if (url.searchParams.has("labels")) {
-    showPhotoLabels.set(true);
+    const val = url.searchParams.get("labels");
+    if (val === "" || val === null) {
+      showPhotoLabels.set(true);
+    } else {
+      const parsed = parseBooleanParam(val);
+      if (parsed !== undefined) showPhotoLabels.set(parsed);
+    }
   } else {
-    const labelsParam = parseBooleanParam(url.searchParams.get("labels"));
-    if (labelsParam !== undefined) showPhotoLabels.set(labelsParam);
+    // Start fresh or persist old? Original logic didn't unset it explicitly if missing,
+    // but the `else` block handled backward compat `labels=1/0` which `parseBooleanParam` handles?
+    // Actually the original `else` block:
+    // const labelsParam = parseBooleanParam(url.searchParams.get("labels"));
+    // if (labelsParam !== undefined) showPhotoLabels.set(labelsParam);
+    //
+    // Since we handle `has` first, we cover all cases inside the `if (has)`.
+    // If it DOES NOT have "labels", we generally do nothing (keep default or existing),
+    // UNLESS we want to enforce default false?
+    // The previous logic for `labels`:
+    // if (has("labels")) { set(true) } else { get("labels") ... }
+    // Wait, if !has("labels"), get("labels") is null.
+    // parseBooleanParam(null) is undefined.
+    // So the previous `else` block did NOTHING if param was missing.
+    // So my new replacement covers the `has` case fully.
   }
 
   const editCsv = url.searchParams.get("edit");
@@ -138,18 +162,36 @@ function initializeFiltersFromUrl(url: URL) {
     selection.set(new Set());
   }
   // Presence-only flags: `editMode` and `debug` mean enabled when present.
+  // Presence-only flags: `editMode` and `debug` mean enabled when present.
   if (url.searchParams.has("editMode")) {
-    editMode.set(true);
-  } else {
-    const editModeParam = parseBooleanParam(url.searchParams.get("editMode"));
-    if (editModeParam !== undefined) editMode.set(editModeParam);
+    const val = url.searchParams.get("editMode");
+    if (val === "" || val === null) {
+      editMode.set(true);
+    } else {
+      const parsed = parseBooleanParam(val);
+      if (parsed !== undefined) editMode.set(parsed);
+    }
   }
 
   if (url.searchParams.has("debug")) {
-    debug.set(true);
-  } else {
-    const debugParam = parseBooleanParam(url.searchParams.get("debug"));
-    if (debugParam !== undefined) debug.set(debugParam);
+    const val = url.searchParams.get("debug");
+    if (val === "" || val === null) {
+      debug.set(true);
+    } else {
+      const parsed = parseBooleanParam(val);
+      if (parsed !== undefined) debug.set(parsed);
+    }
+  }
+
+  // Presence-only flag: `overlay` means enabled.
+  if (url.searchParams.has("overlay")) {
+    const val = url.searchParams.get("overlay");
+    if (val === "" || val === null) {
+      showMetadataOverlay.set(true);
+    } else {
+      const parsed = parseBooleanParam(val);
+      if (parsed !== undefined) showMetadataOverlay.set(parsed);
+    }
   }
 
   const tabParam = url.searchParams.get("tab");
@@ -160,8 +202,16 @@ function initializeFiltersFromUrl(url: URL) {
   }
 
   // Presence-only flag: `sidebar` means enabled (open).
+  // Presence-only flag: `sidebar` means enabled (open).
   if (url.searchParams.has("sidebar")) {
-    isSidebarOpen.set(true);
+    const val = url.searchParams.get("sidebar");
+    if (val === "" || val === null) {
+      isSidebarOpen.set(true);
+    } else {
+      const parsed = parseBooleanParam(val);
+      // Special case: `sidebar=false` should close it
+      if (parsed !== undefined) isSidebarOpen.set(parsed);
+    }
   } else {
     // If param is missing, we assume sidebar should be closed (or strictly follow URL state).
     // User requested explicit param for OPEN state.
@@ -175,7 +225,7 @@ let debounceTimer: ReturnType<typeof setTimeout>;
  * Reads the Svelte stores and updates the URL query parameters to match.
  * This function is debounced to prevent excessive history updates.
  */
-function syncUrlFromFilters() {
+export function syncUrlFromFilters() {
   if (!browser) return;
 
   clearTimeout(debounceTimer);
@@ -233,6 +283,10 @@ function syncUrlFromFilters() {
     params.delete("debug");
     if (debugVal === true) params.set("debug", "");
 
+    const overlayVal = get(showMetadataOverlay);
+    params.delete("overlay");
+    if (overlayVal === true) params.set("overlay", "");
+
     const activeTabVal = get(activeTab);
     params.delete("tab");
     if (activeTabVal !== "agenda") {
@@ -248,6 +302,7 @@ function syncUrlFromFilters() {
       "labels",
       "editMode",
       "debug",
+      "overlay",
       "no-separators",
       "sidebar",
     ]);
@@ -310,6 +365,7 @@ export function initUrlSync(initialAuthors: Author[]) {
   showPhotoLabels.subscribe(syncUrlFromFilters);
   selection.subscribe(syncUrlFromFilters);
   editMode.subscribe(syncUrlFromFilters);
+  showMetadataOverlay.subscribe(syncUrlFromFilters);
   debug.subscribe(syncUrlFromFilters);
   activeTab.subscribe(syncUrlFromFilters);
   isSidebarOpen.subscribe(syncUrlFromFilters);
