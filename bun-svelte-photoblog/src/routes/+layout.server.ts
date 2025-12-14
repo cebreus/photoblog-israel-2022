@@ -15,16 +15,16 @@ function gatherAuthors(photoDays: PhotoDay[]): Author[] {
       if (item.type !== "image") continue;
 
       // use canonical top-level author only
-      const rawAuthor = item.author;
-      if (!rawAuthor) continue;
-
+      // use canonical top-level author only
+      const rawAuthor = item.author || "";
+      
       counts.set(rawAuthor, (counts.get(rawAuthor) ?? 0) + 1);
     }
   }
 
   return Array.from(counts.entries())
     .map(([name, count]) => ({
-      name,
+      name: name || "Bez autora",
       count,
       slug: name ? toSlug(name) : "", // Using toSlug
     }))
