@@ -62,7 +62,14 @@
         "label": "Cairo Tower",
         "href": "#loc-cairo-tower",
         "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-24T19:12:12.832Z"
+        "firstPhotoExifDate": "2025-11-24T18:49:27.570Z"
+      },
+      {
+        "id": "loc-al-ahly-sporting-club",
+        "label": "Al-Ahly Sporting Club ",
+        "href": "#img-img1009",
+        "isDimmed": true,
+        "firstPhotoExifDate": "2025-11-24T20:18:48.341Z"
       }
     ]
   },
@@ -78,6 +85,71 @@
         "href": "#img-img20251125122855",
         "isDimmed": true,
         "firstPhotoExifDate": "2025-11-25T10:28:58.783Z"
+      }
+    ]
+  },
+  {
+    "id": "day-2025-11-26",
+    "date": "2025-11-26",
+    "label": "středa 26. listopadu 2025",
+    "href": "#day-2025-11-26",
+    "locations": []
+  },
+  {
+    "id": "day-2025-11-27",
+    "date": "2025-11-27",
+    "label": "čtvrtek 27. listopadu 2025",
+    "href": "#day-2025-11-27",
+    "locations": []
+  },
+  {
+    "id": "day-2025-11-28",
+    "date": "2025-11-28",
+    "label": "pátek 28. listopadu 2025",
+    "href": "#day-2025-11-28",
+    "locations": []
+  },
+  {
+    "id": "day-2025-11-29",
+    "date": "2025-11-29",
+    "label": "sobota 29. listopadu 2025",
+    "href": "#day-2025-11-29",
+    "locations": []
+  },
+  {
+    "id": "day-2025-11-30",
+    "date": "2025-11-30",
+    "label": "neděle 30. listopadu 2025",
+    "href": "#day-2025-11-30",
+    "locations": []
+  },
+  {
+    "id": "day-2025-12-01",
+    "date": "2025-12-01",
+    "label": "pondělí 1. prosince 2025",
+    "href": "#day-2025-12-01",
+    "locations": [
+      {
+        "id": "loc-chram-philae",
+        "label": "Chrám Philae",
+        "href": "#img-img2032",
+        "isDimmed": true,
+        "firstPhotoExifDate": "2025-12-01T06:36:11.748Z"
+      }
+    ]
+  },
+  {
+    "id": "day-2025-12-02",
+    "date": "2025-12-02",
+    "label": "úterý 2. prosince 2025",
+    "href": "#day-2025-12-02",
+    "locations": [
+      {
+        "id": "loc-blend-aqua-beach",
+        "label": "Blend Aqua beach",
+        "href": "#img-img2073",
+        "isDimmed": true,
+        "firstPhotoExifDate": "2025-12-02T10:11:44.912Z"
       }
     ]
   }
