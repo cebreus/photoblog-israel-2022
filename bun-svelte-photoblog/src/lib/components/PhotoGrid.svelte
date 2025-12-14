@@ -17,6 +17,7 @@
   import { invalidateAll } from "$app/navigation";
   import { page } from "$app/stores";
   import { Trash2, Copy } from "lucide-svelte";
+  import { showMetadataOverlay } from "$lib/stores/editorState";
 
   import { toSlug } from "$lib/utils/strings";
 
@@ -280,36 +281,38 @@
   ]}
 
   <div data-testid="image-metadata-container">
-    <table
-      class="w-full text-[10px] bg-white/70 dark:bg-slate-900/70 rounded-sm"
-      data-testid="image-metadata-table"
-    >
-      <tbody>
-        {#each metadataRows as field, index}
-          <tr
-            class={index < metadataRows.length - 1
-              ? "border-b border-slate-400 dark:border-slate-600"
-              : ""}
-            data-testid="metadata-row-{field.label
-              .toLowerCase()
-              .replace(/\s+/g, '-')}"
-          >
-            <td
-              class="px-1 align-top text-muted-foreground font-medium min-w-16 pb-0.5 whitespace-nowrap"
+    {#if $showMetadataOverlay}
+      <table
+        class="w-full text-[10px] bg-white/70 dark:bg-slate-900/70 rounded-sm"
+        data-testid="image-metadata-table"
+      >
+        <tbody>
+          {#each metadataRows as field, index}
+            <tr
+              class={index < metadataRows.length - 1
+                ? "border-b border-slate-400 dark:border-slate-600"
+                : ""}
+              data-testid="metadata-row-{field.label
+                .toLowerCase()
+                .replace(/\s+/g, '-')}"
             >
-              {field.label}
-            </td>
-            <td class="font-mono truncate max-w-full min-w-0 w-full pb-0.5">
-              {#if field.value}
-                {field.value}
-              {:else}
-                <span class="text-muted-foreground">-</span>
-              {/if}
-            </td>
-          </tr>
-        {/each}
-      </tbody>
-    </table>
+              <td
+                class="px-1 align-top text-muted-foreground font-medium min-w-16 pb-0.5 whitespace-nowrap"
+              >
+                {field.label}
+              </td>
+              <td class="font-mono truncate max-w-full min-w-0 w-full pb-0.5">
+                {#if field.value}
+                  {field.value}
+                {:else}
+                  <span class="text-muted-foreground">-</span>
+                {/if}
+              </td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    {/if}
   </div>
 {/snippet}
 

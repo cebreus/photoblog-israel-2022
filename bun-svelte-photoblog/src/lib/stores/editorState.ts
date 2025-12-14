@@ -54,3 +54,5 @@ function createEditModeStore() {
 }
 
 export const editMode = createEditModeStore();
+
+export const showMetadataOverlay = writable(false);

@@ -2,8 +2,9 @@
   import { page } from "$app/stores";
   import type { MenuManifest, PhotoDay } from "$lib/types/manifest";
   import { Button } from "$lib/components/ui/button";
-  import { Bug } from "lucide-svelte";
+  import { Bug, Tags } from "lucide-svelte";
   import { debug } from "$lib/stores/debug";
+  import { editMode, showMetadataOverlay } from "$lib/stores/editorState";
   import * as Sidebar from "$lib/components/ui/sidebar";
 
   type AuthorStats = {
@@ -28,8 +29,20 @@
   </a>
 
   {#if import.meta.env.DEV}
+    {#if $editMode}
+      <Button
+        variant={$showMetadataOverlay ? "secondary" : "ghost"}
+        size="icon"
+        onclick={() => showMetadataOverlay.update((v) => !v)}
+        title="Zobrazit/skrýt popisky fotek"
+        data-testid="metadata-overlay-trigger"
+      >
+        <Tags strokeWidth={2.5} />
+      </Button>
+    {/if}
+
     <Button
-      variant="ghost"
+      variant={$debug ? "secondary" : "ghost"}
       size="icon"
       onclick={() => debug.update((v: boolean) => !v)}
       title="Přepnout režim ladění"
