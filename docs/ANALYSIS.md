@@ -50,7 +50,7 @@ Tento skript je centrálním bodem pro zpracování všech fotografií v projekt
 
 ### 2.3. Generování manifestů
 
-Skript `generate-images.ts` vytváří tři klíč manifesty ve formátu JSON, které jsou uloženy v `src/lib/data/<galerie>/`:
+Skript `generate-images.ts` vytváří tři klíč manifesty ve formátu JSON, které jsou uloženy v `src/data/<galerie>/`:
 
 - **`images.manifest.json`**:
   - Obsahuje strukturovaná data o všech fotografiích seskupená podle dnů (`photoDays`)
@@ -76,7 +76,7 @@ Projekt používá speciální alias `$manifests`, který se automaticky resolvu
 ```typescript
 // V svelte.config.js a vite.config.ts
 alias: {
-  $manifests: path.resolve(__dirname, "src/lib/data", contentDir);
+  $manifests: path.resolve(__dirname, "src/data", contentDir);
 }
 ```
 

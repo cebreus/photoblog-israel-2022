@@ -6,7 +6,7 @@ import fs from "node:fs";
 import { dev } from "$app/environment";
 import { spawn } from "node:child_process";
 import type { Manifest, ImageEntry } from "$lib/types/manifest";
-import { getExifToolWriteTags, type MetadataKey } from "$lib/metadata-standards";
+import { getExifToolWriteTags, type MetadataKey } from "$lib/utils/metadata-standards";
 
 function findImageById(manifestData: Manifest, id: string): ImageEntry | undefined {
   for (const day of manifestData.photoDays) {
@@ -61,10 +61,7 @@ export async function POST({ request }) {
   }
 
   // Read manifest dynamically
-  const manifestPath = path.resolve(
-    process.cwd(),
-    `src/lib/data/${contentDir}/images.manifest.json`,
-  );
+  const manifestPath = path.resolve(process.cwd(), `src/data/${contentDir}/images.manifest.json`);
   if (!fs.existsSync(manifestPath)) {
     throw error(500, `Manifest nebyl nalezen na ${manifestPath}`);
   }

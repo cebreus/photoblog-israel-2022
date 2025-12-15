@@ -8,7 +8,7 @@ Díky multi-gallery architektuře s proměnnou `CONTENT_DIR` můžete snadno př
 
 - Vlastní obsah v `content/<název-galerie>/`
 - Vlastní vygenerované assety ve `static/<název-galerie>/`
-- Vlastní manifesty v `src/lib/data/<název-galerie>/`
+- Vlastní manifesty v `src/data/<název-galerie>/`
 - Vlastní skripty v `package.json`
 
 ---
@@ -168,9 +168,9 @@ Tento proces může trvat několik minut v závislosti na počtu fotografií.
 
 - `static/nova-galerie/images/` - Optimalizované obrázky (AVIF, WebP, JPEG)
 - `static/nova-galerie/assets/favicons/` - Favicon v různých velikostech
-- `src/lib/data/nova-galerie/images.manifest.json` - Hlavní manifest fotografií
-- `src/lib/data/nova-galerie/menu.manifest.json` - Navigační menu
-- `src/lib/data/nova-galerie/site.manifest.json` - Konfigurace galerie
+- `src/data/nova-galerie/images.manifest.json` - Hlavní manifest fotografií
+- `src/data/nova-galerie/menu.manifest.json` - Navigační menu
+- `src/data/nova-galerie/site.manifest.json` - Konfigurace galerie
 - `.temp/nova-galerie/images.cache.json` - Cache pro rychlejší přegenerování
 
 ---

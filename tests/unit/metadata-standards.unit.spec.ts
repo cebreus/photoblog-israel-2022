@@ -3,7 +3,7 @@ import {
   METADATA_STANDARDS,
   getExifToolWriteTags,
   type MetadataKey,
-} from "../../src/lib/metadata-standards";
+} from "../../src/lib/utils/metadata-standards";
 
 describe("Metadata Standards", () => {
   it("defines read and write mappings for all keys", () => {

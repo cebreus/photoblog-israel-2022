@@ -18,7 +18,7 @@ export const DELETE: RequestHandler = async ({ request }) => {
   }
 
   const contentRoot = path.resolve(process.cwd(), "content");
-  const dataRoot = path.resolve(process.cwd(), "src/lib/data");
+  const dataRoot = path.resolve(process.cwd(), "src/data");
 
   const deleted: string[] = [];
   const errors: string[] = [];
@@ -206,7 +206,7 @@ export const PATCH: RequestHandler = async ({ request }) => {
   }
 
   const contentRoot = path.resolve(process.cwd(), "content");
-  const dataRoot = path.resolve(process.cwd(), "src/lib/data");
+  const dataRoot = path.resolve(process.cwd(), "src/data");
 
   const errors: string[] = [];
   const updated: string[] = [];
@@ -260,7 +260,7 @@ export const PATCH: RequestHandler = async ({ request }) => {
       filtered: filteredUpdates,
     });
 
-    const { getExifToolWriteTags } = await import("$lib/metadata-standards");
+    const { getExifToolWriteTags } = await import("$lib/utils/metadata-standards");
     const tags = getExifToolWriteTags(filteredUpdates as any);
 
     if (Object.keys(tags).length === 0) {

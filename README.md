@@ -18,7 +18,7 @@ Každá galerie má:
 
 - Vlastní obsah v `content/<název-galerie>/`
 - Vlastní vygenerované assety ve `static/<název-galerie>/`
-- Vlastní manifesty v `src/lib/data/<název-galerie>/`
+- Vlastní manifesty v `src/data/<název-galerie>/`
 
 ## Quick Start
 

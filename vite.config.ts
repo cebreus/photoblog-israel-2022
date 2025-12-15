@@ -14,7 +14,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      $manifests: path.resolve(__dirname, "src/lib/data", contentDir),
+      $manifests: path.resolve(__dirname, "src/data", contentDir),
     },
   },
   test: {

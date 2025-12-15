@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { renderStoryHtml, renderMarkdown } from "../../src/lib/markup";
+import { renderStoryHtml, renderMarkdown } from "../../src/lib/utils/markup";
 import type { Separator } from "../../src/lib/types/manifest";
 
 describe("renderStoryHtml", () => {

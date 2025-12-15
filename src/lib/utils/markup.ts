@@ -2,11 +2,11 @@ import { marked } from "marked";
 import type { Separator } from "$lib/types/manifest";
 
 /**
- * Convert storyContent (markdown) to HTML. Kept as a pure TS helper
+ * Convert separator.storyContent (markdown) to HTML. Kept as a pure TS helper
  * so rendering/parsing is testable and lives in the data/transform layer.
  */
-export function renderStoryHtml(story: string | undefined, preRenderedHtml?: string): string {
-  return preRenderedHtml ?? story ?? "";
+export function renderStoryHtml(separator: Separator): string {
+  return separator.story ?? "";
 }
 
 /**

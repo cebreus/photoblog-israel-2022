@@ -122,7 +122,7 @@ Projekt klade velký důraz na **výkon a optimalizaci obrázků** - jádrem je 
 │  ├─ Generuje LQIP placeholders (24px blur)                  │
 │  ├─ Hash-based caching pro rychlost                         │
 │  ├─ Ukládá do static/<CONTENT_DIR>/images/                 │
-│  └─ Vytváří manifesty: src/lib/data/<CONTENT_DIR>/*.json    │
+│  └─ Vytváří manifesty: src/data/<CONTENT_DIR>/*.json    │
 │                                                              │
 │  Cache: .temp/<CONTENT_DIR>/images.cache.json               │
 │  Režimy: --manifestOnly, --curation, --watch, --clean       │
@@ -148,15 +148,16 @@ Projekt klade velký důraz na **výkon a optimalizaci obrázků** - jádrem je 
 │  │  │  └─ ui/                Shadcn-svelte komponenty       │
 │  │  ├─ stores/               Svelte 5 stores (stav)         │
 │  │  ├─ types/                TypeScript typy                │
-│  │  ├─ utils/                Utility funkce                 │
-│  │  └─ data/<CONTENT_DIR>/   Manifesty aktivní galerie      │
-│  │     ├─ images.manifest.json                              │
-│  │     ├─ menu.manifest.json                                │
-│  │     └─ site.manifest.json                                │
+│  │  └─ utils/                Utility funkce                 │
+│  │                                                           │
+│  ├─ data/<CONTENT_DIR>/      Manifesty aktivní galerie      │
+│  │  ├─ images.manifest.json                                 │
+│  │  ├─ menu.manifest.json                                   │
+│  │  └─ site.manifest.json                                   │
 │  │                                                           │
 │  └─ app.html / app.css       HTML šablona a globální styly  │
 │                                                              │
-│  Alias $manifests → src/lib/data/<CONTENT_DIR>              │
+│  Alias $manifests → src/data/<CONTENT_DIR>              │
 └──────────────────┬──────────────────────────────────────────┘
                    │
                    ▼

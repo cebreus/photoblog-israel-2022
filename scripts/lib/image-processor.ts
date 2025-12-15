@@ -21,7 +21,7 @@ import {
 import { toSlug } from "../../src/lib/utils/strings";
 import { execSync } from "node:child_process";
 import os from "node:os";
-import { METADATA_STANDARDS } from "../../src/lib/metadata-standards";
+import { METADATA_STANDARDS } from "../../src/lib/utils/metadata-standards";
 // xxhash-wasm types might be missing
 import xxhash from "xxhash-wasm";
 import { detectFaces, type FaceBox } from "./face-detection";

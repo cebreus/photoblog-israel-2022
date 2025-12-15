@@ -2,7 +2,7 @@ import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import path from "node:path";
 import fs from "node:fs";
 import { exiftool } from "exiftool-vendored";
-import { getExifToolWriteTags } from "../../src/lib/metadata-standards";
+import { getExifToolWriteTags } from "../../src/lib/utils/metadata-standards";
 import { createImageEntry } from "../../scripts/lib/image-processor";
 import { getKeywords } from "../../scripts/lib/image-utils";
 import { buildInputSet } from "../utils/fixtures";

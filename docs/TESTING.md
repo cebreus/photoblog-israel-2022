@@ -193,7 +193,7 @@ Nemůžete používat top-level proměnné uvnitř `vi.mock()`, pokud nejsou def
 Component testy a některé integration testy vyžadují existující manifest data. Ujistěte se, že:
 
 - Spouštíte test s `CONTENT_DIR=<galerie>` ukazujícím na validní galerii
-- Manifesty pro danou galerii existují v `src/lib/data/<galerie>/`
+- Manifesty pro danou galerii existují v `src/data/<galerie>/`
 - Nejprve spusťte `bun run images:build` pro vygenerování manifestů
 
 ### Sharp timeouty v integration testech
