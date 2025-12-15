@@ -12,12 +12,15 @@ import type { ExifData as ManifestExifData } from "../../src/lib/types/manifest"
 import { ImageFormat } from "../../src/lib/types/images";
 import { config } from "../config";
 import { createLogger } from "./logger";
+import { aiService } from "./ai-models";
 import {
   getAltText,
   getAspectRatioName,
   getKeywords,
   normalizeText,
   ensureDir,
+  calculateSharpness,
+  calculatePhash,
 } from "./image-utils";
 import { toSlug } from "../../src/lib/utils/strings";
 import { execSync } from "node:child_process";
@@ -100,6 +103,7 @@ export type ProcessedImageResult = {
 
 export type ImageProcessOptions = {
   manifestOnly: boolean;
+  curation: boolean;
   srcRoot: string;
   outRoot: string;
   allowUpscale: boolean;
@@ -194,11 +198,50 @@ export async function processImage(
 
     // Use exiftool to read metadata (it's robust for HEIC/XMP)
     // We run it on the ORIGINAL file (absPath), not the converted JPG, to get full original metadata
-    const [imageStats, exifTags, originalMeta] = await Promise.all([
-      sharpInstance.stats(),
-      exiftool.read(absPath),
-      sharpInstance.metadata(),
-    ]);
+    const [imageStats, exifTags, originalMeta, sharpnessScore, phash] =
+      await Promise.all([
+        sharpInstance.stats(),
+        exiftool.read(absPath),
+        sharpInstance.metadata(),
+        calculateSharpness(sharpModule, processingPath),
+        calculatePhash(sharpModule, processingPath),
+        // Defer embedding until after date check if possible?
+        // Actually, we can just run them all, and filter before we return?
+        // But we want to SAVE TIME. Embedding is slow.
+        // ExifTool is fast.
+        // We should check Exif first?
+        // BUT `Promise.all` runs them in parallel.
+        // If run sequentially: Exif -> Check -> Embedding.
+        // Refactoring to run Exif first.
+      ]);
+
+    // OPTIMIZATION: Date Filter for debugging
+    // If FILTER_DATE is set (YYYY-MM-DD), skip if doesn't match.
+    if (process.env.FILTER_DATE) {
+      let dateStr = "";
+      const dto = exifTags.DateTimeOriginal;
+      if (dto instanceof Date) {
+        dateStr = dto.toISOString().split("T")[0];
+      } else if (typeof dto === "string") {
+        // ExifTool string format: YYYY:MM:DD HH:MM:SS
+        // or ISO
+        const parts = dto.split(" ")[0].replace(/:/g, "-");
+        dateStr = parts;
+      } else if (dto && (dto as any).year) {
+        // ExifDate object?
+        dateStr = `${(dto as any).year}-${String((dto as any).month).padStart(2, "0")}-${String((dto as any).day).padStart(2, "0")}`;
+      }
+
+      if (dateStr !== process.env.FILTER_DATE) {
+        // logger.info(`Skipping ${baseName} (Date: ${dateStr})`);
+        return null;
+      }
+    }
+
+    let embedding: number[] | undefined;
+    if (options.curation) {
+      embedding = await aiService.generateEmbedding(processingPath);
+    }
 
     // We access properties using keys defined in our shared Metadata Standards
     // const { METADATA_STANDARDS } = await import("../../src/lib/metadata-standards");
@@ -235,7 +278,6 @@ export async function processImage(
       return undefined;
     }
 
-    // Map ExifTool tags to our RawExifData structure
     // We populate specific fields needed by createImageEntry, plus the canonical ones
     const exifRaw: Partial<RawExifData> = {
       // Historical mappings for components depending on them
@@ -330,6 +372,9 @@ export async function processImage(
       exifRaw,
       originalMeta,
       placeholderColor,
+      sharpnessScore,
+      phash,
+      embedding,
     );
 
     const outputDefinitions = buildOutputDefinitions();
@@ -415,6 +460,9 @@ export async function createImageEntry(
   exif: Partial<RawExifData>,
   originalMeta: import("sharp").Metadata,
   placeholderColor: string,
+  sharpness?: number,
+  phash?: string,
+  embedding?: number[],
 ): Promise<ImageEntry> {
   const titleCanonical = normalizeText(
     exif.ObjectName ||
@@ -476,6 +524,11 @@ export async function createImageEntry(
         : undefined,
     placeholder: undefined,
     placeholderColor,
+    analysis: {
+      sharpness: sharpness || 0,
+      phash: phash || "",
+      embedding: embedding || [],
+    },
     exif: {
       date: isoDate,
       location: exif.Location,

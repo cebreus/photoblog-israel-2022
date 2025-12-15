@@ -101,3 +101,78 @@ export async function ensureDir(dir: string): Promise<void> {
 export function sha1(buf: Buffer | Uint8Array | string): string {
   return crypto.createHash("sha1").update(buf).digest("hex");
 }
+
+type SharpType = typeof import("sharp");
+
+/**
+ * Calculates a sharpness score using Laplacian Variance.
+ * Higher score = sharper image.
+ */
+export async function calculateSharpness(
+  sharpModule: SharpType,
+  imagePath: string,
+): Promise<number> {
+  const LaplacianKernel = {
+    width: 3,
+    height: 3,
+    kernel: [0, -1, 0, -1, 4, -1, 0, -1, 0],
+  };
+
+  try {
+    const stats = await sharpModule(imagePath)
+      .resize({ width: 500, withoutEnlargement: true })
+      .grayscale()
+      .convolve(LaplacianKernel)
+      .stats();
+
+    // Sharp stats() on a grayscale image typically returns a 'channels' array
+    // We want the standard deviation of the first channel (brightness/luminance)
+    const stdev = stats.channels[0].stdev;
+
+    return stdev * stdev;
+  } catch (e) {
+    console.warn(`Failed to calculate sharpness for ${imagePath}:`, e);
+    return 0;
+  }
+}
+
+/**
+ * Calculates a perceptual difference hash (dHash).
+ * Returns a 64-bit hex string.
+ */
+export async function calculatePhash(
+  sharpModule: SharpType,
+  imagePath: string,
+): Promise<string> {
+  try {
+    // dHash algorithm:
+    // 1. Resize to 9x8 (72 pixels)
+    // 2. Grayscale
+    // 3. To buffer
+    // 4. Compare pixel[i] with pixel[i+1]
+    const buffer = await sharpModule(imagePath)
+      .resize(9, 8, { fit: "fill" })
+      .grayscale()
+      .raw()
+      .toBuffer();
+
+    let hash = 0n;
+
+    // Iterate over rows
+    for (let y = 0; y < 8; y++) {
+      // Iterate over cols up to width-1
+      for (let x = 0; x < 8; x++) {
+        const left = buffer[y * 9 + x];
+        const right = buffer[y * 9 + x + 1];
+        if (left > right) {
+          hash |= 1n << BigInt(y * 8 + x);
+        }
+      }
+    }
+
+    return hash.toString(16).padStart(16, "0");
+  } catch (e) {
+    console.warn(`Failed to calculate pHash for ${imagePath}:`, e);
+    return "0000000000000000";
+  }
+}
