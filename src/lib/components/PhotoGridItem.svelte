@@ -258,12 +258,6 @@
           <AspectRatioIcon aspectRatio={item.aspectRatio} />
         {/if}
 
-        {#if $debug}
-          <div class="bg-black bg-opacity-75 p-2 w-full">
-            <JsonViewer data={item} />
-          </div>
-        {/if}
-
         {#if isEditMode || (isCurationActive && !isCurationModeLayout)}
           <!-- Old Grid Overlay Logic -->
           <!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -350,6 +344,12 @@
           <span class="sr-only">Open detail</span>
         {/if}
       </figure>
+
+      {#if $debug}
+        <div class="p-2 bg-slate-950 rounded-b-xl">
+          <JsonViewer data={item} />
+        </div>
+      {/if}
     </svelte:element>
 
     {#if isCurationModeLayout}

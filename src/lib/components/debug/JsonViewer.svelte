@@ -24,12 +24,11 @@
 </script>
 
 <div
-  class="font-mono text-xs text-gray-200"
+  class="font-mono text-xs"
   style:--level={level}
   style:padding-left="calc(var(--level) * 0.5rem)"
   data-testid="json-viewer"
 >
-  >
   {#if isObject(data)}
     <button onclick={toggle} class="cursor-pointer text-gray-400 hover:text-gray-100">
       <span>{isExpanded ? "▼" : "▶"}</span>
