@@ -207,7 +207,7 @@ let isCurationModeLayout = $derived(mode === "curation");
         id={item.id}
         data-testid="photo-grid-item-figure-{item.id}"
         class={cn(
-          "relative bg-cover bg-center rounded-lg overflow-hidden duration-300 outline-background transition-[outline-color,border-color] ease-in-out border-2 border-transparent",
+          "aspect-video overflow-hidden relative bg-cover bg-center rounded-lg duration-300 outline-background transition-[outline-color,border-color] ease-in-out border-2 border-transparent",
           isSelected
             ? "outline-4 outline-blue-500 ring-2 ring-blue-300"
             : "hover:outline-orange-100 outline-4 outline-offset-2",
@@ -239,7 +239,7 @@ let isCurationModeLayout = $derived(mode === "curation");
             src={fallback.path}
             alt={item.alt}
             loading="lazy"
-            class="w-full h-full object-cover cursor-zoom-in aspect-video"
+            class="w-full h-full object-cover cursor-zoom-in "
             width={fallback.width}
             height={fallback.height}
             data-testid="photo-grid-item-image-{item.id}"

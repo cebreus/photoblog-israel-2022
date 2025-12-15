@@ -422,7 +422,7 @@ let processedItems = $derived.by(() => {
       {#if item.story}
         <Dialog.Root>
           <Dialog.Trigger
-            class="aspect-video flex flex-col items-center justify-center p-4 bg-linear-to-br from-slate-100 to-slate-300 rounded-lg duration-500 outline-background hover:outline-orange-100 outline-4 outline-offset-2 transition-[outline-color] ease-in-out dark:from-slate-700 dark:to-slate-800"
+            class="aspect-video overflow-hidden flex flex-col items-center justify-center p-4 bg-linear-to-br from-slate-100 to-slate-300 rounded-lg duration-500 outline-background hover:outline-orange-100 outline-4 outline-offset-2 transition-[outline-color] ease-in-out dark:from-slate-700 dark:to-slate-800"
             data-testid="photo-grid-separator-trigger-{separatorId}"
           >
             <h3 class="text-lg" data-testid="photo-grid-separator-location">
@@ -466,7 +466,7 @@ let processedItems = $derived.by(() => {
         </Dialog.Root>
       {:else}
         <div
-          class="aspect-video flex flex-col items-center justify-center p-4 bg-linear-to-br from-slate-100 to-slate-300 rounded-lg dark:from-slate-700 dark:to-slate-800"
+          class="aspect-video overflow-hidden flex flex-col items-center justify-center p-4 bg-linear-to-br from-slate-100 to-slate-300 rounded-lg dark:from-slate-700 dark:to-slate-800"
           id={separatorId}
           use:useScrollspy={{ id: separatorId }}
           data-testid="photo-grid-separator-simple-{separatorId}"
