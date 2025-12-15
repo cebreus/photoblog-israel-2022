@@ -34,19 +34,13 @@ async function loadSiteConfig(contentDir: string): Promise<SiteConfig> {
   const { data } = matter(siteConfigFile);
 
   if (!data.favicon) {
-    throw new Error(
-      `Config error: 'favicon' key is missing in ${siteConfigPath}.`,
-    );
+    throw new Error(`Config error: 'favicon' key is missing in ${siteConfigPath}.`);
   }
   if (!data.manifest) {
-    throw new Error(
-      `Config error: 'manifest' key is missing in ${siteConfigPath}.`,
-    );
+    throw new Error(`Config error: 'manifest' key is missing in ${siteConfigPath}.`);
   }
   if (!data.meta?.lang) {
-    throw new Error(
-      `Config error: 'meta.lang' key is missing in ${siteConfigPath}.`,
-    );
+    throw new Error(`Config error: 'meta.lang' key is missing in ${siteConfigPath}.`);
   }
 
   const sourceFile = path.join(sourceDirPath, data.favicon);
@@ -80,9 +74,7 @@ async function run() {
   logger.info(`Using content directory: ${contentDir}`);
 
   const config = await loadSiteConfig(contentDir);
-  logger.info(
-    `Using source file: ${path.relative(process.cwd(), config.sourceFile)}`,
-  );
+  logger.info(`Using source file: ${path.relative(process.cwd(), config.sourceFile)}`);
 
   const staticDir = `static/${contentDir}`;
   const assetsOutDir = path.resolve(staticDir, "assets", "favicons");
@@ -133,9 +125,7 @@ async function run() {
   }
 
   await Promise.all(response.files.map(writeFile));
-  logger.info(
-    `Wrote manifest files to ${path.relative(process.cwd(), assetsOutDir)}`,
-  );
+  logger.info(`Wrote manifest files to ${path.relative(process.cwd(), assetsOutDir)}`);
 
   const tempFaviconHtmlPath = path.join(tempDir, "favicons.html");
   function filterOutIco(htmlLine: string) {

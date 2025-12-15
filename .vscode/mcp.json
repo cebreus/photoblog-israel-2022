@@ -1,32 +1,23 @@
 {
-	"servers": {
-		"bun": {
-			"type": "stdio",
-			"command": "bunx",
-			"args": [
-				"-y",
-				"mcp-bun@latest"
-			],
-			"env": {
-				"DISABLE_NOTIFICATIONS": "true"
-			}
-		},
-		"svelte": {
-			"type": "stdio",
-			"command": "npx",
-			"args": [
-				"-y",
-				"@sveltejs/mcp"
-			],
-			"env": {}
-		},
-		"jsrepo": {
-			"type": "stdio",
-			"command": "npx",
-			"args": [
-				"jsrepo",
-				"mcp"
-			]
-		}
-	}
+  "servers": {
+    "bun": {
+      "type": "stdio",
+      "command": "bunx",
+      "args": ["-y", "mcp-bun@latest"],
+      "env": {
+        "DISABLE_NOTIFICATIONS": "true"
+      }
+    },
+    "svelte": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@sveltejs/mcp"],
+      "env": {}
+    },
+    "jsrepo": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["jsrepo", "mcp"]
+    }
+  }
 }

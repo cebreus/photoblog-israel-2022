@@ -29,11 +29,7 @@ export function computeTotals(
   const allPhotoDays = photoDaysData;
 
   for (const day of allPhotoDays) {
-    const filteredItems = filterGalleryItems(
-      day.items,
-      selectedAuthors,
-      showSeparators,
-    );
+    const filteredItems = filterGalleryItems(day.items, selectedAuthors, showSeparators);
 
     for (const item of filteredItems) {
       if (item.type === "image") {
@@ -78,12 +74,10 @@ export function mergeSparseDays(days: PhotoDay[]): PhotoDay[] {
     // but we add mergedDates to signal UI handling.
     const first = pendingMerge[0];
     const items = pendingMerge.flatMap((d) => d.items);
-    const cities = Array.from(
-      new Set(pendingMerge.flatMap((d) => d.cities ?? [])),
-    ).filter(Boolean);
-    const locations = Array.from(
-      new Set(pendingMerge.flatMap((d) => d.locations ?? [])),
-    ).filter(Boolean);
+    const cities = Array.from(new Set(pendingMerge.flatMap((d) => d.cities ?? []))).filter(Boolean);
+    const locations = Array.from(new Set(pendingMerge.flatMap((d) => d.locations ?? []))).filter(
+      Boolean,
+    );
 
     const merged: PhotoDay = {
       ...first,

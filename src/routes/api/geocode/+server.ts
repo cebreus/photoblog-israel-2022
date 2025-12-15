@@ -34,9 +34,7 @@ export async function GET({ url, fetch }) {
     const address = data.address || {};
     const namedetails = data.namedetails || {};
 
-    let countryCode = address.country_code
-      ? address.country_code.toUpperCase()
-      : undefined;
+    let countryCode = address.country_code ? address.country_code.toUpperCase() : undefined;
 
     // Convert to ISO 3166-1 alpha-3 if possible
     if (countryCode && countryCode.length === 2) {
@@ -47,8 +45,7 @@ export async function GET({ url, fetch }) {
     }
 
     // Map fields
-    const city =
-      address.city || address.town || address.village || address.municipality;
+    const city = address.city || address.town || address.village || address.municipality;
 
     // Try to find a Czech name for the specific location if available in namedetails
     // This often helps with "location" (sublocation) field if the result is a specific POI

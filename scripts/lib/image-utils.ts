@@ -28,10 +28,7 @@ export function gcd(a: number, b: number): number {
  * Compute a human-friendly aspect ratio name (canonical or reduced numeric) for width/height.
  */
 
-export function getAspectRatioName(
-  width?: number,
-  height?: number,
-): AspectRatio | undefined {
+export function getAspectRatioName(width?: number, height?: number): AspectRatio | undefined {
   if (!width || !height) return undefined;
   const ratio = width / height;
   if (Math.abs(ratio - 1) < 0.05) return "square";
@@ -67,11 +64,7 @@ export function normalizeText(value: any): string | undefined {
  * Build an accessible alt string for an image using caption/title and location data.
  */
 
-export function getAltText(
-  exif: any,
-  captionNorm?: string,
-  titleNorm?: string,
-) {
+export function getAltText(exif: any, captionNorm?: string, titleNorm?: string) {
   const parts: string[] = [];
   if (captionNorm) parts.push(captionNorm);
   else if (titleNorm) parts.push(titleNorm);
@@ -140,10 +133,7 @@ export async function calculateSharpness(
  * Calculates a perceptual difference hash (dHash).
  * Returns a 64-bit hex string.
  */
-export async function calculatePhash(
-  sharpModule: SharpType,
-  imagePath: string,
-): Promise<string> {
+export async function calculatePhash(sharpModule: SharpType, imagePath: string): Promise<string> {
   try {
     // dHash algorithm:
     // 1. Resize to 9x8 (72 pixels)

@@ -109,9 +109,7 @@ describe("EditTab", () => {
     selectionStore.set(new Set(["img1"]));
     render(EditTab, { items: mockItems });
 
-    await expect
-      .element(page.getByTestId("edit-tab-selected-image-img1"))
-      .toBeInTheDocument();
+    await expect.element(page.getByTestId("edit-tab-selected-image-img1")).toBeInTheDocument();
     await expect.element(page.getByText("test.jpg")).toBeInTheDocument();
   });
 
@@ -119,9 +117,7 @@ describe("EditTab", () => {
     selectionStore.set(new Set(["img1", "img2"])); // Multiple to show "Clear All" logic or just X logic
     render(EditTab, { items: mockItems });
 
-    await expect
-      .element(page.getByTestId("edit-tab-selected-images"))
-      .toBeInTheDocument();
+    await expect.element(page.getByTestId("edit-tab-selected-images")).toBeInTheDocument();
 
     // Click Clear All
     const clearAll = page.getByTestId("edit-tab-clear-selection");

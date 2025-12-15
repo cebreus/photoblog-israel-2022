@@ -14,52 +14,48 @@ export async function runCli(
 ) {
   // This is the old implementation that spawns a child process.
   // We will deprecate this in favor of runGenerator for unit tests.
-  return new Promise<{ code: number; stdout: string; stderr: string }>(
-    (resolve, reject) => {
-      const proc = spawn("bun", ["scripts/generate-images.ts", ...args], {
-        cwd: opts?.cwd ?? path.resolve(__dirname, "../../.."),
-        env: {
-          ...process.env,
-          SHARP_NUM_THREADS: "1",
-          TZ: "UTC",
-          ...(opts?.env || {}),
-        },
-        stdio: ["ignore", "pipe", "pipe"],
-      });
+  return new Promise<{ code: number; stdout: string; stderr: string }>((resolve, reject) => {
+    const proc = spawn("bun", ["scripts/generate-images.ts", ...args], {
+      cwd: opts?.cwd ?? path.resolve(__dirname, "../../.."),
+      env: {
+        ...process.env,
+        SHARP_NUM_THREADS: "1",
+        TZ: "UTC",
+        ...(opts?.env || {}),
+      },
+      stdio: ["ignore", "pipe", "pipe"],
+    });
 
-      console.log(
-        `Executing command: bun scripts/generate-images.ts ${args.join(" ")}`,
-      );
+    console.log(`Executing command: bun scripts/generate-images.ts ${args.join(" ")}`);
 
-      const timeout = setTimeout(() => {
-        try {
-          proc.kill("SIGKILL");
-        } catch (_) {}
-        reject(new Error("CLI timeout"));
-      }, opts?.timeoutMs ?? 60000);
+    const timeout = setTimeout(() => {
+      try {
+        proc.kill("SIGKILL");
+      } catch (_) {}
+      reject(new Error("CLI timeout"));
+    }, opts?.timeoutMs ?? 60000);
 
-      let stdout = "";
-      let stderr = "";
+    let stdout = "";
+    let stderr = "";
 
-      proc.stdout.on("data", (d) => {
-        stdout += String(d);
-        console.log(`STDOUT: ${String(d)}`);
-      });
-      proc.stderr.on("data", (d) => {
-        stderr += String(d);
-        console.error(`STDERR: ${String(d)}`);
-      });
-      proc.on("close", (code) => {
-        clearTimeout(timeout);
-        console.log(`Command exited with code: ${code}`);
-        resolve({ code: code ?? -1, stdout, stderr });
-      });
-      proc.on("error", (e) => {
-        clearTimeout(timeout);
-        reject(e);
-      });
-    },
-  );
+    proc.stdout.on("data", (d) => {
+      stdout += String(d);
+      console.log(`STDOUT: ${String(d)}`);
+    });
+    proc.stderr.on("data", (d) => {
+      stderr += String(d);
+      console.error(`STDERR: ${String(d)}`);
+    });
+    proc.on("close", (code) => {
+      clearTimeout(timeout);
+      console.log(`Command exited with code: ${code}`);
+      resolve({ code: code ?? -1, stdout, stderr });
+    });
+    proc.on("error", (e) => {
+      clearTimeout(timeout);
+      reject(e);
+    });
+  });
 }
 
 // New helper to directly call the main logic for faster unit tests
@@ -108,8 +104,7 @@ export async function runGenerator(
     };
 
     try {
-      const { executeMain, resetCliState } =
-        await import("../../scripts/generate-images");
+      const { executeMain, resetCliState } = await import("../../scripts/generate-images");
       resetCliState(); // Force re-parsing of ARGS based on new process.argv
       await executeMain();
     } catch (e: any) {

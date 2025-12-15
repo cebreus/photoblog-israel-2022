@@ -83,9 +83,7 @@ describe("MetadataPasteDialog", () => {
     });
 
     // Toggle exclusion for img1
-    const toggleBtn = getByTestId(
-      `metadata-paste-dialog-exclude-${mockImage.id}`,
-    );
+    const toggleBtn = getByTestId(`metadata-paste-dialog-exclude-${mockImage.id}`);
     await toggleBtn.click();
 
     // Click confirm (should be enabled because img2 is still included)

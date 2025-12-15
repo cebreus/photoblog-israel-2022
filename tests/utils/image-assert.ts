@@ -8,14 +8,9 @@ export type PixelCompareOptions = {
   resizeWidth?: number; // volitelné sjednocení šířky před porovnáním
 };
 
-export async function toPngBuffer(
-  inputPath: string,
-  width?: number,
-): Promise<Buffer> {
+export async function toPngBuffer(inputPath: string, width?: number): Promise<Buffer> {
   const img = sharp(inputPath);
-  const resized = width
-    ? img.resize({ width, fit: "inside", withoutEnlargement: true })
-    : img;
+  const resized = width ? img.resize({ width, fit: "inside", withoutEnlargement: true }) : img;
   // Převod do PNG kvůli pixelmatch
   return await resized.png({ compressionLevel: 9 }).toBuffer();
 }
@@ -48,14 +43,9 @@ export async function compareImagesWithTolerance(
   }
 
   const diff = new PNG({ width: aPng.width, height: aPng.height });
-  const diffCount = pixelmatch(
-    aPng.data,
-    bPng.data,
-    diff.data,
-    aPng.width,
-    aPng.height,
-    { threshold },
-  );
+  const diffCount = pixelmatch(aPng.data, bPng.data, diff.data, aPng.width, aPng.height, {
+    threshold,
+  });
 
   if (diffCount > maxDiffPixels) {
     return {

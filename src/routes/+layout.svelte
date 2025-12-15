@@ -1,48 +1,43 @@
 <script lang="ts">
-  import Header from "$lib/components/Header.svelte";
-  import Footer from "$lib/components/Footer.svelte";
-  import faviconHtml from "../../.temp/favicons.html?raw";
-  import "../app.css";
-  import { ModeWatcher } from "mode-watcher";
-  import { browser } from "$app/environment";
-  import { showPhotoLabels } from "$lib/stores/photoLabels";
-  import type {
-    Author,
-    MenuManifest,
-    SiteManifest,
-    CurationManifest,
-  } from "$lib/types/manifest";
-  import { initUrlSync } from "$lib/stores/urlSync";
-  import { Toaster } from "$lib/components/ui/sonner";
-  import * as Sidebar from "$lib/components/ui/sidebar";
-  import AppSidebar from "$lib/components/AppSidebar.svelte";
+import Header from "$lib/components/Header.svelte";
+import Footer from "$lib/components/Footer.svelte";
+import faviconHtml from "../../.temp/favicons.html?raw";
+import "../app.css";
+import { ModeWatcher } from "mode-watcher";
+import { browser } from "$app/environment";
+import { showPhotoLabels } from "$lib/stores/photoLabels";
+import type { Author, MenuManifest, SiteManifest, CurationManifest } from "$lib/types/manifest";
+import { initUrlSync } from "$lib/stores/urlSync";
+import { Toaster } from "$lib/components/ui/sonner";
+import * as Sidebar from "$lib/components/ui/sidebar";
+import AppSidebar from "$lib/components/AppSidebar.svelte";
 
-  // Explicitly type props instead of relying on loose inferred types
-  interface Props {
-    data: {
-      authors: Author[];
-      menuItems: MenuManifest;
-      siteManifest: SiteManifest;
-      curationManifest?: CurationManifest;
-    };
-    children?: import("svelte").Snippet;
+// Explicitly type props instead of relying on loose inferred types
+interface Props {
+  data: {
+    authors: Author[];
+    menuItems: MenuManifest;
+    siteManifest: SiteManifest;
+    curationManifest?: CurationManifest;
+  };
+  children?: import("svelte").Snippet;
+}
+
+let { data, children }: Props = $props();
+
+// Initialize all URL-related synchronization logic
+$effect(() => {
+  if (browser) {
+    initUrlSync(data.authors);
   }
+});
 
-  let { data, children }: Props = $props();
-
-  // Initialize all URL-related synchronization logic
-  $effect(() => {
-    if (browser) {
-      initUrlSync(data.authors);
-    }
-  });
-
-  // Handle body class for photo labels visibility
-  $effect(() => {
-    if (browser) {
-      document.body.classList.toggle("show-labels", $showPhotoLabels);
-    }
-  });
+// Handle body class for photo labels visibility
+$effect(() => {
+  if (browser) {
+    document.body.classList.toggle("show-labels", $showPhotoLabels);
+  }
+});
 </script>
 
 <svelte:head>

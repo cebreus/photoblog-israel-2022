@@ -102,10 +102,7 @@ function evaluateGroup(photos: ImageEntry[]): CurationGroup {
       recommendations[photo.id] = { action: "keep", reason: "Best candidate" };
     } else {
       const reasons = [];
-      if (
-        (best.width || 0) * (best.height || 0) >
-        (photo.width || 0) * (photo.height || 0)
-      ) {
+      if ((best.width || 0) * (best.height || 0) > (photo.width || 0) * (photo.height || 0)) {
         reasons.push("Lower resolution");
       }
       if ((best.analysis?.sharpness || 0) > (photo.analysis?.sharpness || 0)) {
@@ -140,10 +137,7 @@ async function main() {
     process.cwd(),
     `src/lib/data/${contentDir}/images.manifest.json`,
   );
-  const outPath = path.resolve(
-    process.cwd(),
-    `src/lib/data/${contentDir}/curation.manifest.json`,
-  );
+  const outPath = path.resolve(process.cwd(), `src/lib/data/${contentDir}/curation.manifest.json`);
 
   const content = await fsp.readFile(manifestPath, "utf-8");
   const manifest: Manifest = JSON.parse(content);
@@ -174,10 +168,7 @@ async function main() {
       const candidate = allImages[j];
       if (visited.has(candidate.id)) continue;
 
-      const sim = cosineSimilarity(
-        seed.analysis!.embedding!,
-        candidate.analysis!.embedding!,
-      );
+      const sim = cosineSimilarity(seed.analysis!.embedding!, candidate.analysis!.embedding!);
       if (sim >= CURATION_CONFIG.similarityThreshold) {
         cluster.push(candidate);
         visited.add(candidate.id);
@@ -191,10 +182,7 @@ async function main() {
       let minSim = 1.0;
       for (const p of cluster) {
         if (p.id !== seed.id) {
-          const s = cosineSimilarity(
-            seed.analysis!.embedding!,
-            p.analysis!.embedding!,
-          );
+          const s = cosineSimilarity(seed.analysis!.embedding!, p.analysis!.embedding!);
           if (s < minSim) minSim = s;
         }
       }

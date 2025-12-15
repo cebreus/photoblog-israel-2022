@@ -57,11 +57,7 @@ export const DELETE: RequestHandler = async ({ request }) => {
   }
 
   for (const [contentDir, items] of Object.entries(itemsByContentDir)) {
-    const manifestPath = path.join(
-      dataRoot,
-      contentDir,
-      "images.manifest.json",
-    );
+    const manifestPath = path.join(dataRoot, contentDir, "images.manifest.json");
     let manifest: Manifest | null = null;
 
     // Load manifest to remove entries even if files are missing
@@ -69,9 +65,7 @@ export const DELETE: RequestHandler = async ({ request }) => {
       const content = await fs.readFile(manifestPath, "utf-8");
       manifest = JSON.parse(content);
     } catch (e) {
-      console.warn(
-        `Manifest not found for ${contentDir}, skipping manifest update.`,
-      );
+      console.warn(`Manifest not found for ${contentDir}, skipping manifest update.`);
     }
 
     let manifestModified = false;
@@ -108,8 +102,7 @@ export const DELETE: RequestHandler = async ({ request }) => {
         console.log(`Checking ${physicalDir} for ${nameWithoutExt}`);
 
         const candidates = files.filter(
-          (f) =>
-            path.parse(f).name.toLowerCase() === nameWithoutExt.toLowerCase(),
+          (f) => path.parse(f).name.toLowerCase() === nameWithoutExt.toLowerCase(),
         );
 
         console.log(`Found candidates: ${candidates.join(", ")}`);
@@ -156,9 +149,7 @@ export const DELETE: RequestHandler = async ({ request }) => {
               deleted.push(item.src); // Mark as processed so UI removes it
             }
           } else {
-            errors.push(
-              `Soubor ${nameWithoutExt} nebyl nalezen na disku ani v seznamu.`,
-            );
+            errors.push(`Soubor ${nameWithoutExt} nebyl nalezen na disku ani v seznamu.`);
           }
         }
       } catch (e: any) {
@@ -194,10 +185,7 @@ export const DELETE: RequestHandler = async ({ request }) => {
     // If we have deleted items (successes or ghost cleanups) AND errors, we might want to return 200 with errors array.
     // If ONLY errors (no persistent changes), then 500.
     if (deleted.length === 0) {
-      return json(
-        { message: "Nepodařilo se smazat soubory", errors },
-        { status: 500 },
-      );
+      return json({ message: "Nepodařilo se smazat soubory", errors }, { status: 500 });
     }
   }
 
@@ -246,15 +234,9 @@ export const PATCH: RequestHandler = async ({ request }) => {
   }
 
   // Process each content directory
-  for (const [contentDir, contentDirItems] of Object.entries(
-    itemsByContentDir,
-  )) {
+  for (const [contentDir, contentDirItems] of Object.entries(itemsByContentDir)) {
     const physicalRoot = path.join(contentRoot, contentDir);
-    const manifestPath = path.join(
-      dataRoot,
-      contentDir,
-      "images.manifest.json",
-    );
+    const manifestPath = path.join(dataRoot, contentDir, "images.manifest.json");
 
     let manifest: Manifest | null = null;
     let manifestModified = false;
@@ -304,13 +286,9 @@ export const PATCH: RequestHandler = async ({ request }) => {
             filePath = candidate;
           } else {
             // Try searching for file with same name but different extension
-            const searchDir = await fs
-              .readdir(path.join(physicalRoot, "pics"))
-              .catch(() => []);
+            const searchDir = await fs.readdir(path.join(physicalRoot, "pics")).catch(() => []);
             const candidates = searchDir.filter(
-              (f) =>
-                path.parse(f).name.toLowerCase() ===
-                nameWithoutExt.toLowerCase(),
+              (f) => path.parse(f).name.toLowerCase() === nameWithoutExt.toLowerCase(),
             );
 
             if (candidates.length > 0) {
@@ -323,13 +301,7 @@ export const PATCH: RequestHandler = async ({ request }) => {
 
         // Write metadata to file using exiftool
         await exiftool.write(filePath, tags, {
-          writeArgs: [
-            "-overwrite_original",
-            "-coding=utf8",
-            "-m",
-            "-charset",
-            "iptc=UTF8",
-          ],
+          writeArgs: ["-overwrite_original", "-coding=utf8", "-m", "-charset", "iptc=UTF8"],
         });
 
         updated.push(item.src);
@@ -349,26 +321,21 @@ export const PATCH: RequestHandler = async ({ request }) => {
                 }
                 if (filteredUpdates.city) {
                   imageItem.city = filteredUpdates.city as string;
-                  if (imageItem.exif)
-                    imageItem.exif.city = filteredUpdates.city as string;
+                  if (imageItem.exif) imageItem.exif.city = filteredUpdates.city as string;
                 }
                 if (filteredUpdates.location) {
                   imageItem.location = filteredUpdates.location as string;
-                  if (imageItem.exif)
-                    imageItem.exif.location =
-                      filteredUpdates.location as string;
+                  if (imageItem.exif) imageItem.exif.location = filteredUpdates.location as string;
                 }
                 if (filteredUpdates.author) {
                   imageItem.author = filteredUpdates.author as string;
-                  if (imageItem.exif)
-                    imageItem.exif.author = filteredUpdates.author as string;
+                  if (imageItem.exif) imageItem.exif.author = filteredUpdates.author as string;
                 }
                 if (filteredUpdates.country && imageItem.exif) {
                   imageItem.exif.country = filteredUpdates.country as string;
                 }
                 if (filteredUpdates.countryCode && imageItem.exif) {
-                  imageItem.exif.countryCode =
-                    filteredUpdates.countryCode as string;
+                  imageItem.exif.countryCode = filteredUpdates.countryCode as string;
                 }
                 if (filteredUpdates.state && imageItem.exif) {
                   imageItem.exif.state = filteredUpdates.state as string;
@@ -406,10 +373,7 @@ export const PATCH: RequestHandler = async ({ request }) => {
   }
 
   if (updated.length === 0) {
-    return json(
-      { message: "Nepodařilo se aktualizovat metadata", errors },
-      { status: 500 },
-    );
+    return json({ message: "Nepodařilo se aktualizovat metadata", errors }, { status: 500 });
   }
 
   return json({ success: true, updated, errors });

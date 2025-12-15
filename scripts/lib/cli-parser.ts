@@ -56,11 +56,7 @@ const QUALITY_FORMATS: readonly QualityFormat[] = [
   ImageFormat.JPEG,
 ];
 
-const BLUR_FORMATS: readonly BlurFormat[] = [
-  ImageFormat.PNG,
-  ImageFormat.AVIF,
-  ImageFormat.JPEG,
-];
+const BLUR_FORMATS: readonly BlurFormat[] = [ImageFormat.PNG, ImageFormat.AVIF, ImageFormat.JPEG];
 
 const VARIANT_TYPES: readonly string[] = [
   ImageVariant.DETAILS,

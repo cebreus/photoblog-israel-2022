@@ -63,9 +63,7 @@ test.describe("Metadata Editor E2E", () => {
     // Find the image entry
     let imageEntry = null;
     for (const day of manifest.photoDays) {
-      const found = day.items.find(
-        (item: any) => item.type === "image" && item.id === imageIds[0],
-      );
+      const found = day.items.find((item: any) => item.type === "image" && item.id === imageIds[0]);
       if (found) {
         imageEntry = found;
         break;
@@ -94,14 +92,10 @@ test.describe("Metadata Editor E2E", () => {
     // 12. Verify that the metadata was written correctly
     expect(metadata.ObjectName || metadata.Title).toBe(testTitle);
     expect(metadata.City).toBe(testCity);
-    expect(metadata["Caption-Abstract"] || metadata.Description).toBe(
-      testCaption,
-    );
+    expect(metadata["Caption-Abstract"] || metadata.Description).toBe(testCaption);
 
     // Keywords can be string or array
-    const keywords = Array.isArray(metadata.Keywords)
-      ? metadata.Keywords
-      : [metadata.Keywords];
+    const keywords = Array.isArray(metadata.Keywords) ? metadata.Keywords : [metadata.Keywords];
     expect(keywords).toContain("test");
     expect(keywords).toContain("e2e");
     expect(keywords).toContain("playwright");
@@ -151,9 +145,7 @@ test.describe("Metadata Editor E2E", () => {
     for (const id of imageIds) {
       let imageEntry = null;
       for (const day of manifest.photoDays) {
-        const found = day.items.find(
-          (item: any) => item.type === "image" && item.id === id,
-        );
+        const found = day.items.find((item: any) => item.type === "image" && item.id === id);
         if (found) {
           imageEntry = found;
           break;

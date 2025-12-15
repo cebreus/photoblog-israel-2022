@@ -1,17 +1,17 @@
 <script lang="ts">
-  import { createEventDispatcher } from "svelte";
-  export let open = false;
-  const dispatch = createEventDispatcher();
-  function close() {
-    open = false;
-    dispatch("close");
+import { createEventDispatcher } from "svelte";
+export let open = false;
+const dispatch = createEventDispatcher();
+function close() {
+  open = false;
+  dispatch("close");
+}
+function onOverlayKey(e: KeyboardEvent) {
+  if (e.key === "Escape" || e.key === "Enter" || e.key === " ") {
+    e.preventDefault();
+    close();
   }
-  function onOverlayKey(e: KeyboardEvent) {
-    if (e.key === "Escape" || e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      close();
-    }
-  }
+}
 </script>
 
 <div

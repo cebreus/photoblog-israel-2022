@@ -1,17 +1,9 @@
 import { browser } from "$app/environment";
 import { goto } from "$app/navigation";
 import { page } from "$app/stores";
-import {
-  filtersSyncing,
-  selectedAuthors,
-  showSeparators,
-} from "$lib/stores/filters";
+import { filtersSyncing, selectedAuthors, showSeparators } from "$lib/stores/filters";
 import { showPhotoLabels } from "$lib/stores/photoLabels";
-import {
-  selection,
-  editMode,
-  showMetadataOverlay,
-} from "$lib/stores/editorState";
+import { selection, editMode, showMetadataOverlay } from "$lib/stores/editorState";
 import { debug } from "$lib/stores/debug";
 import { activeTab, isSidebarOpen, isCurationMode } from "$lib/stores/uiState";
 import type { Author } from "$lib/types/manifest";
@@ -120,9 +112,7 @@ export function initializeFiltersFromUrl(url: URL) {
   if (url.searchParams.has("no-separators")) {
     showSeparators.set(false);
   } else {
-    const separatorsParam = parseBooleanParam(
-      url.searchParams.get("separators"),
-    );
+    const separatorsParam = parseBooleanParam(url.searchParams.get("separators"));
     if (separatorsParam !== undefined) showSeparators.set(separatorsParam);
   }
 

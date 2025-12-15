@@ -1,15 +1,5 @@
-import {
-  getPhotoDays,
-  getMenuItems,
-  getSiteManifest,
-  getCurationManifest,
-} from "$lib";
-import type {
-  MenuManifest,
-  PhotoDay,
-  Author,
-  SiteManifest,
-} from "$lib/types/manifest";
+import { getPhotoDays, getMenuItems, getSiteManifest, getCurationManifest } from "$lib";
+import type { MenuManifest, PhotoDay, Author, SiteManifest } from "$lib/types/manifest";
 import { toSlug } from "$lib/utils/strings"; // Corrected import
 
 function gatherAuthors(photoDays: PhotoDay[]): Author[] {

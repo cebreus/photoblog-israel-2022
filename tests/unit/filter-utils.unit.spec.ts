@@ -1,10 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { computeTotals } from "../../src/lib/utils/gallery";
-import type {
-  PhotoDay,
-  ImageEntry,
-  Separator,
-} from "../../src/lib/types/manifest";
+import type { PhotoDay, ImageEntry, Separator } from "../../src/lib/types/manifest";
 
 // Helper to create typed mock data
 const mockDays: PhotoDay[] = [

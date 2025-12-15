@@ -3,11 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import { exiftool } from "exiftool-vendored";
-import type {
-  ImageEntry,
-  ImageSource,
-  QualityTypes,
-} from "../../src/lib/types/manifest";
+import type { ImageEntry, ImageSource, QualityTypes } from "../../src/lib/types/manifest";
 import type { ExifData as ManifestExifData } from "../../src/lib/types/manifest";
 import { ImageFormat } from "../../src/lib/types/images";
 import { config } from "../config";
@@ -188,9 +184,7 @@ export async function processImage(
         execSync(`vips copy "${absPath}" "${tempFilePath}"`);
         processingPath = tempFilePath;
       } catch (convErr) {
-        logger.warn(
-          `Failed to convert HEIC via vips for ${absPath}: ${convErr}`,
-        );
+        logger.warn(`Failed to convert HEIC via vips for ${absPath}: ${convErr}`);
       }
     }
 
@@ -198,22 +192,21 @@ export async function processImage(
 
     // Use exiftool to read metadata (it's robust for HEIC/XMP)
     // We run it on the ORIGINAL file (absPath), not the converted JPG, to get full original metadata
-    const [imageStats, exifTags, originalMeta, sharpnessScore, phash] =
-      await Promise.all([
-        sharpInstance.stats(),
-        exiftool.read(absPath),
-        sharpInstance.metadata(),
-        calculateSharpness(sharpModule, processingPath),
-        calculatePhash(sharpModule, processingPath),
-        // Defer embedding until after date check if possible?
-        // Actually, we can just run them all, and filter before we return?
-        // But we want to SAVE TIME. Embedding is slow.
-        // ExifTool is fast.
-        // We should check Exif first?
-        // BUT `Promise.all` runs them in parallel.
-        // If run sequentially: Exif -> Check -> Embedding.
-        // Refactoring to run Exif first.
-      ]);
+    const [imageStats, exifTags, originalMeta, sharpnessScore, phash] = await Promise.all([
+      sharpInstance.stats(),
+      exiftool.read(absPath),
+      sharpInstance.metadata(),
+      calculateSharpness(sharpModule, processingPath),
+      calculatePhash(sharpModule, processingPath),
+      // Defer embedding until after date check if possible?
+      // Actually, we can just run them all, and filter before we return?
+      // But we want to SAVE TIME. Embedding is slow.
+      // ExifTool is fast.
+      // We should check Exif first?
+      // BUT `Promise.all` runs them in parallel.
+      // If run sequentially: Exif -> Check -> Embedding.
+      // Refactoring to run Exif first.
+    ]);
 
     // OPTIMIZATION: Date Filter for debugging
     // If FILTER_DATE is set (YYYY-MM-DD), skip if doesn't match.
@@ -246,9 +239,7 @@ export async function processImage(
     // We access properties using keys defined in our shared Metadata Standards
     // const { METADATA_STANDARDS } = await import("../../src/lib/metadata-standards");
 
-    function getStandardValue(
-      key: keyof typeof METADATA_STANDARDS,
-    ): string | undefined {
+    function getStandardValue(key: keyof typeof METADATA_STANDARDS): string | undefined {
       const config = METADATA_STANDARDS[key];
       for (const tag of config.read) {
         // Check exact match first
@@ -417,8 +408,7 @@ export async function processImage(
         if (output.isPlaceholder) {
           imageEntry.placeholder = outPath;
         } else {
-          const format =
-            "format" in otherConfig ? otherConfig.format : ImageFormat.JPEG;
+          const format = "format" in otherConfig ? otherConfig.format : ImageFormat.JPEG;
           sources.push({
             variant: output.key,
             type: `image/${format}`,
@@ -465,20 +455,14 @@ export async function createImageEntry(
   embedding?: number[],
 ): Promise<ImageEntry> {
   const titleCanonical = normalizeText(
-    exif.ObjectName ||
-      exif.Headline ||
-      exif.Title ||
-      exif["dc:title"] ||
-      exif.ImageDescription,
+    exif.ObjectName || exif.Headline || exif.Title || exif["dc:title"] || exif.ImageDescription,
   );
   const captionCanonical = normalizeText(
     exif.Caption || exif.CaptionAbstract || exif.ImageDescription,
   );
   const authorCanonical = normalizeText(
     exif.Byline ||
-      (Array.isArray(exif["dc:creator"])
-        ? exif["dc:creator"][0]
-        : exif["dc:creator"]) ||
+      (Array.isArray(exif["dc:creator"]) ? exif["dc:creator"][0] : exif["dc:creator"]) ||
       exif.Creator ||
       exif.BylineTitle ||
       exif.Artist ||
@@ -558,17 +542,10 @@ export async function createImageEntry(
   };
 }
 
-function applyFormat(
-  instance: ReturnType<SharpModule>,
-  format: ImageFormat,
-  quality: number,
-) {
-  if (format === ImageFormat.JPEG)
-    instance.jpeg({ quality, ...config.encoding.sharp.jpeg });
-  else if (format === ImageFormat.WEBP)
-    instance.webp({ quality, ...config.encoding.sharp.webp });
-  else if (format === ImageFormat.AVIF)
-    instance.avif({ quality, ...config.encoding.sharp.avif });
+function applyFormat(instance: ReturnType<SharpModule>, format: ImageFormat, quality: number) {
+  if (format === ImageFormat.JPEG) instance.jpeg({ quality, ...config.encoding.sharp.jpeg });
+  else if (format === ImageFormat.WEBP) instance.webp({ quality, ...config.encoding.sharp.webp });
+  else if (format === ImageFormat.AVIF) instance.avif({ quality, ...config.encoding.sharp.avif });
 }
 
 function getQuality(
@@ -611,9 +588,7 @@ async function generateVariant(
     format === ImageFormat.JPEG
       ? variantConfig.folderName
       : `${variantConfig.folderName}-${format}`;
-  const outPath = path.posix.normalize(
-    path.join(variantFolder, `${baseName}.${outExt}`),
-  );
+  const outPath = path.posix.normalize(path.join(variantFolder, `${baseName}.${outExt}`));
 
   let info: import("sharp").OutputInfo;
 
@@ -693,12 +668,9 @@ async function generateOtherOutput(
   options: ImageProcessOptions,
   originalMeta: import("sharp").Metadata,
 ) {
-  const format =
-    "format" in outputConfig ? outputConfig.format : ImageFormat.JPEG;
+  const format = "format" in outputConfig ? outputConfig.format : ImageFormat.JPEG;
   const outExt = format === "jpeg" ? "jpeg" : format;
-  const outPath = path.posix.normalize(
-    path.join(outputConfig.folderName, `${baseName}.${outExt}`),
-  );
+  const outPath = path.posix.normalize(path.join(outputConfig.folderName, `${baseName}.${outExt}`));
 
   let info: import("sharp").OutputInfo;
 

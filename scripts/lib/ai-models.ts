@@ -1,8 +1,4 @@
-import {
-  CLIPVisionModelWithProjection,
-  Tensor,
-  env,
-} from "@xenova/transformers";
+import { CLIPVisionModelWithProjection, Tensor, env } from "@xenova/transformers";
 import sharp from "sharp";
 import { createLogger } from "./logger";
 import { execSync } from "node:child_process";
@@ -42,12 +38,9 @@ class AIModelService {
     logger.info(`Loading AI Model (Vision): ${this.modelId}...`);
     try {
       // Only load model, we handle processing manually
-      this.model = await CLIPVisionModelWithProjection.from_pretrained(
-        this.modelId,
-        {
-          quantized: true,
-        },
-      );
+      this.model = await CLIPVisionModelWithProjection.from_pretrained(this.modelId, {
+        quantized: true,
+      });
       logger.info("AI Model loaded successfully.");
     } catch (e) {
       logger.error(`Failed to load AI model ${this.modelId}:`, e);
@@ -105,9 +98,7 @@ class AIModelService {
       const channels = info.channels; // should be 3
 
       if (width !== 224 || height !== 224 || channels !== 3) {
-        throw new Error(
-          `Unexpected dimensions after resize: ${width}x${height}x${channels}`,
-        );
+        throw new Error(`Unexpected dimensions after resize: ${width}x${height}x${channels}`);
       }
 
       const floatData = new Float32Array(3 * 224 * 224);

@@ -2,11 +2,7 @@ type FancyboxOptions = Record<string, unknown>;
 
 // Minimal type definition for the Fancybox static object
 type FancyboxStatic = {
-  bind: (
-    node: HTMLElement,
-    selector: string,
-    options: Record<string, unknown>,
-  ) => void;
+  bind: (node: HTMLElement, selector: string, options: Record<string, unknown>) => void;
   destroy: () => void;
 };
 

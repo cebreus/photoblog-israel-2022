@@ -1,14 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
-import {
-  filterGalleryItems,
-  computeTotals,
-  mergeSparseDays,
-} from "../../src/lib/utils/gallery";
-import type {
-  PhotoDay,
-  ImageEntry,
-  Separator,
-} from "../../src/lib/types/manifest";
+import { filterGalleryItems, computeTotals, mergeSparseDays } from "../../src/lib/utils/gallery";
+import type { PhotoDay, ImageEntry, Separator } from "../../src/lib/types/manifest";
 
 // Mock the manifest imports that might be triggered by indirect dependencies
 vi.mock("$manifests/images.manifest.json", () => ({
@@ -81,21 +73,14 @@ describe("gallery utils", () => {
     };
 
     it("computes correctly for all items", () => {
-      const { visiblePhotos, totalLocations } = computeTotals([], true, [
-        day1,
-        day2,
-      ]);
+      const { visiblePhotos, totalLocations } = computeTotals([], true, [day1, day2]);
       expect(visiblePhotos).toBe(3); // img1, img2, img3
       expect(totalLocations).toBe(2); // LocA, LocB
     });
 
     it("computes filtered totals", () => {
       // Filter author1 (img1, img3)
-      const { visiblePhotos, totalLocations } = computeTotals(
-        ["author1"],
-        true,
-        [day1, day2],
-      );
+      const { visiblePhotos, totalLocations } = computeTotals(["author1"], true, [day1, day2]);
       expect(visiblePhotos).toBe(2);
       // LocA (from img1), LocB (from img3). separator (LocA) still there.
       expect(totalLocations).toBe(2);

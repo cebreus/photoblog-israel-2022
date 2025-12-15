@@ -1,42 +1,38 @@
 <script lang="ts">
-  import PhotoGrid from "$lib/components/PhotoGrid.svelte";
-  import { Badge } from "$lib/components/ui/badge/";
-  import Hero from "$lib/components/Hero.svelte";
-  import type { PageData } from "./$types";
-  import { useScrollspy } from "$lib/actions/scrollspy";
-  import { useFancybox } from "$lib/actions/fancybox";
-  import { selectedAuthors, showSeparators } from "$lib/stores/filters";
-  import type { ImageEntry, Separator, PhotoDay } from "$lib/types/manifest";
-  import { filterGalleryItems, mergeSparseDays } from "$lib/utils/gallery";
-  import {
-    formatDateForDisplay,
-    formatWeekdayCzech,
-    formatDateRange,
-  } from "$lib/utils/strings";
-  import { editMode, selection } from "$lib/stores/editorState";
-  import { Button } from "$lib/components/ui/button";
-  import { CheckSquare, Square } from "lucide-svelte";
+import PhotoGrid from "$lib/components/PhotoGrid.svelte";
+import { Badge } from "$lib/components/ui/badge/";
+import Hero from "$lib/components/Hero.svelte";
+import type { PageData } from "./$types";
+import { useScrollspy } from "$lib/actions/scrollspy";
+import { useFancybox } from "$lib/actions/fancybox";
+import { selectedAuthors, showSeparators } from "$lib/stores/filters";
+import type { ImageEntry, Separator, PhotoDay } from "$lib/types/manifest";
+import { filterGalleryItems, mergeSparseDays } from "$lib/utils/gallery";
+import { formatDateForDisplay, formatWeekdayCzech, formatDateRange } from "$lib/utils/strings";
+import { editMode, selection } from "$lib/stores/editorState";
+import { Button } from "$lib/components/ui/button";
+import { CheckSquare, Square } from "lucide-svelte";
 
-  let { data } = $props<{ data: PageData }>();
+let { data } = $props<{ data: PageData }>();
 
-  /**
-   * Compute page-specific filtered days.
-   * Preserves page metadata like cities/locations.
-   */
-  let filteredDays = $derived(
-    (data.photoDays || [])
-      .map((day: PhotoDay) => ({
-        ...day,
-        items: filterGalleryItems(day.items, $selectedAuthors, $showSeparators),
-      }))
-      .filter((d: PhotoDay) => d.items && d.items.length > 0),
-  );
+/**
+ * Compute page-specific filtered days.
+ * Preserves page metadata like cities/locations.
+ */
+let filteredDays = $derived(
+  (data.photoDays || [])
+    .map((day: PhotoDay) => ({
+      ...day,
+      items: filterGalleryItems(day.items, $selectedAuthors, $showSeparators),
+    }))
+    .filter((d: PhotoDay) => d.items && d.items.length > 0),
+);
 
-  /**
-   * Merges days with very few photos (<=2) into combined sections
-   * to avoid massive headers for tiny content.
-   */
-  let photoDays = $derived(mergeSparseDays(filteredDays));
+/**
+ * Merges days with very few photos (<=2) into combined sections
+ * to avoid massive headers for tiny content.
+ */
+let photoDays = $derived(mergeSparseDays(filteredDays));
 </script>
 
 <Hero />

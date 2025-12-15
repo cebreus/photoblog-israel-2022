@@ -16,8 +16,7 @@ function createCurationStore() {
     subscribe,
     init: (manifest: CurationManifest) => {
       // Initialize decisions based on the recommendation inside the manifest
-      const initialDecisions: Record<string, "keep" | "delete" | "separate"> =
-        {};
+      const initialDecisions: Record<string, "keep" | "delete" | "separate"> = {};
 
       manifest.groups.forEach((group) => {
         Object.entries(group.recommendations).forEach(([imageId, rec]) => {

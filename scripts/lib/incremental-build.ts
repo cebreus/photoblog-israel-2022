@@ -4,18 +4,10 @@ import os from "node:os";
 import fg from "fast-glob";
 import { SingleBar } from "cli-progress";
 import { config } from "../config";
-import type {
-  Manifest,
-  Cache,
-  StoryDataMap,
-} from "../../src/lib/types/manifest";
+import type { Manifest, Cache, StoryDataMap } from "../../src/lib/types/manifest";
 import { createLogger } from "./logger";
 import { ensureDir } from "./image-utils";
-import {
-  buildGeneratorManifest,
-  generateMenuManifest,
-  updateManifest,
-} from "./manifest-builder";
+import { buildGeneratorManifest, generateMenuManifest, updateManifest } from "./manifest-builder";
 import type { ProcessedImageResult } from "./image-processor";
 import { processImage, type ImageProcessOptions } from "./image-processor";
 import matter from "gray-matter";
@@ -53,9 +45,7 @@ async function saveJSON(file: string, data: unknown) {
   await fsp.writeFile(file, JSON.stringify(data, null, 2) + "\n", "utf8");
 }
 
-export async function loadStoryData(
-  contentRoot: string,
-): Promise<StoryDataMap> {
+export async function loadStoryData(contentRoot: string): Promise<StoryDataMap> {
   const storyFiles = await fg("**/*.md", {
     cwd: contentRoot,
     absolute: true,
@@ -99,18 +89,12 @@ export async function loadStoryData(
       logger.warn(`Could not parse story file ${file}: ${e.message}`);
     }
   }
-  logger.verbose(
-    `Loaded ${Object.keys(storyDataMap).length} story entries from Markdown.`,
-  );
+  logger.verbose(`Loaded ${Object.keys(storyDataMap).length} story entries from Markdown.`);
   return storyDataMap;
 }
 
 async function generateSiteManifest(): Promise<any> {
-  const siteMdPath = path.resolve(
-    process.cwd(),
-    config.paths.siteSource,
-    "site.md",
-  );
+  const siteMdPath = path.resolve(process.cwd(), config.paths.siteSource, "site.md");
   if (!(await fileExists(siteMdPath))) {
     logger.warn(`site.md not found at ${siteMdPath}`);
     return {};
@@ -146,9 +130,7 @@ async function detectChanges(
     }
 
     const outputsExist = await Promise.all(
-      cached.outputs.map((p) =>
-        fileExists(path.join(outRoot, p)).catch(returnFalse),
-      ),
+      cached.outputs.map((p) => fileExists(path.join(outRoot, p)).catch(returnFalse)),
     );
 
     if (outputsExist.some((exists) => !exists)) {
@@ -173,9 +155,7 @@ async function loadCache(
 
   let wasReset = false;
   if (cache.configHash !== configHash || cache.version !== cacheVersion) {
-    logger.warn(
-      "Config, cache version, or script change detected. Forcing full rebuild.",
-    );
+    logger.warn("Config, cache version, or script change detected. Forcing full rebuild.");
     await fsp.rm(outRoot, { recursive: true, force: true }).catch(ignoreError);
     cache = { version: cacheVersion, configHash, files: {} };
     wasReset = true;
@@ -200,9 +180,7 @@ async function pruneDeleted(toDelete: string[], cache: Cache, outRoot: string) {
   const deleteKey = async (key: string) => {
     const outputs = cache.files[key]?.outputs || [];
     delete cache.files[key];
-    await Promise.all(
-      outputs.map((p) => fsp.unlink(path.join(outRoot, p)).catch(ignoreError)),
-    );
+    await Promise.all(outputs.map((p) => fsp.unlink(path.join(outRoot, p)).catch(ignoreError)));
   };
 
   await Promise.all(toDelete.map(deleteKey));
@@ -219,9 +197,7 @@ async function processImages(
   if (toProcess.length === 0) return [];
 
   const resolvedConcurrency =
-    typeof concurrency === "number"
-      ? concurrency
-      : Math.max(1, (os.cpus()?.length || 2) - 1);
+    typeof concurrency === "number" ? concurrency : Math.max(1, (os.cpus()?.length || 2) - 1);
   logger.info(`Using concurrency: ${resolvedConcurrency}`);
 
   const bar = quiet
@@ -299,12 +275,7 @@ async function updateCacheAndManifests({
       : await loadJSON(paths.manifestPath, {
           photoDays: [],
         });
-    finalManifest = updateManifest(
-      results,
-      toDelete,
-      storyData,
-      existingManifest,
-    );
+    finalManifest = updateManifest(results, toDelete, storyData, existingManifest);
   }
 
   const savePromises = [
@@ -390,9 +361,7 @@ export async function runIncrementalBuild(
     CTX.outRoot,
   );
 
-  logger.info(
-    `Found: ${toProcess.length} new/modified, ${toDelete.length} deleted.`,
-  );
+  logger.info(`Found: ${toProcess.length} new/modified, ${toDelete.length} deleted.`);
 
   await pruneDeleted(toDelete, cacheAfter, CTX.outRoot);
 
@@ -426,9 +395,7 @@ export async function runIncrementalBuild(
     srcRoot: CTX.srcRoot,
   });
 
-  logger.info(
-    `Build finished in ${(performance.now() - startTime).toFixed(2)}ms.`,
-  );
+  logger.info(`Build finished in ${(performance.now() - startTime).toFixed(2)}ms.`);
 }
 
 export default runIncrementalBuild;

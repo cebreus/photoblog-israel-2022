@@ -35,9 +35,7 @@ test.describe("URL boolean synchronization", () => {
     expect(url.searchParams.get("debug")).toBe("true");
   });
 
-  test("old numeric values (1/0) are normalized to true/false", async ({
-    page,
-  }) => {
+  test("old numeric values (1/0) are normalized to true/false", async ({ page }) => {
     // Navigate with legacy numeric params
     await page.goto("/?separators=1&labels=0");
     await page.waitForLoadState("networkidle");

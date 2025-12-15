@@ -5,9 +5,7 @@ function isMenuManifest(x: unknown): x is MenuManifest {
   return Array.isArray(x);
 }
 
-const menuItems: MenuManifest = isMenuManifest(menuManifest)
-  ? menuManifest
-  : [];
+const menuItems: MenuManifest = isMenuManifest(menuManifest) ? menuManifest : [];
 
 export function getMenuItems(): MenuManifest {
   return menuItems;

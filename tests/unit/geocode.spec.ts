@@ -34,9 +34,8 @@ describe("Geocode API", () => {
     expect(mockFetch).toHaveBeenCalledWith(
       expect.objectContaining({
         href:
-          expect.stringContaining(
-            "https://nominatim.openstreetmap.org/reverse",
-          ) && expect.stringContaining("accept-language=cs"),
+          expect.stringContaining("https://nominatim.openstreetmap.org/reverse") &&
+          expect.stringContaining("accept-language=cs"),
       }),
       expect.objectContaining({
         headers: {

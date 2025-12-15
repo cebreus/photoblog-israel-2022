@@ -15,10 +15,7 @@ export function renderStoryHtml(separator: Separator): string {
  * returned immediately when present (useful when the build pipeline emits
  * pre-rendered HTML).
  */
-export function renderMarkdown(
-  content?: string,
-  preRenderedHtml?: string,
-): string {
+export function renderMarkdown(content?: string, preRenderedHtml?: string): string {
   if (!content && !preRenderedHtml) return "";
   if (preRenderedHtml) return preRenderedHtml;
 

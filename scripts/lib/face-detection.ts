@@ -16,8 +16,7 @@ faceapi.env.monkeyPatch({
 });
 
 const MODELS_DIR = path.resolve(process.cwd(), "scripts/models");
-const BASE_MODEL_URL =
-  "https://raw.githubusercontent.com/vladmandic/face-api/master/model";
+const BASE_MODEL_URL = "https://raw.githubusercontent.com/vladmandic/face-api/master/model";
 
 // We use SSD MobileNet V1 for higher accuracy over Tiny Face Detector
 const MODEL_NAME = "ssd_mobilenetv1";

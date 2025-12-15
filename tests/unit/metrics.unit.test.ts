@@ -1,24 +1,12 @@
 import { describe, it, expect, beforeAll } from "bun:test";
 import path from "node:path";
 import sharp from "sharp";
-import {
-  calculatePhash,
-  calculateSharpness,
-} from "../../scripts/lib/image-utils";
+import { calculatePhash, calculateSharpness } from "../../scripts/lib/image-utils";
 
 describe("Metric Extraction (Unit)", () => {
-  const sharpImgPath = path.resolve(
-    process.cwd(),
-    "tests/fixtures/sharp_test.jpg",
-  );
-  const blurImgPath = path.resolve(
-    process.cwd(),
-    "tests/fixtures/blur_test.jpg",
-  );
-  const resizedImgPath = path.resolve(
-    process.cwd(),
-    "tests/fixtures/resized_test.jpg",
-  );
+  const sharpImgPath = path.resolve(process.cwd(), "tests/fixtures/sharp_test.jpg");
+  const blurImgPath = path.resolve(process.cwd(), "tests/fixtures/blur_test.jpg");
+  const resizedImgPath = path.resolve(process.cwd(), "tests/fixtures/resized_test.jpg");
 
   beforeAll(async () => {
     // Ensure fixtures dir exists

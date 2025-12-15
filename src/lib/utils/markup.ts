@@ -5,10 +5,7 @@ import type { Separator } from "$lib/types/manifest";
  * Convert storyContent (markdown) to HTML. Kept as a pure TS helper
  * so rendering/parsing is testable and lives in the data/transform layer.
  */
-export function renderStoryHtml(
-  story: string | undefined,
-  preRenderedHtml?: string,
-): string {
+export function renderStoryHtml(story: string | undefined, preRenderedHtml?: string): string {
   return preRenderedHtml ?? story ?? "";
 }
 
@@ -18,10 +15,7 @@ export function renderStoryHtml(
  * returned immediately when present (useful when the build pipeline emits
  * pre-rendered HTML).
  */
-export function renderMarkdown(
-  content?: string,
-  preRenderedHtml?: string,
-): string {
+export function renderMarkdown(content?: string, preRenderedHtml?: string): string {
   if (!content && !preRenderedHtml) return "";
   if (preRenderedHtml) return preRenderedHtml;
 

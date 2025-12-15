@@ -49,8 +49,6 @@
     }
   },
   "javascript": {
-    "globals": [
-      "Bun"
-    ]
+    "globals": ["Bun"]
   }
 }

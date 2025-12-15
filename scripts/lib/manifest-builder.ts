@@ -43,10 +43,7 @@ type GeneratorManifestEntry = {
 };
 
 function sortGeneratorVariants(list: GeneratorVariant[]): GeneratorVariant[] {
-  function compareVariantByWidth(
-    a: GeneratorVariant,
-    b: GeneratorVariant,
-  ): number {
+  function compareVariantByWidth(a: GeneratorVariant, b: GeneratorVariant): number {
     const left = a.width ?? 0;
     const right = b.width ?? 0;
     if (left === right) return (a.path || "").localeCompare(b.path || "");
@@ -107,9 +104,7 @@ export function buildGeneratorManifest(
         webp: sortGeneratorVariants(grouped.webp),
         jpeg: sortGeneratorVariants(grouped.jpeg),
       },
-      placeholder: res.image.placeholder
-        ? { width: null, height: null, type: null }
-        : null,
+      placeholder: res.image.placeholder ? { width: null, height: null, type: null } : null,
       color: res.image.placeholderColor,
       outputs: [...res.outputs].sort(compareOutputStrings),
     };
@@ -175,9 +170,7 @@ export function updateManifest(
     for (const result of dayResults) {
       function keepForResult(item: ImageEntry | Separator): boolean {
         if (item.type === "separator") return true;
-        return !item.src.startsWith(
-          path.basename(result.key, path.extname(result.key)),
-        );
+        return !item.src.startsWith(path.basename(result.key, path.extname(result.key)));
       }
       day.items = day.items.filter(keepForResult);
       day.items.push(result.image);
@@ -207,11 +200,7 @@ export function updateManifest(
       const location = image.exif?.location || "Unknown";
       const group = imagesByLocation[location] || [];
 
-      if (
-        location !== "Unknown" &&
-        group.length > 2 &&
-        !seenLocations.has(location)
-      ) {
+      if (location !== "Unknown" && group.length > 2 && !seenLocations.has(location)) {
         const story = storyData[location];
 
         const storyContent = story?.content?.trim();
@@ -250,9 +239,7 @@ export function updateManifest(
     const locations: string[] = [];
 
     // Filter only images to avoid duplicates from separators
-    const images = (day.items || []).filter(
-      (i) => i.type === "image",
-    ) as ImageEntry[];
+    const images = (day.items || []).filter((i) => i.type === "image") as ImageEntry[];
 
     for (const image of images) {
       const city = image.exif?.city;

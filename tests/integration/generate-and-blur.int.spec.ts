@@ -43,9 +43,7 @@ describe("Integration: main images generation", () => {
 
     // Directory tree snapshot (relative to outDir)
     const tree = await listTree(outDir);
-    const rel = tree.map((p) =>
-      path.posix.relative(outDir.replaceAll(path.sep, "/"), p),
-    );
+    const rel = tree.map((p) => path.posix.relative(outDir.replaceAll(path.sep, "/"), p));
     expect(rel).toMatchSnapshot();
 
     // Sanity: variants should exist across formats

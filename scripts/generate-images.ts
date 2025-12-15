@@ -94,13 +94,8 @@ function isProcessedImageResult(
 
 function initializeContext() {
   const raw = ARGS.__raw;
-  const defaultManifestPath = path.resolve(
-    process.cwd(),
-    config.paths.manifest,
-  );
-  const overrideManifestPath = raw?.manifest
-    ? path.resolve(process.cwd(), raw.manifest)
-    : null;
+  const defaultManifestPath = path.resolve(process.cwd(), config.paths.manifest);
+  const overrideManifestPath = raw?.manifest ? path.resolve(process.cwd(), raw.manifest) : null;
   return {
     srcRoot: raw?.src
       ? path.resolve(process.cwd(), raw.src)
@@ -115,17 +110,11 @@ function initializeContext() {
       : path.resolve(process.cwd(), config.paths.cache),
     generatorManifestPath: path.resolve(
       process.cwd(),
-      overrideManifestPath ??
-        path.join(config.paths.tmp, "generator.manifest.json"),
+      overrideManifestPath ?? path.join(config.paths.tmp, "generator.manifest.json"),
     ),
-    menuManifestPath: path.resolve(
-      process.cwd(),
-      config.paths.dataRoot,
-      "menu.manifest.json",
-    ),
+    menuManifestPath: path.resolve(process.cwd(), config.paths.dataRoot, "menu.manifest.json"),
     siteManifestPath: path.resolve(process.cwd(), config.paths.siteManifest),
-    shouldWriteSiteManifests:
-      !overrideManifestPath || overrideManifestPath === defaultManifestPath,
+    shouldWriteSiteManifests: !overrideManifestPath || overrideManifestPath === defaultManifestPath,
     configHash: sha1(Buffer.from(JSON.stringify(config))),
   };
 }
@@ -191,8 +180,7 @@ export async function executeMain(): Promise<void> {
     // prints only the message and ignores metadata objects. Emit the stack explicitly.
     const errAny: any = e;
     logger.error(
-      "An unexpected error occurred in the main process. " +
-        (errAny?.stack ?? String(errAny)),
+      "An unexpected error occurred in the main process. " + (errAny?.stack ?? String(errAny)),
     );
     process.exit(1);
   } finally {

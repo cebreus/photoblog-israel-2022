@@ -14,9 +14,7 @@ function isManifest(acc: unknown): acc is Manifest {
   return typeof acc === "object" && acc !== null && "photoDays" in acc;
 }
 
-const typedManifest: Manifest = isManifest(manifest)
-  ? manifest
-  : { photoDays: [] };
+const typedManifest: Manifest = isManifest(manifest) ? manifest : { photoDays: [] };
 
 export function getManifest(): Manifest {
   return typedManifest;

@@ -6,15 +6,9 @@ import fs from "node:fs";
 import { dev } from "$app/environment";
 import { spawn } from "node:child_process";
 import type { Manifest, ImageEntry } from "$lib/types/manifest";
-import {
-  getExifToolWriteTags,
-  type MetadataKey,
-} from "$lib/metadata-standards";
+import { getExifToolWriteTags, type MetadataKey } from "$lib/metadata-standards";
 
-function findImageById(
-  manifestData: Manifest,
-  id: string,
-): ImageEntry | undefined {
+function findImageById(manifestData: Manifest, id: string): ImageEntry | undefined {
   for (const day of manifestData.photoDays) {
     const found = day.items.find(
       (item): item is ImageEntry => item.type === "image" && item.id === id,
@@ -56,8 +50,7 @@ export async function POST({ request }) {
   if (metadata.keywords !== undefined) updates.keywords = metadata.keywords;
   if (metadata.author !== undefined) updates.author = metadata.author;
   if (metadata.country !== undefined) updates.country = metadata.country;
-  if (metadata.countryCode !== undefined)
-    updates.countryCode = metadata.countryCode;
+  if (metadata.countryCode !== undefined) updates.countryCode = metadata.countryCode;
   if (metadata.state !== undefined) updates.state = metadata.state;
 
   const tags = getExifToolWriteTags(updates);
@@ -140,14 +133,10 @@ export async function POST({ request }) {
  */
 function regenerateManifest(contentDir: string): Promise<void> {
   return new Promise((resolve, reject) => {
-    const proc = spawn(
-      "bun",
-      ["scripts/generate-images.ts", "--manifestOnly"],
-      {
-        env: { ...process.env, CONTENT_DIR: contentDir },
-        stdio: ["ignore", "pipe", "pipe"],
-      },
-    );
+    const proc = spawn("bun", ["scripts/generate-images.ts", "--manifestOnly"], {
+      env: { ...process.env, CONTENT_DIR: contentDir },
+      stdio: ["ignore", "pipe", "pipe"],
+    });
 
     let stderr = "";
     proc.stderr?.on("data", (data) => {
@@ -155,20 +144,14 @@ function regenerateManifest(contentDir: string): Promise<void> {
     });
 
     proc.on("error", (err) => {
-      reject(
-        new Error(`Failed to spawn manifest regeneration: ${err.message}`),
-      );
+      reject(new Error(`Failed to spawn manifest regeneration: ${err.message}`));
     });
 
     proc.on("close", (code) => {
       if (code === 0) {
         resolve();
       } else {
-        reject(
-          new Error(
-            `Manifest regeneration exited with code ${code}: ${stderr}`,
-          ),
-        );
+        reject(new Error(`Manifest regeneration exited with code ${code}: ${stderr}`));
       }
     });
   });

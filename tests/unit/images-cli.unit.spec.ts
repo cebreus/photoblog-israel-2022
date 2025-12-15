@@ -1,12 +1,4 @@
-import {
-  describe,
-  it,
-  expect,
-  vi,
-  beforeEach,
-  afterEach,
-  afterAll,
-} from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach, afterAll } from "vitest";
 import path from "node:path";
 import fs from "node:fs";
 import { runGenerator } from "../utils/process-helpers";
@@ -105,9 +97,7 @@ describe("CLI (generate-images.ts) – Integration with real FS", () => {
     expect(res.code).toBe(0);
 
     const detailsDir = path.join(outDir, "details");
-    const param = (await fs.promises.readdir(detailsDir)).find((x) =>
-      x.endsWith(".jpeg"),
-    );
+    const param = (await fs.promises.readdir(detailsDir)).find((x) => x.endsWith(".jpeg"));
 
     const meta = await sharp(path.join(detailsDir, param!)).metadata();
     expect(meta.width).toBeLessThanOrEqual(100);
@@ -131,9 +121,7 @@ describe("CLI (generate-images.ts) – Integration with real FS", () => {
       { cwd: CWD },
     );
 
-    expect((await listTree(outDir)).some((p) => p.endsWith(".webp"))).toBe(
-      true,
-    );
+    expect((await listTree(outDir)).some((p) => p.endsWith(".webp"))).toBe(true);
 
     // Run 2: JPEG only
     await runGenerator(

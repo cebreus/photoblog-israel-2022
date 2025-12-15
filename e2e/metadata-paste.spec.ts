@@ -8,9 +8,7 @@ test.describe("Metadata Paste E2E", () => {
     await expect(page.locator("figure").first()).toBeVisible();
   });
 
-  test("should paste metadata with exclusion support (Sidebar flow)", async ({
-    page,
-  }) => {
+  test("should paste metadata with exclusion support (Sidebar flow)", async ({ page }) => {
     // --- 1. SETUP: Enter Edit Mode directly via URL to ensure stability ---
     // We add 'editMode' (presence) and 'sidebar' (presence) to URL
     await page.goto("/?editMode&sidebar");
@@ -41,9 +39,7 @@ test.describe("Metadata Paste E2E", () => {
     expect(idB).not.toEqual(idC);
 
     // Ensure Edit Mode is active by waiting for the checkbox container on Image A
-    await expect(
-      page.locator(`[data-testid="photo-grid-item-checkbox-${idA}"]`),
-    ).toBeVisible();
+    await expect(page.locator(`[data-testid="photo-grid-item-checkbox-${idA}"]`)).toBeVisible();
 
     // --- 2. COPY SOURCE METADATA ---
     // Right click Image A -> Copy Metadata
@@ -51,9 +47,7 @@ test.describe("Metadata Paste E2E", () => {
     await expect(
       page.locator('[data-testid="photo-grid-item-contextmenu-copy-metadata"]'),
     ).toBeVisible();
-    await page.click(
-      '[data-testid="photo-grid-item-contextmenu-copy-metadata"]',
-    );
+    await page.click('[data-testid="photo-grid-item-contextmenu-copy-metadata"]');
 
     // Optional: Verify clipboard indicator or toast if exists (skipping for now)
 
@@ -64,20 +58,14 @@ test.describe("Metadata Paste E2E", () => {
 
     // Verify selection (check markers visibility)
     await expect(
-      page.locator(
-        `[data-testid="photo-grid-item-selection-indicator-${idB}"]`,
-      ),
+      page.locator(`[data-testid="photo-grid-item-selection-indicator-${idB}"]`),
     ).toBeVisible();
     await expect(
-      page.locator(
-        `[data-testid="photo-grid-item-selection-indicator-${idC}"]`,
-      ),
+      page.locator(`[data-testid="photo-grid-item-selection-indicator-${idC}"]`),
     ).toBeVisible();
     // Image A should NOT be selected
     await expect(
-      page.locator(
-        `[data-testid="photo-grid-item-selection-indicator-${idA}"]`,
-      ),
+      page.locator(`[data-testid="photo-grid-item-selection-indicator-${idA}"]`),
     ).not.toBeVisible();
 
     // --- 4. OPEN PASTE DIALOG (SIDEBAR) ---
@@ -87,29 +75,22 @@ test.describe("Metadata Paste E2E", () => {
     // Verify Dialog and Columns
     const dialog = page.locator('[role="dialog"]');
     await expect(dialog).toBeVisible();
-    await expect(
-      page.locator(`[data-testid="metadata-paste-dialog-header-${idB}"]`),
-    ).toBeVisible();
-    await expect(
-      page.locator(`[data-testid="metadata-paste-dialog-header-${idC}"]`),
-    ).toBeVisible();
+    await expect(page.locator(`[data-testid="metadata-paste-dialog-header-${idB}"]`)).toBeVisible();
+    await expect(page.locator(`[data-testid="metadata-paste-dialog-header-${idC}"]`)).toBeVisible();
 
     // --- 5. EXCLUDE IMAGE B ---
     // Click exclude toggle for B
     await page.click(`[data-testid="metadata-paste-dialog-exclude-${idB}"]`);
 
     // Verify visual state (grayscale / text)
-    const headerB = page.locator(
-      `[data-testid="metadata-paste-dialog-header-${idB}"]`,
-    );
+    const headerB = page.locator(`[data-testid="metadata-paste-dialog-header-${idB}"]`);
     await expect(headerB).toHaveClass(/opacity-50/);
     await expect(headerB.locator("text=VYLUČENO")).toBeVisible();
 
     // --- 6. CONFIRM AND VERIFY API ---
     // Spy on the network request
     const patchRequestPromise = page.waitForRequest(
-      (request) =>
-        request.url().includes("/api/images") && request.method() === "PATCH",
+      (request) => request.url().includes("/api/images") && request.method() === "PATCH",
     );
 
     await page.click('[data-testid="metadata-paste-dialog-confirm"]');
@@ -128,20 +109,14 @@ test.describe("Metadata Paste E2E", () => {
     // Logic: Excluded images (B) are deselected. Processed images (C) often remain selected or user choice.
     // Based on implementation: `if (excludedImageIds.has(id)) selection.toggle(id);` -> B is deselected.
     await expect(
-      page.locator(
-        `[data-testid="photo-grid-item-selection-indicator-${idB}"]`,
-      ),
+      page.locator(`[data-testid="photo-grid-item-selection-indicator-${idB}"]`),
     ).not.toBeVisible();
     await expect(
-      page.locator(
-        `[data-testid="photo-grid-item-selection-indicator-${idC}"]`,
-      ),
+      page.locator(`[data-testid="photo-grid-item-selection-indicator-${idC}"]`),
     ).toBeVisible();
   });
 
-  test("should paste metadata via Context Menu with multiple selection", async ({
-    page,
-  }) => {
+  test("should paste metadata via Context Menu with multiple selection", async ({ page }) => {
     // --- 1. SETUP ---
     // --- 1. SETUP ---
     await page.goto("/?editMode&sidebar");
@@ -156,24 +131,18 @@ test.describe("Metadata Paste E2E", () => {
     const idC = await imageC.getAttribute("id");
 
     // Ensure Edit Mode is active by waiting for the checkbox on Image A
-    await expect(
-      page.locator(`[data-testid="photo-grid-item-checkbox-${idA}"]`),
-    ).toBeVisible();
+    await expect(page.locator(`[data-testid="photo-grid-item-checkbox-${idA}"]`)).toBeVisible();
 
     // --- 2. COPY A ---
     // Target the ContextMenu Trigger specifically
-    const triggerA = page.locator(
-      `[data-testid="photo-grid-item-container-${idA}"]`,
-    );
+    const triggerA = page.locator(`[data-testid="photo-grid-item-container-${idA}"]`);
     await triggerA.scrollIntoViewIfNeeded();
     await page.waitForTimeout(500); // Give hydration/listeners a moment
     await triggerA.click({ button: "right", force: true });
     await expect(
       page.locator('[data-testid="photo-grid-item-contextmenu-copy-metadata"]'),
     ).toBeVisible();
-    await page.click(
-      '[data-testid="photo-grid-item-contextmenu-copy-metadata"]',
-    );
+    await page.click('[data-testid="photo-grid-item-contextmenu-copy-metadata"]');
 
     // --- 3. SELECT B AND C ---
     await page.click(`[data-testid="photo-grid-item-overlay-${idB}"]`);
@@ -181,35 +150,25 @@ test.describe("Metadata Paste E2E", () => {
 
     // Verify selection
     await expect(
-      page.locator(
-        `[data-testid="photo-grid-item-selection-indicator-${idB}"]`,
-      ),
+      page.locator(`[data-testid="photo-grid-item-selection-indicator-${idB}"]`),
     ).toBeVisible();
     await expect(
-      page.locator(
-        `[data-testid="photo-grid-item-selection-indicator-${idC}"]`,
-      ),
+      page.locator(`[data-testid="photo-grid-item-selection-indicator-${idC}"]`),
     ).toBeVisible();
 
     // --- 4. PASTE TO SELECTION VIA CONTEXT MENU ---
     // We need to right-click the element that triggers context menu.
-    const triggerC = page.locator(
-      `[data-testid="photo-grid-item-container-${idC}"]`,
-    );
+    const triggerC = page.locator(`[data-testid="photo-grid-item-container-${idC}"]`);
     await triggerC.scrollIntoViewIfNeeded();
     await page.waitForTimeout(200);
     await triggerC.click({ button: "right", force: true });
 
     // CRITICAL CHECK: Did right-click deselect C?
     await expect(
-      page.locator(
-        `[data-testid="photo-grid-item-selection-indicator-${idC}"]`,
-      ),
+      page.locator(`[data-testid="photo-grid-item-selection-indicator-${idC}"]`),
     ).toBeVisible();
     await expect(
-      page.locator(
-        `[data-testid="photo-grid-item-selection-indicator-${idB}"]`,
-      ),
+      page.locator(`[data-testid="photo-grid-item-selection-indicator-${idB}"]`),
     ).toBeVisible();
 
     const pasteSelectionItem = page.locator(
@@ -228,19 +187,13 @@ test.describe("Metadata Paste E2E", () => {
     await expect(dialog).toBeVisible();
 
     // Verify specifically that Header for Image B is visible
-    await expect(
-      page.locator(`[data-testid="metadata-paste-dialog-header-${idB}"]`),
-    ).toBeVisible();
+    await expect(page.locator(`[data-testid="metadata-paste-dialog-header-${idB}"]`)).toBeVisible();
 
     // Verify specifically that Header for Image C is visible
-    await expect(
-      page.locator(`[data-testid="metadata-paste-dialog-header-${idC}"]`),
-    ).toBeVisible();
+    await expect(page.locator(`[data-testid="metadata-paste-dialog-header-${idC}"]`)).toBeVisible();
 
     // Verify confirm button counts 2 images
-    await expect(
-      page.locator('[data-testid="paste-dialog-confirm"]'),
-    ).toContainText("2");
+    await expect(page.locator('[data-testid="paste-dialog-confirm"]')).toContainText("2");
 
     // Cancel to clean up
     await page.click('[data-testid="paste-dialog-cancel"]');

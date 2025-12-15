@@ -1,13 +1,13 @@
 <script lang="ts">
-  import type { MenuManifest } from "$lib/types/manifest";
-  import * as Sidebar from "$lib/components/ui/sidebar";
-  import { Collapsible } from "bits-ui";
-  import { page } from "$app/stores";
-  import { activeSectionIds } from "$lib/stores/scrollspy";
-  import { Calendar, ChevronRight } from "lucide-svelte";
-  import type { HTMLAttributes } from "svelte/elements";
+import type { MenuManifest } from "$lib/types/manifest";
+import * as Sidebar from "$lib/components/ui/sidebar";
+import { Collapsible } from "bits-ui";
+import { page } from "$app/stores";
+import { activeSectionIds } from "$lib/stores/scrollspy";
+import { Calendar, ChevronRight } from "lucide-svelte";
+import type { HTMLAttributes } from "svelte/elements";
 
-  export let menuItems: MenuManifest = [];
+export let menuItems: MenuManifest = [];
 </script>
 
 <Sidebar.Menu data-testid="agenda-tab" class="px-2">
@@ -19,13 +19,13 @@
       )}
 
       <Collapsible.Root open={true} class="group/collapsible">
-        {#snippet child({ props }: { props: HTMLAttributes })}
+        {#snippet child({ props }: { props: HTMLAttributes<HTMLElement> })}
           <Sidebar.MenuItem {...props}>
             <Sidebar.MenuButton
               isHashActive={isHashActiveDay}
               isScrollspyActive={isScrollspyActiveDay}
             >
-              {#snippet child({ props }: { props: HTMLAttributes })}
+              {#snippet child({ props }: { props: HTMLAttributes<HTMLElement> })}
                 <div class="flex items-center w-full" {...props}>
                   <a href={menuDay.href} class="flex items-center gap-2 grow">
                     <Calendar class="size-4" />

@@ -1,34 +1,27 @@
 <script lang="ts">
-  import { getContext } from "svelte";
-  import {
-    OFFCANVAS_CONTEXT_KEY,
-    type OffcanvasContext,
-  } from "./offcanvas-context";
-  import type { Snippet } from "svelte";
-  import type { HTMLAttributes } from "svelte/elements";
-  import { cn } from "$lib/utils";
-  import { XIcon } from "@lucide/svelte";
-  import Button, {
-    buttonVariants,
-  } from "$lib/components/ui/button/button.svelte"; // Import Button and buttonVariants
+import { getContext } from "svelte";
+import { OFFCANVAS_CONTEXT_KEY, type OffcanvasContext } from "./offcanvas-context";
+import type { Snippet } from "svelte";
+import type { HTMLAttributes } from "svelte/elements";
+import { cn } from "$lib/utils";
+import { XIcon } from "@lucide/svelte";
+import Button, { buttonVariants } from "$lib/components/ui/button/button.svelte"; // Import Button and buttonVariants
 
-  let {
-    children,
-    className = "",
-    side = "right",
-    ...restProps
-  }: {
-    children: Snippet;
-    className?: string;
-    side?: "top" | "bottom" | "left" | "right";
-  } & HTMLAttributes<HTMLDivElement> = $props();
+let {
+  children,
+  className = "",
+  side = "right",
+  ...restProps
+}: {
+  children: Snippet;
+  className?: string;
+  side?: "top" | "bottom" | "left" | "right";
+} & HTMLAttributes<HTMLDivElement> = $props();
 
-  const { openStore, toggleOpen } = getContext<OffcanvasContext>(
-    OFFCANVAS_CONTEXT_KEY,
-  ); // Get toggleOpen from context
+const { openStore, toggleOpen } = getContext<OffcanvasContext>(OFFCANVAS_CONTEXT_KEY); // Get toggleOpen from context
 
-  let open = $state(false); // Make open reactive
-  openStore.subscribe((value) => (open = value));
+let open = $state(false); // Make open reactive
+openStore.subscribe((value) => (open = value));
 </script>
 
 {#if open}

@@ -1,25 +1,23 @@
 <script lang="ts">
-  import { page } from "$app/stores";
-  import type { MenuManifest, PhotoDay } from "$lib/types/manifest";
-  import { Button } from "$lib/components/ui/button";
-  import { Bug, Tags, Sparkles } from "lucide-svelte";
-  import { debug } from "$lib/stores/debug";
-  import { editMode, showMetadataOverlay } from "$lib/stores/editorState";
-  import { isCurationMode } from "$lib/stores/uiState";
-  import * as Sidebar from "$lib/components/ui/sidebar";
+import { page } from "$app/stores";
+import type { MenuManifest, PhotoDay } from "$lib/types/manifest";
+import { Button } from "$lib/components/ui/button";
+import { Bug, Tags, Sparkles } from "lucide-svelte";
+import { debug } from "$lib/stores/debug";
+import { editMode, showMetadataOverlay } from "$lib/stores/editorState";
+import { isCurationMode } from "$lib/stores/uiState";
+import * as Sidebar from "$lib/components/ui/sidebar";
 
-  type AuthorStats = {
-    name: string;
-    count: number;
-    slug?: string;
-  };
+type AuthorStats = {
+  name: string;
+  count: number;
+  slug?: string;
+};
 
-  let {
-    menuItems = [],
-    authors = [],
-  }: { menuItems?: MenuManifest; authors?: AuthorStats[] } = $props();
+let { menuItems = [], authors = [] }: { menuItems?: MenuManifest; authors?: AuthorStats[] } =
+  $props();
 
-  const siteManifest = $derived($page.data.siteManifest);
+const siteManifest = $derived($page.data.siteManifest);
 </script>
 
 <header

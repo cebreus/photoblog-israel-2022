@@ -41,15 +41,8 @@ function makeObserverKey(
  *
  * Uses shared observers for performance.
  */
-export const useScrollspy: Action<HTMLElement, ScrollspyOptions> = (
-  node,
-  options,
-) => {
-  const {
-    id,
-    rootMargin = DEFAULT_ROOT_MARGIN,
-    threshold = DEFAULT_THRESHOLD,
-  } = options;
+export const useScrollspy: Action<HTMLElement, ScrollspyOptions> = (node, options) => {
+  const { id, rootMargin = DEFAULT_ROOT_MARGIN, threshold = DEFAULT_THRESHOLD } = options;
 
   if (!id) {
     console.warn('Scrollspy action requires an "id" option.');

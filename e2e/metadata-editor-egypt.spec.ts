@@ -36,9 +36,7 @@ test.describe(`Metadata Editor E2E for ${CONTENT_DIR_NAME}`, () => {
       await fs.copyFile(imagePath, imageBackupPath);
       console.log(`Backup of ${IMAGE_FILENAME} created at ${imageBackupPath}`);
     } catch (error) {
-      throw new Error(
-        `Failed to back up source image ${imagePath}. Error: ${error.message}`,
-      );
+      throw new Error(`Failed to back up source image ${imagePath}. Error: ${error.message}`);
     }
   });
 
@@ -57,9 +55,7 @@ test.describe(`Metadata Editor E2E for ${CONTENT_DIR_NAME}`, () => {
   });
 
   // --- Test Case ---
-  test("should write metadata to HEIC file and verify manifest regeneration", async ({
-    page,
-  }) => {
+  test("should write metadata to HEIC file and verify manifest regeneration", async ({ page }) => {
     // 1. Navigate to the page and activate edit mode
     await page.goto(`http://localhost:5173/?contentDir=${CONTENT_DIR_NAME}`);
     await page.waitForTimeout(1000); // Wait for JS to become interactive
@@ -67,19 +63,13 @@ test.describe(`Metadata Editor E2E for ${CONTENT_DIR_NAME}`, () => {
     await expect(page).toHaveURL(new RegExp(`editMode=true`));
 
     // 2. Find and select the target image
-    const imageId = `img-${IMAGE_FILENAME.replace(/_/g, "")
-      .replace(/\..+$/, "")
-      .toLowerCase()}`;
-    const imageContainer = page.locator(
-      `[data-testid="image-container-${imageId}"]`,
-    );
+    const imageId = `img-${IMAGE_FILENAME.replace(/_/g, "").replace(/\..+$/, "").toLowerCase()}`;
+    const imageContainer = page.locator(`[data-testid="image-container-${imageId}"]`);
     await expect(imageContainer).toBeVisible();
     await imageContainer.click();
 
     // Verify selection checkbox is now visible
-    await expect(
-      imageContainer.locator('[data-testid="image-selection-checkbox"]'),
-    ).toBeVisible();
+    await expect(imageContainer.locator('[data-testid="image-selection-checkbox"]')).toBeVisible();
 
     // 3. Click "Edit" button to open the editor
     await page.locator('[data-testid="edit-selected-button"]').click();
@@ -89,24 +79,14 @@ test.describe(`Metadata Editor E2E for ${CONTENT_DIR_NAME}`, () => {
     await expect(editor).toBeVisible({ timeout: 10000 });
 
     // 4. Fill in the form with test data
-    await editor
-      .locator('[data-testid="metadata-editor-title-input"]')
-      .fill(TEST_DATA.title);
-    await editor
-      .locator('[data-testid="metadata-editor-city-input"]')
-      .fill(TEST_DATA.city);
-    await editor
-      .locator('[data-testid="metadata-editor-caption-input"]')
-      .fill(TEST_DATA.caption);
-    await editor
-      .locator('[data-testid="metadata-editor-keywords-input"]')
-      .fill(TEST_DATA.keywords);
+    await editor.locator('[data-testid="metadata-editor-title-input"]').fill(TEST_DATA.title);
+    await editor.locator('[data-testid="metadata-editor-city-input"]').fill(TEST_DATA.city);
+    await editor.locator('[data-testid="metadata-editor-caption-input"]').fill(TEST_DATA.caption);
+    await editor.locator('[data-testid="metadata-editor-keywords-input"]').fill(TEST_DATA.keywords);
 
     // 5. Submit the form
     await editor.locator('[data-testid="metadata-editor-save-button"]').click();
-    await expect(
-      editor.locator('[data-testid="metadata-editor-success-alert"]'),
-    ).toBeVisible();
+    await expect(editor.locator('[data-testid="metadata-editor-success-alert"]')).toBeVisible();
 
     // --- Verification Step 1: Check physical file on disk ---
     console.log(`Verifying EXIF data in ${imagePath}...`);
@@ -114,9 +94,7 @@ test.describe(`Metadata Editor E2E for ${CONTENT_DIR_NAME}`, () => {
 
     expect(metadata.ObjectName || metadata.Title).toBe(TEST_DATA.title);
     expect(metadata.City).toBe(TEST_DATA.city);
-    expect(metadata["Caption-Abstract"] || metadata.Description).toBe(
-      TEST_DATA.caption,
-    );
+    expect(metadata["Caption-Abstract"] || metadata.Description).toBe(TEST_DATA.caption);
 
     const writtenKeywords = Array.isArray(metadata.Keywords)
       ? metadata.Keywords

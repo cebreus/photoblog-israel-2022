@@ -1,95 +1,86 @@
 <script lang="ts">
-  import { getSources } from "$lib/utils/images";
-  import type {
-    ImageEntry,
-    ImageSource,
-    CurationGroup,
-  } from "$lib/types/manifest";
-  import * as ContextMenu from "$lib/components/ui/context-menu";
-  import { debug } from "$lib/stores/debug";
-  import JsonViewer from "$lib/components/debug/JsonViewer.svelte";
-  import { useScrollspy } from "$lib/actions/scrollspy";
-  import AspectRatioIcon from "$lib/components/AspectRatioIcon.svelte";
-  import {
-    selection,
-    editMode,
-    showMetadataOverlay,
-  } from "$lib/stores/editorState";
-  import { isCurationMode } from "$lib/stores/uiState";
-  import { metadataClipboard } from "$lib/stores/metadataClipboard";
-  import { Trash2, Copy, Check, Info } from "lucide-svelte";
-  import { toast } from "svelte-sonner";
-  import { cn } from "$lib/utils";
+import { getSources } from "$lib/utils/images";
+import type { ImageEntry, ImageSource, CurationGroup } from "$lib/types/manifest";
+import * as ContextMenu from "$lib/components/ui/context-menu";
+import { debug } from "$lib/stores/debug";
+import JsonViewer from "$lib/components/debug/JsonViewer.svelte";
+import { useScrollspy } from "$lib/actions/scrollspy";
+import AspectRatioIcon from "$lib/components/AspectRatioIcon.svelte";
+import { selection, editMode, showMetadataOverlay } from "$lib/stores/editorState";
+import { isCurationMode } from "$lib/stores/uiState";
+import { metadataClipboard } from "$lib/stores/metadataClipboard";
+import { Trash2, Copy, Check, Info } from "lucide-svelte";
+import { toast } from "svelte-sonner";
+import { cn } from "$lib/utils";
 
-  let {
-    item,
-    scrollspyId,
-    curationGroup,
-    onDelete,
-    onCopyMetadata,
-    onPasteMetadata,
-    onKeepGroup,
-    mode = "grid",
-  } = $props<{
-    item: ImageEntry;
-    scrollspyId?: string;
-    curationGroup?: CurationGroup;
-    onDelete?: (item: ImageEntry) => void;
-    onCopyMetadata?: (item: ImageEntry) => void;
-    onPasteMetadata?: (item: ImageEntry, onlyThis?: boolean) => void;
-    onKeepGroup?: (item: ImageEntry, group: CurationGroup) => void;
-    mode?: "grid" | "curation";
-  }>();
+let {
+  item,
+  scrollspyId,
+  curationGroup,
+  onDelete,
+  onCopyMetadata,
+  onPasteMetadata,
+  onKeepGroup,
+  mode = "grid",
+} = $props<{
+  item: ImageEntry;
+  scrollspyId?: string;
+  curationGroup?: CurationGroup;
+  onDelete?: (item: ImageEntry) => void;
+  onCopyMetadata?: (item: ImageEntry) => void;
+  onPasteMetadata?: (item: ImageEntry, onlyThis?: boolean) => void;
+  onKeepGroup?: (item: ImageEntry, group: CurationGroup) => void;
+  mode?: "grid" | "curation";
+}>();
 
-  function isFallback(source: ImageSource) {
-    return source.variant === "fallback";
-  }
+function isFallback(source: ImageSource) {
+  return source.variant === "fallback";
+}
 
-  function findFallbackSource(image: ImageEntry): ImageSource | undefined {
-    return image.sources.find(isFallback);
-  }
+function findFallbackSource(image: ImageEntry): ImageSource | undefined {
+  return image.sources.find(isFallback);
+}
 
-  function isDetail(source: ImageSource) {
-    return source.variant === "detail";
-  }
+function isDetail(source: ImageSource) {
+  return source.variant === "detail";
+}
 
-  function findDetailSource(image: ImageEntry): ImageSource | undefined {
-    return image.sources.find(isDetail) ?? image.sources[0];
-  }
+function findDetailSource(image: ImageEntry): ImageSource | undefined {
+  return image.sources.find(isDetail) ?? image.sources[0];
+}
 
-  function shouldShowAspectRatioIcon(aspectRatio: string | undefined): boolean {
-    if (!aspectRatio) return false;
-    return !aspectRatio.startsWith("landscape");
-  }
+function shouldShowAspectRatioIcon(aspectRatio: string | undefined): boolean {
+  if (!aspectRatio) return false;
+  return !aspectRatio.startsWith("landscape");
+}
 
-  function handleImageClick(id: string, e: MouseEvent | KeyboardEvent) {
-    if (!isEditMode) return;
-    if (e instanceof KeyboardEvent && e.key !== "Enter" && e.key !== " ")
-      return;
-    e.preventDefault();
-    selection.toggle(id);
-  }
+function handleImageClick(id: string, e: MouseEvent | KeyboardEvent) {
+  if (!isEditMode) return;
+  if (e instanceof KeyboardEvent && e.key !== "Enter" && e.key !== " ") return;
+  e.preventDefault();
+  selection.toggle(id);
+}
 
-  let isEditMode = $derived($editMode);
-  let isSelected = $derived($selection.has(item.id));
-  let isCurationActive = $derived($isCurationMode && !!curationGroup);
-  let fallback = $derived(findFallbackSource(item)!);
-  let detailSource = $derived(findDetailSource(item));
+let isEditMode = $derived($editMode);
+let isSelected = $derived($selection.has(item.id));
+let isCurationActive = $derived($isCurationMode && !!curationGroup);
+let fallback = $derived(findFallbackSource(item)!);
+let detailSource = $derived(findDetailSource(item));
 
-  function handleKeep(e: MouseEvent) {
-    if (!isCurationActive || !curationGroup) return;
-    e.stopPropagation();
-    e.preventDefault();
-    onKeepGroup?.(item, curationGroup);
-  }
+function handleKeep(e: MouseEvent) {
+  if (!isCurationActive || !curationGroup) return;
+  e.stopPropagation();
+  e.preventDefault();
+  onKeepGroup?.(item, curationGroup);
+}
 
-  function handleDelete(e: MouseEvent) {
-    e.stopPropagation();
-    e.preventDefault();
-    onDelete?.(item);
-  }
+function handleDelete(e: MouseEvent) {
+  e.stopPropagation();
+  e.preventDefault();
+  onDelete?.(item);
+}
 
-  let isCurationModeLayout = $derived(mode === "curation");
+let isCurationModeLayout = $derived(mode === "curation");
 </script>
 
 {#snippet MetadataBlock({ item }: { item: ImageEntry })}

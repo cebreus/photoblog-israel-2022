@@ -72,13 +72,9 @@ describe("FiltersTab", () => {
     render(FiltersTab, { authors });
 
     // authors count
-    await expect
-      .element(page.getByTestId("filters-tab-stats-authors"))
-      .toHaveTextContent("2");
+    await expect.element(page.getByTestId("filters-tab-stats-authors")).toHaveTextContent("2");
     // visible photos (from store mock 10)
-    await expect
-      .element(page.getByTestId("filters-tab-stats-photos"))
-      .toHaveTextContent("10");
+    await expect.element(page.getByTestId("filters-tab-stats-photos")).toHaveTextContent("10");
   });
 
   it("toggles separators switch", async () => {

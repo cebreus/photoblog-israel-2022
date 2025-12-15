@@ -57,11 +57,7 @@ describe("Metadata Roundtrip Integration", () => {
 
     // 2. Perform Write (simulating API behavior)
     // Critical: -charset iptc=UTF8 is required for IPTC to handle these chars
-    await exiftool.write(imgPath, writeTags, [
-      "-overwrite_original",
-      "-charset",
-      "iptc=UTF8",
-    ]);
+    await exiftool.write(imgPath, writeTags, ["-overwrite_original", "-charset", "iptc=UTF8"]);
 
     // 3. Perform Read (simulating Image Processor behavior)
     // Note: exiftool-vendored handles tag reading.

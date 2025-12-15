@@ -113,13 +113,7 @@ describe("manifest-builder: updateManifest", () => {
       },
     };
 
-    const results = [
-      mockImage1,
-      mockImage1b,
-      mockImage1c,
-      mockImage2,
-      mockImage3,
-    ];
+    const results = [mockImage1, mockImage1b, mockImage1c, mockImage2, mockImage3];
 
     const storyData: StoryDataMap = {
       // Story for a location
@@ -162,14 +156,7 @@ describe("manifest-builder: updateManifest", () => {
 
     // JSON Field Order (Check keys of the object)
     const dayKeys = Object.keys(day1);
-    const expectedOrder = [
-      "date",
-      "cities",
-      "locations",
-      "story",
-      "items",
-      "id",
-    ];
+    const expectedOrder = ["date", "cities", "locations", "story", "items", "id"];
     // We filter keys to only check the ones we care about ordering for, or exact match if possible
     // Note: 'items' and 'id' position matters.
     expect(dayKeys).toEqual(expectedOrder);

@@ -12,10 +12,7 @@ function ignoreError(_err?: unknown): void {
   // no-op
 }
 
-export async function processBlurImage(
-  file: string,
-  raw: Partial<CliOptions>,
-): Promise<void> {
+export async function processBlurImage(file: string, raw: Partial<CliOptions>): Promise<void> {
   const blurOut = raw.blurOut || config.blur.out;
   const width = raw.blurWidth || config.blur.width;
   const colors = raw.blurColors || config.blur.colors;
@@ -44,10 +41,7 @@ export async function processBlurImage(
   }
 }
 
-export async function runBlurBuild(
-  raw: Partial<CliOptions>,
-  concurrency: number,
-): Promise<void> {
+export async function runBlurBuild(raw: Partial<CliOptions>, concurrency: number): Promise<void> {
   const blurSrc = raw.blurSrc || config.blur.src;
   const blurOut = raw.blurOut || config.blur.out;
 

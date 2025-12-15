@@ -65,9 +65,7 @@ type NormalizedEntry = {
  * Seřadí a normalizuje varianty (bez bytes), placeholder (bez base64),
  * a outputs (seřazené). Vrátí stabilní JSON-serializovatelnou strukturu.
  */
-export function normalizeManifest(
-  m: Manifest,
-): Record<string, NormalizedEntry> {
+export function normalizeManifest(m: Manifest): Record<string, NormalizedEntry> {
   const out: Record<string, NormalizedEntry> = {};
   const keys = Object.keys(m).sort((a, b) => a.localeCompare(b));
   for (const k of keys) {

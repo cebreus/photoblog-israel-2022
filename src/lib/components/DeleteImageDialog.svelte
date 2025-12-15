@@ -1,19 +1,19 @@
 <script lang="ts">
-  import type { ImageEntry } from "$lib/types/manifest";
-  import * as Dialog from "$lib/components/ui/dialog";
-  import { Button } from "$lib/components/ui/button";
+import type { ImageEntry } from "$lib/types/manifest";
+import * as Dialog from "$lib/components/ui/dialog";
+import { Button } from "$lib/components/ui/button";
 
-  let {
-    open = $bindable(false),
-    images,
-    isDeleting = false,
-    onConfirm,
-  }: {
-    open: boolean;
-    images: ImageEntry[];
-    isDeleting?: boolean;
-    onConfirm: () => void;
-  } = $props();
+let {
+  open = $bindable(false),
+  images,
+  isDeleting = false,
+  onConfirm,
+}: {
+  open: boolean;
+  images: ImageEntry[];
+  isDeleting?: boolean;
+  onConfirm: () => void;
+} = $props();
 </script>
 
 <Dialog.Root bind:open>
