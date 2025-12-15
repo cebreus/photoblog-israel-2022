@@ -32618,7 +32618,7 @@
           "id": "img-img8149",
           "type": "image",
           "src": "IMG_8149.HEIC",
-          "alt": "Hrobka z ulice Tigran",
+          "alt": "Hrobka z ulice Tigran, Alexandrie",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -32633,16 +32633,19 @@
           "exif": {
             "date": "2025-11-25T07:28:11.182Z",
             "location": "Hrobka z ulice Tigran",
+            "city": "Alexandrie",
             "latitude": 31.178444,
             "longitude": 29.892933,
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
           "location": "Hrobka z ulice Tigran",
+          "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178444,29.892933",
           "date": "2025-11-25T07:28:11.182Z",
           "sources": [
@@ -32702,7 +32705,7 @@
           "id": "img-img8150",
           "type": "image",
           "src": "IMG_8150.HEIC",
-          "alt": "Hrobka z ulice Tigran",
+          "alt": "Hrobka z ulice Tigran, Alexandrie",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -32717,16 +32720,19 @@
           "exif": {
             "date": "2025-11-25T07:28:18.255Z",
             "location": "Hrobka z ulice Tigran",
+            "city": "Alexandrie",
             "latitude": 31.178433,
             "longitude": 29.892933,
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
           "location": "Hrobka z ulice Tigran",
+          "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178433,29.892933",
           "date": "2025-11-25T07:28:18.255Z",
           "sources": [
@@ -32899,7 +32905,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -32957,7 +32965,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8155",
@@ -32983,7 +32992,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -33041,7 +33052,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8156",
@@ -33067,7 +33079,9 @@
             "orientation": 6,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -33125,7 +33139,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img1015",
@@ -33149,7 +33164,11 @@
             "latitude": 31.178608,
             "longitude": 29.892897,
             "orientation": 6,
-            "author": "Dáša"
+            "author": "Dáša",
+            "city": "Alexandrie",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
@@ -33207,7 +33226,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8161",
@@ -33233,7 +33253,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -33291,7 +33313,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8162",
@@ -33317,7 +33340,9 @@
             "orientation": 6,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -33375,7 +33400,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8163",
@@ -33401,7 +33427,9 @@
             "orientation": 6,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -33459,7 +33487,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8164",
@@ -33485,7 +33514,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -33543,7 +33574,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8166",
@@ -33569,7 +33601,9 @@
             "orientation": 6,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -33627,7 +33661,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8167",
@@ -33653,7 +33688,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -33711,7 +33748,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8169",
@@ -33737,7 +33775,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -33795,7 +33835,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8171",
@@ -33821,7 +33862,9 @@
             "orientation": 6,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -33879,7 +33922,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8174",
@@ -33905,7 +33949,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -33963,7 +34009,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8175",
@@ -33989,7 +34036,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -34047,7 +34096,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8177",
@@ -34071,7 +34121,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -34128,7 +34180,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8178",
@@ -34152,7 +34205,9 @@
             "orientation": 6,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -34209,7 +34264,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8179",
@@ -34233,7 +34289,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -34290,7 +34348,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8180",
@@ -34316,7 +34375,9 @@
             "orientation": 6,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -34374,7 +34435,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8182",
@@ -34400,7 +34462,9 @@
             "orientation": 6,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -34458,7 +34522,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8185",
@@ -34484,7 +34549,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -34542,7 +34609,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8187",
@@ -34568,7 +34636,9 @@
             "orientation": 6,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -34626,7 +34696,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8189",
@@ -34652,7 +34723,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -34710,7 +34783,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8190",
@@ -34736,7 +34810,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -34794,7 +34870,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8192",
@@ -34820,7 +34897,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -34878,7 +34957,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8194",
@@ -34904,7 +34984,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -34962,7 +35044,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8195",
@@ -34988,7 +35071,9 @@
             "orientation": 6,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -35046,7 +35131,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8196",
@@ -35840,7 +35926,9 @@
             "orientation": 6,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -35897,7 +35985,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "loc-serapeum",
@@ -35929,7 +36018,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -35987,7 +36078,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8199",
@@ -36013,7 +36105,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -36071,7 +36165,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8200",
@@ -36099,7 +36194,9 @@
             "description": "Pompeiův sloup",
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -36157,7 +36254,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8202",
@@ -36185,7 +36283,9 @@
             "description": "Pompeiův sloup",
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -36243,7 +36343,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8203",
@@ -36269,7 +36370,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -36327,7 +36430,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8204",
@@ -36355,7 +36459,9 @@
             "description": "Pompeiův sloup",
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -36413,7 +36519,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8205",
@@ -36441,7 +36548,9 @@
             "description": "Pompeiův sloup",
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -36499,7 +36608,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8206",
@@ -36525,7 +36635,9 @@
             "orientation": 6,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -36583,7 +36695,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img1041",
@@ -36607,7 +36720,11 @@
             "latitude": 31.181961,
             "longitude": 29.896367,
             "orientation": 6,
-            "author": "Dáša"
+            "author": "Dáša",
+            "city": "Alexandrie",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
@@ -36665,7 +36782,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8207",
@@ -36691,7 +36809,9 @@
             "orientation": 6,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -36749,7 +36869,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8210",
@@ -36775,7 +36896,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -36833,7 +36956,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8212",
@@ -36859,7 +36983,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -36917,7 +37043,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8213",
@@ -36943,7 +37070,9 @@
             "orientation": 6,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -37001,7 +37130,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8214",
@@ -37027,7 +37157,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -37085,7 +37217,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8215",
@@ -37111,7 +37244,9 @@
             "orientation": 6,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -37169,7 +37304,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8217",
@@ -37195,7 +37331,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -37253,7 +37391,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8218",
@@ -37279,7 +37418,9 @@
             "orientation": 6,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -37337,7 +37478,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img1049",
@@ -37361,7 +37503,11 @@
             "latitude": 31.182022,
             "longitude": 29.89655,
             "orientation": 6,
-            "author": "Dáša"
+            "author": "Dáša",
+            "city": "Alexandrie",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
@@ -37419,7 +37565,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8219",
@@ -37447,7 +37594,9 @@
             "description": "Pompeiův sloup",
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -37505,7 +37654,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8220",
@@ -37533,7 +37683,9 @@
             "description": "Pompeiův sloup",
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -37591,7 +37743,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8221",
@@ -37619,7 +37772,9 @@
             "description": "Pompeiův sloup",
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -37677,7 +37832,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8222",
@@ -37705,7 +37861,9 @@
             "description": "Pompeiův sloup",
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -37763,7 +37921,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8224",
@@ -37789,7 +37948,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -37847,7 +38008,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "loc-rimsky-amfiteatr",
@@ -37879,7 +38041,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -37937,7 +38101,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8229",
@@ -37963,7 +38128,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -38021,7 +38188,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8230",
@@ -38047,7 +38215,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -38105,7 +38275,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8233",
@@ -38131,7 +38302,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -38189,7 +38362,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8234",
@@ -38215,7 +38389,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -38273,7 +38449,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8235",
@@ -38299,7 +38476,9 @@
             "orientation": 6,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -38357,7 +38536,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8236",
@@ -38383,7 +38563,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -38441,7 +38623,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8237",
@@ -38467,7 +38650,9 @@
             "orientation": 6,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -38525,7 +38710,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8238",
@@ -38551,7 +38737,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -38609,7 +38797,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8239",
@@ -38635,7 +38824,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -38693,7 +38884,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8241",
@@ -38719,7 +38911,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -38777,7 +38971,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8243",
@@ -38803,7 +38998,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -38861,7 +39058,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8244",
@@ -38887,7 +39085,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -38945,7 +39145,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8249",
@@ -38971,7 +39172,9 @@
             "orientation": 6,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -39029,7 +39232,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8251",
@@ -39055,7 +39259,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -39113,7 +39319,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8252",
@@ -39139,7 +39346,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -39197,7 +39406,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8253",
@@ -39223,7 +39433,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -39281,7 +39493,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8254",
@@ -39307,7 +39520,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -39365,7 +39580,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8261",
@@ -39391,7 +39607,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -39449,7 +39667,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "loc-alexandrijska-knihovna",
@@ -39479,7 +39698,11 @@
             "latitude": 31.208111,
             "longitude": 29.908919,
             "orientation": 6,
-            "author": "Dáša"
+            "author": "Dáša",
+            "city": "Alexandrie",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
@@ -39537,7 +39760,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img1070",
@@ -39561,7 +39785,11 @@
             "latitude": 31.208608,
             "longitude": 29.908692,
             "orientation": 6,
-            "author": "Dáša"
+            "author": "Dáša",
+            "city": "Alexandrie",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
@@ -39619,7 +39847,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img20251125122855",
@@ -39645,7 +39874,9 @@
             "longitude": 31.192757,
             "author": "Finďa",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Finďa",
           "authorSlug": "finda",
@@ -39703,7 +39934,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img20251125122910",
@@ -39729,7 +39961,9 @@
             "longitude": 31.192757,
             "author": "Finďa",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Finďa",
           "authorSlug": "finda",
@@ -39787,7 +40021,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8264",
@@ -39813,7 +40048,9 @@
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -39871,7 +40108,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img8266",
@@ -39897,7 +40135,9 @@
             "orientation": 6,
             "author": "Cebreus",
             "country": "Egypt",
-            "countryCode": "EGY"
+            "countryCode": "EGY",
+            "city": "Alexandrie",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -39955,7 +40195,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img1081",
@@ -40747,7 +40988,11 @@
             "latitude": 31.202117,
             "longitude": 29.900822,
             "orientation": 3,
-            "author": "Dáša"
+            "author": "Dáša",
+            "city": "Alexandrie",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
@@ -40804,7 +41049,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img1088",
@@ -41596,7 +41842,11 @@
             "latitude": 31.210103,
             "longitude": 29.9015,
             "orientation": 6,
-            "author": "Dáša"
+            "author": "Dáša",
+            "city": "Alexandrie",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
@@ -41653,7 +41903,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img1089",
@@ -42445,7 +42696,11 @@
             "latitude": 31.205533,
             "longitude": 29.902731,
             "orientation": 6,
-            "author": "Dáša"
+            "author": "Dáša",
+            "city": "Alexandrie",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
@@ -42502,7 +42757,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img1092",
@@ -43294,7 +43550,11 @@
             "latitude": 31.213944,
             "longitude": 29.885683,
             "orientation": 6,
-            "author": "Dáša"
+            "author": "Dáša",
+            "city": "Alexandrie",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
@@ -43351,7 +43611,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img1100",
@@ -44143,7 +44404,11 @@
             "latitude": 31.213294,
             "longitude": 29.885431,
             "orientation": 3,
-            "author": "Dáša"
+            "author": "Dáša",
+            "city": "Alexandrie",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
@@ -44200,7 +44465,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img1115",
@@ -44992,7 +45258,11 @@
             "latitude": 31.283475,
             "longitude": 30.025228,
             "orientation": 6,
-            "author": "Dáša"
+            "author": "Dáša",
+            "city": "Alexandrie",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
@@ -45049,7 +45319,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img1116",
@@ -45841,7 +46112,11 @@
             "latitude": 31.283469,
             "longitude": 30.025228,
             "orientation": 3,
-            "author": "Dáša"
+            "author": "Dáša",
+            "city": "Alexandrie",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
@@ -45898,7 +46173,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img1117",
@@ -46690,7 +46966,11 @@
             "latitude": 31.283464,
             "longitude": 30.025222,
             "orientation": 3,
-            "author": "Dáša"
+            "author": "Dáša",
+            "city": "Alexandrie",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
@@ -46747,7 +47027,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         },
         {
           "id": "img-img1121",
@@ -47539,7 +47820,11 @@
             "latitude": 31.287069,
             "longitude": 30.024708,
             "orientation": 3,
-            "author": "Dáša"
+            "author": "Dáša",
+            "city": "Alexandrie",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
@@ -47596,7 +47881,8 @@
               "width": 190,
               "height": 107
             }
-          ]
+          ],
+          "city": "Alexandrie"
         }
       ],
       "id": "day-2025-11-25"
