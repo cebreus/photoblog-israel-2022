@@ -30,46 +30,46 @@ exports[`Integration: main images generation > produces deterministic manifest a
       "avif": [
         {
           "height": null,
-          "path": "/israel-2022/images/previews-avif/alpha.avif",
+          "path": "/egypt-2025/images/previews-avif/alpha.avif",
           "width": 370,
         },
         {
           "height": null,
-          "path": "/israel-2022/images/previews-xl-avif/alpha.avif",
+          "path": "/egypt-2025/images/previews-xl-avif/alpha.avif",
           "width": 534,
         },
       ],
       "jpeg": [
         {
           "height": 30,
-          "path": "/israel-2022/images/details/alpha.jpeg",
+          "path": "/egypt-2025/images/details/alpha.jpeg",
           "width": 40,
         },
         {
           "height": 30,
-          "path": "/israel-2022/images/previews-xxs/alpha.jpeg",
+          "path": "/egypt-2025/images/previews-xxs/alpha.jpeg",
           "width": 40,
         },
         {
           "height": null,
-          "path": "/israel-2022/images/previews/alpha.jpeg",
+          "path": "/egypt-2025/images/previews/alpha.jpeg",
           "width": 370,
         },
         {
           "height": null,
-          "path": "/israel-2022/images/previews-xl/alpha.jpeg",
+          "path": "/egypt-2025/images/previews-xl/alpha.jpeg",
           "width": 534,
         },
       ],
       "webp": [
         {
           "height": null,
-          "path": "/israel-2022/images/previews-webp/alpha.webp",
+          "path": "/egypt-2025/images/previews-webp/alpha.webp",
           "width": 370,
         },
         {
           "height": null,
-          "path": "/israel-2022/images/previews-xl-webp/alpha.webp",
+          "path": "/egypt-2025/images/previews-xl-webp/alpha.webp",
           "width": 534,
         },
       ],
@@ -103,46 +103,46 @@ exports[`Integration: main images generation > produces deterministic manifest a
       "avif": [
         {
           "height": null,
-          "path": "/israel-2022/images/previews-avif/big.avif",
+          "path": "/egypt-2025/images/previews-avif/big.avif",
           "width": 370,
         },
         {
           "height": null,
-          "path": "/israel-2022/images/previews-xl-avif/big.avif",
+          "path": "/egypt-2025/images/previews-xl-avif/big.avif",
           "width": 534,
         },
       ],
       "jpeg": [
         {
           "height": 107,
-          "path": "/israel-2022/images/previews-xxs/big.jpeg",
+          "path": "/egypt-2025/images/previews-xxs/big.jpeg",
           "width": 190,
         },
         {
           "height": null,
-          "path": "/israel-2022/images/previews/big.jpeg",
+          "path": "/egypt-2025/images/previews/big.jpeg",
           "width": 370,
         },
         {
           "height": null,
-          "path": "/israel-2022/images/previews-xl/big.jpeg",
+          "path": "/egypt-2025/images/previews-xl/big.jpeg",
           "width": 534,
         },
         {
           "height": 960,
-          "path": "/israel-2022/images/details/big.jpeg",
+          "path": "/egypt-2025/images/details/big.jpeg",
           "width": 1280,
         },
       ],
       "webp": [
         {
           "height": null,
-          "path": "/israel-2022/images/previews-webp/big.webp",
+          "path": "/egypt-2025/images/previews-webp/big.webp",
           "width": 370,
         },
         {
           "height": null,
-          "path": "/israel-2022/images/previews-xl-webp/big.webp",
+          "path": "/egypt-2025/images/previews-xl-webp/big.webp",
           "width": 534,
         },
       ],
@@ -176,46 +176,46 @@ exports[`Integration: main images generation > produces deterministic manifest a
       "avif": [
         {
           "height": null,
-          "path": "/israel-2022/images/previews-avif/exif-orient-6.avif",
+          "path": "/egypt-2025/images/previews-avif/exif-orient-6.avif",
           "width": 370,
         },
         {
           "height": null,
-          "path": "/israel-2022/images/previews-xl-avif/exif-orient-6.avif",
+          "path": "/egypt-2025/images/previews-xl-avif/exif-orient-6.avif",
           "width": 534,
         },
       ],
       "jpeg": [
         {
           "height": 107,
-          "path": "/israel-2022/images/previews-xxs/exif-orient-6.jpeg",
+          "path": "/egypt-2025/images/previews-xxs/exif-orient-6.jpeg",
           "width": 190,
         },
         {
           "height": null,
-          "path": "/israel-2022/images/previews/exif-orient-6.jpeg",
+          "path": "/egypt-2025/images/previews/exif-orient-6.jpeg",
           "width": 370,
         },
         {
           "height": null,
-          "path": "/israel-2022/images/previews-xl/exif-orient-6.jpeg",
+          "path": "/egypt-2025/images/previews-xl/exif-orient-6.jpeg",
           "width": 534,
         },
         {
           "height": 400,
-          "path": "/israel-2022/images/details/exif-orient-6.jpeg",
+          "path": "/egypt-2025/images/details/exif-orient-6.jpeg",
           "width": 600,
         },
       ],
       "webp": [
         {
           "height": null,
-          "path": "/israel-2022/images/previews-webp/exif-orient-6.webp",
+          "path": "/egypt-2025/images/previews-webp/exif-orient-6.webp",
           "width": 370,
         },
         {
           "height": null,
-          "path": "/israel-2022/images/previews-xl-webp/exif-orient-6.webp",
+          "path": "/egypt-2025/images/previews-xl-webp/exif-orient-6.webp",
           "width": 534,
         },
       ],
@@ -249,46 +249,46 @@ exports[`Integration: main images generation > produces deterministic manifest a
       "avif": [
         {
           "height": null,
-          "path": "/israel-2022/images/previews-avif/portrait.avif",
+          "path": "/egypt-2025/images/previews-avif/portrait.avif",
           "width": 370,
         },
         {
           "height": null,
-          "path": "/israel-2022/images/previews-xl-avif/portrait.avif",
+          "path": "/egypt-2025/images/previews-xl-avif/portrait.avif",
           "width": 534,
         },
       ],
       "jpeg": [
         {
           "height": 107,
-          "path": "/israel-2022/images/previews-xxs/portrait.jpeg",
+          "path": "/egypt-2025/images/previews-xxs/portrait.jpeg",
           "width": 190,
         },
         {
           "height": null,
-          "path": "/israel-2022/images/previews/portrait.jpeg",
+          "path": "/egypt-2025/images/previews/portrait.jpeg",
           "width": 370,
         },
         {
           "height": null,
-          "path": "/israel-2022/images/previews-xl/portrait.jpeg",
+          "path": "/egypt-2025/images/previews-xl/portrait.jpeg",
           "width": 534,
         },
         {
           "height": 900,
-          "path": "/israel-2022/images/details/portrait.jpeg",
+          "path": "/egypt-2025/images/details/portrait.jpeg",
           "width": 600,
         },
       ],
       "webp": [
         {
           "height": null,
-          "path": "/israel-2022/images/previews-webp/portrait.webp",
+          "path": "/egypt-2025/images/previews-webp/portrait.webp",
           "width": 370,
         },
         {
           "height": null,
-          "path": "/israel-2022/images/previews-xl-webp/portrait.webp",
+          "path": "/egypt-2025/images/previews-xl-webp/portrait.webp",
           "width": 534,
         },
       ],
@@ -322,46 +322,46 @@ exports[`Integration: main images generation > produces deterministic manifest a
       "avif": [
         {
           "height": null,
-          "path": "/israel-2022/images/previews-avif/square.avif",
+          "path": "/egypt-2025/images/previews-avif/square.avif",
           "width": 370,
         },
         {
           "height": null,
-          "path": "/israel-2022/images/previews-xl-avif/square.avif",
+          "path": "/egypt-2025/images/previews-xl-avif/square.avif",
           "width": 534,
         },
       ],
       "jpeg": [
         {
           "height": 107,
-          "path": "/israel-2022/images/previews-xxs/square.jpeg",
+          "path": "/egypt-2025/images/previews-xxs/square.jpeg",
           "width": 190,
         },
         {
           "height": 300,
-          "path": "/israel-2022/images/details/square.jpeg",
+          "path": "/egypt-2025/images/details/square.jpeg",
           "width": 300,
         },
         {
           "height": null,
-          "path": "/israel-2022/images/previews/square.jpeg",
+          "path": "/egypt-2025/images/previews/square.jpeg",
           "width": 370,
         },
         {
           "height": null,
-          "path": "/israel-2022/images/previews-xl/square.jpeg",
+          "path": "/egypt-2025/images/previews-xl/square.jpeg",
           "width": 534,
         },
       ],
       "webp": [
         {
           "height": null,
-          "path": "/israel-2022/images/previews-webp/square.webp",
+          "path": "/egypt-2025/images/previews-webp/square.webp",
           "width": 370,
         },
         {
           "height": null,
-          "path": "/israel-2022/images/previews-xl-webp/square.webp",
+          "path": "/egypt-2025/images/previews-xl-webp/square.webp",
           "width": 534,
         },
       ],

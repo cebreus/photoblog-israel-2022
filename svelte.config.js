@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const outputDir = process.env.OUTPUT_DIR || 'build';
-const contentDir = process.env.CONTENT_DIR || 'israel-2022';
+const contentDir = process.env.CONTENT_DIR || 'egypt-2025';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {

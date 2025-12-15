@@ -12,13 +12,13 @@ Tento skript je centrálním bodem pro zpracování všech fotografií v projekt
 
 **Klíčové funkce:**
 
-- **Vstup:** Načítá zdrojové obrázky (primárně `.jpg`, `.jpeg`) z adresáře `content/israel-2022/`.
+- **Vstup:** Načítá zdrojové obrázky (primárně `.jpg`, `.jpeg`) z adresáře `content/egypt-2025/`.
 - **Zpracování:**
   - **Změna velikosti:** Vytváří několik variant každého obrázku v různých rozlišeních (např. `previews`, `previews-xl`, `previews-xxs`).
   - **Optimalizace formátu:** Každou velikost generuje v moderních formátech **AVIF** a **WebP** pro efektivní načítání v prohlížeči. Původní formát (např. JPEG) je zachován jako fallback.
   - **Placeholder (rozmazání):** Generuje malé, rozmazané verze obrázků (`blurs`), které se zobrazují jako dočasný placeholder, než se načte plná verze.
   - **Metadata:** Čte EXIF data z fotografií (datum pořízení, GPS souřadnice atd.).
-- **Výstup:** Zpracované obrázky ukládá do adresáře `static/images/israel-2022/`.
+- **Výstup:** Zpracované obrázky ukládá do adresáře `static/images/egypt-2025/`.
 - **Spouštění:** Skripty v `package.json` (`images:build`, `images:watch`) umožňují jednorázové nebo kontinuální (při změně) generování.
 
 ### 1.2. Generování manifestů

@@ -53,7 +53,7 @@ test.describe("Metadata Editor E2E", () => {
     expect(imageIds.length).toBeGreaterThan(0);
 
     // 9. Read the manifest to get the source file path
-    const contentDir = process.env.CONTENT_DIR || "israel-2022";
+    const contentDir = process.env.CONTENT_DIR || "egypt-2025";
     const manifestPath = path.resolve(
       process.cwd(),
       `src/lib/data/${contentDir}/images.manifest.json`,
@@ -141,7 +141,7 @@ test.describe("Metadata Editor E2E", () => {
     expect(imageIds.length).toBe(3);
 
     // Read manifest and verify each file
-    const contentDir = process.env.CONTENT_DIR || "israel-2022";
+    const contentDir = process.env.CONTENT_DIR || "egypt-2025";
     const manifestPath = path.resolve(
       process.cwd(),
       `src/lib/data/${contentDir}/images.manifest.json`,

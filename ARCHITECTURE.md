@@ -101,7 +101,7 @@ Projekt klade velký důraz na **výkon a optimalizaci obrázků** - jádrem je 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                     CONTENT LAYER                            │
-│  ../content/israel-2022/     Originální JPEG fotografie      │
+│  ../content/egypt-2025/     Originální JPEG fotografie      │
 │  ../content/pages/           Markdown články o místech       │
 │  ../content/maps/            Mapové podklady                 │
 │  ../content/routes-*/        GPS trasy                       │
@@ -113,15 +113,15 @@ Projekt klade velký důraz na **výkon a optimalizaci obrázků** - jádrem je 
 │                  BUILD TIME LAYER                            │
 │                                                              │
 │  scripts/generate-images.ts                                  │
-│  ├─ Načte JPEG z content/israel-2022/                       │
+│  ├─ Načte JPEG z content/egypt-2025/                       │
 │  ├─ Extrahuje EXIF metadata (datum, GPS, orientace)         │
 │  ├─ Generuje varianty (details, previews, previews-xl, xxs) │
 │  ├─ Vytváří formáty (AVIF, WebP, JPEG)                     │
 │  ├─ Generuje LQIP a blur placeholders                       │
-│  ├─ Ukládá do static/images/israel-2022/                    │
+│  ├─ Ukládá do static/images/egypt-2025/                    │
 │  └─ Vytváří manifest: src/lib/images.manifest.json          │
 │                                                              │
-│  Cache: .temp/images-israel-2022.cache.json (hash cache)    │
+│  Cache: .temp/images-egypt-2025.cache.json (hash cache)    │
 └──────────────────┬──────────────────────────────────────────┘
                    │
                    ▼
@@ -161,7 +161,7 @@ Projekt klade velký důraz na **výkon a optimalizaci obrázků** - jádrem je 
 │                                                              │
 │  Static Assets (static/)                                     │
 │  └─ Kopírovány do build/                                     │
-│     ├─ images/israel-2022/  Optimizované fotografie         │
+│     ├─ images/egypt-2025/  Optimizované fotografie         │
 │     └─ robots.txt           SEO konfigurace                  │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -173,7 +173,7 @@ Projekt je navržen jako **statická webová stránka** (Static Site Generation 
 1. **Build proces**:
    - `bun run generate` - Generování obrázků a favicon
    - `vite build` - SvelteKit build
-   - Výstup: adresář `build/` (nebo `build-israel-2022/`) s kompletní statickou stránkou
+   - Výstup: adresář `build/` (nebo `build-egypt-2025/`) s kompletní statickou stránkou
 
 2. **Deployment možnosti**:
    - **Vercel, Netlify, Cloudflare Pages** - Push-to-deploy
@@ -207,12 +207,12 @@ Všechny tyto dokumenty jsou vzájemně propojeny a poskytují různé úrovně 
 bun-svelte-photoblog/               # Root adresář SvelteKit aplikace
 │
 ├─ content/ (../content/)           # Obsahové soubory (oddělené od aplikace)
-│  ├─ israel-2022/                  # Denní fotografie z cesty (originální JPEG)
+│  ├─ egypt-2025/                  # Denní fotografie z cesty (originální JPEG)
 │  ├─ maps/                         # Mapové podklady
 │  ├─ pages/                        # Statické stránky s kontextovými informacemi
 │  ├─ routes-for-google-earth+relive/  # GPS trasy
 │  ├─ site.md                       # Globální nastavení webu
-│  └─ open-graph-israel-2022.psd    # Social media assets (Open Graph)
+│  └─ open-graph-egypt-2025.psd    # Social media assets (Open Graph)
 │
 ├─ src/                             # Zdrojový kód SvelteKit aplikace
 │  ├─ app.css                       # Globální styly (Tailwind imports)
@@ -241,7 +241,7 @@ bun-svelte-photoblog/               # Root adresář SvelteKit aplikace
 │
 ├─ static/                          # Statické soubory (kopírovány do buildu)
 │  ├─ images/                       # Generované optimalizované obrázky
-│  │  └─ israel-2022/               # Fotoblog obrázky (generovány build scriptem)
+│  │  └─ egypt-2025/               # Fotoblog obrázky (generovány build scriptem)
 │  └─ robots.txt                    # SEO konfigurace
 │
 ├─ scripts/                         # Build a utility skripty
@@ -279,7 +279,7 @@ bun-svelte-photoblog/               # Root adresář SvelteKit aplikace
 
 ```
 content/
-├─ israel-2022/              # Denní fotografie (organizované po dnech)
+├─ egypt-2025/              # Denní fotografie (organizované po dnech)
 │  ├─ 2022-03-21/
 │  │  ├─ IMG_0001.jpg        # Originální JPEG fotografie
 │  │  ├─ IMG_0002.jpg
@@ -298,10 +298,10 @@ content/
 │  └─ route-overview.geojson
 │
 ├─ routes-for-google-earth+relive/  # GPS trasy
-│  └─ israel-2022.gpx
+│  └─ egypt-2025.gpx
 │
 ├─ site.md                   # Globální metadata webu
-└─ open-graph-israel-2022.psd  # Design assets
+└─ open-graph-egypt-2025.psd  # Design assets
 ```
 
 #### 2.2.2 Application Layer (`src/`)
@@ -400,8 +400,8 @@ e2e/
 ZDROJOVÉ SOUBORY          →  BUILD PROCES             →  VÝSTUP (build/)
 ─────────────────────────────────────────────────────────────────────────
 
-content/israel-2022/      →  scripts/generate-        →  static/images/
-├─ 2022-03-21/                images.ts                   israel-2022/
+content/egypt-2025/      →  scripts/generate-        →  static/images/
+├─ 2022-03-21/                images.ts                   egypt-2025/
 │  ├─ IMG_0001.jpg        →  [Sharp processing]       →  ├─ details/
 │  └─ IMG_0002.jpg                                         │  ├─ img_0001.avif
                                                            │  ├─ img_0001.webp
@@ -989,7 +989,7 @@ build/
 *.log
 .DS_Store
 .images-cache.json
-static/images/israel-2022/
+static/images/egypt-2025/
 ```
 
 **Klíčové ignorované položky**:
@@ -998,7 +998,7 @@ static/images/israel-2022/
 - `build/` - production build
 - `.svelte-kit/` - SvelteKit cache
 - `.images-cache.json` - image generation cache
-- `static/images/israel-2022/` - generované obrázky (regenerují se při buildu)
+- `static/images/egypt-2025/` - generované obrázky (regenerují se při buildu)
 
 ### 4.10 Pre-commit hooks
 
@@ -1066,7 +1066,7 @@ engine-strict=true
 {
   "version": 1,
   "images": {
-    "content/israel-2022/2022-03-21/IMG_0001.jpg": {
+    "content/egypt-2025/2022-03-21/IMG_0001.jpg": {
       "hash": "abc123...",
       "mtime": 1679385600000,
       "processed": true
@@ -1091,7 +1091,7 @@ Kompletní mapování jak data prochází systémem.
 ### 5.1 Build-time data flow
 
 ```
-1. Content Layer (../content/israel-2022/)
+1. Content Layer (../content/egypt-2025/)
    ├─ 2022-03-21/IMG_0001.jpg (4000×3000px, 2.5MB)
    ├─ 2022-03-21/IMG_0002.jpg
    └─ 2022-03-21/story.md
@@ -1141,7 +1141,7 @@ Kompletní mapování jak data prochází systémem.
 5. Build Output (build/)
    ├─ index.html (pre-rendered with embedded data)
    ├─ _app/immutable/chunks/*.js (JavaScript bundles)
-   └─ images/israel-2022/* (optimized images)
+   └─ images/egypt-2025/* (optimized images)
 ```
 
 ### 5.2 Runtime data flow (Client)
@@ -2401,7 +2401,7 @@ Output:
 
 **Výstupy prebuild**:
 
-- `static/images/israel-2022/` - Optimalizované obrázky (všechny varianty a formáty)
+- `static/images/egypt-2025/` - Optimalizované obrázky (všechny varianty a formáty)
 - `src/lib/images.manifest.json` - Runtime manifest s metadaty
   - Note: The manifest now includes canonical `authorSlug` on image entries
     (generated at build time) and `storyHtml` for separator items when a
@@ -2633,7 +2633,7 @@ bun add -D vercel
 vercel
 
 # Output:
-# https://photoblog-israel-2022.vercel.app
+# https://photoblog-egypt-2025.vercel.app
 ```
 
 **Vercel config** (vercel.json):
@@ -2837,7 +2837,7 @@ Projekt odděluje **obsah** (content) od **aplikace** (src). Tato sekce popisuje
 
 ```
 ../content/
-├─ israel-2022/          # Fotografie (JPEG)
+├─ egypt-2025/          # Fotografie (JPEG)
 │  ├─ 2022-03-21/
 │  │  ├─ IMG_0001.jpg
 │  │  ├─ IMG_0002.jpg
@@ -2898,7 +2898,7 @@ Navštívili jsme Západní zeď a procházeli se Starým městem...
 ### 12.4 Content workflow
 
 ```
-1. Přidat fotky do content/israel-2022/YYYY-MM-DD/
+1. Přidat fotky do content/egypt-2025/YYYY-MM-DD/
 2. (Volitelně) Vytvořit story.md
 3. Spustit `bun run images:build`
 4. Manifest se automaticky aktualizuje
@@ -2947,8 +2947,8 @@ Tato sekce poskytuje detailní analýzu jádra projektu - systému pro generová
 ```typescript
 export const config = {
   paths: {
-    source: "content/israel-2022", // Originální JPEG
-    output: "static/images/israel-2022", // Výstupní adresář
+    source: "content/egypt-2025", // Originální JPEG
+    output: "static/images/egypt-2025", // Výstupní adresář
     manifest: "src/lib/images.manifest.json", // Runtime manifest
     cache: ".images-cache.json", // Cache file
   },
@@ -3424,8 +3424,8 @@ await Promise.all(
 ```typescript
 // Definice výchozích hodnot
 export const DEFAULTS: Args = {
-  src: path.resolve(process.cwd(), "content/israel-2022"),
-  out: path.resolve(process.cwd(), "static/images/israel-2022"),
+  src: path.resolve(process.cwd(), "content/egypt-2025"),
+  out: path.resolve(process.cwd(), "static/images/egypt-2025"),
   manifest: path.resolve(process.cwd(), "src/lib/images.manifest.json"),
   variants: ["details", "previews", "previews-xl", "previews-xxs"],
   formats: ["avif", "webp", "jpeg"],
@@ -3482,7 +3482,7 @@ export function parseArgs(argv: string[]): Args {
 Po spuštění `bun run images:build` vzniká následující struktura:
 
 ```
-static/images/israel-2022/
+static/images/egypt-2025/
 ├─ details/                    # Detailní zobrazení (1280px šířka)
 │  ├─ 2022-03-21_001.jpg
 │  ├─ 2022-03-21_002.jpg
@@ -3520,8 +3520,8 @@ static/images/israel-2022/
 
 **Naming convention**:
 
-- Originál: `content/israel-2022/2022-03-21/IMG_0001.jpg`
-- Output: `static/images/israel-2022/previews/2022-03-21_001.jpg`
+- Originál: `content/egypt-2025/2022-03-21/IMG_0001.jpg`
+- Output: `static/images/egypt-2025/previews/2022-03-21_001.jpg`
 - Pattern: `YYYY-MM-DD_NNN.<ext>`
 
 ### 13.6 Manifest struktura
@@ -3728,7 +3728,7 @@ bun run test:all
 **Přidání nových fotek**:
 
 ```bash
-# 1. Přidat JPEG do content/israel-2022/YYYY-MM-DD/
+# 1. Přidat JPEG do content/egypt-2025/YYYY-MM-DD/
 # 2. (Optional) Vytvořit story.md
 # 3. Regenerovat
 bun run images:build

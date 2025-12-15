@@ -4,7 +4,7 @@ import { defineConfig } from "vitest/config";
 import { sveltekit } from "@sveltejs/kit/vite";
 import path from "path";
 
-const contentDir = process.env.CONTENT_DIR || "israel-2022";
+const contentDir = process.env.CONTENT_DIR || "egypt-2025";
 
 export default defineConfig({
   plugins: [tailwindcss(), sveltekit(), devtoolsJson()],

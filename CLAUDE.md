@@ -173,7 +173,7 @@ Without libvips, Sharp won't work and image generation will fail.
 
 ### Content Location
 
-Source images are expected in a parent directory: `../content/israel-2022` (relative to project root). This is because content is kept separate from the SvelteKit application. Adjust `--src` path if running from different locations.
+Source images are expected in a parent directory: `../content/egypt-2025` (relative to project root). This is because content is kept separate from the SvelteKit application. Adjust `--src` path if running from different locations.
 
 ### Cache Management
 
@@ -194,7 +194,7 @@ The blur intensity seen in UI is controlled by CSS (`filter: blur(20px)` in comp
 ## Development Workflow
 
 1. **Initial setup**: `bun install` + install libvips
-2. **Add photos**: Place JPEGs in `../content/israel-2022/`
+2. **Add photos**: Place JPEGs in `../content/egypt-2025/`
 3. **Generate images**: `bun run images:build` (or use watch mode during dev)
 4. **Start dev server**: `bun run dev`
 5. **Make changes**: Edit Svelte components or add stories (markdown files)

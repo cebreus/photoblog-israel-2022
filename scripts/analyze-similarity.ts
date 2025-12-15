@@ -130,10 +130,10 @@ function evaluateGroup(photos: ImageEntry[]): CurationGroup {
 async function main() {
   // Determine manifest path based on usage (default or explicit)
   // We assume standard location in src/lib/data/{CONTENT_DIR}/images.manifest.json
-  // But config.paths.manifest depends on config loading which might default to israel-2022 if not set?
+  // But config.paths.manifest depends on config loading which might default to egypt-2025 if not set?
   // We need to support 'egypt-2025' explicitly if passed.
 
-  const contentDir = process.env.CONTENT_DIR || "israel-2022";
+  const contentDir = process.env.CONTENT_DIR || "egypt-2025";
   console.log(`Analyzing content for: ${contentDir}`);
 
   const manifestPath = path.resolve(

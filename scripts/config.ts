@@ -8,7 +8,7 @@ import path from "node:path";
 
 const IMAGE_SUBDIR = "pics";
 
-const contentDir = process.env.CONTENT_DIR || "israel-2022";
+const contentDir = process.env.CONTENT_DIR || "egypt-2025";
 console.log(`Using content directory: ${contentDir}`);
 
 export const config = {
@@ -111,11 +111,8 @@ export const config = {
   blur: {
     enable: false,
     only: false,
-    src: path.resolve(
-      process.cwd(),
-      "../static/assets/israel-2022/previews-xl",
-    ),
-    out: path.resolve(process.cwd(), "../static/assets/israel-2022/blurs"),
+    src: path.resolve(process.cwd(), "../static/assets/egypt-2025/previews-xl"),
+    out: path.resolve(process.cwd(), "../static/assets/egypt-2025/blurs"),
     width: 24,
     colors: 32,
     formats: [ImageFormat.PNG],

@@ -18,7 +18,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "CONTENT_DIR=israel-2022 vite dev",
+    command: "CONTENT_DIR=egypt-2025 vite dev",
     port: 5173,
     reuseExistingServer: !process.env.CI,
   },
