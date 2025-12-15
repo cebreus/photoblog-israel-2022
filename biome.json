@@ -5,18 +5,12 @@
       "**",
       "!**/node_modules",
       "!**/build",
+      "!**/build-*",
       "!**/dist",
       "!**/.svelte-kit",
       "!**/.vite",
-      "!**/static/images",
-      "!**/static/**/*.jpg",
-      "!**/static/**/*.jpeg",
-      "!**/static/**/*.png",
-      "!**/static/**/*.webp",
-      "!**/static/**/*.avif",
-      "!**/e2e/**/screenshots",
-      "!**/tests/outputs",
-      "!**/*.css"
+      "!**/*.css",
+      "!**/*.svelte"
     ]
   },
   "formatter": {

@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+build/
+build-*/
+dist/
+.svelte-kit/
+.vite/
+
+# Generated manifest files (large JSON)
+static/*/images.manifest.json
+
+# Misc
+.DS_Store
+*.log
