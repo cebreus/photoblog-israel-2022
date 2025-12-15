@@ -21,7 +21,7 @@
 </script>
 
 <header
-  class="sticky h-14 top-0 border-b bg-slate-800 text-slate-100 z-10 border-slate-700 flex flex-row items-center px-6"
+  class="sticky h-14 top-0 border-b bg-slate-800 text-slate-100 z-10 border-slate-700 flex flex-row items-center px-6 gap-2"
   data-testid="header"
 >
   <a href="/" class="text-lg font-semibold uppercase mr-auto" data-testid="header-logo">
