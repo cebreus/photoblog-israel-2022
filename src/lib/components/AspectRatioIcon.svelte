@@ -1,27 +1,27 @@
 <script lang="ts">
-import { RectangleVertical, Square, Cylinder, Circle } from "lucide-svelte";
+  import { RectangleVertical, Square, Cylinder, Circle } from "lucide-svelte";
 
-let { aspectRatio } = $props<{
-  aspectRatio?: string;
-}>();
+  let { aspectRatio } = $props<{
+    aspectRatio?: string;
+  }>();
 
-let IconComponent = $state<
-  typeof Square | typeof RectangleVertical | typeof Cylinder | typeof Circle | undefined
->(undefined);
+  let IconComponent = $state<
+    typeof Square | typeof RectangleVertical | typeof Cylinder | typeof Circle | undefined
+  >(undefined);
 
-$effect(() => {
-  if (aspectRatio === "square") {
-    IconComponent = Square;
-  } else if (aspectRatio?.startsWith("portrait")) {
-    IconComponent = RectangleVertical;
-  } else if (aspectRatio === "panorama") {
-    IconComponent = Cylinder;
-  } else if (aspectRatio === "sphere") {
-    IconComponent = Circle;
-  } else {
-    IconComponent = undefined; // Or a default icon if desired
-  }
-});
+  $effect(() => {
+    if (aspectRatio === "square") {
+      IconComponent = Square;
+    } else if (aspectRatio?.startsWith("portrait")) {
+      IconComponent = RectangleVertical;
+    } else if (aspectRatio === "panorama") {
+      IconComponent = Cylinder;
+    } else if (aspectRatio === "sphere") {
+      IconComponent = Circle;
+    } else {
+      IconComponent = undefined; // Or a default icon if desired
+    }
+  });
 </script>
 
 <div

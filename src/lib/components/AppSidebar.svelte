@@ -1,80 +1,74 @@
 <script lang="ts">
-import * as Sidebar from "$lib/components/ui/sidebar";
-import * as Tabs from "$lib/components/ui/tabs";
-import { untrack } from "svelte";
-import AgendaTab from "$lib/components/sidebar-content/AgendaTab.svelte";
-import FiltersTab from "$lib/components/sidebar-content/FiltersTab.svelte";
-import EditTab from "$lib/components/sidebar-content/EditTab.svelte";
-import type { MenuManifest, PhotoDay } from "$lib/types/manifest";
-import { page } from "$app/stores";
-import { selection, editMode } from "$lib/stores/editorState";
-import { Calendar, SlidersHorizontal, Pencil } from "lucide-svelte";
-import type { ComponentProps } from "svelte";
-import { activeTab, isSidebarOpen } from "$lib/stores/uiState";
-import { dev } from "$app/environment";
+  import * as Sidebar from "$lib/components/ui/sidebar";
+  import * as Tabs from "$lib/components/ui/tabs";
+  import { untrack } from "svelte";
+  import AgendaTab from "$lib/components/sidebar-content/AgendaTab.svelte";
+  import FiltersTab from "$lib/components/sidebar-content/FiltersTab.svelte";
+  import EditTab from "$lib/components/sidebar-content/EditTab.svelte";
+  import type { MenuManifest, PhotoDay } from "$lib/types/manifest";
+  import { page } from "$app/stores";
+  import { selection, editMode } from "$lib/stores/editorState";
+  import { Calendar, SlidersHorizontal, Pencil } from "lucide-svelte";
+  import type { ComponentProps } from "svelte";
+  import { activeTab, isSidebarOpen } from "$lib/stores/uiState";
+  import { dev } from "$app/environment";
 
-type AuthorStats = {
-  name: string;
-  count: number;
-  slug?: string;
-};
+  type AuthorStats = {
+    name: string;
+    count: number;
+    slug?: string;
+  };
 
-// Combine Sidebar.Root props with our custom props
-let {
-  menuItems = [],
-  authors = [],
-  ref = $bindable(null),
-  collapsible = "offcanvas",
-  side = "right",
-  ...restProps
-}: ComponentProps<typeof Sidebar.Root> & {
-  menuItems: MenuManifest;
-  authors: AuthorStats[];
-} = $props();
+  // Combine Sidebar.Root props with our custom props
+  let {
+    menuItems = [],
+    authors = [],
+    ref = $bindable(null),
+    collapsible = "offcanvas",
+    side = "right",
+    ...restProps
+  }: ComponentProps<typeof Sidebar.Root> & {
+    menuItems: MenuManifest;
+    authors: AuthorStats[];
+  } = $props();
 
-// Derive items for EditTab
-const items = $derived(($page.data.photoDays as PhotoDay[])?.flatMap((day) => day.items) ?? []);
+  // Derive items for EditTab
+  const items = $derived(($page.data.photoDays as PhotoDay[])?.flatMap((day) => day.items) ?? []);
 
-// Auto-switch to edit tab and open sidebar if selection/edit mode active
-$effect(() => {
-  if ($selection.size > 0) {
-    $activeTab = "edit";
-    $isSidebarOpen = true;
-  }
-});
-
-const sidebar = Sidebar.useSidebar();
-
-$effect(() => {
-  // When store changes -> update sidebar
-  // We untrack sidebar.open to ensure this only runs when $isSidebarOpen changes
-  const targetState = $isSidebarOpen;
-  untrack(() => {
-    if (targetState !== sidebar.open) {
-      sidebar.setOpen(targetState);
+  // Auto-switch to edit tab and open sidebar if selection/edit mode active
+  $effect(() => {
+    if ($selection.size > 0) {
+      $activeTab = "edit";
+      $isSidebarOpen = true;
     }
   });
-});
 
-$effect(() => {
-  // When sidebar changes (e.g. trigger click) -> update store
-  // We untrack $isSidebarOpen to ensure this only runs when sidebar.open changes
-  const currentState = sidebar.open;
-  untrack(() => {
-    if (currentState !== $isSidebarOpen) {
-      $isSidebarOpen = currentState;
-    }
+  const sidebar = Sidebar.useSidebar();
+
+  $effect(() => {
+    // When store changes -> update sidebar
+    // We untrack sidebar.open to ensure this only runs when $isSidebarOpen changes
+    const targetState = $isSidebarOpen;
+    untrack(() => {
+      if (targetState !== sidebar.open) {
+        sidebar.setOpen(targetState);
+      }
+    });
   });
-});
+
+  $effect(() => {
+    // When sidebar changes (e.g. trigger click) -> update store
+    // We untrack $isSidebarOpen to ensure this only runs when sidebar.open changes
+    const currentState = sidebar.open;
+    untrack(() => {
+      if (currentState !== $isSidebarOpen) {
+        $isSidebarOpen = currentState;
+      }
+    });
+  });
 </script>
 
-<Sidebar.Root
-  bind:ref
-  {collapsible}
-  {side}
-  {...restProps}
-  data-testid="app-sidebar"
->
+<Sidebar.Root bind:ref {collapsible} {side} {...restProps} data-testid="app-sidebar">
   <Tabs.Root
     value={$activeTab}
     onValueChange={(v) => {
@@ -88,9 +82,7 @@ $effect(() => {
     class="flex flex-col h-full w-full"
   >
     <Sidebar.Header class="p-0">
-      <div
-        class="h-14 flex flex-row items-center px-4 border-b border-sidebar-border"
-      >
+      <div class="h-14 flex flex-row items-center px-4 border-b border-sidebar-border">
         <Tabs.List class="w-full bg-transparent p-0">
           <Tabs.Trigger
             value="agenda"
@@ -122,25 +114,16 @@ $effect(() => {
       </div>
     </Sidebar.Header>
 
-    <Tabs.Content
-      value="agenda"
-      class="mt-0 h-full flex flex-col overflow-hidden"
-    >
+    <Tabs.Content value="agenda" class="mt-0 h-full flex flex-col overflow-hidden">
       <Sidebar.Content>
         <AgendaTab {menuItems} />
       </Sidebar.Content>
     </Tabs.Content>
-    <Tabs.Content
-      value="filters"
-      class="mt-0 h-full flex flex-col overflow-hidden"
-    >
+    <Tabs.Content value="filters" class="mt-0 h-full flex flex-col overflow-hidden">
       <FiltersTab {authors} />
     </Tabs.Content>
     {#if dev}
-      <Tabs.Content
-        value="edit"
-        class="mt-0 h-full flex flex-col overflow-hidden"
-      >
+      <Tabs.Content value="edit" class="mt-0 h-full flex flex-col overflow-hidden">
         <Sidebar.Content>
           <EditTab {items} />
         </Sidebar.Content>

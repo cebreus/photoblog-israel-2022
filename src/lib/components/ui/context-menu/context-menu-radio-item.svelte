@@ -1,14 +1,14 @@
 <script lang="ts">
-import { ContextMenu as ContextMenuPrimitive } from "bits-ui";
-import { Circle } from "lucide-svelte";
-import { cn, type WithoutChild } from "$lib/utils";
+  import { ContextMenu as ContextMenuPrimitive } from "bits-ui";
+  import { Circle } from "lucide-svelte";
+  import { cn, type WithoutChild } from "$lib/utils";
 
-let {
-  ref = $bindable(null),
-  class: className,
-  children: childrenProp,
-  ...restProps
-}: WithoutChild<ContextMenuPrimitive.RadioItemProps> = $props();
+  let {
+    ref = $bindable(null),
+    class: className,
+    children: childrenProp,
+    ...restProps
+  }: WithoutChild<ContextMenuPrimitive.RadioItemProps> = $props();
 </script>
 
 <ContextMenuPrimitive.RadioItem
@@ -21,9 +21,7 @@ let {
   {...restProps}
 >
   {#snippet children({ checked })}
-    <span
-      class="pointer-events-none absolute start-2 flex size-3.5 items-center justify-center"
-    >
+    <span class="pointer-events-none absolute start-2 flex size-3.5 items-center justify-center">
       {#if checked}
         <Circle class="size-2 fill-current" />
       {/if}

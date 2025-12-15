@@ -1,19 +1,19 @@
 <script lang="ts">
-import { ContextMenu as ContextMenuPrimitive } from "bits-ui";
-import { Check } from "lucide-svelte";
-import { cn, type WithoutChildrenOrChild } from "$lib/utils";
-import type { Snippet } from "svelte";
+  import { ContextMenu as ContextMenuPrimitive } from "bits-ui";
+  import { Check } from "lucide-svelte";
+  import { cn, type WithoutChildrenOrChild } from "$lib/utils";
+  import type { Snippet } from "svelte";
 
-let {
-  ref = $bindable(null),
-  checked = $bindable(false),
-  indeterminate = $bindable(false),
-  class: className,
-  children: childrenProp,
-  ...restProps
-}: WithoutChildrenOrChild<ContextMenuPrimitive.CheckboxItemProps> & {
-  children?: Snippet;
-} = $props();
+  let {
+    ref = $bindable(null),
+    checked = $bindable(false),
+    indeterminate = $bindable(false),
+    class: className,
+    children: childrenProp,
+    ...restProps
+  }: WithoutChildrenOrChild<ContextMenuPrimitive.CheckboxItemProps> & {
+    children?: Snippet;
+  } = $props();
 </script>
 
 <ContextMenuPrimitive.CheckboxItem
@@ -28,9 +28,7 @@ let {
   {...restProps}
 >
   {#snippet children({ checked })}
-    <span
-      class="pointer-events-none absolute start-2 flex size-3.5 items-center justify-center"
-    >
+    <span class="pointer-events-none absolute start-2 flex size-3.5 items-center justify-center">
       {#if checked}
         <Check class="size-4" />
       {/if}

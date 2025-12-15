@@ -1,13 +1,13 @@
 <script lang="ts">
-import type { MenuManifest } from "$lib/types/manifest";
-import * as Sidebar from "$lib/components/ui/sidebar";
-import { Collapsible } from "bits-ui";
-import { page } from "$app/stores";
-import { activeSectionIds } from "$lib/stores/scrollspy";
-import { Calendar, ChevronRight } from "lucide-svelte";
-import type { HTMLAttributes } from "svelte/elements";
+  import type { MenuManifest } from "$lib/types/manifest";
+  import * as Sidebar from "$lib/components/ui/sidebar";
+  import { Collapsible } from "bits-ui";
+  import { page } from "$app/stores";
+  import { activeSectionIds } from "$lib/stores/scrollspy";
+  import { Calendar, ChevronRight } from "lucide-svelte";
+  import type { HTMLAttributes } from "svelte/elements";
 
-export let menuItems: MenuManifest = [];
+  export let menuItems: MenuManifest = [];
 </script>
 
 <Sidebar.Menu data-testid="agenda-tab" class="px-2">
@@ -42,11 +42,8 @@ export let menuItems: MenuManifest = [];
             <Collapsible.Content>
               <Sidebar.MenuSub>
                 {#each menuDay.locations as menuLocation (menuLocation.id)}
-                  {@const isHashActiveLocation =
-                    $page.url.hash === menuLocation.href}
-                  {@const isScrollspyActiveLocation = $activeSectionIds.has(
-                    menuLocation.id,
-                  )}
+                  {@const isHashActiveLocation = $page.url.hash === menuLocation.href}
+                  {@const isScrollspyActiveLocation = $activeSectionIds.has(menuLocation.id)}
                   <Sidebar.MenuSubItem>
                     <Sidebar.MenuSubButton
                       href={menuLocation.href}

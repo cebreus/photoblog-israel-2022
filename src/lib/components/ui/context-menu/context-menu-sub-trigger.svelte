@@ -1,17 +1,17 @@
 <script lang="ts">
-import { ContextMenu as ContextMenuPrimitive } from "bits-ui";
-import { ChevronRight } from "lucide-svelte";
-import { cn, type WithoutChild } from "$lib/utils";
+  import { ContextMenu as ContextMenuPrimitive } from "bits-ui";
+  import { ChevronRight } from "lucide-svelte";
+  import { cn, type WithoutChild } from "$lib/utils";
 
-let {
-  ref = $bindable(null),
-  class: className,
-  inset,
-  children,
-  ...restProps
-}: WithoutChild<ContextMenuPrimitive.SubTriggerProps> & {
-  inset?: boolean;
-} = $props();
+  let {
+    ref = $bindable(null),
+    class: className,
+    inset,
+    children,
+    ...restProps
+  }: WithoutChild<ContextMenuPrimitive.SubTriggerProps> & {
+    inset?: boolean;
+  } = $props();
 </script>
 
 <ContextMenuPrimitive.SubTrigger

@@ -1554,9 +1554,7 @@ let { data } = $props<{ data: PageData }>();
   }
 
   function formatWeekdayCzech(dateValue: string | Date): string {
-    return new Intl.DateTimeFormat("cs-CZ", { weekday: "long" }).format(
-      new Date(dateValue),
-    );
+    return new Intl.DateTimeFormat("cs-CZ", { weekday: "long" }).format(new Date(dateValue));
   }
 </script>
 
@@ -1568,9 +1566,7 @@ let { data } = $props<{ data: PageData }>();
     <section id={daySectionId} class="container mx-auto py-8">
       <div data-cy="day-head" class="max-w-xl mx-auto text-center mb-12">
         <h2 class="mb-1 text-3xl">
-          <span
-            class="block mb-1 text-xs font-normal tracking-[0.05em] uppercase ..."
-          >
+          <span class="block mb-1 text-xs font-normal tracking-[0.05em] uppercase ...">
             {formatWeekdayCzech(day.date)}
           </span>
           {formatDateForDisplay(day.date)}
@@ -1583,10 +1579,7 @@ let { data } = $props<{ data: PageData }>();
         {/if}
 
         {#if day.locations && day.locations.length > 0}
-          <div
-            data-cy="day-where"
-            class="mx-auto mb-5 gap-2 flex flex-wrap justify-center"
-          >
+          <div data-cy="day-where" class="mx-auto mb-5 gap-2 flex flex-wrap justify-center">
             {#each day.locations as locationName (locationName)}
               <Badge variant="secondary">{locationName}</Badge>
             {/each}
@@ -1594,9 +1587,7 @@ let { data } = $props<{ data: PageData }>();
         {/if}
       </div>
 
-      <div
-        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
-      >
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         <PhotoGrid items={day.items} />
       </div>
     </section>
@@ -1785,12 +1776,7 @@ import { getMenuItems } from "$lib/menu";
 **Cesta**: `src/lib/images.ts`
 
 ```typescript
-import type {
-  Manifest,
-  PhotoDay,
-  ImageEntry,
-  ImageSource,
-} from "./types/manifest";
+import type { Manifest, PhotoDay, ImageEntry, ImageSource } from "./types/manifest";
 import manifest from "$lib/images.manifest.json" with { type: "json" };
 
 const typedManifest: Manifest = manifest as unknown as Manifest;
@@ -1899,12 +1885,8 @@ Detailní analýza všech Svelte komponent v aplikaci.
 
 <section class="py-24 container mx-auto">
   <div class="grid items-center gap-8 lg:grid-cols-2">
-    <div
-      class="flex flex-col items-center text-center lg:items-start lg:text-left"
-    >
-      <h1 class="my-6 text-pretty text-3xl font-bold lg:text-5xl">
-        Izrael 2022
-      </h1>
+    <div class="flex flex-col items-center text-center lg:items-start lg:text-left">
+      <h1 class="my-6 text-pretty text-3xl font-bold lg:text-5xl">Izrael 2022</h1>
 
       <p class="text-muted-foreground mb-8 max-w-xl lg:text-lg text-balance">
         Fotografické střípky z výletu do Izraele a Jordánska.
@@ -1950,9 +1932,7 @@ Detailní analýza všech Svelte komponent v aplikaci.
 {#each items as item (item.type === "image" ? item.src : item.location)}
   {#if item.type === "image"}
     {@const fallback = findFallbackSource(item)}
-    <figure
-      class={`bg-cover bg-center bg-[${item.placeholderColor}] rounded-lg ...`}
-    >
+    <figure class={`bg-cover bg-center bg-[${item.placeholderColor}] rounded-lg ...`}>
       {#if fallback}
         <picture>
           {#each getSources(item) as source (source.type)}
@@ -2061,9 +2041,7 @@ Detailní analýza všech Svelte komponent v aplikaci.
 <script lang="ts">
   import type { MenuManifest } from "$lib/types/manifest";
   import { Menu, ChevronRight, Calendar } from "@lucide/svelte";
-  import Button, {
-    buttonVariants,
-  } from "$lib/components/ui/button/button.svelte";
+  import Button, { buttonVariants } from "$lib/components/ui/button/button.svelte";
   import * as Sheet from "$lib/components/ui/sheet";
   import * as Sidebar from "$lib/components/ui/sidebar";
 
@@ -3207,12 +3185,7 @@ async function processImage(
 
     // Generate all formats (AVIF, WebP, JPEG)
     for (const format of config.encoding.formats) {
-      const outputPath = getOutputPath(
-        outputDir,
-        variantConfig.folderName,
-        inputPath,
-        format,
-      );
+      const outputPath = getOutputPath(outputDir, variantConfig.folderName, inputPath, format);
 
       await ensureDir(path.dirname(outputPath));
 
@@ -3261,12 +3234,7 @@ async function processImage(
   }
 
   // 3. LQIP placeholder
-  const placeholderBuffer = await img
-    .clone()
-    .resize({ width: 24 })
-    .blur(20)
-    .png()
-    .toBuffer();
+  const placeholderBuffer = await img.clone().resize({ width: 24 }).blur(20).png().toBuffer();
 
   const placeholderBase64 = `data:image/png;base64,${placeholderBuffer.toString("base64")}`;
 
@@ -3383,9 +3351,7 @@ function createConcurrencyLimiter(limit: number) {
 ```typescript
 const limiter = createConcurrencyLimiter(4); // 4 parallel workers
 
-await Promise.all(
-  images.map((img) => limiter(() => processImage(img, outputDir, config))),
-);
+await Promise.all(images.map((img) => limiter(() => processImage(img, outputDir, config))));
 ```
 
 #### 5.3.3 CLI argumenty

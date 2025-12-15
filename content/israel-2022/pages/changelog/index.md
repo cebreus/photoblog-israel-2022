@@ -4,13 +4,7 @@ title_h1: ""
 excerpt: ""
 jumbo: { title: "Changelog", excerpt: "", content: "" }
 entity_status: { date: "", updated_at: "", workflow_step: "publish" }
-seo:
-  {
-    title: "Change log",
-    description: "",
-    robots: "noindex,follow",
-    canonical: "/changelog",
-  }
+seo: { title: "Change log", description: "", robots: "noindex,follow", canonical: "/changelog" }
 ---
 
 ## Version 1.4.0 (2022-11-22)

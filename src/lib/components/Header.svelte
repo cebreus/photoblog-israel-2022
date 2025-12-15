@@ -1,34 +1,30 @@
 <script lang="ts">
-import { page } from "$app/stores";
-import type { MenuManifest, PhotoDay } from "$lib/types/manifest";
-import { Button } from "$lib/components/ui/button";
-import { Bug, Tags, Sparkles } from "lucide-svelte";
-import { debug } from "$lib/stores/debug";
-import { editMode, showMetadataOverlay } from "$lib/stores/editorState";
-import { isCurationMode } from "$lib/stores/uiState";
-import * as Sidebar from "$lib/components/ui/sidebar";
+  import { page } from "$app/stores";
+  import type { MenuManifest, PhotoDay } from "$lib/types/manifest";
+  import { Button } from "$lib/components/ui/button";
+  import { Bug, Tags, Sparkles } from "lucide-svelte";
+  import { debug } from "$lib/stores/debug";
+  import { editMode, showMetadataOverlay } from "$lib/stores/editorState";
+  import { isCurationMode } from "$lib/stores/uiState";
+  import * as Sidebar from "$lib/components/ui/sidebar";
 
-type AuthorStats = {
-  name: string;
-  count: number;
-  slug?: string;
-};
+  type AuthorStats = {
+    name: string;
+    count: number;
+    slug?: string;
+  };
 
-let { menuItems = [], authors = [] }: { menuItems?: MenuManifest; authors?: AuthorStats[] } =
-  $props();
+  let { menuItems = [], authors = [] }: { menuItems?: MenuManifest; authors?: AuthorStats[] } =
+    $props();
 
-const siteManifest = $derived($page.data.siteManifest);
+  const siteManifest = $derived($page.data.siteManifest);
 </script>
 
 <header
   class="sticky h-14 top-0 border-b bg-slate-800 text-slate-100 z-10 border-slate-700 flex flex-row items-center px-6"
   data-testid="header"
 >
-  <a
-    href="/"
-    class="text-lg font-semibold uppercase mr-auto"
-    data-testid="header-logo"
-  >
+  <a href="/" class="text-lg font-semibold uppercase mr-auto" data-testid="header-logo">
     {siteManifest?.open_graph?.site_name}
   </a>
 
@@ -66,8 +62,5 @@ const siteManifest = $derived($page.data.siteManifest);
     </Button>
   {/if}
 
-  <Sidebar.Trigger
-    class="-me-1 rotate-180"
-    data-testid="header-sidebar-trigger"
-  />
+  <Sidebar.Trigger class="-me-1 rotate-180" data-testid="header-sidebar-trigger" />
 </header>

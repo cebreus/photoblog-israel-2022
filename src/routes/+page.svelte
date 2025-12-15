@@ -1,38 +1,38 @@
 <script lang="ts">
-import PhotoGrid from "$lib/components/PhotoGrid.svelte";
-import { Badge } from "$lib/components/ui/badge/";
-import Hero from "$lib/components/Hero.svelte";
-import type { PageData } from "./$types";
-import { useScrollspy } from "$lib/actions/scrollspy";
-import { useFancybox } from "$lib/actions/fancybox";
-import { selectedAuthors, showSeparators } from "$lib/stores/filters";
-import type { ImageEntry, Separator, PhotoDay } from "$lib/types/manifest";
-import { filterGalleryItems, mergeSparseDays } from "$lib/utils/gallery";
-import { formatDateForDisplay, formatWeekdayCzech, formatDateRange } from "$lib/utils/strings";
-import { editMode, selection } from "$lib/stores/editorState";
-import { Button } from "$lib/components/ui/button";
-import { CheckSquare, Square } from "lucide-svelte";
+  import PhotoGrid from "$lib/components/PhotoGrid.svelte";
+  import { Badge } from "$lib/components/ui/badge/";
+  import Hero from "$lib/components/Hero.svelte";
+  import type { PageData } from "./$types";
+  import { useScrollspy } from "$lib/actions/scrollspy";
+  import { useFancybox } from "$lib/actions/fancybox";
+  import { selectedAuthors, showSeparators } from "$lib/stores/filters";
+  import type { ImageEntry, Separator, PhotoDay } from "$lib/types/manifest";
+  import { filterGalleryItems, mergeSparseDays } from "$lib/utils/gallery";
+  import { formatDateForDisplay, formatWeekdayCzech, formatDateRange } from "$lib/utils/strings";
+  import { editMode, selection } from "$lib/stores/editorState";
+  import { Button } from "$lib/components/ui/button";
+  import { CheckSquare, Square } from "lucide-svelte";
 
-let { data } = $props<{ data: PageData }>();
+  let { data } = $props<{ data: PageData }>();
 
-/**
- * Compute page-specific filtered days.
- * Preserves page metadata like cities/locations.
- */
-let filteredDays = $derived(
-  (data.photoDays || [])
-    .map((day: PhotoDay) => ({
-      ...day,
-      items: filterGalleryItems(day.items, $selectedAuthors, $showSeparators),
-    }))
-    .filter((d: PhotoDay) => d.items && d.items.length > 0),
-);
+  /**
+   * Compute page-specific filtered days.
+   * Preserves page metadata like cities/locations.
+   */
+  let filteredDays = $derived(
+    (data.photoDays || [])
+      .map((day: PhotoDay) => ({
+        ...day,
+        items: filterGalleryItems(day.items, $selectedAuthors, $showSeparators),
+      }))
+      .filter((d: PhotoDay) => d.items && d.items.length > 0),
+  );
 
-/**
- * Merges days with very few photos (<=2) into combined sections
- * to avoid massive headers for tiny content.
- */
-let photoDays = $derived(mergeSparseDays(filteredDays));
+  /**
+   * Merges days with very few photos (<=2) into combined sections
+   * to avoid massive headers for tiny content.
+   */
+  let photoDays = $derived(mergeSparseDays(filteredDays));
 </script>
 
 <Hero />
@@ -40,9 +40,7 @@ let photoDays = $derived(mergeSparseDays(filteredDays));
 <!-- visible count moved to FiltersOffcanvas header -->
 
 {#if $selectedAuthors.length > 0 && photoDays.length === 0}
-  <div
-    class="container mx-auto py-12 text-center text-sm text-muted-foreground"
-  >
+  <div class="container mx-auto py-12 text-center text-sm text-muted-foreground">
     <p>Žádné fotky od vybraných autorů.</p>
   </div>
 {/if}
@@ -56,19 +54,14 @@ let photoDays = $derived(mergeSparseDays(filteredDays));
       use:useScrollspy={{ id: daySectionId }}
       use:useFancybox
     >
-      <div
-        data-cy="day-head"
-        class="max-w-xl mx-auto text-center my-12 relative group"
-      >
+      <div data-cy="day-head" class="max-w-xl mx-auto text-center my-12 relative group">
         <h2 class="mb-1 text-3xl leading-snug">
           {#if day.mergedDates}
             <span
               class="block mb-1 text-xs font-normal tracking-[0.05em] uppercase before:content-['———'] before:tracking-[-0.3em] before:opacity-[0.34] before:mr-4 after:content-['———'] after:tracking-[-0.3em] after:opacity-[0.34] after:ml-3"
             >
               {#if day.mergedDates.length === 2}
-                {formatWeekdayCzech(day.mergedDates[0])} a {formatWeekdayCzech(
-                  day.mergedDates[1],
-                )}
+                {formatWeekdayCzech(day.mergedDates[0])} a {formatWeekdayCzech(day.mergedDates[1])}
               {:else}
                 {formatWeekdayCzech(day.mergedDates[0])}—{formatWeekdayCzech(
                   day.mergedDates[day.mergedDates.length - 1],
@@ -93,10 +86,7 @@ let photoDays = $derived(mergeSparseDays(filteredDays));
         {/if}
 
         {#if day.locations && day.locations.length > 0}
-          <div
-            data-cy="day-where"
-            class="mx-auto mb-5 gap-2 flex flex-wrap justify-center"
-          >
+          <div data-cy="day-where" class="mx-auto mb-5 gap-2 flex flex-wrap justify-center">
             {#each day.locations as locationName (locationName)}
               <Badge variant="secondary">{locationName}</Badge>
             {/each}
@@ -108,11 +98,8 @@ let photoDays = $derived(mergeSparseDays(filteredDays));
             .filter((i: ImageEntry | Separator) => i.type === "image")
             .map((i: ImageEntry | Separator) => i.id)}
           {@const allSelected =
-            dayImageIds.length > 0 &&
-            dayImageIds.every((id: string) => $selection.has(id))}
-          <div
-            class="flex justify-center gap-2 mt-4 opacity-100 transition-opacity"
-          >
+            dayImageIds.length > 0 && dayImageIds.every((id: string) => $selection.has(id))}
+          <div class="flex justify-center gap-2 mt-4 opacity-100 transition-opacity">
             <Button
               variant="outline"
               size="sm"
@@ -137,9 +124,7 @@ let photoDays = $derived(mergeSparseDays(filteredDays));
         {/if}
       </div>
 
-      <div
-        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
-      >
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         <PhotoGrid items={day.items} curationManifest={data.curationManifest} />
       </div>
     </section>

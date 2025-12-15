@@ -1,99 +1,99 @@
 <script lang="ts">
-import { showPhotoLabels } from "$lib/stores/photoLabels";
-import { selectedAuthors, showSeparators, visiblePhotos } from "$lib/stores/filters";
-import { Switch } from "$lib/components/ui/switch";
-import { Badge } from "$lib/components/ui/badge/";
-import { Sun, Moon, Monitor } from "lucide-svelte";
-import { setMode, resetMode, mode } from "mode-watcher";
-import * as Sidebar from "$lib/components/ui/sidebar";
-import { ToggleGroup, ToggleGroupItem } from "$lib/components/ui/toggle-group";
-import { toSlug } from "$lib/utils/strings";
-import { get as getStore } from "svelte/store";
-import { getMenuItems } from "$lib/utils/menu";
-import { debug } from "$lib/stores/debug";
-import type { Author, MenuDay } from "$lib/types/manifest";
+  import { showPhotoLabels } from "$lib/stores/photoLabels";
+  import { selectedAuthors, showSeparators, visiblePhotos } from "$lib/stores/filters";
+  import { Switch } from "$lib/components/ui/switch";
+  import { Badge } from "$lib/components/ui/badge/";
+  import { Sun, Moon, Monitor } from "lucide-svelte";
+  import { setMode, resetMode, mode } from "mode-watcher";
+  import * as Sidebar from "$lib/components/ui/sidebar";
+  import { ToggleGroup, ToggleGroupItem } from "$lib/components/ui/toggle-group";
+  import { toSlug } from "$lib/utils/strings";
+  import { get as getStore } from "svelte/store";
+  import { getMenuItems } from "$lib/utils/menu";
+  import { debug } from "$lib/stores/debug";
+  import type { Author, MenuDay } from "$lib/types/manifest";
 
-type AuthorStats = {
-  name: string;
-  count: number;
-  slug?: string;
-};
+  type AuthorStats = {
+    name: string;
+    count: number;
+    slug?: string;
+  };
 
-let { authors = [] } = $props<{ authors?: AuthorStats[] }>();
+  let { authors = [] } = $props<{ authors?: AuthorStats[] }>();
 
-let totalPhotos = $state(0);
-let totalAuthors = $state(0);
-const totalLocations = getMenuItems().reduce(
-  (acc: number, day: MenuDay) => acc + day.locations.length,
-  0,
-);
+  let totalPhotos = $state(0);
+  let totalAuthors = $state(0);
+  const totalLocations = getMenuItems().reduce(
+    (acc: number, day: MenuDay) => acc + day.locations.length,
+    0,
+  );
 
-$effect(updateTotals);
+  $effect(updateTotals);
 
-function updateTotals() {
-  totalPhotos = authors.reduce(sumAuthorCounts, 0);
-  totalAuthors = authors.length;
-}
+  function updateTotals() {
+    totalPhotos = authors.reduce(sumAuthorCounts, 0);
+    totalAuthors = authors.length;
+  }
 
-function sumAuthorCounts(sum: number, author: AuthorStats): number {
-  return sum + author.count;
-}
+  function sumAuthorCounts(sum: number, author: AuthorStats): number {
+    return sum + author.count;
+  }
 
-function getAuthorSlug(a: AuthorStats) {
-  return a.slug ?? toSlug(a.name);
-}
+  function getAuthorSlug(a: AuthorStats) {
+    return a.slug ?? toSlug(a.name);
+  }
 
-function toggleAuthor(slug: string, displayName?: string) {
-  const previous = $selectedAuthors;
-  if (getStore(debug)) {
-    console.debug("filters: toggleAuthor start", {
-      slug,
-      name: displayName,
-      previous,
+  function toggleAuthor(slug: string, displayName?: string) {
+    const previous = $selectedAuthors;
+    if (getStore(debug)) {
+      console.debug("filters: toggleAuthor start", {
+        slug,
+        name: displayName,
+        previous,
+      });
+    }
+
+    selectedAuthors.update(function updateSelection(current) {
+      let effectiveCurrent = current;
+
+      if (current.length === 0) {
+        effectiveCurrent = authors.map(getAuthorSlug);
+      } else if (current.includes("none")) {
+        effectiveCurrent = [];
+      }
+
+      const isSelected = effectiveCurrent.includes(slug);
+      let next: string[];
+
+      if (isSelected) {
+        next = effectiveCurrent.filter((s) => s !== slug);
+      } else {
+        next = [...effectiveCurrent, slug];
+      }
+
+      const allSlugs = authors.map(getAuthorSlug);
+
+      if (next.length === 0) {
+        return ["none"];
+      }
+
+      if (next.length === allSlugs.length) {
+        return [];
+      }
+
+      return next;
     });
   }
 
-  selectedAuthors.update(function updateSelection(current) {
-    let effectiveCurrent = current;
+  function createToggleHandler(slug: string, name: string) {
+    return function handleToggle() {
+      toggleAuthor(slug, name);
+    };
+  }
 
-    if (current.length === 0) {
-      effectiveCurrent = authors.map(getAuthorSlug);
-    } else if (current.includes("none")) {
-      effectiveCurrent = [];
-    }
-
-    const isSelected = effectiveCurrent.includes(slug);
-    let next: string[];
-
-    if (isSelected) {
-      next = effectiveCurrent.filter((s) => s !== slug);
-    } else {
-      next = [...effectiveCurrent, slug];
-    }
-
-    const allSlugs = authors.map(getAuthorSlug);
-
-    if (next.length === 0) {
-      return ["none"];
-    }
-
-    if (next.length === allSlugs.length) {
-      return [];
-    }
-
-    return next;
-  });
-}
-
-function createToggleHandler(slug: string, name: string) {
-  return function handleToggle() {
-    toggleAuthor(slug, name);
-  };
-}
-
-function stopPropagation(e: Event) {
-  e.stopPropagation();
-}
+  function stopPropagation(e: Event) {
+    e.stopPropagation();
+  }
 </script>
 
 <div class="contents" data-testid="filters-tab">
@@ -178,8 +178,7 @@ function stopPropagation(e: Event) {
             {@const slugKey = author.slug ?? toSlug(author.name)}
             {@const isActive =
               $selectedAuthors.length === 0 ||
-              ($selectedAuthors.includes(slugKey) &&
-                !$selectedAuthors.includes("none"))}
+              ($selectedAuthors.includes(slugKey) && !$selectedAuthors.includes("none"))}
             {@const testIdKey = slugKey}
             <label
               class={`flex items-center justify-between text-sm cursor-pointer ${

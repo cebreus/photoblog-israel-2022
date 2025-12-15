@@ -1,44 +1,40 @@
 <script lang="ts" module>
-import { tv, type VariantProps } from "tailwind-variants";
+  import { tv, type VariantProps } from "tailwind-variants";
 
-export const sidebarMenuButtonVariants = tv({
-  base: "peer/menu-button outline-hidden ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground active:bg-sidebar-accent active:text-sidebar-accent-foreground group-has-data-[sidebar=menu-action]/menu-item:pr-8 data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm transition-[width,height,padding] focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
-  variants: {
-    variant: {
-      default: "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-      outline:
-        "bg-background hover:bg-sidebar-accent hover:text-sidebar-accent-foreground shadow-[0_0_0_1px_var(--sidebar-border)] hover:shadow-[0_0_0_1px_var(--sidebar-accent)]",
+  export const sidebarMenuButtonVariants = tv({
+    base: "peer/menu-button outline-hidden ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground active:bg-sidebar-accent active:text-sidebar-accent-foreground group-has-data-[sidebar=menu-action]/menu-item:pr-8 data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm transition-[width,height,padding] focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
+    variants: {
+      variant: {
+        default: "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+        outline:
+          "bg-background hover:bg-sidebar-accent hover:text-sidebar-accent-foreground shadow-[0_0_0_1px_var(--sidebar-border)] hover:shadow-[0_0_0_1px_var(--sidebar-accent)]",
+      },
+      size: {
+        default: "h-8 text-sm",
+        sm: "h-7 text-xs",
+        lg: "group-data-[collapsible=icon]:p-0! h-12 text-sm",
+      },
     },
-    size: {
-      default: "h-8 text-sm",
-      sm: "h-7 text-xs",
-      lg: "group-data-[collapsible=icon]:p-0! h-12 text-sm",
+    defaultVariants: {
+      variant: "default",
+      size: "default",
     },
-  },
-  defaultVariants: {
-    variant: "default",
-    size: "default",
-  },
-});
+  });
 
-export type SidebarMenuButtonVariant = VariantProps<typeof sidebarMenuButtonVariants>["variant"];
-export type SidebarMenuButtonSize = VariantProps<typeof sidebarMenuButtonVariants>["size"];
+  export type SidebarMenuButtonVariant = VariantProps<typeof sidebarMenuButtonVariants>["variant"];
+  export type SidebarMenuButtonSize = VariantProps<typeof sidebarMenuButtonVariants>["size"];
 
-type ButtonSnippetProps = {
-  props?: Record<
-    string,
-    unknown
-  > /* Using `any` for mergeProps compatibility, see https://github.com/huntabyte/bits-ui/issues/212 */;
-};
+  type ButtonSnippetProps = {
+    props?: Record<
+      string,
+      unknown
+    > /* Using `any` for mergeProps compatibility, see https://github.com/huntabyte/bits-ui/issues/212 */;
+  };
 </script>
 
 <script lang="ts">
   import * as Tooltip from "$lib/components/ui/tooltip/index.js";
-  import {
-    cn,
-    type WithElementRef,
-    type WithoutChildrenOrChild,
-  } from "$lib/utils";
+  import { cn, type WithElementRef, type WithoutChildrenOrChild } from "$lib/utils";
   import { mergeProps } from "bits-ui";
   import type { ComponentProps, Snippet } from "svelte";
   import type { HTMLAttributes } from "svelte/elements";
@@ -62,9 +58,7 @@ type ButtonSnippetProps = {
     variant?: SidebarMenuButtonVariant;
     size?: SidebarMenuButtonSize;
     tooltipContent?: Snippet | string;
-    tooltipContentProps?: WithoutChildrenOrChild<
-      ComponentProps<typeof Tooltip.Content>
-    >;
+    tooltipContentProps?: WithoutChildrenOrChild<ComponentProps<typeof Tooltip.Content>>;
     child?: Snippet<[{ props: Record<string, unknown> }]>;
   } = $props();
 
@@ -75,9 +69,7 @@ type ButtonSnippetProps = {
       sidebarMenuButtonVariants({ variant, size }),
       className,
       isScrollspyActive && "text-orange-500 dark:text-orange-400",
-      isHashActive &&
-        !isScrollspyActive &&
-        "bg-sidebar-accent text-sidebar-accent-foreground",
+      isHashActive && !isScrollspyActive && "bg-sidebar-accent text-sidebar-accent-foreground",
     ),
     "data-slot": "sidebar-menu-button",
     "data-sidebar": "menu-button",

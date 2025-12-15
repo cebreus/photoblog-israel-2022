@@ -1,12 +1,12 @@
 <script lang="ts">
-import { NavigationMenu as NavigationMenuPrimitive } from "bits-ui";
-import { cn } from "$lib/utils";
+  import { NavigationMenu as NavigationMenuPrimitive } from "bits-ui";
+  import { cn } from "$lib/utils";
 
-let {
-  ref = $bindable(null),
-  class: className,
-  ...restProps
-}: NavigationMenuPrimitive.IndicatorProps = $props();
+  let {
+    ref = $bindable(null),
+    class: className,
+    ...restProps
+  }: NavigationMenuPrimitive.IndicatorProps = $props();
 </script>
 
 <NavigationMenuPrimitive.Indicator
@@ -18,7 +18,5 @@ let {
   )}
   {...restProps}
 >
-  <div
-    class="bg-border relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm shadow-md"
-  ></div>
+  <div class="bg-border relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm shadow-md"></div>
 </NavigationMenuPrimitive.Indicator>

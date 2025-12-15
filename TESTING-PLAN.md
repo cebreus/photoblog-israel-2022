@@ -122,9 +122,7 @@ test("homepage loads critical elements", async ({ page }) => {
   await expect(page.locator(".photo-grid")).toBeVisible();
 
   // Filters trigger
-  await expect(
-    page.locator('[data-testid="filters-offcanvas-trigger"]'),
-  ).toBeVisible();
+  await expect(page.locator('[data-testid="filters-offcanvas-trigger"]')).toBeVisible();
 });
 ```
 
@@ -560,11 +558,7 @@ bun run test:e2e e2e/url-sync-integration.test.ts
 
 ```typescript
 import { describe, it, expect } from "vitest";
-import {
-  getSources,
-  getDefaultSource,
-  getThumbnailSrc,
-} from "$lib/utils/images";
+import { getSources, getDefaultSource, getThumbnailSrc } from "$lib/utils/images";
 
 describe("images utils", () => {
   const mockImageEntry = {
@@ -712,9 +706,7 @@ describe("filterGalleryItems", () => {
   it("combines author filter and separator hiding", () => {
     const filtered = filterGalleryItems(mockItems, ["cebreus"], false);
 
-    expect(
-      filtered.every((i) => i.type === "image" && i.authorSlug === "cebreus"),
-    ).toBe(true);
+    expect(filtered.every((i) => i.type === "image" && i.authorSlug === "cebreus")).toBe(true);
   });
 
   it("handles empty items array", () => {
@@ -770,9 +762,7 @@ test.describe("Author filter workflow", () => {
     });
 
     // Find first author switch (assuming "cebreus" exists)
-    const authorSwitch = page.locator(
-      '[data-testid="filters-author-switch-cebreus"]',
-    );
+    const authorSwitch = page.locator('[data-testid="filters-author-switch-cebreus"]');
     await expect(authorSwitch).toBeVisible();
 
     // Toggle author filter ON

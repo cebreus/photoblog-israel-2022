@@ -1,21 +1,15 @@
 <script lang="ts">
-import { page } from "$app/stores";
-// import { ArrowRight, ArrowUpRight } from '@lucide/svelte';
-// import Badge from '$lib/components/ui/badge/badge.svelte';
-// import Button from '$lib/components/ui/button/button.svelte';
+  import { page } from "$app/stores";
+  // import { ArrowRight, ArrowUpRight } from '@lucide/svelte';
+  // import Badge from '$lib/components/ui/badge/badge.svelte';
+  // import Button from '$lib/components/ui/button/button.svelte';
 
-const siteManifest = $derived($page.data.siteManifest);
+  const siteManifest = $derived($page.data.siteManifest);
 </script>
 
-<section
-  class="py-24 bg-linear-to-br from-slate-700 to-slate-950"
-  data-testid="hero-section"
->
+<section class="py-24 bg-linear-to-br from-slate-700 to-slate-950" data-testid="hero-section">
   <div class="grid items-center mx-auto container gap-8 lg:grid-cols-1">
-    <div
-      class="flex flex-col items-center text-center gap-y-2"
-      data-testid="hero-left"
-    >
+    <div class="flex flex-col items-center text-center gap-y-2" data-testid="hero-left">
       <!-- <Badge variant="outline">
           ✨ Your Website Builder
           <ArrowUpRight class="ml-2 size-4" />

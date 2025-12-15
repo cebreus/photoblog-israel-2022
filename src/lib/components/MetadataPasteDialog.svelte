@@ -1,180 +1,181 @@
 <script lang="ts">
-import { Button } from "$lib/components/ui/button";
-import * as Dialog from "$lib/components/ui/dialog";
-import Checkbox from "$lib/components/ui/checkbox/checkbox.svelte";
-import { cn } from "$lib/utils";
-import type { ImageEntry } from "$lib/types/manifest";
-import { page } from "$app/stores";
-import { X, RefreshCcw } from "lucide-svelte";
+  import { Button } from "$lib/components/ui/button";
+  import * as Dialog from "$lib/components/ui/dialog";
+  import Checkbox from "$lib/components/ui/checkbox/checkbox.svelte";
+  import { cn } from "$lib/utils";
+  import type { ImageEntry } from "$lib/types/manifest";
+  import { page } from "$app/stores";
+  import { X, RefreshCcw } from "lucide-svelte";
 
-type MetadataFieldKey =
-  | "title"
-  | "author"
-  | "location"
-  | "city"
-  | "state"
-  | "country"
-  | "countryCode"
-  | "caption"
-  | "keywords";
+  type MetadataFieldKey =
+    | "title"
+    | "author"
+    | "location"
+    | "city"
+    | "state"
+    | "country"
+    | "countryCode"
+    | "caption"
+    | "keywords";
 
-interface MetadataFieldDef {
-  key: MetadataFieldKey;
-  label: string;
-}
-
-const FIELD_DEFS: MetadataFieldDef[] = [
-  { key: "title", label: "Název (Title)" },
-  { key: "author", label: "Autor" },
-  { key: "location", label: "Místo (Location)" },
-  { key: "city", label: "Město" },
-  { key: "state", label: "Stát / Provincie" },
-  { key: "country", label: "Země" },
-  { key: "countryCode", label: "Kód země" },
-  { key: "caption", label: "Popisek (Caption)" },
-  { key: "keywords", label: "Klíčová slova" },
-];
-
-let {
-  open = $bindable(false),
-  clipboardData,
-  images = [],
-  onConfirm,
-}: {
-  open: boolean;
-  clipboardData: Record<string, any> | null;
-  images?: ImageEntry[];
-  onConfirm: (fieldsToApply: Record<string, boolean>, excludedImageIds: string[]) => void;
-} = $props();
-
-// State
-let selectedFields = $state<Record<string, boolean>>({
-  title: true,
-  author: true,
-  location: true,
-  city: true,
-  state: true,
-  country: true,
-  countryCode: true,
-  caption: true,
-  keywords: true,
-});
-
-// Track images excluded from the operation
-let excludedImageIds = $state<Set<string>>(new Set());
-
-// Helper derived for source values (from clipboard)
-let sourceValues = $derived.by(() => {
-  const values: Record<string, string> = {};
-  for (const def of FIELD_DEFS) {
-    const raw = clipboardData?.[def.key];
-    values[def.key] = Array.isArray(raw) ? raw.join(", ") : (raw ?? "");
+  interface MetadataFieldDef {
+    key: MetadataFieldKey;
+    label: string;
   }
-  return values;
-});
 
-// Calculate grid data
-let gridData = $derived.by(() => {
-  return FIELD_DEFS.map((def) => {
-    const sourceVal = sourceValues[def.key] || "";
-    const isSelected = selectedFields[def.key];
+  const FIELD_DEFS: MetadataFieldDef[] = [
+    { key: "title", label: "Název (Title)" },
+    { key: "author", label: "Autor" },
+    { key: "location", label: "Místo (Location)" },
+    { key: "city", label: "Město" },
+    { key: "state", label: "Stát / Provincie" },
+    { key: "country", label: "Země" },
+    { key: "countryCode", label: "Kód země" },
+    { key: "caption", label: "Popisek (Caption)" },
+    { key: "keywords", label: "Klíčová slova" },
+  ];
 
-    const imageCells = images.map((img) => {
-      const isExcluded = excludedImageIds.has(img.id);
-      const rawOrig = getValueFromImage(img, def.key);
-      const originalVal = Array.isArray(rawOrig) ? rawOrig.join(", ") : (rawOrig ?? "");
+  let {
+    open = $bindable(false),
+    clipboardData,
+    images = [],
+    onConfirm,
+  }: {
+    open: boolean;
+    clipboardData: Record<string, any> | null;
+    images?: ImageEntry[];
+    onConfirm: (fieldsToApply: Record<string, boolean>, excludedImageIds: string[]) => void;
+  } = $props();
 
-      // Only mark as changing if not excluded
-      const willChange = !isExcluded && isSelected && sourceVal !== "" && sourceVal !== originalVal;
+  // State
+  let selectedFields = $state<Record<string, boolean>>({
+    title: true,
+    author: true,
+    location: true,
+    city: true,
+    state: true,
+    country: true,
+    countryCode: true,
+    caption: true,
+    keywords: true,
+  });
+
+  // Track images excluded from the operation
+  let excludedImageIds = $state<Set<string>>(new Set());
+
+  // Helper derived for source values (from clipboard)
+  let sourceValues = $derived.by(() => {
+    const values: Record<string, string> = {};
+    for (const def of FIELD_DEFS) {
+      const raw = clipboardData?.[def.key];
+      values[def.key] = Array.isArray(raw) ? raw.join(", ") : (raw ?? "");
+    }
+    return values;
+  });
+
+  // Calculate grid data
+  let gridData = $derived.by(() => {
+    return FIELD_DEFS.map((def) => {
+      const sourceVal = sourceValues[def.key] || "";
+      const isSelected = selectedFields[def.key];
+
+      const imageCells = images.map((img) => {
+        const isExcluded = excludedImageIds.has(img.id);
+        const rawOrig = getValueFromImage(img, def.key);
+        const originalVal = Array.isArray(rawOrig) ? rawOrig.join(", ") : (rawOrig ?? "");
+
+        // Only mark as changing if not excluded
+        const willChange =
+          !isExcluded && isSelected && sourceVal !== "" && sourceVal !== originalVal;
+
+        return {
+          imageId: img.id,
+          originalVal: originalVal || "-",
+          willChange,
+          isExcluded,
+        };
+      });
 
       return {
-        imageId: img.id,
-        originalVal: originalVal || "-",
-        willChange,
-        isExcluded,
+        ...def,
+        sourceVal: sourceVal || "-",
+        imageCells,
       };
     });
-
-    return {
-      ...def,
-      sourceVal: sourceVal || "-",
-      imageCells,
-    };
   });
-});
 
-// Helper to safely extract value from ImageEntry
-function getValueFromImage(
-  image: ImageEntry,
-  key: MetadataFieldKey,
-): string | string[] | undefined {
-  switch (key) {
-    case "title":
-      return image.exif?.title;
-    case "author":
-      return image.author;
-    case "location":
-      return image.location;
-    case "city":
-      return image.city;
-    case "state":
-      return image.exif?.state;
-    case "country":
-      return image.exif?.country;
-    case "countryCode":
-      return image.exif?.countryCode;
-    case "caption":
-      return image.caption;
-    case "keywords":
-      return image.keywords;
-    default:
-      return undefined;
+  // Helper to safely extract value from ImageEntry
+  function getValueFromImage(
+    image: ImageEntry,
+    key: MetadataFieldKey,
+  ): string | string[] | undefined {
+    switch (key) {
+      case "title":
+        return image.exif?.title;
+      case "author":
+        return image.author;
+      case "location":
+        return image.location;
+      case "city":
+        return image.city;
+      case "state":
+        return image.exif?.state;
+      case "country":
+        return image.exif?.country;
+      case "countryCode":
+        return image.exif?.countryCode;
+      case "caption":
+        return image.caption;
+      case "keywords":
+        return image.keywords;
+      default:
+        return undefined;
+    }
   }
-}
 
-// Resolve image path correctly using the fallback source
-function resolveThumbnail(image: ImageEntry) {
-  // Find plain jpeg fallback or the first available source
-  const fallback =
-    image.sources?.find(
-      (s) => s.variant === "fallback" || s.variant === ("xxs" as any), // Type cast to avoid lint error if 'xxs' is really used in runtime but missing in type def, or removed entirely.
-      // Actually, better to just check for 'fallback' and maybe 'placeholder' if it has path?
-      // Let's stick to 'fallback' and then first source.
-    ) || image.sources?.[0];
+  // Resolve image path correctly using the fallback source
+  function resolveThumbnail(image: ImageEntry) {
+    // Find plain jpeg fallback or the first available source
+    const fallback =
+      image.sources?.find(
+        (s) => s.variant === "fallback" || s.variant === ("xxs" as any), // Type cast to avoid lint error if 'xxs' is really used in runtime but missing in type def, or removed entirely.
+        // Actually, better to just check for 'fallback' and maybe 'placeholder' if it has path?
+        // Let's stick to 'fallback' and then first source.
+      ) || image.sources?.[0];
 
-  // If we have a path in the source, use it.
-  if (fallback?.path) return fallback.path;
+    // If we have a path in the source, use it.
+    if (fallback?.path) return fallback.path;
 
-  // Fallback to src property if sources logic fails (legacy/fallback)
-  // But basic fix: prepend '/' if missing.
-  if (image.src.startsWith("/")) return image.src;
-  return `/${image.src}`;
-}
-
-function handleConfirm() {
-  onConfirm(selectedFields, Array.from(excludedImageIds));
-  open = false;
-}
-
-function toggleImageExclusion(imageId: string) {
-  const newSetName = new Set(excludedImageIds);
-  if (newSetName.has(imageId)) {
-    newSetName.delete(imageId);
-  } else {
-    newSetName.add(imageId);
+    // Fallback to src property if sources logic fails (legacy/fallback)
+    // But basic fix: prepend '/' if missing.
+    if (image.src.startsWith("/")) return image.src;
+    return `/${image.src}`;
   }
-  excludedImageIds = newSetName;
-}
 
-// Toggle all logic
-let allSelected = $derived(FIELD_DEFS.every((f) => selectedFields[f.key] === true));
-let someSelected = $derived(FIELD_DEFS.some((f) => selectedFields[f.key] === true));
-
-function toggleAll(checked: boolean) {
-  for (const def of FIELD_DEFS) {
-    selectedFields[def.key] = checked;
+  function handleConfirm() {
+    onConfirm(selectedFields, Array.from(excludedImageIds));
+    open = false;
   }
-}
+
+  function toggleImageExclusion(imageId: string) {
+    const newSetName = new Set(excludedImageIds);
+    if (newSetName.has(imageId)) {
+      newSetName.delete(imageId);
+    } else {
+      newSetName.add(imageId);
+    }
+    excludedImageIds = newSetName;
+  }
+
+  // Toggle all logic
+  let allSelected = $derived(FIELD_DEFS.every((f) => selectedFields[f.key] === true));
+  let someSelected = $derived(FIELD_DEFS.some((f) => selectedFields[f.key] === true));
+
+  function toggleAll(checked: boolean) {
+    for (const def of FIELD_DEFS) {
+      selectedFields[def.key] = checked;
+    }
+  }
 </script>
 
 <Dialog.Root bind:open>
@@ -182,8 +183,7 @@ function toggleAll(checked: boolean) {
     <Dialog.Header class="p-6 pb-4">
       <Dialog.Title>Vložit metadata</Dialog.Title>
       <Dialog.Description>
-        Vyberte pole k přepsání. Zobrazuji náhled změn pro {images.length -
-          excludedImageIds.size} z {images.length}
+        Vyberte pole k přepsání. Zobrazuji náhled změn pro {images.length - excludedImageIds.size} z {images.length}
         {images.length === 1
           ? "obrázku"
           : images.length >= 2 && images.length <= 4
@@ -198,9 +198,7 @@ function toggleAll(checked: boolean) {
           Žádná data nejsou ve schránce.
         </div>
       {:else}
-        <table
-          class="text-sm border-collapse border-spacing-0 w-max min-w-full"
-        >
+        <table class="text-sm border-collapse border-spacing-0 w-max min-w-full">
           <thead>
             <tr>
               <!-- Controls Header (Sticky Left + Top) -->
@@ -242,9 +240,7 @@ function toggleAll(checked: boolean) {
                           {img.src.split("/").pop()}
                         </span>
                         {#if isExcluded}
-                          <span class="text-[10px] text-red-500 font-bold"
-                            >VYLUČENO</span
-                          >
+                          <span class="text-[10px] text-red-500 font-bold">VYLUČENO</span>
                         {/if}
                       </div>
                     </div>
@@ -253,9 +249,7 @@ function toggleAll(checked: boolean) {
                       variant="ghost"
                       size="icon"
                       class="h-6 w-6 rounded-full hover:bg-red-100 dark:hover:bg-red-900/30"
-                      title={isExcluded
-                        ? "Zahrnout obrázek zpět"
-                        : "Vyjmout obrázek z vkládání"}
+                      title={isExcluded ? "Zahrnout obrázek zpět" : "Vyjmout obrázek z vkládání"}
                       onclick={() => toggleImageExclusion(img.id)}
                       data-testid={`metadata-paste-dialog-exclude-${img.id}`}
                     >
@@ -281,10 +275,7 @@ function toggleAll(checked: boolean) {
                   )}
                   onclick={(e) => {
                     // Prevent toggling when clicking directly on checkbox
-                    if (
-                      e.target instanceof HTMLElement &&
-                      e.target.closest('[role="checkbox"]')
-                    )
+                    if (e.target instanceof HTMLElement && e.target.closest('[role="checkbox"]'))
                       return;
                     selectedFields[row.key] = !selectedFields[row.key];
                   }}

@@ -1,26 +1,26 @@
 <script lang="ts">
-import JsonViewer from "./JsonViewer.svelte";
-import type { JsonValue } from "./types";
+  import JsonViewer from "./JsonViewer.svelte";
+  import type { JsonValue } from "./types";
 
-interface Props {
-  data: JsonValue;
-  level?: number;
-  defaultExpanded?: boolean;
-}
+  interface Props {
+    data: JsonValue;
+    level?: number;
+    defaultExpanded?: boolean;
+  }
 
-let { data, level = 0, defaultExpanded = false }: Props = $props();
+  let { data, level = 0, defaultExpanded = false }: Props = $props();
 
-const initialExpanded = $derived(level === 0 || defaultExpanded);
-let userOverride = $state<boolean | null>(null);
-const isExpanded = $derived(userOverride ?? initialExpanded);
+  const initialExpanded = $derived(level === 0 || defaultExpanded);
+  let userOverride = $state<boolean | null>(null);
+  const isExpanded = $derived(userOverride ?? initialExpanded);
 
-const isObject = (value: JsonValue): value is { [key: string]: JsonValue } =>
-  typeof value === "object" && value !== null && !Array.isArray(value);
-const isArray = (value: JsonValue): value is JsonValue[] => Array.isArray(value);
+  const isObject = (value: JsonValue): value is { [key: string]: JsonValue } =>
+    typeof value === "object" && value !== null && !Array.isArray(value);
+  const isArray = (value: JsonValue): value is JsonValue[] => Array.isArray(value);
 
-function toggle() {
-  userOverride = !isExpanded;
-}
+  function toggle() {
+    userOverride = !isExpanded;
+  }
 </script>
 
 <div
@@ -31,10 +31,7 @@ function toggle() {
 >
   >
   {#if isObject(data)}
-    <button
-      onclick={toggle}
-      class="cursor-pointer text-gray-400 hover:text-gray-100"
-    >
+    <button onclick={toggle} class="cursor-pointer text-gray-400 hover:text-gray-100">
       <span>{isExpanded ? "▼" : "▶"}</span>
     </button>
     <span class="text-white">{isExpanded ? "{" : "{...}"}</span>
@@ -43,21 +40,14 @@ function toggle() {
         {#each Object.entries(data) as [key, value]}
           <div class="flex">
             <span class="text-pink-400">"{key}":</span>
-            <JsonViewer
-              data={value}
-              level={level + 1}
-              defaultExpanded={false}
-            />
+            <JsonViewer data={value} level={level + 1} defaultExpanded={false} />
           </div>
         {/each}
       </div>
       <span class="text-white">}</span>
     {/if}
   {:else if isArray(data)}
-    <button
-      onclick={toggle}
-      class="cursor-pointer text-gray-400 hover:text-gray-100"
-    >
+    <button onclick={toggle} class="cursor-pointer text-gray-400 hover:text-gray-100">
       <span>{isExpanded ? "▼" : "▶"}</span>
     </button>
     <span class="text-white"
@@ -70,11 +60,7 @@ function toggle() {
         {#each data as value, i}
           <div class="flex">
             <span class="text-gray-500">{i}:</span>
-            <JsonViewer
-              data={value}
-              level={level + 1}
-              defaultExpanded={false}
-            />
+            <JsonViewer data={value} level={level + 1} defaultExpanded={false} />
           </div>
         {/each}
       </div>
