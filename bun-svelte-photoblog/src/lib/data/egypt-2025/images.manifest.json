@@ -31665,7 +31665,10 @@
         "Serapeum",
         "Římský amfiteátr",
         "Alexandrijská opera",
-        "Alexandrijská knihovna"
+        "Alexandrijská knihovna",
+        "Pevnost Qaitbay",
+        "Královská vlaková garáž",
+        "Královský skleník"
       ],
       "items": [
         {
@@ -39258,93 +39261,6 @@
           ]
         },
         {
-          "id": "img-img8266",
-          "type": "image",
-          "src": "IMG_8266.HEIC",
-          "alt": "Alexandrijská knihovna, Alexandrie",
-          "title": "",
-          "width": 3024,
-          "height": 4032,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/IMG_8266.png",
-          "placeholderColor": "rgb(216,232,232)",
-          "analysis": {
-            "sharpness": 3938.9052698165733,
-            "phash": "62e09e1e7dcfcdcc",
-            "embedding": []
-          },
-          "exif": {
-            "date": "2025-11-25T10:31:29.164Z",
-            "location": "Alexandrijská knihovna",
-            "city": "Alexandrie",
-            "latitude": 31.207986,
-            "longitude": 29.909,
-            "orientation": 6,
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Alexandrijská knihovna",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.207986,29.909",
-          "date": "2025-11-25T10:31:29.164Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/IMG_8266.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/IMG_8266.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/IMG_8266.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/IMG_8266.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/IMG_8266.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/IMG_8266.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/IMG_8266.jpeg",
-              "width": 1280,
-              "height": 1707
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/IMG_8266.jpeg",
-              "width": 190,
-              "height": 107
-            }
-          ]
-        },
-        {
           "id": "img-img1081",
           "type": "image",
           "src": "IMG_1081.HEIC",
@@ -39430,10 +39346,16 @@
           ]
         },
         {
+          "id": "loc-pevnost-qaitbay",
+          "type": "separator",
+          "location": "Pevnost Qaitbay",
+          "city": "Alexandrie"
+        },
+        {
           "id": "img-img8267",
           "type": "image",
           "src": "IMG_8267.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Pevnost Qaitbay, Alexandrie",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -39447,10 +39369,17 @@
           },
           "exif": {
             "date": "2025-11-25T11:48:10.190Z",
+            "location": "Pevnost Qaitbay",
+            "city": "Alexandrie",
             "latitude": 31.213075,
             "longitude": 29.885681,
-            "orientation": 1
+            "orientation": 1,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
+          "location": "Pevnost Qaitbay",
+          "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.213075,29.885681",
           "date": "2025-11-25T11:48:10.190Z",
           "sources": [
@@ -39510,7 +39439,7 @@
           "id": "img-img1088",
           "type": "image",
           "src": "IMG_1088.HEIC",
-          "alt": "Alexandrie",
+          "alt": "Pevnost Qaitbay, Alexandrie",
           "title": "",
           "width": 3024,
           "height": 4032,
@@ -39524,6 +39453,7 @@
           },
           "exif": {
             "date": "2025-11-25T12:11:42.981Z",
+            "location": "Pevnost Qaitbay",
             "city": "Alexandrie",
             "latitude": 31.210103,
             "longitude": 29.9015,
@@ -39535,6 +39465,7 @@
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Pevnost Qaitbay",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.210103,29.9015",
           "date": "2025-11-25T12:11:42.981Z",
@@ -39595,7 +39526,7 @@
           "id": "img-img8271",
           "type": "image",
           "src": "IMG_8271.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Pevnost Qaitbay, Alexandrie",
           "title": "",
           "width": 3024,
           "height": 4032,
@@ -39609,10 +39540,17 @@
           },
           "exif": {
             "date": "2025-11-25T12:11:47.124Z",
+            "location": "Pevnost Qaitbay",
+            "city": "Alexandrie",
             "latitude": 31.209478,
             "longitude": 29.893528,
-            "orientation": 6
+            "orientation": 6,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
+          "location": "Pevnost Qaitbay",
+          "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.209478,29.893528",
           "date": "2025-11-25T12:11:47.124Z",
           "sources": [
@@ -39672,7 +39610,7 @@
           "id": "img-img1089",
           "type": "image",
           "src": "IMG_1089.HEIC",
-          "alt": "Alexandrie",
+          "alt": "Pevnost Qaitbay, Alexandrie",
           "title": "",
           "width": 3024,
           "height": 4032,
@@ -39686,6 +39624,7 @@
           },
           "exif": {
             "date": "2025-11-25T12:12:17.498Z",
+            "location": "Pevnost Qaitbay",
             "city": "Alexandrie",
             "latitude": 31.205533,
             "longitude": 29.902731,
@@ -39697,6 +39636,7 @@
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Pevnost Qaitbay",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.205533,29.902731",
           "date": "2025-11-25T12:12:17.498Z",
@@ -39757,7 +39697,7 @@
           "id": "img-img8272",
           "type": "image",
           "src": "IMG_8272.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Pevnost Qaitbay, Alexandrie",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -39771,10 +39711,17 @@
           },
           "exif": {
             "date": "2025-11-25T12:13:20.943Z",
+            "location": "Pevnost Qaitbay",
+            "city": "Alexandrie",
             "latitude": 31.210222,
             "longitude": 29.888278,
-            "orientation": 1
+            "orientation": 1,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
+          "location": "Pevnost Qaitbay",
+          "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.210222,29.888278",
           "date": "2025-11-25T12:13:20.943Z",
           "sources": [
@@ -39834,7 +39781,7 @@
           "id": "img-img1092",
           "type": "image",
           "src": "IMG_1092.HEIC",
-          "alt": "Alexandrie",
+          "alt": "Pevnost Qaitbay, Alexandrie",
           "title": "",
           "width": 3024,
           "height": 4032,
@@ -39848,6 +39795,7 @@
           },
           "exif": {
             "date": "2025-11-25T12:21:37.446Z",
+            "location": "Pevnost Qaitbay",
             "city": "Alexandrie",
             "latitude": 31.213944,
             "longitude": 29.885683,
@@ -39859,6 +39807,7 @@
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Pevnost Qaitbay",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.213944,29.885683",
           "date": "2025-11-25T12:21:37.446Z",
@@ -40004,7 +39953,7 @@
           "id": "img-img8274",
           "type": "image",
           "src": "IMG_8274.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Pevnost Qaitbay, Alexandrie",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -40018,10 +39967,17 @@
           },
           "exif": {
             "date": "2025-11-25T12:37:06.515Z",
+            "location": "Pevnost Qaitbay",
+            "city": "Alexandrie",
             "latitude": 31.213344,
             "longitude": 29.885714,
-            "orientation": 1
+            "orientation": 1,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
+          "location": "Pevnost Qaitbay",
+          "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.213344,29.885714",
           "date": "2025-11-25T12:37:06.515Z",
           "sources": [
@@ -40081,7 +40037,7 @@
           "id": "img-img8276",
           "type": "image",
           "src": "IMG_8276.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Pevnost Qaitbay, Alexandrie",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -40095,10 +40051,17 @@
           },
           "exif": {
             "date": "2025-11-25T12:37:13.405Z",
+            "location": "Pevnost Qaitbay",
+            "city": "Alexandrie",
             "latitude": 31.213358,
             "longitude": 29.885706,
-            "orientation": 1
+            "orientation": 1,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
+          "location": "Pevnost Qaitbay",
+          "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.213358,29.885706",
           "date": "2025-11-25T12:37:13.405Z",
           "sources": [
@@ -40155,11 +40118,18 @@
           ]
         },
         {
+          "id": "loc-kralovska-vlakova-garaz",
+          "type": "separator",
+          "location": "Královská vlaková garáž",
+          "city": "Alexandrie"
+        },
+        {
           "id": "img-img1115",
           "type": "image",
           "src": "IMG_1115.HEIC",
-          "alt": "Alexandrie",
-          "title": "",
+          "alt": "Vlak krále Farúka, Královská vlaková garáž, Alexandrie",
+          "title": "Vlak krále Farúka",
+          "caption": "Vlak krále Farúka",
           "width": 3024,
           "height": 4032,
           "aspectRatio": "portrait-3-4",
@@ -40172,10 +40142,12 @@
           },
           "exif": {
             "date": "2025-11-25T13:51:52.220Z",
+            "location": "Královská vlaková garáž",
             "city": "Alexandrie",
             "latitude": 31.283475,
             "longitude": 30.025228,
             "orientation": 6,
+            "description": "Vlak krále Farúka",
             "author": "Dáša",
             "country": "Egypt",
             "countryCode": "EGY",
@@ -40183,6 +40155,7 @@
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Královská vlaková garáž",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.283475,30.025228",
           "date": "2025-11-25T13:51:52.220Z",
@@ -40243,8 +40216,9 @@
           "id": "img-img8277",
           "type": "image",
           "src": "IMG_8277.HEIC",
-          "alt": "Photoblog image",
-          "title": "",
+          "alt": "Vlak krále Farúka, Královská vlaková garáž, Alexandrie",
+          "title": "Vlak krále Farúka",
+          "caption": "Vlak krále Farúka",
           "width": 4032,
           "height": 3024,
           "aspectRatio": "landscape-4-3",
@@ -40257,10 +40231,18 @@
           },
           "exif": {
             "date": "2025-11-25T13:51:59.691Z",
+            "location": "Královská vlaková garáž",
+            "city": "Alexandrie",
             "latitude": 31.283508,
             "longitude": 30.025022,
-            "orientation": 1
+            "orientation": 1,
+            "description": "Vlak krále Farúka",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
+          "location": "Královská vlaková garáž",
+          "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.283508,30.025022",
           "date": "2025-11-25T13:51:59.691Z",
           "sources": [
@@ -40320,8 +40302,9 @@
           "id": "img-img8278",
           "type": "image",
           "src": "IMG_8278.HEIC",
-          "alt": "Photoblog image",
-          "title": "",
+          "alt": "Vlak krále Farúka, Královská vlaková garáž, Alexandrie",
+          "title": "Vlak krále Farúka",
+          "caption": "Vlak krále Farúka",
           "width": 3024,
           "height": 4032,
           "aspectRatio": "portrait-3-4",
@@ -40334,10 +40317,18 @@
           },
           "exif": {
             "date": "2025-11-25T13:52:15.449Z",
+            "location": "Královská vlaková garáž",
+            "city": "Alexandrie",
             "latitude": 31.283508,
             "longitude": 30.025022,
-            "orientation": 6
+            "orientation": 6,
+            "description": "Vlak krále Farúka",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
+          "location": "Královská vlaková garáž",
+          "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.283508,30.025022",
           "date": "2025-11-25T13:52:15.449Z",
           "sources": [
@@ -40397,8 +40388,9 @@
           "id": "img-img1116",
           "type": "image",
           "src": "IMG_1116.HEIC",
-          "alt": "Alexandrie",
-          "title": "",
+          "alt": "Vlak krále Farúka, Královská vlaková garáž, Alexandrie",
+          "title": "Vlak krále Farúka",
+          "caption": "Vlak krále Farúka",
           "width": 4032,
           "height": 3024,
           "aspectRatio": "landscape-4-3",
@@ -40411,10 +40403,12 @@
           },
           "exif": {
             "date": "2025-11-25T13:52:32.752Z",
+            "location": "Královská vlaková garáž",
             "city": "Alexandrie",
             "latitude": 31.283469,
             "longitude": 30.025228,
             "orientation": 3,
+            "description": "Vlak krále Farúka",
             "author": "Dáša",
             "country": "Egypt",
             "countryCode": "EGY",
@@ -40422,6 +40416,7 @@
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Královská vlaková garáž",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.283469,30.025228",
           "date": "2025-11-25T13:52:32.752Z",
@@ -40482,8 +40477,9 @@
           "id": "img-img1117",
           "type": "image",
           "src": "IMG_1117.HEIC",
-          "alt": "Alexandrie",
-          "title": "",
+          "alt": "Vlak krále Farúka, Královská vlaková garáž, Alexandrie",
+          "title": "Vlak krále Farúka",
+          "caption": "Vlak krále Farúka",
           "width": 4032,
           "height": 3024,
           "aspectRatio": "landscape-4-3",
@@ -40496,10 +40492,12 @@
           },
           "exif": {
             "date": "2025-11-25T13:53:22.773Z",
+            "location": "Královská vlaková garáž",
             "city": "Alexandrie",
             "latitude": 31.283464,
             "longitude": 30.025222,
             "orientation": 3,
+            "description": "Vlak krále Farúka",
             "author": "Dáša",
             "country": "Egypt",
             "countryCode": "EGY",
@@ -40507,6 +40505,7 @@
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Královská vlaková garáž",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.283464,30.025222",
           "date": "2025-11-25T13:53:22.773Z",
@@ -40567,8 +40566,9 @@
           "id": "img-img8279",
           "type": "image",
           "src": "IMG_8279.HEIC",
-          "alt": "Photoblog image",
-          "title": "",
+          "alt": "Vlak krále Farúka, Královská vlaková garáž, Alexandrie",
+          "title": "Vlak krále Farúka",
+          "caption": "Vlak krále Farúka",
           "width": 3024,
           "height": 4032,
           "aspectRatio": "portrait-3-4",
@@ -40581,10 +40581,18 @@
           },
           "exif": {
             "date": "2025-11-25T13:53:45.722Z",
+            "location": "Královská vlaková garáž",
+            "city": "Alexandrie",
             "latitude": 31.283506,
             "longitude": 30.025025,
-            "orientation": 6
+            "orientation": 6,
+            "description": "Vlak krále Farúka",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
+          "location": "Královská vlaková garáž",
+          "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.283506,30.025025",
           "date": "2025-11-25T13:53:45.722Z",
           "sources": [
@@ -40644,8 +40652,9 @@
           "id": "img-img8280",
           "type": "image",
           "src": "IMG_8280.HEIC",
-          "alt": "Photoblog image",
-          "title": "",
+          "alt": "Vlak krále Farúka, Královská vlaková garáž, Alexandrie",
+          "title": "Vlak krále Farúka",
+          "caption": "Vlak krále Farúka",
           "width": 8064,
           "height": 6048,
           "aspectRatio": "landscape-4-3",
@@ -40658,10 +40667,18 @@
           },
           "exif": {
             "date": "2025-11-25T13:57:14.787Z",
+            "location": "Královská vlaková garáž",
+            "city": "Alexandrie",
             "latitude": 31.2835,
             "longitude": 30.025044,
-            "orientation": 1
+            "orientation": 1,
+            "description": "Vlak krále Farúka",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
+          "location": "Královská vlaková garáž",
+          "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.2835,30.025044",
           "date": "2025-11-25T13:57:14.787Z",
           "sources": [
@@ -40718,10 +40735,16 @@
           ]
         },
         {
+          "id": "loc-kralovsky-sklenik",
+          "type": "separator",
+          "location": "Královský skleník",
+          "city": "Alexandrie"
+        },
+        {
           "id": "img-img8281",
           "type": "image",
           "src": "IMG_8281.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Královský skleník, Alexandrie",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -40735,10 +40758,17 @@
           },
           "exif": {
             "date": "2025-11-25T14:05:25.923Z",
+            "location": "Královský skleník",
+            "city": "Alexandrie",
             "latitude": 31.287067,
             "longitude": 30.024589,
-            "orientation": 1
+            "orientation": 1,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
+          "location": "Královský skleník",
+          "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.287067,30.024589",
           "date": "2025-11-25T14:05:25.923Z",
           "sources": [
@@ -40798,7 +40828,7 @@
           "id": "img-img1121",
           "type": "image",
           "src": "IMG_1121.HEIC",
-          "alt": "Alexandrie",
+          "alt": "Královský skleník, Alexandrie",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -40812,6 +40842,7 @@
           },
           "exif": {
             "date": "2025-11-25T14:05:59.809Z",
+            "location": "Královský skleník",
             "city": "Alexandrie",
             "latitude": 31.287069,
             "longitude": 30.024708,
@@ -40823,6 +40854,7 @@
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Královský skleník",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.287069,30.024708",
           "date": "2025-11-25T14:05:59.809Z",
@@ -40883,7 +40915,7 @@
           "id": "img-img8282",
           "type": "image",
           "src": "IMG_8282.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Královský skleník, Alexandrie",
           "title": "",
           "width": 4594,
           "height": 6125,
@@ -40897,10 +40929,17 @@
           },
           "exif": {
             "date": "2025-11-25T14:08:36.406Z",
+            "location": "Královský skleník",
+            "city": "Alexandrie",
             "latitude": 31.287061,
             "longitude": 30.024697,
-            "orientation": 1
+            "orientation": 1,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
+          "location": "Královský skleník",
+          "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.287061,30.024697",
           "date": "2025-11-25T14:08:36.406Z",
           "sources": [
@@ -40945,7 +40984,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/details/IMG_8282.jpeg",
               "width": 1280,
-              "height": 1706
+              "height": 1707
             },
             {
               "variant": "fallback",
@@ -40960,7 +40999,7 @@
           "id": "img-img8284",
           "type": "image",
           "src": "IMG_8284.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Královský skleník, Alexandrie",
           "title": "",
           "width": 6048,
           "height": 8064,
@@ -40974,10 +41013,17 @@
           },
           "exif": {
             "date": "2025-11-25T14:12:16.383Z",
+            "location": "Královský skleník",
+            "city": "Alexandrie",
             "latitude": 31.287694,
             "longitude": 30.024478,
-            "orientation": 6
+            "orientation": 6,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
+          "location": "Královský skleník",
+          "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.287694,30.024478",
           "date": "2025-11-25T14:12:16.383Z",
           "sources": [
@@ -41037,7 +41083,7 @@
           "id": "img-img8288",
           "type": "image",
           "src": "IMG_8288.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Královský skleník, Alexandrie",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -41051,10 +41097,17 @@
           },
           "exif": {
             "date": "2025-11-25T14:14:54.563Z",
+            "location": "Královský skleník",
+            "city": "Alexandrie",
             "latitude": 31.287639,
             "longitude": 30.024472,
-            "orientation": 1
+            "orientation": 1,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
+          "location": "Královský skleník",
+          "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.287639,30.024472",
           "date": "2025-11-25T14:14:54.563Z",
           "sources": [
@@ -41114,7 +41167,7 @@
           "id": "img-img8290",
           "type": "image",
           "src": "IMG_8290.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Královský skleník, Alexandrie",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -41128,10 +41181,17 @@
           },
           "exif": {
             "date": "2025-11-25T14:16:16.012Z",
+            "location": "Královský skleník",
+            "city": "Alexandrie",
             "latitude": 31.287564,
             "longitude": 30.024514,
-            "orientation": 1
+            "orientation": 1,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
+          "location": "Královský skleník",
+          "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.287564,30.024514",
           "date": "2025-11-25T14:16:16.012Z",
           "sources": [
@@ -41191,7 +41251,7 @@
           "id": "img-img8292",
           "type": "image",
           "src": "IMG_8292.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Královský skleník, Alexandrie",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -41205,10 +41265,17 @@
           },
           "exif": {
             "date": "2025-11-25T14:16:30.498Z",
+            "location": "Královský skleník",
+            "city": "Alexandrie",
             "latitude": 31.287567,
             "longitude": 30.024392,
-            "orientation": 1
+            "orientation": 1,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
+          "location": "Královský skleník",
+          "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.287567,30.024392",
           "date": "2025-11-25T14:16:30.498Z",
           "sources": [
@@ -41268,7 +41335,7 @@
           "id": "img-img8295",
           "type": "image",
           "src": "IMG_8295.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Královský skleník, Alexandrie",
           "title": "",
           "width": 6048,
           "height": 8064,
@@ -41282,10 +41349,17 @@
           },
           "exif": {
             "date": "2025-11-25T14:17:09.685Z",
+            "location": "Královský skleník",
+            "city": "Alexandrie",
             "latitude": 31.287525,
             "longitude": 30.024778,
-            "orientation": 6
+            "orientation": 6,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
+          "location": "Královský skleník",
+          "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.287525,30.024778",
           "date": "2025-11-25T14:17:09.685Z",
           "sources": [
@@ -41345,7 +41419,7 @@
           "id": "img-img8296",
           "type": "image",
           "src": "IMG_8296.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Královský skleník, Alexandrie",
           "title": "",
           "width": 3024,
           "height": 4032,
@@ -41359,10 +41433,17 @@
           },
           "exif": {
             "date": "2025-11-25T14:17:10.709Z",
+            "location": "Královský skleník",
+            "city": "Alexandrie",
             "latitude": 31.287525,
             "longitude": 30.024778,
-            "orientation": 6
+            "orientation": 6,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
+          "location": "Královský skleník",
+          "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.287525,30.024778",
           "date": "2025-11-25T14:17:10.709Z",
           "sources": [
@@ -41422,7 +41503,7 @@
           "id": "img-img8297",
           "type": "image",
           "src": "IMG_8297.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Královský skleník, Alexandrie",
           "title": "",
           "width": 3024,
           "height": 4032,
@@ -41436,10 +41517,17 @@
           },
           "exif": {
             "date": "2025-11-25T14:17:12.003Z",
+            "location": "Královský skleník",
+            "city": "Alexandrie",
             "latitude": 31.287339,
             "longitude": 30.024783,
-            "orientation": 6
+            "orientation": 6,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
           },
+          "location": "Královský skleník",
+          "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.287339,30.024783",
           "date": "2025-11-25T14:17:12.003Z",
           "sources": [

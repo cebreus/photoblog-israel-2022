@@ -120,6 +120,27 @@
         "href": "#loc-alexandrijska-knihovna",
         "isDimmed": false,
         "firstPhotoExifDate": "2025-11-25T10:21:18.095Z"
+      },
+      {
+        "id": "loc-pevnost-qaitbay",
+        "label": "Pevnost Qaitbay",
+        "href": "#loc-pevnost-qaitbay",
+        "isDimmed": false,
+        "firstPhotoExifDate": "2025-11-25T11:48:10.190Z"
+      },
+      {
+        "id": "loc-kralovska-vlakova-garaz",
+        "label": "Královská vlaková garáž",
+        "href": "#loc-kralovska-vlakova-garaz",
+        "isDimmed": false,
+        "firstPhotoExifDate": "2025-11-25T13:51:52.220Z"
+      },
+      {
+        "id": "loc-kralovsky-sklenik",
+        "label": "Královský skleník",
+        "href": "#loc-kralovsky-sklenik",
+        "isDimmed": false,
+        "firstPhotoExifDate": "2025-11-25T14:05:25.923Z"
       }
     ]
   },
