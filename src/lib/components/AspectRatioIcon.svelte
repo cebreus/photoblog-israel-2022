@@ -1,5 +1,5 @@
 <script lang="ts">
-import { RectangleVertical, Square, Cylinder, Circle } from "@lucide/svelte";
+import { RectangleVertical, Square, Cylinder, Circle } from "lucide-svelte";
 
 let { aspectRatio } = $props<{
   aspectRatio?: string;

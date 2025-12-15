@@ -1,6 +1,6 @@
 <script lang="ts">
 import { ContextMenu as ContextMenuPrimitive } from "bits-ui";
-import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
+import { ChevronRight } from "lucide-svelte";
 import { cn, type WithoutChild } from "$lib/utils";
 
 let {
@@ -25,5 +25,5 @@ let {
   {...restProps}
 >
   {@render children?.()}
-  <ChevronRightIcon class="ms-auto" />
+  <ChevronRight class="ms-auto" />
 </ContextMenuPrimitive.SubTrigger>

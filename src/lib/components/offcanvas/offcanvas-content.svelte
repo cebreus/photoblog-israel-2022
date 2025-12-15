@@ -4,7 +4,7 @@ import { OFFCANVAS_CONTEXT_KEY, type OffcanvasContext } from "./offcanvas-contex
 import type { Snippet } from "svelte";
 import type { HTMLAttributes } from "svelte/elements";
 import { cn } from "$lib/utils";
-import { XIcon } from "@lucide/svelte";
+import { X } from "lucide-svelte";
 import Button, { buttonVariants } from "$lib/components/ui/button/button.svelte"; // Import Button and buttonVariants
 
 let {
@@ -58,7 +58,7 @@ openStore.subscribe((value) => (open = value));
       class="absolute end-5 top-4 "
       onclick={toggleOpen}
     >
-      <XIcon />
+      <X />
       <span class="sr-only">Close</span>
     </Button>
     {@render children?.()}
