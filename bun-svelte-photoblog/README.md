@@ -109,3 +109,16 @@ CONTENT_DIR=egypt-2025 bun run images:build
     ```bash
     bun run dev:nova-galerie
     ```
+
+## Testování a QA
+
+Projekt využívá komplexní testovací strategii zahrnující unit testy pro logiku, component testy pro UI (Vitest Browser Mode) a E2E testy (Playwright).
+
+Podrobné informace o tom, jak psát a spouštět testy, najdete v dokumentaci:
+👉 **[TESTING.md](./TESTING.md)**
+
+Stručně:
+
+- **Unit testy:** `bun run test:unit`
+- **Component testy:** `CONTENT_DIR=egypt-2025 bun run vitest run --project client`
+- **Všechny testy:** `bun run test`

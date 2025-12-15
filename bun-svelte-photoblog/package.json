@@ -4,10 +4,10 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "bun run dev:israel",
+    "dev": "bun run dev:egypt",
     "dev:israel": "CONTENT_DIR=israel-2022 bun run images:build --manifestOnly && CONTENT_DIR=israel-2022 bun run favicons:build && CONTENT_DIR=israel-2022 bun run vite dev",
     "dev:egypt": "CONTENT_DIR=egypt-2025 bun run images:build --manifestOnly && CONTENT_DIR=egypt-2025 bun run favicons:build && CONTENT_DIR=egypt-2025 bun run vite dev",
-    "build": "bun run build:israel",
+    "build": "bun run build:egypt",
     "build:israel": "CONTENT_DIR=israel-2022 bun run images:build && CONTENT_DIR=israel-2022 bun run favicons:build && CONTENT_DIR=israel-2022 OUTPUT_DIR=build-israel-2022 bun run vite build",
     "build:egypt": "CONTENT_DIR=egypt-2025 bun run images:build && CONTENT_DIR=egypt-2025 bun run favicons:build && CONTENT_DIR=egypt-2025 OUTPUT_DIR=build-egypt-2025 bun run vite build",
     "generate": "bun run images:build && bun run favicons:build",
