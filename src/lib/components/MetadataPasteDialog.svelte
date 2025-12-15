@@ -42,7 +42,7 @@ let {
   onConfirm,
 }: {
   open: boolean;
-  clipboardData: Record<string, any>;
+  clipboardData: Record<string, any> | null;
   images?: ImageEntry[];
   onConfirm: (fieldsToApply: Record<string, boolean>, excludedImageIds: string[]) => void;
 } = $props();
@@ -209,11 +209,8 @@ function toggleAll(checked: boolean) {
               >
                 <div class="flex items-center gap-2">
                   <Checkbox
-                    checked={allSelected
-                      ? true
-                      : someSelected
-                        ? "indeterminate"
-                        : false}
+                    checked={allSelected}
+                    indeterminate={someSelected && !allSelected}
                     onCheckedChange={(v) => toggleAll(v === true)}
                   />
                   <span>Vybrat vše</span>

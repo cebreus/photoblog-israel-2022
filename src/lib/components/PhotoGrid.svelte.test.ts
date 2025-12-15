@@ -94,7 +94,6 @@ describe("PhotoGrid", () => {
     id: "sep1",
     location: "Test Location",
     city: "Test City",
-    date: "2022-01-01",
   };
 
   it("renders items including separators", async () => {

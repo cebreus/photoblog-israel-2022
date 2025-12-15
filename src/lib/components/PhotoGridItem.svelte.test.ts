@@ -83,13 +83,14 @@ vi.mock("svelte-sonner", () => ({
 describe("PhotoGridItem", () => {
   const mockItem = {
     id: "img-1",
-    type: "image",
+    type: "image" as const,
     src: "test.jpg",
     alt: "Test Image",
+    title: "Test Image",
     sources: [
       { type: "image/jpeg", path: "test.jpg", variant: "default", width: 100 },
       { type: "image/jpeg", path: "test.jpg", variant: "fallback", width: 100 },
-    ],
+    ] as any[],
     width: 100,
     height: 100,
   };
