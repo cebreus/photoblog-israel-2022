@@ -25,11 +25,11 @@ vi.mock("$lib/stores/editorState", () => {
     set: vi.fn(),
     subscribe: vi.fn(),
   };
-  
+
   return {
     showMetadataOverlay,
     selection,
-    editMode
+    editMode,
   };
 });
 

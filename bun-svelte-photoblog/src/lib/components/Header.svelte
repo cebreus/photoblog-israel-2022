@@ -23,8 +23,13 @@
 
 <header
   class="sticky h-14 top-0 border-b bg-slate-800 text-slate-100 z-10 border-slate-700 flex flex-row items-center px-6"
+  data-testid="header"
 >
-  <a href="/" class="text-lg font-semibold uppercase mr-auto">
+  <a
+    href="/"
+    class="text-lg font-semibold uppercase mr-auto"
+    data-testid="header-logo"
+  >
     {siteManifest?.open_graph?.site_name}
   </a>
 
@@ -34,8 +39,8 @@
         variant={$showMetadataOverlay ? "secondary" : "ghost"}
         size="icon"
         onclick={() => showMetadataOverlay.update((v) => !v)}
-        title="Zobrazit/skrýt popisky fotek"
-        data-testid="metadata-overlay-trigger"
+        aria-label="Zobrazit/skrýt popisky fotek"
+        data-testid="header-metadata-overlay-trigger"
       >
         <Tags strokeWidth={2.5} />
       </Button>
@@ -45,12 +50,15 @@
       variant={$debug ? "secondary" : "ghost"}
       size="icon"
       onclick={() => debug.update((v: boolean) => !v)}
-      title="Přepnout režim ladění"
-      data-testid="debug-trigger"
+      aria-label="Přepnout režim ladění"
+      data-testid="header-debug-trigger"
     >
       <Bug strokeWidth={2.5} />
     </Button>
   {/if}
 
-  <Sidebar.Trigger class="-me-1 rotate-180" />
+  <Sidebar.Trigger
+    class="-me-1 rotate-180"
+    data-testid="header-sidebar-trigger"
+  />
 </header>

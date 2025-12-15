@@ -28,7 +28,9 @@
   class="font-mono text-xs text-gray-200"
   style:--level={level}
   style:padding-left="calc(var(--level) * 0.5rem)"
+  data-testid="json-viewer"
 >
+  >
   {#if isObject(data)}
     <button
       onclick={toggle}

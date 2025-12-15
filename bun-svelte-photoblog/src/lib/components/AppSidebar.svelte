@@ -70,7 +70,13 @@
   });
 </script>
 
-<Sidebar.Root bind:ref {collapsible} {side} {...restProps}>
+<Sidebar.Root
+  bind:ref
+  {collapsible}
+  {side}
+  {...restProps}
+  data-testid="app-sidebar"
+>
   <Tabs.Root
     value={$activeTab}
     onValueChange={(v) => {
@@ -91,6 +97,7 @@
           <Tabs.Trigger
             value="agenda"
             class="flex-1 gap-2 data-[state=active]:bg-sidebar-accent data-[state=active]:text-sidebar-accent-foreground"
+            data-testid="app-sidebar-agenda-tab"
           >
             <Calendar class="size-4" />
             <span class="sr-only sm:not-sr-only">Agenda</span>
@@ -98,6 +105,7 @@
           <Tabs.Trigger
             value="filters"
             class="flex-1 gap-2 data-[state=active]:bg-sidebar-accent data-[state=active]:text-sidebar-accent-foreground"
+            data-testid="app-sidebar-filters-tab"
           >
             <SlidersHorizontal class="size-4" />
             <span class="sr-only sm:not-sr-only">Filtry</span>
@@ -106,6 +114,7 @@
             <Tabs.Trigger
               value="edit"
               class="flex-1 gap-2 data-[state=active]:bg-sidebar-accent data-[state=active]:text-sidebar-accent-foreground"
+              data-testid="app-sidebar-edit-tab"
             >
               <Pencil class="size-4" />
               <span class="sr-only sm:not-sr-only">Editace</span>

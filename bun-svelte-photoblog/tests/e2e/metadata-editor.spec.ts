@@ -11,7 +11,7 @@ test.describe("Metadata Editor E2E", () => {
 
   test("should write metadata to source file", async ({ page }) => {
     // 1. Activate edit mode by clicking the pencil icon
-    await page.click('[title="Toggle Edit Mode"]');
+    await page.click('[aria-label="Toggle Edit Mode"]');
     await expect(page).toHaveURL(/editMode=true/);
 
     // 2. Select the first image
@@ -109,7 +109,7 @@ test.describe("Metadata Editor E2E", () => {
 
   test("should handle batch editing of multiple images", async ({ page }) => {
     // 1. Activate edit mode
-    await page.click('[title="Toggle Edit Mode"]');
+    await page.click('[aria-label="Toggle Edit Mode"]');
 
     // 2. Select multiple images (first 3)
     const images = page.locator("figure");

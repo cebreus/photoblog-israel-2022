@@ -6,8 +6,8 @@ import { test, expect } from "@playwright/test";
 // filters offcanvas so it can assert switch state and that the URL updates with
 // slug CSV values.
 
-const FILTER_TRIGGER = '[data-testid="filters-offcanvas-trigger"]';
-const SWITCH_PREFIX = "filters-author-switch-";
+const FILTER_TRIGGER = '[data-testid="header-sidebar-trigger"]';
+const SWITCH_PREFIX = "filters-tab-author-switch-";
 
 // Helper to make a fully qualified selector from a slug
 function switchSelectorFor(slug: string) {

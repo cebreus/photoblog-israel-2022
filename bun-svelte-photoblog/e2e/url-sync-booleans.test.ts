@@ -8,7 +8,7 @@ import { test, expect } from "@playwright/test";
  * - All boolean param types (separators, labels, editMode, debug) work consistently
  */
 
-const FILTER_TRIGGER = '[data-testid="filters-offcanvas-trigger"]';
+const FILTER_TRIGGER = '[data-testid="header-sidebar-trigger"]';
 
 test.describe("URL boolean synchronization", () => {
   test("boolean params persist with true/false values", async ({ page }) => {

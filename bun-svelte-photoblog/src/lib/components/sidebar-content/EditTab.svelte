@@ -464,14 +464,14 @@
   {#if selectedImages.length > 0}
     <div
       class="flex flex-wrap gap-1 p-4 pt-2 border-b"
-      data-testid="selected-images"
+      data-testid="edit-tab-selected-images"
     >
       {#if selectedImages.length > 1}
         <Badge
           variant="destructive"
-          class="font-mono text-xs cursor-pointer hover:bg-destructive/90"
+          class="font-mono text-xs cursor-pointer"
           onclick={() => selection.clear()}
-          data-testid="edit-clear-selection"
+          data-testid="edit-tab-clear-selection"
         >
           Odebrat vše
         </Badge>
@@ -479,12 +479,11 @@
 
       {#if $metadataClipboard.data}
         <Badge
-          variant="secondary"
-          class="font-mono text-xs cursor-pointer hover:bg-secondary/80 gap-1"
+          class="font-mono text-ýxs cursor-pointer"
           onclick={handlePasteMetadata}
-          title="Vložit metadata na vybrané obrázky"
+          aria-label="Vložit metadata na vybrané obrázky"
+          data-testid="edit-tab-paste-metadata"
         >
-          <ClipboardPaste size={12} />
           Vložit metadata
         </Badge>
       {/if}
@@ -493,13 +492,13 @@
         <Badge
           variant="secondary"
           class="font-mono text-xs flex gap-1 items-center pr-1"
-          data-testid="edit-selected-image-{img.id}"
+          data-testid="edit-tab-selected-image-{img.id}"
         >
           {img.src.split("/").pop()}
           <button
             onclick={() => removeImage(img.id)}
             class="text-muted-foreground hover:text-foreground p-0.5 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-            title="Odebrat z výběru"
+            aria-label="Odebrat z výběru"
             type="button"
           >
             <X size={12} />
@@ -536,7 +535,7 @@
               size="icon"
               type="button"
               onclick={() => handleExplicitClear("caption")}
-              title="Smazat hodnotu"
+              aria-label="Smazat hodnotu"
             >
               <Trash2 class="size-4" />
             </Button>
@@ -571,7 +570,7 @@
                       size="icon"
                       type="button"
                       onclick={() => handleExplicitClear("location")}
-                      title="Smazat hodnotu"
+                      aria-label="Smazat hodnotu"
                     >
                       <Trash2 class="size-4" />
                     </Button>
@@ -581,7 +580,7 @@
                       type="button"
                       class="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 mt-1 transition-colors group"
                       onclick={() => restoreGeoValue("location")}
-                      title="Kliknutím vrátíte popisek"
+                      aria-label="Kliknutím vrátíte popisek"
                     >
                       <RotateCcw
                         size={10}
@@ -613,7 +612,7 @@
                       size="icon"
                       type="button"
                       onclick={() => handleExplicitClear("city")}
-                      title="Smazat hodnotu"
+                      aria-label="Smazat hodnotu"
                     >
                       <Trash2 class="size-4" />
                     </Button>
@@ -623,7 +622,7 @@
                       type="button"
                       class="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 mt-1 transition-colors group"
                       onclick={() => restoreGeoValue("city")}
-                      title="Kliknutím vrátíte původní hodnotu"
+                      aria-label="Kliknutím vrátíte původní hodnotu"
                     >
                       <RotateCcw
                         size={10}
@@ -655,7 +654,7 @@
                       size="icon"
                       type="button"
                       onclick={() => handleExplicitClear("state")}
-                      title="Smazat hodnotu"
+                      aria-label="Smazat hodnotu"
                     >
                       <Trash2 class="size-4" />
                     </Button>
@@ -665,7 +664,7 @@
                       type="button"
                       class="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 mt-1 transition-colors group"
                       onclick={() => restoreGeoValue("state")}
-                      title="Kliknutím vrátíte původní hodnotu"
+                      aria-label="Kliknutím vrátíte původní hodnotu"
                     >
                       <RotateCcw
                         size={10}
@@ -699,7 +698,7 @@
                       size="icon"
                       type="button"
                       onclick={() => handleExplicitClear("country")}
-                      title="Smazat hodnotu"
+                      aria-label="Smazat hodnotu"
                     >
                       <Trash2 class="size-4" />
                     </Button>
@@ -709,7 +708,7 @@
                       type="button"
                       class="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 mt-1 transition-colors group"
                       onclick={() => restoreGeoValue("country")}
-                      title="Kliknutím vrátíte původní hodnotu"
+                      aria-label="Kliknutím vrátíte původní hodnotu"
                     >
                       <RotateCcw
                         size={10}
@@ -743,7 +742,7 @@
                       size="icon"
                       type="button"
                       onclick={() => handleExplicitClear("countryCode")}
-                      title="Smazat hodnotu"
+                      aria-label="Smazat hodnotu"
                     >
                       <Trash2 class="size-4" />
                     </Button>
@@ -753,7 +752,7 @@
                       type="button"
                       class="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 mt-1 transition-colors group"
                       onclick={() => restoreGeoValue("countryCode")}
-                      title="Kliknutím vrátíte původní hodnotu"
+                      aria-label="Kliknutím vrátíte původní hodnotu"
                     >
                       <RotateCcw
                         size={10}
@@ -778,7 +777,7 @@
                   href={activeImage.googleMapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  title="Otevřít v Google Maps"
+                  aria-label="Otevřít v Google Maps"
                 >
                   Google Maps
                 </Button>
@@ -789,7 +788,7 @@
                 class="flex-1 gap-2"
                 onclick={handleFetchGeoData}
                 disabled={isFetchingGeo || !activeImage?.exif?.latitude}
-                title="Načíst adresu z GPS souřadnic"
+                aria-label="Načíst adresu z GPS souřadnic"
               >
                 {#if isFetchingGeo}
                   Loading...
@@ -819,7 +818,7 @@
               size="icon"
               type="button"
               onclick={() => handleExplicitClear("title")}
-              title="Smazat hodnotu"
+              aria-label="Smazat hodnotu"
             >
               <Trash2 class="size-4" />
             </Button>
@@ -844,7 +843,7 @@
               size="icon"
               type="button"
               onclick={() => handleExplicitClear("author")}
-              title="Smazat hodnotu"
+              aria-label="Smazat hodnotu"
             >
               <Trash2 class="size-4" />
             </Button>
@@ -870,7 +869,7 @@
               size="icon"
               type="button"
               onclick={() => handleExplicitClear("keywords")}
-              title="Smazat hodnotu"
+              aria-label="Smazat hodnotu"
             >
               <Trash2 class="size-4" />
             </Button>

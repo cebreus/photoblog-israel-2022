@@ -30,6 +30,7 @@
 
 <div
   class="absolute top-2 right-2 bg-gray-900 bg-opacity-50 p-1.5 rounded-md text-white pointer-events-none"
+  data-testid="aspect-ratio-icon"
 >
   {#if IconComponent}
     <IconComponent class="w-4 h-4" />

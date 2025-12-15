@@ -107,12 +107,12 @@
   <Sidebar.Content>
     <div
       class="relative px-6 py-4 border-b grid grid-cols-3 gap-4 text-center text-sm text-slate-400 bg-slate-100 dark:bg-slate-950"
-      data-testid="filters-stats"
+      data-testid="filters-tab-stats"
     >
       <div>
         <div
           class="font-semibold text-foreground text-lg tracking-tight"
-          data-testid="filters-stats-photos"
+          data-testid="filters-tab-stats-photos"
         >
           {#if totalPhotos > 0}
             {totalPhotos}
@@ -129,7 +129,7 @@
       <div>
         <div
           class="font-semibold text-foreground text-lg tracking-tight"
-          data-testid="filters-stats-authors"
+          data-testid="filters-tab-stats-authors"
         >
           {totalAuthors}
         </div>
@@ -139,7 +139,7 @@
       <div>
         <div
           class="font-semibold text-foreground text-lg tracking-tight"
-          data-testid="filters-stats-stops"
+          data-testid="filters-tab-stats-stops"
         >
           {totalLocations}
         </div>
@@ -148,7 +148,7 @@
     </div>
     <label
       class="px-6 py-4 border-b flex items-center justify-between gap-4 cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-900/50 transition-colors"
-      data-testid="filters-location-control"
+      data-testid="filters-tab-location-control"
     >
       <div>
         <p class="text-sm font-semibold">Zobrazit popisky</p>
@@ -157,12 +157,12 @@
       <Switch
         bind:checked={$showPhotoLabels}
         aria-label={$showPhotoLabels ? "Skrýt popisky" : "Zobrazit popisky"}
-        data-testid="filters-location-switch"
+        data-testid="filters-tab-location-switch"
       />
     </label>
     <label
       class="px-6 py-4 border-b flex items-center justify-between gap-4 cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-900/50 transition-colors"
-      data-testid="filters-separators-control"
+      data-testid="filters-tab-separators-control"
     >
       <div>
         <p class="text-sm font-semibold">Zobrazit zastávky</p>
@@ -171,7 +171,7 @@
       <Switch
         bind:checked={$showSeparators}
         aria-label={$showSeparators ? "Skrýt zastávky" : "Zobrazit zastávky"}
-        data-testid="filters-separators-switch"
+        data-testid="filters-tab-separators-switch"
       />
     </label>
 
@@ -192,7 +192,7 @@
               class={`flex items-center justify-between text-sm cursor-pointer ${
                 isActive ? "text-primary" : "text-slate-100"
               }`}
-              data-testid={`filters-author-${testIdKey}`}
+              data-testid={`filters-tab-author-${testIdKey}`}
             >
               <span class="flex items-center gap-2">
                 <span>{author.name}</span>
@@ -203,7 +203,7 @@
                 aria-label={isActive
                   ? `Vypnout filtr ${author.name}`
                   : `Zapnout filtr ${author.name}`}
-                data-testid={`filters-author-switch-${testIdKey}`}
+                data-testid={`filters-tab-author-switch-${testIdKey}`}
                 onCheckedChange={createToggleHandler(slugKey, author.name)}
               />
             </label>
