@@ -1,4 +1,9 @@
-import { getPhotoDays, getMenuItems, getSiteManifest } from "$lib";
+import {
+  getPhotoDays,
+  getMenuItems,
+  getSiteManifest,
+  getCurationManifest,
+} from "$lib";
 import type {
   MenuManifest,
   PhotoDay,
@@ -17,7 +22,7 @@ function gatherAuthors(photoDays: PhotoDay[]): Author[] {
       // use canonical top-level author only
       // use canonical top-level author only
       const rawAuthor = item.author || "";
-      
+
       counts.set(rawAuthor, (counts.get(rawAuthor) ?? 0) + 1);
     }
   }
@@ -36,11 +41,13 @@ export const load = async () => {
   const menuItems: MenuManifest = getMenuItems();
   const authors: Author[] = gatherAuthors(photoDays);
   const siteManifest: SiteManifest = getSiteManifest();
+  const curationManifest = getCurationManifest();
 
   return {
     photoDays,
     menuItems,
     authors,
     siteManifest,
+    curationManifest,
   };
 };

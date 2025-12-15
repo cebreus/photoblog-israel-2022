@@ -47,7 +47,7 @@
         type="button"
         onclick={onConfirm}
         disabled={isDeleting}
-        data-testid="delete-pics-confirm"
+        data-testid="delete-image-dialog-confirm"
       >
         {isDeleting ? "Mazání..." : "Potvrdit smazání"}
       </Button>

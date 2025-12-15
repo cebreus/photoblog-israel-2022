@@ -1,28 +1,28 @@
 <script lang="ts">
-  import { getSources } from "$lib/utils/images";
-  import type { ImageEntry, Separator, ImageSource } from "$lib/types/manifest";
+  import PhotoGridItem from "$lib/components/PhotoGridItem.svelte";
+  import type {
+    CurationManifest,
+    ImageEntry,
+    Separator,
+    CurationGroup,
+  } from "$lib/types/manifest";
   import { buttonVariants } from "$lib/components/ui/button";
   import * as Dialog from "$lib/components/ui/dialog";
-  import * as ContextMenu from "$lib/components/ui/context-menu";
   import { debug } from "$lib/stores/debug";
   import { selectedAuthors } from "$lib/stores/filters";
-  import JsonViewer from "$lib/components/debug/JsonViewer.svelte";
-  import { useScrollspy } from "$lib/actions/scrollspy"; // Import the useScrollspy action
-  import AspectRatioIcon from "$lib/components/AspectRatioIcon.svelte";
+  import { useScrollspy } from "$lib/actions/scrollspy";
   import DeleteImageDialog from "$lib/components/DeleteImageDialog.svelte";
   import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
   import { selection, editMode } from "$lib/stores/editorState";
   import { metadataClipboard } from "$lib/stores/metadataClipboard";
   import { toast } from "svelte-sonner";
   import { invalidateAll } from "$app/navigation";
-  import { page } from "$app/stores";
-  import { Trash2, Copy } from "lucide-svelte";
-  import { showMetadataOverlay } from "$lib/stores/editorState";
-
   import { toSlug } from "$lib/utils/strings";
+  import { isCurationMode } from "$lib/stores/uiState";
 
-  let { items } = $props<{
+  let { items, curationManifest } = $props<{
     items: DisplayItem[];
+    curationManifest?: CurationManifest;
   }>();
 
   // Derived edit mode state
@@ -51,14 +51,20 @@
     return map;
   });
 
-  function handleImageClick(id: string, e: MouseEvent | KeyboardEvent) {
-    if (!isEditMode) return;
-    if (e instanceof KeyboardEvent && e.key !== "Enter" && e.key !== " ")
-      return;
-    e.preventDefault();
-    selection.toggle(id);
-  }
+  // Map image ID to Curation Group
+  let curationMap = $derived.by(() => {
+    const map = new Map<string, CurationGroup>();
+    if (!curationManifest?.groups) return map;
 
+    for (const group of curationManifest.groups) {
+      for (const id of group.items) {
+        map.set(id, group);
+      }
+    }
+    return map;
+  });
+
+  // Selection clearing effect remains here as it affects global selection state
   $effect(() => {
     // Clear selection if mode disabled
     if (!isEditMode && $selection.size > 0) {
@@ -68,51 +74,54 @@
 
   type DisplayItem = ImageEntry | Separator;
 
-  function isFallback(source: ImageSource) {
-    return source.variant === "fallback";
-  }
-
-  function findFallbackSource(image: ImageEntry): ImageSource | undefined {
-    return image.sources.find(isFallback);
-  }
-
-  function isDetail(source: ImageSource) {
-    return source.variant === "detail";
-  }
-
-  function findDetailSource(image: ImageEntry): ImageSource | undefined {
-    return image.sources.find(isDetail) ?? image.sources[0];
-  }
-
-  function shouldShowAspectRatioIcon(aspectRatio: string | undefined): boolean {
-    if (!aspectRatio) return false;
-    return !aspectRatio.startsWith("landscape");
-  }
-
+  // Deletion and Metadata logic remains here to orchestrate dialogs
   let isDeleting = $state(false);
   let deleteDialogOpen = $state(false);
-  let imageToDelete = $state<ImageEntry | null>(null);
+  let imagesToDelete = $state<ImageEntry[]>([]);
 
   let isPastingOpen = $state(false);
   let imagesToPaste = $state<ImageEntry[]>([]);
   let isApplyingPaste = $state(false);
 
   function openDeleteDialog(item: ImageEntry) {
-    imageToDelete = item;
+    imagesToDelete = [item];
     deleteDialogOpen = true;
   }
 
+  function handleKeepGroup(keptItem: ImageEntry, group: CurationGroup) {
+    // Determine which items to delete (all in group EXCEPT the kept item)
+    const otherIds = group.items.filter((id) => id !== keptItem.id);
+
+    // Find the ImageEntry objects for these IDs
+    const toDelete: ImageEntry[] = [];
+    for (const item of items) {
+      if (item.type === "image" && otherIds.includes(item.id)) {
+        toDelete.push(item);
+      }
+    }
+
+    if (toDelete.length > 0) {
+      imagesToDelete = toDelete;
+      deleteDialogOpen = true;
+    } else {
+      toast.info("V této skupině nejsou žádné další obrázky ke smazání.");
+    }
+  }
+
   async function confirmDelete() {
-    if (!imageToDelete) return;
+    if (imagesToDelete.length === 0) return;
 
     isDeleting = true;
     try {
-      const itemsToDelete = [{ id: imageToDelete.id, src: imageToDelete.src }];
+      const itemsPayload = imagesToDelete.map((img) => ({
+        id: img.id,
+        src: img.src,
+      }));
 
       const res = await fetch("/api/images", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ids: itemsToDelete }),
+        body: JSON.stringify({ ids: itemsPayload }),
       });
 
       if (!res.ok) {
@@ -126,26 +135,34 @@
         result.errors.forEach((e: string) => toast.warning(e));
       }
 
-      if (result.deleted.length > 0) {
-        toast.success(`Úspěšně smazán soubor. Stránka se obnoví.`);
+      const deletedCount = result.deleted.length;
+      if (deletedCount > 0) {
+        toast.success(
+          `Úspěšně smazáno ${deletedCount} souborů. Stránka se obnoví.`,
+        );
       }
 
       // Close dialog
       deleteDialogOpen = false;
 
       // Remove from selection if selected
-      if ($selection.has(imageToDelete.id)) {
-        selection.remove(imageToDelete.id);
+      const deletedIds = new Set(result.deleted);
+      if ($selection.size > 0) {
+        // We can't iterate and delete safely, so we filter
+        // Actually, just remove known deleted IDs
+        for (const id of deletedIds) {
+          if ($selection.has(id as string)) selection.remove(id as string);
+        }
       }
 
-      // Refresh data to remove deleted image from grid
+      // Refresh data remove deleted images from grid
       await invalidateAll();
 
-      // Clear the imageToDelete
-      imageToDelete = null;
+      // Clear the imagesToDelete
+      imagesToDelete = [];
     } catch (e: any) {
       console.error(e);
-      toast.error(`Nepodařilo se smazat soubor: ${e.message}`);
+      toast.error(`Nepodařilo se smazat soubory: ${e.message}`);
     } finally {
       isDeleting = false;
     }
@@ -156,33 +173,78 @@
     toast.success(`Metadata zkopírována z "${item.src.split("/").pop()}"`);
   }
 
-  function handlePasteMetadata(item: ImageEntry) {
+  function handlePasteMetadata(item: ImageEntry, onlyThis = false) {
     const clipboard = $metadataClipboard;
 
-    // Prevent pasting to the same image that was copied
-    if (clipboard.sourceImage?.id === item.id) {
-      toast.error(
-        "Nemůžete vkládat metadata do stejného obrázku, ze kterého jste je kopírovali",
+    if (!onlyThis && $selection.has(item.id) && $selection.size > 1) {
+      // Paste to all selected
+      const selected = items.filter(
+        (i: DisplayItem): i is ImageEntry =>
+          i.type === "image" && $selection.has(i.id),
       );
-      return;
-    }
+      console.log("DEBUG: Paste Logic", {
+        itemId: item.id,
+        selectionSize: $selection.size,
+        sourceId: clipboard.sourceImage?.id,
+        selectedIds: selected.map((i: ImageEntry) => i.id),
+      });
 
-    imagesToPaste = [item];
+      // Filter out usage of source image as target
+      imagesToPaste = selected.filter(
+        (i: ImageEntry) => i.id !== clipboard.sourceImage?.id,
+      );
+
+      console.log(
+        "DEBUG: imagesToPaste",
+        imagesToPaste.map((i: ImageEntry) => i.id),
+      );
+    } else {
+      console.log("DEBUG: Single Paste", item.id);
+      // Prevent pasting to the same image that was copied
+      if (clipboard.sourceImage?.id === item.id) {
+        toast.error(
+          "Nemůžete vkládat metadata do stejného obrázku, ze kterého jste je kopírovali",
+        );
+        return;
+      }
+      imagesToPaste = [item];
+    }
     isPastingOpen = true;
   }
 
-  async function confirmPaste(fieldsToApply: Record<string, boolean>) {
+  async function confirmPaste(
+    fieldsToApply: Record<string, boolean>,
+    excludedImageIds: string[] = [],
+  ) {
     const clipboard = $metadataClipboard;
-
     if (!clipboard.data || imagesToPaste.length === 0) return;
+
+    // 1. Filter out excluded images from the operation
+    const targetImages = imagesToPaste.filter(
+      (img) => !excludedImageIds.includes(img.id),
+    );
+
+    // 2. Sync exclusion with global selection if needed
+    // User requested that manual exclusion in dialog should reflect in global selection
+    if (excludedImageIds.length > 0 && hasSelection) {
+      excludedImageIds.forEach((id) => {
+        if ($selection.has(id)) {
+          selection.toggle(id);
+        }
+      });
+    }
+
+    if (targetImages.length === 0) {
+      toast.info("Žádné obrázky k úpravě.");
+      // If we filtered everything out, we still close the dialog
+      isPastingOpen = false;
+      return;
+    }
 
     isApplyingPaste = true;
     try {
       const updatePayload = {
-        images: imagesToPaste.map((img) => ({
-          id: img.id,
-          src: img.src,
-        })),
+        ids: targetImages.map((img) => img.id),
         updates: {
           title:
             fieldsToApply.title && clipboard.data.title
@@ -259,281 +321,207 @@
       });
     }
   }
+
+  let isCurationActive = $derived($isCurationMode && !!curationManifest);
+
+  // Process items to integrate/inject curation groups into the flow
+  let processedItems = $derived.by(() => {
+    // If curation not active or no groups, just return items as is
+    if (!$isCurationMode || !curationManifest?.groups) {
+      return items.map((i: DisplayItem) => ({
+        type: "item" as const,
+        data: i,
+      }));
+    }
+
+    const result: (
+      | { type: "item"; data: DisplayItem }
+      | { type: "group"; data: CurationGroup; items: ImageEntry[] }
+    )[] = [];
+
+    // Create a map for fast lookup of ALL images in this chunk/day
+    const itemMap = new Map<string, ImageEntry>();
+    items.forEach((i: DisplayItem) => {
+      if (i.type === "image") itemMap.set(i.id, i);
+    });
+
+    // Pre-calculate valid groups:
+    // A group is valid ONLY if it has > 1 item present in the current view (itemMap).
+    // If a group has 0 or 1 item (e.g. duplicates were deleted), it effectively ceases to be a group.
+    const validGroupMap = new Map<
+      string,
+      { group: CurationGroup; items: ImageEntry[] }
+    >();
+
+    for (const group of curationManifest.groups) {
+      const presentItems = group.items
+        .map((id: string) => itemMap.get(id))
+        .filter((i: ImageEntry | undefined): i is ImageEntry => !!i);
+
+      // ONLY treat as a group if we have actual duplicates to show
+      if (presentItems.length > 1) {
+        // Map EACH item id to this group result, so we can trigger the group render on the first item we encounter
+        for (const item of presentItems) {
+          validGroupMap.set(item.id, { group, items: presentItems });
+        }
+      }
+    }
+
+    const processedGroupIds = new Set<string>();
+
+    for (const item of items) {
+      if (item.type === "separator") {
+        result.push({ type: "item", data: item });
+        continue;
+      }
+
+      // Check if this item is part of a VALID group
+      const validGroupData = validGroupMap.get(item.id);
+
+      if (validGroupData) {
+        if (!processedGroupIds.has(validGroupData.group.id)) {
+          // First time encountering this valid group -> Render the full group row
+          result.push({
+            type: "group",
+            data: validGroupData.group,
+            items: validGroupData.items,
+          });
+          processedGroupIds.add(validGroupData.group.id);
+        }
+        // If we already processed this group id, we skip this item (it's inside the group row)
+      } else {
+        // Not in a valid group (or group dissolved because < 2 items) -> render normally
+        result.push({ type: "item", data: item });
+      }
+    }
+
+    return result;
+  });
 </script>
 
-{#snippet MetadataTable({ item }: { item: ImageEntry })}
-  {@const fileName = item.src.split("/").pop() ?? item.src}
-  {@const metadataRows = [
-    { label: "Soubor", value: fileName },
-    { label: "Popisek", value: item.caption },
-    { label: "Místo", value: item.location },
-    { label: "Město", value: item.city },
-    { label: "Stát / Provincie", value: item.exif?.state },
-    {
-      label: "Země",
-      value: item.exif?.country
-        ? `${item.exif.country}${item.exif.countryCode ? ` (${item.exif.countryCode})` : ""}`
-        : item.exif?.countryCode || "∅",
-    },
-    { label: "Klíčová slova", value: item.keywords?.join(", ") },
-    { label: "Autor", value: item.author },
-    { label: "Název", value: item.exif?.title },
-  ]}
-
-  <div data-testid="image-metadata-container">
-    {#if $showMetadataOverlay}
-      <table
-        class="w-full text-[10px] bg-white/70 dark:bg-slate-900/70 rounded-sm"
-        data-testid="image-metadata-table"
-      >
-        <tbody>
-          {#each metadataRows as field, index}
-            <tr
-              class={index < metadataRows.length - 1
-                ? "border-b border-slate-400 dark:border-slate-600"
-                : ""}
-              data-testid="metadata-row-{field.label
-                .toLowerCase()
-                .replace(/\s+/g, '-')}"
-            >
-              <td
-                class="px-1 align-top text-muted-foreground font-medium min-w-16 pb-0.5 whitespace-nowrap"
-              >
-                {field.label}
-              </td>
-              <td class="font-mono truncate max-w-full min-w-0 w-full pb-0.5">
-                {#if field.value}
-                  {field.value}
-                {:else}
-                  <span class="text-muted-foreground">-</span>
-                {/if}
-              </td>
-            </tr>
-          {/each}
-        </tbody>
-      </table>
-    {/if}
-  </div>
-{/snippet}
-
-{#snippet ImageItem({ item }: { item: ImageEntry })}
-  {@const fallback = findFallbackSource(item)!}
-  {@const detailSource = findDetailSource(item)}
-  {@const isSelected = $selection.has(item.id)}
-  {@const scrollspyId = dimmedLocationMap.get(item.id)}
-
-  <ContextMenu.Root>
-    <ContextMenu.Trigger
-      class="relative block rounded-lg group text-left"
-      data-testid={`image-container-${item.id}`}
-      disabled={!isEditMode}
+{#each processedItems as entry}
+  {#if entry.type === "group"}
+    <!-- Full width row for duplicate group -->
+    <div
+      class="col-span-full bg-slate-100 dark:bg-slate-900/50 border rounded-xl p-4 my-8 shadow-inner"
+      data-testid="photo-grid-group"
     >
-      <svelte:element
-        this={isEditMode ? "div" : "a"}
-        href={isEditMode ? undefined : detailSource?.path}
-        data-fancybox={isEditMode ? undefined : "gallery"}
-        data-caption={isEditMode ? undefined : item.alt}
-        class="relative block rounded-lg group text-left"
+      <div
+        class="mb-4 flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2"
       >
-        <figure
-          data-label={item?.location ?? item?.caption ?? ""}
-          id={item.id}
-          data-testid="image-figure-{item.id}"
-          class={`relative bg-cover bg-center rounded-lg overflow-hidden duration-500 outline-background 
-          ${isSelected ? "outline-4 outline-blue-500 ring-2 ring-blue-300" : "hover:outline-orange-100 outline-4 outline-offset-2"} 
-          transition-[outline-color] ease-in-out ${$debug ? "flex flex-col" : ""}`}
-          style={`background-color: ${item.placeholderColor}`}
-        >
-          {#if scrollspyId}
-            <div
-              id={scrollspyId}
-              use:useScrollspy={{ id: scrollspyId }}
-              class="absolute inset-0 pointer-events-none"
-              data-testid="scrollspy-anchor-{scrollspyId}"
-            ></div>
-          {/if}
-          <picture class={`${$debug ? "shrink-0" : ""}`}>
-            {#each getSources(item) as source (source.type)}
-              <source
-                type={source.type}
-                srcset={source.srcset}
-                sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-              />
-            {/each}
-            <img
-              src={fallback.path}
-              alt={item.alt}
-              loading="lazy"
-              class="w-full h-full object-cover cursor-zoom-in"
-              width={fallback.width}
-              height={fallback.height}
-              data-testid="image-{item.id}"
-            />
-          </picture>
-          {#if shouldShowAspectRatioIcon(item.aspectRatio)}
-            <AspectRatioIcon aspectRatio={item.aspectRatio} />
-          {/if}
+        <h3 class="font-bold text-lg flex items-center gap-2">
+          <span class="text-amber-600 dark:text-amber-500">Řešení duplicit</span
+          >
+          <span
+            class="text-xs font-mono text-muted-foreground bg-white dark:bg-slate-800 border px-2 py-0.5 rounded"
+            >{entry.data.id.slice(0, 8)}</span
+          >
+        </h3>
+        <div class="text-sm text-muted-foreground">
+          Podobnost: {Math.round((entry.data.similarity ?? 0) * 100)}%
+        </div>
+      </div>
 
-          {#if $debug}
-            <div class="bg-black bg-opacity-75 p-2 w-full">
-              <JsonViewer data={item} />
-            </div>
-          {/if}
-
-          {#if isEditMode}
-            <!-- svelte-ignore a11y_click_events_have_key_events -->
-            <!-- svelte-ignore a11y_no_static_element_interactions -->
-            <div
-              class={`absolute inset-0 bg-black/10 transition-colors cursor-pointer ${isSelected ? "bg-blue-500/20" : "hover:bg-black/20"}`}
-              data-testid="image-edit-overlay-{item.id}"
-              onclick={(e: MouseEvent) => handleImageClick(item.id, e)}
-            >
-              <!-- svelte-ignore a11y_no_static_element_interactions -->
-              <div
-                class="absolute bottom-2 left-2 right-2 pointer-events-auto select-text"
-                onclick={(e) => e.stopPropagation()}
+      <!-- Re-use the grid layout for items inside, or flex -->
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+      >
+        {#each entry.items as item (item.id)}
+          <PhotoGridItem
+            {item}
+            mode="curation"
+            curationGroup={entry.data}
+            onDelete={openDeleteDialog}
+            onCopyMetadata={handleCopyMetadata}
+            onPasteMetadata={handlePasteMetadata}
+            onKeepGroup={handleKeepGroup}
+          />
+        {/each}
+      </div>
+    </div>
+  {:else}
+    <!-- Standard Item Rendering -->
+    {@const item = entry.data}
+    {#if item.type === "image"}
+      <PhotoGridItem
+        {item}
+        scrollspyId={dimmedLocationMap.get(item.id)}
+        curationGroup={curationMap.get(item.id)}
+        onDelete={openDeleteDialog}
+        onCopyMetadata={handleCopyMetadata}
+        onPasteMetadata={handlePasteMetadata}
+        onKeepGroup={handleKeepGroup}
+      />
+    {:else if item.type === "separator" && item.location}
+      {@const separatorId = item.id}
+      {#if item.story}
+        <Dialog.Root>
+          <Dialog.Trigger
+            class="aspect-video flex flex-col items-center justify-center p-4 bg-linear-to-br from-slate-100 to-slate-300 rounded-lg duration-500 outline-background hover:outline-orange-100 outline-4 outline-offset-2 transition-[outline-color] ease-in-out dark:from-slate-700 dark:to-slate-800"
+            data-testid="photo-grid-separator-trigger-{separatorId}"
+          >
+            <h3 class="text-lg" data-testid="photo-grid-separator-location">
+              {item.location}
+            </h3>
+            {#if item.city}
+              <p
+                class="text-sm text-muted-foreground"
+                data-testid="photo-grid-separator-city"
               >
-                {@render MetadataTable({ item })}
-              </div>
-              <div class="absolute top-2 right-2 pointer-events-auto">
-                <div
-                  class={`w-6 h-6 rounded border border-white ${isSelected ? "bg-blue-500" : "bg-black/50"} flex items-center justify-center shrink-0`}
-                  data-testid="image-checkbox-{item.id}"
-                >
-                  {#if isSelected}
-                    <svg
-                      data-testid="image-selection-checkbox"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="3"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      class="text-white"
-                      ><polyline points="20 6 9 17 4 12"></polyline></svg
-                    >
-                  {/if}
-                </div>
-              </div>
-            </div>
-          {:else}
-            <span class="sr-only">Open detail</span>
-          {/if}
-        </figure>
-      </svelte:element>
-    </ContextMenu.Trigger>
-
-    {#if isEditMode}
-      <ContextMenu.Portal>
-        <ContextMenu.Content class="w-56">
-          <ContextMenu.Item
-            class="flex items-center gap-2"
-            onclick={() => handleCopyMetadata(item)}
-          >
-            <Copy class="h-4 w-4" />
-            <span>Kopírovat metadata</span>
-          </ContextMenu.Item>
-
-          {#if $metadataClipboard.sourceImage?.id !== item.id && $metadataClipboard.data}
-            <ContextMenu.Item
-              class="flex items-center gap-2"
-              onclick={() => handlePasteMetadata(item)}
+                {item.city}
+              </p>
+            {/if}
+            <span
+              class={buttonVariants({
+                size: "sm",
+                variant: "link",
+                class: "text-sm mt-2",
+              })}
+              data-testid="photo-grid-separator-show-story"
             >
-              <Copy class="h-4 w-4 rotate-180" />
-              <span>Vložit metadata</span>
-            </ContextMenu.Item>
-          {/if}
-
-          <ContextMenu.Separator />
-
-          <ContextMenu.Item
-            class="flex items-center gap-2 text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-950"
-            onclick={() => openDeleteDialog(item)}
-          >
-            <Trash2 class="h-4 w-4" />
-            <span>Smazat obrázek</span>
-          </ContextMenu.Item>
-        </ContextMenu.Content>
-      </ContextMenu.Portal>
-    {/if}
-  </ContextMenu.Root>
-{/snippet}
-
-{#each items as item (item.type === "image" ? item.src : item.location)}
-  {#if item.type === "image"}
-    {@render ImageItem({ item })}
-  {:else if item.type === "separator" && item.location}
-    {@const separatorId = item.id}
-    {#if item.story}
-      <Dialog.Root>
-        <Dialog.Trigger
-          class="aspect-video flex flex-col items-center justify-center p-4 bg-linear-to-br from-slate-100 to-slate-300 rounded-lg duration-500 outline-background hover:outline-orange-100 outline-4 outline-offset-2 transition-[outline-color] ease-in-out dark:from-slate-700 dark:to-slate-800"
-          data-testid="separator-trigger-{separatorId}"
+              Zobrazit příběh
+            </span>
+          </Dialog.Trigger>
+          <Dialog.Content>
+            <Dialog.Header>
+              <Dialog.Title>{item.location}</Dialog.Title>
+              {#if item.city}
+                <Dialog.Description>{item.city}</Dialog.Description>
+              {/if}
+            </Dialog.Header>
+            <div
+              class="prose prose-sm dark:prose-invert max-w-none mt-4"
+              id={separatorId}
+              use:useScrollspy={{ id: separatorId }}
+              data-testid="photo-grid-separator-story-{separatorId}"
+            >
+              {@html item.story}
+            </div>
+          </Dialog.Content>
+        </Dialog.Root>
+      {:else}
+        <div
+          class="aspect-video flex flex-col items-center justify-center p-4 bg-linear-to-br from-slate-100 to-slate-300 rounded-lg dark:from-slate-700 dark:to-slate-800"
+          id={separatorId}
+          use:useScrollspy={{ id: separatorId }}
+          data-testid="photo-grid-separator-simple-{separatorId}"
         >
-          <h3 class="text-lg" data-testid="separator-location">
+          <h3 class="text-lg" data-testid="photo-grid-separator-location">
             {item.location}
           </h3>
           {#if item.city}
-            <p
-              class="text-sm text-muted-foreground"
-              data-testid="separator-city"
-            >
-              {item.city}
-            </p>
+            <p class="text-sm text-muted-foreground mt-1">{item.city}</p>
           {/if}
-          <span
-            class={buttonVariants({
-              size: "sm",
-              variant: "link",
-              class: "text-sm mt-2",
-            })}
-            data-testid="separator-show-story"
-          >
-            Zobrazit příběh
-          </span>
-        </Dialog.Trigger>
-        <Dialog.Content>
-          <Dialog.Header>
-            <Dialog.Title>{item.location}</Dialog.Title>
-            {#if item.city}
-              <Dialog.Description>{item.city}</Dialog.Description>
-            {/if}
-          </Dialog.Header>
-          <div
-            class="prose prose-sm dark:prose-invert max-w-none mt-4"
-            id={separatorId}
-            use:useScrollspy={{ id: separatorId }}
-            data-testid="separator-story-{separatorId}"
-          >
-            {@html item.story}
-          </div>
-        </Dialog.Content>
-      </Dialog.Root>
-    {:else}
-      <div
-        class="aspect-video flex flex-col items-center justify-center p-4 bg-linear-to-br from-slate-100 to-slate-300 rounded-lg dark:from-slate-700 dark:to-slate-800"
-        id={separatorId}
-        use:useScrollspy={{ id: separatorId }}
-        data-testid="separator-simple-{separatorId}"
-      >
-        <h3 class="text-lg" data-testid="separator-location">
-          {item.location}
-        </h3>
-        {#if item.city}
-          <p class="text-sm text-muted-foreground mt-1">{item.city}</p>
-        {/if}
-      </div>
+        </div>
+      {/if}
     {/if}
   {/if}
 {/each}
 
-{#if imageToDelete}
+{#if imagesToDelete.length > 0}
   <DeleteImageDialog
     bind:open={deleteDialogOpen}
-    images={[imageToDelete]}
+    images={imagesToDelete}
     {isDeleting}
     onConfirm={confirmDelete}
   />
@@ -543,9 +531,7 @@
   <MetadataPasteDialog
     bind:open={isPastingOpen}
     images={imagesToPaste}
-    sourceImage={$metadataClipboard.sourceImage!}
     clipboardData={$metadataClipboard.data}
-    isApplying={isApplyingPaste}
     onConfirm={confirmPaste}
   />
 {/if}

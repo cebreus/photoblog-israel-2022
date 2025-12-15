@@ -225,7 +225,7 @@
             if (v === "system") {
               resetMode();
             } else {
-              setMode(v);
+              setMode(v as "light" | "dark");
             }
           }}
           class="gap-1 border border-border rounded-lg p-1"

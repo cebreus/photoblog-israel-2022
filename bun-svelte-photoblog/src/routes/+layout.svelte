@@ -6,7 +6,12 @@
   import { ModeWatcher } from "mode-watcher";
   import { browser } from "$app/environment";
   import { showPhotoLabels } from "$lib/stores/photoLabels";
-  import type { Author, MenuManifest, SiteManifest } from "$lib/types/manifest";
+  import type {
+    Author,
+    MenuManifest,
+    SiteManifest,
+    CurationManifest,
+  } from "$lib/types/manifest";
   import { initUrlSync } from "$lib/stores/urlSync";
   import { Toaster } from "$lib/components/ui/sonner";
   import * as Sidebar from "$lib/components/ui/sidebar";
@@ -18,6 +23,7 @@
       authors: Author[];
       menuItems: MenuManifest;
       siteManifest: SiteManifest;
+      curationManifest?: CurationManifest;
     };
     children?: import("svelte").Snippet;
   }

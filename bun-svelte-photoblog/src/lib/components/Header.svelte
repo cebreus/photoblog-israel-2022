@@ -2,9 +2,10 @@
   import { page } from "$app/stores";
   import type { MenuManifest, PhotoDay } from "$lib/types/manifest";
   import { Button } from "$lib/components/ui/button";
-  import { Bug, Tags } from "lucide-svelte";
+  import { Bug, Tags, Sparkles } from "lucide-svelte";
   import { debug } from "$lib/stores/debug";
   import { editMode, showMetadataOverlay } from "$lib/stores/editorState";
+  import { isCurationMode } from "$lib/stores/uiState";
   import * as Sidebar from "$lib/components/ui/sidebar";
 
   type AuthorStats = {
@@ -45,6 +46,16 @@
         <Tags strokeWidth={2.5} />
       </Button>
     {/if}
+
+    <Button
+      variant={$isCurationMode ? "secondary" : "ghost"}
+      size="icon"
+      onclick={() => isCurationMode.update((v) => !v)}
+      aria-label="Režim kurátora"
+      data-testid="header-curation-trigger"
+    >
+      <Sparkles strokeWidth={2.5} />
+    </Button>
 
     <Button
       variant={$debug ? "secondary" : "ghost"}

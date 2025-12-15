@@ -3,8 +3,11 @@ import type {
   PhotoDay,
   ImageEntry,
   ImageSource,
+  CurationManifest,
 } from "../types/manifest";
 import manifest from "$manifests/images.manifest.json" with { type: "json" };
+// @ts-ignore
+import curationManifest from "$manifests/curation.manifest.json" with { type: "json" };
 
 // Helper to validate/cast the manifest safely
 function isManifest(acc: unknown): acc is Manifest {
@@ -21,6 +24,10 @@ export function getManifest(): Manifest {
 
 export function getPhotoDays(): PhotoDay[] {
   return typedManifest.photoDays ?? [];
+}
+
+export function getCurationManifest(): CurationManifest {
+  return curationManifest as unknown as CurationManifest;
 }
 
 /**
