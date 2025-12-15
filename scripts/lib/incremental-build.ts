@@ -11,6 +11,7 @@ import { buildGeneratorManifest, generateMenuManifest, updateManifest } from "./
 import type { ProcessedImageResult } from "./image-processor";
 import { processImage, type ImageProcessOptions } from "./image-processor";
 import matter from "gray-matter";
+import type { ImageEntry } from "../../src/lib/types/manifest";
 
 const logger = createLogger("images");
 
@@ -114,6 +115,7 @@ async function detectChanges(
   cache: Cache,
   srcRoot: string,
   outRoot: string,
+  manifestOnly: boolean,
 ) {
   const toProcess: string[] = [];
   const knownKeys = new Set(Object.keys(cache.files));
@@ -129,13 +131,17 @@ async function detectChanges(
       continue;
     }
 
-    const outputsExist = await Promise.all(
-      cached.outputs.map((p) => fileExists(path.join(outRoot, p)).catch(returnFalse)),
-    );
+    // In manifestOnly mode, we don't generate outputs, so don't check for them.
+    // Otherwise we'd re-process everything every time.
+    if (!manifestOnly) {
+      const outputsExist = await Promise.all(
+        cached.outputs.map((p) => fileExists(path.join(outRoot, p)).catch(returnFalse)),
+      );
 
-    if (outputsExist.some((exists) => !exists)) {
-      logger.verbose(`Output file missing for ${key}, reprocessing.`);
-      toProcess.push(file);
+      if (outputsExist.some((exists) => !exists)) {
+        logger.verbose(`Output file missing for ${key}, reprocessing.`);
+        toProcess.push(file);
+      }
     }
   }
   return { toProcess, toDelete: Array.from(knownKeys) };
@@ -192,7 +198,12 @@ async function processImages(
     concurrency,
     quiet,
     ...options
-  }: { concurrency: number | "auto"; quiet: boolean } & ImageProcessOptions,
+  }: {
+    concurrency: number | "auto";
+    quiet: boolean;
+    previousEntriesMap?: Map<string, ImageEntry>;
+    oldCache?: Cache;
+  } & ImageProcessOptions,
 ): Promise<ProcessedImageResult[]> {
   if (toProcess.length === 0) return [];
 
@@ -215,7 +226,13 @@ async function processImages(
       const pos = index++;
       if (pos >= toProcess.length) break;
       // eslint-disable-next-line no-await-in-loop
-      const res = await processImage(toProcess[pos], options);
+      const filePath = toProcess[pos];
+      const key = path.posix.normalize(path.relative(options.srcRoot, filePath));
+      const oldHash = (options as any).oldCache?.files?.[key]?.hash;
+      const baseName = path.basename(filePath);
+      const previousEntry = (options as any).previousEntriesMap?.get(baseName);
+
+      const res = await processImage(filePath, { ...options, oldHash, previousEntry });
       if (res) results.push(res);
       bar?.increment();
     }
@@ -272,7 +289,7 @@ async function updateCacheAndManifests({
     // to avoid keeping entries from a previous configuration (e.g. different CONTENT_DIR).
     const existingManifest = wasReset
       ? { photoDays: [] }
-      : await loadJSON(paths.manifestPath, {
+      : await loadJSON<Manifest>(paths.manifestPath, {
           photoDays: [],
         });
     finalManifest = updateManifest(results, toDelete, storyData, existingManifest);
@@ -359,11 +376,36 @@ export async function runIncrementalBuild(
     cacheAfter,
     CTX.srcRoot,
     CTX.outRoot,
+    ARGS.manifestOnly,
   );
 
   logger.info(`Found: ${toProcess.length} new/modified, ${toDelete.length} deleted.`);
 
   await pruneDeleted(toDelete, cacheAfter, CTX.outRoot);
+
+  // Build detailed "Process Item" list with extra method
+  // We need to pass the "old" hash from cache if available, AND the "previous" entry from manifest if available.
+
+  // 1. Load previous manifest to find reusable entries
+  // We need to load it ANYWAY for updateManifest later, so let's load it now if we haven't.
+  // Actually updateCacheAndManifests loads it inside. We should probably load it here and pass it down.
+  // But for now, let's just load it here for the map.
+  let previousManifest: Manifest = { photoDays: [] };
+  try {
+    previousManifest = await loadJSON<Manifest>(CTX.manifestPath, { photoDays: [] });
+  } catch (e) {
+    // ignore
+  }
+
+  // Create a quick lookup map: src -> ImageEntry
+  const previousEntries = new Map<string, ImageEntry>();
+  for (const day of previousManifest.photoDays) {
+    for (const item of day.items) {
+      if (item.type === "image" && item.src) {
+        previousEntries.set(item.src, item);
+      }
+    }
+  }
 
   const results = await processImages(toProcess, {
     ...ARGS,
@@ -372,6 +414,8 @@ export async function runIncrementalBuild(
     allowUpscale: opts.allowUpscale ?? false,
     formats: opts.formats ?? [...config.encoding.formats],
     qualityOverrides: opts.qualityOverrides ?? {},
+    previousEntriesMap: previousEntries,
+    oldCache: cacheAfter, // Cache that was JUST loaded (before pruning deleted) has the OLD hashes for these files.
   });
 
   // Always update manifest, even if results (processed images) are empty.

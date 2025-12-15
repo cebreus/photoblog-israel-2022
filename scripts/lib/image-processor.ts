@@ -105,6 +105,8 @@ export type ImageProcessOptions = {
   allowUpscale: boolean;
   formats: ImageFormat[];
   qualityOverrides: Partial<Record<QualityTypes, number>>;
+  previousEntry?: ImageEntry;
+  oldHash?: string;
 };
 
 let sharp: SharpModule | null = null;
@@ -192,20 +194,75 @@ export async function processImage(
 
     // Use exiftool to read metadata (it's robust for HEIC/XMP)
     // We run it on the ORIGINAL file (absPath), not the converted JPG, to get full original metadata
+    // OPTIMIZATION: Hash-based Reuse & Dev Mode Skip
+    // --------------------------------------------------------------------------------
+    let shouldAnalyze = !options.manifestOnly || options.curation;
+    let reusedAnalysis: Partial<ImageEntry["analysis"]> = {};
+    let reusedExif: Partial<ImageEntry["exif"]> = {};
+    let reusedOther: Partial<ImageEntry> = {};
+
+    if (options.previousEntry && options.oldHash && fileHash === options.oldHash) {
+      // CONTENT UNCHANGED -> Reuse expensive data
+      logger.verbose(`Hash match for ${key}, reusing analysis data.`);
+
+      const prev = options.previousEntry;
+
+      // Reuse analysis (Sharpness, Phash, Embedding)
+      reusedAnalysis = {
+        sharpness: prev.analysis?.sharpness,
+        phash: prev.analysis?.phash,
+        embedding: prev.analysis?.embedding,
+      };
+
+      // Reuse extracted EXIF related fields that might be expensive to re-normalize (though fast)
+      // Actually we can reuse the whole "exif" object block from manifest safely via Object.assign later
+      reusedExif = prev.exif || {};
+
+      // Reuse base properties
+      reusedOther = {
+        placeholderColor: prev.placeholderColor,
+        // We generally reconstruct title/caption traversing current standard, but reusing is also fine?
+        // Let's stick to reusing analysis primarily, as that's the slow part.
+      };
+
+      // If we reuse analysis, we skip recalculating it
+      // BUT if the reused analysis is empty (e.g. from a previous fast dev run) and we NEED analysis now (e.g. curation),
+      // then we must re-calculate.
+      const isAnalysisValid =
+        typeof reusedAnalysis.sharpness === "number" && reusedAnalysis.sharpness > 0;
+
+      if (shouldAnalyze && !isAnalysisValid) {
+        logger.verbose(`Hash match for ${key}, but previous analysis was skipped. Re-analyzing.`);
+        // Force re-analysis
+      } else {
+        shouldAnalyze = false;
+      }
+    }
+
+    // --------------------------------------------------------------------------------
+
     const [imageStats, exifTags, originalMeta, sharpnessScore, phash] = await Promise.all([
-      sharpInstance.stats(),
+      // Stats: needed for dominant color (placeholder). Reuse if matched.
+      shouldAnalyze ? sharpInstance.stats() : Promise.resolve(null),
+
+      // Exif: always fast, keeps metadata fresh even if content is same (e.g. if we want to re-parse different fields)
+      // BUT if hash matched, file content is identical including EXIF!
+      // So technically we COULD reuse EXIF too. But EXIF is fast.
+      // Let's keep reading EXIF to ensure any code changes in "how we read metadata" apply immediately.
       exiftool.read(absPath),
+
+      // Metadata: needed for dimensions. Always read. Fast.
       sharpInstance.metadata(),
-      calculateSharpness(sharpModule, processingPath),
-      calculatePhash(sharpModule, processingPath),
-      // Defer embedding until after date check if possible?
-      // Actually, we can just run them all, and filter before we return?
-      // But we want to SAVE TIME. Embedding is slow.
-      // ExifTool is fast.
-      // We should check Exif first?
-      // BUT `Promise.all` runs them in parallel.
-      // If run sequentially: Exif -> Check -> Embedding.
-      // Refactoring to run Exif first.
+
+      // Sharpness: SLOW. Reuse or Skip.
+      shouldAnalyze
+        ? calculateSharpness(sharpModule, processingPath)
+        : Promise.resolve(reusedAnalysis.sharpness ?? 0),
+
+      // Phash: SLOW. Reuse or Skip.
+      shouldAnalyze
+        ? calculatePhash(sharpModule, processingPath)
+        : Promise.resolve(reusedAnalysis.phash ?? ""),
     ]);
 
     // OPTIMIZATION: Date Filter for debugging
@@ -231,8 +288,8 @@ export async function processImage(
       }
     }
 
-    let embedding: number[] | undefined;
-    if (options.curation) {
+    let embedding: number[] | undefined = reusedAnalysis.embedding;
+    if (shouldAnalyze && options.curation) {
       embedding = await aiService.generateEmbedding(processingPath);
     }
 
@@ -319,7 +376,8 @@ export async function processImage(
     (exifRaw as any).keywords = getKeywordsList();
 
     const dominant = imageStats?.dominant || { r: 0, g: 0, b: 0 };
-    const placeholderColor = `rgb(${dominant.r},${dominant.g},${dominant.b})`;
+    const placeholderColor =
+      reusedOther.placeholderColor || `rgb(${dominant.r},${dominant.g},${dominant.b})`;
 
     // Detect faces for smart cropping
     let faces: FaceBox[] = [];
