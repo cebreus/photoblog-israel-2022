@@ -9,7 +9,7 @@ import path from "node:path";
 const IMAGE_SUBDIR = "pics";
 
 const contentDir = process.env.CONTENT_DIR || "egypt-2025";
-console.log(`Using content directory: ${contentDir}`);
+// console.log(`Using content directory: ${contentDir}`);
 
 export const config = {
   paths: {

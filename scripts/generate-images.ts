@@ -1,6 +1,6 @@
 // Suppress macOS GNotificationCenterDelegate warnings
 process.env.GLIB_LOG_LEVEL = "critical";
-
+import "sharp"; // Preload sharp to potentially avoid GNotificationCenterDelegate conflict with canvas
 import fsp from "node:fs/promises";
 import path from "node:path";
 import os from "node:os";
