@@ -32,19 +32,21 @@
 
 ### 1.1 Účel a popis
 
-**Photoblog Israel 2022** je interaktivní fotoblog zobrazující cestu Izraelem a Jordánskem v roce 2022 z pohledu Jaroslava Vrány. Jedná se o moderní webovou aplikaci postavenou na SvelteKit 5, která poskytuje uživatelům immersivní zážitek z prohlížení fotografií organizovaných po dnech, obohacených o kontextové informace o navštívených místech.
+Jedná se o moderní **multi-gallery fotoblog** postavený na SvelteKit 5 a běžící na Bun runtime. Klíčovým architektonickým konceptem je použití proměnné prostředí **`CONTENT_DIR`**, která umožňuje spravovat **více nezávislých galerií** (např. `israel-2022`, `egypt-2025`) z jediné kódové základny. Každá galerie má vlastní obsah, konfiguraci a generované assety.
 
-Projekt klade velký důraz na **výkon a optimalizaci obrázků** - jádrem je pokročilý systém pro generování a zpracování fotografií v různých formátech (AVIF, WebP, JPEG) a velikostech, s podporou LQIP (Low-Quality Image Placeholders) pro plynulé načítání.
+Projekt klade velký důraz na **výkon a optimalizaci obrázků** - jádrem je pokročilý systém pro generování a zpracování fotografií v různých formátech (AVIF, WebP, JPEG) a velikostech, s podporou LQIP (Low-Quality Image Placeholders) pro plynulé načítání. Díky multi-gallery architektuře lze snadno přidat novou galerii nebo buildovat různé galerie nezávisle na sobě.
 
 ### 1.2 Klíčové charakteristiky
 
+- **Multi-gallery architektura**: Jedna kódová základna, více galerií řízených proměnnou `CONTENT_DIR`
 - **Moderní technologický stack**: SvelteKit 5 s Svelte runes, Tailwind CSS v4, Bun runtime
 - **Pokročilé zpracování obrázků**: Automatizovaná generace variant v různých formátech a velikostech pomocí Sharp
-- **Performance-first přístup**: Lazy loading, optimalizované formáty, LQIP placeholders, inteligentní caching
+- **Performance-first přístup**: Lazy loading, optimalizované formáty, LQIP placeholders, hash-based smart caching
+- **Kurátorský režim**: Pokročilé nástroje pro editaci metadat, detekci duplikátů a správu fotografií
 - **Statický export**: Pre-rendered statická stránka s optimálním SEO
 - **Type-safe**: Kompletní TypeScript pokrytí napříč projektem
-- **Testování**: Komprehenzivní testing strategie (unit, integration, E2E)
-- **Developer Experience**: Moderní tooling (Biome, Stylelint, Playwright, Vitest)
+- **Testování**: Komprehenzivní testing strategie (unit, component, integration, E2E)
+- **Developer Experience**: Moderní tooling (Biome, Prettier, Stylelint, Playwright, Vitest)
 
 ### 1.3 Aktuální technologický stack
 
@@ -101,68 +103,78 @@ Projekt klade velký důraz na **výkon a optimalizaci obrázků** - jádrem je 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                     CONTENT LAYER                            │
-│  ../content/egypt-2025/     Originální JPEG fotografie      │
-│  ../content/pages/           Markdown články o místech       │
-│  ../content/maps/            Mapové podklady                 │
-│  ../content/routes-*/        GPS trasy                       │
-│  ../content/site.md          Globální konfigurace            │
+│  content/<CONTENT_DIR>/        Multi-gallery obsah          │
+│  ├─ pics/                      Originální JPEG/PNG/HEIC     │
+│  ├─ site.md                    Konfigurace galerie          │
+│  ├─ favicons-source.png        Zdroj pro favicon            │
+│  └─ *.md                       Story markdown soubory       │
 └──────────────────┬──────────────────────────────────────────┘
                    │
                    ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                  BUILD TIME LAYER                            │
 │                                                              │
-│  scripts/generate-images.ts                                  │
-│  ├─ Načte JPEG z content/egypt-2025/                       │
-│  ├─ Extrahuje EXIF metadata (datum, GPS, orientace)         │
-│  ├─ Generuje varianty (details, previews, previews-xl, xxs) │
+│  scripts/generate-images.ts (řízeno CONTENT_DIR)             │
+│  ├─ Načte JPEG/PNG/HEIC z content/<CONTENT_DIR>/pics/      │
+│  ├─ Extrahuje EXIF metadata (datum, GPS, IPTC, XMP)         │
+│  ├─ Generuje varianty (default, xl, detail, fallback)       │
 │  ├─ Vytváří formáty (AVIF, WebP, JPEG)                     │
-│  ├─ Generuje LQIP a blur placeholders                       │
-│  ├─ Ukládá do static/images/egypt-2025/                    │
-│  └─ Vytváří manifest: src/lib/images.manifest.json          │
+│  ├─ Generuje LQIP placeholders (24px blur)                  │
+│  ├─ Hash-based caching pro rychlost                         │
+│  ├─ Ukládá do static/<CONTENT_DIR>/images/                 │
+│  └─ Vytváří manifesty: src/lib/data/<CONTENT_DIR>/*.json    │
 │                                                              │
-│  Cache: .temp/images-egypt-2025.cache.json (hash cache)    │
+│  Cache: .temp/<CONTENT_DIR>/images.cache.json               │
+│  Režimy: --manifestOnly, --curation, --watch, --clean       │
 └──────────────────┬──────────────────────────────────────────┘
                    │
                    ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                   APPLICATION LAYER                          │
 │                                                              │
-│  SvelteKit Application (src/)                                │
+│  SvelteKit Application (src/) - sdílená mezi galeriemi      │
 │  ├─ routes/                  File-based routing             │
-│  │  ├─ +layout.server.ts     Server-side layout load        │
+│  │  ├─ +layout.server.ts     Načítá manifesty aktivní gal.  │
 │  │  ├─ +layout.ts            Client-side layout load        │
 │  │  ├─ +page.server.ts       Server-side page data load     │
-│  │  └─ +page.svelte          Page komponenta                │
+│  │  ├─ +page.svelte          Page komponenta                │
+│  │  └─ api/                  API endpointy (geocode, meta)  │
 │  │                                                           │
 │  ├─ lib/                     Shared code                     │
 │  │  ├─ components/           Svelte komponenty              │
 │  │  │  ├─ Hero.svelte        Hero sekce                     │
-│  │  │  ├─ PhotoGrid.svelte   Galerie fotografií             │
-│  │  │  ├─ Header.svelte      Hlavička                       │
-│  │  │  ├─ Footer.svelte      Patička                        │
-│  │  │  └─ ui/                UI knihovna komponent          │
+│  │  │  ├─ PhotoGrid.svelte   Galerie (masonry grid)         │
+│  │  │  ├─ AppSidebar.svelte  Sidebar s filtry/editor        │
+│  │  │  └─ ui/                Shadcn-svelte komponenty       │
+│  │  ├─ stores/               Svelte 5 stores (stav)         │
 │  │  ├─ types/                TypeScript typy                │
-│  │  └─ images.manifest.json  Runtime data o fotografiích    │
+│  │  ├─ utils/                Utility funkce                 │
+│  │  └─ data/<CONTENT_DIR>/   Manifesty aktivní galerie      │
+│  │     ├─ images.manifest.json                              │
+│  │     ├─ menu.manifest.json                                │
+│  │     └─ site.manifest.json                                │
 │  │                                                           │
 │  └─ app.html / app.css       HTML šablona a globální styly  │
+│                                                              │
+│  Alias $manifests → src/lib/data/<CONTENT_DIR>              │
 └──────────────────┬──────────────────────────────────────────┘
                    │
                    ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                     BUILD OUTPUT                             │
 │                                                              │
-│  Vite Build (vite build)                                     │
-│  └─ Generuje statický výstup do build/                      │
-│     ├─ HTML stránky (pre-rendered)                          │
+│  Vite Build (řízeno OUTPUT_DIR)                              │
+│  └─ Generuje statický výstup do build-<CONTENT_DIR>/        │
+│     ├─ HTML stránky (pre-rendered SSG)                      │
 │     ├─ JavaScript bundle (client-side hydration)            │
-│     ├─ CSS bundle (Tailwind utilities)                      │
+│     ├─ CSS bundle (Tailwind v4 utilities)                   │
 │     └─ _app/ (chunked assets)                               │
 │                                                              │
-│  Static Assets (static/)                                     │
-│  └─ Kopírovány do build/                                     │
-│     ├─ images/egypt-2025/  Optimizované fotografie         │
-│     └─ robots.txt           SEO konfigurace                  │
+│  Static Assets (static/<CONTENT_DIR>/)                       │
+│  └─ Kopírovány do build-<CONTENT_DIR>/                      │
+│     ├─ images/  Optimizované fotografie (AVIF/WebP/JPEG)    │
+│     ├─ assets/favicons/  Generované favicons                │
+│     └─ robots.txt (pokud existuje)                          │
 └─────────────────────────────────────────────────────────────┘
 ```
 
