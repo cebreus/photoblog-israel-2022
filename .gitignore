@@ -1,36 +1,36 @@
-test-results
-playwright-report/
-node_modules
+# Dependencies
+node_modules/
 
-# Output
-.generated/
-.netlify
-.output
+# Build & Output
+.netlify/
+.svelte-kit/
 .temp/
-.vercel
-.wrangler
-/.svelte-kit
-/build
-build-*
+.vercel/
+build/
+content/*/pics/
+static/*/assets/favicons/
+static/*/favicon.ico
+static/*/images/
 
-# OS
-.DS_Store
-Thumbs.db
+# Test & Reports
+**/__screenshots__/
+playwright-report/
+test-results/
+tests/fixtures/*.jpeg
+tests/fixtures/*.jpg
+tests/fixtures/*.png
+tests/fixtures/*.webp
 
-# Env
+# Tooling
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# Environment
 .env
 .env.*
 !.env.example
 !.env.test
 
-# Vite
-vite.config.js.timestamp-*
-vite.config.ts.timestamp-*
-
-# Debug & Temp
-**/__screenshots__/
-tests/fixtures/*.jpg
-tests/fixtures/*.jpeg
-tests/fixtures/*.png
-tests/fixtures/*.webp
-
+# OS
+.DS_Store
+Thumbs.db
