@@ -12,7 +12,7 @@ describe("image-processor logic", () => {
         "test-image",
         "/abs/path/to/test-image.jpg",
         exif,
-        { width: 1000, height: 800 }, // originalMeta
+        { width: 1000, height: 800 } as any, // originalMeta
         "#000000",
       );
     };

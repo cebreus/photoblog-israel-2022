@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { render } from "vitest-browser-svelte";
+import { page } from "@vitest/browser/context";
 import PhotoGridItem from "./PhotoGridItem.svelte";
 import { get } from "svelte/store";
 
@@ -96,11 +97,10 @@ describe("PhotoGridItem", () => {
   };
 
   it("renders the image", async () => {
-    const { getByRole } = render(PhotoGridItem, { item: mockItem });
+    render(PhotoGridItem, { item: mockItem });
 
-    // vitest-browser-svelte render returns queries
-    const img = getByRole("img");
-    // await expect.element(img).toBeVisible(); // Fails if image fails to load or has 0 dims
+    // In vitest-browser mode, we use 'page' from context
+    const img = page.getByRole("img");
     await expect.element(img).toBeInTheDocument();
     await expect.element(img).toHaveAttribute("src", "test.jpg");
   });

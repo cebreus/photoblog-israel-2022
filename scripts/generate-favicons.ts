@@ -143,9 +143,10 @@ async function executeRun(): Promise<void> {
   try {
     await run();
   } catch (e: any) {
-    logger.error("An error occurred during favicon generation.", {
-      error: e?.message ?? e,
-    });
+    logger.error(`An error occurred during favicon generation: ${e?.message ?? e}`);
+    if (e?.stack) {
+      console.error(e.stack);
+    }
     process.exit(1);
   }
 }

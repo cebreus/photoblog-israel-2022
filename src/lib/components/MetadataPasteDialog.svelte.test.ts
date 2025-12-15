@@ -54,7 +54,7 @@ describe("MetadataPasteDialog", () => {
 
   it("calls onConfirm with correct data", async () => {
     const onConfirm = vi.fn();
-    const { getByTestId } = render(MetadataPasteDialog, {
+    render(MetadataPasteDialog, {
       open: true,
       clipboardData,
       images: [mockImage],
@@ -62,7 +62,7 @@ describe("MetadataPasteDialog", () => {
     });
 
     // Click confirm button
-    const btn = getByTestId("metadata-paste-dialog-confirm");
+    const btn = page.getByTestId("metadata-paste-dialog-confirm");
     await btn.click();
 
     expect(onConfirm).toHaveBeenCalled();
@@ -75,7 +75,7 @@ describe("MetadataPasteDialog", () => {
 
   it("handles image exclusion", async () => {
     const onConfirm = vi.fn();
-    const { getByTestId } = render(MetadataPasteDialog, {
+    render(MetadataPasteDialog, {
       open: true,
       clipboardData,
       images: [mockImage, mockImage2], // Use 2 images so we can exclude 1
@@ -83,11 +83,11 @@ describe("MetadataPasteDialog", () => {
     });
 
     // Toggle exclusion for img1
-    const toggleBtn = getByTestId(`metadata-paste-dialog-exclude-${mockImage.id}`);
+    const toggleBtn = page.getByTestId(`metadata-paste-dialog-exclude-${mockImage.id}`);
     await toggleBtn.click();
 
     // Click confirm (should be enabled because img2 is still included)
-    const btn = getByTestId("metadata-paste-dialog-confirm");
+    const btn = page.getByTestId("metadata-paste-dialog-confirm");
     await expect.element(btn).toBeEnabled();
     await btn.click();
 

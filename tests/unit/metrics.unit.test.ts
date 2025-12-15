@@ -1,5 +1,6 @@
-import { describe, it, expect, beforeAll } from "bun:test";
+import { describe, it, expect, beforeAll } from "vitest";
 import path from "node:path";
+import fs from "node:fs/promises";
 import sharp from "sharp";
 import { calculatePhash, calculateSharpness } from "../../scripts/lib/image-utils";
 
@@ -10,7 +11,9 @@ describe("Metric Extraction (Unit)", () => {
 
   beforeAll(async () => {
     // Ensure fixtures dir exists
-    await Bun.write(path.dirname(sharpImgPath) + "/.keep", "");
+    const dir = path.dirname(sharpImgPath);
+    await fs.mkdir(dir, { recursive: true });
+    await fs.writeFile(dir + "/.keep", "");
 
     // Create a CHECKERBOARD pattern instead of random noise
     // Random noise behaves poorly with resizing (aliasing)

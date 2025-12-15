@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { render } from "vitest-browser-svelte";
+import { page } from "@vitest/browser/context";
 import PhotoGrid from "./PhotoGrid.svelte";
 import type { ImageEntry, Separator } from "$lib/types/manifest";
 
@@ -99,23 +100,23 @@ describe("PhotoGrid", () => {
   it("renders items including separators", async () => {
     const items = [mockSeparator, mockImage];
 
-    const { getByText, getByRole } = render(PhotoGrid, { items });
+    render(PhotoGrid, { items });
 
     // Check separator presence
-    await expect.element(getByText("Test Location")).toBeInTheDocument();
-    await expect.element(getByText("Test City")).toBeInTheDocument();
+    await expect.element(page.getByText("Test Location")).toBeInTheDocument();
+    await expect.element(page.getByText("Test City")).toBeInTheDocument();
 
     // Check image presence (delegated to PhotoGridItem, but we can check if it rendered an img)
     // With vitest-browser-svelte, components are real.
-    const img = getByRole("img");
+    const img = page.getByRole("img");
     await expect.element(img).toBeInTheDocument();
   });
 
   it("renders curation grid differently (simplified check)", async () => {
     // This tests if the logic for curation groups doesn't crash given undefined manifest
     const items = [mockImage];
-    const { getByRole } = render(PhotoGrid, { items });
-    const img = getByRole("img");
+    render(PhotoGrid, { items });
+    const img = page.getByRole("img");
     await expect.element(img).toBeInTheDocument();
   });
 });

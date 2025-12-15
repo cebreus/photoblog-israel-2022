@@ -78,16 +78,16 @@ describe("FiltersTab", () => {
   });
 
   it("toggles separators switch", async () => {
-    const { getByTestId } = render(FiltersTab, { authors });
-    const switchEl = getByTestId("filters-tab-separators-switch");
+    render(FiltersTab, { authors });
+    const switchEl = page.getByTestId("filters-tab-separators-switch");
 
     await switchEl.click();
     expect(showSeparators.set).toHaveBeenCalled();
   });
 
   it("toggles author filter", async () => {
-    const { getByTestId } = render(FiltersTab, { authors });
-    const authorSwitch = getByTestId("filters-tab-author-switch-author-one");
+    render(FiltersTab, { authors });
+    const authorSwitch = page.getByTestId("filters-tab-author-switch-author-one");
 
     await authorSwitch.click();
     expect(selectedAuthors.update).toHaveBeenCalled();
