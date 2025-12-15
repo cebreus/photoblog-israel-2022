@@ -229,7 +229,10 @@ export async function processImage(
       // BUT if the reused analysis is empty (e.g. from a previous fast dev run) and we NEED analysis now (e.g. curation),
       // then we must re-calculate.
       const isAnalysisValid =
-        typeof reusedAnalysis.sharpness === "number" && reusedAnalysis.sharpness > 0;
+        typeof reusedAnalysis.sharpness === "number" &&
+        reusedAnalysis.sharpness > 0 &&
+        typeof reusedAnalysis.phash === "string" &&
+        reusedAnalysis.phash.length > 0;
 
       if (shouldAnalyze && !isAnalysisValid) {
         logger.verbose(`Hash match for ${key}, but previous analysis was skipped. Re-analyzing.`);
@@ -239,11 +242,26 @@ export async function processImage(
       }
     }
 
+    // In manifest-only mode we still need analysis if we don't have valid reused values
+    if (!shouldAnalyze) {
+      const missingSharpness =
+        typeof reusedAnalysis.sharpness !== "number" || reusedAnalysis.sharpness <= 0;
+      const missingPhash =
+        typeof reusedAnalysis.phash !== "string" || reusedAnalysis.phash.length === 0;
+      if (missingSharpness || missingPhash) {
+        shouldAnalyze = true;
+      }
+    }
+
     // --------------------------------------------------------------------------------
+
+    const placeholderMissingOrDefault =
+      !reusedOther.placeholderColor || reusedOther.placeholderColor === "rgb(0,0,0)";
+    const shouldComputeStats = shouldAnalyze || placeholderMissingOrDefault;
 
     const [imageStats, exifTags, originalMeta, sharpnessScore, phash] = await Promise.all([
       // Stats: needed for dominant color (placeholder). Reuse if matched.
-      shouldAnalyze ? sharpInstance.stats() : Promise.resolve(null),
+      shouldComputeStats ? sharpInstance.stats() : Promise.resolve(null),
 
       // Exif: always fast, keeps metadata fresh even if content is same (e.g. if we want to re-parse different fields)
       // BUT if hash matched, file content is identical including EXIF!
