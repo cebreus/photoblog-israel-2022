@@ -13,7 +13,7 @@ import {
   showMetadataOverlay,
 } from "$lib/stores/editorState";
 import { debug } from "$lib/stores/debug";
-import { activeTab, isSidebarOpen } from "$lib/stores/uiState";
+import { activeTab, isSidebarOpen, isCurationMode } from "$lib/stores/uiState";
 import type { Author } from "$lib/types/manifest";
 import { toSlug } from "$lib/utils/strings";
 import { get } from "svelte/store";
@@ -217,6 +217,17 @@ export function initializeFiltersFromUrl(url: URL) {
     // User requested explicit param for OPEN state.
     isSidebarOpen.set(false);
   }
+
+  // Presence-only flag: `curation` means enabled.
+  if (url.searchParams.has("curation")) {
+    const val = url.searchParams.get("curation");
+    if (val === "" || val === null) {
+      isCurationMode.set(true);
+    } else {
+      const parsed = parseBooleanParam(val);
+      if (parsed !== undefined) isCurationMode.set(parsed);
+    }
+  }
 }
 
 let debounceTimer: ReturnType<typeof setTimeout>;
@@ -297,6 +308,10 @@ export function syncUrlFromFilters() {
     params.delete("sidebar");
     if (isSidebarOpenVal === true) params.set("sidebar", "");
 
+    const isCurationModeVal = get(isCurationMode);
+    params.delete("curation");
+    if (isCurationModeVal === true) params.set("curation", "");
+
     // Serialize params but render presence-only keys without trailing '='
     const presenceOnlyKeys = new Set([
       "labels",
@@ -305,6 +320,7 @@ export function syncUrlFromFilters() {
       "overlay",
       "no-separators",
       "sidebar",
+      "curation",
     ]);
     const rawPairs = params.toString().split("&").filter(Boolean);
     const normalizedPairs = rawPairs.map((p) => {
@@ -369,6 +385,7 @@ export function initUrlSync(initialAuthors: Author[]) {
   debug.subscribe(syncUrlFromFilters);
   activeTab.subscribe(syncUrlFromFilters);
   isSidebarOpen.subscribe(syncUrlFromFilters);
+  isCurationMode.subscribe(syncUrlFromFilters);
 
   // 3. When URL changes (e.g., back/forward button), update the filter stores
   page.subscribe((newPage) => {
