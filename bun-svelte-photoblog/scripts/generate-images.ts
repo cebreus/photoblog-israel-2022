@@ -22,7 +22,7 @@ let RUNTIME_FORMATS = [...config.encoding.formats];
 let RUNTIME_QUALITY_OVERRIDES: Partial<Record<QualityTypes, number>> = {};
 let RUNTIME_ALLOW_UPSCALE = false;
 
-const CACHE_VERSION = 11;
+const CACHE_VERSION = 13;
 
 // CLI parsing - Mutable for testing
 let parsed = parseCliArguments(process.argv.slice(2));
@@ -37,6 +37,7 @@ let ARGS: ExtendedScriptArgs = {
   verbose: parsed.verbose,
   quiet: parsed.quiet,
   manifestOnly: parsed.manifestOnly ?? false,
+  curation: parsed.curation ?? false,
   __raw: parsed,
 };
 
@@ -61,6 +62,7 @@ export function resetCliState() {
     verbose: parsed.verbose,
     quiet: parsed.quiet,
     manifestOnly: parsed.manifestOnly ?? false,
+    curation: parsed.curation ?? false,
     __raw: parsed,
   };
   RUNTIME_RAW = {};

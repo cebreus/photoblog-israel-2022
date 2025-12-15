@@ -47,6 +47,7 @@ export type CliOptions = {
   blurAvifQuality: number;
   blurJpegQuality: number;
   blurClean: boolean;
+  curation: boolean;
 };
 
 const QUALITY_FORMATS: readonly QualityFormat[] = [
@@ -140,6 +141,7 @@ export const DEFAULT_CLI_OPTIONS: CliOptions = {
   blurAvifQuality: config.blur.avifQuality,
   blurJpegQuality: config.blur.jpegQuality,
   blurClean: config.blur.clean,
+  curation: false,
 };
 
 type ArgHandler = (value: string, args: CliOptions) => void;
@@ -285,6 +287,9 @@ const CLI_FLAG_HANDLERS: Record<string, ArgHandler> = {
   },
   "blur.clean": function handleBlurClean(v, a) {
     a.blurClean = v === "true";
+  },
+  curation: function handleCuration(v, a) {
+    a.curation = v === "true";
   },
 };
 

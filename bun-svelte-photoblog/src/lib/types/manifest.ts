@@ -64,6 +64,12 @@ export type ImageEntry = {
   category?: string;
   googleMapsUrl?: string;
 
+  analysis?: {
+    sharpness: number;
+    phash: string;
+    embedding?: number[];
+  };
+
   exif?: {
     date?: string;
     location?: string;
@@ -136,6 +142,28 @@ export type MenuDay = {
   items?: PhotoDayItem[];
 };
 
+export type CurationRecommendation = {
+  action: "keep" | "delete";
+  reason: string;
+};
+
+export type CurationGroup = {
+  id: string;
+  items: string[];
+  bestCandidateId: string;
+  similarity: number;
+  recommendations: Record<string, CurationRecommendation>;
+};
+
+export type CurationManifest = {
+  groups: CurationGroup[];
+  stats: {
+    totalPhotos: number;
+    totalGroups: number;
+    duplicatesFound: number;
+  };
+};
+
 export type MenuManifest = MenuDay[];
 
 /** Represents global site settings from site.md */
@@ -202,6 +230,7 @@ export type ScriptArgs = {
   verbose: boolean;
   quiet: boolean;
   manifestOnly: boolean;
+  curation: boolean;
 };
 
 export type CacheFileEntry = {

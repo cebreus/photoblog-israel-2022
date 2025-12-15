@@ -341,6 +341,7 @@ export async function runIncrementalBuild(
   ARGS: {
     concurrency: number | "auto";
     manifestOnly: boolean;
+    curation: boolean;
     quiet: boolean;
     limit: number | 0;
   },
