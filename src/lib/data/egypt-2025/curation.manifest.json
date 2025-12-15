@@ -1,123 +1,171 @@
 {
   "groups": [
     {
-      "id": "group-img-img1012",
+      "id": "group-img-img8083",
       "items": [
-        "img-img1012",
-        "img-img8149"
+        "img-img8083",
+        "img-img8088",
+        "img-img8090",
+        "img-img8091"
       ],
-      "bestCandidateId": "img-img1012",
-      "similarity": 0.915748661136991,
+      "bestCandidateId": "img-img8088",
+      "similarity": 0.9407113881224045,
       "recommendations": {
-        "img-img1012": {
+        "img-img8088": {
           "action": "keep",
           "reason": "Best candidate"
         },
-        "img-img8149": {
-          "action": "delete",
-          "reason": "Semantic duplicate"
-        }
-      }
-    },
-    {
-      "id": "group-img-img1013",
-      "items": [
-        "img-img1013",
-        "img-img8150"
-      ],
-      "bestCandidateId": "img-img8150",
-      "similarity": 0.9107777340882552,
-      "recommendations": {
-        "img-img8150": {
-          "action": "keep",
-          "reason": "Best candidate"
-        },
-        "img-img1013": {
+        "img-img8090": {
           "action": "delete",
           "reason": "Less sharp"
-        }
-      }
-    },
-    {
-      "id": "group-img-img8164",
-      "items": [
-        "img-img8164",
-        "img-img8191"
-      ],
-      "bestCandidateId": "img-img8164",
-      "similarity": 0.8976474902240645,
-      "recommendations": {
-        "img-img8164": {
-          "action": "keep",
-          "reason": "Best candidate"
         },
-        "img-img8191": {
+        "img-img8083": {
+          "action": "delete",
+          "reason": "Less sharp"
+        },
+        "img-img8091": {
           "action": "delete",
           "reason": "Lower resolution"
         }
       }
     },
     {
-      "id": "group-img-img8165",
+      "id": "group-img-img1228",
       "items": [
-        "img-img8165",
-        "img-img8166"
+        "img-img1228",
+        "img-img1230"
       ],
-      "bestCandidateId": "img-img8166",
-      "similarity": 0.9203417807338524,
+      "bestCandidateId": "img-img1228",
+      "similarity": 0.892162935576389,
       "recommendations": {
-        "img-img8166": {
+        "img-img1228": {
           "action": "keep",
           "reason": "Best candidate"
         },
-        "img-img8165": {
-          "action": "delete",
-          "reason": "Less sharp"
-        }
-      }
-    },
-    {
-      "id": "group-img-img8174",
-      "items": [
-        "img-img8174",
-        "img-img8175"
-      ],
-      "bestCandidateId": "img-img8174",
-      "similarity": 0.9103987287449345,
-      "recommendations": {
-        "img-img8174": {
-          "action": "keep",
-          "reason": "Best candidate"
-        },
-        "img-img8175": {
-          "action": "delete",
-          "reason": "Less sharp"
-        }
-      }
-    },
-    {
-      "id": "group-img-img8220",
-      "items": [
-        "img-img8220",
-        "img-img8221"
-      ],
-      "bestCandidateId": "img-img8220",
-      "similarity": 0.8930669174931002,
-      "recommendations": {
-        "img-img8220": {
-          "action": "keep",
-          "reason": "Best candidate"
-        },
-        "img-img8221": {
+        "img-img1230": {
           "action": "delete",
           "reason": "Lower resolution"
+        }
+      }
+    },
+    {
+      "id": "group-img-img1296",
+      "items": [
+        "img-img1296",
+        "img-img1297"
+      ],
+      "bestCandidateId": "img-img1296",
+      "similarity": 0.9055345838577112,
+      "recommendations": {
+        "img-img1296": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img-img1297": {
+          "action": "delete",
+          "reason": "Lower resolution"
+        }
+      }
+    },
+    {
+      "id": "group-img-img1304",
+      "items": [
+        "img-img1304",
+        "img-img1305"
+      ],
+      "bestCandidateId": "img-img1304",
+      "similarity": 0.8906404733410915,
+      "recommendations": {
+        "img-img1304": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img-img1305": {
+          "action": "delete",
+          "reason": "Less sharp"
+        }
+      }
+    },
+    {
+      "id": "group-img-img1461",
+      "items": [
+        "img-img1461",
+        "img-img1463"
+      ],
+      "bestCandidateId": "img-img1461",
+      "similarity": 0.9087419853631861,
+      "recommendations": {
+        "img-img1461": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img-img1463": {
+          "action": "delete",
+          "reason": "Lower resolution"
+        }
+      }
+    },
+    {
+      "id": "group-img-img1643",
+      "items": [
+        "img-img1643",
+        "img-img1908"
+      ],
+      "bestCandidateId": "img-img1908",
+      "similarity": 0.9033491019059708,
+      "recommendations": {
+        "img-img1908": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img-img1643": {
+          "action": "delete",
+          "reason": "Less sharp"
+        }
+      }
+    },
+    {
+      "id": "group-img-img1906",
+      "items": [
+        "img-img1906",
+        "img-img1907"
+      ],
+      "bestCandidateId": "img-img1906",
+      "similarity": 0.9209475283897145,
+      "recommendations": {
+        "img-img1906": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img-img1907": {
+          "action": "delete",
+          "reason": "Less sharp"
+        }
+      }
+    },
+    {
+      "id": "group-img-img1930",
+      "items": [
+        "img-img1930",
+        "img-img1931"
+      ],
+      "bestCandidateId": "img-img1930",
+      "similarity": 0.895641727942771,
+      "recommendations": {
+        "img-img1930": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img-img1931": {
+          "action": "delete",
+          "reason": "Lower resolution, Less sharp"
         }
       }
     }
   ],
   "stats": {
-    "totalPhotos": 99,
-    "totalGroups": 6,
-    "duplicatesFound": 6
+    "totalPhotos": 334,
+    "totalGroups": 8,
+    "duplicatesFound": 10
   }
 }
