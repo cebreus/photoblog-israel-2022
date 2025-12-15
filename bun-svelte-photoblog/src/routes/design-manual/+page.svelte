@@ -202,7 +202,7 @@
           <div
             class="bg-blue-200 ring-1 ring-blue-300"
             style="width: {item.px}px; height: {item.px}px;"
-            title="Class: p-{item.size} | Px: {item.px}"
+            title="Class: p-{item.size} | px: {item.px}"
           ></div>
           <p class="text-xs mt-1">p-{item.size}</p>
         </div>

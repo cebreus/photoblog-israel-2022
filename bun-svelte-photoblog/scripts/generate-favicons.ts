@@ -142,9 +142,7 @@ async function run() {
     return !htmlLine.includes('favicon.ico"');
   }
 
-  const finalHtml = response.html
-    .filter(filterOutIco)
-    .join("\n");
+  const finalHtml = response.html.filter(filterOutIco).join("\n");
   await fs.writeFile(tempFaviconHtmlPath, finalHtml);
   logger.info(`Wrote temporary favicons.html to ${tempFaviconHtmlPath}`);
 
