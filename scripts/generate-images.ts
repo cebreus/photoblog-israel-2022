@@ -22,7 +22,7 @@ let RUNTIME_FORMATS = [...config.encoding.formats];
 let RUNTIME_QUALITY_OVERRIDES: Partial<Record<QualityTypes, number>> = {};
 let RUNTIME_ALLOW_UPSCALE = false;
 
-const CACHE_VERSION = 13;
+const CACHE_VERSION = 14;
 
 // CLI parsing - Mutable for testing
 let parsed = parseCliArguments(process.argv.slice(2));

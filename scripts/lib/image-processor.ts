@@ -415,6 +415,8 @@ export async function processImage(
     const outputs: string[] = [];
     const sources: ImageSource[] = [];
 
+    const sizeMB = Number((stats.size / 1024 / 1024).toFixed(2));
+
     const imageEntry = await createImageEntry(
       baseName,
       absPath,
@@ -424,6 +426,7 @@ export async function processImage(
       sharpnessScore,
       phash,
       embedding,
+      sizeMB,
     );
 
     const outputDefinitions = buildOutputDefinitions();
@@ -511,6 +514,7 @@ export async function createImageEntry(
   sharpness?: number,
   phash?: string,
   embedding?: number[],
+  sizeMB?: number,
 ): Promise<ImageEntry> {
   const titleCanonical = normalizeText(
     exif.ObjectName || exif.Headline || exif.Title || exif["dc:title"] || exif.ImageDescription,
@@ -560,6 +564,7 @@ export async function createImageEntry(
     caption: captionCanonical,
     width: originalMeta.width,
     height: originalMeta.height,
+    sizeMB,
     aspectRatio:
       originalMeta.width && originalMeta.height
         ? getAspectRatioName(originalMeta.width, originalMeta.height)

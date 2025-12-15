@@ -129,10 +129,10 @@
     {
       label: "Datum pořízení",
       value: item.date
-      ? new Date(item.date).toLocaleString([], {
-          dateStyle: "short",
-          timeStyle: "short",
-        })
+        ? new Date(item.date).toLocaleString([], {
+            dateStyle: "short",
+            timeStyle: "short",
+          })
         : undefined,
     },
     { label: "Autor", value: item.author },
@@ -148,7 +148,11 @@
     { label: "Klíčová slova", value: item.keywords?.join(", ") },
     { label: "Popisek", value: item.caption },
     { label: "Název", value: item.exif?.title },
-      { label: "Rozměry", value: item.width && item.height ? `${item.width} x ${item.height}` : "—" },
+    { label: "Rozměry", value: item.width && item.height ? `${item.width} x ${item.height}` : "—" },
+    {
+      label: "Velikost",
+      value: item.sizeMB != null ? `${item.sizeMB} MB` : "—",
+    },
     {
       label: "Sharpness / phash",
       value: item.analysis
@@ -366,7 +370,7 @@
     </svelte:element>
 
     {#if isCurationModeLayout}
-    {@render MetadataBlock({ item })}
+      {@render MetadataBlock({ item })}
       {@render CurationActions()}
     {/if}
   </ContextMenu.Trigger>

@@ -63,6 +63,7 @@ export type ImageEntry = {
   copyright?: string;
   category?: string;
   googleMapsUrl?: string;
+  sizeMB?: number;
 
   analysis?: {
     sharpness: number;
