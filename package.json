@@ -35,7 +35,7 @@
     "lint": "biome check . && bun run lint:css",
     "lint:css": "stylelint '**/*.css'",
     "lint:fix": "biome check --write .",
-    "format": "biome format --write . && prettier \"**/*.{svelte,md,html,css,ts}\" --plugin prettier-plugin-svelte -w -l",
+    "format": "biome format --write . && prettier \"**/*.{svelte,md,html,css}\" --plugin prettier-plugin-svelte -w -l",
     "format:check": "biome format . && prettier \"**/*.{svelte,md,html,css}\" --plugin prettier-plugin-svelte --check",
     "lint:ci": "biome check --reporter=summary --diagnostic-level=warn ."
   },
@@ -78,6 +78,7 @@
     "stylelint": "^16.26.1",
     "stylelint-config-standard": "^39.0.1",
     "stylelint-config-tailwindcss": "^1.0.0",
+    "stylelint-high-performance-animation": "^1.11.0",
     "svelte": "^5.45.8",
     "svelte-check": "^4.3.4",
     "svelte-sonner": "^1.0.5",

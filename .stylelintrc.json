@@ -3,7 +3,11 @@
     "stylelint-config-standard",
     "stylelint-config-tailwindcss"
   ],
+  "plugins": [
+    "stylelint-high-performance-animation"
+  ],
   "rules": {
+    "plugin/no-low-performance-animation-properties": true,
     "selector-class-pattern": "^[a-z]([a-z0-9-]+)?(__([a-z0-9]+(-[a-z0-9]+)*))?(--([a-z0-9]+(-[a-z0-9]+)*))?$"
   }
 }

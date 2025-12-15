@@ -1,8 +1,8 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.9/schema.json",
   "files": {
     "includes": [
-      "**/./**",
+      "**",
       "!**/node_modules",
       "!**/build",
       "!**/dist",
@@ -28,7 +28,29 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "complexity": {
+        "recommended": true,
+        "useArrowFunction": "off"
+      },
+      "suspicious": {
+        "recommended": true,
+        "noConsole": "warn"
+      },
+      "style": {
+        "recommended": true,
+        "useBlockStatements": "off"
+      },
+      "correctness": {
+        "recommended": true,
+        "noUnusedVariables": "error",
+        "noUnusedImports": "error"
+      }
     }
+  },
+  "javascript": {
+    "globals": [
+      "Bun"
+    ]
   }
 }
