@@ -92,12 +92,12 @@
     <div class="flex flex-col gap-0.5 text-xs text-muted-foreground">
       {#if item.date}
         <div class="flex items-center gap-1">
-          <span
-            >{new Date(item.date).toLocaleString([], {
+          <span>
+            {new Date(item.date).toLocaleString([], {
               dateStyle: "short",
               timeStyle: "short",
-            })}</span
-          >
+            })}
+          </span>
         </div>
       {/if}
       {#if item.author}
@@ -126,7 +126,16 @@
   {@const fileName = item.src.split("/").pop() ?? item.src}
   {@const metadataRows = [
     { label: "Soubor", value: fileName },
-    { label: "Popisek", value: item.caption },
+    {
+      label: "Datum pořízení",
+      value: item.date
+      ? new Date(item.date).toLocaleString([], {
+          dateStyle: "short",
+          timeStyle: "short",
+        })
+        : undefined,
+    },
+    { label: "Autor", value: item.author },
     { label: "Místo", value: item.location },
     { label: "Město", value: item.city },
     { label: "Stát / Provincie", value: item.exif?.state },
@@ -134,35 +143,42 @@
       label: "Země",
       value: item.exif?.country
         ? `${item.exif.country}${item.exif.countryCode ? ` (${item.exif.countryCode})` : ""}`
-        : item.exif?.countryCode || "∅",
+        : item.exif?.countryCode || "—",
     },
     { label: "Klíčová slova", value: item.keywords?.join(", ") },
-    { label: "Autor", value: item.author },
+    { label: "Popisek", value: item.caption },
     { label: "Název", value: item.exif?.title },
+      { label: "Rozměry", value: item.width && item.height ? `${item.width} x ${item.height}` : "—" },
+    {
+      label: "Sharpness / phash",
+      value: item.analysis
+        ? `${item.analysis.sharpness?.toFixed(2) ?? "—"}, ${item.analysis.phash ?? "—"}`
+        : "—",
+    },
   ]}
 
   <div data-testid="photo-grid-item-metadata-container">
     {#if $showMetadataOverlay}
       <table
-        class="w-full text-[10px] bg-white/70 dark:bg-slate-900/70 rounded-sm"
+        class="w-full text-xs dark:bg-slate-950 rounded-sm mt-2"
         data-testid="photo-grid-item-metadata-table"
       >
         <tbody>
           {#each metadataRows as field, index}
             <tr
               class={index < metadataRows.length - 1
-                ? "border-b border-slate-400 dark:border-slate-600"
+                ? "border-b border-slate-400 dark:border-slate-700"
                 : ""}
               data-testid="photo-grid-item-metadata-row-{field.label
                 .toLowerCase()
                 .replace(/\s+/g, '-')}"
             >
               <td
-                class="px-1 align-top text-muted-foreground font-medium min-w-16 pb-0.5 whitespace-nowrap"
+                class="px-1 align-baseline text-muted-foreground font-medium min-w-16 py-1 whitespace-nowrap"
               >
                 {field.label}
               </td>
-              <td class="font-mono truncate max-w-full min-w-0 w-full pb-0.5">
+              <td class="font-mono max-w-full min-w-0 w-full py-1 line-clamp-3">
                 {#if field.value}
                   {field.value}
                 {:else}
@@ -245,115 +261,112 @@
             data-testid="photo-grid-item-image-{item.id}"
           />
         </picture>
-
-        {#if isCurationActive && !isCurationModeLayout}
-          <div class="absolute top-2 left-2 pointer-events-none">
-            <div class="bg-amber-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded shadow">
-              DUPLICITY
-            </div>
-          </div>
-        {/if}
-
-        {#if shouldShowAspectRatioIcon(item.aspectRatio)}
-          <AspectRatioIcon aspectRatio={item.aspectRatio} />
-        {/if}
-
-        {#if isEditMode || (isCurationActive && !isCurationModeLayout)}
-          <!-- Old Grid Overlay Logic -->
-          <!-- svelte-ignore a11y_click_events_have_key_events -->
-          <!-- svelte-ignore a11y_no_static_element_interactions -->
-          <div
-            class={cn(
-              "absolute inset-0 transition-colors cursor-pointer",
-              isSelected ? "bg-blue-500/20" : "hover:bg-black/20",
-              isCurationActive && !isCurationModeLayout && "bg-amber-500/10 hover:bg-amber-500/20",
-              !isEditMode && isCurationActive ? "" : "bg-black/10",
-            )}
-            data-testid={`photo-grid-item-overlay-${item.id}`}
-            onclick={(e: MouseEvent) => (isEditMode ? handleImageClick(item.id, e) : undefined)}
-          >
-            {#if isEditMode}
-              <!-- svelte-ignore a11y_no_static_element_interactions -->
-              <div
-                class="absolute bottom-2 left-2 right-2 pointer-events-auto select-text"
-                onclick={(e) => e.stopPropagation()}
-              >
-                {@render MetadataTable({ item })}
-              </div>
-              <div class="absolute top-2 right-2 pointer-events-auto">
-                <div
-                  class={`w-6 h-6 rounded border border-white ${isSelected ? "bg-blue-500" : "bg-black/50"} flex items-center justify-center shrink-0`}
-                  data-testid="photo-grid-item-checkbox-{item.id}"
-                >
-                  {#if isSelected}
-                    <svg
-                      data-testid={`photo-grid-item-selection-indicator-${item.id}`}
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="3"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      class="text-white"><polyline points="20 6 9 17 4 12"></polyline></svg
-                    >
-                  {/if}
-                </div>
-              </div>
-            {/if}
-
-            {#if isCurationActive && !isCurationModeLayout}
-              <div
-                class="absolute inset-0 flex items-center justify-center gap-2 pointer-events-none"
-              >
-                <div
-                  class="pointer-events-auto flex items-center gap-4 bg-black/60 p-2 rounded-full backdrop-blur-sm"
-                >
-                  <button
-                    class="bg-green-600 hover:bg-green-700 text-white p-2 rounded-full transition-colors"
-                    aria-label="Ponechat tuto fotku a smazat ostatní"
-                    onclick={handleKeep}
-                  >
-                    <Check class="size-6" />
-                  </button>
-                  <button
-                    class="bg-red-600 hover:bg-red-700 text-white p-2 rounded-full transition-colors"
-                    aria-label="Smazat tuto fotku"
-                    onclick={handleDelete}
-                  >
-                    <Trash2 class="size-6" />
-                  </button>
-                  <button
-                    class="bg-slate-600 hover:bg-slate-700 text-white p-2 rounded-full transition-colors"
-                    aria-label="Informace o skupině"
-                  >
-                    <Info class="size-6" />
-                  </button>
-                </div>
-              </div>
-            {/if}
-          </div>
-        {:else}
-          <!-- If isCurationModeLayout, we still want click to open detail, so we need an interactive element? -->
-          <!-- Actually svelte:element checks above handle the type "a" if !isEditMode. -->
-          <!-- If we are in curation mode layout, we WANT the anchor tag behavior. -->
-
-          <!-- Ensure clickable link visually implies action if hovered? -->
-          <span class="sr-only">Open detail</span>
-        {/if}
       </figure>
 
+      {#if isCurationActive && !isCurationModeLayout}
+        <div class="absolute top-2 left-2 pointer-events-none">
+          <div class="bg-amber-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded shadow">
+            DUPLICITY
+          </div>
+        </div>
+      {/if}
+
+      {#if shouldShowAspectRatioIcon(item.aspectRatio)}
+        <AspectRatioIcon aspectRatio={item.aspectRatio} />
+      {/if}
+
+      {#if isEditMode || (isCurationActive && !isCurationModeLayout)}
+        <!-- Old Grid Overlay Logic -->
+        <!-- svelte-ignore a11y_click_events_have_key_events -->
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
+        <div
+          class={cn(
+            "absolute inset-0 transition-colors cursor-pointer",
+            isSelected ? "bg-blue-500/20" : "hover:bg-black/20",
+            isCurationActive && !isCurationModeLayout && "bg-amber-500/10 hover:bg-amber-500/20",
+            !isEditMode && isCurationActive ? "" : "bg-black/10",
+          )}
+          data-testid={`photo-grid-item-overlay-${item.id}`}
+          onclick={(e: MouseEvent) => (isEditMode ? handleImageClick(item.id, e) : undefined)}
+        >
+          {#if isEditMode}
+            <div class="absolute top-2 right-2 pointer-events-auto">
+              <div
+                class={`w-6 h-6 rounded border border-white ${isSelected ? "bg-blue-500" : "bg-black/50"} flex items-center justify-center shrink-0`}
+                data-testid="photo-grid-item-checkbox-{item.id}"
+              >
+                {#if isSelected}
+                  <svg
+                    data-testid={`photo-grid-item-selection-indicator-${item.id}`}
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="text-white"><polyline points="20 6 9 17 4 12"></polyline></svg
+                  >
+                {/if}
+              </div>
+            </div>
+          {/if}
+
+          {#if isCurationActive && !isCurationModeLayout}
+            <div
+              class="absolute inset-0 flex items-center justify-center gap-2 pointer-events-none"
+            >
+              <div
+                class="pointer-events-auto flex items-center gap-4 bg-black/60 p-2 rounded-full backdrop-blur-sm"
+              >
+                <button
+                  class="bg-green-600 hover:bg-green-700 text-white p-2 rounded-full transition-colors"
+                  aria-label="Ponechat tuto fotku a smazat ostatní"
+                  onclick={handleKeep}
+                >
+                  <Check class="size-6" />
+                </button>
+                <button
+                  class="bg-red-600 hover:bg-red-700 text-white p-2 rounded-full transition-colors"
+                  aria-label="Smazat tuto fotku"
+                  onclick={handleDelete}
+                >
+                  <Trash2 class="size-6" />
+                </button>
+                <button
+                  class="bg-slate-600 hover:bg-slate-700 text-white p-2 rounded-full transition-colors"
+                  aria-label="Informace o skupině"
+                >
+                  <Info class="size-6" />
+                </button>
+              </div>
+            </div>
+          {/if}
+        </div>
+      {:else}
+        <!-- If isCurationModeLayout, we still want click to open detail, so we need an interactive element? -->
+        <!-- Actually svelte:element checks above handle the type "a" if !isEditMode. -->
+        <!-- If we are in curation mode layout, we WANT the anchor tag behavior. -->
+
+        <!-- Ensure clickable link visually implies action if hovered? -->
+        <span class="sr-only">Open detail</span>
+      {/if}
+
+      {#if isEditMode}
+        {@render MetadataTable({ item })}
+      {/if}
+
       {#if $debug}
-        <div class="p-2 bg-slate-950 rounded-b-xl">
+        <div class="p-2 bg-slate-950 rounded-b-xl mt-2">
           <JsonViewer data={item} />
         </div>
       {/if}
     </svelte:element>
 
     {#if isCurationModeLayout}
-      {@render MetadataBlock({ item })}
+    {@render MetadataBlock({ item })}
       {@render CurationActions()}
     {/if}
   </ContextMenu.Trigger>
