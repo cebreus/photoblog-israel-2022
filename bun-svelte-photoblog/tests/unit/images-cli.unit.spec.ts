@@ -22,10 +22,12 @@ vi.spyOn(processor, "cleanup").mockImplementation(async () => {});
 // However, we want to ensure we don't pollute the project root.
 // process-helpers.runGenerator handles CWD mocking.
 
+import { config } from "../../scripts/config";
+
 const CWD = path.resolve(__dirname, "../../");
 
 function getTmpDir(prefix: string) {
-  const tmpRoot = path.join(CWD, "tmp-test-artifacts");
+  const tmpRoot = path.join(CWD, config.paths.tmp, "test-artifacts");
   if (!fs.existsSync(tmpRoot)) {
     fs.mkdirSync(tmpRoot, { recursive: true });
   }

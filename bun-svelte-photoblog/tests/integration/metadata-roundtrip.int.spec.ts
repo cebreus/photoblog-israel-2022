@@ -8,10 +8,12 @@ import { getKeywords } from "../../scripts/lib/image-utils";
 import { buildInputSet } from "../utils/fixtures";
 import sharp from "sharp";
 
+import { config } from "../../scripts/config";
+
 const CWD = path.resolve(__dirname, "../../");
 
 function getTmpDir(prefix: string) {
-  const tmpRoot = path.join(CWD, "tmp-integration");
+  const tmpRoot = path.join(CWD, config.paths.tmp, "integration");
   if (!fs.existsSync(tmpRoot)) {
     fs.mkdirSync(tmpRoot, { recursive: true });
   }

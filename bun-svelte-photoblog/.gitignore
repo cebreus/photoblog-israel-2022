@@ -1,7 +1,5 @@
 test-results
 playwright-report/
-tmp-test-artifacts/
-tmp-integration/
 node_modules
 
 # Output
@@ -28,3 +26,11 @@ Thumbs.db
 # Vite
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Debug & Temp
+**/__screenshots__/
+tests/fixtures/*.jpg
+tests/fixtures/*.jpeg
+tests/fixtures/*.png
+tests/fixtures/*.webp
+
