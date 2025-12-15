@@ -8,7 +8,8 @@
   import * as Form from "$lib/components/ui/form";
   import type { ImageEntry, Separator } from "$lib/types/manifest";
   import { toast } from "svelte-sonner";
-  import { X, Trash2, RotateCcw } from "lucide-svelte";
+  import { X, Trash2, RotateCcw, ClipboardPaste } from "lucide-svelte";
+  import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
   import { fade } from "svelte/transition";
   import { selection, editMode } from "$lib/stores/editorState";
   import { superForm } from "sveltekit-superforms";
@@ -37,6 +38,7 @@
   const form = superForm(initialData, {
     SPA: true,
     dataType: "json",
+    validators: false as any, // Explicitly false to suppress warning
     // No validators - relying on manual optional fields
     onUpdate: async ({ form }) => {
       if (form.valid) {
@@ -452,6 +454,13 @@
       </div>
     </div>
   {/if}
+
+  <MetadataPasteDialog
+    bind:open={isPastingOpen}
+    clipboardData={$metadataClipboard.data}
+    onConfirm={confirmPaste}
+  />
+
   {#if selectedImages.length > 0}
     <div
       class="flex flex-wrap gap-1 p-4 pt-2 border-b"
@@ -467,6 +476,19 @@
           Odebrat vše
         </Badge>
       {/if}
+
+      {#if $metadataClipboard.data}
+        <Badge
+          variant="secondary"
+          class="font-mono text-xs cursor-pointer hover:bg-secondary/80 gap-1"
+          onclick={handlePasteMetadata}
+          title="Vložit metadata na vybrané obrázky"
+        >
+          <ClipboardPaste size={12} />
+          Vložit metadata
+        </Badge>
+      {/if}
+
       {#each selectedImages as img (img.id)}
         <Badge
           variant="secondary"

@@ -97,7 +97,8 @@ async function run() {
     ...config.manifestConfig,
     path: `/${contentDir}/assets/favicons/`,
     lang: config.lang,
-    logging: false, // Force logging off as we do our own.
+    // @ts-ignore
+    appleMobileWebAppCapable: false, // Disable deprecated tag
   };
 
   const response = await favicons(config.sourceFile, configuration);
@@ -140,7 +141,10 @@ async function run() {
   function filterOutIco(htmlLine: string) {
     return !htmlLine.includes('favicon.ico"');
   }
-  const finalHtml = response.html.filter(filterOutIco).join("\n");
+
+  const finalHtml = response.html
+    .filter(filterOutIco)
+    .join("\n");
   await fs.writeFile(tempFaviconHtmlPath, finalHtml);
   logger.info(`Wrote temporary favicons.html to ${tempFaviconHtmlPath}`);
 
