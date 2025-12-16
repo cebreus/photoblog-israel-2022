@@ -8,7 +8,7 @@
   import * as Form from "$lib/components/ui/form";
   import type { ImageEntry, Separator } from "$lib/types/manifest";
   import { toast } from "svelte-sonner";
-  import { X, Trash2, RotateCcw, ClipboardPaste } from "lucide-svelte";
+  import { X, Trash2, RotateCcw } from "lucide-svelte";
   import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
   import { fade } from "svelte/transition";
   import { selection, editMode } from "$lib/stores/editorState";

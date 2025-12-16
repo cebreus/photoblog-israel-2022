@@ -10,7 +10,6 @@
   import { isCurationMode } from "$lib/stores/uiState";
   import { metadataClipboard } from "$lib/stores/metadataClipboard";
   import { Trash2, Copy, Check, Info } from "lucide-svelte";
-  import { toast } from "svelte-sonner";
   import { cn } from "$lib/utils";
 
   let {
@@ -90,12 +89,12 @@
 </script>
 
 {#snippet MetadataBlock({ item }: { item: ImageEntry })}
-  <div class="space-y-1 text-sm pt-2">
-    <div class="font-bold truncate" title={item.src.split("/").pop()}>
+  <div class="space-y-1 pt-2 text-sm">
+    <div class="truncate font-bold" title={item.src.split("/").pop()}>
       {item.src.split("/").pop()}
     </div>
 
-    <div class="flex flex-col gap-0.5 text-xs text-muted-foreground">
+    <div class="text-muted-foreground flex flex-col gap-0.5 text-xs">
       {#if item.date}
         <div class="flex items-center gap-1">
           <span>
@@ -117,9 +116,9 @@
 {/snippet}
 
 {#snippet CurationActions()}
-  <div class="flex items-center gap-2 pt-2 mt-auto">
+  <div class="mt-auto flex items-center gap-2 pt-2">
     <button
-      class="w-full bg-red-600/90 hover:bg-red-700 text-white py-1.5 px-3 rounded flex items-center justify-center gap-2 transition-colors text-sm font-medium"
+      class="flex w-full items-center justify-center gap-2 rounded bg-red-600/90 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-red-700"
       aria-label="Smazat tuto fotku"
       onclick={handleDelete}
     >
@@ -170,7 +169,7 @@
   <div data-testid="photo-grid-item-metadata-container">
     {#if $showMetadataOverlay}
       <table
-        class="w-full text-xs dark:bg-slate-950 rounded-sm mt-2"
+        class="mt-2 w-full rounded-sm text-xs dark:bg-slate-950"
         data-testid="photo-grid-item-metadata-table"
       >
         <tbody>
@@ -184,12 +183,12 @@
                 .replace(/\s+/g, '-')}"
             >
               <td
-                class="px-1 align-baseline text-muted-foreground font-medium min-w-16 py-1 whitespace-nowrap"
+                class="text-muted-foreground min-w-16 px-1 py-1 align-baseline font-medium whitespace-nowrap"
               >
                 {field.label}
               </td>
-              <td class="font-mono max-w-full min-w-0 w-full py-1 line-clamp-3">
-                {#if field.value}
+              <td class="line-clamp-3 w-full max-w-full min-w-0 py-1 font-mono">
+                {#if field.label === "Aesthetic / Sharpness" && typeof field.value === "object" && field.value}
                   {field.value}
                 {:else}
                   <span class="text-muted-foreground">-</span>
@@ -206,9 +205,9 @@
 <ContextMenu.Root>
   <ContextMenu.Trigger
     class={cn(
-      "relative block rounded-lg group text-left",
+      "group relative block rounded-lg text-left",
       isCurationModeLayout
-        ? "w-64 flex flex-col p-2 bg-white dark:bg-slate-800 border rounded shadow-sm hover:shadow-md transition-shadow"
+        ? "flex w-64 flex-col rounded border bg-white p-2 shadow-sm transition-shadow hover:shadow-md dark:bg-slate-800"
         : "",
     )}
     data-testid={`photo-grid-item-container-${item.id}`}
@@ -225,7 +224,7 @@
       data-caption={isEditMode || (isCurationActive && !isCurationModeLayout)
         ? undefined
         : item.alt}
-      class="relative block rounded-lg group text-left"
+      class="group relative block rounded-lg text-left"
       data-testid="photo-grid-item"
     >
       <figure
@@ -233,14 +232,14 @@
         id={item.id}
         data-testid="photo-grid-item-figure-{item.id}"
         class={cn(
-          "aspect-video overflow-hidden relative bg-cover bg-center rounded-lg duration-300 outline-background transition-[outline-color,border-color] ease-in-out border-2 border-transparent",
+          "outline-background relative aspect-video overflow-hidden rounded-lg border-2 border-transparent bg-cover bg-center transition-[outline-color,border-color] duration-300 ease-in-out",
           isSelected
-            ? "outline-4 outline-blue-500 ring-2 ring-blue-300"
-            : "hover:outline-orange-100 outline-4 outline-offset-2",
+            ? "ring-2 ring-blue-300 outline-4 outline-blue-500"
+            : "outline-4 outline-offset-2 hover:outline-orange-100",
           // Only apply amber border if NOT in curation layout mode (where layout itself indicates grouping)
           isCurationActive &&
             !isCurationModeLayout &&
-            "border-amber-500 outline-amber-500/50 outline-2",
+            "border-amber-500 outline-2 outline-amber-500/50",
           $debug && "flex flex-col",
         )}
         style={`background-color: ${item.placeholderColor}`}
@@ -249,7 +248,7 @@
           <div
             id={scrollspyId}
             use:useScrollspy={{ id: scrollspyId }}
-            class="absolute inset-0 pointer-events-none"
+            class="pointer-events-none absolute inset-0"
             data-testid="photo-grid-item-scrollspy-anchor-{scrollspyId}"
           ></div>
         {/if}
@@ -265,7 +264,7 @@
             src={fallback.path}
             alt={item.alt}
             loading="lazy"
-            class="w-full h-full object-cover cursor-zoom-in"
+            class="h-full w-full cursor-zoom-in object-cover"
             width={fallback.width}
             height={fallback.height}
             data-testid="photo-grid-item-image-{item.id}"
@@ -274,8 +273,8 @@
       </figure>
 
       {#if isCurationActive && !isCurationModeLayout}
-        <div class="absolute top-2 left-2 pointer-events-none">
-          <div class="bg-amber-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded shadow">
+        <div class="pointer-events-none absolute top-2 left-2">
+          <div class="rounded bg-amber-500 px-1.5 py-0.5 text-[10px] font-bold text-white shadow">
             DUPLICITY
           </div>
         </div>
@@ -291,7 +290,7 @@
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <div
           class={cn(
-            "aspect-video absolute inset-0 transition-colors cursor-pointer",
+            "absolute inset-0 aspect-video cursor-pointer transition-colors",
             isSelected ? "bg-blue-500/20" : "hover:bg-black/20",
             isCurationActive && !isCurationModeLayout && "bg-amber-500/10 hover:bg-amber-500/20",
             !isEditMode && isCurationActive ? "" : "bg-black/10",
@@ -300,9 +299,9 @@
           onclick={(e: MouseEvent) => (isEditMode ? handleImageClick(item.id, e) : undefined)}
         >
           {#if isEditMode}
-            <div class="absolute top-2 right-2 pointer-events-auto">
+            <div class="pointer-events-auto absolute top-2 right-2">
               <div
-                class={`w-6 h-6 rounded border border-white ${isSelected ? "bg-blue-500" : "bg-black/50"} flex items-center justify-center shrink-0`}
+                class={`h-6 w-6 rounded border border-white ${isSelected ? "bg-blue-500" : "bg-black/50"} flex shrink-0 items-center justify-center`}
                 data-testid="photo-grid-item-checkbox-{item.id}"
               >
                 {#if isSelected}
@@ -326,27 +325,27 @@
 
           {#if isCurationActive && !isCurationModeLayout}
             <div
-              class="absolute inset-0 flex items-center justify-center gap-2 pointer-events-none"
+              class="pointer-events-none absolute inset-0 flex items-center justify-center gap-2"
             >
               <div
-                class="pointer-events-auto flex items-center gap-4 bg-black/60 p-2 rounded-full backdrop-blur-sm"
+                class="pointer-events-auto flex items-center gap-4 rounded-full bg-black/60 p-2 backdrop-blur-sm"
               >
                 <button
-                  class="bg-green-600 hover:bg-green-700 text-white p-2 rounded-full transition-colors"
+                  class="rounded-full bg-green-600 p-2 text-white transition-colors hover:bg-green-700"
                   aria-label="Ponechat tuto fotku a smazat ostatní"
                   onclick={handleKeep}
                 >
                   <Check class="size-6" />
                 </button>
                 <button
-                  class="bg-red-600 hover:bg-red-700 text-white p-2 rounded-full transition-colors"
+                  class="rounded-full bg-red-600 p-2 text-white transition-colors hover:bg-red-700"
                   aria-label="Smazat tuto fotku"
                   onclick={handleDelete}
                 >
                   <Trash2 class="size-6" />
                 </button>
                 <button
-                  class="bg-slate-600 hover:bg-slate-700 text-white p-2 rounded-full transition-colors"
+                  class="rounded-full bg-slate-600 p-2 text-white transition-colors hover:bg-slate-700"
                   aria-label="Informace o skupině"
                 >
                   <Info class="size-6" />
@@ -367,7 +366,7 @@
         {@render MetadataTable({ item })}
 
       {#if $debug}
-        <div class="p-2 bg-slate-950 rounded-b-xl mt-2">
+        <div class="mt-2 rounded-b-xl bg-slate-950 p-2">
           <JsonViewer data={item} />
         </div>
       {/if}
@@ -399,7 +398,7 @@
               onclick={() => onPasteMetadata?.(item)}
               data-testid="photo-grid-item-contextmenu-paste-metadata-selection"
             >
-              <div class="flex items-center gap-2 flex-1">
+              <div class="flex flex-1 items-center gap-2">
                 <Copy class="h-4 w-4 rotate-180" />
                 <span>Vložit na {$selection.size} vybraných</span>
               </div>
@@ -411,7 +410,7 @@
               onclick={() => onPasteMetadata?.(item, true)}
               data-testid="photo-grid-item-contextmenu-paste-metadata-single"
             >
-              <div class="flex items-center gap-2 flex-1 pl-6 text-muted-foreground text-xs">
+              <div class="text-muted-foreground flex flex-1 items-center gap-2 pl-6 text-xs">
                 <span>↳ Pouze na tento obrázek</span>
               </div>
             </ContextMenu.Item>
@@ -431,7 +430,7 @@
         <ContextMenu.Separator />
 
         <ContextMenu.Item
-          class="flex items-center gap-2 text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-950"
+          class="flex items-center gap-2 text-red-600 focus:bg-red-50 focus:text-red-600 dark:focus:bg-red-950"
           onclick={() => onDelete?.(item)}
           data-testid="photo-grid-item-contextmenu-delete-image"
         >

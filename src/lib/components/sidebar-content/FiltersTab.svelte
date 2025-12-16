@@ -99,12 +99,12 @@
 <div class="contents" data-testid="filters-tab">
   <Sidebar.Content>
     <div
-      class="relative px-6 py-4 border-b grid grid-cols-3 gap-4 text-center text-sm text-slate-400 bg-slate-100 dark:bg-slate-950"
+      class="relative grid grid-cols-3 gap-4 border-b bg-slate-100 px-6 py-4 text-center text-sm text-slate-400 dark:bg-slate-950"
       data-testid="filters-tab-stats"
     >
       <div>
         <div
-          class="font-semibold text-foreground text-lg tracking-tight"
+          class="text-foreground text-lg font-semibold tracking-tight"
           data-testid="filters-tab-stats-photos"
         >
           {#if totalPhotos > 0}
@@ -121,7 +121,7 @@
 
       <div>
         <div
-          class="font-semibold text-foreground text-lg tracking-tight"
+          class="text-foreground text-lg font-semibold tracking-tight"
           data-testid="filters-tab-stats-authors"
         >
           {totalAuthors}
@@ -131,7 +131,7 @@
 
       <div>
         <div
-          class="font-semibold text-foreground text-lg tracking-tight"
+          class="text-foreground text-lg font-semibold tracking-tight"
           data-testid="filters-tab-stats-stops"
         >
           {totalLocations}
@@ -140,7 +140,7 @@
       </div>
     </div>
     <label
-      class="px-6 py-4 border-b flex items-center justify-between gap-4 cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-900/50 transition-colors"
+      class="flex cursor-pointer items-center justify-between gap-4 border-b px-6 py-4 transition-colors hover:bg-slate-50/50 dark:hover:bg-slate-900/50"
       data-testid="filters-tab-location-control"
     >
       <div>
@@ -154,7 +154,7 @@
       />
     </label>
     <label
-      class="px-6 py-4 border-b flex items-center justify-between gap-4 cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-900/50 transition-colors"
+      class="flex cursor-pointer items-center justify-between gap-4 border-b px-6 py-4 transition-colors hover:bg-slate-50/50 dark:hover:bg-slate-900/50"
       data-testid="filters-tab-separators-control"
     >
       <div>
@@ -169,7 +169,7 @@
     </label>
 
     {#if authors.length > 0}
-      <div class="px-6 py-4 border-b space-y-3">
+      <div class="space-y-3 border-b px-6 py-4">
         <div class="flex items-center justify-between">
           <p class="text-sm font-semibold">Autoři</p>
         </div>
@@ -181,7 +181,7 @@
               ($selectedAuthors.includes(slugKey) && !$selectedAuthors.includes("none"))}
             {@const testIdKey = slugKey}
             <label
-              class={`flex items-center justify-between text-sm cursor-pointer ${
+              class={`flex cursor-pointer items-center justify-between text-sm ${
                 isActive ? "text-primary" : "text-slate-100"
               }`}
               data-testid={`filters-tab-author-${testIdKey}`}
@@ -205,7 +205,7 @@
     {/if}
   </Sidebar.Content>
 
-  <Sidebar.Footer class="border-t border-sidebar-border bg-sidebar p-4 px-6">
+  <Sidebar.Footer class="border-sidebar-border bg-sidebar border-t p-4 px-6">
     <div class="flex items-center justify-between gap-4">
       <div class="text-sm font-semibold">Vzhled</div>
       <div class="flex items-center">
@@ -220,26 +220,26 @@
               setMode(v as "light" | "dark");
             }
           }}
-          class="gap-1 border border-border rounded-lg p-1"
+          class="border-border gap-1 rounded-lg border p-1"
         >
           <ToggleGroupItem
             value="light"
             aria-label="Světlý režim"
-            class="h-7 w-7 data-[state=on]:bg-slate-200 dark:data-[state=on]:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"
+            class="h-7 w-7 hover:bg-slate-100 data-[state=on]:bg-slate-200 dark:hover:bg-slate-800 dark:data-[state=on]:bg-slate-700"
           >
             <Sun class="h-3.5 w-3.5" />
           </ToggleGroupItem>
           <ToggleGroupItem
             value="system"
             aria-label="Systémový režim"
-            class="h-7 w-7 data-[state=on]:bg-slate-200 dark:data-[state=on]:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"
+            class="h-7 w-7 hover:bg-slate-100 data-[state=on]:bg-slate-200 dark:hover:bg-slate-800 dark:data-[state=on]:bg-slate-700"
           >
             <Monitor class="h-3.5 w-3.5" />
           </ToggleGroupItem>
           <ToggleGroupItem
             value="dark"
             aria-label="Tmavý režim"
-            class="h-7 w-7 data-[state=on]:bg-slate-200 dark:data-[state=on]:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"
+            class="h-7 w-7 hover:bg-slate-100 data-[state=on]:bg-slate-200 dark:hover:bg-slate-800 dark:data-[state=on]:bg-slate-700"
           >
             <Moon class="h-3.5 w-3.5" />
           </ToggleGroupItem>

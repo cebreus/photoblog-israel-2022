@@ -21,25 +21,23 @@
 </script>
 
 <header
-  class="sticky h-14 top-0 border-b bg-slate-800 text-slate-100 z-10 border-slate-700 flex flex-row items-center px-6 gap-2"
+  class="sticky top-0 z-10 flex h-14 flex-row items-center gap-2 border-b border-slate-700 bg-slate-800 px-6 text-slate-100"
   data-testid="header"
 >
-  <a href="/" class="text-lg font-semibold uppercase mr-auto" data-testid="header-logo">
+  <a href="/" class="mr-auto text-lg font-semibold uppercase" data-testid="header-logo">
     {siteManifest?.open_graph?.site_name}
   </a>
 
   {#if import.meta.env.DEV}
-    {#if $editMode}
-      <Button
-        variant={$showMetadataOverlay ? "secondary" : "ghost"}
-        size="icon"
-        onclick={() => showMetadataOverlay.update((v) => !v)}
-        aria-label="Zobrazit/skrýt popisky fotek"
-        data-testid="header-metadata-overlay-trigger"
-      >
-        <Tags strokeWidth={2.5} />
-      </Button>
-    {/if}
+    <Button
+      variant={$showMetadataOverlay ? "secondary" : "ghost"}
+      size="icon"
+      onclick={() => showMetadataOverlay.update((v) => !v)}
+      aria-label="Zobrazit/skrýt popisky fotek"
+      data-testid="header-metadata-overlay-trigger"
+    >
+      <Tags strokeWidth={2.5} />
+    </Button>
 
     <Button
       variant={$isCurationMode ? "secondary" : "ghost"}
