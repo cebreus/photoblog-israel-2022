@@ -230,7 +230,10 @@
     isApplyingPaste = true;
     try {
       const updatePayload = {
-        ids: targetImages.map((img) => img.id),
+        images: targetImages.map((img) => ({
+          id: img.id,
+          src: img.src,
+        })),
         updates: {
           title: fieldsToApply.title && clipboard.data.title ? clipboard.data.title : undefined,
           author: fieldsToApply.author && clipboard.data.author ? clipboard.data.author : undefined,
