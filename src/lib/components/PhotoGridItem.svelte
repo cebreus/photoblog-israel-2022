@@ -285,7 +285,7 @@
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <div
           class={cn(
-            "absolute inset-0 transition-colors cursor-pointer",
+            "aspect-video absolute inset-0 transition-colors cursor-pointer",
             isSelected ? "bg-blue-500/20" : "hover:bg-black/20",
             isCurationActive && !isCurationModeLayout && "bg-amber-500/10 hover:bg-amber-500/20",
             !isEditMode && isCurationActive ? "" : "bg-black/10",
