@@ -63,7 +63,7 @@ test.describe(`Metadata Editor E2E for ${CONTENT_DIR_NAME}`, () => {
     await expect(page).toHaveURL(new RegExp(`editMode=true`));
 
     // 2. Find and select the target image
-    const imageId = `img-${IMAGE_FILENAME.replace(/_/g, "").replace(/\..+$/, "").toLowerCase()}`;
+    const imageId = `${IMAGE_FILENAME.replace(/_/g, "").replace(/\..+$/, "").toLowerCase()}`;
     const imageContainer = page.locator(`[data-testid="image-container-${imageId}"]`);
     await expect(imageContainer).toBeVisible();
     await imageContainer.click();

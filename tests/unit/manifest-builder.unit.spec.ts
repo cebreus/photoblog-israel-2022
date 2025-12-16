@@ -13,7 +13,7 @@ describe("manifest-builder: updateManifest", () => {
       bytes: 1000,
       outputs: [],
       image: {
-        id: "img-1",
+        id: "1",
         type: "image",
         src: "IMG_1.jpeg",
         alt: "",
@@ -34,7 +34,7 @@ describe("manifest-builder: updateManifest", () => {
       bytes: 1000,
       outputs: [],
       image: {
-        id: "img-2",
+        id: "2",
         type: "image",
         src: "IMG_2.jpeg",
         alt: "",
@@ -56,7 +56,7 @@ describe("manifest-builder: updateManifest", () => {
       bytes: 1000,
       outputs: [],
       image: {
-        id: "img-3",
+        id: "3",
         type: "image",
         src: "IMG_3.jpeg",
         alt: "",
@@ -78,7 +78,7 @@ describe("manifest-builder: updateManifest", () => {
       bytes: 1000,
       outputs: [],
       image: {
-        id: "img-1b",
+        id: "1b",
         type: "image",
         src: "IMG_1b.jpeg",
         alt: "",
@@ -99,7 +99,7 @@ describe("manifest-builder: updateManifest", () => {
       bytes: 1000,
       outputs: [],
       image: {
-        id: "img-1c",
+        id: "1c",
         type: "image",
         src: "IMG_1c.jpeg",
         alt: "",

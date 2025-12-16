@@ -574,7 +574,7 @@ export async function createImageEntry(
       : undefined;
 
   return {
-    id: "img-" + toSlug(baseName),
+    id: toSlug(baseName),
     type: "image",
     src: path.basename(absPath),
     alt: getAltText(exif, captionCanonical, titleCanonical),

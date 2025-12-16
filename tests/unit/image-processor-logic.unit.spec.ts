@@ -27,7 +27,7 @@ describe("image-processor logic", () => {
       expect(result.title).toBe("My Title");
       expect(result.author).toBe("John Doe");
       expect(result.city).toBe("Prague");
-      expect(result.id).toBe("img-test-image");
+      expect(result.id).toBe("test-image");
     });
 
     it("prefers ObjectName over Title if Title missing", async () => {
