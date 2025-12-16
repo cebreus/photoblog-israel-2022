@@ -133,7 +133,7 @@ The project is divided into three main layers:
 
 3. **Application Layer** (`src/`):
    - Shared SvelteKit application for all galleries
-   - Loads data from `src/lib/data/<gallery-name>/` manifests
+   - Loads data from `src/data/<gallery-name>/` manifests
    - Dynamically builds pages based on manifest data
 
 ### Path Resolution
@@ -162,14 +162,14 @@ The core system (`scripts/generate-images.ts`) processes images through:
    - `fallback`: 190×107px (tiny fallback)
    - `placeholder`: 24px blur asset (LQIP)
 4. **Format Encoding**: AVIF, WebP, JPEG for each variant
-5. **Manifest Generation** (`src/lib/data/<gallery>/images.manifest.json`):
+5. **Manifest Generation** (`src/data/<gallery>/images.manifest.json`):
    - Photo days grouped by date
    - Image metadata (dimensions, aspect ratios, EXIF)
    - Responsive `<picture>` sources
    - Location separators
    - Parsed markdown stories
-6. **Menu Manifest** (`src/lib/data/<gallery>/menu.manifest.json`): Lightweight navigation structure
-7. **Site Manifest** (`src/lib/data/<gallery>/site.manifest.json`): Parsed site configuration
+6. **Menu Manifest** (`src/data/<gallery>/menu.manifest.json`): Lightweight navigation structure
+7. **Site Manifest** (`src/data/<gallery>/site.manifest.json`): Parsed site configuration
 
 **Key features:**
 
@@ -187,7 +187,7 @@ content/<gallery>/pics/ (JPEG + .md stories)
     ↓
 scripts/generate-images.ts (Sharp processing + EXIF extraction)
     ↓
-src/lib/data/<gallery>/*.manifest.json (structured data)
+src/data/<gallery>/*.manifest.json (structured data)
     ↓
 SvelteKit +layout.server.ts (loads via $manifests alias)
     ↓

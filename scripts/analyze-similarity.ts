@@ -126,18 +126,15 @@ function evaluateGroup(photos: ImageEntry[]): CurationGroup {
 
 async function main() {
   // Determine manifest path based on usage (default or explicit)
-  // We assume standard location in src/lib/data/{CONTENT_DIR}/images.manifest.json
+  // We assume standard location in src/data/{CONTENT_DIR}/images.manifest.json
   // But config.paths.manifest depends on config loading which might default to egypt-2025 if not set?
   // We need to support 'egypt-2025' explicitly if passed.
 
   const contentDir = process.env.CONTENT_DIR || "egypt-2025";
   console.log(`Analyzing content for: ${contentDir}`);
 
-  const manifestPath = path.resolve(
-    process.cwd(),
-    `src/lib/data/${contentDir}/images.manifest.json`,
-  );
-  const outPath = path.resolve(process.cwd(), `src/lib/data/${contentDir}/curation.manifest.json`);
+  const manifestPath = path.resolve(process.cwd(), `src/data/${contentDir}/images.manifest.json`);
+  const outPath = path.resolve(process.cwd(), `src/data/${contentDir}/curation.manifest.json`);
 
   const content = await fsp.readFile(manifestPath, "utf-8");
   const manifest: Manifest = JSON.parse(content);

@@ -22,10 +22,7 @@ const keywordsAsArray = TEST_DATA.keywords.split(",").map((k) => k.trim());
 const contentRoot = path.resolve(process.cwd(), "content", CONTENT_DIR_NAME);
 const imagePath = path.join(contentRoot, "pics", IMAGE_FILENAME);
 const imageBackupPath = path.join(contentRoot, "pics", `${IMAGE_FILENAME}.bak`);
-const manifestPath = path.resolve(
-  process.cwd(),
-  `src/lib/data/${CONTENT_DIR_NAME}/images.manifest.json`,
-);
+const manifestPath = path.resolve(process.cwd(), `src/data/NTENT_DIR_NAME}/images.manifest.json`);
 
 test.describe(`Metadata Editor E2E for ${CONTENT_DIR_NAME}`, () => {
   // --- Hooks ---
