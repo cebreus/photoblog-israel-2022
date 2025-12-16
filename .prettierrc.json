@@ -5,12 +5,46 @@
   "singleQuote": false,
   "trailingComma": "all",
   "semi": true,
-  "plugins": ["prettier-plugin-svelte", "prettier-plugin-tailwindcss"],
+  "plugins": [
+    "prettier-plugin-svelte",
+    "prettier-plugin-tailwindcss",
+    "prettier-plugin-organize-attributes",
+    "@trivago/prettier-plugin-sort-imports"
+  ],
+  "importOrder": [
+    "<THIRD_PARTY_MODULES>",
+    "^src/components/",
+    "^src/libs/",
+    "^src/utils/",
+    "^src/pages/",
+    "",
+    "^[.]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
   "overrides": [
     {
       "files": "*.svelte",
       "options": {
         "parser": "svelte"
+      }
+    },
+    {
+      "files": ["*.html", "*.htm"],
+      "options": {
+        "printWidth": 1000,
+        "tabWidth": 2,
+        "useTabs": false,
+        "semi": true,
+        "singleQuote": false,
+        "bracketSpacing": true,
+        "bracketSameLine": true,
+        "htmlWhitespaceSensitivity": "strict",
+        "endOfLine": "lf",
+        "embeddedLanguageFormatting": "off",
+        "singleAttributePerLine": false,
+        "proseWrap": "never",
+        "attributeGroups": ["^class$", "^(id|name)$", "$DEFAULT", "^aria-"]
       }
     }
   ]
