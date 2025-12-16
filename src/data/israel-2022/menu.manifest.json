@@ -43,7 +43,7 @@
       {
         "id": "loc-pristav",
         "label": "Přístav",
-        "href": "#img-img0937",
+        "href": "#img0937",
         "isDimmed": true,
         "firstPhotoExifDate": "2022-10-20T10:10:07.919Z"
       },
@@ -93,7 +93,7 @@
       {
         "id": "loc-restaurant-dalia-taverna",
         "label": "Restaurant Dalia Taverna",
-        "href": "#img-img1138",
+        "href": "#img1138",
         "isDimmed": true,
         "firstPhotoExifDate": "2022-10-21T10:57:48.380Z"
       },
@@ -136,7 +136,7 @@
       {
         "id": "loc-hora-nebo",
         "label": "hora Nebo",
-        "href": "#img-img1421",
+        "href": "#img1421",
         "isDimmed": true,
         "firstPhotoExifDate": "2022-10-22T12:43:55.547Z"
       },
@@ -165,7 +165,7 @@
       {
         "id": "loc-petra-museum",
         "label": "Petra Museum",
-        "href": "#img-img1458",
+        "href": "#img1458",
         "isDimmed": true,
         "firstPhotoExifDate": "2022-10-23T05:20:36.794Z"
       },
@@ -209,14 +209,14 @@
       {
         "id": "loc-crystal-hotel",
         "label": "Crystal Hotel",
-        "href": "#img-img1975",
+        "href": "#img1975",
         "isDimmed": true,
         "firstPhotoExifDate": "2022-10-25T04:04:28.037Z"
       },
       {
         "id": "loc-dead-sea-factories",
         "label": "Dead Sea Factories",
-        "href": "#img-img1996",
+        "href": "#img1996",
         "isDimmed": true,
         "firstPhotoExifDate": "2022-10-25T08:48:55.757Z"
       },
@@ -238,42 +238,42 @@
       {
         "id": "loc-lvi-brana",
         "label": "Lví brána",
-        "href": "#img-img2111",
+        "href": "#img2111",
         "isDimmed": true,
         "firstPhotoExifDate": "2022-10-26T05:22:47.513Z"
       },
       {
         "id": "loc-church-of-the-condemnation",
         "label": "Church of the Condemnation",
-        "href": "#img-img2122",
+        "href": "#img2122",
         "isDimmed": true,
         "firstPhotoExifDate": "2022-10-26T05:36:44.630Z"
       },
       {
         "id": "loc-ecce-homo",
         "label": "Ecce Homo",
-        "href": "#img-img2137",
+        "href": "#img2137",
         "isDimmed": true,
         "firstPhotoExifDate": "2022-10-26T05:46:47.054Z"
       },
       {
         "id": "loc-ecce-homo-basilika",
         "label": "Ecce-Homo-Basilika",
-        "href": "#img-img2141",
+        "href": "#img2141",
         "isDimmed": true,
         "firstPhotoExifDate": "2022-10-26T05:48:52.028Z"
       },
       {
         "id": "loc-kostel-panny-marie-bolestne",
         "label": "Kostel Panny Marie Bolestné",
-        "href": "#img-img2146",
+        "href": "#img2146",
         "isDimmed": true,
         "firstPhotoExifDate": "2022-10-26T05:52:53.607Z"
       },
       {
         "id": "loc-synagoga-ohel-jicchak",
         "label": "Synagoga Ohel Jicchak",
-        "href": "#img-img2165",
+        "href": "#img2165",
         "isDimmed": true,
         "firstPhotoExifDate": "2022-10-26T06:11:31.995Z"
       },
@@ -294,14 +294,14 @@
       {
         "id": "loc-minaret-al-facharija",
         "label": "Minaret al-Facharíja",
-        "href": "#img-img2197",
+        "href": "#img2197",
         "isDimmed": true,
         "firstPhotoExifDate": "2022-10-26T06:57:41.109Z"
       },
       {
         "id": "loc-mesita-al-aksa",
         "label": "Mešita al-Aksá",
-        "href": "#img-img2202",
+        "href": "#img2202",
         "isDimmed": true,
         "firstPhotoExifDate": "2022-10-26T07:00:04.206Z"
       },
@@ -315,7 +315,7 @@
       {
         "id": "loc-damasska-brana",
         "label": "Damašská brána",
-        "href": "#img-img2231",
+        "href": "#img2231",
         "isDimmed": true,
         "firstPhotoExifDate": "2022-10-26T07:45:51.001Z"
       },
@@ -336,14 +336,14 @@
       {
         "id": "loc-church-of-mary-magdalene",
         "label": "Church of Mary Magdalene",
-        "href": "#img-img2254",
+        "href": "#img2254",
         "isDimmed": true,
         "firstPhotoExifDate": "2022-10-26T09:04:23.033Z"
       },
       {
         "id": "loc-getsemanska-zahrada",
         "label": "Getsemanská zahrada",
-        "href": "#img-img2259",
+        "href": "#img2259",
         "isDimmed": true,
         "firstPhotoExifDate": "2022-10-26T09:24:24.776Z"
       },
@@ -399,7 +399,7 @@
       {
         "id": "loc-jaffska-brana",
         "label": "Jaffská brána",
-        "href": "#img-img2465",
+        "href": "#img2465",
         "isDimmed": true,
         "firstPhotoExifDate": "2022-10-26T13:48:08.555Z"
       }
@@ -414,7 +414,7 @@
       {
         "id": "loc-knesset-menorah",
         "label": "Knesset Menorah",
-        "href": "#img-img2468",
+        "href": "#img2468",
         "isDimmed": true,
         "firstPhotoExifDate": "2022-10-27T05:27:58.468Z"
       },
@@ -449,7 +449,7 @@
       {
         "id": "loc-mariin-dum-v-nazarethu",
         "label": "Mariin dům v Nazarethu",
-        "href": "#img-img2589",
+        "href": "#img2589",
         "isDimmed": true,
         "firstPhotoExifDate": "2022-10-27T12:00:58.805Z"
       },
@@ -478,14 +478,14 @@
       {
         "id": "loc-jericho",
         "label": "Jericho",
-        "href": "#img-img2629",
+        "href": "#img2629",
         "isDimmed": true,
         "firstPhotoExifDate": "2022-10-28T08:11:04.539Z"
       },
       {
         "id": "loc-gan-armon",
         "label": "Gan Armon",
-        "href": "#img-img2634",
+        "href": "#img2634",
         "isDimmed": true,
         "firstPhotoExifDate": "2022-10-28T10:15:32.391Z"
       },
@@ -507,7 +507,7 @@
       {
         "id": "loc-ramat-gan",
         "label": "Ramat Gan",
-        "href": "#img-img2717",
+        "href": "#img2717",
         "isDimmed": true,
         "firstPhotoExifDate": "2022-10-29T03:06:16.708Z"
       },
@@ -521,7 +521,7 @@
       {
         "id": "loc-hypodrom",
         "label": "Hypodrom",
-        "href": "#img-img2764",
+        "href": "#img2764",
         "isDimmed": true,
         "firstPhotoExifDate": "2022-10-29T06:56:35.862Z"
       },
@@ -535,7 +535,7 @@
       {
         "id": "loc-akvadukt",
         "label": "Akvadukt",
-        "href": "#img-img2810",
+        "href": "#img2810",
         "isDimmed": true,
         "firstPhotoExifDate": "2022-10-29T08:45:53.444Z"
       }
