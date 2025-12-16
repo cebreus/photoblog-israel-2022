@@ -21,6 +21,7 @@
     onCopyMetadata,
     onPasteMetadata,
     onKeepGroup,
+    onSelect,
     mode = "grid",
   } = $props<{
     item: ImageEntry;
@@ -30,6 +31,7 @@
     onCopyMetadata?: (item: ImageEntry) => void;
     onPasteMetadata?: (item: ImageEntry, onlyThis?: boolean) => void;
     onKeepGroup?: (item: ImageEntry, group: CurationGroup) => void;
+    onSelect?: (item: ImageEntry, shiftKey: boolean) => void;
     mode?: "grid" | "curation";
   }>();
 
@@ -58,7 +60,11 @@
     if (!isEditMode) return;
     if (e instanceof KeyboardEvent && e.key !== "Enter" && e.key !== " ") return;
     e.preventDefault();
-    selection.toggle(id);
+    if (onSelect) {
+      onSelect(item, e.shiftKey);
+    } else {
+      selection.toggle(id);
+    }
   }
 
   let isEditMode = $derived($editMode);

@@ -365,6 +365,43 @@
 
     return result;
   });
+
+  // Multiselect Logic
+  let lastSelectedId = $state<string | null>(null);
+
+  // Flatten the currently displayed items into a list of images for range selection
+  let visualOrderedImages = $derived.by(() => {
+    const list: ImageEntry[] = [];
+    for (const entry of processedItems) {
+      if (entry.type === "group") {
+        list.push(...entry.items);
+      } else if (entry.type === "item" && entry.data.type === "image") {
+        list.push(entry.data);
+      }
+    }
+    return list;
+  });
+
+  function handleSelect(item: ImageEntry, shiftKey: boolean) {
+    if (shiftKey && lastSelectedId) {
+      const startIdx = visualOrderedImages.findIndex((i) => i.id === lastSelectedId);
+      const endIdx = visualOrderedImages.findIndex((i) => i.id === item.id);
+
+      if (startIdx !== -1 && endIdx !== -1) {
+        const [min, max] = [Math.min(startIdx, endIdx), Math.max(startIdx, endIdx)];
+        const range = visualOrderedImages.slice(min, max + 1);
+        selection.addMultiple(range.map((i) => i.id));
+        // We don't update lastSelectedId on shift-click to preserve the anchor
+        return;
+      }
+    }
+
+    // Standard toggle behavior
+    selection.toggle(item.id);
+    if (!shiftKey) {
+      lastSelectedId = item.id;
+    }
+  }
 </script>
 
 {#each processedItems as entry}
@@ -400,6 +437,7 @@
             onCopyMetadata={handleCopyMetadata}
             onPasteMetadata={handlePasteMetadata}
             onKeepGroup={handleKeepGroup}
+            onSelect={handleSelect}
           />
         {/each}
       </div>
@@ -416,6 +454,7 @@
         onCopyMetadata={handleCopyMetadata}
         onPasteMetadata={handlePasteMetadata}
         onKeepGroup={handleKeepGroup}
+        onSelect={handleSelect}
       />
     {:else if item.type === "separator" && item.location}
       {@const separatorId = item.id}
