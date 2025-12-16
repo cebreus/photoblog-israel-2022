@@ -364,9 +364,7 @@
         <span class="sr-only">Open detail</span>
       {/if}
 
-      {#if isEditMode}
         {@render MetadataTable({ item })}
-      {/if}
 
       {#if $debug}
         <div class="p-2 bg-slate-950 rounded-b-xl mt-2">
