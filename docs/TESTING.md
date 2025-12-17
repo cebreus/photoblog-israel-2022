@@ -23,11 +23,11 @@ Všechny příkazy používají `bun`.
 
 ### Unit Testy
 
-Spustí rychlé unit testy pro utility funkce a backend logiku.
+Unit testy ověřují jednotlivé funkce a utility. Jsou umístěny v `tests/unit`.
+Příklad: `tests/unit/utils-gallery.unit.spec.ts` testuje filtrování a merge logiku.
+`tests/unit/aesthetic.unit.spec.ts` ověřuje matematiku výpočtu estetického skóre a správnost vah (kalibrace).
 
-```bash
-bun run test:unit
-```
+Spuštění: `bun test:unit`
 
 ### Component Testy (Vitest Browser Mode)
 

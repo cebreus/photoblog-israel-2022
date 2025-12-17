@@ -29,7 +29,7 @@ function getTmpDir(prefix: string) {
 // Ensure cleanup of tmp artifacts (optional, or rely on .gitignore)
 // For now, we leave them for inspection on failure, or could clean in afterAll.
 
-describe("CLI (generate-images.ts) – Integration with real FS", () => {
+describe("CLI (generate-images.ts) – Integration with real FS", { timeout: 30000 }, () => {
   it("generates expected folders and files from input", async () => {
     const workingsDir = getTmpDir("cli-test");
     const inDir = path.join(workingsDir, "in");

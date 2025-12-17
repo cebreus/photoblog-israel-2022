@@ -38,17 +38,30 @@ Každá galerie má:
 Spuštění vývojového serveru pro konkrétní galerii:
 
 ```bash
-bun run dev:egypt    # Galerie Egypt 2025
-bun run dev:israel   # Galerie Israel 2022
-```
+# Interaktivní výběr galerie (doporučeno)
+bun run dev
 
-Výchozí příkaz `bun run dev` je alias pro `dev:egypt`.
+# Spuštění pro konkrétní galerii přímo
+bun run dev -- --gallery=egypt-2025
+bun run dev -- -g egypt-2025
+
+# Legacy aliasy (definované v package.json)
+bun run dev:egypt
+bun run dev:israel
+```
 
 ### Build
 
 Sestavení konkrétní galerie do odděleného adresáře:
 
 ```bash
+# Interaktivní výběr
+bun run build
+
+# Přímo
+bun run build -- -g egypt-2025
+
+# Legacy aliasy
 bun run build:egypt    # Sestaví do build-egypt-2025/
 bun run build:israel   # Sestaví do build-israel-2022/
 ```
