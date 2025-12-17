@@ -11,20 +11,6 @@ export interface CropRect {
   width: number;
   height: number;
 }
-
-/**
- * Calculates a crop rectangle that maximizes usage of the source image
- * while satisfying the target aspect ratio and centering on the detected faces.
- *
- * It effectively implements a "smart object-fit: cover".
- *
- * @param srcW - Width of the source image
- * @param srcH - Height of the source image
- * @param faces - Array of detected face bounding boxes
- * @param targetW - Desired output width (defines aspect ratio)
- * @param targetH - Desired output height (defines aspect ratio)
- * @returns The calculated crop rectangle or null if no faces are provided (fallback to center)
- */
 export function calculateSmartCrop(
   srcW: number,
   srcH: number,

@@ -1,10 +1,5 @@
-/**
- * Central configuration for the image generation script.
- * Defines paths, image variants, quality settings, and other parameters.
- */
-
-import { ImageFormat } from "../src/lib/types/images";
 import path from "node:path";
+import { ImageFormat } from "../src/lib/types/images";
 
 const IMAGE_SUBDIR = "pics";
 
@@ -23,11 +18,6 @@ export const config = {
     cache: `.temp/${contentDir}/images.cache.json`,
     tmp: ".temp",
   },
-
-  /**
-   * Unified outputs configuration.
-   * Each entry declares its kind (variant/other) and associated settings.
-   */
   outputs: {
     default: {
       kind: "variant",
@@ -69,7 +59,6 @@ export const config = {
       [ImageFormat.WEBP]: 65,
       [ImageFormat.AVIF]: 50,
     },
-    /** Sharp.js optimization parameters */
     sharp: {
       jpeg: {
         progressive: true,

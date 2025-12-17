@@ -149,14 +149,44 @@
     "date": "2025-11-26",
     "label": "středa 26. listopadu 2025",
     "href": "#day-2025-11-26",
-    "locations": []
+    "locations": [
+      {
+        "id": "loc-egyptsky-papyrusovy-institut",
+        "label": "Egyptský papyrusový institut",
+        "href": "#loc-egyptsky-papyrusovy-institut",
+        "isDimmed": false,
+        "firstPhotoExifDate": "2025-11-26T10:34:57.604Z"
+      },
+      {
+        "id": "loc-velke-egyptske-muzeum",
+        "label": "Velké egyptské muzeum",
+        "href": "#loc-velke-egyptske-muzeum",
+        "isDimmed": false,
+        "firstPhotoExifDate": "2025-11-26T11:13:46.755Z"
+      }
+    ]
   },
   {
     "id": "day-2025-11-27",
     "date": "2025-11-27",
     "label": "čtvrtek 27. listopadu 2025",
     "href": "#day-2025-11-27",
-    "locations": []
+    "locations": [
+      {
+        "id": "loc-zeleznicni-stanice-luxor",
+        "label": "Železniční stanice Luxor",
+        "href": "#img8477",
+        "isDimmed": true,
+        "firstPhotoExifDate": "2025-11-27T04:12:03.048Z"
+      },
+      {
+        "id": "loc-karnak-visitor-center",
+        "label": "Karnak Visitor Center",
+        "href": "#loc-karnak-visitor-center",
+        "isDimmed": false,
+        "firstPhotoExifDate": "2025-11-27T11:39:35.840Z"
+      }
+    ]
   },
   {
     "id": "day-2025-11-28",
@@ -177,7 +207,22 @@
     "date": "2025-11-30",
     "label": "neděle 30. listopadu 2025",
     "href": "#day-2025-11-30",
-    "locations": []
+    "locations": [
+      {
+        "id": "loc-aswan-botanical-garden",
+        "label": "Aswan Botanical Garden",
+        "href": "#loc-aswan-botanical-garden",
+        "isDimmed": false,
+        "firstPhotoExifDate": "2025-11-30T13:06:50.617Z"
+      },
+      {
+        "id": "loc-nubijska-vesnice",
+        "label": "Núbijská vesnice",
+        "href": "#loc-nubijska-vesnice",
+        "isDimmed": false,
+        "firstPhotoExifDate": "2025-11-30T14:42:57.981Z"
+      }
+    ]
   },
   {
     "id": "day-2025-12-01",

@@ -1,11 +1,17 @@
-import fsp from "node:fs/promises";
+import { AutoTokenizer, CLIPTextModelWithProjection } from "@xenova/transformers";
 import path from "node:path";
-import { config } from "./config";
-import type { ImageEntry, Manifest } from "../src/lib/types/manifest";
-
-/**
- * Configuration for AI curation logic
- */
+import type {
+  CurationGroup,
+  CurationManifest,
+  CurationRecommendation,
+  ImageEntry,
+} from "../src/lib/types/manifest";
+import { calculateAestheticScore, createAestheticAxis } from "./lib/aesthetic";
+import {
+  loadImagesManifest,
+  saveCurationManifest,
+  saveImagesManifest,
+} from "./lib/manifest-repository";
 const CURATION_CONFIG = {
   // Cosine Similarity Threshold
   // 1.0 = identical
@@ -17,30 +23,8 @@ const CURATION_CONFIG = {
   preferredAuthors: ["cebreus", "professionals"],
 };
 
-type CurationRecommendation = {
-  action: "keep" | "delete";
-  reason: string;
-};
-
-type CurationGroup = {
-  id: string;
-  items: string[];
-  bestCandidateId: string;
-  similarity: number; // Average or min similarity in group
-  recommendations: Record<string, CurationRecommendation>;
-};
-
-type CurationManifest = {
-  groups: CurationGroup[];
-  stats: {
-    totalPhotos: number;
-    totalGroups: number;
-    duplicatesFound: number;
-  };
-};
-
 /**
- * Calculates Cosine Similarity between two vectors
+ * Calculates the cosine similarity between two vectors of numbers.
  */
 function cosineSimilarity(a: number[], b: number[]): number {
   if (!a || !b || a.length !== b.length) return 0;
@@ -59,7 +43,7 @@ function cosineSimilarity(a: number[], b: number[]): number {
 }
 
 /**
- * Selects the best photo from a group based on rules
+ * Evaluates a group of photos to find the best candidate and generate recommendations.
  */
 function evaluateGroup(photos: ImageEntry[]): CurationGroup {
   const groupId = `group-${photos[0].id}`;
@@ -71,8 +55,8 @@ function evaluateGroup(photos: ImageEntry[]): CurationGroup {
   // 4. Date
 
   const sorted = [...photos].sort((a, b) => {
-    const analysisA = a.analysis || { sharpness: 0 };
-    const analysisB = b.analysis || { sharpness: 0 };
+    const analysisA = a.analysis || { sharpness: 0, aestheticScore: 0, phash: "" };
+    const analysisB = b.analysis || { sharpness: 0, aestheticScore: 0, phash: "" };
 
     // 1. Resolution (Higher is better)
     const areaA = (a.width || 0) * (a.height || 0);
@@ -81,7 +65,15 @@ function evaluateGroup(photos: ImageEntry[]): CurationGroup {
       return areaB - areaA;
     }
 
-    // 2. Sharpness (Higher is better)
+    // 2. Aesthetic Score (Higher is better) - NEW
+    const aestheticA = analysisA.aestheticScore || 0;
+    const aestheticB = analysisB.aestheticScore || 0;
+    // Significant difference threshold (e.g. 0.05 score difference)
+    if (Math.abs(aestheticA - aestheticB) > 0.05) {
+      return aestheticB - aestheticA;
+    }
+
+    // 3. Sharpness (Higher is better)
     const sharpA = analysisA.sharpness || 0;
     const sharpB = analysisB.sharpness || 0;
     if (Math.abs(sharpA - sharpB) / Math.max(sharpA, sharpB) > 0.1) {
@@ -105,6 +97,11 @@ function evaluateGroup(photos: ImageEntry[]): CurationGroup {
       if ((best.width || 0) * (best.height || 0) > (photo.width || 0) * (photo.height || 0)) {
         reasons.push("Lower resolution");
       }
+      if ((best.analysis?.aestheticScore || 0) > (photo.analysis?.aestheticScore || 0) + 0.05) {
+        reasons.push(
+          `Lower aesthetics (${(photo.analysis?.aestheticScore || 0).toFixed(2)} vs ${(best.analysis?.aestheticScore || 0).toFixed(2)})`,
+        );
+      }
       if ((best.analysis?.sharpness || 0) > (photo.analysis?.sharpness || 0)) {
         reasons.push("Less sharp");
       }
@@ -124,26 +121,62 @@ function evaluateGroup(photos: ImageEntry[]): CurationGroup {
   };
 }
 
+/**
+ * Analyzes image embeddings to calculate aesthetic scores and identify similar image groups.
+ */
 async function main() {
-  // Determine manifest path based on usage (default or explicit)
-  // We assume standard location in src/data/{CONTENT_DIR}/images.manifest.json
-  // But config.paths.manifest depends on config loading which might default to egypt-2025 if not set?
-  // We need to support 'egypt-2025' explicitly if passed.
-
   const contentDir = process.env.CONTENT_DIR || "egypt-2025";
   console.log(`Analyzing content for: ${contentDir}`);
 
-  const manifestPath = path.resolve(process.cwd(), `src/data/${contentDir}/images.manifest.json`);
-  const outPath = path.resolve(process.cwd(), `src/data/${contentDir}/curation.manifest.json`);
+  // Use Repository
+  const dataDir = path.resolve(process.cwd(), `src/data/${contentDir}`);
+  const manifest = await loadImagesManifest(dataDir);
+  if (!manifest) {
+    console.error(`Manifest not found in ${dataDir}`);
+    process.exit(1);
+  }
 
-  const content = await fsp.readFile(manifestPath, "utf-8");
-  const manifest: Manifest = JSON.parse(content);
+  console.log("Loading CLIP text model for aesthetic scoring...");
+  const tokenizer = await AutoTokenizer.from_pretrained("Xenova/clip-vit-large-patch14");
+  const textModel = await CLIPTextModelWithProjection.from_pretrained(
+    "Xenova/clip-vit-large-patch14",
+  );
+
+  // 1. Calculate embeddings for Positive and Negative prompts
+  const positivePrompt =
+    "aesthetic, best quality, masterpiece, highly detailed, 8k wallpaper, sharp focus, professional photography, award winning";
+  const negativePrompt =
+    "bad quality, blur, low resolution, pixelated, grainy, text, watermark, signature, ugly, amateur, artifacts";
+
+  console.log("Computing prompt embeddings...");
+
+  const getEmbedding = async (text: string) => {
+    const inputs = tokenizer([text], { padding: true, truncation: true });
+    const { text_embeds } = await textModel(inputs);
+    // It has shape [1, 768].
+    return text_embeds.data;
+  };
+
+  const posEmbedding = await getEmbedding(positivePrompt);
+  const negEmbedding = await getEmbedding(negativePrompt);
+
+  // 2. Define Aesthetic Axis (Positive - Negative)
+  const aestheticAxis = createAestheticAxis(posEmbedding, negEmbedding);
+  console.log(`Aesthetic Axis Length: ${aestheticAxis.length}`);
 
   const allImages: ImageEntry[] = [];
   manifest.photoDays.forEach((day) => {
     day.items.forEach((item) => {
       if (item.type === "image" && item.analysis?.embedding) {
-        allImages.push(item as ImageEntry);
+        const imgEntry = item as ImageEntry;
+        // Calculate Aesthetic Score
+        const score = calculateAestheticScore(imgEntry.analysis!.embedding!, aestheticAxis);
+
+        // Update the entry in the manifest (in memory)
+        if (!imgEntry.analysis) imgEntry.analysis = { sharpness: 0, phash: "", embedding: [] };
+        imgEntry.analysis.aestheticScore = score;
+
+        allImages.push(imgEntry);
       }
     });
   });
@@ -169,7 +202,6 @@ async function main() {
       if (sim >= CURATION_CONFIG.similarityThreshold) {
         cluster.push(candidate);
         visited.add(candidate.id);
-        // console.log(`  Match: ${seed.id} <-> ${candidate.id} (${sim.toFixed(4)})`);
       }
     }
 
@@ -197,9 +229,35 @@ async function main() {
     },
   };
 
-  await fsp.writeFile(outPath, JSON.stringify(result, null, 2));
+  // Log top 10 aesthetic photos
+  const topAesthetic = [...allImages]
+    .sort((a, b) => (b.analysis?.aestheticScore || 0) - (a.analysis?.aestheticScore || 0))
+    .slice(0, 10);
+  console.log("\nTop 10 Aesthetic Photos:");
+  topAesthetic.forEach((p) => {
+    console.log(`  ${p.id}: ${(p.analysis?.aestheticScore || 0).toFixed(4)}`);
+  });
+
+  // Reorder analysis keys so aestheticScore appears first in updated manifest
+  for (const day of manifest.photoDays) {
+    for (const item of day.items) {
+      if (item.type === "image" && item.analysis) {
+        const a: any = item.analysis as any;
+        if (typeof a.aestheticScore !== "undefined") {
+          const { aestheticScore, ...rest } = a;
+          item.analysis = { aestheticScore, ...rest } as any;
+        }
+      }
+    }
+  }
+
+  // Save via Repository
+  await saveImagesManifest(dataDir, manifest);
+  console.log(`Updated manifest saved to ${dataDir}/images.manifest.json`);
+
+  await saveCurationManifest(dataDir, result);
   console.log(`Analysis complete. Found ${result.stats.totalGroups} groups.`);
-  console.log(`Results saved to ${outPath}`);
+  console.log(`Results saved to ${dataDir}/curation.manifest.json`);
 }
 
 main();

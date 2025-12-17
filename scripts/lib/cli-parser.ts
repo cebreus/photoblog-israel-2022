@@ -1,9 +1,5 @@
-/**
- * CLI argument parsing with map-based approach for better maintainability.
- */
-
-import path from "node:path";
 import os from "node:os";
+import path from "node:path";
 import type { Quality, VariantType } from "../../src/lib/types/images";
 import { ImageFormat, ImageVariant } from "../../src/lib/types/images";
 import type { QualityTypes } from "../../src/lib/types/manifest";
@@ -71,34 +67,71 @@ function isQualityType(x: string): x is QualityFormat {
   });
 }
 
+/**
+ * Checks if a given string is a valid quality image format.
+ */
 function isBlurFormat(x: string): x is BlurFormat {
   return BLUR_FORMATS.some(function equals(v) {
     return v === x;
   });
 }
 
+/**
+ * Checks if a given string is a valid image variant type.
+ */
 function isVariantType(x: string): x is VariantType {
   return VARIANT_TYPES.includes(x);
 }
 
+/**
+ * Parses a comma-separated string of quality types into an array of ImageFormat.
+ */
 function parseQualityTypes(input: string): QualityTypes[] {
   return input.split(",").map(trimLower).filter(isQualityType);
 }
 
+/**
+ * Parses a comma-separated string of blur formats into an array of BlurFormat.
+ */
 function parseBlurFormats(input: string): BlurFormats {
   return input.split(",").map(trimLower).filter(isBlurFormat);
 }
 
+/**
+ * Parses a comma-separated string of variant types into an array of VariantType.
+ */
 function parseVariantTypes(input: string): VariantType[] {
   return input.split(",").map(trimVariant).filter(isVariantType);
 }
 
+/**
+ * Trims whitespace from a string and converts it to lowercase.
+ */
 function trimLower(s: string): string {
   return s.trim().toLowerCase();
 }
 
+/**
+ * Trims whitespace from a string.
+ */
 function trimVariant(s: string): string {
   return s.trim();
+}
+
+/**
+ * Parses a string into an integer within a specified range, or returns undefined if invalid.
+ */
+function parseIntWithinRange(value: string, min: number, max: number): number | undefined {
+  const num = parseInt(value, 10);
+  if (Number.isNaN(num)) return undefined;
+  return Math.max(min, Math.min(max, num));
+}
+
+/**
+ * Parses a string value into a boolean.
+ */
+function parseBooleanValue(value: string): boolean {
+  return value === "true";
 }
 
 export const DEFAULT_CLI_OPTIONS: CliOptions = {
@@ -168,73 +201,61 @@ const CLI_FLAG_HANDLERS: Record<string, ArgHandler> = {
     a.formats = parseQualityTypes(v);
   },
   "quality.avif": function handleQualityAvif(v, a) {
-    const quality = parseInt(v, 10);
-    if (!Number.isNaN(quality)) {
-      a.quality.avif = Math.max(1, Math.min(100, quality));
-    }
+    const quality = parseIntWithinRange(v, 1, 100);
+    if (quality !== undefined) a.quality.avif = quality;
   },
   "quality.webp": function handleQualityWebp(v, a) {
-    const quality = parseInt(v, 10);
-    if (!Number.isNaN(quality)) {
-      a.quality.webp = Math.max(1, Math.min(100, quality));
-    }
+    const quality = parseIntWithinRange(v, 1, 100);
+    if (quality !== undefined) a.quality.webp = quality;
   },
   "quality.jpeg": function handleQualityJpeg(v, a) {
-    const quality = parseInt(v, 10);
-    if (!Number.isNaN(quality)) {
-      a.quality.jpeg = Math.max(1, Math.min(100, quality));
-    }
+    const quality = parseIntWithinRange(v, 1, 100);
+    if (quality !== undefined) a.quality.jpeg = quality;
   },
   "allow-upscale": function handleAllowUpscale(v, a) {
-    a.allowUpscale = v === "true";
+    a.allowUpscale = parseBooleanValue(v);
   },
   "keep-original": function handleKeepOriginal(v, a) {
-    a.keepOriginal = v === "true";
+    a.keepOriginal = parseBooleanValue(v);
   },
   concurrency: function handleConcurrency(v, a) {
     if (v === "auto") {
       a.concurrency = "auto";
     } else {
-      const num = parseInt(v, 10);
-      if (!Number.isNaN(num)) {
-        a.concurrency = Math.max(1, num);
-      }
+      const num = parseIntWithinRange(v, 1, Number.MAX_SAFE_INTEGER);
+      if (num !== undefined) a.concurrency = num;
     }
   },
   watch: function handleWatch(v, a) {
-    a.watch = v === "true";
+    a.watch = parseBooleanValue(v);
   },
   clean: function handleClean(v, a) {
-    a.clean = v === "true";
+    a.clean = parseBooleanValue(v);
   },
   fallback: function handleFallback(v, a) {
     a.fallback = v === "copy" ? "copy" : "none";
   },
   verbose: function handleVerbose(v, a) {
-    a.verbose = v === "true";
+    a.verbose = parseBooleanValue(v);
   },
   quiet: function handleQuiet(v, a) {
-    a.quiet = v === "true";
+    a.quiet = parseBooleanValue(v);
   },
   lqipWidth: function handleLqipWidth(v, a) {
-    const width = parseInt(v, 10);
-    if (!Number.isNaN(width)) {
-      a.lqipWidth = Math.max(1, width);
-    }
+    const width = parseIntWithinRange(v, 1, Number.MAX_SAFE_INTEGER);
+    if (width !== undefined) a.lqipWidth = width;
   },
   limit: function handleLimit(v, a) {
-    const limit = parseInt(v, 10);
-    if (!Number.isNaN(limit)) {
-      a.limit = Math.max(0, limit);
-    }
+    const limit = parseIntWithinRange(v, 0, Number.MAX_SAFE_INTEGER);
+    if (limit !== undefined) a.limit = limit;
   },
 
   // Blur group
   "blur.enable": function handleBlurEnable(v, a) {
-    a.blurEnable = v === "true";
+    a.blurEnable = parseBooleanValue(v);
   },
   "blur.only": function handleBlurOnly(v, a) {
-    a.blurOnly = v === "true";
+    a.blurOnly = parseBooleanValue(v);
   },
   "blur.src": function handleBlurSrc(v, a) {
     a.blurSrc = path.resolve(process.cwd(), v);
@@ -243,52 +264,43 @@ const CLI_FLAG_HANDLERS: Record<string, ArgHandler> = {
     a.blurOut = path.resolve(process.cwd(), v);
   },
   "blur.width": function handleBlurWidth(v, a) {
-    const width = parseInt(v, 10);
-    if (!Number.isNaN(width)) {
-      a.blurWidth = Math.max(1, width);
-    }
+    const width = parseIntWithinRange(v, 1, Number.MAX_SAFE_INTEGER);
+    if (width !== undefined) a.blurWidth = width;
   },
   "blur.colors": function handleBlurColors(v, a) {
-    const colors = parseInt(v, 10);
-    if (!Number.isNaN(colors)) {
-      a.blurColors = Math.max(2, Math.min(256, colors));
-    }
+    const colors = parseIntWithinRange(v, 2, 256);
+    if (colors !== undefined) a.blurColors = colors;
   },
   "blur.formats": function handleBlurFormats(v, a) {
     a.blurFormats = parseBlurFormats(v);
   },
   "blur.pngCompression": function handleBlurPngCompression(v, a) {
-    const compression = parseInt(v, 10);
-    if (!Number.isNaN(compression)) {
-      a.blurPngCompression = Math.max(0, Math.min(9, compression));
-    }
+    const compression = parseIntWithinRange(v, 0, 9);
+    if (compression !== undefined) a.blurPngCompression = compression;
   },
   "blur.pngQuality": function handleBlurPngQuality(v, a) {
-    const quality = parseInt(v, 10);
-    if (!Number.isNaN(quality)) {
-      a.blurPngQuality = Math.max(0, Math.min(100, quality));
-    }
+    const quality = parseIntWithinRange(v, 0, 100);
+    if (quality !== undefined) a.blurPngQuality = quality;
   },
   "blur.avifQuality": function handleBlurAvifQuality(v, a) {
-    const quality = parseInt(v, 10);
-    if (!Number.isNaN(quality)) {
-      a.blurAvifQuality = Math.max(1, Math.min(100, quality));
-    }
+    const quality = parseIntWithinRange(v, 1, 100);
+    if (quality !== undefined) a.blurAvifQuality = quality;
   },
   "blur.jpegQuality": function handleBlurJpegQuality(v, a) {
-    const quality = parseInt(v, 10);
-    if (!Number.isNaN(quality)) {
-      a.blurJpegQuality = Math.max(1, Math.min(100, quality));
-    }
+    const quality = parseIntWithinRange(v, 1, 100);
+    if (quality !== undefined) a.blurJpegQuality = quality;
   },
   "blur.clean": function handleBlurClean(v, a) {
-    a.blurClean = v === "true";
+    a.blurClean = parseBooleanValue(v);
   },
   curation: function handleCuration(v, a) {
-    a.curation = v === "true";
+    a.curation = parseBooleanValue(v);
   },
 };
 
+/**
+ * Parse CLI arguments into a CliOptions object.
+ */
 export function parseCliArguments(argv: string[]): CliOptions {
   // Use structuredClone to avoid mutating the global DEFAULT_CLI_OPTIONS
   // when modifying nested properties like 'quality'.

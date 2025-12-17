@@ -1,5 +1,5 @@
-import winston from "winston";
 import pc from "picocolors";
+import winston from "winston";
 
 const { combine, timestamp, printf, colorize } = winston.format;
 
@@ -12,9 +12,7 @@ const levelColors: Record<string, (str: string) => string> = {
 };
 
 /**
- * Creates a new logger instance with a specified label.
- * @param label - The label to display in log messages (e.g., 'images', 'favicons').
- * @returns A Winston logger instance.
+ * Create a Winston logger with timestamped, coloured console output.
  */
 export function createLogger(label: string) {
   function identity(str: string) {

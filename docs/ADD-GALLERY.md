@@ -123,33 +123,40 @@ Nebo vložit všechny fotky na jednu hromadu - generátor je automaticky seskup�
 
 ---
 
-## Krok 4: Přidání skriptů do `package.json`
+## Krok 4: Spuštění (pomocí CLI)
 
-Otevřete `package.json` a přidejte nové skripty pro vaši galerii:
+Díky novému CLI (`scripts/manage.ts`) **nemusíte** přidávat žádné skripty do `package.json`. Stačí použít interaktivní režim nebo flagy.
+
+### Interaktivní režim
+
+Spusťte jakýkoli příkaz (`dev`, `build`, `process`) a vyberte galerii ze seznamu:
+
+```bash
+bun run dev
+# -> Select a gallery to process:
+#    ● nova-galerie
+```
+
+### Pomocí přepínače `-g`
+
+```bash
+bun run dev -- -g nova-galerie
+bun run build -- -g nova-galerie
+bun run process -- -g nova-galerie
+```
+
+### Volitelné: Přidání aliasů do `package.json`
+
+Pokud chcete mít zkratku jako `bun run dev:spanelsko`, můžete přidat skripty do `package.json`. To je ale čistě volitelné.
 
 ```json
 {
   "scripts": {
-    "dev:spanelsko": "CONTENT_DIR=nova-galerie bun run images:build --manifestOnly && CONTENT_DIR=nova-galerie bun run favicons:build && CONTENT_DIR=nova-galerie bun run vite dev",
-    "build:spanelsko": "CONTENT_DIR=nova-galerie bun run images:build && CONTENT_DIR=nova-galerie bun run favicons:build && CONTENT_DIR=nova-galerie OUTPUT_DIR=build-nova-galerie bun run vite build",
-    "manifest:build:spanelsko": "CONTENT_DIR=nova-galerie bun run images:build --manifestOnly",
-    "manifest:curation:spanelsko": "CONTENT_DIR=nova-galerie bun run images:build --manifestOnly --curation",
-    "favicons:build:spanelsko": "CONTENT_DIR=nova-galerie bun scripts/generate-favicons.ts",
-    "analyze:spanelsko": "CONTENT_DIR=nova-galerie bun scripts/analyze-similarity.ts"
+    "dev:spanelsko": "bun run dev -- -g nova-galerie",
+    "build:spanelsko": "bun run build -- -g nova-galerie"
   }
 }
 ```
-
-**Vysvětlení skriptů:**
-
-- **`dev:spanelsko`**: Vývojový server pro novou galerii
-- **`build:spanelsko`**: Production build do `build-nova-galerie/`
-- **`manifest:build:spanelsko`**: Rychlá regenerace manifestu
-- **`manifest:curation:spanelsko`**: Kurátorský manifest s detekcí duplikátů
-- **`favicons:build:spanelsko`**: Generování favicon
-- **`analyze:spanelsko`**: Analýza podobnosti fotografií
-
-> **Pozor:** Nezapomeňte nahradit `nova-galerie` skutečným názvem vašeho adresáře!
 
 ---
 
@@ -158,8 +165,11 @@ Otevřete `package.json` a přidejte nové skripty pro vaši galerii:
 Vygenerujte optimalizované obrázky a favicons:
 
 ```bash
-CONTENT_DIR=nova-galerie bun run images:build
-CONTENT_DIR=nova-galerie bun run favicons:build
+# Interaktivně
+bun run process
+
+# Nebo přímo
+bun run process -- -g nova-galerie
 ```
 
 Tento proces může trvat několik minut v závislosti na počtu fotografií.
@@ -180,7 +190,7 @@ Tento proces může trvat několik minut v závislosti na počtu fotografií.
 Spusťte dev server pro novou galerii:
 
 ```bash
-bun run dev:spanelsko
+bun run dev -- -g nova-galerie
 ```
 
 nebo pomocí obecného příkazu:
@@ -198,7 +208,7 @@ Otevřete prohlížeč na `http://localhost:5173` a měli byste vidět vaši nov
 Když jste spokojeni s výsledkem, vytvořte production build:
 
 ```bash
-bun run build:spanelsko
+bun run build -- -g nova-galerie
 ```
 
 Výsledek bude v adresáři `build-nova-galerie/`, který můžete nasadit na libovolný statický hosting (Netlify, Vercel, GitHub Pages, atd.).
