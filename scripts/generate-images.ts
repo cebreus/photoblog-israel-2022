@@ -1,5 +1,6 @@
 // Suppress macOS GNotificationCenterDelegate warnings
 process.env.GLIB_LOG_LEVEL = "critical";
+import { intro, select } from "@clack/prompts";
 import fsp from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
@@ -77,6 +78,37 @@ export function resetCliState() {
   hasSrcArg = process.argv.slice(2).some(isSrcArgFlag);
   CTX = initializeContext();
 }
+/**
+ * Helper to get content directory from env or prompt user.
+ */
+async function getGalleryOrPrompt(): Promise<string> {
+  const envDir = process.env.CONTENT_DIR;
+  if (envDir) return envDir;
+
+  const contentDirRoot = path.resolve("content");
+  const entries = await fsp.readdir(contentDirRoot, { withFileTypes: true });
+  const galleries = entries.filter((e) => e.isDirectory()).map((e) => e.name);
+
+  if (galleries.length === 0) {
+    throw new Error("No galleries found in content/ directory.");
+  }
+
+  // If only one gallery, use it automatically
+  if (galleries.length === 1) {
+    return galleries[0];
+  }
+
+  const galleryId = await select({
+    message: "Select a gallery to process:",
+    options: galleries.map((g) => ({ value: g, label: g })),
+  });
+
+  if (typeof galleryId !== "string") {
+    process.exit(0);
+  }
+  return galleryId;
+}
+
 function resolveConcurrency(value: number | "auto") {
   if (value === "auto") {
     return Math.max(1, (os.cpus()?.length || 2) - 1);
@@ -127,11 +159,20 @@ async function cleanAllOutputs() {
   await fsp.rm(CTX.outRoot, { recursive: true, force: true });
 }
 export async function main() {
+  intro("🏭 Image Generator");
+
   if (!contentDir && !hasSrcArg) {
-    logger.error(
-      "'CONTENT_DIR' environment variable is not set. Please specify which content to process.",
-    );
-    process.exit(1);
+    try {
+      contentDir = await getGalleryOrPrompt();
+      // Update CTX with new contentDir
+      ARGS.__raw.src = path.resolve(process.cwd(), `content/${contentDir}/pics`); // rough override
+      // Re-init context proper way would be better but simple override for env var effect:
+      process.env.CONTENT_DIR = contentDir;
+      CTX = initializeContext(); // Re-initialize with new env var
+    } catch (e: any) {
+      logger.error(e.message);
+      process.exit(1);
+    }
   }
   logger.verbose(`Processing content for: ${contentDir}`);
 
