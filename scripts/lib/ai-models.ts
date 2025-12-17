@@ -33,7 +33,7 @@ export async function init(): Promise<void> {
 
   // Ensure only one load runs even under high concurrency.
   modelPromise = (async () => {
-    console.log('')
+    console.log("");
     logger.info(`Loading AI Model (Vision): ${MODEL_ID}...`);
     try {
       model = await CLIPVisionModelWithProjection.from_pretrained(MODEL_ID, {

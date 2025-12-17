@@ -242,7 +242,6 @@ export function updateManifest(
     photoDays: existingManifest.photoDays.map(clonePhotoDay),
   };
 
-
   // 2. Remove Deleted
   manifest.photoDays.forEach((day) => removeDeletedKeysFromDay(day, deletedKeys));
   manifest.photoDays = manifest.photoDays.filter((d) => d.items.length > 0);

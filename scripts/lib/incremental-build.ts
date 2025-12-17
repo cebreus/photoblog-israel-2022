@@ -186,11 +186,7 @@ async function findSourceFiles(srcRoot: string, limit: number | 0) {
     dot: false,
     onlyFiles: true,
     // Ignore hidden and helper subfolders inside pics (e.g., archive, _stash, _schovane, .git)
-    ignore: [
-      "**/.git/**",
-      "**/archive/**",
-      "**/_*/**",
-    ],
+    ignore: ["**/.git/**", "**/archive/**", "**/_*/**"],
   });
   if (limit > 0) sourceFiles.splice(limit);
   return sourceFiles;
