@@ -1,17 +1,19 @@
 <script lang="ts">
+  import { dev } from "$app/environment";
+  import { page } from "$app/stores";
+  import AgendaTab from "$lib/components/sidebar-content/AgendaTab.svelte";
+  import EditTab from "$lib/components/sidebar-content/EditTab.svelte";
+  import FiltersTab from "$lib/components/sidebar-content/FiltersTab.svelte";
   import * as Sidebar from "$lib/components/ui/sidebar";
   import * as Tabs from "$lib/components/ui/tabs";
-  import { untrack } from "svelte";
-  import AgendaTab from "$lib/components/sidebar-content/AgendaTab.svelte";
-  import FiltersTab from "$lib/components/sidebar-content/FiltersTab.svelte";
-  import EditTab from "$lib/components/sidebar-content/EditTab.svelte";
-  import type { MenuManifest, PhotoDay } from "$lib/types/manifest";
-  import { page } from "$app/stores";
   import { selection, editMode } from "$lib/stores/editorState";
-  import { Calendar, SlidersHorizontal, Pencil } from "lucide-svelte";
-  import type { ComponentProps } from "svelte";
   import { activeTab, isSidebarOpen } from "$lib/stores/uiState";
-  import { dev } from "$app/environment";
+  import type { MenuManifest, PhotoDay } from "$lib/types/manifest";
+  import Calendar from "lucide-svelte/icons/calendar";
+  import Pencil from "lucide-svelte/icons/pencil";
+  import SlidersHorizontal from "lucide-svelte/icons/sliders-horizontal";
+  import { untrack } from "svelte";
+  import type { ComponentProps } from "svelte";
 
   type AuthorStats = {
     name: string;

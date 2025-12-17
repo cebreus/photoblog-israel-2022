@@ -1,11 +1,11 @@
 <script lang="ts">
   import { Button } from "$lib/components/ui/button";
-  import * as Dialog from "$lib/components/ui/dialog";
   import Checkbox from "$lib/components/ui/checkbox/checkbox.svelte";
-  import { cn } from "$lib/utils";
+  import * as Dialog from "$lib/components/ui/dialog";
   import type { ImageEntry } from "$lib/types/manifest";
-  import { page } from "$app/stores";
-  import { X, RefreshCcw } from "lucide-svelte";
+  import { cn } from "$lib/utils";
+  import RefreshCcw from "lucide-svelte/icons/refresh-ccw";
+  import X from "lucide-svelte/icons/x";
 
   type MetadataFieldKey =
     | "title"

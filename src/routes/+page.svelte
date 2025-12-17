@@ -1,17 +1,23 @@
 <script lang="ts">
+  import { useFancybox } from "$lib/actions/fancybox";
+  import { useScrollspy } from "$lib/actions/scrollspy";
+  import Hero from "$lib/components/Hero.svelte";
   import PhotoGrid from "$lib/components/PhotoGrid.svelte";
   import { Badge } from "$lib/components/ui/badge/";
-  import Hero from "$lib/components/Hero.svelte";
-  import type { PageData } from "./$types";
-  import { useScrollspy } from "$lib/actions/scrollspy";
-  import { useFancybox } from "$lib/actions/fancybox";
-  import { selectedAuthors, showSeparators } from "$lib/stores/filters";
-  import type { ImageEntry, Separator, PhotoDay } from "$lib/types/manifest";
-  import { filterGalleryItems, mergeSparseDays } from "$lib/utils/gallery";
-  import { formatDateForDisplay, formatWeekdayCzech, formatDateRange } from "$lib/utils/strings";
-  import { editMode, selection } from "$lib/stores/editorState";
   import { Button } from "$lib/components/ui/button";
-  import { CheckSquare, Square } from "lucide-svelte";
+  import { editMode, selection } from "$lib/stores/editorState";
+  import {
+    selectedAestheticBuckets,
+    selectedAuthors,
+    selectedPeople,
+    showSeparators,
+  } from "$lib/stores/filters";
+  import type { ImageEntry, PhotoDay, Separator } from "$lib/types/manifest";
+  import { filterGalleryItems, mergeSparseDays } from "$lib/utils/gallery";
+  import { formatDateForDisplay, formatDateRange, formatWeekdayCzech } from "$lib/utils/strings";
+  import CheckSquare from "lucide-svelte/icons/check-square";
+  import Square from "lucide-svelte/icons/square";
+  import type { PageData } from "./$types";
 
   let { data } = $props<{ data: PageData }>();
 
@@ -23,7 +29,13 @@
     (data.photoDays || [])
       .map((day: PhotoDay) => ({
         ...day,
-        items: filterGalleryItems(day.items, $selectedAuthors, $showSeparators),
+        items: filterGalleryItems(
+          day.items,
+          $selectedAuthors,
+          $showSeparators,
+          $selectedAestheticBuckets,
+          $selectedPeople,
+        ),
       }))
       .filter((d: PhotoDay) => d.items && d.items.length > 0),
   );

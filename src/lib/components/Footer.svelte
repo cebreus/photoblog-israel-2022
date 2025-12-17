@@ -1,7 +1,5 @@
 <script>
   import { page } from "$app/stores";
-  // import { Button } from "$lib/components/ui/button";
-  // import { ExternalLink } from "@lucide/svelte";
 
   const siteManifest = $derived($page.data.siteManifest);
 </script>

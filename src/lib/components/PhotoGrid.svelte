@@ -1,19 +1,19 @@
 <script lang="ts">
-  import PhotoGridItem from "$lib/components/PhotoGridItem.svelte";
-  import type { CurationManifest, ImageEntry, Separator, CurationGroup } from "$lib/types/manifest";
-  import { buttonVariants } from "$lib/components/ui/button";
-  import * as Dialog from "$lib/components/ui/dialog";
-  import { debug } from "$lib/stores/debug";
-  import { selectedAuthors } from "$lib/stores/filters";
+  import { invalidateAll } from "$app/navigation";
   import { useScrollspy } from "$lib/actions/scrollspy";
   import DeleteImageDialog from "$lib/components/DeleteImageDialog.svelte";
   import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
+  import PhotoGridItem from "$lib/components/PhotoGridItem.svelte";
+  import { buttonVariants } from "$lib/components/ui/button";
+  import * as Dialog from "$lib/components/ui/dialog";
+  import { debug } from "$lib/stores/debug";
   import { selection, editMode } from "$lib/stores/editorState";
+  import { selectedAuthors } from "$lib/stores/filters";
   import { metadataClipboard } from "$lib/stores/metadataClipboard";
-  import { toast } from "svelte-sonner";
-  import { invalidateAll } from "$app/navigation";
-  import { toSlug } from "$lib/utils/strings";
   import { isCurationMode } from "$lib/stores/uiState";
+  import type { CurationManifest, ImageEntry, Separator, CurationGroup } from "$lib/types/manifest";
+  import { toSlug } from "$lib/utils/strings";
+  import { toast } from "svelte-sonner";
 
   let { items, curationManifest } = $props<{
     items: DisplayItem[];

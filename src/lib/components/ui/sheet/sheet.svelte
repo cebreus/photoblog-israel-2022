@@ -1,5 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
+
   export let open = false;
   const dispatch = createEventDispatcher();
   function close() {

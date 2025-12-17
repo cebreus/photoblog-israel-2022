@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { ImageEntry } from "$lib/types/manifest";
-  import * as Dialog from "$lib/components/ui/dialog";
   import { Button } from "$lib/components/ui/button";
+  import * as Dialog from "$lib/components/ui/dialog";
+  import type { ImageEntry } from "$lib/types/manifest";
 
   let {
     open = $bindable(false),
@@ -24,7 +24,7 @@
         Tato akce je nevratná. Následující soubory budou trvale smazány z disku:
       </Dialog.Description>
     </Dialog.Header>
-    <div class="max-h-[300px] overflow-y-auto my-4 border rounded p-2">
+    <div class="max-h-75 overflow-y-auto my-4 border rounded p-2">
       <ul class="space-y-2">
         {#each images as img}
           <li class="flex items-center gap-3 text-sm">
