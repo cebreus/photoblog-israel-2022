@@ -15,10 +15,6 @@
     "shadcn-ui-svelte": {
       "command": "npx",
       "args": ["@jpisnice/shadcn-ui-mcp-server", "--framework", "svelte"]
-    },
-    "jsrepo": {
-      "command": "npx",
-      "args": ["jsrepo", "mcp"]
     }
   }
 }
