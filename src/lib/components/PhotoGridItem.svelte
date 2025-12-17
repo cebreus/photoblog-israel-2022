@@ -172,7 +172,7 @@
   <div data-testid="photo-grid-item-metadata-container">
     {#if $showMetadataOverlay}
       <table
-        class="mt-2 w-full rounded-sm text-xs dark:bg-slate-950"
+        class="mt-2 w-full rounded text-xs bg-slate-50 dark:bg-slate-950"
         data-testid="photo-grid-item-metadata-table"
       >
         <tbody>
@@ -288,7 +288,6 @@
       {/if}
 
       {#if isEditMode || (isCurationActive && !isCurationModeLayout)}
-        <!-- Old Grid Overlay Logic -->
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <div
@@ -358,23 +357,20 @@
           {/if}
         </div>
       {:else}
-        <!-- If isCurationModeLayout, we still want click to open detail, so we need an interactive element? -->
-        <!-- Actually svelte:element checks above handle the type "a" if !isEditMode. -->
-        <!-- If we are in curation mode layout, we WANT the anchor tag behavior. -->
-
         <!-- Ensure clickable link visually implies action if hovered? -->
         <span class="sr-only">Open detail</span>
       {/if}
-
-      {@render MetadataTable({ item })}
-
-      {#if $debug}
-        <div class="mt-2 rounded-b-xl bg-slate-950 p-2">
-          <JsonViewer data={item} />
-        </div>
-      {/if}
     </svelte:element>
 
+    {@render MetadataTable({ item })}
+
+    {#if $debug}
+      <div
+        class="mt-2 rounded bg-slate-950 p-2 overflow-x-auto whitespace-nowrap text-xs text-white"
+      >
+        <JsonViewer data={item} />
+      </div>
+    {/if}
     {#if isCurationModeLayout}
       {@render MetadataBlock({ item })}
       {@render CurationActions()}
