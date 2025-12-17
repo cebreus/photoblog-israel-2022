@@ -1,19 +1,20 @@
-import { describe, it, expect } from "vitest";
-import { createImageEntry } from "../../scripts/lib/image-processor";
+import { describe, expect, it } from "vitest";
+import { buildImageEntry } from "../../scripts/lib/metadata";
 
 // We need to mock 'sharp' metadata structure if we pass it,
-// but createImageEntry logic is mostly string normalization and EXIF mapping.
+// but buildImageEntry logic is mostly string normalization and EXIF mapping.
 
 describe("image-processor logic", () => {
-  describe("createImageEntry", () => {
+  describe("buildImageEntry", () => {
     // Helper to call it with minimal props
     const callCreate = async (exif: any) => {
-      return createImageEntry(
+      return buildImageEntry(
         "test-image",
         "/abs/path/to/test-image.jpg",
         exif,
         { width: 1000, height: 800 } as any, // originalMeta
         "#000000",
+        1.5, // sizeMB
       );
     };
 

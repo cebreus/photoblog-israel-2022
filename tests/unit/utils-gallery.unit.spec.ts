@@ -1,6 +1,11 @@
-import { describe, it, expect, vi } from "vitest";
-import { filterGalleryItems, computeTotals, mergeSparseDays } from "../../src/lib/utils/gallery";
-import type { PhotoDay, ImageEntry, Separator } from "../../src/lib/types/manifest";
+import { describe, expect, it, vi } from "vitest";
+import type { ImageEntry, PhotoDay, Separator } from "../../src/lib/types/manifest";
+import {
+  computeTotals,
+  filterGalleryItems,
+  getAestheticBucket,
+  mergeSparseDays,
+} from "../../src/lib/utils/gallery";
 
 // Mock the manifest imports that might be triggered by indirect dependencies
 vi.mock("$manifests/images.manifest.json", () => ({
@@ -9,8 +14,46 @@ vi.mock("$manifests/images.manifest.json", () => ({
 vi.mock("$manifests/curation.manifest.json", () => ({
   default: {},
 }));
+vi.mock("$manifests/people.manifest.json", () => ({
+  default: { people: [] },
+}));
+vi.mock("$app/environment", () => ({
+  dev: false,
+}));
+
+// Mock getImagePeopleMap to return test data
+vi.mock("../../src/lib/utils/images", () => ({
+  getImagePeopleMap: () => ({
+    img1: ["person1", "person2"],
+    // img2 has no people
+  }),
+  getPhotoDays: () => [],
+}));
 
 describe("gallery utils", () => {
+  describe("getAestheticBucket", () => {
+    it("returns null for undefined score", () => {
+      expect(getAestheticBucket(undefined)).toBeNull();
+    });
+
+    it("returns 'excellent' for score >= 0.03", () => {
+      expect(getAestheticBucket(0.03)).toBe("excellent");
+      expect(getAestheticBucket(0.5)).toBe("excellent");
+      expect(getAestheticBucket(1.0)).toBe("excellent");
+    });
+
+    it("returns 'good' for score >= 0 and < 0.03", () => {
+      expect(getAestheticBucket(0)).toBe("good");
+      expect(getAestheticBucket(0.01)).toBe("good");
+      expect(getAestheticBucket(0.029)).toBe("good");
+    });
+
+    it("returns 'poor' for negative scores", () => {
+      expect(getAestheticBucket(-0.01)).toBe("poor");
+      expect(getAestheticBucket(-1)).toBe("poor");
+    });
+  });
+
   const mockImage1 = {
     type: "image",
     id: "img1",
@@ -42,21 +85,84 @@ describe("gallery utils", () => {
     const items = [mockImage1, mockImage2, mockSeparator];
 
     it("returns all items when no filters applied", () => {
-      expect(filterGalleryItems(items, [], true)).toEqual(items);
+      expect(filterGalleryItems(items, [], true, ["excellent", "good", "poor"])).toEqual(items);
     });
 
     it("filters by author", () => {
-      const result = filterGalleryItems(items, ["author1"], true);
+      const result = filterGalleryItems(items, ["author1"], true, ["excellent", "good", "poor"]);
       expect(result).toContain(mockImage1);
       expect(result).not.toContain(mockImage2);
       expect(result).toContain(mockSeparator); // Separators kept if showSeparators=true
     });
 
     it("hides separators if showSeparators is false", () => {
-      const result = filterGalleryItems(items, [], false);
+      const result = filterGalleryItems(items, [], false, ["excellent", "good", "poor"]);
       expect(result).toContain(mockImage1);
       expect(result).toContain(mockImage2);
       expect(result).not.toContain(mockSeparator);
+    });
+
+    it("hides all items if aesthetic buckets is explicitly ['none']", () => {
+      const result = filterGalleryItems(items, [], true, ["none"]);
+      const images = result.filter((i) => i.type === "image");
+      expect(images).toHaveLength(0);
+    });
+
+    it("hides all items if aesthetic buckets is empty (Empty = None)", () => {
+      const result = filterGalleryItems(items, [], true, []);
+      const images = result.filter((i) => i.type === "image");
+      expect(images).toHaveLength(0);
+    });
+
+    it("shows all items if all buckets are selected", () => {
+      const allBuckets = ["excellent", "good", "poor"];
+      const result = filterGalleryItems(items, [], true, allBuckets);
+      expect(result).toContain(mockImage1);
+      expect(result).toContain(mockImage2);
+    });
+
+    it("filters by people - shows images with selected people", () => {
+      const imgWithPeople = {
+        ...mockImage1,
+        people: ["person1", "person2"],
+      } as ImageEntry;
+      const imgWithoutPeople = {
+        ...mockImage2,
+        people: [],
+      } as ImageEntry;
+
+      const result = filterGalleryItems(
+        [imgWithPeople, imgWithoutPeople],
+        [],
+        true,
+        ["excellent", "good", "poor"],
+        ["person1"],
+      );
+
+      expect(result).toContain(imgWithPeople);
+      expect(result).not.toContain(imgWithoutPeople);
+    });
+
+    it("filters by people - 'none' hides all images with people", () => {
+      const imgWithPeople = {
+        ...mockImage1,
+        people: ["person1"],
+      } as ImageEntry;
+      const imgWithoutPeople = {
+        ...mockImage2,
+        people: [],
+      } as ImageEntry;
+
+      const result = filterGalleryItems(
+        [imgWithPeople, imgWithoutPeople],
+        [],
+        true,
+        ["excellent", "good", "poor"],
+        ["none"],
+      );
+
+      expect(result).not.toContain(imgWithPeople);
+      expect(result).toContain(imgWithoutPeople);
     });
   });
 
@@ -73,14 +179,26 @@ describe("gallery utils", () => {
     };
 
     it("computes correctly for all items", () => {
-      const { visiblePhotos, totalLocations } = computeTotals([], true, [day1, day2]);
+      const { visiblePhotos, totalLocations } = computeTotals(
+        [],
+        true,
+        ["excellent", "good", "poor"],
+        [],
+        [day1, day2],
+      );
       expect(visiblePhotos).toBe(3); // img1, img2, img3
       expect(totalLocations).toBe(2); // LocA, LocB
     });
 
     it("computes filtered totals", () => {
       // Filter author1 (img1, img3)
-      const { visiblePhotos, totalLocations } = computeTotals(["author1"], true, [day1, day2]);
+      const { visiblePhotos, totalLocations } = computeTotals(
+        ["author1"],
+        true,
+        ["excellent", "good", "poor"],
+        [],
+        [day1, day2],
+      );
       expect(visiblePhotos).toBe(2);
       // LocA (from img1), LocB (from img3). separator (LocA) still there.
       expect(totalLocations).toBe(2);
