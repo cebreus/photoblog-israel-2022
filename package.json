@@ -13,6 +13,7 @@
     "clean:all": "bun run clean && rm -rf .temp static/*/images",
     "images:build": "bun scripts/generate-images.ts",
     "images:rename": "bun scripts/rename-images.ts",
+    "images:underwater": "bun scripts/fix-underwater.ts",
     "faces:cluster": "bun scripts/face-clustering.ts",
     "lint": "biome check . && bun run lint:css",
     "lint:css": "stylelint '**/*.css'",
