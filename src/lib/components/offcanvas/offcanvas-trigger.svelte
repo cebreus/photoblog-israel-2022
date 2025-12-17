@@ -1,8 +1,8 @@
 <script lang="ts">
+  import { cn } from "$lib/utils";
+  import type { Snippet } from "svelte";
   import { getContext } from "svelte";
   import { OFFCANVAS_CONTEXT_KEY, type OffcanvasContext } from "./offcanvas-context";
-  import type { Snippet } from "svelte";
-  import { cn } from "$lib/utils";
 
   let {
     children,

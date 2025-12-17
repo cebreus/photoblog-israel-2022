@@ -1,12 +1,15 @@
 <script lang="ts">
+  import { dev } from "$app/environment";
   import { page } from "$app/stores";
-  import type { MenuManifest, PhotoDay } from "$lib/types/manifest";
   import { Button } from "$lib/components/ui/button";
-  import { Bug, Tags, Sparkles } from "lucide-svelte";
-  import { debug } from "$lib/stores/debug";
-  import { editMode, showMetadataOverlay } from "$lib/stores/editorState";
-  import { isCurationMode } from "$lib/stores/uiState";
   import * as Sidebar from "$lib/components/ui/sidebar";
+  import { debug } from "$lib/stores/debug";
+  import { showMetadataOverlay } from "$lib/stores/editorState";
+  import { isCurationMode } from "$lib/stores/uiState";
+  import type { MenuManifest } from "$lib/types/manifest";
+  import Bug from "lucide-svelte/icons/bug";
+  import Sparkles from "lucide-svelte/icons/sparkles";
+  import Tags from "lucide-svelte/icons/tags";
 
   type AuthorStats = {
     name: string;
@@ -28,7 +31,7 @@
     {siteManifest?.open_graph?.site_name}
   </a>
 
-  {#if import.meta.env.DEV}
+  {#if dev}
     <Button
       variant={$showMetadataOverlay ? "secondary" : "ghost"}
       size="icon"

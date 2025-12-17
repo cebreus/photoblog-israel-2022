@@ -1,17 +1,19 @@
 <script lang="ts">
-  import { showPhotoLabels } from "$lib/stores/photoLabels";
-  import { selectedAuthors, showSeparators, visiblePhotos } from "$lib/stores/filters";
-  import { Switch } from "$lib/components/ui/switch";
   import { Badge } from "$lib/components/ui/badge/";
-  import { Sun, Moon, Monitor } from "lucide-svelte";
-  import { setMode, resetMode, mode } from "mode-watcher";
   import * as Sidebar from "$lib/components/ui/sidebar";
+  import { Switch } from "$lib/components/ui/switch";
   import { ToggleGroup, ToggleGroupItem } from "$lib/components/ui/toggle-group";
-  import { toSlug } from "$lib/utils/strings";
-  import { get as getStore } from "svelte/store";
-  import { getMenuItems } from "$lib/utils/menu";
   import { debug } from "$lib/stores/debug";
-  import type { Author, MenuDay } from "$lib/types/manifest";
+  import { selectedAuthors, showSeparators, visiblePhotos } from "$lib/stores/filters";
+  import { showPhotoLabels } from "$lib/stores/photoLabels";
+  import type { MenuDay } from "$lib/types/manifest";
+  import { getMenuItems } from "$lib/utils/menu";
+  import { toSlug } from "$lib/utils/strings";
+  import Monitor from "lucide-svelte/icons/monitor";
+  import Moon from "lucide-svelte/icons/moon";
+  import Sun from "lucide-svelte/icons/sun";
+  import { mode, resetMode, setMode } from "mode-watcher";
+  import { get as getStore } from "svelte/store";
 
   type AuthorStats = {
     name: string;

@@ -1,21 +1,22 @@
 <script lang="ts">
-  import { page } from "$app/stores";
-  import { invalidateAll, goto } from "$app/navigation";
-  import { Button } from "$lib/components/ui/button";
-  import { Input } from "$lib/components/ui/input";
-  import { Textarea } from "$lib/components/ui/textarea";
-  import { Badge } from "$lib/components/ui/badge";
-  import * as Form from "$lib/components/ui/form";
-  import type { ImageEntry, Separator } from "$lib/types/manifest";
-  import { toast } from "svelte-sonner";
-  import { X, Trash2, RotateCcw } from "lucide-svelte";
+  import { invalidateAll } from "$app/navigation";
   import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
-  import { fade } from "svelte/transition";
-  import { selection, editMode } from "$lib/stores/editorState";
-  import { superForm } from "sveltekit-superforms";
   import * as Accordion from "$lib/components/ui/accordion";
-  import { metadataClipboard } from "$lib/stores/metadataClipboard";
+  import { Badge } from "$lib/components/ui/badge";
+  import { Button } from "$lib/components/ui/button";
+  import * as Form from "$lib/components/ui/form";
+  import { Input } from "$lib/components/ui/input";
   import { Spinner } from "$lib/components/ui/spinner";
+  import { Textarea } from "$lib/components/ui/textarea";
+  import { editMode, selection } from "$lib/stores/editorState";
+  import { metadataClipboard } from "$lib/stores/metadataClipboard";
+  import type { ImageEntry, Separator } from "$lib/types/manifest";
+  import RotateCcw from "lucide-svelte/icons/rotate-ccw";
+  import Trash2 from "lucide-svelte/icons/trash-2";
+  import X from "lucide-svelte/icons/x";
+  import { toast } from "svelte-sonner";
+  import { fade } from "svelte/transition";
+  import { superForm } from "sveltekit-superforms";
 
   type DisplayItem = ImageEntry | Separator;
 

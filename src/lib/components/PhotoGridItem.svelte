@@ -1,16 +1,19 @@
 <script lang="ts">
-  import { getSources } from "$lib/utils/images";
-  import type { ImageEntry, ImageSource, CurationGroup } from "$lib/types/manifest";
-  import * as ContextMenu from "$lib/components/ui/context-menu";
-  import { debug } from "$lib/stores/debug";
-  import JsonViewer from "$lib/components/debug/JsonViewer.svelte";
   import { useScrollspy } from "$lib/actions/scrollspy";
   import AspectRatioIcon from "$lib/components/AspectRatioIcon.svelte";
-  import { selection, editMode, showMetadataOverlay } from "$lib/stores/editorState";
-  import { isCurationMode } from "$lib/stores/uiState";
+  import JsonViewer from "$lib/components/debug/JsonViewer.svelte";
+  import * as ContextMenu from "$lib/components/ui/context-menu";
+  import { debug } from "$lib/stores/debug";
+  import { editMode, selection, showMetadataOverlay } from "$lib/stores/editorState";
   import { metadataClipboard } from "$lib/stores/metadataClipboard";
-  import { Trash2, Copy, Check, Info } from "lucide-svelte";
+  import { isCurationMode } from "$lib/stores/uiState";
+  import type { CurationGroup, ImageEntry, ImageSource } from "$lib/types/manifest";
   import { cn } from "$lib/utils";
+  import { getSources } from "$lib/utils/images";
+  import Check from "lucide-svelte/icons/check";
+  import Copy from "lucide-svelte/icons/copy";
+  import Info from "lucide-svelte/icons/info";
+  import Trash2 from "lucide-svelte/icons/trash-2";
 
   let {
     item,
@@ -363,7 +366,7 @@
         <span class="sr-only">Open detail</span>
       {/if}
 
-        {@render MetadataTable({ item })}
+      {@render MetadataTable({ item })}
 
       {#if $debug}
         <div class="mt-2 rounded-b-xl bg-slate-950 p-2">

@@ -1,8 +1,8 @@
 <script lang="ts">
+  import Badge from "$lib/components/ui/badge/badge.svelte";
   import { cn, type WithElementRef } from "$lib/utils";
   import type { Snippet } from "svelte";
   import type { HTMLAnchorAttributes } from "svelte/elements";
-  import Badge from "$lib/components/ui/badge/badge.svelte"; // Import Badge component
 
   let {
     ref = $bindable(null),

@@ -1,10 +1,11 @@
 <script lang="ts">
-  import type { MenuManifest } from "$lib/types/manifest";
-  import * as Sidebar from "$lib/components/ui/sidebar";
-  import { Collapsible } from "bits-ui";
   import { page } from "$app/stores";
+  import * as Sidebar from "$lib/components/ui/sidebar";
   import { activeSectionIds } from "$lib/stores/scrollspy";
-  import { Calendar, ChevronRight } from "lucide-svelte";
+  import type { MenuManifest } from "$lib/types/manifest";
+  import { Collapsible } from "bits-ui";
+  import Calendar from "lucide-svelte/icons/calendar";
+  import ChevronRight from "lucide-svelte/icons/chevron-right";
   import type { HTMLAttributes } from "svelte/elements";
 
   export let menuItems: MenuManifest = [];

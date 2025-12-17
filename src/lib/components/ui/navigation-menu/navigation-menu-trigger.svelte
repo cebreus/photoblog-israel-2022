@@ -1,5 +1,6 @@
 <script lang="ts" module>
   import { cn } from "$lib/utils";
+  import ChevronDown from "lucide-svelte/icons/chevron-down";
   import { tv } from "tailwind-variants";
 
   export const navigationMenuTriggerStyle = tv({
@@ -9,7 +10,6 @@
 
 <script lang="ts">
   import { NavigationMenu as NavigationMenuPrimitive } from "bits-ui";
-  import { ChevronDown } from "lucide-svelte";
 
   let {
     ref = $bindable(null),
