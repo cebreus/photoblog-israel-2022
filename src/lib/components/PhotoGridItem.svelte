@@ -133,7 +133,7 @@
 {#snippet MetadataTable({ item }: { item: ImageEntry })}
   {@const fileName = item.src.split("/").pop() ?? item.src}
   {@const metadataRows = [
-    { label: "Soubor", value: fileName },
+    { label: "Soubor", value: fileName, isTechnical: true },
     {
       label: "Datum pořízení",
       value: item.date
@@ -151,28 +151,34 @@
       label: "Země",
       value: item.exif?.country
         ? `${item.exif.country}${item.exif.countryCode ? ` (${item.exif.countryCode})` : ""}`
-        : item.exif?.countryCode || "—",
+        : item.exif?.countryCode || "",
     },
     { label: "Klíčová slova", value: item.keywords?.join(", ") },
     { label: "Popisek", value: item.caption },
     { label: "Název", value: item.exif?.title },
-    { label: "Rozměry", value: item.width && item.height ? `${item.width} x ${item.height}` : "—" },
     {
-      label: "Velikost",
-      value: item.sizeMB != null ? `${item.sizeMB} MB` : "—",
+      label: "Rozměry",
+      value: item.width && item.height ? `${item.width} x ${item.height}` : "",
+      isTechnical: true,
     },
     {
-      label: "Sharpness / phash",
+      label: "Velikost",
+      value: item.sizeMB != null ? `${item.sizeMB} MB` : "",
+      isTechnical: true,
+    },
+    {
+      label: "Aesthetic / Sharpness",
       value: item.analysis
-        ? `${item.analysis.sharpness?.toFixed(2) ?? "—"}, ${item.analysis.phash ?? "—"}`
+        ? `${item.analysis.aestheticScore?.toFixed(2) ?? ""} / ${item.analysis.sharpness?.toFixed(2) ?? "—"}`
         : "—",
+      isTechnical: true,
     },
   ]}
 
-  <div data-testid="photo-grid-item-metadata-container">
-    {#if $showMetadataOverlay}
+  {#if $showMetadataOverlay}
+    <div data-testid="photo-grid-item-metadata-container">
       <table
-        class="mt-2 w-full rounded text-xs bg-slate-50 dark:bg-slate-950"
+        class="mt-2 w-full rounded-md text-xs bg-slate-50 dark:bg-slate-950"
         data-testid="photo-grid-item-metadata-table"
       >
         <tbody>
@@ -185,24 +191,27 @@
                 .toLowerCase()
                 .replace(/\s+/g, '-')}"
             >
-              <td
-                class="text-muted-foreground min-w-16 px-1 py-1 align-baseline font-medium whitespace-nowrap"
-              >
+              <th class="text-muted-foreground min-w-16 px-1 py-1 align-baseline font-medium">
                 {field.label}
-              </td>
-              <td class="line-clamp-3 w-full max-w-full min-w-0 py-1 font-mono">
-                {#if field.label === "Aesthetic / Sharpness" && typeof field.value === "object" && field.value}
+              </th>
+              <td
+                class={cn(
+                  "line-clamp-3 w-full max-w-full min-w-0 py-1 font-mono",
+                  field.isTechnical && "text-muted-foreground",
+                )}
+              >
+                {#if field.value}
                   {field.value}
                 {:else}
-                  <span class="text-muted-foreground">-</span>
+                  <span class="text-muted-foreground"></span>
                 {/if}
               </td>
             </tr>
           {/each}
         </tbody>
       </table>
-    {/if}
-  </div>
+    </div>
+  {/if}
 {/snippet}
 
 <ContextMenu.Root>
@@ -366,7 +375,7 @@
 
     {#if $debug}
       <div
-        class="mt-2 rounded bg-slate-950 p-2 overflow-x-auto whitespace-nowrap text-xs text-white"
+        class="mt-2 rounded-md bg-slate-950 p-2 overflow-x-auto whitespace-nowrap text-xs text-white"
       >
         <JsonViewer data={item} />
       </div>
