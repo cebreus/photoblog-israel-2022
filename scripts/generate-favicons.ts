@@ -1,3 +1,4 @@
+import { intro, select } from "@clack/prompts";
 import { favicons, type FaviconOptions } from "favicons";
 import { promises as fs } from "fs";
 import matter from "gray-matter";
@@ -58,14 +59,30 @@ async function loadSiteConfig(contentDir: string): Promise<SiteConfig> {
  * Generates favicons and associated manifest files based on site configuration.
  */
 async function run() {
-  logger.info("Starting favicon generation...");
+  intro("✨ Favicon Generator");
 
-  const contentDir = process.env.CONTENT_DIR;
+  let contentDir = process.env.CONTENT_DIR;
   if (!contentDir) {
-    throw new Error(
-      "'CONTENT_DIR' environment variable is not set. Please specify which content to process.",
-    );
+    const contentDirRoot = path.resolve("content");
+    const entries = await fs.readdir(contentDirRoot, { withFileTypes: true });
+    const galleries = entries.filter((e) => e.isDirectory()).map((e) => e.name);
+
+    if (galleries.length === 0) {
+      throw new Error("No galleries found");
+    }
+
+    if (galleries.length === 1) {
+      contentDir = galleries[0];
+    } else {
+      const galleryId = await select({
+        message: "Select a gallery to generate favicons for:",
+        options: galleries.map((g) => ({ value: g, label: g })),
+      });
+      if (typeof galleryId !== "string") process.exit(0);
+      contentDir = galleryId;
+    }
   }
+
   logger.info(`Using content directory: ${contentDir}`);
 
   const config = await loadSiteConfig(contentDir);
