@@ -1,8 +1,436 @@
 {
-  "groups": [],
+  "groups": [
+    {
+      "id": "group-img8083",
+      "items": ["img8083", "img8088", "img8090", "img8091"],
+      "bestCandidateId": "img8088",
+      "similarity": 0.9407113881224045,
+      "recommendations": {
+        "img8088": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img8090": {
+          "action": "delete",
+          "reason": "Less sharp"
+        },
+        "img8083": {
+          "action": "delete",
+          "reason": "Less sharp"
+        },
+        "img8091": {
+          "action": "delete",
+          "reason": "Lower resolution"
+        }
+      }
+    },
+    {
+      "id": "group-img8116",
+      "items": [
+        "img8116",
+        "img8308",
+        "img8313",
+        "img8318",
+        "img8320",
+        "img8325",
+        "img8326",
+        "img8327",
+        "img8329",
+        "img8345"
+      ],
+      "bestCandidateId": "img8320",
+      "similarity": 0.8915739975575561,
+      "recommendations": {
+        "img8320": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img8345": {
+          "action": "delete",
+          "reason": "Semantic duplicate"
+        },
+        "img8308": {
+          "action": "delete",
+          "reason": "Lower resolution"
+        },
+        "img8313": {
+          "action": "delete",
+          "reason": "Lower resolution"
+        },
+        "img8325": {
+          "action": "delete",
+          "reason": "Lower resolution, Less sharp"
+        },
+        "img8116": {
+          "action": "delete",
+          "reason": "Lower resolution"
+        },
+        "img8326": {
+          "action": "delete",
+          "reason": "Lower resolution, Less sharp"
+        },
+        "img8327": {
+          "action": "delete",
+          "reason": "Lower resolution, Less sharp"
+        },
+        "img8329": {
+          "action": "delete",
+          "reason": "Lower resolution, Less sharp"
+        },
+        "img8318": {
+          "action": "delete",
+          "reason": "Lower resolution, Less sharp"
+        }
+      }
+    },
+    {
+      "id": "group-img8174",
+      "items": ["img8174", "img8175"],
+      "bestCandidateId": "img8174",
+      "similarity": 0.9103987287449345,
+      "recommendations": {
+        "img8174": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img8175": {
+          "action": "delete",
+          "reason": "Less sharp"
+        }
+      }
+    },
+    {
+      "id": "group-img8220",
+      "items": ["img8220", "img8221"],
+      "bestCandidateId": "img8220",
+      "similarity": 0.8930669174931002,
+      "recommendations": {
+        "img8220": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img8221": {
+          "action": "delete",
+          "reason": "Lower resolution"
+        }
+      }
+    },
+    {
+      "id": "group-img8310",
+      "items": ["img8310", "img8328", "img8338", "img8379"],
+      "bestCandidateId": "img8328",
+      "similarity": 0.9012368069007712,
+      "recommendations": {
+        "img8328": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img8379": {
+          "action": "delete",
+          "reason": "Lower resolution"
+        },
+        "img8310": {
+          "action": "delete",
+          "reason": "Lower resolution, Less sharp"
+        },
+        "img8338": {
+          "action": "delete",
+          "reason": "Lower resolution, Less sharp"
+        }
+      }
+    },
+    {
+      "id": "group-img8322",
+      "items": ["img8322", "img8323", "img8356", "img8363"],
+      "bestCandidateId": "img8363",
+      "similarity": 0.914515345226487,
+      "recommendations": {
+        "img8363": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img8356": {
+          "action": "delete",
+          "reason": "Less sharp"
+        },
+        "img8322": {
+          "action": "delete",
+          "reason": "Less sharp"
+        },
+        "img8323": {
+          "action": "delete",
+          "reason": "Less sharp"
+        }
+      }
+    },
+    {
+      "id": "group-img8324",
+      "items": ["img8324", "img8381"],
+      "bestCandidateId": "img8381",
+      "similarity": 0.9023387831658997,
+      "recommendations": {
+        "img8381": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img8324": {
+          "action": "delete",
+          "reason": "Less sharp"
+        }
+      }
+    },
+    {
+      "id": "group-img1228",
+      "items": ["img1228", "img1230"],
+      "bestCandidateId": "img1228",
+      "similarity": 0.892162935576389,
+      "recommendations": {
+        "img1228": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img1230": {
+          "action": "delete",
+          "reason": "Lower resolution"
+        }
+      }
+    },
+    {
+      "id": "group-img8387",
+      "items": ["img8387", "img8390"],
+      "bestCandidateId": "img8387",
+      "similarity": 0.9056288313988662,
+      "recommendations": {
+        "img8387": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img8390": {
+          "action": "delete",
+          "reason": "Less sharp"
+        }
+      }
+    },
+    {
+      "id": "group-img8394",
+      "items": ["img8394", "img8395"],
+      "bestCandidateId": "img8394",
+      "similarity": 0.8960705323999119,
+      "recommendations": {
+        "img8394": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img8395": {
+          "action": "delete",
+          "reason": "Less sharp"
+        }
+      }
+    },
+    {
+      "id": "group-img8397",
+      "items": ["img8397", "img8398", "img8402"],
+      "bestCandidateId": "img8397",
+      "similarity": 0.8962838099120685,
+      "recommendations": {
+        "img8397": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img8398": {
+          "action": "delete",
+          "reason": "Less sharp"
+        },
+        "img8402": {
+          "action": "delete",
+          "reason": "Less sharp"
+        }
+      }
+    },
+    {
+      "id": "group-img8400",
+      "items": ["img8400", "img8401"],
+      "bestCandidateId": "img8401",
+      "similarity": 0.8997392203514072,
+      "recommendations": {
+        "img8401": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img8400": {
+          "action": "delete",
+          "reason": "Lower resolution"
+        }
+      }
+    },
+    {
+      "id": "group-img8404",
+      "items": ["img8404", "img8410", "img8420", "img8432", "img8437"],
+      "bestCandidateId": "img8404",
+      "similarity": 0.8959526203160186,
+      "recommendations": {
+        "img8404": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img8437": {
+          "action": "delete",
+          "reason": "Semantic duplicate"
+        },
+        "img8420": {
+          "action": "delete",
+          "reason": "Lower resolution, Less sharp"
+        },
+        "img8432": {
+          "action": "delete",
+          "reason": "Lower resolution, Less sharp"
+        },
+        "img8410": {
+          "action": "delete",
+          "reason": "Lower resolution, Less sharp"
+        }
+      }
+    },
+    {
+      "id": "group-img8405",
+      "items": ["img8405", "img8407"],
+      "bestCandidateId": "img8405",
+      "similarity": 0.9162139021669391,
+      "recommendations": {
+        "img8405": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img8407": {
+          "action": "delete",
+          "reason": "Less sharp"
+        }
+      }
+    },
+    {
+      "id": "group-img8406",
+      "items": ["img8406", "img8429", "img8431"],
+      "bestCandidateId": "img8429",
+      "similarity": 0.9060883323937917,
+      "recommendations": {
+        "img8429": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img8431": {
+          "action": "delete",
+          "reason": "Less sharp"
+        },
+        "img8406": {
+          "action": "delete",
+          "reason": "Less sharp"
+        }
+      }
+    },
+    {
+      "id": "group-img1296",
+      "items": ["img1296", "img1297"],
+      "bestCandidateId": "img1296",
+      "similarity": 0.9055345838577112,
+      "recommendations": {
+        "img1296": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img1297": {
+          "action": "delete",
+          "reason": "Lower resolution"
+        }
+      }
+    },
+    {
+      "id": "group-img1304",
+      "items": ["img1304", "img1305"],
+      "bestCandidateId": "img1304",
+      "similarity": 0.8906404733410915,
+      "recommendations": {
+        "img1304": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img1305": {
+          "action": "delete",
+          "reason": "Less sharp"
+        }
+      }
+    },
+    {
+      "id": "group-img8453",
+      "items": ["img8453", "img8463", "img8465"],
+      "bestCandidateId": "img8465",
+      "similarity": 0.9068744338148145,
+      "recommendations": {
+        "img8465": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img8463": {
+          "action": "delete",
+          "reason": "Lower resolution"
+        },
+        "img8453": {
+          "action": "delete",
+          "reason": "Lower resolution, Less sharp"
+        }
+      }
+    },
+    {
+      "id": "group-img8458",
+      "items": ["img8458", "img8459"],
+      "bestCandidateId": "img8459",
+      "similarity": 0.9211044007615887,
+      "recommendations": {
+        "img8459": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img8458": {
+          "action": "delete",
+          "reason": "Less sharp"
+        }
+      }
+    },
+    {
+      "id": "group-img1643",
+      "items": ["img1643", "img1908"],
+      "bestCandidateId": "img1908",
+      "similarity": 0.9033491019059708,
+      "recommendations": {
+        "img1908": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img1643": {
+          "action": "delete",
+          "reason": "Less sharp"
+        }
+      }
+    },
+    {
+      "id": "group-img1930",
+      "items": ["img1930", "img1931"],
+      "bestCandidateId": "img1930",
+      "similarity": 0.895641727942771,
+      "recommendations": {
+        "img1930": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img1931": {
+          "action": "delete",
+          "reason": "Lower resolution, Less sharp"
+        }
+      }
+    }
+  ],
   "stats": {
-    "totalPhotos": 334,
-    "totalGroups": 0,
-    "duplicatesFound": 0
+    "totalPhotos": 329,
+    "totalGroups": 21,
+    "duplicatesFound": 41
   }
 }

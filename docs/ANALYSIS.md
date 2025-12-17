@@ -63,7 +63,28 @@ Skript `generate-images.ts` vytváří tři klíč manifesty ve formátu JSON, k
   - Parsovaná konfigurace galerie ze souboru `content/<galerie>/site.md`
   - SEO metadata, názvy, favicon konfigurace, PWA manifest
 
-Tento přístup odděluje náročné zpracování obrázků od běhu samotné webové aplikace, která tak může pracovat pouze s lehkými a předpřipravenými daty.
+## Analýza Podobnosti a Estetiky
+
+Tento projekt používá strojové učení k automatické analýze obrázků pro dva hlavní účely:
+
+1.  **Detekce duplicit:** Nalezení vizuálně podobných obrázků pro seskupení.
+2.  **Hodnocení estetiky:** Odhad technické a estetické kvality fotografie.
+
+Používáme model `Xenova/clip-vit-large-patch14` pro převod obrázků a textu do společného vektorového prostoru (embeddings).
+
+### Estetické Skóre (Aesthetic Score)
+
+Estetické skóre se počítá jako kosinová podobnost mezi embeddingem obrázku a "estetickou osou".
+Estetická osa je definována jako rozdíl mezi embeddingem pozitivního promptu (např. "artistic, highly detailed, 8k") a negativního promptu (např. "blurry, ugly, low quality").
+
+- **Rozsah:** Typicky -0.1 až +0.1.
+- **Interpretace:**
+  - `> 0.03`: Excelentní kvalita (Zelená)
+  - `> 0.00`: Dobrá kvalita (Oranžová)
+  - `< 0.00`: Podprůměrná kvalita (Červená)
+
+Funkce je implementována v `scripts/lib/aesthetic.ts` a využívána v `scripts/analyze-similarity.ts`.
+V UI je možné filtrovat "nekvalitní" fotky (skóre < 0) pomocí přepínače v postranním panelu.
 
 ## 3. Frontend (SvelteKit Aplikace)
 

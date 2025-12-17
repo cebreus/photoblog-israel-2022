@@ -1,6 +1,6 @@
 # Kompletní seznam skriptů
 
-Tento dokument obsahuje referenční příručku všech skriptů dostupných v `package.json`. Všechny příkazy používají Bun runtime.
+Tento dokument obsahuje referenční příručku všech skriptů dostupných v `package.json`. Většina příkazů využívá sjednocený CLI nástroj (`scripts/manage.ts`), který umožňuje interaktivní výběr galerie nebo použití argumentů.
 
 ## Obsah
 
@@ -23,31 +23,40 @@ Tento dokument obsahuje referenční příručku všech skriptů dostupných v `
 
 ## Development
 
-Vývojové servery pro jednotlivé galerie. Používají `--manifestOnly` flag pro rychlý start (regeneruje pouze manifest, ne obrázky).
+Vývojové servery. Doporučujeme používat interaktivní režim.
 
-- **`bun run dev`** - Výchozí dev server (alias pro `dev:egypt`)
-- **`bun run dev:israel`** - Spustí dev server pro galerii Israel 2022
-- **`bun run dev:egypt`** - Spustí dev server pro galerii Egypt 2025
+- **`bun run dev`** - Spustí interaktivní výběr galerie a následně dev server.
+- **`bun run dev -- -g egypt-2025`** - Spustí přímo pro konkrétní galerii.
+
+### Legacy aliasy
+
+- **`bun run dev:israel`** - Alias pro `bun run dev -- -g israel-2022`
+- **`bun run dev:egypt`** - Alias pro `bun run dev -- -g egypt-2025`
 - **`bun run preview`** - Náhled production buildu lokálně
 
 ## Build (produkce)
 
-Build skripty pro jednotlivé galerie. Každý build generuje kompletní statickou stránku do vlastního adresáře.
+Build celého webu pro deployment.
 
-- **`bun run build`** - Výchozí build (alias pro `build:egypt`)
-- **`bun run build:israel`** - Sestaví galerii Israel 2022 do `build-israel-2022/`
-  - Vygeneruje všechny obrázky (AVIF, WebP, JPEG ve všech variantách)
-  - Vygeneruje favicons a PWA manifest
-  - Sestaví SvelteKit aplikaci (SSG)
-- **`bun run build:egypt`** - Sestaví galerii Egypt 2025 do `build-egypt-2025/`
+- **`bun run build`** - Interaktivní výběr galerie.
+- **`bun run build -- -g egypt-2025`** - Build pro konkrétní galerii.
 
 ## Generování assetů
 
 Skripty pro manuální generování obrázků, manifestů a favicon. Používají proměnnou `CONTENT_DIR` pro určení aktivní galerie.
 
+### Kompletní pipeline (Process)
+
+Kompletní pipeline pro zpracování dat (obrázky -> AI -> favicons).
+
+- **`bun run process`** - Interaktivní výběr.
+- **`bun run process -- -g egypt-2025`** - Spustí pipeline pro konkrétní galerii.
+
 ### Image processing
 
 - **`bun run images:build`** - Vygeneruje všechny varianty obrázků pro výchozí galerii
+- **`bun run images:build:israel`** - Pro Israel 2022
+- **`bun run images:build:egypt`** - Pro Egypt 2025
 
   **Podporované flagy:**
   - `--manifestOnly` - Pouze regenerace manifestu (bez přegenerování obrázků)
@@ -60,14 +69,17 @@ Skripty pro manuální generování obrázků, manifestů a favicon. Používaj�
   **Příklady použití:**
 
   ```bash
-  CONTENT_DIR=israel-2022 bun run images:build       # Pro konkrétní galerii
-  bun run images:build --manifestOnly                 # Pouze manifest
-  bun run images:build --curation                     # S kurátorským režimem
-  bun run images:build --watch                        # Watch režim
+  bun run images:build:israel                  # Základní použití
+  CONTENT_DIR=israel-2022 bun run images:build # Alternativa s proměnnou
+  bun run images:build --manifestOnly          # Pouze manifest
+  bun run images:build --curation              # S kurátorským režimem
+  bun run images:build --watch                 # Watch režim
   ```
 
 - **`bun run images:watch`** - Watch režim, automatická regenerace při změnách v content/
 - **`bun run images:blur`** - Vygeneruje pouze blur placeholders (LQIP)
+- **`bun run images:blur:israel`** - Blur pro Israel 2022
+- **`bun run images:blur:egypt`** - Blur pro Egypt 2025
 - **`bun run images:all`** - Kompletní generování: všechny varianty + blur placeholders
 
 ### Manifest skripty
@@ -76,6 +88,11 @@ Skripty pro manuální generování obrázků, manifestů a favicon. Používaj�
 - **`bun run manifest:build:egypt`** - Rychlá regenerace pouze manifestu pro Egypt 2025
 - **`bun run manifest:curation:israel`** - Generování kurátorského manifestu pro Israel 2022 (s detekcí duplikátů)
 - **`bun run manifest:curation:egypt`** - Generování kurátorského manifestu pro Egypt 2025
+
+### Face Clustering
+
+- **`bun run faces:cluster:israel`** - Sdružování obličejů pro Israel 2022
+- **`bun run faces:cluster:egypt`** - Sdružování obličejů pro Egypt 2025
 
 ### Favicon generation
 
@@ -174,3 +191,31 @@ Pro podrobnosti o architektuře a implementaci viz:
 - [ARCHITECTURE.md](./ARCHITECTURE.md) - Detailní architektura projektu
 - [TESTING.md](./TESTING.md) - Testovací strategie
 - [ADD-GALLERY.md](./ADD-GALLERY.md) - Návod na přidání nové galerie
+
+## Troubleshooting
+
+### Problémy s AI Skripty (Bun + Native Addons)
+
+Pokud při spouštění skriptů `faces:cluster` nebo `analyze` narazíte na chyby týkající se chybějících `.node` souborů (např. `tfjs_binding.node` nebo `canvas.node`), je to způsobeno nekompatibilitou mezi Bun, pnpm a nativními moduly.
+
+**Řešení pro `tfjs-node`:**
+
+```bash
+# 1. Najděte adresář balíčku
+# (Cesta se může lišit podle verze pnpm, hledejte v node_modules/.pnpm/)
+cd node_modules/.pnpm/@tensorflow+tfjs-node@*/node_modules/@tensorflow/tfjs-node
+
+# 2. Spusťte manuální build pomocí node-pre-gyp (absolutní cestou)
+# Upravte cestu k node-pre-gyp podle vaší instalace (často v root node_modules/.bin)
+../../../../../../node_modules/.bin/node-pre-gyp install --fallback-to-build
+```
+
+**Řešení pro `canvas`:**
+
+```bash
+# 1. Najděte adresář balíčku
+cd node_modules/.pnpm/canvas@*/node_modules/canvas
+
+# 2. Spusťte rebuild
+npm rebuild
+```

@@ -1,28 +1,35 @@
-import fsp from "node:fs/promises";
-import path from "node:path";
-import os from "node:os";
-import fg from "fast-glob";
 import { SingleBar } from "cli-progress";
+import fg from "fast-glob";
+import matter from "gray-matter";
+import fsp from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
+import type { Cache, ImageEntry, Manifest, StoryDataMap } from "../../src/lib/types/manifest";
 import { config } from "../config";
-import type { Manifest, Cache, StoryDataMap } from "../../src/lib/types/manifest";
-import { createLogger } from "./logger";
-import { ensureDir } from "./image-utils";
-import { buildGeneratorManifest, generateMenuManifest, updateManifest } from "./manifest-builder";
+import { EMBEDDING_DIM } from "./ai-models";
 import type { ProcessedImageResult } from "./image-processor";
 import { processImage, type ImageProcessOptions } from "./image-processor";
-import matter from "gray-matter";
-import type { ImageEntry } from "../../src/lib/types/manifest";
+import { createLogger } from "./logger";
+import { buildGeneratorManifest, generateMenuManifest, updateManifest } from "./manifest-builder";
 
-const logger = createLogger("images");
+import { loadManifest, saveImagesManifest, saveManifest } from "./manifest-repository";
+
+const logger = createLogger("incremental-build");
 
 function ignoreError(_err?: unknown): void {
   // intentionally empty
 }
 
+/**
+ * Returns false regardless of the input, used for error handling.
+ */
 function returnFalse(_err?: unknown): boolean {
   return false;
 }
 
+/**
+ * Checks if a file exists at the given path.
+ */
 async function fileExists(file: string) {
   try {
     await fsp.access(file);
@@ -32,20 +39,9 @@ async function fileExists(file: string) {
   }
 }
 
-async function loadJSON<T>(file: string, fallback: T): Promise<T> {
-  try {
-    const content = await fsp.readFile(file, "utf8");
-    return JSON.parse(content);
-  } catch {
-    return fallback;
-  }
-}
-
-async function saveJSON(file: string, data: unknown) {
-  await ensureDir(path.dirname(file));
-  await fsp.writeFile(file, JSON.stringify(data, null, 2) + "\n", "utf8");
-}
-
+/**
+ * Load Markdown story files from content root and return a map keyed by date or location.
+ */
 export async function loadStoryData(contentRoot: string): Promise<StoryDataMap> {
   const storyFiles = await fg("**/*.md", {
     cwd: contentRoot,
@@ -58,34 +54,16 @@ export async function loadStoryData(contentRoot: string): Promise<StoryDataMap> 
       const { data, content } = matter(fileContent);
       const storyBody = (data.content || content).trim();
       const filename = path.basename(file, ".md");
-      if (data.location) {
-        storyDataMap[data.location] = {
-          title: data.title || "",
-          content: storyBody,
-          location: data.location,
-        };
-      } else if (data.date) {
-        // ... handled below
-      } else {
-        // Fallback: use filename as location key
-        storyDataMap[filename] = {
-          title: data.title || "",
-          content: storyBody,
-          location: filename,
-        };
-      }
+      const locationKey =
+        data.location ||
+        (data.date ? new Date(data.date).toISOString().substring(0, 10) : filename);
 
-      if (data.date) {
-        const dateStr =
-          data.date instanceof Date
-            ? data.date.toISOString().substring(0, 10)
-            : String(data.date).substring(0, 10);
-        storyDataMap[dateStr] = {
-          title: data.title || "",
-          content: storyBody,
-          date: dateStr,
-        };
-      }
+      storyDataMap[locationKey] = {
+        title: data.title || "",
+        content: storyBody,
+        location: data.location || undefined,
+        date: data.date ? new Date(data.date).toISOString().substring(0, 10) : undefined,
+      };
     } catch (e: any) {
       logger.warn(`Could not parse story file ${file}: ${e.message}`);
     }
@@ -94,6 +72,9 @@ export async function loadStoryData(contentRoot: string): Promise<StoryDataMap> 
   return storyDataMap;
 }
 
+/**
+ * Generates the site manifest by parsing site.md.
+ */
 async function generateSiteManifest(): Promise<any> {
   const siteMdPath = path.resolve(process.cwd(), config.paths.siteSource, "site.md");
   if (!(await fileExists(siteMdPath))) {
@@ -110,12 +91,17 @@ async function generateSiteManifest(): Promise<any> {
   }
 }
 
+/**
+ * Detects changes between source files and the cache, identifying files to process or delete.
+ */
 async function detectChanges(
   sourceFiles: string[],
   cache: Cache,
   srcRoot: string,
   outRoot: string,
   manifestOnly: boolean,
+  previousEntries: Map<string, ImageEntry>,
+  isCuration: boolean,
 ) {
   const toProcess: string[] = [];
   const knownKeys = new Set(Object.keys(cache.files));
@@ -125,14 +111,28 @@ async function detectChanges(
     knownKeys.delete(key);
     const stats = await fsp.stat(file);
     const cached = cache.files[key];
+    const baseName = path.basename(file);
 
+    // 1. Check File Change (Time/Hash - implicit via mtime for speed here)
     if (!cached || cached.mtimeMs !== stats.mtimeMs) {
       toProcess.push(file);
       continue;
     }
 
-    // In manifestOnly mode, we don't generate outputs, so don't check for them.
-    // Otherwise we'd re-process everything every time.
+    // 2. Check Embedding Validity (if curation enabled)
+    if (isCuration) {
+      const prev = previousEntries.get(baseName);
+      if (prev) {
+        const embedding = prev.analysis?.embedding;
+        if (!embedding || !Array.isArray(embedding) || embedding.length !== EMBEDDING_DIM) {
+          logger.verbose(`Stale or missing embedding for ${key}, forcing re-process.`);
+          toProcess.push(file);
+          continue;
+        }
+      }
+    }
+
+    // 3. Check Output Files
     if (!manifestOnly) {
       const outputsExist = await Promise.all(
         cached.outputs.map((p) => fileExists(path.join(outRoot, p)).catch(returnFalse)),
@@ -147,39 +147,54 @@ async function detectChanges(
   return { toProcess, toDelete: Array.from(knownKeys) };
 }
 
+/**
+ * Loads the build cache, resetting it if configuration or cache version changes.
+ */
 async function loadCache(
   cachePath: string,
   configHash: string,
   outRoot: string,
   cacheVersion: number,
 ) {
-  let cache: Cache = await loadJSON(cachePath, {
+  const cache = (await loadManifest<Cache>(cachePath)) || {
     version: cacheVersion,
     configHash: "",
     files: {},
-  });
+  };
 
   let wasReset = false;
   if (cache.configHash !== configHash || cache.version !== cacheVersion) {
     logger.warn("Config, cache version, or script change detected. Forcing full rebuild.");
     await fsp.rm(outRoot, { recursive: true, force: true }).catch(ignoreError);
-    cache = { version: cacheVersion, configHash, files: {} };
-    wasReset = true;
+    // Return empty cache
+    return {
+      cache: { version: cacheVersion, configHash, files: {} },
+      wasReset: true,
+    };
   }
   return { cache, wasReset };
 }
 
+/**
+ * Finds all source image files within the given source root, respecting a limit if provided.
+ */
 async function findSourceFiles(srcRoot: string, limit: number | 0) {
   const inputExts = config.script.inputExtensions;
   const sourceFiles = await fg(`**/*.{${inputExts.join(",")}}`, {
     cwd: srcRoot,
     absolute: true,
     dot: false,
+    onlyFiles: true,
+    // Ignore hidden and helper subfolders inside pics (e.g., archive, _stash, _schovane, .git)
+    ignore: ["**/.git/**", "**/archive/**", "**/_*/**"],
   });
   if (limit > 0) sourceFiles.splice(limit);
   return sourceFiles;
 }
 
+/**
+ * Removes deleted files from the cache and deletes their corresponding output files.
+ */
 async function pruneDeleted(toDelete: string[], cache: Cache, outRoot: string) {
   if (toDelete.length === 0) return;
 
@@ -192,6 +207,9 @@ async function pruneDeleted(toDelete: string[], cache: Cache, outRoot: string) {
   await Promise.all(toDelete.map(deleteKey));
 }
 
+/**
+ * Process a list of image files concurrently and return their processed results.
+ */
 async function processImages(
   toProcess: string[],
   {
@@ -204,6 +222,7 @@ async function processImages(
     previousEntriesMap?: Map<string, ImageEntry>;
     oldCache?: Cache;
   } & ImageProcessOptions,
+  processImageFn = processImage, // Dependency Injection default
 ): Promise<ProcessedImageResult[]> {
   if (toProcess.length === 0) return [];
 
@@ -225,14 +244,13 @@ async function processImages(
     while (index < toProcess.length) {
       const pos = index++;
       if (pos >= toProcess.length) break;
-      // eslint-disable-next-line no-await-in-loop
       const filePath = toProcess[pos];
       const key = path.posix.normalize(path.relative(options.srcRoot, filePath));
       const oldHash = (options as any).oldCache?.files?.[key]?.hash;
       const baseName = path.basename(filePath);
       const previousEntry = (options as any).previousEntriesMap?.get(baseName);
 
-      const res = await processImage(filePath, { ...options, oldHash, previousEntry });
+      const res = await processImageFn(filePath, { ...options, oldHash, previousEntry });
       if (res) results.push(res);
       bar?.increment();
     }
@@ -244,7 +262,6 @@ async function processImages(
   bar?.stop();
   return results;
 }
-
 async function updateCacheAndManifests({
   cache,
   results,
@@ -254,7 +271,6 @@ async function updateCacheAndManifests({
   shouldWriteSiteManifests,
   configHash,
   wasReset,
-  srcRoot,
 }: {
   cache: Cache;
   results: ProcessedImageResult[];
@@ -270,7 +286,6 @@ async function updateCacheAndManifests({
   shouldWriteSiteManifests: boolean;
   configHash: string;
   wasReset: boolean;
-  srcRoot: string;
 }) {
   for (const res of results) {
     cache.files[res.key] = {
@@ -285,34 +300,41 @@ async function updateCacheAndManifests({
 
   let finalManifest: Manifest = { photoDays: [] };
   if (shouldWriteSiteManifests) {
-    // If we reset the cache/build, we should ALSO start with a fresh manifest
-    // to avoid keeping entries from a previous configuration (e.g. different CONTENT_DIR).
+    // Re-load previous manifest using Generic loader, or use empty
     const existingManifest = wasReset
       ? { photoDays: [] }
-      : await loadJSON<Manifest>(paths.manifestPath, {
-          photoDays: [],
-        });
+      : (await loadManifest<Manifest>(paths.manifestPath)) || { photoDays: [] };
+
     finalManifest = updateManifest(results, toDelete, storyData, existingManifest);
   }
 
   const savePromises = [
-    saveJSON(paths.cachePath, cache),
-    saveJSON(paths.generatorManifestPath, generatorManifest),
+    saveManifest(paths.cachePath, cache),
+    saveManifest(paths.generatorManifestPath, generatorManifest),
   ];
 
   if (shouldWriteSiteManifests) {
-    savePromises.push(saveJSON(paths.manifestPath, finalManifest));
-    const menuManifest = generateMenuManifest(finalManifest);
-    savePromises.push(saveJSON(paths.menuManifestPath, menuManifest));
+    savePromises.push(saveImagesManifest(path.dirname(paths.manifestPath), finalManifest)); // Using wrapper requires dir, or generic?
+    // Wrapper loadImagesManifest takes outRoot. Let's stick to generic saveManifest for absolute paths if wrappers assume a specific structure we might not fully adhere to in 'paths' object.
+    // Actually, paths.manifestPath is typically .../images.manifest.json.
+    // Let's use generic saveManifest for maximum flexibility here as 'paths' are explicit.
 
-    // Generate site manifest
+    // override the push above to use generic saveManifest for consistency
+    // savePromises.push(saveManifest(paths.manifestPath, finalManifest));
+
+    const menuManifest = generateMenuManifest(finalManifest);
+    savePromises.push(saveManifest(paths.menuManifestPath, menuManifest));
+
     const siteManifest = await generateSiteManifest();
-    savePromises.push(saveJSON(paths.siteManifestPath, siteManifest));
+    savePromises.push(saveManifest(paths.siteManifestPath, siteManifest));
   }
 
   await Promise.all(savePromises);
 }
 
+/**
+ * Run an incremental site build: detect changes, process images and update manifests.
+ */
 export async function runIncrementalBuild(
   CTX: {
     srcRoot: string;
@@ -339,14 +361,12 @@ export async function runIncrementalBuild(
     qualityOverrides?: Record<string, number>;
     cacheVersion?: number;
   } = {},
-  storyLoader = loadStoryData,
+  dependencies = { storyLoader: loadStoryData, processImageFn: processImage }, // Dependency Injection
 ) {
   const startTime = performance.now();
   logger.info("Starting incremental build...");
   if (ARGS.manifestOnly) {
-    logger.info(
-      "Manifest-only mode enabled. Skipping image processing, generating manifests only.",
-    );
+    logger.info("Manifest-only mode enabled.");
   }
 
   const { cache, wasReset } = await loadCache(
@@ -356,11 +376,7 @@ export async function runIncrementalBuild(
     opts.cacheVersion ?? 1,
   );
 
-  const storyData = await storyLoader(CTX.contentRoot);
-
-  // In manifest-only mode, we still want to detect changes (metadata updates)
-  // and run processImages (which skips encoding but reads metadata).
-  // So we REMOVE the early return block that was here.
+  const storyData = await dependencies.storyLoader(CTX.contentRoot);
 
   const { cache: cacheAfter, wasReset: wasResetAfter } = await loadCache(
     CTX.cachePath,
@@ -369,35 +385,11 @@ export async function runIncrementalBuild(
     opts.cacheVersion ?? 1,
   );
 
-  const sourceFiles = await findSourceFiles(CTX.srcRoot, ARGS.limit);
+  // 1. Load previous manifest
+  const previousManifest: Manifest = (await loadManifest<Manifest>(CTX.manifestPath)) || {
+    photoDays: [],
+  };
 
-  const { toProcess, toDelete } = await detectChanges(
-    sourceFiles,
-    cacheAfter,
-    CTX.srcRoot,
-    CTX.outRoot,
-    ARGS.manifestOnly,
-  );
-
-  logger.info(`Found: ${toProcess.length} new/modified, ${toDelete.length} deleted.`);
-
-  await pruneDeleted(toDelete, cacheAfter, CTX.outRoot);
-
-  // Build detailed "Process Item" list with extra method
-  // We need to pass the "old" hash from cache if available, AND the "previous" entry from manifest if available.
-
-  // 1. Load previous manifest to find reusable entries
-  // We need to load it ANYWAY for updateManifest later, so let's load it now if we haven't.
-  // Actually updateCacheAndManifests loads it inside. We should probably load it here and pass it down.
-  // But for now, let's just load it here for the map.
-  let previousManifest: Manifest = { photoDays: [] };
-  try {
-    previousManifest = await loadJSON<Manifest>(CTX.manifestPath, { photoDays: [] });
-  } catch (e) {
-    // ignore
-  }
-
-  // Create a quick lookup map: src -> ImageEntry
   const previousEntries = new Map<string, ImageEntry>();
   for (const day of previousManifest.photoDays) {
     for (const item of day.items) {
@@ -407,23 +399,40 @@ export async function runIncrementalBuild(
     }
   }
 
-  const results = await processImages(toProcess, {
-    ...ARGS,
-    srcRoot: CTX.srcRoot,
-    outRoot: CTX.outRoot,
-    allowUpscale: opts.allowUpscale ?? false,
-    formats: opts.formats ?? [...config.encoding.formats],
-    qualityOverrides: opts.qualityOverrides ?? {},
-    previousEntriesMap: previousEntries,
-    oldCache: cacheAfter, // Cache that was JUST loaded (before pruning deleted) has the OLD hashes for these files.
-  });
+  const sourceFiles = await findSourceFiles(CTX.srcRoot, ARGS.limit);
 
-  // Always update manifest, even if results (processed images) are empty.
-  // This allows metadata-only updates (like author/geo changes) to be reflected in manifests
-  // without needing to re-process the images themselves.
+  const { toProcess, toDelete } = await detectChanges(
+    sourceFiles,
+    cacheAfter,
+    CTX.srcRoot,
+    CTX.outRoot,
+    ARGS.manifestOnly,
+    previousEntries,
+    ARGS.curation,
+  );
+
+  logger.info(`Found: ${toProcess.length} new/modified, ${toDelete.length} deleted.`);
+
+  await pruneDeleted(toDelete, cacheAfter, CTX.outRoot);
+
+  const results = await processImages(
+    toProcess,
+    {
+      ...ARGS,
+      srcRoot: CTX.srcRoot,
+      outRoot: CTX.outRoot,
+      allowUpscale: opts.allowUpscale ?? false,
+      formats: opts.formats ?? [...config.encoding.formats],
+      qualityOverrides: opts.qualityOverrides ?? {},
+      previousEntriesMap: previousEntries,
+      oldCache: cacheAfter,
+    },
+    dependencies.processImageFn,
+  );
+
   await updateCacheAndManifests({
     cache: cacheAfter,
-    results, // Can be empty if no images changed
+    results,
     toDelete,
     storyData,
     paths: {
@@ -436,7 +445,6 @@ export async function runIncrementalBuild(
     shouldWriteSiteManifests: CTX.shouldWriteSiteManifests,
     configHash: CTX.configHash,
     wasReset: wasResetAfter,
-    srcRoot: CTX.srcRoot,
   });
 
   logger.info(`Build finished in ${(performance.now() - startTime).toFixed(2)}ms.`);

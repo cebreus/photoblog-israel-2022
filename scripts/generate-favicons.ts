@@ -1,7 +1,7 @@
-import { promises as fs } from "fs";
-import path from "path";
 import { favicons, type FaviconOptions } from "favicons";
+import { promises as fs } from "fs";
 import matter from "gray-matter";
+import path from "path";
 import { createLogger } from "./lib/logger";
 
 const logger = createLogger("favicons");
@@ -11,12 +11,8 @@ type SiteConfig = {
   lang: string;
   manifestConfig: Partial<FaviconOptions>;
 };
-
 /**
- * Loads and validates the site-specific configuration from the corresponding site.md file.
- * @param contentDir The directory of the content to be processed.
- * @returns A validated configuration object.
- * @throws An error if the config file or any required keys are missing.
+ * Loads the site configuration from site.md, including favicon source and manifest settings.
  */
 async function loadSiteConfig(contentDir: string): Promise<SiteConfig> {
   const sourceDirPath = path.resolve("content", contentDir);
@@ -58,9 +54,8 @@ async function loadSiteConfig(contentDir: string): Promise<SiteConfig> {
     manifestConfig: data.manifest,
   };
 }
-
 /**
- * Main function to generate favicons based on explicit configuration.
+ * Generates favicons and associated manifest files based on site configuration.
  */
 async function run() {
   logger.info("Starting favicon generation...");
@@ -138,7 +133,9 @@ async function run() {
 
   logger.info("Favicons generated successfully.");
 }
-
+/**
+ * Executes the favicon generation process and handles any errors.
+ */
 async function executeRun(): Promise<void> {
   try {
     await run();

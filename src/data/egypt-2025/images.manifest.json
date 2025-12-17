@@ -2341,7 +2341,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/details/IMG_8128.jpeg",
               "width": 1280,
-              "height": 511
+              "height": 510
             },
             {
               "variant": "fallback",
@@ -10248,10 +10248,13 @@
             "latitude": 31.213075,
             "longitude": 29.885681,
             "orientation": 1,
+            "author": "Cebreus",
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Alexandrie (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
           "location": "Pevnost Qaitbay",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.213075,29.885681",
@@ -10421,10 +10424,13 @@
             "latitude": 31.209478,
             "longitude": 29.893528,
             "orientation": 6,
+            "author": "Cebreus",
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Alexandrie (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
           "location": "Pevnost Qaitbay",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.209478,29.893528",
@@ -10594,10 +10600,13 @@
             "latitude": 31.210222,
             "longitude": 29.888278,
             "orientation": 1,
+            "author": "Cebreus",
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Alexandrie (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
           "location": "Pevnost Qaitbay",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.210222,29.888278",
@@ -10853,10 +10862,13 @@
             "latitude": 31.213344,
             "longitude": 29.885714,
             "orientation": 1,
+            "author": "Cebreus",
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Alexandrie (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
           "location": "Pevnost Qaitbay",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.213344,29.885714",
@@ -10922,7 +10934,7 @@
           "title": "",
           "width": 8064,
           "height": 6048,
-          "sizeMB": 3.84,
+          "sizeMB": 3.85,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/IMG_8276.png",
           "placeholderColor": "rgb(104,152,232)",
@@ -10938,10 +10950,13 @@
             "latitude": 31.213358,
             "longitude": 29.885706,
             "orientation": 1,
+            "author": "Cebreus",
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Alexandrie (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
           "location": "Pevnost Qaitbay",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.213358,29.885706",
@@ -11121,10 +11136,13 @@
             "longitude": 30.025022,
             "orientation": 1,
             "description": "Vlak krále Farúka",
+            "author": "Cebreus",
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Alexandrie (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
           "location": "Královská vlaková garáž",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.283508,30.025022",
@@ -11208,10 +11226,13 @@
             "longitude": 30.025022,
             "orientation": 6,
             "description": "Vlak krále Farúka",
+            "author": "Cebreus",
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Alexandrie (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
           "location": "Královská vlaková garáž",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.283508,30.025022",
@@ -11475,10 +11496,13 @@
             "longitude": 30.025025,
             "orientation": 6,
             "description": "Vlak krále Farúka",
+            "author": "Cebreus",
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Alexandrie (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
           "location": "Královská vlaková garáž",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.283506,30.025025",
@@ -11562,10 +11586,13 @@
             "longitude": 30.025044,
             "orientation": 1,
             "description": "Vlak krále Farúka",
+            "author": "Cebreus",
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Alexandrie (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
           "location": "Královská vlaková garáž",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.2835,30.025044",
@@ -11653,10 +11680,13 @@
             "latitude": 31.287067,
             "longitude": 30.024589,
             "orientation": 1,
+            "author": "Cebreus",
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Alexandrie (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
           "location": "Královský skleník",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.287067,30.024589",
@@ -11826,10 +11856,13 @@
             "latitude": 31.287061,
             "longitude": 30.024697,
             "orientation": 1,
+            "author": "Cebreus",
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Alexandrie (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
           "location": "Královský skleník",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.287061,30.024697",
@@ -11876,7 +11909,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/details/IMG_8282.jpeg",
               "width": 1280,
-              "height": 1706
+              "height": 1707
             },
             {
               "variant": "fallback",
@@ -11911,10 +11944,13 @@
             "latitude": 31.287694,
             "longitude": 30.024478,
             "orientation": 6,
+            "author": "Cebreus",
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Alexandrie (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
           "location": "Královský skleník",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.287694,30.024478",
@@ -11996,10 +12032,13 @@
             "latitude": 31.287639,
             "longitude": 30.024472,
             "orientation": 1,
+            "author": "Cebreus",
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Alexandrie (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
           "location": "Královský skleník",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.287639,30.024472",
@@ -12081,10 +12120,13 @@
             "latitude": 31.287564,
             "longitude": 30.024514,
             "orientation": 1,
+            "author": "Cebreus",
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Alexandrie (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
           "location": "Královský skleník",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.287564,30.024514",
@@ -12166,10 +12208,13 @@
             "latitude": 31.287567,
             "longitude": 30.024392,
             "orientation": 1,
+            "author": "Cebreus",
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Alexandrie (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
           "location": "Královský skleník",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.287567,30.024392",
@@ -12251,10 +12296,13 @@
             "latitude": 31.287525,
             "longitude": 30.024778,
             "orientation": 6,
+            "author": "Cebreus",
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Alexandrie (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
           "location": "Královský skleník",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.287525,30.024778",
@@ -12320,7 +12368,7 @@
           "title": "",
           "width": 3024,
           "height": 4032,
-          "sizeMB": 2.52,
+          "sizeMB": 2.53,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/IMG_8296.png",
           "placeholderColor": "rgb(168,136,136)",
@@ -12336,10 +12384,13 @@
             "latitude": 31.287525,
             "longitude": 30.024778,
             "orientation": 6,
+            "author": "Cebreus",
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Alexandrie (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
           "location": "Královský skleník",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.287525,30.024778",
@@ -12398,91 +12449,6 @@
           ]
         },
         {
-          "id": "img8297",
-          "type": "image",
-          "src": "IMG_8297.HEIC",
-          "alt": "Královský skleník, Alexandrie",
-          "title": "",
-          "width": 3024,
-          "height": 4032,
-          "sizeMB": 2.46,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/IMG_8297.png",
-          "placeholderColor": "rgb(24,40,24)",
-          "analysis": {
-            "sharpness": 3590.510347354277,
-            "phash": "24431a2bf9d9d269",
-            "embedding": []
-          },
-          "exif": {
-            "date": "2025-11-25T14:17:12.003Z",
-            "location": "Královský skleník",
-            "city": "Alexandrie",
-            "latitude": 31.287339,
-            "longitude": 30.024783,
-            "orientation": 6,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "location": "Královský skleník",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.287339,30.024783",
-          "date": "2025-11-25T14:17:12.003Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/IMG_8297.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/IMG_8297.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/IMG_8297.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/IMG_8297.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/IMG_8297.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/IMG_8297.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/IMG_8297.jpeg",
-              "width": 1280,
-              "height": 1707
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/IMG_8297.jpeg",
-              "width": 190,
-              "height": 107
-            }
-          ]
-        },
-        {
           "id": "img8299",
           "type": "image",
           "src": "IMG_8299.HEIC",
@@ -12503,8 +12469,11 @@
             "date": "2025-11-25T14:23:50.783Z",
             "latitude": 31.289289,
             "longitude": 30.021894,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.289289,30.021894",
           "date": "2025-11-25T14:23:50.783Z",
           "sources": [
@@ -12581,8 +12550,11 @@
             "date": "2025-11-25T14:25:18.311Z",
             "latitude": 31.289408,
             "longitude": 30.021667,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.289408,30.021667",
           "date": "2025-11-25T14:25:18.311Z",
           "sources": [
@@ -12646,7 +12618,7 @@
           "title": "",
           "width": 4032,
           "height": 3024,
-          "sizeMB": 2.22,
+          "sizeMB": 2.23,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/IMG_8302.png",
           "placeholderColor": "rgb(152,152,152)",
@@ -12659,8 +12631,11 @@
             "date": "2025-11-25T14:43:50.821Z",
             "latitude": 31.289278,
             "longitude": 30.021736,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.289278,30.021736",
           "date": "2025-11-25T14:43:50.821Z",
           "sources": [
@@ -12721,18 +12696,18 @@
     },
     {
       "date": "2025-11-26",
-      "cities": [],
-      "locations": [],
+      "cities": ["Gíza"],
+      "locations": ["Egyptský papyrusový institut", "Velké egyptské muzeum"],
       "items": [
         {
           "id": "img8308",
           "type": "image",
           "src": "IMG_8308.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
-          "sizeMB": 8.93,
+          "sizeMB": 8.94,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/IMG_8308.png",
           "placeholderColor": "rgb(120,136,168)",
@@ -12743,10 +12718,18 @@
           },
           "exif": {
             "date": "2025-11-26T06:59:32.911Z",
+            "city": "Gíza",
             "latitude": 29.969994,
             "longitude": 31.120153,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.969994,31.120153",
           "date": "2025-11-26T06:59:32.911Z",
           "sources": [
@@ -12806,7 +12789,7 @@
           "id": "img8310",
           "type": "image",
           "src": "IMG_8310.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -12821,10 +12804,18 @@
           },
           "exif": {
             "date": "2025-11-26T07:01:12.591Z",
+            "city": "Gíza",
             "latitude": 29.969386,
             "longitude": 31.121711,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.969386,31.121711",
           "date": "2025-11-26T07:01:12.591Z",
           "sources": [
@@ -12884,7 +12875,7 @@
           "id": "img8313",
           "type": "image",
           "src": "IMG_8313.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -12899,10 +12890,18 @@
           },
           "exif": {
             "date": "2025-11-26T07:02:16.406Z",
+            "city": "Gíza",
             "latitude": 29.968853,
             "longitude": 31.123181,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.968853,31.123181",
           "date": "2025-11-26T07:02:16.406Z",
           "sources": [
@@ -12962,7 +12961,7 @@
           "id": "img8318",
           "type": "image",
           "src": "IMG_8318.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -12977,10 +12976,18 @@
           },
           "exif": {
             "date": "2025-11-26T07:05:08.080Z",
+            "city": "Gíza",
             "latitude": 29.967919,
             "longitude": 31.125108,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.967919,31.125108",
           "date": "2025-11-26T07:05:08.080Z",
           "sources": [
@@ -13121,11 +13128,11 @@
           "id": "img8319",
           "type": "image",
           "src": "IMG_8319.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 13756,
           "height": 3820,
-          "sizeMB": 11.83,
+          "sizeMB": 11.84,
           "aspectRatio": "panorama",
           "placeholder": "blurs/IMG_8319.png",
           "placeholderColor": "rgb(216,184,136)",
@@ -13136,10 +13143,18 @@
           },
           "exif": {
             "date": "2025-11-26T07:05:29.347Z",
+            "city": "Gíza",
             "latitude": 29.967914,
             "longitude": 31.125108,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.967914,31.125108",
           "date": "2025-11-26T07:05:29.347Z",
           "sources": [
@@ -13199,7 +13214,7 @@
           "id": "img8320",
           "type": "image",
           "src": "IMG_8320.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 16052,
           "height": 3854,
@@ -13214,10 +13229,18 @@
           },
           "exif": {
             "date": "2025-11-26T07:05:55.357Z",
+            "city": "Gíza",
             "latitude": 29.967914,
             "longitude": 31.125108,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.967914,31.125108",
           "date": "2025-11-26T07:05:55.357Z",
           "sources": [
@@ -13277,7 +13300,7 @@
           "id": "img8322",
           "type": "image",
           "src": "IMG_8322.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -13292,10 +13315,18 @@
           },
           "exif": {
             "date": "2025-11-26T07:08:34.553Z",
+            "city": "Gíza",
             "latitude": 29.967922,
             "longitude": 31.125086,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.967922,31.125086",
           "date": "2025-11-26T07:08:34.553Z",
           "sources": [
@@ -13355,7 +13386,7 @@
           "id": "img8323",
           "type": "image",
           "src": "IMG_8323.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -13370,10 +13401,18 @@
           },
           "exif": {
             "date": "2025-11-26T07:09:07.582Z",
+            "city": "Gíza",
             "latitude": 29.967925,
             "longitude": 31.125089,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.967925,31.125089",
           "date": "2025-11-26T07:09:07.582Z",
           "sources": [
@@ -13433,7 +13472,7 @@
           "id": "img8324",
           "type": "image",
           "src": "IMG_8324.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -13448,10 +13487,18 @@
           },
           "exif": {
             "date": "2025-11-26T07:10:30.815Z",
+            "city": "Gíza",
             "latitude": 29.967678,
             "longitude": 31.125314,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.967678,31.125314",
           "date": "2025-11-26T07:10:30.815Z",
           "sources": [
@@ -13511,11 +13558,11 @@
           "id": "img8325",
           "type": "image",
           "src": "IMG_8325.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
-          "sizeMB": 8.73,
+          "sizeMB": 8.74,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/IMG_8325.png",
           "placeholderColor": "rgb(104,120,152)",
@@ -13526,10 +13573,18 @@
           },
           "exif": {
             "date": "2025-11-26T07:10:32.845Z",
+            "city": "Gíza",
             "latitude": 29.967681,
             "longitude": 31.125303,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.967681,31.125303",
           "date": "2025-11-26T07:10:32.845Z",
           "sources": [
@@ -13589,7 +13644,7 @@
           "id": "img8326",
           "type": "image",
           "src": "IMG_8326.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -13604,10 +13659,18 @@
           },
           "exif": {
             "date": "2025-11-26T07:10:34.063Z",
+            "city": "Gíza",
             "latitude": 29.967678,
             "longitude": 31.1253,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.967678,31.1253",
           "date": "2025-11-26T07:10:34.063Z",
           "sources": [
@@ -13667,7 +13730,7 @@
           "id": "img8327",
           "type": "image",
           "src": "IMG_8327.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -13682,10 +13745,18 @@
           },
           "exif": {
             "date": "2025-11-26T07:10:35.732Z",
+            "city": "Gíza",
             "latitude": 29.967678,
             "longitude": 31.125297,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.967678,31.125297",
           "date": "2025-11-26T07:10:35.732Z",
           "sources": [
@@ -13745,7 +13816,7 @@
           "id": "img8328",
           "type": "image",
           "src": "IMG_8328.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 14058,
           "height": 3790,
@@ -13760,10 +13831,18 @@
           },
           "exif": {
             "date": "2025-11-26T07:10:43.957Z",
+            "city": "Gíza",
             "latitude": 29.967675,
             "longitude": 31.1253,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.967675,31.1253",
           "date": "2025-11-26T07:10:43.957Z",
           "sources": [
@@ -13904,7 +13983,7 @@
           "id": "img8329",
           "type": "image",
           "src": "IMG_8329.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -13919,10 +13998,18 @@
           },
           "exif": {
             "date": "2025-11-26T07:11:20.248Z",
+            "city": "Gíza",
             "latitude": 29.967667,
             "longitude": 31.125294,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.967667,31.125294",
           "date": "2025-11-26T07:11:20.248Z",
           "sources": [
@@ -13979,88 +14066,10 @@
           ]
         },
         {
-          "id": "img8330",
-          "type": "image",
-          "src": "IMG_8330.HEIC",
-          "alt": "Photoblog image",
-          "title": "",
-          "width": 4032,
-          "height": 3024,
-          "sizeMB": 1.36,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/IMG_8330.png",
-          "placeholderColor": "rgb(152,152,152)",
-          "analysis": {
-            "sharpness": 2489.7950869999236,
-            "phash": "8d8c1c368ee8e0e0",
-            "embedding": []
-          },
-          "exif": {
-            "date": "2025-11-26T07:14:33.358Z",
-            "latitude": 29.967833,
-            "longitude": 31.124925,
-            "orientation": 1
-          },
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.967833,31.124925",
-          "date": "2025-11-26T07:14:33.358Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/IMG_8330.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/IMG_8330.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/IMG_8330.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/IMG_8330.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/IMG_8330.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/IMG_8330.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/IMG_8330.jpeg",
-              "width": 1280,
-              "height": 960
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/IMG_8330.jpeg",
-              "width": 190,
-              "height": 107
-            }
-          ]
-        },
-        {
           "id": "img8331",
           "type": "image",
           "src": "IMG_8331.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -14075,10 +14084,18 @@
           },
           "exif": {
             "date": "2025-11-26T07:14:34.934Z",
+            "city": "Gíza",
             "latitude": 29.967858,
             "longitude": 31.124908,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.967858,31.124908",
           "date": "2025-11-26T07:14:34.934Z",
           "sources": [
@@ -14138,11 +14155,11 @@
           "id": "img8337",
           "type": "image",
           "src": "IMG_8337.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 4032,
           "height": 3024,
-          "sizeMB": 2.07,
+          "sizeMB": 2.06,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/IMG_8337.png",
           "placeholderColor": "rgb(232,232,216)",
@@ -14153,10 +14170,18 @@
           },
           "exif": {
             "date": "2025-11-26T07:15:44.613Z",
+            "city": "Gíza",
             "latitude": 29.96845,
             "longitude": 31.123806,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.96845,31.123806",
           "date": "2025-11-26T07:15:44.613Z",
           "sources": [
@@ -14216,7 +14241,7 @@
           "id": "img8338",
           "type": "image",
           "src": "IMG_8338.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -14231,10 +14256,18 @@
           },
           "exif": {
             "date": "2025-11-26T07:19:23.106Z",
+            "city": "Gíza",
             "latitude": 29.969336,
             "longitude": 31.122697,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.969336,31.122697",
           "date": "2025-11-26T07:19:23.106Z",
           "sources": [
@@ -14294,7 +14327,7 @@
           "id": "img8344",
           "type": "image",
           "src": "IMG_8344.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 15616,
           "height": 3962,
@@ -14309,10 +14342,18 @@
           },
           "exif": {
             "date": "2025-11-26T07:25:50.305Z",
+            "city": "Gíza",
             "latitude": 29.972194,
             "longitude": 31.12095,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.972194,31.12095",
           "date": "2025-11-26T07:25:50.305Z",
           "sources": [
@@ -14372,7 +14413,7 @@
           "id": "img8345",
           "type": "image",
           "src": "IMG_8345.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 16020,
           "height": 3880,
@@ -14387,10 +14428,18 @@
           },
           "exif": {
             "date": "2025-11-26T07:26:10.710Z",
+            "city": "Gíza",
             "latitude": 29.9722,
             "longitude": 31.120947,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.9722,31.120947",
           "date": "2025-11-26T07:26:10.710Z",
           "sources": [
@@ -14450,11 +14499,11 @@
           "id": "img8347",
           "type": "image",
           "src": "IMG_8347.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 6048,
           "height": 8064,
-          "sizeMB": 9.87,
+          "sizeMB": 9.88,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/IMG_8347.png",
           "placeholderColor": "rgb(88,104,120)",
@@ -14465,10 +14514,18 @@
           },
           "exif": {
             "date": "2025-11-26T07:44:53.909Z",
+            "city": "Gíza",
             "latitude": 29.978014,
             "longitude": 31.133514,
-            "orientation": 6
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.978014,31.133514",
           "date": "2025-11-26T07:44:53.909Z",
           "sources": [
@@ -14528,7 +14585,7 @@
           "id": "img8349",
           "type": "image",
           "src": "IMG_8349.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -14543,10 +14600,18 @@
           },
           "exif": {
             "date": "2025-11-26T07:59:33.107Z",
+            "city": "Gíza",
             "latitude": 29.977894,
             "longitude": 31.136117,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.977894,31.136117",
           "date": "2025-11-26T07:59:33.107Z",
           "sources": [
@@ -14606,11 +14671,11 @@
           "id": "img8350",
           "type": "image",
           "src": "IMG_8350.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 8102,
           "height": 3790,
-          "sizeMB": 4,
+          "sizeMB": 4.01,
           "aspectRatio": "landscape-4051-1895",
           "placeholder": "blurs/IMG_8350.png",
           "placeholderColor": "rgb(104,88,72)",
@@ -14621,10 +14686,18 @@
           },
           "exif": {
             "date": "2025-11-26T07:59:43.918Z",
+            "city": "Gíza",
             "latitude": 29.977894,
             "longitude": 31.136117,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.977894,31.136117",
           "date": "2025-11-26T07:59:43.918Z",
           "sources": [
@@ -14684,7 +14757,7 @@
           "id": "img8353",
           "type": "image",
           "src": "IMG_8353.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -14699,10 +14772,18 @@
           },
           "exif": {
             "date": "2025-11-26T08:07:27.117Z",
+            "city": "Gíza",
             "latitude": 29.978439,
             "longitude": 31.135822,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.978439,31.135822",
           "date": "2025-11-26T08:07:27.117Z",
           "sources": [
@@ -14762,7 +14843,7 @@
           "id": "img8356",
           "type": "image",
           "src": "IMG_8356.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -14777,10 +14858,18 @@
           },
           "exif": {
             "date": "2025-11-26T08:15:02.388Z",
+            "city": "Gíza",
             "latitude": 29.979197,
             "longitude": 31.136036,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.979197,31.136036",
           "date": "2025-11-26T08:15:02.388Z",
           "sources": [
@@ -14840,11 +14929,11 @@
           "id": "img8357",
           "type": "image",
           "src": "IMG_8357.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 6048,
           "height": 8064,
-          "sizeMB": 8.48,
+          "sizeMB": 8.49,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/IMG_8357.png",
           "placeholderColor": "rgb(216,184,136)",
@@ -14855,10 +14944,18 @@
           },
           "exif": {
             "date": "2025-11-26T08:15:56.669Z",
+            "city": "Gíza",
             "latitude": 29.979303,
             "longitude": 31.136069,
-            "orientation": 6
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.979303,31.136069",
           "date": "2025-11-26T08:15:56.669Z",
           "sources": [
@@ -14918,7 +15015,7 @@
           "id": "img8358",
           "type": "image",
           "src": "IMG_8358.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -14933,10 +15030,18 @@
           },
           "exif": {
             "date": "2025-11-26T08:21:10.987Z",
+            "city": "Gíza",
             "latitude": 29.979933,
             "longitude": 31.135397,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.979933,31.135397",
           "date": "2025-11-26T08:21:10.987Z",
           "sources": [
@@ -14996,11 +15101,11 @@
           "id": "img8362",
           "type": "image",
           "src": "IMG_8362.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 7084,
           "height": 4723,
-          "sizeMB": 3.42,
+          "sizeMB": 3.43,
           "aspectRatio": "landscape-3-2",
           "placeholder": "blurs/IMG_8362.png",
           "placeholderColor": "rgb(152,168,184)",
@@ -15011,10 +15116,18 @@
           },
           "exif": {
             "date": "2025-11-26T08:32:33.516Z",
+            "city": "Gíza",
             "latitude": 29.977736,
             "longitude": 31.13285,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.977736,31.13285",
           "date": "2025-11-26T08:32:33.516Z",
           "sources": [
@@ -15074,7 +15187,7 @@
           "id": "img8363",
           "type": "image",
           "src": "IMG_8363.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -15089,10 +15202,18 @@
           },
           "exif": {
             "date": "2025-11-26T08:50:57.295Z",
+            "city": "Gíza",
             "latitude": 29.974772,
             "longitude": 31.139111,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.974772,31.139111",
           "date": "2025-11-26T08:50:57.295Z",
           "sources": [
@@ -15233,11 +15354,11 @@
           "id": "img8365",
           "type": "image",
           "src": "IMG_8365.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
-          "sizeMB": 6.59,
+          "sizeMB": 6.6,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/IMG_8365.png",
           "placeholderColor": "rgb(216,184,136)",
@@ -15248,10 +15369,18 @@
           },
           "exif": {
             "date": "2025-11-26T08:52:10.909Z",
+            "city": "Gíza",
             "latitude": 29.974756,
             "longitude": 31.139111,
-            "orientation": 3
+            "orientation": 3,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.974756,31.139111",
           "date": "2025-11-26T08:52:10.909Z",
           "sources": [
@@ -15311,7 +15440,7 @@
           "id": "img8367",
           "type": "image",
           "src": "IMG_8367.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -15326,10 +15455,18 @@
           },
           "exif": {
             "date": "2025-11-26T08:55:23.637Z",
+            "city": "Gíza",
             "latitude": 29.974733,
             "longitude": 31.138344,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.974733,31.138344",
           "date": "2025-11-26T08:55:23.637Z",
           "sources": [
@@ -15389,7 +15526,7 @@
           "id": "img8369",
           "type": "image",
           "src": "IMG_8369.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 4608,
           "height": 3457,
@@ -15404,10 +15541,18 @@
           },
           "exif": {
             "date": "2025-11-26T08:55:35.369Z",
+            "city": "Gíza",
             "latitude": 29.974742,
             "longitude": 31.138369,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.974742,31.138369",
           "date": "2025-11-26T08:55:35.369Z",
           "sources": [
@@ -15467,7 +15612,7 @@
           "id": "img8372",
           "type": "image",
           "src": "IMG_8372.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -15482,10 +15627,18 @@
           },
           "exif": {
             "date": "2025-11-26T08:59:29.179Z",
+            "city": "Gíza",
             "latitude": 29.97495,
             "longitude": 31.13805,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.97495,31.13805",
           "date": "2025-11-26T08:59:29.179Z",
           "sources": [
@@ -15545,11 +15698,11 @@
           "id": "img8374",
           "type": "image",
           "src": "IMG_8374.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
-          "sizeMB": 3.63,
+          "sizeMB": 3.62,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/IMG_8374.png",
           "placeholderColor": "rgb(104,136,184)",
@@ -15560,10 +15713,18 @@
           },
           "exif": {
             "date": "2025-11-26T09:00:07.309Z",
+            "city": "Gíza",
             "latitude": 29.97495,
             "longitude": 31.138053,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.97495,31.138053",
           "date": "2025-11-26T09:00:07.309Z",
           "sources": [
@@ -15623,7 +15784,7 @@
           "id": "img8377",
           "type": "image",
           "src": "IMG_8377.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 8946,
           "height": 3834,
@@ -15638,10 +15799,18 @@
           },
           "exif": {
             "date": "2025-11-26T09:01:51.546Z",
+            "city": "Gíza",
             "latitude": 29.974967,
             "longitude": 31.137931,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.974967,31.137931",
           "date": "2025-11-26T09:01:51.546Z",
           "sources": [
@@ -15686,7 +15855,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/details/IMG_8377.jpeg",
               "width": 1280,
-              "height": 548
+              "height": 549
             },
             {
               "variant": "fallback",
@@ -15701,7 +15870,7 @@
           "id": "img8379",
           "type": "image",
           "src": "IMG_8379.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -15716,10 +15885,18 @@
           },
           "exif": {
             "date": "2025-11-26T09:05:38.578Z",
+            "city": "Gíza",
             "latitude": 29.974903,
             "longitude": 31.137881,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.974903,31.137881",
           "date": "2025-11-26T09:05:38.578Z",
           "sources": [
@@ -15779,7 +15956,7 @@
           "id": "img8381",
           "type": "image",
           "src": "IMG_8381.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Gíza",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -15794,10 +15971,18 @@
           },
           "exif": {
             "date": "2025-11-26T09:05:45.121Z",
+            "city": "Gíza",
             "latitude": 29.974908,
             "longitude": 31.137881,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.974908,31.137881",
           "date": "2025-11-26T09:05:45.121Z",
           "sources": [
@@ -15854,10 +16039,16 @@
           ]
         },
         {
+          "id": "loc-egyptsky-papyrusovy-institut",
+          "type": "separator",
+          "location": "Egyptský papyrusový institut",
+          "city": "Gíza"
+        },
+        {
           "id": "img8383",
           "type": "image",
           "src": "IMG_8383.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Egyptský papyrusový institut, Gíza",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -15872,10 +16063,20 @@
           },
           "exif": {
             "date": "2025-11-26T10:34:57.604Z",
+            "location": "Egyptský papyrusový institut",
+            "city": "Gíza",
             "latitude": 29.985372,
             "longitude": 31.141575,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Egyptský papyrusový institut",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.985372,31.141575",
           "date": "2025-11-26T10:34:57.604Z",
           "sources": [
@@ -15935,7 +16136,7 @@
           "id": "img1228",
           "type": "image",
           "src": "IMG_1228.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Egyptský papyrusový institut, Gíza",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -15950,13 +16151,20 @@
           },
           "exif": {
             "date": "2025-11-26T10:35:57.348Z",
+            "location": "Egyptský papyrusový institut",
+            "city": "Gíza",
             "latitude": 29.985403,
             "longitude": 31.1419,
             "orientation": 3,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Egyptský papyrusový institut",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.985403,31.1419",
           "date": "2025-11-26T10:35:57.348Z",
           "sources": [
@@ -16016,11 +16224,11 @@
           "id": "img1229",
           "type": "image",
           "src": "IMG_1229.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Egyptský papyrusový institut, Gíza",
           "title": "",
           "width": 3024,
           "height": 4032,
-          "sizeMB": 2.01,
+          "sizeMB": 2.02,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/IMG_1229.png",
           "placeholderColor": "rgb(216,200,184)",
@@ -16031,13 +16239,20 @@
           },
           "exif": {
             "date": "2025-11-26T10:36:12.636Z",
+            "location": "Egyptský papyrusový institut",
+            "city": "Gíza",
             "latitude": 29.985292,
             "longitude": 31.141822,
             "orientation": 6,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Egyptský papyrusový institut",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.985292,31.141822",
           "date": "2025-11-26T10:36:12.636Z",
           "sources": [
@@ -16097,7 +16312,7 @@
           "id": "img1230",
           "type": "image",
           "src": "IMG_1230.heic",
-          "alt": "Photoblog image",
+          "alt": "Egyptský papyrusový institut, Gíza",
           "title": "",
           "width": 4021,
           "height": 2573,
@@ -16112,13 +16327,20 @@
           },
           "exif": {
             "date": "2025-11-26T10:36:42.108Z",
+            "location": "Egyptský papyrusový institut",
+            "city": "Gíza",
             "latitude": 29.985269,
             "longitude": 31.141717,
             "orientation": 1,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Egyptský papyrusový institut",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.985269,31.141717",
           "date": "2025-11-26T10:36:42.108Z",
           "sources": [
@@ -16178,7 +16400,7 @@
           "id": "img1231",
           "type": "image",
           "src": "IMG_1231.heic",
-          "alt": "Photoblog image",
+          "alt": "Egyptský papyrusový institut, Gíza",
           "title": "",
           "width": 2345,
           "height": 3487,
@@ -16193,13 +16415,20 @@
           },
           "exif": {
             "date": "2025-11-26T10:37:45.401Z",
+            "location": "Egyptský papyrusový institut",
+            "city": "Gíza",
             "latitude": 29.985419,
             "longitude": 31.141778,
             "orientation": 1,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Egyptský papyrusový institut",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.985419,31.141778",
           "date": "2025-11-26T10:37:45.401Z",
           "sources": [
@@ -16259,7 +16488,7 @@
           "id": "img1232",
           "type": "image",
           "src": "IMG_1232.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Egyptský papyrusový institut, Gíza",
           "title": "",
           "width": 3024,
           "height": 4032,
@@ -16274,13 +16503,20 @@
           },
           "exif": {
             "date": "2025-11-26T10:37:57.174Z",
+            "location": "Egyptský papyrusový institut",
+            "city": "Gíza",
             "latitude": 29.985306,
             "longitude": 31.141656,
             "orientation": 6,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Egyptský papyrusový institut",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.985306,31.141656",
           "date": "2025-11-26T10:37:57.174Z",
           "sources": [
@@ -16340,7 +16576,7 @@
           "id": "img1233",
           "type": "image",
           "src": "IMG_1233.heic",
-          "alt": "Photoblog image",
+          "alt": "Egyptský papyrusový institut, Gíza",
           "title": "",
           "width": 3931,
           "height": 2224,
@@ -16355,13 +16591,20 @@
           },
           "exif": {
             "date": "2025-11-26T10:38:17.975Z",
+            "location": "Egyptský papyrusový institut",
+            "city": "Gíza",
             "latitude": 29.985278,
             "longitude": 31.141556,
             "orientation": 1,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Egyptský papyrusový institut",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.985278,31.141556",
           "date": "2025-11-26T10:38:17.975Z",
           "sources": [
@@ -16421,7 +16664,7 @@
           "id": "img8385",
           "type": "image",
           "src": "IMG_8385.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Egyptský papyrusový institut, Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -16436,10 +16679,20 @@
           },
           "exif": {
             "date": "2025-11-26T10:45:02.067Z",
+            "location": "Egyptský papyrusový institut",
+            "city": "Gíza",
             "latitude": 29.985686,
             "longitude": 31.141144,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Egyptský papyrusový institut",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.985686,31.141144",
           "date": "2025-11-26T10:45:02.067Z",
           "sources": [
@@ -16496,10 +16749,16 @@
           ]
         },
         {
+          "id": "loc-velke-egyptske-muzeum",
+          "type": "separator",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza"
+        },
+        {
           "id": "img8386",
           "type": "image",
           "src": "IMG_8386.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -16514,10 +16773,20 @@
           },
           "exif": {
             "date": "2025-11-26T11:13:46.755Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.996072,
             "longitude": 31.118131,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.996072,31.118131",
           "date": "2025-11-26T11:13:46.755Z",
           "sources": [
@@ -16577,7 +16846,7 @@
           "id": "img8387",
           "type": "image",
           "src": "IMG_8387.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -16592,10 +16861,20 @@
           },
           "exif": {
             "date": "2025-11-26T11:13:58.523Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.996072,
             "longitude": 31.118131,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.996072,31.118131",
           "date": "2025-11-26T11:13:58.523Z",
           "sources": [
@@ -16655,7 +16934,7 @@
           "id": "img8389",
           "type": "image",
           "src": "IMG_8389.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -16670,10 +16949,20 @@
           },
           "exif": {
             "date": "2025-11-26T11:14:11.346Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.996069,
             "longitude": 31.118114,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.996069,31.118114",
           "date": "2025-11-26T11:14:11.346Z",
           "sources": [
@@ -16733,7 +17022,7 @@
           "id": "img8390",
           "type": "image",
           "src": "IMG_8390.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -16748,10 +17037,20 @@
           },
           "exif": {
             "date": "2025-11-26T11:14:22.047Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.996039,
             "longitude": 31.118119,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.996039,31.118119",
           "date": "2025-11-26T11:14:22.047Z",
           "sources": [
@@ -16973,7 +17272,7 @@
           "id": "img8391",
           "type": "image",
           "src": "IMG_8391.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 6048,
           "height": 8064,
@@ -16988,10 +17287,20 @@
           },
           "exif": {
             "date": "2025-11-26T11:34:37.653Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994494,
             "longitude": 31.119731,
-            "orientation": 6
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994494,31.119731",
           "date": "2025-11-26T11:34:37.653Z",
           "sources": [
@@ -17051,11 +17360,11 @@
           "id": "img8392",
           "type": "image",
           "src": "IMG_8392.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 6048,
           "height": 8064,
-          "sizeMB": 6.13,
+          "sizeMB": 6.14,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/IMG_8392.png",
           "placeholderColor": "rgb(88,88,72)",
@@ -17066,10 +17375,20 @@
           },
           "exif": {
             "date": "2025-11-26T11:38:58.448Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994436,
             "longitude": 31.119722,
-            "orientation": 6
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994436,31.119722",
           "date": "2025-11-26T11:38:58.448Z",
           "sources": [
@@ -17129,11 +17448,11 @@
           "id": "img8394",
           "type": "image",
           "src": "IMG_8394.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 6048,
           "height": 8064,
-          "sizeMB": 9.58,
+          "sizeMB": 9.59,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/IMG_8394.png",
           "placeholderColor": "rgb(24,24,24)",
@@ -17144,10 +17463,20 @@
           },
           "exif": {
             "date": "2025-11-26T11:39:40.395Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994567,
             "longitude": 31.119808,
-            "orientation": 6
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994567,31.119808",
           "date": "2025-11-26T11:39:40.395Z",
           "sources": [
@@ -17207,7 +17536,7 @@
           "id": "img8395",
           "type": "image",
           "src": "IMG_8395.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 6048,
           "height": 8064,
@@ -17222,10 +17551,20 @@
           },
           "exif": {
             "date": "2025-11-26T11:40:04.060Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994489,
             "longitude": 31.1196,
-            "orientation": 6
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994489,31.1196",
           "date": "2025-11-26T11:40:04.060Z",
           "sources": [
@@ -17285,11 +17624,11 @@
           "id": "img8397",
           "type": "image",
           "src": "IMG_8397.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 6048,
           "height": 8064,
-          "sizeMB": 5.98,
+          "sizeMB": 5.99,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/IMG_8397.png",
           "placeholderColor": "rgb(88,88,88)",
@@ -17300,10 +17639,20 @@
           },
           "exif": {
             "date": "2025-11-26T11:51:47.093Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994342,
             "longitude": 31.119136,
-            "orientation": 6
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994342,31.119136",
           "date": "2025-11-26T11:51:47.093Z",
           "sources": [
@@ -17363,7 +17712,7 @@
           "id": "img8398",
           "type": "image",
           "src": "IMG_8398.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 6048,
           "height": 8064,
@@ -17378,10 +17727,20 @@
           },
           "exif": {
             "date": "2025-11-26T11:52:40.879Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994342,
             "longitude": 31.119092,
-            "orientation": 6
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994342,31.119092",
           "date": "2025-11-26T11:52:40.879Z",
           "sources": [
@@ -17441,7 +17800,7 @@
           "id": "img8400",
           "type": "image",
           "src": "IMG_8400.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 4025,
           "height": 3019,
@@ -17456,10 +17815,20 @@
           },
           "exif": {
             "date": "2025-11-26T11:53:15.751Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994428,
             "longitude": 31.118958,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994428,31.118958",
           "date": "2025-11-26T11:53:15.751Z",
           "sources": [
@@ -17519,7 +17888,7 @@
           "id": "img8401",
           "type": "image",
           "src": "IMG_8401.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 4541,
           "height": 3406,
@@ -17534,10 +17903,20 @@
           },
           "exif": {
             "date": "2025-11-26T11:53:23.446Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.99435,
             "longitude": 31.119281,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.99435,31.119281",
           "date": "2025-11-26T11:53:23.446Z",
           "sources": [
@@ -17597,7 +17976,7 @@
           "id": "img8402",
           "type": "image",
           "src": "IMG_8402.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 6048,
           "height": 8064,
@@ -17612,10 +17991,20 @@
           },
           "exif": {
             "date": "2025-11-26T11:53:34.262Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994386,
             "longitude": 31.119392,
-            "orientation": 6
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994386,31.119392",
           "date": "2025-11-26T11:53:34.262Z",
           "sources": [
@@ -17675,7 +18064,7 @@
           "id": "img8403",
           "type": "image",
           "src": "IMG_8403.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 1841,
           "height": 1381,
@@ -17690,10 +18079,20 @@
           },
           "exif": {
             "date": "2025-11-26T11:53:41.541Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994494,
             "longitude": 31.119403,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994494,31.119403",
           "date": "2025-11-26T11:53:41.541Z",
           "sources": [
@@ -17753,7 +18152,7 @@
           "id": "img8404",
           "type": "image",
           "src": "IMG_8404.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -17768,10 +18167,20 @@
           },
           "exif": {
             "date": "2025-11-26T11:53:52.383Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994544,
             "longitude": 31.119589,
-            "orientation": 3
+            "orientation": 3,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994544,31.119589",
           "date": "2025-11-26T11:53:52.383Z",
           "sources": [
@@ -17831,7 +18240,7 @@
           "id": "img8405",
           "type": "image",
           "src": "IMG_8405.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 6048,
           "height": 8064,
@@ -17846,10 +18255,20 @@
           },
           "exif": {
             "date": "2025-11-26T11:53:59.559Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.99455,
             "longitude": 31.119497,
-            "orientation": 6
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.99455,31.119497",
           "date": "2025-11-26T11:53:59.559Z",
           "sources": [
@@ -17909,7 +18328,7 @@
           "id": "img8406",
           "type": "image",
           "src": "IMG_8406.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -17924,10 +18343,20 @@
           },
           "exif": {
             "date": "2025-11-26T11:54:11.831Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994564,
             "longitude": 31.119444,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994564,31.119444",
           "date": "2025-11-26T11:54:11.831Z",
           "sources": [
@@ -17987,7 +18416,7 @@
           "id": "img8407",
           "type": "image",
           "src": "IMG_8407.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 6048,
           "height": 8064,
@@ -18002,10 +18431,20 @@
           },
           "exif": {
             "date": "2025-11-26T11:54:21.374Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994519,
             "longitude": 31.119456,
-            "orientation": 6
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994519,31.119456",
           "date": "2025-11-26T11:54:21.374Z",
           "sources": [
@@ -18065,7 +18504,7 @@
           "id": "img8409",
           "type": "image",
           "src": "IMG_8409.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 4170,
           "height": 5560,
@@ -18080,10 +18519,20 @@
           },
           "exif": {
             "date": "2025-11-26T11:57:06.385Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994386,
             "longitude": 31.119331,
-            "orientation": 6
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994386,31.119331",
           "date": "2025-11-26T11:57:06.385Z",
           "sources": [
@@ -18143,7 +18592,7 @@
           "id": "img8410",
           "type": "image",
           "src": "IMG_8410.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -18158,10 +18607,20 @@
           },
           "exif": {
             "date": "2025-11-26T11:57:17.284Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994361,
             "longitude": 31.119208,
-            "orientation": 3
+            "orientation": 3,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994361,31.119208",
           "date": "2025-11-26T11:57:17.284Z",
           "sources": [
@@ -18221,11 +18680,11 @@
           "id": "img8411",
           "type": "image",
           "src": "IMG_8411.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 6048,
           "height": 8064,
-          "sizeMB": 5.27,
+          "sizeMB": 5.28,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/IMG_8411.png",
           "placeholderColor": "rgb(104,88,72)",
@@ -18236,10 +18695,20 @@
           },
           "exif": {
             "date": "2025-11-26T11:57:55.723Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994375,
             "longitude": 31.119258,
-            "orientation": 6
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994375,31.119258",
           "date": "2025-11-26T11:57:55.723Z",
           "sources": [
@@ -18299,7 +18768,7 @@
           "id": "img8413",
           "type": "image",
           "src": "IMG_8413.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 5588,
           "height": 4190,
@@ -18314,10 +18783,20 @@
           },
           "exif": {
             "date": "2025-11-26T11:58:48.994Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994375,
             "longitude": 31.119258,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994375,31.119258",
           "date": "2025-11-26T11:58:48.994Z",
           "sources": [
@@ -18377,7 +18856,7 @@
           "id": "img8414",
           "type": "image",
           "src": "IMG_8414.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 5588,
           "height": 4190,
@@ -18392,10 +18871,20 @@
           },
           "exif": {
             "date": "2025-11-26T11:59:13.613Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994344,
             "longitude": 31.119147,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994344,31.119147",
           "date": "2025-11-26T11:59:13.613Z",
           "sources": [
@@ -18536,7 +19025,7 @@
           "id": "img8415",
           "type": "image",
           "src": "IMG_8415.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 6048,
           "height": 8064,
@@ -18551,10 +19040,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:00:17.470Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994344,
             "longitude": 31.119219,
-            "orientation": 6
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994344,31.119219",
           "date": "2025-11-26T12:00:17.470Z",
           "sources": [
@@ -18614,7 +19113,7 @@
           "id": "img8416",
           "type": "image",
           "src": "IMG_8416.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 7971,
           "height": 5978,
@@ -18629,10 +19128,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:00:21.359Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994353,
             "longitude": 31.119233,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994353,31.119233",
           "date": "2025-11-26T12:00:21.359Z",
           "sources": [
@@ -18692,7 +19201,7 @@
           "id": "img8417",
           "type": "image",
           "src": "IMG_8417.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 6048,
           "height": 8064,
@@ -18707,10 +19216,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:01:59.873Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994369,
             "longitude": 31.119264,
-            "orientation": 6
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994369,31.119264",
           "date": "2025-11-26T12:01:59.873Z",
           "sources": [
@@ -18770,11 +19289,11 @@
           "id": "img8418",
           "type": "image",
           "src": "IMG_8418.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 5900,
           "height": 7868,
-          "sizeMB": 6.31,
+          "sizeMB": 6.32,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/IMG_8418.png",
           "placeholderColor": "rgb(56,56,56)",
@@ -18785,10 +19304,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:02:37.114Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994258,
             "longitude": 31.119203,
-            "orientation": 6
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994258,31.119203",
           "date": "2025-11-26T12:02:37.114Z",
           "sources": [
@@ -18848,11 +19377,11 @@
           "id": "img8419",
           "type": "image",
           "src": "IMG_8419.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 4844,
           "height": 6460,
-          "sizeMB": 4.56,
+          "sizeMB": 4.57,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/IMG_8419.png",
           "placeholderColor": "rgb(56,56,40)",
@@ -18863,10 +19392,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:03:23.054Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994325,
             "longitude": 31.119167,
-            "orientation": 6
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994325,31.119167",
           "date": "2025-11-26T12:03:23.054Z",
           "sources": [
@@ -18926,7 +19465,7 @@
           "id": "img8420",
           "type": "image",
           "src": "IMG_8420.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 6456,
           "height": 4841,
@@ -18941,10 +19480,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:04:04.534Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994331,
             "longitude": 31.119192,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994331,31.119192",
           "date": "2025-11-26T12:04:04.534Z",
           "sources": [
@@ -19004,7 +19553,7 @@
           "id": "img8421",
           "type": "image",
           "src": "IMG_8421.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 6480,
           "height": 4860,
@@ -19019,10 +19568,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:04:40.645Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994322,
             "longitude": 31.119211,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994322,31.119211",
           "date": "2025-11-26T12:04:40.645Z",
           "sources": [
@@ -19082,11 +19641,11 @@
           "id": "img8422",
           "type": "image",
           "src": "IMG_8422.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 6480,
           "height": 4860,
-          "sizeMB": 3.89,
+          "sizeMB": 3.9,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/IMG_8422.png",
           "placeholderColor": "rgb(104,88,72)",
@@ -19097,10 +19656,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:05:01.408Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994319,
             "longitude": 31.119189,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994319,31.119189",
           "date": "2025-11-26T12:05:01.408Z",
           "sources": [
@@ -19160,7 +19729,7 @@
           "id": "img8423",
           "type": "image",
           "src": "IMG_8423.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 4860,
           "height": 6480,
@@ -19175,10 +19744,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:05:15.788Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994242,
             "longitude": 31.1193,
-            "orientation": 6
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994242,31.1193",
           "date": "2025-11-26T12:05:15.788Z",
           "sources": [
@@ -19238,7 +19817,7 @@
           "id": "img8424",
           "type": "image",
           "src": "IMG_8424.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 6480,
           "height": 4860,
@@ -19253,10 +19832,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:05:43.778Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994219,
             "longitude": 31.11925,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994219,31.11925",
           "date": "2025-11-26T12:05:43.778Z",
           "sources": [
@@ -19316,7 +19905,7 @@
           "id": "img8425",
           "type": "image",
           "src": "IMG_8425.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 4762,
           "height": 6350,
@@ -19331,10 +19920,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:06:03.618Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994222,
             "longitude": 31.11925,
-            "orientation": 6
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994222,31.11925",
           "date": "2025-11-26T12:06:03.618Z",
           "sources": [
@@ -19394,7 +19993,7 @@
           "id": "img8426",
           "type": "image",
           "src": "IMG_8426.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -19409,10 +20008,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:07:53.483Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994189,
             "longitude": 31.119444,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994189,31.119444",
           "date": "2025-11-26T12:07:53.483Z",
           "sources": [
@@ -19469,88 +20078,10 @@
           ]
         },
         {
-          "id": "img8427",
-          "type": "image",
-          "src": "IMG_8427.HEIC",
-          "alt": "Photoblog image",
-          "title": "",
-          "width": 8064,
-          "height": 6048,
-          "sizeMB": 5.7,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/IMG_8427.png",
-          "placeholderColor": "rgb(88,72,56)",
-          "analysis": {
-            "sharpness": 3884.7128714513137,
-            "phash": "da5bb69e9e3d6c6c",
-            "embedding": []
-          },
-          "exif": {
-            "date": "2025-11-26T12:08:13.852Z",
-            "latitude": 29.994286,
-            "longitude": 31.119428,
-            "orientation": 1
-          },
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994286,31.119428",
-          "date": "2025-11-26T12:08:13.852Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/IMG_8427.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/IMG_8427.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/IMG_8427.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/IMG_8427.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/IMG_8427.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/IMG_8427.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/IMG_8427.jpeg",
-              "width": 1280,
-              "height": 960
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/IMG_8427.jpeg",
-              "width": 190,
-              "height": 107
-            }
-          ]
-        },
-        {
           "id": "img8429",
           "type": "image",
           "src": "IMG_8429.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 7916,
           "height": 5938,
@@ -19565,10 +20096,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:08:42.394Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994258,
             "longitude": 31.119519,
-            "orientation": 3
+            "orientation": 3,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994258,31.119519",
           "date": "2025-11-26T12:08:42.394Z",
           "sources": [
@@ -19628,11 +20169,11 @@
           "id": "img8430",
           "type": "image",
           "src": "IMG_8430.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 7916,
           "height": 5938,
-          "sizeMB": 3.74,
+          "sizeMB": 3.75,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/IMG_8430.png",
           "placeholderColor": "rgb(24,24,24)",
@@ -19643,10 +20184,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:08:49.277Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994217,
             "longitude": 31.119233,
-            "orientation": 3
+            "orientation": 3,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994217,31.119233",
           "date": "2025-11-26T12:08:49.277Z",
           "sources": [
@@ -19706,7 +20257,7 @@
           "id": "img8431",
           "type": "image",
           "src": "IMG_8431.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 7916,
           "height": 5938,
@@ -19721,10 +20272,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:08:58.198Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994261,
             "longitude": 31.119264,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994261,31.119264",
           "date": "2025-11-26T12:08:58.198Z",
           "sources": [
@@ -19784,7 +20345,7 @@
           "id": "img8432",
           "type": "image",
           "src": "IMG_8432.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 4556,
           "height": 3418,
@@ -19799,10 +20360,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:09:05.474Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994233,
             "longitude": 31.119375,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994233,31.119375",
           "date": "2025-11-26T12:09:05.474Z",
           "sources": [
@@ -19862,11 +20433,11 @@
           "id": "img8433",
           "type": "image",
           "src": "IMG_8433.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 6048,
           "height": 8064,
-          "sizeMB": 4.17,
+          "sizeMB": 4.18,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/IMG_8433.png",
           "placeholderColor": "rgb(40,24,24)",
@@ -19877,10 +20448,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:11:10.245Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993806,
             "longitude": 31.119628,
-            "orientation": 6
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993806,31.119628",
           "date": "2025-11-26T12:11:10.245Z",
           "sources": [
@@ -19940,7 +20521,7 @@
           "id": "img8434",
           "type": "image",
           "src": "IMG_8434.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -19955,10 +20536,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:11:13.273Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993806,
             "longitude": 31.119628,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993806,31.119628",
           "date": "2025-11-26T12:11:13.273Z",
           "sources": [
@@ -20018,7 +20609,7 @@
           "id": "img8436",
           "type": "image",
           "src": "IMG_8436.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 6048,
           "height": 8064,
@@ -20033,10 +20624,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:11:35.582Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993925,
             "longitude": 31.119414,
-            "orientation": 6
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993925,31.119414",
           "date": "2025-11-26T12:11:35.582Z",
           "sources": [
@@ -20096,7 +20697,7 @@
           "id": "img8437",
           "type": "image",
           "src": "IMG_8437.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -20111,10 +20712,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:11:40.164Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994133,
             "longitude": 31.119606,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994133,31.119606",
           "date": "2025-11-26T12:11:40.164Z",
           "sources": [
@@ -20174,11 +20785,11 @@
           "id": "img8438",
           "type": "image",
           "src": "IMG_8438.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 6048,
           "height": 8064,
-          "sizeMB": 5.41,
+          "sizeMB": 5.42,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/IMG_8438.png",
           "placeholderColor": "rgb(24,24,8)",
@@ -20189,10 +20800,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:11:55.137Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994092,
             "longitude": 31.119364,
-            "orientation": 6
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994092,31.119364",
           "date": "2025-11-26T12:11:55.137Z",
           "sources": [
@@ -20333,7 +20954,7 @@
           "id": "img8439",
           "type": "image",
           "src": "IMG_8439.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 5659,
           "height": 4244,
@@ -20348,10 +20969,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:24:22.319Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993478,
             "longitude": 31.119964,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993478,31.119964",
           "date": "2025-11-26T12:24:22.319Z",
           "sources": [
@@ -20411,11 +21042,11 @@
           "id": "img8441",
           "type": "image",
           "src": "IMG_8441.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
-          "sizeMB": 4.66,
+          "sizeMB": 4.67,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/IMG_8441.png",
           "placeholderColor": "rgb(24,24,24)",
@@ -20426,10 +21057,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:24:32.805Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993347,
             "longitude": 31.120122,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993347,31.120122",
           "date": "2025-11-26T12:24:32.805Z",
           "sources": [
@@ -20489,7 +21130,7 @@
           "id": "img8443",
           "type": "image",
           "src": "IMG_8443.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 1640,
           "height": 2187,
@@ -20504,10 +21145,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:25:37.513Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993247,
             "longitude": 31.120239,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993247,31.120239",
           "date": "2025-11-26T12:25:37.513Z",
           "sources": [
@@ -20729,7 +21380,7 @@
           "id": "img8444",
           "type": "image",
           "src": "IMG_8444.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -20744,10 +21395,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:34:22.038Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993342,
             "longitude": 31.120447,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993342,31.120447",
           "date": "2025-11-26T12:34:22.038Z",
           "sources": [
@@ -20807,11 +21468,11 @@
           "id": "img8445",
           "type": "image",
           "src": "IMG_8445.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 4032,
           "height": 3024,
-          "sizeMB": 1.43,
+          "sizeMB": 1.44,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/IMG_8445.png",
           "placeholderColor": "rgb(152,136,120)",
@@ -20822,10 +21483,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:34:28.160Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993286,
             "longitude": 31.120311,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993286,31.120311",
           "date": "2025-11-26T12:34:28.160Z",
           "sources": [
@@ -20885,7 +21556,7 @@
           "id": "img8446",
           "type": "image",
           "src": "IMG_8446.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -20900,10 +21571,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:37:14.360Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993381,
             "longitude": 31.120661,
-            "orientation": 3
+            "orientation": 3,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993381,31.120661",
           "date": "2025-11-26T12:37:14.360Z",
           "sources": [
@@ -20963,7 +21644,7 @@
           "id": "img8447",
           "type": "image",
           "src": "IMG_8447.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 3226,
           "height": 4302,
@@ -20978,10 +21659,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:37:22.728Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993433,
             "longitude": 31.120686,
-            "orientation": 6
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993433,31.120686",
           "date": "2025-11-26T12:37:22.728Z",
           "sources": [
@@ -21041,7 +21732,7 @@
           "id": "img8448",
           "type": "image",
           "src": "IMG_8448.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -21056,10 +21747,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:45:43.875Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993442,
             "longitude": 31.120647,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993442,31.120647",
           "date": "2025-11-26T12:45:43.875Z",
           "sources": [
@@ -21119,7 +21820,7 @@
           "id": "img8449",
           "type": "image",
           "src": "IMG_8449.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -21134,10 +21835,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:45:49.748Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993447,
             "longitude": 31.120669,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993447,31.120669",
           "date": "2025-11-26T12:45:49.748Z",
           "sources": [
@@ -21278,7 +21989,7 @@
           "id": "img8450",
           "type": "image",
           "src": "IMG_8450.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 8002,
           "height": 6002,
@@ -21293,10 +22004,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:54:13.683Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993844,
             "longitude": 31.120275,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993844,31.120275",
           "date": "2025-11-26T12:54:13.683Z",
           "sources": [
@@ -21356,7 +22077,7 @@
           "id": "img8451",
           "type": "image",
           "src": "IMG_8451.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 4578,
           "height": 6104,
@@ -21371,10 +22092,20 @@
           },
           "exif": {
             "date": "2025-11-26T12:54:31.847Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993892,
             "longitude": 31.120225,
-            "orientation": 6
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993892,31.120225",
           "date": "2025-11-26T12:54:31.847Z",
           "sources": [
@@ -21596,7 +22327,7 @@
           "id": "img8452",
           "type": "image",
           "src": "IMG_8452.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -21611,10 +22342,20 @@
           },
           "exif": {
             "date": "2025-11-26T13:03:07.774Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993886,
             "longitude": 31.120281,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993886,31.120281",
           "date": "2025-11-26T13:03:07.774Z",
           "sources": [
@@ -22160,7 +22901,7 @@
           "id": "img8453",
           "type": "image",
           "src": "IMG_8453.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 1240,
           "height": 1654,
@@ -22175,10 +22916,20 @@
           },
           "exif": {
             "date": "2025-11-26T13:27:39.301Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993044,
             "longitude": 31.119467,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993044,31.119467",
           "date": "2025-11-26T13:27:39.301Z",
           "sources": [
@@ -22238,7 +22989,7 @@
           "id": "img8455",
           "type": "image",
           "src": "IMG_8455.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 5128,
           "height": 3846,
@@ -22253,10 +23004,20 @@
           },
           "exif": {
             "date": "2025-11-26T14:30:58.671Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994669,
             "longitude": 31.117736,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994669,31.117736",
           "date": "2025-11-26T14:30:58.671Z",
           "sources": [
@@ -22316,7 +23077,7 @@
           "id": "img8456",
           "type": "image",
           "src": "IMG_8456.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -22331,10 +23092,20 @@
           },
           "exif": {
             "date": "2025-11-26T14:31:29.073Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994817,
             "longitude": 31.117717,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994817,31.117717",
           "date": "2025-11-26T14:31:29.073Z",
           "sources": [
@@ -22394,11 +23165,11 @@
           "id": "img8458",
           "type": "image",
           "src": "IMG_8458.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
-          "sizeMB": 4.98,
+          "sizeMB": 4.99,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/IMG_8458.png",
           "placeholderColor": "rgb(136,104,88)",
@@ -22409,10 +23180,20 @@
           },
           "exif": {
             "date": "2025-11-26T14:33:02.222Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994633,
             "longitude": 31.117758,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994633,31.117758",
           "date": "2025-11-26T14:33:02.222Z",
           "sources": [
@@ -22472,11 +23253,11 @@
           "id": "img8459",
           "type": "image",
           "src": "IMG_8459.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 8064,
           "height": 6048,
-          "sizeMB": 5.57,
+          "sizeMB": 5.58,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/IMG_8459.png",
           "placeholderColor": "rgb(24,24,24)",
@@ -22487,10 +23268,20 @@
           },
           "exif": {
             "date": "2025-11-26T14:33:19.772Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.99465,
             "longitude": 31.117778,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.99465,31.117778",
           "date": "2025-11-26T14:33:19.772Z",
           "sources": [
@@ -22550,7 +23341,7 @@
           "id": "img8461",
           "type": "image",
           "src": "IMG_8461.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 2722,
           "height": 3629,
@@ -22565,10 +23356,20 @@
           },
           "exif": {
             "date": "2025-11-26T14:52:37.481Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993031,
             "longitude": 31.119331,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993031,31.119331",
           "date": "2025-11-26T14:52:37.481Z",
           "sources": [
@@ -22628,7 +23429,7 @@
           "id": "img8462",
           "type": "image",
           "src": "IMG_8462.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 2615,
           "height": 3487,
@@ -22643,10 +23444,20 @@
           },
           "exif": {
             "date": "2025-11-26T14:53:05.772Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993078,
             "longitude": 31.119381,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993078,31.119381",
           "date": "2025-11-26T14:53:05.772Z",
           "sources": [
@@ -22706,7 +23517,7 @@
           "id": "img8463",
           "type": "image",
           "src": "IMG_8463.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 1835,
           "height": 2447,
@@ -22721,10 +23532,20 @@
           },
           "exif": {
             "date": "2025-11-26T14:53:57.484Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.992969,
             "longitude": 31.119428,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.992969,31.119428",
           "date": "2025-11-26T14:53:57.484Z",
           "sources": [
@@ -22784,7 +23605,7 @@
           "id": "img8465",
           "type": "image",
           "src": "IMG_8465.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 2266,
           "height": 3021,
@@ -22799,10 +23620,20 @@
           },
           "exif": {
             "date": "2025-11-26T14:54:25.859Z",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993047,
             "longitude": 31.1194,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993047,31.1194",
           "date": "2025-11-26T14:54:25.859Z",
           "sources": [
@@ -23119,8 +23950,14 @@
             "date": "2025-11-26T18:20:16.141Z",
             "latitude": 29.989361,
             "longitude": 31.211206,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.989361,31.211206",
           "date": "2025-11-26T18:20:16.141Z",
           "sources": [
@@ -23197,8 +24034,14 @@
             "date": "2025-11-26T19:22:54.600Z",
             "latitude": 29.519908,
             "longitude": 31.247125,
-            "orientation": 6
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.519908,31.247125",
           "date": "2025-11-26T19:22:54.600Z",
           "sources": [
@@ -23259,14 +24102,14 @@
     },
     {
       "date": "2025-11-27",
-      "cities": [],
-      "locations": [],
+      "cities": ["Luxor", "Karnak"],
+      "locations": ["Železniční stanice Luxor", "Karnak Visitor Center"],
       "items": [
         {
           "id": "img8477",
           "type": "image",
           "src": "IMG_8477.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Železniční stanice Luxor, Luxor",
           "title": "",
           "width": 3644,
           "height": 2733,
@@ -23281,10 +24124,20 @@
           },
           "exif": {
             "date": "2025-11-27T04:12:03.048Z",
+            "location": "Železniční stanice Luxor",
+            "city": "Luxor",
             "latitude": 25.696567,
             "longitude": 32.644447,
-            "orientation": 1
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Luxor (guvernorát)"
           },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Železniční stanice Luxor",
+          "city": "Luxor",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.696567,32.644447",
           "date": "2025-11-27T04:12:03.048Z",
           "sources": [
@@ -23341,10 +24194,16 @@
           ]
         },
         {
+          "id": "loc-karnak-visitor-center",
+          "type": "separator",
+          "location": "Karnak Visitor Center",
+          "city": "Karnak"
+        },
+        {
           "id": "img1356",
           "type": "image",
           "src": "IMG_1356.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Karnak Visitor Center, Karnak",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -23359,13 +24218,20 @@
           },
           "exif": {
             "date": "2025-11-27T11:39:35.840Z",
+            "location": "Karnak Visitor Center",
+            "city": "Karnak",
             "latitude": 25.719933,
             "longitude": 32.653019,
             "orientation": 3,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Luxor (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Karnak Visitor Center",
+          "city": "Karnak",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.719933,32.653019",
           "date": "2025-11-27T11:39:35.840Z",
           "sources": [
@@ -23425,7 +24291,7 @@
           "id": "img1357",
           "type": "image",
           "src": "IMG_1357.heic",
-          "alt": "Photoblog image",
+          "alt": "Karnak Visitor Center, Karnak",
           "title": "",
           "width": 2884,
           "height": 2654,
@@ -23440,13 +24306,20 @@
           },
           "exif": {
             "date": "2025-11-27T11:40:12.302Z",
+            "location": "Karnak Visitor Center",
+            "city": "Karnak",
             "latitude": 25.719964,
             "longitude": 32.653019,
             "orientation": 1,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Luxor (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Karnak Visitor Center",
+          "city": "Karnak",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.719964,32.653019",
           "date": "2025-11-27T11:40:12.302Z",
           "sources": [
@@ -23506,7 +24379,7 @@
           "id": "img1359",
           "type": "image",
           "src": "IMG_1359.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Karnak Visitor Center, Karnak",
           "title": "",
           "width": 3024,
           "height": 4032,
@@ -23521,13 +24394,20 @@
           },
           "exif": {
             "date": "2025-11-27T11:40:45.611Z",
+            "location": "Karnak Visitor Center",
+            "city": "Karnak",
             "latitude": 25.719964,
             "longitude": 32.653022,
             "orientation": 6,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Luxor (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Karnak Visitor Center",
+          "city": "Karnak",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.719964,32.653022",
           "date": "2025-11-27T11:40:45.611Z",
           "sources": [
@@ -23587,7 +24467,7 @@
           "id": "img1363",
           "type": "image",
           "src": "IMG_1363.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Karnak Visitor Center, Karnak",
           "title": "",
           "width": 3024,
           "height": 4032,
@@ -23602,13 +24482,20 @@
           },
           "exif": {
             "date": "2025-11-27T11:43:04.271Z",
+            "location": "Karnak Visitor Center",
+            "city": "Karnak",
             "latitude": 25.719928,
             "longitude": 32.65305,
             "orientation": 6,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Luxor (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Karnak Visitor Center",
+          "city": "Karnak",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.719928,32.65305",
           "date": "2025-11-27T11:43:04.271Z",
           "sources": [
@@ -24307,87 +25194,6 @@
               "variant": "fallback",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/previews-xxs/IMG_1461.jpeg",
-              "width": 190,
-              "height": 107
-            }
-          ]
-        },
-        {
-          "id": "img1463",
-          "type": "image",
-          "src": "IMG_1463.heic",
-          "alt": "Photoblog image",
-          "title": "",
-          "width": 3022,
-          "height": 3389,
-          "sizeMB": 1.34,
-          "aspectRatio": "portrait-3022-3389",
-          "placeholder": "blurs/IMG_1463.png",
-          "placeholderColor": "rgb(56,72,104)",
-          "analysis": {
-            "sharpness": 3304.6320661192203,
-            "phash": "67f7e623261d0102",
-            "embedding": []
-          },
-          "exif": {
-            "date": "2025-11-27T15:25:55.169Z",
-            "latitude": 25.698811,
-            "longitude": 32.640142,
-            "orientation": 1,
-            "author": "Dáša"
-          },
-          "author": "Dáša",
-          "authorSlug": "dasa",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.698811,32.640142",
-          "date": "2025-11-27T15:25:55.169Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/IMG_1463.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/IMG_1463.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/IMG_1463.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/IMG_1463.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/IMG_1463.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/IMG_1463.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/IMG_1463.jpeg",
-              "width": 1280,
-              "height": 1435
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/IMG_1463.jpeg",
               "width": 190,
               "height": 107
             }
@@ -25143,8 +25949,8 @@
     },
     {
       "date": "2025-11-30",
-      "cities": [],
-      "locations": [],
+      "cities": ["Asuán"],
+      "locations": ["Aswan Botanical Garden", "Núbijská vesnice"],
       "items": [
         {
           "id": "img1812",
@@ -25390,10 +26196,16 @@
           ]
         },
         {
+          "id": "loc-aswan-botanical-garden",
+          "type": "separator",
+          "location": "Aswan Botanical Garden",
+          "city": "Asuán"
+        },
+        {
           "id": "img1898",
           "type": "image",
           "src": "IMG_1898.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Aswan Botanical Garden, Asuán",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -25408,13 +26220,20 @@
           },
           "exif": {
             "date": "2025-11-30T13:06:50.617Z",
+            "location": "Aswan Botanical Garden",
+            "city": "Asuán",
             "latitude": 24.095686,
             "longitude": 32.888672,
             "orientation": 3,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Asuán (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Aswan Botanical Garden",
+          "city": "Asuán",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=24.095686,32.888672",
           "date": "2025-11-30T13:06:50.617Z",
           "sources": [
@@ -25474,7 +26293,7 @@
           "id": "img1899",
           "type": "image",
           "src": "IMG_1899.heic",
-          "alt": "Photoblog image",
+          "alt": "Aswan Botanical Garden, Asuán",
           "title": "",
           "width": 3022,
           "height": 3735,
@@ -25489,13 +26308,20 @@
           },
           "exif": {
             "date": "2025-11-30T13:08:24.871Z",
+            "location": "Aswan Botanical Garden",
+            "city": "Asuán",
             "latitude": 24.095308,
             "longitude": 32.888928,
             "orientation": 1,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Asuán (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Aswan Botanical Garden",
+          "city": "Asuán",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=24.095308,32.888928",
           "date": "2025-11-30T13:08:24.871Z",
           "sources": [
@@ -25555,7 +26381,7 @@
           "id": "img1900",
           "type": "image",
           "src": "IMG_1900.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Aswan Botanical Garden, Asuán",
           "title": "",
           "width": 3024,
           "height": 4032,
@@ -25570,13 +26396,20 @@
           },
           "exif": {
             "date": "2025-11-30T13:12:02.377Z",
+            "location": "Aswan Botanical Garden",
+            "city": "Asuán",
             "latitude": 24.094636,
             "longitude": 32.890444,
             "orientation": 6,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Asuán (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Aswan Botanical Garden",
+          "city": "Asuán",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=24.094636,32.890444",
           "date": "2025-11-30T13:12:02.377Z",
           "sources": [
@@ -25636,7 +26469,7 @@
           "id": "img1901",
           "type": "image",
           "src": "IMG_1901.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Aswan Botanical Garden, Asuán",
           "title": "",
           "width": 3024,
           "height": 4032,
@@ -25651,13 +26484,20 @@
           },
           "exif": {
             "date": "2025-11-30T13:12:53.482Z",
+            "location": "Aswan Botanical Garden",
+            "city": "Asuán",
             "latitude": 24.09525,
             "longitude": 32.888344,
             "orientation": 6,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Asuán (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Aswan Botanical Garden",
+          "city": "Asuán",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=24.09525,32.888344",
           "date": "2025-11-30T13:12:53.482Z",
           "sources": [
@@ -25717,7 +26557,7 @@
           "id": "img1902",
           "type": "image",
           "src": "IMG_1902.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Aswan Botanical Garden, Asuán",
           "title": "",
           "width": 3024,
           "height": 4032,
@@ -25732,13 +26572,20 @@
           },
           "exif": {
             "date": "2025-11-30T13:14:16.426Z",
+            "location": "Aswan Botanical Garden",
+            "city": "Asuán",
             "latitude": 24.095233,
             "longitude": 32.888322,
             "orientation": 6,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Asuán (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Aswan Botanical Garden",
+          "city": "Asuán",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=24.095233,32.888322",
           "date": "2025-11-30T13:14:16.426Z",
           "sources": [
@@ -25798,7 +26645,7 @@
           "id": "img1903",
           "type": "image",
           "src": "IMG_1903.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Aswan Botanical Garden, Asuán",
           "title": "",
           "width": 3024,
           "height": 4032,
@@ -25813,13 +26660,20 @@
           },
           "exif": {
             "date": "2025-11-30T13:14:37.236Z",
+            "location": "Aswan Botanical Garden",
+            "city": "Asuán",
             "latitude": 24.095175,
             "longitude": 32.888261,
             "orientation": 6,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Asuán (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Aswan Botanical Garden",
+          "city": "Asuán",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=24.095175,32.888261",
           "date": "2025-11-30T13:14:37.236Z",
           "sources": [
@@ -25879,7 +26733,7 @@
           "id": "img1904",
           "type": "image",
           "src": "IMG_1904.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Aswan Botanical Garden, Asuán",
           "title": "",
           "width": 3024,
           "height": 4032,
@@ -25894,13 +26748,20 @@
           },
           "exif": {
             "date": "2025-11-30T13:14:40.573Z",
+            "location": "Aswan Botanical Garden",
+            "city": "Asuán",
             "latitude": 24.095181,
             "longitude": 32.888267,
             "orientation": 6,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Asuán (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Aswan Botanical Garden",
+          "city": "Asuán",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=24.095181,32.888267",
           "date": "2025-11-30T13:14:40.573Z",
           "sources": [
@@ -25960,7 +26821,7 @@
           "id": "img1905",
           "type": "image",
           "src": "IMG_1905.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Aswan Botanical Garden, Asuán",
           "title": "",
           "width": 3024,
           "height": 4032,
@@ -25975,13 +26836,20 @@
           },
           "exif": {
             "date": "2025-11-30T13:18:13.653Z",
+            "location": "Aswan Botanical Garden",
+            "city": "Asuán",
             "latitude": 24.094664,
             "longitude": 32.887886,
             "orientation": 6,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Asuán (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Aswan Botanical Garden",
+          "city": "Asuán",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=24.094664,32.887886",
           "date": "2025-11-30T13:18:13.653Z",
           "sources": [
@@ -26041,7 +26909,7 @@
           "id": "img1906",
           "type": "image",
           "src": "IMG_1906.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Aswan Botanical Garden, Asuán",
           "title": "",
           "width": 3024,
           "height": 4032,
@@ -26056,13 +26924,20 @@
           },
           "exif": {
             "date": "2025-11-30T13:19:21.931Z",
+            "location": "Aswan Botanical Garden",
+            "city": "Asuán",
             "latitude": 24.094361,
             "longitude": 32.887939,
             "orientation": 6,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Asuán (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Aswan Botanical Garden",
+          "city": "Asuán",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=24.094361,32.887939",
           "date": "2025-11-30T13:19:21.931Z",
           "sources": [
@@ -26119,91 +26994,10 @@
           ]
         },
         {
-          "id": "img1907",
-          "type": "image",
-          "src": "IMG_1907.HEIC",
-          "alt": "Photoblog image",
-          "title": "",
-          "width": 3024,
-          "height": 4032,
-          "sizeMB": 3.18,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/IMG_1907.png",
-          "placeholderColor": "rgb(88,72,56)",
-          "analysis": {
-            "sharpness": 3178.9325302321354,
-            "phash": "e7b8368c6e66a4ac",
-            "embedding": []
-          },
-          "exif": {
-            "date": "2025-11-30T13:19:27.308Z",
-            "latitude": 24.094375,
-            "longitude": 32.88795,
-            "orientation": 6,
-            "author": "Dáša"
-          },
-          "author": "Dáša",
-          "authorSlug": "dasa",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=24.094375,32.88795",
-          "date": "2025-11-30T13:19:27.308Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/IMG_1907.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/IMG_1907.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/IMG_1907.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/IMG_1907.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/IMG_1907.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/IMG_1907.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/IMG_1907.jpeg",
-              "width": 1280,
-              "height": 1707
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/IMG_1907.jpeg",
-              "width": 190,
-              "height": 107
-            }
-          ]
-        },
-        {
           "id": "img1908",
           "type": "image",
           "src": "IMG_1908.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Aswan Botanical Garden, Asuán",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -26218,13 +27012,20 @@
           },
           "exif": {
             "date": "2025-11-30T13:22:48.250Z",
+            "location": "Aswan Botanical Garden",
+            "city": "Asuán",
             "latitude": 24.093864,
             "longitude": 32.887764,
             "orientation": 3,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Asuán (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Aswan Botanical Garden",
+          "city": "Asuán",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=24.093864,32.887764",
           "date": "2025-11-30T13:22:48.250Z",
           "sources": [
@@ -26284,7 +27085,7 @@
           "id": "img1909",
           "type": "image",
           "src": "IMG_1909.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Aswan Botanical Garden, Asuán",
           "title": "",
           "width": 3024,
           "height": 4032,
@@ -26299,13 +27100,20 @@
           },
           "exif": {
             "date": "2025-11-30T13:23:26.086Z",
+            "location": "Aswan Botanical Garden",
+            "city": "Asuán",
             "latitude": 24.093731,
             "longitude": 32.887689,
             "orientation": 6,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Asuán (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Aswan Botanical Garden",
+          "city": "Asuán",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=24.093731,32.887689",
           "date": "2025-11-30T13:23:26.086Z",
           "sources": [
@@ -26365,7 +27173,7 @@
           "id": "img1911",
           "type": "image",
           "src": "IMG_1911.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Aswan Botanical Garden, Asuán",
           "title": "",
           "width": 3024,
           "height": 4032,
@@ -26380,13 +27188,20 @@
           },
           "exif": {
             "date": "2025-11-30T13:34:28.898Z",
+            "location": "Aswan Botanical Garden",
+            "city": "Asuán",
             "latitude": 24.095908,
             "longitude": 32.891875,
             "orientation": 6,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Asuán (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Aswan Botanical Garden",
+          "city": "Asuán",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=24.095908,32.891875",
           "date": "2025-11-30T13:34:28.898Z",
           "sources": [
@@ -26446,7 +27261,7 @@
           "id": "img1912",
           "type": "image",
           "src": "IMG_1912.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Aswan Botanical Garden, Asuán",
           "title": "",
           "width": 3024,
           "height": 4032,
@@ -26461,13 +27276,20 @@
           },
           "exif": {
             "date": "2025-11-30T13:45:12.464Z",
+            "location": "Aswan Botanical Garden",
+            "city": "Asuán",
             "latitude": 24.094069,
             "longitude": 32.887386,
             "orientation": 6,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Asuán (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Aswan Botanical Garden",
+          "city": "Asuán",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=24.094069,32.887386",
           "date": "2025-11-30T13:45:12.464Z",
           "sources": [
@@ -26527,7 +27349,7 @@
           "id": "img1913",
           "type": "image",
           "src": "IMG_1913.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Aswan Botanical Garden, Asuán",
           "title": "",
           "width": 3024,
           "height": 4032,
@@ -26542,13 +27364,20 @@
           },
           "exif": {
             "date": "2025-11-30T13:45:20.283Z",
+            "location": "Aswan Botanical Garden",
+            "city": "Asuán",
             "latitude": 24.094022,
             "longitude": 32.887414,
             "orientation": 6,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Asuán (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Aswan Botanical Garden",
+          "city": "Asuán",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=24.094022,32.887414",
           "date": "2025-11-30T13:45:20.283Z",
           "sources": [
@@ -26770,8 +27599,9 @@
           "id": "img1927",
           "type": "image",
           "src": "IMG_1927.HEIC",
-          "alt": "Photoblog image",
-          "title": "",
+          "alt": "Zbytky nilského kataraktu, Asuán",
+          "title": "Zbytky nilského kataraktu",
+          "caption": "Zbytky nilského kataraktu",
           "width": 3024,
           "height": 4032,
           "sizeMB": 1.99,
@@ -26785,13 +27615,19 @@
           },
           "exif": {
             "date": "2025-11-30T14:19:55.088Z",
+            "city": "Asuán",
             "latitude": 24.076186,
             "longitude": 32.875092,
             "orientation": 6,
-            "author": "Dáša"
+            "description": "Zbytky nilského kataraktu",
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Asuán (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "city": "Asuán",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=24.076186,32.875092",
           "date": "2025-11-30T14:19:55.088Z",
           "sources": [
@@ -26851,8 +27687,9 @@
           "id": "img1928",
           "type": "image",
           "src": "IMG_1928.HEIC",
-          "alt": "Photoblog image",
-          "title": "",
+          "alt": "Zbytky nilského kataraktu, Asuán",
+          "title": "Zbytky nilského kataraktu",
+          "caption": "Zbytky nilského kataraktu",
           "width": 3024,
           "height": 4032,
           "sizeMB": 2.04,
@@ -26866,13 +27703,19 @@
           },
           "exif": {
             "date": "2025-11-30T14:20:03.918Z",
+            "city": "Asuán",
             "latitude": 24.076175,
             "longitude": 32.875011,
             "orientation": 6,
-            "author": "Dáša"
+            "description": "Zbytky nilského kataraktu",
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Asuán (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "city": "Asuán",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=24.076175,32.875011",
           "date": "2025-11-30T14:20:03.918Z",
           "sources": [
@@ -26932,11 +27775,12 @@
           "id": "img1930",
           "type": "image",
           "src": "IMG_1930.heic",
-          "alt": "Photoblog image",
-          "title": "",
+          "alt": "Zbytky nilského kataraktu, Asuán",
+          "title": "Zbytky nilského kataraktu",
+          "caption": "Zbytky nilského kataraktu",
           "width": 3906,
           "height": 3024,
-          "sizeMB": 3.3,
+          "sizeMB": 3.31,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/IMG_1930.png",
           "placeholderColor": "rgb(8,8,8)",
@@ -26947,13 +27791,19 @@
           },
           "exif": {
             "date": "2025-11-30T14:22:10.082Z",
+            "city": "Asuán",
             "latitude": 24.0752,
             "longitude": 32.872497,
             "orientation": 1,
-            "author": "Dáša"
+            "description": "Zbytky nilského kataraktu",
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Asuán (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "city": "Asuán",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=24.0752,32.872497",
           "date": "2025-11-30T14:22:10.082Z",
           "sources": [
@@ -27013,8 +27863,9 @@
           "id": "img1931",
           "type": "image",
           "src": "IMG_1931.heic",
-          "alt": "Photoblog image",
-          "title": "",
+          "alt": "Zbytky nilského kataraktu, Asuán",
+          "title": "Zbytky nilského kataraktu",
+          "caption": "Zbytky nilského kataraktu",
           "width": 3582,
           "height": 3024,
           "sizeMB": 2.24,
@@ -27028,13 +27879,19 @@
           },
           "exif": {
             "date": "2025-11-30T14:22:13.152Z",
+            "city": "Asuán",
             "latitude": 24.075242,
             "longitude": 32.872425,
             "orientation": 1,
-            "author": "Dáša"
+            "description": "Zbytky nilského kataraktu",
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Asuán (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "city": "Asuán",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=24.075242,32.872425",
           "date": "2025-11-30T14:22:13.152Z",
           "sources": [
@@ -27091,10 +27948,16 @@
           ]
         },
         {
+          "id": "loc-nubijska-vesnice",
+          "type": "separator",
+          "location": "Núbijská vesnice",
+          "city": ""
+        },
+        {
           "id": "img1941",
           "type": "image",
           "src": "IMG_1941.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Núbijská vesnice",
           "title": "",
           "width": 3024,
           "height": 4032,
@@ -27109,13 +27972,18 @@
           },
           "exif": {
             "date": "2025-11-30T14:42:57.981Z",
+            "location": "Núbijská vesnice",
             "latitude": 24.061039,
             "longitude": 32.863736,
             "orientation": 6,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Asuán (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Núbijská vesnice",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=24.061039,32.863736",
           "date": "2025-11-30T14:42:57.981Z",
           "sources": [
@@ -27175,7 +28043,7 @@
           "id": "img1944",
           "type": "image",
           "src": "IMG_1944.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Núbijská vesnice",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -27190,13 +28058,18 @@
           },
           "exif": {
             "date": "2025-11-30T14:44:25.043Z",
+            "location": "Núbijská vesnice",
             "latitude": 24.061183,
             "longitude": 32.863617,
             "orientation": 3,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Asuán (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Núbijská vesnice",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=24.061183,32.863617",
           "date": "2025-11-30T14:44:25.043Z",
           "sources": [
@@ -27256,7 +28129,7 @@
           "id": "img1949",
           "type": "image",
           "src": "IMG_1949.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Núbijská vesnice",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -27271,13 +28144,18 @@
           },
           "exif": {
             "date": "2025-11-30T15:13:36.864Z",
+            "location": "Núbijská vesnice",
             "latitude": 24.058719,
             "longitude": 32.863469,
             "orientation": 3,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Asuán (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Núbijská vesnice",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=24.058719,32.863469",
           "date": "2025-11-30T15:13:36.864Z",
           "sources": [
@@ -27337,7 +28215,7 @@
           "id": "img1950",
           "type": "image",
           "src": "IMG_1950.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Núbijská vesnice",
           "title": "",
           "width": 3024,
           "height": 4032,
@@ -27352,13 +28230,18 @@
           },
           "exif": {
             "date": "2025-11-30T15:13:54.571Z",
+            "location": "Núbijská vesnice",
             "latitude": 24.058767,
             "longitude": 32.863475,
             "orientation": 6,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Asuán (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Núbijská vesnice",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=24.058767,32.863475",
           "date": "2025-11-30T15:13:54.571Z",
           "sources": [
@@ -27418,7 +28301,7 @@
           "id": "img1951",
           "type": "image",
           "src": "IMG_1951.HEIC",
-          "alt": "Photoblog image",
+          "alt": "Núbijská vesnice",
           "title": "",
           "width": 3024,
           "height": 4032,
@@ -27433,13 +28316,18 @@
           },
           "exif": {
             "date": "2025-11-30T15:15:24.617Z",
+            "location": "Núbijská vesnice",
             "latitude": 24.058781,
             "longitude": 32.863483,
             "orientation": 6,
-            "author": "Dáša"
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Asuán (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Núbijská vesnice",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=24.058781,32.863483",
           "date": "2025-11-30T15:15:24.617Z",
           "sources": [

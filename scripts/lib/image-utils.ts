@@ -1,14 +1,20 @@
-import fsp from "node:fs/promises";
 import crypto from "node:crypto";
+import fsp from "node:fs/promises";
 import type { AspectRatio } from "../../src/lib/types/manifest";
 
 type LandscapeRatio = `landscape-${number}-${number}`;
 type PortraitRatio = `portrait-${number}-${number}`;
 
+/**
+ * Formats a landscape aspect ratio string.
+ */
 function formatLandscapeRatio(width: number, height: number): LandscapeRatio {
   return `landscape-${width}-${height}`;
 }
 
+/**
+ * Formats a portrait aspect ratio string.
+ */
 function formatPortraitRatio(width: number, height: number): PortraitRatio {
   return `portrait-${width}-${height}`;
 }
@@ -25,9 +31,8 @@ export function gcd(a: number, b: number): number {
 }
 
 /**
- * Compute a human-friendly aspect ratio name (canonical or reduced numeric) for width/height.
+ * Return a human-friendly aspect ratio name for given dimensions.
  */
-
 export function getAspectRatioName(width?: number, height?: number): AspectRatio | undefined {
   if (!width || !height) return undefined;
   const ratio = width / height;
@@ -52,6 +57,9 @@ export function getAspectRatioName(width?: number, height?: number): AspectRatio
   return formatPortraitRatio(reducedWidth, reducedHeight);
 }
 
+/**
+ * Normalize various input types to a trimmed string or undefined.
+ */
 export function normalizeText(value: any): string | undefined {
   if (!value) return undefined;
   if (Array.isArray(value)) return normalizeText(value[0]);
@@ -61,9 +69,8 @@ export function normalizeText(value: any): string | undefined {
 }
 
 /**
- * Build an accessible alt string for an image using caption/title and location data.
+ * Compose an alt text string from EXIF, caption or title data.
  */
-
 export function getAltText(exif: any, captionNorm?: string, titleNorm?: string) {
   const parts: string[] = [];
   if (captionNorm) parts.push(captionNorm);
@@ -75,6 +82,9 @@ export function getAltText(exif: any, captionNorm?: string, titleNorm?: string) 
     : exif.ImageDescription || exif.ObjectName || "Photoblog image";
 }
 
+/**
+ * Extract keywords from EXIF tag values.
+ */
 export function getKeywords(exif: any): string[] | undefined {
   const k = exif.Keywords || exif.Subject || exif["dc:subject"];
   if (!k) return undefined;
@@ -84,13 +94,15 @@ export function getKeywords(exif: any): string[] | undefined {
 }
 
 /**
- * Ensure the directory exists, creating it recursively when necessary.
+ * Create a directory and its parents if they do not exist.
  */
-
 export async function ensureDir(dir: string): Promise<void> {
   await fsp.mkdir(dir, { recursive: true });
 }
 
+/**
+ * Calculate the SHA-1 hex digest of a buffer or string.
+ */
 export function sha1(buf: Buffer | Uint8Array | string): string {
   return crypto.createHash("sha1").update(buf).digest("hex");
 }
@@ -98,8 +110,7 @@ export function sha1(buf: Buffer | Uint8Array | string): string {
 type SharpType = typeof import("sharp");
 
 /**
- * Calculates a sharpness score using Laplacian Variance.
- * Higher score = sharper image.
+ * Estimate image sharpness by applying a Laplacian filter and returning variance.
  */
 export async function calculateSharpness(
   sharpModule: SharpType,
@@ -130,8 +141,7 @@ export async function calculateSharpness(
 }
 
 /**
- * Calculates a perceptual difference hash (dHash).
- * Returns a 64-bit hex string.
+ * Compute a perceptual hash (dHash) for an image and return it as hexadecimal.
  */
 export async function calculatePhash(sharpModule: SharpType, imagePath: string): Promise<string> {
   try {

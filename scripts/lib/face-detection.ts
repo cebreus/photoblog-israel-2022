@@ -1,19 +1,9 @@
-import * as faceapi from "@vladmandic/face-api";
-import * as tf from "@tensorflow/tfjs-node";
-import { Canvas, Image, ImageData, loadImage } from "canvas";
-import path from "node:path";
 import fs from "node:fs";
 import fsp from "node:fs/promises";
+import path from "node:path";
 import { createLogger } from "./logger";
 
 const logger = createLogger("face-api");
-
-// Patch the environment for Node.js
-faceapi.env.monkeyPatch({
-  Canvas: Canvas as any,
-  Image: Image as any,
-  ImageData: ImageData as any,
-});
 
 const MODELS_DIR = path.resolve(process.cwd(), "scripts/models");
 const BASE_MODEL_URL = "https://raw.githubusercontent.com/vladmandic/face-api/master/model";
@@ -21,7 +11,21 @@ const BASE_MODEL_URL = "https://raw.githubusercontent.com/vladmandic/face-api/ma
 // We use SSD MobileNet V1 for higher accuracy over Tiny Face Detector
 const MODEL_NAME = "ssd_mobilenetv1";
 
+/**
+ * Load and prepare face detection models and runtime dependencies.
+ */
 export async function initModels() {
+  // Lazy import to avoid loading TensorFlow/canvas at module load time
+  const faceapi = await import("@vladmandic/face-api");
+  const tf = await import("@tensorflow/tfjs-node");
+  const { Canvas, Image, ImageData } = await import("canvas");
+
+  // Patch the environment for Node.js
+  faceapi.env.monkeyPatch({
+    Canvas: Canvas as any,
+    Image: Image as any,
+    ImageData: ImageData as any,
+  });
   logger.info("Initializing TensorFlow/FaceAPI...");
   await tf.ready();
 
@@ -51,6 +55,9 @@ export async function initModels() {
   // minConfidence: 0.5 is default, maybe tweak?
 }
 
+/**
+ * Download the model manifest and its shard files into the local models directory.
+ */
 async function downloadModelFiles() {
   const manifestFile = `${MODEL_NAME}_model-weights_manifest.json`;
 
@@ -76,7 +83,9 @@ async function downloadModelFiles() {
   }
   await Promise.all(downloadPromises);
 }
-
+/**
+ * Download a model file from the remote repository to the local models directory if missing.
+ */
 async function downloadFile(filename: string) {
   const destPath = path.join(MODELS_DIR, filename);
   if (fs.existsSync(destPath)) return;
@@ -99,9 +108,15 @@ export type FaceBox = {
   width: number;
   height: number;
 };
-
+/**
+ * Detect faces in an image and return bounding boxes.
+ */
 export async function detectFaces(input: string | Buffer): Promise<FaceBox[]> {
   try {
+    // Lazy import to avoid loading at module load time
+    const faceapi = await import("@vladmandic/face-api");
+    const { loadImage } = await import("canvas");
+
     // Load image using canvas
     const img = await loadImage(input);
     logger.verbose(`Loaded image: ${img.width}x${img.height}`);

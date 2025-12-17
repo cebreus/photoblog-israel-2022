@@ -1,20 +1,19 @@
 // Suppress macOS GNotificationCenterDelegate warnings
 process.env.GLIB_LOG_LEVEL = "critical";
-import "sharp"; // Preload sharp to potentially avoid GNotificationCenterDelegate conflict with canvas
 import fsp from "node:fs/promises";
-import path from "node:path";
 import os from "node:os";
-import fg from "fast-glob";
+import path from "node:path";
+import "sharp"; // Preload sharp to potentially avoid GNotificationCenterDelegate conflict with canvas
+import type { QualityTypes, ScriptArgs } from "../src/lib/types/manifest";
 import { config } from "./config";
-import type { ScriptArgs, QualityTypes } from "../src/lib/types/manifest";
 import { parseCliArguments, type CliOptions } from "./lib/cli-parser";
 import { createLogger } from "./lib/logger";
 
-import { processImage, cleanup } from "./lib/image-processor";
-import incrementalRun from "./lib/incremental-build";
 import { runBlurBuild } from "./lib/blur-processor";
-import { sha1 } from "./lib/image-utils";
 import { initModels } from "./lib/face-detection";
+import { cleanup, processImage } from "./lib/image-processor";
+import { sha1 } from "./lib/image-utils";
+import incrementalRun from "./lib/incremental-build";
 
 // Runtime overrides from CLI flags.
 let RUNTIME_RAW: Partial<CliOptions> = {};
@@ -51,7 +50,9 @@ function isSrcArgFlag(a: string) {
   return a.startsWith("--src=") || a.startsWith("--blur.src=");
 }
 let hasSrcArg = process.argv.slice(2).some(isSrcArgFlag);
-
+/**
+ * Resets the CLI state and re-initializes arguments and context for testing.
+ */
 export function resetCliState() {
   parsed = parseCliArguments(process.argv.slice(2));
   ARGS = {
@@ -76,22 +77,23 @@ export function resetCliState() {
   hasSrcArg = process.argv.slice(2).some(isSrcArgFlag);
   CTX = initializeContext();
 }
-
-let CTX = initializeContext();
-
 function resolveConcurrency(value: number | "auto") {
   if (value === "auto") {
     return Math.max(1, (os.cpus()?.length || 2) - 1);
   }
   return Math.max(1, value);
 }
-
+/**
+ * Type guard to check if an image processing result is not null.
+ */
 function isProcessedImageResult(
   r: Awaited<ReturnType<typeof processImage>> | null,
 ): r is NonNullable<Awaited<ReturnType<typeof processImage>>> {
   return r != null;
 }
-
+/**
+ * Initializes the context object with resolved paths and configurations.
+ */
 function initializeContext() {
   const raw = ARGS.__raw;
   const defaultManifestPath = path.resolve(process.cwd(), config.paths.manifest);
@@ -119,10 +121,11 @@ function initializeContext() {
   };
 }
 
+// Initialize mutable context (can be reset via `resetCliState` in tests)
+let CTX = initializeContext();
 async function cleanAllOutputs() {
   await fsp.rm(CTX.outRoot, { recursive: true, force: true });
 }
-
 export async function main() {
   if (!contentDir && !hasSrcArg) {
     logger.error(
@@ -133,7 +136,13 @@ export async function main() {
   logger.verbose(`Processing content for: ${contentDir}`);
 
   // Initialize face detection models (downloads if missing)
-  await initModels();
+  // Skip if TensorFlow is not available (e.g., native addon not built)
+  try {
+    await initModels();
+  } catch (error) {
+    logger.warn("Face detection unavailable (TensorFlow not loaded). Skipping face detection.");
+    logger.verbose(`Error: ${error}`);
+  }
 
   // sharp is loaded where it's actually needed by workers (processImage) or blur processor
 
@@ -171,7 +180,6 @@ export async function main() {
     });
   }
 }
-
 export async function executeMain(): Promise<void> {
   try {
     await main();
