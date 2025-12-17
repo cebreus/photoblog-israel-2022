@@ -4,9 +4,16 @@
   import { Switch } from "$lib/components/ui/switch";
   import { ToggleGroup, ToggleGroupItem } from "$lib/components/ui/toggle-group";
   import { debug } from "$lib/stores/debug";
-  import { selectedAuthors, showSeparators, visiblePhotos } from "$lib/stores/filters";
+  import {
+    selectedAestheticBuckets,
+    selectedAuthors,
+    showSeparators,
+    visiblePhotos,
+  } from "$lib/stores/filters";
   import { showPhotoLabels } from "$lib/stores/photoLabels";
   import type { MenuDay } from "$lib/types/manifest";
+  import { AESTHETIC_BUCKETS } from "$lib/utils/gallery";
+  import { getPhotoDays } from "$lib/utils/images";
   import { getMenuItems } from "$lib/utils/menu";
   import { toSlug } from "$lib/utils/strings";
   import Monitor from "lucide-svelte/icons/monitor";
@@ -21,7 +28,13 @@
     slug?: string;
   };
 
-  let { authors = [] } = $props<{ authors?: AuthorStats[] }>();
+  let {
+    authors = [],
+    aestheticStats = new Map(),
+  } = $props<{
+    authors?: AuthorStats[];
+    aestheticStats?: Map<string, number>;
+  }>();
 
   let totalPhotos = $state(0);
   let totalAuthors = $state(0);
@@ -87,15 +100,34 @@
     });
   }
 
+
+  function toggleAestheticBucket(bucketId: string) {
+    selectedAestheticBuckets.update((current) => {
+      if (current.includes(bucketId)) {
+        return current.filter((id) => id !== bucketId);
+      }
+      return [...current, bucketId];
+    });
+  }
+
   function createToggleHandler(slug: string, name: string) {
     return function handleToggle() {
       toggleAuthor(slug, name);
     };
   }
 
-  function stopPropagation(e: Event) {
-    e.stopPropagation();
-  }
+  const aestheticCount = $derived(
+    Array.from(aestheticStats.values() as IterableIterator<number>).reduce(
+      (sum: number, val: number) => sum + val,
+      0,
+    ),
+  );
+
+  const hasNonZeroScores = $derived(
+    getPhotoDays()?.some((d) =>
+      d.items?.some((i) => i.type === "image" && (i as any).analysis?.aestheticScore),
+    ) ?? false,
+  );
 </script>
 
 <div class="contents" data-testid="filters-tab">
@@ -199,6 +231,39 @@
                   : `Zapnout filtr ${author.name}`}
                 data-testid={`filters-tab-author-switch-${testIdKey}`}
                 onCheckedChange={createToggleHandler(slugKey, author.name)}
+              />
+            </label>
+          {/each}
+        </div>
+      </div>
+    {/if}
+
+
+    {#if aestheticStats.size > 0 && aestheticCount > 0 && hasNonZeroScores}
+      <div class="space-y-3 border-b px-6 py-4">
+        <div class="flex items-center justify-between">
+          <p class="text-sm font-semibold">Kvalita fotek</p>
+        </div>
+        <div class="flex flex-col gap-3">
+          {#each AESTHETIC_BUCKETS as bucket (bucket.id)}
+            {@const count = aestheticStats.get(bucket.id) ?? 0}
+            {@const isActive = $selectedAestheticBuckets.includes(bucket.id)}
+            <label
+              class={`flex cursor-pointer items-center justify-between text-sm ${
+                isActive ? "text-primary" : "text-slate-100"
+              }`}
+              data-testid={`filters-tab-aesthetic-${bucket.id}`}
+            >
+              <span class="flex items-center gap-2">
+                <span>{bucket.label}</span>
+                <Badge variant="outline">{count}</Badge>
+              </span>
+              <Switch
+                checked={isActive}
+                aria-label={isActive
+                  ? `Vypnout filtr ${bucket.label}`
+                  : `Zapnout filtr ${bucket.label}`}
+                onCheckedChange={() => toggleAestheticBucket(bucket.id)}
               />
             </label>
           {/each}

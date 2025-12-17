@@ -19,6 +19,7 @@
       menuItems: MenuManifest;
       siteManifest: SiteManifest;
       curationManifest?: CurationManifest;
+      aestheticStats: Map<string, number>;
     };
     children?: import("svelte").Snippet;
   }
@@ -77,7 +78,12 @@
       <Footer />
     </div>
   </Sidebar.Inset>
-  <AppSidebar menuItems={data.menuItems} authors={data.authors} side="right" />
+  <AppSidebar
+    menuItems={data.menuItems}
+    authors={data.authors}
+    aestheticStats={data.aestheticStats}
+    side="right"
+  />
 </Sidebar.Provider>
 
 <Toaster position="top-right" />

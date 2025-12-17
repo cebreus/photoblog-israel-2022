@@ -6,14 +6,14 @@
   import FiltersTab from "$lib/components/sidebar-content/FiltersTab.svelte";
   import * as Sidebar from "$lib/components/ui/sidebar";
   import * as Tabs from "$lib/components/ui/tabs";
-  import { selection, editMode } from "$lib/stores/editorState";
+  import { editMode, selection } from "$lib/stores/editorState";
   import { activeTab, isSidebarOpen } from "$lib/stores/uiState";
   import type { MenuManifest, PhotoDay } from "$lib/types/manifest";
   import Calendar from "lucide-svelte/icons/calendar";
   import Pencil from "lucide-svelte/icons/pencil";
   import SlidersHorizontal from "lucide-svelte/icons/sliders-horizontal";
-  import { untrack } from "svelte";
   import type { ComponentProps } from "svelte";
+  import { untrack } from "svelte";
 
   type AuthorStats = {
     name: string;
@@ -25,6 +25,7 @@
   let {
     menuItems = [],
     authors = [],
+    aestheticStats = new Map(),
     ref = $bindable(null),
     collapsible = "offcanvas",
     side = "right",
@@ -32,6 +33,7 @@
   }: ComponentProps<typeof Sidebar.Root> & {
     menuItems: MenuManifest;
     authors: AuthorStats[];
+    aestheticStats?: Map<string, number>;
   } = $props();
 
   // Derive items for EditTab
@@ -122,7 +124,7 @@
       </Sidebar.Content>
     </Tabs.Content>
     <Tabs.Content value="filters" class="mt-0 h-full flex flex-col overflow-hidden">
-      <FiltersTab {authors} />
+      <FiltersTab {authors} {aestheticStats} />
     </Tabs.Content>
     {#if dev}
       <Tabs.Content value="edit" class="mt-0 h-full flex flex-col overflow-hidden">

@@ -1,13 +1,8 @@
-import type {
-  Manifest,
-  PhotoDay,
-  ImageEntry,
-  ImageSource,
-  CurationManifest,
-} from "../types/manifest";
 import manifest from "$manifests/images.manifest.json" with { type: "json" };
+import type { CurationManifest, ImageEntry, Manifest, PhotoDay } from "../types/manifest";
 // @ts-ignore
 import curationManifest from "$manifests/curation.manifest.json" with { type: "json" };
+// @ts-ignore
 
 // Helper to validate/cast the manifest safely
 function isManifest(acc: unknown): acc is Manifest {
@@ -24,9 +19,11 @@ export function getPhotoDays(): PhotoDay[] {
   return typedManifest.photoDays ?? [];
 }
 
+
 export function getCurationManifest(): CurationManifest {
   return curationManifest as unknown as CurationManifest;
 }
+
 
 /**
  * Gathers all available image sources from all variants and groups them by type.

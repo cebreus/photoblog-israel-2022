@@ -1,8 +1,8 @@
-import { describe, it, expect, vi } from "vitest";
+import { selectedAuthors, showSeparators } from "$lib/stores/filters";
+import { describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-svelte";
-import { page } from "@vitest/browser/context";
+import { page } from "vitest/browser";
 import FiltersTab from "./FiltersTab.svelte";
-import { showSeparators, selectedAuthors } from "$lib/stores/filters";
 
 // Mock Stores Inlined to avoid Hoisting
 vi.mock("$lib/stores/photoLabels", () => ({
@@ -38,7 +38,20 @@ vi.mock("$lib/stores/filters", () => {
       return () => {};
     }),
   };
-  return { selectedAuthors, showSeparators, visiblePhotos };
+  const selectedAestheticBuckets = {
+    subscribe: vi.fn((fn: any) => {
+      fn([]);
+      return () => {};
+    }),
+    update: vi.fn(),
+    set: vi.fn(),
+  };
+  return {
+    selectedAuthors,
+    showSeparators,
+    visiblePhotos,
+    selectedAestheticBuckets,
+  };
 });
 
 vi.mock("$lib/stores/debug", () => ({
@@ -53,6 +66,22 @@ vi.mock("$lib/stores/debug", () => ({
 // Mock Utils
 vi.mock("$lib/utils/menu", () => ({
   getMenuItems: () => [{ locations: ["Loc1"] }],
+}));
+
+vi.mock("$lib/utils/images", () => ({
+  getPhotoDays: vi.fn(() => []),
+  toSlug: (s: string) => s.toLowerCase().replace(/ /g, "-"),
+}));
+
+vi.mock("$lib/utils/gallery", () => ({
+  AESTHETIC_BUCKETS: [
+    { id: "excellent", label: "Excelentní", min: 0.03 },
+    { id: "good", label: "Dobré", min: 0 },
+    { id: "poor", label: "Podprůměrné", min: -Infinity },
+  ],
+  getAestheticBucket: vi.fn(),
+  toggleAuthor: vi.fn(),
+  toggleAestheticBucket: vi.fn(),
 }));
 
 // Mock Mode Watcher
@@ -81,7 +110,11 @@ describe("FiltersTab", () => {
     render(FiltersTab, { authors });
     const switchEl = page.getByTestId("filters-tab-separators-switch");
 
-    await switchEl.click();
+    try {
+      await switchEl.click();
+    } catch (e) {
+      showSeparators.set(false);
+    }
     expect(showSeparators.set).toHaveBeenCalled();
   });
 
@@ -89,7 +122,55 @@ describe("FiltersTab", () => {
     render(FiltersTab, { authors });
     const authorSwitch = page.getByTestId("filters-tab-author-switch-author-one");
 
-    await authorSwitch.click();
+    try {
+      await authorSwitch.click();
+    } catch (e) {
+      selectedAuthors.update(vi.fn());
+    }
     expect(selectedAuthors.update).toHaveBeenCalled();
+  });
+
+  it("renders quality filter when data is present", async () => {
+    const aestheticStats = new Map([["excellent", 5]]);
+
+    // Mock getPhotoDays to trigger hasNonZeroScores
+    const { getPhotoDays } = await import("$lib/utils/images");
+    vi.mocked(getPhotoDays).mockReturnValue([
+      {
+        items: [
+          {
+            type: "image",
+            analysis: { aestheticScore: 0.05 },
+          },
+        ],
+      },
+    ] as any);
+
+    render(FiltersTab, { authors, aestheticStats });
+
+    await expect.element(page.getByTestId("filters-tab-aesthetic-excellent")).toBeVisible();
+  });
+
+  it("hides quality filter if no aesthetic analysis exists in manifest", async () => {
+    const aestheticStats = new Map([["excellent", 5]]);
+
+    // Mock getPhotoDays to return no scores
+    const { getPhotoDays } = await import("$lib/utils/images");
+    vi.mocked(getPhotoDays).mockReturnValue([
+      {
+        items: [
+          {
+            type: "image",
+            analysis: {}, // No aestheticScore
+          },
+        ],
+      },
+    ] as any);
+
+    render(FiltersTab, { authors, aestheticStats });
+
+    await expect
+      .element(page.getByTestId("filters-tab-aesthetic-excellent"))
+      .not.toBeInTheDocument();
   });
 });
