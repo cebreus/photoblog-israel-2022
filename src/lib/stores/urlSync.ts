@@ -1,12 +1,18 @@
 import { browser } from "$app/environment";
 import { goto } from "$app/navigation";
 import { page } from "$app/stores";
-import { filtersSyncing, selectedAuthors, showSeparators } from "$lib/stores/filters";
-import { showPhotoLabels } from "$lib/stores/photoLabels";
-import { selection, editMode, showMetadataOverlay } from "$lib/stores/editorState";
 import { debug } from "$lib/stores/debug";
-import { activeTab, isSidebarOpen, isCurationMode } from "$lib/stores/uiState";
+import { editMode, selection, showMetadataOverlay } from "$lib/stores/editorState";
+import {
+    filtersSyncing,
+    selectedAestheticBuckets,
+    selectedAuthors,
+    showSeparators
+} from "$lib/stores/filters";
+import { showPhotoLabels } from "$lib/stores/photoLabels";
+import { activeTab, isCurationMode, isSidebarOpen } from "$lib/stores/uiState";
 import type { Author } from "$lib/types/manifest";
+import { AESTHETIC_BUCKETS } from "$lib/utils/gallery";
 import { toSlug } from "$lib/utils/strings";
 import { get } from "svelte/store";
 
@@ -106,6 +112,18 @@ export function initializeFiltersFromUrl(url: URL) {
       selectedAuthors.set([]);
     }
   }
+
+  // Aesthetic (Quality)
+  // If param exists, respect it (even if empty -> None).
+  // If param missing, default to ALL.
+  if (url.searchParams.has("quality")) {
+    const qualityCsv = url.searchParams.get("quality") || "";
+    const buckets = qualityCsv.split(",").filter(Boolean);
+    selectedAestheticBuckets.set(buckets);
+  } else {
+    selectedAestheticBuckets.set(AESTHETIC_BUCKETS.map((b) => b.id));
+  }
+
 
   const separatorsParam = parseBooleanParam(url.searchParams.get("separators"));
   // Presence-only flag: `no-separators` (preferred) means disabled.
@@ -252,6 +270,19 @@ export function syncUrlFromFilters() {
       params.set("authors", slugs.join(","));
     }
 
+    const $selectedAestheticBuckets = get(selectedAestheticBuckets);
+    const allAestheticIds = AESTHETIC_BUCKETS.map((b) => b.id);
+    const isAllAestheticSelected =
+      allAestheticIds.length === $selectedAestheticBuckets.length &&
+      allAestheticIds.every((id) => $selectedAestheticBuckets.includes(id));
+
+    if (isAllAestheticSelected) {
+      params.delete("quality");
+    } else {
+      params.set("quality", $selectedAestheticBuckets.join(","));
+    }
+
+
     // Only include non-default values in the URL so clearing filters removes the query string.
     const separatorsVal = get(showSeparators);
     // Prefer presence-only inverted flag `no-separators` to indicate disabled state.
@@ -367,6 +398,7 @@ export function initUrlSync(initialAuthors: Author[]) {
 
   // 2. When filter stores change, update the URL
   selectedAuthors.subscribe(syncUrlFromFilters);
+  selectedAestheticBuckets.subscribe(syncUrlFromFilters);
   showSeparators.subscribe(syncUrlFromFilters);
   showPhotoLabels.subscribe(syncUrlFromFilters);
   selection.subscribe(syncUrlFromFilters);

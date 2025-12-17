@@ -66,6 +66,7 @@ export type ImageEntry = {
   sizeMB?: number;
 
   analysis?: {
+    aestheticScore?: number;
     sharpness: number;
     phash: string;
     embedding?: number[];
@@ -275,3 +276,4 @@ export type Author = {
   count: number;
   slug?: string;
 };
+

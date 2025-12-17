@@ -1,26 +1,68 @@
-import type { ImageEntry, PhotoDayItem, PhotoDay } from "$lib/types/manifest";
+import type { ImageEntry, PhotoDay, PhotoDayItem } from "$lib/types/manifest";
 import { getPhotoDays } from "$lib/utils/images";
+
+export type AestheticBucket = "excellent" | "good" | "poor";
+
+export function getAestheticBucket(score: number | undefined): AestheticBucket | null {
+  if (score === undefined) return null;
+  if (score >= 0.03) return "excellent";
+  if (score >= 0) return "good";
+  return "poor";
+}
+
+export const AESTHETIC_BUCKETS: { id: AestheticBucket; label: string; min: number }[] = [
+  { id: "excellent", label: "Excelentní", min: 0.03 },
+  { id: "good", label: "Dobré", min: 0 },
+  { id: "poor", label: "Podprůměrné", min: -Infinity }, // or just fallback
+];
 
 export function filterGalleryItems(
   items: PhotoDayItem[],
   selectedAuthors: string[],
   showSeparators: boolean,
+  selectedAestheticBuckets: string[] = [],
 ): PhotoDayItem[] {
   return items.filter((item) => {
     if (item.type === "separator") {
       return showSeparators;
     }
     // item is ImageEntry
+    const img = item as ImageEntry;
+
+    // Aesthetic Score Filter (Bucket-based)
+    // Aesthetic Score Filter (Bucket-based)
+    // Logic:
+    // 1. If currently selected buckets match the full set of defaults ("excellent", "good", "poor"),
+    //    we assume the user wants to see "everything", including unrated photos. (Default View)
+    // 2. If the user has explicitly deselected some buckets (subset), we switch to strict mode:
+    //    only show photos that strictly match the remaining selected buckets. Unrated photos are hidden.
+
+    // Check if we are in "Show All" mode (default)
+    const allBuckets = ["excellent", "good", "poor"];
+    const isDefaultView = allBuckets.every((b) => selectedAestheticBuckets.includes(b));
+
+    if (!isDefaultView) {
+      // Strict filtering active
+      const score = img.analysis?.aestheticScore;
+      const bucket = getAestheticBucket(score);
+
+      if (!bucket || !selectedAestheticBuckets.includes(bucket)) {
+        return false;
+      }
+    }
+
+
     if (selectedAuthors.length === 0) {
       return true; // No author filter applied
     }
-    return selectedAuthors.includes((item as ImageEntry).authorSlug || "");
+    return selectedAuthors.includes(img.authorSlug || "");
   });
 }
 
 export function computeTotals(
   selectedAuthors: string[],
   showSeparators: boolean,
+  selectedAestheticBuckets: string[],
   photoDaysData: PhotoDay[] = getPhotoDays(),
 ): { visiblePhotos: number; totalLocations: number } {
   let visiblePhotos = 0;
@@ -29,7 +71,12 @@ export function computeTotals(
   const allPhotoDays = photoDaysData;
 
   for (const day of allPhotoDays) {
-    const filteredItems = filterGalleryItems(day.items, selectedAuthors, showSeparators);
+    const filteredItems = filterGalleryItems(
+      day.items,
+      selectedAuthors,
+      showSeparators,
+      selectedAestheticBuckets,
+    );
 
     for (const item of filteredItems) {
       if (item.type === "image") {
