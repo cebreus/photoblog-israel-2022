@@ -1,3 +1,4 @@
+import { intro, select } from "@clack/prompts";
 import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
 import * as canvas from "canvas";
 import { spawn } from "node:child_process";
@@ -218,7 +219,31 @@ async function processFaceDetections(
  * Runs the face clustering process on all images in the content directory.
  */
 async function main() {
-  const contentDir = process.env.CONTENT_DIR || "egypt-2025";
+  intro("🤖 Face Clustering");
+
+  let contentDir = process.env.CONTENT_DIR;
+  if (!contentDir) {
+    const contentDirRoot = path.resolve("content");
+    const entries = await fsp.readdir(contentDirRoot, { withFileTypes: true });
+    const galleries = entries.filter((e) => e.isDirectory()).map((e) => e.name);
+
+    if (galleries.length === 0) {
+      console.error("No galleries found");
+      process.exit(1);
+    }
+
+    if (galleries.length === 1) {
+      contentDir = galleries[0];
+    } else {
+      const galleryId = await select({
+        message: "Select a gallery to cluster faces:",
+        options: galleries.map((g) => ({ value: g, label: g })),
+      });
+      if (typeof galleryId !== "string") process.exit(0);
+      contentDir = galleryId;
+    }
+  }
+
   console.log(`Running Face Clustering for: ${contentDir}`);
 
   // Paths
