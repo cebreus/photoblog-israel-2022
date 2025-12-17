@@ -1,4 +1,6 @@
+import { intro, select } from "@clack/prompts";
 import { AutoTokenizer, CLIPTextModelWithProjection } from "@xenova/transformers";
+import fs from "node:fs/promises";
 import path from "node:path";
 import type {
   CurationGroup,
@@ -125,7 +127,31 @@ function evaluateGroup(photos: ImageEntry[]): CurationGroup {
  * Analyzes image embeddings to calculate aesthetic scores and identify similar image groups.
  */
 async function main() {
-  const contentDir = process.env.CONTENT_DIR || "egypt-2025";
+  intro("🧠 Similarity Analysis");
+
+  let contentDir = process.env.CONTENT_DIR;
+  if (!contentDir) {
+    const contentDirRoot = path.resolve("content");
+    const entries = await fs.readdir(contentDirRoot, { withFileTypes: true });
+    const galleries = entries.filter((e) => e.isDirectory()).map((e) => e.name);
+
+    if (galleries.length === 0) {
+      console.error("No galleries found");
+      process.exit(1);
+    }
+
+    if (galleries.length === 1) {
+      contentDir = galleries[0];
+    } else {
+      const galleryId = await select({
+        message: "Select a gallery to analyze:",
+        options: galleries.map((g) => ({ value: g, label: g })),
+      });
+      if (typeof galleryId !== "string") process.exit(0);
+      contentDir = galleryId;
+    }
+  }
+
   console.log(`Analyzing content for: ${contentDir}`);
 
   // Use Repository
