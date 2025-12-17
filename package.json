@@ -11,6 +11,7 @@
     "analyze": "bun scripts/manage.ts analyze",
     "clean": "rm -rf build-* src/data/*/images.manifest.json src/data/*/curation.manifest.json",
     "images:build": "bun scripts/generate-images.ts",
+    "images:rename": "bun scripts/rename-images.ts",
     "faces:cluster": "bun scripts/face-clustering.ts",
     "lint": "biome check . && bun run lint:css",
     "lint:css": "stylelint '**/*.css'",

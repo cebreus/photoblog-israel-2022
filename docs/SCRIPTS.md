@@ -57,6 +57,7 @@ Kompletní pipeline pro zpracování dat (obrázky -> AI -> favicons).
 - **`bun run images:build`** - Vygeneruje všechny varianty obrázků pro výchozí galerii
 - **`bun run images:build:israel`** - Pro Israel 2022
 - **`bun run images:build:egypt`** - Pro Egypt 2025
+- **`bun run images:rename`** - Interaktivní skript pro hromadné přejmenování fotek podle metadat (datum, autor). Podporuje "chytrou migraci" (přejmenování assetů, cache i manifestů bez nutnosti rebuildu).
 
   **Podporované flagy:**
   - `--manifestOnly` - Pouze regenerace manifestu (bez přegenerování obrázků)
