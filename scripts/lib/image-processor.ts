@@ -455,6 +455,12 @@ export async function processImage(
         }
       }
     }
+    // Find and assign the admin thumb URL
+    const adminThumbPath = outputs.find((p) => p.includes("admin-thumbs"));
+    if (adminThumbPath) {
+      imageEntry.adminThumbUrl = `${config.paths.urlPrefix}/images/${adminThumbPath}`;
+    }
+
     imageEntry.sources = sources;
 
     return {

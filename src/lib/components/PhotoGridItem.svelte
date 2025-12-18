@@ -286,24 +286,36 @@
             data-testid="photo-grid-item-scrollspy-anchor-{scrollspyId}"
           ></div>
         {/if}
-        <picture class={`${$debug ? "shrink-0" : ""}`}>
-          {#each getSources(item) as source (source.type)}
-            <source
-              type={source.type}
-              srcset={source.srcset}
-              sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+        {#if !isEditMode}
+          <picture class={`${$debug ? "shrink-0" : ""}`}>
+            {#each getSources(item) as source (source.type)}
+              <source
+                type={source.type}
+                srcset={source.srcset}
+                sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+              />
+            {/each}
+            <img
+              src={fallback.path}
+              alt={item.alt}
+              loading="lazy"
+              class="h-full w-full cursor-zoom-in object-cover"
+              width={fallback.width}
+              height={fallback.height}
+              data-testid="photo-grid-item-image-{item.id}"
             />
-          {/each}
+          </picture>
+        {:else}
           <img
-            src={fallback.path}
+            src={item.adminThumbUrl}
             alt={item.alt}
             loading="lazy"
-            class="h-full w-full cursor-zoom-in object-cover"
-            width={fallback.width}
-            height={fallback.height}
-            data-testid="photo-grid-item-image-{item.id}"
+            class="h-full w-full object-contain"
+            width={item.width}
+            height={item.height}
+            data-testid="photo-grid-item-image-edit-mode-{item.id}"
           />
-        </picture>
+        {/if}
       </figure>
 
       {#if isCurationActive && !isCurationModeLayout}

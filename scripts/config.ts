@@ -50,6 +50,11 @@ export const config = {
       folderName: "blurs",
       isPlaceholder: true,
     },
+    admin_thumb: {
+      kind: "other",
+      resize: { width: 190, height: 107, crop: false, fit: "inside" },
+      folderName: "admin-thumbs",
+    },
   },
 
   encoding: {
