@@ -4,14 +4,14 @@ import { page } from "$app/stores";
 import { debug } from "$lib/stores/debug";
 import { editMode, selection, showMetadataOverlay } from "$lib/stores/editorState";
 import {
-    filtersSyncing,
-    selectedAuthors,
-    selectedQualityBuckets,
+  filtersSyncing,
+  selectedAuthors,
+  selectedQualityBuckets,
   showSeparators,
 } from "$lib/stores/filters";
 import { showPhotoLabels } from "$lib/stores/photoLabels";
 import { activeTab, isCurationMode, isSidebarOpen } from "$lib/stores/uiState";
-import type { Author } from "$lib/types/manifest";
+import type { Author, QualityBucket } from "$lib/types/manifest";
 import { QUALITY_BUCKETS } from "$lib/utils/gallery";
 import { toSlug } from "$lib/utils/strings";
 import { get } from "svelte/store";
@@ -162,14 +162,6 @@ export function initializeFiltersFromUrl(url: URL) {
   } else {
     selectedQualityBuckets.set(QUALITY_BUCKETS.map((b) => b.id));
   }
-
-    const qualityCsv = url.searchParams.get("quality") || "";
-    const buckets = qualityCsv.split(",").filter(Boolean);
-    selectedAestheticBuckets.set(buckets);
-  } else {
-    selectedAestheticBuckets.set(AESTHETIC_BUCKETS.map((b) => b.id));
-  }
-
 
   // Presence-only flag: `no-separators` (preferred) means disabled.
   if (url.searchParams.has("no-separators")) {
@@ -365,7 +357,6 @@ export function initUrlSync(initialAuthors: Author[]) {
   // 2. When filter stores change, update the URL
   selectedAuthors.subscribe(syncUrlFromFilters);
   selectedQualityBuckets.subscribe(syncUrlFromFilters);
-  selectedAestheticBuckets.subscribe(syncUrlFromFilters);
   showSeparators.subscribe(syncUrlFromFilters);
   showPhotoLabels.subscribe(syncUrlFromFilters);
   selection.subscribe(syncUrlFromFilters);

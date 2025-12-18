@@ -4,16 +4,16 @@ import { getPhotoDays } from "$lib/utils/images";
 import { derived, writable } from "svelte/store";
 
 export const selectedAuthors = writable<string[]>([]);
+export const selectedPeople = writable<string[]>([]);
 export const showSeparators = writable(true);
 // Default to all buckets selected (subtractive logic)
 export const selectedQualityBuckets = writable<QualityBucket[]>(QUALITY_BUCKETS.map((b) => b.id));
-export const selectedAestheticBuckets = writable<string[]>(AESTHETIC_BUCKETS.map((b) => b.id));
 export const filtersSyncing = writable(false);
 
 // Derived store that returns the photoDays with each day's items filtered
 export const filteredPhotoDays = derived(
-  [selectedAuthors, showSeparators, selectedAestheticBuckets],
-  ([$selectedAuthors, $showSeparators, $selectedAestheticBuckets]) => {
+  [selectedAuthors, showSeparators, selectedQualityBuckets, selectedPeople],
+  ([$selectedAuthors, $showSeparators, $selectedQualityBuckets, $selectedPeople]) => {
     const days = getPhotoDays();
     return days
       .map((day) => ({
@@ -23,7 +23,7 @@ export const filteredPhotoDays = derived(
           $selectedAuthors,
           $showSeparators,
           $selectedQualityBuckets,
-          $selectedAestheticBuckets,
+          $selectedPeople,
         ),
       }))
       .filter((d) => d.items && d.items.length > 0);
@@ -31,15 +31,15 @@ export const filteredPhotoDays = derived(
 );
 
 export const visiblePhotos = derived(
-  [selectedAuthors, showSeparators, selectedAestheticBuckets],
-  ([$selectedAuthors, $showSeparators, $selectedAestheticBuckets]) =>
-    computeTotals($selectedAuthors, $showSeparators, $selectedAestheticBuckets)
+  [selectedAuthors, showSeparators, selectedQualityBuckets, selectedPeople],
+  ([$selectedAuthors, $showSeparators, $selectedQualityBuckets, $selectedPeople]) =>
+    computeTotals($selectedAuthors, $showSeparators, $selectedQualityBuckets, $selectedPeople)
       .visiblePhotos,
 );
 
 export const totalLocations = derived(
-  [selectedAuthors, showSeparators, selectedAestheticBuckets],
-  ([$selectedAuthors, $showSeparators, $selectedAestheticBuckets]) =>
-    computeTotals($selectedAuthors, $showSeparators, $selectedAestheticBuckets)
+  [selectedAuthors, showSeparators, selectedQualityBuckets, selectedPeople],
+  ([$selectedAuthors, $showSeparators, $selectedQualityBuckets, $selectedPeople]) =>
+    computeTotals($selectedAuthors, $showSeparators, $selectedQualityBuckets, $selectedPeople)
       .totalLocations,
 );

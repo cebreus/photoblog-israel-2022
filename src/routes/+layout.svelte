@@ -19,7 +19,7 @@
       menuItems: MenuManifest;
       siteManifest: SiteManifest;
       curationManifest?: CurationManifest;
-      aestheticStats: Map<string, number>;
+      qualityStats: Map<string, number>;
     };
     children?: import("svelte").Snippet;
   }
@@ -81,7 +81,7 @@
   <AppSidebar
     menuItems={data.menuItems}
     authors={data.authors}
-    aestheticStats={data.aestheticStats}
+    qualityStats={data.qualityStats}
     side="right"
   />
 </Sidebar.Provider>
