@@ -67,10 +67,43 @@
   let detailPerson = $state<Person | null>(null);
   let showPersonDetail = $state(false);
 
-  function openPersonDetail(person: Person, e: MouseEvent) {
-    e.stopPropagation();
-    detailPerson = person;
-    showPersonDetail = true;
+  // Sync URL state for person detail (survives HMR/reload)
+  $effect(() => {
+    const personId = $page.url.searchParams.get("person");
+    // 1. URL has person -> Open Dialog
+    if (personId && people.length > 0) {
+      if (!showPersonDetail || detailPerson?.id !== personId) {
+        const p = people.find((x) => x.id === personId);
+        if (p) {
+          detailPerson = p;
+          showPersonDetail = true;
+        }
+      }
+    } 
+    // 2. URL has NO person -> Close Dialog (if open and we strictly follow URL)
+    // We only do this if we want Back button support.
+    else if (!personId && showPersonDetail) {
+       showPersonDetail = false;
+       detailPerson = null;
+    }
+  });
+
+  // When dialog is closed via UI (e.g. Escape or Click Outside), update URL
+  $effect(() => {
+    if (!showPersonDetail && $page.url.searchParams.has("person")) {
+      const url = new URL($page.url);
+      url.searchParams.delete("person");
+      goto(url, { replaceState: true, noScroll: true, keepFocus: true });
+    }
+  });
+
+  function openPersonDetail(person: Person, e?: MouseEvent) {
+    e?.stopPropagation();
+    
+    // Set URL - valid even if effect handles the rest, provides immediate feedback
+    const url = new URL($page.url);
+    url.searchParams.set("person", person.id);
+    goto(url, { replaceState: true, noScroll: true, keepFocus: true });
   }
 
   function startEditing(person: Person) {

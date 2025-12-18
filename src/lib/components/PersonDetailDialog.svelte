@@ -119,6 +119,7 @@
                 </span>
 
                 <Button
+                  type="button"
                   variant="ghost"
                   size="icon"
                   class="h-7 w-7 rounded-md hover:bg-destructive/10 hover:text-destructive"
