@@ -13,7 +13,7 @@
         </Badge> -->
 
       <h1
-        class="my-6 text-pretty text-3xl font-bold lg:text-5xl text-transparent bg-clip-text bg-gradient-to-br from-orange-400 to-red-600"
+        class="my-6 text-pretty leading-tight text-3xl font-bold lg:text-5xl text-transparent bg-clip-text bg-linear-to-br from-orange-400 to-red-600"
         data-testid="hero-title"
       >
         {siteManifest?.open_graph?.site_name}
