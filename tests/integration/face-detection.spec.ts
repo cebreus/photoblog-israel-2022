@@ -1,8 +1,8 @@
-import { describe, it, expect, beforeAll } from "vitest";
-import { initModels, detectFaces } from "../../scripts/lib/face-detection";
-import path from "node:path";
-import fsp from "node:fs/promises";
 import fs from "node:fs";
+import fsp from "node:fs/promises";
+import path from "node:path";
+import { beforeAll, describe, expect, it } from "vitest";
+import { detectFaces, initModels } from "../../scripts/lib/face-detection";
 
 const FIXTURES_DIR = path.resolve(__dirname, "../fixtures");
 const SAMPLE_IMAGE_PATH = path.join(FIXTURES_DIR, "obama.jpg");

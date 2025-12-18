@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from "svelte";
   export let checked = false;
-  export let onCheckedChange = null;
+  export let onCheckedChange: ((checked: boolean) => void) | null = null;
   const dispatch = createEventDispatcher();
 
   function handleClick() {

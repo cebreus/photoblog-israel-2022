@@ -44,7 +44,6 @@ export function getNewBasename(
   const dateObj = tags.DateTimeOriginal || tags.CreateDate;
   if (dateObj) {
     try {
-      // @ts-ignore
       const d = dateObj.toDate ? dateObj.toDate() : new Date(dateObj.toString());
       if (!isNaN(d.getTime())) {
         const yyyy = d.getFullYear();
@@ -151,7 +150,7 @@ async function main() {
     const tags = await exiftool.read(file);
 
     const oldBase = path.basename(oldName, ext);
-    let baseNewName = getNewBasename(tags, defaultAuthor, oldBase);
+    const baseNewName = getNewBasename(tags, defaultAuthor, oldBase);
 
     let candidateName = `${baseNewName}${ext.toLowerCase()}`;
 

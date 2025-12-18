@@ -1,9 +1,9 @@
-import { dev } from "$app/environment";
-import type { Manifest } from "$lib/types/manifest";
-import { json, type RequestHandler } from "@sveltejs/kit";
-import { exiftool } from "exiftool-vendored";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { json, type RequestHandler } from "@sveltejs/kit";
+import { exiftool } from "exiftool-vendored";
+import { dev } from "$app/environment";
+import type { Manifest } from "$lib/types/manifest";
 
 export const DELETE: RequestHandler = async ({ request }) => {
   if (!dev) {
@@ -390,7 +390,7 @@ export const PATCH: RequestHandler = async ({ request }) => {
     for (const item of contentDirItems) {
       try {
         // Find the physical file
-        let physicalDir = physicalRoot;
+        const physicalDir = physicalRoot;
         const srcParts = item.src.split("/");
         const fileName = srcParts[srcParts.length - 1];
         const nameWithoutExt = path.parse(fileName).name;

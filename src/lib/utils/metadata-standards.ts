@@ -35,7 +35,7 @@ export const METADATA_STANDARDS: Record<MetadataKey, MetadataFieldConfig> = {
   },
   author: {
     label: "Autor",
-    read: ["Creator", "By-line", "Artist"],
+    read: ["Creator", "By-line", "Artist", "dc:creator"],
     write: ["XMP:Creator", "IPTC:By-line", "IFD0:Artist"],
     // Exif:Artist is often read-only or camera-specific, but IFD0:Artist is usually writable.
   },

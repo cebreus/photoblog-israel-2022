@@ -13,15 +13,15 @@ import {
   saveImagesManifest,
   savePeopleManifest,
 } from "./lib/manifest-repository";
+
 const FACE_CONFIG = {
   minConfidence: 0.5,
   modelPath: path.resolve(process.cwd(), "node_modules/@vladmandic/face-api/model"),
   distanceThreshold: 0.5,
-  facesDir: "faces", // Subdir in static outputs
+  facesDir: "faces",
 };
 
 // Initialize face-api for Node environment
-// @ts-ignore
 faceapi.env.monkeyPatch({
   Canvas: canvas.Canvas,
   Image: canvas.Image,

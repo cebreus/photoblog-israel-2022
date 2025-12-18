@@ -5,11 +5,10 @@ import fsp from "node:fs/promises";
 import path from "node:path";
 
 const FACE_CONFIG = {
-  minConfidence: 0.1, // NÍZKÝ PRÁH PRO DEBUG
+  minConfidence: 0.1,
   modelPath: path.resolve(process.cwd(), "node_modules/@vladmandic/face-api/model"),
 };
 
-// @ts-ignore
 faceapi.env.monkeyPatch({
   Canvas: canvas.Canvas,
   Image: canvas.Image,

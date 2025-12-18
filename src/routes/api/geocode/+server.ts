@@ -1,4 +1,4 @@
-import { json, error } from "@sveltejs/kit";
+import { error, json } from "@sveltejs/kit";
 import lookup from "country-code-lookup";
 
 export async function GET({ url, fetch }) {

@@ -1,6 +1,6 @@
-import fg from "fast-glob";
 import fsp from "node:fs/promises";
 import path from "node:path";
+import fg from "fast-glob";
 import { config } from "../config";
 import type { CliOptions } from "./cli-parser";
 import { ensureDir } from "./image-utils";

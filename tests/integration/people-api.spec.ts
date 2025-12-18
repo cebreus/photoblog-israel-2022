@@ -1,9 +1,9 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import path from "node:path";
-import fsp from "node:fs/promises";
 import fs from "node:fs";
-import { POST as renamePost } from "../../src/routes/api/people/rename/+server";
+import fsp from "node:fs/promises";
+import path from "node:path";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { POST as mergePost } from "../../src/routes/api/people/merge/+server";
+import { POST as renamePost } from "../../src/routes/api/people/rename/+server";
 import { POST as unmatchPost } from "../../src/routes/api/people/unmatch/+server";
 
 const CWD = path.resolve(__dirname, "../../");

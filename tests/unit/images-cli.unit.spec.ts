@@ -1,11 +1,11 @@
-import { describe, it, expect, vi, beforeEach, afterEach, afterAll } from "vitest";
-import path from "node:path";
+import { exiftool } from "exiftool-vendored";
 import fs from "node:fs";
-import { runGenerator } from "../utils/process-helpers";
+import path from "node:path";
+import { afterAll, describe, expect, it, vi } from "vitest";
+import * as processor from "../../scripts/lib/image-processor";
 import { buildInputSet } from "../utils/fixtures";
 import { listTree } from "../utils/fs-helpers";
-import { exiftool } from "exiftool-vendored";
-import * as processor from "../../scripts/lib/image-processor";
+import { runGenerator } from "../utils/process-helpers";
 
 // Prevent ExifTool from closing between tests
 vi.spyOn(processor, "cleanup").mockImplementation(async () => {});

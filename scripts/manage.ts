@@ -1,10 +1,10 @@
 #!/usr/bin/env bun
+
+import { cancel, intro, isCancel, select } from "@clack/prompts";
 import { spawn } from "child_process";
 import fs from "fs";
 import path from "path";
 import { parseArgs } from "util";
-
-import { cancel, intro, isCancel, select } from "@clack/prompts";
 
 // --- Configuration ---
 const DEFAULT_GALLERY = "egypt-2025";
@@ -208,19 +208,19 @@ async function cmdProcess() {
   // 1. Build Images (Standard)
   await run("bun", ["scripts/generate-images.ts"]);
 
-  // 2. Face Clustering
-  await run("bun", ["scripts/face-clustering.ts"]);
-
-  // 3. Analysis (includes curation check)
+  // 2. Analysis (includes curation check and aesthetic scoring)
   await cmdAnalyze();
 
-  // 4. Blurred Images (for placeholders/effects if needed separate, but usually handled in build?
+  // 3. Blurred Images (for placeholders/effects if needed separate, but usually handled in build?
   // Checking package.json: 'images:blur' is separate script with flags)
   // "images:blur": "bun scripts/generate-images.ts --blur.enable=true --blur.only=true"
   await run("bun", ["scripts/generate-images.ts", "--blur.enable=true", "--blur.only=true"]);
 
-  // 5. Favicons
+  // 4. Favicons
   await run("bun", ["scripts/generate-favicons.ts"]);
+
+  // 5. Face Clustering (independent, time-consuming, runs last)
+  await run("bun", ["scripts/face-clustering.ts"]);
 }
 
 // --- Main Dispatch ---

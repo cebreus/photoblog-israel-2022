@@ -23,9 +23,9 @@ describe("String Utils", () => {
 
     it("handles empty or null input", () => {
       expect(toSlug("")).toBe("");
-      // @ts-ignore
+      // @ts-expect-error
       expect(toSlug(null)).toBe("");
-      // @ts-ignore
+      // @ts-expect-error
       expect(toSlug(undefined)).toBe("");
     });
   });

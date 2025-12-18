@@ -1,11 +1,11 @@
-import { json, error } from "@sveltejs/kit";
-import { exiftool } from "exiftool-vendored";
+import { spawn } from "node:child_process";
+import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
-import fs from "node:fs";
+import { error, json } from "@sveltejs/kit";
+import { exiftool } from "exiftool-vendored";
 import { dev } from "$app/environment";
-import { spawn } from "node:child_process";
-import type { Manifest, ImageEntry } from "$lib/types/manifest";
+import type { ImageEntry, Manifest } from "$lib/types/manifest";
 import { getExifToolWriteTags, type MetadataKey } from "$lib/utils/metadata-standards";
 
 function findImageById(manifestData: Manifest, id: string): ImageEntry | undefined {

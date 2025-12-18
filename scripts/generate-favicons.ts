@@ -1,5 +1,5 @@
 import { intro, select } from "@clack/prompts";
-import { favicons, type FaviconOptions } from "favicons";
+import { type FaviconOptions, favicons } from "favicons";
 import { promises as fs } from "fs";
 import matter from "gray-matter";
 import path from "path";
@@ -101,8 +101,6 @@ async function run() {
     ...config.manifestConfig,
     path: `/${contentDir}/assets/favicons/`,
     lang: config.lang,
-    // @ts-ignore
-    appleMobileWebAppCapable: false, // Disable deprecated tag
   };
 
   const response = await favicons(config.sourceFile, configuration);

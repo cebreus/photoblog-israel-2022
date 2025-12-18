@@ -1,7 +1,7 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import {
-  METADATA_STANDARDS,
   getExifToolWriteTags,
+  METADATA_STANDARDS,
   type MetadataKey,
 } from "../../src/lib/utils/metadata-standards";
 
@@ -70,7 +70,6 @@ describe("Metadata Standards", () => {
         title: "New Title",
         author: undefined, // Should be ignored
       };
-      // @ts-ignore
       const tags = getExifToolWriteTags(updates);
 
       expect(tags["XMP:Title"]).toBe("New Title");

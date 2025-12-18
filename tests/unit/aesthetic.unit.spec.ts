@@ -1,5 +1,9 @@
-import { describe, it, expect } from "vitest";
-import { calculateAestheticScore, createAestheticAxis } from "../../scripts/lib/aesthetic";
+import { describe, expect, it } from "vitest";
+import {
+  calculateAestheticScore,
+  createAestheticAxis,
+  normalizeAestheticScore,
+} from "../../scripts/lib/aesthetic";
 
 describe("Aesthetic Scoring", () => {
   it("should create a correct axis vector from positive and negative prompts", () => {
@@ -24,7 +28,8 @@ describe("Aesthetic Scoring", () => {
     // CosSim = 0.9 / 0.905 ~= 0.99
 
     const score = calculateAestheticScore(beautifulImage, axis);
-    expect(score).toBeGreaterThan(0.9);
+    const normalized = normalizeAestheticScore(score);
+    expect(normalized).toBeGreaterThan(80);
   });
 
   it("should correctly score an 'ugly' image (aligned with negative)", () => {
@@ -32,7 +37,8 @@ describe("Aesthetic Scoring", () => {
     const uglyImage = [-0.9, 0.1]; // Points Left
 
     const score = calculateAestheticScore(uglyImage, axis);
-    expect(score).toBeLessThan(-0.9);
+    const normalized = normalizeAestheticScore(score);
+    expect(normalized).toBeLessThan(20);
   });
 
   it("should score a 'neutral' image as approximately 0", () => {

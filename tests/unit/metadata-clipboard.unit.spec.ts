@@ -9,6 +9,7 @@ describe("metadataClipboard Store", () => {
     type: "image",
     src: "test.jpg",
     title: "Test Title",
+    alt: "Test Alt",
     author: "Test Author",
     location: "Test Location",
     city: "Test City",

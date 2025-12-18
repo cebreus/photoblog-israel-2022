@@ -1,6 +1,6 @@
-import { describe, it, expect } from "vitest";
-import { updateManifest } from "../../scripts/lib/manifest-builder";
+import { describe, expect, it } from "vitest";
 import type { ProcessedImageResult } from "../../scripts/lib/image-processor";
+import { updateManifest } from "../../scripts/lib/manifest-builder";
 import type { Manifest, StoryDataMap } from "../../src/lib/types/manifest";
 
 describe("manifest-builder: updateManifest", () => {

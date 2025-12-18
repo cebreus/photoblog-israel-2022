@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeAll } from "vitest";
-import path from "node:path";
 import fs from "node:fs/promises";
+import path from "node:path";
 import sharp from "sharp";
+import { beforeAll, describe, expect, it } from "vitest";
 import { calculatePhash, calculateSharpness } from "../../scripts/lib/image-utils";
 
 describe("Metric Extraction (Unit)", () => {

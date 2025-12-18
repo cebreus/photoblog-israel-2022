@@ -1,5 +1,5 @@
-// Suppress macOS GNotificationCenterDelegate warnings
 process.env.GLIB_LOG_LEVEL = "critical";
+
 import { intro, select } from "@clack/prompts";
 import fsp from "node:fs/promises";
 import os from "node:os";
@@ -7,14 +7,13 @@ import path from "node:path";
 import "sharp"; // Preload sharp to potentially avoid GNotificationCenterDelegate conflict with canvas
 import type { QualityTypes, ScriptArgs } from "../src/lib/types/manifest";
 import { config } from "./config";
-import { parseCliArguments, type CliOptions } from "./lib/cli-parser";
-import { createLogger } from "./lib/logger";
-
 import { runBlurBuild } from "./lib/blur-processor";
+import { type CliOptions, parseCliArguments } from "./lib/cli-parser";
 import { initModels } from "./lib/face-detection";
-import { cleanup, processImage } from "./lib/image-processor";
+import { cleanup } from "./lib/image-processor";
 import { sha1 } from "./lib/image-utils";
 import incrementalRun from "./lib/incremental-build";
+import { createLogger } from "./lib/logger";
 
 // Runtime overrides from CLI flags.
 let RUNTIME_RAW: Partial<CliOptions> = {};
@@ -115,14 +114,7 @@ function resolveConcurrency(value: number | "auto") {
   }
   return Math.max(1, value);
 }
-/**
- * Type guard to check if an image processing result is not null.
- */
-function isProcessedImageResult(
-  r: Awaited<ReturnType<typeof processImage>> | null,
-): r is NonNullable<Awaited<ReturnType<typeof processImage>>> {
-  return r != null;
-}
+
 /**
  * Initializes the context object with resolved paths and configurations.
  */
@@ -158,6 +150,7 @@ let CTX = initializeContext();
 async function cleanAllOutputs() {
   await fsp.rm(CTX.outRoot, { recursive: true, force: true });
 }
+
 export async function main() {
   intro("🏭 Image Generator");
 
@@ -221,6 +214,7 @@ export async function main() {
     });
   }
 }
+
 export async function executeMain(): Promise<void> {
   try {
     await main();

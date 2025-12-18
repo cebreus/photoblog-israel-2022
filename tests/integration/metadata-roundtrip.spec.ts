@@ -1,14 +1,11 @@
-import { describe, it, expect, beforeAll, afterAll } from "vitest";
-import path from "node:path";
 import fs from "node:fs";
+import path from "node:path";
 import { exiftool } from "exiftool-vendored";
-import { getExifToolWriteTags } from "../../src/lib/utils/metadata-standards";
-import { createImageEntry } from "../../scripts/lib/image-processor";
-import { getKeywords } from "../../scripts/lib/image-utils";
-import { buildInputSet } from "../utils/fixtures";
-import sharp from "sharp";
-
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { config } from "../../scripts/config";
+import { buildImageEntry } from "../../scripts/lib/metadata";
+import { getExifToolWriteTags } from "../../src/lib/utils/metadata-standards";
+import { buildInputSet } from "../utils/fixtures";
 
 const CWD = path.resolve(__dirname, "../../");
 
@@ -81,12 +78,13 @@ describe("Metadata Roundtrip Integration", () => {
           : rawTags.DateTimeOriginal,
     };
 
-    const entry = await createImageEntry(
+    const entry = buildImageEntry(
       "portrait",
       imgPath,
       mappedExif as any,
       mockMeta,
       "#000000",
+      0, // Dummy sizeMB
     );
 
     // 5. Assert Canonical Read (what frontend sees)

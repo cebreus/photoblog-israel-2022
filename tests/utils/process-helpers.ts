@@ -1,7 +1,7 @@
 import { spawn } from "node:child_process";
-import path from "node:path";
-import os from "node:os";
 import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
 
 export function tmpDir(prefix: string): string {
   const p = fs.mkdtempSync(path.join(os.tmpdir(), `${prefix}-`));
@@ -97,10 +97,9 @@ export async function runGenerator(
     // Replace process.exit to capture exit code without terminating the test runner
     let exitCode = 0;
     const originalProcessExit = process.exit;
-    // @ts-ignore
     process.exit = (code: number = 0) => {
       exitCode = code;
-      throw new Error(`Process exited with code ${code}`); // Throw to break out of main execution
+      throw new Error(`Process exited with code ${code}`);
     };
 
     try {

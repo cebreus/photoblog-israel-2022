@@ -1,6 +1,6 @@
-import sharp from "sharp";
 import pixelmatch from "pixelmatch";
 import { PNG } from "pngjs";
+import sharp from "sharp";
 
 export type PixelCompareOptions = {
   threshold?: number; // 0..1

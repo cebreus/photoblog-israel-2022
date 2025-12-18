@@ -1,6 +1,6 @@
-import { describe, it, expect } from "vitest";
-import { parseCliArguments, DEFAULT_CLI_OPTIONS } from "../../../scripts/lib/cli-parser";
 import path from "node:path";
+import { describe, expect, it } from "vitest";
+import { parseCliArguments } from "../../../scripts/lib/cli-parser";
 
 describe("CLI Parser", () => {
   it("should return defaults when no arguments are provided", () => {

@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { calculateSmartCrop, type Box } from "../../scripts/lib/smart-crop";
+import { describe, expect, it } from "vitest";
+import { type Box, calculateSmartCrop } from "../../scripts/lib/smart-crop";
 
 describe("calculateSmartCrop", () => {
   it("should return null if no faces provided", () => {

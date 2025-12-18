@@ -1,7 +1,7 @@
-import { expect, test } from "@playwright/test";
-import { exiftool } from "exiftool-vendored";
 import fs from "node:fs";
 import path from "node:path";
+import { expect, test } from "@playwright/test";
+import { exiftool } from "exiftool-vendored";
 
 test.describe("Metadata Editor E2E", () => {
   test.beforeEach(async ({ page }) => {
