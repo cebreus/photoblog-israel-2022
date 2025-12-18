@@ -1,8 +1,3 @@
-/**
- * Sdílené typy pro generování obrázků a runtime.
- * Používáno v generate-images.ts, images.ts, Picture.svelte a testech.
- */
-
 export const ImageFormat = {
   AVIF: "avif",
   WEBP: "webp",
@@ -38,21 +33,16 @@ export type Placeholder = {
   type: string | null;
 };
 
-/**
- * EXIF/ITPC metadata odvozená z originálů; používá se pro seskupování a popisky.
- */
 export type Meta = {
-  date: string | null; // ISO string (např. z CreateDate/DateTimeOriginal)
-  groupBy: string | null; // YYYY-MM-DD (prvních 10 znaků date)
+  date: string | null;
+  groupBy: string | null;
   city?: string | null;
-  where?: string | null; // Headline/Location/Sublocation fallback
+  where?: string | null;
   country?: string | null;
-  keywords?: string[] | string | null; // seznam/řetězec tagů; např. obsahuje 'prio2' pro best-of
-  objectName?: string | null; // Headline
-  caption?: string | null; // Caption/ImageDescription
-  /**
-   * Heuristický typ snímku; např. 'landscape' | 'portrait' | 'pano' ...
-   */
+  keywords?: string[] | string | null;
+  objectName?: string | null;
+  caption?: string | null;
+
   type?: string | null;
 };
 
@@ -69,12 +59,11 @@ export type ManifestEntry = {
   color: string | null;
   hash: string;
   outputs: string[];
-  meta?: Meta; // doplněno: EXIF/ITPC metadata
+  meta?: Meta;
 };
 
 export type Manifest = Record<string, ManifestEntry>;
 
-// Generator-specific types
 export type Quality = {
   [ImageFormat.AVIF]: number;
   [ImageFormat.WEBP]: number;

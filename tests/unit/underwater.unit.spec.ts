@@ -2,8 +2,13 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import sharp from "sharp";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { fixUnderwaterImage } from "../../scripts/lib/underwater";
+
+vi.mock("../../scripts/lib/shell-utils", () => ({
+  run: vi.fn(),
+  execCapture: vi.fn(),
+}));
 
 describe("fixUnderwaterImage", () => {
   const tmpDir = os.tmpdir();
@@ -83,6 +88,6 @@ describe("fixUnderwaterImage", () => {
     await fs.writeFile(badFilePath, "not an image");
     testFiles.push(badFilePath);
 
-    await expect(fixUnderwaterImage(badFilePath)).rejects.toThrow(/Failed to fix underwater image/);
+    await expect(fixUnderwaterImage(badFilePath)).rejects.toThrow(/Underwater fix failed/);
   });
 });

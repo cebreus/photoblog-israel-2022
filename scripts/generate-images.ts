@@ -4,7 +4,7 @@ import { intro, select } from "@clack/prompts";
 import fsp from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import "sharp"; // Preload sharp to potentially avoid GNotificationCenterDelegate conflict with canvas
+import "sharp";
 import type { QualityTypes, ScriptArgs } from "../src/lib/types/manifest";
 import { config } from "./config";
 import { runBlurBuild } from "./lib/blur-processor";
@@ -15,7 +15,6 @@ import { sha1 } from "./lib/image-utils";
 import incrementalRun from "./lib/incremental-build";
 import { createLogger } from "./lib/logger";
 
-// Runtime overrides from CLI flags.
 let RUNTIME_RAW: Partial<CliOptions> = {};
 let RUNTIME_FORMATS = [...config.encoding.formats];
 let RUNTIME_QUALITY_OVERRIDES: Partial<Record<QualityTypes, number>> = {};
@@ -23,7 +22,6 @@ let RUNTIME_ALLOW_UPSCALE = false;
 
 const CACHE_VERSION = 17;
 
-// CLI parsing - Mutable for testing
 let parsed = parseCliArguments(process.argv.slice(2));
 
 type ExtendedScriptArgs = ScriptArgs & { __raw: CliOptions };
@@ -50,9 +48,7 @@ function isSrcArgFlag(a: string) {
   return a.startsWith("--src=") || a.startsWith("--blur.src=");
 }
 let hasSrcArg = process.argv.slice(2).some(isSrcArgFlag);
-/**
- * Resets the CLI state and re-initializes arguments and context for testing.
- */
+
 export function resetCliState() {
   parsed = parseCliArguments(process.argv.slice(2));
   ARGS = {
@@ -77,9 +73,7 @@ export function resetCliState() {
   hasSrcArg = process.argv.slice(2).some(isSrcArgFlag);
   CTX = initializeContext();
 }
-/**
- * Helper to get content directory from env or prompt user.
- */
+
 async function getGalleryOrPrompt(): Promise<string> {
   const envDir = process.env.CONTENT_DIR;
   if (envDir) return envDir;
@@ -92,7 +86,6 @@ async function getGalleryOrPrompt(): Promise<string> {
     throw new Error("No galleries found in content/ directory.");
   }
 
-  // If only one gallery, use it automatically
   if (galleries.length === 1) {
     return galleries[0];
   }
@@ -115,9 +108,6 @@ function resolveConcurrency(value: number | "auto") {
   return Math.max(1, value);
 }
 
-/**
- * Initializes the context object with resolved paths and configurations.
- */
 function initializeContext() {
   const raw = ARGS.__raw;
   const defaultManifestPath = path.resolve(process.cwd(), config.paths.manifest);
@@ -145,7 +135,6 @@ function initializeContext() {
   };
 }
 
-// Initialize mutable context (can be reset via `resetCliState` in tests)
 let CTX = initializeContext();
 async function cleanAllOutputs() {
   await fsp.rm(CTX.outRoot, { recursive: true, force: true });
@@ -157,11 +146,9 @@ export async function main() {
   if (!contentDir && !hasSrcArg) {
     try {
       contentDir = await getGalleryOrPrompt();
-      // Update CTX with new contentDir
-      ARGS.__raw.src = path.resolve(process.cwd(), `content/${contentDir}/pics`); // rough override
-      // Re-init context proper way would be better but simple override for env var effect:
+      ARGS.__raw.src = path.resolve(process.cwd(), `content/${contentDir}/pics`);
       process.env.CONTENT_DIR = contentDir;
-      CTX = initializeContext(); // Re-initialize with new env var
+      CTX = initializeContext();
     } catch (e: any) {
       logger.error(e.message);
       process.exit(1);
@@ -169,16 +156,12 @@ export async function main() {
   }
   logger.verbose(`Processing content for: ${contentDir}`);
 
-  // Initialize face detection models (downloads if missing)
-  // Skip if TensorFlow is not available (e.g., native addon not built)
   try {
     await initModels();
   } catch (error) {
     logger.warn("Face detection unavailable (TensorFlow not loaded). Skipping face detection.");
     logger.verbose(`Error: ${error}`);
   }
-
-  // sharp is loaded where it's actually needed by workers (processImage) or blur processor
 
   RUNTIME_RAW = ARGS.__raw || {};
   RUNTIME_FORMATS =
@@ -219,15 +202,12 @@ export async function executeMain(): Promise<void> {
   try {
     await main();
   } catch (e) {
-    // Ensure the actual error stack or message is visible in the logs — the logger currently
-    // prints only the message and ignores metadata objects. Emit the stack explicitly.
     const errAny: any = e;
     logger.error(
       "An unexpected error occurred in the main process. " + (errAny?.stack ?? String(errAny)),
     );
     process.exit(1);
   } finally {
-    // Ensure ExifTool process is closed so the script can exit
     await cleanup();
   }
 }

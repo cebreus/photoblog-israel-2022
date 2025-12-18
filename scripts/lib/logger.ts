@@ -11,9 +11,6 @@ const levelColors: Record<string, (str: string) => string> = {
   debug: pc.magenta,
 };
 
-/**
- * Create a Winston logger with timestamped, coloured console output.
- */
 export function createLogger(label: string) {
   function identity(str: string) {
     return str;

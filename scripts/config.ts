@@ -4,7 +4,6 @@ import { ImageFormat } from "../src/lib/types/images";
 const IMAGE_SUBDIR = "pics";
 
 const contentDir = process.env.CONTENT_DIR || "egypt-2025";
-// console.log(`Using content directory: ${contentDir}`);
 
 export const config = {
   paths: {

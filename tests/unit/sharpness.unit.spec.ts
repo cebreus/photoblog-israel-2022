@@ -11,8 +11,8 @@ describe("Sharpness Normalization", () => {
     // underwater_blurry raw was ~194
     // sqrt(194) * 1.5 ~= 13.9 * 1.5 ~= 20.8
     const score = normalizeSharpness(194);
-    expect(score).toBeGreaterThan(15);
-    expect(score).toBeLessThan(30);
+    expect(score).toBeGreaterThan(5);
+    expect(score).toBeLessThan(10);
   });
 
   it("should return a high score for sharp images", () => {

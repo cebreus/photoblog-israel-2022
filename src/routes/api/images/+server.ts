@@ -1,16 +1,23 @@
-import fs from "node:fs/promises";
-import path from "node:path";
-import { json, type RequestHandler } from "@sveltejs/kit";
-import { exiftool } from "exiftool-vendored";
 import { dev } from "$app/environment";
 import type { Manifest } from "$lib/types/manifest";
+import { json, type RequestHandler } from "@sveltejs/kit";
+import { exiftool } from "exiftool-vendored";
+import fs from "node:fs/promises";
+import path from "node:path";
+import { config } from "../../../../scripts/config";
+import {
+  deleteGeneratedAssets,
+  getOutputFolders,
+  removeFromCache,
+  removeImageFromConstraints,
+} from "../../../../scripts/lib/cleanup-utils";
 
 export const DELETE: RequestHandler = async ({ request }) => {
   if (!dev) {
     return json({ message: "Forbidden" }, { status: 403 });
   }
 
-  const { ids } = await request.json(); // ids is array of { id: string, src: string }
+  const { ids } = await request.json();
 
   console.log("DELETE request received for IDs:", JSON.stringify(ids, null, 2));
 
@@ -20,32 +27,32 @@ export const DELETE: RequestHandler = async ({ request }) => {
 
   const contentRoot = path.resolve(process.cwd(), "content");
   const dataRoot = path.resolve(process.cwd(), "src/data");
+  const staticRoot = path.resolve(process.cwd(), "static");
+  const tempRoot = path.resolve(process.cwd(), ".temp");
+
+  const outputFolders = getOutputFolders({
+    outputs: config.outputs,
+    formats: config.encoding.formats,
+  });
 
   const deleted: string[] = [];
   const errors: string[] = [];
 
-  // Group items by content directory to handle manifests efficiently
   const itemsByContentDir: Record<string, typeof ids> = {};
   const defaultContentDir = process.env.CONTENT_DIR;
 
   for (const item of ids) {
     if (!item.src) continue;
 
-    // Check if src is just a filename or has path structure
     const parts = item.src.split("/");
 
-    // Clean potential query params or URL junk if present (unlikely for manifest data but safe)
-    // Actually parts length check is enough for structure.
-
     if (parts.length >= 3 && parts[1] === "images") {
-      // Standard URL format: /images/{contentDir}/file.jpg
       const contentDirKey = parts[2];
       if (!itemsByContentDir[contentDirKey]) {
         itemsByContentDir[contentDirKey] = [];
       }
       itemsByContentDir[contentDirKey].push(item);
     } else if (defaultContentDir) {
-      // Just filename or relative path, assumes current content dir context
       if (!itemsByContentDir[defaultContentDir]) {
         itemsByContentDir[defaultContentDir] = [];
       }
@@ -61,7 +68,6 @@ export const DELETE: RequestHandler = async ({ request }) => {
     const manifestPath = path.join(dataRoot, contentDir, "images.manifest.json");
     let manifest: Manifest | null = null;
 
-    // Load manifest to remove entries even if files are missing
     try {
       const content = await fs.readFile(manifestPath, "utf-8");
       manifest = JSON.parse(content);
@@ -74,14 +80,10 @@ export const DELETE: RequestHandler = async ({ request }) => {
 
     for (const item of items) {
       const srcPath = item.src;
-      // Get filename to find physical file
-      // If srcPath starts with /images/, strip it. If it's just a filename, path.parse works fine.
       let relativePath = srcPath;
       if (srcPath.startsWith("/images/")) {
         relativePath = decodeURIComponent(srcPath.replace(/^\/images\//, ""));
       } else {
-        // It's likely just "file.jpg" or "folder/file.jpg".
-        // Since we know contentDir, we just want the basename.
         relativePath = decodeURIComponent(srcPath);
       }
 
@@ -92,8 +94,6 @@ export const DELETE: RequestHandler = async ({ request }) => {
       let fileFoundOnDisk = false;
 
       try {
-        // Try to find the physical file(s) in the 'pics' directory
-        // We use readdir to find matching files with any extension (jpg, heic, etc)
         console.log(`Searching in physicalDir: ${physicalDir}`);
         const files = await fs.readdir(physicalDir).catch((e) => {
           console.error(`Failed to read dir ${physicalDir}:`, e);
@@ -114,39 +114,41 @@ export const DELETE: RequestHandler = async ({ request }) => {
             await fs.unlink(path.join(physicalDir, candidate));
             deletedPhysical = true;
           }
+
+          // Clean up generated assets
+          const outputRoot = path.join(staticRoot, contentDir, "images");
+          const assetCleanup = await deleteGeneratedAssets(
+            nameWithoutExt,
+            outputRoot,
+            outputFolders,
+          );
+          if (assetCleanup.deleted.length > 0) {
+            console.log(
+              `[DELETE] Removed ${assetCleanup.deleted.length} generated assets for ${nameWithoutExt}`,
+            );
+          }
+
+          // Clean up cache
+          const cachePath = path.join(tempRoot, contentDir, "images.cache.json");
+          await removeFromCache(cachePath, `${nameWithoutExt}.heic`);
+          await removeFromCache(cachePath, `${nameWithoutExt}.jpg`);
+
+          // Clean up constraints
+          const constraintsPath = path.join(dataRoot, contentDir, "clustering-constraints.json");
+          const constraintCleanup = await removeImageFromConstraints(constraintsPath, item.id);
+          if (constraintCleanup.disconnectsRemoved > 0 || constraintCleanup.connectsRemoved > 0) {
+            console.log(`[DELETE] Cleaned constraints for ${item.id}`);
+          }
         }
 
         if (deletedPhysical) {
           deleted.push(item.src);
         } else {
-          // If no physical file found, check if we are removing it from manifest later
-          // We don't error yet, we let the manifest logic handle the "ghost" cleanup.
-          // But we should track that we didn't touch disk.
           if (idsToDelete.has(item.id)) {
-            // It will be removed from manifest
-            // We consider this a "cleanup" success/info
-            // deleted.push(item.src);
-            // Wait, user wants to know if physical deletion happened.
-            // We will add a note to results? Or just consider it deleted from VIEW.
-            // User said: "potvrdis smazani pouze pokiud fyzicky dojde je smazani, ze ano?"
-            // So if NOT deleted physically, we should perhaps NOT return it in `deleted` array strictly?
-            // Or return it with a warning?
-            // "kdyz ke smazan nedojde vypiises cesky informacni hlasku, ktera opravdu bude vypovidat o chybe a nebude zavadejici"
-
-            // If we delete from manifest, it IS deleted from the app.
-            // I will treat it as a "deleted" item but maybe add a warning message if I can.
-            // But the API returns { deleted: string[], errors: string[] }.
-
-            // Let's rely on the manifest update to be the "truth" of the application state,
-            // but if file wasn't found, we should probably inform user.
-            // However, simpler is: if manifest acts, we are good.
-            // But strictly obeying "confirm delete ONLY if physical delete happens":
-
             if (!fileFoundOnDisk) {
               errors.push(
                 `Soubor ${nameWithoutExt} nebyl nalezen na disku (ale byl odstraněn se seznamu).`,
               );
-              // We still remove it from manifest below.
               deleted.push(item.src); // Mark as processed so UI removes it
             }
           } else {
@@ -158,7 +160,6 @@ export const DELETE: RequestHandler = async ({ request }) => {
       }
     }
 
-    // Update Manifest if loaded
     if (manifest) {
       manifest.photoDays = manifest.photoDays.map((day) => {
         const originalLength = day.items.length;
@@ -169,22 +170,13 @@ export const DELETE: RequestHandler = async ({ request }) => {
         return day;
       });
 
-      // Optionally filter out empty days here if desired, but sticking to item removal for safety.
-
       if (manifestModified) {
         await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2));
       }
     }
   }
 
-  // If we had errors but also successes, or if the "errors" were just partial,
-  // we might want to return success to trigger the frontend reload.
-  // The frontend handles !res.ok by showing an error.
-  // If we seemingly "deleted" items (removed from manifest), we should report success.
-
   if (errors.length > 0) {
-    // If we have deleted items (successes or ghost cleanups) AND errors, we might want to return 200 with errors array.
-    // If ONLY errors (no persistent changes), then 500.
     if (deleted.length === 0) {
       return json({ message: "Nepodařilo se smazat soubory", errors }, { status: 500 });
     }
@@ -214,7 +206,6 @@ export const POST: RequestHandler = async ({ request }) => {
   const archived: string[] = [];
   const errors: string[] = [];
 
-  // Group items by content directory
   const itemsByContentDir: Record<string, any[]> = {};
   const defaultContentDir = process.env.CONTENT_DIR;
 
@@ -240,7 +231,6 @@ export const POST: RequestHandler = async ({ request }) => {
     const physicalPicsDir = path.join(contentRoot, contentDir, "pics");
     const archiveDir = path.join(contentRoot, contentDir, "archive");
 
-    // Ensure archive directory exists
     try {
       await fs.mkdir(archiveDir, { recursive: true });
     } catch (e: any) {
@@ -283,6 +273,30 @@ export const POST: RequestHandler = async ({ request }) => {
             await fs.rename(oldPath, newPath);
           }
           archived.push(item.src);
+
+          const staticOutputRoot = path.join(process.cwd(), "static", contentDir, "images");
+          const assetCleanup = await deleteGeneratedAssets(nameWithoutExt, staticOutputRoot, [
+            "previews",
+            "previews-webp",
+            "previews-avif",
+            "previews-xl",
+            "previews-xl-webp",
+            "previews-xl-avif",
+            "details",
+            "previews-xxs",
+            "blurs",
+          ]);
+          if (assetCleanup.deleted.length > 0) {
+            console.log(`[ARCHIVE] Removed ${assetCleanup.deleted.length} generated assets`);
+          }
+
+          const cachePath = path.join(process.cwd(), ".temp", contentDir, "images.cache.json");
+          await removeFromCache(cachePath, `${nameWithoutExt}.heic`);
+          await removeFromCache(cachePath, `${nameWithoutExt}.jpg`);
+
+          // Clean up constraints
+          const constraintsPath = path.join(dataRoot, contentDir, "clustering-constraints.json");
+          await removeImageFromConstraints(constraintsPath, item.id);
         } else {
           errors.push(`Soubor ${nameWithoutExt} nebyl nalezen v ${physicalPicsDir}`);
         }
@@ -329,7 +343,6 @@ export const PATCH: RequestHandler = async ({ request }) => {
   const errors: string[] = [];
   const updated: string[] = [];
 
-  // Group items by content directory
   const itemsByContentDir: Record<string, typeof images> = {};
   const defaultContentDir = process.env.CONTENT_DIR;
 
@@ -351,7 +364,6 @@ export const PATCH: RequestHandler = async ({ request }) => {
     }
   }
 
-  // Process each content directory
   for (const [contentDir, contentDirItems] of Object.entries(itemsByContentDir)) {
     const physicalRoot = path.join(contentRoot, contentDir);
     const manifestPath = path.join(dataRoot, contentDir, "images.manifest.json");
@@ -367,8 +379,6 @@ export const PATCH: RequestHandler = async ({ request }) => {
       continue;
     }
 
-    // Build exiftool tags from updates using the shared standard
-    // Filter out undefined values first (though the helper handles null, undefined isn't ideal in loops)
     const filteredUpdates = Object.fromEntries(
       Object.entries(updates).filter(([, v]) => v !== undefined),
     ) as Record<string, string | string[] | null>;
@@ -386,24 +396,19 @@ export const PATCH: RequestHandler = async ({ request }) => {
       continue;
     }
 
-    // Update each image file
     for (const item of contentDirItems) {
       try {
-        // Find the physical file
         const physicalDir = physicalRoot;
         const srcParts = item.src.split("/");
         const fileName = srcParts[srcParts.length - 1];
         const nameWithoutExt = path.parse(fileName).name;
 
-        // Try direct path first
         let filePath = path.join(physicalRoot, fileName);
         if (!(await fs.stat(filePath).catch(() => null))) {
-          // Try pics subdirectory
           const candidate = path.join(physicalRoot, "pics", fileName);
           if (await fs.stat(candidate).catch(() => null)) {
             filePath = candidate;
           } else {
-            // Try searching for file with same name but different extension
             const searchDir = await fs.readdir(path.join(physicalRoot, "pics")).catch(() => []);
             const candidates = searchDir.filter(
               (f) => path.parse(f).name.toLowerCase() === nameWithoutExt.toLowerCase(),
@@ -417,14 +422,12 @@ export const PATCH: RequestHandler = async ({ request }) => {
           }
         }
 
-        // Write metadata to file using exiftool
         await exiftool.write(filePath, tags, {
           writeArgs: ["-overwrite_original", "-coding=utf8", "-m", "-charset", "iptc=UTF8"],
         });
 
         updated.push(item.src);
 
-        // Update manifest with new values if present
         if (manifest) {
           let found = false;
           for (const day of manifest.photoDays) {
@@ -480,7 +483,6 @@ export const PATCH: RequestHandler = async ({ request }) => {
       }
     }
 
-    // Save updated manifest
     if (manifest && manifestModified) {
       try {
         await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2));

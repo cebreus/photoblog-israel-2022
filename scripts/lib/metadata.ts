@@ -1,10 +1,6 @@
-import path from "node:path";
 import { exiftool } from "exiftool-vendored";
-import type {
-  ImageEntry,
-  ExifData as ManifestExifData,
-  QualityBucket,
-} from "../../src/lib/types/manifest";
+import path from "node:path";
+import type { ImageEntry, ExifData as ManifestExifData } from "../../src/lib/types/manifest";
 import { METADATA_STANDARDS } from "../../src/lib/utils/metadata-standards";
 import { toSlug } from "../../src/lib/utils/strings";
 import { getAltText, getAspectRatioName, getKeywords, normalizeText } from "./image-utils";
@@ -39,23 +35,14 @@ export interface RawExifData extends ManifestExifData {
   longitude?: number;
 }
 
-/**
- * Shutdown the exiftool process and free resources.
- */
 export async function cleanupMetadataTool(): Promise<void> {
   await exiftool.end();
 }
 
-/**
- * Read raw EXIF metadata from a file using exiftool.
- */
 export async function readRawMetadata(filePath: string): Promise<any> {
   return exiftool.read(filePath);
 }
 
-/**
- * Retrieve the first available standard metadata value from configured tags.
- */
 export function getStandardValue(
   exifTags: any,
   key: keyof typeof METADATA_STANDARDS,
@@ -73,9 +60,6 @@ export function getStandardValue(
   return undefined;
 }
 
-/**
- * Return the keywords list extracted from known EXIF keyword tags.
- */
 export function getKeywordsList(exifTags: any): string[] | undefined {
   const config = METADATA_STANDARDS.keywords;
   for (const tag of config.read) {
@@ -88,9 +72,6 @@ export function getKeywordsList(exifTags: any): string[] | undefined {
   return undefined;
 }
 
-/**
- * Map raw EXIF tags into a normalized metadata object.
- */
 export function normalizeExifData(exifTags: any): Partial<RawExifData> {
   const exifRaw: Partial<RawExifData> = {
     ObjectName: exifTags.ObjectName,
@@ -133,9 +114,37 @@ export function normalizeExifData(exifTags: any): Partial<RawExifData> {
   return exifRaw;
 }
 
-/**
- * Constructs an ImageEntry object from EXIF, file info, and analysis results.
- */
+function getCanonicalTitle(exif: Partial<RawExifData>): string | undefined {
+  return normalizeText(
+    exif.ObjectName || exif.Headline || exif.Title || exif["dc:title"] || exif.ImageDescription,
+  );
+}
+
+function getCanonicalCaption(exif: Partial<RawExifData>): string | undefined {
+  return normalizeText(exif.Caption || exif.CaptionAbstract || exif.ImageDescription);
+}
+
+function getCanonicalAuthor(exif: Partial<RawExifData>): string | undefined {
+  const authorRaw =
+    exif.Byline ||
+    (Array.isArray(exif["dc:creator"]) ? exif["dc:creator"][0] : exif["dc:creator"]) ||
+    exif.Creator ||
+    exif.BylineTitle ||
+    exif.Artist ||
+    exif.Author;
+
+  return normalizeText(authorRaw);
+}
+
+function getIsoDate(exif: Partial<RawExifData>): string | undefined {
+  try {
+    const d = exif.DateTimeOriginal || exif.CreateDate;
+    if (d instanceof Date) return d.toISOString();
+    if (typeof d === "string") return new Date(d).toISOString();
+  } catch {}
+  return undefined;
+}
+
 export function buildImageEntry(
   baseName: string,
   absPath: string,
@@ -143,55 +152,12 @@ export function buildImageEntry(
   originalMeta: { width?: number; height?: number },
   placeholderColor: string,
   sizeMB: number,
-  analysis?: {
-    aestheticScore?: number;
-    sharpness: number;
-    qualityBucket?: QualityBucket;
-    phash: string;
-    embedding: number[];
-  },
+  analysis?: { sharpness: number; phash: string; embedding: number[] },
 ): ImageEntry {
-  const titleCanonical = normalizeText(
-    exif.ObjectName || exif.Headline || exif.Title || exif["dc:title"] || exif.ImageDescription,
-  );
-  const captionCanonical = normalizeText(
-    exif.Caption || exif.CaptionAbstract || exif.ImageDescription,
-  );
-  const authorCanonical = normalizeText(
-    exif.Byline ||
-      (Array.isArray(exif["dc:creator"]) ? exif["dc:creator"][0] : exif["dc:creator"]) ||
-      exif.Creator ||
-      exif.BylineTitle ||
-      exif.Artist ||
-      exif.Author,
-  );
-
-  // Safe date parsing
-  let isoDate: string | undefined;
-  try {
-    const d = exif.DateTimeOriginal || exif.CreateDate;
-    if (d instanceof Date) {
-      isoDate = d.toISOString();
-    } else if (typeof d === "string") {
-      isoDate = new Date(d).toISOString();
-    }
-  } catch (e) {
-    // ignore
-  }
-
-  // Fallback: try to extract date from filename if missing from EXIF
-  // Pattern: 2025-11-23-151228-...
-  if (!isoDate) {
-    const dateMatch = baseName.match(/^(\d{4})-(\d{2})-(\d{2})-(\d{2})(\d{2})(\d{2})/);
-    if (dateMatch) {
-      const [, y, m, d, hh, mm, ss] = dateMatch;
-      try {
-        isoDate = new Date(`${y}-${m}-${d}T${hh}:${mm}:${ss}Z`).toISOString();
-      } catch (_) {
-        // ignore invalid dates
-      }
-    }
-  }
+  const titleCanonical = getCanonicalTitle(exif);
+  const captionCanonical = getCanonicalCaption(exif);
+  const authorCanonical = getCanonicalAuthor(exif);
+  const isoDate = getIsoDate(exif);
 
   const googleMapsUrl =
     exif.latitude && exif.longitude
@@ -215,9 +181,7 @@ export function buildImageEntry(
     placeholder: undefined, // Filled later
     placeholderColor,
     analysis: {
-      aestheticScore: analysis?.aestheticScore || 0,
       sharpness: analysis?.sharpness || 0,
-      qualityBucket: analysis?.qualityBucket,
       phash: analysis?.phash || "",
       embedding: analysis?.embedding || [],
     },

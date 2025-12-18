@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { getNewBasename } from "../../scripts/rename-images";
+import { getNewBasename } from "../../scripts/lib/renaming-utils";
 
 describe("getNewBasename", () => {
   it("should format date and author from valid EXIF", () => {

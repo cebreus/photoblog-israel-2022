@@ -10,7 +10,6 @@ type BlurFormat = Extract<ImageFormat, "png" | "avif" | "jpeg">;
 type BlurFormats = Array<BlurFormat>;
 
 export type CliOptions = {
-  // Main pipeline
   src: string;
   out: string;
   manifest: string;
@@ -67,69 +66,42 @@ function isQualityType(x: string): x is QualityFormat {
   });
 }
 
-/**
- * Checks if a given string is a valid quality image format.
- */
 function isBlurFormat(x: string): x is BlurFormat {
   return BLUR_FORMATS.some(function equals(v) {
     return v === x;
   });
 }
 
-/**
- * Checks if a given string is a valid image variant type.
- */
 function isVariantType(x: string): x is VariantType {
   return VARIANT_TYPES.includes(x);
 }
 
-/**
- * Parses a comma-separated string of quality types into an array of ImageFormat.
- */
 function parseQualityTypes(input: string): QualityTypes[] {
   return input.split(",").map(trimLower).filter(isQualityType);
 }
 
-/**
- * Parses a comma-separated string of blur formats into an array of BlurFormat.
- */
 function parseBlurFormats(input: string): BlurFormats {
   return input.split(",").map(trimLower).filter(isBlurFormat);
 }
 
-/**
- * Parses a comma-separated string of variant types into an array of VariantType.
- */
 function parseVariantTypes(input: string): VariantType[] {
   return input.split(",").map(trimVariant).filter(isVariantType);
 }
 
-/**
- * Trims whitespace from a string and converts it to lowercase.
- */
 function trimLower(s: string): string {
   return s.trim().toLowerCase();
 }
 
-/**
- * Trims whitespace from a string.
- */
 function trimVariant(s: string): string {
   return s.trim();
 }
 
-/**
- * Parses a string into an integer within a specified range, or returns undefined if invalid.
- */
 function parseIntWithinRange(value: string, min: number, max: number): number | undefined {
   const num = parseInt(value, 10);
   if (Number.isNaN(num)) return undefined;
   return Math.max(min, Math.min(max, num));
 }
 
-/**
- * Parses a string value into a boolean.
- */
 function parseBooleanValue(value: string): boolean {
   return value === "true";
 }
@@ -250,7 +222,6 @@ const CLI_FLAG_HANDLERS: Record<string, ArgHandler> = {
     if (limit !== undefined) a.limit = limit;
   },
 
-  // Blur group
   "blur.enable": function handleBlurEnable(v, a) {
     a.blurEnable = parseBooleanValue(v);
   },
@@ -298,12 +269,7 @@ const CLI_FLAG_HANDLERS: Record<string, ArgHandler> = {
   },
 };
 
-/**
- * Parse CLI arguments into a CliOptions object.
- */
 export function parseCliArguments(argv: string[]): CliOptions {
-  // Use structuredClone to avoid mutating the global DEFAULT_CLI_OPTIONS
-  // when modifying nested properties like 'quality'.
   const out: CliOptions = structuredClone(DEFAULT_CLI_OPTIONS);
 
   for (const arg of argv) {
@@ -315,10 +281,8 @@ export function parseCliArguments(argv: string[]): CliOptions {
     if (handler) {
       handler(v, out);
     }
-    // Unknown flags are silently ignored
   }
 
-  // Post-processing
   if (out.concurrency === "auto") {
     out.concurrency = Math.max(1, (os.cpus()?.length || 2) - 1);
   }

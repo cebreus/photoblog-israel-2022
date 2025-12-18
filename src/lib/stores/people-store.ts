@@ -4,7 +4,6 @@ import { enrichPeopleWithStats } from "$lib/utils/people";
 import { derived, writable } from "svelte/store";
 
 function createPeopleStore() {
-  // Initialize with static data for SSR / first paint
   const initialPeople = getPeopleManifest().people || [];
   const initialPhotoDays = getManifest().photoDays || [];
 
@@ -16,12 +15,7 @@ function createPeopleStore() {
     setPeople: peopleStore.set,
     photoDays: photoDaysStore,
 
-    /**
-     * Re-fetches the manifest data from the JSON files on disk (via API).
-     * Useful in DEV mode or after admin actions (rename/merge).
-     */
     refresh: async () => {
-      // API endpoints are only available on the client/runtime server
       if (typeof fetch === "undefined") return;
 
       try {
@@ -48,7 +42,6 @@ function createPeopleStore() {
 
 export const peopleBase = createPeopleStore();
 
-// Derived store that efficiently computes face counts
 export const peopleWithStats = derived(
   [peopleBase, peopleBase.photoDays],
   ([$people, $photoDays]) => enrichPeopleWithStats($people, $photoDays),

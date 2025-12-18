@@ -1,7 +1,7 @@
+import { renderMarkdown } from "$lib/utils/markup";
 import fs from "fs/promises";
 import matter from "gray-matter";
 import path from "path";
-import { renderMarkdown } from "$lib/utils/markup";
 
 export type PageFrontMatter = {
   type?: string;
@@ -38,10 +38,6 @@ export type PageData = {
 
 const CONTENT_ROOT = path.resolve(process.cwd(), "content/pages");
 
-/**
- * Načtení markdownu pro danou stránku a převod vybraných částí na HTML.
- * Očekává soubor content/pages/<route>/index.md
- */
 export async function loadPage(route: string): Promise<PageData> {
   const file = path.join(CONTENT_ROOT, route, "index.md");
   const raw = await fs.readFile(file, "utf8");

@@ -5,7 +5,7 @@ function createCurationStore() {
   const { subscribe, set, update } = writable<{
     manifest: CurationManifest | null;
     currentGroupIndex: number;
-    decisions: Record<string, "keep" | "delete" | "separate">; // imageId -> decision
+    decisions: Record<string, "keep" | "delete" | "separate">;
   }>({
     manifest: null,
     currentGroupIndex: 0,
@@ -15,7 +15,6 @@ function createCurationStore() {
   return {
     subscribe,
     init: (manifest: CurationManifest) => {
-      // Initialize decisions based on the recommendation inside the manifest
       const initialDecisions: Record<string, "keep" | "delete" | "separate"> = {};
 
       manifest.groups.forEach((group) => {

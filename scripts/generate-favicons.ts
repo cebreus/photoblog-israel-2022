@@ -12,9 +12,7 @@ type SiteConfig = {
   lang: string;
   manifestConfig: Partial<FaviconOptions>;
 };
-/**
- * Loads the site configuration from site.md, including favicon source and manifest settings.
- */
+
 async function loadSiteConfig(contentDir: string): Promise<SiteConfig> {
   const sourceDirPath = path.resolve("content", contentDir);
   const siteConfigPath = path.join(sourceDirPath, "site.md");
@@ -55,9 +53,7 @@ async function loadSiteConfig(contentDir: string): Promise<SiteConfig> {
     manifestConfig: data.manifest,
   };
 }
-/**
- * Generates favicons and associated manifest files based on site configuration.
- */
+
 async function run() {
   intro("✨ Favicon Generator");
 
@@ -95,8 +91,6 @@ async function run() {
   await fs.mkdir(assetsOutDir, { recursive: true });
   await fs.mkdir(tempDir, { recursive: true });
 
-  // The only values the script now defines are the dynamic path and ensuring logging is off.
-  // All other settings MUST come from the site.md manifest config.
   const configuration: Partial<FaviconOptions> = {
     ...config.manifestConfig,
     path: `/${contentDir}/assets/favicons/`,
@@ -105,7 +99,6 @@ async function run() {
 
   const response = await favicons(config.sourceFile, configuration);
 
-  // Handle favicon.ico separately
   function isFaviconIco(image: { name: string }) {
     return image.name === "favicon.ico";
   }
@@ -117,7 +110,6 @@ async function run() {
     await fs.writeFile(faviconIcoPath, faviconIco.contents);
     logger.info(`Wrote ${path.relative(process.cwd(), faviconIcoPath)}`);
 
-    // Remove the favicon.ico from the images array so it's not written twice
     function isNotFavicon(image: { name: string }) {
       return image.name !== "favicon.ico";
     }
@@ -148,9 +140,7 @@ async function run() {
 
   logger.info("Favicons generated successfully.");
 }
-/**
- * Executes the favicon generation process and handles any errors.
- */
+
 async function executeRun(): Promise<void> {
   try {
     await run();

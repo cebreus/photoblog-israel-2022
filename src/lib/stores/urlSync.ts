@@ -20,8 +20,6 @@ let isInitialized = false;
 let authors: Author[] = [];
 let lastUrl: URL;
 
-// --- Helper Functions ---
-
 function decodeToken(s: string) {
   return decodeURIComponent(s.trim());
 }
@@ -38,12 +36,6 @@ function getNameSlugPair(a: Author): [string, string | undefined] {
   return [a.name, a.slug];
 }
 
-// --- Helpers ---
-
-/**
- * Parses `1`/`0` and `true`/`false` (case-insensitive) into booleans.
- * Returns `undefined` for null or unknown values.
- */
 export function parseBooleanParam(value: string | null): boolean | undefined {
   if (value == null) return undefined;
   const v = value.trim().toLowerCase();
@@ -52,20 +44,10 @@ export function parseBooleanParam(value: string | null): boolean | undefined {
   return undefined;
 }
 
-/**
- * Encodes a boolean into a canonical string used in URLs.
- */
 function encodeBooleanParam(value: boolean) {
   return value ? "true" : "false";
 }
 
-/**
- * Helper to sync boolean values to URL params.
- * @param params The search params object
- * @param key The key to set/delete
- * @param value The boolean value
- * @param type 'presence' (key means true) or 'inverted-presence' (key means false)
- */
 function syncBooleanParam(
   params: URLSearchParams,
   key: string,
@@ -80,12 +62,6 @@ function syncBooleanParam(
   }
 }
 
-/**
- * Helper to set or delete a param based on value existence.
- * @param params The search params object
- * @param key The key
- * @param value The value (if falsy/empty, key is deleted)
- */
 function setOrDeleteParam(params: URLSearchParams, key: string, value: string) {
   if (value) {
     params.set(key, value);
@@ -94,14 +70,7 @@ function setOrDeleteParam(params: URLSearchParams, key: string, value: string) {
   }
 }
 
-// --- Logic ---
-
-/**
- * Updates the Svelte stores based on the current URL's query parameters.
- */
-export function initializeFiltersFromUrl(url: URL) {
-  if (!browser) return;
-
+function parseAuthorsFromUrl(url: URL, authors: Author[]): string[] {
   const csv = url.searchParams.get("authors");
   if (csv && csv.length > 0) {
     const parsed = csv.split(",").map(decodeToken).filter(Boolean);
@@ -117,53 +86,70 @@ export function initializeFiltersFromUrl(url: URL) {
           slugs.push(token);
         } else {
           const slug = nameToSlug.get(token);
-          if (slug) {
-            slugs.push(slug);
-          } else {
-            slugs.push(toSlug(token));
-          }
+          slugs.push(slug || toSlug(token));
         }
       }
     } else {
       for (const token of parsed) slugs.push(toSlug(token));
     }
-    selectedAuthors.set(slugs);
-  } else {
-    const authorParams = url.searchParams.getAll("author");
-    if (authorParams.length > 0) {
-      const slugs =
-        authors.length > 0
-          ? (authorParams.map((a) => {
-              if (a === "unknown") return "";
-              const slugMatch = authors.find((x) => x.slug === a);
-              if (slugMatch) return slugMatch.slug;
-              const nameMatch = authors.find((x) => x.name === a);
-              if (nameMatch) return nameMatch.slug;
-              return toSlug(a);
-            }) as string[])
-          : authorParams.map(toSlug);
-      selectedAuthors.set(slugs);
-    } else {
-      selectedAuthors.set([]);
-    }
+    return slugs;
   }
 
-  // Quality
-  // If param exists, respect it (even if empty -> None).
-  // If param missing, default to ALL.
-  if (url.searchParams.has("quality")) {
-    const qualityParam = url.searchParams.get("quality");
-    if (qualityParam) {
-      const buckets = qualityParam.split(",").filter(Boolean);
-      selectedQualityBuckets.set(buckets as QualityBucket[]);
-    } else {
-      selectedQualityBuckets.set([]); // If param exists but is empty, set to empty array
+  const authorParams = url.searchParams.getAll("author");
+  if (authorParams.length > 0) {
+    if (authors.length > 0) {
+      return authorParams.map((a) => {
+        if (a === "unknown") return "";
+        const slugMatch = authors.find((x) => x.slug === a);
+        if (slugMatch) return slugMatch.slug;
+        const nameMatch = authors.find((x) => x.name === a);
+        return nameMatch ? nameMatch.slug : toSlug(a);
+      }) as string[];
     }
+    return authorParams.map(toSlug);
+  }
+
+  return [];
+}
+
+function parseQualityFromUrl(url: URL): QualityBucket[] | undefined {
+  if (!url.searchParams.has("quality")) return undefined;
+  const qualityParam = url.searchParams.get("quality");
+  if (!qualityParam) return [];
+  return qualityParam.split(",").filter(Boolean) as QualityBucket[];
+}
+
+function setBooleanStoreFromUrl(
+  url: URL,
+  key: string,
+  store: { set: (v: boolean) => void },
+  defaultValue = false,
+) {
+  if (url.searchParams.has(key)) {
+    const val = url.searchParams.get(key);
+    if (val === "" || val === null) {
+      store.set(true);
+    } else {
+      const parsed = parseBooleanParam(val);
+      if (parsed !== undefined) store.set(parsed);
+    }
+  } else {
+  }
+}
+
+export function initializeFiltersFromUrl(url: URL) {
+  if (!browser) return;
+
+  const slugs = parseAuthorsFromUrl(url, authors);
+  selectedAuthors.set(slugs);
+
+  const buckets = parseQualityFromUrl(url);
+  if (buckets !== undefined) {
+    selectedQualityBuckets.set(buckets);
   } else {
     selectedQualityBuckets.set(QUALITY_BUCKETS.map((b) => b.id));
   }
 
-  // Presence-only flag: `no-separators` (preferred) means disabled.
   if (url.searchParams.has("no-separators")) {
     showSeparators.set(false);
   } else {
@@ -171,60 +157,70 @@ export function initializeFiltersFromUrl(url: URL) {
     if (separatorsParam !== undefined) showSeparators.set(separatorsParam);
   }
 
-  // Helper for simple boolean params
-  const setBooleanFromUrl = (key: string, store: { set: (v: boolean) => void }) => {
-    if (url.searchParams.has(key)) {
-      const val = url.searchParams.get(key);
-      if (val === "" || val === null) {
-        store.set(true);
-      } else {
-        const parsed = parseBooleanParam(val);
-        if (parsed !== undefined) store.set(parsed);
-      }
-    }
-  };
+  setBooleanStoreFromUrl(url, "labels", showPhotoLabels);
+  setBooleanStoreFromUrl(url, "editMode", editMode);
+  setBooleanStoreFromUrl(url, "debug", debug);
+  setBooleanStoreFromUrl(url, "overlay", showMetadataOverlay);
+  setBooleanStoreFromUrl(url, "curation", isCurationMode);
 
-  setBooleanFromUrl("labels", showPhotoLabels);
-  setBooleanFromUrl("editMode", editMode);
-  setBooleanFromUrl("debug", debug);
-  setBooleanFromUrl("overlay", showMetadataOverlay);
-  setBooleanFromUrl("curation", isCurationMode);
-
-  // Special logic for sidebar (can be explicitly closed via sidebar=false)
-  if (url.searchParams.has("sidebar")) {
-    const val = url.searchParams.get("sidebar");
-    if (val === "" || val === null) {
-      isSidebarOpen.set(true);
-    } else {
-      const parsed = parseBooleanParam(val);
-      if (parsed !== undefined) isSidebarOpen.set(parsed);
-    }
-  } else {
-    isSidebarOpen.set(false);
-  }
+  setBooleanStoreFromUrl(url, "sidebar", isSidebarOpen);
 
   const editCsv = url.searchParams.get("edit");
-  if (editCsv) {
-    const ids = new Set(editCsv.split(",").filter(Boolean));
-    selection.set(ids);
-  } else {
-    selection.set(new Set());
-  }
+  selection.set(new Set(editCsv ? editCsv.split(",").filter(Boolean) : []));
 
-  const tabParam = url.searchParams.get("tab");
-  if (tabParam) {
-    activeTab.set(tabParam);
-  } else {
-    activeTab.set("agenda");
-  }
+  activeTab.set(url.searchParams.get("tab") || "agenda");
 }
 
 let debounceTimer: ReturnType<typeof setTimeout>;
 
-/**
- * Reads the Svelte stores and updates the URL query parameters to match.
- * This function is debounced to prevent excessive history updates.
- */
+const PRESENCE_ONLY_KEYS = new Set([
+  "labels",
+  "editMode",
+  "debug",
+  "overlay",
+  "no-separators",
+  "sidebar",
+  "curation",
+]);
+
+function buildAuthorsParam(selectedAuthors: string[], authors: Author[]): string | undefined {
+  if (selectedAuthors.length === 0) return undefined;
+
+  const slugSet = new Set(authors.map(getSlug));
+  const nameToSlug = new Map(authors.map(getNameSlugPair));
+
+  return selectedAuthors
+    .map((x) => {
+      if (x === "") return "unknown";
+      return slugSet.has(x) ? x : (nameToSlug.get(x) ?? toSlug(x));
+    })
+    .map(encodeToken)
+    .join(",");
+}
+
+function buildQualityParam(selectedQualityBuckets: QualityBucket[]): string | undefined {
+  const allQualityIds = QUALITY_BUCKETS.map((b) => b.id);
+  const isAllQualitySelected =
+    allQualityIds.length === selectedQualityBuckets.length &&
+    allQualityIds.every((id) => selectedQualityBuckets.includes(id));
+
+  return isAllQualitySelected ? undefined : selectedQualityBuckets.join(",");
+}
+
+function normalizePresenceParams(params: URLSearchParams): string {
+  const rawPairs = params.toString().split("&").filter(Boolean);
+  const normalizedPairs = rawPairs.map((p) => {
+    // p is like "key=value" or "key=" for empty value
+    const idx = p.indexOf("=");
+    if (idx === -1) return p;
+    const key = p.slice(0, idx);
+    const val = p.slice(idx + 1);
+    if (val === "" && PRESENCE_ONLY_KEYS.has(key)) return key;
+    return p;
+  });
+  return normalizedPairs.join("&");
+}
+
 export function syncUrlFromFilters() {
   if (!browser) return;
 
@@ -237,39 +233,15 @@ export function syncUrlFromFilters() {
 
     params.delete("author");
     params.delete("authors");
+    const authorsVal = buildAuthorsParam(get(selectedAuthors), authors);
+    if (authorsVal) params.set("authors", authorsVal);
 
-    const $selectedAuthors = get(selectedAuthors);
-    if ($selectedAuthors.length > 0) {
-      const slugSet = new Set(authors.map(getSlug));
-      const nameToSlug = new Map(authors.map(getNameSlugPair));
-      const slugs = $selectedAuthors
-        .map((x) => {
-          if (x === "") return "unknown";
-          return slugSet.has(x) ? x : (nameToSlug.get(x) ?? toSlug(x));
-        })
-        .map(encodeToken);
-      params.set("authors", slugs.join(","));
-    }
+    params.delete("quality");
+    const qualityVal = buildQualityParam(get(selectedQualityBuckets));
+    if (qualityVal !== undefined) params.set("quality", qualityVal);
 
-    // Quality
-    const $selectedQualityBuckets = get(selectedQualityBuckets);
-    const allQualityIds = QUALITY_BUCKETS.map((b) => b.id);
-    const isAllQualitySelected =
-      allQualityIds.length === $selectedQualityBuckets.length &&
-      allQualityIds.every((id) => $selectedQualityBuckets.includes(id));
-
-    if (isAllQualitySelected) {
-      params.delete("quality");
-    } else {
-      params.set("quality", $selectedQualityBuckets.join(","));
-    }
-
-    // Only include non-default values in the URL so clearing filters removes the query string.
-    // Only include non-default values in the URL so clearing filters removes the query string.
-    const separatorsVal = get(showSeparators);
-    // Prefer presence-only inverted flag `no-separators` to indicate disabled state.
     params.delete("separators");
-    syncBooleanParam(params, "no-separators", separatorsVal, "inverted-presence");
+    syncBooleanParam(params, "no-separators", get(showSeparators), "inverted-presence");
 
     syncBooleanParam(params, "labels", get(showPhotoLabels), "presence");
     syncBooleanParam(params, "editMode", get(editMode), "presence");
@@ -285,33 +257,13 @@ export function syncUrlFromFilters() {
       params.delete("edit");
     }
 
-    const activeTabVal = get(activeTab);
     params.delete("tab");
+    const activeTabVal = get(activeTab);
     if (activeTabVal !== "agenda") {
       params.set("tab", activeTabVal);
     }
 
-    // Serialize params but render presence-only keys without trailing '='
-    const presenceOnlyKeys = new Set([
-      "labels",
-      "editMode",
-      "debug",
-      "overlay",
-      "no-separators",
-      "sidebar",
-      "curation",
-    ]);
-    const rawPairs = params.toString().split("&").filter(Boolean);
-    const normalizedPairs = rawPairs.map((p) => {
-      // p is like "key=value" or "key=" for empty value
-      const idx = p.indexOf("=");
-      if (idx === -1) return p;
-      const key = p.slice(0, idx);
-      const val = p.slice(idx + 1);
-      if (val === "" && presenceOnlyKeys.has(key)) return key;
-      return p;
-    });
-    const newQuery = normalizedPairs.join("&");
+    const newQuery = normalizePresenceParams(params);
     const next = `${$page.url.pathname}${newQuery ? `?${newQuery}` : ""}${$page.url.hash}`;
     const current = $page.url.href.replace($page.url.origin, "");
 
@@ -321,29 +273,18 @@ export function syncUrlFromFilters() {
     }
 
     try {
-      await goto(next, {
-        replaceState: true,
-        noScroll: true,
-        keepFocus: true,
-      });
-      // Update the cached lastUrl to reflect the new URL we just navigated to
+      await goto(next, { replaceState: true, noScroll: true, keepFocus: true });
       try {
         lastUrl = new URL(next, $page.url.origin);
-      } catch (e) {
-        // ignore if we cannot construct the URL for some reason
+      } catch {
+        /* ignore */
       }
-      // After navigation, the page store will update, which will trigger the subscription below
     } finally {
       filtersSyncing.set(false);
     }
   }, 300);
 }
 
-/**
- * Initializes the two-way synchronization between filter stores and the URL.
- * Should be called once from the root layout.
- * @param initialAuthors The list of all authors to enable slug/name mapping.
- */
 export function initUrlSync(initialAuthors: Author[]) {
   if (!browser || isInitialized) return;
 

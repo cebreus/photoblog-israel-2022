@@ -1,20 +1,45 @@
 import crypto from "node:crypto";
 import fsp from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
 import type { AspectRatio, QualityBucket } from "../../src/lib/types/manifest";
+import { run } from "./shell-utils";
+
+const EXCELLENT_AESTHETIC_THRESHOLD = 65;
+const EXCELLENT_SHARPNESS_THRESHOLD = 80;
+const POOR_AESTHETIC_THRESHOLD = 45;
+const POOR_SHARPNESS_THRESHOLD = 40;
+
+export function getQualityBucket(aestheticScore: number, sharpness: number): QualityBucket {
+  const isExcellent =
+    aestheticScore >= EXCELLENT_AESTHETIC_THRESHOLD && sharpness >= EXCELLENT_SHARPNESS_THRESHOLD;
+
+  if (isExcellent) {
+    return "excellent";
+  }
+
+  const isPoor = aestheticScore < POOR_AESTHETIC_THRESHOLD || sharpness < POOR_SHARPNESS_THRESHOLD;
+
+  if (isPoor) {
+    return "poor";
+  }
+
+  return "good";
+}
+
+export function normalizeSharpness(rawSharpness: number): number {
+  if (rawSharpness <= 0) return 0;
+  const normalized = Math.round(rawSharpness * 0.03);
+  return Math.min(100, normalized);
+}
 
 type LandscapeRatio = `landscape-${number}-${number}`;
 type PortraitRatio = `portrait-${number}-${number}`;
 
-/**
- * Formats a landscape aspect ratio string.
- */
 function formatLandscapeRatio(width: number, height: number): LandscapeRatio {
   return `landscape-${width}-${height}`;
 }
 
-/**
- * Formats a portrait aspect ratio string.
- */
 function formatPortraitRatio(width: number, height: number): PortraitRatio {
   return `portrait-${width}-${height}`;
 }
@@ -30,9 +55,6 @@ export function gcd(a: number, b: number): number {
   return x || 1;
 }
 
-/**
- * Return a human-friendly aspect ratio name for given dimensions.
- */
 export function getAspectRatioName(width?: number, height?: number): AspectRatio | undefined {
   if (!width || !height) return undefined;
   const ratio = width / height;
@@ -57,9 +79,6 @@ export function getAspectRatioName(width?: number, height?: number): AspectRatio
   return formatPortraitRatio(reducedWidth, reducedHeight);
 }
 
-/**
- * Normalize various input types to a trimmed string or undefined.
- */
 export function normalizeText(value: any): string | undefined {
   if (!value) return undefined;
   if (Array.isArray(value)) return normalizeText(value[0]);
@@ -68,9 +87,6 @@ export function normalizeText(value: any): string | undefined {
   return trimmed.length ? trimmed : undefined;
 }
 
-/**
- * Compose an alt text string from EXIF, caption or title data.
- */
 export function getAltText(exif: any, captionNorm?: string, titleNorm?: string) {
   const parts: string[] = [];
   if (captionNorm) parts.push(captionNorm);
@@ -82,9 +98,6 @@ export function getAltText(exif: any, captionNorm?: string, titleNorm?: string) 
     : exif.ImageDescription || exif.ObjectName || "Photoblog image";
 }
 
-/**
- * Extract keywords from EXIF tag values.
- */
 export function getKeywords(exif: any): string[] | undefined {
   const k = exif.Keywords || exif.Subject || exif["dc:subject"];
   if (!k) return undefined;
@@ -93,25 +106,16 @@ export function getKeywords(exif: any): string[] | undefined {
   return undefined;
 }
 
-/**
- * Create a directory and its parents if they do not exist.
- */
 export async function ensureDir(dir: string): Promise<void> {
   await fsp.mkdir(dir, { recursive: true });
 }
 
-/**
- * Calculate the SHA-1 hex digest of a buffer or string.
- */
 export function sha1(buf: Buffer | Uint8Array | string): string {
   return crypto.createHash("sha1").update(buf).digest("hex");
 }
 
 type SharpType = typeof import("sharp");
 
-/**
- * Estimate image sharpness by applying a Laplacian filter and returning variance.
- */
 export async function calculateSharpness(
   sharpModule: SharpType,
   imagePath: string,
@@ -129,59 +133,18 @@ export async function calculateSharpness(
       .convolve(LaplacianKernel)
       .stats();
 
-    // Sharp stats() on a grayscale image typically returns a 'channels' array
-    // We want the standard deviation of the first channel (brightness/luminance)
     const stdev = stats.channels[0].stdev;
 
     return stdev * stdev;
   } catch (e) {
-    console.warn(`Failed to calculate sharpness for ${imagePath}:`, e);
-    return 0;
+    throw new Error(
+      `Failed to calculate sharpness for ${imagePath}: ${e instanceof Error ? e.message : String(e)}`,
+    );
   }
 }
 
-/**
- * Normalizes a raw sharpness score (Laplacian variance) to 0-100 range.
- */
-export function normalizeSharpness(variance: number): number {
-  if (variance <= 0) return 0;
-  // variance typically goes from 0 to 10000+.
-  // Sharp images are usually > 2000.
-  // We use sqrt to compress the high end.
-  const root = Math.sqrt(variance);
-  // root of 10000 is 100. root of 2500 is 50. root of 100 is 10.
-  // We want 2500 to be around 70-80.
-  const scaled = root * 1.5;
-  return Math.max(0, Math.min(100, scaled));
-}
-
-/**
- * Determines the quality bucket based on normalized aesthetic and sharpness scores.
- */
-export function getQualityBucket(aesthetic: number, sharpness: number): QualityBucket {
-  // Excellent: beautiful AND sharp enough
-  if (aesthetic >= 65 && sharpness >= 40) return "excellent";
-
-  // Good:
-  // 1. Decent aesthetic AND minimum sharpness
-  if (aesthetic >= 50 && sharpness >= 30) return "good";
-  // 2. Exceptionally sharp AND enough aesthetic (documentary/detail focus)
-  if (aesthetic >= 40 && sharpness >= 70) return "good";
-
-  // Poor: default
-  return "poor";
-}
-
-/**
- * Compute a perceptual hash (dHash) for an image and return it as hexadecimal.
- */
 export async function calculatePhash(sharpModule: SharpType, imagePath: string): Promise<string> {
   try {
-    // dHash algorithm:
-    // 1. Resize to 9x8 (72 pixels)
-    // 2. Grayscale
-    // 3. To buffer
-    // 4. Compare pixel[i] with pixel[i+1]
     const buffer = await sharpModule(imagePath)
       .resize(9, 8, { fit: "fill" })
       .grayscale()
@@ -190,9 +153,7 @@ export async function calculatePhash(sharpModule: SharpType, imagePath: string):
 
     let hash = 0n;
 
-    // Iterate over rows
     for (let y = 0; y < 8; y++) {
-      // Iterate over cols up to width-1
       for (let x = 0; x < 8; x++) {
         const left = buffer[y * 9 + x];
         const right = buffer[y * 9 + x + 1];
@@ -204,7 +165,31 @@ export async function calculatePhash(sharpModule: SharpType, imagePath: string):
 
     return hash.toString(16).padStart(16, "0");
   } catch (e) {
-    console.warn(`Failed to calculate pHash for ${imagePath}:`, e);
-    return "0000000000000000";
+    throw new Error(
+      `Failed to calculate pHash for ${imagePath}: ${e instanceof Error ? e.message : String(e)}`,
+    );
+  }
+}
+
+export async function convertHeicToPng(inputPath: string): Promise<Buffer> {
+  const tmpDir = os.tmpdir();
+  const baseName = path.basename(inputPath);
+  const tempFile = path.join(tmpDir, `${baseName}-${Date.now()}.png`);
+
+  try {
+    try {
+      await run("sips", ["-s", "format", "png", inputPath, "--out", tempFile], { stdio: "ignore" });
+    } catch {
+      await run("vips", ["copy", inputPath, tempFile], { stdio: "ignore" });
+    }
+
+    const buf = await fsp.readFile(tempFile);
+    await fsp.unlink(tempFile);
+    return buf;
+  } catch (e) {
+    try {
+      await fsp.unlink(tempFile);
+    } catch {}
+    throw new Error(`Failed to convert HEIC to PNG for ${inputPath}: ${e}`);
   }
 }

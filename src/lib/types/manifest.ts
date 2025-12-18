@@ -1,10 +1,3 @@
-/**
- * This file contains TypeScript types for the JSON manifests used in the application.
- * These types ensure that data loaded from `images.manifest.json` and `menu.manifest.json`
- * is strongly typed, preventing runtime errors and improving developer experience.
- */
-
-/** Represents a single image source variant (e.g., a specific width in WebP or AVIF format). */
 export type ImageSource = {
   variant: "default" | "xl" | "detail" | "fallback" | "placeholder" | "admin_thumb";
   type: "image/webp" | "image/jpeg" | "image/avif" | "image/png";
@@ -13,7 +6,6 @@ export type ImageSource = {
   height?: number; // Optional as not all variants might have it
 };
 
-/** Represents EXIF metadata extracted from an image. */
 export type ExifData = {
   date: string;
   location?: string;
@@ -21,7 +13,6 @@ export type ExifData = {
   latitude?: number;
   longitude?: number;
   orientation?: string;
-  // IPTC/XMP fields commonly used in the dataset
   title?: string;
   caption?: string;
   description?: string;
@@ -36,7 +27,6 @@ export type ExifData = {
   sublocation?: string;
 };
 
-/** Represents a single image entry in the manifest, including all its metadata and sources. */
 export type ImageEntry = {
   id: string;
   type: "image";
@@ -49,18 +39,16 @@ export type ImageEntry = {
   placeholderColor?: string;
   placeholder?: string;
   adminThumbUrl?: string;
-  // convenience top-level fields derived from EXIF/IPTC
   author?: string;
-  authorSlug?: string; // canonical slug for author, added at build time
+  authorSlug?: string;
   keywords?: string[];
   caption?: string;
-  // additional canonical convenience fields (mirrored from exif.* for runtime ease)
-  date?: string; // ISO date string — canonical source for time
-  location?: string; // canonical place/location (e.g., "Křižácká pevnost")
-  city?: string; // canonical city
+  date?: string;
+  location?: string;
+  city?: string;
   latitude?: number;
   longitude?: number;
-  description?: string; // normalized description / long caption
+  description?: string;
   copyright?: string;
   category?: string;
   googleMapsUrl?: string;
@@ -82,7 +70,6 @@ export type ImageEntry = {
     latitude?: number;
     longitude?: number;
     orientation?: number;
-    // preserve IPTC/XMP fields from the original files (optional)
     title?: string;
     caption?: string;
     description?: string;
@@ -94,11 +81,10 @@ export type ImageEntry = {
     countryCode?: string;
     state?: string;
   };
-  people?: string[]; // Array of person IDs detected on this image
+  people?: string[];
   sources: ImageSource[];
 };
 
-/** Represents a separator in the photo grid, often used to denote a new location or section. */
 export type Separator = {
   type: "separator";
   location: string;
@@ -108,10 +94,8 @@ export type Separator = {
   id: string;
 };
 
-/** A union type representing any possible item in a photo day's `items` array. */
 export type PhotoDayItem = ImageEntry | Separator;
 
-/** Represents a single day of photos, containing metadata and a list of items (images or separators). */
 export type PhotoDay = {
   date: string;
   id: string;
@@ -122,12 +106,10 @@ export type PhotoDay = {
   mergedDates?: string[];
 };
 
-/** The root object of the entire `images.manifest.json`. */
 export type Manifest = {
   photoDays: PhotoDay[];
 };
 
-/** Represents a location entry in the lightweight menu manifest. */
 export type MenuLocation = {
   id: string;
   label: string;
@@ -137,7 +119,6 @@ export type MenuLocation = {
   firstPhotoExifDate?: string;
 };
 
-/** Represents a day entry in the lightweight `menu.manifest.json`. */
 export type QualityBucket = "excellent" | "good" | "poor";
 
 export type MenuDay = {
@@ -173,7 +154,6 @@ export type CurationManifest = {
 
 export type MenuManifest = MenuDay[];
 
-/** Represents global site settings from site.md */
 export type SiteManifest = {
   favicon?: string;
   type?: string;
@@ -219,8 +199,6 @@ export type SiteManifest = {
     icons?: Record<string, boolean>;
   };
 };
-
-// --- Types for script/generate-images.ts ---
 
 import type { ImageFormat } from "./images";
 
@@ -286,13 +264,12 @@ export type Person = {
   id: string;
   name: string;
   faceDescriptor: number[];
-  faceCount: number; // Computed from images, not stored
+  faceCount: number;
   thumbnail: string;
-  // REMOVED: imageIds - now computed from images.manifest.json
-  manualImageIds?: string[]; // User-tagged images (not auto-detected) - for future use
-  ignored: boolean; // Blacklist flag
-  createdAt: string; // ISO timestamp of first detection
-  lastSeenAt: string; // ISO timestamp of last detection
+  manualImageIds?: string[];
+  ignored: boolean;
+  createdAt: string;
+  lastSeenAt: string;
 };
 
 export type PeopleManifest = {

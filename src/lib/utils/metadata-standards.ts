@@ -1,8 +1,6 @@
 export interface MetadataFieldConfig {
   label: string;
-  // Tags to read from, in order of priority (e.g. ['XMP:Title', 'IPTC:ObjectName'])
   read: string[];
-  // Tags to write to. All of them should be updated to maintain consistency.
   write: string[];
 }
 
@@ -37,7 +35,6 @@ export const METADATA_STANDARDS: Record<MetadataKey, MetadataFieldConfig> = {
     label: "Autor",
     read: ["Creator", "By-line", "Artist", "dc:creator"],
     write: ["XMP:Creator", "IPTC:By-line", "IFD0:Artist"],
-    // Exif:Artist is often read-only or camera-specific, but IFD0:Artist is usually writable.
   },
   location: {
     label: "Místo",
@@ -66,10 +63,6 @@ export const METADATA_STANDARDS: Record<MetadataKey, MetadataFieldConfig> = {
   },
 };
 
-/**
- * Returns a record of tags to write for a given set of canonical updates.
- * Updates are applied to all defined 'write' targets for each key.
- */
 export function getExifToolWriteTags(
   updates: Partial<Record<MetadataKey, string | string[] | null>>,
 ): Record<string, string | string[] | null> {
@@ -85,7 +78,6 @@ export function getExifToolWriteTags(
     }
   }
 
-  // Always enforce UTF-8 for IPTC to prevent Mojibake
   tags["IPTC:CodedCharacterSet"] = "UTF8";
 
   return tags;

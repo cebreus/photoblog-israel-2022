@@ -7,12 +7,14 @@ import type {
   PeopleManifest,
 } from "../../src/lib/types/manifest";
 import { createLogger } from "./logger";
+import {
+  isValidCurationManifest,
+  isValidManifest,
+  isValidMenuManifest,
+  isValidPeopleManifest,
+} from "./manifest-validators";
 
 const logger = createLogger("manifest-repo");
-
-/**
- * Recursively sorts keys of objects within an object or array.
- */
 function sortObjectKeys(obj: any): any {
   if (Array.isArray(obj)) {
     return obj.map(sortObjectKeys);
@@ -26,10 +28,6 @@ function sortObjectKeys(obj: any): any {
   }
   return obj;
 }
-
-/**
- * Atomically write a JSON manifest file to disk, optionally sorting object keys.
- */
 export async function saveManifest<T>(filePath: string, data: T, sortKeys = false): Promise<void> {
   try {
     const dir = path.dirname(filePath);
@@ -42,17 +40,11 @@ export async function saveManifest<T>(filePath: string, data: T, sortKeys = fals
     const tmpPath = `${filePath}.tmp`;
     await fsp.writeFile(tmpPath, content, "utf-8");
     await fsp.rename(tmpPath, filePath);
-
-    // logger.verbose(`Saved manifest to ${filePath}`);
   } catch (e) {
     logger.error(`Failed to save manifest to ${filePath}:`, e);
     throw e;
   }
 }
-
-/**
- * Load and parse a JSON manifest file from disk or return null if missing.
- */
 export async function loadManifest<T>(filePath: string): Promise<T | null> {
   try {
     const content = await fsp.readFile(filePath, "utf-8");
@@ -66,58 +58,54 @@ export async function loadManifest<T>(filePath: string): Promise<T | null> {
   }
 }
 
-/**
- * Load the images manifest from the output root.
- */
 export async function loadImagesManifest(outRoot: string): Promise<Manifest | null> {
-  return loadManifest<Manifest>(path.join(outRoot, "images.manifest.json"));
+  const data = await loadManifest<Manifest>(path.join(outRoot, "images.manifest.json"));
+  if (data && !isValidManifest(data)) {
+    logger.warn(`Invalid images manifest structure in ${outRoot}`);
+    return null;
+  }
+  return data;
 }
 
-/**
- * Save the images manifest to the output root.
- */
 export async function saveImagesManifest(outRoot: string, data: Manifest): Promise<void> {
   return saveManifest(path.join(outRoot, "images.manifest.json"), data);
 }
 
-/**
- * Load the menu manifest from the output root.
- */
 export async function loadMenuManifest(outRoot: string): Promise<MenuManifest | null> {
-  return loadManifest<MenuManifest>(path.join(outRoot, "menu.manifest.json"));
+  const data = await loadManifest<MenuManifest>(path.join(outRoot, "menu.manifest.json"));
+  if (data && !isValidMenuManifest(data)) {
+    logger.warn(`Invalid menu manifest structure in ${outRoot}`);
+    return null;
+  }
+  return data;
 }
 
-/**
- * Save the menu manifest to the output root.
- */
 export async function saveMenuManifest(outRoot: string, data: MenuManifest): Promise<void> {
   return saveManifest(path.join(outRoot, "menu.manifest.json"), data);
 }
 
-/**
- * Load the curation manifest from the output root.
- */
 export async function loadCurationManifest(outRoot: string): Promise<CurationManifest | null> {
-  return loadManifest<CurationManifest>(path.join(outRoot, "curation.manifest.json"));
+  const data = await loadManifest<CurationManifest>(path.join(outRoot, "curation.manifest.json"));
+  if (data && !isValidCurationManifest(data)) {
+    logger.warn(`Invalid curation manifest structure in ${outRoot}`);
+    return null;
+  }
+  return data;
 }
 
-/**
- * Save the curation manifest to the output root.
- */
 export async function saveCurationManifest(outRoot: string, data: CurationManifest): Promise<void> {
   return saveManifest(path.join(outRoot, "curation.manifest.json"), data);
 }
 
-/**
- * Load the people manifest from the output root.
- */
 export async function loadPeopleManifest(outRoot: string): Promise<PeopleManifest | null> {
-  return loadManifest<PeopleManifest>(path.join(outRoot, "people.manifest.json"));
+  const data = await loadManifest<PeopleManifest>(path.join(outRoot, "people.manifest.json"));
+  if (data && !isValidPeopleManifest(data)) {
+    logger.warn(`Invalid people manifest structure in ${outRoot}`);
+    return null;
+  }
+  return data;
 }
 
-/**
- * Save the people manifest to the output root.
- */
 export async function savePeopleManifest(outRoot: string, data: PeopleManifest): Promise<void> {
   return saveManifest(path.join(outRoot, "people.manifest.json"), data);
 }

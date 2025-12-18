@@ -1,34 +1,34 @@
 import type { Person, PhotoDay } from "$lib/types/manifest";
 
-/**
- * Filters and sorts people for display in the UI.
- * - Hides ignored people
- * - Hides people with 0 photos (empty profiles after merge)
- * - Sorts by face count descending
- */
-export function getVisiblePeople(people: Person[]): Person[] {
-  return [...people]
-    .filter((p) => !p.ignored && p.faceCount > 0)
-    .sort((a, b) => {
-      // Sort primarily by alphabetical name order
-      const nameCompare = a.name.localeCompare(b.name, "cs", { sensitivity: "base" });
-      if (nameCompare !== 0) return nameCompare;
-      // Secondary sort by face count (descending)
-      return b.faceCount - a.faceCount;
-    });
+function isVisiblePerson(person: Person): boolean {
+  return !person.ignored && person.faceCount > 0;
 }
-/**
- * Efficiently computes face counts for all people in a single pass through the photo days.
- * Returns a new array of people with updated faceCount properties.
- */
+
+function compareByNameThenFaceCount(a: Person, b: Person): number {
+  if (b.faceCount !== a.faceCount) {
+    return b.faceCount - a.faceCount;
+  }
+  return a.name.localeCompare(b.name, "cs", { sensitivity: "base" });
+}
+
+export function getVisiblePeople(people: Person[]): Person[] {
+  return [...people].filter(isVisiblePerson).sort(compareByNameThenFaceCount);
+}
+function enrichPersonWithFaceCount(faceCounts: Map<string, number>) {
+  return function updatePersonFaceCount(person: Person): Person {
+    return {
+      ...person,
+      faceCount: faceCounts.get(person.id) ?? 0,
+    };
+  };
+}
+
 export function enrichPeopleWithStats(people: Person[], photoDays: PhotoDay[]): Person[] {
-  // Initialize counts map
   const faceCounts = new Map<string, number>();
   for (const person of people) {
     faceCounts.set(person.id, 0);
   }
 
-  // Single pass counting (O(M), where M is number of photos)
   for (const day of photoDays) {
     for (const item of day.items) {
       if (item.type === "image" && item.people) {
@@ -42,9 +42,5 @@ export function enrichPeopleWithStats(people: Person[], photoDays: PhotoDay[]): 
     }
   }
 
-  // Update people objects (O(N), where N is number of people)
-  return people.map((p) => ({
-    ...p,
-    faceCount: faceCounts.get(p.id) ?? 0,
-  }));
+  return people.map(enrichPersonWithFaceCount(faceCounts));
 }

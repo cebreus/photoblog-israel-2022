@@ -9,18 +9,11 @@ import type {
   StoryDataMap,
 } from "../../src/lib/types/manifest";
 import { toSlug } from "../../src/lib/utils/strings";
-import { normalizeAestheticScore } from "./aesthetic";
-import { getQualityBucket, normalizeSharpness } from "./image-utils";
 
-/**
- * Parses a Markdown string into HTML using marked.
- */
 function parseMarkdown(content: string): string {
   const parsed = marked.parse(content);
   return typeof parsed === "string" ? parsed : "";
 }
-
-// --- Generator Manifest Logic ---
 
 type GeneratorVariant = {
   path: string;
@@ -49,16 +42,17 @@ type GeneratorManifestEntry = {
   outputs: string[];
 };
 
-/**
- * Sorts a list of generator variants by width and then by path.
- */
+function compareVariantsByWidth(a: GeneratorVariant, b: GeneratorVariant): number {
+  const leftWidth = a.width ?? 0;
+  const rightWidth = b.width ?? 0;
+  if (leftWidth === rightWidth) {
+    return (a.path || "").localeCompare(b.path || "");
+  }
+  return leftWidth - rightWidth;
+}
+
 function sortGeneratorVariants(list: GeneratorVariant[]): GeneratorVariant[] {
-  return [...list].sort((a, b) => {
-    const left = a.width ?? 0;
-    const right = b.width ?? 0;
-    if (left === right) return (a.path || "").localeCompare(b.path || "");
-    return left - right;
-  });
+  return [...list].sort(compareVariantsByWidth);
 }
 
 export type ProcessedImageResult = {
@@ -67,15 +61,9 @@ export type ProcessedImageResult = {
   image: ImageEntry;
 };
 
-/**
- * Builds a generator manifest mapping keys to available output variants and placeholder information.
- */
 export function buildGeneratorManifest(
   results: ProcessedImageResult[],
 ): Record<string, GeneratorManifestEntry> {
-  /**
-   * Build a generator manifest mapping keys to available output variants and placeholder info.
-   */
   const manifest: Record<string, GeneratorManifestEntry> = {};
 
   for (const res of results) {
@@ -100,6 +88,10 @@ export function buildGeneratorManifest(
       }
     }
 
+    function compareStringsAlphabetically(a: string, b: string): number {
+      return a.localeCompare(b);
+    }
+
     manifest[baseName] = {
       original: {
         format: ext,
@@ -114,58 +106,51 @@ export function buildGeneratorManifest(
       },
       placeholder: res.image.placeholder ? { width: null, height: null, type: null } : null,
       color: res.image.placeholderColor,
-      outputs: [...res.outputs].sort((a, b) => a.localeCompare(b)),
+      outputs: [...res.outputs].sort(compareStringsAlphabetically),
     };
   }
 
   return manifest;
 }
 
-// --- Update Manifest Logic ---
-
-/**
- * Creates a shallow clone of a PhotoDay object.
- */
 function clonePhotoDay(day: PhotoDay): PhotoDay {
   return { ...day, items: [...(day.items || [])] };
 }
 
-/**
- * Removes items from a PhotoDay whose keys are in the deletedKeys list.
- */
 function removeDeletedKeysFromDay(day: PhotoDay, deletedKeys: string[]): void {
-  const deletedBaseNames = new Set(deletedKeys.map((key) => path.basename(key, path.extname(key))));
-
   day.items = (day.items || []).filter((item) => {
     if (item.type === "separator") return true;
-    const itemBaseName = path.basename(item.src, path.extname(item.src));
-    return !deletedBaseNames.has(itemBaseName);
+    return !deletedKeys.some((key) => item.src.startsWith(path.basename(key, path.extname(key))));
   });
 }
 
-/**
- * Removes images from a PhotoDay whose source path starts with the given base name.
- */
-function removeImagesWithBaseName(day: PhotoDay, baseNameWithoutExt: string): void {
+function removeImagesStartingWith(day: PhotoDay, baseNameWithoutExt: string): void {
   day.items = day.items.filter((item) => {
     if (item.type === "separator") return true;
-    const itemBaseName = path.basename(item.src, path.extname(item.src));
-    return itemBaseName !== baseNameWithoutExt;
+    return !item.src.startsWith(baseNameWithoutExt);
   });
 }
+function isSeparator(item: ImageEntry | Separator): boolean {
+  return item.type === "separator";
+}
 
-/**
- * Organizes items within a PhotoDay, sorting images and inserting separators based on location.
- */
+function isImage(item: ImageEntry | Separator): item is ImageEntry {
+  return item.type === "image";
+}
+
+function compareByExifDate(a: ImageEntry, b: ImageEntry): number {
+  const dateA = a.exif?.date ?? "";
+  const dateB = b.exif?.date ?? "";
+  return dateA.localeCompare(dateB);
+}
+
 function organizeDayItems(day: PhotoDay, storyData: StoryDataMap): PhotoDay {
-  // 1. Extract and sort images
-  const images = (day.items || []).filter((i): i is ImageEntry => i.type === "image");
-  images.sort((a, b) => (a.exif?.date ?? "").localeCompare(b.exif?.date ?? ""));
+  const images = (day.items || []).filter(isImage);
+  images.sort(compareByExifDate);
 
   // 2. Group by location
   const imagesByLocation: Record<string, ImageEntry[]> = {};
   for (const image of images) {
-    // Treat empty location as "Unknown" for grouping logic, but keep original data
     const location = image.exif?.location || "Unknown";
     if (!imagesByLocation[location]) imagesByLocation[location] = [];
     imagesByLocation[location].push(image);
@@ -179,8 +164,7 @@ function organizeDayItems(day: PhotoDay, storyData: StoryDataMap): PhotoDay {
   const citiesList: string[] = [];
   const locationsList: string[] = [];
 
-  // Helper to collect metadata for the day summary
-  const collectMetadata = (img: ImageEntry) => {
+  function collectCityAndLocation(img: ImageEntry) {
     const city = img.exif?.city;
     if (city && !uniqueCities.has(city)) {
       uniqueCities.add(city);
@@ -191,14 +175,13 @@ function organizeDayItems(day: PhotoDay, storyData: StoryDataMap): PhotoDay {
       uniqueLocations.add(loc);
       locationsList.push(loc);
     }
-  };
+  }
 
   for (const image of images) {
-    collectMetadata(image);
+    collectCityAndLocation(image);
     const location = image.exif?.location || "Unknown";
     const group = imagesByLocation[location] || [];
 
-    // Insert separator if needed
     if (location !== "Unknown" && group.length > 2 && !seenLocations.has(location)) {
       const story = storyData[location];
       const storyContent = story?.content?.trim();
@@ -233,66 +216,43 @@ function organizeDayItems(day: PhotoDay, storyData: StoryDataMap): PhotoDay {
     id: day.id || `day-${day.date}`,
   };
 }
+function hasItems(day: PhotoDay): boolean {
+  return day.items.length > 0;
+}
 
-/**
- * Migrates an image entry to the latest format (normalized scores and quality bucket).
- */
-function migrateEntry(item: ImageEntry): ImageEntry {
-  if (!item.analysis) return item;
+function compareByDate(a: PhotoDay, b: PhotoDay): number {
+  return a.date.localeCompare(b.date);
+}
 
-  let aesthetic = item.analysis.aestheticScore ?? 0;
-  let sharpness = item.analysis.sharpness;
-
-  // 1. Normalize Aesthetic Score if in raw range
-  // Raw CLIP cosine similarity is typically in [-0.15, 0.15]
-  // Normalized is 0-100.
-  if (aesthetic >= -1.1 && aesthetic <= 1.1) {
-    aesthetic = normalizeAestheticScore(aesthetic);
+function findDayByDate(photoDays: PhotoDay[], targetDate: string): PhotoDay | undefined {
+  function matchesDate(day: PhotoDay) {
+    return day.date === targetDate;
   }
+  return photoDays.find(matchesDate);
+}
 
-  // 2. Normalize Sharpness if in raw range (variance > 100)
-  // Variance can be 5000+, while normalized is 0-100.
-  if (sharpness > 100) {
-    sharpness = normalizeSharpness(sharpness);
-  }
-
-  // 3. Assign Quality Bucket
-  const qualityBucket = getQualityBucket(aesthetic, sharpness);
-
-  return {
-    ...item,
-    analysis: {
-      ...item.analysis,
-      aestheticScore: aesthetic,
-      sharpness,
-      qualityBucket,
-    },
+function organizeDayWithStoryData(storyData: StoryDataMap) {
+  return function organizeDay(day: PhotoDay): PhotoDay {
+    return organizeDayItems(day, storyData);
   };
 }
 
-/**
- * Merges processed image results into the existing site manifest and removes deleted entries.
- */
 export function updateManifest(
   results: ProcessedImageResult[],
   deletedKeys: string[],
   storyData: StoryDataMap,
   existingManifest: Manifest,
 ): Manifest {
-  // 1. Clone AND Migrate Existing Entries
-  // 1. Clone AND Migrate Existing Entries
   const manifest: Manifest = {
-    photoDays: existingManifest.photoDays.map((day) => ({
-      ...clonePhotoDay(day),
-      items: day.items.map((item) => (item.type === "image" ? migrateEntry(item) : item)),
-    })),
+    photoDays: existingManifest.photoDays.map(clonePhotoDay),
   };
 
-  // 2. Remove Deleted
-  manifest.photoDays.forEach((day) => removeDeletedKeysFromDay(day, deletedKeys));
-  manifest.photoDays = manifest.photoDays.filter((d) => d.items.length > 0);
+  function removeDeletedKeys(day: PhotoDay) {
+    removeDeletedKeysFromDay(day, deletedKeys);
+  }
+  manifest.photoDays.forEach(removeDeletedKeys);
+  manifest.photoDays = manifest.photoDays.filter(hasItems);
 
-  // 3. Group New Results by Date
   const resultsByDate: Record<string, ProcessedImageResult[]> = {};
   for (const result of results) {
     if (!result) continue;
@@ -302,55 +262,30 @@ export function updateManifest(
     resultsByDate[date].push(result);
   }
 
-  // 4. Merge Results into Days
   for (const [date, dayResults] of Object.entries(resultsByDate)) {
-    let day = manifest.photoDays.find((d) => d.date === date);
+    let day = findDayByDate(manifest.photoDays, date);
     if (!day) {
       day = { date, items: [], id: "day-" + date };
       manifest.photoDays.push(day);
     }
 
     for (const result of dayResults) {
-      // Remove previous version of this image if exists (to update it)
       const baseNameWithoutExt = path.basename(result.key, path.extname(result.key));
-
-      // Preserve 'people' data from existing entry if available
-      const existingItem = day.items.find((item) => {
-        if (item.type !== "image") return false;
-        const itemBaseName = path.basename(item.src, path.extname(item.src));
-        return itemBaseName === baseNameWithoutExt;
-      });
-
-      if (existingItem && existingItem.type === "image" && existingItem.people) {
-        result.image.people = [...existingItem.people];
-      }
-
-      removeImagesWithBaseName(day, baseNameWithoutExt);
+      removeImagesStartingWith(day, baseNameWithoutExt);
       day.items.push(result.image);
     }
   }
 
-  // 5. Re-organize all days (sorting, separators, metadata aggregation)
-  manifest.photoDays = manifest.photoDays.map((day) => organizeDayItems(day, storyData));
+  manifest.photoDays = manifest.photoDays.map(organizeDayWithStoryData(storyData));
 
-  // 6. Sort Days
-  manifest.photoDays.sort((a, b) => a.date.localeCompare(b.date));
+  manifest.photoDays.sort(compareByDate);
 
   return manifest;
 }
 
-// --- Menu Manifest Logic ---
-
 export function generateMenuManifest(manifest: Manifest): MenuManifest {
-  /**
-   * Generate a menu manifest from the site manifest for navigation.
-   */
   return manifest.photoDays.map(mapDayToMenu);
 }
-
-/**
- * Maps a location name to a menu item for the navigation menu.
- */
 function mapLocationToMenuItem(
   locationName: string,
   day: PhotoDay,
@@ -375,16 +310,11 @@ function mapLocationToMenuItem(
     firstPhotoExifDate: group[0]?.exif?.date,
   };
 }
-
-/**
- * Maps a PhotoDay object to a MenuManifest entry for the navigation menu.
- */
 function mapDayToMenu(d: PhotoDay): MenuManifest[number] {
   const dayId = String(d.id || d.date).startsWith("day-")
     ? String(d.id || d.date)
     : "day-" + String(d.id || d.date);
 
-  // Extract unique locations in order of appearance
   const locationsInOrder: string[] = [];
   const seenLocations = new Set<string>();
 

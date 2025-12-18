@@ -1,38 +1,22 @@
 import { unlink } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
+import { run } from "./shell-utils";
 
-const TMP_DIR = Bun.env.TMPDIR ?? "/tmp";
+const TMP_DIR = process.env.TMPDIR ?? "/tmp";
 
-/**
- * Executes a CLI command using Bun.spawn and handles errors.
- */
-async function runCli(args: string[]) {
-  const proc = Bun.spawn(args, { stderr: "pipe" });
-  const exitCode = await proc.exited;
-  if (exitCode !== 0) {
-    const err = await new Response(proc.stderr).text();
-    throw new Error(`${args[0]} failed (exit ${exitCode}): ${err}`);
-  }
-}
-
-/**
- * Fixes underwater images using a high-performance single-pass Sharp pipeline.
- * Supports multiple output paths to avoid redundant processing.
- */
 export async function fixUnderwaterImage(input: string | Buffer, outputs?: string | string[]) {
   const outputList = outputs ? (Array.isArray(outputs) ? outputs : [outputs]) : [];
   const temps: string[] = [];
 
   try {
-    // 1. Prepare Input (convert HEIC via vips if needed, as sharp's loader might lack support)
     let finalInput: string | Buffer = "";
     if (typeof input === "string") {
       const ext = path.extname(input).toLowerCase();
       if (ext === ".heic" || ext === ".heif") {
         const tiffIn = path.join(TMP_DIR, `uw_in_${crypto.randomUUID()}.tiff`);
         temps.push(tiffIn);
-        await runCli(["vips", "copy", input, tiffIn]);
+        await run("vips", ["copy", input, tiffIn], { stdio: "ignore" });
         finalInput = tiffIn;
       } else {
         finalInput = input;
@@ -47,14 +31,12 @@ export async function fixUnderwaterImage(input: string | Buffer, outputs?: strin
 
     if (!width || !height) throw new Error("Could not get dimensions");
 
-    // Red overlay for color restoration
     const redOverlay = await sharp({
       create: { width, height, channels: 3, background: { r: 255, g: 0, b: 0 } },
     })
       .png()
       .toBuffer();
 
-    // The composition logic: (Original MULTIPLY RedOverlay) SCREEN Original
     const pipeline = image
       .composite([
         { input: redOverlay, blend: "multiply" },
@@ -73,25 +55,17 @@ export async function fixUnderwaterImage(input: string | Buffer, outputs?: strin
       .sharpen({ sigma: 1.0, m1: 0, m2: 3.0, x1: 2.0, y2: 10.0, y3: 20.0 });
 
     if (outputList.length > 0) {
-      // Parallelize output generation
       const jobs = outputList.map(async (output) => {
         const outExt = path.extname(output).toLowerCase();
         if (outExt === ".heic" || outExt === ".heif") {
           const tiffOut = path.join(TMP_DIR, `uw_out_${crypto.randomUUID()}.tiff`);
           temps.push(tiffOut);
           await pipeline.clone().tiff({ compression: "none" }).toFile(tiffOut);
-          await runCli([
+          await run(
             "sips",
-            "-s",
-            "format",
-            "heic",
-            "-s",
-            "formatOptions",
-            "90",
-            tiffOut,
-            "--out",
-            output,
-          ]);
+            ["-s", "format", "heic", "-s", "formatOptions", "90", tiffOut, "--out", output],
+            { stdio: "ignore" },
+          );
         } else if (outExt === ".jpg" || outExt === ".jpeg") {
           await pipeline
             .clone()
@@ -101,16 +75,12 @@ export async function fixUnderwaterImage(input: string | Buffer, outputs?: strin
           await pipeline.clone().toFile(output);
         }
 
-        // Restore Metadata
         if (typeof input === "string") {
-          await runCli([
+          await run(
             "exiftool",
-            "-overwrite_original",
-            "-tagsFromFile",
-            input,
-            "-all:all",
-            output,
-          ]);
+            ["-overwrite_original", "-tagsFromFile", input, "-all:all", output],
+            { stdio: "ignore" },
+          );
         }
       });
 

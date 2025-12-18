@@ -1,6 +1,6 @@
+import fg from "fast-glob";
 import fsp from "node:fs/promises";
 import path from "node:path";
-import fg from "fast-glob";
 import { config } from "../config";
 import type { CliOptions } from "./cli-parser";
 import { ensureDir } from "./image-utils";
@@ -8,16 +8,10 @@ import { createLogger } from "./logger";
 
 const logger = createLogger("blur");
 
-/**
- * Suppresses potential errors by providing an empty no-op function.
- */
 function ignoreError(_err?: unknown): void {
   // no-op
 }
 
-/**
- * Generate a blurred PNG placeholder for a source image and save it to the output path.
- */
 export async function processBlurImage(file: string, raw: Partial<CliOptions>): Promise<void> {
   const blurOut = raw.blurOut || config.blur.out;
   const width = raw.blurWidth || config.blur.width;
@@ -47,9 +41,6 @@ export async function processBlurImage(file: string, raw: Partial<CliOptions>): 
   }
 }
 
-/**
- * Process all source images to generate blur placeholders with concurrency control.
- */
 export async function runBlurBuild(raw: Partial<CliOptions>, concurrency: number): Promise<void> {
   const blurSrc = raw.blurSrc || config.blur.src;
   const blurOut = raw.blurOut || config.blur.out;
@@ -91,15 +82,16 @@ export async function runBlurBuild(raw: Partial<CliOptions>, concurrency: number
     for (const p of existing) {
       const ext = path.extname(p).slice(1).toLowerCase();
       if (ext !== "png") {
-        await fsp.unlink(p).catch(ignoreError);
+        try {
+          await fsp.unlink(p);
+        } catch {
+          // Ignore unlink errors
+        }
       }
     }
   }
 }
 
-/**
- * Dynamically imports and returns the sharp module.
- */
 async function loadSharp() {
   const mod: any = await import("sharp");
   return mod.default ?? mod;

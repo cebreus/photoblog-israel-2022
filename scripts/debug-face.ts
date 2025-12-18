@@ -1,8 +1,8 @@
 import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
 import * as canvas from "canvas";
-import { spawn } from "node:child_process";
 import fsp from "node:fs/promises";
 import path from "node:path";
+import { convertHeicToPng } from "./lib/image-utils";
 
 const FACE_CONFIG = {
   minConfidence: 0.1,
@@ -15,34 +15,6 @@ faceapi.env.monkeyPatch({
   ImageData: canvas.ImageData,
 });
 
-/**
- * Converts a HEIC image file to a PNG image buffer.
- */
-async function convertHeicToPng(inputPath: string): Promise<Buffer> {
-  const tempFile = path.resolve(process.cwd(), ".temp-debug", path.basename(inputPath) + ".png");
-  await fsp.mkdir(path.dirname(tempFile), { recursive: true });
-
-  return new Promise<Buffer>((resolve, reject) => {
-    const p = spawn("sips", ["-s", "format", "png", inputPath, "--out", tempFile]);
-    p.on("close", async (code) => {
-      if (code === 0) {
-        try {
-          const buf = await fsp.readFile(tempFile);
-          await fsp.unlink(tempFile); // clean up
-          resolve(buf);
-        } catch (e) {
-          reject(e);
-        }
-      } else {
-        reject(new Error(`sips process exited with code ${code}`));
-      }
-    });
-  });
-}
-
-/**
- * Detects faces in a hardcoded image file and logs the results.
- */
 async function run() {
   await faceapi.nets.ssdMobilenetv1.loadFromDisk(FACE_CONFIG.modelPath);
   await faceapi.nets.faceLandmark68Net.loadFromDisk(FACE_CONFIG.modelPath);
@@ -75,4 +47,10 @@ async function run() {
   });
 }
 
-run().catch(console.error);
+(async () => {
+  try {
+    await run();
+  } catch (error) {
+    console.error(error);
+  }
+})();
