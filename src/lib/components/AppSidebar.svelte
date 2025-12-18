@@ -2,6 +2,8 @@
   import { dev } from "$app/environment";
   import { page } from "$app/stores";
   import AgendaTab from "$lib/components/sidebar-content/AgendaTab.svelte";
+  import PeopleTab from "$lib/components/sidebar-content/PeopleTab.svelte";
+// Restore PeopleTab
   import EditTab from "$lib/components/sidebar-content/EditTab.svelte";
   import FiltersTab from "$lib/components/sidebar-content/FiltersTab.svelte";
   import * as Sidebar from "$lib/components/ui/sidebar";
@@ -12,6 +14,8 @@
   import Calendar from "lucide-svelte/icons/calendar";
   import Pencil from "lucide-svelte/icons/pencil";
   import SlidersHorizontal from "lucide-svelte/icons/sliders-horizontal";
+  import User from "lucide-svelte/icons/user";
+// Restore User icon
   import type { ComponentProps } from "svelte";
   import { untrack } from "svelte";
 
@@ -104,6 +108,14 @@
             <SlidersHorizontal class="size-4" />
             <span class="sr-only sm:not-sr-only">Filtry</span>
           </Tabs.Trigger>
+          <Tabs.Trigger
+            value="people"
+            class="flex-1 gap-2 data-[state=active]:bg-sidebar-accent data-[state=active]:text-sidebar-accent-foreground"
+            data-testid="app-sidebar-people-tab"
+          >
+            <User class="size-4" />
+            <span class="sr-only sm:not-sr-only">Lidé</span>
+          </Tabs.Trigger>
           {#if dev}
             <Tabs.Trigger
               value="edit"
@@ -124,7 +136,12 @@
       </Sidebar.Content>
     </Tabs.Content>
     <Tabs.Content value="filters" class="mt-0 h-full flex flex-col overflow-hidden">
-      <FiltersTab {authors} {aestheticStats} />
+      <FiltersTab {authors} qualityStats={aestheticStats} />
+    </Tabs.Content>
+    <Tabs.Content value="people" class="mt-0 h-full flex flex-col overflow-hidden">
+      <Sidebar.Content>
+        <PeopleTab />
+      </Sidebar.Content>
     </Tabs.Content>
     {#if dev}
       <Tabs.Content value="edit" class="mt-0 h-full flex flex-col overflow-hidden">

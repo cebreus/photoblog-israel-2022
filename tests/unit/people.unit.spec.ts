@@ -1,6 +1,6 @@
-import { describe, it, expect } from "vitest";
-import { getVisiblePeople } from "$lib/utils/people";
 import type { Person } from "$lib/types/manifest";
+import { getVisiblePeople } from "$lib/utils/people";
+import { describe, expect, it } from "vitest";
 
 describe("getVisiblePeople", () => {
   it("should filter out ignored people", () => {
@@ -47,5 +47,61 @@ describe("getVisiblePeople", () => {
     const result = getVisiblePeople(people);
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe("3");
+  });
+});
+
+import { enrichPeopleWithStats } from "$lib/utils/people";
+
+describe("enrichPeopleWithStats", () => {
+  const mockPeople = [
+    { id: "p1", name: "Alice", faceCount: 0, ignored: false },
+    { id: "p2", name: "Bob", faceCount: 0, ignored: false },
+    { id: "p3", name: "Charlie", faceCount: 0, ignored: false },
+  ] as Person[];
+
+  const mockPhotoDays = [
+    {
+      items: [
+        { type: "image", id: "img1", people: ["p1", "p2"] },
+        { type: "image", id: "img2", people: ["p1"] },
+        { type: "separator", id: "sep1" }, // Should be ignored
+        { type: "image", id: "img3", people: [] }, // No people
+      ],
+    },
+    {
+      items: [
+        { type: "image", id: "img4", people: ["p1", "p3"] },
+      ],
+    },
+  ] as any[];
+
+  it("should correctly count faces across multiple days and images", () => {
+    const result = enrichPeopleWithStats(mockPeople, mockPhotoDays);
+
+    const alice = result.find(p => p.id === "p1");
+    const bob = result.find(p => p.id === "p2");
+    const charlie = result.find(p => p.id === "p3");
+
+    // Alice: img1, img2, img4 = 3
+    expect(alice?.faceCount).toBe(3);
+    // Bob: img1 = 1
+    expect(bob?.faceCount).toBe(1);
+    // Charlie: img4 = 1
+    expect(charlie?.faceCount).toBe(1);
+  });
+
+  it("should return 0 for people not found in any images (p4)", () => {
+    const people = [...mockPeople, { id: "p4", name: "Dave", faceCount: 0 } as Person];
+    const result = enrichPeopleWithStats(people, mockPhotoDays);
+    const dave = result.find(p => p.id === "p4");
+    expect(dave?.faceCount).toBe(0);
+  });
+
+  it("should be immutable and return new objects", () => {
+    const output = enrichPeopleWithStats(mockPeople, mockPhotoDays);
+    expect(output).not.toBe(mockPeople);
+    expect(output[0]).not.toBe(mockPeople[0]);
+    // Inputs should remain unchanged
+    expect(mockPeople[0].faceCount).toBe(0);
   });
 });

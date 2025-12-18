@@ -1,12 +1,12 @@
-import path from "node:path";
 import { marked } from "marked";
+import path from "node:path";
 import type {
-  ImageEntry,
-  Manifest,
-  MenuManifest,
-  PhotoDay,
-  Separator,
-  StoryDataMap,
+    ImageEntry,
+    Manifest,
+    MenuManifest,
+    PhotoDay,
+    Separator,
+    StoryDataMap,
 } from "../../src/lib/types/manifest";
 import { toSlug } from "../../src/lib/utils/strings";
 import { normalizeAestheticScore } from "./aesthetic";
@@ -313,6 +313,18 @@ export function updateManifest(
     for (const result of dayResults) {
       // Remove previous version of this image if exists (to update it)
       const baseNameWithoutExt = path.basename(result.key, path.extname(result.key));
+      
+      // Preserve 'people' data from existing entry if available
+      const existingItem = day.items.find(item => {
+        if (item.type !== "image") return false;
+        const itemBaseName = path.basename(item.src, path.extname(item.src));
+        return itemBaseName === baseNameWithoutExt;
+      });
+
+      if (existingItem && existingItem.type === "image" && existingItem.people) {
+        result.image.people = [...existingItem.people];
+      }
+
       removeImagesWithBaseName(day, baseNameWithoutExt);
       day.items.push(result.image);
     }

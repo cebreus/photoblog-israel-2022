@@ -48,6 +48,7 @@ export type ImageEntry = {
   aspectRatio?: AspectRatio;
   placeholderColor?: string;
   placeholder?: string;
+  adminThumbUrl?: string;
   // convenience top-level fields derived from EXIF/IPTC
   author?: string;
   authorSlug?: string; // canonical slug for author, added at build time
