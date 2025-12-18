@@ -1,11 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import type { ImageEntry, PhotoDay, Separator } from "../../src/lib/types/manifest";
-import {
-  computeTotals,
-  filterGalleryItems,
-  getAestheticBucket,
-  mergeSparseDays,
-} from "../../src/lib/utils/gallery";
+import { computeTotals, filterGalleryItems, mergeSparseDays } from "../../src/lib/utils/gallery";
 
 // Mock the manifest imports that might be triggered by indirect dependencies
 vi.mock("$manifests/images.manifest.json", () => ({
@@ -31,29 +26,6 @@ vi.mock("../../src/lib/utils/images", () => ({
 }));
 
 describe("gallery utils", () => {
-  describe("getAestheticBucket", () => {
-    it("returns null for undefined score", () => {
-      expect(getAestheticBucket(undefined)).toBeNull();
-    });
-
-    it("returns 'excellent' for score >= 0.03", () => {
-      expect(getAestheticBucket(0.03)).toBe("excellent");
-      expect(getAestheticBucket(0.5)).toBe("excellent");
-      expect(getAestheticBucket(1.0)).toBe("excellent");
-    });
-
-    it("returns 'good' for score >= 0 and < 0.03", () => {
-      expect(getAestheticBucket(0)).toBe("good");
-      expect(getAestheticBucket(0.01)).toBe("good");
-      expect(getAestheticBucket(0.029)).toBe("good");
-    });
-
-    it("returns 'poor' for negative scores", () => {
-      expect(getAestheticBucket(-0.01)).toBe("poor");
-      expect(getAestheticBucket(-1)).toBe("poor");
-    });
-  });
-
   const mockImage1 = {
     type: "image",
     id: "img1",

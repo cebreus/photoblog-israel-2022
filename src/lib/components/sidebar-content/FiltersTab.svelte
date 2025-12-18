@@ -5,15 +5,14 @@
   import { ToggleGroup, ToggleGroupItem } from "$lib/components/ui/toggle-group";
   import { debug } from "$lib/stores/debug";
   import {
-    selectedAestheticBuckets,
     selectedAuthors,
+    selectedQualityBuckets,
     showSeparators,
     visiblePhotos,
   } from "$lib/stores/filters";
   import { showPhotoLabels } from "$lib/stores/photoLabels";
   import type { MenuDay } from "$lib/types/manifest";
-  import { AESTHETIC_BUCKETS } from "$lib/utils/gallery";
-  import { getPhotoDays } from "$lib/utils/images";
+  import { QUALITY_BUCKETS } from "$lib/utils/gallery";
   import { getMenuItems } from "$lib/utils/menu";
   import { toSlug } from "$lib/utils/strings";
   import Monitor from "lucide-svelte/icons/monitor";
@@ -31,9 +30,11 @@
   let {
     authors = [],
     aestheticStats = new Map(),
+    qualityStats = new Map(),
   } = $props<{
     authors?: AuthorStats[];
     aestheticStats?: Map<string, number>;
+    qualityStats?: Map<string, number>;
   }>();
 
   let totalPhotos = $state(0);
@@ -101,8 +102,8 @@
   }
 
 
-  function toggleAestheticBucket(bucketId: string) {
-    selectedAestheticBuckets.update((current) => {
+  function toggleQualityBucket(bucketId: string) {
+    selectedQualityBuckets.update((current) => {
       if (current.includes(bucketId)) {
         return current.filter((id) => id !== bucketId);
       }
@@ -118,15 +119,11 @@
 
   const aestheticCount = $derived(
     Array.from(aestheticStats.values() as IterableIterator<number>).reduce(
+  const qualityCount = $derived(
+    Array.from(qualityStats.values() as IterableIterator<number>).reduce(
       (sum: number, val: number) => sum + val,
       0,
     ),
-  );
-
-  const hasNonZeroScores = $derived(
-    getPhotoDays()?.some((d) =>
-      d.items?.some((i) => i.type === "image" && (i as any).analysis?.aestheticScore),
-    ) ?? false,
   );
 </script>
 
@@ -239,20 +236,21 @@
     {/if}
 
 
-    {#if aestheticStats.size > 0 && aestheticCount > 0 && hasNonZeroScores}
+
+    {#if qualityStats.size > 0 && qualityCount > 0}
       <div class="space-y-3 border-b px-6 py-4">
         <div class="flex items-center justify-between">
           <p class="text-sm font-semibold">Kvalita fotek</p>
         </div>
         <div class="flex flex-col gap-3">
-          {#each AESTHETIC_BUCKETS as bucket (bucket.id)}
-            {@const count = aestheticStats.get(bucket.id) ?? 0}
-            {@const isActive = $selectedAestheticBuckets.includes(bucket.id)}
+          {#each QUALITY_BUCKETS as bucket (bucket.id)}
+            {@const count = qualityStats.get(bucket.id) ?? 0}
+            {@const isActive = $selectedQualityBuckets.includes(bucket.id)}
             <label
               class={`flex cursor-pointer items-center justify-between text-sm ${
                 isActive ? "text-primary" : "text-slate-100"
               }`}
-              data-testid={`filters-tab-aesthetic-${bucket.id}`}
+              data-testid={`filters-tab-quality-${bucket.id}`}
             >
               <span class="flex items-center gap-2">
                 <span>{bucket.label}</span>
@@ -263,7 +261,7 @@
                 aria-label={isActive
                   ? `Vypnout filtr ${bucket.label}`
                   : `Zapnout filtr ${bucket.label}`}
-                onCheckedChange={() => toggleAestheticBucket(bucket.id)}
+                onCheckedChange={() => toggleQualityBucket(bucket.id)}
               />
             </label>
           {/each}

@@ -62,7 +62,7 @@ const mockDays: PhotoDay[] = [
 // Helper to update mock images with analysis score
 const withAnalysis = (item: any) => ({
   ...item,
-  analysis: { aestheticScore: 0 },
+  analysis: { aestheticScore: 0, qualityBucket: "good" as const },
 });
 
 // Update the items in mockDays

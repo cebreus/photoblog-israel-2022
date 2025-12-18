@@ -5,14 +5,14 @@ import { debug } from "$lib/stores/debug";
 import { editMode, selection, showMetadataOverlay } from "$lib/stores/editorState";
 import {
     filtersSyncing,
-    selectedAestheticBuckets,
     selectedAuthors,
+    selectedQualityBuckets,
     showSeparators
 } from "$lib/stores/filters";
 import { showPhotoLabels } from "$lib/stores/photoLabels";
 import { activeTab, isCurationMode, isSidebarOpen } from "$lib/stores/uiState";
 import type { Author } from "$lib/types/manifest";
-import { AESTHETIC_BUCKETS } from "$lib/utils/gallery";
+import { QUALITY_BUCKETS } from "$lib/utils/gallery";
 import { toSlug } from "$lib/utils/strings";
 import { get } from "svelte/store";
 
@@ -57,6 +57,41 @@ export function parseBooleanParam(value: string | null): boolean | undefined {
  */
 function encodeBooleanParam(value: boolean) {
   return value ? "true" : "false";
+}
+
+/**
+ * Helper to sync boolean values to URL params.
+ * @param params The search params object
+ * @param key The key to set/delete
+ * @param value The boolean value
+ * @param type 'presence' (key means true) or 'inverted-presence' (key means false)
+ */
+function syncBooleanParam(
+  params: URLSearchParams,
+  key: string,
+  value: boolean,
+  type: "presence" | "inverted-presence",
+) {
+  params.delete(key);
+  if (type === "presence" && value === true) {
+    params.set(key, "");
+  } else if (type === "inverted-presence" && value === false) {
+    params.set(key, "");
+  }
+}
+
+/**
+ * Helper to set or delete a param based on value existence.
+ * @param params The search params object
+ * @param key The key
+ * @param value The value (if falsy/empty, key is deleted)
+ */
+function setOrDeleteParam(params: URLSearchParams, key: string, value: string) {
+  if (value) {
+    params.set(key, value);
+  } else {
+    params.delete(key);
+  }
 }
 
 // --- Logic ---
@@ -113,10 +148,21 @@ export function initializeFiltersFromUrl(url: URL) {
     }
   }
 
-  // Aesthetic (Quality)
+  // Quality
   // If param exists, respect it (even if empty -> None).
   // If param missing, default to ALL.
   if (url.searchParams.has("quality")) {
+    const qualityParam = url.searchParams.get("quality");
+    if (qualityParam) {
+      const buckets = qualityParam.split(",").filter(Boolean);
+      selectedQualityBuckets.set(buckets);
+    } else {
+      selectedQualityBuckets.set([]); // If param exists but is empty, set to empty array
+    }
+  } else {
+    selectedQualityBuckets.set(QUALITY_BUCKETS.map((b) => b.id));
+  }
+
     const qualityCsv = url.searchParams.get("quality") || "";
     const buckets = qualityCsv.split(",").filter(Boolean);
     selectedAestheticBuckets.set(buckets);
@@ -125,7 +171,6 @@ export function initializeFiltersFromUrl(url: URL) {
   }
 
 
-  const separatorsParam = parseBooleanParam(url.searchParams.get("separators"));
   // Presence-only flag: `no-separators` (preferred) means disabled.
   if (url.searchParams.has("no-separators")) {
     showSeparators.set(false);
@@ -134,32 +179,36 @@ export function initializeFiltersFromUrl(url: URL) {
     if (separatorsParam !== undefined) showSeparators.set(separatorsParam);
   }
 
-  // Presence-only flag: `labels` (no value) means enabled.
-  // Presence-only flag: `labels` (no value) means enabled.
-  if (url.searchParams.has("labels")) {
-    const val = url.searchParams.get("labels");
+  // Helper for simple boolean params
+  const setBooleanFromUrl = (key: string, store: { set: (v: boolean) => void }) => {
+    if (url.searchParams.has(key)) {
+      const val = url.searchParams.get(key);
+      if (val === "" || val === null) {
+        store.set(true);
+      } else {
+        const parsed = parseBooleanParam(val);
+        if (parsed !== undefined) store.set(parsed);
+      }
+    }
+  };
+
+  setBooleanFromUrl("labels", showPhotoLabels);
+  setBooleanFromUrl("editMode", editMode);
+  setBooleanFromUrl("debug", debug);
+  setBooleanFromUrl("overlay", showMetadataOverlay);
+  setBooleanFromUrl("curation", isCurationMode);
+
+  // Special logic for sidebar (can be explicitly closed via sidebar=false)
+  if (url.searchParams.has("sidebar")) {
+    const val = url.searchParams.get("sidebar");
     if (val === "" || val === null) {
-      showPhotoLabels.set(true);
+      isSidebarOpen.set(true);
     } else {
       const parsed = parseBooleanParam(val);
-      if (parsed !== undefined) showPhotoLabels.set(parsed);
+      if (parsed !== undefined) isSidebarOpen.set(parsed);
     }
   } else {
-    // Start fresh or persist old? Original logic didn't unset it explicitly if missing,
-    // but the `else` block handled backward compat `labels=1/0` which `parseBooleanParam` handles?
-    // Actually the original `else` block:
-    // const labelsParam = parseBooleanParam(url.searchParams.get("labels"));
-    // if (labelsParam !== undefined) showPhotoLabels.set(labelsParam);
-    //
-    // Since we handle `has` first, we cover all cases inside the `if (has)`.
-    // If it DOES NOT have "labels", we generally do nothing (keep default or existing),
-    // UNLESS we want to enforce default false?
-    // The previous logic for `labels`:
-    // if (has("labels")) { set(true) } else { get("labels") ... }
-    // Wait, if !has("labels"), get("labels") is null.
-    // parseBooleanParam(null) is undefined.
-    // So the previous `else` block did NOTHING if param was missing.
-    // So my new replacement covers the `has` case fully.
+    isSidebarOpen.set(false);
   }
 
   const editCsv = url.searchParams.get("edit");
@@ -169,72 +218,12 @@ export function initializeFiltersFromUrl(url: URL) {
   } else {
     selection.set(new Set());
   }
-  // Presence-only flags: `editMode` and `debug` mean enabled when present.
-  // Presence-only flags: `editMode` and `debug` mean enabled when present.
-  if (url.searchParams.has("editMode")) {
-    const val = url.searchParams.get("editMode");
-    if (val === "" || val === null) {
-      editMode.set(true);
-    } else {
-      const parsed = parseBooleanParam(val);
-      if (parsed !== undefined) editMode.set(parsed);
-    }
-  }
-
-  if (url.searchParams.has("debug")) {
-    const val = url.searchParams.get("debug");
-    if (val === "" || val === null) {
-      debug.set(true);
-    } else {
-      const parsed = parseBooleanParam(val);
-      if (parsed !== undefined) debug.set(parsed);
-    }
-  }
-
-  // Presence-only flag: `overlay` means enabled.
-  if (url.searchParams.has("overlay")) {
-    const val = url.searchParams.get("overlay");
-    if (val === "" || val === null) {
-      showMetadataOverlay.set(true);
-    } else {
-      const parsed = parseBooleanParam(val);
-      if (parsed !== undefined) showMetadataOverlay.set(parsed);
-    }
-  }
 
   const tabParam = url.searchParams.get("tab");
   if (tabParam) {
     activeTab.set(tabParam);
   } else {
     activeTab.set("agenda");
-  }
-
-  // Presence-only flag: `sidebar` means enabled (open).
-  // Presence-only flag: `sidebar` means enabled (open).
-  if (url.searchParams.has("sidebar")) {
-    const val = url.searchParams.get("sidebar");
-    if (val === "" || val === null) {
-      isSidebarOpen.set(true);
-    } else {
-      const parsed = parseBooleanParam(val);
-      // Special case: `sidebar=false` should close it
-      if (parsed !== undefined) isSidebarOpen.set(parsed);
-    }
-  } else {
-    // If param is missing, we assume sidebar should be closed (or strictly follow URL state).
-    // User requested explicit param for OPEN state.
-    isSidebarOpen.set(false);
-  }
-
-  // Presence-only flag: `curation` means enabled.
-  if (url.searchParams.has("curation")) {
-    const val = url.searchParams.get("curation");
-    if (val === "" || val === null) {
-      isCurationMode.set(true);
-    } else {
-      const parsed = parseBooleanParam(val);
-      if (parsed !== undefined) isCurationMode.set(parsed);
-    }
   }
 }
 
@@ -270,35 +259,35 @@ export function syncUrlFromFilters() {
       params.set("authors", slugs.join(","));
     }
 
-    const $selectedAestheticBuckets = get(selectedAestheticBuckets);
-    const allAestheticIds = AESTHETIC_BUCKETS.map((b) => b.id);
-    const isAllAestheticSelected =
-      allAestheticIds.length === $selectedAestheticBuckets.length &&
-      allAestheticIds.every((id) => $selectedAestheticBuckets.includes(id));
+    // Quality
+    const $selectedQualityBuckets = get(selectedQualityBuckets);
+    const allQualityIds = QUALITY_BUCKETS.map((b) => b.id);
+    const isAllQualitySelected =
+      allQualityIds.length === $selectedQualityBuckets.length &&
+      allQualityIds.every((id) => $selectedQualityBuckets.includes(id));
 
-    if (isAllAestheticSelected) {
+    if (isAllQualitySelected) {
       params.delete("quality");
     } else {
-      params.set("quality", $selectedAestheticBuckets.join(","));
+      params.set("quality", $selectedQualityBuckets.join(","));
     }
 
 
+
+
+    // Only include non-default values in the URL so clearing filters removes the query string.
     // Only include non-default values in the URL so clearing filters removes the query string.
     const separatorsVal = get(showSeparators);
     // Prefer presence-only inverted flag `no-separators` to indicate disabled state.
     params.delete("separators");
-    if (separatorsVal === false) {
-      params.set("no-separators", "");
-    } else {
-      params.delete("no-separators");
-    }
+    syncBooleanParam(params, "no-separators", separatorsVal, "inverted-presence");
 
-    const labelsVal = get(showPhotoLabels);
-    // Presence-only flag `labels` means enabled.
-    params.delete("labels");
-    if (labelsVal === true) {
-      params.set("labels", "");
-    }
+    syncBooleanParam(params, "labels", get(showPhotoLabels), "presence");
+    syncBooleanParam(params, "editMode", get(editMode), "presence");
+    syncBooleanParam(params, "debug", get(debug), "presence");
+    syncBooleanParam(params, "overlay", get(showMetadataOverlay), "presence");
+    syncBooleanParam(params, "sidebar", get(isSidebarOpen), "presence");
+    syncBooleanParam(params, "curation", get(isCurationMode), "presence");
 
     const $selection = get(selection);
     if ($selection.size > 0) {
@@ -307,31 +296,11 @@ export function syncUrlFromFilters() {
       params.delete("edit");
     }
 
-    const editModeVal = get(editMode);
-    params.delete("editMode");
-    if (editModeVal === true) params.set("editMode", "");
-
-    const debugVal = get(debug);
-    params.delete("debug");
-    if (debugVal === true) params.set("debug", "");
-
-    const overlayVal = get(showMetadataOverlay);
-    params.delete("overlay");
-    if (overlayVal === true) params.set("overlay", "");
-
     const activeTabVal = get(activeTab);
     params.delete("tab");
     if (activeTabVal !== "agenda") {
       params.set("tab", activeTabVal);
     }
-
-    const isSidebarOpenVal = get(isSidebarOpen);
-    params.delete("sidebar");
-    if (isSidebarOpenVal === true) params.set("sidebar", "");
-
-    const isCurationModeVal = get(isCurationMode);
-    params.delete("curation");
-    if (isCurationModeVal === true) params.set("curation", "");
 
     // Serialize params but render presence-only keys without trailing '='
     const presenceOnlyKeys = new Set([
@@ -398,6 +367,7 @@ export function initUrlSync(initialAuthors: Author[]) {
 
   // 2. When filter stores change, update the URL
   selectedAuthors.subscribe(syncUrlFromFilters);
+  selectedQualityBuckets.subscribe(syncUrlFromFilters);
   selectedAestheticBuckets.subscribe(syncUrlFromFilters);
   showSeparators.subscribe(syncUrlFromFilters);
   showPhotoLabels.subscribe(syncUrlFromFilters);

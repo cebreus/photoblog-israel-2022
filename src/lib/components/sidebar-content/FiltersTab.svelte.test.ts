@@ -1,7 +1,7 @@
-import { selectedAuthors, showSeparators } from "$lib/stores/filters";
 import { describe, expect, it, vi } from "vitest";
-import { render } from "vitest-browser-svelte";
 import { page } from "vitest/browser";
+import { render } from "vitest-browser-svelte";
+import { selectedAuthors, showSeparators } from "$lib/stores/filters";
 import FiltersTab from "./FiltersTab.svelte";
 
 // Mock Stores Inlined to avoid Hoisting
@@ -38,7 +38,15 @@ vi.mock("$lib/stores/filters", () => {
       return () => {};
     }),
   };
-  const selectedAestheticBuckets = {
+  const selectedQualityBuckets = {
+    subscribe: vi.fn((fn: any) => {
+      fn([]);
+      return () => {};
+    }),
+    update: vi.fn(),
+    set: vi.fn(),
+  };
+  const selectedPeople = {
     subscribe: vi.fn((fn: any) => {
       fn([]);
       return () => {};
@@ -50,6 +58,7 @@ vi.mock("$lib/stores/filters", () => {
     selectedAuthors,
     showSeparators,
     visiblePhotos,
+    selectedQualityBuckets,
     selectedAestheticBuckets,
   };
 });
@@ -74,14 +83,14 @@ vi.mock("$lib/utils/images", () => ({
 }));
 
 vi.mock("$lib/utils/gallery", () => ({
-  AESTHETIC_BUCKETS: [
-    { id: "excellent", label: "Excelentní", min: 0.03 },
-    { id: "good", label: "Dobré", min: 0 },
-    { id: "poor", label: "Podprůměrné", min: -Infinity },
+  QUALITY_BUCKETS: [
+    { id: "excellent", label: "Excelentní" },
+    { id: "good", label: "Dobré" },
+    { id: "poor", label: "Podprůměrné" },
   ],
-  getAestheticBucket: vi.fn(),
   toggleAuthor: vi.fn(),
   toggleAestheticBucket: vi.fn(),
+  toggleQualityBucket: vi.fn(),
 }));
 
 // Mock Mode Watcher
@@ -130,6 +139,7 @@ describe("FiltersTab", () => {
     expect(selectedAuthors.update).toHaveBeenCalled();
   });
 
+  it("renders quality and people filters when data is present", async () => {
   it("renders quality filter when data is present", async () => {
     const aestheticStats = new Map([["excellent", 5]]);
 
@@ -145,32 +155,19 @@ describe("FiltersTab", () => {
         ],
       },
     ] as any);
+    const qualityStats = new Map([["excellent", 5]]);
 
     render(FiltersTab, { authors, aestheticStats });
 
     await expect.element(page.getByTestId("filters-tab-aesthetic-excellent")).toBeVisible();
+    await expect.element(page.getByTestId("filters-tab-quality-excellent")).toBeVisible();
   });
 
-  it("hides quality filter if no aesthetic analysis exists in manifest", async () => {
-    const aestheticStats = new Map([["excellent", 5]]);
+  it("hides quality filter if no quality stats exists", async () => {
+    const qualityStats = new Map();
 
-    // Mock getPhotoDays to return no scores
-    const { getPhotoDays } = await import("$lib/utils/images");
-    vi.mocked(getPhotoDays).mockReturnValue([
-      {
-        items: [
-          {
-            type: "image",
-            analysis: {}, // No aestheticScore
-          },
-        ],
-      },
-    ] as any);
+    render(FiltersTab, { authors, qualityStats });
 
-    render(FiltersTab, { authors, aestheticStats });
-
-    await expect
-      .element(page.getByTestId("filters-tab-aesthetic-excellent"))
-      .not.toBeInTheDocument();
+    await expect.element(page.getByTestId("filters-tab-quality-excellent")).not.toBeInTheDocument();
   });
 });

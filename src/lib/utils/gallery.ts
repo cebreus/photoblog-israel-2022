@@ -1,27 +1,32 @@
-import type { ImageEntry, PhotoDay, PhotoDayItem } from "$lib/types/manifest";
+import type { ImageEntry, PhotoDay, PhotoDayItem, QualityBucket } from "$lib/types/manifest";
 import { getPhotoDays } from "$lib/utils/images";
 
-export type AestheticBucket = "excellent" | "good" | "poor";
+// Helper removed: getAestheticBucket is now handled at build time in scripts/lib/manifest-builder.ts
 
-export function getAestheticBucket(score: number | undefined): AestheticBucket | null {
-  if (score === undefined) return null;
-  if (score >= 0.03) return "excellent";
-  if (score >= 0) return "good";
-  return "poor";
-}
-
-export const AESTHETIC_BUCKETS: { id: AestheticBucket; label: string; min: number }[] = [
-  { id: "excellent", label: "Excelentní", min: 0.03 },
-  { id: "good", label: "Dobré", min: 0 },
-  { id: "poor", label: "Podprůměrné", min: -Infinity }, // or just fallback
+export const QUALITY_BUCKETS: { id: QualityBucket; label: string }[] = [
+  { id: "excellent", label: "Excelentní" },
+  { id: "good", label: "Dobré" },
+  { id: "poor", label: "Podprůměrné" },
 ];
+
+const ALL_QUALITY_BUCKET_IDS = QUALITY_BUCKETS.map((b) => b.id);
 
 export function filterGalleryItems(
   items: PhotoDayItem[],
   selectedAuthors: string[],
   showSeparators: boolean,
+  selectedQualityBuckets: QualityBucket[] = [],
   selectedAestheticBuckets: string[] = [],
 ): PhotoDayItem[] {
+  // Hoist static data fetching out of loop if possible, or cache it.
+  // Actually, filter callback runs per item. We can't easily hoist OUT of `items.filter`
+  // However, calling it repeatedly inside the loop is still overhead if it does property access.
+  // Ideally, we should fetch it once.
+
+
+  // Check if we are in "Show All" mode (default)
+  const isDefaultView = ALL_QUALITY_BUCKET_IDS.every((b) => selectedQualityBuckets.includes(b));
+
   return items.filter((item) => {
     if (item.type === "separator") {
       return showSeparators;
@@ -29,24 +34,12 @@ export function filterGalleryItems(
     // item is ImageEntry
     const img = item as ImageEntry;
 
-    // Aesthetic Score Filter (Bucket-based)
-    // Aesthetic Score Filter (Bucket-based)
-    // Logic:
-    // 1. If currently selected buckets match the full set of defaults ("excellent", "good", "poor"),
-    //    we assume the user wants to see "everything", including unrated photos. (Default View)
-    // 2. If the user has explicitly deselected some buckets (subset), we switch to strict mode:
-    //    only show photos that strictly match the remaining selected buckets. Unrated photos are hidden.
-
-    // Check if we are in "Show All" mode (default)
-    const allBuckets = ["excellent", "good", "poor"];
-    const isDefaultView = allBuckets.every((b) => selectedAestheticBuckets.includes(b));
-
+    // Quality Filter
     if (!isDefaultView) {
       // Strict filtering active
-      const score = img.analysis?.aestheticScore;
-      const bucket = getAestheticBucket(score);
+      const bucket = img.analysis?.qualityBucket;
 
-      if (!bucket || !selectedAestheticBuckets.includes(bucket)) {
+      if (!bucket || !selectedQualityBuckets.includes(bucket)) {
         return false;
       }
     }
@@ -62,6 +55,7 @@ export function filterGalleryItems(
 export function computeTotals(
   selectedAuthors: string[],
   showSeparators: boolean,
+  selectedQualityBuckets: QualityBucket[],
   selectedAestheticBuckets: string[],
   photoDaysData: PhotoDay[] = getPhotoDays(),
 ): { visiblePhotos: number; totalLocations: number } {
@@ -75,6 +69,7 @@ export function computeTotals(
       day.items,
       selectedAuthors,
       showSeparators,
+      selectedQualityBuckets,
       selectedAestheticBuckets,
     );
 

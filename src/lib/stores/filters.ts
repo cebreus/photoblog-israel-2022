@@ -1,10 +1,12 @@
-import { AESTHETIC_BUCKETS, computeTotals, filterGalleryItems } from "$lib/utils/gallery";
+import type { QualityBucket } from "$lib/types/manifest";
+import { computeTotals, filterGalleryItems, QUALITY_BUCKETS } from "$lib/utils/gallery";
 import { getPhotoDays } from "$lib/utils/images";
 import { derived, writable } from "svelte/store";
 
 export const selectedAuthors = writable<string[]>([]);
 export const showSeparators = writable(true);
 // Default to all buckets selected (subtractive logic)
+export const selectedQualityBuckets = writable<QualityBucket[]>(QUALITY_BUCKETS.map((b) => b.id));
 export const selectedAestheticBuckets = writable<string[]>(AESTHETIC_BUCKETS.map((b) => b.id));
 export const filtersSyncing = writable(false);
 
@@ -20,6 +22,7 @@ export const filteredPhotoDays = derived(
           day.items,
           $selectedAuthors,
           $showSeparators,
+          $selectedQualityBuckets,
           $selectedAestheticBuckets,
         ),
       }))

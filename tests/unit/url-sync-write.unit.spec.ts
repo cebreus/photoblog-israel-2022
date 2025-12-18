@@ -47,7 +47,7 @@ vi.mock("$lib/stores/filters", () => {
     filtersSyncing: createMockStore(false),
     selectedAuthors: createMockStore([]),
     showSeparators: createMockStore(true),
-    selectedAestheticBuckets: createMockStore(["excellent", "good", "poor"]),
+    selectedQualityBuckets: createMockStore(["excellent", "good", "poor"]),
     selectedPeople: createMockStore([]),
   };
 });
@@ -118,11 +118,11 @@ import { goto } from "$app/navigation";
 import { page } from "$app/stores";
 import { selection } from "$lib/stores/editorState";
 import {
-  filtersSyncing,
-  selectedAestheticBuckets,
-  selectedAuthors,
-  selectedPeople,
-  showSeparators,
+    filtersSyncing,
+    selectedAuthors,
+    selectedPeople,
+    selectedQualityBuckets,
+    showSeparators,
 } from "$lib/stores/filters";
 import { showPhotoLabels } from "$lib/stores/photoLabels";
 import { isSidebarOpen } from "$lib/stores/uiState";
@@ -135,7 +135,7 @@ describe("syncUrlFromFilters", () => {
 
     // Reset all stores to default state
     (selectedAuthors as any).set([]);
-    (selectedAestheticBuckets as any).set(["excellent", "good", "poor"]);
+    (selectedQualityBuckets as any).set(["excellent", "good", "poor"]);
     (selectedPeople as any).set([]);
     (showSeparators as any).set(true);
     (showPhotoLabels as any).set(false);
@@ -186,7 +186,7 @@ describe("syncUrlFromFilters", () => {
   });
 
   it("builds URL with quality param (non-default)", async () => {
-    (selectedAestheticBuckets as any).set(["great"]);
+    (selectedQualityBuckets as any).set(["great"]);
 
     syncUrlFromFilters();
     await vi.advanceTimersByTimeAsync(300);
@@ -195,7 +195,7 @@ describe("syncUrlFromFilters", () => {
   });
 
   it("omits quality param when all buckets selected (default)", async () => {
-    (selectedAestheticBuckets as any).set(["excellent", "good", "poor"]);
+    (selectedQualityBuckets as any).set(["excellent", "good", "poor"]);
 
     syncUrlFromFilters();
     await vi.advanceTimersByTimeAsync(300);

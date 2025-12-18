@@ -52,7 +52,12 @@ export function formatDateRange(dates: string[]): string {
 
   if (dates.length === 2) {
     if (sameMonth && sameYear) {
-      return `${d1}. a ${dLast}. ${formatMonthYear.format(first)}`;
+      // "21. listopadu 2025" -> parts: ["21.", "listopadu", "2025"]
+      const fullOne = formatDateForDisplay(sorted[0]);
+      const parts = fullOne.split(" ");
+      parts.shift(); // remove "21."
+      const suffix = parts.join(" "); // "listopadu 2025"
+      return `${d1}. a ${dLast}. ${suffix}`;
     }
     return `${formatDateForDisplay(sorted[0])} a ${formatDateForDisplay(sorted[1])}`;
   }

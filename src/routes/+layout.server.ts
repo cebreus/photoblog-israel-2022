@@ -1,6 +1,5 @@
 import { getCurationManifest, getMenuItems, getPhotoDays, getSiteManifest } from "$lib";
 import type { Author, MenuManifest, PhotoDay, SiteManifest } from "$lib/types/manifest";
-import { getAestheticBucket } from "$lib/utils/gallery"; // Corrected import
 import { toSlug } from "$lib/utils/strings";
 
 function gatherAuthors(photoDays: PhotoDay[]): Author[] {
@@ -27,15 +26,15 @@ function gatherAuthors(photoDays: PhotoDay[]): Author[] {
 }
 
 
-function gatherAestheticStats(photoDays: PhotoDay[]): Map<string, number> {
+
+function gatherQualityStats(photoDays: PhotoDay[]): Map<string, number> {
   const counts = new Map<string, number>();
 
   for (const day of photoDays) {
     for (const item of day.items) {
       if (item.type !== "image") continue;
 
-      const score = item.analysis?.aestheticScore;
-      const bucket = getAestheticBucket(score);
+      const bucket = item.analysis?.qualityBucket;
       if (bucket) {
         counts.set(bucket, (counts.get(bucket) ?? 0) + 1);
       }
@@ -50,6 +49,7 @@ export const load = async () => {
   const menuItems: MenuManifest = getMenuItems();
   const authors: Author[] = gatherAuthors(photoDays);
   const aestheticStats = gatherAestheticStats(photoDays);
+  const qualityStats = gatherQualityStats(photoDays);
   const siteManifest: SiteManifest = getSiteManifest();
   const curationManifest = getCurationManifest();
 
@@ -58,6 +58,7 @@ export const load = async () => {
     menuItems,
     authors,
     aestheticStats,
+    qualityStats,
     siteManifest,
     curationManifest,
   };

@@ -38,7 +38,7 @@ vi.mock("$lib/stores/filters", () => ({
   filtersSyncing: { set: vi.fn() },
   selectedAuthors: { set: vi.fn(), subscribe: vi.fn() },
   showSeparators: { set: vi.fn(), subscribe: vi.fn() },
-  selectedAestheticBuckets: { set: vi.fn(), subscribe: vi.fn() },
+  selectedQualityBuckets: { set: vi.fn(), subscribe: vi.fn() },
   selectedPeople: { set: vi.fn(), subscribe: vi.fn() },
 }));
 vi.mock("$lib/stores/photoLabels", () => ({
@@ -59,10 +59,10 @@ import { initializeFiltersFromUrl, parseBooleanParam } from "../../src/lib/store
 // Import mocked stores
 import { showMetadataOverlay } from "$lib/stores/editorState";
 import {
-  selectedAestheticBuckets,
-  selectedAuthors,
-  selectedPeople,
-  showSeparators,
+    selectedAuthors,
+    selectedPeople,
+    selectedQualityBuckets,
+    showSeparators,
 } from "$lib/stores/filters";
 import { showPhotoLabels } from "$lib/stores/photoLabels";
 import { activeTab, isCurationMode, isSidebarOpen } from "$lib/stores/uiState";
@@ -140,7 +140,7 @@ describe("initializeFiltersFromUrl", () => {
 
     it("parses quality CSV", () => {
       initializeFiltersFromUrl(new URL("https://example.com/?quality=great,good"));
-      expect(selectedAestheticBuckets.set).toHaveBeenCalledWith(["great", "good"]);
+      expect(selectedQualityBuckets.set).toHaveBeenCalledWith(["great", "good"]);
     });
 
     it("parses people CSV", () => {
@@ -196,12 +196,12 @@ describe("initializeFiltersFromUrl", () => {
 
     it("handles empty quality param as 'none selected'", () => {
       initializeFiltersFromUrl(new URL("https://example.com/?quality="));
-      expect(selectedAestheticBuckets.set).toHaveBeenCalledWith([]);
+      expect(selectedQualityBuckets.set).toHaveBeenCalledWith([]);
     });
 
     it("defaults to all quality buckets when param missing", () => {
       initializeFiltersFromUrl(new URL("https://example.com/"));
-      expect(selectedAestheticBuckets.set).toHaveBeenCalledWith(["excellent", "good", "poor"]);
+      expect(selectedQualityBuckets.set).toHaveBeenCalledWith(["excellent", "good", "poor"]);
     });
 
     it("handles mixed presence-only and valued params", () => {

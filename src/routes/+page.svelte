@@ -7,9 +7,9 @@
   import { Button } from "$lib/components/ui/button";
   import { editMode, selection } from "$lib/stores/editorState";
   import {
-    selectedAestheticBuckets,
     selectedAuthors,
     selectedPeople,
+    selectedQualityBuckets,
     showSeparators,
   } from "$lib/stores/filters";
   import type { ImageEntry, PhotoDay, Separator } from "$lib/types/manifest";
@@ -33,7 +33,7 @@
           day.items,
           $selectedAuthors,
           $showSeparators,
-          $selectedAestheticBuckets,
+          $selectedQualityBuckets,
           $selectedPeople,
         ),
       }))
