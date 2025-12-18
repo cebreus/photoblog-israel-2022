@@ -6,9 +6,12 @@ import fsp from "node:fs/promises";
 import path from "node:path";
 
 export async function POST({ request }) {
-  const { personId, imageId } = await request.json();
+  const { personId, imageId, imageIds } = await request.json();
 
-  if (!personId || !imageId) {
+  // Support both single imageId and array imageIds
+  const idsToUnmatch = imageIds || (imageId ? [imageId] : []);
+
+  if (!personId || idsToUnmatch.length === 0) {
     return json({ success: false, error: "Missing parameters" }, { status: 400 });
   }
 
@@ -36,77 +39,84 @@ export async function POST({ request }) {
       return json({ success: false, error: "Person not found" }, { status: 404 });
     }
 
-    // Create NEW person
-    const name = `Odpojeno z ${sourcePerson.name}`;
-    const slug = toSlug(name);
+    const processedNewPeople = [];
+    const idSet = new Set(idsToUnmatch);
 
-    const uuid = crypto.randomUUID().slice(0, 8);
-    const newPersonId = `person-${uuid}--${slug}`;
+    for (const id of idsToUnmatch) {
+      // Create NEW person
+      const name = `Odpojeno z ${sourcePerson.name}`;
+      const slug = toSlug(name);
 
-    const newPerson = {
-      id: newPersonId,
-      name,
-      // Empty descriptor since we don't have the specific face vector here
-      faceDescriptor: [],
-      faceCount: 1,
-      thumbnail: `faces/${newPersonId}/${imageId}.jpg`,
-      ignored: false,
-      createdAt: new Date().toISOString(),
-      lastSeenAt: new Date().toISOString(),
-    };
+      const uuid = crypto.randomUUID().slice(0, 8);
+      const newPersonId = `person-${uuid}--${slug}`;
 
-    // Add new person to manifest
-    peopleManifest.people.push(newPerson);
+      const newPerson = {
+        id: newPersonId,
+        name,
+        // Empty descriptor since we don't have the specific face vector here
+        faceDescriptor: [],
+        faceCount: 1,
+        thumbnail: `faces/${newPersonId}/${id}.jpg`,
+        ignored: false,
+        createdAt: new Date().toISOString(),
+        lastSeenAt: new Date().toISOString(),
+      };
 
-    // Update Image in Manifest
-    let imageUpdated = false;
-    for (const day of imagesManifest.photoDays) {
-      for (const item of day.items) {
-        if (item.type === "image" && item.id === imageId) {
-          const img = item as ImageEntry;
-          if (img.people && img.people.includes(personId)) {
-            // Remove old person
-            img.people = img.people.filter((id) => id !== personId);
-            // Add new person
-            img.people.push(newPersonId);
-            imageUpdated = true;
+      // Add new person to manifest
+      peopleManifest.people.push(newPerson);
+      processedNewPeople.push(newPerson);
+
+      // Update Image in Manifest
+      let imageUpdated = false;
+      for (const day of imagesManifest.photoDays) {
+        for (const item of day.items) {
+          if (item.type === "image" && item.id === id) {
+            const img = item as ImageEntry;
+            if (img.people && img.people.includes(personId)) {
+              // Remove old person
+              img.people = img.people.filter((pid) => pid !== personId);
+              // Add new person
+              img.people.push(newPersonId);
+              imageUpdated = true;
+            }
           }
         }
       }
-    }
 
-    if (!imageUpdated) {
-      return json({ success: false, error: "Image/Person link not found" }, { status: 404 });
-    }
+      if (!imageUpdated) {
+        console.warn(`[UNMATCH] Image ${id} or person link not found, skipping move`);
+        continue;
+      }
 
-    // Move File
-    const oldPath = path.resolve(facesDir, personId, `${imageId}.jpg`);
-    const newDir = path.resolve(facesDir, newPersonId);
-    const newPath = path.resolve(newDir, `${imageId}.jpg`);
+      // Move File
+      const oldPath = path.resolve(facesDir, personId, `${id}.jpg`);
+      const newDir = path.resolve(facesDir, newPersonId);
+      const newPath = path.resolve(newDir, `${id}.jpg`);
 
-    await fsp.mkdir(newDir, { recursive: true });
+      await fsp.mkdir(newDir, { recursive: true });
 
-    // Check if file exists
-    try {
-      await fsp.rename(oldPath, newPath);
-    } catch (e) {
-      // If file missing, we proceed (manifest update is key).
-      // But likely we should log.
-      console.warn(`[UNMATCH] File move failed: ${oldPath} -> ${newPath}`);
+      // Check if file exists
+      try {
+        await fsp.rename(oldPath, newPath);
+      } catch (e) {
+        console.warn(`[UNMATCH] File move failed: ${oldPath} -> ${newPath}`);
+      }
     }
 
     // Update counts
-    sourcePerson.faceCount = Math.max(0, sourcePerson.faceCount - 1);
+    sourcePerson.faceCount = Math.max(0, sourcePerson.faceCount - idsToUnmatch.length);
 
     // Check if we removed the thumbnail OR if we need to re-validate it
-    // We always check if faceCount > 0
     if (sourcePerson.faceCount > 0) {
       const sourceDir = path.resolve(facesDir, personId);
       let needsNewThumbnail = false;
 
-      // 1. Check if current thumbnail matches the removed image ID
-      if (!sourcePerson.thumbnail || sourcePerson.thumbnail.includes(imageId)) {
-        console.log(`[UNMATCH] Thumbnail matches removed image ${imageId}, invalidating...`);
+      // 1. Check if current thumbnail matches any of the removed image IDs
+      if (
+        !sourcePerson.thumbnail ||
+        idsToUnmatch.some((id: string) => sourcePerson.thumbnail?.includes(id))
+      ) {
+        console.log(`[UNMATCH] Thumbnail matches one of removed images, invalidating...`);
         needsNewThumbnail = true;
       }
 
@@ -130,32 +140,23 @@ export async function POST({ request }) {
       if (needsNewThumbnail) {
         console.log(`[UNMATCH] Searching for new thumbnail for ${sourcePerson.name}...`);
         try {
-          // List remaining files in the source person's directory to pick a new thumbnail
           const files = await fsp.readdir(sourceDir);
-
-          // Filter for jpg files and exclude the one we just moved (though it should be gone)
           const validImages = files
-            .filter((f) => f.endsWith(".jpg") && !f.includes(imageId) && !f.startsWith("."))
-            .sort(); // Sort for deterministic selection
+            .filter(
+              (f) => f.endsWith(".jpg") && !idSet.has(f.replace(".jpg", "")) && !f.startsWith("."),
+            )
+            .sort();
 
           if (validImages.length > 0) {
-            // Pick the first one
             sourcePerson.thumbnail = `faces/${personId}/${validImages[0]}`;
-            console.log(`[UNMATCH] New thumbnail selected: ${sourcePerson.thumbnail}`);
           } else {
-            // No images left (should be impossible if faceCount > 0, but safety fallback)
             sourcePerson.thumbnail = "";
-            console.warn(
-              `[UNMATCH] WARNING: Face count is ${sourcePerson.faceCount} but no images found in ${sourceDir}`,
-            );
           }
         } catch (e) {
-          console.error(`[UNMATCH] Failed to scan directory ${sourceDir}:`, e);
           sourcePerson.thumbnail = "";
         }
       }
     } else {
-      // faceCount is 0
       sourcePerson.thumbnail = "";
     }
 
@@ -163,7 +164,7 @@ export async function POST({ request }) {
     await fsp.writeFile(peopleManifestPath, JSON.stringify(peopleManifest, null, 2));
     await fsp.writeFile(imagesManifestPath, JSON.stringify(imagesManifest, null, 2));
 
-    // Save Disconnection Constraint (for future AI clustering)
+    // Save Disconnection Constraints
     const constraintsPath = path.resolve(
       process.cwd(),
       `src/data/${contentDir}/clustering-constraints.json`,
@@ -176,22 +177,18 @@ export async function POST({ request }) {
       try {
         const data = await fsp.readFile(constraintsPath, "utf-8");
         constraints = JSON.parse(data);
-      } catch (e) {
-        // File doesn't exist or is invalid, start clean
-      }
+      } catch (e) {}
 
       if (!constraints.disconnects) constraints.disconnects = [];
 
-      // Add constraint: This imageId CANNOT belong to sourcePersonId
-      constraints.disconnects.push({ imageId, personId: personId });
+      for (const id of idsToUnmatch) {
+        constraints.disconnects.push({ imageId: id, personId: personId });
+      }
 
       await fsp.writeFile(constraintsPath, JSON.stringify(constraints, null, 2));
-    } catch (e) {
-      console.error("Failed to save clustering constraints:", e);
-      // Non-critical, but logging it.
-    }
+    } catch (e) {}
 
-    return json({ success: true, newPerson });
+    return json({ success: true, count: idsToUnmatch.length });
   } catch (error) {
     console.error("[UNMATCH] Error:", error);
     return json({ success: false, error: "Internal Error" }, { status: 500 });

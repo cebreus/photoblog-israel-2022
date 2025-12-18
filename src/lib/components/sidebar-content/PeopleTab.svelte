@@ -2,6 +2,8 @@
   import { dev } from "$app/environment";
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
+  import { untrack } from "svelte";
+
   import PersonDetailDialog from "$lib/components/PersonDetailDialog.svelte";
   import PersonIgnoreConfirmDialog from "$lib/components/PersonIgnoreConfirmDialog.svelte";
   import PersonMergeDialog from "$lib/components/PersonMergeDialog.svelte";
@@ -75,30 +77,36 @@
   // Sync URL state for person detail (survives HMR/reload)
   $effect(() => {
     const personId = $page.url.searchParams.get("person");
-    // 1. URL has person -> Open Dialog
-    if (personId && people.length > 0) {
-      if (!showPersonDetail || detailPerson?.id !== personId) {
-        const p = people.find((x) => x.id === personId);
-        if (p) {
-          detailPerson = p;
-          showPersonDetail = true;
+    const currentPeople = people;
+
+    untrack(() => {
+      // 1. URL has person -> Open Dialog if not already open for this person
+      if (personId && currentPeople.length > 0) {
+        if (!showPersonDetail || detailPerson?.id !== personId) {
+          const p = currentPeople.find((x) => x.id === personId);
+          if (p) {
+            detailPerson = p;
+            showPersonDetail = true;
+          }
         }
       }
-    }
-    // 2. URL has NO person -> Close Dialog (if open and we strictly follow URL)
-    // We only do this if we want Back button support.
-    else if (!personId && showPersonDetail) {
-      showPersonDetail = false;
-      detailPerson = null;
-    }
+      // 2. URL has NO person -> Close Dialog (if open and we strictly follow URL)
+      else if (!personId && showPersonDetail) {
+        showPersonDetail = false;
+        detailPerson = null;
+      }
+    });
   });
 
   // When dialog is closed via UI (e.g. Escape or Click Outside), update URL
   $effect(() => {
-    if (!showPersonDetail && $page.url.searchParams.has("person")) {
-      const url = new URL($page.url);
-      url.searchParams.delete("person");
-      goto(url, { replaceState: true, noScroll: true, keepFocus: true });
+    if (!showPersonDetail) {
+      const hasPersonParam = untrack(() => $page.url.searchParams.has("person"));
+      if (hasPersonParam) {
+        const url = new URL($page.url);
+        url.searchParams.delete("person");
+        goto(url, { replaceState: true, noScroll: true, keepFocus: true });
+      }
     }
   });
 
@@ -686,6 +694,7 @@
         bind:open={showMergeConfirmDialog}
         {sourcePerson}
         {targetPerson}
+        {urlPrefix}
         onConfirm={async () => {
           await confirmMerge();
         }}

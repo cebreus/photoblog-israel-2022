@@ -3,7 +3,11 @@
   import * as Dialog from "$lib/components/ui/dialog";
   import { peopleBase } from "$lib/stores/people-store";
   import type { ImageEntry, Person } from "$lib/types/manifest";
+  import Check from "lucide-svelte/icons/check";
+  import CheckCheck from "lucide-svelte/icons/check-check";
+  import Loader2 from "lucide-svelte/icons/loader-2";
   import Trash2 from "lucide-svelte/icons/trash-2";
+  import X from "lucide-svelte/icons/x";
 
   const photoDaysStore = peopleBase.photoDays;
 
@@ -42,28 +46,60 @@
     })),
   );
 
+  let isWorking = $state(false);
+  let selectedIds = $state<Set<string>>(new Set());
+
+  function toggleSelection(imageId: string) {
+    if (selectedIds.has(imageId)) {
+      selectedIds.delete(imageId);
+    } else {
+      selectedIds.add(imageId);
+    }
+    selectedIds = new Set(selectedIds); // Trigger reactivity
+  }
+
+  function selectAll() {
+    selectedIds = new Set(crops.map((c) => c.id));
+  }
+
+  function clearSelection() {
+    selectedIds = new Set();
+  }
+
   async function unmatchFace(imageId: string) {
     if (!confirm("Opravdu vyjmout tuto fotku? Vytvoří se nová osoba 'Odpojeno...'.")) return;
+    await performUnmatch([imageId]);
+  }
 
+  async function unmatchSelected() {
+    const count = selectedIds.size;
+    if (count === 0) return;
+    if (!confirm(`Opravdu vyjmout ${count} fotek? Vytvoří se nové osoby 'Odpojeno...'.`)) return;
+
+    await performUnmatch(Array.from(selectedIds));
+    selectedIds = new Set();
+  }
+
+  async function performUnmatch(imageIds: string[]) {
+    isWorking = true;
     try {
       const res = await fetch("/api/people/unmatch", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ personId: person.id, imageId }),
+        body: JSON.stringify({ personId: person.id, imageIds }),
       });
 
       if (res.ok) {
         // Trigger update in parent
         onUpdate?.();
-        // Optimistically remove from view if we want, but reload is safer
-        // Actually since personImages is derived from getPhotoDays, and getPhotoDays is NOT reactive to API...
-        // We rely on parent reloading data.
       } else {
-        alert("Chyba při oddělování fotky.");
+        alert("Chyba při oddělování fotek.");
       }
     } catch (e) {
       console.error(e);
       alert("Chyba komunikace.");
+    } finally {
+      isWorking = false;
     }
   }
 </script>
@@ -71,19 +107,35 @@
 <Dialog.Root bind:open>
   <Dialog.Content class="max-w-5xl h-[80vh] flex flex-col p-0 gap-0">
     <Dialog.Header class="px-6 py-4 border-b">
-      <Dialog.Title class="flex items-center gap-2" data-testid="person-detail-dialog-title">
-        {#if person.thumbnail}
-          <img
-            src={`${urlPrefix}/${person.thumbnail}`}
-            class="w-8 h-8 rounded-full object-cover"
-            alt={person.name}
-          />
+      <div class="flex items-center justify-between">
+        <Dialog.Title class="flex items-center gap-2" data-testid="person-detail-dialog-title">
+          {#if person.thumbnail}
+            <img
+              src={`${urlPrefix}/${person.thumbnail}`}
+              class="w-8 h-8 rounded-full object-cover"
+              alt={person.name}
+            />
+          {/if}
+          {person.name}
+          <span class="text-muted-foreground font-normal text-sm ml-2">
+            ({crops.length} detekcí)
+          </span>
+        </Dialog.Title>
+
+        {#if crops.length > 0}
+          <div class="flex items-center gap-2">
+            {#if selectedIds.size > 0}
+              <Button variant="outline" size="sm" onclick={clearSelection} class="h-8 rounded-full">
+                <X class="w-3 h-3 mr-1" /> Zrušit výběr ({selectedIds.size})
+              </Button>
+            {:else}
+              <Button variant="ghost" size="sm" onclick={selectAll} class="h-8 rounded-full">
+                <CheckCheck class="w-3 h-3 mr-1" /> Vybrat vše
+              </Button>
+            {/if}
+          </div>
         {/if}
-        {person.name}
-        <span class="text-muted-foreground font-normal text-sm ml-2">
-          ({crops.length} detekcí)
-        </span>
-      </Dialog.Title>
+      </div>
       <Dialog.Description class="sr-only">
         Detail osoby a všechny detekované tváře
       </Dialog.Description>
@@ -101,16 +153,29 @@
           data-testid="person-detail-crop-grid"
         >
           {#each crops as crop}
+            {@const isSelected = selectedIds.has(crop.id)}
+            <!-- svelte-ignore a11y_click_events_have_key_events -->
+            <!-- svelte-ignore a11y_no_static_element_interactions -->
             <div
-              class="flex flex-col bg-background rounded-lg shadow-sm border overflow-hidden"
+              class={`flex flex-col bg-background rounded-lg shadow-sm border overflow-hidden transition-all cursor-pointer relative ${isSelected ? "ring-2 ring-primary border-primary bg-primary/5" : "hover:border-primary/50"}`}
               data-testid="person-detail-crop-item"
+              onclick={() => toggleSelection(crop.id)}
             >
+              <!-- Selection Indicator -->
+              {#if isSelected}
+                <div
+                  class="absolute top-2 left-2 z-10 bg-primary text-primary-foreground rounded-full p-0.5 shadow-sm"
+                >
+                  <Check class="w-3 h-3" />
+                </div>
+              {/if}
+
               <!-- Image Area -->
               <div class="aspect-square relative group">
                 <img
                   src={crop.src}
                   alt="Face crop"
-                  class="w-full h-full object-cover"
+                  class={`w-full h-full object-cover transition-opacity ${isSelected ? "opacity-90" : ""}`}
                   loading="lazy"
                 />
               </div>
@@ -130,7 +195,10 @@
                   size="icon"
                   class="h-7 w-7 rounded-md hover:bg-destructive/10 hover:text-destructive"
                   title="Odstranit (Vytvořit novou osobu)"
-                  onclick={() => unmatchFace(crop.id)}
+                  onclick={(e) => {
+                    e.stopPropagation();
+                    unmatchFace(crop.id);
+                  }}
                   data-testid="person-detail-crop-unmatch"
                 >
                   <Trash2 class="w-4 h-4" />
@@ -142,8 +210,26 @@
       {/if}
     </div>
 
-    <Dialog.Footer class="px-6 py-4 border-t bg-muted/20">
-      <Button variant="outline" onclick={() => (open = false)}>Zavřít</Button>
+    <Dialog.Footer class="px-6 py-4 border-t bg-muted/20 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        {#if selectedIds.size > 0}
+          <Button
+            variant="destructive"
+            onclick={unmatchSelected}
+            disabled={isWorking}
+            class="shadow-sm"
+          >
+            {#if isWorking}
+              <Loader2 class="w-4 h-4 mr-2 animate-spin" />
+              Pracuji...
+            {:else}
+              <Trash2 class="w-4 h-4 mr-2" />
+              Vyjmout vybrané ({selectedIds.size})
+            {/if}
+          </Button>
+        {/if}
+      </div>
+      <Button variant="outline" onclick={() => (open = false)} disabled={isWorking}>Zavřít</Button>
     </Dialog.Footer>
   </Dialog.Content>
 </Dialog.Root>

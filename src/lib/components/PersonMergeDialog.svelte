@@ -9,11 +9,13 @@
     open = $bindable(false),
     sourcePerson,
     targetPerson,
+    urlPrefix = "",
     onConfirm,
   } = $props<{
     open?: boolean;
     sourcePerson: Person;
     targetPerson: Person;
+    urlPrefix?: string;
     onConfirm: (sourceId: string, targetId: string) => Promise<void>;
   }>();
 
@@ -35,8 +37,8 @@
   function getThumbnailUrl(person: Person): string {
     if (!person.thumbnail) return "";
     if (person.thumbnail.startsWith("/")) return person.thumbnail;
-    // Assume same URL prefix logic as PeopleTab
-    return `/${person.thumbnail}`;
+    // Use urlPrefix if available
+    return `${urlPrefix}/${person.thumbnail}`;
   }
 </script>
 
