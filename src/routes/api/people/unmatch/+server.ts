@@ -113,10 +113,16 @@ export async function POST({ request }) {
       // 2. Check if current thumbnail file actually exists (robustness)
       if (!needsNewThumbnail && sourcePerson.thumbnail) {
         try {
-          const thumbPath = path.resolve(process.cwd(), `static/${contentDir}`, sourcePerson.thumbnail);
+          const thumbPath = path.resolve(
+            process.cwd(),
+            `static/${contentDir}`,
+            sourcePerson.thumbnail,
+          );
           await fsp.access(thumbPath);
         } catch {
-          console.log(`[UNMATCH] Current thumbnail file not found: ${sourcePerson.thumbnail}, invalidating...`);
+          console.log(
+            `[UNMATCH] Current thumbnail file not found: ${sourcePerson.thumbnail}, invalidating...`,
+          );
           needsNewThumbnail = true;
         }
       }
@@ -126,7 +132,7 @@ export async function POST({ request }) {
         try {
           // List remaining files in the source person's directory to pick a new thumbnail
           const files = await fsp.readdir(sourceDir);
-          
+
           // Filter for jpg files and exclude the one we just moved (though it should be gone)
           const validImages = files
             .filter((f) => f.endsWith(".jpg") && !f.includes(imageId) && !f.startsWith("."))
@@ -139,7 +145,9 @@ export async function POST({ request }) {
           } else {
             // No images left (should be impossible if faceCount > 0, but safety fallback)
             sourcePerson.thumbnail = "";
-            console.warn(`[UNMATCH] WARNING: Face count is ${sourcePerson.faceCount} but no images found in ${sourceDir}`);
+            console.warn(
+              `[UNMATCH] WARNING: Face count is ${sourcePerson.faceCount} but no images found in ${sourceDir}`,
+            );
           }
         } catch (e) {
           console.error(`[UNMATCH] Failed to scan directory ${sourceDir}:`, e);

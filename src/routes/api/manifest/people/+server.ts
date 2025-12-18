@@ -4,10 +4,7 @@ import path from "node:path";
 
 export async function GET() {
   const contentDir = process.env.CONTENT_DIR || "egypt-2025";
-  const manifestPath = path.resolve(
-    process.cwd(),
-    `src/data/${contentDir}/people.manifest.json`,
-  );
+  const manifestPath = path.resolve(process.cwd(), `src/data/${contentDir}/people.manifest.json`);
 
   try {
     const data = await fsp.readFile(manifestPath, "utf-8");

@@ -43,16 +43,29 @@
 
     <div class="p-6">
       <p class="text-sm text-foreground">
-        Opravdu chcete ignorovat <strong>{count} {count === 1 ? 'osobu' : (count > 1 && count < 5) ? 'osoby' : 'osob'}</strong>?
+        Opravdu chcete ignorovat <strong
+          >{count} {count === 1 ? "osobu" : count > 1 && count < 5 ? "osoby" : "osob"}</strong
+        >?
       </p>
       <p class="text-xs text-muted-foreground mt-2">
-        Ignorované osoby se přestanou zobrazovat v seznamu "Lidé". Tuto akci lze vrátit v sekci "Ignorované osoby".
+        Ignorované osoby se přestanou zobrazovat v seznamu "Lidé". Tuto akci lze vrátit v sekci
+        "Ignorované osoby".
       </p>
     </div>
 
     <Dialog.Footer class="px-6 py-4 border-t bg-muted/20">
-      <Button variant="outline" onclick={() => (open = false)} disabled={isLoading} data-testid="ignore-confirm-cancel">Zrušit</Button>
-      <Button onclick={handleConfirm} disabled={isLoading} variant="secondary" data-testid="ignore-confirm-confirm">
+      <Button
+        variant="outline"
+        onclick={() => (open = false)}
+        disabled={isLoading}
+        data-testid="ignore-confirm-cancel">Zrušit</Button
+      >
+      <Button
+        onclick={handleConfirm}
+        disabled={isLoading}
+        variant="secondary"
+        data-testid="ignore-confirm-confirm"
+      >
         {#if isLoading}
           <Loader2 class="w-4 h-4 mr-2 animate-spin" />
           Ignoruji...

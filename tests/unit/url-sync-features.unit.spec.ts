@@ -59,10 +59,10 @@ import { initializeFiltersFromUrl, parseBooleanParam } from "../../src/lib/store
 // Import mocked stores
 import { showMetadataOverlay } from "$lib/stores/editorState";
 import {
-    selectedAuthors,
-    selectedPeople,
-    selectedQualityBuckets,
-    showSeparators,
+  selectedAuthors,
+  selectedPeople,
+  selectedQualityBuckets,
+  showSeparators,
 } from "$lib/stores/filters";
 import { showPhotoLabels } from "$lib/stores/photoLabels";
 import { activeTab, isCurationMode, isSidebarOpen } from "$lib/stores/uiState";

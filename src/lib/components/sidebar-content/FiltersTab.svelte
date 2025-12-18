@@ -27,10 +27,7 @@
     slug?: string;
   };
 
-  let {
-    authors = [],
-    qualityStats = new Map(),
-  } = $props<{
+  let { authors = [], qualityStats = new Map() } = $props<{
     authors?: AuthorStats[];
     qualityStats?: Map<string, number>;
   }>();
@@ -231,8 +228,6 @@
         </div>
       </div>
     {/if}
-
-
 
     {#if qualityStats.size > 0 && qualityCount > 0}
       <div class="space-y-3 border-b px-6 py-4">

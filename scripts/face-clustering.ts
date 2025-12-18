@@ -8,10 +8,10 @@ import path from "node:path";
 import sharp from "sharp";
 import type { ImageEntry, PeopleManifest, Person } from "../src/lib/types/manifest";
 import {
-    loadImagesManifest,
-    loadPeopleManifest,
-    saveImagesManifest,
-    savePeopleManifest,
+  loadImagesManifest,
+  loadPeopleManifest,
+  saveImagesManifest,
+  savePeopleManifest,
 } from "./lib/manifest-repository";
 
 const FACE_CONFIG = {
@@ -273,11 +273,13 @@ async function main() {
   if (existingPeopleManifest && Array.isArray(existingPeopleManifest.people)) {
     people = existingPeopleManifest.people;
     console.log(`Loaded ${people.length} existing people from manifest.`);
-    
+
     // Validate descriptors
-    const validPeople = people.filter(p => p.faceDescriptor && p.faceDescriptor.length === 128);
+    const validPeople = people.filter((p) => p.faceDescriptor && p.faceDescriptor.length === 128);
     if (validPeople.length < people.length) {
-      console.warn(`Warning: Filtered out ${people.length - validPeople.length} people with invalid face descriptors.`);
+      console.warn(
+        `Warning: Filtered out ${people.length - validPeople.length} people with invalid face descriptors.`,
+      );
       people = validPeople;
     }
   } else {

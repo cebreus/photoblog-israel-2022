@@ -118,11 +118,11 @@ import { goto } from "$app/navigation";
 import { page } from "$app/stores";
 import { selection } from "$lib/stores/editorState";
 import {
-    filtersSyncing,
-    selectedAuthors,
-    selectedPeople,
-    selectedQualityBuckets,
-    showSeparators,
+  filtersSyncing,
+  selectedAuthors,
+  selectedPeople,
+  selectedQualityBuckets,
+  showSeparators,
 } from "$lib/stores/filters";
 import { showPhotoLabels } from "$lib/stores/photoLabels";
 import { isSidebarOpen } from "$lib/stores/uiState";

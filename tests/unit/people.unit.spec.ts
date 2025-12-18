@@ -69,18 +69,16 @@ describe("enrichPeopleWithStats", () => {
       ],
     },
     {
-      items: [
-        { type: "image", id: "img4", people: ["p1", "p3"] },
-      ],
+      items: [{ type: "image", id: "img4", people: ["p1", "p3"] }],
     },
   ] as any[];
 
   it("should correctly count faces across multiple days and images", () => {
     const result = enrichPeopleWithStats(mockPeople, mockPhotoDays);
 
-    const alice = result.find(p => p.id === "p1");
-    const bob = result.find(p => p.id === "p2");
-    const charlie = result.find(p => p.id === "p3");
+    const alice = result.find((p) => p.id === "p1");
+    const bob = result.find((p) => p.id === "p2");
+    const charlie = result.find((p) => p.id === "p3");
 
     // Alice: img1, img2, img4 = 3
     expect(alice?.faceCount).toBe(3);
@@ -93,7 +91,7 @@ describe("enrichPeopleWithStats", () => {
   it("should return 0 for people not found in any images (p4)", () => {
     const people = [...mockPeople, { id: "p4", name: "Dave", faceCount: 0 } as Person];
     const result = enrichPeopleWithStats(people, mockPhotoDays);
-    const dave = result.find(p => p.id === "p4");
+    const dave = result.find((p) => p.id === "p4");
     expect(dave?.faceCount).toBe(0);
   });
 

@@ -70,14 +70,16 @@
               <div class="w-12 h-12 rounded bg-slate-200 dark:bg-slate-800"></div>
             {/if}
             <div class="flex-1 min-w-0">
-              <div class="font-medium truncate" data-testid="person-merge-source-name">{sourcePerson.name}</div>
+              <div class="font-medium truncate" data-testid="person-merge-source-name">
+                {sourcePerson.name}
+              </div>
               <div class="text-xs text-muted-foreground">{sourcePerson.faceCount} fotek</div>
             </div>
           </div>
         </div>
 
         <!-- Arrow -->
-        <div class="flex-shrink-0 text-muted-foreground">
+        <div class="shrink-0 text-muted-foreground">
           <ArrowRight class="w-6 h-6" />
         </div>
 
@@ -99,7 +101,9 @@
               <div class="w-12 h-12 rounded bg-slate-200 dark:bg-slate-800"></div>
             {/if}
             <div class="flex-1 min-w-0">
-              <div class="font-medium truncate" data-testid="person-merge-target-name">{targetPerson.name}</div>
+              <div class="font-medium truncate" data-testid="person-merge-target-name">
+                {targetPerson.name}
+              </div>
               <div class="text-xs text-muted-foreground">{targetPerson.faceCount} fotek</div>
             </div>
           </div>
@@ -126,8 +130,18 @@
     </div>
 
     <Dialog.Footer class="px-6 py-4 border-t bg-muted/20">
-      <Button variant="outline" onclick={() => (open = false)} disabled={isLoading} data-testid="person-merge-cancel">Zrušit</Button>
-      <Button onclick={handleConfirm} disabled={isLoading} variant="destructive" data-testid="person-merge-confirm">
+      <Button
+        variant="outline"
+        onclick={() => (open = false)}
+        disabled={isLoading}
+        data-testid="person-merge-cancel">Zrušit</Button
+      >
+      <Button
+        onclick={handleConfirm}
+        disabled={isLoading}
+        variant="destructive"
+        data-testid="person-merge-confirm"
+      >
         {#if isLoading}
           <Loader2 class="w-4 h-4 mr-2 animate-spin" />
           Slučuji...

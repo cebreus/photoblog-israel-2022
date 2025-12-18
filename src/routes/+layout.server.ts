@@ -27,8 +27,6 @@ function gatherAuthors(photoDays: PhotoDay[]): Author[] {
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
-
-
 function gatherQualityStats(photoDays: PhotoDay[]): Map<string, number> {
   const counts = new Map<string, number>();
 

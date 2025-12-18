@@ -7,7 +7,7 @@ import {
     filtersSyncing,
     selectedAuthors,
     selectedQualityBuckets,
-    showSeparators
+  showSeparators,
 } from "$lib/stores/filters";
 import { showPhotoLabels } from "$lib/stores/photoLabels";
 import { activeTab, isCurationMode, isSidebarOpen } from "$lib/stores/uiState";
@@ -155,7 +155,7 @@ export function initializeFiltersFromUrl(url: URL) {
     const qualityParam = url.searchParams.get("quality");
     if (qualityParam) {
       const buckets = qualityParam.split(",").filter(Boolean);
-      selectedQualityBuckets.set(buckets);
+      selectedQualityBuckets.set(buckets as QualityBucket[]);
     } else {
       selectedQualityBuckets.set([]); // If param exists but is empty, set to empty array
     }
@@ -271,9 +271,6 @@ export function syncUrlFromFilters() {
     } else {
       params.set("quality", $selectedQualityBuckets.join(","));
     }
-
-
-
 
     // Only include non-default values in the URL so clearing filters removes the query string.
     // Only include non-default values in the URL so clearing filters removes the query string.

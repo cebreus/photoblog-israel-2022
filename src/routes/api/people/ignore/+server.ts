@@ -33,16 +33,16 @@ export async function POST({ request }) {
         // Use logic: if personIds -> force true? Or just toggle?
         // Bulk ignore usually implies "Hide these".
         // Let's enable "set to true" for bulk to be deterministic.
-        
+
         if (personIds) {
-            if (!person.ignored) {
-                person.ignored = true;
-                changed = true;
-            }
-        } else {
-            // Toggle for single ID (legacy)
-            person.ignored = !person.ignored;
+          if (!person.ignored) {
+            person.ignored = true;
             changed = true;
+          }
+        } else {
+          // Toggle for single ID (legacy)
+          person.ignored = !person.ignored;
+          changed = true;
         }
         results.push({ id, ignored: person.ignored });
       } else {

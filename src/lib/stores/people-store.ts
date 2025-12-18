@@ -15,26 +15,26 @@ function createPeopleStore() {
     subscribe: peopleStore.subscribe,
     setPeople: peopleStore.set,
     photoDays: photoDaysStore,
-    
+
     /**
      * Re-fetches the manifest data from the JSON files on disk (via API).
      * Useful in DEV mode or after admin actions (rename/merge).
      */
     refresh: async () => {
       // API endpoints are only available on the client/runtime server
-      if (typeof fetch === 'undefined') return;
+      if (typeof fetch === "undefined") return;
 
       try {
         const [pRes, iRes] = await Promise.all([
           fetch("/api/manifest/people"),
-          fetch("/api/manifest/images")
+          fetch("/api/manifest/images"),
         ]);
 
         if (pRes.ok) {
           const pData: PeopleManifest = await pRes.json();
           peopleStore.set(pData.people);
         }
-        
+
         if (iRes.ok) {
           const iData: Manifest = await iRes.json();
           photoDaysStore.set(iData.photoDays);
@@ -42,7 +42,7 @@ function createPeopleStore() {
       } catch (e) {
         console.error("Failed to refresh manifests", e);
       }
-    }
+    },
   };
 }
 
@@ -51,5 +51,5 @@ export const peopleBase = createPeopleStore();
 // Derived store that efficiently computes face counts
 export const peopleWithStats = derived(
   [peopleBase, peopleBase.photoDays],
-  ([$people, $photoDays]) => enrichPeopleWithStats($people, $photoDays)
+  ([$people, $photoDays]) => enrichPeopleWithStats($people, $photoDays),
 );

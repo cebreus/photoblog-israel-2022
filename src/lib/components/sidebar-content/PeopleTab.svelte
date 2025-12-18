@@ -34,20 +34,22 @@
   const firstImage = $derived(photoDays.flatMap((d) => d.items).find((i) => i.type === "image"));
 
   // Extract prefix from sources[].path which contains full path like "/egypt-2025/images/..."
-  const urlPrefix = $derived((() => {
-    let prefix = "";
-    if (firstImage && (firstImage as any).sources && (firstImage as any).sources.length > 0) {
-      const firstPath = (firstImage as any).sources[0].path;
-      if (firstPath && firstPath.startsWith("/")) {
-        // Path format: "/egypt-2025/images/previews/..." -> extract "/egypt-2025"
-        const parts = firstPath.split("/");
-        if (parts.length > 2) {
-          prefix = `/${parts[1]}`;
+  const urlPrefix = $derived(
+    (() => {
+      let prefix = "";
+      if (firstImage && (firstImage as any).sources && (firstImage as any).sources.length > 0) {
+        const firstPath = (firstImage as any).sources[0].path;
+        if (firstPath && firstPath.startsWith("/")) {
+          // Path format: "/egypt-2025/images/previews/..." -> extract "/egypt-2025"
+          const parts = firstPath.split("/");
+          if (parts.length > 2) {
+            prefix = `/${parts[1]}`;
+          }
         }
       }
-    }
-    return prefix;
-  })());
+      return prefix;
+    })(),
+  );
 
   const getThumbnailSrc = (p: Person) => {
     if (!p.thumbnail) return "";
@@ -82,12 +84,12 @@
           showPersonDetail = true;
         }
       }
-    } 
+    }
     // 2. URL has NO person -> Close Dialog (if open and we strictly follow URL)
     // We only do this if we want Back button support.
     else if (!personId && showPersonDetail) {
-       showPersonDetail = false;
-       detailPerson = null;
+      showPersonDetail = false;
+      detailPerson = null;
     }
   });
 
@@ -102,7 +104,7 @@
 
   function openPersonDetail(person: Person, e?: MouseEvent) {
     e?.stopPropagation();
-    
+
     // Set URL - valid even if effect handles the rest, provides immediate feedback
     const url = new URL($page.url);
     url.searchParams.set("person", person.id);

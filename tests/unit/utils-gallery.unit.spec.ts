@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { ImageEntry, PhotoDay, Separator } from "../../src/lib/types/manifest";
+import type { ImageEntry, PhotoDay, QualityBucket, Separator } from "../../src/lib/types/manifest";
 import { computeTotals, filterGalleryItems, mergeSparseDays } from "../../src/lib/utils/gallery";
 
 // Mock the manifest imports that might be triggered by indirect dependencies
@@ -75,7 +75,7 @@ describe("gallery utils", () => {
     });
 
     it("hides all items if aesthetic buckets is explicitly ['none']", () => {
-      const result = filterGalleryItems(items, [], true, ["none"]);
+      const result = filterGalleryItems(items, [], true, ["none"] as unknown as QualityBucket[]);
       const images = result.filter((i) => i.type === "image");
       expect(images).toHaveLength(0);
     });
@@ -87,7 +87,7 @@ describe("gallery utils", () => {
     });
 
     it("shows all items if all buckets are selected", () => {
-      const allBuckets = ["excellent", "good", "poor"];
+      const allBuckets = ["excellent", "good", "poor"] as QualityBucket[];
       const result = filterGalleryItems(items, [], true, allBuckets);
       expect(result).toContain(mockImage1);
       expect(result).toContain(mockImage2);

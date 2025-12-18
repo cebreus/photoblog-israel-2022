@@ -3,7 +3,7 @@
   import { page } from "$app/stores";
   import AgendaTab from "$lib/components/sidebar-content/AgendaTab.svelte";
   import PeopleTab from "$lib/components/sidebar-content/PeopleTab.svelte";
-// Restore PeopleTab
+  // Restore PeopleTab
   import EditTab from "$lib/components/sidebar-content/EditTab.svelte";
   import FiltersTab from "$lib/components/sidebar-content/FiltersTab.svelte";
   import * as Sidebar from "$lib/components/ui/sidebar";
@@ -15,7 +15,7 @@
   import Pencil from "lucide-svelte/icons/pencil";
   import SlidersHorizontal from "lucide-svelte/icons/sliders-horizontal";
   import User from "lucide-svelte/icons/user";
-// Restore User icon
+  // Restore User icon
   import type { ComponentProps } from "svelte";
   import { untrack } from "svelte";
 

@@ -23,7 +23,6 @@ export function filterGalleryItems(
   // However, calling it repeatedly inside the loop is still overhead if it does property access.
   // Ideally, we should fetch it once.
 
-
   // Check if we are in "Show All" mode (default)
   const isDefaultView = ALL_QUALITY_BUCKET_IDS.every((b) => selectedQualityBuckets.includes(b));
 
@@ -43,7 +42,6 @@ export function filterGalleryItems(
         return false;
       }
     }
-
 
     if (selectedAuthors.length === 0) {
       return true; // No author filter applied

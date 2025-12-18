@@ -98,8 +98,6 @@
     deleteDialogOpen = true;
   }
 
-
-
   async function confirmDelete() {
     if (imagesToDelete.length === 0) return;
 
