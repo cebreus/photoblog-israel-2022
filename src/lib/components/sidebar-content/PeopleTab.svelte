@@ -61,6 +61,7 @@
   // Merge state - checkbox selection
   let selectedForMerge = $state<string[]>([]);
   let showMergeConfirmDialog = $state(false);
+  let showIgnoreConfirmDialog = $state(false);
 
   // Detail state for QC
   let detailPerson = $state<Person | null>(null);
@@ -234,11 +235,13 @@
     if (mode === "reset") return clearSelection();
   }
 
-  async function bulkIgnore() {
+  function openBulkIgnoreDialog() {
     if (selectedForMerge.length === 0) return;
+    showIgnoreConfirmDialog = true;
+  }
 
-    // Confirmation
-    if (!confirm(`Opravdu chcete ignorovat ${selectedForMerge.length} osob?`)) return;
+  async function executeBulkIgnore() {
+    if (selectedForMerge.length === 0) return;
 
     isSaving = true;
     try {
@@ -267,6 +270,7 @@
 
       // Reload
       await peopleBase.refresh();
+      showIgnoreConfirmDialog = false;
     } catch (error) {
       console.error("Bulk ignore failed:", error);
       alert("Hromadné ignorování selhalo.");
@@ -561,7 +565,7 @@
           <Button
             variant="secondary"
             size="sm"
-            onclick={bulkIgnore}
+            onclick={openBulkIgnoreDialog}
             class="flex-1"
             data-testid="people-tab-bulk-ignore-button"
           >
@@ -657,6 +661,14 @@
       onUpdate={async () => {
         await peopleBase.refresh();
       }}
+    />
+  {/if}
+
+  {#if showIgnoreConfirmDialog}
+    <PersonIgnoreConfirmDialog
+      bind:open={showIgnoreConfirmDialog}
+      count={selectedForMerge.length}
+      onConfirm={executeBulkIgnore}
     />
   {/if}
 </div>

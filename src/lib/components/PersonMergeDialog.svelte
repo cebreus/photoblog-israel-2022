@@ -41,8 +41,8 @@
 </script>
 
 <Dialog.Root bind:open>
-  <Dialog.Content class="max-w-2xl">
-    <Dialog.Header>
+  <Dialog.Content class="max-w-2xl p-0 gap-0">
+    <Dialog.Header class="px-6 py-4 border-b">
       <Dialog.Title data-testid="person-merge-dialog-title">Sloučit osoby</Dialog.Title>
       <Dialog.Description data-testid="person-merge-dialog-description">
         Tato akce sloučí dvě osoby do jedné. Všechny fotky zdrojové osoby budou přiřazeny cílové
@@ -50,7 +50,7 @@
       </Dialog.Description>
     </Dialog.Header>
 
-    <div class="space-y-4 py-4">
+    <div class="space-y-4 p-6">
       <div class="flex items-center gap-4">
         <!-- Source Person -->
         <div class="flex-1" data-testid="person-merge-source">
@@ -125,7 +125,7 @@
       </div>
     </div>
 
-    <Dialog.Footer>
+    <Dialog.Footer class="px-6 py-4 border-t bg-muted/20">
       <Button variant="outline" onclick={() => (open = false)} disabled={isLoading} data-testid="person-merge-cancel">Zrušit</Button>
       <Button onclick={handleConfirm} disabled={isLoading} variant="destructive" data-testid="person-merge-confirm">
         {#if isLoading}
