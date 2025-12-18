@@ -10,6 +10,7 @@
   import type { CurationGroup, ImageEntry, ImageSource } from "$lib/types/manifest";
   import { cn } from "$lib/utils";
   import { getSources } from "$lib/utils/images";
+  import Archive from "lucide-svelte/icons/archive";
   import Check from "lucide-svelte/icons/check";
   import Copy from "lucide-svelte/icons/copy";
   import Info from "lucide-svelte/icons/info";
@@ -20,6 +21,7 @@
     scrollspyId,
     curationGroup,
     onDelete,
+    onArchive,
     onCopyMetadata,
     onPasteMetadata,
     onKeepGroup,
@@ -30,6 +32,7 @@
     scrollspyId?: string;
     curationGroup?: CurationGroup;
     onDelete?: (item: ImageEntry) => void;
+    onArchive?: (item: ImageEntry) => void;
     onCopyMetadata?: (item: ImageEntry) => void;
     onPasteMetadata?: (item: ImageEntry, onlyThis?: boolean) => void;
     onKeepGroup?: (item: ImageEntry, group: CurationGroup) => void;
@@ -444,6 +447,15 @@
         >
           <Trash2 class="h-4 w-4" />
           <span>Smazat obrázek</span>
+        </ContextMenu.Item>
+
+        <ContextMenu.Item
+          class="flex items-center gap-2"
+          onclick={() => onArchive?.(item)}
+          data-testid="photo-grid-item-contextmenu-archive-image"
+        >
+          <Archive class="h-4 w-4" />
+          <span>Archivovat fotku</span>
         </ContextMenu.Item>
       </ContextMenu.Content>
     </ContextMenu.Portal>

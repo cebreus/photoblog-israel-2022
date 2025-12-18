@@ -1,17 +1,18 @@
 <script lang="ts">
   import { invalidateAll } from "$app/navigation";
   import { useScrollspy } from "$lib/actions/scrollspy";
+  import ArchiveImageDialog from "$lib/components/ArchiveImageDialog.svelte";
   import DeleteImageDialog from "$lib/components/DeleteImageDialog.svelte";
   import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
   import PhotoGridItem from "$lib/components/PhotoGridItem.svelte";
   import { buttonVariants } from "$lib/components/ui/button";
   import * as Dialog from "$lib/components/ui/dialog";
   import { debug } from "$lib/stores/debug";
-  import { selection, editMode } from "$lib/stores/editorState";
+  import { editMode, selection } from "$lib/stores/editorState";
   import { selectedAuthors } from "$lib/stores/filters";
   import { metadataClipboard } from "$lib/stores/metadataClipboard";
   import { isCurationMode } from "$lib/stores/uiState";
-  import type { CurationManifest, ImageEntry, Separator, CurationGroup } from "$lib/types/manifest";
+  import type { CurationGroup, CurationManifest, ImageEntry, Separator } from "$lib/types/manifest";
   import { toSlug } from "$lib/utils/strings";
   import { toast } from "svelte-sonner";
 
@@ -77,6 +78,10 @@
   let isPastingOpen = $state(false);
   let imagesToPaste = $state<ImageEntry[]>([]);
   let isApplyingPaste = $state(false);
+
+  let isArchiving = $state(false);
+  let archiveDialogOpen = $state(false);
+  let imagesToArchive = $state<ImageEntry[]>([]);
 
   function openDeleteDialog(item: ImageEntry) {
     imagesToDelete = [item];
@@ -158,6 +163,73 @@
       toast.error(`Nepodařilo se smazat soubory: ${e.message}`);
     } finally {
       isDeleting = false;
+    }
+  }
+
+  function handleArchive(item: ImageEntry) {
+    if ($selection.has(item.id) && $selection.size > 1) {
+      imagesToArchive = items.filter(
+        (i: DisplayItem): i is ImageEntry => i.type === "image" && $selection.has(i.id),
+      );
+    } else {
+      imagesToArchive = [item];
+    }
+    archiveDialogOpen = true;
+  }
+
+  async function confirmArchive() {
+    if (imagesToArchive.length === 0) return;
+
+    isArchiving = true;
+    try {
+      const itemsPayload = imagesToArchive.map((img) => ({
+        id: img.id,
+        src: img.src,
+      }));
+
+      const res = await fetch("/api/images", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "archive", ids: itemsPayload }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.message || "Chyba při archivaci souborů");
+      }
+
+      const result = await res.json();
+
+      if (result.errors && result.errors.length > 0) {
+        result.errors.forEach((e: string) => toast.warning(e));
+      }
+
+      const archivedCount = result.archived.length;
+      if (archivedCount > 0) {
+        toast.success(`Úspěšně archivováno ${archivedCount} souborů. Stránka se obnoví.`);
+      }
+
+      // Close dialog
+      archiveDialogOpen = false;
+
+      // Remove from selection if selected
+      const archivedIds = new Set(result.archived);
+      if ($selection.size > 0) {
+        for (const id of archivedIds) {
+          if ($selection.has(id as string)) selection.remove(id as string);
+        }
+      }
+
+      // Refresh data
+      await invalidateAll();
+
+      // Clear the imagesToArchive
+      imagesToArchive = [];
+    } catch (e: any) {
+      console.error(e);
+      toast.error(`Nepodařilo se archivovat soubory: ${e.message}`);
+    } finally {
+      isArchiving = false;
     }
   }
 
@@ -434,6 +506,7 @@
             mode="curation"
             curationGroup={entry.data}
             onDelete={openDeleteDialog}
+            onArchive={handleArchive}
             onCopyMetadata={handleCopyMetadata}
             onPasteMetadata={handlePasteMetadata}
             onKeepGroup={handleKeepGroup}
@@ -451,6 +524,7 @@
         scrollspyId={dimmedLocationMap.get(item.id)}
         curationGroup={curationMap.get(item.id)}
         onDelete={openDeleteDialog}
+        onArchive={handleArchive}
         onCopyMetadata={handleCopyMetadata}
         onPasteMetadata={handlePasteMetadata}
         onKeepGroup={handleKeepGroup}
@@ -534,5 +608,14 @@
     images={imagesToPaste}
     clipboardData={$metadataClipboard.data}
     onConfirm={confirmPaste}
+  />
+{/if}
+
+{#if imagesToArchive.length > 0}
+  <ArchiveImageDialog
+    bind:open={archiveDialogOpen}
+    images={imagesToArchive}
+    {isArchiving}
+    onConfirm={confirmArchive}
   />
 {/if}

@@ -1,11 +1,12 @@
+import { dev } from "$app/environment";
+import type { Manifest } from "$lib/types/manifest";
 import { json, type RequestHandler } from "@sveltejs/kit";
+import { exiftool } from "exiftool-vendored";
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { Manifest } from "$lib/types/manifest";
-import { exiftool } from "exiftool-vendored";
 
 export const DELETE: RequestHandler = async ({ request }) => {
-  if (!import.meta.env.DEV) {
+  if (!dev) {
     return json({ message: "Forbidden" }, { status: 403 });
   }
 
@@ -192,8 +193,125 @@ export const DELETE: RequestHandler = async ({ request }) => {
   return json({ success: true, deleted, errors });
 };
 
+export const POST: RequestHandler = async ({ request }) => {
+  if (!dev) {
+    return json({ message: "Forbidden" }, { status: 403 });
+  }
+
+  const { ids, action } = await request.json();
+
+  if (action !== "archive") {
+    return json({ message: "Invalid action" }, { status: 400 });
+  }
+
+  if (!ids || !Array.isArray(ids)) {
+    return json({ message: "Invalid request" }, { status: 400 });
+  }
+
+  const contentRoot = path.resolve(process.cwd(), "content");
+  const dataRoot = path.resolve(process.cwd(), "src/data");
+
+  const archived: string[] = [];
+  const errors: string[] = [];
+
+  // Group items by content directory
+  const itemsByContentDir: Record<string, any[]> = {};
+  const defaultContentDir = process.env.CONTENT_DIR;
+
+  for (const item of ids) {
+    if (!item.src) continue;
+    const parts = item.src.split("/");
+    if (parts.length >= 3 && parts[1] === "images") {
+      const contentDirKey = parts[2];
+      if (!itemsByContentDir[contentDirKey]) {
+        itemsByContentDir[contentDirKey] = [];
+      }
+      itemsByContentDir[contentDirKey].push(item);
+    } else if (defaultContentDir) {
+      if (!itemsByContentDir[defaultContentDir]) {
+        itemsByContentDir[defaultContentDir] = [];
+      }
+      itemsByContentDir[defaultContentDir].push(item);
+    }
+  }
+
+  for (const [contentDir, items] of Object.entries(itemsByContentDir)) {
+    const manifestPath = path.join(dataRoot, contentDir, "images.manifest.json");
+    const physicalPicsDir = path.join(contentRoot, contentDir, "pics");
+    const archiveDir = path.join(contentRoot, contentDir, "archive");
+
+    // Ensure archive directory exists
+    try {
+      await fs.mkdir(archiveDir, { recursive: true });
+    } catch (e: any) {
+      errors.push(`Could not create archive directory for ${contentDir}: ${e.message}`);
+      continue;
+    }
+
+    let manifest: Manifest | null = null;
+    try {
+      const content = await fs.readFile(manifestPath, "utf-8");
+      manifest = JSON.parse(content);
+    } catch (e) {
+      console.warn(`Manifest not found for ${contentDir}`);
+    }
+
+    let manifestModified = false;
+    const idsToArchive = new Set(items.map((i: any) => i.id));
+
+    for (const item of items) {
+      const srcPath = item.src;
+      let relativePath = srcPath;
+      if (srcPath.startsWith("/images/")) {
+        relativePath = decodeURIComponent(srcPath.replace(/^\/images\//, ""));
+      } else {
+        relativePath = decodeURIComponent(srcPath);
+      }
+
+      const nameWithoutExt = path.parse(relativePath).name;
+
+      try {
+        const files = await fs.readdir(physicalPicsDir).catch(() => []);
+        const candidates = files.filter(
+          (f) => path.parse(f).name.toLowerCase() === nameWithoutExt.toLowerCase(),
+        );
+
+        if (candidates.length > 0) {
+          for (const candidate of candidates) {
+            const oldPath = path.join(physicalPicsDir, candidate);
+            const newPath = path.join(archiveDir, candidate);
+            await fs.rename(oldPath, newPath);
+          }
+          archived.push(item.src);
+        } else {
+          errors.push(`Soubor ${nameWithoutExt} nebyl nalezen v ${physicalPicsDir}`);
+        }
+      } catch (e: any) {
+        errors.push(`Chyba při archivaci ${nameWithoutExt}: ${e.message}`);
+      }
+    }
+
+    if (manifest) {
+      manifest.photoDays = manifest.photoDays.map((day) => {
+        const originalLength = day.items.length;
+        day.items = day.items.filter((i) => !idsToArchive.has(i.id));
+        if (day.items.length !== originalLength) {
+          manifestModified = true;
+        }
+        return day;
+      });
+
+      if (manifestModified) {
+        await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2));
+      }
+    }
+  }
+
+  return json({ success: true, archived, errors });
+};
+
 export const PATCH: RequestHandler = async ({ request }) => {
-  if (!import.meta.env.DEV) {
+  if (!dev) {
     return json({ message: "Forbidden" }, { status: 403 });
   }
 
