@@ -285,16 +285,16 @@
     try {
       console.log("[BULK IGNORE] Ignoring:", selectedForMerge);
 
-      // Execute all requests in parallel
-      await Promise.all(
-        selectedForMerge.map((id) =>
-          fetch("/api/people/ignore", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ personId: id }),
-          }),
-        ),
-      );
+      // Execute single bulk request
+      const response = await fetch("/api/people/ignore", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ personIds: selectedForMerge }),
+      });
+
+      if (!response.ok) {
+        throw new Error("API request failed");
+      }
 
       // Success - remove from selection store if selected
       const ignoredIds = [...selectedForMerge];
