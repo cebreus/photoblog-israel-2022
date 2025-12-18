@@ -132,19 +132,23 @@ function clonePhotoDay(day: PhotoDay): PhotoDay {
  * Removes items from a PhotoDay whose keys are in the deletedKeys list.
  */
 function removeDeletedKeysFromDay(day: PhotoDay, deletedKeys: string[]): void {
+  const deletedBaseNames = new Set(deletedKeys.map((key) => path.basename(key, path.extname(key))));
+
   day.items = (day.items || []).filter((item) => {
     if (item.type === "separator") return true;
-    return !deletedKeys.some((key) => item.src.startsWith(path.basename(key, path.extname(key))));
+    const itemBaseName = path.basename(item.src, path.extname(item.src));
+    return !deletedBaseNames.has(itemBaseName);
   });
 }
 
 /**
  * Removes images from a PhotoDay whose source path starts with the given base name.
  */
-function removeImagesStartingWith(day: PhotoDay, baseNameWithoutExt: string): void {
+function removeImagesWithBaseName(day: PhotoDay, baseNameWithoutExt: string): void {
   day.items = day.items.filter((item) => {
     if (item.type === "separator") return true;
-    return !item.src.startsWith(baseNameWithoutExt);
+    const itemBaseName = path.basename(item.src, path.extname(item.src));
+    return itemBaseName !== baseNameWithoutExt;
   });
 }
 
@@ -229,6 +233,42 @@ function organizeDayItems(day: PhotoDay, storyData: StoryDataMap): PhotoDay {
 }
 
 /**
+ * Migrates an image entry to the latest format (normalized scores and quality bucket).
+ */
+function migrateEntry(item: ImageEntry): ImageEntry {
+  if (!item.analysis) return item;
+
+  let aesthetic = item.analysis.aestheticScore ?? 0;
+  let sharpness = item.analysis.sharpness;
+
+  // 1. Normalize Aesthetic Score if in raw range
+  // Raw CLIP cosine similarity is typically in [-0.15, 0.15]
+  // Normalized is 0-100.
+  if (aesthetic >= -1.1 && aesthetic <= 1.1) {
+    aesthetic = normalizeAestheticScore(aesthetic);
+  }
+
+  // 2. Normalize Sharpness if in raw range (variance > 100)
+  // Variance can be 5000+, while normalized is 0-100.
+  if (sharpness > 100) {
+    sharpness = normalizeSharpness(sharpness);
+  }
+
+  // 3. Assign Quality Bucket
+  const qualityBucket = getQualityBucket(aesthetic, sharpness);
+
+  return {
+    ...item,
+    analysis: {
+      ...item.analysis,
+      aestheticScore: aesthetic,
+      sharpness,
+      qualityBucket,
+    },
+  };
+}
+
+/**
  * Merges processed image results into the existing site manifest and removes deleted entries.
  */
 export function updateManifest(
@@ -237,9 +277,13 @@ export function updateManifest(
   storyData: StoryDataMap,
   existingManifest: Manifest,
 ): Manifest {
-  // 1. Clone
+  // 1. Clone AND Migrate Existing Entries
+  // 1. Clone AND Migrate Existing Entries
   const manifest: Manifest = {
-    photoDays: existingManifest.photoDays.map(clonePhotoDay),
+    photoDays: existingManifest.photoDays.map((day) => ({
+      ...clonePhotoDay(day),
+      items: day.items.map((item) => (item.type === "image" ? migrateEntry(item) : item)),
+    })),
   };
 
   // 2. Remove Deleted
@@ -267,7 +311,7 @@ export function updateManifest(
     for (const result of dayResults) {
       // Remove previous version of this image if exists (to update it)
       const baseNameWithoutExt = path.basename(result.key, path.extname(result.key));
-      removeImagesStartingWith(day, baseNameWithoutExt);
+      removeImagesWithBaseName(day, baseNameWithoutExt);
       day.items.push(result.image);
     }
   }

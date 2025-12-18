@@ -1,6 +1,10 @@
 import { exiftool } from "exiftool-vendored";
 import path from "node:path";
-import type { ImageEntry, ExifData as ManifestExifData } from "../../src/lib/types/manifest";
+import type {
+  ImageEntry,
+  ExifData as ManifestExifData,
+  QualityBucket,
+} from "../../src/lib/types/manifest";
 import { METADATA_STANDARDS } from "../../src/lib/utils/metadata-standards";
 import { toSlug } from "../../src/lib/utils/strings";
 import { getAltText, getAspectRatioName, getKeywords, normalizeText } from "./image-utils";
@@ -169,6 +173,20 @@ export function buildImageEntry(
     // ignore
   }
 
+  // Fallback: try to extract date from filename if missing from EXIF
+  // Pattern: 2025-11-23-151228-...
+  if (!isoDate) {
+    const dateMatch = baseName.match(/^(\d{4})-(\d{2})-(\d{2})-(\d{2})(\d{2})(\d{2})/);
+    if (dateMatch) {
+      const [, y, m, d, hh, mm, ss] = dateMatch;
+      try {
+        isoDate = new Date(`${y}-${m}-${d}T${hh}:${mm}:${ss}Z`).toISOString();
+      } catch (_) {
+        // ignore invalid dates
+      }
+    }
+  }
+
   const googleMapsUrl =
     exif.latitude && exif.longitude
       ? `https://www.google.com/maps/search/?api=1&query=${exif.latitude},${exif.longitude}`
@@ -192,6 +210,7 @@ export function buildImageEntry(
     placeholderColor,
     analysis: {
       sharpness: analysis?.sharpness || 0,
+      qualityBucket: analysis?.qualityBucket,
       phash: analysis?.phash || "",
       embedding: analysis?.embedding || [],
     },

@@ -119,7 +119,14 @@ async function detectChanges(
       continue;
     }
 
-    // 2. Check Embedding Validity (if curation enabled)
+    // 2. Check if in previous manifest
+    if (!previousEntries.has(baseName)) {
+      logger.verbose(`File ${key} not in manifest, forcing re-process.`);
+      toProcess.push(file);
+      continue;
+    }
+
+    // 3. Check Embedding Validity (if curation enabled)
     if (isCuration) {
       const prev = previousEntries.get(baseName);
       if (prev) {
@@ -132,7 +139,7 @@ async function detectChanges(
       }
     }
 
-    // 3. Check Output Files
+    // 4. Check Output Files
     if (!manifestOnly) {
       const outputsExist = await Promise.all(
         cached.outputs.map((p) => fileExists(path.join(outRoot, p)).catch(returnFalse)),
