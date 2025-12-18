@@ -292,26 +292,49 @@
   async function confirmMerge() {
     if (selectedForMerge.length < 2) return;
 
-    // First person is source (will be deleted), second is target (will be kept)
-    const [sourceId, targetId] = selectedForMerge;
+    // Resolve full person objects to determine best target
+    // We access 'people' which is $derived($peopleWithStats)
+    const selectedPeopleData = people.filter((p) => selectedForMerge.includes(p.id));
+    if (selectedPeopleData.length < 2) return;
 
-    console.log("[MERGE UI] Starting merge:", sourceId, "→", targetId);
+    // Sort to find best target:
+    // 1. Prefer custom names (not starting with 'person-')
+    // 2. Prefer higher face count
+    selectedPeopleData.sort((a, b) => {
+      const aIsCustom = !a.id.startsWith("person-");
+      const bIsCustom = !b.id.startsWith("person-");
+      if (aIsCustom && !bIsCustom) return -1; // a comes first (target)
+      if (!aIsCustom && bIsCustom) return 1;
+      return b.faceCount - a.faceCount; // higher count comes first
+    });
+
+    const targetPerson = selectedPeopleData[0];
+    const sourcePersons = selectedPeopleData.slice(1);
+
+    console.log(
+      "[MERGE UI] Merging",
+      sourcePersons.map((p) => p.name),
+      "into",
+      targetPerson.name,
+    );
     isSaving = true;
 
     try {
-      const response = await fetch("/api/people/merge", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sourcePersonId: sourceId, targetPersonId: targetId }),
-      });
+      // Execute merges sequentially
+      for (const source of sourcePersons) {
+        const response = await fetch("/api/people/merge", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sourcePersonId: source.id, targetPersonId: targetPerson.id }),
+        });
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || "Merge failed");
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(`Merge failed for ${source.name}: ${error.error}`);
+        }
       }
 
-      const result = await response.json();
-      console.log("[MERGE UI] Merge successful:", result);
+      console.log("[MERGE UI] All merges successful");
 
       // Add delay for loading state
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -602,10 +625,18 @@
   </Sidebar.Content>
   <!-- Merge Confirm Dialog -->
   {#if selectedForMerge.length >= 2}
-    {@const selectedPeopleData = [...people].filter((p) => selectedForMerge.includes(p.id))}
+    {@const selectedPeopleData = [...people]
+      .filter((p) => selectedForMerge.includes(p.id))
+      .sort((a, b) => {
+        const aIsCustom = !a.id.startsWith("person-");
+        const bIsCustom = !b.id.startsWith("person-");
+        if (aIsCustom && !bIsCustom) return -1;
+        if (!aIsCustom && bIsCustom) return 1;
+        return b.faceCount - a.faceCount;
+      })}
     {#if selectedPeopleData.length >= 2}
-      {@const sourcePerson = selectedPeopleData[0]}
-      {@const targetPerson = selectedPeopleData[1]}
+      {@const targetPerson = selectedPeopleData[0]}
+      {@const sourcePerson = selectedPeopleData[1]}
 
       <PersonMergeDialog
         bind:open={showMergeConfirmDialog}

@@ -6,7 +6,7 @@
 
 /** Represents a single image source variant (e.g., a specific width in WebP or AVIF format). */
 export type ImageSource = {
-  variant: "default" | "xl" | "detail" | "fallback" | "placeholder";
+  variant: "default" | "xl" | "detail" | "fallback" | "placeholder" | "admin_thumb";
   type: "image/webp" | "image/jpeg" | "image/avif" | "image/png";
   path: string;
   width?: number;

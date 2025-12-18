@@ -10,11 +10,11 @@ export function getVisiblePeople(people: Person[]): Person[] {
   return [...people]
     .filter((p) => !p.ignored && p.faceCount > 0)
     .sort((a, b) => {
-      // Sort primarily by face count (descending)
-      const countCompare = b.faceCount - a.faceCount;
-      if (countCompare !== 0) return countCompare;
-      // Secondary sort by alphabetical name order
-      return a.name.localeCompare(b.name, "cs", { sensitivity: "base" });
+      // Sort primarily by alphabetical name order
+      const nameCompare = a.name.localeCompare(b.name, "cs", { sensitivity: "base" });
+      if (nameCompare !== 0) return nameCompare;
+      // Secondary sort by face count (descending)
+      return b.faceCount - a.faceCount;
     });
 }
 /**

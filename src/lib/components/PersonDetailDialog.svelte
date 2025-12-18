@@ -5,6 +5,8 @@
   import type { ImageEntry, Person } from "$lib/types/manifest";
   import Trash2 from "lucide-svelte/icons/trash-2";
 
+  const photoDaysStore = peopleBase.photoDays;
+
   let {
     open = $bindable(false),
     person,
@@ -20,7 +22,7 @@
   const personImages = $derived.by(() => {
     if (!person || !open) return [];
     // Use reactive store instead of static getter
-    const days = $peopleBase.photoDays;
+    const days = $photoDaysStore;
     const images: ImageEntry[] = [];
     for (const day of days) {
       for (const item of day.items) {
@@ -94,7 +96,7 @@
         </div>
       {:else}
         <!-- Grid layout with Cards (No overlaps) -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4" data-testid="person-detail-crop-grid">
+        <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4" data-testid="person-detail-crop-grid">
           {#each crops as crop}
             <div class="flex flex-col bg-background rounded-lg shadow-sm border overflow-hidden" data-testid="person-detail-crop-item">
               <!-- Image Area -->

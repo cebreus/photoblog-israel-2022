@@ -1,9 +1,9 @@
+import type { ImageEntry, Manifest, PeopleManifest } from "$lib/types/manifest";
+import { toSlug } from "$lib/utils/strings";
+import { json } from "@sveltejs/kit";
 import crypto from "node:crypto";
 import fsp from "node:fs/promises";
 import path from "node:path";
-import { json } from "@sveltejs/kit";
-import type { ImageEntry, Manifest, PeopleManifest } from "$lib/types/manifest";
-import { toSlug } from "$lib/utils/strings";
 
 export async function POST({ request }) {
   const { personId, imageId } = await request.json();
@@ -97,6 +97,33 @@ export async function POST({ request }) {
 
     // Update counts
     sourcePerson.faceCount = Math.max(0, sourcePerson.faceCount - 1);
+
+    // Check if we removed the thumbnail
+    if (sourcePerson.thumbnail && sourcePerson.thumbnail.includes(imageId)) {
+      console.log(`[UNMATCH] Removed thumbnail for ${sourcePerson.name}, looking for replacement...`);
+      // List remaining files in the source person's directory to pick a new thumbnail
+      const sourceDir = path.resolve(facesDir, personId);
+      try {
+        const files = await fsp.readdir(sourceDir);
+        // Filter for jpg files and exclude the one we just moved (though it should be gone)
+        const validImages = files.filter(
+          (f) => f.endsWith(".jpg") && !f.includes(imageId) && !f.startsWith("."),
+        );
+
+        if (validImages.length > 0) {
+          // Pick the first one
+          sourcePerson.thumbnail = `faces/${personId}/${validImages[0]}`;
+          console.log(`[UNMATCH] New thumbnail: ${sourcePerson.thumbnail}`);
+        } else {
+          // No images left
+          sourcePerson.thumbnail = "";
+          console.log(`[UNMATCH] No images left for thumbnail`);
+        }
+      } catch (e) {
+        // Directory might not exist or other error
+        sourcePerson.thumbnail = "";
+      }
+    }
 
     // Save manifests
     await fsp.writeFile(peopleManifestPath, JSON.stringify(peopleManifest, null, 2));
