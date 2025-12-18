@@ -2,6 +2,8 @@
   import { invalidateAll } from "$app/navigation";
   import { useScrollspy } from "$lib/actions/scrollspy";
   import ArchiveImageDialog from "$lib/components/ArchiveImageDialog.svelte";
+  import CurationGroupView from "$lib/components/CurationGroup.svelte";
+  import CurationGroupDialog from "$lib/components/CurationGroupDialog.svelte";
   import DeleteImageDialog from "$lib/components/DeleteImageDialog.svelte";
   import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
   import PhotoGridItem from "$lib/components/PhotoGridItem.svelte";
@@ -83,30 +85,20 @@
   let archiveDialogOpen = $state(false);
   let imagesToArchive = $state<ImageEntry[]>([]);
 
+  let curationDialogOpen = $state(false);
+  let curationGroupToView = $state<CurationGroup | null>(null);
+
+  function handleOpenCurationDialog(group: CurationGroup) {
+    curationGroupToView = group;
+    curationDialogOpen = true;
+  }
+
   function openDeleteDialog(item: ImageEntry) {
     imagesToDelete = [item];
     deleteDialogOpen = true;
   }
 
-  function handleKeepGroup(keptItem: ImageEntry, group: CurationGroup) {
-    // Determine which items to delete (all in group EXCEPT the kept item)
-    const otherIds = group.items.filter((id) => id !== keptItem.id);
 
-    // Find the ImageEntry objects for these IDs
-    const toDelete: ImageEntry[] = [];
-    for (const item of items) {
-      if (item.type === "image" && otherIds.includes(item.id)) {
-        toDelete.push(item);
-      }
-    }
-
-    if (toDelete.length > 0) {
-      imagesToDelete = toDelete;
-      deleteDialogOpen = true;
-    } else {
-      toast.info("V této skupině nejsou žádné další obrázky ke smazání.");
-    }
-  }
 
   async function confirmDelete() {
     if (imagesToDelete.length === 0) return;
@@ -478,43 +470,16 @@
 
 {#each processedItems as entry}
   {#if entry.type === "group"}
-    <!-- Full width row for duplicate group -->
-    <div
-      class="col-span-full bg-slate-100 dark:bg-slate-900/50 border rounded-xl p-4 my-8 shadow-inner"
-      data-testid="photo-grid-group"
-    >
-      <div
-        class="mb-4 flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2"
-      >
-        <h3 class="font-bold text-lg flex items-center gap-2">
-          <span class="text-amber-600 dark:text-amber-500">Řešení duplicit</span>
-          <span
-            class="text-xs font-mono text-muted-foreground bg-white dark:bg-slate-800 border px-2 py-0.5 rounded"
-            >{entry.data.id.slice(0, 8)}</span
-          >
-        </h3>
-        <div class="text-sm text-muted-foreground">
-          Podobnost: {Math.round((entry.data.similarity ?? 0) * 100)}%
-        </div>
-      </div>
-
-      <!-- Re-use the grid layout for items inside, or flex -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {#each entry.items as item (item.id)}
-          <PhotoGridItem
-            {item}
-            mode="curation"
-            curationGroup={entry.data}
-            onDelete={openDeleteDialog}
-            onArchive={handleArchive}
-            onCopyMetadata={handleCopyMetadata}
-            onPasteMetadata={handlePasteMetadata}
-            onKeepGroup={handleKeepGroup}
-            onSelect={handleSelect}
-          />
-        {/each}
-      </div>
-    </div>
+    <!-- Full width row for duplicate group using component -->
+    <CurationGroupView
+      items={entry.items}
+      group={entry.data}
+      onDelete={openDeleteDialog}
+      onArchive={handleArchive}
+      onCopyMetadata={handleCopyMetadata}
+      onPasteMetadata={handlePasteMetadata}
+      onSelect={handleSelect}
+    />
   {:else}
     <!-- Standard Item Rendering -->
     {@const item = entry.data}
@@ -527,8 +492,8 @@
         onArchive={handleArchive}
         onCopyMetadata={handleCopyMetadata}
         onPasteMetadata={handlePasteMetadata}
-        onKeepGroup={handleKeepGroup}
         onSelect={handleSelect}
+        onOpenCurationDialog={handleOpenCurationDialog}
       />
     {:else if item.type === "separator" && item.location}
       {@const separatorId = item.id}
@@ -615,7 +580,16 @@
   <ArchiveImageDialog
     bind:open={archiveDialogOpen}
     images={imagesToArchive}
-    {isArchiving}
     onConfirm={confirmArchive}
   />
 {/if}
+
+<CurationGroupDialog
+  bind:open={curationDialogOpen}
+  group={curationGroupToView}
+  onDelete={openDeleteDialog}
+  onArchive={handleArchive}
+  onCopyMetadata={handleCopyMetadata}
+  onPasteMetadata={handlePasteMetadata}
+  onSelect={handleSelect}
+/>

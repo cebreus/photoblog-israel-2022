@@ -1,5 +1,5 @@
+import type { CurationManifest } from "$lib/types/manifest";
 import { writable } from "svelte/store";
-import type { CurationManifest, CurationGroup } from "$lib/types/manifest";
 
 function createCurationStore() {
   const { subscribe, set, update } = writable<{

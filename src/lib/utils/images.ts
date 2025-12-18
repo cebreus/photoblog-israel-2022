@@ -1,8 +1,14 @@
-import manifest from "$manifests/images.manifest.json" with { type: "json" };
-import type { CurationManifest, ImageEntry, Manifest, PhotoDay } from "../types/manifest";
-// @ts-ignore
+import { dev } from "$app/environment";
 import curationManifest from "$manifests/curation.manifest.json" with { type: "json" };
-// @ts-ignore
+import manifest from "$manifests/images.manifest.json" with { type: "json" };
+import peopleManifest from "$manifests/people.manifest.json" with { type: "json" };
+import type {
+  CurationManifest,
+  ImageEntry,
+  Manifest,
+  PeopleManifest,
+  PhotoDay,
+} from "../types/manifest";
 
 // Helper to validate/cast the manifest safely
 function isManifest(acc: unknown): acc is Manifest {
@@ -19,11 +25,50 @@ export function getPhotoDays(): PhotoDay[] {
   return typedManifest.photoDays ?? [];
 }
 
+let imagePeopleMap: Record<string, string[]> | null = null;
+
+export function getImagePeopleMap(): Record<string, string[]> {
+  // In dev mode, always recompute to ensure fresh data after clustering
+  if (!dev && imagePeopleMap) return imagePeopleMap;
+
+  imagePeopleMap = {};
+  const photoDays = getPhotoDays();
+
+  for (const day of photoDays) {
+    for (const item of day.items) {
+      if (item.type === "image" && item.people && item.people.length > 0) {
+        imagePeopleMap[item.id] = item.people;
+      }
+    }
+  }
+
+  return imagePeopleMap;
+}
+
+let allImagesMap: Map<string, ImageEntry> | null = null;
+
+export function getImageById(id: string): ImageEntry | undefined {
+  if (!allImagesMap) {
+    allImagesMap = new Map();
+    const photoDays = getPhotoDays();
+    for (const day of photoDays) {
+      for (const item of day.items) {
+        if (item.type === "image") {
+          allImagesMap.set(item.id, item);
+        }
+      }
+    }
+  }
+  return allImagesMap.get(id);
+}
 
 export function getCurationManifest(): CurationManifest {
   return curationManifest as unknown as CurationManifest;
 }
 
+export function getPeopleManifest(): PeopleManifest {
+  return (peopleManifest ?? { people: [] }) as unknown as PeopleManifest;
+}
 
 /**
  * Gathers all available image sources from all variants and groups them by type.

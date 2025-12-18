@@ -2,6 +2,7 @@
   import { useScrollspy } from "$lib/actions/scrollspy";
   import AspectRatioIcon from "$lib/components/AspectRatioIcon.svelte";
   import JsonViewer from "$lib/components/debug/JsonViewer.svelte";
+  import { Button } from "$lib/components/ui/button";
   import * as ContextMenu from "$lib/components/ui/context-menu";
   import { debug } from "$lib/stores/debug";
   import { editMode, selection, showMetadataOverlay } from "$lib/stores/editorState";
@@ -11,9 +12,8 @@
   import { cn } from "$lib/utils";
   import { getSources } from "$lib/utils/images";
   import Archive from "lucide-svelte/icons/archive";
-  import Check from "lucide-svelte/icons/check";
+  import ArrowRightLeft from "lucide-svelte/icons/arrow-right-left";
   import Copy from "lucide-svelte/icons/copy";
-  import Info from "lucide-svelte/icons/info";
   import Trash2 from "lucide-svelte/icons/trash-2";
 
   let {
@@ -24,7 +24,8 @@
     onArchive,
     onCopyMetadata,
     onPasteMetadata,
-    onKeepGroup,
+
+    onOpenCurationDialog,
     onSelect,
     mode = "grid",
   } = $props<{
@@ -35,7 +36,7 @@
     onArchive?: (item: ImageEntry) => void;
     onCopyMetadata?: (item: ImageEntry) => void;
     onPasteMetadata?: (item: ImageEntry, onlyThis?: boolean) => void;
-    onKeepGroup?: (item: ImageEntry, group: CurationGroup) => void;
+    onOpenCurationDialog?: (group: CurationGroup) => void;
     onSelect?: (item: ImageEntry, shiftKey: boolean) => void;
     mode?: "grid" | "curation";
   }>();
@@ -78,11 +79,11 @@
   let fallback = $derived(findFallbackSource(item)!);
   let detailSource = $derived(findDetailSource(item));
 
-  function handleKeep(e: MouseEvent) {
+  function handleOpenDialog(e: MouseEvent) {
     if (!isCurationActive || !curationGroup) return;
     e.stopPropagation();
     e.preventDefault();
-    onKeepGroup?.(item, curationGroup);
+    onOpenCurationDialog?.(curationGroup);
   }
 
   function handleDelete(e: MouseEvent) {
@@ -122,14 +123,32 @@
 {/snippet}
 
 {#snippet CurationActions()}
-  <div class="mt-auto flex items-center gap-2 pt-2">
-    <button
-      class="flex w-full items-center justify-center gap-2 rounded bg-red-600/90 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-red-700"
-      aria-label="Smazat tuto fotku"
-      onclick={handleDelete}
-    >
-      <Trash2 class="size-4" /> Smazat duplicitu
-    </button>
+  <div class="mt-auto flex flex-col items-stretch gap-2 pt-2">
+    <div class="flex items-center gap-2">
+      <Button
+        variant="destructive"
+        size="sm"
+        class="flex-1 gap-2"
+        onclick={handleDelete}
+        aria-label="Smazat tuto fotku"
+      >
+        <Trash2 class="size-3" />
+        Smazat
+      </Button>
+      <Button
+        variant="secondary"
+        size="sm"
+        class="flex-1 gap-2 border border-slate-200 dark:border-slate-800"
+        onclick={(e) => {
+          e.stopPropagation();
+          onArchive?.(item);
+        }}
+        aria-label="Archivovat tuto fotku"
+      >
+        <Archive class="size-3" />
+        Archivovat
+      </Button>
+    </div>
   </div>
 {/snippet}
 
@@ -341,30 +360,14 @@
             <div
               class="pointer-events-none absolute inset-0 flex items-center justify-center gap-2"
             >
-              <div
-                class="pointer-events-auto flex items-center gap-4 rounded-full bg-black/60 p-2 backdrop-blur-sm"
+              <Button
+                variant="secondary"
+                class="pointer-events-auto shadow-lg"
+                onclick={handleOpenDialog}
               >
-                <button
-                  class="rounded-full bg-green-600 p-2 text-white transition-colors hover:bg-green-700"
-                  aria-label="Ponechat tuto fotku a smazat ostatní"
-                  onclick={handleKeep}
-                >
-                  <Check class="size-6" />
-                </button>
-                <button
-                  class="rounded-full bg-red-600 p-2 text-white transition-colors hover:bg-red-700"
-                  aria-label="Smazat tuto fotku"
-                  onclick={handleDelete}
-                >
-                  <Trash2 class="size-6" />
-                </button>
-                <button
-                  class="rounded-full bg-slate-600 p-2 text-white transition-colors hover:bg-slate-700"
-                  aria-label="Informace o skupině"
-                >
-                  <Info class="size-6" />
-                </button>
-              </div>
+                <ArrowRightLeft class="mr-2 size-4" />
+                Porovnat duplicity
+              </Button>
             </div>
           {/if}
         </div>
