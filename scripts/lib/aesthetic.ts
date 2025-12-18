@@ -22,6 +22,16 @@ export function calculateAestheticScore(embedding: number[], aestheticAxis: numb
 }
 
 /**
+ * Normalizes a raw aesthetic score (cosine similarity, typically -0.1 to 0.1) to 0-100 range.
+ */
+export function normalizeAestheticScore(score: number): number {
+  // Typical CLIP cosine similarity for aesthetic scores ranges from -0.1 to 0.1.
+  // We map -0.1 to 0, 0 to 50, and 0.1 to 100.
+  const normalized = (score + 0.1) * 500;
+  return Math.max(0, Math.min(100, normalized));
+}
+
+/**
  * Create a normalized aesthetic axis from a positive and negative prompt embedding.
  */
 export function createAestheticAxis(posEmbedding: number[], negEmbedding: number[]): number[] {

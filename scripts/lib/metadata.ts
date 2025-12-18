@@ -1,5 +1,5 @@
-import { exiftool } from "exiftool-vendored";
 import path from "node:path";
+import { exiftool } from "exiftool-vendored";
 import type {
   ImageEntry,
   ExifData as ManifestExifData,
@@ -143,7 +143,13 @@ export function buildImageEntry(
   originalMeta: { width?: number; height?: number },
   placeholderColor: string,
   sizeMB: number,
-  analysis?: { sharpness: number; phash: string; embedding: number[] },
+  analysis?: {
+    aestheticScore?: number;
+    sharpness: number;
+    qualityBucket?: QualityBucket;
+    phash: string;
+    embedding: number[];
+  },
 ): ImageEntry {
   const titleCanonical = normalizeText(
     exif.ObjectName || exif.Headline || exif.Title || exif["dc:title"] || exif.ImageDescription,
@@ -209,6 +215,7 @@ export function buildImageEntry(
     placeholder: undefined, // Filled later
     placeholderColor,
     analysis: {
+      aestheticScore: analysis?.aestheticScore || 0,
       sharpness: analysis?.sharpness || 0,
       qualityBucket: analysis?.qualityBucket,
       phash: analysis?.phash || "",

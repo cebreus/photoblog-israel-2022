@@ -1,6 +1,6 @@
 import crypto from "node:crypto";
 import fsp from "node:fs/promises";
-import type { AspectRatio } from "../../src/lib/types/manifest";
+import type { AspectRatio, QualityBucket } from "../../src/lib/types/manifest";
 
 type LandscapeRatio = `landscape-${number}-${number}`;
 type PortraitRatio = `portrait-${number}-${number}`;
@@ -138,6 +138,38 @@ export async function calculateSharpness(
     console.warn(`Failed to calculate sharpness for ${imagePath}:`, e);
     return 0;
   }
+}
+
+/**
+ * Normalizes a raw sharpness score (Laplacian variance) to 0-100 range.
+ */
+export function normalizeSharpness(variance: number): number {
+  if (variance <= 0) return 0;
+  // variance typically goes from 0 to 10000+.
+  // Sharp images are usually > 2000.
+  // We use sqrt to compress the high end.
+  const root = Math.sqrt(variance);
+  // root of 10000 is 100. root of 2500 is 50. root of 100 is 10.
+  // We want 2500 to be around 70-80.
+  const scaled = root * 1.5;
+  return Math.max(0, Math.min(100, scaled));
+}
+
+/**
+ * Determines the quality bucket based on normalized aesthetic and sharpness scores.
+ */
+export function getQualityBucket(aesthetic: number, sharpness: number): QualityBucket {
+  // Excellent: beautiful AND sharp enough
+  if (aesthetic >= 65 && sharpness >= 40) return "excellent";
+
+  // Good:
+  // 1. Decent aesthetic AND minimum sharpness
+  if (aesthetic >= 50 && sharpness >= 30) return "good";
+  // 2. Exceptionally sharp AND enough aesthetic (documentary/detail focus)
+  if (aesthetic >= 40 && sharpness >= 70) return "good";
+
+  // Poor: default
+  return "poor";
 }
 
 /**

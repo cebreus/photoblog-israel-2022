@@ -1,19 +1,25 @@
-import { intro, select } from "@clack/prompts";
-import { AutoTokenizer, CLIPTextModelWithProjection } from "@xenova/transformers";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { intro, select } from "@clack/prompts";
+import { AutoTokenizer, CLIPTextModelWithProjection } from "@xenova/transformers";
 import type {
   CurationGroup,
   CurationManifest,
   CurationRecommendation,
   ImageEntry,
 } from "../src/lib/types/manifest";
-import { calculateAestheticScore, createAestheticAxis } from "./lib/aesthetic";
+import {
+  calculateAestheticScore,
+  createAestheticAxis,
+  normalizeAestheticScore,
+} from "./lib/aesthetic";
+import { getQualityBucket } from "./lib/image-utils";
 import {
   loadImagesManifest,
   saveCurationManifest,
   saveImagesManifest,
 } from "./lib/manifest-repository";
+
 const CURATION_CONFIG = {
   // Cosine Similarity Threshold
   // 1.0 = identical
@@ -67,18 +73,18 @@ function evaluateGroup(photos: ImageEntry[]): CurationGroup {
       return areaB - areaA;
     }
 
-    // 2. Aesthetic Score (Higher is better) - NEW
+    // 2. Aesthetic Score (Higher is better)
     const aestheticA = analysisA.aestheticScore || 0;
     const aestheticB = analysisB.aestheticScore || 0;
-    // Significant difference threshold (e.g. 0.05 score difference)
-    if (Math.abs(aestheticA - aestheticB) > 0.05) {
+    // Significant difference threshold (e.g. 5 points on 0-100 scale)
+    if (Math.abs(aestheticA - aestheticB) > 5) {
       return aestheticB - aestheticA;
     }
 
     // 3. Sharpness (Higher is better)
     const sharpA = analysisA.sharpness || 0;
     const sharpB = analysisB.sharpness || 0;
-    if (Math.abs(sharpA - sharpB) / Math.max(sharpA, sharpB) > 0.1) {
+    if (Math.abs(sharpA - sharpB) > 10) {
       return sharpB - sharpA;
     }
 
@@ -99,9 +105,9 @@ function evaluateGroup(photos: ImageEntry[]): CurationGroup {
       if ((best.width || 0) * (best.height || 0) > (photo.width || 0) * (photo.height || 0)) {
         reasons.push("Lower resolution");
       }
-      if ((best.analysis?.aestheticScore || 0) > (photo.analysis?.aestheticScore || 0) + 0.05) {
+      if ((best.analysis?.aestheticScore || 0) > (photo.analysis?.aestheticScore || 0) + 5) {
         reasons.push(
-          `Lower aesthetics (${(photo.analysis?.aestheticScore || 0).toFixed(2)} vs ${(best.analysis?.aestheticScore || 0).toFixed(2)})`,
+          `Lower aesthetics (${(photo.analysis?.aestheticScore || 0).toFixed(0)} vs ${(best.analysis?.aestheticScore || 0).toFixed(0)})`,
         );
       }
       if ((best.analysis?.sharpness || 0) > (photo.analysis?.sharpness || 0)) {
@@ -170,9 +176,9 @@ async function main() {
 
   // 1. Calculate embeddings for Positive and Negative prompts
   const positivePrompt =
-    "aesthetic, best quality, masterpiece, highly detailed, 8k wallpaper, sharp focus, professional photography, award winning";
+    "composition, authenticity, documentary photography, balanced colors, sharp focus, clear subject, award winning";
   const negativePrompt =
-    "bad quality, blur, low resolution, pixelated, grainy, text, watermark, signature, ugly, amateur, artifacts";
+    "bad composition, blur, low resolution, artifacts, distorted, amateur, poor lighting";
 
   console.log("Computing prompt embeddings...");
 
@@ -191,21 +197,41 @@ async function main() {
   console.log(`Aesthetic Axis Length: ${aestheticAxis.length}`);
 
   const allImages: ImageEntry[] = [];
+  let missingAestheticCount = 0;
+
   manifest.photoDays.forEach((day) => {
     day.items.forEach((item) => {
       if (item.type === "image" && item.analysis?.embedding) {
         const imgEntry = item as ImageEntry;
         // Calculate Aesthetic Score
-        const score = calculateAestheticScore(imgEntry.analysis!.embedding!, aestheticAxis);
+        const rawScore = calculateAestheticScore(imgEntry.analysis.embedding!, aestheticAxis);
+        const score = normalizeAestheticScore(rawScore);
 
         // Update the entry in the manifest (in memory)
         if (!imgEntry.analysis) imgEntry.analysis = { sharpness: 0, phash: "", embedding: [] };
+
+        const previousAesthetic = imgEntry.analysis.aestheticScore;
         imgEntry.analysis.aestheticScore = score;
+
+        // Recalculate qualityBucket with the new aestheticScore
+        const sharpness = imgEntry.analysis.sharpness || 0;
+        imgEntry.analysis.qualityBucket = getQualityBucket(score, sharpness);
+
+        // Validation: warn if aestheticScore was missing
+        if (previousAesthetic === undefined || previousAesthetic === 0) {
+          missingAestheticCount++;
+        }
 
         allImages.push(imgEntry);
       }
     });
   });
+
+  if (missingAestheticCount > 0) {
+    console.warn(
+      `⚠️  Warning: ${missingAestheticCount} images had missing or zero aestheticScore. qualityBucket has been recalculated.`,
+    );
+  }
 
   console.log(`Loaded ${allImages.length} images with embeddings.`);
 
@@ -224,7 +250,7 @@ async function main() {
       const candidate = allImages[j];
       if (visited.has(candidate.id)) continue;
 
-      const sim = cosineSimilarity(seed.analysis!.embedding!, candidate.analysis!.embedding!);
+      const sim = cosineSimilarity(seed.analysis.embedding!, candidate.analysis.embedding!);
       if (sim >= CURATION_CONFIG.similarityThreshold) {
         cluster.push(candidate);
         visited.add(candidate.id);
@@ -237,7 +263,7 @@ async function main() {
       let minSim = 1.0;
       for (const p of cluster) {
         if (p.id !== seed.id) {
-          const s = cosineSimilarity(seed.analysis!.embedding!, p.analysis!.embedding!);
+          const s = cosineSimilarity(seed.analysis.embedding!, p.analysis.embedding!);
           if (s < minSim) minSim = s;
         }
       }

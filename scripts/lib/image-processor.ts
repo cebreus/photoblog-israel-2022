@@ -3,13 +3,20 @@ import fs from "node:fs";
 import fsp from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
+import xxhash from "xxhash-wasm";
 import { ImageFormat } from "../../src/lib/types/images";
 import type { ImageEntry, ImageSource, QualityTypes } from "../../src/lib/types/manifest";
 import { config } from "../config";
 import { aiService, EMBEDDING_DIM } from "./ai-models";
-import { calculatePhash, calculateSharpness, ensureDir } from "./image-utils";
+import { detectFaces, type FaceBox } from "./face-detection";
+import {
+  calculatePhash,
+  calculateSharpness,
+  ensureDir,
+  getQualityBucket,
+  normalizeSharpness,
+} from "./image-utils";
 import { createLogger } from "./logger";
-
 // New Metadata Module Imports
 import {
   buildImageEntry,
@@ -17,9 +24,6 @@ import {
   normalizeExifData,
   readRawMetadata,
 } from "./metadata";
-
-import xxhash from "xxhash-wasm";
-import { detectFaces, type FaceBox } from "./face-detection";
 import { calculateSmartCrop } from "./smart-crop";
 
 type SharpModule = typeof import("sharp");
@@ -259,20 +263,34 @@ async function gatherImageData(
     !reusedOther.placeholderColor || reusedOther.placeholderColor === "rgb(0,0,0)";
   const shouldComputeStats = shouldAnalyze || placeholderMissingOrDefault;
 
-  const [imageStats, exifTags, originalMeta, sharpnessScore, phash] = await Promise.all([
+  const [imageStats, exifTags, originalMeta, rawSharpness, phash] = await Promise.all([
     shouldComputeStats ? sharpInstance.stats() : Promise.resolve(null),
     readRawMetadata(absPath),
     sharpInstance.metadata(),
     shouldAnalyze
       ? calculateSharpness(sharpModule, processingPath)
-      : Promise.resolve(reusedAnalysis.sharpness ?? 0),
+      : Promise.resolve((reusedAnalysis && reusedAnalysis.sharpness) ?? 0),
     shouldAnalyze
       ? calculatePhash(sharpModule, processingPath)
-      : Promise.resolve(reusedAnalysis.phash ?? ""),
+      : Promise.resolve((reusedAnalysis && reusedAnalysis.phash) ?? ""),
   ]);
 
+  const normalizedSharpness = normalizeSharpness(rawSharpness);
+
+  // Aesthetic Score (from reused analysis if not re-analyzing)
+  const aesthetic = (reusedAnalysis && reusedAnalysis.aestheticScore) || 0;
+
+  // Validation: warn if aestheticScore is missing (will result in "poor" quality bucket)
+  if (aesthetic === 0 && !reusedAnalysis?.aestheticScore) {
+    logger.verbose(
+      `⚠️  aestheticScore missing for ${key}, qualityBucket will be "poor" until analyze-similarity runs`,
+    );
+  }
+
+  const qualityBucket = getQualityBucket(aesthetic, normalizedSharpness);
+
   // AI Embedding
-  let embedding: number[] | undefined = reusedAnalysis.embedding;
+  let embedding: number[] | undefined = reusedAnalysis ? reusedAnalysis.embedding : undefined;
   if (shouldAnalyze && options.curation) {
     embedding = await aiService.generateEmbedding(processingPath);
   }
@@ -310,7 +328,9 @@ async function gatherImageData(
     exifRaw,
     exifTags,
     originalMeta,
-    sharpnessScore,
+    sharpnessScore: normalizedSharpness,
+    qualityBucket,
+    aesthetic,
     phash,
     embedding,
     placeholderColor,
@@ -330,7 +350,7 @@ export async function processImage(
   let tempCleanupPath: string | null = null;
   // Ensure `key` exists in outer scope so catch block can reference it even if
   // an early error occurs during context preparation.
-  let key: string | undefined = undefined;
+  let key: string | undefined;
 
   try {
     const context = await prepareImageContext(absPath, options, sharpModule);
@@ -373,7 +393,9 @@ export async function processImage(
       imageData.placeholderColor,
       Number((stats.size / 1024 / 1024).toFixed(2)),
       {
+        aestheticScore: imageData.aesthetic ?? 0,
         sharpness: imageData.sharpnessScore ?? 0,
+        qualityBucket: imageData.qualityBucket,
         phash: imageData.phash ?? "",
         embedding: imageData.embedding ?? [],
       },
@@ -545,8 +567,8 @@ async function generateVariant(
         originalMeta.width ?? 0,
         originalMeta.height ?? 0,
         faces,
-        variantConfig.resize!.width!,
-        variantConfig.resize!.height!,
+        variantConfig.resize.width!,
+        variantConfig.resize.height!,
       );
     }
 

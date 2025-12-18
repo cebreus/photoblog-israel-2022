@@ -68,6 +68,7 @@ export type ImageEntry = {
   analysis?: {
     aestheticScore?: number;
     sharpness: number;
+    qualityBucket?: QualityBucket;
     phash: string;
     embedding?: number[];
   };
@@ -92,6 +93,7 @@ export type ImageEntry = {
     countryCode?: string;
     state?: string;
   };
+  people?: string[]; // Array of person IDs detected on this image
   sources: ImageSource[];
 };
 
@@ -135,6 +137,8 @@ export type MenuLocation = {
 };
 
 /** Represents a day entry in the lightweight `menu.manifest.json`. */
+export type QualityBucket = "excellent" | "good" | "poor";
+
 export type MenuDay = {
   id: string;
   date: string;
@@ -217,7 +221,7 @@ export type SiteManifest = {
 
 // --- Types for script/generate-images.ts ---
 
-import { ImageFormat } from "./images";
+import type { ImageFormat } from "./images";
 
 export type QualityTypes =
   | typeof ImageFormat.JPEG
@@ -277,3 +281,19 @@ export type Author = {
   slug?: string;
 };
 
+export type Person = {
+  id: string;
+  name: string;
+  faceDescriptor: number[];
+  faceCount: number; // Computed from images, not stored
+  thumbnail: string;
+  // REMOVED: imageIds - now computed from images.manifest.json
+  manualImageIds?: string[]; // User-tagged images (not auto-detected) - for future use
+  ignored: boolean; // Blacklist flag
+  createdAt: string; // ISO timestamp of first detection
+  lastSeenAt: string; // ISO timestamp of last detection
+};
+
+export type PeopleManifest = {
+  people: Person[];
+};
