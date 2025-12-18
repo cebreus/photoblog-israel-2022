@@ -1,7 +1,7 @@
-import { describe, expect, it, vi } from "vitest";
-import { page } from "vitest/browser";
-import { render } from "vitest-browser-svelte";
 import { selectedAuthors, showSeparators } from "$lib/stores/filters";
+import { describe, expect, it, vi } from "vitest";
+import { render } from "vitest-browser-svelte";
+import { page } from "vitest/browser";
 import FiltersTab from "./FiltersTab.svelte";
 
 // Mock Stores Inlined to avoid Hoisting
@@ -59,7 +59,7 @@ vi.mock("$lib/stores/filters", () => {
     showSeparators,
     visiblePhotos,
     selectedQualityBuckets,
-    selectedAestheticBuckets,
+    selectedPeople,
   };
 });
 
@@ -89,7 +89,7 @@ vi.mock("$lib/utils/gallery", () => ({
     { id: "poor", label: "Podprůměrné" },
   ],
   toggleAuthor: vi.fn(),
-  toggleAestheticBucket: vi.fn(),
+  togglePerson: vi.fn(),
   toggleQualityBucket: vi.fn(),
 }));
 
@@ -139,27 +139,11 @@ describe("FiltersTab", () => {
     expect(selectedAuthors.update).toHaveBeenCalled();
   });
 
-  it("renders quality and people filters when data is present", async () => {
   it("renders quality filter when data is present", async () => {
-    const aestheticStats = new Map([["excellent", 5]]);
-
-    // Mock getPhotoDays to trigger hasNonZeroScores
-    const { getPhotoDays } = await import("$lib/utils/images");
-    vi.mocked(getPhotoDays).mockReturnValue([
-      {
-        items: [
-          {
-            type: "image",
-            analysis: { aestheticScore: 0.05 },
-          },
-        ],
-      },
-    ] as any);
     const qualityStats = new Map([["excellent", 5]]);
 
-    render(FiltersTab, { authors, aestheticStats });
+    render(FiltersTab, { authors, qualityStats });
 
-    await expect.element(page.getByTestId("filters-tab-aesthetic-excellent")).toBeVisible();
     await expect.element(page.getByTestId("filters-tab-quality-excellent")).toBeVisible();
   });
 

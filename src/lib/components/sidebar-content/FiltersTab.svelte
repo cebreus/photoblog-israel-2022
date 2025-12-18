@@ -11,7 +11,7 @@
     visiblePhotos,
   } from "$lib/stores/filters";
   import { showPhotoLabels } from "$lib/stores/photoLabels";
-  import type { MenuDay } from "$lib/types/manifest";
+  import type { MenuDay, QualityBucket } from "$lib/types/manifest";
   import { QUALITY_BUCKETS } from "$lib/utils/gallery";
   import { getMenuItems } from "$lib/utils/menu";
   import { toSlug } from "$lib/utils/strings";
@@ -29,11 +29,9 @@
 
   let {
     authors = [],
-    aestheticStats = new Map(),
     qualityStats = new Map(),
   } = $props<{
     authors?: AuthorStats[];
-    aestheticStats?: Map<string, number>;
     qualityStats?: Map<string, number>;
   }>();
 
@@ -101,13 +99,14 @@
     });
   }
 
-
   function toggleQualityBucket(bucketId: string) {
+    // Cast to QualityBucket as we know the input comes from QUALITY_BUCKETS list
+    const id = bucketId as QualityBucket;
     selectedQualityBuckets.update((current) => {
-      if (current.includes(bucketId)) {
-        return current.filter((id) => id !== bucketId);
+      if (current.includes(id)) {
+        return current.filter((i) => i !== id);
       }
-      return [...current, bucketId];
+      return [...current, id];
     });
   }
 
@@ -117,8 +116,6 @@
     };
   }
 
-  const aestheticCount = $derived(
-    Array.from(aestheticStats.values() as IterableIterator<number>).reduce(
   const qualityCount = $derived(
     Array.from(qualityStats.values() as IterableIterator<number>).reduce(
       (sum: number, val: number) => sum + val,
