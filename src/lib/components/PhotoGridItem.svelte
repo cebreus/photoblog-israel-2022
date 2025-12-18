@@ -191,7 +191,7 @@
     {
       label: "Aesthetic / Sharpness",
       value: item.analysis
-        ? `${item.analysis.aestheticScore?.toFixed(2) ?? ""} / ${item.analysis.sharpness?.toFixed(2) ?? "—"}`
+        ? `${item.analysis.aestheticScore?.toFixed(2) ?? ""} / ${item.analysis.sharpness?.toFixed(2) ?? "—"}<br /><span title="Quality Bucket">${item.analysis.qualityBucket ?? "—"}</span>`
         : "—",
       isTechnical: true,
     },
@@ -218,12 +218,12 @@
               </th>
               <td
                 class={cn(
-                  "line-clamp-3 w-full max-w-full min-w-0 py-1 font-mono",
+                  "line-clamp-3 w-full max-w-full min-w-0 py-1 font-mono whitespace-pre-line",
                   field.isTechnical && "text-muted-foreground",
                 )}
               >
                 {#if field.value}
-                  {field.value}
+                  {@html field.value}
                 {:else}
                   <span class="text-muted-foreground"></span>
                 {/if}
