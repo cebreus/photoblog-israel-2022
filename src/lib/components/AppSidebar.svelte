@@ -29,7 +29,7 @@
   let {
     menuItems = [],
     authors = [],
-    aestheticStats = new Map(),
+    qualityStats = new Map(),
     ref = $bindable(null),
     collapsible = "offcanvas",
     side = "right",
@@ -37,7 +37,7 @@
   }: ComponentProps<typeof Sidebar.Root> & {
     menuItems: MenuManifest;
     authors: AuthorStats[];
-    aestheticStats?: Map<string, number>;
+    qualityStats?: Map<string, number>;
   } = $props();
 
   // Derive items for EditTab
@@ -136,7 +136,7 @@
       </Sidebar.Content>
     </Tabs.Content>
     <Tabs.Content value="filters" class="mt-0 h-full flex flex-col overflow-hidden">
-      <FiltersTab {authors} qualityStats={aestheticStats} />
+      <FiltersTab {authors} {qualityStats} />
     </Tabs.Content>
     <Tabs.Content value="people" class="mt-0 h-full flex flex-col overflow-hidden">
       <Sidebar.Content>

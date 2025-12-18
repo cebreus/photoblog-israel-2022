@@ -12,15 +12,17 @@ function gatherAuthors(photoDays: PhotoDay[]): Author[] {
       // use canonical top-level author only
       const rawAuthor = item.author || "";
 
-      counts.set(rawAuthor, (counts.get(rawAuthor) ?? 0) + 1);
+      if (rawAuthor.trim()) {
+        counts.set(rawAuthor, (counts.get(rawAuthor) ?? 0) + 1);
+      }
     }
   }
 
   return Array.from(counts.entries())
     .map(([name, count]) => ({
-      name: name || "Bez autora",
+      name,
       count,
-      slug: name ? toSlug(name) : "unknown",
+      slug: toSlug(name),
     }))
     .sort((a, b) => a.name.localeCompare(b.name));
 }
@@ -48,7 +50,6 @@ export const load = async () => {
   const photoDays = getPhotoDays();
   const menuItems: MenuManifest = getMenuItems();
   const authors: Author[] = gatherAuthors(photoDays);
-  const aestheticStats = gatherAestheticStats(photoDays);
   const qualityStats = gatherQualityStats(photoDays);
   const siteManifest: SiteManifest = getSiteManifest();
   const curationManifest = getCurationManifest();
@@ -57,7 +58,6 @@ export const load = async () => {
     photoDays,
     menuItems,
     authors,
-    aestheticStats,
     qualityStats,
     siteManifest,
     curationManifest,
