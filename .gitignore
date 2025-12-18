@@ -7,7 +7,9 @@ node_modules/
 .temp/
 .vercel/
 build/
+content/*/archive/
 content/*/pics/
+static/*/archive/
 static/*/assets/favicons/
 static/*/faces/
 static/*/favicon.ico
@@ -35,3 +37,4 @@ vite.config.ts.timestamp-*
 # OS
 .DS_Store
 Thumbs.db
+
