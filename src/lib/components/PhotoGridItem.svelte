@@ -7,9 +7,11 @@
   import { debug } from "$lib/stores/debug";
   import { editMode, selection, showMetadataOverlay } from "$lib/stores/editorState";
   import { metadataClipboard } from "$lib/stores/metadataClipboard";
+  import { peopleBase } from "$lib/stores/people-store";
   import { isCurationMode } from "$lib/stores/uiState";
   import type { CurationGroup, ImageEntry, ImageSource } from "$lib/types/manifest";
   import { cn } from "$lib/utils";
+
   import { getSources } from "$lib/utils/images";
   import Archive from "lucide-svelte/icons/archive";
   import ArrowRightLeft from "lucide-svelte/icons/arrow-right-left";
@@ -165,6 +167,15 @@
           })
         : undefined,
     },
+    {
+      label: "Lidé",
+      value: (item.people || [])
+        .map((id) => $peopleBase.find((p) => p.id === id)?.name)
+        .filter(Boolean)
+        .join(", "),
+      isTechnical: true,
+    },
+
     { label: "Autor", value: item.author },
     { label: "Místo", value: item.location },
     { label: "Město", value: item.city },
