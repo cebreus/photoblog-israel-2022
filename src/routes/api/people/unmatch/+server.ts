@@ -98,31 +98,57 @@ export async function POST({ request }) {
     // Update counts
     sourcePerson.faceCount = Math.max(0, sourcePerson.faceCount - 1);
 
-    // Check if we removed the thumbnail
-    if (sourcePerson.thumbnail && sourcePerson.thumbnail.includes(imageId)) {
-      console.log(`[UNMATCH] Removed thumbnail for ${sourcePerson.name}, looking for replacement...`);
-      // List remaining files in the source person's directory to pick a new thumbnail
+    // Check if we removed the thumbnail OR if we need to re-validate it
+    // We always check if faceCount > 0
+    if (sourcePerson.faceCount > 0) {
       const sourceDir = path.resolve(facesDir, personId);
-      try {
-        const files = await fsp.readdir(sourceDir);
-        // Filter for jpg files and exclude the one we just moved (though it should be gone)
-        const validImages = files.filter(
-          (f) => f.endsWith(".jpg") && !f.includes(imageId) && !f.startsWith("."),
-        );
+      let needsNewThumbnail = false;
 
-        if (validImages.length > 0) {
-          // Pick the first one
-          sourcePerson.thumbnail = `faces/${personId}/${validImages[0]}`;
-          console.log(`[UNMATCH] New thumbnail: ${sourcePerson.thumbnail}`);
-        } else {
-          // No images left
-          sourcePerson.thumbnail = "";
-          console.log(`[UNMATCH] No images left for thumbnail`);
-        }
-      } catch (e) {
-        // Directory might not exist or other error
-        sourcePerson.thumbnail = "";
+      // 1. Check if current thumbnail matches the removed image ID
+      if (!sourcePerson.thumbnail || sourcePerson.thumbnail.includes(imageId)) {
+        console.log(`[UNMATCH] Thumbnail matches removed image ${imageId}, invalidating...`);
+        needsNewThumbnail = true;
       }
+
+      // 2. Check if current thumbnail file actually exists (robustness)
+      if (!needsNewThumbnail && sourcePerson.thumbnail) {
+        try {
+          const thumbPath = path.resolve(process.cwd(), `static/${contentDir}`, sourcePerson.thumbnail);
+          await fsp.access(thumbPath);
+        } catch {
+          console.log(`[UNMATCH] Current thumbnail file not found: ${sourcePerson.thumbnail}, invalidating...`);
+          needsNewThumbnail = true;
+        }
+      }
+
+      if (needsNewThumbnail) {
+        console.log(`[UNMATCH] Searching for new thumbnail for ${sourcePerson.name}...`);
+        try {
+          // List remaining files in the source person's directory to pick a new thumbnail
+          const files = await fsp.readdir(sourceDir);
+          
+          // Filter for jpg files and exclude the one we just moved (though it should be gone)
+          const validImages = files
+            .filter((f) => f.endsWith(".jpg") && !f.includes(imageId) && !f.startsWith("."))
+            .sort(); // Sort for deterministic selection
+
+          if (validImages.length > 0) {
+            // Pick the first one
+            sourcePerson.thumbnail = `faces/${personId}/${validImages[0]}`;
+            console.log(`[UNMATCH] New thumbnail selected: ${sourcePerson.thumbnail}`);
+          } else {
+            // No images left (should be impossible if faceCount > 0, but safety fallback)
+            sourcePerson.thumbnail = "";
+            console.warn(`[UNMATCH] WARNING: Face count is ${sourcePerson.faceCount} but no images found in ${sourceDir}`);
+          }
+        } catch (e) {
+          console.error(`[UNMATCH] Failed to scan directory ${sourceDir}:`, e);
+          sourcePerson.thumbnail = "";
+        }
+      }
+    } else {
+      // faceCount is 0
+      sourcePerson.thumbnail = "";
     }
 
     // Save manifests
