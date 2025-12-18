@@ -1,6 +1,9 @@
 <script lang="ts">
   import { dev } from "$app/environment";
+  import { goto } from "$app/navigation";
+  import { page } from "$app/stores";
   import PersonDetailDialog from "$lib/components/PersonDetailDialog.svelte";
+  import PersonIgnoreConfirmDialog from "$lib/components/PersonIgnoreConfirmDialog.svelte";
   import PersonMergeDialog from "$lib/components/PersonMergeDialog.svelte";
   import * as Accordion from "$lib/components/ui/accordion";
   import { Button } from "$lib/components/ui/button";
@@ -268,7 +271,9 @@
     if (mode === "reset") return clearSelection();
   }
 
-  function openBulkIgnoreDialog() {
+  function openBulkIgnoreDialog(e?: MouseEvent) {
+    e?.stopPropagation();
+    console.log("[PEOPLE TAB] Opening bulk ignore dialog, count:", selectedForMerge.length);
     if (selectedForMerge.length === 0) return;
     showIgnoreConfirmDialog = true;
   }
