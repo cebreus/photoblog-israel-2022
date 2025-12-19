@@ -1,4 +1,5 @@
 process.env.GLIB_LOG_LEVEL = "critical";
+
 import { intro, select } from "@clack/prompts";
 import { type FaviconOptions, favicons } from "favicons";
 import { promises as fs } from "fs"; // Bun's native fs/promises
@@ -14,7 +15,7 @@ const options = parseCliArguments(process.argv.slice(2));
 const values = options;
 
 if (values.verbose) {
-    logger.level = "verbose";
+  logger.level = "verbose";
 }
 
 type SiteConfig = {
@@ -41,7 +42,7 @@ async function loadSiteConfig(contentDir: string): Promise<SiteConfig> {
   if (!data.favicon) {
     throw new Error(`Config error: 'favicon' key is missing in ${siteConfigPath}.`);
   }
-  if (typeof data.favicon !== 'string') {
+  if (typeof data.favicon !== "string") {
     throw new Error(`Config error: 'favicon' key is not a string in ${siteConfigPath}.`);
   }
   const safeFavicon = path.basename(data.favicon);
@@ -51,7 +52,7 @@ async function loadSiteConfig(contentDir: string): Promise<SiteConfig> {
   }
   // Although manifest itself is an object, if any of its internal paths were strings, they should be sanitized too.
   // For now, assuming manifest is an object that favicons library handles.
-  
+
   if (!data.meta?.lang) {
     throw new Error(`Config error: 'meta.lang' key is missing in ${siteConfigPath}.`);
   }
@@ -76,8 +77,8 @@ async function run() {
   intro("✨ Favicon Generator");
 
   if (values.manifestOnly) {
-      logger.info("Manifest-only mode: Skipping favicon generation.");
-      return;
+    logger.info("Manifest-only mode: Skipping favicon generation.");
+    return;
   }
 
   let contentDir = process.env.CONTENT_DIR;
@@ -112,8 +113,8 @@ async function run() {
   const tempDir = ".temp";
 
   if (values.clean) {
-      if (values.verbose) logger.info(`Cleaning output directory: ${assetsOutDir}`);
-      await fs.rm(assetsOutDir, { recursive: true, force: true });
+    if (values.verbose) logger.info(`Cleaning output directory: ${assetsOutDir}`);
+    await fs.rm(assetsOutDir, { recursive: true, force: true });
   }
 
   await fs.mkdir(assetsOutDir, { recursive: true });

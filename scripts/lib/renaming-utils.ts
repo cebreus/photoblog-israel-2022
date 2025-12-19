@@ -57,7 +57,9 @@ export function getNewBasename(
     return safeOriginalBasename ? `${dateStr}-${safeOriginalBasename}` : dateStr;
   }
 
-  return safeOriginalBasename ? `${dateStr}-${author}-${safeOriginalBasename}` : `${dateStr}-${author}`;
+  return safeOriginalBasename
+    ? `${dateStr}-${author}-${safeOriginalBasename}`
+    : `${dateStr}-${author}`;
 }
 
 export async function safeRename(oldPath: string, newPath: string) {

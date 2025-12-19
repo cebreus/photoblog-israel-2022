@@ -1,8 +1,8 @@
-import EditTab from "$lib/components/sidebar-content/EditTab.svelte";
 import { writable } from "svelte/store";
 import { describe, expect, it, vi } from "vitest";
-import { render } from "vitest-browser-svelte";
 import { page } from "vitest/browser";
+import { render } from "vitest-browser-svelte";
+import EditTab from "$lib/components/sidebar-content/EditTab.svelte";
 
 // Mock Rune Stores
 vi.mock("$lib/stores/editor.svelte", () => ({

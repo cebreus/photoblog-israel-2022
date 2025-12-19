@@ -1,20 +1,19 @@
+import fs from "node:fs";
+import path from "node:path";
 import { confirm, intro, outro, select, spinner, text } from "@clack/prompts";
 import { exiftool } from "exiftool-vendored";
 import fg from "fast-glob";
-import fs from "node:fs";
-import path from "node:path";
+import { parseCliArguments } from "./lib/cli-parser";
 import {
-    migrateCache,
-    migrateCurationManifest,
-    migrateGeneratedAssets,
-    migrateImagesManifest,
-    migrateMarkdownFiles,
-    migratePeopleManifest,
+  migrateCache,
+  migrateCurationManifest,
+  migrateGeneratedAssets,
+  migrateImagesManifest,
+  migrateMarkdownFiles,
+  migratePeopleManifest,
 } from "./lib/gallery-migration";
 import { getNewBasename, type RenameMap, safeRename } from "./lib/renaming-utils";
 import { formatDuration } from "./lib/time-utils";
-
-import { parseCliArguments } from "./lib/cli-parser";
 
 const options = parseCliArguments(process.argv.slice(2));
 const values = options;

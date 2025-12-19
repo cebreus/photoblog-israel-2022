@@ -10,7 +10,6 @@
   import { ui } from "$lib/stores/ui.svelte";
   import type { CurationGroup, ImageEntry, ImageSource } from "$lib/types/manifest";
   import { cn } from "$lib/utils";
-
   import { getSources } from "$lib/utils/images";
   import Archive from "lucide-svelte/icons/archive";
   import ArrowRightLeft from "lucide-svelte/icons/arrow-right-left";

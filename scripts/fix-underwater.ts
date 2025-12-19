@@ -8,7 +8,7 @@ import { parseCliArguments } from "./lib/cli-parser";
 
 const options = parseCliArguments(process.argv.slice(2));
 const values = options;
-const positionals = process.argv.slice(2).filter(a => !a.startsWith("--"));
+const positionals = process.argv.slice(2).filter((a) => !a.startsWith("--"));
 
 if (values.help || positionals.length < 3) {
   console.log(
@@ -21,11 +21,8 @@ if (values.help || positionals.length < 3) {
   process.exit(1);
 }
 
-const inputPath = validatePathInsideRoot(
-  positionals[2] || "",
-  SAFE_INPUT_ROOT,
-);
-const generateBoth = values.both ?? (process.argv.includes("--both"));
+const inputPath = validatePathInsideRoot(positionals[2] || "", SAFE_INPUT_ROOT);
+const generateBoth = values.both ?? process.argv.includes("--both");
 
 if (!inputPath) {
   console.error("❌ Error: Missing or invalid input path.");

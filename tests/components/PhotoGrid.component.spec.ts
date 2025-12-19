@@ -1,8 +1,8 @@
+import { describe, expect, it, vi } from "vitest";
+import { page } from "vitest/browser";
+import { render } from "vitest-browser-svelte";
 import PhotoGrid from "$lib/components/PhotoGrid.svelte";
 import type { ImageEntry, Separator } from "$lib/types/manifest";
-import { describe, expect, it, vi } from "vitest";
-import { render } from "vitest-browser-svelte";
-import { page } from "vitest/browser";
 
 // 1. Mock Rune Stores
 vi.mock("$lib/stores/ui.svelte", () => ({

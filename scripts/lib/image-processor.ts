@@ -9,19 +9,19 @@ import { config } from "../config";
 import { aiService, EMBEDDING_DIM } from "./ai-models";
 import { detectFaces, type FaceBox } from "./face-detection";
 import {
-    generateOtherOutput,
-    generateVariant,
-    type OtherOutputConfig,
-    type VariantOutputConfig,
+  generateOtherOutput,
+  generateVariant,
+  type OtherOutputConfig,
+  type VariantOutputConfig,
 } from "./image-generator";
 import { calculatePhash, calculateSharpness } from "./image-utils";
 import { createLogger } from "./logger";
 import {
-    buildImageEntry,
-    cleanupMetadataTool,
-    normalizeExifData,
-    type RawExifData,
-    readRawMetadata,
+  buildImageEntry,
+  cleanupMetadataTool,
+  normalizeExifData,
+  type RawExifData,
+  readRawMetadata,
 } from "./metadata";
 import { run } from "./shell-utils";
 
@@ -136,7 +136,7 @@ async function convertHeicIfNeeded(
     const tmpDir = os.tmpdir();
     const tempFilePath = path.join(tmpDir, `${baseName}_converted.jpg`);
     try {
-			await run("vips", ["copy", absPath, tempFilePath]);
+      await run("vips", ["copy", absPath, tempFilePath]);
       return { processingPath: tempFilePath, tempFilePath };
     } catch (convErr) {
       logger.warn(`Failed to convert HEIC via vips for ${absPath}: ${convErr}`);
@@ -388,7 +388,7 @@ async function generateAllOutputs(
 
 export async function processImage(
   absPath: string,
-  options: ImageProcessOptions & { skipFaces?: boolean; skipEmbeddings?: boolean }
+  options: ImageProcessOptions & { skipFaces?: boolean; skipEmbeddings?: boolean },
 ): Promise<ProcessedImageResult | null> {
   const startTime = performance.now();
   await loadSharpOrExplain();

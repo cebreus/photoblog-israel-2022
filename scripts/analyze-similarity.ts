@@ -1,17 +1,17 @@
-import { intro } from "@clack/prompts";
-import { AutoTokenizer, CLIPTextModelWithProjection } from "@xenova/transformers";
 import fs from "node:fs";
 import path from "node:path";
+import { intro } from "@clack/prompts";
+import { AutoTokenizer, CLIPTextModelWithProjection } from "@xenova/transformers";
 import type {
-    CurationGroup,
-    CurationManifest,
-    CurationRecommendation,
-    ImageEntry,
+  CurationGroup,
+  CurationManifest,
+  CurationRecommendation,
+  ImageEntry,
 } from "../src/lib/types/manifest";
 import {
-    calculateAestheticScore,
-    createAestheticAxis,
-    normalizeAestheticScore,
+  calculateAestheticScore,
+  createAestheticAxis,
+  normalizeAestheticScore,
 } from "./lib/aesthetic";
 import { aiService } from "./lib/ai-models";
 import { parseCliArguments } from "./lib/cli-parser";
@@ -19,9 +19,9 @@ import { resolveGalleryDirectory } from "./lib/gallery-resolver";
 import { getQualityBucket, normalizeSharpness } from "./lib/image-utils";
 import { createLogger } from "./lib/logger";
 import {
-    loadImagesManifest,
-    saveCurationManifest,
-    saveImagesManifest,
+  loadImagesManifest,
+  saveCurationManifest,
+  saveImagesManifest,
 } from "./lib/manifest-repository";
 import { progressManager } from "./lib/progress-manager";
 import { formatDuration } from "./lib/time-utils";
@@ -432,8 +432,8 @@ async function main() {
   }
 
   if (values.manifestOnly) {
-      logger.info("Manifest-only mode: Skipping analysis.");
-      return;
+    logger.info("Manifest-only mode: Skipping analysis.");
+    return;
   }
 
   // Use Repository

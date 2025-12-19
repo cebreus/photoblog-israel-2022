@@ -188,7 +188,9 @@ export async function convertHeicToPng(inputPath: string): Promise<Buffer> {
       await run("vips", ["copy", validatedInputPath, tempFile], { stdio: "ignore" });
     } catch {
       // Fallback to sips if vips fails
-      await run("sips", ["-s", "format", "png", validatedInputPath, "--out", tempFile], { stdio: "ignore" });
+      await run("sips", ["-s", "format", "png", validatedInputPath, "--out", tempFile], {
+        stdio: "ignore",
+      });
     }
 
     const buf = await fsp.readFile(tempFile);

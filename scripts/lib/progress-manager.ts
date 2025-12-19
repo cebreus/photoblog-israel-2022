@@ -1,4 +1,4 @@
-import { MultiBar, Presets, SingleBar } from "cli-progress";
+import { MultiBar, Presets, type SingleBar } from "cli-progress";
 import colors from "picocolors";
 
 export class ProgressManager {
@@ -8,14 +8,17 @@ export class ProgressManager {
   private isEnabled = true;
 
   private constructor() {
-    this.multiBar = new MultiBar({
-      clearOnComplete: false,
-      hideCursor: true,
-      format: "{prefix} [{bar}] {percentage}% | {value}/{total} {suffix}",
-      barCompleteChar: "\u2588",
-      barIncompleteChar: "\u2591",
-      stopOnComplete: true,
-    }, Presets.shades_classic);
+    this.multiBar = new MultiBar(
+      {
+        clearOnComplete: false,
+        hideCursor: true,
+        format: "{prefix} [{bar}] {percentage}% | {value}/{total} {suffix}",
+        barCompleteChar: "\u2588",
+        barIncompleteChar: "\u2591",
+        stopOnComplete: true,
+      },
+      Presets.shades_classic,
+    );
   }
 
   public static getInstance(): ProgressManager {
@@ -27,19 +30,19 @@ export class ProgressManager {
 
   public createBar(total: number, prefix: string, payload: Record<string, any> = {}): SingleBar {
     if (!this.isEnabled) {
-       // Return a dummy object if disabled (though we plan to keep it enabled mostly)
-       // For now, we return a functional bar but might want to handle "quiet" mode here if needed globally
+      // Return a dummy object if disabled (though we plan to keep it enabled mostly)
+      // For now, we return a functional bar but might want to handle "quiet" mode here if needed globally
     }
-    
+
     // Ensure prefix is colored or formatted if needed
     const formattedPrefix = colors.cyan(prefix);
 
-    const bar = this.multiBar.create(total, 0, { 
-      prefix: formattedPrefix, 
-      suffix: "", 
-      ...payload 
+    const bar = this.multiBar.create(total, 0, {
+      prefix: formattedPrefix,
+      suffix: "",
+      ...payload,
     });
-    
+
     this.activeBars.add(bar);
     return bar;
   }

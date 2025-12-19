@@ -1,8 +1,8 @@
+import { describe, expect, it, vi } from "vitest";
+import { page } from "vitest/browser";
+import { render } from "vitest-browser-svelte";
 import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
 import type { ImageEntry } from "$lib/types/manifest";
-import { describe, expect, it, vi } from "vitest";
-import { render } from "vitest-browser-svelte";
-import { page } from "vitest/browser";
 
 // Mock page store
 vi.mock("$app/stores", () => ({

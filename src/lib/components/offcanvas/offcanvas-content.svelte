@@ -1,11 +1,11 @@
 <script lang="ts">
   import Button from "$lib/components/ui/button/button.svelte";
   import { cn } from "$lib/utils";
+  import { OFFCANVAS_CONTEXT_KEY, type OffcanvasContext } from "./offcanvas-context";
   import X from "lucide-svelte/icons/x";
   import type { Snippet } from "svelte";
   import { getContext } from "svelte";
   import type { HTMLAttributes } from "svelte/elements";
-  import { OFFCANVAS_CONTEXT_KEY, type OffcanvasContext } from "./offcanvas-context";
 
   let {
     children,

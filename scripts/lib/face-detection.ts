@@ -29,7 +29,7 @@ export async function initModels() {
     });
     logger.info("Initializing TensorFlow/FaceAPI...");
     await tf.ready();
-    
+
     try {
       await faceapi.nets.ssdMobilenetv1.loadFromDisk(MODELS_DIR);
       logger.info("Face models loaded from disk.");

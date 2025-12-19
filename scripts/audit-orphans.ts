@@ -1,8 +1,8 @@
 #!/usr/bin/env bun
 
-import { confirm, intro, outro, spinner } from "@clack/prompts";
 import fsp from "node:fs/promises";
 import path from "node:path";
+import { confirm, intro, outro, spinner } from "@clack/prompts";
 import type { Cache, ImageEntry } from "../src/lib/types/manifest";
 import { config } from "./config";
 import { findOrphanAssets, findOrphanFaceCrops, getOutputFolders } from "./lib/cleanup-utils";

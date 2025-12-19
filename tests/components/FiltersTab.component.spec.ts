@@ -1,9 +1,9 @@
+import { describe, expect, it, vi } from "vitest";
+import { page } from "vitest/browser";
+import { render } from "vitest-browser-svelte";
 import SwitchStub from "$lib/components/__test_fixtures__/SwitchStub.svelte";
 import FiltersTab from "$lib/components/sidebar-content/FiltersTab.svelte";
 import { filters } from "$lib/stores/filters.svelte";
-import { describe, expect, it, vi } from "vitest";
-import { render } from "vitest-browser-svelte";
-import { page } from "vitest/browser";
 
 // Mock Rune Stores
 vi.mock("$lib/stores/ui.svelte", () => ({

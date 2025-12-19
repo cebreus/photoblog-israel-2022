@@ -1,7 +1,7 @@
-import { intro, outro } from "@clack/prompts";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
+import { intro, outro } from "@clack/prompts";
 import { detectFaces } from "./lib/face-detection";
 import { resolveGalleryDirectory } from "./lib/gallery-resolver";
 import { createLogger } from "./lib/logger";

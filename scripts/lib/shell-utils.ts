@@ -11,12 +11,15 @@ export async function run(
   } = {},
 ): Promise<void> {
   const stdio = options.stdio || "inherit";
-  const mergedEnv = { ...process.env, ...Object.fromEntries(Object.entries(options.env || {}).map(([k, v]) => [k, String(v)])) };
+  const mergedEnv = {
+    ...process.env,
+    ...Object.fromEntries(Object.entries(options.env || {}).map(([k, v]) => [k, String(v)])),
+  };
 
   // Use Bun.spawn if available, otherwise fallback to Node's child_process for Vitest compatibility
   if (typeof Bun !== "undefined") {
     const shouldPipe = options.stdio === "pipe" || !!options.filter;
-    const stdioMode = shouldPipe ? "pipe" : (options.stdio || "inherit");
+    const stdioMode = shouldPipe ? "pipe" : options.stdio || "inherit";
 
     const proc = Bun.spawn([cmd, ...args], {
       stdout: stdioMode,
@@ -27,17 +30,19 @@ export async function run(
     });
 
     if (options.filter && proc.stdout && proc.stderr) {
-       // We need to consume the streams and print filtered lines
-       // Pipe proc.stdout -> filter -> process.stdout
-       pipeWithFilter(proc.stdout, process.stdout, options.filter);
-       pipeWithFilter(proc.stderr, process.stderr, options.filter);
+      // We need to consume the streams and print filtered lines
+      // Pipe proc.stdout -> filter -> process.stdout
+      pipeWithFilter(proc.stdout, process.stdout, options.filter);
+      pipeWithFilter(proc.stderr, process.stderr, options.filter);
     }
 
     const exitCode = await proc.exited;
 
     if (exitCode !== 0) {
       const stderr = options.stdio === "pipe" ? await new Response(proc.stderr).text() : "";
-      throw new Error(`Command '${cmd} ${args.join(" ")}' failed with code ${exitCode}${stderr ? `: ${stderr}` : ""}`);
+      throw new Error(
+        `Command '${cmd} ${args.join(" ")}' failed with code ${exitCode}${stderr ? `: ${stderr}` : ""}`,
+      );
     }
     return;
   }
@@ -60,28 +65,32 @@ export async function run(
   });
 }
 
-async function pipeWithFilter(readable: ReadableStream, writable: NodeJS.WriteStream, filter: (line: string) => boolean) {
+async function pipeWithFilter(
+  readable: ReadableStream,
+  writable: NodeJS.WriteStream,
+  filter: (line: string) => boolean,
+) {
   const reader = readable.getReader();
   const decoder = new TextDecoder();
   let buffer = "";
-  
+
   while (true) {
     const { done, value } = await reader.read();
     if (done) break;
     buffer += decoder.decode(value, { stream: true });
-    
+
     // Split by newlines but keep the last incomplete chunk in buffer
     const lines = buffer.split(/\r?\n/);
-    buffer = lines.pop() || ""; 
-    
+    buffer = lines.pop() || "";
+
     for (const line of lines) {
-       if (filter(line)) {
-         writable.write(line + "\n");
-       }
+      if (filter(line)) {
+        writable.write(line + "\n");
+      }
     }
   }
   if (buffer && filter(buffer)) {
-      writable.write(buffer);
+    writable.write(buffer);
   }
 }
 

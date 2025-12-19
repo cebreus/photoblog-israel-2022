@@ -1,9 +1,9 @@
+import os from "node:os";
 import { intro, outro } from "@clack/prompts";
 import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
 import * as canvas from "canvas";
 import crypto from "crypto";
 import fsp from "fs/promises";
-import os from "node:os";
 import path from "path";
 import sharp from "sharp";
 import type { ImageEntry, Person } from "../src/lib/types/manifest";
@@ -13,10 +13,10 @@ import { resolveGalleryDirectory } from "./lib/gallery-resolver";
 import { convertHeicToPng, ensureDir } from "./lib/image-utils";
 import { createLogger } from "./lib/logger";
 import {
-    loadImagesManifest,
-    loadPeopleManifest,
-    saveImagesManifest,
-    savePeopleManifest,
+  loadImagesManifest,
+  loadPeopleManifest,
+  saveImagesManifest,
+  savePeopleManifest,
 } from "./lib/manifest-repository";
 import { isValidClusteringConstraints } from "./lib/manifest-validators";
 import { filterPeopleWithValidDescriptors } from "./lib/people-utils";
@@ -53,10 +53,10 @@ async function loadModels() {
 async function prepareImageForFaceDetection(imagePath: string, detailsDir: string): Promise<any> {
   const baseName = path.basename(imagePath);
   const fileNameWithoutExt = baseName.replace(/\.[^/.]+$/, "");
-  
+
   // Try to find the thumbnail in the 'details' folder (optimized for 1280px)
   const thumbnailPath = path.join(detailsDir, `${fileNameWithoutExt}.jpeg`);
-  
+
   let imgBuffer: Buffer;
   try {
     await fsp.access(thumbnailPath);
@@ -108,7 +108,8 @@ async function processFaceDetections(
 
     const descriptor = Array.from(detection.descriptor) as number[];
     if (descriptor.length !== 128) {
-      if (values.verbose) logger.warn(`Skipping detection with invalid descriptor length: ${descriptor.length}`);
+      if (values.verbose)
+        logger.warn(`Skipping detection with invalid descriptor length: ${descriptor.length}`);
       continue;
     }
     const bestMatch = findBestMatch(
@@ -193,9 +194,10 @@ async function loadClusteringResources(dataDir: string): Promise<{
         }
         manualConnects.get(c.imageId)?.push(c.personId);
       }
-      if (values.verbose) logger.info(
-        `Loaded ${disconnectedPairs.size} disconnection and ${manualConnects.size} connection constraints.`,
-      );
+      if (values.verbose)
+        logger.info(
+          `Loaded ${disconnectedPairs.size} disconnection and ${manualConnects.size} connection constraints.`,
+        );
     }
   } catch {
     if (values.verbose) logger.info("No constraints found or invalid file.");
@@ -234,17 +236,18 @@ async function processImageQueue(
   detailsDir: string,
 ) {
   let processedCount = 0;
-  const CONCURRENCY = typeof values.concurrency === "number" 
-    ? values.concurrency 
-    : Math.max(1, (os.cpus()?.length || 2) - 1);
-  
+  const CONCURRENCY =
+    typeof values.concurrency === "number"
+      ? values.concurrency
+      : Math.max(1, (os.cpus()?.length || 2) - 1);
+
   const bar = progressManager.createBar(queue.length, "[face-clustering]", { people: 0 });
 
   // bar?.start(queue.length, 0, { people: 0 });
 
   const worker = async (item: { image: ImageEntry; oldPeople: string[] }) => {
     const { image, oldPeople } = item;
-    
+
     if (oldPeople.length > 0) {
       await deleteOldFaceCrops(image.id, oldPeople, facesOutputDir);
     }
@@ -275,16 +278,23 @@ async function processImageQueue(
         .withFaceDescriptors();
 
       if (detections.length > 0 && values.verbose) {
-         logger.verbose(`Found ${detections.length} faces in ${image.id}`);
+        logger.verbose(`Found ${detections.length} faces in ${image.id}`);
       }
-      
-      await processFaceDetections(img, detections, image, people, disconnectedPairs, facesOutputDir);
+
+      await processFaceDetections(
+        img,
+        detections,
+        image,
+        people,
+        disconnectedPairs,
+        facesOutputDir,
+      );
     } catch (e) {
       logger.error(`Detection/Clustering failed for ${image.id}:`, e);
     }
 
     processedCount++;
-    
+
     if (bar) {
       bar.update(processedCount, { people: people.length });
     }
@@ -334,17 +344,17 @@ async function main() {
   await loadModels();
 
   const { people, disconnectedPairs, manualConnects } = await loadClusteringResources(dataDir);
-  
+
   if (values.clean) {
-      if (values.verbose) logger.info(`Cleaning output directory: ${facesOutputDir}`);
-      await fsp.rm(facesOutputDir, { recursive: true, force: true });
+    if (values.verbose) logger.info(`Cleaning output directory: ${facesOutputDir}`);
+    await fsp.rm(facesOutputDir, { recursive: true, force: true });
   }
-  
+
   await ensureDir(facesOutputDir);
 
   if (values.manifestOnly) {
-      logger.info("Manifest-only mode: Skipping face detection and clustering.");
-      return;
+    logger.info("Manifest-only mode: Skipping face detection and clustering.");
+    return;
   }
 
   let queue = prepareImageQueues(manifest, manualConnects);
@@ -352,12 +362,12 @@ async function main() {
   // Apply limit if specified
   const limit = values.limit ? Number.parseInt(values.limit, 10) : 0;
   if (limit > 0 && limit < queue.length) {
-      if (values.verbose) logger.info(`Limiting processing to first ${limit} images.`);
-      queue = queue.slice(0, limit);
+    if (values.verbose) logger.info(`Limiting processing to first ${limit} images.`);
+    queue = queue.slice(0, limit);
   }
 
   logger.info(`Processing ${queue.length} images...`);
-  
+
   await processImageQueue(queue, people, disconnectedPairs, facesOutputDir, sourceDir, detailsDir);
 
   logger.info(`Finished. Found ${people.length} unique people.`);
@@ -371,7 +381,7 @@ async function main() {
 
   await savePeopleManifest(dataDir, { people });
   // logger.info(`Saved people manifest.`);
-  
+
   outro("Done");
 }
 

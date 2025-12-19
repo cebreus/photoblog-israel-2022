@@ -1,5 +1,5 @@
-import { ui } from "$lib/stores/ui.svelte";
 import type { Action } from "svelte/action";
+import { ui } from "$lib/stores/ui.svelte";
 
 interface ScrollspyOptions {
   id: string;

@@ -2,8 +2,6 @@
   import { dev } from "$app/environment";
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
-  import { untrack } from "svelte";
-
   import PersonDetailDialog from "$lib/components/PersonDetailDialog.svelte";
   import PersonIgnoreConfirmDialog from "$lib/components/PersonIgnoreConfirmDialog.svelte";
   import PersonMergeDialog from "$lib/components/PersonMergeDialog.svelte";
@@ -26,6 +24,7 @@
   import User from "lucide-svelte/icons/user";
   import X from "lucide-svelte/icons/x";
   import XCircle from "lucide-svelte/icons/x-circle";
+  import { untrack } from "svelte";
 
   // Subscribe to derived store with optimized stats
   let peopleList = $derived(people.peopleWithStats);

@@ -1,8 +1,8 @@
-import fg from "fast-glob";
-import matter from "gray-matter";
 import fsp from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
+import fg from "fast-glob";
+import matter from "gray-matter";
 import type { Cache, ImageEntry, Manifest, StoryDataMap } from "../../src/lib/types/manifest";
 import { config } from "../config";
 import { EMBEDDING_DIM } from "./ai-models";
@@ -10,10 +10,9 @@ import type { ProcessedImageResult } from "./image-processor";
 import { type ImageProcessOptions, processImage } from "./image-processor";
 import { createLogger } from "./logger";
 import { buildGeneratorManifest, generateMenuManifest, updateManifest } from "./manifest-builder";
-import { progressManager } from "./progress-manager";
-
 // Repository Imports
 import { loadManifest, saveImagesManifest, saveManifest } from "./manifest-repository";
+import { progressManager } from "./progress-manager";
 
 const logger = createLogger("incremental-build");
 
@@ -99,9 +98,11 @@ async function detectChanges(
 
     if (!cached || cached.mtimeMs !== stats.mtimeMs || !previousEntries.has(baseName)) {
       if (!cached || cached.mtimeMs !== stats.mtimeMs) {
-          // Changed or new
+        // Changed or new
       } else {
-          logger.verbose(`Image ${key} is in cache but missing from manifest. Forcing re-process to restore metadata.`);
+        logger.verbose(
+          `Image ${key} is in cache but missing from manifest. Forcing re-process to restore metadata.`,
+        );
       }
       toProcess.push(file);
       continue;
@@ -232,12 +233,9 @@ async function processImages(
     typeof concurrency === "number" ? concurrency : Math.max(1, (os.cpus()?.length || 2) - 1);
   logger.info(`Using concurrency: ${resolvedConcurrency}`);
 
-  const bar = quiet
-    ? null
-    : progressManager.createBar(toProcess.length, "Processing");
+  const bar = quiet ? null : progressManager.createBar(toProcess.length, "Processing");
 
   // bar?.start(toProcess.length, 0); // createBar already initializes
-
 
   const results: ProcessedImageResult[] = [];
   let index = 0;
@@ -262,7 +260,7 @@ async function processImages(
   await Promise.all(pool);
 
   if (bar) progressManager.removeBar(bar);
-  
+
   return results;
 }
 async function updateCacheAndManifests({
@@ -383,7 +381,15 @@ async function planBuildWork(
 
 async function processBuildQueue(
   CTX: { srcRoot: string; outRoot: string },
-  ARGS: { concurrency: number | "auto"; quiet: boolean; verbose?: boolean; manifestOnly: boolean; curation: boolean; skipFaces?: boolean; skipEmbeddings?: boolean },
+  ARGS: {
+    concurrency: number | "auto";
+    quiet: boolean;
+    verbose?: boolean;
+    manifestOnly: boolean;
+    curation: boolean;
+    skipFaces?: boolean;
+    skipEmbeddings?: boolean;
+  },
   toProcess: string[],
   cache: Cache,
   previousEntries: Map<string, ImageEntry>,

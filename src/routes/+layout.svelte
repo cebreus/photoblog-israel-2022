@@ -8,9 +8,9 @@
   import { ui } from "$lib/stores/ui.svelte";
   import { initUrlSync } from "$lib/stores/urlSync";
   import type { Author, CurationManifest, MenuManifest, SiteManifest } from "$lib/types/manifest";
-  import { ModeWatcher } from "mode-watcher";
   import faviconHtml from "../../.temp/favicons.html?raw";
   import "../app.css";
+  import { ModeWatcher } from "mode-watcher";
 
   // Explicitly type props instead of relying on loose inferred types
   interface Props {

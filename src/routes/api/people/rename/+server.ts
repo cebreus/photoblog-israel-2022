@@ -1,9 +1,9 @@
+import fsp from "node:fs/promises";
+import path from "node:path";
+import { json } from "@sveltejs/kit";
 import type { Manifest, PeopleManifest } from "$lib/types/manifest";
 import { validateRenameInput } from "$lib/utils/api-validators";
 import { toSlug } from "$lib/utils/strings";
-import { json } from "@sveltejs/kit";
-import fsp from "node:fs/promises";
-import path from "node:path";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 
 export async function POST({ request }) {

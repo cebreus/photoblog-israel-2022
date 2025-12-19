@@ -1,9 +1,9 @@
 process.env.GLIB_LOG_LEVEL = "critical";
 
-import { intro, select } from "@clack/prompts";
 import fsp from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
+import { intro, select } from "@clack/prompts";
 import "sharp";
 import type { QualityTypes, ScriptArgs } from "../src/lib/types/manifest";
 import { config } from "./config";

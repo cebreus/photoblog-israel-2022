@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@plugin '@tailwindcss/typography';
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -205,5 +205,5 @@
 .show-labels figure[data-label]:not([data-label=""])::after {
   content: attr(data-label);
 
-  @apply absolute bottom-0 max-h-[6.3lh] left-0 w-full p-4 text-sm leading-none text-white bg-linear-to-t pt-8 from-slate-800/90 via-slate-800/80 to-transparent pointer-events-none;
+  @apply pointer-events-none absolute bottom-0 left-0 max-h-[6.3lh] w-full bg-linear-to-t from-slate-800/90 via-slate-800/80 to-transparent p-4 pt-8 text-sm leading-none text-white;
 }

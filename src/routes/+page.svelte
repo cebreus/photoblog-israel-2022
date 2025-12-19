@@ -10,9 +10,9 @@
   import type { ImageEntry, PhotoDay, Separator } from "$lib/types/manifest";
   import { filterGalleryItems, mergeSparseDays } from "$lib/utils/gallery";
   import { formatDateForDisplay, formatDateRange, formatWeekdayCzech } from "$lib/utils/strings";
+  import type { PageData } from "./$types";
   import CheckSquare from "lucide-svelte/icons/check-square";
   import Square from "lucide-svelte/icons/square";
-  import type { PageData } from "./$types";
 
   let { data } = $props<{ data: PageData }>();
 

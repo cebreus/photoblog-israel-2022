@@ -1,4 +1,3 @@
-
 import path from "path";
 import { toSlug } from "../../src/lib/utils/strings";
 
@@ -11,17 +10,17 @@ import { toSlug } from "../../src/lib/utils/strings";
  * @throws An error if the path attempts to traverse outside the safe root.
  */
 export function validatePathInsideRoot(unsafePath: string, safeRoot: string): string {
-    const resolvedPath = path.resolve(safeRoot, unsafePath);
+  const resolvedPath = path.resolve(safeRoot, unsafePath);
 
-    // Ensure the resolved path starts with the safeRoot followed by a path separator,
-    // or is the safeRoot itself (if unsafePath was just "").
-    // This handles cases like "/safe/root/../evil" resolving to "/safe/evil".
-    if (!resolvedPath.startsWith(safeRoot + path.sep) && resolvedPath !== safeRoot) {
-        throw new Error(
-            `Path traversal attempt detected: "${unsafePath}" resolves outside of the safe directory "${safeRoot}".`
-        );
-    }
-    return resolvedPath;
+  // Ensure the resolved path starts with the safeRoot followed by a path separator,
+  // or is the safeRoot itself (if unsafePath was just "").
+  // This handles cases like "/safe/root/../evil" resolving to "/safe/evil".
+  if (!resolvedPath.startsWith(safeRoot + path.sep) && resolvedPath !== safeRoot) {
+    throw new Error(
+      `Path traversal attempt detected: "${unsafePath}" resolves outside of the safe directory "${safeRoot}".`,
+    );
+  }
+  return resolvedPath;
 }
 
 /**
@@ -31,8 +30,8 @@ export function validatePathInsideRoot(unsafePath: string, safeRoot: string): st
  * @returns A sanitized filename.
  */
 export function toSafeFilename(filename: string): string {
-    // Remove any directory separators
-    const safe = filename.replace(/[\/\\]/g, "");
-    // Remove common unsafe characters (e.g., those used in shell commands or regex)
-    return toSlug(safe); // Assuming toSlug handles other unsafe chars well
+  // Remove any directory separators
+  const safe = filename.replace(/[/\\]/g, "");
+  // Remove common unsafe characters (e.g., those used in shell commands or regex)
+  return toSlug(safe); // Assuming toSlug handles other unsafe chars well
 }

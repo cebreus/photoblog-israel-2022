@@ -2,10 +2,10 @@
 process.env.GLIB_LOG_LEVEL = "critical";
 process.env.OBJC_DISABLE_INITIALIZE_FORK_SAFETY = "YES";
 
-import { cancel, intro, isCancel, select } from "@clack/prompts";
 import fs from "node:fs";
 import path from "node:path";
 import { parseArgs } from "node:util";
+import { cancel, intro, isCancel, select } from "@clack/prompts";
 import { run } from "./lib/shell-utils";
 import { formatDuration } from "./lib/time-utils";
 
