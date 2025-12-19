@@ -46,6 +46,9 @@ export type CliOptions = {
   title?: string;
   skipFaces?: boolean;
   skipEmbeddings?: boolean;
+  batchSize: number;
+  timeWindow: number;
+  author?: string;
 };
 
 const QUALITY_FORMATS: readonly QualityFormat[] = [
@@ -146,6 +149,9 @@ export const DEFAULT_CLI_OPTIONS: CliOptions = {
   blurJpegQuality: config.blur.jpegQuality,
   blurClean: config.blur.clean,
   curation: false,
+  batchSize: 8,
+  timeWindow: 4 * 60 * 60 * 1000, // 4 hours in ms
+  author: "",
 };
 
 type ArgHandler = (value: string, args: CliOptions) => void;
@@ -278,6 +284,25 @@ const CLI_FLAG_HANDLERS: Record<string, ArgHandler> = {
   },
   skipEmbeddings: function handleSkipEmbeddings(v, a) {
     a.skipEmbeddings = parseBooleanValue(v);
+  },
+  "batch-size": function handleBatchSize(v, a) {
+    const size = parseIntWithinRange(v, 1, Number.MAX_SAFE_INTEGER);
+    if (size !== undefined) a.batchSize = size;
+  },
+  batchSize: function handleBatchSizeAlias(v, a) {
+    const size = parseIntWithinRange(v, 1, Number.MAX_SAFE_INTEGER);
+    if (size !== undefined) a.batchSize = size;
+  },
+  "time-window": function handleTimeWindow(v, a) {
+    const window = parseIntWithinRange(v, 1, Number.MAX_SAFE_INTEGER);
+    if (window !== undefined) a.timeWindow = window;
+  },
+  timeWindow: function handleTimeWindowAlias(v, a) {
+    const window = parseIntWithinRange(v, 1, Number.MAX_SAFE_INTEGER);
+    if (window !== undefined) a.timeWindow = window;
+  },
+  author: function handleAuthor(v, a) {
+    a.author = v;
   },
 };
 

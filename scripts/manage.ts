@@ -2,11 +2,12 @@
 process.env.GLIB_LOG_LEVEL = "critical";
 process.env.OBJC_DISABLE_INITIALIZE_FORK_SAFETY = "YES";
 
+import { cancel, intro, isCancel, select } from "@clack/prompts";
 import fs from "node:fs";
 import path from "node:path";
 import { parseArgs } from "node:util";
-import { cancel, intro, isCancel, select } from "@clack/prompts";
 import { run } from "./lib/shell-utils";
+import { formatDuration } from "./lib/time-utils";
 
 const DEFAULT_GALLERY = "egypt-2025";
 const SCRIPT_DIR = import.meta.dir;
@@ -44,6 +45,9 @@ const { values, positionals } = parseArgs({
       type: "string",
     },
     "time-window": {
+      type: "string",
+    },
+    concurrency: {
       type: "string",
     },
   },
@@ -119,6 +123,7 @@ function getCommonFlags() {
   if (values.limit) flags.push(`--limit=${values.limit}`);
   if (values["batch-size"]) flags.push(`--batch-size=${values["batch-size"]}`);
   if (values["time-window"]) flags.push(`--time-window=${values["time-window"]}`);
+  if (values.concurrency) flags.push(`--concurrency=${values.concurrency}`);
   return flags;
 }
 
@@ -170,20 +175,15 @@ async function cmdPreview() {
 }
 
 async function cmdProcess() {
-  // Suppress OBJC warnings
-  process.env.OBJC_DISABLE_INITIALIZE_FORK_SAFETY = "YES";
+  const startTime = performance.now();
 
-  // Propagate LOG_LEVEL if verbose
-  if (values.verbose) {
-    process.env.LOG_LEVEL = "verbose";
-  }
-
-  log("Step 1/6: Generating Favicons (Brand Assets)", "stage");
+  log("Step 1/5: Generating Favicons (Brand Assets)", "stage");
+  const t1 = performance.now();
   await run("bun", ["scripts/generate-favicons.ts", ...getCommonFlags()]);
+  log(`Step 1 complete in ${formatDuration(performance.now() - t1)}`);
 
-  log("Step 2/6: Generating Image Variants (Resizing & Basic Metadata)", "stage");
-  // Basic generation: Resizing, EXIF, Sharpness, Phash.
-  // SKIP: Face detection, Embeddings (expensive).
+  log("Step 2/5: Generating Image Variants (Resizing & Basic Metadata)", "stage");
+  const t2 = performance.now();
   await run("bun", [
     "scripts/generate-images.ts",
     "--title=🏭 Image Variants & Metadata",
@@ -191,8 +191,10 @@ async function cmdProcess() {
     "--skipEmbeddings",
     ...getCommonFlags(),
   ]);
+  log(`Step 2 complete in ${formatDuration(performance.now() - t2)}`);
 
-  log("Step 3/6: Generating Blur Placeholders", "stage");
+  log("Step 3/5: Generating Blur Placeholders", "stage");
+  const t3 = performance.now();
   await run("bun", [
     "scripts/generate-images.ts",
     "--blur.enable=true",
@@ -200,14 +202,15 @@ async function cmdProcess() {
     "--title=✨ Blur Hash Generation",
     ...getCommonFlags(),
   ]);
+  log(`Step 3 complete in ${formatDuration(performance.now() - t3)}`);
 
-  // Step 4: Face Detection (Analysis) - SKIPPED (Redundant, handled by Step 6/5)
-  // await run("bun", ["scripts/analyze-faces.ts"]);
-
-  log("Step 4/6: Similarity & Aesthetic Analysis", "stage");
+  log("Step 4/5: Similarity & Aesthetic Analysis", "stage");
+  const t4 = performance.now();
   await cmdAnalyze();
+  log(`Step 4 complete in ${formatDuration(performance.now() - t4)}`);
 
-  log("Step 5/6: Face Clustering & Recognition", "stage");
+  log("Step 5/5: Face Clustering & Recognition", "stage");
+  const t5 = performance.now();
   await run("bun", ["scripts/face-clustering.ts", ...getCommonFlags()], {
     filter: (line) => {
       if (line.includes("GNotificationCenterDelegate") && line.includes("implemented in both"))
@@ -216,8 +219,12 @@ async function cmdProcess() {
       return true;
     },
   });
+  log(`Step 5 complete in ${formatDuration(performance.now() - t5)}`);
 
-  log("Data processing pipeline complete!", "stage");
+  log(
+    `Data processing pipeline complete in ${formatDuration(performance.now() - startTime)}!`,
+    "stage",
+  );
 }
 
 async function main() {

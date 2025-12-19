@@ -13,6 +13,7 @@ import { cleanup } from "./lib/image-processor";
 import { sha1 } from "./lib/image-utils";
 import incrementalRun from "./lib/incremental-build";
 import { createLogger } from "./lib/logger";
+import { formatDuration } from "./lib/time-utils";
 
 let RUNTIME_RAW: Partial<CliOptions> = {};
 let RUNTIME_FORMATS = [...config.encoding.formats];
@@ -179,11 +180,6 @@ export async function main() {
     await runBlurBuild(RUNTIME_RAW, resolveConcurrency(ARGS.concurrency));
     return;
   }
-  
-  if (ARGS.manifestOnly) {
-    logger.info("Manifest-only mode: Skipping image processing and variants generation.");
-    return;
-  }
 
   if (ARGS.watch) {
     logger.info(
@@ -206,6 +202,7 @@ export async function main() {
 }
 
 export async function executeMain(): Promise<void> {
+  const startTime = performance.now();
   try {
     await main();
   } catch (e) {
@@ -216,6 +213,9 @@ export async function executeMain(): Promise<void> {
     process.exit(1);
   } finally {
     await cleanup();
+    if (!ARGS.quiet) {
+      logger.info(`Total time: ${formatDuration(performance.now() - startTime)}`);
+    }
   }
 }
 

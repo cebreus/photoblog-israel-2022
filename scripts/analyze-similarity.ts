@@ -1,64 +1,38 @@
-import fs from "node:fs";
-import path from "node:path";
-import { parseArgs } from "node:util";
 import { intro } from "@clack/prompts";
 import { AutoTokenizer, CLIPTextModelWithProjection } from "@xenova/transformers";
+import fs from "node:fs";
+import path from "node:path";
 import type {
-  CurationGroup,
-  CurationManifest,
-  CurationRecommendation,
-  ImageEntry,
+    CurationGroup,
+    CurationManifest,
+    CurationRecommendation,
+    ImageEntry,
 } from "../src/lib/types/manifest";
 import {
-  calculateAestheticScore,
-  createAestheticAxis,
-  normalizeAestheticScore,
+    calculateAestheticScore,
+    createAestheticAxis,
+    normalizeAestheticScore,
 } from "./lib/aesthetic";
 import { aiService } from "./lib/ai-models";
+import { parseCliArguments } from "./lib/cli-parser";
 import { resolveGalleryDirectory } from "./lib/gallery-resolver";
 import { getQualityBucket, normalizeSharpness } from "./lib/image-utils";
 import { createLogger } from "./lib/logger";
 import {
-  loadImagesManifest,
-  saveCurationManifest,
-  saveImagesManifest,
+    loadImagesManifest,
+    saveCurationManifest,
+    saveImagesManifest,
 } from "./lib/manifest-repository";
 import { progressManager } from "./lib/progress-manager";
+import { formatDuration } from "./lib/time-utils";
 
 const logger = createLogger("analyze-similarity");
 
-const { values } = parseArgs({
-  args: Bun.argv,
-  options: {
-    verbose: {
-      type: "boolean",
-    },
-    limit: {
-      type: "string",
-    },
-    clean: {
-      type: "boolean",
-    },
-    "manifest-only": {
-      type: "boolean",
-    },
-    curation: {
-      type: "boolean",
-    },
-    "batch-size": {
-      type: "string",
-    },
-    "time-window": {
-      type: "string",
-    },
-  },
-  strict: false,
-  allowPositionals: true,
-});
+const options = parseCliArguments(process.argv.slice(2));
+const values = options;
 
-const BATCH_SIZE = Number.parseInt(values["batch-size"] || "8", 10);
-const TIME_WINDOW_HOURS = Number.parseInt(values["time-window"] || "4", 10);
-const TIME_WINDOW_MS = TIME_WINDOW_HOURS * 60 * 60 * 1000;
+const BATCH_SIZE = values.batchSize;
+const TIME_WINDOW_MS = values.timeWindow;
 
 const CURATION_CONFIG = {
   similarityThreshold: 0.89,
@@ -457,9 +431,9 @@ async function main() {
     logger.info(`Analyzing content for: ${contentDir}`);
   }
 
-  if (values["manifest-only"]) {
-    logger.info("Manifest-only mode: Skipping similarity analysis.");
-    return;
+  if (values.manifestOnly) {
+      logger.info("Manifest-only mode: Skipping analysis.");
+      return;
   }
 
   // Use Repository
@@ -529,4 +503,7 @@ async function main() {
   logger.info(`Analysis complete. Found ${result.stats.totalGroups} groups.`);
 }
 
-main();
+const startTime = performance.now();
+main().then(() => {
+  logger.info(`Total time: ${formatDuration(performance.now() - startTime)}`);
+});

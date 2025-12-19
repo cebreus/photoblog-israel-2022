@@ -12,23 +12,12 @@ import {
     migratePeopleManifest,
 } from "./lib/gallery-migration";
 import { getNewBasename, type RenameMap, safeRename } from "./lib/renaming-utils";
+import { formatDuration } from "./lib/time-utils";
 
-import { parseArgs } from "node:util";
+import { parseCliArguments } from "./lib/cli-parser";
 
-const { values } = parseArgs({
-  args: Bun.argv,
-  options: {
-    gallery: {
-      type: "string",
-      short: "g",
-    },
-    author: {
-      type: "string",
-    },
-  },
-  strict: false,
-  allowPositionals: true,
-});
+const options = parseCliArguments(process.argv.slice(2));
+const values = options;
 
 async function getGalleries() {
   const contentDir = path.resolve("content");
@@ -198,8 +187,10 @@ async function main() {
 
 if (import.meta.main) {
   (async () => {
+    const startTime = performance.now();
     try {
       await main();
+      outro(`Total time: ${formatDuration(performance.now() - startTime)}`);
     } catch (error) {
       console.error(error);
     }

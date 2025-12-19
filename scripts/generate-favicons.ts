@@ -3,29 +3,15 @@ import { intro, select } from "@clack/prompts";
 import { type FaviconOptions, favicons } from "favicons";
 import { promises as fs } from "fs"; // Bun's native fs/promises
 import matter from "gray-matter";
-import { parseArgs } from "node:util";
 import path from "path"; // Bun's native path module
+import { parseCliArguments } from "./lib/cli-parser";
 import { createLogger } from "./lib/logger";
+import { formatDuration } from "./lib/time-utils";
 
 const logger = createLogger("favicons");
 
-const { values } = parseArgs({
-  args: Bun.argv,
-  options: {
-    verbose: {
-      type: "boolean",
-      short: "v",
-    },
-    clean: {
-      type: "boolean",
-    },
-    "manifest-only": {
-      type: "boolean",
-    },
-  },
-  strict: false,
-  allowPositionals: true,
-});
+const options = parseCliArguments(process.argv.slice(2));
+const values = options;
 
 if (values.verbose) {
     logger.level = "verbose";
@@ -89,7 +75,7 @@ async function loadSiteConfig(contentDir: string): Promise<SiteConfig> {
 async function run() {
   intro("✨ Favicon Generator");
 
-  if (values["manifest-only"]) {
+  if (values.manifestOnly) {
       logger.info("Manifest-only mode: Skipping favicon generation.");
       return;
   }
@@ -184,8 +170,10 @@ async function run() {
 }
 
 async function executeRun(): Promise<void> {
+  const startTime = performance.now();
   try {
     await run();
+    logger.info(`Total time: ${formatDuration(performance.now() - startTime)}`);
   } catch (e: any) {
     logger.error(`An error occurred during favicon generation: ${e?.message ?? e}`);
     if (e?.stack) {

@@ -4,22 +4,11 @@ import { fixUnderwaterImage } from "./lib/underwater";
 
 const SAFE_INPUT_ROOT = process.cwd();
 
-import { parseArgs } from "node:util";
+import { parseCliArguments } from "./lib/cli-parser";
 
-const { values, positionals } = parseArgs({
-  args: Bun.argv,
-  options: {
-    both: {
-      type: "boolean",
-    },
-    help: {
-      type: "boolean",
-      short: "h",
-    },
-  },
-  strict: false,
-  allowPositionals: true,
-});
+const options = parseCliArguments(process.argv.slice(2));
+const values = options;
+const positionals = process.argv.slice(2).filter(a => !a.startsWith("--"));
 
 if (values.help || positionals.length < 3) {
   console.log(
@@ -36,7 +25,7 @@ const inputPath = validatePathInsideRoot(
   positionals[2] || "",
   SAFE_INPUT_ROOT,
 );
-const generateBoth = values.both;
+const generateBoth = values.both ?? (process.argv.includes("--both"));
 
 if (!inputPath) {
   console.error("❌ Error: Missing or invalid input path.");

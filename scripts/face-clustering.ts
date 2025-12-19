@@ -4,11 +4,10 @@ import * as canvas from "canvas";
 import crypto from "crypto";
 import fsp from "fs/promises";
 import os from "node:os";
-import { parseArgs } from "node:util";
 import path from "path";
 import sharp from "sharp";
 import type { ImageEntry, Person } from "../src/lib/types/manifest";
-import { config } from "./config";
+import { parseCliArguments } from "./lib/cli-parser";
 import { deleteOldFaceCrops, findBestMatch, saveFaceCrop } from "./lib/clustering-utils";
 import { resolveGalleryDirectory } from "./lib/gallery-resolver";
 import { convertHeicToPng, ensureDir } from "./lib/image-utils";
@@ -22,33 +21,13 @@ import {
 import { isValidClusteringConstraints } from "./lib/manifest-validators";
 import { filterPeopleWithValidDescriptors } from "./lib/people-utils";
 import { progressManager } from "./lib/progress-manager";
+import { formatDuration } from "./lib/time-utils";
 
 const SCRIPT_DIR = import.meta.dir;
 const logger = createLogger("face-clustering");
 
-const { values } = parseArgs({
-  args: Bun.argv,
-  options: {
-    verbose: {
-      type: "boolean",
-      short: "v",
-    },
-    limit: {
-      type: "string",
-    },
-    clean: {
-      type: "boolean",
-    },
-    "manifest-only": {
-      type: "boolean",
-    },
-    curation: {
-      type: "boolean",
-    },
-  },
-  strict: false,
-  allowPositionals: true,
-});
+const options = parseCliArguments(process.argv.slice(2));
+const values = options; // For compatibility with existing 'values' references
 
 const FACE_CONFIG = {
   minConfidence: 0.5,
@@ -71,12 +50,25 @@ async function loadModels() {
   await faceapi.nets.faceRecognitionNet.loadFromDisk(FACE_CONFIG.modelPath);
 }
 
-async function prepareImageForFaceDetection(imagePath: string): Promise<any> {
+async function prepareImageForFaceDetection(imagePath: string, detailsDir: string): Promise<any> {
+  const baseName = path.basename(imagePath);
+  const fileNameWithoutExt = baseName.replace(/\.[^/.]+$/, "");
+  
+  // Try to find the thumbnail in the 'details' folder (optimized for 1280px)
+  const thumbnailPath = path.join(detailsDir, `${fileNameWithoutExt}.jpeg`);
+  
   let imgBuffer: Buffer;
-  if (imagePath.toLowerCase().endsWith(".heic")) {
-    imgBuffer = await convertHeicToPng(imagePath);
-  } else {
-    imgBuffer = await sharp(imagePath).rotate().png().toBuffer();
+  try {
+    await fsp.access(thumbnailPath);
+    if (values.verbose) logger.verbose(`Using thumbnail for face detection: ${thumbnailPath}`);
+    imgBuffer = await fsp.readFile(thumbnailPath);
+  } catch {
+    // Fallback to original if thumbnail is missing
+    if (imagePath.toLowerCase().endsWith(".heic")) {
+      imgBuffer = await convertHeicToPng(imagePath);
+    } else {
+      imgBuffer = await sharp(imagePath).rotate().png().toBuffer();
+    }
   }
   return await canvas.loadImage(imgBuffer);
 }
@@ -91,7 +83,29 @@ async function processFaceDetections(
   disconnectedPairs: Set<string>,
   facesOutputDir: string,
 ) {
+  if (!image.analysis) {
+    image.analysis = {
+      sharpness: 0,
+      phash: "",
+      embedding: [],
+      facesDetected: false,
+    };
+  }
+  image.analysis.faces = [];
+  image.analysis.facesDetected = true;
+
+  const scaleX = (image.width || img.width) / img.width;
+  const scaleY = (image.height || img.height) / img.height;
+
   for (const detection of detections) {
+    const box = detection.detection.box;
+    image.analysis.faces.push({
+      x: box.x * scaleX,
+      y: box.y * scaleY,
+      width: box.width * scaleX,
+      height: box.height * scaleY,
+    });
+
     const descriptor = Array.from(detection.descriptor) as number[];
     if (descriptor.length !== 128) {
       if (values.verbose) logger.warn(`Skipping detection with invalid descriptor length: ${descriptor.length}`);
@@ -217,10 +231,11 @@ async function processImageQueue(
   disconnectedPairs: Set<string>,
   facesOutputDir: string,
   sourceDir: string,
+  detailsDir: string,
 ) {
   let processedCount = 0;
-  const CONCURRENCY = typeof config.script.concurrency === "number" 
-    ? config.script.concurrency 
+  const CONCURRENCY = typeof values.concurrency === "number" 
+    ? values.concurrency 
     : Math.max(1, (os.cpus()?.length || 2) - 1);
   
   const bar = progressManager.createBar(queue.length, "[face-clustering]", { people: 0 });
@@ -244,7 +259,7 @@ async function processImageQueue(
 
     let img: any;
     try {
-      img = await prepareImageForFaceDetection(imagePath);
+      img = await prepareImageForFaceDetection(imagePath, detailsDir);
     } catch (e) {
       logger.error(`Failed to process image ${imagePath}:`, e);
       return;
@@ -305,6 +320,7 @@ async function main() {
   const dataDir = path.resolve(process.cwd(), `src/data/${contentDir}`);
   const facesOutputDir = path.resolve(process.cwd(), `static/${contentDir}/faces`);
   const sourceDir = path.resolve(process.cwd(), `content/${contentDir}/pics`);
+  const detailsDir = path.resolve(process.cwd(), `static/${contentDir}/images/details`);
 
   await ensureDir(facesOutputDir);
 
@@ -326,7 +342,7 @@ async function main() {
   
   await ensureDir(facesOutputDir);
 
-  if (values["manifest-only"]) {
+  if (values.manifestOnly) {
       logger.info("Manifest-only mode: Skipping face detection and clustering.");
       return;
   }
@@ -342,7 +358,7 @@ async function main() {
 
   logger.info(`Processing ${queue.length} images...`);
   
-  await processImageQueue(queue, people, disconnectedPairs, facesOutputDir, sourceDir);
+  await processImageQueue(queue, people, disconnectedPairs, facesOutputDir, sourceDir, detailsDir);
 
   logger.info(`Finished. Found ${people.length} unique people.`);
 
@@ -360,8 +376,10 @@ async function main() {
 }
 
 (async () => {
+  const startTime = performance.now();
   try {
     await main();
+    logger.info(`Total time: ${formatDuration(performance.now() - startTime)}`);
   } catch (error) {
     console.error(error);
     process.exit(1);
