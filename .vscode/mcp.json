@@ -13,11 +13,6 @@
       "command": "npx",
       "args": ["-y", "@sveltejs/mcp"],
       "env": {}
-    },
-    "jsrepo": {
-      "type": "stdio",
-      "command": "npx",
-      "args": ["jsrepo", "mcp"]
     }
   }
 }
