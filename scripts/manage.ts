@@ -2,10 +2,10 @@
 process.env.GLIB_LOG_LEVEL = "critical";
 process.env.OBJC_DISABLE_INITIALIZE_FORK_SAFETY = "YES";
 
-import { cancel, intro, isCancel, select } from "@clack/prompts";
 import fs from "node:fs";
 import path from "node:path";
 import { parseArgs } from "node:util";
+import { cancel, intro, isCancel, select } from "@clack/prompts";
 import { run } from "./lib/shell-utils";
 
 const DEFAULT_GALLERY = "egypt-2025";
@@ -39,6 +39,12 @@ const { values, positionals } = parseArgs({
     },
     curation: {
       type: "boolean",
+    },
+    "batch-size": {
+      type: "string",
+    },
+    "time-window": {
+      type: "string",
     },
   },
   strict: false,
@@ -92,15 +98,15 @@ process.env.CONTENT_DIR = gallery;
 
 function log(msg: string, type: "info" | "error" | "warn" | "stage" = "info") {
   const colors = {
-    info: "\x1b[36m",    // Cyan
-    error: "\x1b[31m",   // Red
-    warn: "\x1b[33m",    // Yellow
+    info: "\x1b[36m", // Cyan
+    error: "\x1b[31m", // Red
+    warn: "\x1b[33m", // Yellow
     stage: "\x1b[35m\x1b[1m", // Bold Magenta
   };
 
   const reset = "\x1b[0m";
   const prefix = type === "stage" ? "◆" : "[MANAGE]";
-  
+
   console.log(`${colors[type]}${prefix} ${msg}${reset}`);
 }
 
@@ -111,6 +117,8 @@ function getCommonFlags() {
   if (values["manifest-only"]) flags.push("--manifest-only");
   if (values.curation) flags.push("--curation");
   if (values.limit) flags.push(`--limit=${values.limit}`);
+  if (values["batch-size"]) flags.push(`--batch-size=${values["batch-size"]}`);
+  if (values["time-window"]) flags.push(`--time-window=${values["time-window"]}`);
   return flags;
 }
 
@@ -118,10 +126,10 @@ async function checkManifest(isCuration = false) {
   const flags = ["scripts/generate-images.ts", "--manifestOnly", ...getCommonFlags()]; // Include common flags like verbose
 
   if (isCuration) flags.push("--curation");
-  
+
   // checkManifest is meant to be quiet unless verbose
   if (!values.verbose) flags.push("--quiet");
-  
+
   flags.push("--title=[MANAGE] Verifying manifest state...");
 
   log("Verifying manifest state...");
@@ -167,7 +175,7 @@ async function cmdProcess() {
 
   // Propagate LOG_LEVEL if verbose
   if (values.verbose) {
-      process.env.LOG_LEVEL = "verbose";
+    process.env.LOG_LEVEL = "verbose";
   }
 
   log("Step 1/6: Generating Favicons (Brand Assets)", "stage");
@@ -177,20 +185,20 @@ async function cmdProcess() {
   // Basic generation: Resizing, EXIF, Sharpness, Phash.
   // SKIP: Face detection, Embeddings (expensive).
   await run("bun", [
-      "scripts/generate-images.ts", 
-      "--title=🏭 Image Variants & Metadata", 
-      "--skipFaces", 
-      "--skipEmbeddings",
-      ...getCommonFlags()
+    "scripts/generate-images.ts",
+    "--title=🏭 Image Variants & Metadata",
+    "--skipFaces",
+    "--skipEmbeddings",
+    ...getCommonFlags(),
   ]);
 
   log("Step 3/6: Generating Blur Placeholders", "stage");
   await run("bun", [
-    "scripts/generate-images.ts", 
-    "--blur.enable=true", 
+    "scripts/generate-images.ts",
+    "--blur.enable=true",
     "--blur.only=true",
     "--title=✨ Blur Hash Generation",
-    ...getCommonFlags()
+    ...getCommonFlags(),
   ]);
 
   // Step 4: Face Detection (Analysis) - SKIPPED (Redundant, handled by Step 6/5)
@@ -201,13 +209,14 @@ async function cmdProcess() {
 
   log("Step 5/6: Face Clustering & Recognition", "stage");
   await run("bun", ["scripts/face-clustering.ts", ...getCommonFlags()], {
-      filter: (line) => {
-          if (line.includes("GNotificationCenterDelegate") && line.includes("implemented in both")) return false;
-          if (line.includes("lib/libvips-cpp.") && line.includes("libgio-2.0.0.dylib")) return false; 
-          return true;
-      }
+    filter: (line) => {
+      if (line.includes("GNotificationCenterDelegate") && line.includes("implemented in both"))
+        return false;
+      if (line.includes("lib/libvips-cpp.") && line.includes("libgio-2.0.0.dylib")) return false;
+      return true;
+    },
   });
-  
+
   log("Data processing pipeline complete!", "stage");
 }
 
@@ -230,6 +239,8 @@ async function main() {
     --verbose, -v     Enable verbose logging (and disable progress bars)
     --clean           Clean output directory before processing
     --limit           Limit number of images to process
+    --batch-size      Batch size for AI processing (default: 8)
+    --time-window     Similarity time window in hours (default: 4)
     --manifest-only   Only update manifest, skip image generation
     --curation        Enable curation mode
     --help, -h        Show this help

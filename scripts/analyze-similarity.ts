@@ -1,26 +1,27 @@
-import { intro } from "@clack/prompts";
-import { AutoTokenizer, CLIPTextModelWithProjection } from "@xenova/transformers";
+import fs from "node:fs";
 import path from "node:path";
 import { parseArgs } from "node:util";
+import { intro } from "@clack/prompts";
+import { AutoTokenizer, CLIPTextModelWithProjection } from "@xenova/transformers";
 import type {
-    CurationGroup,
-    CurationManifest,
-    CurationRecommendation,
-    ImageEntry
+  CurationGroup,
+  CurationManifest,
+  CurationRecommendation,
+  ImageEntry,
 } from "../src/lib/types/manifest";
 import {
-    calculateAestheticScore,
-    createAestheticAxis,
-    normalizeAestheticScore,
+  calculateAestheticScore,
+  createAestheticAxis,
+  normalizeAestheticScore,
 } from "./lib/aesthetic";
 import { aiService } from "./lib/ai-models";
 import { resolveGalleryDirectory } from "./lib/gallery-resolver";
 import { getQualityBucket, normalizeSharpness } from "./lib/image-utils";
 import { createLogger } from "./lib/logger";
 import {
-    loadImagesManifest,
-    saveCurationManifest,
-    saveImagesManifest,
+  loadImagesManifest,
+  saveCurationManifest,
+  saveImagesManifest,
 } from "./lib/manifest-repository";
 import { progressManager } from "./lib/progress-manager";
 
@@ -44,11 +45,20 @@ const { values } = parseArgs({
     curation: {
       type: "boolean",
     },
+    "batch-size": {
+      type: "string",
+    },
+    "time-window": {
+      type: "string",
+    },
   },
   strict: false,
   allowPositionals: true,
 });
 
+const BATCH_SIZE = Number.parseInt(values["batch-size"] || "8", 10);
+const TIME_WINDOW_HOURS = Number.parseInt(values["time-window"] || "4", 10);
+const TIME_WINDOW_MS = TIME_WINDOW_HOURS * 60 * 60 * 1000;
 
 const CURATION_CONFIG = {
   similarityThreshold: 0.89,
@@ -186,14 +196,13 @@ async function getEmbedding(text: string, tokenizer: any, textModel: any): Promi
   return text_embeds.data;
 }
 
-
 // ... existing code ...
 
 async function computeAestheticScores(
   manifest: any,
   tokenizer: any,
   textModel: any,
-  srcRoot: string
+  srcRoot: string,
 ): Promise<{ allImages: ImageEntry[]; missingAestheticCount: number }> {
   const posEmbedding = await getEmbedding(POSITIVE_PROMPT, tokenizer, textModel);
   const negEmbedding = await getEmbedding(NEGATIVE_PROMPT, tokenizer, textModel);
@@ -206,20 +215,20 @@ async function computeAestheticScores(
   let totalImages = 0;
   // If limit is set, use it as the total count (clamped to actual total)
   let maxImages = Number.parseInt(values.limit || "0", 10);
-  
+
   let actualTotal = 0;
   for (const day of manifest.photoDays) {
-      for (const item of day.items) {
-          if (item.type === "image") actualTotal++;
-      }
+    for (const item of day.items) {
+      if (item.type === "image") actualTotal++;
+    }
   }
 
   if (maxImages > 0 && maxImages < actualTotal) {
-      totalImages = maxImages;
+    totalImages = maxImages;
   } else {
-      totalImages = actualTotal;
-      // If limit is 0 or undefined, treat as no limit (Infinity)
-      if (maxImages === 0) maxImages = Infinity;
+    totalImages = actualTotal;
+    // If limit is 0 or undefined, treat as no limit (Infinity)
+    if (maxImages === 0) maxImages = Infinity;
   }
 
   /*
@@ -232,88 +241,137 @@ async function computeAestheticScores(
     : null;
   */
   const bar = progressManager.createBar(totalImages, "analyze-similarity");
-
-  // bar?.start(totalImages, 0); // createBar initializes
   let processedCount = 0;
+  const imagesToEmbed: { img: ImageEntry; absPath: string }[] = [];
 
   for (const day of manifest.photoDays) {
     for (const item of day.items) {
       if (item.type === "image") {
         const imgEntry = item as ImageEntry;
         if (!imgEntry.analysis) imgEntry.analysis = { sharpness: 0, phash: "", embedding: [] };
-
-        // Lazy-generate embedding if missing
         if (!imgEntry.analysis.embedding || imgEntry.analysis.embedding.length === 0) {
-            const absPath = path.join(srcRoot, path.basename(imgEntry.src));
-            try {
-                imgEntry.analysis.embedding = await aiService.generateEmbedding(absPath);
-            } catch (e) {
-                console.warn(`Failed to generate embedding for ${imgEntry.id}:`, e);
-                continue; // Skip this image if embedding fails
+          const filename = path.basename(imgEntry.src);
+          const galleryDir = path.basename(path.dirname(srcRoot));
+
+          // Heuristic: Try to use a thumbnail if it exists (MUCH faster than high-res decoding)
+          const webVariants = [
+            path.resolve(process.cwd(), `static/${galleryDir}/xl/${filename}`),
+            path.resolve(process.cwd(), `static/${galleryDir}/lg/${filename}`),
+          ];
+
+          let bestPath = path.join(srcRoot, filename);
+          for (const p of webVariants) {
+            if (fs.existsSync(p)) {
+              bestPath = p;
+              break;
             }
+          }
+
+          imagesToEmbed.push({
+            img: imgEntry,
+            absPath: bestPath,
+          });
         }
 
-        if (imgEntry.analysis.embedding && imgEntry.analysis.embedding.length > 0) {
-            const rawScore = calculateAestheticScore(imgEntry.analysis.embedding!, aestheticAxis);
-            const score = normalizeAestheticScore(rawScore);
+        // If we have a limit, we shouldn't gather more than that for embedding either
+        if (maxImages > 0 && imagesToEmbed.length >= maxImages) break;
+      }
+    }
+    if (maxImages > 0 && imagesToEmbed.length >= maxImages) break;
+  }
 
-            const previousAesthetic = imgEntry.analysis.aestheticScore;
-            imgEntry.analysis.aestheticScore = score;
-
-            const rawSharpness = imgEntry.analysis.sharpness || 0;
-            let sharpness = rawSharpness;
-            // Heuristic: if sharpness is > 100, it's likely raw and needs normalization
-            if (rawSharpness > 100) {
-                 sharpness = normalizeSharpness(rawSharpness);
-            }
-
-            imgEntry.analysis.aestheticScore = score;
-            imgEntry.analysis.sharpness = sharpness;
-            const qualityBucket = getQualityBucket(score, sharpness);
-            imgEntry.analysis.qualityBucket = qualityBucket;
-
-            if (previousAesthetic === undefined || previousAesthetic === 0) {
-              missingAestheticCount++;
-            }
-
-            // Reorder keys specifically for manifest consistency
-            // Exclude redundant 'faces' and 'facesDetected' as they are handled by Step 6 (people manifest)
-            imgEntry.analysis = {
-                aestheticScore: score,
-                sharpness: sharpness,
-                qualityBucket: qualityBucket,
-                phash: imgEntry.analysis.phash || "",
-                ...Object.fromEntries(
-                    Object.entries(imgEntry.analysis).filter(([k]) => 
-                        !["aestheticScore", "sharpness", "qualityBucket", "phash", "facesDetected", "faces", "embedding"].includes(k)
-                    )
-                ),
-                embedding: imgEntry.analysis.embedding
-            };
-
-            allImages.push(imgEntry);
+  if (imagesToEmbed.length > 0) {
+    logger.info(
+      `Generating embeddings for ${imagesToEmbed.length} images in batches of ${BATCH_SIZE}...`,
+    );
+    const embedBar = progressManager.createBar(imagesToEmbed.length, "generate-embeddings");
+    for (let i = 0; i < imagesToEmbed.length; i += BATCH_SIZE) {
+      const batch = imagesToEmbed.slice(i, i + BATCH_SIZE);
+      const paths = batch.map((b) => b.absPath);
+      try {
+        const embeddings = await aiService.generateEmbeddingsBatch(paths);
+        for (let j = 0; j < batch.length; j++) {
+          batch[j].img.analysis!.embedding = embeddings[j];
         }
-        
+      } catch (e) {
+        logger.error(`Failed batch at offset ${i}:`, e);
+      }
+      if (embedBar) embedBar.update(Math.min(i + batch.length, imagesToEmbed.length));
+      // Update main bar as well, but only halfway through total progress since aesthetic scoring follows?
+      // Or just update it as we go.
+      if (bar)
+        bar.update(Math.floor(((i + batch.length) / imagesToEmbed.length) * (totalImages * 0.5)));
+    }
+    if (embedBar) progressManager.removeBar(embedBar);
+  }
+
+  for (const day of manifest.photoDays) {
+    for (const item of day.items) {
+      if (item.type === "image") {
+        const imgEntry = item as ImageEntry;
+
+        if (imgEntry.analysis?.embedding && imgEntry.analysis.embedding.length > 0) {
+          const rawScore = calculateAestheticScore(imgEntry.analysis.embedding!, aestheticAxis);
+          const score = normalizeAestheticScore(rawScore);
+
+          const previousAesthetic = imgEntry.analysis.aestheticScore;
+          imgEntry.analysis.aestheticScore = score;
+
+          const rawSharpness = imgEntry.analysis.sharpness || 0;
+          let sharpness = rawSharpness;
+          if (rawSharpness > 100) {
+            sharpness = normalizeSharpness(rawSharpness);
+          }
+
+          imgEntry.analysis.aestheticScore = score;
+          imgEntry.analysis.sharpness = sharpness;
+          const qualityBucket = getQualityBucket(score, sharpness);
+          imgEntry.analysis.qualityBucket = qualityBucket;
+
+          if (previousAesthetic === undefined || previousAesthetic === 0) {
+            missingAestheticCount++;
+          }
+
+          imgEntry.analysis = {
+            aestheticScore: score,
+            sharpness: sharpness,
+            qualityBucket: qualityBucket,
+            phash: imgEntry.analysis.phash || "",
+            ...Object.fromEntries(
+              Object.entries(imgEntry.analysis).filter(
+                ([k]) =>
+                  ![
+                    "aestheticScore",
+                    "sharpness",
+                    "qualityBucket",
+                    "phash",
+                    "facesDetected",
+                    "faces",
+                    "embedding",
+                  ].includes(k),
+              ),
+            ),
+            embedding: imgEntry.analysis.embedding,
+          };
+
+          allImages.push(imgEntry);
+        }
+
         processedCount++;
         if (bar) {
-            bar.update(processedCount);
-        } else if (values.verbose && (processedCount % 10 === 0 || processedCount === totalImages)) {
-             // Fallback if bar somehow failed, though ProgressManager handles verbose logs concurrent with bar
-             // But if bar exists (which it should), we just update it.
-             // If we really want to log explicitly in verbose loop we can, but ProgressManager.log() does it cleanly.
-             // For now, let's trust the bar.
+          bar.update(processedCount);
         }
 
         if (maxImages > 0 && processedCount >= maxImages) {
-            break;
+          break;
         }
       }
     }
     if (maxImages > 0 && processedCount >= maxImages) {
-        break;
+      break;
     }
   }
-  
+
   if (bar) progressManager.removeBar(bar);
   // bar?.stop();
   // if (!values.verbose) process.stdout.write("\n");
@@ -325,33 +383,52 @@ function clusterImagesBySimilarity(images: ImageEntry[]): CurationGroup[] {
   const groups: CurationGroup[] = [];
   const assigned = new Set<string>();
 
-  for (let i = 0; i < images.length; i++) {
-    const photoA = images[i];
+  // Sort images by timestamp to enable time-windowing
+  const sortedImages = [...images].sort((a, b) => {
+    const timeA = a.exif?.date ? new Date(a.exif.date).getTime() : 0;
+    const timeB = b.exif?.date ? new Date(b.exif.date).getTime() : 0;
+    return timeA - timeB;
+  });
+
+  for (let i = 0; i < sortedImages.length; i++) {
+    const photoA = sortedImages[i];
     if (assigned.has(photoA.id)) continue;
 
     const groupPhotos = [photoA];
     assigned.add(photoA.id);
 
+    const timeA = photoA.exif?.date ? new Date(photoA.exif.date).getTime() : 0;
+
     if (photoA.analysis?.embedding) {
-        for (let j = i + 1; j < images.length; j++) {
-        const photoB = images[j];
+      for (let j = i + 1; j < sortedImages.length; j++) {
+        const photoB = sortedImages[j];
         if (assigned.has(photoB.id)) continue;
 
-        if (photoB.analysis?.embedding) {
-            const similarity = cosineSimilarity(
-            photoA.analysis.embedding,
-            photoB.analysis.embedding,
-            );
+        // Time Windowing Heuristic
+        const timeB = photoB.exif?.date ? new Date(photoB.exif.date).getTime() : 0;
+        if (timeA > 0 && timeB > 0) {
+          const diff = Math.abs(timeA - timeB);
+          if (diff > TIME_WINDOW_MS) {
+            // Since it's sorted by time, we can stop early for subsequent photos if we're moving forward
+            // Actually, if we're moving forward in i, we need to check if we can stop for j.
+            // If sortedImages[j] is more than 4h from photoA, all subsequent are too.
+            break;
+          }
+        }
 
-            if (similarity > CURATION_CONFIG.similarityThreshold) {
+        if (photoB.analysis?.embedding) {
+          const similarity = cosineSimilarity(photoA.analysis.embedding, photoB.analysis.embedding);
+
+          if (similarity > CURATION_CONFIG.similarityThreshold) {
             groupPhotos.push(photoB);
             assigned.add(photoB.id);
-            }
+          }
         }
-        }
+      }
     }
 
-    if (groupPhotos.length > 0) {
+    if (groupPhotos.length > 1) {
+      // Only groups of 2+ count as candidate duplicates
       groups.push(evaluateGroup(groupPhotos));
     }
   }
@@ -360,35 +437,35 @@ function clusterImagesBySimilarity(images: ImageEntry[]): CurationGroup[] {
 }
 
 function updateManifestAnalysisKeys(manifest: import("../src/lib/types/manifest").ImagesManifest) {
-    // This function ensures that key properties like qualityBucket are preserved/updated
-    // in the manifest object before saving, although we've been modifying image objects 
-    // directly which are references to manifest items. 
-    // So this might just be a no-op or sanity check in this specific implementation 
-    // since we modified the objects in place during `computeAestheticScores`.
-    
-    // However, if we needed to sync global stats or versioning, we'd do it here.
-    // For now, let's just ensure strict typing if needed.
-    return;
+  // This function ensures that key properties like qualityBucket are preserved/updated
+  // in the manifest object before saving, although we've been modifying image objects
+  // directly which are references to manifest items.
+  // So this might just be a no-op or sanity check in this specific implementation
+  // since we modified the objects in place during `computeAestheticScores`.
+
+  // However, if we needed to sync global stats or versioning, we'd do it here.
+  // For now, let's just ensure strict typing if needed.
+  return;
 }
 
 async function main() {
   intro("🧠 Similarity Analysis");
 
   const contentDir = await resolveGalleryDirectory();
-  
+
   if (values.verbose) {
-      logger.info(`Analyzing content for: ${contentDir}`);
+    logger.info(`Analyzing content for: ${contentDir}`);
   }
 
   if (values["manifest-only"]) {
-      logger.info("Manifest-only mode: Skipping similarity analysis.");
-      return;
+    logger.info("Manifest-only mode: Skipping similarity analysis.");
+    return;
   }
 
   // Use Repository
   const dataDir = path.resolve(process.cwd(), `src/data/${contentDir}`);
-  const srcRoot = path.resolve(process.cwd(), `content/${contentDir}/pics`); 
-  
+  const srcRoot = path.resolve(process.cwd(), `content/${contentDir}/pics`);
+
   const manifest = await loadImagesManifest(dataDir);
   if (!manifest) {
     logger.error(`Manifest not found in ${dataDir}`);
@@ -396,9 +473,9 @@ async function main() {
   }
 
   if (values.verbose) {
-      logger.info("Loading CLIP text model for aesthetic scoring...");
+    logger.info("Loading CLIP text model for aesthetic scoring...");
   }
-  
+
   const tokenizer = await AutoTokenizer.from_pretrained("Xenova/clip-vit-large-patch14");
   const textModel = await CLIPTextModelWithProjection.from_pretrained(
     "Xenova/clip-vit-large-patch14",
@@ -409,19 +486,17 @@ async function main() {
     manifest,
     tokenizer,
     textModel,
-    srcRoot
+    srcRoot,
   );
 
   if (missingAestheticCount > 0) {
-    logger.warn(
-      `${missingAestheticCount} images had missing/zero aestheticScore. Recalculated.`,
-    );
+    logger.warn(`${missingAestheticCount} images had missing/zero aestheticScore. Recalculated.`);
   }
 
   if (values.verbose) {
-      logger.info(`Loaded ${allImages.length} images with embeddings. Clustering...`);
+    logger.info(`Loaded ${allImages.length} images with embeddings. Clustering...`);
   }
-  
+
   const groups = clusterImagesBySimilarity(allImages);
 
   const result: CurationManifest = {
@@ -434,23 +509,23 @@ async function main() {
   };
 
   if (values.verbose) {
-      // Log top 10 aesthetic photos
-      const topAesthetic = [...allImages]
-        .sort((a, b) => (b.analysis?.aestheticScore || 0) - (a.analysis?.aestheticScore || 0))
-        .slice(0, 10);
-      logger.info("Top 10 Aesthetic Photos:");
-      topAesthetic.forEach((p) => {
-        logger.info(`  ${p.id}: ${(p.analysis?.aestheticScore || 0).toFixed(4)}`);
-      });
+    // Log top 10 aesthetic photos
+    const topAesthetic = [...allImages]
+      .sort((a, b) => (b.analysis?.aestheticScore || 0) - (a.analysis?.aestheticScore || 0))
+      .slice(0, 10);
+    logger.info("Top 10 Aesthetic Photos:");
+    topAesthetic.forEach((p) => {
+      logger.info(`  ${p.id}: ${(p.analysis?.aestheticScore || 0).toFixed(4)}`);
+    });
   }
 
   updateManifestAnalysisKeys(manifest);
 
   // Save via Repository
   await saveImagesManifest(dataDir, manifest);
-  
+
   await saveCurationManifest(dataDir, result);
-  
+
   logger.info(`Analysis complete. Found ${result.stats.totalGroups} groups.`);
 }
 
