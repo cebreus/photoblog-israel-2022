@@ -1,26 +1,58 @@
-import { intro } from "@clack/prompts";
+import { intro, outro } from "@clack/prompts";
 import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
 import * as canvas from "canvas";
-import crypto from "node:crypto";
-import fsp from "node:fs/promises";
-import path from "node:path";
+import crypto from "crypto";
+import fsp from "fs/promises";
+import os from "node:os";
+import { parseArgs } from "node:util";
+import path from "path";
 import sharp from "sharp";
 import type { ImageEntry, Person } from "../src/lib/types/manifest";
+import { config } from "./config";
 import { deleteOldFaceCrops, findBestMatch, saveFaceCrop } from "./lib/clustering-utils";
 import { resolveGalleryDirectory } from "./lib/gallery-resolver";
 import { convertHeicToPng, ensureDir } from "./lib/image-utils";
+import { createLogger } from "./lib/logger";
 import {
-  loadImagesManifest,
-  loadPeopleManifest,
-  saveImagesManifest,
-  savePeopleManifest,
+    loadImagesManifest,
+    loadPeopleManifest,
+    saveImagesManifest,
+    savePeopleManifest,
 } from "./lib/manifest-repository";
 import { isValidClusteringConstraints } from "./lib/manifest-validators";
 import { filterPeopleWithValidDescriptors } from "./lib/people-utils";
+import { progressManager } from "./lib/progress-manager";
+
+const SCRIPT_DIR = import.meta.dir;
+const logger = createLogger("face-clustering");
+
+const { values } = parseArgs({
+  args: Bun.argv,
+  options: {
+    verbose: {
+      type: "boolean",
+      short: "v",
+    },
+    limit: {
+      type: "string",
+    },
+    clean: {
+      type: "boolean",
+    },
+    "manifest-only": {
+      type: "boolean",
+    },
+    curation: {
+      type: "boolean",
+    },
+  },
+  strict: false,
+  allowPositionals: true,
+});
 
 const FACE_CONFIG = {
   minConfidence: 0.5,
-  modelPath: path.resolve(process.cwd(), "node_modules/@vladmandic/face-api/model"),
+  modelPath: path.resolve(SCRIPT_DIR, "models"), // Point to the local models directory
   distanceThreshold: 0.5,
   facesDir: "faces",
 };
@@ -33,7 +65,7 @@ faceapi.env.monkeyPatch({
 });
 
 async function loadModels() {
-  console.log(`Loading models from ${FACE_CONFIG.modelPath}...`);
+  logger.info(`Loading models from ${FACE_CONFIG.modelPath}...`);
   await faceapi.nets.ssdMobilenetv1.loadFromDisk(FACE_CONFIG.modelPath);
   await faceapi.nets.faceLandmark68Net.loadFromDisk(FACE_CONFIG.modelPath);
   await faceapi.nets.faceRecognitionNet.loadFromDisk(FACE_CONFIG.modelPath);
@@ -62,7 +94,7 @@ async function processFaceDetections(
   for (const detection of detections) {
     const descriptor = Array.from(detection.descriptor) as number[];
     if (descriptor.length !== 128) {
-      console.warn(`Skipping detection with invalid descriptor length: ${descriptor.length}`);
+      if (values.verbose) logger.warn(`Skipping detection with invalid descriptor length: ${descriptor.length}`);
       continue;
     }
     const bestMatch = findBestMatch(
@@ -126,7 +158,7 @@ async function loadClusteringResources(dataDir: string): Promise<{
   const existingPeopleManifest = await loadPeopleManifest(dataDir);
   if (existingPeopleManifest?.people) {
     people = filterPeopleWithValidDescriptors(existingPeopleManifest.people);
-    console.log(`Loaded ${people.length} existing people from manifest.`);
+    if (values.verbose) logger.info(`Loaded ${people.length} existing people from manifest.`);
   }
 
   const disconnectedPairs = new Set<string>();
@@ -147,12 +179,12 @@ async function loadClusteringResources(dataDir: string): Promise<{
         }
         manualConnects.get(c.imageId)?.push(c.personId);
       }
-      console.log(
+      if (values.verbose) logger.info(
         `Loaded ${disconnectedPairs.size} disconnection and ${manualConnects.size} connection constraints.`,
       );
     }
   } catch {
-    console.log("No constraints found or invalid file.");
+    if (values.verbose) logger.info("No constraints found or invalid file.");
   }
 
   return { people, disconnectedPairs, manualConnects };
@@ -187,10 +219,17 @@ async function processImageQueue(
   sourceDir: string,
 ) {
   let processedCount = 0;
+  const CONCURRENCY = typeof config.script.concurrency === "number" 
+    ? config.script.concurrency 
+    : Math.max(1, (os.cpus()?.length || 2) - 1);
+  
+  const bar = progressManager.createBar(queue.length, "[face-clustering]", { people: 0 });
 
-  for (const { image, oldPeople } of queue) {
-    processedCount++;
+  // bar?.start(queue.length, 0, { people: 0 });
 
+  const worker = async (item: { image: ImageEntry; oldPeople: string[] }) => {
+    const { image, oldPeople } = item;
+    
     if (oldPeople.length > 0) {
       await deleteOldFaceCrops(image.id, oldPeople, facesOutputDir);
     }
@@ -199,46 +238,68 @@ async function processImageQueue(
     try {
       await fsp.access(imagePath);
     } catch {
-      console.warn(`Image file not found: ${imagePath}`);
-      continue;
+      logger.warn(`Image file not found: ${imagePath}`);
+      return;
     }
 
     let img: any;
     try {
       img = await prepareImageForFaceDetection(imagePath);
     } catch (e) {
-      console.error(`Failed to process image ${imagePath}:`, e);
-      continue;
+      logger.error(`Failed to process image ${imagePath}:`, e);
+      return;
     }
 
-    const detections = await faceapi
-      .detectAllFaces(
-        img as any,
-        new faceapi.SsdMobilenetv1Options({ minConfidence: FACE_CONFIG.minConfidence }),
-      )
-      .withFaceLandmarks()
-      .withFaceDescriptors();
+    try {
+      const detections = await faceapi
+        .detectAllFaces(
+          img as any,
+          new faceapi.SsdMobilenetv1Options({ minConfidence: FACE_CONFIG.minConfidence }),
+        )
+        .withFaceLandmarks()
+        .withFaceDescriptors();
 
-    if (detections.length > 0) {
-      console.log(`  Found ${detections.length} faces in ${image.id}`);
+      if (detections.length > 0 && values.verbose) {
+         logger.verbose(`Found ${detections.length} faces in ${image.id}`);
+      }
+      
+      await processFaceDetections(img, detections, image, people, disconnectedPairs, facesOutputDir);
+    } catch (e) {
+      logger.error(`Detection/Clustering failed for ${image.id}:`, e);
     }
 
-    await processFaceDetections(img, detections, image, people, disconnectedPairs, facesOutputDir);
-
-    if (processedCount % 10 === 0) {
-      process.stdout.write(
-        `\rProcessed ${processedCount}/${queue.length} images... Found ${people.length} people.`,
-      );
+    processedCount++;
+    
+    if (bar) {
+      bar.update(processedCount, { people: people.length });
     }
+  };
+
+  const pool: Promise<void>[] = [];
+  let index = 0;
+
+  const runNext = async () => {
+    while (index < queue.length) {
+      const current = queue[index++];
+      if (!current) break;
+      await worker(current);
+    }
+  };
+
+  for (let i = 0; i < CONCURRENCY; i++) {
+    pool.push(runNext());
   }
-  console.log("");
+
+  await Promise.all(pool);
+  await Promise.all(pool);
+  if (bar) progressManager.removeBar(bar);
 }
 
 async function main() {
   intro("🤖 Face Clustering");
 
   const contentDir = await resolveGalleryDirectory();
-  console.log(`Running Face Clustering for: ${contentDir}`);
+  if (values.verbose) logger.info(`Running Face Clustering for: ${contentDir}`);
 
   // Paths
   const dataDir = path.resolve(process.cwd(), `src/data/${contentDir}`);
@@ -250,30 +311,52 @@ async function main() {
   // Load manifest via Repository
   const manifest = await loadImagesManifest(dataDir);
   if (!manifest) {
-    console.error(`Manifest not found in ${dataDir}`);
+    logger.error(`Manifest not found in ${dataDir}`);
     process.exit(1);
   }
 
   await loadModels();
 
   const { people, disconnectedPairs, manualConnects } = await loadClusteringResources(dataDir);
+  
+  if (values.clean) {
+      if (values.verbose) logger.info(`Cleaning output directory: ${facesOutputDir}`);
+      await fsp.rm(facesOutputDir, { recursive: true, force: true });
+  }
+  
+  await ensureDir(facesOutputDir);
 
-  const queue = prepareImageQueues(manifest, manualConnects);
+  if (values["manifest-only"]) {
+      logger.info("Manifest-only mode: Skipping face detection and clustering.");
+      return;
+  }
 
-  console.log(`Processing ${queue.length} images...`);
+  let queue = prepareImageQueues(manifest, manualConnects);
+
+  // Apply limit if specified
+  const limit = values.limit ? Number.parseInt(values.limit, 10) : 0;
+  if (limit > 0 && limit < queue.length) {
+      if (values.verbose) logger.info(`Limiting processing to first ${limit} images.`);
+      queue = queue.slice(0, limit);
+  }
+
+  logger.info(`Processing ${queue.length} images...`);
+  
   await processImageQueue(queue, people, disconnectedPairs, facesOutputDir, sourceDir);
 
-  console.log(`Finished. Found ${people.length} unique people.`);
+  logger.info(`Finished. Found ${people.length} unique people.`);
 
   // Sort people by count
   people.sort((a, b) => b.faceCount - a.faceCount);
 
   // Save via Repository
   await saveImagesManifest(dataDir, manifest);
-  console.log(`Updated manifest saved to ${dataDir}/images.manifest.json`);
+  // logger.info(`Updated manifest saved.`);
 
   await savePeopleManifest(dataDir, { people });
-  console.log(`Saved people manifest to ${dataDir}/people.manifest.json`);
+  // logger.info(`Saved people manifest.`);
+  
+  outro("Done");
 }
 
 (async () => {

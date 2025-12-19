@@ -60,6 +60,8 @@ export type ImageEntry = {
     qualityBucket?: QualityBucket;
     phash: string;
     embedding?: number[];
+    facesDetected?: boolean;
+    faces?: Array<{ x: number; y: number; width: number; height: number }>;
   };
 
   exif?: {
@@ -216,6 +218,8 @@ export type ScriptArgs = {
   quiet: boolean;
   manifestOnly: boolean;
   curation: boolean;
+  skipFaces?: boolean;
+  skipEmbeddings?: boolean;
 };
 
 export type CacheFileEntry = {

@@ -1,12 +1,9 @@
-import { execSync } from "node:child_process";
-import fs from "node:fs";
-import os from "node:os";
-import path from "node:path";
-import { CLIPVisionModelWithProjection, env, Tensor } from "@xenova/transformers";
-import sharp from "sharp";
+import { execSync } from "child_process";
+import fs from "fs";
+import fsp from "fs/promises";
+import os from "os";
+import path from "path";
 import { createLogger } from "./logger";
-
-env.allowLocalModels = true;
 
 const logger = createLogger("ai-models");
 
@@ -17,24 +14,36 @@ export const EMBEDDING_DIM = 768;
 const MODEL_ID = "Xenova/clip-vit-large-patch14";
 
 let model: any = null;
+let loadingPromise: Promise<void> | null = null;
 
 export async function init(): Promise<void> {
   if (model) return;
+  if (loadingPromise) return loadingPromise;
 
-  logger.info(`Loading AI Model (Vision): ${MODEL_ID}...`);
-  try {
-    model = await CLIPVisionModelWithProjection.from_pretrained(MODEL_ID, {
-      quantized: true,
-    });
-    logger.info("AI Model loaded successfully.");
-  } catch (e) {
-    logger.error(`Failed to load AI model ${MODEL_ID}:`, e);
-    throw e;
-  }
+  loadingPromise = (async () => {
+    logger.info(`Loading AI Model (Vision): ${MODEL_ID}...`);
+    try {
+      const { CLIPVisionModelWithProjection, env } = await import("@xenova/transformers");
+      env.allowLocalModels = true;
+
+      model = await CLIPVisionModelWithProjection.from_pretrained(MODEL_ID, {
+        quantized: true,
+      });
+      logger.info("AI Model loaded successfully.");
+    } catch (e) {
+      logger.error(`Failed to load AI model ${MODEL_ID}:`, e);
+      throw e;
+    }
+  })();
+
+  return loadingPromise;
 }
 
 export async function generateEmbedding(imagePath: string): Promise<number[]> {
   if (!model) await init();
+
+  const { Tensor } = await import("@xenova/transformers");
+  const sharp = (await import("sharp")).default;
 
   let processingPath = imagePath;
   let tempFile: string | null = null;
@@ -43,11 +52,11 @@ export async function generateEmbedding(imagePath: string): Promise<number[]> {
     // 1. Handle HEIC via vips copy
     const ext = path.extname(imagePath).toLowerCase();
     if (ext === ".heic" || ext === ".heif") {
-      const tmpDir = os.tmpdir();
-      const rid = Math.random().toString(36).substring(7);
-      tempFile = path.join(tmpDir, `ai_temp_${rid}.jpg`);
+      const tempDirPath = await fsp.mkdtemp(path.join(os.tmpdir(), "ai-embed-"));
+      tempFile = path.join(tempDirPath, `converted.jpg`);
 
       try {
+        // Ensure paths are properly quoted for shell execution via execSync
         execSync(`vips copy "${imagePath}" "${tempFile}"`);
         processingPath = tempFile;
       } catch (vipsErr) {
@@ -91,9 +100,9 @@ export async function generateEmbedding(imagePath: string): Promise<number[]> {
     logger.error(`Failed to generate embedding for ${imagePath}:`, e);
     return [];
   } finally {
-    if (tempFile && fs.existsSync(tempFile)) {
+    if (tempFile && fs.existsSync(path.dirname(tempFile))) {
       try {
-        fs.unlinkSync(tempFile);
+        await fsp.rm(path.dirname(tempFile), { recursive: true, force: true });
       } catch (_ignore) {}
     }
   }

@@ -1,11 +1,35 @@
+process.env.GLIB_LOG_LEVEL = "critical";
 import { intro, select } from "@clack/prompts";
 import { type FaviconOptions, favicons } from "favicons";
+import { promises as fs } from "fs"; // Bun's native fs/promises
 import matter from "gray-matter";
-import { promises as fs } from "node:fs";
-import path from "node:path";
+import { parseArgs } from "node:util";
+import path from "path"; // Bun's native path module
 import { createLogger } from "./lib/logger";
 
 const logger = createLogger("favicons");
+
+const { values } = parseArgs({
+  args: Bun.argv,
+  options: {
+    verbose: {
+      type: "boolean",
+      short: "v",
+    },
+    clean: {
+      type: "boolean",
+    },
+    "manifest-only": {
+      type: "boolean",
+    },
+  },
+  strict: false,
+  allowPositionals: true,
+});
+
+if (values.verbose) {
+    logger.level = "verbose";
+}
 
 type SiteConfig = {
   sourceFile: string;
@@ -31,14 +55,22 @@ async function loadSiteConfig(contentDir: string): Promise<SiteConfig> {
   if (!data.favicon) {
     throw new Error(`Config error: 'favicon' key is missing in ${siteConfigPath}.`);
   }
+  if (typeof data.favicon !== 'string') {
+    throw new Error(`Config error: 'favicon' key is not a string in ${siteConfigPath}.`);
+  }
+  const safeFavicon = path.basename(data.favicon);
+
   if (!data.manifest) {
     throw new Error(`Config error: 'manifest' key is missing in ${siteConfigPath}.`);
   }
+  // Although manifest itself is an object, if any of its internal paths were strings, they should be sanitized too.
+  // For now, assuming manifest is an object that favicons library handles.
+  
   if (!data.meta?.lang) {
     throw new Error(`Config error: 'meta.lang' key is missing in ${siteConfigPath}.`);
   }
 
-  const sourceFile = path.join(sourceDirPath, data.favicon);
+  const sourceFile = path.join(sourceDirPath, safeFavicon);
   try {
     await fs.access(sourceFile);
   } catch (_error) {
@@ -56,6 +88,11 @@ async function loadSiteConfig(contentDir: string): Promise<SiteConfig> {
 
 async function run() {
   intro("✨ Favicon Generator");
+
+  if (values["manifest-only"]) {
+      logger.info("Manifest-only mode: Skipping favicon generation.");
+      return;
+  }
 
   let contentDir = process.env.CONTENT_DIR;
   if (!contentDir) {
@@ -87,6 +124,11 @@ async function run() {
   const staticDir = `static/${contentDir}`;
   const assetsOutDir = path.resolve(staticDir, "assets", "favicons");
   const tempDir = ".temp";
+
+  if (values.clean) {
+      if (values.verbose) logger.info(`Cleaning output directory: ${assetsOutDir}`);
+      await fs.rm(assetsOutDir, { recursive: true, force: true });
+  }
 
   await fs.mkdir(assetsOutDir, { recursive: true });
   await fs.mkdir(tempDir, { recursive: true });

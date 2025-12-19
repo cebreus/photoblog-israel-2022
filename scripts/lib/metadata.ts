@@ -1,5 +1,5 @@
-import path from "node:path";
 import { exiftool } from "exiftool-vendored";
+import path from "node:path";
 import type { ImageEntry, ExifData as ManifestExifData } from "../../src/lib/types/manifest";
 import { METADATA_STANDARDS } from "../../src/lib/utils/metadata-standards";
 import { toSlug } from "../../src/lib/utils/strings";
@@ -214,7 +214,7 @@ export function buildImageEntry(
   originalMeta: { width?: number; height?: number },
   placeholderColor: string,
   sizeMB: number,
-  analysis?: { sharpness: number; phash: string; embedding: number[] },
+  analysis?: ImageEntry["analysis"],
 ): ImageEntry {
   const title = getCanonicalTitle(exif) || "";
   const caption = getCanonicalCaption(exif);
@@ -241,6 +241,8 @@ export function buildImageEntry(
       sharpness: analysis?.sharpness || 0,
       phash: analysis?.phash || "",
       embedding: analysis?.embedding || [],
+      facesDetected: analysis?.facesDetected,
+      faces: analysis?.faces,
     },
     exif: {
       date,

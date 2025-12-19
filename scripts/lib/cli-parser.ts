@@ -43,6 +43,9 @@ export type CliOptions = {
   blurJpegQuality: number;
   blurClean: boolean;
   curation: boolean;
+  title?: string;
+  skipFaces?: boolean;
+  skipEmbeddings?: boolean;
 };
 
 const QUALITY_FORMATS: readonly QualityFormat[] = [
@@ -266,6 +269,15 @@ const CLI_FLAG_HANDLERS: Record<string, ArgHandler> = {
   },
   curation: function handleCuration(v, a) {
     a.curation = parseBooleanValue(v);
+  },
+  title: function handleTitle(v, a) {
+    a.title = v;
+  },
+  skipFaces: function handleSkipFaces(v, a) {
+    a.skipFaces = parseBooleanValue(v);
+  },
+  skipEmbeddings: function handleSkipEmbeddings(v, a) {
+    a.skipEmbeddings = parseBooleanValue(v);
   },
 };
 

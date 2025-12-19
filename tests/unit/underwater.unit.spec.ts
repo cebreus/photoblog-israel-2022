@@ -1,8 +1,7 @@
 import fs from "node:fs/promises";
-import os from "node:os";
 import path from "node:path";
 import sharp from "sharp";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { fixUnderwaterImage } from "../../scripts/lib/underwater";
 
 vi.mock("../../scripts/lib/shell-utils", () => ({
@@ -11,8 +10,16 @@ vi.mock("../../scripts/lib/shell-utils", () => ({
 }));
 
 describe("fixUnderwaterImage", () => {
-  const tmpDir = os.tmpdir();
+  const tmpDir = path.resolve(process.cwd(), ".temp/test-underwater");
   const testFiles: string[] = [];
+
+  beforeAll(async () => {
+    await fs.mkdir(tmpDir, { recursive: true });
+  });
+
+  afterAll(async () => {
+    await fs.rm(tmpDir, { recursive: true, force: true }).catch(() => {});
+  });
 
   afterEach(async () => {
     // Cleanup created files
@@ -44,7 +51,7 @@ describe("fixUnderwaterImage", () => {
 
   it("should process a file path input and save to output path", async () => {
     const inputPath = await createTestImage("underwater_test_input.png");
-    const outputPath = path.join(tmpDir, "underwater_test_output.jpg");
+    const outputPath = path.resolve(process.cwd(), "content/fixed-underwater-images/underwater_test_output.jpg");
     testFiles.push(outputPath);
 
     await fixUnderwaterImage(inputPath, outputPath);
@@ -81,9 +88,6 @@ describe("fixUnderwaterImage", () => {
   });
 
   it("should throw error if image dimensions cannot be determined (simulated)", async () => {
-    // Hard to simulate with real sharp, but ensuring robust error handling involves
-    // checking that it catches errors from sharp.
-    // Passing a text file as input should cause sharp to fail.
     const badFilePath = path.join(tmpDir, "bad_image.txt");
     await fs.writeFile(badFilePath, "not an image");
     testFiles.push(badFilePath);

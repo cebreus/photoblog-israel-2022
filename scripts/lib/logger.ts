@@ -1,5 +1,6 @@
 import pc from "picocolors";
 import winston from "winston";
+import { progressManager } from "./progress-manager";
 
 const { combine, timestamp, printf, colorize } = winston.format;
 
@@ -28,7 +29,16 @@ export function createLogger(label: string) {
   const logger = winston.createLogger({
     level: process.env.LOG_LEVEL || "info",
     format: combine(timestamp({ format: "YYYY-MM-DD HH:mm:ss" }), customFormat),
-    transports: [new winston.transports.Console()],
+    transports: [
+      new winston.transports.Console({
+        log(info, callback) {
+          // Use the raw symbol for the formatted message if available, otherwise just message
+          const msg = info[Symbol.for("message") as any] || info.message;
+          progressManager.log(msg);
+          if (callback) callback();
+        },
+      }),
+    ],
   });
 
   return logger;

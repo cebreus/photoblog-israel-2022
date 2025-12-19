@@ -1,9 +1,8 @@
+import fg from "fast-glob";
+import matter from "gray-matter";
 import fsp from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { SingleBar } from "cli-progress";
-import fg from "fast-glob";
-import matter from "gray-matter";
 import type { Cache, ImageEntry, Manifest, StoryDataMap } from "../../src/lib/types/manifest";
 import { config } from "../config";
 import { EMBEDDING_DIM } from "./ai-models";
@@ -11,6 +10,7 @@ import type { ProcessedImageResult } from "./image-processor";
 import { type ImageProcessOptions, processImage } from "./image-processor";
 import { createLogger } from "./logger";
 import { buildGeneratorManifest, generateMenuManifest, updateManifest } from "./manifest-builder";
+import { progressManager } from "./progress-manager";
 
 // Repository Imports
 import { loadManifest, saveImagesManifest, saveManifest } from "./manifest-repository";
@@ -97,7 +97,12 @@ async function detectChanges(
     const cached = cache.files[key];
     const baseName = path.basename(file);
 
-    if (!cached || cached.mtimeMs !== stats.mtimeMs) {
+    if (!cached || cached.mtimeMs !== stats.mtimeMs || !previousEntries.has(baseName)) {
+      if (!cached || cached.mtimeMs !== stats.mtimeMs) {
+          // Changed or new
+      } else {
+          logger.verbose(`Image ${key} is in cache but missing from manifest. Forcing re-process to restore metadata.`);
+      }
       toProcess.push(file);
       continue;
     }
@@ -210,10 +215,12 @@ async function processImages(
   {
     concurrency,
     quiet,
+    verbose,
     ...options
   }: {
     concurrency: number | "auto";
     quiet: boolean;
+    verbose?: boolean;
     previousEntriesMap?: Map<string, ImageEntry>;
     oldCache?: Cache;
   } & ImageProcessOptions,
@@ -227,10 +234,10 @@ async function processImages(
 
   const bar = quiet
     ? null
-    : new SingleBar({
-        format: "Processing [{bar}] {percentage}% | {value}/{total}",
-      });
-  bar?.start(toProcess.length, 0);
+    : progressManager.createBar(toProcess.length, "Processing");
+
+  // bar?.start(toProcess.length, 0); // createBar already initializes
+
 
   const results: ProcessedImageResult[] = [];
   let index = 0;
@@ -254,7 +261,8 @@ async function processImages(
   const pool = Array.from({ length: resolvedConcurrency }, workerLoop);
   await Promise.all(pool);
 
-  bar?.stop();
+  if (bar) progressManager.removeBar(bar);
+  
   return results;
 }
 async function updateCacheAndManifests({
@@ -375,7 +383,7 @@ async function planBuildWork(
 
 async function processBuildQueue(
   CTX: { srcRoot: string; outRoot: string },
-  ARGS: { concurrency: number | "auto"; quiet: boolean; manifestOnly: boolean; curation: boolean },
+  ARGS: { concurrency: number | "auto"; quiet: boolean; verbose?: boolean; manifestOnly: boolean; curation: boolean; skipFaces?: boolean; skipEmbeddings?: boolean },
   toProcess: string[],
   cache: Cache,
   previousEntries: Map<string, ImageEntry>,
@@ -387,8 +395,11 @@ async function processBuildQueue(
     {
       concurrency: ARGS.concurrency,
       quiet: ARGS.quiet,
+      verbose: ARGS.verbose,
       manifestOnly: ARGS.manifestOnly,
       curation: ARGS.curation,
+      skipFaces: ARGS.skipFaces,
+      skipEmbeddings: ARGS.skipEmbeddings,
       srcRoot: CTX.srcRoot,
       outRoot: CTX.outRoot,
       allowUpscale: opts.allowUpscale ?? false,
@@ -419,7 +430,10 @@ export async function runIncrementalBuild(
     manifestOnly: boolean;
     curation: boolean;
     quiet: boolean;
+    verbose?: boolean;
     limit: number | 0;
+    skipFaces?: boolean;
+    skipEmbeddings?: boolean;
   },
   opts: {
     allowUpscale?: boolean;

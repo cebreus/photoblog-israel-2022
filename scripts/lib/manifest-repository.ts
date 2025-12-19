@@ -45,17 +45,24 @@ export async function saveManifest<T>(filePath: string, data: T, sortKeys = fals
     throw e;
   }
 }
+const MAX_MANIFEST_SIZE_BYTES = 15 * 1024 * 1024; // 15MB limit
+
 export async function loadManifest<T>(filePath: string): Promise<T | null> {
-  try {
-    const content = await fsp.readFile(filePath, "utf-8");
-    return JSON.parse(content) as T;
-  } catch (e: any) {
-    if (e.code === "ENOENT") {
-      return null;
-    }
-    logger.warn(`Failed to load manifest from ${filePath}: ${e.message}`);
-    return null;
-  }
+	try {
+		const stats = await fsp.stat(filePath);
+		if (stats.size > MAX_MANIFEST_SIZE_BYTES) {
+			logger.warn(`Manifest file ${filePath} exceeds size limit of ${MAX_MANIFEST_SIZE_BYTES} bytes.`);
+			return null;
+		}
+		const content = await fsp.readFile(filePath, "utf-8");
+		return JSON.parse(content) as T;
+	} catch (e: any) {
+		if (e.code === "ENOENT") {
+			return null;
+		}
+		logger.warn(`Failed to load manifest from ${filePath}: ${e.message}`);
+		return null;
+	}
 }
 
 export async function loadImagesManifest(outRoot: string): Promise<Manifest | null> {

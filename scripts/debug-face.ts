@@ -1,12 +1,14 @@
 import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
 import * as canvas from "canvas";
-import fsp from "node:fs/promises";
-import path from "node:path";
+import fsp from "fs/promises";
+import path from "path";
 import { convertHeicToPng } from "./lib/image-utils";
+
+const SCRIPT_DIR = import.meta.dir;
 
 const FACE_CONFIG = {
   minConfidence: 0.1,
-  modelPath: path.resolve(process.cwd(), "node_modules/@vladmandic/face-api/model"),
+  modelPath: path.resolve(SCRIPT_DIR, "models"), // Point to the local models directory
 };
 
 faceapi.env.monkeyPatch({

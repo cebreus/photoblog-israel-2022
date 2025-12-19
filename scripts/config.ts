@@ -88,7 +88,7 @@ export const config = {
   },
 
   script: {
-    concurrency: "auto" as const,
+    concurrency: "auto" as number | "auto",
     limit: 0,
     inputExtensions: [
       "jpg",

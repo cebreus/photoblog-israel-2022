@@ -1,15 +1,14 @@
 process.env.GLIB_LOG_LEVEL = "critical";
 
+import { intro, select } from "@clack/prompts";
 import fsp from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { intro, select } from "@clack/prompts";
 import "sharp";
 import type { QualityTypes, ScriptArgs } from "../src/lib/types/manifest";
 import { config } from "./config";
 import { runBlurBuild } from "./lib/blur-processor";
 import { type CliOptions, parseCliArguments } from "./lib/cli-parser";
-import { initModels } from "./lib/face-detection";
 import { cleanup } from "./lib/image-processor";
 import { sha1 } from "./lib/image-utils";
 import incrementalRun from "./lib/incremental-build";
@@ -35,6 +34,8 @@ let ARGS: ExtendedScriptArgs = {
   quiet: parsed.quiet,
   manifestOnly: parsed.manifestOnly ?? false,
   curation: parsed.curation ?? false,
+  skipFaces: parsed.skipFaces ?? false,
+  skipEmbeddings: parsed.skipEmbeddings ?? false,
   __raw: parsed,
 };
 
@@ -60,6 +61,8 @@ export function resetCliState() {
     quiet: parsed.quiet,
     manifestOnly: parsed.manifestOnly ?? false,
     curation: parsed.curation ?? false,
+    skipFaces: parsed.skipFaces ?? false,
+    skipEmbeddings: parsed.skipEmbeddings ?? false,
     __raw: parsed,
   };
   RUNTIME_RAW = {};
@@ -141,7 +144,9 @@ async function cleanAllOutputs() {
 }
 
 export async function main() {
-  intro("🏭 Image Generator");
+  if (!ARGS.quiet) {
+    intro(ARGS.__raw.title || "🏭 Image Generator");
+  }
 
   if (!contentDir && !hasSrcArg) {
     try {
@@ -156,13 +161,6 @@ export async function main() {
   }
   logger.verbose(`Processing content for: ${contentDir}`);
 
-  try {
-    await initModels();
-  } catch (error) {
-    logger.warn("Face detection unavailable (TensorFlow not loaded). Skipping face detection.");
-    logger.verbose(`Error: ${error}`);
-  }
-
   RUNTIME_RAW = ARGS.__raw || {};
   RUNTIME_FORMATS = RUNTIME_RAW.formats?.length
     ? [...RUNTIME_RAW.formats]
@@ -170,12 +168,22 @@ export async function main() {
   RUNTIME_QUALITY_OVERRIDES = RUNTIME_RAW.quality ?? {};
   RUNTIME_ALLOW_UPSCALE = RUNTIME_RAW.allowUpscale ?? false;
 
+  if (ARGS.clean) await cleanAllOutputs();
+
+  if (ARGS.manifestOnly) {
+    logger.info("Manifest-only mode: Skipping image processing and variants generation.");
+    return;
+  }
+
   if (RUNTIME_RAW.blurEnable && RUNTIME_RAW.blurOnly) {
     await runBlurBuild(RUNTIME_RAW, resolveConcurrency(ARGS.concurrency));
     return;
   }
-
-  if (ARGS.clean) await cleanAllOutputs();
+  
+  if (ARGS.manifestOnly) {
+    logger.info("Manifest-only mode: Skipping image processing and variants generation.");
+    return;
+  }
 
   if (ARGS.watch) {
     logger.info(

@@ -1,5 +1,6 @@
-import fsp from "node:fs/promises";
+import fsp from "fs/promises"; // Bun's native fs/promises
 import { toSlug } from "../../src/lib/utils/strings";
+import { toSafeFilename } from "./path-utils";
 
 export type RenameMap = Map<
   string,
@@ -48,13 +49,15 @@ export function getNewBasename(
   if (metaAuthor) {
     author = Array.isArray(metaAuthor) ? metaAuthor[0] : String(metaAuthor);
   }
-  author = toSlug(author);
+  author = toSafeFilename(toSlug(author));
+
+  const safeOriginalBasename = toSafeFilename(originalBasename);
 
   if (!author) {
-    return originalBasename ? `${dateStr}-${toSlug(originalBasename)}` : dateStr;
+    return safeOriginalBasename ? `${dateStr}-${safeOriginalBasename}` : dateStr;
   }
 
-  return `${dateStr}-${author}`;
+  return safeOriginalBasename ? `${dateStr}-${author}-${safeOriginalBasename}` : `${dateStr}-${author}`;
 }
 
 export async function safeRename(oldPath: string, newPath: string) {

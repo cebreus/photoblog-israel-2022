@@ -4,14 +4,31 @@ import fg from "fast-glob";
 import fs from "node:fs";
 import path from "node:path";
 import {
-  migrateCache,
-  migrateCurationManifest,
-  migrateGeneratedAssets,
-  migrateImagesManifest,
-  migrateMarkdownFiles,
-  migratePeopleManifest,
+    migrateCache,
+    migrateCurationManifest,
+    migrateGeneratedAssets,
+    migrateImagesManifest,
+    migrateMarkdownFiles,
+    migratePeopleManifest,
 } from "./lib/gallery-migration";
 import { getNewBasename, type RenameMap, safeRename } from "./lib/renaming-utils";
+
+import { parseArgs } from "node:util";
+
+const { values } = parseArgs({
+  args: Bun.argv,
+  options: {
+    gallery: {
+      type: "string",
+      short: "g",
+    },
+    author: {
+      type: "string",
+    },
+  },
+  strict: false,
+  allowPositionals: true,
+});
 
 async function getGalleries() {
   const contentDir = path.resolve("content");
@@ -20,6 +37,10 @@ async function getGalleries() {
 }
 
 async function getGalleryOrPrompt(galleries: string[]): Promise<string> {
+  if (values.gallery && galleries.includes(values.gallery)) {
+    return values.gallery;
+  }
+
   const selected = await select({
     message: "Select a gallery to rename images in:",
     options: galleries.map((g) => ({ value: g, label: g })),
@@ -115,17 +136,20 @@ async function main() {
 
   const gallery = await getGalleryOrPrompt(galleries);
 
-  const defaultAuthorInput = await text({
-    message: "Default author (leave empty to omit author from filename if missing in EXIF):",
-    placeholder: "",
-    defaultValue: "",
-  });
+  let defaultAuthor = typeof values.author === "string" ? values.author : "";
+  if (!values.author) {
+    const defaultAuthorInput = await text({
+      message: "Default author (leave empty to omit author from filename if missing in EXIF):",
+      placeholder: "",
+      defaultValue: "",
+    });
 
-  if (typeof defaultAuthorInput !== "string") {
-    outro("Operation cancelled.");
-    process.exit(0);
+    if (typeof defaultAuthorInput !== "string") {
+      outro("Operation cancelled.");
+      process.exit(0);
+    }
+    defaultAuthor = defaultAuthorInput;
   }
-  const defaultAuthor = defaultAuthorInput;
 
   const s = spinner();
   s.start("Analyzing images...");

@@ -1,9 +1,12 @@
-import crypto from "node:crypto";
-import fsp from "node:fs/promises";
-import os from "node:os";
-import path from "node:path";
+import crypto from "crypto"; // Bun's native crypto
+import fsp from "fs/promises"; // Bun's native fs/promises
+import os from "os"; // Bun's native os module
+import path from "path"; // Bun's native path module
 import type { AspectRatio, QualityBucket } from "../../src/lib/types/manifest";
+import { validatePathInsideRoot } from "./path-utils";
 import { run } from "./shell-utils";
+
+const SAFE_INPUT_ROOT = process.cwd();
 
 const EXCELLENT_AESTHETIC_THRESHOLD = 65;
 const EXCELLENT_SHARPNESS_THRESHOLD = 80;
@@ -176,24 +179,25 @@ export async function calculatePhash(sharpModule: SharpType, imagePath: string):
 }
 
 export async function convertHeicToPng(inputPath: string): Promise<Buffer> {
-  const tmpDir = os.tmpdir();
-  const baseName = path.basename(inputPath);
-  const tempFile = path.join(tmpDir, `${baseName}-${Date.now()}.png`);
+  const validatedInputPath = validatePathInsideRoot(inputPath, SAFE_INPUT_ROOT);
+  const tempFile = path.join(os.tmpdir(), `heic-${crypto.randomUUID()}.png`);
 
   try {
     try {
-      await run("sips", ["-s", "format", "png", inputPath, "--out", tempFile], { stdio: "ignore" });
+      // Prefer vips as it is faster on this system
+      await run("vips", ["copy", validatedInputPath, tempFile], { stdio: "ignore" });
     } catch {
-      await run("vips", ["copy", inputPath, tempFile], { stdio: "ignore" });
+      // Fallback to sips if vips fails
+      await run("sips", ["-s", "format", "png", validatedInputPath, "--out", tempFile], { stdio: "ignore" });
     }
 
     const buf = await fsp.readFile(tempFile);
-    await fsp.unlink(tempFile);
     return buf;
   } catch (e) {
+    throw new Error(`Failed to convert HEIC to PNG for ${inputPath}: ${e}`);
+  } finally {
     try {
       await fsp.unlink(tempFile);
-    } catch {}
-    throw new Error(`Failed to convert HEIC to PNG for ${inputPath}: ${e}`);
+    } catch (_ignore) {}
   }
 }

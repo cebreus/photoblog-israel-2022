@@ -10,35 +10,42 @@ const BASE_MODEL_URL = "https://raw.githubusercontent.com/vladmandic/face-api/ma
 
 const MODEL_NAME = "ssd_mobilenetv1";
 
+let modelsLoaded = false;
+let loadingPromise: Promise<void> | null = null;
+
 export async function initModels() {
-  const faceapi = await import("@vladmandic/face-api");
-  const tf = await import("@tensorflow/tfjs-node");
-  const { Canvas, Image, ImageData } = await import("canvas");
+  if (modelsLoaded) return;
+  if (loadingPromise) return loadingPromise;
 
-  faceapi.env.monkeyPatch({
-    Canvas: Canvas as any,
-    Image: Image as any,
-    ImageData: ImageData as any,
-  });
-  logger.info("Initializing TensorFlow/FaceAPI...");
-  await tf.ready();
+  loadingPromise = (async () => {
+    const faceapi = await import("@vladmandic/face-api");
+    const tf = await import("@tensorflow/tfjs-node");
+    const { Canvas, Image, ImageData } = await import("canvas");
 
-  if (!fs.existsSync(MODELS_DIR)) {
-    await fsp.mkdir(MODELS_DIR, { recursive: true });
-  }
+    faceapi.env.monkeyPatch({
+      Canvas: Canvas as any,
+      Image: Image as any,
+      ImageData: ImageData as any,
+    });
+    logger.info("Initializing TensorFlow/FaceAPI...");
+    await tf.ready();
+    
+    try {
+      await faceapi.nets.ssdMobilenetv1.loadFromDisk(MODELS_DIR);
+      logger.info("Face models loaded from disk.");
+    } catch (_error) {
+      logger.warn("Could not load models from disk. Attempting download...");
+      await downloadModelFiles();
+      await faceapi.nets.ssdMobilenetv1.loadFromDisk(MODELS_DIR);
+      logger.info("Face models downloaded and loaded.");
+    }
 
-  try {
-    await faceapi.nets.ssdMobilenetv1.loadFromDisk(MODELS_DIR);
-    logger.info("Face models loaded from disk.");
-  } catch (_error) {
-    logger.warn("Could not load models from disk. Attempting download...");
-    await downloadModelFiles();
-    await faceapi.nets.ssdMobilenetv1.loadFromDisk(MODELS_DIR);
-    logger.info("Face models downloaded and loaded.");
-  }
+    logger.info(`SSD Model Loaded: ${faceapi.nets.ssdMobilenetv1.isLoaded}`);
+    logger.info(`TF Backend: ${tf.getBackend()}`);
+    modelsLoaded = true;
+  })();
 
-  logger.info(`SSD Model Loaded: ${faceapi.nets.ssdMobilenetv1.isLoaded}`);
-  logger.info(`TF Backend: ${tf.getBackend()}`);
+  return loadingPromise;
 }
 
 async function downloadModelFiles() {
@@ -87,6 +94,7 @@ export type FaceBox = {
 };
 
 export async function detectFaces(input: string | Buffer): Promise<FaceBox[]> {
+  await initModels();
   try {
     const faceapi = await import("@vladmandic/face-api");
     const { loadImage } = await import("canvas");

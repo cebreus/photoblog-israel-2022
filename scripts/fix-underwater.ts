@@ -1,9 +1,27 @@
-import path from "node:path";
+import path from "path";
+import { validatePathInsideRoot } from "./lib/path-utils";
 import { fixUnderwaterImage } from "./lib/underwater";
 
-const args = process.argv.slice(2);
+const SAFE_INPUT_ROOT = process.cwd();
 
-if (args.length === 0 || args.includes("--help") || args.includes("-h")) {
+import { parseArgs } from "node:util";
+
+const { values, positionals } = parseArgs({
+  args: Bun.argv,
+  options: {
+    both: {
+      type: "boolean",
+    },
+    help: {
+      type: "boolean",
+      short: "h",
+    },
+  },
+  strict: false,
+  allowPositionals: true,
+});
+
+if (values.help || positionals.length < 3) {
   console.log(
     "Usage: bun scripts/fix-underwater.ts <path-to-image> [output-path-or-format] [--both]",
   );
@@ -14,11 +32,14 @@ if (args.length === 0 || args.includes("--help") || args.includes("-h")) {
   process.exit(1);
 }
 
-const inputPath = args.find((a) => !a.startsWith("-"))!;
-const generateBoth = args.includes("--both");
+const inputPath = validatePathInsideRoot(
+  positionals[2] || "",
+  SAFE_INPUT_ROOT,
+);
+const generateBoth = values.both;
 
 if (!inputPath) {
-  console.error("❌ Error: Missing input path");
+  console.error("❌ Error: Missing or invalid input path.");
   process.exit(1);
 }
 
@@ -35,7 +56,7 @@ try {
     outputs.push(path.join(dir, `${basename}-fixed.heic`));
     outputs.push(path.join(dir, `${basename}-fixed.jpg`));
   } else {
-    const argOut = args.find((a, i) => i > 0 && !a.startsWith("-"));
+    const argOut = positionals[3];
     let finalPath = argOut || path.join(dir, `${basename}-fixed${ext}`);
     if (finalPath.startsWith(".") && finalPath.length <= 5) {
       finalPath = path.join(dir, `${basename}-fixed${finalPath}`);

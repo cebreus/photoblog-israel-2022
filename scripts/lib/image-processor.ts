@@ -1,4 +1,3 @@
-import { execSync } from "node:child_process";
 import fs from "node:fs";
 import fsp from "node:fs/promises";
 import os from "node:os";
@@ -10,20 +9,21 @@ import { config } from "../config";
 import { aiService, EMBEDDING_DIM } from "./ai-models";
 import { detectFaces, type FaceBox } from "./face-detection";
 import {
-  generateOtherOutput,
-  generateVariant,
-  type OtherOutputConfig,
-  type VariantOutputConfig,
+    generateOtherOutput,
+    generateVariant,
+    type OtherOutputConfig,
+    type VariantOutputConfig,
 } from "./image-generator";
 import { calculatePhash, calculateSharpness } from "./image-utils";
 import { createLogger } from "./logger";
 import {
-  buildImageEntry,
-  cleanupMetadataTool,
-  normalizeExifData,
-  type RawExifData,
-  readRawMetadata,
+    buildImageEntry,
+    cleanupMetadataTool,
+    normalizeExifData,
+    type RawExifData,
+    readRawMetadata,
 } from "./metadata";
+import { run } from "./shell-utils";
 
 type SharpModule = typeof import("sharp");
 
@@ -58,6 +58,8 @@ export type ProcessedImageResult = {
 export type ImageProcessOptions = {
   manifestOnly: boolean;
   curation: boolean;
+  skipFaces?: boolean;
+  skipEmbeddings?: boolean;
   srcRoot: string;
   outRoot: string;
   allowUpscale: boolean;
@@ -134,7 +136,7 @@ async function convertHeicIfNeeded(
     const tmpDir = os.tmpdir();
     const tempFilePath = path.join(tmpDir, `${baseName}_converted.jpg`);
     try {
-      execSync(`vips copy "${absPath}" "${tempFilePath}"`);
+			await run("vips", ["copy", absPath, tempFilePath]);
       return { processingPath: tempFilePath, tempFilePath };
     } catch (convErr) {
       logger.warn(`Failed to convert HEIC via vips for ${absPath}: ${convErr}`);
@@ -215,14 +217,17 @@ async function extractFaces(
   processingPath: string,
   key: string,
   originalWidth: number,
-  manifestOnly: boolean,
+  options: ImageProcessOptions,
+  existingFaces?: Array<{ x: number; y: number; width: number; height: number }>,
 ): Promise<FaceBox[]> {
-  if (manifestOnly) return [];
+  if (options.manifestOnly || options.skipFaces) return [];
+  if (existingFaces && existingFaces.length > 0) return existingFaces;
 
   try {
     const detectWidth = 800;
     const buffer = await sharpModule(processingPath)
       .resize({ width: detectWidth, withoutEnlargement: true })
+      .toFormat("jpeg")
       .toBuffer();
 
     const detected = await detectFaces(buffer);
@@ -274,7 +279,7 @@ async function gatherImageData(
   ]);
 
   let embedding: number[] | undefined = reusedAnalysis?.embedding;
-  if (shouldAnalyze && options.curation) {
+  if (shouldAnalyze && options.curation && !options.skipEmbeddings) {
     embedding = await aiService.generateEmbedding(processingPath);
   }
 
@@ -288,7 +293,8 @@ async function gatherImageData(
     processingPath,
     key,
     originalMeta.width || 1,
-    options.manifestOnly,
+    options,
+    reusedAnalysis?.faces,
   );
 
   return {
@@ -382,8 +388,9 @@ async function generateAllOutputs(
 
 export async function processImage(
   absPath: string,
-  options: ImageProcessOptions,
+  options: ImageProcessOptions & { skipFaces?: boolean; skipEmbeddings?: boolean }
 ): Promise<ProcessedImageResult | null> {
+  const startTime = performance.now();
   await loadSharpOrExplain();
   const sharpModule = requireSharp();
 
@@ -427,6 +434,8 @@ export async function processImage(
         sharpness: imageData.sharpnessScore ?? 0,
         phash: imageData.phash ?? "",
         embedding: imageData.embedding ?? [],
+        facesDetected: !options.skipFaces && shouldAnalyze ? true : undefined,
+        faces: imageData.faces,
       },
     );
 

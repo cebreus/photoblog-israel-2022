@@ -1,8 +1,14 @@
-<script>
-  let { checked = $bindable(false), onCheckedChange, ...rest } = $props();
+<script lang="ts">
+  interface Props {
+    checked?: boolean | "indeterminate";
+    onCheckedChange?: (val: boolean) => void;
+    [key: string]: any;
+  }
+
+  let { checked = $bindable(false), onCheckedChange, ...rest }: Props = $props();
 
   function handleClick() {
-    let newVal;
+    let newVal: boolean;
     if (checked === "indeterminate") newVal = true;
     else newVal = !checked;
 
@@ -11,4 +17,10 @@
   }
 </script>
 
-<button role="checkbox" aria-checked={checked} onclick={handleClick} {...rest}> </button>
+<button
+  role="checkbox"
+  aria-checked={checked === "indeterminate" ? "mixed" : checked}
+  onclick={handleClick}
+  {...rest}
+>
+</button>
