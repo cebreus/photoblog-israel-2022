@@ -49,7 +49,7 @@ export async function POST({ request }) {
 
         const oldPath = path.resolve(facesDir, personId);
         const newPath = path.resolve(facesDir, newId);
-        let folderRenamed = false;
+        let _folderRenamed = false;
 
         let sourceExists = false;
         try {
@@ -73,7 +73,7 @@ export async function POST({ request }) {
 
           try {
             await fsp.rename(oldPath, newPath);
-            folderRenamed = true;
+            _folderRenamed = true;
             console.log(`[RENAME] Folder renamed successfully`);
           } catch (e) {
             console.error(`[RENAME] Folder rename failed: ${(e as Error).message}`);
@@ -89,18 +89,18 @@ export async function POST({ request }) {
 
         person.id = newId;
 
-        let updatedCount = 0;
+        let _updatedCount = 0;
         for (const day of imagesManifest.photoDays) {
           for (const item of day.items) {
             if (item.type === "image" && item.people?.includes(personId)) {
               item.people = item.people.map((id: string) => (id === personId ? newId : id));
-              updatedCount++;
+              _updatedCount++;
             }
           }
         }
-        console.log(`[RENAME] Updated ${updatedCount} image references`);
+        console.log(`[RENAME] Updated ${_updatedCount} image references`);
 
-        if (person.thumbnail && person.thumbnail.includes(personId)) {
+        if (person.thumbnail?.includes(personId)) {
           person.thumbnail = person.thumbnail.replace(personId, newId);
         }
 
@@ -124,7 +124,7 @@ export async function POST({ request }) {
               console.log("[RENAME] Updated constraints for new ID");
             }
           }
-        } catch (e) {}
+        } catch (_e) {}
       }
 
       await fsp.writeFile(peopleManifestPath, JSON.stringify(peopleManifest, null, 2));

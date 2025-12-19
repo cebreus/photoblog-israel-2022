@@ -29,7 +29,7 @@ export function getNewBasename(
 
   try {
     const d = dateObj.toDate ? dateObj.toDate() : new Date(dateObj.toString());
-    if (isNaN(d.getTime())) {
+    if (Number.isNaN(d.getTime())) {
       throw new Error("Invalid date format in EXIF data");
     }
     const yyyy = d.getFullYear();

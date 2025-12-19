@@ -11,7 +11,7 @@ import {
   migrateMarkdownFiles,
   migratePeopleManifest,
 } from "./lib/gallery-migration";
-import { type RenameMap, getNewBasename, safeRename } from "./lib/renaming-utils";
+import { getNewBasename, type RenameMap, safeRename } from "./lib/renaming-utils";
 
 async function getGalleries() {
   const contentDir = path.resolve("content");

@@ -1,6 +1,6 @@
-import { json } from "@sveltejs/kit";
 import fsp from "node:fs/promises";
 import path from "node:path";
+import { json } from "@sveltejs/kit";
 
 export async function GET() {
   const contentDir = process.env.CONTENT_DIR || "egypt-2025";

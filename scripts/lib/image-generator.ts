@@ -28,10 +28,31 @@ function getQuality(
   return qualityOverrides[qualityKey] ?? config.encoding.quality[qualityKey];
 }
 
-function applyFormat(instance: Sharp, format: ImageFormat, quality: number) {
-  if (format === ImageFormat.JPEG) instance.jpeg({ quality, ...config.encoding.sharp.jpeg });
-  else if (format === ImageFormat.WEBP) instance.webp({ quality, ...config.encoding.sharp.webp });
-  else if (format === ImageFormat.AVIF) instance.avif({ quality, ...config.encoding.sharp.avif });
+function jpegStrategy(instance: Sharp, quality: number): void {
+  instance.jpeg({ quality, ...config.encoding.sharp.jpeg });
+}
+
+function webpStrategy(instance: Sharp, quality: number): void {
+  instance.webp({ quality, ...config.encoding.sharp.webp });
+}
+
+function avifStrategy(instance: Sharp, quality: number): void {
+  instance.avif({ quality, ...config.encoding.sharp.avif });
+}
+
+type FormatStrategy = (instance: Sharp, quality: number) => void;
+
+const FORMAT_STRATEGIES: Record<string, FormatStrategy> = {
+  [ImageFormat.JPEG]: jpegStrategy,
+  [ImageFormat.WEBP]: webpStrategy,
+  [ImageFormat.AVIF]: avifStrategy,
+};
+
+function applyFormat(instance: Sharp, format: ImageFormat, quality: number): void {
+  const strategy = FORMAT_STRATEGIES[format];
+  if (strategy) {
+    strategy(instance, quality);
+  }
 }
 
 function buildSharpInstance(
@@ -138,8 +159,8 @@ export async function generateVariant(
         originalMeta.width ?? 0,
         originalMeta.height ?? 0,
         faces,
-        variantConfig.resize!.width!,
-        variantConfig.resize!.height!,
+        variantConfig.resize?.width ?? 0,
+        variantConfig.resize?.height ?? 0,
       );
     }
 
@@ -154,8 +175,8 @@ export async function generateVariant(
           height: Math.round(cropRect.height),
         })
         .resize({
-          width: variantConfig.resize!.width,
-          height: variantConfig.resize!.height,
+          width: variantConfig.resize?.width,
+          height: variantConfig.resize?.height,
         });
     } else {
       resizedInstance = buildSharpInstance(

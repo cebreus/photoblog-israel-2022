@@ -1,10 +1,10 @@
-import type { ImageEntry, Manifest, PeopleManifest } from "$lib/types/manifest";
-import { validateUnmatchInput } from "$lib/utils/api-validators";
-import { toSlug } from "$lib/utils/strings";
-import { json } from "@sveltejs/kit";
 import crypto from "node:crypto";
 import fsp from "node:fs/promises";
 import path from "node:path";
+import { json } from "@sveltejs/kit";
+import type { ImageEntry, Manifest, PeopleManifest } from "$lib/types/manifest";
+import { validateUnmatchInput } from "$lib/utils/api-validators";
+import { toSlug } from "$lib/utils/strings";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 
 export async function POST({ request }) {
@@ -64,7 +64,7 @@ export async function POST({ request }) {
           for (const item of day.items) {
             if (item.type === "image" && item.id === id) {
               const img = item as ImageEntry;
-              if (img.people && img.people.includes(personId)) {
+              if (img.people?.includes(personId)) {
                 // Remove old person
                 img.people = img.people.filter((pid) => pid !== personId);
                 // Add new person
@@ -139,7 +139,7 @@ export async function POST({ request }) {
             } else {
               sourcePerson.thumbnail = "";
             }
-          } catch (e) {
+          } catch (_e) {
             sourcePerson.thumbnail = "";
           }
         }

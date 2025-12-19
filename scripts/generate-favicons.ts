@@ -1,8 +1,8 @@
 import { intro, select } from "@clack/prompts";
 import { type FaviconOptions, favicons } from "favicons";
-import { promises as fs } from "fs";
 import matter from "gray-matter";
-import path from "path";
+import { promises as fs } from "node:fs";
+import path from "node:path";
 import { createLogger } from "./lib/logger";
 
 const logger = createLogger("favicons");
@@ -20,7 +20,7 @@ async function loadSiteConfig(contentDir: string): Promise<SiteConfig> {
   let siteConfigFile: string;
   try {
     siteConfigFile = await fs.readFile(siteConfigPath, "utf8");
-  } catch (error) {
+  } catch (_error) {
     throw new Error(
       `Failed to read site config at ${siteConfigPath}. Please ensure the file exists.`,
     );
@@ -41,7 +41,7 @@ async function loadSiteConfig(contentDir: string): Promise<SiteConfig> {
   const sourceFile = path.join(sourceDirPath, data.favicon);
   try {
     await fs.access(sourceFile);
-  } catch (error) {
+  } catch (_error) {
     throw new Error(
       `Source file not found at path: ${sourceFile}. Please check the 'favicon' path in ${siteConfigPath}.`,
     );

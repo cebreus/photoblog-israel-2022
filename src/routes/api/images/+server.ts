@@ -1,9 +1,9 @@
-import { dev } from "$app/environment";
-import type { Manifest } from "$lib/types/manifest";
-import { json, type RequestHandler } from "@sveltejs/kit";
-import { exiftool } from "exiftool-vendored";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { json, type RequestHandler } from "@sveltejs/kit";
+import { exiftool } from "exiftool-vendored";
+import { dev } from "$app/environment";
+import type { Manifest } from "$lib/types/manifest";
 import { config } from "../../../../scripts/config";
 import {
   deleteGeneratedAssets,
@@ -374,7 +374,7 @@ export const PATCH: RequestHandler = async ({ request }) => {
     try {
       const manifestContent = await fs.readFile(manifestPath, "utf-8");
       manifest = JSON.parse(manifestContent);
-    } catch (e) {
+    } catch (_e) {
       errors.push(`Nepodařilo se načíst manifest pro ${contentDir}`);
       continue;
     }
@@ -398,7 +398,7 @@ export const PATCH: RequestHandler = async ({ request }) => {
 
     for (const item of contentDirItems) {
       try {
-        const physicalDir = physicalRoot;
+        const _physicalDir = physicalRoot;
         const srcParts = item.src.split("/");
         const fileName = srcParts[srcParts.length - 1];
         const nameWithoutExt = path.parse(fileName).name;

@@ -1,17 +1,17 @@
 import fs from "node:fs";
 import fsp from "node:fs/promises";
 import path from "node:path";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { POST as mergePost } from "../../src/routes/api/people/merge/+server";
 import { POST as renamePost } from "../../src/routes/api/people/rename/+server";
 import { POST as unmatchPost } from "../../src/routes/api/people/unmatch/+server";
 
 const CWD = path.resolve(__dirname, "../../");
-const TEST_DIR = "test-people-api-" + Date.now();
+const TEST_DIR = `test-people-api-${Date.now()}`;
 const DATA_DIR = path.resolve(CWD, "src/data", TEST_DIR);
 const STATIC_DIR = path.resolve(CWD, "static", TEST_DIR);
 
-const originalCwd = process.cwd;
+const _originalCwd = process.cwd;
 const originalContentDir = process.env.CONTENT_DIR;
 
 // Utilities to setup mock environment

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import * as Sidebar from "$lib/components/ui/sidebar";
-  import { activeSectionIds } from "$lib/stores/scrollspy";
+  import { ui } from "$lib/stores/ui.svelte";
   import type { MenuManifest } from "$lib/types/manifest";
   import { Collapsible } from "bits-ui";
   import Calendar from "lucide-svelte/icons/calendar";
@@ -16,7 +16,7 @@
     {#each menuItems as menuDay (menuDay.id)}
       {@const isHashActiveDay = $page.url.hash === menuDay.href}
       {@const isScrollspyActiveDay = menuDay.locations.some((location) =>
-        $activeSectionIds.has(location.id),
+        ui.activeSections.has(location.id),
       )}
 
       <Collapsible.Root open={true} class="group/collapsible">
@@ -44,7 +44,7 @@
               <Sidebar.MenuSub>
                 {#each menuDay.locations as menuLocation (menuLocation.id)}
                   {@const isHashActiveLocation = $page.url.hash === menuLocation.href}
-                  {@const isScrollspyActiveLocation = $activeSectionIds.has(menuLocation.id)}
+                  {@const isScrollspyActiveLocation = ui.activeSections.has(menuLocation.id)}
                   <Sidebar.MenuSubItem>
                     <Sidebar.MenuSubButton
                       href={menuLocation.href}

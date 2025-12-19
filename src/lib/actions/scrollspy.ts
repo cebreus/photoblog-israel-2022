@@ -1,5 +1,5 @@
+import { ui } from "$lib/stores/ui.svelte";
 import type { Action } from "svelte/action";
-import { activeSectionIds } from "$lib/stores/scrollspy";
 
 interface ScrollspyOptions {
   id: string;
@@ -76,12 +76,11 @@ export const useScrollspy: Action<HTMLElement, ScrollspyOptions> = (node, option
         if (toAdd.length === 0 && toRemove.length === 0) return;
 
         // Apply all changes in a single store update for better performance
-        activeSectionIds.update((ids) => {
-          const next = new Set(ids);
-          toAdd.forEach((i) => next.add(i));
-          toRemove.forEach((i) => next.delete(i));
-          return next;
-        });
+        // Apply all changes in a single store update for better performance
+        const current = new Set(ui.activeSections);
+        toAdd.forEach((i) => current.add(i));
+        toRemove.forEach((i) => current.delete(i));
+        ui.activeSections = current;
       },
       { rootMargin, threshold },
     );
@@ -95,7 +94,7 @@ export const useScrollspy: Action<HTMLElement, ScrollspyOptions> = (node, option
   entry.observer.observe(node);
 
   return {
-    update(newOptions) {
+    update(_newOptions) {
       // This action assumes options are stable for a given element during its
       // lifecycle in this app. If you need to change id/rootMargin/threshold
       // dynamically, re-initializing (destroy + create) is safer — not done
@@ -108,7 +107,7 @@ export const useScrollspy: Action<HTMLElement, ScrollspyOptions> = (node, option
         current.nodes.delete(node);
         try {
           current.observer.unobserve(node);
-        } catch (err) {
+        } catch (_err) {
           // Ignore if already removed
         }
 

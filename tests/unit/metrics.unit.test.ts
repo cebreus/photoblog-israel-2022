@@ -13,7 +13,7 @@ describe("Metric Extraction (Unit)", () => {
     // Ensure fixtures dir exists
     const dir = path.dirname(sharpImgPath);
     await fs.mkdir(dir, { recursive: true });
-    await fs.writeFile(dir + "/.keep", "");
+    await fs.writeFile(`${dir}/.keep`, "");
 
     // Create a CHECKERBOARD pattern instead of random noise
     // Random noise behaves poorly with resizing (aliasing)
@@ -59,8 +59,8 @@ describe("Metric Extraction (Unit)", () => {
     console.log(`pHash - Original: ${hashOriginal}, Resized: ${hashResized}`);
 
     let diff = 0;
-    const h1 = BigInt("0x" + hashOriginal);
-    const h2 = BigInt("0x" + hashResized);
+    const h1 = BigInt(`0x${hashOriginal}`);
+    const h2 = BigInt(`0x${hashResized}`);
     const xor = h1 ^ h2;
     const diffStr = xor.toString(2);
     for (const char of diffStr) {

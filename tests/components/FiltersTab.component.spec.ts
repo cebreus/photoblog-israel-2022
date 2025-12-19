@@ -1,80 +1,35 @@
-import { selectedAuthors, showSeparators } from "$lib/stores/filters";
+import SwitchStub from "$lib/components/__test_fixtures__/SwitchStub.svelte";
+import FiltersTab from "$lib/components/sidebar-content/FiltersTab.svelte";
+import { filters } from "$lib/stores/filters.svelte";
 import { describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-svelte";
 import { page } from "vitest/browser";
-import FiltersTab from "./FiltersTab.svelte";
 
-// Mock Stores Inlined to avoid Hoisting
-vi.mock("$lib/stores/photoLabels", () => ({
-  showPhotoLabels: {
-    subscribe: vi.fn((fn: any) => {
-      fn(true);
-      return () => {};
-    }),
-    set: vi.fn(),
-    update: vi.fn(),
+// Mock Rune Stores
+vi.mock("$lib/stores/ui.svelte", () => ({
+  ui: {
+    photoLabels: true,
+    debug: false,
+    activeTab: "overview",
   },
 }));
 
-vi.mock("$lib/stores/filters", () => {
-  const selectedAuthors = {
-    subscribe: vi.fn((fn: any) => {
-      fn([]);
-      return () => {};
-    }),
-    update: vi.fn(),
-  };
-  const showSeparators = {
-    subscribe: vi.fn((fn: any) => {
-      fn(true);
-      return () => {};
-    }),
-    set: vi.fn(),
-    update: vi.fn(),
-  };
-  const visiblePhotos = {
-    subscribe: vi.fn((fn: any) => {
-      fn(10);
-      return () => {};
-    }),
-  };
-  const selectedQualityBuckets = {
-    subscribe: vi.fn((fn: any) => {
-      fn([]);
-      return () => {};
-    }),
-    update: vi.fn(),
-    set: vi.fn(),
-  };
-  const selectedPeople = {
-    subscribe: vi.fn((fn: any) => {
-      fn([]);
-      return () => {};
-    }),
-    update: vi.fn(),
-    set: vi.fn(),
-  };
-  return {
-    selectedAuthors,
-    showSeparators,
-    visiblePhotos,
-    selectedQualityBuckets,
-    selectedPeople,
-  };
-});
-
-vi.mock("$lib/stores/debug", () => ({
-  debug: {
-    subscribe: vi.fn((fn: any) => {
-      fn(false);
-      return () => {};
-    }),
-  },
+vi.mock("$lib/stores/filters.svelte", () => ({
+  filters: {
+    selectedAuthors: [],
+    showSeparators: true,
+    selectedQualityBuckets: [],
+    selectedPeople: [],
+    filteredPhotoDays: [],
+    visiblePhotos: 10,
+    toggleAuthor: vi.fn(),
+  } as unknown as typeof filters,
 }));
 
 // Mock Utils
 vi.mock("$lib/utils/menu", () => ({
   getMenuItems: () => [{ locations: ["Loc1"] }],
+  getTotalLocations: () => 10,
 }));
 
 vi.mock("$lib/utils/images", () => ({
@@ -100,6 +55,10 @@ vi.mock("mode-watcher", () => ({
   resetMode: vi.fn(),
 }));
 
+vi.mock("$lib/components/ui/switch", () => ({
+  Switch: SwitchStub,
+}));
+
 describe("FiltersTab", () => {
   const authors = [
     { name: "Author One", count: 5, slug: "author-one" },
@@ -107,6 +66,9 @@ describe("FiltersTab", () => {
   ];
 
   it("renders statistics correctly", async () => {
+    // Reset mocks/state
+    filters.visiblePhotos = 10;
+
     render(FiltersTab, { authors });
 
     // authors count
@@ -116,27 +78,37 @@ describe("FiltersTab", () => {
   });
 
   it("toggles separators switch", async () => {
+    // We can't easily mock the setter of a property in a JS object exported from a module in Vitest like we do with stores.
+    // Instead, we verify the checkbox state change triggers the property update if possible,
+    // or just rely on the component using the bind:checked.
+    // Since we mocked filters global object, checking its property after click is the way.
+
+    filters.showSeparators = true;
     render(FiltersTab, { authors });
     const switchEl = page.getByTestId("filters-tab-separators-switch");
 
-    try {
-      await switchEl.click();
-    } catch (e) {
-      showSeparators.set(false);
-    }
-    expect(showSeparators.set).toHaveBeenCalled();
+    await switchEl.click();
+    // In a real Svelte 5 component with bind:checked, this updates the variable.
+    // However, with our simple mock object, we need to ensure reactivity works or Svelte updates the property.
+    // For vitest-browser-svelte with naive mocks, simple property mutation might be observed.
+
+    expect(filters.showSeparators).toBe(false);
   });
 
   it("toggles author filter", async () => {
-    render(FiltersTab, { authors });
-    const authorSwitch = page.getByTestId("filters-tab-author-switch-author-one");
+    // Reset state
+    filters.selectedAuthors = [];
 
-    try {
-      await authorSwitch.click();
-    } catch (e) {
-      selectedAuthors.update(vi.fn());
-    }
-    expect(selectedAuthors.update).toHaveBeenCalled();
+    render(FiltersTab, { authors });
+
+    // Check if label exists first
+    await expect.element(page.getByTestId("filters-tab-author-author-one")).toBeInTheDocument();
+
+    // With Stub, we can use testId properly and click it
+    const authorSwitch = page.getByTestId("filters-tab-author-switch-author-one");
+    await authorSwitch.click();
+
+    expect(filters.selectedAuthors).toEqual(["author-two"]);
   });
 
   it("renders quality filter when data is present", async () => {

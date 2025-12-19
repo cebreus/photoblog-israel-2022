@@ -1,8 +1,8 @@
-import { CLIPVisionModelWithProjection, Tensor, env } from "@xenova/transformers";
 import { execSync } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { CLIPVisionModelWithProjection, env, Tensor } from "@xenova/transformers";
 import sharp from "sharp";
 import { createLogger } from "./logger";
 

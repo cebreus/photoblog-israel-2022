@@ -2,14 +2,13 @@
   import { dev } from "$app/environment";
   import { page } from "$app/stores";
   import AgendaTab from "$lib/components/sidebar-content/AgendaTab.svelte";
-  import PeopleTab from "$lib/components/sidebar-content/PeopleTab.svelte";
-  // Restore PeopleTab
   import EditTab from "$lib/components/sidebar-content/EditTab.svelte";
   import FiltersTab from "$lib/components/sidebar-content/FiltersTab.svelte";
+  import PeopleTab from "$lib/components/sidebar-content/PeopleTab.svelte";
   import * as Sidebar from "$lib/components/ui/sidebar";
   import * as Tabs from "$lib/components/ui/tabs";
-  import { editMode, selection } from "$lib/stores/editorState";
-  import { activeTab, isSidebarOpen } from "$lib/stores/uiState";
+  import { editor } from "$lib/stores/editor.svelte";
+  import { ui } from "$lib/stores/ui.svelte";
   import type { MenuManifest, PhotoDay } from "$lib/types/manifest";
   import Calendar from "lucide-svelte/icons/calendar";
   import Pencil from "lucide-svelte/icons/pencil";
@@ -45,9 +44,9 @@
 
   // Auto-switch to edit tab and open sidebar if selection/edit mode active
   $effect(() => {
-    if ($selection.size > 0) {
-      $activeTab = "edit";
-      $isSidebarOpen = true;
+    if (editor.selection.size > 0) {
+      ui.activeTab = "edit";
+      ui.sidebarOpen = true;
     }
   });
 
@@ -55,8 +54,8 @@
 
   $effect(() => {
     // When store changes -> update sidebar
-    // We untrack sidebar.open to ensure this only runs when $isSidebarOpen changes
-    const targetState = $isSidebarOpen;
+    // We untrack sidebar.open to ensure this only runs when ui.sidebarOpen changes
+    const targetState = ui.sidebarOpen;
     untrack(() => {
       if (targetState !== sidebar.open) {
         sidebar.setOpen(targetState);
@@ -66,11 +65,11 @@
 
   $effect(() => {
     // When sidebar changes (e.g. trigger click) -> update store
-    // We untrack $isSidebarOpen to ensure this only runs when sidebar.open changes
+    // We untrack ui.sidebarOpen to ensure this only runs when sidebar.open changes
     const currentState = sidebar.open;
     untrack(() => {
-      if (currentState !== $isSidebarOpen) {
-        $isSidebarOpen = currentState;
+      if (currentState !== ui.sidebarOpen) {
+        ui.sidebarOpen = currentState;
       }
     });
   });
@@ -78,13 +77,13 @@
 
 <Sidebar.Root bind:ref {collapsible} {side} {...restProps} data-testid="app-sidebar">
   <Tabs.Root
-    value={$activeTab}
+    value={ui.activeTab}
     onValueChange={(v) => {
-      $activeTab = v;
+      ui.activeTab = v;
       if (v === "edit") {
-        editMode.enable();
+        editor.setEditMode(true);
       } else {
-        editMode.disable();
+        editor.setEditMode(false);
       }
     }}
     class="flex flex-col h-full w-full"

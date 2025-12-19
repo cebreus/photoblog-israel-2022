@@ -1,9 +1,9 @@
 #!/usr/bin/env bun
 
 import { cancel, intro, isCancel, select } from "@clack/prompts";
-import fs from "fs";
-import path from "path";
-import { parseArgs } from "util";
+import fs from "node:fs";
+import path from "node:path";
+import { parseArgs } from "node:util";
 import { run } from "./lib/shell-utils";
 
 const DEFAULT_GALLERY = "egypt-2025";
@@ -40,7 +40,7 @@ async function getAvailableGalleries() {
       .filter((e) => e.isDirectory())
       .map((e) => e.name)
       .filter((name) => !name.startsWith("."));
-  } catch (e: unknown) {
+  } catch (_e: unknown) {
     return [];
   }
 }
@@ -76,16 +76,16 @@ if (!gallery && command && command !== "clean") {
 
 gallery = gallery || DEFAULT_GALLERY;
 
-function log(msg: string, type: "info" | "error" | "warn" = "info") {
-  const colors = {
+function log(_msg: string, _type: "info" | "error" | "warn" = "info") {
+  const _colors = {
     info: "\x1b[36m", // Cyan
     error: "\x1b[31m", // Red
     warn: "\x1b[33m", // Yellow
   };
 
-  const reset = "\x1b[0m";
+  const _reset = "\x1b[0m";
 
-  console.log(`${colors[type]}[MANAGE] ${msg}${reset}`);
+  console.log(`${_colors[_type]}[MANAGE] ${_msg}${_reset}`);
 }
 
 async function checkManifest(isCuration = false) {
@@ -146,8 +146,7 @@ async function cmdProcess() {
 async function main() {
   if (values.help || !command) {
     const galleries = await getAvailableGalleries();
-    const galleryList = galleries.length > 0 ? galleries.join(", ") : "none found";
-
+    const _galleryList = galleries.length > 0 ? galleries.join(", ") : "none found";
     console.log(`
   Usage: bun scripts/manage.ts [command] [options]
 
@@ -159,7 +158,7 @@ async function main() {
 
   Options:
     --gallery, -g    Target gallery directory (default: ${DEFAULT_GALLERY})
-                     Available: ${galleryList}
+                     Available: ${_galleryList}
     --help, -h       Show this help
       `);
     process.exit(0);

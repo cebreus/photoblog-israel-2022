@@ -17,10 +17,10 @@ describe("calculateSmartCrop", () => {
 
       expect(res).not.toBeNull();
       // Crop should be 1000x1000 (Source AR == Target AR, so full cover)
-      expect(res!.width).toBe(1000);
-      expect(res!.height).toBe(1000);
-      expect(res!.left).toBe(0);
-      expect(res!.top).toBe(0);
+      expect(res?.width).toBe(1000);
+      expect(res?.height).toBe(1000);
+      expect(res?.left).toBe(0);
+      expect(res?.top).toBe(0);
     });
 
     it("should crop width if source is wider than target", () => {
@@ -33,13 +33,13 @@ describe("calculateSmartCrop", () => {
       const res = calculateSmartCrop(2000, 1000, faces, 100, 100);
 
       expect(res).not.toBeNull();
-      expect(res!.width).toBe(1000);
-      expect(res!.height).toBe(1000); // constrained by source height
+      expect(res?.width).toBe(1000);
+      expect(res?.height).toBe(1000); // constrained by source height
 
       // Center of face is 1500. Crop width 1000.
       // Expected left = 1500 - 500 = 1000.
-      expect(res!.left).toBe(1000);
-      expect(res!.top).toBe(0);
+      expect(res?.left).toBe(1000);
+      expect(res?.top).toBe(0);
     });
 
     it("should clamp at limits", () => {
@@ -51,8 +51,8 @@ describe("calculateSmartCrop", () => {
       const res = calculateSmartCrop(2000, 1000, faces, 100, 100);
 
       // Expected left would be 50 - 500 = -450. clamp to 0.
-      expect(res!.left).toBe(0);
-      expect(res!.top).toBe(0);
+      expect(res?.left).toBe(0);
+      expect(res?.top).toBe(0);
     });
   });
 
@@ -73,8 +73,8 @@ describe("calculateSmartCrop", () => {
 
       // Expected Crop Center X = 750.
       // Expected Left = 750 - 500 = 250.
-      expect(res!.left).toBe(250);
-      expect(res!.width).toBe(1000);
+      expect(res?.left).toBe(250);
+      expect(res?.width).toBe(1000);
     });
   });
 });

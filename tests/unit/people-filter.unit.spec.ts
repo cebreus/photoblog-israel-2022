@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeEach } from "vitest";
-import type { Person, ImageEntry, PhotoDay } from "$lib/types/manifest";
+import { describe, expect, it } from "vitest";
+import type { ImageEntry, Person } from "$lib/types/manifest";
 import { filterGalleryItems } from "$lib/utils/gallery";
 
 describe("People Filter Logic", () => {
@@ -113,7 +113,7 @@ describe("People Filter Logic", () => {
 
     it.todo("should hide all photos with people when selectedPeople is ['none']", () => {
       // ["none"] = NONE selected (hide photos with detected people)
-      const result = filterGalleryItems(
+      const _result = filterGalleryItems(
         mockImages,
         [],
         true,
@@ -127,7 +127,7 @@ describe("People Filter Logic", () => {
   describe("People Selection", () => {
     it.todo("should filter to show only photos with selected person", () => {
       // Mock getImagePeopleMap to return person-image mapping
-      const result = filterGalleryItems(
+      const _result = filterGalleryItems(
         mockImages,
         [],
         true,
@@ -139,7 +139,7 @@ describe("People Filter Logic", () => {
     });
 
     it.todo("should show photos containing ANY of the selected people", () => {
-      const result = filterGalleryItems(
+      const _result = filterGalleryItems(
         mockImages,
         [],
         true,

@@ -3,30 +3,40 @@ import fs from "node:fs";
 import fsp from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
+import xxhash from "xxhash-wasm";
 import { ImageFormat } from "../../src/lib/types/images";
 import type { ImageEntry, ImageSource, QualityTypes } from "../../src/lib/types/manifest";
 import { config } from "../config";
 import { aiService, EMBEDDING_DIM } from "./ai-models";
+import { detectFaces, type FaceBox } from "./face-detection";
+import {
+  generateOtherOutput,
+  generateVariant,
+  type OtherOutputConfig,
+  type VariantOutputConfig,
+} from "./image-generator";
 import { calculatePhash, calculateSharpness } from "./image-utils";
 import { createLogger } from "./logger";
-
 import {
   buildImageEntry,
   cleanupMetadataTool,
   normalizeExifData,
+  type RawExifData,
   readRawMetadata,
 } from "./metadata";
 
-import xxhash from "xxhash-wasm";
-import { type FaceBox, detectFaces } from "./face-detection";
-import {
-  type OtherOutputConfig,
-  type VariantOutputConfig,
-  generateOtherOutput,
-  generateVariant,
-} from "./image-generator";
-
 type SharpModule = typeof import("sharp");
+
+interface ImageData {
+  exifRaw: Partial<RawExifData>;
+  exifTags: Record<string, unknown>;
+  originalMeta: import("sharp").Metadata;
+  sharpnessScore: number;
+  phash: string;
+  embedding?: number[];
+  placeholderColor: string;
+  faces: import("./face-detection").FaceBox[];
+}
 type OutputConfig = (typeof config.outputs)[keyof typeof config.outputs];
 
 type OutputDefinition = {
@@ -246,7 +256,7 @@ async function gatherImageData(
   reusedAnalysis: Partial<ImageEntry["analysis"]>,
   reusedOther: Partial<ImageEntry>,
   options: ImageProcessOptions,
-) {
+): Promise<ImageData> {
   const placeholderMissingOrDefault =
     !reusedOther.placeholderColor || reusedOther.placeholderColor === "rgb(0,0,0)";
   const shouldComputeStats = shouldAnalyze || placeholderMissingOrDefault;
@@ -293,6 +303,83 @@ async function gatherImageData(
   };
 }
 
+function filterByDate(exifTags: Record<string, unknown>): boolean {
+  if (!process.env.FILTER_DATE) return true;
+  const d = exifTags.DateTimeOriginal;
+  let dateStr = "";
+  if (d instanceof Date) {
+    dateStr = d.toISOString().split("T")[0];
+  } else if (typeof d === "string") {
+    dateStr = d.split(" ")[0].replace(/:/g, "-");
+  }
+  return !dateStr || dateStr === process.env.FILTER_DATE;
+}
+
+async function generateAllOutputs(
+  sharpModule: SharpModule,
+  processingPath: string,
+  baseName: string,
+  imageData: ImageData,
+  options: ImageProcessOptions,
+  imageEntry: ImageEntry,
+) {
+  const outputs: string[] = [];
+  const sources: ImageSource[] = [];
+  const outputDefinitions = buildOutputDefinitions();
+
+  for (const output of outputDefinitions) {
+    if (output.mode === "variant") {
+      const variantConfig = output.config as VariantOutputConfig;
+      for (const format of options.formats) {
+        const { outPath, info } = await generateVariant(
+          sharpModule,
+          processingPath,
+          baseName,
+          variantConfig,
+          format,
+          options,
+          imageData.originalMeta,
+          imageData.faces,
+          output.key,
+        );
+        outputs.push(outPath);
+        sources.push({
+          variant: output.key,
+          type: `image/${format}`,
+          path: `${config.paths.urlPrefix}/images/${outPath}`,
+          width: variantConfig.resize?.width ?? info.width,
+          height: undefined,
+        });
+      }
+    } else {
+      const otherConfig = output.config as OtherOutputConfig;
+      const { outPath, info } = await generateOtherOutput(
+        sharpModule,
+        processingPath,
+        baseName,
+        otherConfig,
+        options,
+        imageData.originalMeta,
+      );
+      outputs.push(outPath);
+      if (output.isPlaceholder) {
+        imageEntry.placeholder = outPath;
+      } else {
+        const format = "format" in otherConfig ? otherConfig.format : ImageFormat.JPEG;
+        sources.push({
+          variant: output.key,
+          type: `image/${format}`,
+          path: `${config.paths.urlPrefix}/images/${outPath}`,
+          width: info.width,
+          height: info.height,
+        });
+      }
+    }
+  }
+
+  return { outputs, sources };
+}
+
 export async function processImage(
   absPath: string,
   options: ImageProcessOptions,
@@ -301,7 +388,7 @@ export async function processImage(
   const sharpModule = requireSharp();
 
   let tempCleanupPath: string | null = null;
-  let key: string | undefined = undefined;
+  let key: string | undefined;
 
   try {
     const context = await prepareImageContext(absPath, options, sharpModule);
@@ -311,7 +398,7 @@ export async function processImage(
 
     // 1. Reusability Check
     const analysisDecision = determineAnalysisNeeds(fileHash, key, options);
-    const { shouldAnalyze, reusedAnalysis, reusedExif, reusedOther } = analysisDecision;
+    const { shouldAnalyze, reusedAnalysis, reusedOther } = analysisDecision;
 
     // 2. Gather Image Data (metadata, analysis, faces)
     const imageData = await gatherImageData(
@@ -326,13 +413,7 @@ export async function processImage(
       options,
     );
 
-    if (process.env.FILTER_DATE) {
-      const d = imageData.exifTags.DateTimeOriginal;
-      let dateStr = "";
-      if (d instanceof Date) dateStr = d.toISOString().split("T")[0];
-      else if (typeof d === "string") dateStr = d.split(" ")[0].replace(/:/g, "-");
-      if (dateStr && dateStr !== process.env.FILTER_DATE) return null;
-    }
+    if (!filterByDate(imageData.exifTags)) return null;
 
     // 3. Build Entry
     const imageEntry = buildImageEntry(
@@ -350,59 +431,14 @@ export async function processImage(
     );
 
     // 4. Output Generation
-    const outputs: string[] = [];
-    const sources: ImageSource[] = [];
-    const outputDefinitions = buildOutputDefinitions();
-
-    for (const output of outputDefinitions) {
-      if (output.mode === "variant") {
-        const variantConfig = output.config as VariantOutputConfig;
-        for (const format of options.formats) {
-          const { outPath, info } = await generateVariant(
-            sharpModule,
-            processingPath,
-            baseName,
-            variantConfig,
-            format,
-            options,
-            imageData.originalMeta,
-            imageData.faces,
-            output.key,
-          );
-          outputs.push(outPath);
-          sources.push({
-            variant: output.key,
-            type: `image/${format}`,
-            path: `${config.paths.urlPrefix}/images/${outPath}`,
-            width: variantConfig.resize?.width ?? info.width,
-            height: undefined,
-          });
-        }
-      } else {
-        const otherConfig = output.config as OtherOutputConfig;
-        const { outPath, info } = await generateOtherOutput(
-          sharpModule,
-          processingPath,
-          baseName,
-          otherConfig,
-          options,
-          imageData.originalMeta,
-        );
-        outputs.push(outPath);
-        if (output.isPlaceholder) {
-          imageEntry.placeholder = outPath;
-        } else {
-          const format = "format" in otherConfig ? otherConfig.format : ImageFormat.JPEG;
-          sources.push({
-            variant: output.key,
-            type: `image/${format}`,
-            path: `${config.paths.urlPrefix}/images/${outPath}`,
-            width: info.width,
-            height: info.height,
-          });
-        }
-      }
-    }
+    const { outputs, sources } = await generateAllOutputs(
+      sharpModule,
+      processingPath,
+      baseName,
+      imageData,
+      options,
+      imageEntry,
+    );
     imageEntry.sources = sources;
 
     return {

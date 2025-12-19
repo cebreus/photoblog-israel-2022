@@ -6,7 +6,6 @@ import { detectFaces, initModels } from "../../scripts/lib/face-detection";
 
 const FIXTURES_DIR = path.resolve(__dirname, "../fixtures");
 const SAMPLE_IMAGE_PATH = path.join(FIXTURES_DIR, "obama.jpg");
-// Public domain image
 const SAMPLE_IMAGE_URL =
   "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/President_Barack_Obama.jpg/480px-President_Barack_Obama.jpg";
 
@@ -19,7 +18,6 @@ describe("Face Detection Integration", () => {
 
     // Download sample image if missing
     if (!fs.existsSync(SAMPLE_IMAGE_PATH)) {
-      console.log("Downloading sample image for test...");
       const res = await fetch(SAMPLE_IMAGE_URL);
       if (!res.ok) throw new Error("Failed to download sample image");
       const buffer = await res.arrayBuffer();
@@ -33,7 +31,6 @@ describe("Face Detection Integration", () => {
 
   it("should detect at least one face in the sample image", async () => {
     const faces = await detectFaces(SAMPLE_IMAGE_PATH);
-    console.log("Detected faces:", faces);
 
     expect(faces).toBeDefined();
     expect(faces.length).toBeGreaterThan(0);

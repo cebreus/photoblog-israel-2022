@@ -33,7 +33,7 @@ export function formatDateRange(dates: string[]): string {
   const sameMonth = first.getMonth() === last.getMonth();
   const sameYear = first.getFullYear() === last.getFullYear();
 
-  const formatMonthYear = new Intl.DateTimeFormat("cs-CZ", {
+  const _formatMonthYear = new Intl.DateTimeFormat("cs-CZ", {
     month: "long",
     year: "numeric",
   });

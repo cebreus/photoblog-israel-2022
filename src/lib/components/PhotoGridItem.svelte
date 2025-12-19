@@ -4,11 +4,10 @@
   import JsonViewer from "$lib/components/debug/JsonViewer.svelte";
   import { Button } from "$lib/components/ui/button";
   import * as ContextMenu from "$lib/components/ui/context-menu";
-  import { debug } from "$lib/stores/debug";
-  import { editMode, selection, showMetadataOverlay } from "$lib/stores/editorState";
-  import { metadataClipboard } from "$lib/stores/metadataClipboard";
-  import { peopleBase } from "$lib/stores/people-store";
-  import { isCurationMode } from "$lib/stores/uiState";
+  import { editor } from "$lib/stores/editor.svelte";
+  import { metadataClipboard } from "$lib/stores/metadata-clipboard.svelte";
+  import { people } from "$lib/stores/people.svelte";
+  import { ui } from "$lib/stores/ui.svelte";
   import type { CurationGroup, ImageEntry, ImageSource } from "$lib/types/manifest";
   import { cn } from "$lib/utils";
 
@@ -71,13 +70,14 @@
     if (onSelect) {
       onSelect(item, e.shiftKey);
     } else {
-      selection.toggle(id);
+      editor.toggleSelection(id);
     }
   }
 
-  let isEditMode = $derived($editMode);
-  let isSelected = $derived($selection.has(item.id));
-  let isCurationActive = $derived($isCurationMode && !!curationGroup);
+  let isEditMode = $derived(editor.editMode);
+  let isSelected = $derived(editor.selection.has(item.id));
+  let isCurationActive = $derived(ui.curationMode && !!curationGroup);
+  let showOverlay = $derived(editor.showMetadataOverlay);
   let fallback = $derived(findFallbackSource(item)!);
   let detailSource = $derived(findDetailSource(item));
 
@@ -170,7 +170,7 @@
     {
       label: "Lidé",
       value: (item.people || [])
-        .map((id) => $peopleBase.find((p) => p.id === id)?.name)
+        .map((id) => people.people.find((p) => p.id === id)?.name)
         .filter(Boolean)
         .join(", "),
       isTechnical: true,
@@ -208,7 +208,7 @@
     },
   ]}
 
-  {#if $showMetadataOverlay}
+  {#if editor.showMetadataOverlay}
     <div data-testid="photo-grid-item-metadata-container">
       <table
         class="mt-2 w-full rounded-md text-xs bg-slate-50 dark:bg-slate-950"
@@ -285,7 +285,7 @@
           isCurationActive &&
             !isCurationModeLayout &&
             "border-amber-500 outline-2 outline-amber-500/50",
-          $debug && "flex flex-col",
+          ui.debug && "flex flex-col",
         )}
         style={`background-color: ${item.placeholderColor}`}
       >
@@ -298,7 +298,7 @@
           ></div>
         {/if}
         {#if !isEditMode}
-          <picture class={`${$debug ? "shrink-0" : ""}`}>
+          <picture class={`${ui.debug ? "shrink-0" : ""}`}>
             {#each getSources(item) as source (source.type)}
               <source
                 type={source.type}
@@ -402,7 +402,7 @@
 
     {@render MetadataTable({ item })}
 
-    {#if $debug}
+    {#if ui.debug}
       <div
         class="mt-2 rounded-md bg-slate-950 p-2 overflow-x-auto whitespace-nowrap text-xs text-white"
       >
@@ -427,9 +427,9 @@
           <span>Kopírovat metadata</span>
         </ContextMenu.Item>
 
-        {#if $metadataClipboard.sourceImage?.id !== item.id && $metadataClipboard.data}
+        {#if metadataClipboard.sourceImage?.id !== item.id && metadataClipboard.data}
           <!-- Paste to ALL selected -->
-          {#if $selection.has(item.id) && $selection.size > 1}
+          {#if editor.selection.has(item.id) && editor.selection.size > 1}
             <ContextMenu.Item
               class="flex items-center gap-2"
               onclick={() => onPasteMetadata?.(item)}
@@ -437,7 +437,7 @@
             >
               <div class="flex flex-1 items-center gap-2">
                 <Copy class="h-4 w-4 rotate-180" />
-                <span>Vložit na {$selection.size} vybraných</span>
+                <span>Vložit na {editor.selection.size} vybraných</span>
               </div>
             </ContextMenu.Item>
 

@@ -30,7 +30,7 @@ export async function initModels() {
   try {
     await faceapi.nets.ssdMobilenetv1.loadFromDisk(MODELS_DIR);
     logger.info("Face models loaded from disk.");
-  } catch (error) {
+  } catch (_error) {
     logger.warn("Could not load models from disk. Attempting download...");
     await downloadModelFiles();
     await faceapi.nets.ssdMobilenetv1.loadFromDisk(MODELS_DIR);

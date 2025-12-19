@@ -42,3 +42,18 @@ vi.mock("bits-ui", () => ({
   // Utilities
   mergeProps: vi.fn((...args) => Object.assign({}, ...args)),
 }));
+
+vi.mock("svelte-sonner", () => ({
+  toast: {
+    success: vi.fn(),
+    error: vi.fn(),
+    info: vi.fn(),
+    warning: vi.fn(),
+    message: vi.fn(),
+  },
+  Toaster: Stub,
+}));
+
+vi.mock("$lib/actions/scrollspy", () => ({
+  useScrollspy: () => ({ destroy: () => {} }),
+}));

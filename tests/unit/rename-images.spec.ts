@@ -83,7 +83,7 @@ describe("getNewBasename", () => {
 
   it("should handle array authors", () => {
     const mockDate = { toDate: () => new Date("2023-01-01T12:00:00") };
-    const tags = {
+    const _tags = {
       DateTimeOriginal: mockDate,
       "dc:creator": ["First Guy", "Second Guy"],
     };

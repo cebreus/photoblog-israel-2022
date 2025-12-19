@@ -9,12 +9,12 @@
   import PhotoGridItem from "$lib/components/PhotoGridItem.svelte";
   import { buttonVariants } from "$lib/components/ui/button";
   import * as Dialog from "$lib/components/ui/dialog";
-  import { debug } from "$lib/stores/debug";
-  import { editMode, selection } from "$lib/stores/editorState";
-  import { selectedAuthors } from "$lib/stores/filters";
-  import { metadataClipboard } from "$lib/stores/metadataClipboard";
-  import { isCurationMode } from "$lib/stores/uiState";
+  import { editor } from "$lib/stores/editor.svelte";
+  import { filters } from "$lib/stores/filters.svelte";
+  import { metadataClipboard } from "$lib/stores/metadata-clipboard.svelte";
+  import { ui } from "$lib/stores/ui.svelte";
   import type { CurationGroup, CurationManifest, ImageEntry, Separator } from "$lib/types/manifest";
+  import { performImageAction } from "$lib/utils/api-actions";
   import { toSlug } from "$lib/utils/strings";
   import { toast } from "svelte-sonner";
 
@@ -24,8 +24,8 @@
   }>();
 
   // Derived edit mode state
-  let isEditMode = $derived($editMode);
-  let hasSelection = $derived($selection.size > 0);
+  let isEditMode = $derived(editor.editMode);
+  let hasSelection = $derived(editor.selection.size > 0);
 
   // Identify images that start a new location block (dimmed locations)
   // Maps image ID -> scrollspy ID ("loc-{slug}")
@@ -65,8 +65,8 @@
   // Selection clearing effect remains here as it affects global selection state
   $effect(() => {
     // Clear selection if mode disabled
-    if (!isEditMode && $selection.size > 0) {
-      selection.clear();
+    if (!isEditMode && editor.selection.size > 0) {
+      editor.clearSelection();
     }
   });
 
@@ -88,8 +88,8 @@
   let curationDialogOpen = $state(false);
   let curationGroupToView = $state<CurationGroup | null>(null);
 
-  function handleOpenCurationDialog(group: CurationGroup) {
-    curationGroupToView = group;
+  function handleOpenCurationDialog(group?: CurationGroup) {
+    curationGroupToView = group ?? null;
     curationDialogOpen = true;
   }
 
@@ -99,67 +99,34 @@
   }
 
   async function confirmDelete() {
-    if (imagesToDelete.length === 0) return;
-
-    isDeleting = true;
-    try {
-      const itemsPayload = imagesToDelete.map((img) => ({
-        id: img.id,
-        src: img.src,
-      }));
-
-      const res = await fetch("/api/images", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ids: itemsPayload }),
-      });
-
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.message || "Chyba při mazání souboru");
-      }
-
-      const result = await res.json();
-
-      if (result.errors && result.errors.length > 0) {
-        result.errors.forEach((e: string) => toast.warning(e));
-      }
-
-      const deletedCount = result.deleted.length;
-      if (deletedCount > 0) {
-        toast.success(`Úspěšně smazáno ${deletedCount} souborů. Stránka se obnoví.`);
-      }
-
-      // Close dialog
-      deleteDialogOpen = false;
-
-      // Remove from selection if selected
-      const deletedIds = new Set(result.deleted);
-      if ($selection.size > 0) {
-        // We can't iterate and delete safely, so we filter
-        // Actually, just remove known deleted IDs
-        for (const id of deletedIds) {
-          if ($selection.has(id as string)) selection.remove(id as string);
+    await performImageAction({
+      action: "delete",
+      images: imagesToDelete.map(function (img) {
+        return { id: img.id, src: img.src };
+      }),
+      onStart: function () {
+        isDeleting = true;
+      },
+      onFinish: function () {
+        isDeleting = false;
+      },
+      onSuccess: function (result) {
+        deleteDialogOpen = false;
+        imagesToDelete = [];
+        const deletedIds = new Set(result.deleted);
+        if (editor.selection.size > 0) {
+          for (const id of deletedIds) {
+            if (editor.selection.has(id as string)) editor.removeSelection(id as string);
+          }
         }
-      }
-
-      // Refresh data remove deleted images from grid
-      await invalidateAll();
-
-      // Clear the imagesToDelete
-      imagesToDelete = [];
-    } catch (e: any) {
-      console.error(e);
-      toast.error(`Nepodařilo se smazat soubory: ${e.message}`);
-    } finally {
-      isDeleting = false;
-    }
+      },
+    });
   }
 
   function handleArchive(item: ImageEntry) {
-    if ($selection.has(item.id) && $selection.size > 1) {
+    if (editor.selection.has(item.id) && editor.selection.size > 1) {
       imagesToArchive = items.filter(
-        (i: DisplayItem): i is ImageEntry => i.type === "image" && $selection.has(i.id),
+        (i: DisplayItem): i is ImageEntry => i.type === "image" && editor.selection.has(i.id),
       );
     } else {
       imagesToArchive = [item];
@@ -168,59 +135,28 @@
   }
 
   async function confirmArchive() {
-    if (imagesToArchive.length === 0) return;
-
-    isArchiving = true;
-    try {
-      const itemsPayload = imagesToArchive.map((img) => ({
-        id: img.id,
-        src: img.src,
-      }));
-
-      const res = await fetch("/api/images", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "archive", ids: itemsPayload }),
-      });
-
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.message || "Chyba při archivaci souborů");
-      }
-
-      const result = await res.json();
-
-      if (result.errors && result.errors.length > 0) {
-        result.errors.forEach((e: string) => toast.warning(e));
-      }
-
-      const archivedCount = result.archived.length;
-      if (archivedCount > 0) {
-        toast.success(`Úspěšně archivováno ${archivedCount} souborů. Stránka se obnoví.`);
-      }
-
-      // Close dialog
-      archiveDialogOpen = false;
-
-      // Remove from selection if selected
-      const archivedIds = new Set(result.archived);
-      if ($selection.size > 0) {
-        for (const id of archivedIds) {
-          if ($selection.has(id as string)) selection.remove(id as string);
+    await performImageAction({
+      action: "archive",
+      images: imagesToArchive.map(function (img) {
+        return { id: img.id, src: img.src };
+      }),
+      onStart: function () {
+        isArchiving = true;
+      },
+      onFinish: function () {
+        isArchiving = false;
+      },
+      onSuccess: function (result) {
+        archiveDialogOpen = false;
+        imagesToArchive = [];
+        const archivedIds = new Set(result.archived);
+        if (editor.selection.size > 0) {
+          for (const id of archivedIds) {
+            if (editor.selection.has(id as string)) editor.removeSelection(id as string);
+          }
         }
-      }
-
-      // Refresh data
-      await invalidateAll();
-
-      // Clear the imagesToArchive
-      imagesToArchive = [];
-    } catch (e: any) {
-      console.error(e);
-      toast.error(`Nepodařilo se archivovat soubory: ${e.message}`);
-    } finally {
-      isArchiving = false;
-    }
+      },
+    });
   }
 
   function handleCopyMetadata(item: ImageEntry) {
@@ -229,16 +165,16 @@
   }
 
   function handlePasteMetadata(item: ImageEntry, onlyThis = false) {
-    const clipboard = $metadataClipboard;
+    const clipboard = metadataClipboard;
 
-    if (!onlyThis && $selection.has(item.id) && $selection.size > 1) {
+    if (!onlyThis && editor.selection.has(item.id) && editor.selection.size > 1) {
       // Paste to all selected
       const selected = items.filter(
-        (i: DisplayItem): i is ImageEntry => i.type === "image" && $selection.has(i.id),
+        (i: DisplayItem): i is ImageEntry => i.type === "image" && editor.selection.has(i.id),
       );
       console.log("DEBUG: Paste Logic", {
         itemId: item.id,
-        selectionSize: $selection.size,
+        selectionSize: editor.selection.size,
         sourceId: clipboard.sourceImage?.id,
         selectedIds: selected.map((i: ImageEntry) => i.id),
       });
@@ -266,7 +202,7 @@
     fieldsToApply: Record<string, boolean>,
     excludedImageIds: string[] = [],
   ) {
-    const clipboard = $metadataClipboard;
+    const clipboard = metadataClipboard;
     if (!clipboard.data || imagesToPaste.length === 0) return;
 
     // 1. Filter out excluded images from the operation
@@ -276,8 +212,8 @@
     // User requested that manual exclusion in dialog should reflect in global selection
     if (excludedImageIds.length > 0 && hasSelection) {
       excludedImageIds.forEach((id) => {
-        if ($selection.has(id)) {
-          selection.toggle(id);
+        if (editor.selection.has(id)) {
+          editor.toggleSelection(id);
         }
       });
     }
@@ -345,22 +281,22 @@
   $effect(debugLog);
 
   function debugLog() {
-    console.log("PhotoGrid debug store value:", $debug);
-    if ($debug) {
+    console.log("PhotoGrid debug store value:", ui.debug);
+    if (ui.debug) {
       console.debug("PhotoGrid render", {
         items: items.length,
-        selectedAuthors: $selectedAuthors,
+        selectedAuthors: filters.selectedAuthors,
         dimmedLocations: dimmedLocationMap,
       });
     }
   }
 
-  let isCurationActive = $derived($isCurationMode && !!curationManifest);
+  let isCurationActive = $derived(ui.curationMode && !!curationManifest);
 
   // Process items to integrate/inject curation groups into the flow
   let processedItems = $derived.by(() => {
     // If curation not active or no groups, just return items as is
-    if (!$isCurationMode || !curationManifest?.groups) {
+    if (!ui.curationMode || !curationManifest?.groups) {
       return items.map((i: DisplayItem) => ({
         type: "item" as const,
         data: i,
@@ -452,14 +388,14 @@
       if (startIdx !== -1 && endIdx !== -1) {
         const [min, max] = [Math.min(startIdx, endIdx), Math.max(startIdx, endIdx)];
         const range = visualOrderedImages.slice(min, max + 1);
-        selection.addMultiple(range.map((i) => i.id));
+        editor.addMultiple(range.map((i) => i.id));
         // We don't update lastSelectedId on shift-click to preserve the anchor
         return;
       }
     }
 
     // Standard toggle behavior
-    selection.toggle(item.id);
+    editor.toggleSelection(item.id);
     if (!shiftKey) {
       lastSelectedId = item.id;
     }
@@ -565,12 +501,13 @@
   />
 {/if}
 
-{#if imagesToPaste.length > 0 && $metadataClipboard.data}
+{#if imagesToPaste.length > 0 && metadataClipboard.data}
   <MetadataPasteDialog
     bind:open={isPastingOpen}
     images={imagesToPaste}
-    clipboardData={$metadataClipboard.data}
+    clipboardData={metadataClipboard.data}
     onConfirm={confirmPaste}
+    onOpenCurationDialog={handleOpenCurationDialog}
   />
 {/if}
 

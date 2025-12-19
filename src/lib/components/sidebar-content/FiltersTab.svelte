@@ -3,14 +3,8 @@
   import * as Sidebar from "$lib/components/ui/sidebar";
   import { Switch } from "$lib/components/ui/switch";
   import { ToggleGroup, ToggleGroupItem } from "$lib/components/ui/toggle-group";
-  import { debug } from "$lib/stores/debug";
-  import {
-    selectedAuthors,
-    selectedQualityBuckets,
-    showSeparators,
-    visiblePhotos,
-  } from "$lib/stores/filters";
-  import { showPhotoLabels } from "$lib/stores/photoLabels";
+  import { filters } from "$lib/stores/filters.svelte";
+  import { ui } from "$lib/stores/ui.svelte";
   import type { MenuDay, QualityBucket } from "$lib/types/manifest";
   import { QUALITY_BUCKETS } from "$lib/utils/gallery";
   import { getMenuItems } from "$lib/utils/menu";
@@ -19,7 +13,6 @@
   import Moon from "lucide-svelte/icons/moon";
   import Sun from "lucide-svelte/icons/sun";
   import { mode, resetMode, setMode } from "mode-watcher";
-  import { get as getStore } from "svelte/store";
 
   type AuthorStats = {
     name: string;
@@ -55,8 +48,8 @@
   }
 
   function toggleAuthor(slug: string, displayName?: string) {
-    const previous = $selectedAuthors;
-    if (getStore(debug)) {
+    const previous = filters.selectedAuthors;
+    if (ui.debug) {
       console.debug("filters: toggleAuthor start", {
         slug,
         name: displayName,
@@ -64,47 +57,46 @@
       });
     }
 
-    selectedAuthors.update(function updateSelection(current) {
-      let effectiveCurrent = current;
+    let effectiveCurrent = filters.selectedAuthors;
 
-      if (current.length === 0) {
-        effectiveCurrent = authors.map(getAuthorSlug);
-      } else if (current.includes("none")) {
-        effectiveCurrent = [];
-      }
+    if (filters.selectedAuthors.length === 0) {
+      effectiveCurrent = authors.map(getAuthorSlug);
+    } else if (filters.selectedAuthors.includes("none")) {
+      effectiveCurrent = [];
+    }
 
-      const isSelected = effectiveCurrent.includes(slug);
-      let next: string[];
+    const isSelected = effectiveCurrent.includes(slug);
+    let next: string[];
 
-      if (isSelected) {
-        next = effectiveCurrent.filter((s) => s !== slug);
-      } else {
-        next = [...effectiveCurrent, slug];
-      }
+    if (isSelected) {
+      next = effectiveCurrent.filter((s) => s !== slug);
+    } else {
+      next = [...effectiveCurrent, slug];
+    }
 
-      const allSlugs = authors.map(getAuthorSlug);
+    const allSlugs = authors.map(getAuthorSlug);
 
-      if (next.length === 0) {
-        return ["none"];
-      }
+    if (next.length === 0) {
+      filters.selectedAuthors = ["none"];
+      return;
+    }
 
-      if (next.length === allSlugs.length) {
-        return [];
-      }
+    if (next.length === allSlugs.length) {
+      filters.selectedAuthors = [];
+      return;
+    }
 
-      return next;
-    });
+    filters.selectedAuthors = next;
   }
 
   function toggleQualityBucket(bucketId: string) {
     // Cast to QualityBucket as we know the input comes from QUALITY_BUCKETS list
     const id = bucketId as QualityBucket;
-    selectedQualityBuckets.update((current) => {
-      if (current.includes(id)) {
-        return current.filter((i) => i !== id);
-      }
-      return [...current, id];
-    });
+    if (filters.selectedQualityBuckets.includes(id)) {
+      filters.selectedQualityBuckets = filters.selectedQualityBuckets.filter((i) => i !== id);
+    } else {
+      filters.selectedQualityBuckets = [...filters.selectedQualityBuckets, id];
+    }
   }
 
   function createToggleHandler(slug: string, name: string) {
@@ -136,7 +128,7 @@
             {totalPhotos}
             <span class="text-slate-300">/</span>
           {/if}
-          {$visiblePhotos}
+          {filters.visiblePhotos}
         </div>
         <div class="text-xs text-slate-500">
           Fotky{#if totalPhotos > 0}
@@ -173,8 +165,8 @@
         <p class="text-xs text-slate-400">Zobrazí popisky u fotek</p>
       </div>
       <Switch
-        bind:checked={$showPhotoLabels}
-        aria-label={$showPhotoLabels ? "Skrýt popisky" : "Zobrazit popisky"}
+        bind:checked={ui.photoLabels}
+        aria-label={ui.photoLabels ? "Skrýt popisky" : "Zobrazit popisky"}
         data-testid="filters-tab-location-switch"
       />
     </label>
@@ -187,8 +179,8 @@
         <p class="text-xs text-slate-400">Popisky zastávek na cestě</p>
       </div>
       <Switch
-        bind:checked={$showSeparators}
-        aria-label={$showSeparators ? "Skrýt zastávky" : "Zobrazit zastávky"}
+        bind:checked={filters.showSeparators}
+        aria-label={filters.showSeparators ? "Skrýt zastávky" : "Zobrazit zastávky"}
         data-testid="filters-tab-separators-switch"
       />
     </label>
@@ -202,8 +194,9 @@
           {#each authors as author (author.name)}
             {@const slugKey = author.slug ?? toSlug(author.name)}
             {@const isActive =
-              $selectedAuthors.length === 0 ||
-              ($selectedAuthors.includes(slugKey) && !$selectedAuthors.includes("none"))}
+              filters.selectedAuthors.length === 0 ||
+              (filters.selectedAuthors.includes(slugKey) &&
+                !filters.selectedAuthors.includes("none"))}
             {@const testIdKey = slugKey}
             <label
               class={`flex cursor-pointer items-center justify-between text-sm ${
@@ -237,7 +230,7 @@
         <div class="flex flex-col gap-3">
           {#each QUALITY_BUCKETS as bucket (bucket.id)}
             {@const count = qualityStats.get(bucket.id) ?? 0}
-            {@const isActive = $selectedQualityBuckets.includes(bucket.id)}
+            {@const isActive = filters.selectedQualityBuckets.includes(bucket.id)}
             <label
               class={`flex cursor-pointer items-center justify-between text-sm ${
                 isActive ? "text-primary" : "text-slate-100"

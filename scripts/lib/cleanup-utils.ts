@@ -41,7 +41,7 @@ export function getOutputFolders(config: {
 }): string[] {
   const folders: string[] = [];
 
-  for (const [key, conf] of Object.entries(config.outputs)) {
+  for (const [_key, conf] of Object.entries(config.outputs)) {
     if (conf.folderName) {
       folders.push(conf.folderName);
 
@@ -98,7 +98,7 @@ export async function removeFromCache(cachePath: string, imageKey: string): Prom
     const content = await fsp.readFile(cachePath, "utf-8");
     const cache = JSON.parse(content);
 
-    if (cache.files && cache.files[imageKey]) {
+    if (cache.files?.[imageKey]) {
       delete cache.files[imageKey];
       await fsp.writeFile(cachePath, JSON.stringify(cache, null, 2));
       logger.verbose(`Removed ${imageKey} from cache`);

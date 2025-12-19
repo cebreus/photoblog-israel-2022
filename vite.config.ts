@@ -9,8 +9,6 @@ const contentDir = process.env.CONTENT_DIR || "egypt-2025";
 
 export default defineConfig({
   plugins: [tailwindcss(), sveltekit(), devtoolsJson()],
-  // Disable the Vite runtime error overlay in test/browser runs to avoid it intercepting clicks
-  // This prevents <vite-error-overlay> from blocking pointer events during playwright tests.
   server: {
     hmr: {
       overlay: false,
@@ -27,13 +25,7 @@ export default defineConfig({
   test: {
     expect: { requireAssertions: true },
     coverage: {
-      exclude: [
-        "src/lib/components/ui/**",
-        "**/*.d.ts",
-        "tests/**", // Also exclude tests folder itself from coverage stats usually
-        "scripts/**", // Scripts are dev tools, usually not part of app coverage, but user might want them? Let's stick to what was asked primarily, but 'tests' is safe.
-        // Actually, let's keep it simple and just do the requested one + standard reliable ones.
-      ],
+      exclude: ["src/lib/components/ui/**", "**/*.d.ts", "tests/**", "scripts/**"],
     },
     projects: [
       {
@@ -46,7 +38,10 @@ export default defineConfig({
             provider: playwright(),
             instances: [{ browser: "chromium" }],
           },
-          include: ["src/**/*.svelte.{test,spec}.{js,ts}"],
+          include: [
+            "src/**/*.svelte.{test,spec}.{js,ts}",
+            "tests/components/**/*.{test,spec}.{js,ts}",
+          ],
           exclude: ["src/lib/server/**"],
           setupFiles: ["./vitest-setup-client.ts", "./tests/setup/browser.ts"],
         },

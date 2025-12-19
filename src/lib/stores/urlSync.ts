@@ -1,20 +1,13 @@
+import { get } from "svelte/store";
 import { browser } from "$app/environment";
 import { goto } from "$app/navigation";
 import { page } from "$app/stores";
-import { debug } from "$lib/stores/debug";
-import { editMode, selection, showMetadataOverlay } from "$lib/stores/editorState";
-import {
-  filtersSyncing,
-  selectedAuthors,
-  selectedQualityBuckets,
-  showSeparators,
-} from "$lib/stores/filters";
-import { showPhotoLabels } from "$lib/stores/photoLabels";
-import { activeTab, isCurationMode, isSidebarOpen } from "$lib/stores/uiState";
+import { editor } from "$lib/stores/editor.svelte";
+import { filters } from "$lib/stores/filters.svelte";
+import { ui } from "$lib/stores/ui.svelte";
 import type { Author, QualityBucket } from "$lib/types/manifest";
 import { QUALITY_BUCKETS } from "$lib/utils/gallery";
 import { toSlug } from "$lib/utils/strings";
-import { get } from "svelte/store";
 
 let isInitialized = false;
 let authors: Author[] = [];
@@ -44,10 +37,6 @@ export function parseBooleanParam(value: string | null): boolean | undefined {
   return undefined;
 }
 
-function encodeBooleanParam(value: boolean) {
-  return value ? "true" : "false";
-}
-
 function syncBooleanParam(
   params: URLSearchParams,
   key: string,
@@ -59,14 +48,6 @@ function syncBooleanParam(
     params.set(key, "");
   } else if (type === "inverted-presence" && value === false) {
     params.set(key, "");
-  }
-}
-
-function setOrDeleteParam(params: URLSearchParams, key: string, value: string) {
-  if (value) {
-    params.set(key, value);
-  } else {
-    params.delete(key);
   }
 }
 
@@ -119,21 +100,22 @@ function parseQualityFromUrl(url: URL): QualityBucket[] | undefined {
   return qualityParam.split(",").filter(Boolean) as QualityBucket[];
 }
 
-function setBooleanStoreFromUrl(
+function setBooleanStateFromUrl(
   url: URL,
   key: string,
-  store: { set: (v: boolean) => void },
-  defaultValue = false,
+  setter: (v: boolean) => void,
+  defaultValue?: boolean,
 ) {
   if (url.searchParams.has(key)) {
     const val = url.searchParams.get(key);
     if (val === "" || val === null) {
-      store.set(true);
+      setter(true);
     } else {
       const parsed = parseBooleanParam(val);
-      if (parsed !== undefined) store.set(parsed);
+      if (parsed !== undefined) setter(parsed);
     }
-  } else {
+  } else if (defaultValue !== undefined) {
+    setter(defaultValue);
   }
 }
 
@@ -141,34 +123,37 @@ export function initializeFiltersFromUrl(url: URL) {
   if (!browser) return;
 
   const slugs = parseAuthorsFromUrl(url, authors);
-  selectedAuthors.set(slugs);
+  filters.selectedAuthors = slugs;
 
   const buckets = parseQualityFromUrl(url);
   if (buckets !== undefined) {
-    selectedQualityBuckets.set(buckets);
+    filters.selectedQualityBuckets = buckets;
   } else {
-    selectedQualityBuckets.set(QUALITY_BUCKETS.map((b) => b.id));
+    filters.selectedQualityBuckets = QUALITY_BUCKETS.map((b) => b.id);
   }
 
   if (url.searchParams.has("no-separators")) {
-    showSeparators.set(false);
+    filters.showSeparators = false;
   } else {
     const separatorsParam = parseBooleanParam(url.searchParams.get("separators"));
-    if (separatorsParam !== undefined) showSeparators.set(separatorsParam);
+    if (separatorsParam !== undefined) filters.showSeparators = separatorsParam;
   }
 
-  setBooleanStoreFromUrl(url, "labels", showPhotoLabels);
-  setBooleanStoreFromUrl(url, "editMode", editMode);
-  setBooleanStoreFromUrl(url, "debug", debug);
-  setBooleanStoreFromUrl(url, "overlay", showMetadataOverlay);
-  setBooleanStoreFromUrl(url, "curation", isCurationMode);
+  setBooleanStateFromUrl(url, "labels", (v) => (ui.photoLabels = v));
+  setBooleanStateFromUrl(url, "editMode", (v) => (editor.editMode = v));
+  setBooleanStateFromUrl(url, "debug", (v) => (ui.debug = v));
+  setBooleanStateFromUrl(url, "overlay", (v) => (editor.showMetadataOverlay = v));
+  setBooleanStateFromUrl(url, "curation", (v) => (ui.curationMode = v));
 
-  setBooleanStoreFromUrl(url, "sidebar", isSidebarOpen);
+  setBooleanStateFromUrl(url, "sidebar", (v) => (ui.sidebarOpen = v), false);
+
+  const peopleCsv = url.searchParams.get("people");
+  filters.selectedPeople = peopleCsv ? peopleCsv.split(",").map(decodeToken).filter(Boolean) : [];
 
   const editCsv = url.searchParams.get("edit");
-  selection.set(new Set(editCsv ? editCsv.split(",").filter(Boolean) : []));
+  editor.selection = new Set(editCsv ? editCsv.split(",").filter(Boolean) : []);
 
-  activeTab.set(url.searchParams.get("tab") || "agenda");
+  ui.activeTab = url.searchParams.get("tab") || "agenda";
 }
 
 let debounceTimer: ReturnType<typeof setTimeout>;
@@ -225,7 +210,7 @@ export function syncUrlFromFilters() {
   if (!browser) return;
 
   clearTimeout(debounceTimer);
-  filtersSyncing.set(true);
+  filters.filtersSyncing = true;
 
   debounceTimer = setTimeout(async () => {
     const $page = get(page);
@@ -233,24 +218,28 @@ export function syncUrlFromFilters() {
 
     params.delete("author");
     params.delete("authors");
-    const authorsVal = buildAuthorsParam(get(selectedAuthors), authors);
+    const authorsVal = buildAuthorsParam(filters.selectedAuthors, authors);
     if (authorsVal) params.set("authors", authorsVal);
 
     params.delete("quality");
-    const qualityVal = buildQualityParam(get(selectedQualityBuckets));
+    const qualityVal = buildQualityParam(filters.selectedQualityBuckets);
     if (qualityVal !== undefined) params.set("quality", qualityVal);
 
+    params.delete("people");
+    const people = filters.selectedPeople;
+    if (people.length > 0) params.set("people", people.map(encodeToken).join(","));
+
     params.delete("separators");
-    syncBooleanParam(params, "no-separators", get(showSeparators), "inverted-presence");
+    syncBooleanParam(params, "no-separators", filters.showSeparators, "inverted-presence");
 
-    syncBooleanParam(params, "labels", get(showPhotoLabels), "presence");
-    syncBooleanParam(params, "editMode", get(editMode), "presence");
-    syncBooleanParam(params, "debug", get(debug), "presence");
-    syncBooleanParam(params, "overlay", get(showMetadataOverlay), "presence");
-    syncBooleanParam(params, "sidebar", get(isSidebarOpen), "presence");
-    syncBooleanParam(params, "curation", get(isCurationMode), "presence");
+    syncBooleanParam(params, "labels", ui.photoLabels, "presence");
+    syncBooleanParam(params, "editMode", editor.editMode, "presence");
+    syncBooleanParam(params, "debug", ui.debug, "presence");
+    syncBooleanParam(params, "overlay", editor.showMetadataOverlay, "presence");
+    syncBooleanParam(params, "sidebar", ui.sidebarOpen, "presence");
+    syncBooleanParam(params, "curation", ui.curationMode, "presence");
 
-    const $selection = get(selection);
+    const $selection = editor.selection;
     if ($selection.size > 0) {
       params.set("edit", Array.from($selection).join(","));
     } else {
@@ -258,7 +247,7 @@ export function syncUrlFromFilters() {
     }
 
     params.delete("tab");
-    const activeTabVal = get(activeTab);
+    const activeTabVal = ui.activeTab;
     if (activeTabVal !== "agenda") {
       params.set("tab", activeTabVal);
     }
@@ -268,7 +257,7 @@ export function syncUrlFromFilters() {
     const current = $page.url.href.replace($page.url.origin, "");
 
     if (next === current) {
-      filtersSyncing.set(false);
+      filters.filtersSyncing = false;
       return;
     }
 
@@ -280,7 +269,7 @@ export function syncUrlFromFilters() {
         /* ignore */
       }
     } finally {
-      filtersSyncing.set(false);
+      filters.filtersSyncing = false;
     }
   }, 300);
 }
@@ -290,32 +279,42 @@ export function initUrlSync(initialAuthors: Author[]) {
 
   authors = initialAuthors;
 
-  // 1. Initialize stores from URL on first load
+  // 1. Initialize states from URL on first load
   const $page = get(page);
   lastUrl = $page.url;
   initializeFiltersFromUrl($page.url);
 
-  // 2. When filter stores change, update the URL
-  selectedAuthors.subscribe(syncUrlFromFilters);
-  selectedQualityBuckets.subscribe(syncUrlFromFilters);
-  showSeparators.subscribe(syncUrlFromFilters);
-  showPhotoLabels.subscribe(syncUrlFromFilters);
-  selection.subscribe(syncUrlFromFilters);
-  editMode.subscribe(syncUrlFromFilters);
-  showMetadataOverlay.subscribe(syncUrlFromFilters);
-  debug.subscribe(syncUrlFromFilters);
-  activeTab.subscribe(syncUrlFromFilters);
-  isSidebarOpen.subscribe(syncUrlFromFilters);
-  isCurationMode.subscribe(syncUrlFromFilters);
+  // 2. Setup effects for automatic URL updates
+  $effect.root(() => {
+    $effect(() => {
+      // Access reactive properties to trigger tracking
+      const _ = [
+        filters.selectedAuthors,
+        filters.selectedQualityBuckets,
+        filters.showSeparators,
+        ui.photoLabels,
+        editor.selection,
+        editor.editMode,
+        editor.showMetadataOverlay,
+        ui.debug,
+        ui.activeTab,
+        ui.sidebarOpen,
+        ui.curationMode,
+        filters.selectedPeople,
+      ];
+      syncUrlFromFilters();
+    });
 
-  // 3. When URL changes (e.g., back/forward button), update the filter stores
-  page.subscribe((newPage) => {
-    if (get(filtersSyncing)) return;
+    // 3. When URL changes (e.g., back/forward button), update the states
+    $effect(() => {
+      const newPage = get(page);
+      if (filters.filtersSyncing) return;
 
-    if (newPage.url.toString() !== lastUrl.toString()) {
-      lastUrl = newPage.url;
-      initializeFiltersFromUrl(newPage.url);
-    }
+      if (newPage.url.toString() !== lastUrl.toString()) {
+        lastUrl = newPage.url;
+        initializeFiltersFromUrl(newPage.url);
+      }
+    });
   });
 
   isInitialized = true;

@@ -19,7 +19,7 @@ describe("fixUnderwaterImage", () => {
     for (const file of testFiles) {
       try {
         await fs.unlink(file).catch(() => {});
-      } catch (e) {
+      } catch (_e) {
         // ignore
       }
     }

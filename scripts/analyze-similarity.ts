@@ -58,7 +58,7 @@ function getSharpness(image: ImageEntry): number {
   return image.analysis?.sharpness || 0;
 }
 
-function getDefaultAnalysis() {
+function _getDefaultAnalysis() {
   return { sharpness: 0, aestheticScore: 0, phash: "" };
 }
 

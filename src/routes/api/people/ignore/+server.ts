@@ -1,7 +1,7 @@
-import type { PeopleManifest } from "$lib/types/manifest";
-import { json } from "@sveltejs/kit";
 import fsp from "node:fs/promises";
 import path from "node:path";
+import { json } from "@sveltejs/kit";
+import type { PeopleManifest } from "$lib/types/manifest";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 
 function isNonEmptyString(value: unknown): value is string {
@@ -70,7 +70,6 @@ export async function POST({ request }) {
       return json({ success: true, results });
     });
   } catch (error) {
-    console.error("[IGNORE] Error:", error);
     const isLockError = error instanceof Error && error.message.includes("lock");
     return json(
       {

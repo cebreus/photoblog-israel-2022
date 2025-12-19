@@ -58,7 +58,7 @@ export function validateRenameInput(body: unknown): ValidationResult<RenameInput
   }
 
   const sanitizedName = name.trim().slice(0, 100);
-  if (/[\/\\<>:"|?*]/.test(sanitizedName)) {
+  if (/[/\\<>:"|?*]/.test(sanitizedName)) {
     return { valid: false, error: "Jméno obsahuje nepovolené znaky", status: 400 };
   }
 

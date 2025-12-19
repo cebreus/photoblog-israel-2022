@@ -1,6 +1,5 @@
-import { get } from "svelte/store";
 import { describe, expect, it } from "vitest";
-import { metadataClipboard } from "../../src/lib/stores/metadataClipboard";
+import { metadataClipboard } from "../../src/lib/stores/metadata-clipboard.svelte";
 import type { ImageEntry } from "../../src/lib/types/manifest";
 
 describe("metadataClipboard Store", () => {
@@ -32,18 +31,16 @@ describe("metadataClipboard Store", () => {
   };
 
   it("starts empty", () => {
-    const state = get(metadataClipboard);
-    expect(state.sourceImage).toBeNull();
-    expect(state.data).toBeNull();
-    expect(metadataClipboard.hasData()).toBe(false);
+    expect(metadataClipboard.sourceImage).toBeNull();
+    expect(metadataClipboard.data).toBeNull();
+    expect(metadataClipboard.hasData).toBe(false);
   });
 
   it("copies metadata from an image", () => {
     metadataClipboard.copy(mockImage);
 
-    const state = get(metadataClipboard);
-    expect(state.sourceImage).toEqual(mockImage);
-    expect(state.data).toEqual({
+    expect(metadataClipboard.sourceImage).toEqual(mockImage);
+    expect(metadataClipboard.data).toEqual({
       title: "Exif Title", // Comes from image.exif?.title
       author: "Test Author",
       location: "Test Location",
@@ -55,18 +52,17 @@ describe("metadataClipboard Store", () => {
       keywords: ["tag1", "tag2"],
     });
 
-    expect(metadataClipboard.hasData()).toBe(true);
+    expect(metadataClipboard.hasData).toBe(true);
   });
 
   it("clears the clipboard", () => {
     metadataClipboard.copy(mockImage);
-    expect(metadataClipboard.hasData()).toBe(true); // Pre-check
+    expect(metadataClipboard.hasData).toBe(true); // Pre-check
 
     metadataClipboard.clear();
 
-    const state = get(metadataClipboard);
-    expect(state.sourceImage).toBeNull();
-    expect(state.data).toBeNull();
-    expect(metadataClipboard.hasData()).toBe(false);
+    expect(metadataClipboard.sourceImage).toBeNull();
+    expect(metadataClipboard.data).toBeNull();
+    expect(metadataClipboard.hasData).toBe(false);
   });
 });

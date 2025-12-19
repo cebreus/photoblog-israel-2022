@@ -1,8 +1,8 @@
-import type { ImageEntry, Manifest, PeopleManifest } from "$lib/types/manifest";
-import { validateMergeInput } from "$lib/utils/api-validators";
-import { json } from "@sveltejs/kit";
 import fsp from "node:fs/promises";
 import path from "node:path";
+import { json } from "@sveltejs/kit";
+import type { ImageEntry, Manifest, PeopleManifest } from "$lib/types/manifest";
+import { validateMergeInput } from "$lib/utils/api-validators";
 import { removeEmptyPersonFolder } from "../../../../../scripts/lib/cleanup-utils";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 import { hasValidFaceDescriptor } from "../../../../../scripts/lib/people-utils";
@@ -50,7 +50,7 @@ export async function POST({ request }) {
         for (const item of day.items) {
           if (item.type === "image") {
             const imageItem = item as ImageEntry;
-            if (imageItem.people && imageItem.people.includes(sourcePersonId)) {
+            if (imageItem.people?.includes(sourcePersonId)) {
               const index = imageItem.people.indexOf(sourcePersonId);
               if (index !== -1) {
                 const filename = `${imageItem.id}.jpg`;
@@ -61,7 +61,7 @@ export async function POST({ request }) {
                   await fsp.stat(oldPath);
 
                   await fsp.rename(oldPath, newPath);
-                } catch (e) {}
+                } catch (_e) {}
 
                 imageItem.people[index] = targetPersonId;
                 imageItem.people = [...new Set(imageItem.people)];
@@ -176,7 +176,7 @@ export async function POST({ request }) {
           await fsp.writeFile(constraintsPath, JSON.stringify(constraints, null, 2));
           console.log(`[MERGE] Updated clustering-constraints.json`);
         }
-      } catch (e) {}
+      } catch (_e) {}
 
       await fsp.writeFile(peopleManifestPath, JSON.stringify(peopleManifest, null, 2));
       await fsp.writeFile(imagesManifestPath, JSON.stringify(imagesManifest, null, 2));

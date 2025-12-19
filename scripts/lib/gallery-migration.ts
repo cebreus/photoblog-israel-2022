@@ -1,7 +1,7 @@
-import fg from "fast-glob";
 import fs from "node:fs";
 import fsp from "node:fs/promises";
 import path from "node:path";
+import fg from "fast-glob";
 import type { Cache } from "../../src/lib/types/manifest";
 import { toSlug } from "../../src/lib/utils/strings";
 import { config } from "../config";
@@ -51,7 +51,7 @@ export async function migrateCache(gallery: string, renameMap: RenameMap): Promi
   const cachePath = path.resolve(`.temp/${gallery}/images.cache.json`);
   const cache = await loadManifest<Cache>(cachePath);
 
-  if (cache && cache.files) {
+  if (cache?.files) {
     for (const item of renameMap.values()) {
       const oldKey = item.oldRelPath;
       const newKey = item.newRelPath;

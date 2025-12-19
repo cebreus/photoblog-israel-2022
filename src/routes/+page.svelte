@@ -5,13 +5,8 @@
   import PhotoGrid from "$lib/components/PhotoGrid.svelte";
   import { Badge } from "$lib/components/ui/badge/";
   import { Button } from "$lib/components/ui/button";
-  import { editMode, selection } from "$lib/stores/editorState";
-  import {
-    selectedAuthors,
-    selectedPeople,
-    selectedQualityBuckets,
-    showSeparators,
-  } from "$lib/stores/filters";
+  import { editor } from "$lib/stores/editor.svelte";
+  import { filters } from "$lib/stores/filters.svelte";
   import type { ImageEntry, PhotoDay, Separator } from "$lib/types/manifest";
   import { filterGalleryItems, mergeSparseDays } from "$lib/utils/gallery";
   import { formatDateForDisplay, formatDateRange, formatWeekdayCzech } from "$lib/utils/strings";
@@ -31,10 +26,10 @@
         ...day,
         items: filterGalleryItems(
           day.items,
-          $selectedAuthors,
-          $showSeparators,
-          $selectedQualityBuckets,
-          $selectedPeople,
+          filters.selectedAuthors,
+          filters.showSeparators,
+          filters.selectedQualityBuckets,
+          filters.selectedPeople,
         ),
       }))
       .filter((d: PhotoDay) => d.items && d.items.length > 0),
@@ -51,7 +46,7 @@
 
 <!-- visible count moved to FiltersOffcanvas header -->
 
-{#if $selectedAuthors.length > 0 && photoDays.length === 0}
+{#if filters.selectedAuthors.length > 0 && photoDays.length === 0}
   <div class="container mx-auto py-12 text-center text-sm text-muted-foreground">
     <p>Žádné fotky od vybraných autorů.</p>
   </div>
@@ -105,12 +100,12 @@
           </div>
         {/if}
 
-        {#if $editMode}
+        {#if editor.editMode}
           {@const dayImageIds = day.items
             .filter((i: ImageEntry | Separator) => i.type === "image")
             .map((i: ImageEntry | Separator) => i.id)}
           {@const allSelected =
-            dayImageIds.length > 0 && dayImageIds.every((id: string) => $selection.has(id))}
+            dayImageIds.length > 0 && dayImageIds.every((id: string) => editor.selection.has(id))}
           <div class="flex justify-center gap-2 mt-4 opacity-100 transition-opacity">
             <Button
               variant="outline"
@@ -118,9 +113,9 @@
               class="gap-2"
               onclick={() => {
                 if (allSelected) {
-                  selection.removeMultiple(dayImageIds);
+                  editor.removeMultiple(dayImageIds);
                 } else {
-                  selection.addMultiple(dayImageIds);
+                  editor.addMultiple(dayImageIds);
                 }
               }}
             >

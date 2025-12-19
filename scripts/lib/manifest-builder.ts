@@ -1,5 +1,5 @@
-import { marked } from "marked";
 import path from "node:path";
+import { marked } from "marked";
 import type {
   ImageEntry,
   Manifest,
@@ -130,7 +130,7 @@ function removeImagesStartingWith(day: PhotoDay, baseNameWithoutExt: string): vo
     return !item.src.startsWith(baseNameWithoutExt);
   });
 }
-function isSeparator(item: ImageEntry | Separator): boolean {
+function _isSeparator(item: ImageEntry | Separator): boolean {
   return item.type === "separator";
 }
 
@@ -187,7 +187,7 @@ function organizeDayItems(day: PhotoDay, storyData: StoryDataMap): PhotoDay {
       const storyContent = story?.content?.trim();
 
       const separator: Separator = {
-        id: "loc-" + toSlug(location),
+        id: `loc-${toSlug(location)}`,
         type: "separator",
         location: location,
         city: group[0].exif?.city || "",
@@ -265,7 +265,7 @@ export function updateManifest(
   for (const [date, dayResults] of Object.entries(resultsByDate)) {
     let day = findDayByDate(manifest.photoDays, date);
     if (!day) {
-      day = { date, items: [], id: "day-" + date };
+      day = { date, items: [], id: `day-${date}` };
       manifest.photoDays.push(day);
     }
 
@@ -294,7 +294,7 @@ function mapLocationToMenuItem(
     (item): item is ImageEntry => item.type === "image" && item.exif?.location === locationName,
   );
 
-  const locId = "loc-" + toSlug(locationName);
+  const locId = `loc-${toSlug(locationName)}`;
   const isDimmed = group.length <= 2;
 
   let href = `#${locId}`;
@@ -313,7 +313,7 @@ function mapLocationToMenuItem(
 function mapDayToMenu(d: PhotoDay): MenuManifest[number] {
   const dayId = String(d.id || d.date).startsWith("day-")
     ? String(d.id || d.date)
-    : "day-" + String(d.id || d.date);
+    : `day-${String(d.id || d.date)}`;
 
   const locationsInOrder: string[] = [];
   const seenLocations = new Set<string>();

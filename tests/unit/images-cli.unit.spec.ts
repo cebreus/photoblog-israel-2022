@@ -1,6 +1,6 @@
-import { exiftool } from "exiftool-vendored";
 import fs from "node:fs";
 import path from "node:path";
+import { exiftool } from "exiftool-vendored";
 import { afterAll, describe, expect, it, vi } from "vitest";
 import * as processor from "../../scripts/lib/image-processor";
 import { buildInputSet } from "../utils/fixtures";

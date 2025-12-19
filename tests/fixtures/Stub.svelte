@@ -1,5 +1,7 @@
 <script>
-  let { children } = $props();
+  let { children, ...rest } = $props();
 </script>
 
-{@render children?.({ props: {} })}
+<div {...rest}>
+  {@render children?.({ props: {} })}
+</div>

@@ -1,9 +1,9 @@
 process.env.GLIB_LOG_LEVEL = "critical";
 
-import { intro, select } from "@clack/prompts";
 import fsp from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
+import { intro, select } from "@clack/prompts";
 import "sharp";
 import type { QualityTypes, ScriptArgs } from "../src/lib/types/manifest";
 import { config } from "./config";
@@ -164,10 +164,9 @@ export async function main() {
   }
 
   RUNTIME_RAW = ARGS.__raw || {};
-  RUNTIME_FORMATS =
-    RUNTIME_RAW.formats && RUNTIME_RAW.formats.length
-      ? [...RUNTIME_RAW.formats]
-      : [...config.encoding.formats];
+  RUNTIME_FORMATS = RUNTIME_RAW.formats?.length
+    ? [...RUNTIME_RAW.formats]
+    : [...config.encoding.formats];
   RUNTIME_QUALITY_OVERRIDES = RUNTIME_RAW.quality ?? {};
   RUNTIME_ALLOW_UPSCALE = RUNTIME_RAW.allowUpscale ?? false;
 
@@ -204,7 +203,7 @@ export async function executeMain(): Promise<void> {
   } catch (e) {
     const errAny: any = e;
     logger.error(
-      "An unexpected error occurred in the main process. " + (errAny?.stack ?? String(errAny)),
+      `An unexpected error occurred in the main process. ${errAny?.stack ?? String(errAny)}`,
     );
     process.exit(1);
   } finally {

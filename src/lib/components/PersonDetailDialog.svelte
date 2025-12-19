@@ -1,15 +1,13 @@
 <script lang="ts">
   import { Button } from "$lib/components/ui/button";
   import * as Dialog from "$lib/components/ui/dialog";
-  import { peopleBase } from "$lib/stores/people-store";
+  import { people } from "$lib/stores/people.svelte";
   import type { ImageEntry, Person } from "$lib/types/manifest";
   import Check from "lucide-svelte/icons/check";
   import CheckCheck from "lucide-svelte/icons/check-check";
   import Loader2 from "lucide-svelte/icons/loader-2";
   import Trash2 from "lucide-svelte/icons/trash-2";
   import X from "lucide-svelte/icons/x";
-
-  const photoDaysStore = peopleBase.photoDays;
 
   let {
     open = $bindable(false),
@@ -26,7 +24,7 @@
   const personImages = $derived.by(() => {
     if (!person || !open) return [];
     // Use reactive store instead of static getter
-    const days = $photoDaysStore;
+    const days = people.photoDays;
     const images: ImageEntry[] = [];
     for (const day of days) {
       for (const item of day.items) {

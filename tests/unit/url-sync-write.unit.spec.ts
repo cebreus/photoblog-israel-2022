@@ -32,100 +32,47 @@ vi.mock("$app/stores", () => {
   };
 });
 
-// Mock filter stores
-vi.mock("$lib/stores/filters", () => {
-  const createMockStore = (initialValue: any) => {
-    const store = writable(initialValue);
-    return {
-      set: vi.fn((val) => store.set(val)),
-      subscribe: (fn: any) => store.subscribe(fn),
-      update: vi.fn((fn: any) => store.update(fn)),
-    };
-  };
-
+// Mock rune-based stores
+vi.mock("$lib/stores/filters.svelte", () => {
   return {
-    filtersSyncing: createMockStore(false),
-    selectedAuthors: createMockStore([]),
-    showSeparators: createMockStore(true),
-    selectedQualityBuckets: createMockStore(["excellent", "good", "poor"]),
-    selectedPeople: createMockStore([]),
+    filters: {
+      filtersSyncing: false,
+      selectedAuthors: [],
+      showSeparators: true,
+      selectedQualityBuckets: ["excellent", "good", "poor"],
+      selectedPeople: [],
+    },
   };
 });
 
-// Mock other stores
-vi.mock("$lib/stores/photoLabels", () => {
-  const createMockStore = (initialValue: any) => {
-    const store = writable(initialValue);
-    return {
-      set: vi.fn((val) => store.set(val)),
-      subscribe: (fn: any) => store.subscribe(fn),
-    };
-  };
-
+vi.mock("$lib/stores/ui.svelte", () => {
   return {
-    showPhotoLabels: createMockStore(false),
+    ui: {
+      photoLabels: false,
+      sidebarOpen: false,
+      debug: false,
+      activeTab: "agenda",
+      curationMode: false,
+    },
   };
 });
 
-vi.mock("$lib/stores/editorState", () => {
-  const createMockStore = (initialValue: any) => {
-    const store = writable(initialValue);
-    return {
-      set: vi.fn((val) => store.set(val)),
-      subscribe: (fn: any) => store.subscribe(fn),
-    };
-  };
-
+vi.mock("$lib/stores/editor.svelte", () => {
   return {
-    selection: createMockStore(new Set()),
-    editMode: createMockStore(false),
-    showMetadataOverlay: createMockStore(false),
-  };
-});
-
-vi.mock("$lib/stores/debug", () => {
-  const createMockStore = (initialValue: any) => {
-    const store = writable(initialValue);
-    return {
-      set: vi.fn((val) => store.set(val)),
-      subscribe: (fn: any) => store.subscribe(fn),
-    };
-  };
-
-  return {
-    debug: createMockStore(false),
-  };
-});
-
-vi.mock("$lib/stores/uiState", () => {
-  const createMockStore = (initialValue: any) => {
-    const store = writable(initialValue);
-    return {
-      set: vi.fn((val) => store.set(val)),
-      subscribe: (fn: any) => store.subscribe(fn),
-    };
-  };
-
-  return {
-    activeTab: createMockStore("agenda"),
-    isSidebarOpen: createMockStore(false),
-    isCurationMode: createMockStore(false),
+    editor: {
+      selection: new Set(),
+      editMode: false,
+      showMetadataOverlay: false,
+    },
   };
 });
 
 // Import code under test AFTER mocks
 import { goto } from "$app/navigation";
 import { page } from "$app/stores";
-import { selection } from "$lib/stores/editorState";
-import {
-  filtersSyncing,
-  selectedAuthors,
-  selectedPeople,
-  selectedQualityBuckets,
-  showSeparators,
-} from "$lib/stores/filters";
-import { showPhotoLabels } from "$lib/stores/photoLabels";
-import { isSidebarOpen } from "$lib/stores/uiState";
+import { editor } from "$lib/stores/editor.svelte";
+import { filters } from "$lib/stores/filters.svelte";
+import { ui } from "$lib/stores/ui.svelte";
 import { syncUrlFromFilters } from "../../src/lib/stores/urlSync";
 
 describe("syncUrlFromFilters", () => {
@@ -133,13 +80,22 @@ describe("syncUrlFromFilters", () => {
     vi.clearAllMocks();
     vi.useFakeTimers();
 
-    // Reset all stores to default state
-    (selectedAuthors as any).set([]);
-    (selectedQualityBuckets as any).set(["excellent", "good", "poor"]);
-    (selectedPeople as any).set([]);
-    (showSeparators as any).set(true);
-    (showPhotoLabels as any).set(false);
-    (isSidebarOpen as any).set(false);
+    // Reset all states to default state
+    filters.selectedAuthors = [];
+    filters.selectedQualityBuckets = ["excellent", "good", "poor"];
+    filters.selectedPeople = [];
+    filters.showSeparators = true;
+    filters.filtersSyncing = false;
+
+    ui.photoLabels = false;
+    ui.sidebarOpen = false;
+    ui.debug = false;
+    ui.activeTab = "agenda";
+    ui.curationMode = false;
+
+    editor.selection = new Set();
+    editor.editMode = false;
+    editor.showMetadataOverlay = false;
 
     // Reset page URL
     const pageStore = (page as any).__mockPageStore || page;
@@ -161,7 +117,7 @@ describe("syncUrlFromFilters", () => {
   });
 
   it("debounces URL updates (300ms)", async () => {
-    (selectedAuthors as any).set(["jan"]);
+    filters.selectedAuthors = ["jan"];
 
     syncUrlFromFilters();
     expect(goto).not.toHaveBeenCalled();
@@ -174,7 +130,7 @@ describe("syncUrlFromFilters", () => {
   });
 
   it("builds URL with authors param", async () => {
-    (selectedAuthors as any).set(["jan", "petr"]);
+    filters.selectedAuthors = ["jan", "petr"];
 
     syncUrlFromFilters();
     await vi.advanceTimersByTimeAsync(300);
@@ -186,16 +142,19 @@ describe("syncUrlFromFilters", () => {
   });
 
   it("builds URL with quality param (non-default)", async () => {
-    (selectedQualityBuckets as any).set(["great"]);
+    filters.selectedQualityBuckets = ["excellent"];
 
     syncUrlFromFilters();
     await vi.advanceTimersByTimeAsync(300);
 
-    expect(goto).toHaveBeenCalledWith(expect.stringContaining("quality=great"), expect.any(Object));
+    expect(goto).toHaveBeenCalledWith(
+      expect.stringContaining("quality=excellent"),
+      expect.any(Object),
+    );
   });
 
   it("omits quality param when all buckets selected (default)", async () => {
-    (selectedQualityBuckets as any).set(["excellent", "good", "poor"]);
+    filters.selectedQualityBuckets = ["excellent", "good", "poor"];
 
     syncUrlFromFilters();
     await vi.advanceTimersByTimeAsync(300);
@@ -205,8 +164,8 @@ describe("syncUrlFromFilters", () => {
   });
 
   it("builds presence-only params without values", async () => {
-    (showPhotoLabels as any).set(true);
-    (isSidebarOpen as any).set(true);
+    ui.photoLabels = true;
+    ui.sidebarOpen = true;
 
     syncUrlFromFilters();
     await vi.advanceTimersByTimeAsync(300);
@@ -219,7 +178,7 @@ describe("syncUrlFromFilters", () => {
   });
 
   it("uses inverted flag for separators (no-separators)", async () => {
-    (showSeparators as any).set(false);
+    filters.showSeparators = false;
 
     syncUrlFromFilters();
     await vi.advanceTimersByTimeAsync(300);
@@ -237,22 +196,22 @@ describe("syncUrlFromFilters", () => {
   });
 
   it("sets filtersSyncing during operation", async () => {
-    (selectedAuthors as any).set(["test"]);
+    filters.selectedAuthors = ["test"];
 
     syncUrlFromFilters();
-    expect((filtersSyncing as any).set).toHaveBeenCalledWith(true);
+    expect(filters.filtersSyncing).toBe(true);
 
     await vi.advanceTimersByTimeAsync(300);
-    expect((filtersSyncing as any).set).toHaveBeenCalledWith(false);
+    expect(filters.filtersSyncing).toBe(false);
   });
 
   it("handles multiple rapid calls (debounce reset)", async () => {
-    (selectedAuthors as any).set(["jan"]);
+    filters.selectedAuthors = ["jan"];
 
     syncUrlFromFilters();
     await vi.advanceTimersByTimeAsync(100);
 
-    (selectedAuthors as any).set(["petr"]);
+    filters.selectedAuthors = ["petr"];
     syncUrlFromFilters(); // Should reset timer
 
     await vi.advanceTimersByTimeAsync(299);
@@ -264,7 +223,7 @@ describe("syncUrlFromFilters", () => {
   });
 
   it("uses replaceState navigation option", async () => {
-    (selectedAuthors as any).set(["test"]);
+    filters.selectedAuthors = ["test"];
 
     syncUrlFromFilters();
     await vi.advanceTimersByTimeAsync(300);
@@ -280,7 +239,7 @@ describe("syncUrlFromFilters", () => {
   });
 
   it("handles selection set with multiple IDs", async () => {
-    (selection as any).set(new Set(["img1", "img2", "img3"]));
+    editor.selection = new Set(["img1", "img2", "img3"]);
 
     syncUrlFromFilters();
     await vi.advanceTimersByTimeAsync(300);

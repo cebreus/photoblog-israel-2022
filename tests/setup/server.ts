@@ -36,7 +36,7 @@ vi.mock("@vladmandic/face-api", () => {
     },
     SsdMobilenetv1Options: class {},
     detectAllFaces: async () => [],
-    euclideanDistance: (a: any, b: any) => 0,
+    euclideanDistance: (_a: any, _b: any) => 0,
     resizeResults: (res: any) => res,
     // Ensure CommonJS/ESM compatibility
     default: {},

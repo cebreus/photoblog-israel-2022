@@ -1,6 +1,6 @@
+import { describe, expect, it } from "vitest";
 import type { Person } from "$lib/types/manifest";
 import { getVisiblePeople } from "$lib/utils/people";
-import { describe, expect, it } from "vitest";
 
 describe("getVisiblePeople", () => {
   it("should filter out ignored people", () => {

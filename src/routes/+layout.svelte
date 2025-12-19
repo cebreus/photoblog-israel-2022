@@ -5,7 +5,7 @@
   import Header from "$lib/components/Header.svelte";
   import * as Sidebar from "$lib/components/ui/sidebar";
   import { Toaster } from "$lib/components/ui/sonner";
-  import { showPhotoLabels } from "$lib/stores/photoLabels";
+  import { ui } from "$lib/stores/ui.svelte";
   import { initUrlSync } from "$lib/stores/urlSync";
   import type { Author, CurationManifest, MenuManifest, SiteManifest } from "$lib/types/manifest";
   import { ModeWatcher } from "mode-watcher";
@@ -36,7 +36,7 @@
   // Handle body class for photo labels visibility
   $effect(() => {
     if (browser) {
-      document.body.classList.toggle("show-labels", $showPhotoLabels);
+      document.body.classList.toggle("show-labels", ui.photoLabels);
     }
   });
 </script>

@@ -1,6 +1,6 @@
-import fg from "fast-glob";
 import fsp from "node:fs/promises";
 import path from "node:path";
+import fg from "fast-glob";
 import { config } from "../config";
 import type { CliOptions } from "./cli-parser";
 import { ensureDir } from "./image-utils";
@@ -8,7 +8,7 @@ import { createLogger } from "./logger";
 
 const logger = createLogger("blur");
 
-function ignoreError(_err?: unknown): void {
+function _ignoreError(_err?: unknown): void {
   // no-op
 }
 
@@ -47,7 +47,7 @@ export async function runBlurBuild(raw: Partial<CliOptions>, concurrency: number
 
   logger.info(`Blur build: src=${blurSrc}, out=${blurOut}, format=png`);
 
-  const sharpModule = await loadSharp();
+  const _sharpModule = await loadSharp();
 
   const inputExts = config.script.inputExtensions;
   const srcFiles = await fg(`**/*.{${inputExts.join(",")}}`, {

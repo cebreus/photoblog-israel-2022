@@ -1,7 +1,7 @@
-import { renderMarkdown } from "$lib/utils/markup";
-import fs from "fs/promises";
+import fs from "node:fs/promises";
+import path from "node:path";
 import matter from "gray-matter";
-import path from "path";
+import { renderMarkdown } from "$lib/utils/markup";
 
 export type PageFrontMatter = {
   type?: string;

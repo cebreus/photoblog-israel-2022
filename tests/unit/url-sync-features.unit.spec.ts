@@ -5,67 +5,46 @@ vi.mock("$app/environment", () => ({
   browser: true,
 }));
 
-// Mock the stores module completely
-vi.mock("$lib/stores/editorState", () => {
-  const showMetadataOverlay = {
-    set: vi.fn(),
-    subscribe: vi.fn((fn) => {
-      fn(false);
-      return () => {};
-    }),
-    update: vi.fn(),
-  };
-
-  const selection = {
-    set: vi.fn(),
-    subscribe: vi.fn(),
-  };
-
-  const editMode = {
-    set: vi.fn(),
-    subscribe: vi.fn(),
-  };
-
+// Mock rune-based stores
+vi.mock("$lib/stores/filters.svelte", () => {
   return {
-    showMetadataOverlay,
-    selection,
-    editMode,
+    filters: {
+      filtersSyncing: false,
+      selectedAuthors: [],
+      showSeparators: true,
+      selectedQualityBuckets: ["excellent", "good", "poor"],
+      selectedPeople: [],
+    },
   };
 });
 
-// Mock other dependencies to avoid errors
-vi.mock("$lib/stores/filters", () => ({
-  filtersSyncing: { set: vi.fn() },
-  selectedAuthors: { set: vi.fn(), subscribe: vi.fn() },
-  showSeparators: { set: vi.fn(), subscribe: vi.fn() },
-  selectedQualityBuckets: { set: vi.fn(), subscribe: vi.fn() },
-  selectedPeople: { set: vi.fn(), subscribe: vi.fn() },
-}));
-vi.mock("$lib/stores/photoLabels", () => ({
-  showPhotoLabels: { set: vi.fn(), subscribe: vi.fn() },
-}));
-vi.mock("$lib/stores/debug", () => ({
-  debug: { set: vi.fn(), subscribe: vi.fn() },
-}));
-vi.mock("$lib/stores/uiState", () => ({
-  activeTab: { set: vi.fn(), subscribe: vi.fn() },
-  isSidebarOpen: { set: vi.fn(), subscribe: vi.fn() },
-  isCurationMode: { set: vi.fn(), subscribe: vi.fn() },
-}));
+vi.mock("$lib/stores/ui.svelte", () => {
+  return {
+    ui: {
+      photoLabels: false,
+      sidebarOpen: false,
+      debug: false,
+      activeTab: "agenda",
+      curationMode: false,
+    },
+  };
+});
 
-// Import code under test
-// Import code under test
-import { initializeFiltersFromUrl, parseBooleanParam } from "../../src/lib/stores/urlSync";
+vi.mock("$lib/stores/editor.svelte", () => {
+  return {
+    editor: {
+      selection: new Set(),
+      editMode: false,
+      showMetadataOverlay: false,
+    },
+  };
+});
+
 // Import mocked stores
-import { showMetadataOverlay } from "$lib/stores/editorState";
-import {
-  selectedAuthors,
-  selectedPeople,
-  selectedQualityBuckets,
-  showSeparators,
-} from "$lib/stores/filters";
-import { showPhotoLabels } from "$lib/stores/photoLabels";
-import { activeTab, isCurationMode, isSidebarOpen } from "$lib/stores/uiState";
+import { editor } from "$lib/stores/editor.svelte";
+import { filters } from "$lib/stores/filters.svelte";
+import { ui } from "$lib/stores/ui.svelte";
+import { initializeFiltersFromUrl, parseBooleanParam } from "../../src/lib/stores/urlSync";
 
 describe("URL Helpers", () => {
   describe("parseBooleanParam", () => {
@@ -90,130 +69,146 @@ describe("URL Helpers", () => {
 describe("initializeFiltersFromUrl", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+
+    // Reset states
+    filters.selectedAuthors = [];
+    filters.selectedQualityBuckets = ["excellent", "good", "poor"];
+    filters.selectedPeople = [];
+    filters.showSeparators = true;
+
+    ui.photoLabels = false;
+    ui.sidebarOpen = false;
+    ui.debug = false;
+    ui.activeTab = "agenda";
+    ui.curationMode = false;
+
+    editor.selection = new Set();
+    editor.editMode = false;
+    editor.showMetadataOverlay = false;
   });
 
   describe("Overlay", () => {
     it("sets true when param present (no value)", () => {
       initializeFiltersFromUrl(new URL("https://example.com/?overlay"));
-      expect(showMetadataOverlay.set).toHaveBeenCalledWith(true);
+      expect(editor.showMetadataOverlay).toBe(true);
     });
 
     it("sets true when 'true'", () => {
       initializeFiltersFromUrl(new URL("https://example.com/?overlay=true"));
-      expect(showMetadataOverlay.set).toHaveBeenCalledWith(true);
+      expect(editor.showMetadataOverlay).toBe(true);
     });
 
     it("sets false when 'false'", () => {
       initializeFiltersFromUrl(new URL("https://example.com/?overlay=false"));
-      expect(showMetadataOverlay.set).toHaveBeenCalledWith(false);
+      expect(editor.showMetadataOverlay).toBe(false);
     });
 
     it("ignores when missing", () => {
+      // Set specific value first to see if it changes
+      editor.showMetadataOverlay = true;
       initializeFiltersFromUrl(new URL("https://example.com/"));
-      expect(showMetadataOverlay.set).not.toHaveBeenCalled();
+      expect(editor.showMetadataOverlay).toBe(true);
     });
   });
 
   describe("Sidebar", () => {
     it("sets open when 'sidebar' present", () => {
       initializeFiltersFromUrl(new URL("https://example.com/?sidebar"));
-      expect(isSidebarOpen.set).toHaveBeenCalledWith(true);
+      expect(ui.sidebarOpen).toBe(true);
     });
 
     it("sets closed when 'sidebar=false'", () => {
       initializeFiltersFromUrl(new URL("https://example.com/?sidebar=false"));
-      expect(isSidebarOpen.set).toHaveBeenCalledWith(false);
+      expect(ui.sidebarOpen).toBe(false);
     });
 
     it("defaults to closed if missing (explicit check logic)", () => {
+      ui.sidebarOpen = true;
       initializeFiltersFromUrl(new URL("https://example.com/"));
-      expect(isSidebarOpen.set).toHaveBeenCalledWith(false);
+      expect(ui.sidebarOpen).toBe(false);
     });
   });
 
   describe("Lists (Authors, People, Quality)", () => {
     it("parses authors CSV", () => {
       initializeFiltersFromUrl(new URL("https://example.com/?authors=jan,petr"));
-      // Note: Logic inside uses toSlug if authors list is empty/mocked
-      expect(selectedAuthors.set).toHaveBeenCalledWith(["jan", "petr"]);
+      expect(filters.selectedAuthors).toEqual(["jan", "petr"]);
     });
 
     it("parses quality CSV", () => {
       initializeFiltersFromUrl(new URL("https://example.com/?quality=great,good"));
-      expect(selectedQualityBuckets.set).toHaveBeenCalledWith(["great", "good"]);
+      expect(filters.selectedQualityBuckets).toEqual(["great", "good"]);
     });
 
     it("parses people CSV", () => {
       initializeFiltersFromUrl(new URL("https://example.com/?people=p1,p2"));
-      expect(selectedPeople.set).toHaveBeenCalledWith(["p1", "p2"]);
+      expect(filters.selectedPeople).toEqual(["p1", "p2"]);
     });
   });
 
   describe("Flags & Booleans", () => {
     it("enables curation mode", () => {
       initializeFiltersFromUrl(new URL("https://example.com/?curation"));
-      expect(isCurationMode.set).toHaveBeenCalledWith(true);
+      expect(ui.curationMode).toBe(true);
     });
 
     it("sets active tab", () => {
       initializeFiltersFromUrl(new URL("https://example.com/?tab=map"));
-      expect(activeTab.set).toHaveBeenCalledWith("map");
+      expect(ui.activeTab).toBe("map");
     });
 
     it("handles separators logic (no-separators)", () => {
       initializeFiltersFromUrl(new URL("https://example.com/?no-separators"));
-      expect(showSeparators.set).toHaveBeenCalledWith(false);
+      expect(filters.showSeparators).toBe(false);
     });
 
     it("handles labels", () => {
       initializeFiltersFromUrl(new URL("https://example.com/?labels"));
-      expect(showPhotoLabels.set).toHaveBeenCalledWith(true);
+      expect(ui.photoLabels).toBe(true);
     });
   });
 
   describe("Edge Cases", () => {
     it("handles empty CSV values gracefully", () => {
       initializeFiltersFromUrl(new URL("https://example.com/?authors=,,jan,,"));
-      // Empty tokens should be filtered out by filter(Boolean)
-      expect(selectedAuthors.set).toHaveBeenCalledWith(["jan"]);
+      expect(filters.selectedAuthors).toEqual(["jan"]);
     });
 
     it("handles URL-encoded special characters in authors", () => {
       initializeFiltersFromUrl(new URL("https://example.com/?authors=jan%20nov%C3%A1k"));
-      expect(selectedAuthors.set).toHaveBeenCalledWith(["jan-novak"]);
+      expect(filters.selectedAuthors).toEqual(["jan-novak"]);
     });
 
     it("handles 'unknown' author token", () => {
       initializeFiltersFromUrl(new URL("https://example.com/?authors=unknown,jan"));
-      // When authors array is empty (in mocks), "unknown" is treated as regular slug
-      expect(selectedAuthors.set).toHaveBeenCalledWith(["unknown", "jan"]);
+      expect(filters.selectedAuthors).toEqual(["unknown", "jan"]);
     });
 
     it("handles legacy 'author' param (singular)", () => {
       initializeFiltersFromUrl(new URL("https://example.com/?author=jan&author=petr"));
-      expect(selectedAuthors.set).toHaveBeenCalledWith(["jan", "petr"]);
+      expect(filters.selectedAuthors).toEqual(["jan", "petr"]);
     });
 
     it("handles empty quality param as 'none selected'", () => {
       initializeFiltersFromUrl(new URL("https://example.com/?quality="));
-      expect(selectedQualityBuckets.set).toHaveBeenCalledWith([]);
+      expect(filters.selectedQualityBuckets).toEqual([]);
     });
 
     it("defaults to all quality buckets when param missing", () => {
       initializeFiltersFromUrl(new URL("https://example.com/"));
-      expect(selectedQualityBuckets.set).toHaveBeenCalledWith(["excellent", "good", "poor"]);
+      expect(filters.selectedQualityBuckets).toEqual(["excellent", "good", "poor"]);
     });
 
     it("handles mixed presence-only and valued params", () => {
       initializeFiltersFromUrl(new URL("https://example.com/?sidebar&tab=map&labels"));
-      expect(isSidebarOpen.set).toHaveBeenCalledWith(true);
-      expect(activeTab.set).toHaveBeenCalledWith("map");
-      expect(showPhotoLabels.set).toHaveBeenCalledWith(true);
+      expect(ui.sidebarOpen).toBe(true);
+      expect(ui.activeTab).toBe("map");
+      expect(ui.photoLabels).toBe(true);
     });
 
     it("handles conflicting separator params (no-separators takes precedence)", () => {
       initializeFiltersFromUrl(new URL("https://example.com/?separators=true&no-separators"));
-      expect(showSeparators.set).toHaveBeenCalledWith(false);
+      expect(filters.showSeparators).toBe(false);
     });
   });
 });

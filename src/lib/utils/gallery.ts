@@ -26,7 +26,7 @@ function shouldIncludeItem(
 
   if (selectedAuthors.length > 0) {
     if (selectedAuthors.includes("none")) {
-      return false; 
+      return false;
     }
     const authorMatches = selectedAuthors.includes(img.authorSlug || "");
     if (!authorMatches) return false;

@@ -79,7 +79,7 @@ export function getAspectRatioName(width?: number, height?: number): AspectRatio
   return formatPortraitRatio(reducedWidth, reducedHeight);
 }
 
-export function normalizeText(value: any): string | undefined {
+export function normalizeText(value: unknown): string | undefined {
   if (!value) return undefined;
   if (Array.isArray(value)) return normalizeText(value[0]);
   if (typeof value !== "string") return String(value);
@@ -87,18 +87,22 @@ export function normalizeText(value: any): string | undefined {
   return trimmed.length ? trimmed : undefined;
 }
 
-export function getAltText(exif: any, captionNorm?: string, titleNorm?: string) {
+export function getAltText(
+  exif: Record<string, unknown>,
+  captionNorm?: string,
+  titleNorm?: string,
+): string {
   const parts: string[] = [];
   if (captionNorm) parts.push(captionNorm);
   else if (titleNorm) parts.push(titleNorm);
   if (exif.Location) parts.push(String(exif.Location).trim());
   if (exif.City) parts.push(String(exif.City).trim());
-  return parts.length
-    ? parts.join(", ")
-    : exif.ImageDescription || exif.ObjectName || "Photoblog image";
+  if (parts.length > 0) return parts.join(", ");
+  const fallback = exif.ImageDescription || exif.ObjectName || "Photoblog image";
+  return String(fallback);
 }
 
-export function getKeywords(exif: any): string[] | undefined {
+export function getKeywords(exif: Record<string, unknown>): string[] | undefined {
   const k = exif.Keywords || exif.Subject || exif["dc:subject"];
   if (!k) return undefined;
   if (Array.isArray(k)) return k.map(String);

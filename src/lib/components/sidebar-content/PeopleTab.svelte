@@ -13,8 +13,8 @@
   import * as Sidebar from "$lib/components/ui/sidebar";
   import { Switch } from "$lib/components/ui/switch";
   import { ToggleGroup, ToggleGroupItem } from "$lib/components/ui/toggle-group";
-  import { selectedPeople } from "$lib/stores/filters";
-  import { peopleBase, peopleWithStats } from "$lib/stores/people-store";
+  import { filters } from "$lib/stores/filters.svelte";
+  import { people } from "$lib/stores/people.svelte";
   import type { Person } from "$lib/types/manifest";
   import { getVisiblePeople } from "$lib/utils/people";
   import Check from "lucide-svelte/icons/check";
@@ -28,11 +28,10 @@
   import XCircle from "lucide-svelte/icons/x-circle";
 
   // Subscribe to derived store with optimized stats
-  let people = $derived($peopleWithStats);
+  let peopleList = $derived(people.peopleWithStats);
 
   // Determine URL prefix from first available image source path
-  const photoDaysStore = peopleBase.photoDays;
-  const photoDays = $derived($photoDaysStore);
+  const photoDays = $derived(people.photoDays);
   const firstImage = $derived(photoDays.flatMap((d) => d.items).find((i) => i.type === "image"));
 
   // Extract prefix from sources[].path which contains full path like "/egypt-2025/images/..."
@@ -77,7 +76,7 @@
   // Sync URL state for person detail (survives HMR/reload)
   $effect(() => {
     const personId = $page.url.searchParams.get("person");
-    const currentPeople = people;
+    const currentPeople = peopleList;
 
     untrack(() => {
       // 1. URL has person -> Open Dialog if not already open for this person
@@ -148,7 +147,7 @@
       ]);
       console.log("[DEBUG] API call successful, triggering reload");
       // Trigger reload to show updated name
-      await peopleBase.refresh();
+      await people.refresh();
       cancelEditing();
     } catch (error) {
       console.error("Failed to rename person:", error);
@@ -160,46 +159,43 @@
   }
 
   function togglePerson(personId: string) {
-    selectedPeople.update((current) => {
-      // SAME LOGIC AS AUTHORS:
-      // - Empty array [] = ALL selected (default)
-      // - ["none"] = NONE selected
-      // - Specific IDs = only those selected
+    let current = filters.selectedPeople;
+    // SAME LOGIC AS AUTHORS:
+    // - Empty array [] = ALL selected (default)
+    // - ["none"] = NONE selected
+    // - Specific IDs = only those selected
 
-      let effectiveCurrent = current;
+    let effectiveCurrent = current;
 
-      // If empty, treat as "all selected"
-      if (current.length === 0) {
-        effectiveCurrent = visiblePeople.map((p) => p.id);
-      } else if (current.includes("none")) {
-        effectiveCurrent = [];
-      }
+    // If empty, treat as "all selected"
+    if (current.length === 0) {
+      effectiveCurrent = visiblePeople.map((p) => p.id);
+    } else if (current.includes("none")) {
+      effectiveCurrent = [];
+    }
 
-      const isSelected = effectiveCurrent.includes(personId);
-      let next: string[];
+    const isSelected = effectiveCurrent.includes(personId);
+    let next: string[];
 
-      if (isSelected) {
-        // Deselect this person
-        next = effectiveCurrent.filter((id) => id !== personId);
-      } else {
-        // Select this person
-        next = [...effectiveCurrent, personId];
-      }
+    if (isSelected) {
+      // Deselect this person
+      next = effectiveCurrent.filter((id) => id !== personId);
+    } else {
+      // Select this person
+      next = [...effectiveCurrent, personId];
+    }
 
-      const allPeopleIds = visiblePeople.map((p) => p.id);
+    const allPeopleIds = visiblePeople.map((p) => p.id);
 
-      // If nothing selected, use special "none" marker
-      if (next.length === 0) {
-        return ["none"];
-      }
-
+    // If nothing selected, use special "none" marker
+    if (next.length === 0) {
+      filters.selectedPeople = ["none"];
+    } else if (next.length === allPeopleIds.length) {
       // If all selected, return empty array (default state)
-      if (next.length === allPeopleIds.length) {
-        return [];
-      }
-
-      return next;
-    });
+      filters.selectedPeople = [];
+    } else {
+      filters.selectedPeople = next;
+    }
   }
 
   async function toggleIgnore(personId: string) {
@@ -219,13 +215,13 @@
         console.log("[DEBUG] Person ignored state:", data.ignored);
 
         // Also remove from selection if being ignored
-        selectedPeople.update((sel) => sel.filter((id) => id !== personId));
+        filters.selectedPeople = filters.selectedPeople.filter((id) => id !== personId);
 
         // Add minimum delay to show loading state
         await new Promise((resolve) => setTimeout(resolve, 300));
 
         // Trigger reload to update UI
-        await peopleBase.refresh();
+        await people.refresh();
       }
     } catch (error) {
       console.error("Failed to toggle ignore:", error);
@@ -246,27 +242,27 @@
 
   function clearSelection() {
     // Clear selection = show all photos (default)
-    selectedPeople.set([]);
+    filters.selectedPeople = [];
   }
 
   function selectAll() {
     // Select all people = show ONLY photos with people (hide photos without people)
     const allPeopleIds = visiblePeople.map((p) => p.id);
-    selectedPeople.set(allPeopleIds);
+    filters.selectedPeople = allPeopleIds;
   }
 
   function selectNone() {
-    selectedPeople.set(["none"]);
+    filters.selectedPeople = ["none"];
   }
 
   // Filter people by ignored flag from manifest AND hide empty profiles (result of merge)
-  const visiblePeople = $derived(getVisiblePeople(people));
+  const visiblePeople = $derived(getVisiblePeople(peopleList));
 
-  const ignoredPeopleList = $derived(people.filter((p) => p.ignored));
+  const ignoredPeopleList = $derived(peopleList.filter((p) => p.ignored));
 
   // Track quick filter preset for button group highlighting
   const selectionMode = $derived.by(() => {
-    const selected = $selectedPeople;
+    const selected = filters.selectedPeople;
     const visibleIds = visiblePeople.map((p) => p.id);
 
     if (selected.includes("none")) return "none";
@@ -308,7 +304,7 @@
 
       // Success - remove from selection store if selected
       const ignoredIds = [...selectedForMerge];
-      selectedPeople.update((sel) => sel.filter((id) => !ignoredIds.includes(id)));
+      filters.selectedPeople = filters.selectedPeople.filter((id) => !ignoredIds.includes(id));
 
       // Reset checkbox selection
       selectedForMerge = [];
@@ -317,7 +313,7 @@
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       // Reload
-      await peopleBase.refresh();
+      await people.refresh();
       showIgnoreConfirmDialog = false;
     } catch (error) {
       console.error("Bulk ignore failed:", error);
@@ -345,8 +341,8 @@
     if (selectedForMerge.length < 2) return;
 
     // Resolve full person objects to determine best target
-    // We access 'people' which is $derived($peopleWithStats)
-    const selectedPeopleData = people.filter((p) => selectedForMerge.includes(p.id));
+    // We access 'peopleList' which is $derived(people.peopleWithStats)
+    const selectedPeopleData = peopleList.filter((p) => selectedForMerge.includes(p.id));
     if (selectedPeopleData.length < 2) return;
 
     // Sort to find best target:
@@ -396,7 +392,7 @@
       showMergeConfirmDialog = false;
 
       // Trigger reload
-      await peopleBase.refresh();
+      await people.refresh();
     } catch (error) {
       console.error("[MERGE UI] Failed to merge people:", error);
       alert(`Sloučení selhalo: ${error}`);
@@ -415,7 +411,9 @@
   <Sidebar.Content>
     <div class="p-4 border-b space-y-2">
       <div class="flex items-center justify-between">
-        <h3 class="font-semibold text-sm" data-testid="people-tab-title">Lidé ({people.length})</h3>
+        <h3 class="font-semibold text-sm" data-testid="people-tab-title">
+          Lidé ({peopleList.length})
+        </h3>
       </div>
 
       <!-- Control buttons -->
@@ -447,11 +445,11 @@
     <div class="flex flex-col">
       {#each visiblePeople as person (person.id)}
         {@const isSelected =
-          $selectedPeople.length === 0
+          filters.selectedPeople.length === 0
             ? true // Empty = all selected
-            : $selectedPeople.includes("none")
+            : filters.selectedPeople.includes("none")
               ? false // "none" = nothing selected
-              : $selectedPeople.includes(person.id)}
+              : filters.selectedPeople.includes(person.id)}
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         <div
@@ -677,7 +675,7 @@
   </Sidebar.Content>
   <!-- Merge Confirm Dialog -->
   {#if selectedForMerge.length >= 2}
-    {@const selectedPeopleData = [...people]
+    {@const selectedPeopleData = [...peopleList]
       .filter((p) => selectedForMerge.includes(p.id))
       .sort((a, b) => {
         const aIsCustom = !a.id.startsWith("person-");
@@ -708,7 +706,7 @@
       person={detailPerson}
       {urlPrefix}
       onUpdate={async () => {
-        await peopleBase.refresh();
+        await people.refresh();
       }}
     />
   {/if}

@@ -1,6 +1,6 @@
-import { select } from "@clack/prompts";
 import fsp from "node:fs/promises";
 import path from "node:path";
+import { select } from "@clack/prompts";
 
 const CONTENT_ROOT = path.resolve("content");
 const DEFAULT_GALLERY = "egypt-2025";

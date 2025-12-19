@@ -45,6 +45,7 @@
     clipboardData: Record<string, any> | null;
     images?: ImageEntry[];
     onConfirm: (fieldsToApply: Record<string, boolean>, excludedImageIds: string[]) => void;
+    onOpenCurationDialog?: () => void;
   } = $props();
 
   // State

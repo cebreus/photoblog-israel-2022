@@ -1,5 +1,5 @@
-import type { Separator } from "$lib/types/manifest";
 import { marked } from "marked";
+import type { Separator } from "$lib/types/manifest";
 
 export function renderStoryHtml(separator: Separator): string {
   return separator.story ?? "";

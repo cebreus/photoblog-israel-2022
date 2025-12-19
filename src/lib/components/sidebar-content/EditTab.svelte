@@ -8,8 +8,8 @@
   import { Input } from "$lib/components/ui/input";
   import { Spinner } from "$lib/components/ui/spinner";
   import { Textarea } from "$lib/components/ui/textarea";
-  import { editMode, selection } from "$lib/stores/editorState";
-  import { metadataClipboard } from "$lib/stores/metadataClipboard";
+  import { editor } from "$lib/stores/editor.svelte";
+  import { metadataClipboard } from "$lib/stores/metadata-clipboard.svelte";
   import type { ImageEntry, Separator } from "$lib/types/manifest";
   import RotateCcw from "lucide-svelte/icons/rotate-ccw";
   import Trash2 from "lucide-svelte/icons/trash-2";
@@ -65,14 +65,14 @@
   let explicitClears = $state<Record<string, boolean>>({});
 
   // Derived state from stores (Centralized logic via urlSync.ts)
-  let imageIds = $derived(Array.from($selection));
-  let activeEntry = $derived($selection.size > 0);
-  let isEditMode = $derived($editMode);
+  let imageIds = $derived(Array.from(editor.selection));
+  let activeEntry = $derived(editor.selection.size > 0);
+  let isEditMode = $derived(editor.editMode);
 
   // Derived file names
   let selectedImages = $derived(
     items.filter(
-      (item: DisplayItem) => item.type === "image" && $selection.has(item.id),
+      (item: DisplayItem) => item.type === "image" && editor.selection.has(item.id),
     ) as ImageEntry[],
   );
 
@@ -87,13 +87,13 @@
   });
 
   function removeImage(id: string) {
-    selection.toggle(id);
+    editor.toggleSelection(id);
   }
 
   // Simplified findImages
   function findImages(): ImageEntry[] {
     return items.filter(
-      (item: DisplayItem) => item.type === "image" && $selection.has(item.id),
+      (item: DisplayItem) => item.type === "image" && editor.selection.has(item.id),
     ) as ImageEntry[];
   }
 
@@ -317,7 +317,7 @@
   let isApplyingPaste = $state(false);
 
   function handlePasteMetadata() {
-    const clipboard = $metadataClipboard;
+    const clipboard = metadataClipboard;
 
     if (!clipboard.data) {
       toast.error("Žádná metadata v clipboard");
@@ -328,7 +328,7 @@
   }
 
   async function confirmPaste(fieldsToApply: Record<string, boolean>) {
-    const clipboard = $metadataClipboard;
+    const clipboard = metadataClipboard;
 
     if (!clipboard.data || imageIds.length === 0) return;
 
@@ -407,7 +407,7 @@
 
   <MetadataPasteDialog
     bind:open={isPastingOpen}
-    clipboardData={$metadataClipboard.data}
+    clipboardData={metadataClipboard.data}
     onConfirm={confirmPaste}
   />
 
@@ -417,14 +417,14 @@
         <Badge
           variant="destructive"
           class="font-mono text-xs cursor-pointer"
-          onclick={() => selection.clear()}
+          onclick={() => editor.clearSelection()}
           data-testid="edit-tab-clear-selection"
         >
           Odebrat vše
         </Badge>
       {/if}
 
-      {#if $metadataClipboard.data}
+      {#if metadataClipboard.data}
         <Badge
           class="font-mono text-ýxs cursor-pointer"
           onclick={handlePasteMetadata}
@@ -476,6 +476,7 @@
               {...props}
               bind:value={$formData.caption}
               oninput={() => handleInput("caption")}
+              data-testid="edit-tab-caption-input"
             />
             <Button
               variant={explicitClears.caption ? "destructive" : "outline"}

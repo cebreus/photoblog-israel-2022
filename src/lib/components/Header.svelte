@@ -3,9 +3,8 @@
   import { page } from "$app/stores";
   import { Button } from "$lib/components/ui/button";
   import * as Sidebar from "$lib/components/ui/sidebar";
-  import { debug } from "$lib/stores/debug";
-  import { showMetadataOverlay } from "$lib/stores/editorState";
-  import { isCurationMode } from "$lib/stores/uiState";
+  import { editor } from "$lib/stores/editor.svelte";
+  import { ui } from "$lib/stores/ui.svelte";
   import type { MenuManifest } from "$lib/types/manifest";
   import Bug from "lucide-svelte/icons/bug";
   import Sparkles from "lucide-svelte/icons/sparkles";
@@ -33,9 +32,9 @@
 
   {#if dev}
     <Button
-      variant={$showMetadataOverlay ? "secondary" : "ghost"}
+      variant={editor.showMetadataOverlay ? "secondary" : "ghost"}
       size="icon"
-      onclick={() => showMetadataOverlay.update((v) => !v)}
+      onclick={() => editor.setShowMetadataOverlay(!editor.showMetadataOverlay)}
       aria-label="Zobrazit/skrýt popisky fotek"
       data-testid="header-metadata-overlay-trigger"
     >
@@ -43,9 +42,9 @@
     </Button>
 
     <Button
-      variant={$isCurationMode ? "secondary" : "ghost"}
+      variant={ui.curationMode ? "secondary" : "ghost"}
       size="icon"
-      onclick={() => isCurationMode.update((v) => !v)}
+      onclick={() => ui.setCurationMode(!ui.curationMode)}
       aria-label="Režim kurátora"
       data-testid="header-curation-trigger"
     >
@@ -53,9 +52,9 @@
     </Button>
 
     <Button
-      variant={$debug ? "secondary" : "ghost"}
+      variant={ui.debug ? "secondary" : "ghost"}
       size="icon"
-      onclick={() => debug.update((v: boolean) => !v)}
+      onclick={() => ui.setDebug(!ui.debug)}
       aria-label="Přepnout režim ladění"
       data-testid="header-debug-trigger"
     >

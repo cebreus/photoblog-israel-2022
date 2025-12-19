@@ -1,14 +1,14 @@
-import { SingleBar } from "cli-progress";
-import fg from "fast-glob";
-import matter from "gray-matter";
 import fsp from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
+import { SingleBar } from "cli-progress";
+import fg from "fast-glob";
+import matter from "gray-matter";
 import type { Cache, ImageEntry, Manifest, StoryDataMap } from "../../src/lib/types/manifest";
 import { config } from "../config";
 import { EMBEDDING_DIM } from "./ai-models";
 import type { ProcessedImageResult } from "./image-processor";
-import { processImage, type ImageProcessOptions } from "./image-processor";
+import { type ImageProcessOptions, processImage } from "./image-processor";
 import { createLogger } from "./logger";
 import { buildGeneratorManifest, generateMenuManifest, updateManifest } from "./manifest-builder";
 
@@ -17,11 +17,11 @@ import { loadManifest, saveImagesManifest, saveManifest } from "./manifest-repos
 
 const logger = createLogger("incremental-build");
 
-function ignoreError(_err?: unknown): void {
+function _ignoreError(_err?: unknown): void {
   // intentionally empty
 }
 
-function returnFalse(_err?: unknown): boolean {
+function _returnFalse(_err?: unknown): boolean {
   return false;
 }
 async function fileExists(file: string) {
@@ -115,13 +115,13 @@ async function detectChanges(
     }
 
     if (!manifestOnly) {
-      function buildOutputPath(outputPath: string) {
-        return path.join(outRoot, outputPath);
+      function buildOutPath(outPath: string) {
+        return path.join(outRoot, outPath);
       }
 
-      async function checkOutputExists(outputPath: string) {
+      async function checkOutputExists(outPath: string) {
         try {
-          return await fileExists(buildOutputPath(outputPath));
+          return await fileExists(buildOutPath(outPath));
         } catch {
           return false;
         }
@@ -154,7 +154,7 @@ async function loadCache(
     files: {},
   };
 
-  let wasReset = false;
+  const wasReset = false;
   if (cache.configHash !== configHash || cache.version !== cacheVersion) {
     logger.warn("Config, cache version, or script change detected. Forcing full rebuild.");
     try {
