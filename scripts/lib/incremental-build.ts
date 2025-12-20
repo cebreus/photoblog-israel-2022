@@ -397,7 +397,7 @@ async function planBuildWork(
   return { sourceFiles, ...audit };
 }
 
-async function processBuildQueue(
+async function _processBuildQueue(
   CTX: { srcRoot: string; outRoot: string },
   ARGS: {
     concurrency: number | "auto";

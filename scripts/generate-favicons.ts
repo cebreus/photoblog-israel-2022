@@ -2,9 +2,9 @@ process.env.GLIB_LOG_LEVEL = "critical";
 
 import { intro, select } from "@clack/prompts";
 import { type FaviconOptions, favicons } from "favicons";
-import { promises as fs } from "fs"; // Bun's native fs/promises
 import matter from "gray-matter";
-import path from "path"; // Bun's native path module
+import { promises as fs } from "node:fs"; // Bun's native fs/promises
+import path from "node:path"; // Bun's native path module
 import { parseCliArguments } from "./lib/cli-parser";
 import { createLogger } from "./lib/logger";
 import { formatDuration } from "./lib/time-utils";
@@ -178,7 +178,7 @@ async function executeRun(): Promise<void> {
   } catch (e: any) {
     logger.error(`An error occurred during favicon generation: ${e?.message ?? e}`);
     if (e?.stack) {
-      console.error(e.stack);
+      logger.error(e.stack);
     }
     process.exit(1);
   }

@@ -2,10 +2,11 @@
 process.env.GLIB_LOG_LEVEL = "critical";
 process.env.OBJC_DISABLE_INITIALIZE_FORK_SAFETY = "YES";
 
+import { cancel, intro, isCancel, select } from "@clack/prompts";
 import fs from "node:fs";
 import path from "node:path";
 import { parseArgs } from "node:util";
-import { cancel, intro, isCancel, select } from "@clack/prompts";
+import { createLogger } from "./lib/logger";
 import { run } from "./lib/shell-utils";
 import { formatDuration } from "./lib/time-utils";
 
@@ -13,6 +14,7 @@ const DEFAULT_GALLERY = "egypt-2025";
 const SCRIPT_DIR = import.meta.dir;
 const PROJECT_ROOT = path.resolve(SCRIPT_DIR, "..");
 const CONTENT_ROOT = path.resolve(PROJECT_ROOT, "content");
+const logger = createLogger("manage");
 
 const { values, positionals } = parseArgs({
   args: Bun.argv,
@@ -100,19 +102,7 @@ if (!gallery && command && command !== "clean") {
 gallery = gallery || DEFAULT_GALLERY;
 process.env.CONTENT_DIR = gallery;
 
-function log(msg: string, type: "info" | "error" | "warn" | "stage" = "info") {
-  const colors = {
-    info: "\x1b[36m", // Cyan
-    error: "\x1b[31m", // Red
-    warn: "\x1b[33m", // Yellow
-    stage: "\x1b[35m\x1b[1m", // Bold Magenta
-  };
 
-  const reset = "\x1b[0m";
-  const prefix = type === "stage" ? "◆" : "[MANAGE]";
-
-  console.log(`${colors[type]}${prefix} ${msg}${reset}`);
-}
 
 function getCommonFlags() {
   const flags: string[] = [];
@@ -137,7 +127,9 @@ async function checkManifest(isCuration = false) {
 
   flags.push("--title=[MANAGE] Verifying manifest state...");
 
-  log("Verifying manifest state...");
+  flags.push("--title=[MANAGE] Verifying manifest state...");
+
+  logger.info("Verifying manifest state...");
 
   await run("bun", flags);
 }
@@ -169,7 +161,7 @@ async function cmdAnalyze() {
 async function cmdPreview() {
   const outputDir = `build-${gallery}`;
 
-  log(`Starting preview for ${outputDir}...`);
+  logger.info(`Starting preview for ${outputDir}...`);
 
   await run("bun", ["run", "vite", "preview", "--outDir", outputDir]);
 }
@@ -177,12 +169,12 @@ async function cmdPreview() {
 async function cmdProcess() {
   const startTime = performance.now();
 
-  log("Step 1/5: Generating Favicons (Brand Assets)", "stage");
+  logger.info("Step 1/5: Generating Favicons (Brand Assets)");
   const t1 = performance.now();
   await run("bun", ["scripts/generate-favicons.ts", ...getCommonFlags()]);
-  log(`Step 1 complete in ${formatDuration(performance.now() - t1)}`);
+  logger.info(`Step 1 complete in ${formatDuration(performance.now() - t1)}`);
 
-  log("Step 2/5: Generating Image Variants (Resizing & Basic Metadata)", "stage");
+  logger.info("Step 2/5: Generating Image Variants (Resizing & Basic Metadata)");
   const t2 = performance.now();
   await run("bun", [
     "scripts/generate-images.ts",
@@ -191,9 +183,9 @@ async function cmdProcess() {
     "--skipEmbeddings",
     ...getCommonFlags(),
   ]);
-  log(`Step 2 complete in ${formatDuration(performance.now() - t2)}`);
+  logger.info(`Step 2 complete in ${formatDuration(performance.now() - t2)}`);
 
-  log("Step 3/5: Generating Blur Placeholders", "stage");
+  logger.info("Step 3/5: Generating Blur Placeholders");
   const t3 = performance.now();
   await run("bun", [
     "scripts/generate-images.ts",
@@ -202,14 +194,14 @@ async function cmdProcess() {
     "--title=✨ Blur Hash Generation",
     ...getCommonFlags(),
   ]);
-  log(`Step 3 complete in ${formatDuration(performance.now() - t3)}`);
+  logger.info(`Step 3 complete in ${formatDuration(performance.now() - t3)}`);
 
-  log("Step 4/5: Similarity & Aesthetic Analysis", "stage");
+  logger.info("Step 4/5: Similarity & Aesthetic Analysis");
   const t4 = performance.now();
   await cmdAnalyze();
-  log(`Step 4 complete in ${formatDuration(performance.now() - t4)}`);
+  logger.info(`Step 4 complete in ${formatDuration(performance.now() - t4)}`);
 
-  log("Step 5/5: Face Clustering & Recognition", "stage");
+  logger.info("Step 5/5: Face Clustering & Recognition");
   const t5 = performance.now();
   await run("bun", ["scripts/face-clustering.ts", ...getCommonFlags()], {
     filter: (line) => {
@@ -219,11 +211,10 @@ async function cmdProcess() {
       return true;
     },
   });
-  log(`Step 5 complete in ${formatDuration(performance.now() - t5)}`);
+  logger.info(`Step 5 complete in ${formatDuration(performance.now() - t5)}`);
 
-  log(
+  logger.info(
     `Data processing pipeline complete in ${formatDuration(performance.now() - startTime)}!`,
-    "stage",
   );
 }
 
@@ -273,11 +264,11 @@ async function main() {
         await cmdAnalyze();
         break;
       default:
-        log(`Unknown command: ${command}`, "error");
+        logger.error(`Unknown command: ${command}`);
         process.exit(1);
     }
   } catch (error) {
-    log((error as Error).message, "error");
+    logger.error((error as Error).message);
     process.exit(1);
   }
 }

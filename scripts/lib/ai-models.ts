@@ -1,8 +1,8 @@
-import { execSync } from "child_process";
-import fs from "fs";
-import fsp from "fs/promises";
-import os from "os";
-import path from "path";
+import { execSync } from "node:child_process";
+import fs from "node:fs";
+import fsp from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
 import { createLogger } from "./logger";
 
 const logger = createLogger("ai-models");
@@ -112,7 +112,7 @@ export async function generateEmbeddingsBatch(imagePaths: string[]): Promise<num
 
     // Map back to original order (some might have failed)
     let validIdx = 0;
-    return imagePaths.map((p, idx) => {
+    return imagePaths.map((_p, idx) => {
       if (prepared[idx]) {
         return results[validIdx++];
       }

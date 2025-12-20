@@ -55,7 +55,7 @@ export class ProgressManager {
   public log(message: string) {
     // If multibar is active, use its log method to print ABOVE the bars
     if (this.activeBars.size > 0) {
-      this.multiBar.log(message + "\n");
+      this.multiBar.log(`${message}\n`);
     } else {
       console.log(message);
     }

@@ -1,8 +1,11 @@
+import fsp from "node:fs/promises";
+import path from "node:path";
 import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
 import * as canvas from "canvas";
-import fsp from "fs/promises";
-import path from "path";
 import { convertHeicToPng } from "./lib/image-utils";
+import { createLogger } from "./lib/logger";
+
+const logger = createLogger("debug-face");
 
 const SCRIPT_DIR = import.meta.dir;
 
@@ -23,36 +26,35 @@ async function run() {
 
   // Hardcoded path to IMG_8056
   const imagePath = "content/egypt-2025/pics/IMG_8056.HEIC";
-  console.log(`Processing ${imagePath}...`);
+  logger.info(`Processing ${imagePath}...`);
 
   let imgBuffer: Buffer;
   if (imagePath.toLowerCase().endsWith(".heic")) {
     imgBuffer = await convertHeicToPng(imagePath);
   } else {
-    imgBuffer = await fsp.readFile(imagePath);
-  }
+    const logger = createLogger("debug-face");
 
-  const img = await canvas.loadImage(imgBuffer);
-  console.log(`Image size: ${img.width}x${img.height}`);
+    async function main() {
+      const imagePath = process.argv[2];
+      if (!imagePath) {
+        logger.error("Please provide an image path");
+        process.exit(1);
+      }
 
-  const detections = await faceapi.detectAllFaces(
-    img as any,
-    new faceapi.SsdMobilenetv1Options({ minConfidence: FACE_CONFIG.minConfidence }),
-  );
+      logger.info(`Analyzing ${imagePath}...`);
 
-  console.log(`Found ${detections.length} faces (minConfidence: ${FACE_CONFIG.minConfidence})`);
+      const detector = new FaceDetector();
+      await detector.init();
 
-  detections.forEach((d, i) => {
-    console.log(
-      `Face ${i + 1}: Score ${d.score.toFixed(3)}, Box: ${Math.round(d.box.width)}x${Math.round(d.box.height)} at ${Math.round(d.box.x)},${Math.round(d.box.y)}`,
-    );
-  });
-}
+      const faces = await detector.detect(imagePath);
+      logger.info(`Found ${faces.length} faces`);
 
-(async () => {
-  try {
-    await run();
-  } catch (error) {
-    console.error(error);
-  }
-})();
+      for (const [i, face] of faces.entries()) {
+        logger.info(`Face ${i + 1}: score=${face.score.toFixed(4)} box=${face.box.map((n) => Math.round(n))}`);
+        if (face.descriptor) {
+          logger.info(`  Descriptor length: ${face.descriptor.length}`);
+        }
+      }
+    }
+
+    main().catch((e) => logger.error(e));

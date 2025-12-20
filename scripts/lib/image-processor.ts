@@ -219,7 +219,7 @@ function determineAnalysisNeeds(fileHash: string, key: string, options: ImagePro
   return { shouldAnalyze, reusedAnalysis, reusedExif, reusedOther };
 }
 
-async function extractFaces(
+async function _extractFaces(
   sharpModule: SharpModule,
   processingPath: string,
   key: string,
@@ -402,7 +402,7 @@ export async function processImage(
   absPath: string,
   options: ImageProcessOptions & { skipFaces?: boolean; skipEmbeddings?: boolean },
 ): Promise<ProcessedImageResult | null> {
-  const startTime = performance.now();
+  const _startTime = performance.now();
   await loadSharpOrExplain();
   const sharpModule = requireSharp();
 

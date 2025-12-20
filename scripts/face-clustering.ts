@@ -1,10 +1,9 @@
 import { intro, outro } from "@clack/prompts";
 import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
 import * as canvas from "canvas";
-import crypto from "crypto";
-import fsp from "fs/promises";
-
-import path from "path";
+import crypto from "node:crypto";
+import fsp from "node:fs/promises";
+import path from "node:path";
 import sharp from "sharp";
 import type { FacesManifest, ImageEntry, Person } from "../src/lib/types/manifest";
 import { isValidClusteringConstraints } from "../src/lib/utils/manifest-validators";
@@ -372,7 +371,7 @@ async function processImageQueue(
                 height: face.height / scaleY,
               },
             },
-            descriptor: new Float32Array(cached.descriptors![i]),
+            descriptor: new Float32Array(cached.descriptors?.[i] || []),
           }));
 
           if (values.verbose) logger.verbose(`Using cached descriptors for ${image.id}`);
@@ -570,7 +569,7 @@ async function main() {
     await main();
     logger.info(`Total time: ${formatDuration(performance.now() - startTime)}`);
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     process.exit(1);
   }
 })();

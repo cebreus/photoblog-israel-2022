@@ -19,8 +19,12 @@ import { resolveGalleryDirectory } from "./lib/gallery-resolver";
 import { getQualityBucket, normalizeSharpness } from "./lib/image-utils";
 import { createLogger } from "./lib/logger";
 import {
+  loadAnalysisManifest,
+  loadEmbeddingsManifest,
   loadImagesManifest,
+  saveAnalysisManifest,
   saveCurationManifest,
+  saveEmbeddingsManifest,
   saveImagesManifest,
 } from "./lib/manifest-repository";
 import { progressManager } from "./lib/progress-manager";
@@ -177,6 +181,7 @@ async function computeAestheticScores(
   tokenizer: any,
   textModel: any,
   srcRoot: string,
+  embeddingsManifest: Record<string, number[]>,
 ): Promise<{ allImages: ImageEntry[]; missingAestheticCount: number }> {
   const posEmbedding = await getEmbedding(POSITIVE_PROMPT, tokenizer, textModel);
   const negEmbedding = await getEmbedding(NEGATIVE_PROMPT, tokenizer, textModel);
@@ -188,7 +193,7 @@ async function computeAestheticScores(
   // Calculate total images for progress bar
   let totalImages = 0;
   // If limit is set, use it as the total count (clamped to actual total)
-  let maxImages = Number.parseInt(values.limit || "0", 10);
+  let maxImages = Number.parseInt(String(values.limit || "0"), 10);
 
   let actualTotal = 0;
   for (const day of manifest.photoDays) {
@@ -270,7 +275,10 @@ async function computeAestheticScores(
       try {
         const embeddings = await aiService.generateEmbeddingsBatch(paths);
         for (let j = 0; j < batch.length; j++) {
-          batch[j].img.analysis!.embedding = embeddings[j];
+          const analysis = batch[j].img.analysis;
+          if (analysis) {
+            analysis.embedding = embeddings[j];
+          }
         }
       } catch (e) {
         logger.error(`Failed batch at offset ${i}:`, e);
@@ -290,7 +298,7 @@ async function computeAestheticScores(
         const imgEntry = item as ImageEntry;
 
         if (imgEntry.analysis?.embedding && imgEntry.analysis.embedding.length > 0) {
-          const rawScore = calculateAestheticScore(imgEntry.analysis.embedding!, aestheticAxis);
+          const rawScore = calculateAestheticScore(imgEntry.analysis.embedding, aestheticAxis);
           const score = normalizeAestheticScore(rawScore);
 
           const previousAesthetic = imgEntry.analysis.aestheticScore;
@@ -415,16 +423,21 @@ function clusterImagesBySimilarity(images: ImageEntry[]): CurationGroup[] {
   return groups;
 }
 
-function updateManifestAnalysisKeys(manifest: import("../src/lib/types/manifest").ImagesManifest) {
+function updateManifestAnalysisKeys(_manifest: any) {
   // This function ensures that key properties like qualityBucket are preserved/updated
   // in the manifest object before saving, although we've been modifying image objects
   // directly which are references to manifest items.
-  // So this might just be a no-op or sanity check in this specific implementation
-  // since we modified the objects in place during `computeAestheticScores`.
-
-  // However, if we needed to sync global stats or versioning, we'd do it here.
-  // For now, let's just ensure strict typing if needed.
-  return;
+  for (const day of _manifest.photoDays) {
+    for (const item of day.items) {
+      if (item.type === "image" && item.analysis) {
+        // Ensure quality bucket is updated based on potentially new scores
+        item.analysis.qualityBucket = getQualityBucket(
+          item.analysis.aestheticScore,
+          item.analysis.sharpness,
+        );
+      }
+    }
+  }
 }
 
 async function main() {
@@ -469,6 +482,7 @@ async function main() {
     tokenizer,
     textModel,
     srcRoot,
+    embeddingsManifest,
   );
 
   if (missingAestheticCount > 0) {
@@ -506,16 +520,19 @@ async function main() {
   // Update specialized manifests
   for (const day of manifest.photoDays) {
     for (const item of day.items) {
-      if (item.type === "image" && item.analysis) {
-        const img = item;
-        analysisManifest[img.id] = {
-          aestheticScore: img.analysis.aestheticScore,
-          sharpness: img.analysis.sharpness,
-          qualityBucket: img.analysis.qualityBucket,
-          phash: img.analysis.phash,
-        };
-        if (img.analysis.embedding) {
-          embeddingsManifest[img.id] = img.analysis.embedding;
+      if (item.type === "image") {
+        const img = item as ImageEntry;
+        const analysis = img.analysis;
+        if (analysis) {
+          analysisManifest[img.id] = {
+            aestheticScore: analysis.aestheticScore,
+            sharpness: analysis.sharpness,
+            qualityBucket: analysis.qualityBucket,
+            phash: analysis.phash,
+          };
+          if (analysis.embedding) {
+            embeddingsManifest[img.id] = analysis.embedding;
+          }
         }
       }
     }

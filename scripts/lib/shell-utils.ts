@@ -10,7 +10,7 @@ export async function run(
     filter?: (line: string) => boolean;
   } = {},
 ): Promise<void> {
-  const stdio = options.stdio || "inherit";
+  const _stdio = options.stdio || "inherit";
   const mergedEnv = {
     ...process.env,
     ...Object.fromEntries(Object.entries(options.env || {}).map(([k, v]) => [k, String(v)])),
@@ -85,7 +85,7 @@ async function pipeWithFilter(
 
     for (const line of lines) {
       if (filter(line)) {
-        writable.write(line + "\n");
+        writable.write(`${line}\n`);
       }
     }
   }
