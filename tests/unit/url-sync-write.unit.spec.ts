@@ -1,5 +1,16 @@
-import { writable } from "svelte/store";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+/**
+ * @fileoverview URL Synchronization Unit Tests (Write Direction)
+ *
+ * @description
+ * Tests the logic that synchronizes internal Store state to the URL query parameters.
+ * Verifies debouncing, parameter serialization, default value omission,
+ * and correct usage of SvelteKit's `goto` navigation.
+ *
+ * @modules-tested
+ * - src/lib/stores/urlSync.svelte.ts
+ */
+import { type Writable, writable } from "svelte/store";
+import { afterEach, beforeEach, describe, expect, it, type MockInstance, vi } from "vitest";
 
 // Mock modules BEFORE importing the file under test
 vi.mock("$app/environment", () => ({
@@ -12,6 +23,10 @@ vi.mock("$app/navigation", () => ({
 }));
 
 // Mock page store with a realistic structure
+interface MockPageStore extends Writable<any> {
+  set: (val: any) => void;
+}
+
 vi.mock("$app/stores", () => {
   const mockPageStore = writable({
     url: new URL("https://example.com/"),
@@ -21,7 +36,7 @@ vi.mock("$app/stores", () => {
     error: null,
     data: {},
     form: null,
-  });
+  }) as MockPageStore;
 
   return {
     page: {
@@ -69,16 +84,21 @@ vi.mock("$lib/stores/editor.svelte", () => {
 
 // Import code under test AFTER mocks
 import { goto } from "$app/navigation";
-import { page } from "$app/stores";
+import * as appStores from "$app/stores";
 import { editor } from "$lib/stores/editor.svelte";
 import { filters } from "$lib/stores/filters.svelte";
 import { ui } from "$lib/stores/ui.svelte";
 import { syncUrlFromFilters } from "../../src/lib/stores/urlSync.svelte";
 
 describe("syncUrlFromFilters", () => {
+  let consoleLogSpy: MockInstance;
+
   beforeEach(() => {
     vi.clearAllMocks();
     vi.useFakeTimers();
+
+    // Silence console log during these tests
+    consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => {});
 
     // Reset all states to default state
     filters.selectedAuthors = [];
@@ -98,22 +118,22 @@ describe("syncUrlFromFilters", () => {
     editor.showMetadataOverlay = false;
 
     // Reset page URL
-    const pageStore = (page as any).__mockPageStore || page;
-    if (pageStore.set) {
-      pageStore.set({
-        url: new URL("https://example.com/"),
-        params: {},
-        route: { id: "/" },
-        status: 200,
-        error: null,
-        data: {},
-        form: null,
-      });
-    }
+    // biome-ignore lint/suspicious/noExplicitAny: access to mock internal
+    const pageStore = (appStores as any).__mockPageStore as MockPageStore;
+    pageStore.set({
+      url: new URL("https://example.com/"),
+      params: {},
+      route: { id: "/" },
+      status: 200,
+      error: null,
+      data: {},
+      form: null,
+    });
   });
 
   afterEach(() => {
     vi.useRealTimers();
+    consoleLogSpy.mockRestore();
   });
 
   it("debounces URL updates (300ms)", async () => {
@@ -170,7 +190,7 @@ describe("syncUrlFromFilters", () => {
     syncUrlFromFilters();
     await vi.advanceTimersByTimeAsync(300);
 
-    const url = (goto as any).mock.calls[0]?.[0];
+    const url = vi.mocked(goto).mock.calls[0]?.[0] as string;
     expect(url).toMatch(/[?&]labels($|&)/);
     expect(url).toMatch(/[?&]sidebar($|&)/);
     expect(url).not.toContain("labels=");
@@ -183,7 +203,7 @@ describe("syncUrlFromFilters", () => {
     syncUrlFromFilters();
     await vi.advanceTimersByTimeAsync(300);
 
-    const url = (goto as any).mock.calls[0]?.[0];
+    const url = vi.mocked(goto).mock.calls[0]?.[0] as string;
     expect(url).toMatch(/[?&]no-separators($|&)/);
   });
 
@@ -244,7 +264,7 @@ describe("syncUrlFromFilters", () => {
     syncUrlFromFilters();
     await vi.advanceTimersByTimeAsync(300);
 
-    const url = (goto as any).mock.calls[0]?.[0];
+    const url = vi.mocked(goto).mock.calls[0]?.[0] as string;
     expect(url).toContain("edit=");
     expect(url).toMatch(/img1.*img2.*img3|img3.*img2.*img1/); // Order may vary
   });

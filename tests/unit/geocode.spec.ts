@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Geocoding API Unit Tests
+ *
+ * @description
+ * Tests the server-side geocoding functionality (Nominatim wrapper).
+ * Verifies correct parameter handling, country code conversion (ISO2 -> ISO3),
+ * localization preference (Czech > English > Local), and error handling.
+ *
+ * @modules-tested
+ * - src/routes/api/geocode/+server.ts
+ */
+import type { RequestEvent } from "@sveltejs/kit";
 import { describe, expect, it, vi } from "vitest";
 import { GET } from "../../src/routes/api/geocode/+server";
 
@@ -5,7 +17,7 @@ describe("Geocode API", () => {
   it("should missing parameters error", async () => {
     const url = new URL("http://localhost/api/geocode");
     try {
-      await GET({ url, fetch: vi.fn() } as any);
+      await GET({ url, fetch: vi.fn() } as unknown as RequestEvent);
       expect.fail("Should have thrown");
     } catch (e: any) {
       expect(e.status).toBe(400);
@@ -28,7 +40,7 @@ describe("Geocode API", () => {
       }),
     });
 
-    const response = await GET({ url, fetch: mockFetch } as any);
+    const response = await GET({ url, fetch: mockFetch } as unknown as RequestEvent);
     const data = await response.json();
 
     expect(mockFetch).toHaveBeenCalledWith(
@@ -61,7 +73,7 @@ describe("Geocode API", () => {
     });
 
     try {
-      await GET({ url, fetch: mockFetch } as any);
+      await GET({ url, fetch: mockFetch } as unknown as RequestEvent);
       expect.fail("Should have thrown");
     } catch (e: any) {
       expect(e.status).toBe(502);
@@ -89,7 +101,7 @@ describe("Geocode API", () => {
       }),
     });
 
-    const response = await GET({ url, fetch: mockFetch } as any);
+    const response = await GET({ url, fetch: mockFetch } as unknown as RequestEvent);
     const data = await response.json();
 
     expect(data.location).toBe("Jaffa Gate");
