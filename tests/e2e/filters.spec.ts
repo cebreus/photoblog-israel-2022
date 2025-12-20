@@ -32,23 +32,35 @@ test.describe("Gallery Filters", () => {
     // UI shows them as "variant=secondary" (selected).
     // Clicking them shoud toggle them off.
 
-    const buckets = ["Excelentní", "Dobré", "Podprůměrné"];
+    // Debug: log available filters
+    const filtersTab = page.getByTestId("filters-tab");
+    if (await filtersTab.isVisible()) {
+      const text = await filtersTab.innerText();
+      console.log("Filters tab inner text:", text);
+    } else {
+      console.log("Filters tab NOT visible!");
+    }
+
+    const buckets = [
+      { id: "excellent", label: "Excelentní" },
+      { id: "good", label: "Dobré" },
+      { id: "poor", label: "Podprůměrné" },
+    ];
 
     let toggledCount = 0;
-    for (const bucketName of buckets) {
-      const btn = page.getByRole("button", { name: bucketName });
-      if (await btn.isVisible()) {
-        await btn.click();
+    for (const bucket of buckets) {
+      const row = page.getByTestId(`filters-tab-quality-${bucket.id}`);
+      if (await row.isVisible().catch(() => false)) {
+        const sw = row.locator('button[role="switch"]');
+        await sw.click();
         toggledCount++;
       } else {
-        console.log(`Filter button ${bucketName} not visible - skipping toggle`);
+        console.log(`Filter Row for ${bucket.id} not visible - skipping toggle`);
       }
     }
 
     if (toggledCount === 0) {
-      console.warn(
-        "Skipping aesthetic filter test assertions: No filter buttons were visible (likely missing analysis data).",
-      );
+      console.warn("Skipping aesthetic filter test assertions: No filter switches were visible.");
       // If we couldn't filter, we just expect to see *some* photos (Default View)
       const finalCount = await gridItems.count();
       expect(finalCount).toBeGreaterThan(0);
@@ -60,7 +72,7 @@ test.describe("Gallery Filters", () => {
     await expect(gridItems).toHaveCount(0, { timeout: 10000 });
 
     // Turn one back on
-    await page.getByRole("button", { name: "Excelentní" }).click();
+    await page.getByLabel("Zapnout filtr Excelentní").click();
 
     // Verify URL contains quality param
     await expect(page).toHaveURL(/quality=/);
@@ -72,18 +84,19 @@ test.describe("Gallery Filters", () => {
     await filterTab.click();
 
     // Toggle "Dobré" (Good) - but only if visible
-    const goodBtn = page.getByRole("button", { name: "Dobré" });
-    const isVisible = await goodBtn.isVisible().catch(() => false);
+    const goodRow = page.getByTestId("filters-tab-quality-good");
+    const isVisible = await goodRow.isVisible().catch(() => false);
 
     if (!isVisible) {
       console.warn(
-        "Skipping URL persistence test: Aesthetic filter buttons not available (missing analysis data)",
+        "Skipping URL persistence test: Aesthetic filter row not available (missing analysis data)",
       );
       test.skip();
       return;
     }
 
-    await goodBtn.click();
+    const goodSw = goodRow.locator('button[role="switch"]');
+    await goodSw.click();
 
     // Check URL has quality param
     await expect(page).toHaveURL(/quality=/, { timeout: 5000 });

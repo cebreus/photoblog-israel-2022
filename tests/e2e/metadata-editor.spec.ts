@@ -1,12 +1,24 @@
+import fs from "node:fs";
+import path from "node:path";
 import { expect, test } from "@playwright/test";
 import { exiftool } from "exiftool-vendored";
-import fs from "fs";
-import path from "path";
 
 test.describe("Metadata Editor E2E", () => {
+  test.describe.configure({ mode: "serial" });
   test.beforeEach(async ({ page }) => {
-    // Navigate to the page with edit mode and sidebar enabled
-    await page.goto("/?editMode&sidebar");
+    page.on("console", (msg) => console.log(`BROWSER CONSOLE: [${msg.type()}] ${msg.text()}`));
+    page.on("request", (req) => {
+      if (req.url().includes("/api/")) {
+        console.log(`📡 REQ: ${req.method()} ${req.url()}`);
+      }
+    });
+    page.on("response", (res) => {
+      if (res.url().includes("/api/")) {
+        console.log(`✅ RES: ${res.status()} ${res.url()}`);
+      }
+    });
+    // Navigate to the page with edit mode, sidebar and debug enabled
+    await page.goto("/?editMode&sidebar&debug");
   });
 
   test("should write metadata to source file", async ({ page }) => {
@@ -55,7 +67,7 @@ test.describe("Metadata Editor E2E", () => {
       { timeout: 10000 },
     );
 
-    await page.click('button:has-text("Uložit změny")');
+    await page.getByTestId("edit-tab-submit-button").click();
 
     // 7. Wait for successful API response
     await responsePromise;
@@ -88,7 +100,15 @@ test.describe("Metadata Editor E2E", () => {
     // 10. Construct the file path
     // imageEntry.src already contains the relative path from content dir (e.g., "pics/IMG_8056.HEIC")
     const contentRoot = path.resolve(process.cwd(), "content", contentDir);
-    const filePath = path.join(contentRoot, imageEntry.src);
+    let filePath = path.join(contentRoot, imageEntry.src);
+
+    // If file doesn't exist at root, try pics/ subdirectory
+    if (!fs.existsSync(filePath)) {
+      const picsPath = path.join(contentRoot, "pics", imageEntry.src);
+      if (fs.existsSync(picsPath)) {
+        filePath = picsPath;
+      }
+    }
 
     // Skip test if source file doesn't exist (test data issue)
     if (!fs.existsSync(filePath)) {
@@ -154,7 +174,7 @@ test.describe("Metadata Editor E2E", () => {
       { timeout: 10000 },
     );
 
-    await page.click('button:has-text("Uložit změny")');
+    await page.getByTestId("edit-tab-submit-button").click();
 
     // 7. Wait for successful API response
     await responsePromise;
@@ -183,7 +203,15 @@ test.describe("Metadata Editor E2E", () => {
       expect(imageEntry).not.toBeNull();
 
       const contentRoot = path.resolve(process.cwd(), "content", contentDir);
-      const filePath = path.join(contentRoot, imageEntry.src);
+      let filePath = path.join(contentRoot, imageEntry.src);
+
+      // If file doesn't exist at root, try pics/ subdirectory
+      if (!fs.existsSync(filePath)) {
+        const picsPath = path.join(contentRoot, "pics", imageEntry.src);
+        if (fs.existsSync(picsPath)) {
+          filePath = picsPath;
+        }
+      }
 
       // Skip verification for this file if it doesn't exist
       if (!fs.existsSync(filePath)) {
