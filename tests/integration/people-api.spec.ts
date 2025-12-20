@@ -195,7 +195,7 @@ describe("Integration: People API", () => {
       await fsp.readFile(path.join(DATA_DIR, "people.manifest.json"), "utf8"),
     );
     const p2 = people.people.find((p: any) => p.id === "person-2");
-    expect(p2.faceCount).toBe(0);
+    expect(p2).toBeUndefined();
     const p1 = people.people.find((p: any) => p.id === "person-1");
     expect(p1.faceCount).toBe(3); // 2 original + 1 merged
   });
