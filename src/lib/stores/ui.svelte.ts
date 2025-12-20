@@ -44,3 +44,17 @@ export class UIState {
 }
 
 export const ui = new UIState();
+
+declare global {
+  interface Window {
+    ui_debug: boolean;
+  }
+}
+
+if (typeof window !== "undefined") {
+  $effect.root(() => {
+    $effect(() => {
+      window.ui_debug = ui.debug;
+    });
+  });
+}

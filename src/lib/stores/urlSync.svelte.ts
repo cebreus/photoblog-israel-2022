@@ -139,13 +139,30 @@ export function initializeFiltersFromUrl(url: URL) {
     if (separatorsParam !== undefined) filters.showSeparators = separatorsParam;
   }
 
-  setBooleanStateFromUrl(url, "labels", (v) => (ui.photoLabels = v));
-  setBooleanStateFromUrl(url, "editMode", (v) => (editor.editMode = v));
-  setBooleanStateFromUrl(url, "debug", (v) => (ui.debug = v));
-  setBooleanStateFromUrl(url, "overlay", (v) => (editor.showMetadataOverlay = v));
-  setBooleanStateFromUrl(url, "curation", (v) => (ui.curationMode = v));
+  setBooleanStateFromUrl(url, "labels", (v) => {
+    ui.photoLabels = v;
+  });
+  setBooleanStateFromUrl(url, "editMode", (v) => {
+    editor.editMode = v;
+  });
+  setBooleanStateFromUrl(url, "debug", (v) => {
+    ui.debug = v;
+  });
+  setBooleanStateFromUrl(url, "overlay", (v) => {
+    editor.showMetadataOverlay = v;
+  });
+  setBooleanStateFromUrl(url, "curation", (v) => {
+    ui.curationMode = v;
+  });
 
-  setBooleanStateFromUrl(url, "sidebar", (v) => (ui.sidebarOpen = v), true);
+  setBooleanStateFromUrl(
+    url,
+    "sidebar",
+    (v) => {
+      ui.sidebarOpen = v;
+    },
+    true,
+  );
 
   const peopleCsv = url.searchParams.get("people");
   filters.selectedPeople = peopleCsv ? peopleCsv.split(",").map(decodeToken).filter(Boolean) : [];
@@ -211,7 +228,6 @@ export function syncUrlFromFilters() {
 
   clearTimeout(debounceTimer);
   filters.filtersSyncing = true;
-  console.log("[urlSync] Sync triggered, debouncing...");
 
   debounceTimer = setTimeout(async () => {
     const pageVal = get(page);
@@ -258,13 +274,11 @@ export function syncUrlFromFilters() {
     const current = pageVal.url.href.replace(pageVal.url.origin, "");
 
     if (next === current) {
-      console.log("[urlSync] URL unchanged, skipping navigation");
       filters.filtersSyncing = false;
       return;
     }
 
     try {
-      console.log("[urlSync] Navigating to:", next);
       await goto(next, { replaceState: true, noScroll: true, keepFocus: true });
       try {
         lastUrl = new URL(next, pageVal.url.origin);
@@ -285,7 +299,6 @@ export function initUrlSync(initialAuthors: Author[]) {
   // 1. Initialize states from URL on first load
   const pageVal = get(page);
   lastUrl = pageVal.url;
-  console.log("[urlSync] Initializing from URL:", pageVal.url.toString());
   initializeFiltersFromUrl(pageVal.url);
 
   // 2. Setup effects for automatic URL updates
