@@ -1,5 +1,8 @@
 #!/usr/bin/env bun
 
+import fsp from "node:fs/promises";
+import path from "node:path";
+import { parseArgs } from "node:util";
 import {
   cancel,
   confirm,
@@ -10,9 +13,6 @@ import {
   outro,
   spinner,
 } from "@clack/prompts";
-import fsp from "node:fs/promises";
-import path from "node:path";
-import { parseArgs } from "node:util";
 import pc from "picocolors";
 import type { Cache, ImageEntry } from "../src/lib/types/manifest";
 import { config } from "./config";
@@ -200,7 +200,7 @@ async function main() {
           results.staleConstraints.push({ imageId: c.imageId, type: "connect" });
       }
     }
-  } catch { }
+  } catch {}
   s.stop(`Constraints: ${pc.yellow(results.staleConstraints.length)} stale references`);
 
   // 6. Check for empty people (0 faces)
@@ -232,13 +232,13 @@ async function main() {
 
   note(
     `Found ${pc.bold(total)} items to clean up:\n` +
-    `  • Person folders: ${results.orphanPersonFolders.length}\n` +
-    `  • Face crops: ${results.orphanFaceCrops.length}\n` +
-    `  • Generated images: ${results.orphanAssets.length}\n` +
-    `  • Cache entries: ${results.staleCacheEntries.length}\n` +
-    `  • Manifest entries: ${results.staleAnalysisEntries.length + results.staleEmbeddingsEntries.length + results.staleFacesEntries.length}\n` +
-    `  • Stale constraints: ${results.staleConstraints.length}\n` +
-    `  • Empty profiles: ${results.emptyPeople.length}`,
+      `  • Person folders: ${results.orphanPersonFolders.length}\n` +
+      `  • Face crops: ${results.orphanFaceCrops.length}\n` +
+      `  • Generated images: ${results.orphanAssets.length}\n` +
+      `  • Cache entries: ${results.staleCacheEntries.length}\n` +
+      `  • Manifest entries: ${results.staleAnalysisEntries.length + results.staleEmbeddingsEntries.length + results.staleFacesEntries.length}\n` +
+      `  • Stale constraints: ${results.staleConstraints.length}\n` +
+      `  • Empty profiles: ${results.emptyPeople.length}`,
     "Audit Report",
   );
 
@@ -273,8 +273,8 @@ async function main() {
     if (opt.value === "manifests")
       return (
         results.staleAnalysisEntries.length +
-        results.staleEmbeddingsEntries.length +
-        results.staleFacesEntries.length >
+          results.staleEmbeddingsEntries.length +
+          results.staleFacesEntries.length >
         0
       );
     if (opt.value === "constraints") return results.staleConstraints.length > 0;
@@ -334,14 +334,14 @@ async function main() {
       removed++;
     }
     for (const file of results.orphanFaceCrops) {
-      await fsp.unlink(path.join(facesDir, file)).catch(() => { });
+      await fsp.unlink(path.join(facesDir, file)).catch(() => {});
       removed++;
     }
   }
 
   if (categories.includes("assets")) {
     for (const file of results.orphanAssets) {
-      await fsp.unlink(path.join(outputRoot, file)).catch(() => { });
+      await fsp.unlink(path.join(outputRoot, file)).catch(() => {});
       removed++;
     }
   }
@@ -385,7 +385,7 @@ async function main() {
         constraints.connects = constraints.connects.filter((c: any) => !staleIds.has(c.imageId));
       await fsp.writeFile(constraintsPath, JSON.stringify(constraints, null, 2));
       removed += results.staleConstraints.length;
-    } catch { }
+    } catch {}
   }
 
   if (categories.includes("empty-people") && peopleManifest) {

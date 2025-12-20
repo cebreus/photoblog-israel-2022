@@ -31,7 +31,10 @@
 </script>
 
 <Dialog.Root bind:open>
-  <Dialog.Content class="max-w-[90vw] md:max-w-screen-xl max-h-[90vh] overflow-y-auto" data-testid="curation-group-dialog-content">
+  <Dialog.Content
+    class="max-w-[90vw] md:max-w-screen-xl max-h-[90vh] overflow-y-auto"
+    data-testid="curation-group-dialog-content"
+  >
     <Dialog.Header>
       <Dialog.Title>Porovnání duplicit</Dialog.Title>
     </Dialog.Header>

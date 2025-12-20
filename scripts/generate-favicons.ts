@@ -1,10 +1,10 @@
 process.env.GLIB_LOG_LEVEL = "critical";
 
+import { promises as fs } from "node:fs"; // Bun's native fs/promises
+import path from "node:path"; // Bun's native path module
 import { intro, select } from "@clack/prompts";
 import { type FaviconOptions, favicons } from "favicons";
 import matter from "gray-matter";
-import { promises as fs } from "node:fs"; // Bun's native fs/promises
-import path from "node:path"; // Bun's native path module
 import { parseCliArguments } from "./lib/cli-parser";
 import { createLogger } from "./lib/logger";
 import { formatDuration } from "./lib/time-utils";
