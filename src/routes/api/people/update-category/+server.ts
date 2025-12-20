@@ -1,6 +1,6 @@
-import path from "node:path";
-import { json } from "@sveltejs/kit";
 import { validateUpdateCategoryInput } from "$lib/utils/api-validators";
+import { json } from "@sveltejs/kit";
+import path from "node:path";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 import {
   loadPeopleManifest,
@@ -29,7 +29,7 @@ export async function POST({ request }) {
 
       const person = manifest.people.find((p) => p.id === personId);
       if (!person) {
-        return json({ success: false, error: "Osoba nebyla nalezena" }, { status: 404 });
+        return json({ success: false, error: "Person not found" }, { status: 404 });
       }
 
       person.category = category;
@@ -42,7 +42,7 @@ export async function POST({ request }) {
     return json(
       {
         success: false,
-        error: isLockError ? "Operace je blokována jiným procesem" : "Failed to update category",
+        error: isLockError ? "Operation locked by another process" : "Failed to update category",
       },
       { status: isLockError ? 503 : 500 },
     );

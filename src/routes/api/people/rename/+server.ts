@@ -1,8 +1,8 @@
-import fsp from "node:fs/promises";
-import path from "node:path";
-import { json } from "@sveltejs/kit";
 import { validateRenameInput } from "$lib/utils/api-validators";
 import { toSlug } from "$lib/utils/strings";
+import { json } from "@sveltejs/kit";
+import fsp from "node:fs/promises";
+import path from "node:path";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 import {
   loadFacesManifest,
@@ -79,7 +79,7 @@ export async function POST({ request }) {
               },
               { status: 409 },
             );
-          } catch {}
+          } catch { }
 
           try {
             await fsp.rename(oldPath, newPath);
@@ -146,7 +146,7 @@ export async function POST({ request }) {
               console.log("[RENAME] Updated constraints for new ID");
             }
           }
-        } catch (_e) {}
+        } catch (_e) { }
       }
 
       await savePeopleManifest(dataDir, peopleManifest);
@@ -161,7 +161,7 @@ export async function POST({ request }) {
     return json(
       {
         success: false,
-        error: isLockError ? "Operace je blokována jiným procesem" : "Failed to rename person",
+        error: isLockError ? "Operation locked by another process" : "Failed to rename person",
       },
       { status: isLockError ? 503 : 500 },
     );
