@@ -1,8 +1,8 @@
-import fsp from "node:fs/promises";
-import path from "node:path";
-import { json } from "@sveltejs/kit";
 import type { ImageEntry } from "$lib/types/manifest";
 import { validateReassignInput } from "$lib/utils/api-validators";
+import { json } from "@sveltejs/kit";
+import fsp from "node:fs/promises";
+import path from "node:path";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 import {
   loadFacesManifest,
@@ -45,7 +45,7 @@ export async function POST({ request }) {
         return json({ success: false, error: "Person not found" }, { status: 404 });
       }
 
-      const idSet = new Set(imageIds);
+
       const sourceDir = path.resolve(facesDir, sourcePersonId);
       const targetDir = path.resolve(facesDir, targetPersonId);
       await fsp.mkdir(targetDir, { recursive: true });
@@ -113,7 +113,7 @@ export async function POST({ request }) {
         try {
           const data = await fsp.readFile(constraintsPath, "utf-8");
           constraints = JSON.parse(data);
-        } catch (e) {}
+        } catch (e) { }
 
         if (!constraints.disconnects) constraints.disconnects = [];
         if (!constraints.connects) constraints.connects = [];
