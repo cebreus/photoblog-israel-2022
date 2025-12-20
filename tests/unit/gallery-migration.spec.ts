@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Gallery Migration Unit Tests
+ *
+ * @description
+ * Tests the logic for migrating legacy gallery data or structures.
+ * Verifies traversing directories, identifying assets, and transforming
+ * data models to the current schema.
+ *
+ * @modules-tested
+ * - scripts/lib/gallery-migration.ts (or similar)
+ */
+
 import fs from "node:fs";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import {

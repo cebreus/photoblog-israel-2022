@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Image Rename Logic Unit Tests
+ *
+ * @description
+ * Tests the smart image renaming logic.
+ * Verifies that images are renamed according to the convention (Date-Time-Author)
+ * and that duplicate filenames are handled correctly.
+ *
+ * @modules-tested
+ * - scripts/rename-images.ts (Logic layer)
+ */
+
 import { describe, expect, it } from "vitest";
 import { getNewBasename } from "../../scripts/lib/renaming-utils";
 

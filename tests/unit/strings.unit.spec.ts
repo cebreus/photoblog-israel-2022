@@ -1,3 +1,15 @@
+/**
+ * @fileoverview String Utilities Unit Tests
+ *
+ * @description
+ * Tests string manipulation helper functions.
+ * Covers slugification, capitalization, truncation, and other text formatting utilities
+ * used throughout the application.
+ *
+ * @modules-tested
+ * - src/lib/utils/strings.ts
+ */
+
 import { describe, expect, it } from "vitest";
 import {
   formatDateForDisplay,

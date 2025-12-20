@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Image Processor Logic Unit Tests
+ *
+ * @description
+ * Tests the core image processing logic.
+ * Verifies resizing calculations, format conversion parameters,
+ * and metadata preservation during image transformations.
+ *
+ * @modules-tested
+ * - scripts/lib/image-processor.ts
+ */
+
 import { describe, expect, it } from "vitest";
 import { buildImageEntry } from "../../scripts/lib/metadata";
 

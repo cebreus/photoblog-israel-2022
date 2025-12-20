@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Sharpness Scoring Unit Tests
+ *
+ * @description
+ * Tests the sharpness calculation algorithm (Laplacian variance).
+ * Verifies that the score correlates with perceived image sharpness and
+ * handles edge cases (blank images, noise).
+ *
+ * @modules-tested
+ * - scripts/lib/sharpness.ts
+ */
+
 import { describe, expect, it } from "vitest";
 import { normalizeSharpness } from "../../scripts/lib/image-utils";
 

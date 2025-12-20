@@ -1,3 +1,15 @@
+/**
+ * @fileoverview People Entity Unit Tests
+ *
+ * @description
+ * Tests the logic related to Person entities.
+ * Verifies data structure integrity, name formatting, and relationship management
+ * for detected people in the gallery.
+ *
+ * @modules-tested
+ * - scripts/lib/people.ts
+ */
+
 import { describe, expect, it } from "vitest";
 import type { Person } from "$lib/types/manifest";
 import { getVisiblePeople } from "$lib/utils/people";

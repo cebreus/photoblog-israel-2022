@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Metadata Standards Unit Tests
+ *
+ * @description
+ * Tests the compliance of image metadata with standards (IPTC/EXIF).
+ * Verifies that required fields are present and correctly formatted
+ * according to project specifications.
+ *
+ * @modules-tested
+ * - scripts/lib/metadata-standards.ts
+ */
+
 import { describe, expect, it } from "vitest";
 import {
   getExifToolWriteTags,

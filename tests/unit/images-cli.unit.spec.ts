@@ -67,6 +67,16 @@ describe("CLI (generate-images.ts) – Integration with real FS", { timeout: 300
       `--quiet`,
     ];
 
+    // Pre-seed cache to prevent "config mismatch" deletion of outDir
+    const { sha1 } = await import("../../scripts/lib/image-utils");
+    const configHash = sha1(Buffer.from(JSON.stringify(config)));
+    const initialCache = {
+      version: 17, // Must match CACHE_VERSION in generate-images.ts
+      configHash,
+      files: {},
+    };
+    fs.writeFileSync(cache, JSON.stringify(initialCache));
+
     const res = await runGenerator(args, { cwd: CWD });
     expect(res.code).toBe(0);
 

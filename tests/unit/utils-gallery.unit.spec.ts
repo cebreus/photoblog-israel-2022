@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Gallery Utilities Unit Tests
+ *
+ * @description
+ * Tests helper functions for gallery management.
+ * Covers data aggregation, filtering, and statistical calculations
+ * for displaying photo galleries.
+ *
+ * @modules-tested
+ * - src/lib/utils/gallery.ts
+ */
+
 import { describe, expect, it, vi } from "vitest";
 import type { ImageEntry, PhotoDay, QualityBucket, Separator } from "../../src/lib/types/manifest";
 import { computeTotals, filterGalleryItems, mergeSparseDays } from "../../src/lib/utils/gallery";

@@ -1,3 +1,15 @@
+/**
+ * @fileoverview CLI Parser Unit Tests (Scripts)
+ *
+ * @description
+ * Tests the backend/scripts CLI argument parser.
+ * Verifies parsing of flags, values, and duplex functionality (handling both script-specific
+ * and shared arguments). Ensures robust handling of various flag formats.
+ *
+ * @modules-tested
+ * - scripts/lib/cli-parser.ts
+ */
+
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { parseCliArguments } from "../../../scripts/lib/cli-parser";
@@ -52,16 +64,18 @@ describe("CLI Parser", () => {
     const args = parseCliArguments(["--quality.jpeg=90", "--quality.avif=45"]);
     expect(args.quality.jpeg).toBe(90);
     expect(args.quality.avif).toBe(45);
-    // Should preserve valid defaults for others if not overwritten,
-    // BUT current implementation implementation modifies the object in place?
-    // Let's check implementation. It modifies `out.quality` which refers to DEFAULT's quality object?
-    // Wait, DEFAULTS uses a nested object. `{ ...DEFAULTS }` does shallow copy.
-    // modifying `out.quality.avif` modifies the shared default object if it's not deep copied!
-    // We need to check if `cli-parser` does deep copy or if this is a bug/feature.
-    // If `DEFAULTS.quality` is an object, shallow copy means `out.quality` references `DEFAULTS.quality`.
-    // Modifying it will leak to other tests!
+    expect(args.quality.jpeg).toBe(90);
+    expect(args.quality.avif).toBe(45);
+  });
 
-    // Let's verify this behavior in test.
+  it("should deep copy defaults to prevent state leakage", () => {
+    const args1 = parseCliArguments(["--quality.jpeg=10"]);
+    expect(args1.quality.jpeg).toBe(10);
+
+    // Parse again with no args, should get default (80)
+    const args2 = parseCliArguments([]);
+    expect(args2.quality.jpeg).toBe(80);
+    expect(args2.quality.jpeg).not.toBe(args1.quality.jpeg);
   });
 
   it("should parse blur group flags", () => {
