@@ -17,6 +17,7 @@ static/*/images/
 
 # Test & Reports
 **/__screenshots__/
+coverage/
 playwright-report/
 test-results/
 tests/fixtures/*.jpeg
@@ -37,4 +38,3 @@ vite.config.ts.timestamp-*
 # OS
 .DS_Store
 Thumbs.db
-
