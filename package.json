@@ -44,6 +44,7 @@
     "@types/pixelmatch": "^5.2.6",
     "@types/pngjs": "^6.0.5",
     "@types/sharp": "^0.32.0",
+    "@types/upng-js": "^2.1.5",
     "@vitest/browser-playwright": "^4.0.16",
     "@vitest/coverage-v8": "4.0.16",
     "@vladmandic/face-api": "^1.7.15",
@@ -91,5 +92,8 @@
     "vitest-browser-svelte": "^2.0.1",
     "winston": "^3.19.0",
     "xxhash-wasm": "^1.1.0"
+  },
+  "dependencies": {
+    "upng-js": "^2.1.0"
   }
 }
