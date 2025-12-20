@@ -26,7 +26,10 @@
     },
     {
       "id": "group-2025-11-25-082736-cebreus",
-      "items": ["2025-11-25-082736-cebreus", "2025-11-25-082818-cebreus"],
+      "items": [
+        "2025-11-25-082736-cebreus",
+        "2025-11-25-082818-cebreus"
+      ],
       "bestCandidateId": "2025-11-25-082736-cebreus",
       "similarity": 0,
       "recommendations": {
@@ -42,7 +45,10 @@
     },
     {
       "id": "group-2025-11-25-084249-cebreus",
-      "items": ["2025-11-25-084249-cebreus", "2025-11-25-084849-cebreus"],
+      "items": [
+        "2025-11-25-084249-cebreus",
+        "2025-11-25-084849-cebreus"
+      ],
       "bestCandidateId": "2025-11-25-084849-cebreus",
       "similarity": 0,
       "recommendations": {
@@ -58,7 +64,10 @@
     },
     {
       "id": "group-2025-11-25-084606-cebreus",
-      "items": ["2025-11-25-084606-cebreus", "2025-11-25-084614-cebreus"],
+      "items": [
+        "2025-11-25-084606-cebreus",
+        "2025-11-25-084614-cebreus"
+      ],
       "bestCandidateId": "2025-11-25-084614-cebreus",
       "similarity": 0,
       "recommendations": {
@@ -74,7 +83,10 @@
     },
     {
       "id": "group-2025-11-25-094113-cebreus",
-      "items": ["2025-11-25-094113-cebreus", "2025-11-25-094206-cebreus"],
+      "items": [
+        "2025-11-25-094113-cebreus",
+        "2025-11-25-094206-cebreus"
+      ],
       "bestCandidateId": "2025-11-25-094206-cebreus",
       "similarity": 0,
       "recommendations": {
@@ -90,7 +102,10 @@
     },
     {
       "id": "group-2025-11-25-095053-cebreus",
-      "items": ["2025-11-25-095053-cebreus", "2025-11-25-095055-cebreus"],
+      "items": [
+        "2025-11-25-095053-cebreus",
+        "2025-11-25-095055-cebreus"
+      ],
       "bestCandidateId": "2025-11-25-095053-cebreus",
       "similarity": 0,
       "recommendations": {
@@ -219,7 +234,10 @@
     },
     {
       "id": "group-2025-11-26-113642-dasa",
-      "items": ["2025-11-26-113642-dasa", "2025-11-26-113817-dasa"],
+      "items": [
+        "2025-11-26-113642-dasa",
+        "2025-11-26-113817-dasa"
+      ],
       "bestCandidateId": "2025-11-26-113642-dasa",
       "similarity": 0,
       "recommendations": {
@@ -235,7 +253,10 @@
     },
     {
       "id": "group-2025-11-26-121346-cebreus",
-      "items": ["2025-11-26-121346-cebreus", "2025-11-26-121358-cebreus"],
+      "items": [
+        "2025-11-26-121346-cebreus",
+        "2025-11-26-121358-cebreus"
+      ],
       "bestCandidateId": "2025-11-26-121358-cebreus",
       "similarity": 0,
       "recommendations": {
@@ -251,7 +272,10 @@
     },
     {
       "id": "group-2025-11-26-125240-cebreus",
-      "items": ["2025-11-26-125240-cebreus", "2025-11-26-125334-cebreus"],
+      "items": [
+        "2025-11-26-125240-cebreus",
+        "2025-11-26-125334-cebreus"
+      ],
       "bestCandidateId": "2025-11-26-125240-cebreus",
       "similarity": 0,
       "recommendations": {
@@ -267,7 +291,10 @@
     },
     {
       "id": "group-2025-11-26-125315-cebreus",
-      "items": ["2025-11-26-125315-cebreus", "2025-11-26-125323-cebreus"],
+      "items": [
+        "2025-11-26-125315-cebreus",
+        "2025-11-26-125323-cebreus"
+      ],
       "bestCandidateId": "2025-11-26-125323-cebreus",
       "similarity": 0,
       "recommendations": {
@@ -312,7 +339,10 @@
     },
     {
       "id": "group-2025-11-26-125359-cebreus",
-      "items": ["2025-11-26-125359-cebreus", "2025-11-26-125421-cebreus"],
+      "items": [
+        "2025-11-26-125359-cebreus",
+        "2025-11-26-125421-cebreus"
+      ],
       "bestCandidateId": "2025-11-26-125359-cebreus",
       "similarity": 0,
       "recommendations": {
@@ -357,7 +387,10 @@
     },
     {
       "id": "group-2025-11-26-140121-dasa",
-      "items": ["2025-11-26-140121-dasa", "2025-11-26-140159-dasa"],
+      "items": [
+        "2025-11-26-140121-dasa",
+        "2025-11-26-140159-dasa"
+      ],
       "bestCandidateId": "2025-11-26-140121-dasa",
       "similarity": 0,
       "recommendations": {
@@ -397,7 +430,10 @@
     },
     {
       "id": "group-2025-11-26-153302-cebreus",
-      "items": ["2025-11-26-153302-cebreus", "2025-11-26-153319-cebreus"],
+      "items": [
+        "2025-11-26-153302-cebreus",
+        "2025-11-26-153319-cebreus"
+      ],
       "bestCandidateId": "2025-11-26-153319-cebreus",
       "similarity": 0,
       "recommendations": {
