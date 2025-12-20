@@ -1,5 +1,5 @@
-import path from "node:path";
 import { json } from "@sveltejs/kit";
+import path from "node:path";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 import {
   loadPeopleManifest,
@@ -22,14 +22,14 @@ export async function POST({ request }) {
   let targets: string[];
   if (personIds !== undefined) {
     if (!isStringArray(personIds) || personIds.length === 0) {
-      return json({ success: false, error: "personIds musí být neprázdné pole" }, { status: 400 });
+      return json({ success: false, error: "personIds must be a non-empty array" }, { status: 400 });
     }
     targets = personIds;
   } else if (isNonEmptyString(personId)) {
     targets = [personId];
   } else {
     return json(
-      { success: false, error: "Musí být zadán personId nebo personIds" },
+      { success: false, error: "Either personId or personIds must be provided" },
       { status: 400 },
     );
   }
@@ -79,7 +79,7 @@ export async function POST({ request }) {
       {
         success: false,
         error: isLockError
-          ? "Operace je blokována jiným procesem"
+          ? "Operation locked by another process"
           : "Failed to update ignore state",
       },
       { status: isLockError ? 503 : 500 },

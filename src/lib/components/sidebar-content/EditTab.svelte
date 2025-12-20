@@ -716,7 +716,7 @@
                 aria-label="Načíst adresu z GPS souřadnic"
               >
                 {#if isFetchingGeo}
-                  Loading...
+                  Načítám...
                 {:else}
                   Načíst z mapy
                 {/if}

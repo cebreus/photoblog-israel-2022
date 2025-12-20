@@ -1,8 +1,8 @@
-import fsp from "node:fs/promises";
-import path from "node:path";
-import { json } from "@sveltejs/kit";
 import type { FacesManifest, ImageEntry } from "$lib/types/manifest";
 import { validateMarkAsJunkInput } from "$lib/utils/api-validators";
+import { json } from "@sveltejs/kit";
+import fsp from "node:fs/promises";
+import path from "node:path";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 import {
   loadFacesManifest,
@@ -41,7 +41,7 @@ export async function POST({ request }) {
 
       const person = peopleManifest.people.find((p) => p.id === personId);
       if (!person) {
-        return json({ success: false, error: "Osoba nebyla nalezena" }, { status: 404 });
+        return json({ success: false, error: "Person not found" }, { status: 404 });
       }
 
       // 1. Gather all ignored crops
@@ -93,7 +93,7 @@ export async function POST({ request }) {
       try {
         const data = await fsp.readFile(constraintsPath, "utf-8");
         constraints = JSON.parse(data);
-      } catch (e) {}
+      } catch (e) { }
 
       if (!constraints.ignoredCrops) constraints.ignoredCrops = [];
 
@@ -116,7 +116,7 @@ export async function POST({ request }) {
       const personFacesDir = path.join(facesDir, personId);
       try {
         await fsp.rm(personFacesDir, { recursive: true, force: true });
-      } catch (e) {}
+      } catch (e) { }
 
       // 4. Remove person from people manifest
       peopleManifest.people = peopleManifest.people.filter((p) => p.id !== personId);

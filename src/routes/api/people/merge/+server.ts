@@ -1,8 +1,8 @@
-import fsp from "node:fs/promises";
-import path from "node:path";
-import { json } from "@sveltejs/kit";
 import type { ImageEntry } from "$lib/types/manifest";
 import { validateMergeInput } from "$lib/utils/api-validators";
+import { json } from "@sveltejs/kit";
+import fsp from "node:fs/promises";
+import path from "node:path";
 import { removeEmptyPersonFolder } from "../../../../../scripts/lib/cleanup-utils";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 import {
@@ -72,7 +72,7 @@ export async function POST({ request }) {
                 try {
                   await fsp.stat(oldPath);
                   await fsp.rename(oldPath, newPath);
-                } catch (_e) {}
+                } catch (_e) { }
 
                 imageItem.people[index] = targetPersonId;
                 imageItem.people = [...new Set(imageItem.people)];
@@ -199,7 +199,7 @@ export async function POST({ request }) {
           await fsp.writeFile(constraintsPath, JSON.stringify(constraints, null, 2));
           console.log(`[MERGE] Updated clustering-constraints.json`);
         }
-      } catch (_e) {}
+      } catch (_e) { }
 
       await savePeopleManifest(dataDir, peopleManifest);
       await saveImagesManifest(dataDir, imagesManifest);
@@ -228,7 +228,7 @@ export async function POST({ request }) {
     return json(
       {
         success: false,
-        error: isLockError ? "Operace je blokována jiným procesem" : "Failed to merge people",
+        error: isLockError ? "Operation locked by another process" : "Failed to merge people",
       },
       { status: isLockError ? 503 : 500 },
     );

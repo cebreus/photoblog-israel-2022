@@ -179,7 +179,7 @@ export async function POST({ request }) {
     return json(
       {
         success: false,
-        error: isLockError ? "Operace je blokována jiným procesem" : "Internal Error",
+        error: isLockError ? "Operation locked by another process" : "Internal Error",
       },
       { status: isLockError ? 503 : 500 },
     );
