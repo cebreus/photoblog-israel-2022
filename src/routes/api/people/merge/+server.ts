@@ -1,9 +1,9 @@
+import fsp from "node:fs/promises";
+import path from "node:path";
+import { json } from "@sveltejs/kit";
 import type { ImageEntry } from "$lib/types/manifest";
 import { validateMergeInput } from "$lib/utils/api-validators";
 import type { ClusteringConstraints } from "$lib/utils/manifest-validators";
-import { json } from "@sveltejs/kit";
-import fsp from "node:fs/promises";
-import path from "node:path";
 import { removeEmptyPersonFolder } from "../../../../../scripts/lib/cleanup-utils";
 import { createLogger } from "../../../../../scripts/lib/logger";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
@@ -74,7 +74,7 @@ export async function POST({ request }) {
                 try {
                   await fsp.stat(oldPath);
                   await fsp.rename(oldPath, newPath);
-                } catch (_e) { }
+                } catch (_e) {}
 
                 imageItem.people[index] = targetPersonId;
                 imageItem.people = [...new Set(imageItem.people)];
@@ -201,7 +201,7 @@ export async function POST({ request }) {
           await fsp.writeFile(constraintsPath, JSON.stringify(constraints, null, 2));
           logger.info(`[MERGE] Updated clustering-constraints.json`);
         }
-      } catch (_e) { }
+      } catch (_e) {}
 
       await savePeopleManifest(dataDir, peopleManifest);
       await saveImagesManifest(dataDir, imagesManifest);
