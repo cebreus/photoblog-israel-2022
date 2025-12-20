@@ -1,8 +1,8 @@
-import { validateRenameInput } from "$lib/utils/api-validators";
-import { toSlug } from "$lib/utils/strings";
-import { json } from "@sveltejs/kit";
 import fsp from "node:fs/promises";
 import path from "node:path";
+import { json } from "@sveltejs/kit";
+import { validateRenameInput } from "$lib/utils/api-validators";
+import { toSlug } from "$lib/utils/strings";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 import {
   loadFacesManifest,
@@ -25,15 +25,13 @@ export async function POST({ request }) {
 
   const contentDir = process.env.CONTENT_DIR || "egypt-2025";
   const dataDir = path.resolve(process.cwd(), `src/data/${contentDir}`);
-  const peopleManifestPath = path.join(dataDir, "people.manifest.json");
-  const imagesManifestPath = path.join(dataDir, "images.manifest.json");
   const facesDir = path.resolve(process.cwd(), `static/${contentDir}/faces`);
 
   try {
     return await withManifestLock(dataDir, async () => {
       const peopleManifest = await loadPeopleManifest(dataDir);
       const imagesManifest = await loadImagesManifest(dataDir);
-      const facesManifest = (await loadFacesManifest(dataDir)) || { images: {} };
+      const facesManifest = (await loadFacesManifest(dataDir)) || {};
 
       if (!peopleManifest || !imagesManifest) {
         return json({ success: false, error: "Manifests not found" }, { status: 500 });
@@ -79,18 +77,19 @@ export async function POST({ request }) {
               },
               { status: 409 },
             );
-          } catch { }
+          } catch {}
 
           try {
             await fsp.rename(oldPath, newPath);
             _folderRenamed = true;
             console.log(`[RENAME] Folder renamed successfully`);
           } catch (e) {
-            console.error(`[RENAME] Folder rename failed: ${(e as Error).message}`);
+            const errorMessage = e instanceof Error ? e.message : String(e);
+            console.error(`[RENAME] Folder rename failed: ${errorMessage}`);
             return json(
               {
                 success: false,
-                error: `Failed to rename folder: ${(e as Error).message}`,
+                error: `Failed to rename folder: ${errorMessage}`,
               },
               { status: 500 },
             );
@@ -107,8 +106,8 @@ export async function POST({ request }) {
 
               // Also update faces manifest
               const id = item.id;
-              if (Object.hasOwn(facesManifest.images, id)) {
-                const faceData = (facesManifest.images as any)[id];
+              if (Object.hasOwn(facesManifest, id)) {
+                const faceData = facesManifest[id];
                 if (faceData.peopleIds?.includes(personId)) {
                   faceData.peopleIds = faceData.peopleIds.map((pid: string) =>
                     pid === personId ? newId : pid,
@@ -146,12 +145,12 @@ export async function POST({ request }) {
               console.log("[RENAME] Updated constraints for new ID");
             }
           }
-        } catch (_e) { }
+        } catch (_e) {}
       }
 
       await savePeopleManifest(dataDir, peopleManifest);
       await saveImagesManifest(dataDir, imagesManifest);
-      await saveFacesManifest(dataDir, facesManifest as any);
+      await saveFacesManifest(dataDir, facesManifest);
 
       return json({ success: true, name: person.name, id: person.id });
     });

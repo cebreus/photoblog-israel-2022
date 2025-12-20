@@ -25,7 +25,7 @@ export function useFancybox(
       import("@fancyapps/ui/dist/fancybox/fancybox.css"),
     ]);
 
-    const fancybox = Fancybox as unknown as FancyboxStatic;
+    const fancybox = Fancybox as FancyboxStatic;
 
     fancybox.bind(node, selector, {
       Carousel: {

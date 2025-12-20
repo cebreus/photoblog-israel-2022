@@ -9,7 +9,6 @@ import type {
   MenuManifest,
   PeopleManifest,
 } from "../../src/lib/types/manifest";
-import { createLogger } from "./logger";
 import {
   isValidAnalysisManifest,
   isValidCurationManifest,
@@ -18,7 +17,8 @@ import {
   isValidManifest,
   isValidMenuManifest,
   isValidPeopleManifest,
-} from "./manifest-validators";
+} from "../../src/lib/utils/manifest-validators";
+import { createLogger } from "./logger";
 
 const logger = createLogger("manifest-repo");
 function sortObjectKeys(obj: any): any {

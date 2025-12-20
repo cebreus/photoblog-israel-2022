@@ -1,6 +1,6 @@
-import { validateUpdateCategoryInput } from "$lib/utils/api-validators";
-import { json } from "@sveltejs/kit";
 import path from "node:path";
+import { json } from "@sveltejs/kit";
+import { validateUpdateCategoryInput } from "$lib/utils/api-validators";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 import {
   loadPeopleManifest,

@@ -1,8 +1,9 @@
-import type { ImageEntry } from "$lib/types/manifest";
-import { validateReassignInput } from "$lib/utils/api-validators";
-import { json } from "@sveltejs/kit";
 import fsp from "node:fs/promises";
 import path from "node:path";
+import { json } from "@sveltejs/kit";
+import type { ImageEntry } from "$lib/types/manifest";
+import { validateReassignInput } from "$lib/utils/api-validators";
+import type { ClusteringConstraints } from "$lib/utils/manifest-validators";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 import {
   loadFacesManifest,
@@ -31,8 +32,7 @@ export async function POST({ request }) {
     return await withManifestLock(dataDir, async () => {
       const peopleManifest = await loadPeopleManifest(dataDir);
       const imagesManifest = await loadImagesManifest(dataDir);
-      const facesManifest = (await loadFacesManifest(dataDir)) || { images: {} };
-      if (!facesManifest.images) facesManifest.images = {};
+      const facesManifest = (await loadFacesManifest(dataDir)) || {};
 
       if (!peopleManifest || !imagesManifest) {
         return json({ success: false, error: "Manifests not found" }, { status: 500 });
@@ -44,7 +44,6 @@ export async function POST({ request }) {
       if (!sourcePerson || !targetPerson) {
         return json({ success: false, error: "Person not found" }, { status: 404 });
       }
-
 
       const sourceDir = path.resolve(facesDir, sourcePersonId);
       const targetDir = path.resolve(facesDir, targetPersonId);
@@ -71,8 +70,8 @@ export async function POST({ request }) {
         }
 
         // Update faces manifest
-        if (Object.hasOwn(facesManifest.images, id)) {
-          const faceData = (facesManifest.images as any)[id];
+        if (Object.hasOwn(facesManifest, id)) {
+          const faceData = facesManifest[id];
           if (faceData.peopleIds?.includes(sourcePersonId)) {
             faceData.peopleIds = faceData.peopleIds.filter((pid: string) => pid !== sourcePersonId);
             faceData.peopleIds.push(targetPersonId);
@@ -106,14 +105,11 @@ export async function POST({ request }) {
         `src/data/${contentDir}/clustering-constraints.json`,
       );
       try {
-        let constraints: {
-          disconnects: { imageId: string; personId: string }[];
-          connects: { imageId: string; personId: string }[];
-        } = { disconnects: [], connects: [] };
+        let constraints: ClusteringConstraints = { disconnects: [], connects: [] };
         try {
           const data = await fsp.readFile(constraintsPath, "utf-8");
           constraints = JSON.parse(data);
-        } catch (e) { }
+        } catch (e) {}
 
         if (!constraints.disconnects) constraints.disconnects = [];
         if (!constraints.connects) constraints.connects = [];
@@ -126,7 +122,7 @@ export async function POST({ request }) {
 
         // De-duplicate constraints
         const uniqueD = new Set();
-        constraints.disconnects = constraints.disconnects.filter((c: any) => {
+        constraints.disconnects = constraints.disconnects.filter((c) => {
           const key = `${c.imageId}:${c.personId}`;
           if (uniqueD.has(key)) return false;
           uniqueD.add(key);
@@ -134,7 +130,7 @@ export async function POST({ request }) {
         });
 
         const uniqueC = new Set();
-        constraints.connects = constraints.connects.filter((c: any) => {
+        constraints.connects = constraints.connects.filter((c) => {
           const key = `${c.imageId}:${c.personId}`;
           if (uniqueC.has(key)) return false;
           uniqueC.add(key);
@@ -169,7 +165,7 @@ export async function POST({ request }) {
 
       await savePeopleManifest(dataDir, peopleManifest);
       await saveImagesManifest(dataDir, imagesManifest);
-      await saveFacesManifest(dataDir, facesManifest as any);
+      await saveFacesManifest(dataDir, facesManifest);
 
       return json({ success: true, movedCount });
     });

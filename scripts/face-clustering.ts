@@ -7,6 +7,7 @@ import fsp from "fs/promises";
 import path from "path";
 import sharp from "sharp";
 import type { FacesManifest, ImageEntry, Person } from "../src/lib/types/manifest";
+import { isValidClusteringConstraints } from "../src/lib/utils/manifest-validators";
 import { parseCliArguments } from "./lib/cli-parser";
 import { deleteOldFaceCrops, findBestMatch, saveFaceCrop } from "./lib/clustering-utils";
 import { resolveGalleryDirectory } from "./lib/gallery-resolver";
@@ -20,7 +21,6 @@ import {
   saveImagesManifest,
   savePeopleManifest,
 } from "./lib/manifest-repository";
-import { isValidClusteringConstraints } from "./lib/manifest-validators";
 import { filterPeopleWithValidDescriptors } from "./lib/people-utils";
 import { progressManager } from "./lib/progress-manager";
 import { formatDuration } from "./lib/time-utils";
@@ -40,9 +40,9 @@ const FACE_CONFIG = {
 
 // Initialize face-api for Node environment
 faceapi.env.monkeyPatch({
-  Canvas: canvas.Canvas,
-  Image: canvas.Image,
-  ImageData: canvas.ImageData,
+  Canvas: canvas.Canvas as unknown as typeof globalThis.HTMLCanvasElement,
+  Image: canvas.Image as unknown as typeof globalThis.HTMLImageElement,
+  ImageData: canvas.ImageData as unknown as typeof globalThis.ImageData,
 });
 
 async function loadModels() {
@@ -310,7 +310,7 @@ async function processImageQueue(
     try {
       const detections = await faceapi
         .detectAllFaces(
-          img as any,
+          img as unknown as faceapi.TNetInput,
           new faceapi.SsdMobilenetv1Options({ minConfidence: FACE_CONFIG.minConfidence }),
         )
         .withFaceLandmarks()
@@ -403,7 +403,7 @@ async function main() {
   let queue = prepareImageQueues(manifest, manualConnects);
 
   // Apply limit if specified
-  const limit = values.limit ? Number.parseInt(values.limit, 10) : 0;
+  const limit = values.limit ? Number.parseInt(String(values.limit), 10) : 0;
   if (limit > 0 && limit < queue.length) {
     if (values.verbose) logger.info(`Limiting processing to first ${limit} images.`);
     queue = queue.slice(0, limit);

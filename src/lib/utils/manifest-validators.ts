@@ -3,14 +3,16 @@ import type {
   Cache,
   CurationManifest,
   EmbeddingsManifest,
+  FaceDetail,
   FacesManifest,
   ImageEntry,
+  ImageFaces,
   Manifest,
   MenuManifest,
   PeopleManifest,
   Person,
   PhotoDay,
-} from "../../src/lib/types/manifest";
+} from "../types/manifest";
 
 function isObject(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === "object" && !Array.isArray(value);
@@ -171,13 +173,37 @@ export function parseJsonOrNull<T>(
   }
 }
 export function isValidAnalysisManifest(value: unknown): value is AnalysisManifest {
-  return isObject(value);
+  if (!isObject(value)) return false;
+  return Object.values(value).every(
+    (entry) =>
+      isObject(entry) &&
+      isNumber((entry as Record<string, unknown>).sharpness) &&
+      isString((entry as Record<string, unknown>).phash),
+  );
 }
 
 export function isValidEmbeddingsManifest(value: unknown): value is EmbeddingsManifest {
-  return isObject(value);
+  if (!isObject(value)) return false;
+  return Object.values(value).every((entry) => isArray(entry) && entry.every((n) => isNumber(n)));
+}
+
+function isValidFaceDetail(value: unknown): value is FaceDetail {
+  if (!isObject(value)) return false;
+  return isNumber(value.x) && isNumber(value.y) && isNumber(value.width) && isNumber(value.height);
+}
+
+function isValidImageFaces(value: unknown): value is ImageFaces {
+  if (!isObject(value)) return false;
+  return (
+    isBoolean(value.facesDetected) &&
+    isArray(value.faces) &&
+    value.faces.every(isValidFaceDetail) &&
+    isArray(value.peopleIds) &&
+    value.peopleIds.every(isString)
+  );
 }
 
 export function isValidFacesManifest(value: unknown): value is FacesManifest {
-  return isObject(value);
+  if (!isObject(value)) return false;
+  return Object.values(value).every(isValidImageFaces);
 }

@@ -27,16 +27,13 @@ export async function POST({ request }) {
 
   const contentDir = process.env.CONTENT_DIR || "egypt-2025";
   const dataDir = path.resolve(process.cwd(), `src/data/${contentDir}`);
-  const peopleManifestPath = path.join(dataDir, "people.manifest.json");
-  const imagesManifestPath = path.join(dataDir, "images.manifest.json");
   const facesDir = path.resolve(process.cwd(), `static/${contentDir}/faces`);
 
   try {
     return await withManifestLock(dataDir, async () => {
       const peopleManifest = await loadPeopleManifest(dataDir);
       const imagesManifest = await loadImagesManifest(dataDir);
-      const facesManifest = (await loadFacesManifest(dataDir)) || { images: {} };
-      if (!facesManifest.images) facesManifest.images = {};
+      const facesManifest = (await loadFacesManifest(dataDir)) || {};
 
       if (!peopleManifest || !imagesManifest) {
         return json({ success: false, error: "Manifests not found" }, { status: 500 });
@@ -66,6 +63,7 @@ export async function POST({ request }) {
           ignored: shouldIgnore || false,
           createdAt: new Date().toISOString(),
           lastSeenAt: new Date().toISOString(),
+          category: "person" as const, // Explicit category or default
         };
 
         peopleManifest.people.push(newPerson);
@@ -88,8 +86,8 @@ export async function POST({ request }) {
         }
 
         // Also update faces manifest to satisfy Split & Link architecture
-        if (Object.hasOwn(facesManifest.images, id)) {
-          const faceData = (facesManifest.images as any)[id];
+        if (Object.hasOwn(facesManifest, id)) {
+          const faceData = facesManifest[id];
           if (faceData.peopleIds?.includes(personId)) {
             faceData.peopleIds = faceData.peopleIds.filter((pid: string) => pid !== personId);
             faceData.peopleIds.push(newPersonId);
@@ -98,7 +96,7 @@ export async function POST({ request }) {
         } else if (imageUpdated) {
           // If it was in the main manifest but not in faces.manifest,
           // we should probably initialize it in faces.manifest too if we want it to persist.
-          (facesManifest.images as any)[id] = {
+          facesManifest[id] = {
             facesDetected: false,
             faces: [],
             peopleIds: [newPersonId],
@@ -131,7 +129,7 @@ export async function POST({ request }) {
 
         if (
           !sourcePerson.thumbnail ||
-          idsToUnmatch.some((id: string) => sourcePerson.thumbnail?.includes(id))
+          idsToUnmatch.some((id) => sourcePerson.thumbnail?.includes(id))
         ) {
           console.log(`[UNMATCH] Thumbnail matches one of removed images, invalidating...`);
           needsNewThumbnail = true;
@@ -179,7 +177,7 @@ export async function POST({ request }) {
 
       await savePeopleManifest(dataDir, peopleManifest);
       await saveImagesManifest(dataDir, imagesManifest);
-      await saveFacesManifest(dataDir, facesManifest as any);
+      await saveFacesManifest(dataDir, facesManifest);
 
       // Save Disconnection and Connection Constraints
       const constraintsPath = path.resolve(
@@ -202,7 +200,8 @@ export async function POST({ request }) {
 
         for (let i = 0; i < idsToUnmatch.length; i++) {
           const id = idsToUnmatch[i];
-          const newPersonId = processedNewPeople[i].id;
+          const newPerson = processedNewPeople[i];
+          const newPersonId = newPerson.id;
 
           constraints.disconnects.push({ imageId: id, personId: personId });
           constraints.connects.push({ imageId: id, personId: newPersonId });

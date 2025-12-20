@@ -12,7 +12,7 @@
   import { Switch } from "$lib/components/ui/switch";
   import { filters } from "$lib/stores/filters.svelte";
   import { people } from "$lib/stores/people.svelte";
-  import type { Person } from "$lib/types/manifest";
+  import type { ImageEntry, Person } from "$lib/types/manifest";
   import { getVisiblePeople } from "$lib/utils/people";
   import SelectionBulkActions from "../SelectionBulkActions.svelte";
   import CategoryPersonCard from "./CategoryPersonCard.svelte";
@@ -27,6 +27,25 @@
   import { untrack } from "svelte";
   import { toast } from "svelte-sonner";
 
+  // Types for API responses
+  type ApiResponse = {
+    success: boolean;
+    error?: string;
+  };
+
+  type IgnoreResponse = ApiResponse & {
+    results?: { id: string; ignored?: boolean; error?: string }[];
+  };
+
+  type MergeResponse = ApiResponse & {
+    mergedPerson?: Person;
+    updatedImageCount?: number;
+    sourceOldFaceCount?: number;
+    sourceNewFaceCount?: number;
+    targetOldFaceCount?: number;
+    targetNewFaceCount?: number;
+  };
+
   // Subscribe to derived store with optimized stats
   let peopleList = $derived(people.peopleWithStats);
 
@@ -38,8 +57,13 @@
   const urlPrefix = $derived(
     (() => {
       let prefix = "";
-      if (firstImage && (firstImage as any).sources && (firstImage as any).sources.length > 0) {
-        const firstPath = (firstImage as any).sources[0].path;
+      // Type assertion safe because we filtered by type === "image"
+      if (
+        firstImage &&
+        (firstImage as ImageEntry).sources &&
+        (firstImage as ImageEntry).sources.length > 0
+      ) {
+        const firstPath = (firstImage as ImageEntry).sources[0].path;
         if (firstPath && firstPath.startsWith("/")) {
           // Path format: "/egypt-2025/images/previews/..." -> extract "/egypt-2025"
           const parts = firstPath.split("/");
@@ -212,7 +236,7 @@
       });
 
       if (response.ok) {
-        const data = await response.json();
+        const data = (await response.json()) as IgnoreResponse;
         const isIgnored = data.results?.[0]?.ignored;
         console.log("[DEBUG] Person ignored state:", isIgnored);
 
@@ -473,7 +497,7 @@
         });
 
         if (!response.ok) {
-          const error = await response.json();
+          const error = (await response.json()) as MergeResponse;
           throw new Error(`Merge failed for ${source.name}: ${error.error}`);
         }
       }

@@ -3,6 +3,7 @@ import path from "node:path";
 import { json } from "@sveltejs/kit";
 import type { FacesManifest, ImageEntry } from "$lib/types/manifest";
 import { validateIgnoreFaceInput } from "$lib/utils/api-validators";
+import type { ClusteringConstraints } from "$lib/utils/manifest-validators";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 import {
   loadFacesManifest,
@@ -12,7 +13,6 @@ import {
   saveImagesManifest,
   savePeopleManifest,
 } from "../../../../../scripts/lib/manifest-repository";
-import type { ClusteringConstraints } from "../../../../../scripts/lib/manifest-validators";
 
 export async function POST({ request }) {
   const body = await request.json();
@@ -33,6 +33,7 @@ export async function POST({ request }) {
     return await withManifestLock(dataDir, async () => {
       const peopleManifest = await loadPeopleManifest(dataDir);
       const imagesManifest = await loadImagesManifest(dataDir);
+      // Ensure defaults to Record, not { images: {} }
       const facesManifest: FacesManifest = (await loadFacesManifest(dataDir)) || {};
 
       if (!peopleManifest || !imagesManifest) {
@@ -50,7 +51,7 @@ export async function POST({ request }) {
 
       // Check if already ignored
       const exists = constraints.ignoredCrops.some(
-        (c: any) =>
+        (c) =>
           c.imageId === imageId && Math.abs(c.box.x - box.x) < 1 && Math.abs(c.box.y - box.y) < 1,
       );
 

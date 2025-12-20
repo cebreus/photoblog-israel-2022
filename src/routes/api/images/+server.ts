@@ -206,10 +206,15 @@ export const POST: RequestHandler = async ({ request }) => {
   const archived: string[] = [];
   const errors: string[] = [];
 
-  const itemsByContentDir: Record<string, any[]> = {};
+  interface ArchiveItem {
+    id: string;
+    src: string;
+    [key: string]: unknown;
+  }
+  const itemsByContentDir: Record<string, ArchiveItem[]> = {};
   const defaultContentDir = process.env.CONTENT_DIR;
 
-  for (const item of ids) {
+  for (const item of ids as ArchiveItem[]) {
     if (!item.src) continue;
     const parts = item.src.split("/");
     if (parts.length >= 3 && parts[1] === "images") {
@@ -247,7 +252,7 @@ export const POST: RequestHandler = async ({ request }) => {
     }
 
     let manifestModified = false;
-    const idsToArchive = new Set(items.map((i: any) => i.id));
+    const idsToArchive = new Set(items.map((i) => i.id));
 
     for (const item of items) {
       const srcPath = item.src;
@@ -389,14 +394,22 @@ export const PATCH: RequestHandler = async ({ request }) => {
     });
 
     const { getExifToolWriteTags } = await import("$lib/utils/metadata-standards");
-    const tags = getExifToolWriteTags(filteredUpdates as any);
+    // Explicitly cast to the expected input type for the utility, or allow it if types align
+    const tags = getExifToolWriteTags(filteredUpdates);
 
     if (Object.keys(tags).length === 0) {
       errors.push("Žádná metadata k aktualizaci");
       continue;
     }
 
-    for (const item of contentDirItems) {
+    // Use a more specific type than 'any' for the loop item, but since it comes from untyped JSON we can use unknown with casting or a defined interface
+    // Ideally we define an interface for the patch payload items
+    interface PatchItem {
+      id: string;
+      src: string;
+    }
+
+    for (const item of contentDirItems as PatchItem[]) {
       try {
         const _physicalDir = physicalRoot;
         const srcParts = item.src.split("/");
