@@ -1,6 +1,9 @@
-import path from "path";
+import path from "node:path";
+import { createLogger } from "./lib/logger";
 import { validatePathInsideRoot } from "./lib/path-utils";
 import { fixUnderwaterImage } from "./lib/underwater";
+
+const logger = createLogger("fix-underwater");
 
 const SAFE_INPUT_ROOT = process.cwd();
 
@@ -11,13 +14,13 @@ const values = options;
 const positionals = process.argv.slice(2).filter((a) => !a.startsWith("--"));
 
 if (values.help || positionals.length < 3) {
-  console.log(
+  logger.info(
     "Usage: bun scripts/fix-underwater.ts <path-to-image> [output-path-or-format] [--both]",
   );
-  console.log("\nExamples:");
-  console.log("  bun scripts/fix-underwater.ts img.heic             # Saves as img-fixed.heic");
-  console.log("  bun scripts/fix-underwater.ts img.heic .jpg        # Saves as img-fixed.jpg");
-  console.log("  bun scripts/fix-underwater.ts img.heic --both      # Saves as HEIC and JPG");
+  logger.info("\nExamples:");
+  logger.info("  bun scripts/fix-underwater.ts img.heic             # Saves as img-fixed.heic");
+  logger.info("  bun scripts/fix-underwater.ts img.heic .jpg        # Saves as img-fixed.jpg");
+  logger.info("  bun scripts/fix-underwater.ts img.heic --both      # Saves as HEIC and JPG");
   process.exit(1);
 }
 
@@ -25,7 +28,7 @@ const inputPath = validatePathInsideRoot(positionals[2] || "", SAFE_INPUT_ROOT);
 const generateBoth = values.both ?? process.argv.includes("--both");
 
 if (!inputPath) {
-  console.error("❌ Error: Missing or invalid input path.");
+  logger.error("❌ Error: Missing or invalid input path.");
   process.exit(1);
 }
 
@@ -51,12 +54,12 @@ try {
   }
 
   const relOutputs = outputs.map((p) => path.relative(cwd, p));
-  console.log(`🚀 Processing: ${relInput} -> ${relOutputs.join(", ")}`);
+  logger.info(`🚀 Processing: ${relInput} -> ${relOutputs.join(", ")}`);
 
   const start = performance.now();
   await fixUnderwaterImage(inputPath, outputs);
-  console.log(`✅ Finished in ${((performance.now() - start) / 1000).toFixed(2)}s`);
+  logger.info(`✅ Finished in ${((performance.now() - start) / 1000).toFixed(2)}s`);
 } catch (error) {
-  console.error(`❌ Error: ${error instanceof Error ? error.message : error}`);
+  logger.error(`❌ Error: ${error instanceof Error ? error.message : error}`);
   process.exit(1);
 }

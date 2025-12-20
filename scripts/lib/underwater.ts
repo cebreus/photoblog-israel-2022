@@ -1,6 +1,6 @@
-import crypto from "crypto"; // Bun's native crypto
-import { mkdir, unlink } from "fs/promises"; // Bun's native fs/promises
-import path from "path"; // Bun's native path module
+import crypto from "node:crypto"; // Bun's native crypto
+import { mkdir, unlink } from "node:fs/promises"; // Bun's native fs/promises
+import path from "node:path"; // Bun's native path module
 import sharp from "sharp";
 import { validatePathInsideRoot } from "./path-utils";
 import { run } from "./shell-utils";

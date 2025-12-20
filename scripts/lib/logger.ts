@@ -2,7 +2,7 @@ import pc from "picocolors";
 import winston from "winston";
 import { progressManager } from "./progress-manager";
 
-const { combine, timestamp, printf, colorize } = winston.format;
+const { combine, timestamp, printf } = winston.format;
 
 const levelColors: Record<string, (str: string) => string> = {
   error: pc.red,

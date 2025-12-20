@@ -18,7 +18,7 @@ export function getConcurrency(concurrency: number | string | undefined): number
 
   if (typeof concurrency === "string") {
     const parsed = parseInt(concurrency, 10);
-    if (!isNaN(parsed) && parsed > 0) {
+    if (!Number.isNaN(parsed) && parsed > 0) {
       return parsed;
     }
   }

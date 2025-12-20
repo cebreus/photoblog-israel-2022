@@ -1,8 +1,8 @@
-import fs from "node:fs";
-import path from "node:path";
 import { confirm, intro, outro, select, spinner, text } from "@clack/prompts";
 import { exiftool } from "exiftool-vendored";
 import fg from "fast-glob";
+import fs from "node:fs";
+import path from "node:path";
 import { parseCliArguments } from "./lib/cli-parser";
 import {
   migrateCache,
@@ -12,8 +12,11 @@ import {
   migrateMarkdownFiles,
   migratePeopleManifest,
 } from "./lib/gallery-migration";
+import { createLogger } from "./lib/logger";
 import { getNewBasename, type RenameMap, safeRename } from "./lib/renaming-utils";
 import { formatDuration } from "./lib/time-utils";
+
+const logger = createLogger("rename-images");
 
 const options = parseCliArguments(process.argv.slice(2));
 const values = options;
@@ -191,7 +194,7 @@ if (import.meta.main) {
       await main();
       outro(`Total time: ${formatDuration(performance.now() - startTime)}`);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
     }
   })();
 }

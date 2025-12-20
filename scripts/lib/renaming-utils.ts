@@ -1,4 +1,4 @@
-import fsp from "fs/promises"; // Bun's native fs/promises
+import fsp from "node:fs/promises"; // Bun's native fs/promises
 import { toSlug } from "../../src/lib/utils/strings";
 import { toSafeFilename } from "./path-utils";
 

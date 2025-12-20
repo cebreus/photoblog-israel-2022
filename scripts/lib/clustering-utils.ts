@@ -1,10 +1,13 @@
-import fsp from "node:fs/promises";
-import path from "node:path";
 import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
 import * as canvas from "canvas";
+import fsp from "node:fs/promises";
+import path from "node:path";
 import type { Person } from "../../src/lib/types/manifest";
 import { ensureDir } from "./image-utils";
+import { createLogger } from "./logger";
 import { hasValidFaceDescriptor } from "./people-utils";
+
+const logger = createLogger("clustering-utils");
 
 export function euclideanDistance(desc1: number[], desc2: number[]): number {
   return faceapi.euclideanDistance(desc1, desc2);
@@ -115,7 +118,7 @@ export async function deleteOldFaceCrops(
       // console.log(`  Deleted old crop: ${personId}/${imageId}.jpg`);
     } catch (e: any) {
       if (e.code !== "ENOENT") {
-        console.warn(`  Failed to delete old crop ${cropPath}: ${e.message}`);
+        logger.warn(`  Failed to delete old crop ${cropPath}: ${e.message}`);
       }
     }
   }

@@ -1,13 +1,16 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { createLogger } from "./lib/logger";
 import { run } from "./lib/shell-utils";
+
+const logger = createLogger("benchmark");
 
 async function main() {
   const gallery = "egypt-2025";
   const limit = 20;
   const manifestPath = path.resolve(process.cwd(), `src/data/${gallery}/images.manifest.json`);
 
-  console.log(`🚀 Benchmarking Embedding Generation (Limit: ${limit} images)`);
+  logger.info(`🚀 Benchmarking Embedding Generation (Limit: ${limit} images)`);
 
   // 1. Backup manifest
   const originalManifest = await fs.readFile(manifestPath, "utf-8");
@@ -27,7 +30,7 @@ async function main() {
     await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2));
 
     // 3. Sequential Run (Batch Size 1)
-    console.log("\n⏱️  Running Sequential (Batch Size: 1)...");
+    logger.info("\n⏱️  Running Sequential (Batch Size: 1)...");
     const startSeq = Date.now();
     await run("bun", [
       "scripts/manage.ts",
@@ -55,7 +58,7 @@ async function main() {
     await fs.writeFile(manifestPath, JSON.stringify(manifest2, null, 2));
 
     // 5. Batch Run (Batch Size 4)
-    console.log("\n⏱️  Running Batch (Batch Size: 4)...");
+    logger.info("\n⏱️  Running Batch (Batch Size: 4)...");
     const startBatch = Date.now();
     await run("bun", [
       "scripts/manage.ts",
@@ -69,15 +72,15 @@ async function main() {
     const batchTime = (endBatch - startBatch) / 1000;
 
     // 6. Report
-    console.log("\n📊 Benchmark Results:");
-    console.log(`- Sequential (1/pass): ${seqTime.toFixed(2)}s`);
-    console.log(`- Batch (4/pass):      ${batchTime.toFixed(2)}s`);
+    logger.info("\n📊 Benchmark Results:");
+    logger.info(`- Sequential (1/pass): ${seqTime.toFixed(2)}s`);
+    logger.info(`- Batch (4/pass):      ${batchTime.toFixed(2)}s`);
     const speedup = (seqTime / batchTime).toFixed(2);
-    console.log(`\n🔥 Speedup: ${speedup}x`);
+    logger.info(`\n🔥 Speedup: ${speedup}x`);
   } finally {
     // Restore manifest
     await fs.writeFile(manifestPath, originalManifest);
   }
 }
 
-main().catch(console.error);
+main().catch(logger.error);
