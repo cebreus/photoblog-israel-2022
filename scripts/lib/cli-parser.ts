@@ -1,9 +1,9 @@
-import os from "node:os";
 import path from "node:path";
 import type { Quality, VariantType } from "../../src/lib/types/images";
 import { ImageFormat, ImageVariant } from "../../src/lib/types/images";
 import type { QualityTypes } from "../../src/lib/types/manifest";
 import { config } from "../config";
+import { getConcurrency } from "./concurrency-utils";
 
 type QualityFormat = Extract<ImageFormat, "avif" | "webp" | "jpeg">;
 type BlurFormat = Extract<ImageFormat, "png" | "avif" | "jpeg">;
@@ -49,6 +49,9 @@ export type CliOptions = {
   batchSize: number;
   timeWindow: number;
   author?: string;
+  threshold: number;
+  minConfidence: number;
+  minFaceSize: number;
 };
 
 const QUALITY_FORMATS: readonly QualityFormat[] = [
@@ -108,6 +111,12 @@ function parseIntWithinRange(value: string, min: number, max: number): number | 
   return Math.max(min, Math.min(max, num));
 }
 
+function parseFloatWithinRange(value: string, min: number, max: number): number | undefined {
+  const num = parseFloat(value);
+  if (Number.isNaN(num)) return undefined;
+  return Math.max(min, Math.min(max, num));
+}
+
 function parseBooleanValue(value: string): boolean {
   return value === "true";
 }
@@ -152,6 +161,9 @@ export const DEFAULT_CLI_OPTIONS: CliOptions = {
   batchSize: 8,
   timeWindow: 4 * 60 * 60 * 1000, // 4 hours in ms
   author: "",
+  threshold: 0.5,
+  minConfidence: 0.5,
+  minFaceSize: 0,
 };
 
 type ArgHandler = (value: string, args: CliOptions) => void;
@@ -304,6 +316,18 @@ const CLI_FLAG_HANDLERS: Record<string, ArgHandler> = {
   author: function handleAuthor(v, a) {
     a.author = v;
   },
+  threshold: function handleThreshold(v, a) {
+    const val = parseFloatWithinRange(v, 0.1, 1.0);
+    if (val !== undefined) a.threshold = val;
+  },
+  minConfidence: function handleMinConfidence(v, a) {
+    const val = parseFloatWithinRange(v, 0.1, 1.0);
+    if (val !== undefined) a.minConfidence = val;
+  },
+  minFaceSize: function handleMinFaceSize(v, a) {
+    const val = parseIntWithinRange(v, 0, 1000);
+    if (val !== undefined) a.minFaceSize = val;
+  },
 };
 
 export function parseCliArguments(argv: string[]): CliOptions {
@@ -321,7 +345,7 @@ export function parseCliArguments(argv: string[]): CliOptions {
   }
 
   if (out.concurrency === "auto") {
-    out.concurrency = Math.max(1, (os.cpus()?.length || 2) - 1);
+    out.concurrency = getConcurrency("auto");
   }
 
   return out;

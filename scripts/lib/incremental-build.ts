@@ -1,11 +1,11 @@
 import fsp from "node:fs/promises";
-import os from "node:os";
 import path from "node:path";
 import fg from "fast-glob";
 import matter from "gray-matter";
 import type { Cache, ImageEntry, Manifest, StoryDataMap } from "../../src/lib/types/manifest";
 import { config } from "../config";
 import { EMBEDDING_DIM } from "./ai-models";
+import { getConcurrency } from "./concurrency-utils";
 import type { ProcessedImageResult } from "./image-processor";
 import { type ImageProcessOptions, processImage } from "./image-processor";
 import { createLogger } from "./logger";
@@ -236,8 +236,7 @@ async function processImages(
 ): Promise<ProcessedImageResult[]> {
   if (toProcess.length === 0) return [];
 
-  const resolvedConcurrency =
-    typeof concurrency === "number" ? concurrency : Math.max(1, (os.cpus()?.length || 2) - 1);
+  const resolvedConcurrency = getConcurrency(concurrency);
   logger.info(`Using concurrency: ${resolvedConcurrency}`);
 
   const bar = quiet ? null : progressManager.createBar(toProcess.length, "Processing");
