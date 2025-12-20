@@ -113,7 +113,7 @@
       onSuccess: function (result) {
         deleteDialogOpen = false;
         imagesToDelete = [];
-        const deletedIds = new Set(result.deleted);
+        const deletedIds = new Set((result as { deleted: string[] }).deleted);
         if (editor.selection.size > 0) {
           for (const id of deletedIds) {
             if (editor.selection.has(id as string)) editor.removeSelection(id as string);
@@ -149,7 +149,7 @@
       onSuccess: function (result) {
         archiveDialogOpen = false;
         imagesToArchive = [];
-        const archivedIds = new Set(result.archived);
+        const archivedIds = new Set((result as { archived: string[] }).archived);
         if (editor.selection.size > 0) {
           for (const id of archivedIds) {
             if (editor.selection.has(id as string)) editor.removeSelection(id as string);

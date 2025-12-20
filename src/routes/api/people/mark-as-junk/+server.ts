@@ -1,8 +1,9 @@
-import type { FacesManifest, ImageEntry } from "$lib/types/manifest";
-import { validateMarkAsJunkInput } from "$lib/utils/api-validators";
-import { json } from "@sveltejs/kit";
 import fsp from "node:fs/promises";
 import path from "node:path";
+import { json } from "@sveltejs/kit";
+import type { FacesManifest, ImageEntry } from "$lib/types/manifest";
+import { validateMarkAsJunkInput } from "$lib/utils/api-validators";
+import type { ClusteringConstraints } from "$lib/utils/manifest-validators";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 import {
   loadFacesManifest,
@@ -12,7 +13,6 @@ import {
   saveImagesManifest,
   savePeopleManifest,
 } from "../../../../../scripts/lib/manifest-repository";
-import type { ClusteringConstraints } from "../../../../../scripts/lib/manifest-validators";
 
 export async function POST({ request }) {
   const body = await request.json();
@@ -93,14 +93,14 @@ export async function POST({ request }) {
       try {
         const data = await fsp.readFile(constraintsPath, "utf-8");
         constraints = JSON.parse(data);
-      } catch (e) { }
+      } catch (e) {}
 
       if (!constraints.ignoredCrops) constraints.ignoredCrops = [];
 
       for (const newCrop of ignoredCropsToAdd) {
         if (!constraints.ignoredCrops) constraints.ignoredCrops = [];
         const exists = constraints.ignoredCrops.some(
-          (c: any) =>
+          (c) =>
             c.imageId === newCrop.imageId &&
             Math.abs(c.box.x - newCrop.box.x) < 1 &&
             Math.abs(c.box.y - newCrop.box.y) < 1,
@@ -116,7 +116,7 @@ export async function POST({ request }) {
       const personFacesDir = path.join(facesDir, personId);
       try {
         await fsp.rm(personFacesDir, { recursive: true, force: true });
-      } catch (e) { }
+      } catch (e) {}
 
       // 4. Remove person from people manifest
       peopleManifest.people = peopleManifest.people.filter((p) => p.id !== personId);

@@ -1,8 +1,9 @@
-import type { ImageEntry } from "$lib/types/manifest";
-import { validateMergeInput } from "$lib/utils/api-validators";
-import { json } from "@sveltejs/kit";
 import fsp from "node:fs/promises";
 import path from "node:path";
+import { json } from "@sveltejs/kit";
+import type { ImageEntry } from "$lib/types/manifest";
+import { validateMergeInput } from "$lib/utils/api-validators";
+import type { ClusteringConstraints } from "$lib/utils/manifest-validators";
 import { removeEmptyPersonFolder } from "../../../../../scripts/lib/cleanup-utils";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 import {
@@ -27,21 +28,19 @@ export async function POST({ request }) {
 
   const contentDir = process.env.CONTENT_DIR || "egypt-2025";
   const dataDir = path.resolve(process.cwd(), `src/data/${contentDir}`);
-  const peopleManifestPath = path.join(dataDir, "people.manifest.json");
-  const imagesManifestPath = path.join(dataDir, "images.manifest.json");
 
   try {
     return await withManifestLock(dataDir, async () => {
       const peopleManifest = await loadPeopleManifest(dataDir);
       const imagesManifest = await loadImagesManifest(dataDir);
-      const facesManifest = (await loadFacesManifest(dataDir)) || { images: {} };
+      const facesManifest = (await loadFacesManifest(dataDir)) || {};
 
       if (!peopleManifest || !imagesManifest) {
         return json({ success: false, error: "Manifests not found" }, { status: 500 });
       }
 
-      const sourcePerson = peopleManifest.people.find((p: any) => p.id === sourcePersonId);
-      const targetPerson = peopleManifest.people.find((p: any) => p.id === targetPersonId);
+      const sourcePerson = peopleManifest.people.find((p) => p.id === sourcePersonId);
+      const targetPerson = peopleManifest.people.find((p) => p.id === targetPersonId);
 
       if (!sourcePerson || !targetPerson) {
         return json({ success: false, error: "Person not found" }, { status: 404 });
@@ -72,14 +71,14 @@ export async function POST({ request }) {
                 try {
                   await fsp.stat(oldPath);
                   await fsp.rename(oldPath, newPath);
-                } catch (_e) { }
+                } catch (_e) {}
 
                 imageItem.people[index] = targetPersonId;
                 imageItem.people = [...new Set(imageItem.people)];
 
                 // Update faces manifest
-                if (Object.hasOwn(facesManifest.images, id)) {
-                  const faceData = (facesManifest.images as any)[id];
+                if (Object.hasOwn(facesManifest, id)) {
+                  const faceData = facesManifest[id];
                   if (faceData.peopleIds?.includes(sourcePersonId)) {
                     faceData.peopleIds = faceData.peopleIds.map((pid: string) =>
                       pid === sourcePersonId ? targetPersonId : pid,
@@ -156,11 +155,11 @@ export async function POST({ request }) {
       );
       try {
         const cData = await fsp.readFile(constraintsPath, "utf-8");
-        const constraints = JSON.parse(cData);
+        const constraints: ClusteringConstraints = JSON.parse(cData);
         let modified = false;
 
         if (constraints.disconnects && Array.isArray(constraints.disconnects)) {
-          constraints.disconnects.forEach((c: any) => {
+          constraints.disconnects.forEach((c) => {
             if (c.personId === sourcePersonId) {
               c.personId = targetPersonId;
               modified = true;
@@ -168,7 +167,7 @@ export async function POST({ request }) {
           });
           if (modified) {
             const seen = new Set();
-            constraints.disconnects = constraints.disconnects.filter((c: any) => {
+            constraints.disconnects = constraints.disconnects.filter((c) => {
               const key = `${c.imageId}:${c.personId}`;
               if (seen.has(key)) return false;
               seen.add(key);
@@ -178,7 +177,7 @@ export async function POST({ request }) {
         }
 
         if (constraints.connects && Array.isArray(constraints.connects)) {
-          constraints.connects.forEach((c: any) => {
+          constraints.connects.forEach((c) => {
             if (c.personId === sourcePersonId) {
               c.personId = targetPersonId;
               modified = true;
@@ -186,7 +185,7 @@ export async function POST({ request }) {
           });
           if (modified) {
             const seen = new Set();
-            constraints.connects = constraints.connects.filter((c: any) => {
+            constraints.connects = constraints.connects.filter((c) => {
               const key = `${c.imageId}:${c.personId}`;
               if (seen.has(key)) return false;
               seen.add(key);
@@ -199,11 +198,11 @@ export async function POST({ request }) {
           await fsp.writeFile(constraintsPath, JSON.stringify(constraints, null, 2));
           console.log(`[MERGE] Updated clustering-constraints.json`);
         }
-      } catch (_e) { }
+      } catch (_e) {}
 
       await savePeopleManifest(dataDir, peopleManifest);
       await saveImagesManifest(dataDir, imagesManifest);
-      await saveFacesManifest(dataDir, facesManifest as any);
+      await saveFacesManifest(dataDir, facesManifest);
 
       const cleanedUp = await removeEmptyPersonFolder(facesDir, sourcePersonId);
       if (cleanedUp) {

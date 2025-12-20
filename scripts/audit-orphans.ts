@@ -146,18 +146,18 @@ async function main() {
 
   // 4. Check analysis/embeddings/faces manifests
   s.start("Checking sub-manifests...");
-  if (analysisManifest?.images) {
-    for (const id of Object.keys(analysisManifest.images)) {
+  if (analysisManifest) {
+    for (const id of Object.keys(analysisManifest)) {
       if (!validImageIds.has(id)) results.staleAnalysisEntries.push(id);
     }
   }
-  if (embeddingsManifest?.images) {
-    for (const id of Object.keys(embeddingsManifest.images)) {
+  if (embeddingsManifest) {
+    for (const id of Object.keys(embeddingsManifest)) {
       if (!validImageIds.has(id)) results.staleEmbeddingsEntries.push(id);
     }
   }
-  if (facesManifest?.images) {
-    for (const id of Object.keys(facesManifest.images)) {
+  if (facesManifest) {
+    for (const id of Object.keys(facesManifest)) {
       if (!validImageIds.has(id)) results.staleFacesEntries.push(id);
     }
   }
@@ -322,19 +322,18 @@ async function main() {
   }
 
   if (categories.includes("manifests")) {
-    if (analysisManifest?.images && results.staleAnalysisEntries.length > 0) {
-      for (const id of results.staleAnalysisEntries) delete (analysisManifest.images as any)[id];
+    if (analysisManifest && results.staleAnalysisEntries.length > 0) {
+      for (const id of results.staleAnalysisEntries) delete analysisManifest[id];
       await saveAnalysisManifest(dataDir, analysisManifest);
       removed += results.staleAnalysisEntries.length;
     }
-    if (embeddingsManifest?.images && results.staleEmbeddingsEntries.length > 0) {
-      for (const id of results.staleEmbeddingsEntries)
-        delete (embeddingsManifest.images as any)[id];
+    if (embeddingsManifest && results.staleEmbeddingsEntries.length > 0) {
+      for (const id of results.staleEmbeddingsEntries) delete embeddingsManifest[id];
       await saveEmbeddingsManifest(dataDir, embeddingsManifest);
       removed += results.staleEmbeddingsEntries.length;
     }
-    if (facesManifest?.images && results.staleFacesEntries.length > 0) {
-      for (const id of results.staleFacesEntries) delete (facesManifest.images as any)[id];
+    if (facesManifest && results.staleFacesEntries.length > 0) {
+      for (const id of results.staleFacesEntries) delete facesManifest[id];
       await saveFacesManifest(dataDir, facesManifest);
       removed += results.staleFacesEntries.length;
     }

@@ -1,5 +1,5 @@
-import { json } from "@sveltejs/kit";
 import path from "node:path";
+import { json } from "@sveltejs/kit";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 import {
   loadPeopleManifest,
@@ -22,7 +22,10 @@ export async function POST({ request }) {
   let targets: string[];
   if (personIds !== undefined) {
     if (!isStringArray(personIds) || personIds.length === 0) {
-      return json({ success: false, error: "personIds must be a non-empty array" }, { status: 400 });
+      return json(
+        { success: false, error: "personIds must be a non-empty array" },
+        { status: 400 },
+      );
     }
     targets = personIds;
   } else if (isNonEmptyString(personId)) {

@@ -39,8 +39,8 @@ vi.mock("$manifests/images.manifest.json", () => ({
 
 vi.mock("$manifests/curation.manifest.json", () => ({
   default: {
-    topImages: ["img1", "img2"],
-    aestheticScores: { img1: 0.95 },
+    groups: [],
+    stats: { totalPhotos: 2, totalGroups: 0, duplicatesFound: 0 },
   },
 }));
 
@@ -96,8 +96,8 @@ describe("images utils", () => {
   describe("getCurationManifest", () => {
     it("returns curation manifest", () => {
       const curation = getCurationManifest();
-      expect(curation).toHaveProperty("topImages");
-      expect(curation).toHaveProperty("aestheticScores");
+      expect(curation).toHaveProperty("groups");
+      expect(curation).toHaveProperty("stats");
     });
   });
 

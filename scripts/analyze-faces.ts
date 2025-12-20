@@ -112,7 +112,7 @@ async function main() {
             // Update manifest
             if (faces.length > 0) {
               faceCount += faces.length;
-              (image.analysis as any).faces = faces;
+              image.analysis.faces = faces;
               logger.verbose(`Detected ${faces.length} faces in ${image.id}`);
             }
 

@@ -13,7 +13,7 @@ interface ActionOptions {
   images: ImagePayload[];
   onStart?(): void;
   onFinish?(): void;
-  onSuccess?(result: any): void;
+  onSuccess?(result: unknown): void;
   onError?(error: Error): void;
 }
 
@@ -59,7 +59,7 @@ export async function performImageAction(options: ActionOptions): Promise<void> 
     if (onSuccess) onSuccess(result);
 
     await invalidateAll();
-  } catch (e: any) {
+  } catch (e: unknown) {
     console.error(e);
     const error = e instanceof Error ? e : new Error(String(e));
     toast.error(`Nepodařilo se provést akci ${action}: ${error.message}`);

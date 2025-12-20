@@ -10,6 +10,7 @@ export interface MetadataClipboardData {
   countryCode?: string;
   caption?: string;
   keywords?: string[];
+  [key: string]: unknown;
 }
 
 export class MetadataClipboardState {

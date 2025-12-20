@@ -42,7 +42,7 @@
     onConfirm,
   }: {
     open: boolean;
-    clipboardData: Record<string, any> | null;
+    clipboardData: Partial<Record<string, unknown>> | null;
     images?: ImageEntry[];
     onConfirm: (fieldsToApply: Record<string, boolean>, excludedImageIds: string[]) => void;
     onOpenCurationDialog?: () => void;
@@ -69,7 +69,14 @@
     const values: Record<string, string> = {};
     for (const def of FIELD_DEFS) {
       const raw = clipboardData?.[def.key];
-      values[def.key] = Array.isArray(raw) ? raw.join(", ") : (raw ?? "");
+      // Assume basic types for metadata values
+      if (Array.isArray(raw)) {
+        values[def.key] = raw.join(", ");
+      } else if (typeof raw === "string" || typeof raw === "number") {
+        values[def.key] = String(raw);
+      } else {
+        values[def.key] = "";
+      }
     }
     return values;
   });
@@ -139,7 +146,7 @@
     // Find plain jpeg fallback or the first available source
     const fallback =
       image.sources?.find(
-        (s) => s.variant === "fallback" || s.variant === ("xxs" as any), // Type cast to avoid lint error if 'xxs' is really used in runtime but missing in type def, or removed entirely.
+        (s) => s.variant === "fallback" || s.variant === ("xxs" as string),
         // Actually, better to just check for 'fallback' and maybe 'placeholder' if it has path?
         // Let's stick to 'fallback' and then first source.
       ) || image.sources?.[0];

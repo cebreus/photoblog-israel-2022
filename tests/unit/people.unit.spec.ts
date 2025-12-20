@@ -27,14 +27,14 @@ describe("getVisiblePeople", () => {
 
   it("should sort by faceCount descending", () => {
     const people = [
-      { id: "1", name: "P1", faceCount: 2, ignored: false },
-      { id: "2", name: "P2", faceCount: 10, ignored: false },
-      { id: "3", name: "P3", faceCount: 5, ignored: false },
+      { id: "person-1", name: "P1", faceCount: 2, ignored: false },
+      { id: "person-2", name: "P2", faceCount: 10, ignored: false },
+      { id: "person-3", name: "P3", faceCount: 5, ignored: false },
     ] as Person[];
 
     const result = getVisiblePeople(people);
     expect(result).toHaveLength(3);
-    expect(result.map((p) => p.id)).toEqual(["2", "3", "1"]);
+    expect(result.map((p) => p.id)).toEqual(["person-2", "person-3", "person-1"]);
   });
 
   it("should handle mixed conditions", () => {

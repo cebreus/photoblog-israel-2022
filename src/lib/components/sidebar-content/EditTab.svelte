@@ -39,7 +39,7 @@
   const form = superForm(initialData, {
     SPA: true,
     dataType: "json",
-    validators: false as any, // Explicitly false to suppress warning
+    validators: undefined,
     // No validators - relying on manual optional fields
     onUpdate: async ({ form }) => {
       if (form.valid) {

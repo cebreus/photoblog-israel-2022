@@ -23,9 +23,9 @@ export async function initModels() {
     const { Canvas, Image, ImageData } = await import("canvas");
 
     faceapi.env.monkeyPatch({
-      Canvas: Canvas as any,
-      Image: Image as any,
-      ImageData: ImageData as any,
+      Canvas: Canvas as unknown as typeof globalThis.HTMLCanvasElement,
+      Image: Image as unknown as typeof globalThis.HTMLImageElement,
+      ImageData: ImageData as unknown as typeof globalThis.ImageData,
     });
     logger.info("Initializing TensorFlow/FaceAPI...");
     await tf.ready();

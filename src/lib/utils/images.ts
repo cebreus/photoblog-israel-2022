@@ -9,12 +9,13 @@ import type {
   PeopleManifest,
   PhotoDay,
 } from "../types/manifest";
+import {
+  isValidCurationManifest,
+  isValidManifest,
+  isValidPeopleManifest,
+} from "./manifest-validators";
 
-function isManifest(acc: unknown): acc is Manifest {
-  return typeof acc === "object" && acc !== null && "photoDays" in acc;
-}
-
-const typedManifest: Manifest = isManifest(manifest) ? manifest : { photoDays: [] };
+const typedManifest: Manifest = isValidManifest(manifest) ? manifest : { photoDays: [] };
 
 export function getManifest(): Manifest {
   return typedManifest;
@@ -61,11 +62,16 @@ export function getImageById(id: string): ImageEntry | undefined {
 }
 
 export function getCurationManifest(): CurationManifest {
-  return curationManifest as unknown as CurationManifest;
+  return isValidCurationManifest(curationManifest)
+    ? curationManifest
+    : {
+        groups: [],
+        stats: { totalPhotos: 0, totalGroups: 0, duplicatesFound: 0 },
+      };
 }
 
 export function getPeopleManifest(): PeopleManifest {
-  return (peopleManifest ?? { people: [] }) as unknown as PeopleManifest;
+  return isValidPeopleManifest(peopleManifest) ? peopleManifest : { people: [] };
 }
 
 interface SourceEntry {
