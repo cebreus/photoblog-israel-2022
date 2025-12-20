@@ -8,9 +8,9 @@
   import { ui } from "$lib/stores/ui.svelte";
   import { initUrlSync } from "$lib/stores/urlSync.svelte";
   import type { Author, CurationManifest, MenuManifest, SiteManifest } from "$lib/types/manifest";
+  import { ModeWatcher } from "mode-watcher";
   import faviconHtml from "../../.temp/favicons.html?raw";
   import "../app.css";
-  import { ModeWatcher } from "mode-watcher";
 
   // Explicitly type props instead of relying on loose inferred types
   interface Props {
@@ -71,7 +71,7 @@
     <div class="flex flex-col min-h-screen">
       <Header menuItems={data.menuItems} authors={data.authors} />
 
-      <main class="flex flex-1 flex-col">
+      <main class="flex flex-1 flex-col" data-testid="main-content">
         {@render children?.()}
       </main>
 
