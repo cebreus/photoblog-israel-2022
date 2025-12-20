@@ -44,7 +44,7 @@ vi.mock("$lib/stores/editor.svelte", () => {
 import { editor } from "$lib/stores/editor.svelte";
 import { filters } from "$lib/stores/filters.svelte";
 import { ui } from "$lib/stores/ui.svelte";
-import { initializeFiltersFromUrl, parseBooleanParam } from "../../src/lib/stores/urlSync";
+import { initializeFiltersFromUrl, parseBooleanParam } from "../../src/lib/stores/urlSync.svelte";
 
 describe("URL Helpers", () => {
   describe("parseBooleanParam", () => {
@@ -122,10 +122,10 @@ describe("initializeFiltersFromUrl", () => {
       expect(ui.sidebarOpen).toBe(false);
     });
 
-    it("defaults to closed if missing (explicit check logic)", () => {
-      ui.sidebarOpen = true;
+    it("defaults to open if missing", () => {
+      ui.sidebarOpen = false;
       initializeFiltersFromUrl(new URL("https://example.com/"));
-      expect(ui.sidebarOpen).toBe(false);
+      expect(ui.sidebarOpen).toBe(true);
     });
   });
 

@@ -27,6 +27,9 @@ async function setupEnv() {
       faceCount: 2,
       faceDescriptor: [0.1],
       thumbnail: "faces/person-1/img1.jpg",
+      ignored: false,
+      createdAt: new Date().toISOString(),
+      lastSeenAt: new Date().toISOString(),
     },
     {
       id: "person-2",
@@ -34,19 +37,52 @@ async function setupEnv() {
       faceCount: 1,
       faceDescriptor: [0.9],
       thumbnail: "faces/person-2/img2.jpg",
+      ignored: false,
+      createdAt: new Date().toISOString(),
+      lastSeenAt: new Date().toISOString(),
     },
   ];
   const images = {
     photoDays: [
       {
         date: "2025-01-01",
+        id: "2025-01-01",
         items: [
-          { type: "image", id: "img1", people: ["person-1"], src: "img1.jpg" },
-          { type: "image", id: "img2", people: ["person-2"], src: "img2.jpg" },
-          { type: "image", id: "img3", people: ["person-1"], src: "img3.jpg" },
+          {
+            type: "image",
+            id: "img1",
+            people: ["person-1"],
+            src: "img1.jpg",
+            alt: "img1",
+            sources: [],
+          },
+          {
+            type: "image",
+            id: "img2",
+            people: ["person-2"],
+            src: "img2.jpg",
+            alt: "img2",
+            sources: [],
+          },
+          {
+            type: "image",
+            id: "img3",
+            people: ["person-1"],
+            src: "img3.jpg",
+            alt: "img3",
+            sources: [],
+          },
         ],
       },
     ],
+  };
+
+  const faces = {
+    images: {
+      img1: { facesDetected: 1, faces: [], peopleIds: ["person-1"] },
+      img2: { facesDetected: 1, faces: [], peopleIds: ["person-2"] },
+      img3: { facesDetected: 1, faces: [], peopleIds: ["person-1"] },
+    },
   };
 
   await fsp.writeFile(
@@ -54,6 +90,7 @@ async function setupEnv() {
     JSON.stringify({ people }, null, 2),
   );
   await fsp.writeFile(path.join(DATA_DIR, "images.manifest.json"), JSON.stringify(images, null, 2));
+  await fsp.writeFile(path.join(DATA_DIR, "faces.manifest.json"), JSON.stringify(faces, null, 2));
 
   // Create dummy face files
   await fsp.mkdir(path.join(STATIC_DIR, "faces/person-1"), { recursive: true });

@@ -10,11 +10,13 @@ function gatherAuthors(photoDays: PhotoDay[]): Author[] {
       if (item.type !== "image") continue;
 
       // use canonical top-level author only
-      const rawAuthor = item.author || "";
+      let rawAuthor = item.author || "";
 
-      if (rawAuthor.trim()) {
-        counts.set(rawAuthor, (counts.get(rawAuthor) ?? 0) + 1);
+      if (!rawAuthor.trim()) {
+        rawAuthor = "Neuvedeno";
       }
+
+      counts.set(rawAuthor, (counts.get(rawAuthor) ?? 0) + 1);
     }
   }
 

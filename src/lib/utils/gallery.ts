@@ -28,7 +28,7 @@ function shouldIncludeItem(
     if (selectedAuthors.includes("none")) {
       return false;
     }
-    const authorMatches = selectedAuthors.includes(img.authorSlug || "");
+    const authorMatches = selectedAuthors.includes(img.authorSlug || "neuvedeno");
     if (!authorMatches) return false;
   }
 

@@ -7,16 +7,16 @@
 
   let {
     open = $bindable(false),
-    sourcePerson,
+    sources,
     targetPerson,
     urlPrefix = "",
     onConfirm,
   } = $props<{
     open?: boolean;
-    sourcePerson: Person;
+    sources: Person[];
     targetPerson: Person;
     urlPrefix?: string;
-    onConfirm: (sourceId: string, targetId: string) => Promise<void>;
+    onConfirm: () => Promise<void>;
   }>();
 
   let isLoading = $state(false);
@@ -24,7 +24,7 @@
   async function handleConfirm() {
     isLoading = true;
     try {
-      await onConfirm(sourcePerson.id, targetPerson.id);
+      await onConfirm();
       open = false;
     } catch (error) {
       console.error("Merge failed:", error);
@@ -40,6 +40,10 @@
     // Use urlPrefix if available
     return `${urlPrefix}/${person.thumbnail}`;
   }
+
+  const totalSourceFaces = $derived(
+    sources.reduce((sum: number, p: Person) => sum + p.faceCount, 0),
+  );
 </script>
 
 <Dialog.Root bind:open>
@@ -47,36 +51,43 @@
     <Dialog.Header class="px-6 py-4 border-b">
       <Dialog.Title data-testid="person-merge-dialog-title">Sloučit osoby</Dialog.Title>
       <Dialog.Description data-testid="person-merge-dialog-description">
-        Tato akce sloučí dvě osoby do jedné. Všechny fotky zdrojové osoby budou přiřazeny cílové
-        osobě. <strong>Nelze vrátit zpět.</strong>
+        Tato akce sloučí vybraných {sources.length} osob do jedné. Všechny jejich fotky budou přiřazeny
+        cílové osobě. <strong>Nelze vrátit zpět.</strong>
       </Dialog.Description>
     </Dialog.Header>
 
-    <div class="space-y-4 p-6">
-      <div class="flex items-center gap-4">
-        <!-- Source Person -->
-        <div class="flex-1" data-testid="person-merge-source">
-          <h4 class="text-xs font-semibold text-muted-foreground uppercase mb-2">
-            Zdrojová osoba (bude smazána)
-          </h4>
-          <div
-            class="flex items-center gap-3 p-3 bg-red-50 dark:bg-red-900/20 rounded-lg border-2 border-red-200 dark:border-red-800"
+    <div class="p-6 space-y-6">
+      <div class="grid grid-cols-[1fr,auto,1fr] items-center gap-4">
+        <!-- Source Persons List -->
+        <div
+          class="space-y-2 max-h-[240px] overflow-y-auto pr-2"
+          data-testid="person-merge-sources"
+        >
+          <h4
+            class="text-xs font-semibold text-muted-foreground uppercase mb-1 sticky top-0 bg-background pb-1"
           >
-            {#if sourcePerson.thumbnail}
-              <img
-                src={getThumbnailUrl(sourcePerson)}
-                alt={sourcePerson.name}
-                class="w-12 h-12 rounded object-cover"
-              />
-            {:else}
-              <div class="w-12 h-12 rounded bg-slate-200 dark:bg-slate-800"></div>
-            {/if}
-            <div class="flex-1 min-w-0">
-              <div class="font-medium truncate" data-testid="person-merge-source-name">
-                {sourcePerson.name}
+            Zdrojové osoby ({sources.length})
+          </h4>
+          <div class="space-y-2">
+            {#each sources as source}
+              <div
+                class="flex items-center gap-3 p-2 bg-red-50 dark:bg-red-900/20 rounded border border-red-100 dark:border-red-900/30"
+              >
+                {#if source.thumbnail}
+                  <img
+                    src={getThumbnailUrl(source)}
+                    alt={source.name}
+                    class="w-10 h-10 rounded object-cover"
+                  />
+                {:else}
+                  <div class="w-10 h-10 rounded bg-slate-200 dark:bg-slate-800"></div>
+                {/if}
+                <div class="flex-1 min-w-0">
+                  <div class="font-medium text-sm truncate">{source.name}</div>
+                  <div class="text-[10px] text-muted-foreground">{source.faceCount} fotek</div>
+                </div>
               </div>
-              <div class="text-xs text-muted-foreground">{sourcePerson.faceCount} fotek</div>
-            </div>
+            {/each}
           </div>
         </div>
 
@@ -86,9 +97,9 @@
         </div>
 
         <!-- Target Person -->
-        <div class="flex-1" data-testid="person-merge-target">
+        <div class="self-start" data-testid="person-merge-target">
           <h4 class="text-xs font-semibold text-muted-foreground uppercase mb-2">
-            Cílová osoba (bude zachována)
+            Cílová osoba (zůstane)
           </h4>
           <div
             class="flex items-center gap-3 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border-2 border-green-200 dark:border-green-800"
@@ -116,17 +127,17 @@
       <div class="p-4 bg-muted rounded-lg">
         <div class="text-sm space-y-1">
           <div class="flex justify-between">
-            <span class="text-muted-foreground">Po sloučení:</span>
+            <span class="text-muted-foreground">Cílové jméno:</span>
             <span class="font-medium">{targetPerson.name}</span>
           </div>
-          <div class="flex justify-between">
-            <span class="text-muted-foreground">Celkem fotek:</span>
-            <span class="font-medium">{sourcePerson.faceCount + targetPerson.faceCount}</span>
+          <div class="flex justify-between border-t border-muted-foreground/10 pt-1 mt-1">
+            <span class="text-muted-foreground">Celkem bude fotek:</span>
+            <span class="font-bold text-primary">{totalSourceFaces + targetPerson.faceCount}</span>
           </div>
-          <div class="flex justify-between">
-            <span class="text-muted-foreground">Thumbnail:</span>
-            <span class="font-medium">Z cílové osoby</span>
-          </div>
+          <p class="text-[10px] text-muted-foreground mt-2 italic">
+            * Zdrojové osoby budou smazány a jejich data (face deskriptory) budou započítány do
+            cílového profilu.
+          </p>
         </div>
       </div>
     </div>
@@ -148,7 +159,7 @@
           <Loader2 class="w-4 h-4 mr-2 animate-spin" />
           Slučuji...
         {:else}
-          Sloučit
+          Sloučit {sources.length + 1} osob do jedné
         {/if}
       </Button>
     </Dialog.Footer>

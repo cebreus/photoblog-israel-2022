@@ -1,0 +1,3538 @@
+{
+  "2025-11-21-175802-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 6139.424789428711,
+        "y": 1796.0889186859126,
+        "width": 580.3544311523438,
+        "height": 646.9274768829347
+      },
+      {
+        "x": 4037.348213195801,
+        "y": 1622.5794868469234,
+        "width": 452.46546936035156,
+        "height": 661.2707290649414
+      },
+      {
+        "x": 1054.2485618591309,
+        "y": 1873.8776149749756,
+        "width": 591.0342750549316,
+        "height": 746.4291400909423
+      },
+      {
+        "x": 5189.241920471191,
+        "y": 1943.6328163146973,
+        "width": 478.7657775878906,
+        "height": 587.9934310913086
+      },
+      {
+        "x": 2866.2543869018555,
+        "y": 2014.4751319885254,
+        "width": 416.03638458251953,
+        "height": 504.4345092773438
+      },
+      {
+        "x": 1897.662431716919,
+        "y": 873.9925203323364,
+        "width": 507.2714366912842,
+        "height": 799.1515417098998
+      }
+    ],
+    "peopleIds": [
+      "person-68a92cd2",
+      "person-cf425672",
+      "person-cf4bc06e",
+      "person-acb58020",
+      "person-960d4d55--jaruska",
+      "person-b8542824--jarek"
+    ]
+  },
+  "2025-11-22-055754-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-22-161654-finda.jpg": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-23-084720-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-23-092139-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1008.0073299407959,
+        "y": 387.1128587722778,
+        "width": 745.3691825866699,
+        "height": 910.1763525009155
+      },
+      {
+        "x": 2631.5109901428223,
+        "y": 954.2396907806396,
+        "width": 654.4103851318359,
+        "height": 690.9629974365232
+      }
+    ],
+    "peopleIds": ["person-b8542824--jarek", "person-960d4d55--jaruska"]
+  },
+  "2025-11-23-101607-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 999.70148563385,
+        "y": 722.8016316890717,
+        "width": 424.2462186813354,
+        "height": 579.5921022891998
+      }
+    ],
+    "peopleIds": ["person-974f9100--jarek"]
+  },
+  "2025-11-23-104951-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-23-121048-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-23-125850-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1832.106325149536,
+        "y": 774.3340444564819,
+        "width": 298.17826652526867,
+        "height": 359.87624073028564
+      },
+      {
+        "x": 735.5535507202147,
+        "y": 764.328254699707,
+        "width": 265.2777671813964,
+        "height": 348.7792510986328
+      },
+      {
+        "x": 1182.0282955169678,
+        "y": 860.184413909912,
+        "width": 279.973217010498,
+        "height": 339.20971298217773
+      }
+    ],
+    "peopleIds": ["person-960d4d55--jaruska", "person-68a92cd2", "person-cd98a484--bobina"]
+  },
+  "2025-11-23-131151-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 2454.5349769592285,
+        "y": 680.5744285583495,
+        "width": 244.38599395751953,
+        "height": 316.87754631042475
+      },
+      {
+        "x": 1460.404546737671,
+        "y": 624.2455158233641,
+        "width": 217.27194213867188,
+        "height": 318.8918380737305
+      }
+    ],
+    "peopleIds": ["person-b44027ac", "person-bda3c885"]
+  },
+  "2025-11-23-131411-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 2334.9341354370117,
+        "y": 2249.037803649902,
+        "width": 424.59246826171875,
+        "height": 534.4002685546875
+      }
+    ],
+    "peopleIds": ["person-b52653fc"]
+  },
+  "2025-11-23-151444-cebreus-fixed.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-23-151450-cebreus-fixed.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-23-151514-cebreus-fixed.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-23-152954-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-23-153413-dasa.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 2009.7329006195066,
+        "y": 739.3652400970459,
+        "width": 266.28893852233875,
+        "height": 469.54314994812006
+      }
+    ],
+    "peopleIds": ["person-cbc54c0e"]
+  },
+  "2025-11-23-205255-2a60e1a3-17c3-4789-ab44-7e0bd28e5bd5.jpg": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 836.6217613220215,
+        "y": 288.8865947723388,
+        "width": 52.59056091308594,
+        "height": 78.70812416076662
+      },
+      {
+        "x": 409.2862129211426,
+        "y": 304.3790578842163,
+        "width": 56.809139251708984,
+        "height": 80.15580177307127
+      },
+      {
+        "x": 1135.4033470153809,
+        "y": 345.64783573150635,
+        "width": 63.29803466796875,
+        "height": 86.1336946487427
+      },
+      {
+        "x": 562.367582321167,
+        "y": 362.22784519195557,
+        "width": 48.844051361083984,
+        "height": 65.79601764678956
+      },
+      {
+        "x": 982.5480461120605,
+        "y": 376.5296936035156,
+        "width": 58.75263214111328,
+        "height": 69.27604675292967
+      },
+      {
+        "x": 921.2340354919434,
+        "y": 339.8499011993408,
+        "width": 51.760101318359375,
+        "height": 59.38982963562013
+      }
+    ],
+    "peopleIds": [
+      "person-690f33f8",
+      "person-cb31b372",
+      "person-960d4d55--jaruska",
+      "person-b44027ac",
+      "person-acb58020",
+      "person-cf425672"
+    ]
+  },
+  "2025-11-24-082240-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-24-112843-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-24-123506-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-24-145949-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-24-152241-finda.jpg": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-24-194927-dasa.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 2896.961311340332,
+        "y": 1337.7200832366943,
+        "width": 84.34286499023438,
+        "height": 103.08828735351562
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7"]
+  },
+  "2025-11-24-201244-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 2343.4202842712402,
+        "y": 1481.1237659454346,
+        "width": 661.8446273803711,
+        "height": 761.1510257720947
+      },
+      {
+        "x": 4191.9604568481445,
+        "y": 1316.4962997436523,
+        "width": 729.5679931640625,
+        "height": 909.8290214538574
+      },
+      {
+        "x": 3395.663806915283,
+        "y": 1679.9113998413086,
+        "width": 544.920295715332,
+        "height": 755.3660202026366
+      },
+      {
+        "x": 5324.389205932617,
+        "y": 1485.125192642212,
+        "width": 578.1242065429688,
+        "height": 661.6068248748778
+      }
+    ],
+    "peopleIds": ["person-68a92cd2", "person-960d4d55--jaruska", "person-cf425672"]
+  },
+  "2025-11-24-201534-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-24-205551-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 331.7630076011021,
+        "y": 1959.1841735839844,
+        "width": 467.0373845100403,
+        "height": 618.240807056427
+      },
+      {
+        "x": 1430.1756479740143,
+        "y": 481.7098850309849,
+        "width": 612.302353064219,
+        "height": 739.5589468181133
+      },
+      {
+        "x": 499.1452274521191,
+        "y": 1464.6799331903458,
+        "width": 226.49640931685758,
+        "height": 321.1329815387726
+      },
+      {
+        "x": 1101.5811295906701,
+        "y": 1112.2146159410477,
+        "width": 497.8579412698746,
+        "height": 597.9602801799774
+      },
+      {
+        "x": 35.40478303531805,
+        "y": 1332.7778162956238,
+        "width": 334.611300582687,
+        "height": 446.24863719940186
+      }
+    ],
+    "peopleIds": [
+      "person-cf4bc06e",
+      "person-02ff1b24",
+      "person-68a92cd2",
+      "person-08336e73",
+      "person-960d4d55--jaruska"
+    ]
+  },
+  "2025-11-24-205949-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-24-210138-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 4660.709666490555,
+        "y": 3405.2558770179744,
+        "width": 87.51167929172516,
+        "height": 136.93482335408493
+      },
+      {
+        "x": 4881.056006908417,
+        "y": 3396.965205430984,
+        "width": 84.98448252677917,
+        "height": 134.42228635152145
+      }
+    ],
+    "peopleIds": ["person-5437a9c6", "person-960d4d55--jaruska"]
+  },
+  "2025-11-24-210141-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 2824.0420989990234,
+        "y": 1087.761531829834,
+        "width": 144.28447723388672,
+        "height": 218.4702072143554
+      },
+      {
+        "x": 1845.5597705841064,
+        "y": 1215.7120170593262,
+        "width": 125.23600387573242,
+        "height": 183.05097198486317
+      },
+      {
+        "x": 3170.4750480651855,
+        "y": 1077.1086044311523,
+        "width": 123.24730682373047,
+        "height": 216.6841049194336
+      }
+    ],
+    "peopleIds": ["person-acb58020", "person-cf4bc06e", "person-960d4d55--jaruska"]
+  },
+  "2025-11-24-210212-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-24-210259-cebreus.jpg": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1345.0523614883423,
+        "y": 2226.1085510253906,
+        "width": 201.8141746520995,
+        "height": 271.939754486084
+      },
+      {
+        "x": 1780.5203199386592,
+        "y": 1836.247205734253,
+        "width": 212.4755382537843,
+        "height": 299.87311363220215
+      }
+    ],
+    "peopleIds": ["person-960d4d55--jaruska", "person-b8542824--jarek"]
+  },
+  "2025-11-24-211848-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-24-215717-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-073938-27be3c01-790f-4f43-9906-e1966b656439.jpg": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 818.6007499694824,
+        "y": 137.3693563100454,
+        "width": 130.9589385986328,
+        "height": 163.196088223844
+      },
+      {
+        "x": 1208.9228630065918,
+        "y": 7.637091404682881,
+        "width": 148.71959686279297,
+        "height": 224.5252287065661
+      },
+      {
+        "x": 473.60501289367676,
+        "y": 60.2289088996681,
+        "width": 101.91383361816406,
+        "height": 151.09905423344796
+      },
+      {
+        "x": 206.59136772155762,
+        "y": 33.0574494954702,
+        "width": 116.33944511413574,
+        "height": 173.04526504310402
+      },
+      {
+        "x": 726.1003971099854,
+        "y": 66.38884348482699,
+        "width": 105.62500953674316,
+        "height": 163.40992092441869
+      }
+    ],
+    "peopleIds": [
+      "person-960d4d55--jaruska",
+      "person-68a92cd2",
+      "person-ed9de0e7",
+      "person-cf425672"
+    ]
+  },
+  "2025-11-25-075730-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-082736-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-082811-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-082818-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-082852-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-082944-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-083005-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-083051-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 3249.092147827148,
+        "y": 795.3655071258544,
+        "width": 190.86300659179685,
+        "height": 315.3972587585449
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7"]
+  },
+  "2025-11-25-083737-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-083807-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1741.290281295776,
+        "y": 4596.151657104492,
+        "width": 158.46875381469727,
+        "height": 336.45533752441406
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7"]
+  },
+  "2025-11-25-083812-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1634.7178688049312,
+        "y": 509.68358802795404,
+        "width": 71.65053176879904,
+        "height": 109.31176757812499
+      },
+      {
+        "x": 1378.7721977233884,
+        "y": 488.968334197998,
+        "width": 69.03915023803717,
+        "height": 98.9182720184326
+      },
+      {
+        "x": 1124.527914047241,
+        "y": 492.9920511245727,
+        "width": 73.0598030090333,
+        "height": 103.77069282531737
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7", "person-0cdcae7b"]
+  },
+  "2025-11-25-084249-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-084314-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-084330-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-084447-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-084524-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-084606-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-084614-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-084805-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-084815-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-084849-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 7113.887786865234,
+        "y": 4018.533576965332,
+        "width": 333.59642028808594,
+        "height": 391.269836425781
+      }
+    ],
+    "peopleIds": ["person-bda3c885"]
+  },
+  "2025-11-25-085027-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-085235-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-085430-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-085626-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-090256-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-090412-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-090435-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-090636-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-092409-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-092514-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-092544-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-092627-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-092702-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-092814-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-093002-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-093034-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-093351-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-093404-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1165.5353279113767,
+        "y": 3722.7786369323726,
+        "width": 402.52694320678705,
+        "height": 555.2209053039551
+      }
+    ],
+    "peopleIds": ["person-960d4d55--jaruska"]
+  },
+  "2025-11-25-093419-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 2159.6050758361816,
+        "y": 1575.2690448760986,
+        "width": 468.99700927734375,
+        "height": 583.7191143035889
+      },
+      {
+        "x": 3174.625717163086,
+        "y": 2302.040725708008,
+        "width": 328.20542907714844,
+        "height": 582.0275802612306
+      }
+    ],
+    "peopleIds": ["person-b8542824--jarek", "person-960d4d55--jaruska"]
+  },
+  "2025-11-25-093510-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-093710-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-094025-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1650.4825286865234,
+        "y": 1238.164587020874,
+        "width": 103.15702056884766,
+        "height": 150.7268943786621
+      },
+      {
+        "x": 1966.858154296875,
+        "y": 1263.2560558319092,
+        "width": 102.63455200195312,
+        "height": 155.16018676757812
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7", "person-eddd2552"]
+  },
+  "2025-11-25-094113-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-094206-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-094825-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 3283.738735198974,
+        "y": 3725.1566619873042,
+        "width": 518.1023254394527,
+        "height": 702.5447845458984
+      },
+      {
+        "x": 1659.378313064575,
+        "y": 3148.0771522521973,
+        "width": 293.24713897705055,
+        "height": 379.73851776123047
+      }
+    ],
+    "peopleIds": ["person-960d4d55--jaruska", "person-f4dfcc1e"]
+  },
+  "2025-11-25-094915-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-095050-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-095052-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-095053-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-095055-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-095226-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-101558-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1783.7050437927246,
+        "y": 5257.329139709473,
+        "width": 276.6906051635742,
+        "height": 443.1533203125
+      },
+      {
+        "x": 2539.5103797912598,
+        "y": 5331.531211853027,
+        "width": 191.01056671142578,
+        "height": 372.31292724609375
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7"]
+  },
+  "2025-11-25-101952-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-102006-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-102804-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-102939-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-103004-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-103050-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-103058-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-103135-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-103145-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-104058-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1481.52787399292,
+        "y": 1447.8481178283691,
+        "width": 411.2721633911133,
+        "height": 566.9730834960936
+      }
+    ],
+    "peopleIds": ["person-960d4d55--jaruska"]
+  },
+  "2025-11-25-104318-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-104322-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 2252.6357231140137,
+        "y": 1185.879518508911,
+        "width": 119.8615951538086,
+        "height": 171.0154495239259
+      },
+      {
+        "x": 1954.3384952545166,
+        "y": 1156.1413478851316,
+        "width": 116.90859031677246,
+        "height": 172.467498779297
+      },
+      {
+        "x": 2550.519229888916,
+        "y": 1161.9382495880127,
+        "width": 117.61310577392578,
+        "height": 154.52981185913075
+      }
+    ],
+    "peopleIds": ["person-acb58020", "person-960d4d55--jaruska", "person-cf4bc06e"]
+  },
+  "2025-11-25-105010-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1326.4704265594482,
+        "y": 4534.658500671387,
+        "width": 123.32252883911131,
+        "height": 185.5191192626953
+      }
+    ],
+    "peopleIds": ["person-e53a4fd9"]
+  },
+  "2025-11-25-105048-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 6592.2829513549805,
+        "y": 2383.437915802002,
+        "width": 169.4326629638672,
+        "height": 266.92039489746094
+      }
+    ],
+    "peopleIds": ["person-8d6846ac"]
+  },
+  "2025-11-25-105444-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-105523-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-105655-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 4814.084333777428,
+        "y": 3980.5765156745915,
+        "width": 177.26704239845276,
+        "height": 332.6240383783973
+      },
+      {
+        "x": 4462.9878652095795,
+        "y": 3964.142212231954,
+        "width": 130.91914653778076,
+        "height": 301.5125455856323
+      }
+    ],
+    "peopleIds": ["person-2db39a61", "person-ed9de0e7"]
+  },
+  "2025-11-25-110638-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-112118-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-112457-dasa.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1342.8386650085447,
+        "y": 352.044349193573,
+        "width": 427.8935852050782,
+        "height": 584.1418175697327
+      }
+    ],
+    "peopleIds": ["person-defee7e1"]
+  },
+  "2025-11-25-112858-finda.jpg": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-112911-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-115354-dasa.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1015.160270690918,
+        "y": 625.4955110549926,
+        "width": 333.52528381347656,
+        "height": 407.2208089828492
+      },
+      {
+        "x": 1919.905918121338,
+        "y": 837.1155281066892,
+        "width": 87.84104919433594,
+        "height": 138.39973640441897
+      },
+      {
+        "x": 2286.277027130127,
+        "y": 709.5565938949585,
+        "width": 77.74736022949219,
+        "height": 123.58123970031734
+      },
+      {
+        "x": 278.07731580734253,
+        "y": 658.5651397705077,
+        "width": 115.36311435699463,
+        "height": 186.16583633422852
+      },
+      {
+        "x": 3322.8830223083496,
+        "y": 167.3888111114502,
+        "width": 493.1670684814453,
+        "height": 666.0597038269043
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7", "person-68a92cd2"]
+  },
+  "2025-11-25-124810-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-131142-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-131147-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-131217-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-131320-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-132137-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-133004-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-133706-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 2693.6727333068848,
+        "y": 3320.4783210754395,
+        "width": 320.3246612548828,
+        "height": 561.5604629516599
+      }
+    ],
+    "peopleIds": ["person-960d4d55--jaruska"]
+  },
+  "2025-11-25-133713-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 2584.268440246582,
+        "y": 1329.844482421875,
+        "width": 982.7811584472656,
+        "height": 1416.954460144043
+      }
+    ],
+    "peopleIds": ["person-960d4d55--jaruska"]
+  },
+  "2025-11-25-145152-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-145159-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-145215-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-145232-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-145322-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-145345-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-145714-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-150525-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-150559-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-150836-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-151216-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-151454-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 3483.476737976074,
+        "y": 2751.623245239258,
+        "width": 563.192756652832,
+        "height": 845.7780761718747
+      }
+    ],
+    "peopleIds": ["person-960d4d55--jaruska"]
+  },
+  "2025-11-25-151616-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-151630-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 4999.361846923828,
+        "y": 1966.6906471252437,
+        "width": 853.85302734375,
+        "height": 1189.0764541625974
+      }
+    ],
+    "peopleIds": ["person-960d4d55--jaruska"]
+  },
+  "2025-11-25-151709-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-151710-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-152350-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 5921.113677978516,
+        "y": 2860.5514526367188,
+        "width": 450.39385986328125,
+        "height": 640.6118316650391
+      }
+    ],
+    "peopleIds": ["person-440da1eb--honza"]
+  },
+  "2025-11-25-152518-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-154350-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-174738-292de74a-cd06-497e-a02a-784f82370d6e.jpg": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 325.8040428161621,
+        "y": 366.98341369628906,
+        "width": 35.04176139831543,
+        "height": 55.03673553466796
+      },
+      {
+        "x": 1030.196762084961,
+        "y": 464.92457389831543,
+        "width": 56.92253112792969,
+        "height": 81.20584487915036
+      },
+      {
+        "x": 1494.9990272521973,
+        "y": 385.50870418548584,
+        "width": 26.100730895996094,
+        "height": 41.72675609588622
+      },
+      {
+        "x": 604.1411876678467,
+        "y": 543.2830810546875,
+        "width": 96.9411849975586,
+        "height": 141.44344329833982
+      }
+    ],
+    "peopleIds": ["person-1a4a2525", "person-afa312a9", "person-ed9de0e7"]
+  },
+  "2025-11-26-075932-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-080112-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-080216-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-080508-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-080521-dasa.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1549.4371318817139,
+        "y": 1072.3521938323972,
+        "width": 79.05112838745117,
+        "height": 110.8337516784668
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7"]
+  },
+  "2025-11-26-080529-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 11604.149657011032,
+        "y": 2404.527652364382,
+        "width": 311.3799457550049,
+        "height": 494.55556520273973
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7"]
+  },
+  "2025-11-26-080555-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-080834-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 5611.835838317871,
+        "y": 2244.1445274353023,
+        "width": 837.2022857666016,
+        "height": 1072.34822845459
+      }
+    ],
+    "peopleIds": ["person-960d4d55--jaruska"]
+  },
+  "2025-11-26-080907-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 5628.2025146484375,
+        "y": 2307.9642791748047,
+        "width": 1004.3153228759766,
+        "height": 1286.6146545410159
+      }
+    ],
+    "peopleIds": ["person-960d4d55--jaruska"]
+  },
+  "2025-11-26-081030-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-081032-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-081034-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-081035-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-081043-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-081049-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-081120-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-081434-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 2001.782678604126,
+        "y": 1380.1294384002686,
+        "width": 117.49979209899902,
+        "height": 132.29798126220686
+      }
+    ],
+    "peopleIds": ["person-bda3c885"]
+  },
+  "2025-11-26-081544-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1145.5774612426758,
+        "y": 944.4423236846924,
+        "width": 206.43156051635742,
+        "height": 256.9925308227539
+      },
+      {
+        "x": 2283.674057006836,
+        "y": 1078.1391220092771,
+        "width": 200.14102935791016,
+        "height": 260.7115745544434
+      }
+    ],
+    "peopleIds": ["person-bda3c885", "person-31372f90"]
+  },
+  "2025-11-26-081923-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-082550-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-082610-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-084453-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-085933-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 3063.9762954711914,
+        "y": 1108.3917102813718,
+        "width": 143.22127532958984,
+        "height": 158.154167175293
+      }
+    ],
+    "peopleIds": ["person-c065fc20"]
+  },
+  "2025-11-26-085943-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-090727-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1527.2736740112305,
+        "y": 1616.815629959106,
+        "width": 76.83027648925781,
+        "height": 109.78232574462913
+      },
+      {
+        "x": 1257.5692234039307,
+        "y": 1561.9708499908445,
+        "width": 80.48130798339844,
+        "height": 118.6340103149414
+      },
+      {
+        "x": 1096.8465728759766,
+        "y": 1603.5175552368162,
+        "width": 80.71995162963867,
+        "height": 117.58618927001976
+      },
+      {
+        "x": 1724.9604949951172,
+        "y": 1594.3991088867188,
+        "width": 80.69111251831055,
+        "height": 122.5765571594236
+      },
+      {
+        "x": 1581.7844009399414,
+        "y": 1619.104974746704,
+        "width": 83.00232696533203,
+        "height": 115.71212768554699
+      },
+      {
+        "x": 1432.2151565551758,
+        "y": 1592.3134403228757,
+        "width": 66.57797241210938,
+        "height": 101.44710159301746
+      }
+    ],
+    "peopleIds": [
+      "person-ed9de0e7",
+      "person-960d4d55--jaruska",
+      "person-bda3c885",
+      "person-5437a9c6"
+    ]
+  },
+  "2025-11-26-091502-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 2538.9905548095703,
+        "y": 2780.2196273803706,
+        "width": 593.6809844970703,
+        "height": 826.8509674072267
+      }
+    ],
+    "peopleIds": ["person-960d4d55--jaruska"]
+  },
+  "2025-11-26-091556-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-092110-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 4128.91960144043,
+        "y": 2693.1702117919917,
+        "width": 479.6088409423828,
+        "height": 623.9365768432615
+      }
+    ],
+    "peopleIds": ["person-960d4d55--jaruska"]
+  },
+  "2025-11-26-093233-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-095057-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1795.6267719268799,
+        "y": 2529.5796318054195,
+        "width": 635.7237224578857,
+        "height": 998.656608581543
+      }
+    ],
+    "peopleIds": ["person-960d4d55--jaruska"]
+  },
+  "2025-11-26-095124-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-095210-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-095523-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1619.330400466919,
+        "y": 1505.4857254028318,
+        "width": 65.66881942749023,
+        "height": 96.53123474121105
+      },
+      {
+        "x": 2163.0720176696777,
+        "y": 1495.886987686157,
+        "width": 61.61524200439453,
+        "height": 88.0518150329591
+      },
+      {
+        "x": 2025.925220489502,
+        "y": 1506.4744262695312,
+        "width": 59.11248779296875,
+        "height": 87.20730972290039
+      },
+      {
+        "x": 1872.7078285217285,
+        "y": 1477.335988998413,
+        "width": 61.00265121459961,
+        "height": 95.68576812744146
+      },
+      {
+        "x": 1442.530185699463,
+        "y": 1483.6027278900146,
+        "width": 54.753936767578125,
+        "height": 87.16957855224615
+      },
+      {
+        "x": 1808.8236694335938,
+        "y": 1491.5784244537351,
+        "width": 62.498199462890625,
+        "height": 90.52717208862293
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7", "person-bda3c885"]
+  },
+  "2025-11-26-095535-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 2136.3798065185547,
+        "y": 1295.620020866394,
+        "width": 268.05226135253906,
+        "height": 378.8061097462971
+      },
+      {
+        "x": 3441.462615966797,
+        "y": 1335.1915872891743,
+        "width": 287.17767333984375,
+        "height": 345.5150465965271
+      },
+      {
+        "x": 1448.770248413086,
+        "y": 1217.7149933576584,
+        "width": 281.8333740234375,
+        "height": 369.1705099741617
+      },
+      {
+        "x": 727.7373962402344,
+        "y": 1111.0270732243855,
+        "width": 270.4474182128906,
+        "height": 420.0862697760265
+      },
+      {
+        "x": 4346.397125244141,
+        "y": 1638.3588432470956,
+        "width": 115.22406005859375,
+        "height": 195.59564208984375
+      },
+      {
+        "x": 2929.8455200195312,
+        "y": 1416.7544722159703,
+        "width": 240.09356689453125,
+        "height": 374.99055290222145
+      }
+    ],
+    "peopleIds": [
+      "person-594e74e0",
+      "person-b44027ac",
+      "person-960d4d55--jaruska",
+      "person-ed9de0e7",
+      "person-acb58020"
+    ]
+  },
+  "2025-11-26-095929-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1396.1163997650146,
+        "y": 2536.4022445678706,
+        "width": 284.46923446655273,
+        "height": 353.12145996093756
+      },
+      {
+        "x": 5720.555923461914,
+        "y": 3133.0829772949214,
+        "width": 757.6909332275391,
+        "height": 911.03377532959
+      },
+      {
+        "x": 4562.981391906738,
+        "y": 3048.0873870849605,
+        "width": 643.5889892578125,
+        "height": 815.3864593505857
+      },
+      {
+        "x": 2887.186294555664,
+        "y": 2493.143577575683,
+        "width": 583.7670593261719,
+        "height": 769.9720687866209
+      },
+      {
+        "x": 3561.2159271240234,
+        "y": 3206.7416725158687,
+        "width": 591.1364135742188,
+        "height": 658.0205612182617
+      },
+      {
+        "x": 2229.0861854553223,
+        "y": 2972.8535957336426,
+        "width": 519.9235153198242,
+        "height": 593.960723876953
+      },
+      {
+        "x": 637.6210355758667,
+        "y": 2448.4304580688477,
+        "width": 211.73483276367188,
+        "height": 291.878723144531
+      },
+      {
+        "x": 1841.2289772033691,
+        "y": 2614.1666679382324,
+        "width": 299.4100570678711,
+        "height": 366.68497467041016
+      }
+    ],
+    "peopleIds": [
+      "person-8543eb92",
+      "person-68a92cd2",
+      "person-960d4d55--jaruska",
+      "person-cf425672",
+      "person-cf4bc06e",
+      "person-8cfcfb2f",
+      "person-ed9de0e7"
+    ]
+  },
+  "2025-11-26-100007-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 5220.805847167969,
+        "y": 1655.8846950531001,
+        "width": 897.1366882324219,
+        "height": 1204.7090549468996
+      },
+      {
+        "x": 2235.1198081970215,
+        "y": 3020.0293350219727,
+        "width": 363.0776824951172,
+        "height": 518.4344558715821
+      },
+      {
+        "x": 4208.266571044922,
+        "y": 3152.6236381530757,
+        "width": 929.5124359130859,
+        "height": 1372.7251167297363
+      },
+      {
+        "x": 3796.3637924194336,
+        "y": 1784.2295551300044,
+        "width": 531.9018402099609,
+        "height": 734.2842693328859
+      }
+    ],
+    "peopleIds": ["person-b8542824--jarek", "person-ed9de0e7", "person-960d4d55--jaruska"]
+  },
+  "2025-11-26-100151-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-100538-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1393.9045600891113,
+        "y": 4921.019439697266,
+        "width": 169.61122512817383,
+        "height": 276.0729675292964
+      },
+      {
+        "x": 6117.201370239258,
+        "y": 5136.344261169433,
+        "width": 155.3899383544922,
+        "height": 229.50837707519577
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7", "person-d078b5bd"]
+  },
+  "2025-11-26-100545-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 2398.2057037353516,
+        "y": 1947.5703163146968,
+        "width": 75.90742492675781,
+        "height": 117.45376968383789
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7"]
+  },
+  "2025-11-26-103900-incoming-1f032774-23f1-4bfd-9f18-b6a5047836f2.png": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-113457-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 3328.710205078125,
+        "y": 905.5851058959961,
+        "width": 356.81815338134766,
+        "height": 491.92722702026373
+      },
+      {
+        "x": 392.8952808380127,
+        "y": 491.7198557853699,
+        "width": 403.21860122680664,
+        "height": 504.3715138435364
+      }
+    ],
+    "peopleIds": ["person-23536fc3", "person-c891371f"]
+  },
+  "2025-11-26-113557-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-113612-dasa.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1412.0394344329832,
+        "y": 1638.1741161346433,
+        "width": 122.90820693969737,
+        "height": 190.2513771057129
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7"]
+  },
+  "2025-11-26-113642-dasa.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1764.540655463934,
+        "y": 829.4395615880081,
+        "width": 90.30656188726425,
+        "height": 111.58224896686843
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7"]
+  },
+  "2025-11-26-113745-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-113757-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-113817-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-114502-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-121346-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 5064.3012771606445,
+        "y": 2844.656536102295,
+        "width": 313.4667205810547,
+        "height": 530.7953796386715
+      }
+    ],
+    "peopleIds": ["person-5437a9c6"]
+  },
+  "2025-11-26-121358-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 4406.515274047852,
+        "y": 2555.6357688903804,
+        "width": 412.6703796386719,
+        "height": 555.1668319702146
+      }
+    ],
+    "peopleIds": ["person-cf425672"]
+  },
+  "2025-11-26-121411-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 3461.503978729248,
+        "y": 2572.923854827881,
+        "width": 348.1904525756836,
+        "height": 539.3038787841795
+      }
+    ],
+    "peopleIds": ["person-cf4bc06e"]
+  },
+  "2025-11-26-121422-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 4991.409942626953,
+        "y": 3066.547782897949,
+        "width": 368.8541564941406,
+        "height": 555.1427993774414
+      }
+    ],
+    "peopleIds": ["person-960d4d55--jaruska"]
+  },
+  "2025-11-26-121518-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-122029-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-123437-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-123858-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-123940-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-124004-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-125147-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 215.53778028488153,
+        "y": 4413.578453063965,
+        "width": 92.21996784210206,
+        "height": 149.27989196777344
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7"]
+  },
+  "2025-11-26-125240-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 341.5199060440063,
+        "y": 4714.388648986816,
+        "width": 168.2824630737304,
+        "height": 256.48736572265625
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7"]
+  },
+  "2025-11-26-125315-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-125323-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-125334-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 2319.4287872314453,
+        "y": 2331.1009368896484,
+        "width": 314.1646270751953,
+        "height": 604.2644577026367
+      }
+    ],
+    "peopleIds": ["person-444c3c84"]
+  },
+  "2025-11-26-125341-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-125352-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-125359-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-125411-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-125421-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-125706-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-125717-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-125755-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1995.6191596984859,
+        "y": 5133.916969299316,
+        "width": 138.36236572265636,
+        "height": 238.12646484374997
+      },
+      {
+        "x": 1744.1704673767088,
+        "y": 5248.985504150391,
+        "width": 130.3325958251953,
+        "height": 200.1107482910156
+      }
+    ],
+    "peopleIds": ["person-9a75bd1e", "person-ed9de0e7"]
+  },
+  "2025-11-26-125848-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-125913-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1051.9114692807198,
+        "y": 874.9126996596653,
+        "width": 145.65850257873535,
+        "height": 234.57088033358258
+      },
+      {
+        "x": 735.2461143136023,
+        "y": 849.5967044432957,
+        "width": 129.16333997249603,
+        "height": 247.30280200640362
+      },
+      {
+        "x": 22.687416322529312,
+        "y": 765.00767827034,
+        "width": 106.8371388837695,
+        "height": 227.9531780878702
+      }
+    ],
+    "peopleIds": ["person-9f52ee2e", "person-ed9de0e7", "person-286f6db4"]
+  },
+  "2025-11-26-125931-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-130017-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-130021-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-130159-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 5694.534393310546,
+        "y": 2412.1551818847656,
+        "width": 287.3375244140627,
+        "height": 367.9731216430664
+      },
+      {
+        "x": 5052.010528564452,
+        "y": 2815.679958343506,
+        "width": 129.3857116699221,
+        "height": 201.29747772216794
+      },
+      {
+        "x": 1243.2013378143308,
+        "y": 1784.3111457824705,
+        "width": 110.26490020751952,
+        "height": 168.69534301757812
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7"]
+  },
+  "2025-11-26-130237-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 829.9656103054681,
+        "y": 4625.308180570602,
+        "width": 111.06231013933824,
+        "height": 145.8138246536255
+      }
+    ],
+    "peopleIds": ["person-c33ae464"]
+  },
+  "2025-11-26-130323-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-130404-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-130440-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-130501-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-130515-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-130543-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-130603-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 914.4904417594272,
+        "y": 2476.802133023739,
+        "width": 146.96188068389893,
+        "height": 211.9836390018463
+      },
+      {
+        "x": 279.59518047173816,
+        "y": 2663.660314679146,
+        "width": 176.0244567791621,
+        "height": 275.7530629634857
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7", "person-e54f5226"]
+  },
+  "2025-11-26-130753-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-130842-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-130849-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-130858-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-130905-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-131110-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 2302.978477478027,
+        "y": 2121.183208465576,
+        "width": 786.548309326172,
+        "height": 1015.9413299560546
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7"]
+  },
+  "2025-11-26-131113-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-131135-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-131140-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-131155-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-131935-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-132422-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 2213.076476484537,
+        "y": 433.29370097319287,
+        "width": 498.8828136920929,
+        "height": 724.5659977992377
+      }
+    ],
+    "peopleIds": ["person-7837494b"]
+  },
+  "2025-11-26-132432-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-132537-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-133202-dasa.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 146.8830313682556,
+        "y": 414.6986103057861,
+        "width": 174.8927779197693,
+        "height": 335.6774024963379
+      },
+      {
+        "x": 515.7725458145142,
+        "y": 700.2589845657349,
+        "width": 65.60152816772458,
+        "height": 111.05184745788573
+      }
+    ],
+    "peopleIds": ["person-64b4bceb", "person-ba60cce2"]
+  },
+  "2025-11-26-133231-dasa.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 2576.0122833251953,
+        "y": 997.456661224365,
+        "width": 128.5791778564453,
+        "height": 188.1701545715332
+      },
+      {
+        "x": 1978.194808959961,
+        "y": 782.2046585083008,
+        "width": 93.76075744628906,
+        "height": 186.7215900421142
+      },
+      {
+        "x": 2275.1643562316895,
+        "y": 894.5737924575806,
+        "width": 83.75550842285156,
+        "height": 116.69223690032959
+      },
+      {
+        "x": 3034.5616035461426,
+        "y": 957.272123336792,
+        "width": 179.36293029785156,
+        "height": 279.4380111694336
+      },
+      {
+        "x": 844.9118213653564,
+        "y": 784.666256904602,
+        "width": 91.51767539978027,
+        "height": 170.141143798828
+      }
+    ],
+    "peopleIds": ["person-122f1a6d", "person-ed9de0e7"]
+  },
+  "2025-11-26-133422-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-133428-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-133714-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-133722-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-134543-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 4512.338470458984,
+        "y": 2758.770778656006,
+        "width": 167.78883361816406,
+        "height": 248.68494415283212
+      },
+      {
+        "x": 5561.683662414551,
+        "y": 2881.4667778015137,
+        "width": 184.23097229003906,
+        "height": 308.925521850586
+      },
+      {
+        "x": 4717.059631347656,
+        "y": 3241.2046508789062,
+        "width": 181.6402587890625,
+        "height": 283.96911621093705
+      },
+      {
+        "x": 2418.5255012512207,
+        "y": 3038.8228225708003,
+        "width": 206.54427337646484,
+        "height": 320.1785430908201
+      },
+      {
+        "x": 3742.141456604004,
+        "y": 753.3028221130371,
+        "width": 152.81700897216797,
+        "height": 254.54072570800776
+      },
+      {
+        "x": 5045.781761169434,
+        "y": 2399.2850074768066,
+        "width": 158.2257843017578,
+        "height": 262.8170700073241
+      },
+      {
+        "x": 3655.148036956787,
+        "y": 3090.9223594665523,
+        "width": 193.35037994384766,
+        "height": 316.9778823852539
+      },
+      {
+        "x": 6292.110580444336,
+        "y": 696.7875366210938,
+        "width": 339.9371795654297,
+        "height": 527.4026985168456
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7", "person-7df29f6c"]
+  },
+  "2025-11-26-134549-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 3666.140785217285,
+        "y": 2053.8460464477535,
+        "width": 213.70838928222656,
+        "height": 314.764961242676
+      },
+      {
+        "x": 2441.1497840881348,
+        "y": 1732.6449165344238,
+        "width": 179.0255126953125,
+        "height": 256.26578521728516
+      },
+      {
+        "x": 3294.663230895996,
+        "y": 1822.2325344085693,
+        "width": 174.56842803955078,
+        "height": 264.73162651062
+      },
+      {
+        "x": 2308.4528617858887,
+        "y": 1139.3851032257078,
+        "width": 110.10676574707031,
+        "height": 175.8596992492677
+      },
+      {
+        "x": 2761.887565612793,
+        "y": 2699.2634353637695,
+        "width": 377.0021667480469,
+        "height": 424.4636535644532
+      },
+      {
+        "x": 1458.9172897338867,
+        "y": 2197.951240539551,
+        "width": 264.45681381225586,
+        "height": 365.8616180419922
+      },
+      {
+        "x": 1509.6812152862549,
+        "y": 1246.3183650970457,
+        "width": 163.84772872924805,
+        "height": 237.86138534545898
+      },
+      {
+        "x": 699.4751014709473,
+        "y": 1484.9329319000244,
+        "width": 161.68119049072266,
+        "height": 225.7600135803222
+      },
+      {
+        "x": 335.9205222129822,
+        "y": 1883.433334350586,
+        "width": 245.96009874343872,
+        "height": 254.1273651123047
+      },
+      {
+        "x": 3116.000129699707,
+        "y": 1615.5838394165035,
+        "width": 134.01294708251953,
+        "height": 210.2277488708496
+      }
+    ],
+    "peopleIds": ["person-7df29f6c", "person-ed9de0e7"]
+  },
+  "2025-11-26-135353-dasa.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 495.69643878936756,
+        "y": 2132.0163803100586,
+        "width": 79.20770072937012,
+        "height": 116.3220748901367
+      },
+      {
+        "x": 111.7261344194412,
+        "y": 2119.518711090088,
+        "width": 66.18504703044893,
+        "height": 91.10323333740234
+      },
+      {
+        "x": 656.5107736587523,
+        "y": 2089.622886657715,
+        "width": 62.680366516113274,
+        "height": 108.4456329345703
+      },
+      {
+        "x": 732.1739673614501,
+        "y": 2074.367477416992,
+        "width": 54.75429725646964,
+        "height": 92.74321746826172
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7", "person-c57bdb48"]
+  },
+  "2025-11-26-135413-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-135431-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 786.0106776952744,
+        "y": 3354.37495803833,
+        "width": 126.50001478195186,
+        "height": 219.94927978515625
+      },
+      {
+        "x": 48.62468928843737,
+        "y": 3350.945890903473,
+        "width": 103.43661063164471,
+        "height": 228.0989990234375
+      },
+      {
+        "x": 521.8030560016632,
+        "y": 3441.580228328705,
+        "width": 122.33619952201848,
+        "height": 195.54378128051758
+      },
+      {
+        "x": 2390.9135124683376,
+        "y": 910.7264860868454,
+        "width": 478.08981752395664,
+        "height": 649.9320141077042
+      }
+    ],
+    "peopleIds": ["person-2610ed4a", "person-ed9de0e7", "person-de2a8a26", "person-444c3c84"]
+  },
+  "2025-11-26-140121-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-140159-dasa.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1482.7896262017964,
+        "y": 427.2922882065177,
+        "width": 311.09524772464226,
+        "height": 383.3524790778756
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7"]
+  },
+  "2025-11-26-140307-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-140324-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-140433-dasa.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 733.2303199768065,
+        "y": 2307.8018188476562,
+        "width": 230.78270530700675,
+        "height": 317.26915740966797
+      },
+      {
+        "x": 1181.849733352661,
+        "y": 1507.1020374298096,
+        "width": 360.40453720092756,
+        "height": 515.3949337005615
+      },
+      {
+        "x": 1689.3785591125486,
+        "y": 2334.792583465576,
+        "width": 236.11854171752915,
+        "height": 309.4369354248047
+      }
+    ],
+    "peopleIds": ["person-444c3c84", "person-2db39a61"]
+  },
+  "2025-11-26-140614-dasa.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 261.26319551956124,
+        "y": 464.02043786644936,
+        "width": 334.39011812698305,
+        "height": 449.3572475016117
+      },
+      {
+        "x": 880.2641801541167,
+        "y": 362.95992467552423,
+        "width": 332.66081617960754,
+        "height": 436.8473994061351
+      },
+      {
+        "x": 242.1528156788276,
+        "y": 1510.4915944635868,
+        "width": 242.4996977405743,
+        "height": 309.1451427638531
+      },
+      {
+        "x": 1468.1615417272158,
+        "y": 557.501522809267,
+        "width": 369.012131830938,
+        "height": 446.32892817258835
+      },
+      {
+        "x": 838.9355366677554,
+        "y": 1154.9262174367905,
+        "width": 303.76122130306106,
+        "height": 401.19988226890564
+      }
+    ],
+    "peopleIds": ["person-1e39b14c", "person-444c3c84", "person-ed9de0e7"]
+  },
+  "2025-11-26-142032-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-142128-dasa.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 3902.1124877929688,
+        "y": 1512.8227558135984,
+        "width": 64.29247283935547,
+        "height": 99.23994827270519
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7"]
+  },
+  "2025-11-26-142225-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-142739-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-153058-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 2577.265629291534,
+        "y": 3213.1052961349483,
+        "width": 89.85514545440672,
+        "height": 131.9208927154541
+      }
+    ],
+    "peopleIds": ["person-cd7500be"]
+  },
+  "2025-11-26-153129-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 529.8736696243286,
+        "y": 1225.9708099365234,
+        "width": 47.826541900634766,
+        "height": 78.28737258911133
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7"]
+  },
+  "2025-11-26-153302-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-153319-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-155237-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-155305-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 2201.576269865036,
+        "y": 1775.844485938549,
+        "width": 200.28882900873802,
+        "height": 302.04717195034027
+      }
+    ],
+    "peopleIds": ["person-acaf2744"]
+  },
+  "2025-11-26-155357-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-155425-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-161403-dasa.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 216.75396466255188,
+        "y": 2020.3474960327148,
+        "width": 119.00070261955261,
+        "height": 180.01998138427723
+      },
+      {
+        "x": 493.8213257789612,
+        "y": 1967.3468570709229,
+        "width": 105.84299325942993,
+        "height": 162.93364906311012
+      },
+      {
+        "x": 276.7902202606201,
+        "y": 1847.5601234436035,
+        "width": 127.71827030181885,
+        "height": 208.3757972717286
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7"]
+  },
+  "2025-11-26-164807-dasa.jpg": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 582.8212201595306,
+        "y": 164.96988228167305,
+        "width": 141.95242524147034,
+        "height": 145.88397768499019
+      }
+    ],
+    "peopleIds": ["person-7df29f6c"]
+  },
+  "2025-11-26-164810-a3766bfe-6c64-477a-888c-9a5d243d0d10.jpg": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 424.9828338623047,
+        "y": 117.0812726020813,
+        "width": 131.7367553710937,
+        "height": 214.54437971115112
+      }
+    ],
+    "peopleIds": ["person-7df29f6c"]
+  },
+  "2025-11-26-164824-68759101-755d-4ffa-863a-a82c7f2edc5d.jpg": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 279.1255474090576,
+        "y": 157.86887407302856,
+        "width": 198.8354682922363,
+        "height": 295.2699065208435
+      }
+    ],
+    "peopleIds": ["person-7837494b"]
+  },
+  "2025-11-26-170618-8635c848-e986-4a54-96ce-1d33d44647c5.jpg": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-182507-2025-11-26-182507-2025-11-26-182507-e5426e65-71cb-4ff3-b538-43333b412999.jpg": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 817.8407669067383,
+        "y": 159.4699417690061,
+        "width": 102.07595825195312,
+        "height": 133.32834927540904
+      },
+      {
+        "x": 1007.2092056274414,
+        "y": 305.0733940556364,
+        "width": 120.0948715209961,
+        "height": 137.73795592110113
+      },
+      {
+        "x": 552.8909206390381,
+        "y": 261.6430854797363,
+        "width": 106.51378631591797,
+        "height": 126.50833936007518
+      }
+    ],
+    "peopleIds": ["person-b8542824--jarek", "person-960d4d55--jaruska", "person-cc1bc736"]
+  },
+  "2025-11-26-182606-285d090d-93d8-4286-8aab-fc58d572ef98.jpg": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 920.6287384033203,
+        "y": 405.6038972229517,
+        "width": 55.924415588378906,
+        "height": 76.2800949481355
+      },
+      {
+        "x": 1263.2634162902832,
+        "y": 312.41049861106546,
+        "width": 70.16029357910156,
+        "height": 86.08248773142071
+      },
+      {
+        "x": 1106.0393333435059,
+        "y": 392.63242885044644,
+        "width": 56.40525817871094,
+        "height": 78.25524594603463
+      },
+      {
+        "x": 1202.7936935424805,
+        "y": 428.14188314485943,
+        "width": 65.56854248046875,
+        "height": 89.38960637966127
+      },
+      {
+        "x": 995.9320068359375,
+        "y": 433.85383208459166,
+        "width": 57.721900939941406,
+        "height": 85.24736061416755
+      },
+      {
+        "x": 1350.0458717346191,
+        "y": 421.95007478088894,
+        "width": 76.23920440673828,
+        "height": 80.01479410123429
+      }
+    ],
+    "peopleIds": [
+      "person-b44027ac",
+      "person-b8542824--jarek",
+      "person-2f1fd5a0",
+      "person-f38a2226",
+      "person-bda3c885"
+    ]
+  },
+  "2025-11-26-182606-7b796aa3-15ad-4bce-b7df-ea4111626a2b.jpg": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 915.0346755981445,
+        "y": 359.957616528435,
+        "width": 59.75055694580078,
+        "height": 74.84162043181942
+      },
+      {
+        "x": 1091.122817993164,
+        "y": 347.07454000840164,
+        "width": 52.75306701660156,
+        "height": 79.10437115593135
+      },
+      {
+        "x": 1267.1564102172852,
+        "y": 266.84626637490146,
+        "width": 69.92759704589844,
+        "height": 81.41677698842796
+      },
+      {
+        "x": 1202.2212028503418,
+        "y": 380.6750176299906,
+        "width": 66.63055419921875,
+        "height": 89.25473029624692
+      },
+      {
+        "x": 989.9164199829102,
+        "y": 382.9018619161257,
+        "width": 64.1836166381836,
+        "height": 88.73964214772687
+      },
+      {
+        "x": 1350.9520530700684,
+        "y": 366.0386217323268,
+        "width": 80.15613555908203,
+        "height": 85.8308121766283
+      }
+    ],
+    "peopleIds": [
+      "person-b44027ac",
+      "person-ed9de0e7",
+      "person-b8542824--jarek",
+      "person-f38a2226",
+      "person-5437a9c6",
+      "person-bda3c885"
+    ]
+  },
+  "2025-11-26-191950-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-26-192016-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1705.6821498870847,
+        "y": 1449.4734420776367,
+        "width": 176.2855567932129,
+        "height": 264.19389724731445
+      }
+    ],
+    "peopleIds": ["person-960d4d55--jaruska"]
+  },
+  "2025-11-26-202254-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1621.3418083190916,
+        "y": 1746.2300605773924,
+        "width": 298.7438735961915,
+        "height": 372.17882537841797
+      },
+      {
+        "x": 683.5659456253051,
+        "y": 1961.3077068328855,
+        "width": 281.7060871124267,
+        "height": 464.11707115173334
+      }
+    ],
+    "peopleIds": ["person-1807c98e", "person-ed9de0e7"]
+  },
+  "2025-11-27-051203-cebreus.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-27-064232-de673c66-3e14-44fe-a9b6-f385d499971a.jpg": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 113.880455493927,
+        "y": 532.0885181427001,
+        "width": 23.111987113952637,
+        "height": 43.936157226562536
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7"]
+  },
+  "2025-11-27-064239-bdf77f1c-1c18-4672-b444-a6e6430a3c43.jpg": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-27-064240-81ea6390-30a6-4303-8b6f-bb014f58e62d.jpg": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-27-064240-9625dee9-e875-4c32-a88b-4cd781fc1614.jpg": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 559.4400405883789,
+        "y": 745.2511787414551,
+        "width": 26.19009017944336,
+        "height": 32.295227050781214
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7"]
+  },
+  "2025-11-27-123935-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-27-124012-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-27-124045-dasa.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 347.53033733367914,
+        "y": 1127.824224472046,
+        "width": 127.68690776824947,
+        "height": 183.39632034301758
+      },
+      {
+        "x": 60.792493700981126,
+        "y": 1179.668535232544,
+        "width": 107.54623568058012,
+        "height": 146.14940643310547
+      },
+      {
+        "x": 793.1370849609374,
+        "y": 1197.0617637634277,
+        "width": 100.8879833221436,
+        "height": 120.72364425659178
+      },
+      {
+        "x": 2434.8445930480952,
+        "y": 1231.6045303344727,
+        "width": 74.49911499023459,
+        "height": 102.78908157348631
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7", "person-43825e4a", "person-cf425672", "person-d63d56bf"]
+  },
+  "2025-11-27-124304-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-27-124915-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-27-150730-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-27-150735-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-27-154552-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-27-154619-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-27-161227-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-27-162526-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-27-162535-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-27-162603-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-28-132857-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-28-132902-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-28-133626-dasa.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 699.8560180664062,
+        "y": 1319.0915794372559,
+        "width": 110.80599403381348,
+        "height": 132.2321319580077
+      },
+      {
+        "x": 3860.2277641296387,
+        "y": 1580.4055309295652,
+        "width": 71.84735870361328,
+        "height": 114.19470977783226
+      }
+    ],
+    "peopleIds": ["person-8bda0a2c", "person-ed9de0e7"]
+  },
+  "2025-11-28-133635-dasa.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1016.6596194407979,
+        "y": 1440.224935054779,
+        "width": 84.92472013879994,
+        "height": 158.5635256767273
+      },
+      {
+        "x": 515.1157235317543,
+        "y": 1527.509871006012,
+        "width": 46.35036330926616,
+        "height": 72.01466798782349
+      },
+      {
+        "x": 204.91691039038488,
+        "y": 1565.549530506134,
+        "width": 42.07863571083608,
+        "height": 66.7358980178833
+      },
+      {
+        "x": 513.6461151206428,
+        "y": 1491.7712950706482,
+        "width": 44.157453109657816,
+        "height": 63.35101938247681
+      }
+    ],
+    "peopleIds": ["person-28dba4bb", "person-ed9de0e7"]
+  },
+  "2025-11-28-152459-dasa.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1560.0692710876465,
+        "y": 1096.3502998352049,
+        "width": 105.33821868896484,
+        "height": 145.27317810058597
+      }
+    ],
+    "peopleIds": ["person-daa68485"]
+  },
+  "2025-11-28-152506-dasa.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 3302.3615913391113,
+        "y": 1290.3285312652588,
+        "width": 184.20069122314453,
+        "height": 285.7001838684081
+      },
+      {
+        "x": 1110.6198921203613,
+        "y": 336.1656246185303,
+        "width": 212.64398574829102,
+        "height": 298.60244178771967
+      }
+    ],
+    "peopleIds": ["person-4dffa2f0", "person-daa68485"]
+  },
+  "2025-11-28-155801-dasa.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1644.5130729675293,
+        "y": 996.697772026062,
+        "width": 364.90343856811523,
+        "height": 503.53875446319586
+      }
+    ],
+    "peopleIds": ["person-cf425672"]
+  },
+  "2025-11-28-170307-ace230a6-8982-4c26-9552-bbff3294a6de.jpg": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-29-053518-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-30-073857-dasa.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 543.1341333389281,
+        "y": 2487.1623458862305,
+        "width": 686.2918424606322,
+        "height": 858.8407516479491
+      }
+    ],
+    "peopleIds": ["person-add4db79"]
+  },
+  "2025-11-30-133909-dasa.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 3169.704563140869,
+        "y": 1516.3148117065427,
+        "width": 196.428955078125,
+        "height": 232.12937164306632
+      },
+      {
+        "x": 2830.9173431396484,
+        "y": 1612.6571502685547,
+        "width": 120.16344451904297,
+        "height": 197.79496765136707
+      },
+      {
+        "x": 2411.5173568725586,
+        "y": 1529.7127418518064,
+        "width": 64.54193115234375,
+        "height": 75.93025588989246
+      },
+      {
+        "x": 2597.874011993408,
+        "y": 1543.2786598205564,
+        "width": 82.2967300415039,
+        "height": 120.29153823852539
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7"]
+  },
+  "2025-11-30-134741-dasa.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1627.9451236724851,
+        "y": 779.3124561309814,
+        "width": 388.01942825317377,
+        "height": 600.6206359863281
+      },
+      {
+        "x": 164.6041395664215,
+        "y": 1559.6240673065186,
+        "width": 282.25050044059753,
+        "height": 491.53008842468256
+      }
+    ],
+    "peopleIds": ["person-02e8429a", "person-ed9de0e7"]
+  },
+  "2025-11-30-140650-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-30-140824-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-30-141202-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-30-141253-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-30-141416-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-30-141437-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-30-141440-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-30-141813-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-30-141921-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-30-142248-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-30-142326-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-30-143428-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-30-144512-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-30-144520-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-30-150529-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-30-150912-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-30-151955-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-30-152003-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-30-152210-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-30-152213-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-30-154257-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-30-154425-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-30-161336-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-30-161354-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-30-161524-dasa.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 509.461887359619,
+        "y": 1972.4597911834715,
+        "width": 105.01750373840333,
+        "height": 142.5927028656006
+      },
+      {
+        "x": 2445.386970520019,
+        "y": 1865.347967147827,
+        "width": 139.35106658935536,
+        "height": 214.38502693176267
+      }
+    ],
+    "peopleIds": ["person-ed9de0e7"]
+  },
+  "2025-11-30-173928-dasa.heic": {
+    "facesDetected": true,
+    "faces": [
+      {
+        "x": 1560.534301757812,
+        "y": 638.3271732330322,
+        "width": 557.7207756042483,
+        "height": 750.2775993347168
+      }
+    ],
+    "peopleIds": ["person-b8542824--jarek"]
+  },
+  "2025-12-01-073611-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-12-02-111144-dasa.heic": {
+    "facesDetected": true,
+    "faces": [],
+    "peopleIds": []
+  },
+  "images": {
+    "2025-11-23-125850-cebreus": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-f38a2226--bobo"]
+    },
+    "2025-11-26-095929-cebreus": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-f38a2226--bobo"]
+    },
+    "2025-11-24-205551-cebreus": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-f38a2226--bobo"]
+    },
+    "2025-11-24-194927-dasa": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": []
+    },
+    "2025-11-25-083051-cebreus": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": []
+    },
+    "2025-11-25-083807-cebreus": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": []
+    },
+    "2025-11-25-083812-cebreus": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-5d7d1636--odpojeno-z-person-72"]
+    },
+    "2025-11-25-105655-cebreus": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": []
+    },
+    "2025-11-25-101558-cebreus": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-23db12c9--odpojeno-z-person-72"]
+    },
+    "2025-11-26-080521-dasa": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-89f8eb8b--odpojeno-z-person-72"]
+    },
+    "2025-11-26-095523-cebreus": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": []
+    },
+    "2025-11-26-095535-cebreus": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": []
+    },
+    "2025-11-26-100538-cebreus": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-98a688cb--odpojeno-z-person-72"]
+    },
+    "2025-11-26-100007-cebreus": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-ec63c114--odpojeno-z-person-72"]
+    },
+    "2025-11-26-100545-cebreus": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-e96ede4a--odpojeno-z-person-72"]
+    },
+    "2025-11-26-113612-dasa": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-1d5ca75a--odpojeno-z-person-72"]
+    },
+    "2025-11-26-125240-cebreus": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-a47ccd33--odpojeno-z-person-72"]
+    },
+    "2025-11-26-125755-cebreus": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-a3e9a3d9--odpojeno-z-person-72"]
+    },
+    "2025-11-26-125913-cebreus": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-ac81d6b6--odpojeno-z-person-72"]
+    },
+    "2025-11-26-125147-cebreus": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-19aad94b--odpojeno-z-person-72"]
+    },
+    "2025-11-26-113642-dasa": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": []
+    },
+    "2025-11-26-131110-cebreus": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-e8161444--odpojeno-z-person-72"]
+    },
+    "2025-11-26-130603-cebreus": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-34d7d5fb--odpojeno-z-person-72"]
+    },
+    "2025-11-26-130159-cebreus": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-c64e20ac--odpojeno-z-person-72"]
+    },
+    "2025-11-26-133231-dasa": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": []
+    },
+    "2025-11-26-134543-cebreus": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-f86234a8--odpojeno-z-person-72"]
+    },
+    "2025-11-26-134549-cebreus": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-6d90e587--odpojeno-z-person-72"]
+    },
+    "2025-11-26-140159-dasa": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-84b332a2--odpojeno-z-person-72"]
+    },
+    "2025-11-26-135353-dasa": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-ddb7b805--odpojeno-z-person-72"]
+    },
+    "2025-11-26-135431-cebreus": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-cad64abf--odpojeno-z-person-72"]
+    },
+    "2025-11-26-140614-dasa": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-3166b2bf--odpojeno-z-person-72"]
+    },
+    "2025-11-26-161403-dasa": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-4b8a3097--odpojeno-z-person-72"]
+    },
+    "2025-11-26-202254-cebreus": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-97523919--odpojeno-z-person-72"]
+    },
+    "2025-11-26-153129-cebreus": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": []
+    },
+    "2025-11-26-142128-dasa": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": []
+    },
+    "2025-11-27-064240-9625dee9-e875-4c32-a88b-4cd781fc1614": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-cb083b1c--odpojeno-z-person-72"]
+    },
+    "2025-11-27-064232-de673c66-3e14-44fe-a9b6-f385d499971a": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": []
+    },
+    "2025-11-28-133626-dasa": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": []
+    },
+    "2025-11-27-124045-dasa": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-e864de37--odpojeno-z-person-72"]
+    },
+    "2025-11-30-133909-dasa": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-11bf1253--odpojeno-z-person-72"]
+    },
+    "2025-11-30-161524-dasa": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-cd869ed1--odpojeno-z-person-72"]
+    },
+    "2025-11-28-133635-dasa": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-c2428b0c--odpojeno-z-person-72"]
+    },
+    "2025-11-25-084849-cebreus": {
+      "facesDetected": false,
+      "faces": [],
+      "peopleIds": ["person-122e1dcf--odpojeno-z-bobina"]
+    }
+  }
+}

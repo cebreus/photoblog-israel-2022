@@ -1,9 +1,6 @@
 {
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "biomejs.biome",
-  "[svelte]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
   "[css]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -19,7 +16,8 @@
   "[typescript]": {
     "editor.codeActionsOnSave": {
       "source.organizeImports": "explicit"
-    }
+    },
+    "editor.defaultFormatter": "vscode.typescript-language-features"
   },
   "[svelte]": {
     "editor.codeActionsOnSave": {

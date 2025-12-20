@@ -1,6 +1,9 @@
 import type {
+  AnalysisManifest,
   Cache,
   CurationManifest,
+  EmbeddingsManifest,
+  FacesManifest,
   ImageEntry,
   Manifest,
   MenuManifest,
@@ -40,7 +43,8 @@ export function isValidPerson(value: unknown): value is Person {
     isString(value.thumbnail) &&
     isBoolean(value.ignored) &&
     isString(value.createdAt) &&
-    isString(value.lastSeenAt)
+    isString(value.lastSeenAt) &&
+    (!value.category || isString(value.category))
   );
 }
 
@@ -92,6 +96,10 @@ export function isValidCache(value: unknown): value is Cache {
 export interface ClusteringConstraints {
   disconnects: Array<{ imageId: string; personId: string }>;
   connects: Array<{ imageId: string; personId: string }>;
+  ignoredCrops?: Array<{
+    imageId: string;
+    box: { x: number; y: number; width: number; height: number };
+  }>;
 }
 
 function isValidConstraintEntry(value: unknown): boolean {
@@ -109,7 +117,21 @@ export function isValidClusteringConstraints(value: unknown): value is Clusterin
   const hasConnects =
     !value.connects || (isArray(value.connects) && value.connects.every(isValidConstraintEntry));
 
-  return hasDisconnects && hasConnects;
+  const hasIgnoredCrops =
+    !value.ignoredCrops ||
+    (isArray(value.ignoredCrops) &&
+      value.ignoredCrops.every(
+        (c) =>
+          isObject(c) &&
+          isString(c.imageId) &&
+          isObject(c.box) &&
+          isNumber(c.box.x) &&
+          isNumber(c.box.y) &&
+          isNumber(c.box.width) &&
+          isNumber(c.box.height),
+      ));
+
+  return hasDisconnects && hasConnects && hasIgnoredCrops;
 }
 
 export function isValidImageEntry(value: unknown): value is ImageEntry {
@@ -147,4 +169,15 @@ export function parseJsonOrNull<T>(
   } catch {
     return null;
   }
+}
+export function isValidAnalysisManifest(value: unknown): value is AnalysisManifest {
+  return isObject(value);
+}
+
+export function isValidEmbeddingsManifest(value: unknown): value is EmbeddingsManifest {
+  return isObject(value);
+}
+
+export function isValidFacesManifest(value: unknown): value is FacesManifest {
+  return isObject(value);
 }

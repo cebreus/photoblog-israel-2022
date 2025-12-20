@@ -1,14 +1,20 @@
 import fsp from "node:fs/promises";
 import path from "node:path";
 import type {
+  AnalysisManifest,
   CurationManifest,
+  EmbeddingsManifest,
+  FacesManifest,
   Manifest,
   MenuManifest,
   PeopleManifest,
 } from "../../src/lib/types/manifest";
 import { createLogger } from "./logger";
 import {
+  isValidAnalysisManifest,
   isValidCurationManifest,
+  isValidEmbeddingsManifest,
+  isValidFacesManifest,
   isValidManifest,
   isValidMenuManifest,
   isValidPeopleManifest,
@@ -45,7 +51,7 @@ export async function saveManifest<T>(filePath: string, data: T, sortKeys = fals
     throw e;
   }
 }
-const MAX_MANIFEST_SIZE_BYTES = 15 * 1024 * 1024; // 15MB limit
+const MAX_MANIFEST_SIZE_BYTES = 30 * 1024 * 1024; // 30MB limit
 
 export async function loadManifest<T>(filePath: string): Promise<T | null> {
   try {
@@ -117,4 +123,48 @@ export async function loadPeopleManifest(outRoot: string): Promise<PeopleManifes
 
 export async function savePeopleManifest(outRoot: string, data: PeopleManifest): Promise<void> {
   return saveManifest(path.join(outRoot, "people.manifest.json"), data);
+}
+
+export async function loadAnalysisManifest(outRoot: string): Promise<AnalysisManifest | null> {
+  const data = await loadManifest<AnalysisManifest>(path.join(outRoot, "analysis.manifest.json"));
+  if (data && !isValidAnalysisManifest(data)) {
+    logger.warn(`Invalid analysis manifest structure in ${outRoot}`);
+    return null;
+  }
+  return data;
+}
+
+export async function saveAnalysisManifest(outRoot: string, data: AnalysisManifest): Promise<void> {
+  return saveManifest(path.join(outRoot, "analysis.manifest.json"), data);
+}
+
+export async function loadEmbeddingsManifest(outRoot: string): Promise<EmbeddingsManifest | null> {
+  const data = await loadManifest<EmbeddingsManifest>(
+    path.join(outRoot, "embeddings.manifest.json"),
+  );
+  if (data && !isValidEmbeddingsManifest(data)) {
+    logger.warn(`Invalid embeddings manifest structure in ${outRoot}`);
+    return null;
+  }
+  return data;
+}
+
+export async function saveEmbeddingsManifest(
+  outRoot: string,
+  data: EmbeddingsManifest,
+): Promise<void> {
+  return saveManifest(path.join(outRoot, "embeddings.manifest.json"), data);
+}
+
+export async function loadFacesManifest(outRoot: string): Promise<FacesManifest | null> {
+  const data = await loadManifest<FacesManifest>(path.join(outRoot, "faces.manifest.json"));
+  if (data && !isValidFacesManifest(data)) {
+    logger.warn(`Invalid faces manifest structure in ${outRoot}`);
+    return null;
+  }
+  return data;
+}
+
+export async function saveFacesManifest(outRoot: string, data: FacesManifest): Promise<void> {
+  return saveManifest(path.join(outRoot, "faces.manifest.json"), data);
 }

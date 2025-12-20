@@ -145,7 +145,7 @@ export function initializeFiltersFromUrl(url: URL) {
   setBooleanStateFromUrl(url, "overlay", (v) => (editor.showMetadataOverlay = v));
   setBooleanStateFromUrl(url, "curation", (v) => (ui.curationMode = v));
 
-  setBooleanStateFromUrl(url, "sidebar", (v) => (ui.sidebarOpen = v), false);
+  setBooleanStateFromUrl(url, "sidebar", (v) => (ui.sidebarOpen = v), true);
 
   const peopleCsv = url.searchParams.get("people");
   filters.selectedPeople = peopleCsv ? peopleCsv.split(",").map(decodeToken).filter(Boolean) : [];
@@ -211,10 +211,11 @@ export function syncUrlFromFilters() {
 
   clearTimeout(debounceTimer);
   filters.filtersSyncing = true;
+  console.log("[urlSync] Sync triggered, debouncing...");
 
   debounceTimer = setTimeout(async () => {
-    const $page = get(page);
-    const params = new URLSearchParams($page.url.searchParams.toString());
+    const pageVal = get(page);
+    const params = new URLSearchParams(pageVal.url.searchParams.toString());
 
     params.delete("author");
     params.delete("authors");
@@ -239,9 +240,9 @@ export function syncUrlFromFilters() {
     syncBooleanParam(params, "sidebar", ui.sidebarOpen, "presence");
     syncBooleanParam(params, "curation", ui.curationMode, "presence");
 
-    const $selection = editor.selection;
-    if ($selection.size > 0) {
-      params.set("edit", Array.from($selection).join(","));
+    const selectionVal = editor.selection;
+    if (selectionVal.size > 0) {
+      params.set("edit", Array.from(selectionVal).join(","));
     } else {
       params.delete("edit");
     }
@@ -253,18 +254,20 @@ export function syncUrlFromFilters() {
     }
 
     const newQuery = normalizePresenceParams(params);
-    const next = `${$page.url.pathname}${newQuery ? `?${newQuery}` : ""}${$page.url.hash}`;
-    const current = $page.url.href.replace($page.url.origin, "");
+    const next = `${pageVal.url.pathname}${newQuery ? `?${newQuery}` : ""}${pageVal.url.hash}`;
+    const current = pageVal.url.href.replace(pageVal.url.origin, "");
 
     if (next === current) {
+      console.log("[urlSync] URL unchanged, skipping navigation");
       filters.filtersSyncing = false;
       return;
     }
 
     try {
+      console.log("[urlSync] Navigating to:", next);
       await goto(next, { replaceState: true, noScroll: true, keepFocus: true });
       try {
-        lastUrl = new URL(next, $page.url.origin);
+        lastUrl = new URL(next, pageVal.url.origin);
       } catch {
         /* ignore */
       }
@@ -280,28 +283,28 @@ export function initUrlSync(initialAuthors: Author[]) {
   authors = initialAuthors;
 
   // 1. Initialize states from URL on first load
-  const $page = get(page);
-  lastUrl = $page.url;
-  initializeFiltersFromUrl($page.url);
+  const pageVal = get(page);
+  lastUrl = pageVal.url;
+  console.log("[urlSync] Initializing from URL:", pageVal.url.toString());
+  initializeFiltersFromUrl(pageVal.url);
 
   // 2. Setup effects for automatic URL updates
   $effect.root(() => {
     $effect(() => {
       // Access reactive properties to trigger tracking
-      const _ = [
-        filters.selectedAuthors,
-        filters.selectedQualityBuckets,
-        filters.showSeparators,
-        ui.photoLabels,
-        editor.selection,
-        editor.editMode,
-        editor.showMetadataOverlay,
-        ui.debug,
-        ui.activeTab,
-        ui.sidebarOpen,
-        ui.curationMode,
-        filters.selectedPeople,
-      ];
+      filters.selectedAuthors;
+      filters.selectedQualityBuckets;
+      filters.showSeparators;
+      ui.photoLabels;
+      editor.selection;
+      editor.editMode;
+      editor.showMetadataOverlay;
+      ui.debug;
+      ui.activeTab;
+      ui.sidebarOpen;
+      ui.curationMode;
+      filters.selectedPeople;
+
       syncUrlFromFilters();
     });
 

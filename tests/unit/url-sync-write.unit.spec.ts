@@ -73,7 +73,7 @@ import { page } from "$app/stores";
 import { editor } from "$lib/stores/editor.svelte";
 import { filters } from "$lib/stores/filters.svelte";
 import { ui } from "$lib/stores/ui.svelte";
-import { syncUrlFromFilters } from "../../src/lib/stores/urlSync";
+import { syncUrlFromFilters } from "../../src/lib/stores/urlSync.svelte";
 
 describe("syncUrlFromFilters", () => {
   beforeEach(() => {

@@ -2,10 +2,18 @@ import crypto from "node:crypto";
 import fsp from "node:fs/promises";
 import path from "node:path";
 import { json } from "@sveltejs/kit";
-import type { ImageEntry, Manifest, PeopleManifest } from "$lib/types/manifest";
+import type { ImageEntry } from "$lib/types/manifest";
 import { validateUnmatchInput } from "$lib/utils/api-validators";
 import { toSlug } from "$lib/utils/strings";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
+import {
+  loadFacesManifest,
+  loadImagesManifest,
+  loadPeopleManifest,
+  saveFacesManifest,
+  saveImagesManifest,
+  savePeopleManifest,
+} from "../../../../../scripts/lib/manifest-repository";
 
 export async function POST({ request }) {
   const body = await request.json();
@@ -15,7 +23,7 @@ export async function POST({ request }) {
     return json({ success: false, error: validation.error }, { status: validation.status });
   }
 
-  const { personId, imageIds: idsToUnmatch } = validation.data;
+  const { personId, imageIds: idsToUnmatch, ignore: shouldIgnore } = validation.data;
 
   const contentDir = process.env.CONTENT_DIR || "egypt-2025";
   const dataDir = path.resolve(process.cwd(), `src/data/${contentDir}`);
@@ -25,10 +33,14 @@ export async function POST({ request }) {
 
   try {
     return await withManifestLock(dataDir, async () => {
-      const peopleManifest: PeopleManifest = JSON.parse(
-        await fsp.readFile(peopleManifestPath, "utf-8"),
-      );
-      const imagesManifest: Manifest = JSON.parse(await fsp.readFile(imagesManifestPath, "utf-8"));
+      const peopleManifest = await loadPeopleManifest(dataDir);
+      const imagesManifest = await loadImagesManifest(dataDir);
+      const facesManifest = (await loadFacesManifest(dataDir)) || { images: {} };
+      if (!facesManifest.images) facesManifest.images = {};
+
+      if (!peopleManifest || !imagesManifest) {
+        return json({ success: false, error: "Manifests not found" }, { status: 500 });
+      }
 
       const sourcePerson = peopleManifest.people.find((p) => p.id === personId);
       if (!sourcePerson) {
@@ -51,7 +63,7 @@ export async function POST({ request }) {
           faceDescriptor: [],
           faceCount: 1,
           thumbnail: `faces/${newPersonId}/${id}.jpg`,
-          ignored: false,
+          ignored: shouldIgnore || false,
           createdAt: new Date().toISOString(),
           lastSeenAt: new Date().toISOString(),
         };
@@ -65,7 +77,7 @@ export async function POST({ request }) {
             if (item.type === "image" && item.id === id) {
               const img = item as ImageEntry;
               if (img.people?.includes(personId)) {
-                // Remove old person
+                // Remove old person from main manifest
                 img.people = img.people.filter((pid) => pid !== personId);
                 // Add new person
                 img.people.push(newPersonId);
@@ -73,6 +85,24 @@ export async function POST({ request }) {
               }
             }
           }
+        }
+
+        // Also update faces manifest to satisfy Split & Link architecture
+        if (Object.hasOwn(facesManifest.images, id)) {
+          const faceData = (facesManifest.images as any)[id];
+          if (faceData.peopleIds?.includes(personId)) {
+            faceData.peopleIds = faceData.peopleIds.filter((pid: string) => pid !== personId);
+            faceData.peopleIds.push(newPersonId);
+            imageUpdated = true;
+          }
+        } else if (imageUpdated) {
+          // If it was in the main manifest but not in faces.manifest,
+          // we should probably initialize it in faces.manifest too if we want it to persist.
+          (facesManifest.images as any)[id] = {
+            facesDetected: false,
+            faces: [],
+            peopleIds: [newPersonId],
+          };
         }
 
         if (!imageUpdated) {
@@ -147,8 +177,9 @@ export async function POST({ request }) {
         sourcePerson.thumbnail = "";
       }
 
-      await fsp.writeFile(peopleManifestPath, JSON.stringify(peopleManifest, null, 2));
-      await fsp.writeFile(imagesManifestPath, JSON.stringify(imagesManifest, null, 2));
+      await savePeopleManifest(dataDir, peopleManifest);
+      await saveImagesManifest(dataDir, imagesManifest);
+      await saveFacesManifest(dataDir, facesManifest as any);
 
       // Save Disconnection and Connection Constraints
       const constraintsPath = path.resolve(
@@ -181,7 +212,12 @@ export async function POST({ request }) {
         console.log(`[UNMATCH] Updated clustering-constraints.json with disconnects and connects`);
       } catch (e) {}
 
-      return json({ success: true, count: idsToUnmatch.length });
+      return json({
+        success: true,
+        count: idsToUnmatch.length,
+        newPerson: processedNewPeople[0], // Return the first new person for the test (test legacy)
+        newPeople: processedNewPeople,
+      });
     });
   } catch (error) {
     console.error("[UNMATCH] Error:", error);

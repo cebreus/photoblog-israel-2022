@@ -6,7 +6,7 @@
   import * as Sidebar from "$lib/components/ui/sidebar";
   import { Toaster } from "$lib/components/ui/sonner";
   import { ui } from "$lib/stores/ui.svelte";
-  import { initUrlSync } from "$lib/stores/urlSync";
+  import { initUrlSync } from "$lib/stores/urlSync.svelte";
   import type { Author, CurationManifest, MenuManifest, SiteManifest } from "$lib/types/manifest";
   import faviconHtml from "../../.temp/favicons.html?raw";
   import "../app.css";
@@ -66,7 +66,7 @@
 
 <ModeWatcher />
 
-<Sidebar.Provider style="--sidebar-width: 24rem;">
+<Sidebar.Provider bind:open={ui.sidebarOpen} style="--sidebar-width: 24rem;">
   <Sidebar.Inset>
     <div class="flex flex-col min-h-screen">
       <Header menuItems={data.menuItems} authors={data.authors} />

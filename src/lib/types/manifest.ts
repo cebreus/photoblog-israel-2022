@@ -272,10 +272,43 @@ export type Person = {
   thumbnail: string;
   manualImageIds?: string[];
   ignored: boolean;
+  category?: "person" | "statue" | "painting";
   createdAt: string;
   lastSeenAt: string;
 };
 
 export type PeopleManifest = {
   people: Person[];
+};
+
+export type AnalysisEntry = {
+  aestheticScore?: number;
+  sharpness: number;
+  qualityBucket?: QualityBucket;
+  phash: string;
+};
+
+export type AnalysisManifest = {
+  [imageId: string]: AnalysisEntry;
+};
+
+export type EmbeddingsManifest = {
+  [imageId: string]: number[];
+};
+
+export type FaceDetail = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+
+export type ImageFaces = {
+  facesDetected: boolean;
+  faces: FaceDetail[];
+  peopleIds: string[];
+};
+
+export type FacesManifest = {
+  [imageId: string]: ImageFaces;
 };

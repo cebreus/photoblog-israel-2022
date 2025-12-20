@@ -5,15 +5,34 @@ function isVisiblePerson(person: Person): boolean {
 }
 
 function compareByNameThenFaceCount(a: Person, b: Person): number {
-  if (b.faceCount !== a.faceCount) {
-    return b.faceCount - a.faceCount;
+  // 1. Sort Named vs Generic
+  // Generic IDs are basically "person-<uuid>" (where UUID is 8-char hex in face-clustering)
+  // Renamed IDs are "person-<uuid>--<slug>"
+  // We consider "Generic" anyone whose ID starts with "person-" but does NOT contain "--"
+  // This robustly handles the system's ID generation logic.
+
+  const isGeneric = (p: Person) => p.id.startsWith("person-") && !p.id.includes("--");
+
+  const aIsGeneric = isGeneric(a);
+  const bIsGeneric = isGeneric(b);
+
+  // Named (Custom) come first
+  if (!aIsGeneric && bIsGeneric) return -1;
+  if (aIsGeneric && !bIsGeneric) return 1;
+
+  if (!aIsGeneric && !bIsGeneric) {
+    // Both named: Sort by Name (A-Z)
+    return a.name.localeCompare(b.name, "cs", { sensitivity: "base" });
   }
-  return a.name.localeCompare(b.name, "cs", { sensitivity: "base" });
+
+  // Both Generic: Sort by Face Count (Descending)
+  return b.faceCount - a.faceCount;
 }
 
 export function getVisiblePeople(people: Person[]): Person[] {
   return [...people].filter(isVisiblePerson).sort(compareByNameThenFaceCount);
 }
+
 function enrichPersonWithFaceCount(faceCounts: Map<string, number>) {
   return function updatePersonFaceCount(person: Person): Person {
     return {
