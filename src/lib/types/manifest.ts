@@ -307,6 +307,11 @@ export type ImageFaces = {
   facesDetected: boolean;
   faces: FaceDetail[];
   peopleIds: string[];
+  /**
+   * Cached 128-float descriptors for re-clustering without re-inference.
+   * Optional to save space if not needed, but critical for fast incremental clustering.
+   */
+  descriptors?: number[][];
 };
 
 export type FacesManifest = {

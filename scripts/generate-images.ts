@@ -1,7 +1,6 @@
 process.env.GLIB_LOG_LEVEL = "critical";
 
 import fsp from "node:fs/promises";
-import os from "node:os";
 import path from "node:path";
 import { intro, select } from "@clack/prompts";
 import "sharp";
@@ -9,6 +8,7 @@ import type { QualityTypes, ScriptArgs } from "../src/lib/types/manifest";
 import { config } from "./config";
 import { runBlurBuild } from "./lib/blur-processor";
 import { type CliOptions, parseCliArguments } from "./lib/cli-parser";
+import { getConcurrency } from "./lib/concurrency-utils";
 import { cleanup } from "./lib/image-processor";
 import { sha1 } from "./lib/image-utils";
 import incrementalRun from "./lib/incremental-build";
@@ -106,10 +106,7 @@ async function getGalleryOrPrompt(): Promise<string> {
 }
 
 function resolveConcurrency(value: number | "auto") {
-  if (value === "auto") {
-    return Math.max(1, (os.cpus()?.length || 2) - 1);
-  }
-  return Math.max(1, value);
+  return getConcurrency(value);
 }
 
 function initializeContext() {

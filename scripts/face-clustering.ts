@@ -1,15 +1,16 @@
-import os from "node:os";
 import { intro, outro } from "@clack/prompts";
 import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
 import * as canvas from "canvas";
 import crypto from "crypto";
 import fsp from "fs/promises";
+
 import path from "path";
 import sharp from "sharp";
 import type { FacesManifest, ImageEntry, Person } from "../src/lib/types/manifest";
 import { isValidClusteringConstraints } from "../src/lib/utils/manifest-validators";
 import { parseCliArguments } from "./lib/cli-parser";
 import { deleteOldFaceCrops, findBestMatch, saveFaceCrop } from "./lib/clustering-utils";
+import { getConcurrency } from "./lib/concurrency-utils";
 import { resolveGalleryDirectory } from "./lib/gallery-resolver";
 import { convertHeicToPng, ensureDir } from "./lib/image-utils";
 import { createLogger } from "./lib/logger";
@@ -32,9 +33,9 @@ const options = parseCliArguments(process.argv.slice(2));
 const values = options; // For compatibility with existing 'values' references
 
 const FACE_CONFIG = {
-  minConfidence: 0.5,
+  minConfidence: values.minConfidence,
   modelPath: path.resolve(SCRIPT_DIR, "models"), // Point to the local models directory
-  distanceThreshold: 0.5,
+  distanceThreshold: values.threshold,
   facesDir: "faces",
 };
 
@@ -170,6 +171,20 @@ async function processFaceDetections(
           bestMatch.faceCount;
       }
     } else {
+      // Check for minimum face size before creating a new person
+      // This prevents creating thousands of "Person X" for tiny background faces
+      if (values.minFaceSize > 0) {
+        const minSize = values.minFaceSize;
+        if (box.width < minSize || box.height < minSize) {
+          if (values.verbose) {
+            logger.verbose(
+              `Skipping new person creation for small face (${Math.round(box.width)}x${Math.round(box.height)}) in ${image.id}`,
+            );
+          }
+          return; // Skip creation
+        }
+      }
+
       const uuid = crypto.randomUUID().slice(0, 8);
       const personId = `person-${uuid}`;
       await saveFaceCrop(img, detection.detection.box, personId, image.id, facesOutputDir);
@@ -273,12 +288,10 @@ async function processImageQueue(
   facesOutputDir: string,
   sourceDir: string,
   detailsDir: string,
+  facesManifest: FacesManifest, // Added
 ) {
   let processedCount = 0;
-  const CONCURRENCY =
-    typeof values.concurrency === "number"
-      ? values.concurrency
-      : Math.max(1, (os.cpus()?.length || 2) - 1);
+  const CONCURRENCY = getConcurrency(values.concurrency);
 
   const bar = progressManager.createBar(queue.length, "[face-clustering]", { people: 0 });
 
@@ -308,29 +321,123 @@ async function processImageQueue(
     }
 
     try {
-      const detections = await faceapi
-        .detectAllFaces(
-          img as unknown as faceapi.TNetInput,
-          new faceapi.SsdMobilenetv1Options({ minConfidence: FACE_CONFIG.minConfidence }),
-        )
-        .withFaceLandmarks()
-        .withFaceDescriptors();
+      let detections: any[] = [];
+      let usedCache = false;
 
-      if (detections.length > 0 && values.verbose) {
-        logger.verbose(`Found ${detections.length} faces in ${image.id}`);
+      // 1. Try to load from cache
+      if (facesManifest[image.id] && facesManifest[image.id].descriptors) {
+        const cached = facesManifest[image.id];
+        if (
+          cached.faces &&
+          cached.descriptors &&
+          cached.faces.length === cached.descriptors.length
+        ) {
+          usedCache = true;
+          // Reconstruct detection objects expected by processFaceDetections
+          // We need to un-scale the boxes back to detection coordinates if they were scaled?
+          // Wait, manifest stores relative/logical coordinates?
+          // No, processFaceDetections scales them: x = box.x * scaleX.
+          // The manifest stores what image.analysis.faces stores.
+          // image.analysis.faces stores SCALED coordinates (relative to full image size).
+          // But detection.detection.box is usually in the coordinate system of the INPUT image (thumbnail).
+
+          // Actually, let's look at how facesManifest is saved.
+          // It is saved from img.analysis.faces.
+          // img.analysis.faces are computed as: box.x * scaleX (where scaleX maps thumb -> full).
+
+          // If we reuse cache, we need to be careful.
+          // If we rely on facesManifest.faces, those are ALREADY scaled to full image.
+          // But processFaceDetections expects raw detection boxes (relative to the thumb `img`).
+
+          // Easier approach: Store RAW detection boxes in facesManifest too?
+          // Or just map back if we know the scales?
+
+          // Let's assume we use the cached descriptors and faces directly.
+          // But processFaceDetections does cropping!
+          // saveFaceCrop(img, box...) takes `img` (thumbnail) and `box` (coords in thumbnail).
+
+          // If facesManifest has scaled coords, we need to unscale them to crop from thumbnail.
+          // scaleX = image.width / img.width.
+          // So box_thumb = box_full / scaleX.
+
+          const scaleX = (image.width || img.width) / img.width;
+          const scaleY = (image.height || img.height) / img.height;
+
+          detections = cached.faces.map((face, i) => ({
+            detection: {
+              box: {
+                x: face.x / scaleX,
+                y: face.y / scaleY,
+                width: face.width / scaleX,
+                height: face.height / scaleY,
+              },
+            },
+            descriptor: new Float32Array(cached.descriptors![i]),
+          }));
+
+          if (values.verbose) logger.verbose(`Using cached descriptors for ${image.id}`);
+        }
       }
 
-      await processFaceDetections(
-        img,
-        detections,
-        image,
-        people,
-        disconnectedPairs,
-        ignoredPairs,
-        facesOutputDir,
-      );
+      if (!usedCache) {
+        try {
+          detections = await faceapi
+            .detectAllFaces(
+              img as unknown as faceapi.TNetInput,
+              new faceapi.SsdMobilenetv1Options({ minConfidence: FACE_CONFIG.minConfidence }),
+            )
+            .withFaceLandmarks()
+            .withFaceDescriptors();
+
+          // Save to manifest for next time
+          if (detections.length > 0) {
+            // We need to calculate the scaled faces to save to manifest,
+            // but processFaceDetections does that too.
+            // Let's let processFaceDetections populate image.analysis,
+            // and then we extract and save to facesManifest.
+          }
+        } catch (e) {
+          logger.error(`Detection failed for ${image.id}:`, e);
+        }
+      }
+
+      if (detections.length > 0) {
+        if (values.verbose && !usedCache) {
+          logger.verbose(`Found ${detections.length} faces in ${image.id}`);
+        }
+
+        await processFaceDetections(
+          img,
+          detections,
+          image,
+          people,
+          disconnectedPairs,
+          ignoredPairs,
+          facesOutputDir,
+        );
+
+        // Updates facesManifest with the results (newly verified/computed)
+        // Note: processFaceDetections updates image.analysis.faces
+        // We need to sync that to facesManifest along with descriptors
+        if (!usedCache && image.analysis && image.analysis.facesDetected) {
+          facesManifest[image.id] = {
+            facesDetected: true,
+            faces: image.analysis.faces || [],
+            peopleIds: image.people || [],
+            descriptors: detections.map((d) => Array.from(d.descriptor) as number[]),
+          };
+        }
+      } else if (!usedCache) {
+        // Mark as processed but no faces
+        facesManifest[image.id] = {
+          facesDetected: false,
+          faces: [],
+          peopleIds: [],
+          descriptors: [],
+        };
+      }
     } catch (e) {
-      logger.error(`Detection/Clustering failed for ${image.id}:`, e);
+      logger.error(`Clustering failed for ${image.id}:`, e);
     }
 
     processedCount++;
@@ -355,7 +462,6 @@ async function processImageQueue(
     pool.push(runNext());
   }
 
-  await Promise.all(pool);
   await Promise.all(pool);
   if (bar) progressManager.removeBar(bar);
 }
@@ -419,6 +525,7 @@ async function main() {
     facesOutputDir,
     sourceDir,
     detailsDir,
+    facesManifest,
   );
 
   logger.info(`Finished. Found ${people.length} unique people.`);
@@ -428,16 +535,24 @@ async function main() {
 
   // Save via Repository
   await saveImagesManifest(dataDir, manifest);
-  // Update faces manifest from current manifest state before saving
+
+  // Update faces manifest peopleIds from current clustering state
+  // We don't want to overwrite the descriptors we carefully cached/loaded!
+  // processImageQueue execution pipeline now ensures facesManifest is kept up to date
+  // with descriptors for new images, and we just need to sync the peopleIds
+  // which might have changed due to clustering (e.g. merging/new people).
+
+  // Actually, processFaceDetections updates `image.people`.
+  // We should update facesManifest[img.id].peopleIds from img.people.
   for (const day of manifest.photoDays) {
     for (const item of day.items) {
       if (item.type === "image") {
         const img = item;
-        facesManifest[img.id] = {
-          facesDetected: img.analysis?.facesDetected ?? false,
-          faces: img.analysis?.faces ?? [],
-          peopleIds: img.people ?? [],
-        };
+        if (facesManifest[img.id]) {
+          facesManifest[img.id].peopleIds = img.people || [];
+          // Ensure faces match what is in analysis if we re-clustered?
+          // Yes, analysis.faces is accurate from processFaceDetections.
+        }
       }
     }
   }
