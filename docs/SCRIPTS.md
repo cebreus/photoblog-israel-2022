@@ -220,3 +220,22 @@ cd node_modules/.pnpm/canvas@*/node_modules/canvas
 # 2. Spusťte rebuild
 npm rebuild
 ```
+
+### Optimization Notes: upng-js vs Sharp
+
+We attempted to optimize the file size of generated blurred placeholders (LQIP) using the `upng-js` library, which is generally known for better PNG compression. However, benchmarks on our specific dataset (very small 24px wide images) showed that `upng-js` actually **increased** the file size by approximately 40-80% compared to our tuned `sharp` settings.
+
+**Benchmark Results (Sample):**
+- **Sharp**: ~306 bytes/image
+- **UPNG.js**: ~430 bytes/image
+
+For this reason, `upng-js` implementation was reverted and we continue to use `sharp` with the following settings:
+```javascript
+{
+  palette: true,
+  colors: 32,
+  quality: 50,
+  compressionLevel: 9
+}
+```
+**Decision:** Do not attempt to re-implement `upng-js` for this specific use case unless a significant change in requirements or library performance occurs.
