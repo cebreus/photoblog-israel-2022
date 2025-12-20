@@ -1,8 +1,9 @@
-import fsp from "node:fs/promises";
-import path from "node:path";
-import { json } from "@sveltejs/kit";
 import { validateRenameInput } from "$lib/utils/api-validators";
 import { toSlug } from "$lib/utils/strings";
+import { json } from "@sveltejs/kit";
+import fsp from "node:fs/promises";
+import path from "node:path";
+import { createLogger } from "../../../../../scripts/lib/logger";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 import {
   loadFacesManifest,
@@ -12,6 +13,8 @@ import {
   saveImagesManifest,
   savePeopleManifest,
 } from "../../../../../scripts/lib/manifest-repository";
+
+const logger = createLogger("people-api");
 
 export async function POST({ request }) {
   const body = await request.json();
@@ -53,7 +56,7 @@ export async function POST({ request }) {
       const newId = `${baseId}--${slug}`;
 
       if (newId !== personId) {
-        console.log(`[RENAME] Changing ID: ${personId} -> ${newId}`);
+        logger.info(`[RENAME] Changing ID: ${personId} -> ${newId}`);
 
         const oldPath = path.resolve(facesDir, personId);
         const newPath = path.resolve(facesDir, newId);
@@ -64,7 +67,7 @@ export async function POST({ request }) {
           await fsp.access(oldPath);
           sourceExists = true;
         } catch {
-          console.log(`[RENAME] Source folder doesn't exist, will be created by face-clustering`);
+          logger.info(`[RENAME] Source folder doesn't exist, will be created by face-clustering`);
         }
 
         if (sourceExists) {
@@ -77,15 +80,15 @@ export async function POST({ request }) {
               },
               { status: 409 },
             );
-          } catch {}
+          } catch { }
 
           try {
             await fsp.rename(oldPath, newPath);
             _folderRenamed = true;
-            console.log(`[RENAME] Folder renamed successfully`);
+            logger.info(`[RENAME] Folder renamed successfully`);
           } catch (e) {
             const errorMessage = e instanceof Error ? e.message : String(e);
-            console.error(`[RENAME] Folder rename failed: ${errorMessage}`);
+            logger.error(`[RENAME] Folder rename failed: ${errorMessage}`);
             return json(
               {
                 success: false,
@@ -119,7 +122,7 @@ export async function POST({ request }) {
             }
           }
         }
-        console.log(`[RENAME] Updated ${_updatedCount} image references`);
+        logger.info(`[RENAME] Updated ${_updatedCount} image references`);
 
         if (person.thumbnail?.includes(personId)) {
           person.thumbnail = person.thumbnail.replace(personId, newId);
@@ -142,10 +145,10 @@ export async function POST({ request }) {
             });
             if (modified) {
               await fsp.writeFile(constraintsPath, JSON.stringify(constraints, null, 2));
-              console.log("[RENAME] Updated constraints for new ID");
+              logger.info("[RENAME] Updated constraints for new ID");
             }
           }
-        } catch (_e) {}
+        } catch (_e) { }
       }
 
       await savePeopleManifest(dataDir, peopleManifest);
@@ -155,7 +158,7 @@ export async function POST({ request }) {
       return json({ success: true, name: person.name, id: person.id });
     });
   } catch (error) {
-    console.error("[RENAME] Error:", error);
+    logger.error(`[RENAME] Error: ${error}`);
     const isLockError = error instanceof Error && error.message.includes("lock");
     return json(
       {

@@ -2,6 +2,9 @@ import { spawn } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { createLogger } from "../../scripts/lib/logger";
+
+const logger = createLogger("test-helpers");
 
 export function tmpDir(prefix: string): string {
   const p = fs.mkdtempSync(path.join(os.tmpdir(), `${prefix}-`));
@@ -26,12 +29,12 @@ export async function runCli(
       stdio: ["ignore", "pipe", "pipe"],
     });
 
-    console.log(`Executing command: bun scripts/generate-images.ts ${args.join(" ")}`);
+    logger.verbose(`Executing command: bun scripts/generate-images.ts ${args.join(" ")}`);
 
     const timeout = setTimeout(() => {
       try {
         proc.kill("SIGKILL");
-      } catch (_) {}
+      } catch (_) { }
       reject(new Error("CLI timeout"));
     }, opts?.timeoutMs ?? 60000);
 
@@ -40,15 +43,15 @@ export async function runCli(
 
     proc.stdout.on("data", (d) => {
       stdout += String(d);
-      console.log(`STDOUT: ${String(d)}`);
+      logger.verbose(`STDOUT: ${String(d)}`);
     });
     proc.stderr.on("data", (d) => {
       stderr += String(d);
-      console.error(`STDERR: ${String(d)}`);
+      logger.verbose(`STDERR: ${String(d)}`);
     });
     proc.on("close", (code) => {
       clearTimeout(timeout);
-      console.log(`Command exited with code: ${code}`);
+      logger.verbose(`Command exited with code: ${code}`);
       resolve({ code: code ?? -1, stdout, stderr });
     });
     proc.on("error", (e) => {
