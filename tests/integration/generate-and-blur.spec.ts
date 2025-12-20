@@ -1,3 +1,16 @@
+/**
+ * @fileoverview Image Generation & Blur Integration Tests
+ *
+ * @description
+ * Tests the end-to-end image generation CLI (`generate-images.ts`).
+ * Verifies that the script produces the expected directory structure,
+ * manifest files, and blurhash/placeholder assets.
+ *
+ * @modules-tested
+ * - scripts/generate-images.ts
+ * - scripts/lib/incremental-build.ts
+ */
+
 import fs from "node:fs";
 import path from "node:path";
 import sharp from "sharp";

@@ -1,10 +1,11 @@
-import crypto from "node:crypto";
-import fsp from "node:fs/promises";
-import path from "node:path";
-import { json } from "@sveltejs/kit";
 import type { ImageEntry } from "$lib/types/manifest";
 import { validateUnmatchInput } from "$lib/utils/api-validators";
 import { toSlug } from "$lib/utils/strings";
+import { json } from "@sveltejs/kit";
+import crypto from "node:crypto";
+import fsp from "node:fs/promises";
+import path from "node:path";
+import { createLogger } from "../../../../../scripts/lib/logger";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 import {
   loadFacesManifest,
@@ -14,6 +15,8 @@ import {
   saveImagesManifest,
   savePeopleManifest,
 } from "../../../../../scripts/lib/manifest-repository";
+
+const logger = createLogger("people-api");
 
 export async function POST({ request }) {
   const body = await request.json();
@@ -104,7 +107,7 @@ export async function POST({ request }) {
         }
 
         if (!imageUpdated) {
-          console.warn(`[UNMATCH] Image ${id} or person link not found, skipping move`);
+          logger.warn(`[UNMATCH] Image ${id} or person link not found, skipping move`);
           continue;
         }
 
@@ -117,7 +120,7 @@ export async function POST({ request }) {
         try {
           await fsp.rename(oldPath, newPath);
         } catch (e) {
-          console.warn(`[UNMATCH] File move failed: ${oldPath} -> ${newPath}`);
+          logger.warn(`[UNMATCH] File move failed: ${oldPath} -> ${newPath}`);
         }
       }
 
@@ -131,7 +134,7 @@ export async function POST({ request }) {
           !sourcePerson.thumbnail ||
           idsToUnmatch.some((id) => sourcePerson.thumbnail?.includes(id))
         ) {
-          console.log(`[UNMATCH] Thumbnail matches one of removed images, invalidating...`);
+          logger.info(`[UNMATCH] Thumbnail matches one of removed images, invalidating...`);
           needsNewThumbnail = true;
         }
 
@@ -144,7 +147,7 @@ export async function POST({ request }) {
             );
             await fsp.access(thumbPath);
           } catch {
-            console.log(
+            logger.info(
               `[UNMATCH] Current thumbnail file not found: ${sourcePerson.thumbnail}, invalidating...`,
             );
             needsNewThumbnail = true;
@@ -152,7 +155,7 @@ export async function POST({ request }) {
         }
 
         if (needsNewThumbnail) {
-          console.log(`[UNMATCH] Searching for new thumbnail for ${sourcePerson.name}...`);
+          logger.info(`[UNMATCH] Searching for new thumbnail for ${sourcePerson.name}...`);
           try {
             const files = await fsp.readdir(sourceDir);
             const validImages = files
@@ -193,7 +196,7 @@ export async function POST({ request }) {
         try {
           const data = await fsp.readFile(constraintsPath, "utf-8");
           constraints = JSON.parse(data);
-        } catch (e) {}
+        } catch (e) { }
 
         if (!constraints.disconnects) constraints.disconnects = [];
         if (!constraints.connects) constraints.connects = [];
@@ -208,8 +211,8 @@ export async function POST({ request }) {
         }
 
         await fsp.writeFile(constraintsPath, JSON.stringify(constraints, null, 2));
-        console.log(`[UNMATCH] Updated clustering-constraints.json with disconnects and connects`);
-      } catch (e) {}
+        logger.info(`[UNMATCH] Updated clustering-constraints.json with disconnects and connects`);
+      } catch (e) { }
 
       return json({
         success: true,
@@ -219,7 +222,7 @@ export async function POST({ request }) {
       });
     });
   } catch (error) {
-    console.error("[UNMATCH] Error:", error);
+    logger.error(`[UNMATCH] Error: ${error}`);
     const isLockError = error instanceof Error && error.message.includes("lock");
     return json(
       {

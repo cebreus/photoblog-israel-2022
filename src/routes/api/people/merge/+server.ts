@@ -1,10 +1,11 @@
-import fsp from "node:fs/promises";
-import path from "node:path";
-import { json } from "@sveltejs/kit";
 import type { ImageEntry } from "$lib/types/manifest";
 import { validateMergeInput } from "$lib/utils/api-validators";
 import type { ClusteringConstraints } from "$lib/utils/manifest-validators";
+import { json } from "@sveltejs/kit";
+import fsp from "node:fs/promises";
+import path from "node:path";
 import { removeEmptyPersonFolder } from "../../../../../scripts/lib/cleanup-utils";
+import { createLogger } from "../../../../../scripts/lib/logger";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 import {
   loadFacesManifest,
@@ -15,6 +16,8 @@ import {
   savePeopleManifest,
 } from "../../../../../scripts/lib/manifest-repository";
 import { hasValidFaceDescriptor } from "../../../../../scripts/lib/people-utils";
+
+const logger = createLogger("people-api");
 
 export async function POST({ request }) {
   const body = await request.json();
@@ -46,7 +49,7 @@ export async function POST({ request }) {
         return json({ success: false, error: "Person not found" }, { status: 404 });
       }
 
-      console.log(
+      logger.info(
         `[MERGE] Merging ${sourcePerson.name} (${sourcePersonId}) into ${targetPerson.name} (${targetPersonId})`,
       );
 
@@ -71,7 +74,7 @@ export async function POST({ request }) {
                 try {
                   await fsp.stat(oldPath);
                   await fsp.rename(oldPath, newPath);
-                } catch (_e) {}
+                } catch (_e) { }
 
                 imageItem.people[index] = targetPersonId;
                 imageItem.people = [...new Set(imageItem.people)];
@@ -94,7 +97,7 @@ export async function POST({ request }) {
         }
       }
 
-      console.log(`[MERGE] Updated ${updatedImageCount} images`);
+      logger.info(`[MERGE] Updated ${updatedImageCount} images`);
 
       let sourceFaceCount = 0;
       let targetFaceCount = 0;
@@ -118,13 +121,13 @@ export async function POST({ request }) {
       sourcePerson.faceCount = sourceFaceCount;
       targetPerson.faceCount = targetFaceCount;
 
-      console.log(`[MERGE] Source person faceCount: ${oldSourceFaceCount} → ${sourceFaceCount}`);
-      console.log(`[MERGE] Target person faceCount: ${oldTargetFaceCount} → ${targetFaceCount}`);
+      logger.info(`[MERGE] Source person faceCount: ${oldSourceFaceCount} → ${sourceFaceCount}`);
+      logger.info(`[MERGE] Target person faceCount: ${oldTargetFaceCount} → ${targetFaceCount}`);
 
       if (hasValidFaceDescriptor(sourcePerson)) {
         if (!hasValidFaceDescriptor(targetPerson)) {
           targetPerson.faceDescriptor = sourcePerson.faceDescriptor;
-          console.log("[MERGE] Target person inherited descriptor from source");
+          logger.info("[MERGE] Target person inherited descriptor from source");
         } else {
           const sourceDesc = sourcePerson.faceDescriptor;
           const targetDesc = targetPerson.faceDescriptor;
@@ -142,7 +145,7 @@ export async function POST({ request }) {
             const averagedDescriptor = targetDesc.map(calculateWeightedAverage);
 
             targetPerson.faceDescriptor = averagedDescriptor;
-            console.log(
+            logger.info(
               `[MERGE] Averaged face descriptors (weights: ${sourceWeight}:${targetWeight})`,
             );
           }
@@ -196,9 +199,9 @@ export async function POST({ request }) {
 
         if (modified) {
           await fsp.writeFile(constraintsPath, JSON.stringify(constraints, null, 2));
-          console.log(`[MERGE] Updated clustering-constraints.json`);
+          logger.info(`[MERGE] Updated clustering-constraints.json`);
         }
-      } catch (_e) {}
+      } catch (_e) { }
 
       await savePeopleManifest(dataDir, peopleManifest);
       await saveImagesManifest(dataDir, imagesManifest);
@@ -206,10 +209,10 @@ export async function POST({ request }) {
 
       const cleanedUp = await removeEmptyPersonFolder(facesDir, sourcePersonId);
       if (cleanedUp) {
-        console.log(`[MERGE] Removed empty source folder: ${sourcePersonId}`);
+        logger.info(`[MERGE] Removed empty source folder: ${sourcePersonId}`);
       }
 
-      console.log(`[MERGE] Merge completed successfully`);
+      logger.info(`[MERGE] Merge completed successfully`);
 
       return json({
         success: true,
@@ -222,7 +225,7 @@ export async function POST({ request }) {
       });
     });
   } catch (error) {
-    console.error("[MERGE] Error:", error);
+    logger.error(`[MERGE] Error: ${error}`);
     const isLockError = error instanceof Error && error.message.includes("lock");
     return json(
       {
