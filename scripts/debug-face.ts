@@ -1,4 +1,4 @@
-import fsp from "node:fs/promises";
+
 import path from "node:path";
 import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
 import * as canvas from "canvas";
@@ -20,7 +20,7 @@ faceapi.env.monkeyPatch({
   ImageData: canvas.ImageData,
 });
 
-async function run() {
+async function _run() {
   await faceapi.nets.ssdMobilenetv1.loadFromDisk(FACE_CONFIG.modelPath);
   await faceapi.nets.faceLandmark68Net.loadFromDisk(FACE_CONFIG.modelPath);
 
@@ -28,9 +28,9 @@ async function run() {
   const imagePath = "content/egypt-2025/pics/IMG_8056.HEIC";
   logger.info(`Processing ${imagePath}...`);
 
-  let imgBuffer: Buffer;
+  let _imgBuffer: Buffer;
   if (imagePath.toLowerCase().endsWith(".heic")) {
-    imgBuffer = await convertHeicToPng(imagePath);
+    _imgBuffer = await convertHeicToPng(imagePath);
   } else {
     const logger = createLogger("debug-face");
 

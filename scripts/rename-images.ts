@@ -1,8 +1,8 @@
+import fs from "node:fs";
+import path from "node:path";
 import { confirm, intro, outro, select, spinner, text } from "@clack/prompts";
 import { exiftool } from "exiftool-vendored";
 import fg from "fast-glob";
-import fs from "node:fs";
-import path from "node:path";
 import { parseCliArguments } from "./lib/cli-parser";
 import {
   migrateCache,

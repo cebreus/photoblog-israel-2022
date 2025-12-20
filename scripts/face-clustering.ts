@@ -1,9 +1,9 @@
-import { intro, outro } from "@clack/prompts";
-import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
-import * as canvas from "canvas";
 import crypto from "node:crypto";
 import fsp from "node:fs/promises";
 import path from "node:path";
+import { intro, outro } from "@clack/prompts";
+import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
+import * as canvas from "canvas";
 import sharp from "sharp";
 import type { FacesManifest, ImageEntry, Person } from "../src/lib/types/manifest";
 import { isValidClusteringConstraints } from "../src/lib/utils/manifest-validators";

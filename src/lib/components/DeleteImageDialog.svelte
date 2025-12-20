@@ -39,7 +39,12 @@
       </ul>
     </div>
     <Dialog.Footer>
-      <Button variant="outline" type="button" onclick={() => (open = false)} data-testid="delete-image-dialog-cancel">Zrušit</Button>
+      <Button
+        variant="outline"
+        type="button"
+        onclick={() => (open = false)}
+        data-testid="delete-image-dialog-cancel">Zrušit</Button
+      >
       <Button
         variant="destructive"
         type="button"

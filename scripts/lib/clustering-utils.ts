@@ -1,7 +1,7 @@
-import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
-import * as canvas from "canvas";
 import fsp from "node:fs/promises";
 import path from "node:path";
+import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
+import * as canvas from "canvas";
 import type { Person } from "../../src/lib/types/manifest";
 import { ensureDir } from "./image-utils";
 import { createLogger } from "./logger";
