@@ -1,9 +1,22 @@
+/**
+ * @fileoverview Metadata Roundtrip Integration Tests
+ *
+ * @description
+ * Tests the metadata reading and writing capabilities using `exiftool-vendored`.
+ * Verifies that UTF-8 characters (diacritics) and standard metadata fields (IPTC/XMP)
+ * are correctly preserved through a write -> read cycle.
+ *
+ * @modules-tested
+ * - scripts/lib/metadata.ts
+ * - src/lib/utils/metadata-standards.ts
+ */
+
 import fs from "node:fs";
 import path from "node:path";
 import { exiftool } from "exiftool-vendored";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { config } from "../../scripts/config";
-import { buildImageEntry } from "../../scripts/lib/metadata";
+import { buildImageEntry, type RawExifData } from "../../scripts/lib/metadata";
 import { getExifToolWriteTags } from "../../src/lib/utils/metadata-standards";
 import { buildInputSet } from "../utils/fixtures";
 
@@ -50,7 +63,6 @@ describe("Metadata Roundtrip Integration", () => {
 
     // 1. Generate write tags using standards
     const writeTags = getExifToolWriteTags(updates);
-    // console.log("Write Tags:", writeTags);
 
     // 2. Perform Write (simulating API behavior)
     // Critical: -charset iptc=UTF8 is required for IPTC to handle these chars
@@ -62,26 +74,32 @@ describe("Metadata Roundtrip Integration", () => {
 
     // 4. Convert to canonical entry
     // We mock sharp metadata as it's not relevant for metadata text
-    const mockMeta = { width: 600, height: 900 } as any;
+    const mockMeta: { width?: number; height?: number } = { width: 600, height: 900 };
 
     // Simulate the mapping done in processImage
-    const mappedExif = {
+    const mappedExif: Partial<RawExifData> = {
       ...rawTags,
-      CaptionAbstract: rawTags["Caption-Abstract"],
-      Byline: rawTags["By-line"],
+      CaptionAbstract: rawTags["Caption-Abstract"] as string | undefined,
+      Byline: rawTags["By-line"] as string | undefined,
       // Convert ExifDateTime to Date for RawExifData compatibility
       DateTimeOriginal:
         rawTags.DateTimeOriginal &&
         typeof rawTags.DateTimeOriginal === "object" &&
         "toDate" in rawTags.DateTimeOriginal
-          ? (rawTags.DateTimeOriginal as any).toDate()
-          : rawTags.DateTimeOriginal,
-    };
+          ? (rawTags.DateTimeOriginal as { toDate: () => Date })
+              .toDate()
+              .toISOString() // Wait, RawExifData has Date | string
+          : (rawTags.DateTimeOriginal as string | undefined),
+    } as unknown as Partial<RawExifData>;
+
+    // Fix DateTimeOriginal type for buildImageEntry if needed.
+    // RawExifData definition has `DateTimeOriginal?: Date | string;`
+    // exiftool read returns ExifDateTime which has .toDate().
 
     const entry = buildImageEntry(
       "portrait",
       imgPath,
-      mappedExif as any,
+      mappedExif,
       mockMeta,
       "#000000",
       0, // Dummy sizeMB

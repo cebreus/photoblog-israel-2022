@@ -56,6 +56,16 @@ export default defineConfig({
           setupFiles: ["./tests/setup/server.ts"],
         },
       },
+      {
+        extends: "./vite.config.ts",
+        test: {
+          name: "integration",
+          environment: "node",
+          include: ["tests/integration/**/*.{test,spec}.{js,ts}"],
+          exclude: ["src/**/*.svelte.{test,spec}.{js,ts}"],
+          setupFiles: ["./tests/setup/server.ts"],
+        },
+      },
     ],
   },
 });
