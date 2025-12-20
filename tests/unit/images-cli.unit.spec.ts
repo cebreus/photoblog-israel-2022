@@ -129,7 +129,10 @@ describe("CLI (generate-images.ts) – Integration with real FS", { timeout: 300
     const detailsDir = path.join(outDir, "details");
     const param = (await fs.promises.readdir(detailsDir)).find((x) => x.endsWith(".jpeg"));
 
-    const meta = await sharp(path.join(detailsDir, param!)).metadata();
+    expect(param).toBeDefined();
+    if (!param) return;
+
+    const meta = await sharp(path.join(detailsDir, param)).metadata();
     expect(meta.width).toBeLessThanOrEqual(100);
   });
 

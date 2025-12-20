@@ -5,26 +5,30 @@ import { render } from "vitest-browser-svelte";
 import EditTab from "$lib/components/sidebar-content/EditTab.svelte";
 
 // Mock Rune Stores
-vi.mock("$lib/stores/editor.svelte", () => ({
-  editor: {
-    selection: new Set(),
-    editMode: true,
-    toggleSelection: vi.fn(),
-    removeSelection: vi.fn(),
-    addMultiple: vi.fn(),
-    clearSelection: vi.fn(),
-    setEditMode: vi.fn(),
-  },
-}));
+vi.mock("$lib/stores/editor.svelte", () => {
+  class MockEditor {
+    selection = $state(new Set<string>());
+    editMode = $state(true);
+    toggleSelection = vi.fn();
+    removeSelection = vi.fn();
+    addMultiple = vi.fn();
+    clearSelection = vi.fn();
+    setEditMode = vi.fn();
+  }
+  return { editor: new MockEditor() };
+});
 
-vi.mock("$lib/stores/metadata-clipboard.svelte", () => ({
-  metadataClipboard: {
-    data: null,
-    copy: vi.fn(),
-    paste: vi.fn(),
-    clear: vi.fn(),
-  },
-}));
+vi.mock("$lib/stores/metadata-clipboard.svelte", () => {
+  class MockClipboard {
+    data = $state<any>(null);
+    copy = vi.fn();
+    paste = vi.fn();
+    clear = vi.fn();
+  }
+  return { metadataClipboard: new MockClipboard() };
+});
+
+import { editor } from "$lib/stores/editor.svelte";
 
 // Mock Superforms and stores
 vi.mock("sveltekit-superforms", () => ({
@@ -56,8 +60,6 @@ vi.mock("$app/stores", () => ({
   },
 }));
 vi.mock("$app/navigation", () => ({ invalidateAll: vi.fn(), goto: vi.fn() }));
-
-import { editor } from "$lib/stores/editor.svelte";
 
 describe("EditTab", () => {
   const mockItems = [
