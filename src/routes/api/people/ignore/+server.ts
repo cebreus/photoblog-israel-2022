@@ -39,7 +39,7 @@ export async function POST({ request }) {
 
   const contentDir = process.env.CONTENT_DIR || "egypt-2025";
   const dataDir = path.resolve(process.cwd(), `src/data/${contentDir}`);
-  const manifestPath = path.join(dataDir, "people.manifest.json");
+  const _manifestPath = path.join(dataDir, "people.manifest.json");
 
   try {
     return await withManifestLock(dataDir, async () => {

@@ -1,9 +1,9 @@
-import { dev } from "$app/environment";
-import type { Manifest } from "$lib/types/manifest";
-import { json, type RequestHandler } from "@sveltejs/kit";
-import { exiftool } from "exiftool-vendored";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { json, type RequestHandler } from "@sveltejs/kit";
+import { exiftool } from "exiftool-vendored";
+import { dev } from "$app/environment";
+import type { Manifest } from "$lib/types/manifest";
 import { config } from "../../../../scripts/config";
 import {
   deleteGeneratedAssets,
@@ -74,12 +74,12 @@ export const DELETE: RequestHandler = async ({ request }) => {
     try {
       const content = await fs.readFile(manifestPath, "utf-8");
       manifest = JSON.parse(content);
-    } catch (e) {
+    } catch (_e) {
       logger.warn(`Manifest not found for ${contentDir}, skipping manifest update.`);
     }
 
     let manifestModified = false;
-    const idsToDelete = new Set(items.map((i: any) => i.id));
+    const idsToDelete = new Set(items.map((i) => (i as { id: string }).id));
 
     for (const item of items) {
       const srcPath = item.src;
@@ -158,8 +158,8 @@ export const DELETE: RequestHandler = async ({ request }) => {
             errors.push(`Soubor ${nameWithoutExt} nebyl nalezen na disku ani v seznamu.`);
           }
         }
-      } catch (e: any) {
-        errors.push(`Chyba při mazání ${nameWithoutExt}: ${e.message}`);
+      } catch (e) {
+        errors.push(`Chyba při mazání ${nameWithoutExt}: ${(e as Error).message}`);
       }
     }
 
@@ -241,8 +241,8 @@ export const POST: RequestHandler = async ({ request }) => {
 
     try {
       await fs.mkdir(archiveDir, { recursive: true });
-    } catch (e: any) {
-      errors.push(`Could not create archive directory for ${contentDir}: ${e.message}`);
+    } catch (e) {
+      errors.push(`Could not create archive directory for ${contentDir}: ${(e as Error).message}`);
       continue;
     }
 
@@ -250,7 +250,7 @@ export const POST: RequestHandler = async ({ request }) => {
     try {
       const content = await fs.readFile(manifestPath, "utf-8");
       manifest = JSON.parse(content);
-    } catch (e) {
+    } catch (_e) {
       logger.warn(`Manifest not found for ${contentDir}`);
     }
 
@@ -308,8 +308,8 @@ export const POST: RequestHandler = async ({ request }) => {
         } else {
           errors.push(`Soubor ${nameWithoutExt} nebyl nalezen v ${physicalPicsDir}`);
         }
-      } catch (e: any) {
-        errors.push(`Chyba při archivaci ${nameWithoutExt}: ${e.message}`);
+      } catch (e) {
+        errors.push(`Chyba při archivaci ${nameWithoutExt}: ${(e as Error).message}`);
       }
     }
 
@@ -494,16 +494,16 @@ export const PATCH: RequestHandler = async ({ request }) => {
             if (found) break;
           }
         }
-      } catch (e: any) {
-        errors.push(`Chyba při aktualizaci ${item.src}: ${e.message}`);
+      } catch (e) {
+        errors.push(`Chyba při aktualizaci ${item.src}: ${(e as Error).message}`);
       }
     }
 
     if (manifest && manifestModified) {
       try {
         await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2));
-      } catch (e: any) {
-        errors.push(`Chyba při uložení manifestu: ${e.message}`);
+      } catch (e) {
+        errors.push(`Chyba při uložení manifestu: ${(e as Error).message}`);
       }
     }
   }

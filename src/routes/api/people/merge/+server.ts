@@ -203,6 +203,9 @@ export async function POST({ request }) {
         }
       } catch (_e) {}
 
+      // Remove source person from manifest
+      peopleManifest.people = peopleManifest.people.filter((p) => p.id !== sourcePersonId);
+
       await savePeopleManifest(dataDir, peopleManifest);
       await saveImagesManifest(dataDir, imagesManifest);
       await saveFacesManifest(dataDir, facesManifest);

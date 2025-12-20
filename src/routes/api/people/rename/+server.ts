@@ -137,7 +137,7 @@ export async function POST({ request }) {
           const constraints = JSON.parse(data);
           if (constraints.disconnects) {
             let modified = false;
-            constraints.disconnects.forEach((c: any) => {
+            constraints.disconnects.forEach((c: { personId: string }) => {
               if (c.personId === personId) {
                 c.personId = newId;
                 modified = true;

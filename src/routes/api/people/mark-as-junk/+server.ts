@@ -1,9 +1,10 @@
 import fsp from "node:fs/promises";
 import path from "node:path";
 import { json } from "@sveltejs/kit";
-import type { FacesManifest, ImageEntry } from "$lib/types/manifest";
+import type { FaceDetail, FacesManifest, ImageEntry } from "$lib/types/manifest";
 import { validateMarkAsJunkInput } from "$lib/utils/api-validators";
 import type { ClusteringConstraints } from "$lib/utils/manifest-validators";
+import { createLogger } from "../../../../../scripts/lib/logger";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 import {
   loadFacesManifest,
@@ -13,7 +14,6 @@ import {
   saveImagesManifest,
   savePeopleManifest,
 } from "../../../../../scripts/lib/manifest-repository";
-import { createLogger } from "../../../../../scripts/lib/logger";
 
 const logger = createLogger("api:people:junk");
 
@@ -48,7 +48,7 @@ export async function POST({ request }) {
       }
 
       // 1. Gather all ignored crops
-      const ignoredCropsToAdd: { imageId: string; box: any }[] = [];
+      const ignoredCropsToAdd: { imageId: string; box: FaceDetail }[] = [];
       const processedImages = new Set<string>();
 
       // Iterate through images manifest to find where this person is
@@ -96,7 +96,7 @@ export async function POST({ request }) {
       try {
         const data = await fsp.readFile(constraintsPath, "utf-8");
         constraints = JSON.parse(data);
-      } catch (e) {}
+      } catch (_e) {}
 
       if (!constraints.ignoredCrops) constraints.ignoredCrops = [];
 
@@ -119,7 +119,7 @@ export async function POST({ request }) {
       const personFacesDir = path.join(facesDir, personId);
       try {
         await fsp.rm(personFacesDir, { recursive: true, force: true });
-      } catch (e) {}
+      } catch (_e) {}
 
       // 4. Remove person from people manifest
       peopleManifest.people = peopleManifest.people.filter((p) => p.id !== personId);

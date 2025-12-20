@@ -86,7 +86,6 @@ export async function POST({ request }) {
 
       results.success.push(id);
     } catch (err) {
-      console.error(`Error updating metadata for ${id}:`, err);
       results.failed.push({
         id,
         error: err instanceof Error ? err.message : String(err),
@@ -96,9 +95,7 @@ export async function POST({ request }) {
 
   try {
     await regenerateManifest(contentDir);
-  } catch (err) {
-    console.error("Error regenerating manifest:", err);
-  }
+  } catch (_err) {}
 
   return json({
     message: "Zpracování dávky dokončeno",
