@@ -1,7 +1,6 @@
 import fsp from "node:fs/promises";
 import path from "node:path";
 import fg from "fast-glob";
-import UPNG from "upng-js";
 import { config } from "../config";
 import type { CliOptions } from "./cli-parser";
 import { ensureDir } from "./image-utils";
@@ -26,15 +25,15 @@ export async function processBlurImage(file: string, raw: Partial<CliOptions>): 
     const outPath = path.join(blurOut, `${baseName}.png`);
     await ensureDir(path.dirname(outPath));
     const sharpModule = await loadSharp();
-    const { data, info } = await sharpModule(buf)
-      .resize({ width, withoutEnlargement: true })
-      .ensureAlpha()
-      .raw()
-      .toBuffer({ resolveWithObject: true });
-
-    const pngBuf = UPNG.encode([data.buffer as ArrayBuffer], info.width, info.height, colors);
-
-    await fsp.writeFile(outPath, Buffer.from(pngBuf));
+    const inst = sharpModule(buf).resize({ width, withoutEnlargement: true });
+    await inst
+      .png({
+        palette: true,
+        colors,
+        quality: pngQuality,
+        compressionLevel: pngCompression,
+      })
+      .toFile(outPath);
   } catch (err: any) {
     logger.error(`Blur processing failed for ${file}`, {
       error: err?.message ?? err,

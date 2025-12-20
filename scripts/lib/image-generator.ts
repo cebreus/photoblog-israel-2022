@@ -1,7 +1,5 @@
-import fsp from "node:fs/promises";
 import path from "node:path";
 import type { Sharp } from "sharp";
-import UPNG from "upng-js";
 import { ImageFormat } from "../../src/lib/types/images";
 import type { QualityTypes } from "../../src/lib/types/manifest";
 import { config } from "../config";
@@ -238,39 +236,15 @@ export async function generateOtherOutput(
     );
 
     if ("blur" in outputConfig && outputConfig.blur) {
-      const { data, info: sharpInfo } = await resizedInstance
-        .blur(10)
-        .ensureAlpha()
-        .raw()
-        .toBuffer({ resolveWithObject: true });
-
-      const pngBuf = UPNG.encode(
-        [data.buffer as ArrayBuffer],
-        sharpInfo.width,
-        sharpInfo.height,
-        config.encoding.sharp.blur.png.colors,
-      );
-
-      const fullOutPath = path.join(options.outRoot, outPath);
-      await ensureDir(path.dirname(fullOutPath));
-      await fsp.writeFile(fullOutPath, Buffer.from(pngBuf));
-
-      info = {
-        format: "png",
-        size: pngBuf.byteLength,
-        width: sharpInfo.width,
-        height: sharpInfo.height,
-        channels: 4,
-        premultiplied: false,
-      };
+      resizedInstance.blur(10).png(config.encoding.sharp.blur.png);
     } else {
       const quality = getQuality(format, options.qualityOverrides);
       applyFormat(resizedInstance, format, quality);
-
-      const fullOutPath = path.join(options.outRoot, outPath);
-      await ensureDir(path.dirname(fullOutPath));
-      info = await resizedInstance.toFile(fullOutPath);
     }
+
+    const fullOutPath = path.join(options.outRoot, outPath);
+    await ensureDir(path.dirname(fullOutPath));
+    info = await resizedInstance.toFile(fullOutPath);
   }
 
   return { outPath, info };
