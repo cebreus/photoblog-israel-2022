@@ -12,8 +12,9 @@ dist/
 # Test & Reports
 coverage/
 
-# Generated manifest files (large JSON)
-static/*/*.manifest.json
+# Generated manifest files and assets
+static/
+content/
 
 # Misc
 .DS_Store

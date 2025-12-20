@@ -90,11 +90,11 @@ export async function runGenerator(
     // Mock console.log and console.error to capture output
     const originalConsoleLog = console.log;
     const originalConsoleError = console.error;
-    console.log = (message?: any, ...optionalParams: any[]) => {
-      stdout += message + "\n";
+    console.log = (message?: any, ..._optionalParams: any[]) => {
+      stdout += `${message}\n`;
     };
-    console.error = (message?: any, ...optionalParams: any[]) => {
-      stderr += message + "\n";
+    console.error = (message?: any, ..._optionalParams: any[]) => {
+      stderr += `${message}\n`;
     };
 
     // Replace process.exit to capture exit code without terminating the test runner

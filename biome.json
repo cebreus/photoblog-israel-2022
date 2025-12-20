@@ -2,17 +2,41 @@
   "$schema": "https://biomejs.dev/schemas/2.3.9/schema.json",
   "files": {
     "includes": [
-      "**",
-      "!**/node_modules",
-      "!**/build",
-      "!**/build-*",
-      "!**/dist",
-      "!**/.svelte-kit",
-      "!**/.vite",
+      "src/**",
+      "scripts/**",
+      "tests/**",
+      "README.md",
+      "package.json",
+      "biome.json",
+      "!**/node_modules/**",
+      "!**/build/**",
+      "!**/build-*/**",
+      "!**/dist/**",
+      "!**/.svelte-kit/**",
+      "!**/.vite/**",
+      "!**/.temp/**",
       "!**/*.css",
-      "!**/*.svelte"
-    ]
+      "!**/*.svelte",
+      "!src/data/**/*.json"
+    ],
+    "maxSize": 10485760
   },
+  "overrides": [
+    {
+      "includes": [
+        "scripts/**",
+        "tests/**"
+      ],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noConsole": "off",
+            "noExplicitAny": "off"
+          }
+        }
+      }
+    }
+  ],
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
@@ -29,7 +53,8 @@
       },
       "suspicious": {
         "recommended": true,
-        "noConsole": "warn"
+        "noConsole": "warn",
+        "noExplicitAny": "warn"
       },
       "style": {
         "recommended": true,
@@ -43,6 +68,8 @@
     }
   },
   "javascript": {
-    "globals": ["Bun"]
+    "globals": [
+      "Bun"
+    ]
   }
 }

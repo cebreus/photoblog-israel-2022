@@ -1,4 +1,19 @@
 import { vi } from "vitest";
+import winston from "winston";
+
+// Mock SvelteKit environment
+vi.mock("$app/environment", () => ({
+  dev: true,
+  browser: false,
+}));
+
+// Mock SvelteKit navigation
+vi.mock("$app/navigation", () => ({
+  goto: vi.fn(),
+  invalidate: vi.fn(),
+  prefetch: vi.fn(),
+  prefetchRoutes: vi.fn(),
+}));
 
 // Mock tfjs-node to avoid requiring native addon in test env
 vi.mock("@tensorflow/tfjs-node", () => {
@@ -73,5 +88,21 @@ vi.mock("canvas", () => {
     loadImage: async (_: any) => ({ width: 0, height: 0 }),
     Image: class {},
     ImageData,
+  };
+});
+
+vi.mock("../../scripts/lib/logger", () => {
+  const level = process.env.LOG_LEVEL || "error";
+  return {
+    createLogger: (_label: string) => {
+      return winston.createLogger({
+        level: level,
+        transports: [
+          new winston.transports.Console({
+            silent: level === "error",
+          }),
+        ],
+      });
+    },
   };
 });
