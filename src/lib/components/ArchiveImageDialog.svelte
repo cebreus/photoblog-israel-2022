@@ -17,7 +17,7 @@
 </script>
 
 <Dialog.Root bind:open>
-  <Dialog.Content>
+  <Dialog.Content data-testid="archive-image-dialog-content">
     <Dialog.Header>
       <Dialog.Title>Archivovat fotky?</Dialog.Title>
       <Dialog.Description>
@@ -39,7 +39,7 @@
       </ul>
     </div>
     <Dialog.Footer>
-      <Button variant="outline" type="button" onclick={() => (open = false)}>Zrušit</Button>
+      <Button variant="outline" type="button" onclick={() => (open = false)} data-testid="archive-image-dialog-cancel">Zrušit</Button>
       <Button
         variant="default"
         type="button"
