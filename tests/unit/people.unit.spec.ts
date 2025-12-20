@@ -60,6 +60,40 @@ describe("getVisiblePeople", () => {
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe("3");
   });
+
+  it("should sort named people before generic people", () => {
+    const people = [
+      { id: "person-1", name: "Generic-High", faceCount: 100, ignored: false },
+      { id: "person-2--named", name: "Named-Low", faceCount: 2, ignored: false },
+    ] as Person[];
+
+    const result = getVisiblePeople(people);
+    // Named-Low (2 faces) should be BEFORE Generic-High (100 faces)
+    expect(result[0].id).toBe("person-2--named");
+    expect(result[1].id).toBe("person-1");
+  });
+
+  it("should sort named people alphabetically (Czech locale)", () => {
+    const people = [
+      { id: "p2--cert", name: "Čert", faceCount: 5, ignored: false },
+      { id: "p1--adam", name: "Adam", faceCount: 5, ignored: false },
+      { id: "p3--dasa", name: "Dáša", faceCount: 5, ignored: false },
+    ] as Person[];
+
+    const result = getVisiblePeople(people);
+    expect(result.map((p) => p.name)).toEqual(["Adam", "Čert", "Dáša"]);
+  });
+
+  it("should sort generic people by faceCount descending", () => {
+    const people = [
+      { id: "person-1", name: "P1", faceCount: 10, ignored: false },
+      { id: "person-2", name: "P2", faceCount: 50, ignored: false },
+    ] as Person[];
+
+    const result = getVisiblePeople(people);
+    expect(result[0].id).toBe("person-2");
+    expect(result[1].id).toBe("person-1");
+  });
 });
 
 import { enrichPeopleWithStats } from "$lib/utils/people";

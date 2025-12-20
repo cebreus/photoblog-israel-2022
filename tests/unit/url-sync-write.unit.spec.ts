@@ -118,7 +118,6 @@ describe("syncUrlFromFilters", () => {
     editor.showMetadataOverlay = false;
 
     // Reset page URL
-    // biome-ignore lint/suspicious/noExplicitAny: access to mock internal
     const pageStore = (appStores as any).__mockPageStore as MockPageStore;
     pageStore.set({
       url: new URL("https://example.com/"),

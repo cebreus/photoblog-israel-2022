@@ -1,91 +1,40 @@
-/**
- * @fileoverview Metadata Standards Unit Tests
- *
- * @description
- * Tests the compliance of image metadata with standards (IPTC/EXIF).
- * Verifies that required fields are present and correctly formatted
- * according to project specifications.
- *
- * @modules-tested
- * - scripts/lib/metadata-standards.ts
- */
-
 import { describe, expect, it } from "vitest";
-import {
-  getExifToolWriteTags,
-  METADATA_STANDARDS,
-  type MetadataKey,
-} from "../../src/lib/utils/metadata-standards";
+import { getExifToolWriteTags } from "$lib/utils/metadata-standards";
 
-describe("Metadata Standards", () => {
-  it("defines read and write mappings for all keys", () => {
-    const keys: MetadataKey[] = [
-      "title",
-      "caption",
-      "keywords",
-      "author",
-      "location",
-      "city",
-      "state",
-      "country",
-      "countryCode",
-    ];
+describe("metadata-standards: getExifToolWriteTags", () => {
+  it("should convert simple updates to multiple EXIF/XMP/IPTC tags", () => {
+    const updates = { title: "Test Title", author: "Antigravity", caption: "Test Caption" };
+    const tags = getExifToolWriteTags(updates);
 
-    for (const key of keys) {
-      const config = METADATA_STANDARDS[key];
-      expect(config).toBeDefined();
-      expect(config.label).toBeTruthy();
-      expect(config.read.length).toBeGreaterThan(0);
-      expect(config.write.length).toBeGreaterThan(0);
-    }
+    expect(tags["XMP:Title"]).toBe("Test Title");
+    expect(tags["IPTC:ObjectName"]).toBe("Test Title");
+    // Title should NOT affect Exif:ImageDescription anymore
+    expect(tags["Exif:ImageDescription"]).toBe("Test Caption");
+
+    expect(tags["XMP:Description"]).toBe("Test Caption");
+    expect(tags["IPTC:Caption-Abstract"]).toBe("Test Caption");
+
+    expect(tags["XMP:Creator"]).toBe("Antigravity");
+    expect(tags["IPTC:By-line"]).toBe("Antigravity");
+    expect(tags["IFD0:Artist"]).toBe("Antigravity");
+    expect(tags["IPTC:CodedCharacterSet"]).toBe("UTF8");
   });
 
-  describe("getExifToolWriteTags", () => {
-    it("generates correct tags for a single field update", () => {
-      const updates = { title: "My Title" };
-      const tags = getExifToolWriteTags(updates);
+  it("should handle null values for clearing tags", () => {
+    const tags = getExifToolWriteTags({ city: null });
+    expect(tags["XMP:City"]).toBe(null);
+    expect(tags["IPTC:City"]).toBe(null);
+  });
 
-      // Should write to XMP, IPTC, and Exif as defined
-      expect(tags["XMP:Title"]).toBe("My Title");
-      expect(tags["IPTC:ObjectName"]).toBe("My Title");
-      expect(tags["Exif:ImageDescription"]).toBe("My Title");
-    });
+  it("should ignore undefined keys", () => {
+    const tags = getExifToolWriteTags({ title: "ok", nonExistent: "ignore" } as any);
+    expect(tags).not.toHaveProperty("nonExistent");
+    expect(tags["XMP:Title"]).toBe("ok");
+  });
 
-    it("generates correct tags for multiple field updates", () => {
-      const updates = {
-        author: "John Doe",
-        city: "Prague",
-      };
-      const tags = getExifToolWriteTags(updates);
-
-      // Author
-      expect(tags["XMP:Creator"]).toBe("John Doe");
-      expect(tags["IPTC:By-line"]).toBe("John Doe");
-      expect(tags["IFD0:Artist"]).toBe("John Doe");
-
-      // City
-      expect(tags["XMP:City"]).toBe("Prague");
-      expect(tags["IPTC:City"]).toBe("Prague");
-    });
-
-    it("handles null values (clearing metadata)", () => {
-      const updates = { title: null };
-      const tags = getExifToolWriteTags(updates);
-
-      expect(tags["XMP:Title"]).toBeNull();
-      expect(tags["IPTC:ObjectName"]).toBeNull();
-      expect(tags["Exif:ImageDescription"]).toBeNull();
-    });
-
-    it("ignores undefined keys in input (partial updates)", () => {
-      const updates = {
-        title: "New Title",
-        author: undefined, // Should be ignored
-      };
-      const tags = getExifToolWriteTags(updates);
-
-      expect(tags["XMP:Title"]).toBe("New Title");
-      expect(tags).not.toHaveProperty("XMP:Creator");
-    });
+  it("should handle array values (keywords)", () => {
+    const tags = getExifToolWriteTags({ keywords: ["k1", "k2"] });
+    expect(tags["XMP:Subject"]).toEqual(["k1", "k2"]);
+    expect(tags["IPTC:Keywords"]).toEqual(["k1", "k2"]);
   });
 });

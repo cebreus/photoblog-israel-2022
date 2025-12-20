@@ -148,6 +148,51 @@ describe("gallery utils", () => {
       expect(result).not.toContain(imgWithPeople);
       expect(result).toContain(imgWithoutPeople);
     });
+
+    it("filters by people - mixed selection with 'none'", () => {
+      const imgWithPeople = { ...mockImage1, people: ["p1"] } as ImageEntry;
+      const imgWithoutPeople = { ...mockImage2, people: [] } as ImageEntry;
+      const items = [imgWithPeople, imgWithoutPeople];
+
+      // If "none" and "p1" are selected, both should show
+      const result = filterGalleryItems(
+        items,
+        [],
+        true,
+        ["excellent", "good", "poor"],
+        ["none", "p1"],
+      );
+      expect(result).toContain(imgWithPeople);
+      expect(result).toContain(imgWithoutPeople);
+    });
+
+    it("filters by people - only 'none' selected should not show people with detected IDs (line 50 branch)", () => {
+      const imgWithPeople = { ...mockImage1, people: ["p1"] } as ImageEntry;
+      const result = filterGalleryItems(
+        [imgWithPeople],
+        [],
+        true,
+        ["excellent", "good", "poor"],
+        ["none"],
+      );
+      expect(result).not.toContain(imgWithPeople);
+    });
+
+    it("filters by author - 'none' author yields empty list (line 28 branch)", () => {
+      const result = filterGalleryItems([mockImage1], ["none"], true, [
+        "excellent",
+        "good",
+        "poor",
+      ]);
+      expect(result.filter((i) => i.type === "image")).toHaveLength(0);
+    });
+
+    it("filters by quality - missing analysis/bucket (line 37 branch)", () => {
+      const imgNoAnalysis = { ...mockImage1, analysis: undefined } as ImageEntry;
+      // When quality filter is active (not default view), images without analysis are hidden
+      const result = filterGalleryItems([imgNoAnalysis], [], true, ["excellent"]);
+      expect(result).not.toContain(imgNoAnalysis);
+    });
   });
 
   describe("computeTotals", () => {

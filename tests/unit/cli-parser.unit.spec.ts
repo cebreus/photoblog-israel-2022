@@ -19,7 +19,7 @@ describe("CLI Parser", () => {
       const result = parseCliArguments([]);
       expect(result.manifestOnly).toBe(false);
       expect(result.allowUpscale).toBe(DEFAULT_CLI_OPTIONS.allowUpscale);
-      expect(result.concurrency).toBe(Math.max(1, (require("os").cpus()?.length || 2) - 1));
+      expect(result.concurrency).toBe(Math.max(1, (require("node:os").cpus()?.length || 2) - 1));
     });
 
     it("parses quality.avif parameter", () => {

@@ -3,28 +3,33 @@ import { page } from "vitest/browser";
 import { render } from "vitest-browser-svelte";
 import SwitchStub from "$lib/components/__test_fixtures__/SwitchStub.svelte";
 import FiltersTab from "$lib/components/sidebar-content/FiltersTab.svelte";
-import { filters } from "$lib/stores/filters.svelte";
 
 // Mock Rune Stores
-vi.mock("$lib/stores/ui.svelte", () => ({
-  ui: {
-    photoLabels: true,
-    debug: false,
-    activeTab: "overview",
-  },
-}));
+vi.mock("$lib/stores/ui.svelte", () => {
+  class MockUI {
+    photoLabels = $state(true);
+    debug = $state(false);
+    activeTab = $state("overview");
+  }
+  return { ui: new MockUI() };
+});
 
-vi.mock("$lib/stores/filters.svelte", () => ({
-  filters: {
-    selectedAuthors: [],
-    showSeparators: true,
-    selectedQualityBuckets: [],
-    selectedPeople: [],
-    filteredPhotoDays: [],
-    visiblePhotos: 10,
-    toggleAuthor: vi.fn(),
-  } as unknown as typeof filters,
-}));
+vi.mock("$lib/stores/filters.svelte", () => {
+  class MockFilters {
+    selectedAuthors = $state<string[]>([]);
+    showSeparators = $state(true);
+    selectedQualityBuckets = $state<string[]>([]);
+    selectedPeople = $state<string[]>([]);
+    filteredPhotoDays = $state<any[]>([]);
+    visiblePhotos = $state(10);
+    toggleAuthor = vi.fn();
+  }
+  return { filters: new MockFilters() };
+});
+
+// We need a way to access the mocks for assertions.
+// In Vitest, if we mock a module, we can import it and it will be the mock.
+import { filters as filtersMock } from "$lib/stores/filters.svelte";
 
 // Mock Utils
 vi.mock("$lib/utils/menu", () => ({
@@ -67,7 +72,7 @@ describe("FiltersTab", () => {
 
   it("renders statistics correctly", async () => {
     // Reset mocks/state
-    filters.visiblePhotos = 10;
+    filtersMock.visiblePhotos = 10;
 
     render(FiltersTab, { authors });
 
@@ -83,7 +88,7 @@ describe("FiltersTab", () => {
     // or just rely on the component using the bind:checked.
     // Since we mocked filters global object, checking its property after click is the way.
 
-    filters.showSeparators = true;
+    filtersMock.showSeparators = true;
     render(FiltersTab, { authors });
     const switchEl = page.getByTestId("filters-tab-separators-switch");
 
@@ -92,12 +97,12 @@ describe("FiltersTab", () => {
     // However, with our simple mock object, we need to ensure reactivity works or Svelte updates the property.
     // For vitest-browser-svelte with naive mocks, simple property mutation might be observed.
 
-    expect(filters.showSeparators).toBe(false);
+    expect(filtersMock.showSeparators).toBe(false);
   });
 
   it("toggles author filter", async () => {
     // Reset state
-    filters.selectedAuthors = [];
+    filtersMock.selectedAuthors = [];
 
     render(FiltersTab, { authors });
 
@@ -108,7 +113,7 @@ describe("FiltersTab", () => {
     const authorSwitch = page.getByTestId("filters-tab-author-switch-author-one");
     await authorSwitch.click();
 
-    expect(filters.selectedAuthors).toEqual(["author-two"]);
+    expect(filtersMock.selectedAuthors).toEqual(["author-two"]);
   });
 
   it("renders quality filter when data is present", async () => {
