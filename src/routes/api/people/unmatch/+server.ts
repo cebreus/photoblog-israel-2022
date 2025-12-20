@@ -119,7 +119,7 @@ export async function POST({ request }) {
 
         try {
           await fsp.rename(oldPath, newPath);
-        } catch (e) {
+        } catch (_e) {
           logger.warn(`[UNMATCH] File move failed: ${oldPath} -> ${newPath}`);
         }
       }
@@ -196,7 +196,7 @@ export async function POST({ request }) {
         try {
           const data = await fsp.readFile(constraintsPath, "utf-8");
           constraints = JSON.parse(data);
-        } catch (e) {}
+        } catch (_e) {}
 
         if (!constraints.disconnects) constraints.disconnects = [];
         if (!constraints.connects) constraints.connects = [];
@@ -212,7 +212,7 @@ export async function POST({ request }) {
 
         await fsp.writeFile(constraintsPath, JSON.stringify(constraints, null, 2));
         logger.info(`[UNMATCH] Updated clustering-constraints.json with disconnects and connects`);
-      } catch (e) {}
+      } catch (_e) {}
 
       return json({
         success: true,

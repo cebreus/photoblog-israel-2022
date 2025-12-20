@@ -65,11 +65,11 @@ export async function GET({ url, fetch }) {
     };
 
     return json(mapped);
-  } catch (err: any) {
-    if (err?.status && err?.body) {
-      throw err;
+  } catch (err: unknown) {
+    const typedError = err as { status?: number; body?: unknown };
+    if (typedError?.status && typedError?.body) {
+      throw typedError;
     }
-    console.error("Geocoding error:", err);
     throw error(500, "Failed to fetch geocoding data");
   }
 }

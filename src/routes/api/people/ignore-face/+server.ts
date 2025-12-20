@@ -1,9 +1,9 @@
+import fsp from "node:fs/promises";
+import path from "node:path";
+import { json } from "@sveltejs/kit";
 import type { FacesManifest, ImageEntry } from "$lib/types/manifest";
 import { validateIgnoreFaceInput } from "$lib/utils/api-validators";
 import type { ClusteringConstraints } from "$lib/utils/manifest-validators";
-import { json } from "@sveltejs/kit";
-import fsp from "node:fs/promises";
-import path from "node:path";
 import { createLogger } from "../../../../../scripts/lib/logger";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 import {
@@ -48,7 +48,7 @@ export async function POST({ request }) {
       try {
         const data = await fsp.readFile(constraintsPath, "utf-8");
         constraints = JSON.parse(data);
-      } catch (e) { }
+      } catch (_e) {}
 
       if (!constraints.ignoredCrops) constraints.ignoredCrops = [];
 
@@ -72,7 +72,7 @@ export async function POST({ request }) {
         const faceCropPath = path.join(facesDir, personId, `${imageId}.jpg`);
         try {
           await fsp.unlink(faceCropPath);
-        } catch (e) { }
+        } catch (_e) {}
 
         // If person has no more faces and is not a custom person, we could optionally leave it or delete it.
         // For now, just decrement count.
@@ -91,7 +91,7 @@ export async function POST({ request }) {
       }
 
       const faceData = facesManifest[imageId];
-      if (faceData && faceData.peopleIds) {
+      if (faceData?.peopleIds) {
         faceData.peopleIds = faceData.peopleIds.filter((pid: string) => pid !== personId);
       }
 

@@ -1,9 +1,9 @@
+import fsp from "node:fs/promises";
+import path from "node:path";
+import { json } from "@sveltejs/kit";
 import type { ImageEntry } from "$lib/types/manifest";
 import { validateReassignInput } from "$lib/utils/api-validators";
 import type { ClusteringConstraints } from "$lib/utils/manifest-validators";
-import { json } from "@sveltejs/kit";
-import fsp from "node:fs/promises";
-import path from "node:path";
 import { createLogger } from "../../../../../scripts/lib/logger";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 import {
@@ -91,7 +91,7 @@ export async function POST({ request }) {
           try {
             await fsp.stat(oldPath);
             await fsp.rename(oldPath, newPath);
-          } catch (e) {
+          } catch (_e) {
             logger.warn(`[REASSIGN] File move failed or file missing: ${oldPath}`);
           }
           movedCount++;
@@ -112,7 +112,7 @@ export async function POST({ request }) {
         try {
           const data = await fsp.readFile(constraintsPath, "utf-8");
           constraints = JSON.parse(data);
-        } catch (e) { }
+        } catch (_e) {}
 
         if (!constraints.disconnects) constraints.disconnects = [];
         if (!constraints.connects) constraints.connects = [];
@@ -141,7 +141,7 @@ export async function POST({ request }) {
         });
 
         await fsp.writeFile(constraintsPath, JSON.stringify(constraints, null, 2));
-      } catch (e) {
+      } catch (_e) {
         logger.warn("[REASSIGN] Failed to update constraints");
       }
 
@@ -161,7 +161,7 @@ export async function POST({ request }) {
           } else {
             sourcePerson.thumbnail = "";
           }
-        } catch (e) {
+        } catch (_e) {
           sourcePerson.thumbnail = "";
         }
       }

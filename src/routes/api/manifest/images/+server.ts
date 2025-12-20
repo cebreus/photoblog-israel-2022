@@ -9,8 +9,7 @@ export async function GET() {
   try {
     const data = await fsp.readFile(manifestPath, "utf-8");
     return json(JSON.parse(data));
-  } catch (error) {
-    console.error("Failed to load images manifest:", error);
+  } catch (_error) {
     return json({ photoDays: [] });
   }
 }
