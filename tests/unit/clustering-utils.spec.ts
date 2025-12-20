@@ -1,5 +1,18 @@
+/**
+ * @fileoverview Clustering Utilities Unit Tests
+ *
+ * @description
+ * Tests helper functions used in the face clustering pipeline.
+ * Covers Euclidean distance calculations (delegating to face-api mock),
+ * person distance aggregation, and constrain checks (disconnected pairs).
+ *
+ * @modules-tested
+ * - scripts/lib/clustering-utils.ts
+ */
+
 import * as faceapi from "@vladmandic/face-api";
 import { describe, expect, it, vi } from "vitest";
+import type { Person } from "$lib/types/manifest";
 import {
   calculatePersonDistance,
   euclideanDistance,
@@ -19,7 +32,7 @@ describe("clustering-utils", () => {
     it("should delegate to face-api", () => {
       const d1 = [1, 2];
       const d2 = [4, 5];
-      (faceapi.euclideanDistance as any).mockReturnValue(0.5);
+      vi.mocked(faceapi.euclideanDistance).mockReturnValue(0.5);
       expect(euclideanDistance(d1, d2)).toBe(0.5);
       expect(faceapi.euclideanDistance).toHaveBeenCalledWith(d1, d2);
     });
@@ -27,17 +40,17 @@ describe("clustering-utils", () => {
 
   describe("calculatePersonDistance", () => {
     it("should return Infinity if person has no descriptor", () => {
-      const person: any = { faceDescriptors: [] };
+      const person = { faceDescriptors: [] } as unknown as Person;
       expect(calculatePersonDistance([1], person)).toBe(1.0);
     });
 
     it("should return average distance to descriptors", () => {
-      const person: any = { faceDescriptors: [[0], [2]] }; // Avg 1
+      const person = { faceDescriptors: [[0], [2]] } as unknown as Person; // Avg 1
       // Target [0]
       // dist([0], [0]) = 0
       // dist([0], [2]) = 2 (mock implementation abs diff)
       // avg = 1
-      (faceapi.euclideanDistance as any).mockImplementation((a: any, b: any) =>
+      vi.mocked(faceapi.euclideanDistance).mockImplementation((a: any, b: any) =>
         Math.abs(a[0] - b[0]),
       );
 

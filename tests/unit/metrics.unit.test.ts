@@ -1,3 +1,14 @@
+/**
+ * @fileoverview Image Metrics Unit Tests
+ *
+ * @description
+ * Tests the extraction of technical image metrics.
+ * Verifies correctness of Sharpness calculation (Laplacian variance) and
+ * perceptual hash (pHash) stability under resizing.
+ *
+ * @modules-tested
+ * - scripts/lib/image-utils.ts
+ */
 import fs from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
@@ -48,7 +59,7 @@ describe("Metric Extraction (Unit)", () => {
     const scoreSharp = await calculateSharpness(sharp, sharpImgPath);
     const scoreBlur = await calculateSharpness(sharp, blurImgPath);
 
-    console.log(`Sharpness Score - Sharp: ${scoreSharp}, Blur: ${scoreBlur}`);
+    // console.log(`Sharpness Score - Sharp: ${scoreSharp}, Blur: ${scoreBlur}`);
     expect(scoreSharp).toBeGreaterThan(scoreBlur);
   });
 
@@ -56,7 +67,7 @@ describe("Metric Extraction (Unit)", () => {
     const hashOriginal = await calculatePhash(sharp, sharpImgPath);
     const hashResized = await calculatePhash(sharp, resizedImgPath);
 
-    console.log(`pHash - Original: ${hashOriginal}, Resized: ${hashResized}`);
+    // console.log(`pHash - Original: ${hashOriginal}, Resized: ${hashResized}`);
 
     let diff = 0;
     const h1 = BigInt(`0x${hashOriginal}`);
@@ -67,7 +78,7 @@ describe("Metric Extraction (Unit)", () => {
       if (char === "1") diff++;
     }
 
-    console.log(`Hamming distance: ${diff}`);
+    // console.log(`Hamming distance: ${diff}`);
     expect(diff).toBeLessThanOrEqual(5);
   });
 });

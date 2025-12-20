@@ -1,3 +1,17 @@
+/**
+ * @fileoverview Image Generator CLI Integration Tests
+ *
+ * @description
+ * Integration tests for the `generate-images` CLI script.
+ * Verifies the end-to-end process of generating image variants (WebP/JPEG),
+ * handling manifests, cleaning orphaned files, and respecting flags like --allow-upscale.
+ * Uses a real filesystem in a temporary directory.
+ *
+ * @modules-tested
+ * - scripts/generate-images.ts
+ * - scripts/lib/image-processor.ts
+ */
+
 import fs from "node:fs";
 import path from "node:path";
 import { exiftool } from "exiftool-vendored";
@@ -35,6 +49,9 @@ describe("CLI (generate-images.ts) – Integration with real FS", { timeout: 300
     const inDir = path.join(workingsDir, "in");
     const outDir = path.join(workingsDir, "out");
     const manifest = path.join(outDir, "images.manifest.json");
+    const cache = path.join(workingsDir, "images.cache.json");
+
+    fs.mkdirSync(outDir, { recursive: true });
 
     await buildInputSet(inDir);
 
@@ -42,11 +59,12 @@ describe("CLI (generate-images.ts) – Integration with real FS", { timeout: 300
       `--src=${inDir}`,
       `--out=${outDir}`,
       `--manifest=${manifest}`,
+      `--cache=${cache}`,
       `--formats=jpeg,webp`,
       `--quality.jpeg=75`,
       `--concurrency=1`,
-      `--clean=true`,
       `--limit=3`,
+      `--quiet`,
     ];
 
     const res = await runGenerator(args, { cwd: CWD });
@@ -88,9 +106,11 @@ describe("CLI (generate-images.ts) – Integration with real FS", { timeout: 300
       `--src=${inDir}`,
       `--out=${outDir}`,
       `--manifest=${path.join(outDir, "manifest.json")}`,
+      `--cache=${path.join(workingsDir, "cache.json")}`,
       `--allow-upscale=false`,
       `--formats=jpeg`,
       `--concurrency=1`,
+      `--quiet`,
     ];
 
     const res = await runGenerator(args, { cwd: CWD });
@@ -115,8 +135,10 @@ describe("CLI (generate-images.ts) – Integration with real FS", { timeout: 300
         `--src=${inDir}`,
         `--out=${outDir}`,
         `--manifest=${path.join(outDir, "m.json")}`,
+        `--cache=${path.join(workingsDir, "c.json")}`,
         `--formats=jpeg,webp`,
         `--clean=true`,
+        `--quiet`,
       ],
       { cwd: CWD },
     );
@@ -129,8 +151,10 @@ describe("CLI (generate-images.ts) – Integration with real FS", { timeout: 300
         `--src=${inDir}`,
         `--out=${outDir}`,
         `--manifest=${path.join(outDir, "m.json")}`,
+        `--cache=${path.join(workingsDir, "c.json")}`,
         `--formats=jpeg`,
         `--clean=true`,
+        `--quiet`,
       ],
       { cwd: CWD },
     );

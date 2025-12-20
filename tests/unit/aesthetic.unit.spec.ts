@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Aesthetic Scoring Unit Tests
+ *
+ * @description
+ * Tests the aesthetic scoring logic which uses CLIP embedding projections.
+ * Verifies that the aesthetic axis is correctly created from positive and negative prompts,
+ * and that image embeddings are correctly scored against this axis.
+ *
+ * @modules-tested
+ * - scripts/lib/aesthetic.ts
+ */
+
 import { describe, expect, it } from "vitest";
 import {
   calculateAestheticScore,
@@ -59,8 +71,8 @@ describe("Aesthetic Scoring", () => {
     expect(scorePretty).toBeGreaterThan(scoreMedium);
     expect(scoreMedium).toBeGreaterThan(scoreUgly);
 
-    console.log(
-      `Calibration Check: Pretty (${scorePretty.toFixed(3)}) > Medium (${scoreMedium.toFixed(3)}) > Ugly (${scoreUgly.toFixed(3)})`,
-    );
+    // console.log(
+    //   `Calibration Check: Pretty (${scorePretty.toFixed(3)}) > Medium (${scoreMedium.toFixed(3)}) > Ugly (${scoreUgly.toFixed(3)})`,
+    // );
   });
 });
