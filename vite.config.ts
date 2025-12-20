@@ -25,7 +25,17 @@ export default defineConfig({
   test: {
     expect: { requireAssertions: true },
     coverage: {
-      exclude: ["src/lib/components/ui/**", "**/*.d.ts", "tests/**", "scripts/**"],
+      include: ["src/**"],
+      exclude: [
+        "src/lib/components/ui/**",
+        "src/app.html",
+        "**/*.d.ts",
+        "tests/**",
+        "scripts/**",
+        "src/**/*.svelte",
+        "**/*.test.ts",
+        "**/*.spec.ts",
+      ],
     },
     projects: [
       {
@@ -41,6 +51,7 @@ export default defineConfig({
           include: [
             "src/**/*.svelte.{test,spec}.{js,ts}",
             "tests/components/**/*.{test,spec}.{js,ts}",
+            "tests/components/**/*.{test,spec}.svelte.{js,ts}",
           ],
           exclude: ["src/lib/server/**"],
           setupFiles: ["./vitest-setup-client.ts", "./tests/setup/browser.ts"],
