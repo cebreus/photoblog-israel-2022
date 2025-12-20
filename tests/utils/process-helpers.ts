@@ -34,7 +34,7 @@ export async function runCli(
     const timeout = setTimeout(() => {
       try {
         proc.kill("SIGKILL");
-      } catch (_) { }
+      } catch (_) {}
       reject(new Error("CLI timeout"));
     }, opts?.timeoutMs ?? 60000);
 

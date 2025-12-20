@@ -1,8 +1,8 @@
-import { validateRenameInput } from "$lib/utils/api-validators";
-import { toSlug } from "$lib/utils/strings";
-import { json } from "@sveltejs/kit";
 import fsp from "node:fs/promises";
 import path from "node:path";
+import { json } from "@sveltejs/kit";
+import { validateRenameInput } from "$lib/utils/api-validators";
+import { toSlug } from "$lib/utils/strings";
 import { createLogger } from "../../../../../scripts/lib/logger";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 import {
@@ -80,7 +80,7 @@ export async function POST({ request }) {
               },
               { status: 409 },
             );
-          } catch { }
+          } catch {}
 
           try {
             await fsp.rename(oldPath, newPath);
@@ -148,7 +148,7 @@ export async function POST({ request }) {
               logger.info("[RENAME] Updated constraints for new ID");
             }
           }
-        } catch (_e) { }
+        } catch (_e) {}
       }
 
       await savePeopleManifest(dataDir, peopleManifest);
