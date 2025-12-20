@@ -18,13 +18,13 @@ export type MetadataKey =
 export const METADATA_STANDARDS: Record<MetadataKey, MetadataFieldConfig> = {
   title: {
     label: "Název",
-    read: ["Title", "ObjectName", "ImageDescription"],
-    write: ["XMP:Title", "IPTC:ObjectName", "Exif:ImageDescription"],
+    read: ["Title", "ObjectName", "XMP:Title"],
+    write: ["XMP:Title", "IPTC:ObjectName"],
   },
   caption: {
     label: "Popisek",
-    read: ["Description", "Caption-Abstract", "UserComment"],
-    write: ["XMP:Description", "IPTC:Caption-Abstract"],
+    read: ["Description", "Caption-Abstract", "ImageDescription", "UserComment"],
+    write: ["XMP:Description", "IPTC:Caption-Abstract", "Exif:ImageDescription"],
   },
   keywords: {
     label: "Klíčová slova",
@@ -78,7 +78,9 @@ export function getExifToolWriteTags(
     }
   }
 
-  tags["IPTC:CodedCharacterSet"] = "UTF8";
+  if (Object.keys(tags).length > 0) {
+    tags["IPTC:CodedCharacterSet"] = "UTF8";
+  }
 
   return tags;
 }

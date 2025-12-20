@@ -10,6 +10,7 @@
   import { Textarea } from "$lib/components/ui/textarea";
   import { editor } from "$lib/stores/editor.svelte";
   import { metadataClipboard } from "$lib/stores/metadata-clipboard.svelte";
+  import { ui } from "$lib/stores/ui.svelte";
   import type { ImageEntry, Separator } from "$lib/types/manifest";
   import RotateCcw from "lucide-svelte/icons/rotate-ccw";
   import Trash2 from "lucide-svelte/icons/trash-2";
@@ -39,11 +40,14 @@
   const form = superForm(initialData, {
     SPA: true,
     dataType: "json",
-    validators: undefined,
+    validators: false,
     // No validators - relying on manual optional fields
     onUpdate: async ({ form }) => {
+      if (ui.debug) console.debug("form: onUpdate", { valid: form.valid, data: form.data });
       if (form.valid) {
         await handleSubmit(form.data);
+      } else {
+        if (ui.debug) console.debug("form: invalid", form.errors);
       }
     },
   });
@@ -153,12 +157,14 @@
   let isSaving = $state(false);
 
   async function handleSubmit(data: typeof initialData) {
-    if (imageIds.length === 0) return;
+    if (editor.selection.size === 0) {
+      return;
+    }
 
     isSaving = true;
     try {
       const payload = {
-        imageIds,
+        imageIds: Array.from(editor.selection),
         metadata: {
           title: explicitClears.title ? null : data.title === "" ? undefined : data.title,
           author: explicitClears.author ? null : data.author === "" ? undefined : data.author,
@@ -797,7 +803,9 @@
     </Form.Field>
 
     <div class="flex justify-end pt-4 mt-auto">
-      <Button class="w-full" size="lg" type="submit">Uložit změny</Button>
+      <Button class="w-full" size="lg" type="submit" data-testid="edit-tab-submit-button"
+        >Uložit změny</Button
+      >
     </div>
   </form>
 </div>

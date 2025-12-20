@@ -60,7 +60,6 @@ export async function performImageAction(options: ActionOptions): Promise<void> 
 
     await invalidateAll();
   } catch (e: unknown) {
-    console.error(e);
     const error = e instanceof Error ? e : new Error(String(e));
     toast.error(`Nepodařilo se provést akci ${action}: ${error.message}`);
     if (onError) onError(error);

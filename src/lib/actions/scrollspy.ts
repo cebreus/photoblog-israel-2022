@@ -45,7 +45,6 @@ export const useScrollspy: Action<HTMLElement, ScrollspyOptions> = (node, option
   const { id, rootMargin = DEFAULT_ROOT_MARGIN, threshold = DEFAULT_THRESHOLD } = options;
 
   if (!id) {
-    console.warn('Scrollspy action requires an "id" option.');
     return { destroy() {} };
   }
 
@@ -78,8 +77,12 @@ export const useScrollspy: Action<HTMLElement, ScrollspyOptions> = (node, option
         // Apply all changes in a single store update for better performance
         // Apply all changes in a single store update for better performance
         const current = new Set(ui.activeSections);
-        toAdd.forEach((i) => current.add(i));
-        toRemove.forEach((i) => current.delete(i));
+        toAdd.forEach((i) => {
+          current.add(i);
+        });
+        toRemove.forEach((i) => {
+          current.delete(i);
+        });
         ui.activeSections = current;
       },
       { rootMargin, threshold },

@@ -1,41 +1,49 @@
 export class EditorState {
-  selection = $state(new Set<string>());
+  #selection = $state(new Set<string>());
   editMode = $state(false);
   showMetadataOverlay = $state(false);
 
+  get selection() {
+    return this.#selection;
+  }
+
+  set selection(v: Set<string>) {
+    this.#selection = v;
+  }
+
   toggleSelection(id: string) {
-    if (this.selection.has(id)) {
-      this.selection.delete(id);
+    if (this.#selection.has(id)) {
+      this.#selection.delete(id);
     } else {
-      this.selection.add(id);
+      this.#selection.add(id);
     }
   }
 
   addSelection(id: string) {
-    this.selection.add(id);
+    this.#selection.add(id);
   }
 
   removeSelection(id: string) {
-    this.selection.delete(id);
+    this.#selection.delete(id);
   }
 
   clearSelection() {
-    this.selection.clear();
+    this.#selection.clear();
   }
 
   setSelection(ids: Set<string>) {
-    this.selection = ids;
+    this.#selection = ids;
   }
 
   addMultiple(ids: string[]) {
     for (const id of ids) {
-      this.selection.add(id);
+      this.#selection.add(id);
     }
   }
 
   removeMultiple(ids: string[]) {
     for (const id of ids) {
-      this.selection.delete(id);
+      this.#selection.delete(id);
     }
   }
 

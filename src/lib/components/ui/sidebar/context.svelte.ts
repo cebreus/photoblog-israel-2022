@@ -39,7 +39,11 @@ function createSidebarState(props: SidebarStateProps): SidebarState {
   }
 
   function toggle() {
-    return isMobile.current ? (openMobile = !openMobile) : props.setOpen(!open);
+    if (isMobile.current) {
+      openMobile = !openMobile;
+    } else {
+      props.setOpen(!open);
+    }
   }
 
   function handleShortcutKeydown(e: KeyboardEvent) {
