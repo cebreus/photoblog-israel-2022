@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Metadata Clipboard Unit Tests
+ *
+ * @description
+ * Tests the metadata clipboard functionality.
+ * Verifies operations for copying and pasting metadata between images,
+ * ensuring data integrity during the transfer.
+ *
+ * @modules-tested
+ * - src/lib/utils/metadata-clipboard.ts
+ */
+
 import { describe, expect, it } from "vitest";
 import { metadataClipboard } from "../../src/lib/stores/metadata-clipboard.svelte";
 import type { ImageEntry } from "../../src/lib/types/manifest";

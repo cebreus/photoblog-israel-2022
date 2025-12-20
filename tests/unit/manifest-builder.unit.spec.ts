@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Manifest Builder Unit Tests
+ *
+ * @description
+ * Tests the creation and assembly of image manifests.
+ * Verifies that the internal representation of image data is correctly
+ * transformed into the JSON manifest structure used by the frontend.
+ *
+ * @modules-tested
+ * - scripts/lib/manifest-builder.ts
+ */
+
 import { describe, expect, it } from "vitest";
 import type { ProcessedImageResult } from "../../scripts/lib/image-processor";
 import { updateManifest } from "../../scripts/lib/manifest-builder";

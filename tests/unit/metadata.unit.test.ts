@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Metadata Extraction Unit Tests
+ *
+ * @description
+ * Tests the extraction of metadata from image files.
+ * Verifies parsing of EXIF and IPTC data, including dates, GPS coordinates,
+ * and custom tags using `exiftool`.
+ *
+ * @modules-tested
+ * - scripts/lib/metadata.ts
+ */
+
 import { describe, expect, it } from "vitest";
 import { buildImageEntry, normalizeExifData, type RawExifData } from "../../scripts/lib/metadata";
 

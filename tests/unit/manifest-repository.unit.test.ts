@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Manifest Repository Unit Tests
+ *
+ * @description
+ * Tests the persistence layer for manifests.
+ * Verifies loading and saving of various manifest types (images, analysis, people),
+ * including validation of schema and structure logic.
+ *
+ * @modules-tested
+ * - scripts/lib/manifest-repository.ts
+ */
+
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";

@@ -1,3 +1,15 @@
+/**
+ * @fileoverview People Filtering Unit Tests
+ *
+ * @description
+ * Tests the logic for filtering images based on people.
+ * Verifies that images containing specific people are correctly included or excluded
+ * based on filter criteria.
+ *
+ * @modules-tested
+ * - src/lib/utils/people-filter.ts
+ */
+
 import { describe, expect, it } from "vitest";
 import type { ImageEntry, Person } from "$lib/types/manifest";
 import { filterGalleryItems } from "$lib/utils/gallery";

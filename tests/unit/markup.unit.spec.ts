@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Markup Generation Unit Tests
+ *
+ * @description
+ * Tests the generation of HTML markup for gallery elements.
+ * Verifies that components and snippets render correct HTML structure
+ * for SEO and accessibility.
+ *
+ * @modules-tested
+ * - src/lib/utils/markup.ts
+ */
+
 import { describe, expect, it } from "vitest";
 import type { Separator } from "../../src/lib/types/manifest";
 import { renderMarkdown, renderStoryHtml } from "../../src/lib/utils/markup";

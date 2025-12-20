@@ -1,3 +1,15 @@
+/**
+ * @fileoverview URL Synchronization Unit Tests (Read/Features)
+ *
+ * @description
+ * Tests the advanced features of URL synchronization (reading state).
+ * Verifies correct parsing of URL parameters back into internal state,
+ * handling of arrays, booleans, and legacy formats.
+ *
+ * @modules-tested
+ * - src/lib/stores/urlSync.svelte.ts
+ */
+
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 // Mock modules BEFORE importing the file under test

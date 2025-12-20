@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Filter Utilities Unit Tests
+ *
+ * @description
+ * Tests helper logic for filtering gallery items.
+ * Verifies boolean logic for combining different filter criteria (authors, tags, camers, etc.)
+ * to produce the final filtered set of images.
+ *
+ * @modules-tested
+ * - src/lib/utils/filter-utils.ts
+ */
+
 import { describe, expect, it } from "vitest";
 import type { ImageEntry, PhotoDay, Separator } from "../../src/lib/types/manifest";
 import { computeTotals } from "../../src/lib/utils/gallery";

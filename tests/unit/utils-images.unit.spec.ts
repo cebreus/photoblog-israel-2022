@@ -1,3 +1,15 @@
+/**
+ * @fileoverview General Image Utilities Unit Tests
+ *
+ * @description
+ * Tests miscellaneous image utility functions.
+ * Covers path handling, extension normalization, and basic file operations
+ * related to image management.
+ *
+ * @modules-tested
+ * - scripts/lib/utils-images.ts
+ */
+
 import { describe, expect, it, vi } from "vitest";
 import type { ImageEntry } from "../../src/lib/types/manifest";
 import {

@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Shell Utilities Unit Tests
+ *
+ * @description
+ * Tests wrapper functions for shell command execution.
+ * Verifies that shell commands are constructed and executed correctly, capturing
+ * stdout/stderr and handling exit codes.
+ *
+ * @modules-tested
+ * - scripts/lib/shell-utils.ts
+ */
+
 import { describe, expect, it, vi } from "vitest";
 import { execCapture, run } from "../../scripts/lib/shell-utils";
 

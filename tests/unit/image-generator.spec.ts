@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Image Generator Service Unit Tests
+ *
+ * @description
+ * Tests the high-level image generation service.
+ * Verifies the orchestration of image processing tasks, including
+ * variant generation logic, queuing, and error handling.
+ *
+ * @modules-tested
+ * - scripts/generate-images.ts (Service layer)
+ */
+
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { generateOtherOutput, generateVariant } from "../../scripts/lib/image-generator";
 import { ImageFormat } from "../../src/lib/types/images";

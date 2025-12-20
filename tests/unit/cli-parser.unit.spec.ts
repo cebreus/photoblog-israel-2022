@@ -1,3 +1,15 @@
+/**
+ * @fileoverview CLI Parser Unit Tests (App)
+ *
+ * @description
+ * Tests the frontend/application CLI argument parser.
+ * Verifies that command-line arguments are correctly parsed into configuration objects,
+ * distinct from the scripts-only parser.
+ *
+ * @modules-tested
+ * - src/lib/utils/cli-parser.ts (or similar app-level parser)
+ */
+
 import { describe, expect, it } from "vitest";
 import { DEFAULT_CLI_OPTIONS, parseCliArguments } from "../../scripts/lib/cli-parser";
 

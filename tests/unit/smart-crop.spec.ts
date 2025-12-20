@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Smart Crop Unit Tests
+ *
+ * @description
+ * Tests the smart cropping algorithm.
+ * Verifies that the crop focuses on the most salient parts of the image
+ * (e.g., faces, high-contrast areas) based on provided analysis data.
+ *
+ * @modules-tested
+ * - scripts/lib/smart-crop.ts
+ */
+
 import { describe, expect, it } from "vitest";
 import { type Box, calculateSmartCrop } from "../../scripts/lib/smart-crop";
 

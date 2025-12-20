@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Underwater Color Correction Unit Tests
+ *
+ * @description
+ * Tests the underwater image correction algorithm.
+ * Verifies red-channel restoration logic and histogram adjustment
+ * specific to underwater photography scenarios.
+ *
+ * @modules-tested
+ * - scripts/lib/underwater.ts
+ */
+
 import fs from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
