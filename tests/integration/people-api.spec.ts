@@ -1,3 +1,17 @@
+/**
+ * @fileoverview People API Integration Tests
+ *
+ * @description
+ * Tests the server-side API endpoints for managing people (Faces).
+ * Verifies renaming, merging, and unmatching logic, including filesystem operations
+ * and manifest updates.
+ *
+ * @modules-tested
+ * - src/routes/api/people/rename/+server.ts
+ * - src/routes/api/people/merge/+server.ts
+ * - src/routes/api/people/unmatch/+server.ts
+ */
+
 import fs from "node:fs";
 import fsp from "node:fs/promises";
 import path from "node:path";
@@ -108,6 +122,14 @@ async function cleanupEnv() {
   process.env.CONTENT_DIR = originalContentDir;
 }
 
+// Helper to mock RequestEvent
+const createMockEvent = (body: unknown) =>
+  ({
+    request: {
+      json: async () => body,
+    },
+  }) as any;
+
 describe("Integration: People API", () => {
   beforeEach(async () => {
     await setupEnv();
@@ -118,11 +140,8 @@ describe("Integration: People API", () => {
   });
 
   it("RENAME should update ID, rename folder, and update constraints", async () => {
-    const req = {
-      json: async () => ({ personId: "person-1", name: "Alice Newname" }),
-    };
-
-    const res = await renamePost({ request: req } as any);
+    const event = createMockEvent({ personId: "person-1", name: "Alice Newname" });
+    const res = await renamePost(event);
     const json = await res.json();
 
     expect(json.success).toBe(true);
@@ -152,11 +171,8 @@ describe("Integration: People API", () => {
   });
 
   it("MERGE should move files, update references, and empty source", async () => {
-    const req = {
-      json: async () => ({ sourcePersonId: "person-2", targetPersonId: "person-1" }),
-    };
-
-    const res = await mergePost({ request: req } as any);
+    const event = createMockEvent({ sourcePersonId: "person-2", targetPersonId: "person-1" });
+    const res = await mergePost(event);
     const json = await res.json();
 
     expect(json.success).toBe(true);
@@ -185,11 +201,8 @@ describe("Integration: People API", () => {
   });
 
   it("UNMATCH should create new person, move file, and create constraint", async () => {
-    const req = {
-      json: async () => ({ personId: "person-1", imageId: "img3" }),
-    };
-
-    const res = await unmatchPost({ request: req } as any);
+    const event = createMockEvent({ personId: "person-1", imageId: "img3" });
+    const res = await unmatchPost(event);
     const json = await res.json();
 
     expect(json.success).toBe(true);
@@ -209,5 +222,66 @@ describe("Integration: People API", () => {
     const constraints = JSON.parse(await fsp.readFile(constraintsPath, "utf8"));
     expect(constraints.disconnects).toHaveLength(1);
     expect(constraints.disconnects[0]).toEqual({ imageId: "img3", personId: "person-1" });
+  });
+
+  // Negative Tests
+  it("RENAME should fail with 404 if person does not exist", async () => {
+    const event = createMockEvent({ personId: "person-999", name: "Nobody" });
+    const res = await renamePost(event);
+    const json = await res.json();
+
+    expect(res.status).toBe(404);
+    expect(json.success).toBe(false);
+    expect(json.error).toMatch(/not found/i);
+  });
+
+  it("RENAME should fail with 409 if target name/ID already exists", async () => {
+    // We want to verify that if the target folder for the new name already exists, we stop.
+    // person-1 exists. slug for "Conflict Name" -> "conflict-name".
+    // ID logic: baseId (person-1) + -- + slug -> "person-1--conflict-name".
+
+    const conflictName = "Conflict Name";
+    const conflictSlug = "conflict-name";
+    const conflictId = `person-1--${conflictSlug}`;
+
+    // Manually create the folder/conflict
+    await fsp.mkdir(path.join(STATIC_DIR, "faces", conflictId), { recursive: true });
+
+    const event = createMockEvent({ personId: "person-1", name: conflictName });
+    const res = await renamePost(event);
+    const json = await res.json();
+
+    expect(res.status).toBe(409);
+    expect(json.success).toBe(false);
+    expect(json.error).toMatch(/target folder already exists/i);
+  });
+
+  // Concurrency Smoke Test
+  it("CONCURRENCY: should handle simultaneous requests gracefully", async () => {
+    // We try to rename the SAME person twice with different names at the same time.
+    // One should succeed, the other might fail or succeed sequentially.
+    // The lock should prevent corruption.
+
+    const eventA = createMockEvent({ personId: "person-2", name: "Bob Alpha" });
+    const eventB = createMockEvent({ personId: "person-2", name: "Bob Beta" });
+
+    const results = await Promise.allSettled([renamePost(eventA), renamePost(eventB)]);
+
+    // We expect both to be settled.
+    // Since we use a file lock, they SHOULD run sequentially.
+    // So both should likely succeed (last one wins), OR one fails if state changed under its feet.
+    // Ideally 200 OK for both, or 503 if lock timeout (unlikely in test).
+
+    const fulfilled = results.filter((r) => r.status === "fulfilled");
+    expect(fulfilled.length).toBe(2);
+
+    // Check final state
+    const people = JSON.parse(
+      await fsp.readFile(path.join(DATA_DIR, "people.manifest.json"), "utf8"),
+    );
+    const p2 = people.people.find((p: any) => p.id.startsWith("person-2"));
+
+    // One of the names should be persisted
+    expect(["Bob Alpha", "Bob Beta"]).toContain(p2.name);
   });
 });
