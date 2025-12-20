@@ -2,10 +2,10 @@
  * @fileoverview Image Management API Integration Tests
  */
 
+import { exiftool } from "exiftool-vendored";
 import fsp from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { exiftool } from "exiftool-vendored";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
   POST as archiveImages,
@@ -177,5 +177,62 @@ describe("Integration: Image Management API", () => {
       // Let's create a more realistic test in the next iteration.
       expect(body.errors[0]).toContain("Chyba při aktualizaci");
     }
+  });
+  it("DELETE should handle invalid request body", async () => {
+    const request = {
+      json: async () => ({}), // Missing ids
+    };
+    const res = await deleteImages({ request } as any);
+    expect(res.status).toBe(400);
+  });
+
+  it("DELETE should handle partial failure (one file missing)", async () => {
+    const request = {
+      json: async () => ({
+        ids: [
+          { id: "img1", src: `/images/${contentDir}/img1.jpg` },
+          { id: "nonexistent", src: `/images/${contentDir}/nonexistent.jpg` },
+        ],
+      }),
+    };
+
+    const res = await deleteImages({ request } as any);
+    const body = await res.json();
+
+    expect(body.success).toBe(true);
+    expect(body.deleted).toContain(`/images/${contentDir}/img1.jpg`);
+    expect(body.errors).toHaveLength(1);
+    expect(body.errors[0]).toContain("nonexistent");
+  });
+
+  it("POST (archive) should handle invalid action", async () => {
+    const request = {
+      json: async () => ({
+        action: "unknown",
+        ids: [{ id: "img1", src: `/images/${contentDir}/img1.jpg` }],
+      }),
+    };
+    const res = await archiveImages({ request } as any);
+    expect(res.status).toBe(400);
+  });
+
+  it("POST (archive) should handle corrupted manifest gracefully", async () => {
+    // Corrupt the manifest
+    await fsp.writeFile(manifestPath, "invalid json content");
+
+    const request = {
+      json: async () => ({
+        action: "archive",
+        ids: [{ id: "img2", src: `/images/${contentDir}/img2.jpg` }],
+      }),
+    };
+
+    // Should still proceed with moving file even if manifest update fails or is skipped
+    // Actually the code logs a warning and continues.
+    const res = await archiveImages({ request } as any);
+    const body = await res.json();
+
+    expect(body.success).toBe(true);
+    expect(body.archived).toContain(`/images/${contentDir}/img2.jpg`);
   });
 });
