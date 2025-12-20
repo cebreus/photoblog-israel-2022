@@ -3,28 +3,29 @@
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import PersonDetailDialog from "$lib/components/PersonDetailDialog.svelte";
-  import PersonIgnoreConfirmDialog from "$lib/components/PersonIgnoreConfirmDialog.svelte";
   import PersonMergeDialog from "$lib/components/PersonMergeDialog.svelte";
   import * as Accordion from "$lib/components/ui/accordion";
   import { Button } from "$lib/components/ui/button";
+  import * as ButtonGroup from "$lib/components/ui/button-group";
   import { Checkbox } from "$lib/components/ui/checkbox";
   import * as Sidebar from "$lib/components/ui/sidebar";
   import { Switch } from "$lib/components/ui/switch";
-  import { ToggleGroup, ToggleGroupItem } from "$lib/components/ui/toggle-group";
   import { filters } from "$lib/stores/filters.svelte";
   import { people } from "$lib/stores/people.svelte";
   import type { Person } from "$lib/types/manifest";
   import { getVisiblePeople } from "$lib/utils/people";
+  import SelectionBulkActions from "../SelectionBulkActions.svelte";
+  import CategoryPersonCard from "./CategoryPersonCard.svelte";
+  import Ban from "lucide-svelte/icons/ban";
   import Check from "lucide-svelte/icons/check";
-  import CheckCheck from "lucide-svelte/icons/check-check";
   import EyeOff from "lucide-svelte/icons/eye-off";
   import Loader2 from "lucide-svelte/icons/loader-2";
-  import Merge from "lucide-svelte/icons/merge";
-  import Trash2 from "lucide-svelte/icons/trash-2";
+  import RotateCcw from "lucide-svelte/icons/rotate-ccw";
   import User from "lucide-svelte/icons/user";
+  import Users from "lucide-svelte/icons/users";
   import X from "lucide-svelte/icons/x";
-  import XCircle from "lucide-svelte/icons/x-circle";
   import { untrack } from "svelte";
+  import { toast } from "svelte-sonner";
 
   // Subscribe to derived store with optimized stats
   let peopleList = $derived(people.peopleWithStats);
@@ -66,7 +67,6 @@
   // Merge state - checkbox selection
   let selectedForMerge = $state<string[]>([]);
   let showMergeConfirmDialog = $state(false);
-  let showIgnoreConfirmDialog = $state(false);
 
   // Detail state for QC
   let detailPerson = $state<Person | null>(null);
@@ -147,9 +147,11 @@
       console.log("[DEBUG] API call successful, triggering reload");
       // Trigger reload to show updated name
       await people.refresh();
+      toast.success("Osoba byla úspěšně přejmenována.");
       cancelEditing();
     } catch (error) {
       console.error("Failed to rename person:", error);
+      toast.error("Přejmenování se nezdařilo.");
     } finally {
       console.log("[DEBUG] Setting isSaving to false");
       isSaving = false;
@@ -197,8 +199,8 @@
     }
   }
 
-  async function toggleIgnore(personId: string) {
-    console.log("[DEBUG] Toggling ignore for person:", personId);
+  async function toggleHide(personId: string) {
+    console.log("[DEBUG] Toggling hide for person:", personId);
     isSaving = true;
 
     try {
@@ -211,7 +213,8 @@
 
       if (response.ok) {
         const data = await response.json();
-        console.log("[DEBUG] Person ignored state:", data.ignored);
+        const isIgnored = data.results?.[0]?.ignored;
+        console.log("[DEBUG] Person ignored state:", isIgnored);
 
         // Also remove from selection if being ignored
         filters.selectedPeople = filters.selectedPeople.filter((id) => id !== personId);
@@ -221,9 +224,13 @@
 
         // Trigger reload to update UI
         await people.refresh();
+        toast.success(isIgnored ? "Osoba byla skryta." : "Osoba byla obnovena.");
+      } else {
+        toast.error("Akce se nezdařila.");
       }
     } catch (error) {
-      console.error("Failed to toggle ignore:", error);
+      console.error("Failed to toggle hide:", error);
+      toast.error("Chyba při komunikaci se serverem.");
     } finally {
       isSaving = false;
     }
@@ -257,7 +264,17 @@
   // Filter people by ignored flag from manifest AND hide empty profiles (result of merge)
   const visiblePeople = $derived(getVisiblePeople(peopleList));
 
-  const ignoredPeopleList = $derived(peopleList.filter((p) => p.ignored));
+  // Hidden list shows only "person" category (statue/painting stay in their accordions even if ignored)
+  const hiddenPeopleList = $derived(
+    peopleList
+      .filter((p) => p.ignored && (!p.category || p.category === "person"))
+      .sort((a, b) => b.faceCount - a.faceCount),
+  );
+
+  // Count of selected that are hidden (for restore action state)
+  const selectedHiddenCount = $derived(
+    selectedForMerge.filter((id) => hiddenPeopleList.some((p) => p.id === id)).length,
+  );
 
   // Track quick filter preset for button group highlighting
   const selectionMode = $derived.by(() => {
@@ -275,20 +292,32 @@
     if (mode === "none") return selectNone();
     if (mode === "reset") return clearSelection();
   }
+  // Category lists (based on visible/active people)
+  const categoryPersonList = $derived(
+    peopleList
+      .filter((p) => !p.category || p.category === "person")
+      .sort((a, b) => b.faceCount - a.faceCount),
+  );
+  const categoryStatueList = $derived(
+    peopleList.filter((p) => p.category === "statue").sort((a, b) => b.faceCount - a.faceCount),
+  );
+  const categoryPaintingList = $derived(
+    peopleList.filter((p) => p.category === "painting").sort((a, b) => b.faceCount - a.faceCount),
+  );
 
-  function openBulkIgnoreDialog(e?: MouseEvent) {
+  function handleBulkHideAction(e?: MouseEvent) {
     e?.stopPropagation();
-    console.log("[PEOPLE TAB] Opening bulk ignore dialog, count:", selectedForMerge.length);
+    console.log("[PEOPLE TAB] Executing bulk hide immediately, count:", selectedForMerge.length);
     if (selectedForMerge.length === 0) return;
-    showIgnoreConfirmDialog = true;
+    executeBulkHide();
   }
 
-  async function executeBulkIgnore() {
+  async function executeBulkHide() {
     if (selectedForMerge.length === 0) return;
 
     isSaving = true;
     try {
-      console.log("[BULK IGNORE] Ignoring:", selectedForMerge);
+      console.log("[BULK HIDE] Hiding:", selectedForMerge);
 
       // Execute single bulk request
       const response = await fetch("/api/people/ignore", {
@@ -302,8 +331,8 @@
       }
 
       // Success - remove from selection store if selected
-      const ignoredIds = [...selectedForMerge];
-      filters.selectedPeople = filters.selectedPeople.filter((id) => !ignoredIds.includes(id));
+      const hiddenIds = [...selectedForMerge];
+      filters.selectedPeople = filters.selectedPeople.filter((id) => !hiddenIds.includes(id));
 
       // Reset checkbox selection
       selectedForMerge = [];
@@ -313,10 +342,78 @@
 
       // Reload
       await people.refresh();
-      showIgnoreConfirmDialog = false;
+      toast.success(`Bylo skryto ${hiddenIds.length} osob.`);
     } catch (error) {
-      console.error("Bulk ignore failed:", error);
-      alert("Hromadné ignorování selhalo.");
+      console.error("Bulk hide failed:", error);
+      toast.error("Hromadné skrytí selhalo.");
+    } finally {
+      isSaving = false;
+    }
+  }
+
+  async function executeBulkRestore() {
+    // Only restore those that are currently hidden
+    const hiddenIds = selectedForMerge.filter((id) => hiddenPeopleList.some((p) => p.id === id));
+    if (hiddenIds.length === 0) return;
+
+    isSaving = true;
+    try {
+      // The /api/people/ignore endpoint only bulk-sets to true.
+      // To restore, toggle each id individually with single POSTs.
+      await Promise.all(
+        hiddenIds.map((personId) =>
+          fetch("/api/people/ignore", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ personId }),
+          }),
+        ),
+      );
+
+      // Remove restored from current selection filter
+      filters.selectedPeople = filters.selectedPeople.filter((id) => !hiddenIds.includes(id));
+
+      await new Promise((r) => setTimeout(r, 500));
+      await people.refresh();
+      toast.success(`Obnoveno ${hiddenIds.length} osob.`);
+    } catch (e) {
+      console.error("Bulk restore failed:", e);
+      toast.error("Hromadné obnovení selhalo.");
+    } finally {
+      isSaving = false;
+    }
+  }
+
+  async function executeBulkMarkAsJunk() {
+    if (selectedForMerge.length === 0) return;
+    if (
+      !confirm(
+        `Opravdu označit ${selectedForMerge.length} vybraných profilů jako 'není osoba'? Operace je nevratná.`,
+      )
+    ) {
+      return;
+    }
+
+    isSaving = true;
+    try {
+      await Promise.all(
+        selectedForMerge.map((personId) =>
+          fetch("/api/people/mark-as-junk", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ personId }),
+          }),
+        ),
+      );
+
+      // Clear selection after destructive action
+      selectedForMerge = [];
+      await new Promise((r) => setTimeout(r, 400));
+      await people.refresh();
+      toast.success("Vybrané profily byly označeny jako neplatná detekce.");
+    } catch (e) {
+      console.error("Bulk mark-as-junk failed:", e);
+      toast.error("Hromadná akce 'Není osoba' selhala.");
     } finally {
       isSaving = false;
     }
@@ -392,18 +489,76 @@
 
       // Trigger reload
       await people.refresh();
+      toast.success("Osoby byly úspěšně sloučeny.");
     } catch (error) {
       console.error("[MERGE UI] Failed to merge people:", error);
-      alert(`Sloučení selhalo: ${error}`);
+      toast.error("Sloučení se nezdařilo.", {
+        description: error instanceof Error ? error.message : String(error),
+      });
     } finally {
       isSaving = false;
     }
   }
 
-  // ... rest of the file ...
-  // Wait, I need to make sure person detail uses the refresh too
-  // Oh, the template uses `detailPerson` which is local state.
-  // The `onUpdate` prop should trigger refresh.
+  // Bulk category update (same options as in PersonDetail header)
+  async function bulkUpdateCategory(category: "person" | "statue" | "painting") {
+    if (selectedForMerge.length === 0) return;
+
+    isSaving = true;
+    try {
+      await Promise.all(
+        selectedForMerge.map((personId) =>
+          fetch("/api/people/update-category", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ personId, category }),
+          }),
+        ),
+      );
+
+      await new Promise((r) => setTimeout(r, 300));
+      await people.refresh();
+      toast.success(`Kategorie změněna pro ${selectedForMerge.length} osob.`);
+    } catch (e) {
+      console.error("Bulk update category failed", e);
+      toast.error("Hromadná změna kategorie selhala.");
+    } finally {
+      isSaving = false;
+    }
+  }
+
+  async function markAsJunk(personId: string) {
+    if (
+      !confirm(
+        "Opravdu chcete tuto osobu označit jako 'není osoba'? Všechny její detekce budou v budoucnu ignorovány a profil bude smazán.",
+      )
+    ) {
+      return;
+    }
+
+    isSaving = true;
+    try {
+      const response = await fetch("/api/people/mark-as-junk", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ personId }),
+      });
+
+      if (response.ok) {
+        toast.success("Osoba byla označena jako neplatná detekce.");
+        await people.refresh();
+      } else {
+        toast.error("Akce se nezdařila.");
+      }
+    } catch (error) {
+      console.error("Failed to mark as junk:", error);
+      toast.error("Chyba při komunikaci se serverem.");
+    } finally {
+      isSaving = false;
+    }
+  }
+
+  // Use the refresh from person detail updates too
 </script>
 
 <div class="contents" data-testid="people-tab">
@@ -413,27 +568,43 @@
         <h3 class="font-semibold text-sm" data-testid="people-tab-title">
           Lidé ({peopleList.length})
         </h3>
+        {#if filters.selectedPeople.length > 0 && !filters.selectedPeople.includes("none")}
+          <Button variant="ghost" size="sm" onclick={clearSelection} class="h-6 px-2 text-xs">
+            Zrušit výběr
+          </Button>
+        {/if}
       </div>
 
       <!-- Control buttons -->
-      <ToggleGroup
-        type="single"
-        value={selectionMode || undefined}
-        onValueChange={(v) => v && handleSelectionPreset(v as "all" | "none" | "reset")}
-        variant="outline"
-        size="sm"
-        class="w-full"
-      >
-        <ToggleGroupItem value="all" class="h-7 text-xs" data-testid="people-tab-select-all">
-          <CheckCheck class="w-3 h-3 mr-1" /> Vše
-        </ToggleGroupItem>
-        <ToggleGroupItem value="none" class="h-7 text-xs" data-testid="people-tab-select-none">
-          <XCircle class="w-3 h-3 mr-1" /> Žádné
-        </ToggleGroupItem>
-        <ToggleGroupItem value="reset" class="h-7 text-xs" data-testid="people-tab-reset">
-          <X class="w-3 h-3 mr-1" /> Reset
-        </ToggleGroupItem>
-      </ToggleGroup>
+      <ButtonGroup.Root class="w-full">
+        <Button
+          variant={selectionMode === "all" ? "default" : "outline"}
+          size="sm"
+          class="flex-1 h-7 text-xs px-2"
+          onclick={() => handleSelectionPreset("all")}
+          data-testid="people-tab-select-all"
+        >
+          <Users class="w-3 h-3 mr-1" /> Vše
+        </Button>
+        <Button
+          variant={selectionMode === "none" ? "default" : "outline"}
+          size="sm"
+          class="flex-1 h-7 text-xs px-2"
+          onclick={() => handleSelectionPreset("none")}
+          data-testid="people-tab-select-none"
+        >
+          <Ban class="w-3 h-3 mr-1" /> Žádné
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          class="flex-1 h-7 text-xs px-2"
+          onclick={() => handleSelectionPreset("reset")}
+          data-testid="people-tab-reset"
+        >
+          <RotateCcw class="w-3 h-3 mr-1" /> Reset
+        </Button>
+      </ButtonGroup.Root>
 
       <p class="text-xs text-muted-foreground">
         <strong>Vše:</strong> Jen fotky s lidmi. <strong>Žádné:</strong> Jen fotky bez lidí.
@@ -533,7 +704,7 @@
                   e.stopPropagation();
                   startEditing(person);
                 }}
-                class="font-medium text-sm w-full text-left hover:text-primary transition-colors"
+                class="font-medium text-sm w-full text-left hover:text-primary transition-colors cursor-text"
                 data-testid="people-tab-person-name"
               >
                 {person.name}
@@ -559,7 +730,7 @@
               checked={selectedForMerge.includes(person.id)}
               onCheckedChange={() => toggleMergeSelection(person.id)}
               onclick={(e) => e.stopPropagation()}
-              class="ml-2"
+              class="ml-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               data-testid="people-tab-person-merge-checkbox"
             />
             <Button
@@ -567,13 +738,13 @@
               size="icon"
               onclick={(e) => {
                 e.stopPropagation();
-                toggleIgnore(person.id);
+                toggleHide(person.id);
               }}
-              class="h-8 w-8"
-              title="Ignorovat tuto osobu"
+              class="h-8 w-8 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+              title="Skrýt osobu"
               data-testid="people-tab-person-ignore-button"
             >
-              <Trash2 class="w-4 h-4" />
+              <EyeOff class="w-4 h-4" />
             </Button>
           {/if}
         </div>
@@ -593,83 +764,103 @@
 
       <!-- Bulk Actions - appears when people selected -->
       {#if dev && selectedForMerge.length > 0}
-        <div class="px-4 pb-4 flex gap-2">
-          {#if selectedForMerge.length >= 2}
-            <Button
-              variant="default"
-              size="sm"
-              onclick={openMergeDialog}
-              class="flex-1"
-              data-testid="people-tab-merge-button"
-            >
-              <Merge class="w-4 h-4 mr-2" />
-              Sloučit ({selectedForMerge.length})
-            </Button>
-          {/if}
-
-          <Button
-            variant="secondary"
-            size="sm"
-            onclick={openBulkIgnoreDialog}
-            class="flex-1"
-            data-testid="people-tab-bulk-ignore-button"
-          >
-            <EyeOff class="w-4 h-4 mr-2" />
-            Ignorovat ({selectedForMerge.length})
-          </Button>
+        <div class="px-4 pt-4 mt-2" data-testid="people-tab-bulk-actions">
+          <SelectionBulkActions
+            count={selectedForMerge.length}
+            onClear={() => (selectedForMerge = [])}
+            isWorking={isSaving}
+            class="w-full"
+            testId="people-tab-bulk-actions"
+            onMerge={openMergeDialog}
+            onHide={handleBulkHideAction}
+            onRestore={executeBulkRestore}
+            onMarkAsJunk={executeBulkMarkAsJunk}
+            onUpdateCategory={bulkUpdateCategory}
+            hiddenCount={selectedHiddenCount}
+            canHide={!selectedForMerge.some((id) => hiddenPeopleList.some((p) => p.id === id))}
+          />
         </div>
       {/if}
 
-      <!-- Ignored People Section -->
-      {#if ignoredPeopleList.length > 0 && dev}
-        {@const ignoredPersons = ignoredPeopleList}
-        <Accordion.Root
-          type="single"
-          value="ignored"
-          class="border-t mt-4"
-          data-testid="people-tab-ignored-section"
-        >
-          <Accordion.Item value="ignored">
+      <Accordion.Root type="single" value="ignored" class="mt-4">
+        {@const hiddenPersons = hiddenPeopleList}
+
+        {#if hiddenPeopleList.length > 0 && dev}
+          <Accordion.Item value="ignored" data-testid="people-tab-hidden-section">
             <Accordion.Trigger class="px-4 py-3 text-sm font-medium">
-              Ignorované osoby ({ignoredPeopleList.length})
+              Skryté ({hiddenPeopleList.length})
             </Accordion.Trigger>
-            <Accordion.Content class="border-b mb-2 px-4">
-              <div class="space-y-1 pt-2 pb-1">
-                {#each ignoredPersons as person (person.id)}
-                  <div
-                    class="flex items-center gap-2 p-2 rounded bg-slate-50 dark:bg-slate-900/50 text-xs"
-                    data-testid="people-tab-ignored-person-item"
-                  >
-                    <div
-                      class="w-6 h-6 rounded overflow-hidden bg-slate-200 dark:bg-slate-800 shrink-0"
-                    >
-                      {#if person.thumbnail}
-                        <img
-                          src={getThumbnailSrc(person)}
-                          alt={person.name}
-                          class="w-full h-full object-cover opacity-50"
-                        />
-                      {:else}
-                        <div class="flex items-center justify-center w-full h-full">
-                          <User class="w-3 h-3 text-slate-400" />
-                        </div>
-                      {/if}
-                    </div>
-                    <span class="flex-1 truncate text-muted-foreground">{person.name}</span>
-                    <button
-                      class="text-xs text-primary hover:underline"
-                      onclick={() => toggleIgnore(person.id)}
-                      data-testid="people-tab-ignored-person-restore-button"
-                    >
-                      Obnovit
-                    </button>
-                  </div>
-                {/each}
-              </div>
+            <Accordion.Content class="mb-2 px-4 grid grid-cols-3 gap-2 pt-2 pb-1">
+              {#each hiddenPersons as person (person.id)}
+                <CategoryPersonCard
+                  {person}
+                  {getThumbnailSrc}
+                  onToggle={toggleMergeSelection}
+                  selected={selectedForMerge.includes(person.id)}
+                  testId="people-tab-ignored-person-item"
+                ></CategoryPersonCard>
+              {/each}
             </Accordion.Content>
           </Accordion.Item>
-        </Accordion.Root>
-      {/if}
+        {/if}
+
+        {#if categoryPersonList.length > 0 && dev}
+          <Accordion.Item value="cat-person" data-testid="people-tab-category-person-section">
+            <Accordion.Trigger class="px-4 py-3 text-sm font-medium">
+              Osoby ({categoryPersonList.length})
+            </Accordion.Trigger>
+            <Accordion.Content class="mb-2 px-4 grid grid-cols-3 gap-2 pt-2 pb-1">
+              {#each categoryPersonList as person (person.id)}
+                <CategoryPersonCard
+                  {person}
+                  {getThumbnailSrc}
+                  onToggle={toggleMergeSelection}
+                  selected={selectedForMerge.includes(person.id)}
+                  testId="people-tab-category-person-item"
+                />
+              {/each}
+            </Accordion.Content>
+          </Accordion.Item>
+        {/if}
+
+        {#if categoryStatueList.length > 0}
+          <Accordion.Item value="cat-statue" data-testid="people-tab-category-statue-section">
+            <Accordion.Trigger class="px-4 py-3 text-sm font-medium">
+              Sochy ({categoryStatueList.length})
+            </Accordion.Trigger>
+            <Accordion.Content class="mb-2 px-4 grid grid-cols-3 gap-2 pt-2 pb-1">
+              {#each categoryStatueList as person (person.id)}
+                <CategoryPersonCard
+                  {person}
+                  {getThumbnailSrc}
+                  onToggle={toggleMergeSelection}
+                  selected={selectedForMerge.includes(person.id)}
+                  testId="people-tab-category-statue-item"
+                />
+              {/each}
+            </Accordion.Content>
+          </Accordion.Item>
+        {/if}
+
+        {#if categoryPaintingList.length > 0}
+          <Accordion.Item value="cat-painting" data-testid="people-tab-category-painting-section">
+            <Accordion.Trigger class="px-4 py-3 text-sm font-medium">
+              Malby ({categoryPaintingList.length})
+            </Accordion.Trigger>
+            <Accordion.Content class="mb-2 px-4 grid grid-cols-3 gap-2 pt-2 pb-1">
+              {#each categoryPaintingList as person (person.id)}
+                <CategoryPersonCard
+                  {person}
+                  {getThumbnailSrc}
+                  onToggle={toggleMergeSelection}
+                  selected={selectedForMerge.includes(person.id)}
+                  testId="people-tab-category-painting-item"
+                />
+              {/each}
+            </Accordion.Content>
+          </Accordion.Item>
+        {/if}
+      </Accordion.Root>
     </div>
   </Sidebar.Content>
   <!-- Merge Confirm Dialog -->
@@ -685,11 +876,9 @@
       })}
     {#if selectedPeopleData.length >= 2}
       {@const targetPerson = selectedPeopleData[0]}
-      {@const sourcePerson = selectedPeopleData[1]}
-
       <PersonMergeDialog
         bind:open={showMergeConfirmDialog}
-        {sourcePerson}
+        sources={selectedPeopleData.slice(1)}
         {targetPerson}
         {urlPrefix}
         onConfirm={async () => {
@@ -707,14 +896,6 @@
       onUpdate={async () => {
         await people.refresh();
       }}
-    />
-  {/if}
-
-  {#if showIgnoreConfirmDialog}
-    <PersonIgnoreConfirmDialog
-      bind:open={showIgnoreConfirmDialog}
-      count={selectedForMerge.length}
-      onConfirm={executeBulkIgnore}
     />
   {/if}
 </div>

@@ -68,6 +68,7 @@ export function validateRenameInput(body: unknown): ValidationResult<RenameInput
 export interface UnmatchInput {
   personId: string;
   imageIds: string[];
+  ignore?: boolean;
 }
 
 export function validateUnmatchInput(body: unknown): ValidationResult<UnmatchInput> {
@@ -75,7 +76,7 @@ export function validateUnmatchInput(body: unknown): ValidationResult<UnmatchInp
     return { valid: false, error: "Neplatné tělo požadavku", status: 400 };
   }
 
-  const { personId, imageId, imageIds } = body as Record<string, unknown>;
+  const { personId, imageId, imageIds, ignore } = body as Record<string, unknown>;
 
   if (!isNonEmptyString(personId)) {
     return { valid: false, error: "personId musí být neprázdný řetězec", status: 400 };
@@ -93,7 +94,46 @@ export function validateUnmatchInput(body: unknown): ValidationResult<UnmatchInp
     return { valid: false, error: "Musí být zadán imageId nebo imageIds", status: 400 };
   }
 
-  return { valid: true, data: { personId, imageIds: ids } };
+  return {
+    valid: true,
+    data: {
+      personId,
+      imageIds: ids,
+      ignore: typeof ignore === "boolean" ? ignore : undefined,
+    },
+  };
+}
+
+export interface ReassignInput {
+  sourcePersonId: string;
+  targetPersonId: string;
+  imageIds: string[];
+}
+
+export function validateReassignInput(body: unknown): ValidationResult<ReassignInput> {
+  if (!body || typeof body !== "object") {
+    return { valid: false, error: "Neplatné tělo požadavku", status: 400 };
+  }
+
+  const { sourcePersonId, targetPersonId, imageIds } = body as Record<string, unknown>;
+
+  if (!isNonEmptyString(sourcePersonId)) {
+    return { valid: false, error: "sourcePersonId musí být neprázdný řetězec", status: 400 };
+  }
+
+  if (!isNonEmptyString(targetPersonId)) {
+    return { valid: false, error: "targetPersonId musí být neprázdný řetězec", status: 400 };
+  }
+
+  if (sourcePersonId === targetPersonId) {
+    return { valid: false, error: "Nelze přiřadit ke stejné osobě", status: 400 };
+  }
+
+  if (!isStringArray(imageIds) || imageIds.length === 0) {
+    return { valid: false, error: "imageIds musí být neprázdné pole řetězců", status: 400 };
+  }
+
+  return { valid: true, data: { sourcePersonId, targetPersonId, imageIds } };
 }
 
 export interface IgnoreInput {
@@ -117,4 +157,104 @@ export function validateIgnoreInput(body: unknown): ValidationResult<IgnoreInput
   }
 
   return { valid: true, data: { personId, ignored } };
+}
+
+export interface IgnoreFaceInput {
+  personId: string;
+  imageId: string;
+  box: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  };
+}
+
+export function validateIgnoreFaceInput(body: unknown): ValidationResult<IgnoreFaceInput> {
+  if (!body || typeof body !== "object") {
+    return { valid: false, error: "Neplatné tělo požadavku", status: 400 };
+  }
+
+  const { personId, imageId, box } = body as Record<string, unknown>;
+
+  if (!isNonEmptyString(personId)) {
+    return { valid: false, error: "personId musí být neprázdný řetězec", status: 400 };
+  }
+
+  if (!isNonEmptyString(imageId)) {
+    return { valid: false, error: "imageId musí být neprázdný řetězec", status: 400 };
+  }
+
+  if (!box || typeof box !== "object") {
+    return { valid: false, error: "box musí být objekt", status: 400 };
+  }
+
+  const { x, y, width, height } = box as Record<string, unknown>;
+  if (
+    typeof x !== "number" ||
+    typeof y !== "number" ||
+    typeof width !== "number" ||
+    typeof height !== "number"
+  ) {
+    return { valid: false, error: "souřadnice boxu musí být čísla", status: 400 };
+  }
+
+  return {
+    valid: true,
+    data: {
+      personId,
+      imageId,
+      box: { x, y, width, height },
+    },
+  };
+}
+
+export interface UpdateCategoryInput {
+  personId: string;
+  category: "person" | "statue" | "painting";
+}
+
+export function validateUpdateCategoryInput(body: unknown): ValidationResult<UpdateCategoryInput> {
+  if (!body || typeof body !== "object") {
+    return { valid: false, error: "Neplatné tělo požadavku", status: 400 };
+  }
+
+  const { personId, category } = body as Record<string, unknown>;
+
+  if (!isNonEmptyString(personId)) {
+    return { valid: false, error: "personId musí být neprázdný řetězec", status: 400 };
+  }
+
+  if (category !== "person" && category !== "statue" && category !== "painting") {
+    return { valid: false, error: "Neplatná kategorie", status: 400 };
+  }
+
+  return {
+    valid: true,
+    data: {
+      personId,
+      category: category as "person" | "statue" | "painting",
+    },
+  };
+}
+
+export interface MarkAsJunkInput {
+  personId: string;
+}
+
+export function validateMarkAsJunkInput(body: unknown): ValidationResult<MarkAsJunkInput> {
+  if (!body || typeof body !== "object") {
+    return { valid: false, error: "Neplatné tělo požadavku", status: 400 };
+  }
+
+  const { personId } = body as Record<string, unknown>;
+
+  if (!isNonEmptyString(personId)) {
+    return { valid: false, error: "personId musí být neprázdný řetězec", status: 400 };
+  }
+
+  return {
+    valid: true,
+    data: { personId },
+  };
 }

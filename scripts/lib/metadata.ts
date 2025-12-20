@@ -1,5 +1,5 @@
-import { exiftool } from "exiftool-vendored";
 import path from "node:path";
+import { exiftool } from "exiftool-vendored";
 import type { ImageEntry, ExifData as ManifestExifData } from "../../src/lib/types/manifest";
 import { METADATA_STANDARDS } from "../../src/lib/utils/metadata-standards";
 import { toSlug } from "../../src/lib/utils/strings";
@@ -238,7 +238,9 @@ export function buildImageEntry(
     placeholder: undefined,
     placeholderColor,
     analysis: {
+      aestheticScore: analysis?.aestheticScore,
       sharpness: analysis?.sharpness || 0,
+      qualityBucket: analysis?.qualityBucket,
       phash: analysis?.phash || "",
       embedding: analysis?.embedding || [],
       facesDetected: analysis?.facesDetected,

@@ -6,7 +6,18 @@ The project is structured into three main layers:
 
 1.  **Content (`content/<gallery-name>`):** Contains the source files for each gallery, including high-resolution images and a `site.md` configuration file.
 2.  **Public Files (`static/<gallery-name>`):** Contains the generated, publicly accessible files for each gallery, such as optimized images and favicons.
-3.  **Application (`src/`):** The main SvelteKit application, which is shared across all galleries. It dynamically loads data based on the active gallery.
+3.  **Application (`src/`):** The main SvelteKit application, which is shared across all galleries. It dynamically loads data based on the active gallery from specialized manifests in `src/data/<gallery-name>/`.
+
+## Data Architecture ("Split & Link")
+
+To prevent metadata loss and allow independent script execution, image data is split across several linked manifests:
+
+- **`images.manifest.json`**: Core structural data (pixel metadata, variants, dimensions, basic EXIF).
+- **`analysis.manifest.json`**: AI-generated metadata (`aestheticScore`, `sharpness`, `qualityBucket`, `phash`).
+- **`embeddings.manifest.json`**: High-dimensional vector embeddings for similarity features.
+- **`faces.manifest.json`**: Face detection details (`facesDetected`, bounding boxes, `peopleIds`).
+
+These manifests are merged at build time and during runtime data loading to provide a unified `ImageEntry` to the frontend.
 
 ## Building and Running
 

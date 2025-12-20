@@ -34,8 +34,12 @@ interface ImageData {
   sharpnessScore: number;
   phash: string;
   embedding?: number[];
+  aestheticScore?: number;
+  qualityBucket?: import("../../src/lib/types/manifest").QualityBucket;
+  peopleIds?: string[];
   placeholderColor: string;
   faces: import("./face-detection").FaceBox[];
+  facesDetected: boolean;
 }
 type OutputConfig = (typeof config.outputs)[keyof typeof config.outputs];
 
@@ -67,6 +71,9 @@ export type ImageProcessOptions = {
   qualityOverrides: Partial<Record<QualityTypes, number>>;
   previousEntry?: ImageEntry;
   oldHash?: string;
+  analysisManifest?: import("../../src/lib/types/manifest").AnalysisManifest;
+  embeddingsManifest?: import("../../src/lib/types/manifest").EmbeddingsManifest;
+  facesManifest?: import("../../src/lib/types/manifest").FacesManifest;
 };
 
 const logger = createLogger("images");
@@ -262,6 +269,10 @@ async function gatherImageData(
   reusedOther: Partial<ImageEntry>,
   options: ImageProcessOptions,
 ): Promise<ImageData> {
+  const analysisFromManifest = options.analysisManifest?.[key];
+  const embeddingFromManifest = options.embeddingsManifest?.[key];
+  const facesFromManifest = options.facesManifest?.[key];
+
   const placeholderMissingOrDefault =
     !reusedOther.placeholderColor || reusedOther.placeholderColor === "rgb(0,0,0)";
   const shouldComputeStats = shouldAnalyze || placeholderMissingOrDefault;
@@ -272,30 +283,27 @@ async function gatherImageData(
     sharpInstance.metadata(),
     shouldAnalyze
       ? calculateSharpness(sharpModule, processingPath)
-      : Promise.resolve(reusedAnalysis?.sharpness ?? 0),
+      : Promise.resolve(analysisFromManifest?.sharpness ?? reusedAnalysis?.sharpness ?? 0),
     shouldAnalyze
       ? calculatePhash(sharpModule, processingPath)
-      : Promise.resolve(reusedAnalysis?.phash ?? ""),
+      : Promise.resolve(analysisFromManifest?.phash ?? reusedAnalysis?.phash ?? ""),
   ]);
 
-  let embedding: number[] | undefined = reusedAnalysis?.embedding;
-  if (shouldAnalyze && options.curation && !options.skipEmbeddings) {
+  let embedding = embeddingFromManifest ?? reusedAnalysis?.embedding;
+  if (shouldAnalyze && options.curation && !options.skipEmbeddings && !embedding) {
     embedding = await aiService.generateEmbedding(processingPath);
   }
+
+  const faces = facesFromManifest?.faces ?? reusedAnalysis?.faces ?? [];
+  const facesDetected = facesFromManifest?.facesDetected ?? reusedAnalysis?.facesDetected ?? false;
+  const peopleIds = facesFromManifest?.peopleIds ?? reusedOther.people ?? [];
+  const aestheticScore = analysisFromManifest?.aestheticScore ?? reusedAnalysis?.aestheticScore;
+  const qualityBucket = analysisFromManifest?.qualityBucket ?? reusedAnalysis?.qualityBucket;
 
   const exifRaw = normalizeExifData(exifTags);
   const dominant = imageStats?.dominant || { r: 0, g: 0, b: 0 };
   const placeholderColor =
     reusedOther.placeholderColor || `rgb(${dominant.r},${dominant.g},${dominant.b})`;
-
-  const faces = await extractFaces(
-    sharpModule,
-    processingPath,
-    key,
-    originalMeta.width || 1,
-    options,
-    reusedAnalysis?.faces,
-  );
 
   return {
     exifRaw,
@@ -304,8 +312,12 @@ async function gatherImageData(
     sharpnessScore,
     phash,
     embedding,
+    aestheticScore,
+    qualityBucket,
+    peopleIds,
     placeholderColor,
     faces,
+    facesDetected,
   };
 }
 
@@ -434,10 +446,13 @@ export async function processImage(
         sharpness: imageData.sharpnessScore ?? 0,
         phash: imageData.phash ?? "",
         embedding: imageData.embedding ?? [],
-        facesDetected: !options.skipFaces && shouldAnalyze ? true : undefined,
+        aestheticScore: imageData.aestheticScore,
+        qualityBucket: imageData.qualityBucket,
+        facesDetected: imageData.facesDetected,
         faces: imageData.faces,
       },
     );
+    imageEntry.people = imageData.peopleIds;
 
     // 4. Output Generation
     const { outputs, sources } = await generateAllOutputs(

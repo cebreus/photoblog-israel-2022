@@ -123,6 +123,7 @@ Projekt klade velký důraz na **výkon a optimalizaci obrázků** - jádrem je 
 │  ├─ Hash-based caching pro rychlost                         │
 │  ├─ Ukládá do static/<CONTENT_DIR>/images/                 │
 │  └─ Vytváří manifesty: src/data/<CONTENT_DIR>/*.json    │
+│     (images, analysis, embeddings, faces)           │
 │                                                              │
 │  Cache: .temp/<CONTENT_DIR>/images.cache.json               │
 │  Režimy: --manifestOnly, --curation, --watch, --clean       │
@@ -150,10 +151,13 @@ Projekt klade velký důraz na **výkon a optimalizaci obrázků** - jádrem je 
 │  │  ├─ types/                TypeScript typy                │
 │  │  └─ utils/                Utility funkce                 │
 │  │                                                           │
-│  ├─ data/<CONTENT_DIR>/      Manifesty aktivní galerie      │
-│  │  ├─ images.manifest.json                                 │
-│  │  ├─ menu.manifest.json                                   │
-│  │  └─ site.manifest.json                                   │
+│  ├─ data/<CONTENT_DIR>/      Split & Link manifesty     │
+│  │  ├─ images.manifest.json  (pixel metadata/EXIF)      │
+│  │  ├─ analysis.manifest.json (aesthetic scores)        │
+│  │  ├─ embeddings.manifest.json (AI features)           │
+│  │  ├─ faces.manifest.json   (detections/assignments)   │
+│  │  ├─ menu.manifest.json                               │
+│  │  └─ site.manifest.json                               │
 │  │                                                           │
 │  └─ app.html / app.css       HTML šablona a globální styly  │
 │                                                              │
@@ -534,10 +538,10 @@ export default config;
 **Obsah**:
 
 ```typescript
-import devtoolsJson from "vite-plugin-devtools-json";
-import tailwindcss from "@tailwindcss/vite";
-import { defineConfig } from "vitest/config";
 import { sveltekit } from "@sveltejs/kit/vite";
+import tailwindcss from "@tailwindcss/vite";
+import devtoolsJson from "vite-plugin-devtools-json";
+import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   plugins: [tailwindcss(), sveltekit(), devtoolsJson()],
@@ -616,9 +620,9 @@ export default defineConfig({
 **Obsah**:
 
 ```typescript
-import { defineConfig } from "vitest/config";
-import path from "node:path";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
+import path from "node:path";
+import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   plugins: [svelte()],
@@ -1282,7 +1286,7 @@ Tato sekce popisuje klíčové features a funkcionality implementované v projek
 @import "tw-animate-css";
 
 /* 2. Plugin pro typografii */
-@plugin '@tailwindcss/typography';
+@plugin "@tailwindcss/typography";
 
 /* 3. Dark mode custom variant */
 @custom-variant dark (&:is(.dark *));
@@ -1392,8 +1396,8 @@ src/routes/
 **Cesta**: `src/routes/+layout.server.ts`
 
 ```typescript
-import type { PhotoDay, MenuManifest } from "$lib/types/manifest";
-import { getPhotoDays, getMenuItems } from "$lib";
+import { getMenuItems, getPhotoDays } from "$lib";
+import type { MenuManifest, PhotoDay } from "$lib/types/manifest";
 
 export async function load() {
   const photoDays: PhotoDay[] = getPhotoDays();
@@ -1461,9 +1465,9 @@ export const prerender = true;
 
 ```svelte
 <script lang="ts">
-  import Header from "$lib/components/Header.svelte";
-  import Footer from "$lib/components/Footer.svelte";
   import favicon from "$lib/assets/favicon.svg?url";
+  import Footer from "$lib/components/Footer.svelte";
+  import Header from "$lib/components/Header.svelte";
   import "../app.css";
 
   let { data, children } = $props();
@@ -1513,8 +1517,8 @@ export const prerender = true;
 **Cesta**: `src/routes/+page.server.ts`
 
 ```typescript
-import type { PhotoDay } from "$lib/types/manifest";
 import { getPhotoDays } from "$lib/images";
+import type { PhotoDay } from "$lib/types/manifest";
 
 export async function load() {
   const photoDays: PhotoDay[] = getPhotoDays();
@@ -1549,9 +1553,9 @@ let { data } = $props<{ data: PageData }>();
 
 ```svelte
 <script lang="ts">
+  import Hero from "$lib/components/Hero.svelte";
   import PhotoGrid from "$lib/components/PhotoGrid.svelte";
   import { Badge } from "$lib/components/ui/badge/";
-  import Hero from "$lib/components/Hero.svelte";
   import type { PageData } from "./$types";
 
   let { data } = $props<{ data: PageData }>();
@@ -1789,8 +1793,8 @@ import { getMenuItems } from "$lib/menu";
 **Cesta**: `src/lib/images.ts`
 
 ```typescript
-import type { Manifest, PhotoDay, ImageEntry, ImageSource } from "./types/manifest";
 import manifest from "$lib/images.manifest.json" with { type: "json" };
+import type { ImageEntry, ImageSource, Manifest, PhotoDay } from "./types/manifest";
 
 const typedManifest: Manifest = manifest as unknown as Manifest;
 
@@ -1923,11 +1927,11 @@ Detailní analýza všech Svelte komponent v aplikaci.
 
 ```svelte
 <script lang="ts">
-  import { getSources } from "$lib/images";
-  import type { ImageEntry, Separator, ImageSource } from "$lib/types/manifest";
   import { buttonVariants } from "$lib/components/ui/button";
-  import { marked } from "marked";
   import * as Dialog from "$lib/components/ui/dialog";
+  import { getSources } from "$lib/images";
+  import type { ImageEntry, ImageSource, Separator } from "$lib/types/manifest";
+  import { marked } from "marked";
 
   let { items } = $props<{
     items: (ImageEntry | Separator)[];
@@ -2052,11 +2056,11 @@ Detailní analýza všech Svelte komponent v aplikaci.
 
 ```svelte
 <script lang="ts">
-  import type { MenuManifest } from "$lib/types/manifest";
-  import { Menu, ChevronRight, Calendar } from "@lucide/svelte";
   import Button, { buttonVariants } from "$lib/components/ui/button/button.svelte";
   import * as Sheet from "$lib/components/ui/sheet";
   import * as Sidebar from "$lib/components/ui/sidebar";
+  import type { MenuManifest } from "$lib/types/manifest";
+  import { Calendar, ChevronRight, Menu } from "@lucide/svelte";
 
   export let menuItems: MenuManifest = [];
 </script>
@@ -2497,8 +2501,11 @@ const HeavyComponent = () => import('./HeavyComponent.svelte');
 
 ```javascript
 // Nepoužitý kód je automaticky odstraněn
-import { getPhotoDays } from "$lib"; // ✓ Used
-import { unusedFunction } from "$lib"; // ✗ Removed from bundle
+import { getPhotoDays } from "$lib";
+// ✓ Used
+import { unusedFunction } from "$lib";
+
+// ✗ Removed from bundle
 ```
 
 **Minification**:
@@ -3847,9 +3854,9 @@ e2e/
 **Příklad - CLI parsing test**:
 
 ```typescript
-import { describe, it, expect } from "vitest";
-import { runCli, tmpDir } from "../utils/process-helpers";
 import { buildInputSet } from "../utils/fixtures";
+import { runCli, tmpDir } from "../utils/process-helpers";
+import { describe, expect, it } from "vitest";
 
 describe("CLI (generate-images.ts) – základní chování a parsování parametrů", () => {
   it("aplikuje overrides pro out/manifest/formats/quality", async () => {
@@ -4059,8 +4066,8 @@ export default defineConfig({
 **Visual regression testing** pomocí `pixelmatch`:
 
 ```typescript
-import { PNG } from "pngjs";
 import pixelmatch from "pixelmatch";
+import { PNG } from "pngjs";
 
 async function compareImages(
   actualPath: string,

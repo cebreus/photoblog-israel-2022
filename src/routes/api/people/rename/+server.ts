@@ -1,10 +1,17 @@
 import fsp from "node:fs/promises";
 import path from "node:path";
 import { json } from "@sveltejs/kit";
-import type { Manifest, PeopleManifest } from "$lib/types/manifest";
 import { validateRenameInput } from "$lib/utils/api-validators";
 import { toSlug } from "$lib/utils/strings";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
+import {
+  loadFacesManifest,
+  loadImagesManifest,
+  loadPeopleManifest,
+  saveFacesManifest,
+  saveImagesManifest,
+  savePeopleManifest,
+} from "../../../../../scripts/lib/manifest-repository";
 
 export async function POST({ request }) {
   const body = await request.json();
@@ -24,10 +31,13 @@ export async function POST({ request }) {
 
   try {
     return await withManifestLock(dataDir, async () => {
-      const peopleManifest: PeopleManifest = JSON.parse(
-        await fsp.readFile(peopleManifestPath, "utf-8"),
-      );
-      const imagesManifest: Manifest = JSON.parse(await fsp.readFile(imagesManifestPath, "utf-8"));
+      const peopleManifest = await loadPeopleManifest(dataDir);
+      const imagesManifest = await loadImagesManifest(dataDir);
+      const facesManifest = (await loadFacesManifest(dataDir)) || { images: {} };
+
+      if (!peopleManifest || !imagesManifest) {
+        return json({ success: false, error: "Manifests not found" }, { status: 500 });
+      }
 
       const person = peopleManifest.people.find((p) => p.id === personId);
 
@@ -94,6 +104,18 @@ export async function POST({ request }) {
           for (const item of day.items) {
             if (item.type === "image" && item.people?.includes(personId)) {
               item.people = item.people.map((id: string) => (id === personId ? newId : id));
+
+              // Also update faces manifest
+              const id = item.id;
+              if (Object.hasOwn(facesManifest.images, id)) {
+                const faceData = (facesManifest.images as any)[id];
+                if (faceData.peopleIds?.includes(personId)) {
+                  faceData.peopleIds = faceData.peopleIds.map((pid: string) =>
+                    pid === personId ? newId : pid,
+                  );
+                }
+              }
+
               _updatedCount++;
             }
           }
@@ -127,8 +149,9 @@ export async function POST({ request }) {
         } catch (_e) {}
       }
 
-      await fsp.writeFile(peopleManifestPath, JSON.stringify(peopleManifest, null, 2));
-      await fsp.writeFile(imagesManifestPath, JSON.stringify(imagesManifest, null, 2));
+      await savePeopleManifest(dataDir, peopleManifest);
+      await saveImagesManifest(dataDir, imagesManifest);
+      await saveFacesManifest(dataDir, facesManifest as any);
 
       return json({ success: true, name: person.name, id: person.id });
     });

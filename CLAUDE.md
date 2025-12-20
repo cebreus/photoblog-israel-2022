@@ -162,12 +162,11 @@ The core system (`scripts/generate-images.ts`) processes images through:
    - `fallback`: 190×107px (tiny fallback)
    - `placeholder`: 24px blur asset (LQIP)
 4. **Format Encoding**: AVIF, WebP, JPEG for each variant
-5. **Manifest Generation** (`src/data/<gallery>/images.manifest.json`):
-   - Photo days grouped by date
-   - Image metadata (dimensions, aspect ratios, EXIF)
-   - Responsive `<picture>` sources
-   - Location separators
-   - Parsed markdown stories
+5. **Manifest Generation** (`src/data/<gallery>/`):
+   - `images.manifest.json`: Core structural data (Photo days, basic EXIF, responsive sources)
+   - `analysis.manifest.json`: Sidecar for `aestheticScore`, `sharpness`, `qualityBucket`, and `phash`
+   - `embeddings.manifest.json`: Sidecar for vector embeddings
+   - `faces.manifest.json`: Sidecar for face detections and person assignments
 6. **Menu Manifest** (`src/data/<gallery>/menu.manifest.json`): Lightweight navigation structure
 7. **Site Manifest** (`src/data/<gallery>/site.manifest.json`): Parsed site configuration
 
@@ -187,9 +186,9 @@ content/<gallery>/pics/ (JPEG + .md stories)
     ↓
 scripts/generate-images.ts (Sharp processing + EXIF extraction)
     ↓
-src/data/<gallery>/*.manifest.json (structured data)
+src/data/<gallery>/*.manifest.json (Split & Link manifests)
     ↓
-SvelteKit +layout.server.ts (loads via $manifests alias)
+SvelteKit +layout.server.ts (Aggregated at runtime/build)
     ↓
 Svelte stores (filters, curation, editor state)
     ↓

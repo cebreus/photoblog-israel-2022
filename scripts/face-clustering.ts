@@ -6,15 +6,17 @@ import crypto from "crypto";
 import fsp from "fs/promises";
 import path from "path";
 import sharp from "sharp";
-import type { ImageEntry, Person } from "../src/lib/types/manifest";
+import type { FacesManifest, ImageEntry, Person } from "../src/lib/types/manifest";
 import { parseCliArguments } from "./lib/cli-parser";
 import { deleteOldFaceCrops, findBestMatch, saveFaceCrop } from "./lib/clustering-utils";
 import { resolveGalleryDirectory } from "./lib/gallery-resolver";
 import { convertHeicToPng, ensureDir } from "./lib/image-utils";
 import { createLogger } from "./lib/logger";
 import {
+  loadFacesManifest,
   loadImagesManifest,
   loadPeopleManifest,
+  saveFacesManifest,
   saveImagesManifest,
   savePeopleManifest,
 } from "./lib/manifest-repository";
@@ -81,6 +83,7 @@ async function processFaceDetections(
   image: ImageEntry,
   people: Person[],
   disconnectedPairs: Set<string>,
+  ignoredPairs: Set<string>,
   facesOutputDir: string,
 ) {
   if (!image.analysis) {
@@ -112,6 +115,34 @@ async function processFaceDetections(
         logger.warn(`Skipping detection with invalid descriptor length: ${descriptor.length}`);
       continue;
     }
+
+    // Check if this crop is marked as ignored (junk)
+    const isIgnored = [...ignoredPairs].some((p) => {
+      const [imgId, x, y, w, h] = p.split(":");
+      if (imgId !== image.id) return false;
+
+      // Check for significant overlap with ignored box
+      const box = detection.detection.box;
+      const ix = Number.parseFloat(x);
+      const iy = Number.parseFloat(y);
+      const iw = Number.parseFloat(w);
+      const ih = Number.parseFloat(h);
+
+      const overlapX = Math.max(0, Math.min(box.x + box.width, ix + iw) - Math.max(box.x, ix));
+      const overlapY = Math.max(0, Math.min(box.y + box.height, iy + ih) - Math.max(box.y, iy));
+      const overlapArea = overlapX * overlapY;
+      const boxArea = box.width * box.height;
+      const ignoredArea = iw * ih;
+
+      // If more than 80% overlap with an ignored crop, skip it
+      return overlapArea / Math.min(boxArea, ignoredArea) > 0.8;
+    });
+
+    if (isIgnored) {
+      if (values.verbose) logger.verbose(`Skipping ignored (junk) crop in ${image.id}`);
+      continue;
+    }
+
     const bestMatch = findBestMatch(
       descriptor,
       people,
@@ -167,6 +198,7 @@ async function processFaceDetections(
 async function loadClusteringResources(dataDir: string): Promise<{
   people: Person[];
   disconnectedPairs: Set<string>;
+  ignoredPairs: Set<string>;
   manualConnects: Map<string, string[]>;
 }> {
   let people: Person[] = [];
@@ -177,6 +209,7 @@ async function loadClusteringResources(dataDir: string): Promise<{
   }
 
   const disconnectedPairs = new Set<string>();
+  const ignoredPairs = new Set<string>();
   const manualConnects = new Map<string, string[]>();
   const constraintsPath = path.resolve(dataDir, "clustering-constraints.json");
 
@@ -194,16 +227,21 @@ async function loadClusteringResources(dataDir: string): Promise<{
         }
         manualConnects.get(c.imageId)?.push(c.personId);
       }
+      if (parsed.ignoredCrops) {
+        for (const c of parsed.ignoredCrops) {
+          ignoredPairs.add(`${c.imageId}:${c.box.x}:${c.box.y}:${c.box.width}:${c.box.height}`);
+        }
+      }
       if (values.verbose)
         logger.info(
-          `Loaded ${disconnectedPairs.size} disconnection and ${manualConnects.size} connection constraints.`,
+          `Loaded ${disconnectedPairs.size} disconnects, ${manualConnects.size} connects, and ${ignoredPairs.size} ignored crops.`,
         );
     }
   } catch {
     if (values.verbose) logger.info("No constraints found or invalid file.");
   }
 
-  return { people, disconnectedPairs, manualConnects };
+  return { people, disconnectedPairs, ignoredPairs, manualConnects };
 }
 
 function prepareImageQueues(
@@ -231,6 +269,7 @@ async function processImageQueue(
   queue: { image: ImageEntry; oldPeople: string[] }[],
   people: Person[],
   disconnectedPairs: Set<string>,
+  ignoredPairs: Set<string>,
   facesOutputDir: string,
   sourceDir: string,
   detailsDir: string,
@@ -287,6 +326,7 @@ async function processImageQueue(
         image,
         people,
         disconnectedPairs,
+        ignoredPairs,
         facesOutputDir,
       );
     } catch (e) {
@@ -334,8 +374,10 @@ async function main() {
 
   await ensureDir(facesOutputDir);
 
-  // Load manifest via Repository
+  // Load manifests via Repository
   const manifest = await loadImagesManifest(dataDir);
+  const facesManifest: FacesManifest = (await loadFacesManifest(dataDir)) || {};
+
   if (!manifest) {
     logger.error(`Manifest not found in ${dataDir}`);
     process.exit(1);
@@ -343,7 +385,8 @@ async function main() {
 
   await loadModels();
 
-  const { people, disconnectedPairs, manualConnects } = await loadClusteringResources(dataDir);
+  const { people, disconnectedPairs, ignoredPairs, manualConnects } =
+    await loadClusteringResources(dataDir);
 
   if (values.clean) {
     if (values.verbose) logger.info(`Cleaning output directory: ${facesOutputDir}`);
@@ -368,7 +411,15 @@ async function main() {
 
   logger.info(`Processing ${queue.length} images...`);
 
-  await processImageQueue(queue, people, disconnectedPairs, facesOutputDir, sourceDir, detailsDir);
+  await processImageQueue(
+    queue,
+    people,
+    disconnectedPairs,
+    ignoredPairs,
+    facesOutputDir,
+    sourceDir,
+    detailsDir,
+  );
 
   logger.info(`Finished. Found ${people.length} unique people.`);
 
@@ -377,7 +428,20 @@ async function main() {
 
   // Save via Repository
   await saveImagesManifest(dataDir, manifest);
-  // logger.info(`Updated manifest saved.`);
+  // Update faces manifest from current manifest state before saving
+  for (const day of manifest.photoDays) {
+    for (const item of day.items) {
+      if (item.type === "image") {
+        const img = item;
+        facesManifest[img.id] = {
+          facesDetected: img.analysis?.facesDetected ?? false,
+          faces: img.analysis?.faces ?? [],
+          peopleIds: img.people ?? [],
+        };
+      }
+    }
+  }
+  await saveFacesManifest(dataDir, facesManifest);
 
   await savePeopleManifest(dataDir, { people });
   // logger.info(`Saved people manifest.`);

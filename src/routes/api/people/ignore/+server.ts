@@ -1,8 +1,10 @@
-import fsp from "node:fs/promises";
 import path from "node:path";
 import { json } from "@sveltejs/kit";
-import type { PeopleManifest } from "$lib/types/manifest";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
+import {
+  loadPeopleManifest,
+  savePeopleManifest,
+} from "../../../../../scripts/lib/manifest-repository";
 
 function isNonEmptyString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
@@ -38,8 +40,10 @@ export async function POST({ request }) {
 
   try {
     return await withManifestLock(dataDir, async () => {
-      const content = await fsp.readFile(manifestPath, "utf-8");
-      const manifest: PeopleManifest = JSON.parse(content);
+      const manifest = await loadPeopleManifest(dataDir);
+      if (!manifest) {
+        return json({ success: false, error: "People manifest not found" }, { status: 500 });
+      }
 
       let changed = false;
       const results = [];
@@ -64,7 +68,7 @@ export async function POST({ request }) {
       }
 
       if (changed) {
-        await fsp.writeFile(manifestPath, JSON.stringify(manifest, null, 2));
+        await savePeopleManifest(dataDir, manifest);
       }
 
       return json({ success: true, results });

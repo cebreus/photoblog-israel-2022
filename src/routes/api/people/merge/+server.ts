@@ -1,10 +1,18 @@
 import fsp from "node:fs/promises";
 import path from "node:path";
 import { json } from "@sveltejs/kit";
-import type { ImageEntry, Manifest, PeopleManifest } from "$lib/types/manifest";
+import type { ImageEntry } from "$lib/types/manifest";
 import { validateMergeInput } from "$lib/utils/api-validators";
 import { removeEmptyPersonFolder } from "../../../../../scripts/lib/cleanup-utils";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
+import {
+  loadFacesManifest,
+  loadImagesManifest,
+  loadPeopleManifest,
+  saveFacesManifest,
+  saveImagesManifest,
+  savePeopleManifest,
+} from "../../../../../scripts/lib/manifest-repository";
 import { hasValidFaceDescriptor } from "../../../../../scripts/lib/people-utils";
 
 export async function POST({ request }) {
@@ -24,13 +32,16 @@ export async function POST({ request }) {
 
   try {
     return await withManifestLock(dataDir, async () => {
-      const peopleManifest: PeopleManifest = JSON.parse(
-        await fsp.readFile(peopleManifestPath, "utf-8"),
-      );
-      const imagesManifest: Manifest = JSON.parse(await fsp.readFile(imagesManifestPath, "utf-8"));
+      const peopleManifest = await loadPeopleManifest(dataDir);
+      const imagesManifest = await loadImagesManifest(dataDir);
+      const facesManifest = (await loadFacesManifest(dataDir)) || { images: {} };
 
-      const sourcePerson = peopleManifest.people.find((p) => p.id === sourcePersonId);
-      const targetPerson = peopleManifest.people.find((p) => p.id === targetPersonId);
+      if (!peopleManifest || !imagesManifest) {
+        return json({ success: false, error: "Manifests not found" }, { status: 500 });
+      }
+
+      const sourcePerson = peopleManifest.people.find((p: any) => p.id === sourcePersonId);
+      const targetPerson = peopleManifest.people.find((p: any) => p.id === targetPersonId);
 
       if (!sourcePerson || !targetPerson) {
         return json({ success: false, error: "Person not found" }, { status: 404 });
@@ -50,21 +61,33 @@ export async function POST({ request }) {
         for (const item of day.items) {
           if (item.type === "image") {
             const imageItem = item as ImageEntry;
+            const id = imageItem.id;
             if (imageItem.people?.includes(sourcePersonId)) {
               const index = imageItem.people.indexOf(sourcePersonId);
               if (index !== -1) {
-                const filename = `${imageItem.id}.jpg`;
+                const filename = `${id}.jpg`;
                 const oldPath = path.resolve(sourceDir, filename);
                 const newPath = path.resolve(targetDir, filename);
 
                 try {
                   await fsp.stat(oldPath);
-
                   await fsp.rename(oldPath, newPath);
                 } catch (_e) {}
 
                 imageItem.people[index] = targetPersonId;
                 imageItem.people = [...new Set(imageItem.people)];
+
+                // Update faces manifest
+                if (Object.hasOwn(facesManifest.images, id)) {
+                  const faceData = (facesManifest.images as any)[id];
+                  if (faceData.peopleIds?.includes(sourcePersonId)) {
+                    faceData.peopleIds = faceData.peopleIds.map((pid: string) =>
+                      pid === sourcePersonId ? targetPersonId : pid,
+                    );
+                    faceData.peopleIds = [...new Set(faceData.peopleIds)];
+                  }
+                }
+
                 updatedImageCount++;
               }
             }
@@ -178,8 +201,9 @@ export async function POST({ request }) {
         }
       } catch (_e) {}
 
-      await fsp.writeFile(peopleManifestPath, JSON.stringify(peopleManifest, null, 2));
-      await fsp.writeFile(imagesManifestPath, JSON.stringify(imagesManifest, null, 2));
+      await savePeopleManifest(dataDir, peopleManifest);
+      await saveImagesManifest(dataDir, imagesManifest);
+      await saveFacesManifest(dataDir, facesManifest as any);
 
       const cleanedUp = await removeEmptyPersonFolder(facesDir, sourcePersonId);
       if (cleanedUp) {

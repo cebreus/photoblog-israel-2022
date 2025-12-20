@@ -223,7 +223,12 @@ async function computeAestheticScores(
       if (item.type === "image") {
         const imgEntry = item as ImageEntry;
         if (!imgEntry.analysis) imgEntry.analysis = { sharpness: 0, phash: "", embedding: [] };
-        if (!imgEntry.analysis.embedding || imgEntry.analysis.embedding.length === 0) {
+        if (imgEntry.analysis?.embedding && imgEntry.analysis.embedding.length > 0) {
+          // already in current run's memory (just in case)
+        } else if (embeddingsManifest[imgEntry.id]) {
+          imgEntry.analysis = imgEntry.analysis || { sharpness: 0, phash: "" };
+          imgEntry.analysis.embedding = embeddingsManifest[imgEntry.id];
+        } else {
           const filename = path.basename(imgEntry.src);
           const galleryDir = path.basename(path.dirname(srcRoot));
 
@@ -441,6 +446,9 @@ async function main() {
   const srcRoot = path.resolve(process.cwd(), `content/${contentDir}/pics`);
 
   const manifest = await loadImagesManifest(dataDir);
+  const analysisManifest = (await loadAnalysisManifest(dataDir)) || {};
+  const embeddingsManifest = (await loadEmbeddingsManifest(dataDir)) || {};
+
   if (!manifest) {
     logger.error(`Manifest not found in ${dataDir}`);
     process.exit(1);
@@ -495,8 +503,28 @@ async function main() {
 
   updateManifestAnalysisKeys(manifest);
 
+  // Update specialized manifests
+  for (const day of manifest.photoDays) {
+    for (const item of day.items) {
+      if (item.type === "image" && item.analysis) {
+        const img = item;
+        analysisManifest[img.id] = {
+          aestheticScore: img.analysis.aestheticScore,
+          sharpness: img.analysis.sharpness,
+          qualityBucket: img.analysis.qualityBucket,
+          phash: img.analysis.phash,
+        };
+        if (img.analysis.embedding) {
+          embeddingsManifest[img.id] = img.analysis.embedding;
+        }
+      }
+    }
+  }
+
   // Save via Repository
   await saveImagesManifest(dataDir, manifest);
+  await saveAnalysisManifest(dataDir, analysisManifest);
+  await saveEmbeddingsManifest(dataDir, embeddingsManifest);
 
   await saveCurationManifest(dataDir, result);
 

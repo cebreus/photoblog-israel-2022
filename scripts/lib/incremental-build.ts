@@ -11,7 +11,14 @@ import { type ImageProcessOptions, processImage } from "./image-processor";
 import { createLogger } from "./logger";
 import { buildGeneratorManifest, generateMenuManifest, updateManifest } from "./manifest-builder";
 // Repository Imports
-import { loadManifest, saveImagesManifest, saveManifest } from "./manifest-repository";
+import {
+  loadAnalysisManifest,
+  loadEmbeddingsManifest,
+  loadFacesManifest,
+  loadManifest,
+  saveImagesManifest,
+  saveManifest,
+} from "./manifest-repository";
 import { progressManager } from "./progress-manager";
 
 const logger = createLogger("incremental-build");
@@ -356,7 +363,19 @@ async function loadBuildResourceState(
     }
   }
 
-  return { cache, wasReset, storyData, previousEntries };
+  const analysisManifest = (await loadAnalysisManifest(CTX.outRoot)) || {};
+  const embeddingsManifest = (await loadEmbeddingsManifest(CTX.outRoot)) || {};
+  const facesManifest = (await loadFacesManifest(CTX.outRoot)) || {};
+
+  return {
+    cache,
+    wasReset,
+    storyData,
+    previousEntries,
+    analysisManifest,
+    embeddingsManifest,
+    facesManifest,
+  };
 }
 
 async function planBuildWork(
@@ -452,11 +471,15 @@ export async function runIncrementalBuild(
   const startTime = performance.now();
   logger.info("Starting incremental build...");
 
-  const { cache, wasReset, storyData, previousEntries } = await loadBuildResourceState(
-    CTX,
-    opts.cacheVersion ?? 1,
-    dependencies.storyLoader,
-  );
+  const {
+    cache,
+    wasReset,
+    storyData,
+    previousEntries,
+    analysisManifest,
+    embeddingsManifest,
+    facesManifest,
+  } = await loadBuildResourceState(CTX, opts.cacheVersion ?? 1, dependencies.storyLoader);
 
   const { toProcess, toDelete } = await planBuildWork(CTX, ARGS, cache, previousEntries);
 
@@ -464,13 +487,28 @@ export async function runIncrementalBuild(
 
   await pruneDeleted(toDelete, cache, CTX.outRoot);
 
-  const results = await processBuildQueue(
-    CTX,
-    ARGS,
+  const results = await processImages(
     toProcess,
-    cache,
-    previousEntries,
-    opts,
+    {
+      concurrency: ARGS.concurrency,
+      quiet: ARGS.quiet,
+      verbose: ARGS.verbose,
+      manifestOnly: ARGS.manifestOnly,
+      curation: ARGS.curation,
+      skipFaces: ARGS.skipFaces,
+      skipEmbeddings: ARGS.skipEmbeddings,
+      srcRoot: CTX.srcRoot,
+      outRoot: CTX.outRoot,
+      allowUpscale: opts.allowUpscale ?? false,
+      formats: opts.formats ?? [...config.encoding.formats],
+      qualityOverrides: opts.qualityOverrides ?? {},
+      previousEntriesMap: previousEntries,
+      oldCache: cache,
+      // Pass specialized manifests
+      analysisManifest,
+      embeddingsManifest,
+      facesManifest,
+    },
     dependencies.processImageFn,
   );
 
