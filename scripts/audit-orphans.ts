@@ -2,6 +2,7 @@
 
 import fsp from "node:fs/promises";
 import path from "node:path";
+import { parseArgs } from "node:util";
 import {
   cancel,
   confirm,
@@ -43,6 +44,22 @@ interface AuditResults {
 }
 
 async function main() {
+  const { values } = parseArgs({
+    args: process.argv.slice(2),
+    options: {
+      yes: {
+        type: "boolean",
+        short: "y",
+        default: false,
+      },
+      clean: {
+        type: "string", // 'all' or comma-sep list like 'faces,cache'
+        default: "",
+      },
+    },
+    strict: false, // Allow other flags like content dir
+  });
+
   intro(pc.cyan("🔍 Gallery Audit & Cleanup"));
 
   const contentDir = await resolveGalleryDirectory();
@@ -264,12 +281,21 @@ async function main() {
     return false;
   });
 
-  const selected = await multiselect({
-    message: "Select categories to clean up:",
-    options,
-    initialValues: options.map((opt) => opt.value),
-    required: false,
-  });
+  let selected: string[] | symbol = [];
+
+  if (values.clean === "all") {
+    selected = options.map((o) => o.value);
+  } else if (typeof values.clean === "string" && values.clean.length > 0) {
+    const requested = values.clean.split(",");
+    selected = options.filter((o) => requested.includes(o.value)).map((o) => o.value);
+  } else {
+    selected = await multiselect({
+      message: "Select categories to clean up:",
+      options,
+      initialValues: options.map((opt) => opt.value),
+      required: false,
+    });
+  }
 
   if (isCancel(selected)) {
     cancel("Audit cancelled.");
@@ -281,10 +307,16 @@ async function main() {
     return;
   }
 
-  const confirmed = await confirm({
-    message: pc.red(`Permanently delete items from ${(selected as string[]).length} categories?`),
-    initialValue: false,
-  });
+  // Ensure confirmed is strictly boolean or symbol
+  let confirmed: boolean | symbol = Boolean(values.yes);
+
+  // prompt only if not pre-confirmed
+  if (!values.yes) {
+    confirmed = await confirm({
+      message: pc.red(`Permanently delete items from ${(selected as string[]).length} categories?`),
+      initialValue: false,
+    });
+  }
 
   if (isCancel(confirmed) || !confirmed) {
     cancel("Operation aborted.");
