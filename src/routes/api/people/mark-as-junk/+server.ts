@@ -13,6 +13,9 @@ import {
   saveImagesManifest,
   savePeopleManifest,
 } from "../../../../../scripts/lib/manifest-repository";
+import { createLogger } from "../../../../../scripts/lib/logger";
+
+const logger = createLogger("api:people:junk");
 
 export async function POST({ request }) {
   const body = await request.json();
@@ -128,7 +131,7 @@ export async function POST({ request }) {
       return json({ success: true });
     });
   } catch (error) {
-    console.error("[MARK-AS-JUNK] Error:", error);
+    logger.error("[MARK-AS-JUNK] Error:", error);
     return json({ success: false, error: "Internal Error" }, { status: 500 });
   }
 }

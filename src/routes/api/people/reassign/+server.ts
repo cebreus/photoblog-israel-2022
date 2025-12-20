@@ -1,9 +1,10 @@
-import fsp from "node:fs/promises";
-import path from "node:path";
-import { json } from "@sveltejs/kit";
 import type { ImageEntry } from "$lib/types/manifest";
 import { validateReassignInput } from "$lib/utils/api-validators";
 import type { ClusteringConstraints } from "$lib/utils/manifest-validators";
+import { json } from "@sveltejs/kit";
+import fsp from "node:fs/promises";
+import path from "node:path";
+import { createLogger } from "../../../../../scripts/lib/logger";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 import {
   loadFacesManifest,
@@ -13,6 +14,8 @@ import {
   saveImagesManifest,
   savePeopleManifest,
 } from "../../../../../scripts/lib/manifest-repository";
+
+const logger = createLogger("api:people:reassign");
 
 export async function POST({ request }) {
   const body = await request.json();
@@ -89,7 +92,7 @@ export async function POST({ request }) {
             await fsp.stat(oldPath);
             await fsp.rename(oldPath, newPath);
           } catch (e) {
-            console.warn(`[REASSIGN] File move failed or file missing: ${oldPath}`);
+            logger.warn(`[REASSIGN] File move failed or file missing: ${oldPath}`);
           }
           movedCount++;
         }
@@ -109,7 +112,7 @@ export async function POST({ request }) {
         try {
           const data = await fsp.readFile(constraintsPath, "utf-8");
           constraints = JSON.parse(data);
-        } catch (e) {}
+        } catch (e) { }
 
         if (!constraints.disconnects) constraints.disconnects = [];
         if (!constraints.connects) constraints.connects = [];
@@ -139,7 +142,7 @@ export async function POST({ request }) {
 
         await fsp.writeFile(constraintsPath, JSON.stringify(constraints, null, 2));
       } catch (e) {
-        console.warn("[REASSIGN] Failed to update constraints");
+        logger.warn("[REASSIGN] Failed to update constraints");
       }
 
       // Thumbnail logic cleanup if needed
@@ -170,7 +173,7 @@ export async function POST({ request }) {
       return json({ success: true, movedCount });
     });
   } catch (error) {
-    console.error("[REASSIGN] Error:", error);
+    logger.error("[REASSIGN] Error:", error);
     const isLockError = error instanceof Error && error.message.includes("lock");
     return json(
       {

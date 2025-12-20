@@ -1,9 +1,9 @@
-import fs from "node:fs/promises";
-import path from "node:path";
-import { json, type RequestHandler } from "@sveltejs/kit";
-import { exiftool } from "exiftool-vendored";
 import { dev } from "$app/environment";
 import type { Manifest } from "$lib/types/manifest";
+import { json, type RequestHandler } from "@sveltejs/kit";
+import { exiftool } from "exiftool-vendored";
+import fs from "node:fs/promises";
+import path from "node:path";
 import { config } from "../../../../scripts/config";
 import {
   deleteGeneratedAssets,
@@ -11,6 +11,9 @@ import {
   removeFromCache,
   removeImageFromConstraints,
 } from "../../../../scripts/lib/cleanup-utils";
+import { createLogger } from "../../../../scripts/lib/logger";
+
+const logger = createLogger("api:images");
 
 export const DELETE: RequestHandler = async ({ request }) => {
   if (!dev) {
@@ -19,7 +22,7 @@ export const DELETE: RequestHandler = async ({ request }) => {
 
   const { ids } = await request.json();
 
-  console.log("DELETE request received for IDs:", JSON.stringify(ids, null, 2));
+  logger.info("DELETE request received for IDs:", JSON.stringify(ids, null, 2));
 
   if (!ids || !Array.isArray(ids)) {
     return json({ message: "Invalid request" }, { status: 400 });
@@ -58,7 +61,7 @@ export const DELETE: RequestHandler = async ({ request }) => {
       }
       itemsByContentDir[defaultContentDir].push(item);
     } else {
-      console.warn(
+      logger.warn(
         `Could not determine content directory for item ${item.src} and no CONTENT_DIR env set.`,
       );
     }
@@ -72,7 +75,7 @@ export const DELETE: RequestHandler = async ({ request }) => {
       const content = await fs.readFile(manifestPath, "utf-8");
       manifest = JSON.parse(content);
     } catch (e) {
-      console.warn(`Manifest not found for ${contentDir}, skipping manifest update.`);
+      logger.warn(`Manifest not found for ${contentDir}, skipping manifest update.`);
     }
 
     let manifestModified = false;
@@ -94,19 +97,19 @@ export const DELETE: RequestHandler = async ({ request }) => {
       let fileFoundOnDisk = false;
 
       try {
-        console.log(`Searching in physicalDir: ${physicalDir}`);
+        logger.verbose(`Searching in physicalDir: ${physicalDir}`);
         const files = await fs.readdir(physicalDir).catch((e) => {
-          console.error(`Failed to read dir ${physicalDir}:`, e);
+          logger.error(`Failed to read dir ${physicalDir}:`, e);
           return [];
         });
 
-        console.log(`Checking ${physicalDir} for ${nameWithoutExt}`);
+        logger.verbose(`Checking ${physicalDir} for ${nameWithoutExt}`);
 
         const candidates = files.filter(
           (f) => path.parse(f).name.toLowerCase() === nameWithoutExt.toLowerCase(),
         );
 
-        console.log(`Found candidates: ${candidates.join(", ")}`);
+        logger.verbose(`Found candidates: ${candidates.join(", ")}`);
 
         if (candidates.length > 0) {
           fileFoundOnDisk = true;
@@ -123,7 +126,7 @@ export const DELETE: RequestHandler = async ({ request }) => {
             outputFolders,
           );
           if (assetCleanup.deleted.length > 0) {
-            console.log(
+            logger.info(
               `[DELETE] Removed ${assetCleanup.deleted.length} generated assets for ${nameWithoutExt}`,
             );
           }
@@ -137,7 +140,7 @@ export const DELETE: RequestHandler = async ({ request }) => {
           const constraintsPath = path.join(dataRoot, contentDir, "clustering-constraints.json");
           const constraintCleanup = await removeImageFromConstraints(constraintsPath, item.id);
           if (constraintCleanup.disconnectsRemoved > 0 || constraintCleanup.connectsRemoved > 0) {
-            console.log(`[DELETE] Cleaned constraints for ${item.id}`);
+            logger.info(`[DELETE] Cleaned constraints for ${item.id}`);
           }
         }
 
@@ -248,7 +251,7 @@ export const POST: RequestHandler = async ({ request }) => {
       const content = await fs.readFile(manifestPath, "utf-8");
       manifest = JSON.parse(content);
     } catch (e) {
-      console.warn(`Manifest not found for ${contentDir}`);
+      logger.warn(`Manifest not found for ${contentDir}`);
     }
 
     let manifestModified = false;
@@ -292,7 +295,7 @@ export const POST: RequestHandler = async ({ request }) => {
             "blurs",
           ]);
           if (assetCleanup.deleted.length > 0) {
-            console.log(`[ARCHIVE] Removed ${assetCleanup.deleted.length} generated assets`);
+            logger.info(`[ARCHIVE] Removed ${assetCleanup.deleted.length} generated assets`);
           }
 
           const cachePath = path.join(process.cwd(), ".temp", contentDir, "images.cache.json");
@@ -336,7 +339,7 @@ export const PATCH: RequestHandler = async ({ request }) => {
 
   const { images, updates } = await request.json();
 
-  console.log("PATCH /api/images request:", { images, updates });
+  logger.info("PATCH /api/images request:", { images, updates });
 
   if (!images || !Array.isArray(images) || !updates) {
     return json({ message: "Invalid request" }, { status: 400 });
@@ -388,7 +391,7 @@ export const PATCH: RequestHandler = async ({ request }) => {
       Object.entries(updates).filter(([, v]) => v !== undefined),
     ) as Record<string, string | string[] | null>;
 
-    console.log("Filtered updates for content dir", contentDir, ":", {
+    logger.info("Filtered updates for content dir", contentDir, ":", {
       original: updates,
       filtered: filteredUpdates,
     });
