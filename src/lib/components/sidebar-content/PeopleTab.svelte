@@ -1,12 +1,12 @@
 <script lang="ts">
-  import Ban from "lucide-svelte/icons/ban";
-  import Check from "lucide-svelte/icons/check";
-  import EyeOff from "lucide-svelte/icons/eye-off";
-  import Loader2 from "lucide-svelte/icons/loader-2";
-  import RotateCcw from "lucide-svelte/icons/rotate-ccw";
-  import User from "lucide-svelte/icons/user";
-  import Users from "lucide-svelte/icons/users";
-  import X from "lucide-svelte/icons/x";
+  import Ban from "@lucide/svelte/icons/ban";
+  import Check from "@lucide/svelte/icons/check";
+  import EyeOff from "@lucide/svelte/icons/eye-off";
+  import Loader2 from "@lucide/svelte/icons/loader-2";
+  import RotateCcw from "@lucide/svelte/icons/rotate-ccw";
+  import User from "@lucide/svelte/icons/user";
+  import Users from "@lucide/svelte/icons/users";
+  import X from "@lucide/svelte/icons/x";
   import { untrack } from "svelte";
   import { toast } from "svelte-sonner";
 
@@ -30,7 +30,6 @@
 
   import CategoryPersonCard from "./CategoryPersonCard.svelte";
 
-  // Types for API responses
   type ApiResponse = {
     success: boolean;
     error?: string;

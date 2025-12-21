@@ -1,5 +1,5 @@
 <script lang="ts" module>
-  import ChevronDown from "lucide-svelte/icons/chevron-down";
+  import ChevronDown from "@lucide/svelte/icons/chevron-down";
   import { tv } from "tailwind-variants";
 
   import { cn } from "$lib/utils";

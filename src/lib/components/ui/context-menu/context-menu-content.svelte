@@ -2,8 +2,8 @@
   import { ContextMenu as ContextMenuPrimitive } from "bits-ui";
   import type { ComponentProps } from "svelte";
 
-  import { cn } from "$lib/utils";
   import type { WithoutChildrenOrChild } from "$lib/utils";
+  import { cn } from "$lib/utils";
 
   import ContextMenuPortal from "./context-menu-portal.svelte";
 

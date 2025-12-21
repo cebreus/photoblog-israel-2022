@@ -1,8 +1,8 @@
 <script lang="ts">
-  import Circle from "lucide-svelte/icons/circle";
-  import Cylinder from "lucide-svelte/icons/cylinder";
-  import RectangleVertical from "lucide-svelte/icons/rectangle-vertical";
-  import Square from "lucide-svelte/icons/square";
+  import Circle from "@lucide/svelte/icons/circle";
+  import Cylinder from "@lucide/svelte/icons/cylinder";
+  import RectangleVertical from "@lucide/svelte/icons/rectangle-vertical";
+  import Square from "@lucide/svelte/icons/square";
 
   let { aspectRatio } = $props<{
     aspectRatio?: string;

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Loader2 from "lucide-svelte/icons/loader-2";
+  import Loader2 from "@lucide/svelte/icons/loader-2";
 
   import { cn } from "$lib/utils";
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import X from "lucide-svelte/icons/x";
+  import X from "@lucide/svelte/icons/x";
   import type { Snippet } from "svelte";
   import { getContext } from "svelte";
   import type { HTMLAttributes } from "svelte/elements";

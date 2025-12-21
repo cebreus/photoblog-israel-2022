@@ -1,7 +1,7 @@
 <script lang="ts">
-  import RotateCcw from "lucide-svelte/icons/rotate-ccw";
-  import Trash2 from "lucide-svelte/icons/trash-2";
-  import X from "lucide-svelte/icons/x";
+  import RotateCcw from "@lucide/svelte/icons/rotate-ccw";
+  import Trash2 from "@lucide/svelte/icons/trash-2";
+  import X from "@lucide/svelte/icons/x";
   import { toast } from "svelte-sonner";
   import { fade } from "svelte/transition";
   import { superForm } from "sveltekit-superforms";

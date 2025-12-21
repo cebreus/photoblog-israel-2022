@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Monitor from "lucide-svelte/icons/monitor";
-  import Moon from "lucide-svelte/icons/moon";
-  import Sun from "lucide-svelte/icons/sun";
+  import Monitor from "@lucide/svelte/icons/monitor";
+  import Moon from "@lucide/svelte/icons/moon";
+  import Sun from "@lucide/svelte/icons/sun";
   import { mode, resetMode, setMode } from "mode-watcher";
 
   import { Badge } from "$lib/components/ui/badge/";

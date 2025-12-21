@@ -1,10 +1,10 @@
 <script lang="ts">
-  import CheckCheck from "lucide-svelte/icons/check-check";
-  import EyeOff from "lucide-svelte/icons/eye-off";
-  import Loader2 from "lucide-svelte/icons/loader-2";
-  import Search from "lucide-svelte/icons/search";
-  import Trash2 from "lucide-svelte/icons/trash-2";
-  import User from "lucide-svelte/icons/user";
+  import CheckCheck from "@lucide/svelte/icons/check-check";
+  import EyeOff from "@lucide/svelte/icons/eye-off";
+  import Loader2 from "@lucide/svelte/icons/loader-2";
+  import Search from "@lucide/svelte/icons/search";
+  import Trash2 from "@lucide/svelte/icons/trash-2";
+  import User from "@lucide/svelte/icons/user";
   import { toast } from "svelte-sonner";
 
   import { Button } from "$lib/components/ui/button";
@@ -488,7 +488,7 @@
       </div>
     </div>
 
-    <div class="max-h-[300px] overflow-y-auto p-2" data-testid="reassign-person-list">
+    <div class="max-h-75 overflow-y-auto p-2" data-testid="reassign-person-list">
       {#each filteredPeople as p}
         <button
           class="w-full flex items-center gap-3 p-2 hover:bg-accent rounded-md transition-colors text-left"

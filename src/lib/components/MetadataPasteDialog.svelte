@@ -1,6 +1,6 @@
 <script lang="ts">
-  import RefreshCcw from "lucide-svelte/icons/refresh-ccw";
-  import X from "lucide-svelte/icons/x";
+  import RefreshCcw from "@lucide/svelte/icons/refresh-ccw";
+  import X from "@lucide/svelte/icons/x";
 
   import { Button } from "$lib/components/ui/button";
   import Checkbox from "$lib/components/ui/checkbox/checkbox.svelte";
