@@ -9,7 +9,9 @@
   import X from "@lucide/svelte/icons/x";
   import { untrack } from "svelte";
   import { toast } from "svelte-sonner";
-
+  import { dev } from "$app/environment";
+  import { goto } from "$app/navigation";
+  import { page } from "$app/state";
   import PersonDetailDialog from "$lib/components/PersonDetailDialog.svelte";
   import PersonMergeDialog from "$lib/components/PersonMergeDialog.svelte";
   import * as Accordion from "$lib/components/ui/accordion";
@@ -21,10 +23,6 @@
   import { filters } from "$lib/stores/filters.svelte";
   import { people } from "$lib/stores/people.svelte";
   import type { ImageEntry, Person } from "$lib/types/manifest";
-
-  import { dev } from "$app/environment";
-  import { goto } from "$app/navigation";
-  import { page } from "$app/stores";
 
   import SelectionBulkActions from "../SelectionBulkActions.svelte";
 
@@ -100,7 +98,7 @@
 
   // Sync URL state for person detail (survives HMR/reload)
   $effect(() => {
-    const personId = $page.url.searchParams.get("person");
+    const personId = page.url.searchParams.get("person");
     const currentPeople = peopleList;
 
     untrack(() => {
@@ -125,9 +123,9 @@
   // When dialog is closed via UI (e.g. Escape or Click Outside), update URL
   $effect(() => {
     if (!showPersonDetail) {
-      const hasPersonParam = untrack(() => $page.url.searchParams.has("person"));
+      const hasPersonParam = untrack(() => page.url.searchParams.has("person"));
       if (hasPersonParam) {
-        const url = new URL($page.url);
+        const url = new URL(page.url);
         url.searchParams.delete("person");
         goto(url, { replaceState: true, noScroll: true, keepFocus: true });
       }
@@ -138,7 +136,7 @@
     e?.stopPropagation();
 
     // Set URL - valid even if effect handles the rest, provides immediate feedback
-    const url = new URL($page.url);
+    const url = new URL(page.url);
     url.searchParams.set("person", person.id);
     goto(url, { replaceState: true, noScroll: true, keepFocus: true });
   }

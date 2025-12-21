@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { page } from "$app/stores";
+  import { page } from "$app/state";
 
-  const siteManifest = $derived($page.data.siteManifest);
+  const siteManifest = $derived(page.data.siteManifest);
 </script>
 
 <section class="py-24 bg-linear-to-br from-slate-700 to-slate-950" data-testid="hero-section">

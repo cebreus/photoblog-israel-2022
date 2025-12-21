@@ -1,6 +1,6 @@
 <script lang="ts">
   import { ModeWatcher } from "mode-watcher";
-
+  import { browser } from "$app/environment";
   import AppSidebar from "$lib/components/AppSidebar.svelte";
   import Footer from "$lib/components/Footer.svelte";
   import Header from "$lib/components/Header.svelte";
@@ -9,8 +9,6 @@
   import { ui } from "$lib/stores/ui.svelte";
   import { initUrlSync } from "$lib/stores/urlSync.svelte";
   import type { Author, CurationManifest, MenuManifest, SiteManifest } from "$lib/types/manifest";
-
-  import { browser } from "$app/environment";
 
   import faviconHtml from "../../.temp/favicons.html?raw";
   import "../app.css";

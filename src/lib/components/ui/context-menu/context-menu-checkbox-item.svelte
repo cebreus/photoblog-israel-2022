@@ -3,7 +3,7 @@
   import { ContextMenu as ContextMenuPrimitive } from "bits-ui";
   import type { Snippet } from "svelte";
 
-  import { type WithoutChildrenOrChild, cn } from "$lib/utils";
+  import { cn, type WithoutChildrenOrChild } from "$lib/utils";
 
   let {
     ref = $bindable(null),
