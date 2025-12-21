@@ -13,8 +13,9 @@ dist/
 coverage/
 
 # Generated manifest files and assets
-static/
+**/*.manifest.json
 content/
+static/
 
 # Misc
 .DS_Store
