@@ -102,7 +102,7 @@
       "biome check --write --no-errors-on-unmatched"
     ],
     "*.{svelte,md,html,css}": [
-      "prettier --write"
+      "prettier -l -w"
     ],
     "*.css": [
       "stylelint --fix"
