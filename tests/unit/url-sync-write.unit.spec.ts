@@ -65,7 +65,7 @@ vi.mock("$lib/stores/ui.svelte", () => {
     ui: {
       photoLabels: false,
       sidebarOpen: false,
-      debug: false,
+      debugMode: false,
       activeTab: "agenda",
       curationMode: false,
     },
@@ -109,7 +109,7 @@ describe("syncUrlFromFilters", () => {
 
     ui.photoLabels = false;
     ui.sidebarOpen = false;
-    ui.debug = false;
+    ui.debugMode = false;
     ui.activeTab = "agenda";
     ui.curationMode = false;
 

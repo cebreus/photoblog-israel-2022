@@ -21,7 +21,6 @@
   import { filters } from "$lib/stores/filters.svelte";
   import { people } from "$lib/stores/people.svelte";
   import type { ImageEntry, Person } from "$lib/types/manifest";
-  import { getVisiblePeople } from "$lib/utils/people";
 
   import { dev } from "$app/environment";
   import { goto } from "$app/navigation";
@@ -198,7 +197,7 @@
 
     // If empty, treat as "all selected"
     if (current.length === 0) {
-      effectiveCurrent = visiblePeople.map((p) => p.id);
+      effectiveCurrent = people.visiblePeople.map((p) => p.id);
     } else if (current.includes("none")) {
       effectiveCurrent = [];
     }
@@ -214,7 +213,7 @@
       next = [...effectiveCurrent, personId];
     }
 
-    const allPeopleIds = visiblePeople.map((p) => p.id);
+    const allPeopleIds = people.visiblePeople.map((p) => p.id);
 
     // If nothing selected, use special "none" marker
     if (next.length === 0) {
@@ -281,7 +280,8 @@
 
   function selectAll() {
     // Select all people = show ONLY photos with people (hide photos without people)
-    const allPeopleIds = visiblePeople.map((p) => p.id);
+    // Select all people = show ONLY photos with people (hide photos without people)
+    const allPeopleIds = people.visiblePeople.map((p) => p.id);
     filters.selectedPeople = allPeopleIds;
   }
 
@@ -289,25 +289,15 @@
     filters.selectedPeople = ["none"];
   }
 
-  // Filter people by ignored flag from manifest AND hide empty profiles (result of merge)
-  const visiblePeople = $derived(getVisiblePeople(peopleList));
-
-  // Hidden list shows only "person" category (statue/painting stay in their accordions even if ignored)
-  const hiddenPeopleList = $derived(
-    peopleList
-      .filter((p) => p.ignored && (!p.category || p.category === "person"))
-      .sort((a, b) => b.faceCount - a.faceCount),
-  );
-
   // Count of selected that are hidden (for restore action state)
   const selectedHiddenCount = $derived(
-    selectedForMerge.filter((id) => hiddenPeopleList.some((p) => p.id === id)).length,
+    selectedForMerge.filter((id) => people.hiddenPeople.some((p) => p.id === id)).length,
   );
 
   // Track quick filter preset for button group highlighting
   const selectionMode = $derived.by(() => {
     const selected = filters.selectedPeople;
-    const visibleIds = visiblePeople.map((p) => p.id);
+    const visibleIds = people.visiblePeople.map((p) => p.id);
 
     if (selected.includes("none")) return "none";
     if (selected.length === 0) return "reset";
@@ -320,18 +310,6 @@
     if (mode === "none") return selectNone();
     if (mode === "reset") return clearSelection();
   }
-  // Category lists (based on visible/active people)
-  const categoryPersonList = $derived(
-    peopleList
-      .filter((p) => !p.category || p.category === "person")
-      .sort((a, b) => b.faceCount - a.faceCount),
-  );
-  const categoryStatueList = $derived(
-    peopleList.filter((p) => p.category === "statue").sort((a, b) => b.faceCount - a.faceCount),
-  );
-  const categoryPaintingList = $derived(
-    peopleList.filter((p) => p.category === "painting").sort((a, b) => b.faceCount - a.faceCount),
-  );
 
   function handleBulkHideAction(e?: MouseEvent) {
     e?.stopPropagation();
@@ -355,7 +333,7 @@
       });
 
       if (!response.ok) {
-        throw new Error("API request failed");
+        throw new Error("API požadavek selhal");
       }
 
       // Success - remove from selection store if selected
@@ -381,7 +359,7 @@
 
   async function executeBulkRestore() {
     // Only restore those that are currently hidden
-    const hiddenIds = selectedForMerge.filter((id) => hiddenPeopleList.some((p) => p.id === id));
+    const hiddenIds = selectedForMerge.filter((id) => people.hiddenPeople.some((p) => p.id === id));
     if (hiddenIds.length === 0) return;
 
     isSaving = true;
@@ -502,7 +480,7 @@
 
         if (!response.ok) {
           const error = (await response.json()) as MergeResponse;
-          throw new Error(`Merge failed for ${source.name}: ${error.error}`);
+          throw new Error(`Sloučení osoby ${source.name} selhalo: ${error.error}`);
         }
       }
 
@@ -641,7 +619,7 @@
     </div>
 
     <div class="flex flex-col">
-      {#each visiblePeople as person (person.id)}
+      {#each people.visiblePeople as person (person.id)}
         {@const isSelected =
           filters.selectedPeople.length === 0
             ? true // Empty = all selected
@@ -778,7 +756,7 @@
         </div>
       {/each}
 
-      {#if visiblePeople.length === 0}
+      {#if people.visiblePeople.length === 0}
         <div
           class="p-8 text-center text-muted-foreground text-sm"
           data-testid="people-tab-empty-state"
@@ -805,18 +783,18 @@
             onMarkAsJunk={executeBulkMarkAsJunk}
             onUpdateCategory={bulkUpdateCategory}
             hiddenCount={selectedHiddenCount}
-            canHide={!selectedForMerge.some((id) => hiddenPeopleList.some((p) => p.id === id))}
+            canHide={!selectedForMerge.some((id) => people.hiddenPeople.some((p) => p.id === id))}
           />
         </div>
       {/if}
 
       <Accordion.Root type="single" value="ignored" class="mt-4">
-        {@const hiddenPersons = hiddenPeopleList}
+        {@const hiddenPersons = people.hiddenPeople}
 
-        {#if hiddenPeopleList.length > 0 && dev}
+        {#if people.hiddenPeople.length > 0 && dev}
           <Accordion.Item value="ignored" data-testid="people-tab-hidden-section">
             <Accordion.Trigger class="px-4 py-3 text-sm font-medium">
-              Skryté ({hiddenPeopleList.length})
+              Skryté ({people.hiddenPeople.length})
             </Accordion.Trigger>
             <Accordion.Content class="mb-2 px-4 grid grid-cols-3 gap-2 pt-2 pb-1">
               {#each hiddenPersons as person (person.id)}
@@ -832,13 +810,13 @@
           </Accordion.Item>
         {/if}
 
-        {#if categoryPersonList.length > 0 && dev}
+        {#if people.categoryPeople.length > 0 && dev}
           <Accordion.Item value="cat-person" data-testid="people-tab-category-person-section">
             <Accordion.Trigger class="px-4 py-3 text-sm font-medium">
-              Osoby ({categoryPersonList.length})
+              Osoby ({people.categoryPeople.length})
             </Accordion.Trigger>
             <Accordion.Content class="mb-2 px-4 grid grid-cols-3 gap-2 pt-2 pb-1">
-              {#each categoryPersonList as person (person.id)}
+              {#each people.categoryPeople as person (person.id)}
                 <CategoryPersonCard
                   {person}
                   {getThumbnailSrc}
@@ -851,13 +829,13 @@
           </Accordion.Item>
         {/if}
 
-        {#if categoryStatueList.length > 0}
+        {#if people.categoryStatues.length > 0 && dev}
           <Accordion.Item value="cat-statue" data-testid="people-tab-category-statue-section">
             <Accordion.Trigger class="px-4 py-3 text-sm font-medium">
-              Sochy ({categoryStatueList.length})
+              Sochy ({people.categoryStatues.length})
             </Accordion.Trigger>
             <Accordion.Content class="mb-2 px-4 grid grid-cols-3 gap-2 pt-2 pb-1">
-              {#each categoryStatueList as person (person.id)}
+              {#each people.categoryStatues as person (person.id)}
                 <CategoryPersonCard
                   {person}
                   {getThumbnailSrc}
@@ -870,13 +848,13 @@
           </Accordion.Item>
         {/if}
 
-        {#if categoryPaintingList.length > 0}
+        {#if people.categoryPaintings.length > 0 && dev}
           <Accordion.Item value="cat-painting" data-testid="people-tab-category-painting-section">
             <Accordion.Trigger class="px-4 py-3 text-sm font-medium">
-              Malby ({categoryPaintingList.length})
+              Malby ({people.categoryPaintings.length})
             </Accordion.Trigger>
             <Accordion.Content class="mb-2 px-4 grid grid-cols-3 gap-2 pt-2 pb-1">
-              {#each categoryPaintingList as person (person.id)}
+              {#each people.categoryPaintings as person (person.id)}
                 <CategoryPersonCard
                   {person}
                   {getThumbnailSrc}

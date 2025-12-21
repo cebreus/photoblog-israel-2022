@@ -26,8 +26,6 @@
   }>();
 
   // Derived edit mode state
-  let isEditMode = $derived(editor.editMode);
-  let hasSelection = $derived(editor.selection.size > 0);
 
   // Identify images that start a new location block (dimmed locations)
   // Maps image ID -> scrollspy ID ("loc-{slug}")
@@ -62,14 +60,6 @@
       }
     }
     return map;
-  });
-
-  // Selection clearing effect remains here as it affects global selection state
-  $effect(() => {
-    // Clear selection if mode disabled
-    if (!isEditMode && editor.selection.size > 0) {
-      editor.clearSelection();
-    }
   });
 
   type DisplayItem = ImageEntry | Separator;
@@ -212,7 +202,7 @@
 
     // 2. Sync exclusion with global selection if needed
     // User requested that manual exclusion in dialog should reflect in global selection
-    if (excludedImageIds.length > 0 && hasSelection) {
+    if (excludedImageIds.length > 0 && editor.selection.size > 0) {
       excludedImageIds.forEach((id) => {
         if (editor.selection.has(id)) {
           editor.toggleSelection(id);
@@ -283,8 +273,8 @@
   $effect(debugLog);
 
   function debugLog() {
-    console.log("PhotoGrid debug store value:", ui.debug);
-    if (ui.debug) {
+    console.log("PhotoGrid debug store value:", ui.debugMode);
+    if (ui.debugMode) {
       console.debug("PhotoGrid render", {
         items: items.length,
         selectedAuthors: filters.selectedAuthors,
@@ -292,8 +282,6 @@
       });
     }
   }
-
-  let isCurationActive = $derived(ui.curationMode && !!curationManifest);
 
   // Process items to integrate/inject curation groups into the flow
   let processedItems = $derived.by(() => {

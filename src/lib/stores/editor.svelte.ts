@@ -49,10 +49,16 @@ export class EditorState {
 
   toggleEditMode() {
     this.editMode = !this.editMode;
+    if (!this.editMode) {
+      this.clearSelection();
+    }
   }
 
   setEditMode(value: boolean) {
     this.editMode = value;
+    if (!value) {
+      this.clearSelection();
+    }
   }
 
   setShowMetadataOverlay(value: boolean) {

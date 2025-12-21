@@ -45,11 +45,11 @@
     validators: false,
     // No validators - relying on manual optional fields
     onUpdate: async ({ form }) => {
-      if (ui.debug) console.debug("form: onUpdate", { valid: form.valid, data: form.data });
+      if (ui.debugMode) console.debug("form: onUpdate", { valid: form.valid, data: form.data });
       if (form.valid) {
         await handleSubmit(form.data);
       } else {
-        if (ui.debug) console.debug("form: invalid", form.errors);
+        if (ui.debugMode) console.debug("form: invalid", form.errors);
       }
     },
   });

@@ -1,5 +1,5 @@
 import { get } from "svelte/store";
-import { browser } from "$app/environment";
+import { browser, dev } from "$app/environment";
 import { goto } from "$app/navigation";
 import { page } from "$app/stores";
 import { editor } from "$lib/stores/editor.svelte";
@@ -142,18 +142,20 @@ export function initializeFiltersFromUrl(url: URL) {
   setBooleanStateFromUrl(url, "labels", (v) => {
     ui.photoLabels = v;
   });
-  setBooleanStateFromUrl(url, "editMode", (v) => {
-    editor.editMode = v;
-  });
-  setBooleanStateFromUrl(url, "debug", (v) => {
-    ui.debug = v;
-  });
-  setBooleanStateFromUrl(url, "overlay", (v) => {
-    editor.showMetadataOverlay = v;
-  });
-  setBooleanStateFromUrl(url, "curation", (v) => {
-    ui.curationMode = v;
-  });
+  if (dev) {
+    setBooleanStateFromUrl(url, "editMode", (v) => {
+      editor.editMode = v;
+    });
+    setBooleanStateFromUrl(url, "debug", (v) => {
+      ui.debugMode = v;
+    });
+    setBooleanStateFromUrl(url, "overlay", (v) => {
+      editor.showMetadataOverlay = v;
+    });
+    setBooleanStateFromUrl(url, "curation", (v) => {
+      ui.curationMode = v;
+    });
+  }
 
   setBooleanStateFromUrl(
     url,
@@ -251,7 +253,7 @@ export function syncUrlFromFilters() {
 
     syncBooleanParam(params, "labels", ui.photoLabels, "presence");
     syncBooleanParam(params, "editMode", editor.editMode, "presence");
-    syncBooleanParam(params, "debug", ui.debug, "presence");
+    syncBooleanParam(params, "debug", ui.debugMode, "presence");
     syncBooleanParam(params, "overlay", editor.showMetadataOverlay, "presence");
     syncBooleanParam(params, "sidebar", ui.sidebarOpen, "presence");
     syncBooleanParam(params, "curation", ui.curationMode, "presence");
@@ -312,7 +314,7 @@ export function initUrlSync(initialAuthors: Author[]) {
       editor.selection;
       editor.editMode;
       editor.showMetadataOverlay;
-      ui.debug;
+      ui.debugMode;
       ui.activeTab;
       ui.sidebarOpen;
       ui.curationMode;
