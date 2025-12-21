@@ -1,4 +1,3 @@
-import fs from "node:fs";
 import path from "node:path";
 import { intro } from "@clack/prompts";
 import { AutoTokenizer, CLIPTextModelWithProjection } from "@xenova/transformers";
@@ -245,7 +244,7 @@ async function computeAestheticScores(
 
           let bestPath = path.join(srcRoot, filename);
           for (const p of webVariants) {
-            if (fs.existsSync(p)) {
+            if (await Bun.file(p).exists()) {
               bestPath = p;
               break;
             }

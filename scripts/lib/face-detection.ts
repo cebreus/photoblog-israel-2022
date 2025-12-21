@@ -1,4 +1,3 @@
-import fs from "node:fs";
 import fsp from "node:fs/promises";
 import path from "node:path";
 import { createLogger } from "./logger";
@@ -72,7 +71,7 @@ async function downloadModelFiles() {
 
 async function downloadFile(filename: string) {
   const destPath = path.join(MODELS_DIR, filename);
-  if (fs.existsSync(destPath)) return;
+  if (await Bun.file(destPath).exists()) return;
 
   const url = `${BASE_MODEL_URL}/${filename}`;
   logger.info(`Downloading model file: ${filename}...`);
@@ -83,7 +82,7 @@ async function downloadFile(filename: string) {
   }
 
   const arrayBuffer = await res.arrayBuffer();
-  await fsp.writeFile(destPath, Buffer.from(arrayBuffer));
+  await Bun.write(destPath, arrayBuffer);
 }
 
 export type FaceBox = {

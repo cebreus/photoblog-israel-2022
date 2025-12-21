@@ -2,7 +2,7 @@
 process.env.GLIB_LOG_LEVEL = "critical";
 process.env.OBJC_DISABLE_INITIALIZE_FORK_SAFETY = "YES";
 
-import fs from "node:fs";
+import { readdir } from "node:fs/promises";
 import path from "node:path";
 import { parseArgs } from "node:util";
 import { cancel, intro, isCancel, select } from "@clack/prompts";
@@ -59,7 +59,7 @@ const { values, positionals } = parseArgs({
 
 async function getAvailableGalleries() {
   try {
-    const entries = await fs.promises.readdir(CONTENT_ROOT, { withFileTypes: true });
+    const entries = await readdir(CONTENT_ROOT, { withFileTypes: true });
     return entries
       .filter((e) => e.isDirectory())
       .map((e) => e.name)

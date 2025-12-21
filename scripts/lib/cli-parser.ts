@@ -28,6 +28,7 @@ export type CliOptions = {
   quiet: boolean;
   lqipWidth: number;
   limit: number;
+  gallery?: string;
 
   // Blur assets
   blurEnable: boolean;
@@ -241,6 +242,9 @@ const CLI_FLAG_HANDLERS: Record<string, ArgHandler> = {
   limit: function handleLimit(v, a) {
     const limit = parseIntWithinRange(v, 0, Number.MAX_SAFE_INTEGER);
     if (limit !== undefined) a.limit = limit;
+  },
+  gallery: function handleGallery(v, a) {
+    a.gallery = v;
   },
 
   "blur.enable": function handleBlurEnable(v, a) {

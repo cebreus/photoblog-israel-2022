@@ -1,5 +1,3 @@
-import { spawn } from "node:child_process";
-
 export async function run(
   cmd: string,
   args: string[],
@@ -49,19 +47,22 @@ export async function run(
 
   // Fallback for Vitest/Node
   return new Promise<void>((resolve, reject) => {
-    // ... Node implementation doesn't support filter yet for brevity, assuming Bun environment
-    const proc = spawn(cmd, args, {
-      stdio: options.stdio || "inherit",
-      cwd: options.cwd || process.cwd(),
-      env: mergedEnv,
-    });
-    // ...
-    proc.on("close", (code) => {
-      if (code === 0) resolve();
-      else reject(new Error(`Command '${cmd} ${args.join(" ")}' failed with code ${code}`));
-    });
+    (async () => {
+      // ... Node implementation doesn't support filter yet for brevity, assuming Bun environment
+      const { spawn } = await import("node:child_process");
+      const proc = spawn(cmd, args, {
+        stdio: options.stdio || "inherit",
+        cwd: options.cwd || process.cwd(),
+        env: mergedEnv,
+      });
+      // ...
+      proc.on("close", (code) => {
+        if (code === 0) resolve();
+        else reject(new Error(`Command '${cmd} ${args.join(" ")}' failed with code ${code}`));
+      });
 
-    proc.on("error", reject);
+      proc.on("error", reject);
+    })().catch(reject);
   });
 }
 
@@ -114,26 +115,29 @@ export async function execCapture(cmd: string, args: string[]): Promise<string> 
 
   // Fallback for Vitest/Node
   return new Promise<string>((resolve, reject) => {
-    const proc = spawn(cmd, args, {
-      stdio: ["ignore", "pipe", "pipe"],
-    });
+    (async () => {
+      const { spawn } = await import("node:child_process");
+      const proc = spawn(cmd, args, {
+        stdio: ["ignore", "pipe", "pipe"],
+      });
 
-    let stdout = "";
-    let stderr = "";
+      let stdout = "";
+      let stderr = "";
 
-    proc.stdout?.on("data", (data) => {
-      stdout += data.toString();
-    });
+      proc.stdout?.on("data", (data) => {
+        stdout += data.toString();
+      });
 
-    proc.stderr?.on("data", (data) => {
-      stderr += data.toString();
-    });
+      proc.stderr?.on("data", (data) => {
+        stderr += data.toString();
+      });
 
-    proc.on("close", (code) => {
-      if (code === 0) resolve(stdout.trim());
-      else reject(new Error(`Command failed: ${stderr || stdout}`));
-    });
+      proc.on("close", (code) => {
+        if (code === 0) resolve(stdout.trim());
+        else reject(new Error(`Command failed: ${stderr || stdout}`));
+      });
 
-    proc.on("error", reject);
+      proc.on("error", reject);
+    })().catch(reject);
   });
 }

@@ -1,6 +1,5 @@
 import fsp from "node:fs/promises";
 import path from "node:path";
-import fg from "fast-glob";
 import matter from "gray-matter";
 import type { Cache, ImageEntry, Manifest, StoryDataMap } from "../../src/lib/types/manifest";
 import { config } from "../config";
@@ -40,10 +39,11 @@ async function fileExists(file: string) {
 }
 
 export async function loadStoryData(contentRoot: string): Promise<StoryDataMap> {
-  const storyFiles = await fg("**/*.md", {
-    cwd: contentRoot,
-    absolute: true,
-  });
+  const glob = new Bun.Glob("**/*.md");
+  const storyFiles: string[] = [];
+  for await (const file of glob.scan({ cwd: contentRoot, absolute: true })) {
+    storyFiles.push(file);
+  }
   const storyDataMap: StoryDataMap = {};
   for (const file of storyFiles) {
     try {
@@ -183,11 +183,11 @@ async function loadCache(
 
 async function findSourceFiles(srcRoot: string, limit: number | 0) {
   const inputExts = config.script.inputExtensions;
-  const sourceFiles = await fg(`**/*.{${inputExts.join(",")}}`, {
-    cwd: srcRoot,
-    absolute: true,
-    dot: false,
-  });
+  const glob = new Bun.Glob(`**/*.{${inputExts.join(",")}}`);
+  const sourceFiles: string[] = [];
+  for await (const file of glob.scan({ cwd: srcRoot, absolute: true, dot: false })) {
+    sourceFiles.push(file);
+  }
   if (limit > 0) sourceFiles.splice(limit);
   return sourceFiles;
 }

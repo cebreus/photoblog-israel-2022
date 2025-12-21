@@ -1,5 +1,4 @@
 import { spawn } from "node:child_process";
-import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { error, json } from "@sveltejs/kit";
@@ -60,10 +59,11 @@ export async function POST({ request }) {
   }
 
   const manifestPath = path.resolve(process.cwd(), `src/data/${contentDir}/images.manifest.json`);
-  if (!fs.existsSync(manifestPath)) {
+  const manifestFile = Bun.file(manifestPath);
+  if (!(await manifestFile.exists())) {
     throw error(500, `Manifest nebyl nalezen na ${manifestPath}`);
   }
-  const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+  const manifest = await manifestFile.json();
 
   for (const id of imageIds) {
     try {
@@ -73,9 +73,9 @@ export async function POST({ request }) {
       }
 
       let filePath = path.join(contentRoot, imageEntry.src);
-      if (!fs.existsSync(filePath)) {
+      if (!(await Bun.file(filePath).exists())) {
         const candidate = path.join(contentRoot, "pics", imageEntry.src);
-        if (fs.existsSync(candidate)) {
+        if (await Bun.file(candidate).exists()) {
           filePath = candidate;
         }
       }
