@@ -106,19 +106,34 @@ function trimVariant(s: string): string {
   return s.trim();
 }
 
-function parseIntWithinRange(value: string, min: number, max: number): number | undefined {
+function parseIntWithinRange(value: string, min: number, max: number, name: string): number {
   const num = parseInt(value, 10);
-  if (Number.isNaN(num)) return undefined;
-  return Math.max(min, Math.min(max, num));
+  if (Number.isNaN(num)) {
+    throw new Error(`Invalid value for ${name}: "${value}" is not a number.`);
+  }
+  if (num < min || num > max) {
+    throw new Error(`Invalid value for ${name}: "${value}" must be between ${min} and ${max}.`);
+  }
+  return num;
 }
 
-function parseFloatWithinRange(value: string, min: number, max: number): number | undefined {
+function parseFloatWithinRange(value: string, min: number, max: number, name: string): number {
   const num = parseFloat(value);
-  if (Number.isNaN(num)) return undefined;
-  return Math.max(min, Math.min(max, num));
+  if (Number.isNaN(num)) {
+    throw new Error(`Invalid value for ${name}: "${value}" is not a number.`);
+  }
+  if (num < min || num > max) {
+    throw new Error(`Invalid value for ${name}: "${value}" must be between ${min} and ${max}.`);
+  }
+  return num;
 }
 
 function parseBooleanValue(value: string): boolean {
+  if (value === "true") return true;
+  if (value === "false") return false;
+  // If no value provided (e.g. just --flag), value is implicitly "true" from the main loop
+  // but if explicit "garbage" is passed, we might want to warn/error?
+  // Current logic in main loop defaults missing value to "true" string.
   return value === "true";
 }
 
@@ -195,16 +210,13 @@ const CLI_FLAG_HANDLERS: Record<string, ArgHandler> = {
     a.formats = parseQualityTypes(v);
   },
   "quality.avif": function handleQualityAvif(v, a) {
-    const quality = parseIntWithinRange(v, 1, 100);
-    if (quality !== undefined) a.quality.avif = quality;
+    a.quality.avif = parseIntWithinRange(v, 1, 100, "quality.avif");
   },
   "quality.webp": function handleQualityWebp(v, a) {
-    const quality = parseIntWithinRange(v, 1, 100);
-    if (quality !== undefined) a.quality.webp = quality;
+    a.quality.webp = parseIntWithinRange(v, 1, 100, "quality.webp");
   },
   "quality.jpeg": function handleQualityJpeg(v, a) {
-    const quality = parseIntWithinRange(v, 1, 100);
-    if (quality !== undefined) a.quality.jpeg = quality;
+    a.quality.jpeg = parseIntWithinRange(v, 1, 100, "quality.jpeg");
   },
   "allow-upscale": function handleAllowUpscale(v, a) {
     a.allowUpscale = parseBooleanValue(v);
@@ -216,8 +228,7 @@ const CLI_FLAG_HANDLERS: Record<string, ArgHandler> = {
     if (v === "auto") {
       a.concurrency = "auto";
     } else {
-      const num = parseIntWithinRange(v, 1, Number.MAX_SAFE_INTEGER);
-      if (num !== undefined) a.concurrency = num;
+      a.concurrency = parseIntWithinRange(v, 1, Number.MAX_SAFE_INTEGER, "concurrency");
     }
   },
   watch: function handleWatch(v, a) {
@@ -236,12 +247,10 @@ const CLI_FLAG_HANDLERS: Record<string, ArgHandler> = {
     a.quiet = parseBooleanValue(v);
   },
   lqipWidth: function handleLqipWidth(v, a) {
-    const width = parseIntWithinRange(v, 1, Number.MAX_SAFE_INTEGER);
-    if (width !== undefined) a.lqipWidth = width;
+    a.lqipWidth = parseIntWithinRange(v, 1, Number.MAX_SAFE_INTEGER, "lqipWidth");
   },
   limit: function handleLimit(v, a) {
-    const limit = parseIntWithinRange(v, 0, Number.MAX_SAFE_INTEGER);
-    if (limit !== undefined) a.limit = limit;
+    a.limit = parseIntWithinRange(v, 0, Number.MAX_SAFE_INTEGER, "limit");
   },
   gallery: function handleGallery(v, a) {
     a.gallery = v;
@@ -260,31 +269,25 @@ const CLI_FLAG_HANDLERS: Record<string, ArgHandler> = {
     a.blurOut = path.resolve(process.cwd(), v);
   },
   "blur.width": function handleBlurWidth(v, a) {
-    const width = parseIntWithinRange(v, 1, Number.MAX_SAFE_INTEGER);
-    if (width !== undefined) a.blurWidth = width;
+    a.blurWidth = parseIntWithinRange(v, 1, Number.MAX_SAFE_INTEGER, "blur.width");
   },
   "blur.colors": function handleBlurColors(v, a) {
-    const colors = parseIntWithinRange(v, 2, 256);
-    if (colors !== undefined) a.blurColors = colors;
+    a.blurColors = parseIntWithinRange(v, 2, 256, "blur.colors");
   },
   "blur.formats": function handleBlurFormats(v, a) {
     a.blurFormats = parseBlurFormats(v);
   },
   "blur.pngCompression": function handleBlurPngCompression(v, a) {
-    const compression = parseIntWithinRange(v, 0, 9);
-    if (compression !== undefined) a.blurPngCompression = compression;
+    a.blurPngCompression = parseIntWithinRange(v, 0, 9, "blur.pngCompression");
   },
   "blur.pngQuality": function handleBlurPngQuality(v, a) {
-    const quality = parseIntWithinRange(v, 0, 100);
-    if (quality !== undefined) a.blurPngQuality = quality;
+    a.blurPngQuality = parseIntWithinRange(v, 0, 100, "blur.pngQuality");
   },
   "blur.avifQuality": function handleBlurAvifQuality(v, a) {
-    const quality = parseIntWithinRange(v, 1, 100);
-    if (quality !== undefined) a.blurAvifQuality = quality;
+    a.blurAvifQuality = parseIntWithinRange(v, 1, 100, "blur.avifQuality");
   },
   "blur.jpegQuality": function handleBlurJpegQuality(v, a) {
-    const quality = parseIntWithinRange(v, 1, 100);
-    if (quality !== undefined) a.blurJpegQuality = quality;
+    a.blurJpegQuality = parseIntWithinRange(v, 1, 100, "blur.jpegQuality");
   },
   "blur.clean": function handleBlurClean(v, a) {
     a.blurClean = parseBooleanValue(v);
@@ -302,35 +305,28 @@ const CLI_FLAG_HANDLERS: Record<string, ArgHandler> = {
     a.skipEmbeddings = parseBooleanValue(v);
   },
   "batch-size": function handleBatchSize(v, a) {
-    const size = parseIntWithinRange(v, 1, Number.MAX_SAFE_INTEGER);
-    if (size !== undefined) a.batchSize = size;
+    a.batchSize = parseIntWithinRange(v, 1, Number.MAX_SAFE_INTEGER, "batch-size");
   },
   batchSize: function handleBatchSizeAlias(v, a) {
-    const size = parseIntWithinRange(v, 1, Number.MAX_SAFE_INTEGER);
-    if (size !== undefined) a.batchSize = size;
+    a.batchSize = parseIntWithinRange(v, 1, Number.MAX_SAFE_INTEGER, "batchSize");
   },
   "time-window": function handleTimeWindow(v, a) {
-    const window = parseIntWithinRange(v, 1, Number.MAX_SAFE_INTEGER);
-    if (window !== undefined) a.timeWindow = window;
+    a.timeWindow = parseIntWithinRange(v, 1, Number.MAX_SAFE_INTEGER, "time-window");
   },
   timeWindow: function handleTimeWindowAlias(v, a) {
-    const window = parseIntWithinRange(v, 1, Number.MAX_SAFE_INTEGER);
-    if (window !== undefined) a.timeWindow = window;
+    a.timeWindow = parseIntWithinRange(v, 1, Number.MAX_SAFE_INTEGER, "timeWindow");
   },
   author: function handleAuthor(v, a) {
     a.author = v;
   },
   threshold: function handleThreshold(v, a) {
-    const val = parseFloatWithinRange(v, 0.1, 1.0);
-    if (val !== undefined) a.threshold = val;
+    a.threshold = parseFloatWithinRange(v, 0.1, 1.0, "threshold");
   },
   minConfidence: function handleMinConfidence(v, a) {
-    const val = parseFloatWithinRange(v, 0.1, 1.0);
-    if (val !== undefined) a.minConfidence = val;
+    a.minConfidence = parseFloatWithinRange(v, 0.1, 1.0, "minConfidence");
   },
   minFaceSize: function handleMinFaceSize(v, a) {
-    const val = parseIntWithinRange(v, 0, 1000);
-    if (val !== undefined) a.minFaceSize = val;
+    a.minFaceSize = parseIntWithinRange(v, 0, 1000, "minFaceSize");
   },
 };
 
@@ -345,6 +341,8 @@ export function parseCliArguments(argv: string[]): CliOptions {
     const handler = CLI_FLAG_HANDLERS[k];
     if (handler) {
       handler(v, out);
+    } else {
+      throw new Error(`Unknown argument: --${k}`);
     }
   }
 

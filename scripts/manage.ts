@@ -7,6 +7,7 @@ import { readdir } from "node:fs/promises";
 import path from "node:path";
 import { parseArgs } from "node:util";
 import { cancel, intro, isCancel, outro, select } from "@clack/prompts";
+import pc from "picocolors";
 import { createLogger } from "./lib/logger";
 import { run } from "./lib/shell-utils";
 import { formatDuration } from "./lib/time-utils";
@@ -113,6 +114,8 @@ async function resolveGalleryAndContinue() {
       }
 
       gallery = selected as string;
+      process.stdout.write("\x1B[1A\x1B[2K"); // Clear the default selection line
+      console.log(`${pc.gray("│")}  ${pc.dim(gallery)}`);
       process.env.CONTENT_DIR = gallery;
       return;
     }

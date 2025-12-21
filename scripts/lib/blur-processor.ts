@@ -197,8 +197,9 @@ export async function runBlurBuild(raw: Partial<CliOptions>, concurrency: number
       }
 
       completedCount++;
+      // Compact suffix: "✓ 4 | ↷ 0 | ✗ 0" (success | cached | fail)
       bar.update(completedCount, {
-        suffix: `| ok: ${successCount}, cached: ${skipCount}, fail: ${failCount}`,
+        suffix: `| ✓ ${successCount} | ↷ ${skipCount} | ✗ ${failCount}`,
       });
     }
   }
