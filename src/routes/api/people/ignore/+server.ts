@@ -1,5 +1,6 @@
 import path from "node:path";
-import { json } from "@sveltejs/kit";
+import { error, json } from "@sveltejs/kit";
+import { dev } from "$app/environment";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 import {
   loadPeopleManifest,
@@ -15,6 +16,9 @@ function isStringArray(value: unknown): value is string[] {
 }
 
 export async function POST({ request }) {
+  if (!dev) {
+    throw error(403, "Manifest modifications are not permitted on the production server.");
+  }
   const body = await request.json();
 
   const { personId, personIds } = body as Record<string, unknown>;

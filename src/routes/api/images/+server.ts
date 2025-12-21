@@ -150,16 +150,16 @@ export const DELETE: RequestHandler = async ({ request }) => {
           if (idsToDelete.has(item.id)) {
             if (!fileFoundOnDisk) {
               errors.push(
-                `Soubor ${nameWithoutExt} nebyl nalezen na disku (ale byl odstraněn se seznamu).`,
+                `File ${nameWithoutExt} was not found on disk (but has been removed from the list).`,
               );
               deleted.push(item.src); // Mark as processed so UI removes it
             }
           } else {
-            errors.push(`Soubor ${nameWithoutExt} nebyl nalezen na disku ani v seznamu.`);
+            errors.push(`File ${nameWithoutExt} was not found on disk or in the list.`);
           }
         }
       } catch (e) {
-        errors.push(`Chyba při mazání ${nameWithoutExt}: ${(e as Error).message}`);
+        errors.push(`Error deleting ${nameWithoutExt}: ${(e as Error).message}`);
       }
     }
 
@@ -181,7 +181,7 @@ export const DELETE: RequestHandler = async ({ request }) => {
 
   if (errors.length > 0) {
     if (deleted.length === 0) {
-      return json({ message: "Nepodařilo se smazat soubory", errors }, { status: 500 });
+      return json({ message: "Failed to delete files", errors }, { status: 500 });
     }
   }
 
@@ -306,10 +306,10 @@ export const POST: RequestHandler = async ({ request }) => {
           const constraintsPath = path.join(dataRoot, contentDir, "clustering-constraints.json");
           await removeImageFromConstraints(constraintsPath, item.id);
         } else {
-          errors.push(`Soubor ${nameWithoutExt} nebyl nalezen v ${physicalPicsDir}`);
+          errors.push(`File ${nameWithoutExt} was not found in ${physicalPicsDir}`);
         }
       } catch (e) {
-        errors.push(`Chyba při archivaci ${nameWithoutExt}: ${(e as Error).message}`);
+        errors.push(`Error archiving ${nameWithoutExt}: ${(e as Error).message}`);
       }
     }
 
@@ -383,7 +383,7 @@ export const PATCH: RequestHandler = async ({ request }) => {
       const manifestContent = await fs.readFile(manifestPath, "utf-8");
       manifest = JSON.parse(manifestContent);
     } catch (_e) {
-      errors.push(`Nepodařilo se načíst manifest pro ${contentDir}`);
+      errors.push(`Failed to load manifest for ${contentDir}`);
       continue;
     }
 
@@ -401,7 +401,7 @@ export const PATCH: RequestHandler = async ({ request }) => {
     const tags = getExifToolWriteTags(filteredUpdates);
 
     if (Object.keys(tags).length === 0) {
-      errors.push("Žádná metadata k aktualizaci");
+      errors.push("No metadata to update");
       continue;
     }
 
@@ -433,7 +433,7 @@ export const PATCH: RequestHandler = async ({ request }) => {
             if (candidates.length > 0) {
               filePath = path.join(physicalRoot, "pics", candidates[0]);
             } else {
-              throw new Error(`Soubor ${fileName} nebyl nalezen`);
+              throw new Error(`File ${fileName} was not found`);
             }
           }
         }
@@ -495,7 +495,7 @@ export const PATCH: RequestHandler = async ({ request }) => {
           }
         }
       } catch (e) {
-        errors.push(`Chyba při aktualizaci ${item.src}: ${(e as Error).message}`);
+        errors.push(`Error updating ${item.src}: ${(e as Error).message}`);
       }
     }
 
@@ -503,13 +503,13 @@ export const PATCH: RequestHandler = async ({ request }) => {
       try {
         await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2));
       } catch (e) {
-        errors.push(`Chyba při uložení manifestu: ${(e as Error).message}`);
+        errors.push(`Error saving manifest: ${(e as Error).message}`);
       }
     }
   }
 
   if (updated.length === 0) {
-    return json({ message: "Nepodařilo se aktualizovat metadata", errors }, { status: 500 });
+    return json({ message: "Failed to update metadata", errors }, { status: 500 });
   }
 
   return json({ success: true, updated, errors });

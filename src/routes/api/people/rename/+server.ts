@@ -1,6 +1,7 @@
 import fsp from "node:fs/promises";
 import path from "node:path";
-import { json } from "@sveltejs/kit";
+import { error, json } from "@sveltejs/kit";
+import { dev } from "$app/environment";
 import { validateRenameInput } from "$lib/utils/api-validators";
 import { toSlug } from "$lib/utils/strings";
 import { createLogger } from "../../../../../scripts/lib/logger";
@@ -17,6 +18,9 @@ import {
 const logger = createLogger("people-api");
 
 export async function POST({ request }) {
+  if (!dev) {
+    throw error(403, "Manifest modifications are not permitted on the production server.");
+  }
   const body = await request.json();
   const validation = validateRenameInput(body);
 

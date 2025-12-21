@@ -1,7 +1,8 @@
 import crypto from "node:crypto";
 import fsp from "node:fs/promises";
 import path from "node:path";
-import { json } from "@sveltejs/kit";
+import { error, json } from "@sveltejs/kit";
+import { dev } from "$app/environment";
 import type { ImageEntry } from "$lib/types/manifest";
 import { validateUnmatchInput } from "$lib/utils/api-validators";
 import { toSlug } from "$lib/utils/strings";
@@ -19,6 +20,9 @@ import {
 const logger = createLogger("people-api");
 
 export async function POST({ request }) {
+  if (!dev) {
+    throw error(403, "Manifest modifications are not permitted on the production server.");
+  }
   const body = await request.json();
   const validation = validateUnmatchInput(body);
 
@@ -51,7 +55,7 @@ export async function POST({ request }) {
       const idSet = new Set(idsToUnmatch);
 
       for (const id of idsToUnmatch) {
-        const name = `Odpojeno z ${sourcePerson.name}`;
+        const name = `Disconnected from ${sourcePerson.name}`;
         const slug = toSlug(name);
 
         const uuid = crypto.randomUUID().slice(0, 8);
@@ -227,7 +231,7 @@ export async function POST({ request }) {
     return json(
       {
         success: false,
-        error: isLockError ? "Operace je blokována jiným procesem" : "Internal Error",
+        error: isLockError ? "Operation blocked by another process" : "Internal Error",
       },
       { status: isLockError ? 503 : 500 },
     );
