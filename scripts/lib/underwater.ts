@@ -2,24 +2,28 @@ import crypto from "node:crypto"; // Bun's native crypto
 import { mkdir, unlink } from "node:fs/promises"; // Bun's native fs/promises
 import path from "node:path"; // Bun's native path module
 import sharp from "sharp";
+import { config } from "../config";
 import { validatePathInsideRoot } from "./path-utils";
 import { run } from "./shell-utils";
 
 const TMP_DIR = process.env.TMPDIR ?? "/tmp";
 const SAFE_PROJECT_ROOT = process.cwd();
-const SAFE_OUTPUT_ROOT = path.resolve(SAFE_PROJECT_ROOT, "content/fixed-underwater-images");
 
-// Renamed and imported from path-utils.ts
-const validateAndCanonicalizePath = validatePathInsideRoot;
+/**
+ * Returns the output directory for fixed underwater images based on the active gallery.
+ */
+function getSafeOutputRoot() {
+  return path.resolve(SAFE_PROJECT_ROOT, config.paths.siteSource, "fixed-underwater-images");
+}
 
-async function ensureSafeOutputDir() {
-  await mkdir(SAFE_OUTPUT_ROOT, { recursive: true });
+async function ensureSafeOutputDir(outputRoot: string) {
+  await mkdir(outputRoot, { recursive: true });
 }
 
 export async function fixUnderwaterImage(input: string | Buffer, outputs?: string | string[]) {
-  await ensureSafeOutputDir();
   const outputList = outputs ? (Array.isArray(outputs) ? outputs : [outputs]) : [];
   const temps: string[] = [];
+  const safeOutputRoot = getSafeOutputRoot();
 
   try {
     let finalInput: string | Buffer = "";
@@ -27,7 +31,7 @@ export async function fixUnderwaterImage(input: string | Buffer, outputs?: strin
 
     if (typeof input === "string") {
       // Validate that the input path is within the project directory
-      const safeInputPath = validateAndCanonicalizePath(input, SAFE_PROJECT_ROOT);
+      const safeInputPath = validatePathInsideRoot(input, SAFE_PROJECT_ROOT);
       originalInputPathForExif = safeInputPath;
 
       const ext = path.extname(safeInputPath).toLowerCase();
@@ -73,8 +77,9 @@ export async function fixUnderwaterImage(input: string | Buffer, outputs?: strin
       .sharpen({ sigma: 1.0, m1: 0, m2: 3.0, x1: 2.0, y2: 10.0, y3: 20.0 });
 
     if (outputList.length > 0) {
+      await ensureSafeOutputDir(safeOutputRoot);
       const jobs = outputList.map(async (output) => {
-        const safeOutputPath = validateAndCanonicalizePath(output, SAFE_OUTPUT_ROOT);
+        const safeOutputPath = validatePathInsideRoot(output, safeOutputRoot);
         const outExt = path.extname(safeOutputPath).toLowerCase();
 
         if (outExt === ".heic" || outExt === ".heif") {
