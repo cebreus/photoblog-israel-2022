@@ -2,31 +2,27 @@
   "$schema": "https://biomejs.dev/schemas/2.3.9/schema.json",
   "files": {
     "includes": [
-      "src/**",
-      "scripts/**",
-      "tests/**",
-      "README.md",
-      "package.json",
-      "biome.json",
-      "!**/node_modules/**",
-      "!**/build/**",
-      "!**/build-*/**",
-      "!**/dist/**",
       "!**/.svelte-kit/**",
-      "!**/.vite/**",
       "!**/.temp/**",
+      "!**/.vite/**",
       "!**/*.css",
       "!**/*.svelte",
-      "!src/data/**/*.json"
+      "!**/build-*/**",
+      "!**/build/**",
+      "!**/dist/**",
+      "!**/node_modules/**",
+      "biome.json",
+      "package.json",
+      "README.md",
+      "scripts/**",
+      "src/**",
+      "tests/**"
     ],
     "maxSize": 10485760
   },
   "overrides": [
     {
-      "includes": [
-        "scripts/**",
-        "tests/**"
-      ],
+      "includes": ["scripts/**", "tests/**"],
       "linter": {
         "rules": {
           "suspicious": {
@@ -34,6 +30,12 @@
             "noExplicitAny": "off"
           }
         }
+      }
+    },
+    {
+      "includes": ["src/data/**/*.manifest.json"],
+      "formatter": {
+        "enabled": false
       }
     }
   ],
@@ -68,8 +70,6 @@
     }
   },
   "javascript": {
-    "globals": [
-      "Bun"
-    ]
+    "globals": ["Bun"]
   }
 }
