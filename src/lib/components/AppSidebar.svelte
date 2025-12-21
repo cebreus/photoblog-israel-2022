@@ -1,9 +1,8 @@
 <script lang="ts">
-  import Calendar from "lucide-svelte/icons/calendar";
-  import Pencil from "lucide-svelte/icons/pencil";
-  import SlidersHorizontal from "lucide-svelte/icons/sliders-horizontal";
-  import User from "lucide-svelte/icons/user";
-  // Restore User icon
+  import Calendar from "@lucide/svelte/icons/calendar";
+  import Pencil from "@lucide/svelte/icons/pencil";
+  import SlidersHorizontal from "@lucide/svelte/icons/sliders-horizontal";
+  import User from "@lucide/svelte/icons/user";
   import type { ComponentProps } from "svelte";
   import { untrack } from "svelte";
 

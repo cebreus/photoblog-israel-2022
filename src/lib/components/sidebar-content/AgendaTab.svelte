@@ -1,7 +1,7 @@
 <script lang="ts">
+  import Calendar from "@lucide/svelte/icons/calendar";
+  import ChevronRight from "@lucide/svelte/icons/chevron-right";
   import { Collapsible } from "bits-ui";
-  import Calendar from "lucide-svelte/icons/calendar";
-  import ChevronRight from "lucide-svelte/icons/chevron-right";
   import type { HTMLAttributes } from "svelte/elements";
 
   import * as Sidebar from "$lib/components/ui/sidebar";

@@ -15,7 +15,7 @@ export default defineConfig({
     },
   },
   ssr: {
-    noExternal: ["svelte-sonner", "lucide-svelte", "sveltekit-superforms"],
+    noExternal: ["svelte-sonner", "@lucide/svelte", "sveltekit-superforms"],
   },
   resolve: {
     alias: {

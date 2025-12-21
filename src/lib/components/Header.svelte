@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Bug from "lucide-svelte/icons/bug";
-  import Sparkles from "lucide-svelte/icons/sparkles";
-  import Tags from "lucide-svelte/icons/tags";
+  import Bug from "@lucide/svelte/icons/bug";
+  import Sparkles from "@lucide/svelte/icons/sparkles";
+  import Tags from "@lucide/svelte/icons/tags";
 
   import { Button } from "$lib/components/ui/button";
   import * as Sidebar from "$lib/components/ui/sidebar";

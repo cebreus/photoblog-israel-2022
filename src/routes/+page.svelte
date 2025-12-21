@@ -1,6 +1,6 @@
 <script lang="ts">
-  import CheckSquare from "lucide-svelte/icons/check-square";
-  import Square from "lucide-svelte/icons/square";
+  import CheckSquare from "@lucide/svelte/icons/check-square";
+  import Square from "@lucide/svelte/icons/square";
 
   import { useFancybox } from "$lib/actions/fancybox";
   import { useScrollspy } from "$lib/actions/scrollspy";

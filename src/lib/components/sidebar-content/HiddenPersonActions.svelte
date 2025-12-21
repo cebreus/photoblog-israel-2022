@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Eye from "lucide-svelte/icons/eye";
-  import UserMinus from "lucide-svelte/icons/user-minus";
+  import Eye from "@lucide/svelte/icons/eye";
+  import UserMinus from "@lucide/svelte/icons/user-minus";
 
   import { Button } from "$lib/components/ui/button";
   import type { Person } from "$lib/types/manifest";
