@@ -19,13 +19,15 @@
     "lint": "prettier -c \"src/**/*.{svelte,md,html,css}\" && stylelint 'src/**/*.css' && biome check src scripts tests",
     "format": "prettier --write --cache --no-error-on-unmatched-pattern \"src/**/*.{svelte,md,html,css}\" \"content/**/*.md\" \"docs/**/*.md\" && stylelint --fix 'src/**/*.css' && biome check --write --unsafe src scripts tests && biome format --write src scripts tests",
     "lint:ci": "biome check --reporter=summary --diagnostic-level=warn .",
+    "lint-staged": "lint-staged",
     "test": "vitest run",
     "test:unit": "LOG_LEVEL=error vitest run --project server",
     "test:integration": "LOG_LEVEL=error SHARP_NUM_THREADS=1 vitest run --project integration",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.9",
@@ -60,6 +62,8 @@
     "favicons": "^7.2.0",
     "formsnap": "^2.0.1",
     "gray-matter": "^4.0.3",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
     "lucide-svelte": "^0.561.0",
     "marked": "^17.0.1",
     "mode-watcher": "^1.1.0",
@@ -92,5 +96,16 @@
     "vitest-browser-svelte": "^2.0.1",
     "winston": "^3.19.0",
     "xxhash-wasm": "^1.1.0"
+  },
+  "lint-staged": {
+    "*.{js,ts,cjs,mjs,d.cts,d.mts,json,jsonc}": [
+      "biome check --write --no-errors-on-unmatched"
+    ],
+    "*.{svelte,md,html,css}": [
+      "prettier --write"
+    ],
+    "*.css": [
+      "stylelint --fix"
+    ]
   }
 }

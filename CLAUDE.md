@@ -15,7 +15,41 @@ This is a modern SvelteKit photoblog powered by Bun runtime supporting **multipl
 - **Image Processing**: Sharp (requires libvips system library)
 - **Testing**: Vitest (unit/integration), Playwright (E2E)
 - **Linting**: Biome, Stylelint
-- **Formatting**: Biome, Prettier
+- **Formatting**: Biome, Prettier (automatic import sorting)
+
+## Coding Guidelines
+
+### Bun Native APIs (Performance)
+
+**Strictly enforced** via pre-commit hooks.
+
+- **File I/O**: ALWAYS use `Bun.file()` / `Bun.write()` instead of `fs` methods.
+  - `await Bun.file(path).text()` (reads text)
+  - `await Bun.write(path, data)` (writes 3x faster)
+  - `await Bun.file(path).exists()` (async check)
+- **Environment**: Use `Bun.env.KEY` instead of `process.env.KEY`.
+- **Shell**: Use `Bun.spawn` instead of `child_process`.
+- **Hashing**: Use `Bun.password` instead of `bcrypt`.
+
+### Testing
+
+- Use **Vitest** for all tests (`import { describe, it, expect } from "vitest"`).
+- **Avoid** `bun:test` syntax to prevent conflicts.
+
+### Imports
+
+- Prettier handles sorting automatically (`node:` → `bun` → libs → local).
+- Use `verbatimModuleSyntax`.
+
+### Advanced Performance Patterns
+
+| Node.js / Libs (❌ AVOID)         | Bun (✅ USE)                     | Why?                                             |
+| --------------------------------- | -------------------------------- | ------------------------------------------------ |
+| `import fg from 'fast-glob'`      | `new Bun.Glob('**/*.ts').scan()` | Native C++ implementation, no V8 overhead.       |
+| `JSON.parse(fs.readFileSync(..))` | `await Bun.file(..).json()`      | Direct buffer parsing, avoids string allocation. |
+| `zlib.gzipSync(data)`             | `Bun.gzipSync(data)`             | Optimized native compression.                    |
+| `crypto.createHash('md5')`        | `Bun.hash(data)`                 | **For non-crypto only**: 5-10x faster (Wyhash).  |
+| `setTimeout(..., ms)`             | `Bun.sleep(ms)`                  | Cleaner syntax, native implementation.           |
 
 ## Gallery Context (`CONTENT_DIR`)
 

@@ -1,0 +1,60 @@
+#!/bin/sh
+# .husky/pre-commit
+
+# 1. Run formatting and linting (Biome) via lint-staged
+# We prefer bun run lint-staged if available to ensure correct environment
+if npm list lint-staged >/dev/null 2>&1 || bun pm ls | grep lint-staged >/dev/null; then
+  bun run lint-staged || exit 1
+fi
+
+# 2. Bun Native API Check
+# Find staged TypeScript/JavaScript/Svelte files
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(ts|js|svelte)$' || true)
+
+if [ -n "$STAGED_FILES" ]; then
+
+  # Check for synchronous Node.js APIs
+  # We use a custom separator output for easier parsing if needed, but standard grep -n is fine
+  FORBIDDEN=$(echo "$STAGED_FILES" | xargs grep -nE "fs\.writeFileSync|fs\.readFileSync|fs\.existsSync|fs\.mkdirSync" /dev/null 2>/dev/null || true)
+  
+  if [ -n "$FORBIDDEN" ]; then
+    echo ""
+    echo "❌ \033[0;31mCOMMIT REJECTED: Synchronous Node.js API detected!\033[0m"
+    echo ""
+    
+    # Set Internal Field Separator to newline to loop over grep output lines
+    IFS='
+'
+    for line in $FORBIDDEN; do
+      FILE=$(echo "$line" | cut -d: -f1)
+      LINE_NUM=$(echo "$line" | cut -d: -f2)
+      CODE_CONTENT=$(echo "$line" | cut -d: -f3- | xargs) # xargs trims whitespace
+
+      # Determine specific suggestion based on the matched function
+      SUGGESTION=""
+      if echo "$CODE_CONTENT" | grep -q "fs.writeFileSync"; then
+        SUGGESTION="Replace with 'await Bun.write(path, data)' (3x faster)"
+      elif echo "$CODE_CONTENT" | grep -q "fs.readFileSync"; then
+        SUGGESTION="Replace with 'await Bun.file(path).text()' (or .arrayBuffer())"
+      elif echo "$CODE_CONTENT" | grep -q "fs.existsSync"; then
+        SUGGESTION="Replace with 'await Bun.file(path).exists()' (Async check)"
+      elif echo "$CODE_CONTENT" | grep -q "fs.mkdirSync"; then
+        SUGGESTION="Bun doesn't have native mkdir yet. Use 'import { mkdir } from \"node:fs/promises\"' and await it."
+      fi
+
+      echo "Path: $FILE"
+      echo "Line: $LINE_NUM"
+      echo ""
+      echo "Comment:"
+      echo "**performance:** Found synchronous Node.js I/O: \`$CODE_CONTENT\`."
+      echo "This blocks the main thread and ignores Bun's native optimizations."
+      echo ""
+      echo "How can I resolve this?"
+      echo "$SUGGESTION"
+      echo "--------------------------------------------------"
+    done
+    unset IFS
+    
+    exit 1
+  fi
+fi
