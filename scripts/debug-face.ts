@@ -1,60 +1,63 @@
-
-import path from "node:path";
+#!/usr/bin/env bun
+import * as tf from "@tensorflow/tfjs-node";
 import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
 import * as canvas from "canvas";
+import path from "node:path";
 import { convertHeicToPng } from "./lib/image-utils";
 import { createLogger } from "./lib/logger";
 
 const logger = createLogger("debug-face");
 
-const SCRIPT_DIR = import.meta.dir;
+async function main() {
+  const imagePathInput = process.argv[2];
+  if (!imagePathInput) {
+    logger.error("Please provide an image path");
+    process.exit(1);
+  }
 
-const FACE_CONFIG = {
-  minConfidence: 0.1,
-  modelPath: path.resolve(SCRIPT_DIR, "models"), // Point to the local models directory
-};
+  const MODELS_DIR = path.resolve(process.cwd(), "scripts/models");
+  logger.info(`Using models from ${MODELS_DIR}`);
 
-faceapi.env.monkeyPatch({
-  Canvas: canvas.Canvas,
-  Image: canvas.Image,
-  ImageData: canvas.ImageData,
-});
+  faceapi.env.monkeyPatch({
+    Canvas: canvas.Canvas as unknown as any,
+    Image: canvas.Image as unknown as any,
+    ImageData: canvas.ImageData as unknown as any,
+  });
 
-async function _run() {
-  await faceapi.nets.ssdMobilenetv1.loadFromDisk(FACE_CONFIG.modelPath);
-  await faceapi.nets.faceLandmark68Net.loadFromDisk(FACE_CONFIG.modelPath);
+  await tf.ready();
+  await faceapi.nets.ssdMobilenetv1.loadFromDisk(MODELS_DIR);
+  await faceapi.nets.faceLandmark68Net.loadFromDisk(MODELS_DIR);
+  await faceapi.nets.faceRecognitionNet.loadFromDisk(MODELS_DIR);
 
-  // Hardcoded path to IMG_8056
-  const imagePath = "content/egypt-2025/pics/IMG_8056.HEIC";
-  logger.info(`Processing ${imagePath}...`);
+  const imagePath = imagePathInput;
+  let imgBuffer: Buffer | undefined;
 
-  let _imgBuffer: Buffer;
   if (imagePath.toLowerCase().endsWith(".heic")) {
-    _imgBuffer = await convertHeicToPng(imagePath);
-  } else {
-    const logger = createLogger("debug-face");
+    logger.info("Converting HEIC to PNG...");
+    imgBuffer = await convertHeicToPng(imagePath);
+    // faceapi/canvas works with buffer
+  }
 
-    async function main() {
-      const imagePath = process.argv[2];
-      if (!imagePath) {
-        logger.error("Please provide an image path");
-        process.exit(1);
-      }
+  logger.info(`Analyzing ${imagePath}...`);
 
-      logger.info(`Analyzing ${imagePath}...`);
+  const input = imgBuffer || imagePath;
+  const img = await canvas.loadImage(input);
 
-      const detector = new FaceDetector();
-      await detector.init();
+  const detections = await faceapi
+    .detectAllFaces(img as any, new faceapi.SsdMobilenetv1Options({ minConfidence: 0.1 }))
+    .withFaceLandmarks()
+    .withFaceDescriptors();
 
-      const faces = await detector.detect(imagePath);
-      logger.info(`Found ${faces.length} faces`);
+  logger.info(`Found ${detections.length} faces`);
 
-      for (const [i, face] of faces.entries()) {
-        logger.info(`Face ${i + 1}: score=${face.score.toFixed(4)} box=${face.box.map((n) => Math.round(n))}`);
-        if (face.descriptor) {
-          logger.info(`  Descriptor length: ${face.descriptor.length}`);
-        }
-      }
+  for (const [i, face] of detections.entries()) {
+    logger.info(
+      `Face ${i + 1}: score=${face.detection.score.toFixed(4)} box=${Math.round(face.detection.box.x)},${Math.round(face.detection.box.y)},${Math.round(face.detection.box.width)},${Math.round(face.detection.box.height)}`,
+    );
+    if (face.descriptor) {
+      logger.info(`  Descriptor length: ${face.descriptor.length}`);
     }
+  }
+}
 
-    main().catch((e) => logger.error(e));
+main().catch((e) => logger.error(e));

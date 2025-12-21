@@ -1,7 +1,7 @@
-import { toast } from "svelte-sonner";
-import { beforeEach, describe, expect, it, vi } from "vitest";
 import { invalidateAll } from "$app/navigation";
 import { performImageAction } from "$lib/utils/api-actions";
+import { toast } from "svelte-sonner";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("svelte-sonner", () => ({
   toast: {
@@ -18,7 +18,7 @@ vi.mock("$app/navigation", () => ({
 describe("api-actions", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    global.fetch = vi.fn();
+    global.fetch = vi.fn() as unknown as typeof fetch;
   });
 
   it("should do nothing if images are empty", async () => {
