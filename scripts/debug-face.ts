@@ -1,8 +1,8 @@
 #!/usr/bin/env bun
+import path from "node:path";
 import * as tf from "@tensorflow/tfjs-node";
 import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
 import * as canvas from "canvas";
-import path from "node:path";
 import { convertHeicToPng } from "./lib/image-utils";
 import { createLogger } from "./lib/logger";
 
