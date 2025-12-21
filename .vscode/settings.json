@@ -22,7 +22,8 @@
   "[svelte]": {
     "editor.codeActionsOnSave": {
       "source.organizeImports": "explicit"
-    }
+    },
+    "editor.defaultFormatter": "svelte.svelte-vscode"
   },
   "svelte.enable-ts-plugin": true,
   "typescript.tsdk": "node_modules/typescript/lib",
