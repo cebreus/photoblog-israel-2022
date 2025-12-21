@@ -1,4 +1,3 @@
-import path from "node:path";
 import { ImageFormat } from "../src/lib/types/images";
 
 const IMAGE_SUBDIR = "pics";
@@ -103,8 +102,8 @@ export const config = {
   blur: {
     enable: false,
     only: false,
-    src: path.resolve(process.cwd(), "../static/assets/egypt-2025/previews-xl"),
-    out: path.resolve(process.cwd(), "../static/assets/egypt-2025/blurs"),
+    src: `static/${contentDir}/images/previews-xl`,
+    out: `static/${contentDir}/images/blurs`,
     width: 24,
     colors: 32,
     formats: [ImageFormat.PNG],
