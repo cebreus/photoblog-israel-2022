@@ -7,6 +7,8 @@
       "README.md",
       "scripts/**/*.ts",
       "src/**/*.ts",
+      "src/**/*.js",
+      "src/**/*.svelte",
       "tests/**/*.ts"
     ],
     "maxSize": 10485760
@@ -24,6 +26,12 @@
     },
     {
       "includes": ["src/data/**/*.manifest.json"],
+      "formatter": {
+        "enabled": false
+      }
+    },
+    {
+      "includes": ["**/*.svelte"],
       "formatter": {
         "enabled": false
       }
