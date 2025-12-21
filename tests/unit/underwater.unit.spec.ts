@@ -63,9 +63,10 @@ describe("fixUnderwaterImage", () => {
 
   it("should process a file path input and save to output path", async () => {
     const inputPath = await createTestImage("underwater_test_input.png");
+    const contentDir = process.env.CONTENT_DIR || "egypt-2025";
     const outputPath = path.resolve(
       process.cwd(),
-      "content/fixed-underwater-images/underwater_test_output.jpg",
+      `content/${contentDir}/fixed-underwater-images/underwater_test_output.jpg`,
     );
     testFiles.push(outputPath);
 
