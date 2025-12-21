@@ -1,8 +1,12 @@
 export function formatDuration(ms: number): string {
   if (ms < 1000) return `${ms.toFixed(0)}ms`;
 
-  const totalSeconds = Math.floor(ms / 1000);
-  const seconds = totalSeconds % 60;
+  const totalSeconds = ms / 1000;
+  if (totalSeconds < 60) {
+    return `${totalSeconds.toFixed(1)}s`;
+  }
+
+  const seconds = Math.floor(totalSeconds % 60);
   const totalMinutes = Math.floor(totalSeconds / 60);
   const minutes = totalMinutes % 60;
   const hours = Math.floor(totalMinutes / 60);

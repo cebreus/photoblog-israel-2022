@@ -35,7 +35,12 @@ export class ProgressManager {
     }
 
     // Ensure prefix is colored or formatted if needed
-    const formattedPrefix = colors.cyan(prefix);
+    const isBoxed = process.env.LOG_STYLE === "boxed";
+    // Progress bars are usually from sub-processes, so we use double bar by default
+    // unless the prefix explicitly starts with [manage]
+    const useDouble = !prefix.includes("[manage]");
+    const boxBar = isBoxed ? (useDouble ? `${colors.dim("│ │")} ` : `${colors.dim("│")}  `) : "";
+    const formattedPrefix = `${boxBar}${colors.cyan(prefix)}`;
 
     const bar = this.multiBar.create(total, 0, {
       prefix: formattedPrefix,

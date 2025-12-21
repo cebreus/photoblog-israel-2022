@@ -8,13 +8,11 @@ export async function run(
     filter?: (line: string) => boolean;
   } = {},
 ): Promise<void> {
-  const _stdio = options.stdio || "inherit";
   const mergedEnv = {
     ...process.env,
     ...Object.fromEntries(Object.entries(options.env || {}).map(([k, v]) => [k, String(v)])),
   };
 
-  // Use Bun.spawn if available, otherwise fallback to Node's child_process for Vitest compatibility
   if (typeof Bun !== "undefined") {
     const shouldPipe = options.stdio === "pipe" || !!options.filter;
     const stdioMode = shouldPipe ? "pipe" : options.stdio || "inherit";
@@ -27,20 +25,20 @@ export async function run(
       env: mergedEnv,
     });
 
-    if (options.filter && proc.stdout && proc.stderr) {
-      // We need to consume the streams and print filtered lines
-      // Pipe proc.stdout -> filter -> process.stdout
-      pipeWithFilter(proc.stdout, process.stdout, options.filter);
-      pipeWithFilter(proc.stderr, process.stderr, options.filter);
+    const pipes: Promise<void>[] = [];
+    if (stdioMode === "pipe" && proc.stdout && proc.stderr) {
+      // Use identity filter if none provided
+      const filter = options.filter || (() => true);
+      pipes.push(pipeWithFilter(proc.stdout, process.stdout, filter));
+      pipes.push(pipeWithFilter(proc.stderr, process.stderr, filter));
     }
 
-    const exitCode = await proc.exited;
+    const [exitCode] = await Promise.all([proc.exited, ...pipes]);
 
     if (exitCode !== 0) {
-      const stderr = options.stdio === "pipe" ? await new Response(proc.stderr).text() : "";
-      throw new Error(
-        `Command '${cmd} ${args.join(" ")}' failed with code ${exitCode}${stderr ? `: ${stderr}` : ""}`,
-      );
+      // If we piped, we might want to capture some stderr for the error message
+      // but pipeWithFilter already relayed it to parent.
+      throw new Error(`Command '${cmd} ${args.join(" ")}' failed with code ${exitCode}`);
     }
     return;
   }
@@ -48,14 +46,13 @@ export async function run(
   // Fallback for Vitest/Node
   return new Promise<void>((resolve, reject) => {
     (async () => {
-      // ... Node implementation doesn't support filter yet for brevity, assuming Bun environment
       const { spawn } = await import("node:child_process");
       const proc = spawn(cmd, args, {
         stdio: options.stdio || "inherit",
         cwd: options.cwd || process.cwd(),
         env: mergedEnv,
       });
-      // ...
+
       proc.on("close", (code) => {
         if (code === 0) resolve();
         else reject(new Error(`Command '${cmd} ${args.join(" ")}' failed with code ${code}`));
@@ -80,7 +77,6 @@ async function pipeWithFilter(
     if (done) break;
     buffer += decoder.decode(value, { stream: true });
 
-    // Split by newlines but keep the last incomplete chunk in buffer
     const lines = buffer.split(/\r?\n/);
     buffer = lines.pop() || "";
 

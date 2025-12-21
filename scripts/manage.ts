@@ -1,11 +1,12 @@
 #!/usr/bin/env bun
 process.env.GLIB_LOG_LEVEL = "critical";
 process.env.OBJC_DISABLE_INITIALIZE_FORK_SAFETY = "YES";
+process.env.LOG_STYLE = "boxed";
 
 import { readdir } from "node:fs/promises";
 import path from "node:path";
 import { parseArgs } from "node:util";
-import { cancel, intro, isCancel, select } from "@clack/prompts";
+import { cancel, intro, isCancel, outro, select } from "@clack/prompts";
 import { createLogger } from "./lib/logger";
 import { run } from "./lib/shell-utils";
 import { formatDuration } from "./lib/time-utils";
@@ -17,7 +18,7 @@ const CONTENT_ROOT = path.resolve(PROJECT_ROOT, "content");
 const logger = createLogger("manage");
 
 const { values, positionals } = parseArgs({
-  args: Bun.argv,
+  args: process.argv.slice(2),
   options: {
     gallery: {
       type: "string",
@@ -81,7 +82,7 @@ async function getAvailableGalleries() {
   }
 }
 
-const command = positionals[2];
+const command = positionals[0];
 const galleryRaw = values.gallery || process.env.CONTENT_DIR;
 let gallery = typeof galleryRaw === "string" ? galleryRaw : "";
 
@@ -100,7 +101,6 @@ async function resolveGalleryAndContinue() {
   // 2. Fallback to interactive if TTY
   if (process.stdout.isTTY) {
     if (!values.help && command && command !== "clean") {
-      intro("📸 Photoblog Manager");
       const selected = await select({
         message: "Select a gallery to process:",
         options: galleries.map((g: string) => ({ value: g, label: g })),
@@ -125,6 +125,7 @@ async function resolveGalleryAndContinue() {
 
 function getCommonFlags() {
   const flags: string[] = [];
+  if (gallery) flags.push(`--gallery=${gallery}`);
   if (values.verbose) flags.push("--verbose");
   if (values.clean) flags.push("--clean");
   if (values["manifest-only"]) flags.push("--manifest-only");
@@ -158,7 +159,7 @@ async function checkManifest(isCuration = false) {
 }
 
 async function cmdFavicons() {
-  logger.info("Generating Favicons (Brand Assets)");
+  logger.info("┌ Generating Favicons (Brand Assets)");
   await run("bun", ["scripts/generate-favicons.ts", ...getCommonFlags()]);
 }
 
@@ -174,12 +175,12 @@ async function cmdImages() {
 }
 
 async function cmdBlur() {
-  logger.info("Generating Blur Placeholders");
+  logger.info("┌ Generating Blur Placeholders");
   await run("bun", [
     "scripts/generate-images.ts",
     "--blur.enable=true",
     "--blur.only=true",
-    "--title=✨ Blur Hash Generation",
+    "--title=Blur Hash Generation",
     ...getCommonFlags(),
   ]);
 }
@@ -225,29 +226,50 @@ async function cmdPreview() {
 }
 
 async function cmdProcess() {
+  const subcommand = positionals[1];
+
+  // If a subcommand is provided, run only that step
+  if (subcommand) {
+    switch (subcommand) {
+      case "favicons":
+        return await cmdFavicons();
+      case "images":
+        return await cmdImages();
+      case "blur":
+        return await cmdBlur();
+      case "analyze":
+        return await cmdAnalyze();
+      case "faces":
+        return await cmdFaces();
+      default:
+        logger.error(`Unknown step: ${subcommand}`);
+        process.exit(1);
+    }
+  }
+
   const startTime = performance.now();
 
-  logger.info("Step 1/5: Favicons");
+  logger.info("┌ Step 1/5: Favicons");
   const t1 = performance.now();
   await cmdFavicons();
   logger.info(`Step 1 complete in ${formatDuration(performance.now() - t1)}`);
 
-  logger.info("Step 2/5: Image Variants");
+  logger.info("┌ Step 2/5: Image Variants");
   const t2 = performance.now();
   await cmdImages();
   logger.info(`Step 2 complete in ${formatDuration(performance.now() - t2)}`);
 
-  logger.info("Step 3/5: Blur Placeholders");
+  logger.info("┌ Step 3/5: Blur Placeholders");
   const t3 = performance.now();
   await cmdBlur();
   logger.info(`Step 3 complete in ${formatDuration(performance.now() - t3)}`);
 
-  logger.info("Step 4/5: Similarity & Aesthetic Analysis");
+  logger.info("┌ Step 4/5: Similarity & Aesthetic Analysis");
   const t4 = performance.now();
   await cmdAnalyze();
   logger.info(`Step 4 complete in ${formatDuration(performance.now() - t4)}`);
 
-  logger.info("Step 5/5: Face Clustering");
+  logger.info("┌ Step 5/5: Face Clustering");
   const t5 = performance.now();
   await cmdFaces();
   logger.info(`Step 5 complete in ${formatDuration(performance.now() - t5)}`);
@@ -258,6 +280,7 @@ async function cmdProcess() {
 }
 
 async function main() {
+  const startTime = performance.now();
   if (values.help || !command) {
     const galleries = await getAvailableGalleries();
     const _galleryList = galleries.length > 0 ? galleries.join(", ") : "none found";
@@ -298,6 +321,10 @@ async function main() {
     process.exit(0);
   }
 
+  if (command !== "dev") {
+    intro("📸 Photoblog Manager");
+  }
+
   await resolveGalleryAndContinue();
 
   try {
@@ -332,6 +359,11 @@ async function main() {
       default:
         logger.error(`Unknown command: ${command}`);
         process.exit(1);
+    }
+
+    if (command !== "dev") {
+      const duration = performance.now() - startTime;
+      outro(`✅ Execution completed in ${formatDuration(duration)}`);
     }
   } catch (error) {
     logger.error((error as Error).message);

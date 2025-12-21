@@ -3,6 +3,7 @@ process.env.GLIB_LOG_LEVEL = "critical";
 import fsp from "node:fs/promises";
 import path from "node:path";
 import { intro, select } from "@clack/prompts";
+import pc from "picocolors";
 import "sharp";
 import type { QualityTypes, ScriptArgs } from "../src/lib/types/manifest";
 import { config } from "./config";
@@ -105,10 +106,6 @@ async function getGalleryOrPrompt(): Promise<string> {
   return galleryId;
 }
 
-function resolveConcurrency(value: number | "auto") {
-  return getConcurrency(value);
-}
-
 function initializeContext() {
   const raw = ARGS.__raw;
   const defaultManifestPath = path.resolve(process.cwd(), config.paths.manifest);
@@ -142,8 +139,13 @@ async function cleanAllOutputs() {
 }
 
 export async function main() {
+  const title = ARGS.__raw.title || "🏭 Image Generator";
   if (!ARGS.quiet) {
-    intro(ARGS.__raw.title || "🏭 Image Generator");
+    if (process.env.LOG_STYLE === "boxed") {
+      logger.info(pc.bold(title));
+    } else {
+      intro(title);
+    }
   }
 
   if (!contentDir && !hasSrcArg) {
@@ -174,7 +176,7 @@ export async function main() {
   }
 
   if (RUNTIME_RAW.blurEnable && RUNTIME_RAW.blurOnly) {
-    await runBlurBuild(RUNTIME_RAW, resolveConcurrency(ARGS.concurrency));
+    await runBlurBuild(RUNTIME_RAW, getConcurrency(ARGS.concurrency));
     return;
   }
 
