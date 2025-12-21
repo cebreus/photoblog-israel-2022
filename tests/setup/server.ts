@@ -1,5 +1,55 @@
+import { spawn, spawnSync } from "node:child_process";
+import fg from "fast-glob";
 import { vi } from "vitest";
 import winston from "winston";
+
+// Polyfill Bun global for Node.js test environment
+if (typeof globalThis.Bun === "undefined") {
+  (globalThis as any).Bun = {
+    file: (path: string) => ({
+      exists: async () => (await import("node:fs")).default.existsSync(path),
+      text: async () => (await import("node:fs/promises")).default.readFile(path, "utf-8"),
+      json: async () =>
+        JSON.parse(await (await import("node:fs/promises")).default.readFile(path, "utf-8")),
+      arrayBuffer: async () =>
+        (await (await import("node:fs/promises")).default.readFile(path)).buffer,
+      stream: () => {
+        const { Readable } = require("node:stream");
+        return Readable.toWeb(require("node:fs").createReadStream(path));
+      },
+    }),
+    write: async (path: string, data: any) => {
+      await (await import("node:fs/promises")).default.mkdir(require("node:path").dirname(path), {
+        recursive: true,
+      });
+      return (await import("node:fs/promises")).default.writeFile(path, data);
+    },
+    spawn: (args: string[], opts: any) => {
+      const proc = spawn(args[0], args.slice(1), opts);
+      return {
+        exited: new Promise((resolve) => proc.on("exit", resolve)),
+        stdout: proc.stdout,
+        stderr: proc.stderr,
+      };
+    },
+    spawnSync: (args: string[], opts: any) => {
+      return spawnSync(args[0], args.slice(1), opts);
+    },
+    Glob: class {
+      pattern: string;
+      constructor(pattern: string) {
+        this.pattern = pattern;
+      }
+      async *scan(opts: any) {
+        const files = await fg(this.pattern, { ...opts, onlyFiles: true });
+        for (const f of files) {
+          yield f;
+        }
+      }
+    },
+    env: process.env,
+  };
+}
 
 // Mock SvelteKit environment
 vi.mock("$app/environment", () => ({

@@ -1,5 +1,3 @@
-import fs from "node:fs";
-import fsp from "node:fs/promises";
 import path from "node:path";
 import fg from "fast-glob";
 import type { Cache } from "../../src/lib/types/manifest";
@@ -33,13 +31,27 @@ export async function migrateGeneratedAssets(gallery: string, renameMap: RenameM
   for (const item of renameMap.values()) {
     for (const folder of outputFolders) {
       const dir = path.join(staticParams.outRoot, folder);
-      if (!fs.existsSync(dir)) continue;
+      // NOTE: Bun doesn't have a direct equivalent for blocking directory existence check easily
+      // However, for this script, we can rely on node:fs/promises or just ignore the check if safe
+      // But adhering to the rule: prevent fs.*Sync.
+      // Since this is a migration script, async is fine.
+      if (!(await Bun.file(dir).exists()) && !(await Bun.file(path.join(dir, ".keep")).exists())) {
+        // Bun.file(dir).exists() returns false for directories usually.
+        // We should use import("node:fs/promises").
+        const exists = await import("node:fs/promises").then((fs) =>
+          fs
+            .access(dir)
+            .then(() => true)
+            .catch(() => false),
+        );
+        if (!exists) continue;
+      }
 
       for (const format of outputFormats) {
         const oldVariant = path.join(dir, `${item.oldBase}.${format}`);
         const newVariant = path.join(dir, `${item.newBase}.${format}`);
 
-        if (fs.existsSync(oldVariant)) {
+        if (await Bun.file(oldVariant).exists()) {
           await safeRename(oldVariant, newVariant);
         }
       }
@@ -205,7 +217,8 @@ export async function migrateCurationManifest(
 export async function migrateMarkdownFiles(gallery: string, renameMap: RenameMap): Promise<void> {
   const mdFiles = await fg("**/*.md", { cwd: path.resolve(`content/${gallery}`), absolute: true });
   for (const mdFile of mdFiles) {
-    let content = await fsp.readFile(mdFile, "utf-8");
+    const file = Bun.file(mdFile);
+    let content = await file.text();
     let changed = false;
 
     for (const item of renameMap.values()) {
@@ -216,7 +229,7 @@ export async function migrateMarkdownFiles(gallery: string, renameMap: RenameMap
     }
 
     if (changed) {
-      await fsp.writeFile(mdFile, content, "utf-8");
+      await Bun.write(mdFile, content);
     }
   }
 }

@@ -1,5 +1,3 @@
-import { execSync } from "node:child_process";
-import fs from "node:fs";
 import fsp from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
@@ -53,7 +51,7 @@ async function prepareTensor(
     if (ext === ".heic" || ext === ".heif") {
       const tempDirPath = await fsp.mkdtemp(path.join(os.tmpdir(), "ai-embed-"));
       tempFile = path.join(tempDirPath, `converted.jpg`);
-      execSync(`vips copy "${imagePath}" "${tempFile}"`);
+      Bun.spawnSync(["vips", "copy", imagePath, tempFile]);
       processingPath = tempFile;
     }
 
@@ -73,8 +71,12 @@ async function prepareTensor(
     return { tensor: new Tensor("float32", floatData, [1, 3, 224, 224]), tempFile };
   } catch (e) {
     logger.error(`Failed to prepare tensor for ${imagePath}:`, e);
-    if (tempFile && fs.existsSync(path.dirname(tempFile))) {
-      await fsp.rm(path.dirname(tempFile), { recursive: true, force: true }).catch(() => {});
+    // Use async check for directory existence using node:fs/promises access equivalent or try/catch
+    if (tempFile) {
+      try {
+        await fsp.access(path.dirname(tempFile));
+        await fsp.rm(path.dirname(tempFile), { recursive: true, force: true }).catch(() => {});
+      } catch {}
     }
     return null;
   }
@@ -123,8 +125,11 @@ export async function generateEmbeddingsBatch(imagePaths: string[]): Promise<num
     return imagePaths.map(() => []);
   } finally {
     for (const p of valid) {
-      if (p.tempFile && fs.existsSync(path.dirname(p.tempFile))) {
-        await fsp.rm(path.dirname(p.tempFile), { recursive: true, force: true }).catch(() => {});
+      if (p.tempFile) {
+        try {
+          await fsp.access(path.dirname(p.tempFile));
+          await fsp.rm(path.dirname(p.tempFile), { recursive: true, force: true }).catch(() => {});
+        } catch {}
       }
     }
   }

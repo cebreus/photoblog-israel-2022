@@ -1,4 +1,3 @@
-import fs from "node:fs";
 import fsp from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
@@ -127,9 +126,12 @@ async function getXxhash() {
 async function calculateFileHash(absPath: string): Promise<string> {
   const { create64 } = await getXxhash();
   const hasher = create64();
-  const stream = fs.createReadStream(absPath);
-  for await (const chunk of stream) {
-    hasher.update(chunk);
+  const stream = Bun.file(absPath).stream();
+  const reader = stream.getReader();
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    hasher.update(value);
   }
   return hasher.digest().toString(16);
 }

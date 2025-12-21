@@ -1,6 +1,5 @@
 import fsp from "node:fs/promises";
 import path from "node:path";
-import fg from "fast-glob";
 import { config } from "../config";
 import type { CliOptions } from "./cli-parser";
 import { ensureDir } from "./image-utils";
@@ -50,11 +49,11 @@ export async function runBlurBuild(raw: Partial<CliOptions>, concurrency: number
   const _sharpModule = await loadSharp();
 
   const inputExts = config.script.inputExtensions;
-  const srcFiles = await fg(`**/*.{${inputExts.join(",")}}`, {
-    cwd: blurSrc,
-    absolute: true,
-    dot: false,
-  });
+  const glob = new Bun.Glob(`**/*.{${inputExts.join(",")}}`);
+  const srcFiles: string[] = [];
+  for await (const file of glob.scan({ cwd: blurSrc, absolute: true, dot: false })) {
+    srcFiles.push(file);
+  }
 
   await ensureDir(blurOut);
 
@@ -74,11 +73,11 @@ export async function runBlurBuild(raw: Partial<CliOptions>, concurrency: number
   await Promise.all(runners);
 
   if (raw.blurClean) {
-    const existing = await fg("**/*", {
-      cwd: blurOut,
-      absolute: true,
-      dot: false,
-    });
+    const glob = new Bun.Glob("**/*");
+    const existing: string[] = [];
+    for await (const file of glob.scan({ cwd: blurOut, absolute: true, dot: false })) {
+      existing.push(file);
+    }
     for (const p of existing) {
       const ext = path.extname(p).slice(1).toLowerCase();
       if (ext !== "png") {

@@ -10,7 +10,7 @@
  * - scripts/lib/gallery-migration.ts (or similar)
  */
 
-import fs from "node:fs";
+// fs import removed
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   migrateCache,
@@ -21,10 +21,17 @@ import * as repo from "../../scripts/lib/manifest-repository";
 import * as renamingUtils from "../../scripts/lib/renaming-utils";
 
 // Mock dependencies
-vi.mock("node:fs", () => ({ default: { existsSync: vi.fn() } }));
-vi.mock("node:fs/promises", () => ({
-  default: { readFile: vi.fn(), writeFile: vi.fn(), rename: vi.fn() },
-}));
+// node:fs mock removed
+vi.mock("node:fs/promises", () => {
+  const fsImpl = {
+    readFile: vi.fn(),
+    writeFile: vi.fn(),
+    rename: vi.fn(),
+    access: vi.fn().mockResolvedValue(undefined),
+    rm: vi.fn(),
+  };
+  return { ...fsImpl, default: fsImpl };
+});
 vi.mock("../../scripts/lib/renaming-utils", () => ({ safeRename: vi.fn() }));
 vi.mock("../../scripts/lib/manifest-repository", () => ({
   loadManifest: vi.fn(),
@@ -72,13 +79,21 @@ describe("gallery-migration", () => {
 
   describe("migrateGeneratedAssets", () => {
     it("should rename assets for all formats", async () => {
-      (fs.existsSync as any).mockReturnValue(true);
+      // Mock Bun.file to return true for existence checks
+      const originalBunFile = Bun.file;
+      Bun.file = vi.fn(() => ({
+        exists: async () => true,
+      })) as any;
 
-      await migrateGeneratedAssets("test-gallery", mockRenameMap as any);
+      try {
+        await migrateGeneratedAssets("test-gallery", mockRenameMap as any);
 
-      // Expect checks for previews-webp, previews, placeholders
-      // old.webp -> new.webp
-      expect(renamingUtils.safeRename).toHaveBeenCalled();
+        // Expect checks for previews-webp, previews, placeholders
+        // old.webp -> new.webp
+        expect(renamingUtils.safeRename).toHaveBeenCalled();
+      } finally {
+        Bun.file = originalBunFile;
+      }
     });
   });
 

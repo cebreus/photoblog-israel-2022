@@ -1,8 +1,6 @@
-import fs from "node:fs";
 import path from "node:path";
 import { confirm, intro, outro, select, spinner, text } from "@clack/prompts";
 import { exiftool } from "exiftool-vendored";
-import fg from "fast-glob";
 import { parseCliArguments } from "./lib/cli-parser";
 import {
   migrateCache,
@@ -23,7 +21,10 @@ const values = options;
 
 async function getGalleries() {
   const contentDir = path.resolve("content");
-  const entries = await fs.promises.readdir(contentDir, { withFileTypes: true });
+
+  const entries = await import("node:fs/promises").then((fs) =>
+    fs.readdir(contentDir, { withFileTypes: true }),
+  );
   return entries.filter((e) => e.isDirectory()).map((e) => e.name);
 }
 
@@ -45,12 +46,12 @@ async function getGalleryOrPrompt(galleries: string[]): Promise<string> {
 }
 
 async function analyzeRenameCandidates(picsDir: string, defaultAuthor: string): Promise<RenameMap> {
-  const files = await fg("*.{jpg,jpeg,png,webp,avif,heic}", {
-    cwd: picsDir,
-    absolute: true,
-    deep: 1,
-    caseSensitiveMatch: false,
-  });
+  const glob = new Bun.Glob("*.{jpg,jpeg,png,webp,avif,heic}");
+  const files: string[] = [];
+
+  for await (const file of glob.scan({ cwd: picsDir, absolute: true })) {
+    files.push(file);
+  }
 
   const renameMap: RenameMap = new Map();
   const usedNames = new Set<string>();
@@ -68,7 +69,7 @@ async function analyzeRenameCandidates(picsDir: string, defaultAuthor: string): 
     let counter = 1;
     while (
       usedNames.has(candidateName) ||
-      (candidateName !== oldName && fs.existsSync(path.join(picsDir, candidateName)))
+      (candidateName !== oldName && (await Bun.file(path.join(picsDir, candidateName)).exists()))
     ) {
       candidateName = `${baseNewName}-${counter}${ext.toLowerCase()}`;
       counter++;
@@ -146,7 +147,9 @@ async function main() {
   s.start("Analyzing images...");
 
   const picsDir = path.resolve(`content/${gallery}/pics`);
-  if (!fs.existsSync(picsDir)) {
+  try {
+    await (await import("node:fs/promises")).access(picsDir);
+  } catch {
     s.stop("No pics folder found!");
     outro(`Directory not found: ${picsDir}`);
     process.exit(1);
