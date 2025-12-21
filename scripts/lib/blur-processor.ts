@@ -44,7 +44,10 @@ export async function runBlurBuild(raw: Partial<CliOptions>, concurrency: number
   const blurSrc = raw.blurSrc || config.blur.src;
   const blurOut = raw.blurOut || config.blur.out;
 
-  logger.info(`Blur build: src=${blurSrc}, out=${blurOut}, format=png`);
+  logger.info(`Blur build:
+    src=${blurSrc}
+    out=${blurOut}
+    format=png`);
 
   const _sharpModule = await loadSharp();
 
