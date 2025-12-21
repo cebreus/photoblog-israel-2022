@@ -15,11 +15,17 @@ export async function runCli(
   args: string[],
   opts?: { cwd?: string; env?: Record<string, string>; timeoutMs?: number },
 ) {
-  // This is the old implementation that spawns a child process.
-  // We will deprecate this in favor of runGenerator for unit tests.
+  return runScript("scripts/generate-images.ts", args, opts);
+}
+
+export async function runScript(
+  scriptPath: string,
+  args: string[],
+  opts?: { cwd?: string; env?: Record<string, string>; timeoutMs?: number },
+) {
   return new Promise<{ code: number; stdout: string; stderr: string }>((resolve, reject) => {
-    const proc = spawn("bun", ["scripts/generate-images.ts", ...args], {
-      cwd: opts?.cwd ?? path.resolve(__dirname, "../../.."),
+    const proc = spawn("bun", [scriptPath, ...args], {
+      cwd: opts?.cwd ?? path.resolve(__dirname, "../.."),
       env: {
         ...process.env,
         SHARP_NUM_THREADS: "1",
@@ -29,7 +35,7 @@ export async function runCli(
       stdio: ["ignore", "pipe", "pipe"],
     });
 
-    logger.verbose(`Executing command: bun scripts/generate-images.ts ${args.join(" ")}`);
+    logger.verbose(`Executing command: bun ${scriptPath} ${args.join(" ")}`);
 
     const timeout = setTimeout(() => {
       try {
