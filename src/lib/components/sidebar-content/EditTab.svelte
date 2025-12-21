@@ -1,5 +1,11 @@
 <script lang="ts">
-  import { invalidateAll } from "$app/navigation";
+  import RotateCcw from "lucide-svelte/icons/rotate-ccw";
+  import Trash2 from "lucide-svelte/icons/trash-2";
+  import X from "lucide-svelte/icons/x";
+  import { toast } from "svelte-sonner";
+  import { fade } from "svelte/transition";
+  import { superForm } from "sveltekit-superforms";
+
   import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
   import * as Accordion from "$lib/components/ui/accordion";
   import { Badge } from "$lib/components/ui/badge";
@@ -12,12 +18,8 @@
   import { metadataClipboard } from "$lib/stores/metadata-clipboard.svelte";
   import { ui } from "$lib/stores/ui.svelte";
   import type { ImageEntry, Separator } from "$lib/types/manifest";
-  import RotateCcw from "lucide-svelte/icons/rotate-ccw";
-  import Trash2 from "lucide-svelte/icons/trash-2";
-  import X from "lucide-svelte/icons/x";
-  import { toast } from "svelte-sonner";
-  import { fade } from "svelte/transition";
-  import { superForm } from "sveltekit-superforms";
+
+  import { invalidateAll } from "$app/navigation";
 
   type DisplayItem = ImageEntry | Separator;
 

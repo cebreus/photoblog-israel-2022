@@ -1,4 +1,7 @@
 <script lang="ts">
+  import CheckSquare from "lucide-svelte/icons/check-square";
+  import Square from "lucide-svelte/icons/square";
+
   import { useFancybox } from "$lib/actions/fancybox";
   import { useScrollspy } from "$lib/actions/scrollspy";
   import Hero from "$lib/components/Hero.svelte";
@@ -10,9 +13,8 @@
   import type { ImageEntry, PhotoDay, Separator } from "$lib/types/manifest";
   import { filterGalleryItems, mergeSparseDays } from "$lib/utils/gallery";
   import { formatDateForDisplay, formatDateRange, formatWeekdayCzech } from "$lib/utils/strings";
+
   import type { PageData } from "./$types";
-  import CheckSquare from "lucide-svelte/icons/check-square";
-  import Square from "lucide-svelte/icons/square";
 
   let { data } = $props<{ data: PageData }>();
 

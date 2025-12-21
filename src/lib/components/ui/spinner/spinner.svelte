@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { cn } from "$lib/utils";
   import Loader2 from "lucide-svelte/icons/loader-2";
+
+  import { cn } from "$lib/utils";
 
   interface Props {
     class?: string;

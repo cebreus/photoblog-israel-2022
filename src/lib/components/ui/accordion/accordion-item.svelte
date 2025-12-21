@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { cn } from "$lib/utils/index.js";
   import { Accordion as AccordionPrimitive } from "bits-ui";
+
+  import { cn } from "$lib/utils/index.js";
 
   let {
     ref = $bindable(null),

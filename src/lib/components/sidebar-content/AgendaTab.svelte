@@ -1,12 +1,14 @@
 <script lang="ts">
-  import { page } from "$app/stores";
-  import * as Sidebar from "$lib/components/ui/sidebar";
-  import { ui } from "$lib/stores/ui.svelte";
-  import type { MenuManifest } from "$lib/types/manifest";
   import { Collapsible } from "bits-ui";
   import Calendar from "lucide-svelte/icons/calendar";
   import ChevronRight from "lucide-svelte/icons/chevron-right";
   import type { HTMLAttributes } from "svelte/elements";
+
+  import * as Sidebar from "$lib/components/ui/sidebar";
+  import { ui } from "$lib/stores/ui.svelte";
+  import type { MenuManifest } from "$lib/types/manifest";
+
+  import { page } from "$app/stores";
 
   export let menuItems: MenuManifest = [];
 </script>

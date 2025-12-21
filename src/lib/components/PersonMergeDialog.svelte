@@ -1,9 +1,10 @@
 <script lang="ts">
+  import ArrowRight from "lucide-svelte/icons/arrow-right";
+  import Loader2 from "lucide-svelte/icons/loader-2";
+
   import { Button } from "$lib/components/ui/button";
   import * as Dialog from "$lib/components/ui/dialog";
   import type { Person } from "$lib/types/manifest";
-  import ArrowRight from "lucide-svelte/icons/arrow-right";
-  import Loader2 from "lucide-svelte/icons/loader-2";
 
   let {
     open = $bindable(false),

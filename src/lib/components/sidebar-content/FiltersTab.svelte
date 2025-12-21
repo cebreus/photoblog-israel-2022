@@ -1,4 +1,9 @@
 <script lang="ts">
+  import Monitor from "lucide-svelte/icons/monitor";
+  import Moon from "lucide-svelte/icons/moon";
+  import Sun from "lucide-svelte/icons/sun";
+  import { mode, resetMode, setMode } from "mode-watcher";
+
   import { Badge } from "$lib/components/ui/badge/";
   import * as Sidebar from "$lib/components/ui/sidebar";
   import { Switch } from "$lib/components/ui/switch";
@@ -9,10 +14,6 @@
   import { QUALITY_BUCKETS } from "$lib/utils/gallery";
   import { getMenuItems } from "$lib/utils/menu";
   import { toSlug } from "$lib/utils/strings";
-  import Monitor from "lucide-svelte/icons/monitor";
-  import Moon from "lucide-svelte/icons/moon";
-  import Sun from "lucide-svelte/icons/sun";
-  import { mode, resetMode, setMode } from "mode-watcher";
 
   type AuthorStats = {
     name: string;

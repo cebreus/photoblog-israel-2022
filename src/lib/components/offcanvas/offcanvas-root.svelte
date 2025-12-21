@@ -1,8 +1,9 @@
 <script lang="ts">
-  import { OFFCANVAS_CONTEXT_KEY, type OffcanvasContext } from "./offcanvas-context";
   import type { Snippet } from "svelte";
   import { setContext } from "svelte";
   import { writable } from "svelte/store";
+
+  import { OFFCANVAS_CONTEXT_KEY, type OffcanvasContext } from "./offcanvas-context";
 
   let {
     children,

@@ -1,4 +1,9 @@
 <script lang="ts">
+  import Archive from "lucide-svelte/icons/archive";
+  import ArrowRightLeft from "lucide-svelte/icons/arrow-right-left";
+  import Copy from "lucide-svelte/icons/copy";
+  import Trash2 from "lucide-svelte/icons/trash-2";
+
   import { useScrollspy } from "$lib/actions/scrollspy";
   import AspectRatioIcon from "$lib/components/AspectRatioIcon.svelte";
   import JsonViewer from "$lib/components/debug/JsonViewer.svelte";
@@ -11,10 +16,6 @@
   import type { CurationGroup, ImageEntry, ImageSource } from "$lib/types/manifest";
   import { cn } from "$lib/utils";
   import { getSources } from "$lib/utils/images";
-  import Archive from "lucide-svelte/icons/archive";
-  import ArrowRightLeft from "lucide-svelte/icons/arrow-right-left";
-  import Copy from "lucide-svelte/icons/copy";
-  import Trash2 from "lucide-svelte/icons/trash-2";
 
   let {
     item,
