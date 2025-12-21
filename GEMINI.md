@@ -66,4 +66,39 @@ The project has a multi-layered testing strategy:
 - **Image Generation:** Image assets are generated via scripts in the `scripts/` directory. These are typically run automatically as part of the `dev` and `build` commands, but can also be run manually:
   - `bun run images:build`: Generate optimized images.
   - `bun run favicons:build`: Generate favicons.
-- **Git Hooks:** The project seems to be set up to use lint-staged (based on the `.lintstagedrc.json` file), likely to run linting and formatting on staged files before committing.
+- **Git Hooks:** The project uses Husky pre-commit hooks to enforce Bun native API usage (blocking synchronous Node.js I/O) and run lint-staged.
+
+## Coding Guidelines
+
+### 1. Bun Native APIs (CRITICAL)
+
+This project runs on **Bun** and prioritizes performance.
+
+- **File I/O:**
+  - ❌ `fs.readFileSync(path)` → ✅ `await Bun.file(path).text()` (or `.arrayBuffer()`)
+  - ❌ `fs.writeFileSync(path)` → ✅ `await Bun.write(path, data)`
+  - ❌ `fs.existsSync(path)` → ✅ `await Bun.file(path).exists()`
+- **Environment:**
+  - ❌ `process.env.KEY` → ✅ `Bun.env.KEY`
+- **Shell:**
+  - ❌ `child_process.spawn` → ✅ `Bun.spawn`
+
+### 2. Testing
+
+- **Framework:** Vitest (`import { describe, it, expect } from "vitest"`)
+- **Avoid:** Do NOT use `bun:test` imports.
+
+### 3. Imports
+
+- Sorted automatically by Prettier (`node:` -> `bun` -> third-party -> local).
+- Do not manually sort.
+
+### 4. Advanced Performance Patterns (Bun)
+
+| Node.js / Libs (❌ AVOID)         | Bun (✅ USE)                     | Why?                                             |
+| --------------------------------- | -------------------------------- | ------------------------------------------------ |
+| `import fg from 'fast-glob'`      | `new Bun.Glob('**/*.ts').scan()` | Native C++ implementation, no V8 overhead.       |
+| `JSON.parse(fs.readFileSync(..))` | `await Bun.file(..).json()`      | Direct buffer parsing, avoids string allocation. |
+| `zlib.gzipSync(data)`             | `Bun.gzipSync(data)`             | Optimized native compression.                    |
+| `crypto.createHash('md5')`        | `Bun.hash(data)`                 | **For non-crypto only**: 5-10x faster (Wyhash).  |
+| `setTimeout(..., ms)`             | `Bun.sleep(ms)`                  | Cleaner syntax, native implementation.           |
