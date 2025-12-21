@@ -538,10 +538,11 @@ export default config;
 **Obsah**:
 
 ```typescript
-import { sveltekit } from "@sveltejs/kit/vite";
 import tailwindcss from "@tailwindcss/vite";
 import devtoolsJson from "vite-plugin-devtools-json";
 import { defineConfig } from "vitest/config";
+
+import { sveltekit } from "@sveltejs/kit/vite";
 
 export default defineConfig({
   plugins: [tailwindcss(), sveltekit(), devtoolsJson()],
@@ -620,9 +621,11 @@ export default defineConfig({
 **Obsah**:
 
 ```typescript
-import { svelte } from "@sveltejs/vite-plugin-svelte";
 import path from "node:path";
+
 import { defineConfig } from "vitest/config";
+
+import { svelte } from "@sveltejs/vite-plugin-svelte";
 
 export default defineConfig({
   plugins: [svelte()],
@@ -1397,6 +1400,7 @@ src/routes/
 
 ```typescript
 import { getMenuItems, getPhotoDays } from "$lib";
+
 import type { MenuManifest, PhotoDay } from "$lib/types/manifest";
 
 export async function load() {
@@ -1468,6 +1472,7 @@ export const prerender = true;
   import favicon from "$lib/assets/favicon.svg?url";
   import Footer from "$lib/components/Footer.svelte";
   import Header from "$lib/components/Header.svelte";
+
   import "../app.css";
 
   let { data, children } = $props();
@@ -1556,6 +1561,7 @@ let { data } = $props<{ data: PageData }>();
   import Hero from "$lib/components/Hero.svelte";
   import PhotoGrid from "$lib/components/PhotoGrid.svelte";
   import { Badge } from "$lib/components/ui/badge/";
+
   import type { PageData } from "./$types";
 
   let { data } = $props<{ data: PageData }>();
@@ -1794,6 +1800,7 @@ import { getMenuItems } from "$lib/menu";
 
 ```typescript
 import manifest from "$lib/images.manifest.json" with { type: "json" };
+
 import type { ImageEntry, ImageSource, Manifest, PhotoDay } from "./types/manifest";
 
 const typedManifest: Manifest = manifest as unknown as Manifest;
@@ -1927,11 +1934,12 @@ Detailní analýza všech Svelte komponent v aplikaci.
 
 ```svelte
 <script lang="ts">
+  import { marked } from "marked";
+
   import { buttonVariants } from "$lib/components/ui/button";
   import * as Dialog from "$lib/components/ui/dialog";
   import { getSources } from "$lib/images";
   import type { ImageEntry, ImageSource, Separator } from "$lib/types/manifest";
-  import { marked } from "marked";
 
   let { items } = $props<{
     items: (ImageEntry | Separator)[];
@@ -2056,11 +2064,12 @@ Detailní analýza všech Svelte komponent v aplikaci.
 
 ```svelte
 <script lang="ts">
+  import { Calendar, ChevronRight, Menu } from "@lucide/svelte";
+
   import Button, { buttonVariants } from "$lib/components/ui/button/button.svelte";
   import * as Sheet from "$lib/components/ui/sheet";
   import * as Sidebar from "$lib/components/ui/sidebar";
   import type { MenuManifest } from "$lib/types/manifest";
-  import { Calendar, ChevronRight, Menu } from "@lucide/svelte";
 
   export let menuItems: MenuManifest = [];
 </script>
@@ -3854,9 +3863,10 @@ e2e/
 **Příklad - CLI parsing test**:
 
 ```typescript
+import { describe, expect, it } from "vitest";
+
 import { buildInputSet } from "../utils/fixtures";
 import { runCli, tmpDir } from "../utils/process-helpers";
-import { describe, expect, it } from "vitest";
 
 describe("CLI (generate-images.ts) – základní chování a parsování parametrů", () => {
   it("aplikuje overrides pro out/manifest/formats/quality", async () => {

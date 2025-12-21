@@ -73,8 +73,9 @@ bun run test
 
 ```typescript
 // Příklad: tests/unit/math.test.ts
-import { add } from "$lib/utils/math";
 import { describe, expect, it } from "vitest";
+
+import { add } from "$lib/utils/math";
 
 describe("add", () => {
   it("adds two numbers", () => {
@@ -105,10 +106,11 @@ Svelte 5 aplikace (a tento projekt) silně využívá globální stores (`$lib/s
 ```typescript
 // Příklad: src/lib/components/MyComponent.svelte.test.ts
 // Důležité: page objekt pro selektory
-import MyComponent from "./MyComponent.svelte";
 import { page } from "@vitest/browser/context";
 import { describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-svelte";
+
+import MyComponent from "./MyComponent.svelte";
 
 // 1. Mockování globálního storu
 vi.mock("$lib/stores/editorState", () => ({

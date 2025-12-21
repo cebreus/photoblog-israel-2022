@@ -23,10 +23,12 @@
 </script>
 
 <script lang="ts">
-  import { type WithoutChildrenOrChild, cn } from "$lib/utils";
-  import SheetOverlay from "./sheet-overlay.svelte";
   import { Dialog as SheetPrimitive } from "bits-ui";
   import type { Snippet } from "svelte";
+
+  import { type WithoutChildrenOrChild, cn } from "$lib/utils";
+
+  import SheetOverlay from "./sheet-overlay.svelte";
 
   let {
     ref = $bindable(null),

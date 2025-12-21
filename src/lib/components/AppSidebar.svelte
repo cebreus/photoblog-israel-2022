@@ -1,6 +1,12 @@
 <script lang="ts">
-  import { dev } from "$app/environment";
-  import { page } from "$app/stores";
+  import Calendar from "lucide-svelte/icons/calendar";
+  import Pencil from "lucide-svelte/icons/pencil";
+  import SlidersHorizontal from "lucide-svelte/icons/sliders-horizontal";
+  import User from "lucide-svelte/icons/user";
+  // Restore User icon
+  import type { ComponentProps } from "svelte";
+  import { untrack } from "svelte";
+
   import AgendaTab from "$lib/components/sidebar-content/AgendaTab.svelte";
   import EditTab from "$lib/components/sidebar-content/EditTab.svelte";
   import FiltersTab from "$lib/components/sidebar-content/FiltersTab.svelte";
@@ -10,13 +16,9 @@
   import { editor } from "$lib/stores/editor.svelte";
   import { ui } from "$lib/stores/ui.svelte";
   import type { MenuManifest, PhotoDay } from "$lib/types/manifest";
-  import Calendar from "lucide-svelte/icons/calendar";
-  import Pencil from "lucide-svelte/icons/pencil";
-  import SlidersHorizontal from "lucide-svelte/icons/sliders-horizontal";
-  import User from "lucide-svelte/icons/user";
-  // Restore User icon
-  import type { ComponentProps } from "svelte";
-  import { untrack } from "svelte";
+
+  import { dev } from "$app/environment";
+  import { page } from "$app/stores";
 
   type AuthorStats = {
     name: string;

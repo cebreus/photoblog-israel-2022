@@ -1,9 +1,4 @@
 <script lang="ts">
-  import { Button } from "$lib/components/ui/button";
-  import * as Dialog from "$lib/components/ui/dialog";
-  import { people } from "$lib/stores/people.svelte";
-  import type { ImageEntry, Person } from "$lib/types/manifest";
-  import SelectionBulkActions from "./SelectionBulkActions.svelte";
   import CheckCheck from "lucide-svelte/icons/check-check";
   import EyeOff from "lucide-svelte/icons/eye-off";
   import Loader2 from "lucide-svelte/icons/loader-2";
@@ -11,6 +6,13 @@
   import Trash2 from "lucide-svelte/icons/trash-2";
   import User from "lucide-svelte/icons/user";
   import { toast } from "svelte-sonner";
+
+  import { Button } from "$lib/components/ui/button";
+  import * as Dialog from "$lib/components/ui/dialog";
+  import { people } from "$lib/stores/people.svelte";
+  import type { ImageEntry, Person } from "$lib/types/manifest";
+
+  import SelectionBulkActions from "./SelectionBulkActions.svelte";
 
   let {
     open = $bindable(false),

@@ -1,8 +1,9 @@
 <script lang="ts">
-  import type { Person } from "$lib/types/manifest";
-  import { cn } from "$lib/utils";
   import User from "lucide-svelte/icons/user";
   import type { Snippet } from "svelte";
+
+  import type { Person } from "$lib/types/manifest";
+  import { cn } from "$lib/utils";
 
   let {
     person,

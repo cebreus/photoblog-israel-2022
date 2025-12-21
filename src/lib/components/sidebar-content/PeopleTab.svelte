@@ -1,7 +1,15 @@
 <script lang="ts">
-  import { dev } from "$app/environment";
-  import { goto } from "$app/navigation";
-  import { page } from "$app/stores";
+  import Ban from "lucide-svelte/icons/ban";
+  import Check from "lucide-svelte/icons/check";
+  import EyeOff from "lucide-svelte/icons/eye-off";
+  import Loader2 from "lucide-svelte/icons/loader-2";
+  import RotateCcw from "lucide-svelte/icons/rotate-ccw";
+  import User from "lucide-svelte/icons/user";
+  import Users from "lucide-svelte/icons/users";
+  import X from "lucide-svelte/icons/x";
+  import { untrack } from "svelte";
+  import { toast } from "svelte-sonner";
+
   import PersonDetailDialog from "$lib/components/PersonDetailDialog.svelte";
   import PersonMergeDialog from "$lib/components/PersonMergeDialog.svelte";
   import * as Accordion from "$lib/components/ui/accordion";
@@ -14,18 +22,14 @@
   import { people } from "$lib/stores/people.svelte";
   import type { ImageEntry, Person } from "$lib/types/manifest";
   import { getVisiblePeople } from "$lib/utils/people";
+
+  import { dev } from "$app/environment";
+  import { goto } from "$app/navigation";
+  import { page } from "$app/stores";
+
   import SelectionBulkActions from "../SelectionBulkActions.svelte";
+
   import CategoryPersonCard from "./CategoryPersonCard.svelte";
-  import Ban from "lucide-svelte/icons/ban";
-  import Check from "lucide-svelte/icons/check";
-  import EyeOff from "lucide-svelte/icons/eye-off";
-  import Loader2 from "lucide-svelte/icons/loader-2";
-  import RotateCcw from "lucide-svelte/icons/rotate-ccw";
-  import User from "lucide-svelte/icons/user";
-  import Users from "lucide-svelte/icons/users";
-  import X from "lucide-svelte/icons/x";
-  import { untrack } from "svelte";
-  import { toast } from "svelte-sonner";
 
   // Types for API responses
   type ApiResponse = {
