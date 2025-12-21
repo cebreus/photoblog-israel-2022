@@ -19,18 +19,18 @@ function findImageById(manifestData: Manifest, id: string): ImageEntry | undefin
 
 export async function POST({ request }) {
   if (!dev) {
-    throw error(403, "Úprava metadat je povolena pouze v režimu vývoje.");
+    throw error(403, "Metadata modification is only permitted in development mode.");
   }
 
   const { imageIds, metadata } = await request.json();
 
   if (!Array.isArray(imageIds) || imageIds.length === 0) {
-    throw error(400, "Nebyla poskytnuta žádná ID obrázků.");
+    throw error(400, "No image IDs provided.");
   }
 
   const contentDir = process.env.CONTENT_DIR;
   if (!contentDir) {
-    throw error(500, "Proměnná prostředí CONTENT_DIR není nastavena.");
+    throw error(500, "The CONTENT_DIR environment variable is not set.");
   }
 
   const results = {
@@ -55,13 +55,13 @@ export async function POST({ request }) {
   const tags = getExifToolWriteTags(updates);
 
   if (Object.keys(tags).length === 0) {
-    return json({ message: "Nebyla detekována žádná změna metadat", results });
+    return json({ message: "No metadata changes detected", results });
   }
 
   const manifestPath = path.resolve(process.cwd(), `src/data/${contentDir}/images.manifest.json`);
   const manifestFile = Bun.file(manifestPath);
   if (!(await manifestFile.exists())) {
-    throw error(500, `Manifest nebyl nalezen na ${manifestPath}`);
+    throw error(500, `Manifest was not found at ${manifestPath}`);
   }
   const manifest = await manifestFile.json();
 
@@ -69,7 +69,7 @@ export async function POST({ request }) {
     try {
       const imageEntry = findImageById(manifest as Manifest, id);
       if (!imageEntry) {
-        throw new Error(`ID obrázku ${id} nebylo nalezeno v manifestu.`);
+        throw new Error(`Image ID ${id} was not found in the manifest.`);
       }
 
       let filePath = path.join(contentRoot, imageEntry.src);
@@ -98,7 +98,7 @@ export async function POST({ request }) {
   } catch (_err) {}
 
   return json({
-    message: "Zpracování dávky dokončeno",
+    message: "Batch processing completed",
     stats: {
       total: imageIds.length,
       success: results.success.length,

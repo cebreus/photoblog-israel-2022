@@ -1,6 +1,7 @@
 import fsp from "node:fs/promises";
 import path from "node:path";
-import { json } from "@sveltejs/kit";
+import { error, json } from "@sveltejs/kit";
+import { dev } from "$app/environment";
 import type { FacesManifest, ImageEntry } from "$lib/types/manifest";
 import { validateIgnoreFaceInput } from "$lib/utils/api-validators";
 import type { ClusteringConstraints } from "$lib/utils/manifest-validators";
@@ -18,6 +19,9 @@ import {
 const logger = createLogger("api:people:ignore");
 
 export async function POST({ request }) {
+  if (!dev) {
+    throw error(403, "Manifest modifications are not permitted on the production server.");
+  }
   const body = await request.json();
   const validation = validateIgnoreFaceInput(body);
 
