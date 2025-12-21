@@ -7,6 +7,7 @@ node_modules/
 .temp/
 .vercel/
 build/
+build-*/
 content/*/archive/
 content/*/pics/
 static/*/archive/
