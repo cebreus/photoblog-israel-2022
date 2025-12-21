@@ -2,7 +2,7 @@
   import Circle from "@lucide/svelte/icons/circle";
   import { ContextMenu as ContextMenuPrimitive } from "bits-ui";
 
-  import { type WithoutChild, cn } from "$lib/utils";
+  import { cn, type WithoutChild } from "$lib/utils";
 
   let {
     ref = $bindable(null),

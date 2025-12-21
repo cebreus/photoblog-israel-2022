@@ -3,7 +3,7 @@
   import type { HTMLAnchorAttributes } from "svelte/elements";
 
   import Badge from "$lib/components/ui/badge/badge.svelte";
-  import { type WithElementRef, cn } from "$lib/utils";
+  import { cn, type WithElementRef } from "$lib/utils";
 
   let {
     ref = $bindable(null),

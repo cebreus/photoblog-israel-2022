@@ -1,7 +1,6 @@
-import { get } from "svelte/store";
 import { browser, dev } from "$app/environment";
 import { goto } from "$app/navigation";
-import { page } from "$app/stores";
+import { page } from "$app/state";
 import { editor } from "$lib/stores/editor.svelte";
 import { filters } from "$lib/stores/filters.svelte";
 import { ui } from "$lib/stores/ui.svelte";
@@ -232,7 +231,7 @@ export function syncUrlFromFilters() {
   filters.filtersSyncing = true;
 
   debounceTimer = setTimeout(async () => {
-    const pageVal = get(page);
+    const pageVal = page;
     const params = new URLSearchParams(pageVal.url.searchParams.toString());
 
     params.delete("author");
@@ -298,8 +297,7 @@ export function initUrlSync(initialAuthors: Author[]) {
 
   authors = initialAuthors;
 
-  // 1. Initialize states from URL on first load
-  const pageVal = get(page);
+  const pageVal = page;
   lastUrl = pageVal.url;
   initializeFiltersFromUrl(pageVal.url);
 
@@ -325,7 +323,7 @@ export function initUrlSync(initialAuthors: Author[]) {
 
     // 3. When URL changes (e.g., back/forward button), update the states
     $effect(() => {
-      const newPage = get(page);
+      const newPage = page;
       if (filters.filtersSyncing) return;
 
       if (newPage.url.toString() !== lastUrl.toString()) {
