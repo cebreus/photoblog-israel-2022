@@ -17,7 +17,7 @@
     "faces:cluster": "bun scripts/face-clustering.ts",
     "faces:audit": "bun scripts/audit-orphans.ts",
     "lint": "prettier -c \"src/**/*.{svelte,md,html,css}\" && stylelint 'src/**/*.css' && biome check src scripts tests",
-    "format": "prettier -l -w -c --no-error-on-unmatched-pattern \"src/**/*.{svelte,md,html,css}\" \"content/**/*.md\" \"docs/**/*.md\" && stylelint --fix 'src/**/*.css' && biome check --write --unsafe src scripts tests",
+    "format": "prettier -l -w --no-error-on-unmatched-pattern \"src/**/*.{svelte,md,html,css}\" \"content/**/*.md\" \"docs/**/*.md\" && stylelint --fix 'src/**/*.css' && biome check --write --unsafe src scripts tests",
     "lint:ci": "biome check --reporter=summary --diagnostic-level=warn .",
     "lint-staged": "lint-staged",
     "test": "vitest run",
