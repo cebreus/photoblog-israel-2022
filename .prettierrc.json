@@ -32,14 +32,12 @@
     {
       "files": "*.svelte",
       "options": {
-        "parser": "svelte"
+        "parser": "svelte",
+        "svelteIndentScriptAndStyle": true
       }
     },
     {
-      "files": [
-        "*.html",
-        "*.htm"
-      ],
+      "files": ["*.html", "*.htm"],
       "options": {
         "printWidth": 1000,
         "tabWidth": 2,
@@ -53,12 +51,7 @@
         "embeddedLanguageFormatting": "off",
         "singleAttributePerLine": false,
         "proseWrap": "never",
-        "attributeGroups": [
-          "^class$",
-          "^(id|name)$",
-          "$DEFAULT",
-          "^aria-"
-        ]
+        "attributeGroups": ["^class$", "^(id|name)$", "$DEFAULT", "^aria-"]
       }
     }
   ]
