@@ -3,7 +3,7 @@ export class UIState {
   sidebarOpen = $state(true);
   curationMode = $state(false);
   photoLabels = $state(false);
-  debug = $state(false);
+  debugMode = $state(false);
   activeSections = $state(new Set<string>());
 
   toggleSidebar() {
@@ -22,12 +22,25 @@ export class UIState {
     this.curationMode = value;
   }
 
+  /**
+   * Centralized logic to determine if curation-specific UI (amber borders, "Compare" buttons)
+   * should be visible on a grid item.
+   *
+   * It's only visible when:
+   * 1. Curation mode is enabled.
+   * 2. The item actually belongs to a duplicate group.
+   * 3. The item is NOT already being displayed inside the curation detail view.
+   */
+  isCurationVisualsVisible(hasGroup: boolean, mode: string) {
+    return this.curationMode && hasGroup && mode !== "curation";
+  }
+
   setPhotoLabels(value: boolean) {
     this.photoLabels = value;
   }
 
-  setDebug(value: boolean) {
-    this.debug = value;
+  setDebugMode(value: boolean) {
+    this.debugMode = value;
   }
 
   addSection(id: string) {
@@ -54,7 +67,7 @@ declare global {
 if (typeof window !== "undefined") {
   $effect.root(() => {
     $effect(() => {
-      window.ui_debug = ui.debug;
+      window.ui_debug = ui.debugMode;
     });
   });
 }

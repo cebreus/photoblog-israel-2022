@@ -50,7 +50,7 @@
 
   function toggleAuthor(slug: string, displayName?: string) {
     const previous = filters.selectedAuthors;
-    if (ui.debug) {
+    if (ui.debugMode) {
       console.debug("filters: toggleAuthor start", {
         slug,
         name: displayName,

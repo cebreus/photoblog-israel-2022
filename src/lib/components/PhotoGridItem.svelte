@@ -64,7 +64,7 @@
   }
 
   function handleImageClick(id: string, e: MouseEvent | KeyboardEvent) {
-    if (!isEditMode) return;
+    if (!editor.editMode) return;
     if (e instanceof KeyboardEvent && e.key !== "Enter" && e.key !== " ") return;
     e.preventDefault();
     if (onSelect) {
@@ -74,15 +74,13 @@
     }
   }
 
-  let isEditMode = $derived(editor.editMode);
   let isSelected = $derived(editor.selection.has(item.id));
-  let isCurationActive = $derived(ui.curationMode && !!curationGroup);
-  let showOverlay = $derived(editor.showMetadataOverlay);
+  let showCurationVisuals = $derived(ui.isCurationVisualsVisible(!!curationGroup, mode));
   let fallback = $derived(findFallbackSource(item)!);
   let detailSource = $derived(findDetailSource(item));
 
   function handleOpenDialog(e: MouseEvent) {
-    if (!isCurationActive || !curationGroup) return;
+    if (!ui.curationMode || !curationGroup) return;
     e.stopPropagation();
     e.preventDefault();
     onOpenCurationDialog?.(curationGroup);
@@ -93,8 +91,6 @@
     e.preventDefault();
     onDelete?.(item);
   }
-
-  let isCurationModeLayout = $derived(mode === "curation");
 </script>
 
 {#snippet MetadataBlock({ item }: { item: ImageEntry })}
@@ -251,24 +247,18 @@
   <ContextMenu.Trigger
     class={cn(
       "group relative block rounded-lg text-left",
-      isCurationModeLayout
+      mode === "curation"
         ? "flex w-64 flex-col rounded border bg-white p-2 shadow-sm transition-shadow hover:shadow-md dark:bg-slate-800"
         : "",
     )}
     data-testid={`photo-grid-item-container-${item.id}`}
-    disabled={!isEditMode && !isCurationActive}
+    disabled={!editor.editMode && !(ui.curationMode && !!curationGroup)}
   >
     <svelte:element
-      this={isEditMode ? "div" : "a"}
-      href={isEditMode || (isCurationActive && !isCurationModeLayout)
-        ? undefined
-        : detailSource?.path}
-      data-fancybox={isEditMode || (isCurationActive && !isCurationModeLayout)
-        ? undefined
-        : "gallery"}
-      data-caption={isEditMode || (isCurationActive && !isCurationModeLayout)
-        ? undefined
-        : item.alt}
+      this={editor.editMode ? "div" : "a"}
+      href={editor.editMode || showCurationVisuals ? undefined : detailSource?.path}
+      data-fancybox={editor.editMode || showCurationVisuals ? undefined : "gallery"}
+      data-caption={editor.editMode || showCurationVisuals ? undefined : item.alt}
       class="group relative block rounded-lg text-left"
       data-testid="photo-grid-item"
     >
@@ -281,11 +271,8 @@
           isSelected
             ? "ring-2 ring-blue-300 outline-4 outline-blue-500"
             : "outline-4 outline-offset-2 hover:outline-orange-100",
-          // Only apply amber border if NOT in curation layout mode (where layout itself indicates grouping)
-          isCurationActive &&
-            !isCurationModeLayout &&
-            "border-amber-500 outline-2 outline-amber-500/50",
-          ui.debug && "flex flex-col",
+          showCurationVisuals && "border-amber-500 outline-2 outline-amber-500/50",
+          ui.debugMode && "flex flex-col",
         )}
         style={`background-color: ${item.placeholderColor}`}
       >
@@ -297,8 +284,8 @@
             data-testid="photo-grid-item-scrollspy-anchor-{scrollspyId}"
           ></div>
         {/if}
-        {#if !isEditMode}
-          <picture class={`${ui.debug ? "shrink-0" : ""}`}>
+        {#if !editor.editMode}
+          <picture class={`${ui.debugMode ? "shrink-0" : ""}`}>
             {#each getSources(item) as source (source.type)}
               <source
                 type={source.type}
@@ -329,7 +316,7 @@
         {/if}
       </figure>
 
-      {#if isCurationActive && !isCurationModeLayout}
+      {#if showCurationVisuals}
         <div class="pointer-events-none absolute top-2 left-2">
           <div class="rounded bg-amber-500 px-1.5 py-0.5 text-[10px] font-bold text-white shadow">
             DUPLICITY
@@ -341,20 +328,20 @@
         <AspectRatioIcon aspectRatio={item.aspectRatio} />
       {/if}
 
-      {#if isEditMode || (isCurationActive && !isCurationModeLayout)}
+      {#if editor.editMode || showCurationVisuals}
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <div
           class={cn(
             "absolute inset-0 aspect-video cursor-pointer transition-colors",
             isSelected ? "bg-blue-500/20" : "hover:bg-black/20",
-            isCurationActive && !isCurationModeLayout && "bg-amber-500/10 hover:bg-amber-500/20",
-            !isEditMode && isCurationActive ? "" : "bg-black/10",
+            showCurationVisuals && "bg-amber-500/10 hover:bg-amber-500/20",
+            !editor.editMode && ui.curationMode && !!curationGroup ? "" : "bg-black/10",
           )}
           data-testid={`photo-grid-item-overlay-${item.id}`}
-          onclick={(e: MouseEvent) => (isEditMode ? handleImageClick(item.id, e) : undefined)}
+          onclick={(e: MouseEvent) => (editor.editMode ? handleImageClick(item.id, e) : undefined)}
         >
-          {#if isEditMode}
+          {#if editor.editMode}
             <div class="pointer-events-auto absolute top-2 right-2">
               <div
                 class={`h-6 w-6 rounded border border-white ${isSelected ? "bg-blue-500" : "bg-black/50"} flex shrink-0 items-center justify-center`}
@@ -379,7 +366,7 @@
             </div>
           {/if}
 
-          {#if isCurationActive && !isCurationModeLayout}
+          {#if showCurationVisuals}
             <div
               class="pointer-events-none absolute inset-0 flex items-center justify-center gap-2"
             >
@@ -402,20 +389,20 @@
 
     {@render MetadataTable({ item })}
 
-    {#if ui.debug}
+    {#if ui.debugMode}
       <div
         class="mt-2 rounded-md bg-slate-950 p-2 overflow-x-auto whitespace-nowrap text-xs text-white"
       >
         <JsonViewer data={item} />
       </div>
     {/if}
-    {#if isCurationModeLayout}
+    {#if mode === "curation"}
       {@render MetadataBlock({ item })}
       {@render CurationActions()}
     {/if}
   </ContextMenu.Trigger>
 
-  {#if isEditMode}
+  {#if editor.editMode}
     <ContextMenu.Portal>
       <ContextMenu.Content class="w-56">
         <ContextMenu.Item

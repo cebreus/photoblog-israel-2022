@@ -54,9 +54,9 @@
     </Button>
 
     <Button
-      variant={ui.debug ? "secondary" : "ghost"}
+      variant={ui.debugMode ? "secondary" : "ghost"}
       size="icon"
-      onclick={() => ui.setDebug(!ui.debug)}
+      onclick={() => ui.setDebugMode(!ui.debugMode)}
       aria-label="Přepnout režim ladění"
       data-testid="header-debug-trigger"
     >
