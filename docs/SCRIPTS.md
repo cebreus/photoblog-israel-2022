@@ -52,6 +52,34 @@ Kompletní pipeline pro zpracování dat (obrázky -> AI -> favicons).
 - **`bun run process`** - Interaktivní výběr.
 - **`bun run process -- -g egypt-2025`** - Spustí pipeline pro konkrétní galerii.
 
+### Podporované argumenty (všechny skripty)
+
+Většinu argumentů lze předat skrze `manage.ts` pomocí syntaxe `bun scripts/manage.ts <command> --flag=value`.
+
+| Flag              | Popis                                     | Výchozí         |
+| :---------------- | :---------------------------------------- | :-------------- |
+| `--gallery`, `-g` | Cílová galerie (např. `israel-2022`)      | `egypt-2025`    |
+| `--verbose`, `-v` | Povolí detailní logování                  | `false`         |
+| `--clean`         | Smaže výstupní adresář před procesem      | `false`         |
+| `--manifest-only` | Pouze aktualizace manifestu (bez souborů) | `false`         |
+| `--concurrency`   | Počet paralelních úloh                    | `auto`          |
+| `--limit`         | Omezení počtu zpracovaných obrázků        | `0` (neomezeno) |
+
+### Specifické argumenty pro sub-kroky
+
+#### Image Processing (`images`, `blur`)
+
+- `--watch`: Sleduje změny v `content/` a automaticky regeneruje.
+- `--curation`: Zapne detekci duplikátů a generování kurátorského manifestu.
+
+#### AI & Analysis (`analyze`, `faces`)
+
+- `--batch-size`: Velikost dávky pro AI modely (default: `8`).
+- `--time-window`: Časové okno pro hledání podobností v hodinách (default: `4`).
+- `--threshold`: Práh podobnosti pro obličeje (0.1 - 1.0, default: `0.6`).
+- `--min-confidence`: Minimální jistota detekce obličeje (default: `0.5`).
+- `--min-face-size`: Minimální velikost obličeje v pixelech (např. `80`).
+
 ### Image processing
 
 - **`bun run images:build`** - Vygeneruje všechny varianty obrázků pro výchozí galerii

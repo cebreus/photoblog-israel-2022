@@ -52,6 +52,18 @@ const { values, positionals } = parseArgs({
     concurrency: {
       type: "string",
     },
+    threshold: {
+      type: "string",
+    },
+    "min-confidence": {
+      type: "string",
+    },
+    "min-face-size": {
+      type: "string",
+    },
+    watch: {
+      type: "boolean",
+    },
   },
   strict: false,
   allowPositionals: true,
@@ -73,34 +85,43 @@ const command = positionals[2];
 const galleryRaw = values.gallery || process.env.CONTENT_DIR;
 let gallery = typeof galleryRaw === "string" ? galleryRaw : "";
 
-if (!gallery && command && command !== "clean") {
-  if (!values.help) {
-    if (process.stdout.isTTY) {
-      const galleries = await getAvailableGalleries();
+async function resolveGalleryAndContinue() {
+  const galleries = await getAvailableGalleries();
 
-      if (galleries.length > 1) {
-        intro("📸 Photoblog Manager");
-        const selected = await select({
-          message: "Select a gallery to process:",
-          options: galleries.map((g: string) => ({ value: g, label: g })),
-          initialValue: DEFAULT_GALLERY,
-        });
+  // 1. If gallery provided, validate it
+  if (gallery) {
+    if (galleries.includes(gallery)) {
+      process.env.CONTENT_DIR = gallery;
+      return;
+    }
+    logger.warn(`Gallery "${gallery}" not found in content/.`);
+  }
 
-        if (isCancel(selected)) {
-          cancel("Operation cancelled.");
-          process.exit(0);
-        }
+  // 2. Fallback to interactive if TTY
+  if (process.stdout.isTTY) {
+    if (!values.help && command && command !== "clean") {
+      intro("📸 Photoblog Manager");
+      const selected = await select({
+        message: "Select a gallery to process:",
+        options: galleries.map((g: string) => ({ value: g, label: g })),
+        initialValue: DEFAULT_GALLERY,
+      });
 
-        gallery = selected as string;
-      } else if (galleries.length === 1) {
-        gallery = galleries[0];
+      if (isCancel(selected)) {
+        cancel("Operation cancelled.");
+        process.exit(0);
       }
+
+      gallery = selected as string;
+      process.env.CONTENT_DIR = gallery;
+      return;
     }
   }
-}
 
-gallery = gallery || DEFAULT_GALLERY;
-process.env.CONTENT_DIR = gallery;
+  // 3. Fallback to default
+  gallery = DEFAULT_GALLERY;
+  process.env.CONTENT_DIR = gallery;
+}
 
 function getCommonFlags() {
   const flags: string[] = [];
@@ -112,6 +133,10 @@ function getCommonFlags() {
   if (values["batch-size"]) flags.push(`--batch-size=${values["batch-size"]}`);
   if (values["time-window"]) flags.push(`--time-window=${values["time-window"]}`);
   if (values.concurrency) flags.push(`--concurrency=${values.concurrency}`);
+  if (values.threshold) flags.push(`--threshold=${values.threshold}`);
+  if (values["min-confidence"]) flags.push(`--minConfidence=${values["min-confidence"]}`);
+  if (values["min-face-size"]) flags.push(`--minFaceSize=${values["min-face-size"]}`);
+  if (values.watch) flags.push("--watch");
   return flags;
 }
 
@@ -132,11 +157,48 @@ async function checkManifest(isCuration = false) {
   await run("bun", flags);
 }
 
+async function cmdFavicons() {
+  logger.info("Generating Favicons (Brand Assets)");
+  await run("bun", ["scripts/generate-favicons.ts", ...getCommonFlags()]);
+}
+
+async function cmdImages() {
+  logger.info("Generating Image Variants (Resizing & Basic Metadata)");
+  await run("bun", [
+    "scripts/generate-images.ts",
+    "--title=🏭 Image Variants & Metadata",
+    "--skipFaces",
+    "--skipEmbeddings",
+    ...getCommonFlags(),
+  ]);
+}
+
+async function cmdBlur() {
+  logger.info("Generating Blur Placeholders");
+  await run("bun", [
+    "scripts/generate-images.ts",
+    "--blur.enable=true",
+    "--blur.only=true",
+    "--title=✨ Blur Hash Generation",
+    ...getCommonFlags(),
+  ]);
+}
+
+async function cmdFaces() {
+  logger.info("Face Clustering & Recognition");
+  await run("bun", ["scripts/face-clustering.ts", ...getCommonFlags()], {
+    filter: (line) => {
+      if (line.includes("GNotificationCenterDelegate") && line.includes("implemented in both"))
+        return false;
+      if (line.includes("lib/libvips-cpp.") && line.includes("libgio-2.0.0.dylib")) return false;
+      return true;
+    },
+  });
+}
+
 async function cmdDev() {
   await checkManifest(false);
-
-  await run("bun", ["scripts/generate-favicons.ts"]);
-
+  await cmdFavicons();
   await run("bun", ["run", "vite", "dev"]);
 }
 
@@ -144,9 +206,7 @@ async function cmdBuild() {
   const outputDir = `build-${gallery}`;
 
   await run("bun", ["scripts/generate-images.ts", ...getCommonFlags()]);
-
-  await run("bun", ["scripts/generate-favicons.ts"]);
-
+  await cmdFavicons();
   await run("bun", ["run", "vite", "build"], { env: { OUTPUT_DIR: outputDir } });
 }
 
@@ -167,31 +227,19 @@ async function cmdPreview() {
 async function cmdProcess() {
   const startTime = performance.now();
 
-  logger.info("Step 1/5: Generating Favicons (Brand Assets)");
+  logger.info("Step 1/5: Favicons");
   const t1 = performance.now();
-  await run("bun", ["scripts/generate-favicons.ts", ...getCommonFlags()]);
+  await cmdFavicons();
   logger.info(`Step 1 complete in ${formatDuration(performance.now() - t1)}`);
 
-  logger.info("Step 2/5: Generating Image Variants (Resizing & Basic Metadata)");
+  logger.info("Step 2/5: Image Variants");
   const t2 = performance.now();
-  await run("bun", [
-    "scripts/generate-images.ts",
-    "--title=🏭 Image Variants & Metadata",
-    "--skipFaces",
-    "--skipEmbeddings",
-    ...getCommonFlags(),
-  ]);
+  await cmdImages();
   logger.info(`Step 2 complete in ${formatDuration(performance.now() - t2)}`);
 
-  logger.info("Step 3/5: Generating Blur Placeholders");
+  logger.info("Step 3/5: Blur Placeholders");
   const t3 = performance.now();
-  await run("bun", [
-    "scripts/generate-images.ts",
-    "--blur.enable=true",
-    "--blur.only=true",
-    "--title=✨ Blur Hash Generation",
-    ...getCommonFlags(),
-  ]);
+  await cmdBlur();
   logger.info(`Step 3 complete in ${formatDuration(performance.now() - t3)}`);
 
   logger.info("Step 4/5: Similarity & Aesthetic Analysis");
@@ -199,16 +247,9 @@ async function cmdProcess() {
   await cmdAnalyze();
   logger.info(`Step 4 complete in ${formatDuration(performance.now() - t4)}`);
 
-  logger.info("Step 5/5: Face Clustering & Recognition");
+  logger.info("Step 5/5: Face Clustering");
   const t5 = performance.now();
-  await run("bun", ["scripts/face-clustering.ts", ...getCommonFlags()], {
-    filter: (line) => {
-      if (line.includes("GNotificationCenterDelegate") && line.includes("implemented in both"))
-        return false;
-      if (line.includes("lib/libvips-cpp.") && line.includes("libgio-2.0.0.dylib")) return false;
-      return true;
-    },
-  });
+  await cmdFaces();
   logger.info(`Step 5 complete in ${formatDuration(performance.now() - t5)}`);
 
   logger.info(
@@ -228,21 +269,36 @@ async function main() {
     build     Build for production
     process   Run full data processing pipeline
     analyze   Run similarity analysis (auto-generates embeddings)
+    favicons  Generate favicons and brand assets
+    images    Generate image variants and basic metadata
+    blur      Generate blur placeholders (LQIP)
+    faces     Run face clustering and recognition
 
-  Options:
-    --gallery, -g     Target gallery directory (default: ${DEFAULT_GALLERY})
-                      Available: ${_galleryList}
-    --verbose, -v     Enable verbose logging (and disable progress bars)
-    --clean           Clean output directory before processing
-    --limit           Limit number of images to process
-    --batch-size      Batch size for AI processing (default: 8)
-    --time-window     Similarity time window in hours (default: 4)
-    --manifest-only   Only update manifest, skip image generation
-    --curation        Enable curation mode
-    --help, -h        Show this help
+  Global Options:
+    --gallery, -g      Target gallery directory (default: ${DEFAULT_GALLERY})
+                       Available: ${_galleryList}
+    --verbose, -v      Enable verbose logging
+    --clean            Clean output directory before processing
+    --manifest-only    Only update manifest, skip actual file generation
+    --concurrency      Number of parallel tasks (default: auto)
+    --help, -h         Show this help
+
+  Processing Options:
+    --limit            Limit number of images to process
+    --watch            Watch mode for automatic regeneration (images only)
+    --curation         Enable curation mode (duplicates detection)
+
+  AI & Analysis Options:
+    --batch-size       Batch size for AI processing (default: 8)
+    --time-window      Similarity time window in hours (default: 4)
+    --threshold        Face similarity threshold (default: 0.6)
+    --min-confidence   Minimum face detection confidence (default: 0.5)
+    --min-face-size    Minimum face size in pixels to process (default: 0)
       `);
     process.exit(0);
   }
+
+  await resolveGalleryAndContinue();
 
   try {
     switch (command) {
@@ -260,6 +316,18 @@ async function main() {
         break;
       case "analyze":
         await cmdAnalyze();
+        break;
+      case "favicons":
+        await cmdFavicons();
+        break;
+      case "images":
+        await cmdImages();
+        break;
+      case "blur":
+        await cmdBlur();
+        break;
+      case "faces":
+        await cmdFaces();
         break;
       default:
         logger.error(`Unknown command: ${command}`);
