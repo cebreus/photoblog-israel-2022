@@ -6,7 +6,10 @@ import { intro, note, outro, spinner } from "@clack/prompts";
 import pc from "picocolors";
 import type { ImageEntry } from "../src/lib/types/manifest";
 import { resolveGalleryDirectory } from "./lib/gallery-resolver";
+import { createLogger } from "./lib/logger";
 import { loadImagesManifest, loadPeopleManifest } from "./lib/manifest-repository";
+
+const logger = createLogger("audit-broken-links");
 
 async function main() {
   intro(pc.cyan("🔗 Checking for Broken Links in Manifests"));
@@ -76,4 +79,7 @@ async function main() {
   }
 }
 
-main().catch(console.error);
+main().catch((err) => {
+  logger.error(err);
+  process.exit(1);
+});

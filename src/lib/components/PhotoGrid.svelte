@@ -10,6 +10,7 @@
   import PhotoGridItem from "$lib/components/PhotoGridItem.svelte";
   import { buttonVariants } from "$lib/components/ui/button";
   import * as Dialog from "$lib/components/ui/dialog";
+  import { createLogger } from "$lib/logger";
   import { editor } from "$lib/stores/editor.svelte";
   import { filters } from "$lib/stores/filters.svelte";
   import { metadataClipboard } from "$lib/stores/metadata-clipboard.svelte";
@@ -17,6 +18,8 @@
   import type { CurationGroup, CurationManifest, ImageEntry, Separator } from "$lib/types/manifest";
   import { performImageAction } from "$lib/utils/api-actions";
   import { toSlug } from "$lib/utils/strings";
+
+  const logger = createLogger("PhotoGrid");
 
   let { items, curationManifest } = $props<{
     items: DisplayItem[];
@@ -162,7 +165,7 @@
       const selected = items.filter(
         (i: DisplayItem): i is ImageEntry => i.type === "image" && editor.selection.has(i.id),
       );
-      console.log("DEBUG: Paste Logic", {
+      logger.debug("Paste Logic", {
         itemId: item.id,
         selectionSize: editor.selection.size,
         sourceId: clipboard.sourceImage?.id,
@@ -172,12 +175,12 @@
       // Filter out usage of source image as target
       imagesToPaste = selected.filter((i: ImageEntry) => i.id !== clipboard.sourceImage?.id);
 
-      console.log(
-        "DEBUG: imagesToPaste",
+      logger.debug(
+        "imagesToPaste",
         imagesToPaste.map((i: ImageEntry) => i.id),
       );
     } else {
-      console.log("DEBUG: Single Paste", item.id);
+      logger.debug("Single Paste", item.id);
       // Prevent pasting to the same image that was copied
       if (clipboard.sourceImage?.id === item.id) {
         toast.error("Nemůžete vkládat metadata do stejného obrázku, ze kterého jste je kopírovali");
@@ -260,9 +263,9 @@
 
       // Refresh data
       await invalidateAll();
-    } catch (e: any) {
-      console.error(e);
-      toast.error(`Chyba: ${e.message}`);
+    } catch (e) {
+      logger.error(e);
+      toast.error(`Chyba: ${e instanceof Error ? e.message : "Neznámá chyba"}`);
     } finally {
       isApplyingPaste = false;
     }
@@ -271,9 +274,9 @@
   $effect(debugLog);
 
   function debugLog() {
-    console.log("PhotoGrid debug store value:", ui.debugMode);
     if (ui.debugMode) {
-      console.debug("PhotoGrid render", {
+      logger.debug("PhotoGrid debug store value:", ui.debugMode);
+      logger.debug("PhotoGrid render", {
         items: items.length,
         selectedAuthors: filters.selectedAuthors,
         dimmedLocations: dimmedLocationMap,

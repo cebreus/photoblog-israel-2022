@@ -76,7 +76,7 @@
 
   let isSelected = $derived(editor.selection.has(item.id));
   let showCurationVisuals = $derived(ui.isCurationVisualsVisible(!!curationGroup, mode));
-  let fallback = $derived(findFallbackSource(item)!);
+  let fallback = $derived(findFallbackSource(item) ?? item.sources[0]);
   let detailSource = $derived(findDetailSource(item));
 
   function handleOpenDialog(e: MouseEvent) {

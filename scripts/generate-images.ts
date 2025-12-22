@@ -218,4 +218,6 @@ export async function executeMain(): Promise<void> {
   }
 }
 
-executeMain();
+if (import.meta.main) {
+  executeMain();
+}

@@ -1,20 +1,22 @@
-import fs from "node:fs";
 import path from "node:path";
 import { expect, test } from "@playwright/test";
 import { exiftool } from "exiftool-vendored";
+import { createLogger } from "../../scripts/lib/logger";
+
+const logger = createLogger("e2e-metadata");
 
 test.describe("Metadata Editor E2E", () => {
   test.describe.configure({ mode: "serial" });
   test.beforeEach(async ({ page }) => {
-    page.on("console", (msg) => console.log(`BROWSER CONSOLE: [${msg.type()}] ${msg.text()}`));
+    page.on("console", (msg) => logger.info(`BROWSER CONSOLE: [${msg.type()}] ${msg.text()}`));
     page.on("request", (req) => {
       if (req.url().includes("/api/")) {
-        console.log(`📡 REQ: ${req.method()} ${req.url()}`);
+        logger.info(`📡 REQ: ${req.method()} ${req.url()}`);
       }
     });
     page.on("response", (res) => {
       if (res.url().includes("/api/")) {
-        console.log(`✅ RES: ${res.status()} ${res.url()}`);
+        logger.info(`✅ RES: ${res.status()} ${res.url()}`);
       }
     });
     // Navigate to the page with edit mode, sidebar and debug enabled
@@ -83,7 +85,7 @@ test.describe("Metadata Editor E2E", () => {
     // 9. Read the manifest to get the source file path
     const contentDir = process.env.CONTENT_DIR || "egypt-2025";
     const manifestPath = path.resolve(process.cwd(), `src/data/${contentDir}/images.manifest.json`);
-    const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+    const manifest = await Bun.file(manifestPath).json();
 
     // Find the image entry
     let imageEntry = null;
@@ -103,16 +105,16 @@ test.describe("Metadata Editor E2E", () => {
     let filePath = path.join(contentRoot, imageEntry.src);
 
     // If file doesn't exist at root, try pics/ subdirectory
-    if (!fs.existsSync(filePath)) {
+    if (!(await Bun.file(filePath).exists())) {
       const picsPath = path.join(contentRoot, "pics", imageEntry.src);
-      if (fs.existsSync(picsPath)) {
+      if (await Bun.file(picsPath).exists()) {
         filePath = picsPath;
       }
     }
 
     // Skip test if source file doesn't exist (test data issue)
-    if (!fs.existsSync(filePath)) {
-      console.warn(`Skipping metadata verification: Source file not found at ${filePath}`);
+    if (!(await Bun.file(filePath).exists())) {
+      logger.warn(`Skipping metadata verification: Source file not found at ${filePath}`);
       test.skip();
       return;
     }
@@ -188,7 +190,7 @@ test.describe("Metadata Editor E2E", () => {
     // Read manifest and verify each file
     const contentDir = process.env.CONTENT_DIR || "egypt-2025";
     const manifestPath = path.resolve(process.cwd(), `src/data/${contentDir}/images.manifest.json`);
-    const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+    const manifest = await Bun.file(manifestPath).json();
 
     for (const id of imageIds) {
       let imageEntry = null;
@@ -206,16 +208,16 @@ test.describe("Metadata Editor E2E", () => {
       let filePath = path.join(contentRoot, imageEntry.src);
 
       // If file doesn't exist at root, try pics/ subdirectory
-      if (!fs.existsSync(filePath)) {
+      if (!(await Bun.file(filePath).exists())) {
         const picsPath = path.join(contentRoot, "pics", imageEntry.src);
-        if (fs.existsSync(picsPath)) {
+        if (await Bun.file(picsPath).exists()) {
           filePath = picsPath;
         }
       }
 
       // Skip verification for this file if it doesn't exist
-      if (!fs.existsSync(filePath)) {
-        console.warn(`Skipping file ${id}: Source not found at ${filePath}`);
+      if (!(await Bun.file(filePath).exists())) {
+        logger.warn(`Skipping file ${id}: Source not found at ${filePath}`);
         continue;
       }
 

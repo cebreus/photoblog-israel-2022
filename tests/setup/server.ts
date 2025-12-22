@@ -1,7 +1,6 @@
 import { spawn, spawnSync } from "node:child_process";
 import fg from "fast-glob";
 import { vi } from "vitest";
-import winston from "winston";
 
 // Polyfill Bun global for Node.js test environment
 if (typeof globalThis.Bun === "undefined") {
@@ -141,18 +140,33 @@ vi.mock("canvas", () => {
   };
 });
 
-vi.mock("../../scripts/lib/logger", () => {
+const mockLogger = (label: string) => {
   const level = process.env.LOG_LEVEL || "error";
+  const pino = require("pino");
+  const logger = pino({
+    level: level,
+    enabled: level !== "error",
+    base: { label },
+    customLevels: { verbose: 25 },
+  });
   return {
-    createLogger: (_label: string) => {
-      return winston.createLogger({
-        level: level,
-        transports: [
-          new winston.transports.Console({
-            silent: level === "error",
-          }),
-        ],
-      });
-    },
+    info: vi.fn((...args) => logger.info(...args)),
+    error: vi.fn((...args) => logger.error(...args)),
+    warn: vi.fn((...args) => logger.warn(...args)),
+    debug: vi.fn((...args) => logger.debug(...args)),
+    verbose: vi.fn((...args) => logger.verbose(...args)),
+    fatal: vi.fn((...args) => logger.fatal(...args)),
+    trace: vi.fn((...args) => logger.trace(...args)),
+    silent: false,
+    level: level,
   };
-});
+};
+
+vi.mock("../../scripts/lib/logger", () => ({
+  createLogger: (label: string) => mockLogger(label),
+}));
+
+vi.mock("$lib/logger", () => ({
+  createLogger: (label: string) => mockLogger(label),
+  log: mockLogger("app"),
+}));

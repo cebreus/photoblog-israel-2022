@@ -146,4 +146,7 @@ async function main() {
   outro("Done");
 }
 
-main().catch(console.error);
+main().catch((err) => {
+  logger.error(err);
+  process.exit(1);
+});

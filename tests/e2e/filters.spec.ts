@@ -1,4 +1,7 @@
 import { expect, test } from "@playwright/test";
+import { createLogger } from "../../scripts/lib/logger";
+
+const logger = createLogger("e2e-filters");
 
 test.describe("Gallery Filters", () => {
   test.beforeEach(async ({ page }) => {
@@ -36,9 +39,9 @@ test.describe("Gallery Filters", () => {
     const filtersTab = page.getByTestId("filters-tab");
     if (await filtersTab.isVisible()) {
       const text = await filtersTab.innerText();
-      console.log("Filters tab inner text:", text);
+      logger.info(`Filters tab inner text: ${text}`);
     } else {
-      console.log("Filters tab NOT visible!");
+      logger.info("Filters tab NOT visible!");
     }
 
     const buckets = [
@@ -55,12 +58,12 @@ test.describe("Gallery Filters", () => {
         await sw.click();
         toggledCount++;
       } else {
-        console.log(`Filter Row for ${bucket.id} not visible - skipping toggle`);
+        logger.info(`Filter Row for ${bucket.id} not visible - skipping toggle`);
       }
     }
 
     if (toggledCount === 0) {
-      console.warn("Skipping aesthetic filter test assertions: No filter switches were visible.");
+      logger.warn("Skipping aesthetic filter test assertions: No filter switches were visible.");
       // If we couldn't filter, we just expect to see *some* photos (Default View)
       const finalCount = await gridItems.count();
       expect(finalCount).toBeGreaterThan(0);
@@ -88,7 +91,7 @@ test.describe("Gallery Filters", () => {
     const isVisible = await goodRow.isVisible().catch(() => false);
 
     if (!isVisible) {
-      console.warn(
+      logger.warn(
         "Skipping URL persistence test: Aesthetic filter row not available (missing analysis data)",
       );
       test.skip();

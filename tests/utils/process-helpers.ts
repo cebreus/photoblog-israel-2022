@@ -80,33 +80,48 @@ export async function runGenerator(
     process.argv = [
       "bun",
       "scripts/generate-images.ts",
-      ...args.filter((arg) => !arg.startsWith("--blur")), // Filter out blur args if any, as executeMain does not support it directly
+      ...args.filter((arg) => !arg.startsWith("--blur")),
     ];
     process.cwd = () => opts?.cwd ?? originalCwd;
     process.env = {
       ...originalEnv,
-      SHARP_NUM_THREADS: "1", // Ensure Sharp uses a single thread for consistency
-      TZ: "UTC", // Set timezone for consistent date handling
+      SHARP_NUM_THREADS: "1",
+      TZ: "UTC",
       ...(opts?.env || {}),
     };
 
     let stdout = "";
     let stderr = "";
 
-    // Mock console.log and console.error to capture output
     const originalConsoleLog = console.log;
     const originalConsoleError = console.error;
-    console.log = (message?: any, ..._optionalParams: any[]) => {
-      stdout += `${message}\n`;
+
+    const originalStdoutWrite = process.stdout.write;
+    const originalStderrWrite = process.stderr.write;
+
+    console.log = (message?: any, ...args: any[]) => {
+      stdout += `${message}${args.length > 0 ? ` ${args.join(" ")}` : ""}\n`;
     };
-    console.error = (message?: any, ..._optionalParams: any[]) => {
-      stderr += `${message}\n`;
+    console.error = (message?: any, ...args: any[]) => {
+      stderr += `${message}${args.length > 0 ? ` ${args.join(" ")}` : ""}\n`;
+    };
+
+    // Mock internal write methods
+    (process.stdout as any).write = (chunk: string | Uint8Array) => {
+      const str = typeof chunk === "string" ? chunk : Buffer.from(chunk).toString();
+      stdout += str;
+      return true;
+    };
+    (process.stderr as any).write = (chunk: string | Uint8Array) => {
+      const str = typeof chunk === "string" ? chunk : Buffer.from(chunk).toString();
+      stderr += str;
+      return true;
     };
 
     // Replace process.exit to capture exit code without terminating the test runner
     let exitCode = 0;
     const originalProcessExit = process.exit;
-    process.exit = (code: number = 0) => {
+    (process as any).exit = (code: number = 0) => {
       exitCode = code;
       throw new Error(`Process exited with code ${code}`);
     };
@@ -116,15 +131,18 @@ export async function runGenerator(
       resetCliState(); // Force re-parsing of ARGS based on new process.argv
       await executeMain();
     } catch (e: any) {
-      if (!e.message.startsWith("Process exited with code")) {
+      if (!e.message?.startsWith("Process exited with code")) {
         // Only re-throw if it's not our controlled exit
-        stderr += e.stack || e.message;
+        stderr += `\nUNEXPECTED ERROR: ${e.stack || e.message}\n`;
         exitCode = 1; // Mark as error if unexpected exception
       }
     } finally {
-      // Restore original console and process.exit
       console.log = originalConsoleLog;
       console.error = originalConsoleError;
+
+      process.stdout.write = originalStdoutWrite;
+      process.stderr.write = originalStderrWrite;
+
       process.exit = originalProcessExit;
     }
 

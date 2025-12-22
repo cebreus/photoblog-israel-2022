@@ -2,11 +2,11 @@ import fsp from "node:fs/promises";
 import path from "node:path";
 import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
+import { createLogger } from "$lib/logger";
 import type { ImageEntry } from "$lib/types/manifest";
 import { validateMergeInput } from "$lib/utils/api-validators";
 import type { ClusteringConstraints } from "$lib/utils/manifest-validators";
 import { removeEmptyPersonFolder } from "../../../../../scripts/lib/cleanup-utils";
-import { createLogger } from "../../../../../scripts/lib/logger";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 import {
   loadFacesManifest,
@@ -53,7 +53,7 @@ export async function POST({ request }) {
         return json({ success: false, error: "Person not found" }, { status: 404 });
       }
 
-      logger.info(
+      logger.debug(
         `[MERGE] Merging ${sourcePerson.name} (${sourcePersonId}) into ${targetPerson.name} (${targetPersonId})`,
       );
 
@@ -101,7 +101,7 @@ export async function POST({ request }) {
         }
       }
 
-      logger.info(`[MERGE] Updated ${updatedImageCount} images`);
+      logger.debug(`[MERGE] Updated ${updatedImageCount} images`);
 
       let sourceFaceCount = 0;
       let targetFaceCount = 0;
@@ -125,8 +125,8 @@ export async function POST({ request }) {
       sourcePerson.faceCount = sourceFaceCount;
       targetPerson.faceCount = targetFaceCount;
 
-      logger.info(`[MERGE] Source person faceCount: ${oldSourceFaceCount} → ${sourceFaceCount}`);
-      logger.info(`[MERGE] Target person faceCount: ${oldTargetFaceCount} → ${targetFaceCount}`);
+      logger.debug(`[MERGE] Source person faceCount: ${oldSourceFaceCount} → ${sourceFaceCount}`);
+      logger.debug(`[MERGE] Target person faceCount: ${oldTargetFaceCount} → ${targetFaceCount}`);
 
       // Handle descriptor merging (Multi-Cluster Strategy)
       // Migration check for target
@@ -150,7 +150,7 @@ export async function POST({ request }) {
       if (sourcePerson.clusters.length > 0) {
         // Concatenate clusters (preserving distinctness of merged person)
         targetPerson.clusters.push(...sourcePerson.clusters);
-        logger.info(
+        logger.debug(
           `[MERGE] Merged ${sourcePerson.clusters.length} clusters from source to target.`,
         );
 
@@ -213,7 +213,7 @@ export async function POST({ request }) {
 
         if (modified) {
           await fsp.writeFile(constraintsPath, JSON.stringify(constraints, null, 2));
-          logger.info(`[MERGE] Updated clustering-constraints.json`);
+          logger.debug(`[MERGE] Updated clustering-constraints.json`);
         }
       } catch (_e) {}
 
@@ -226,10 +226,10 @@ export async function POST({ request }) {
 
       const cleanedUp = await removeEmptyPersonFolder(facesDir, sourcePersonId);
       if (cleanedUp) {
-        logger.info(`[MERGE] Removed empty source folder: ${sourcePersonId}`);
+        logger.debug(`[MERGE] Removed empty source folder: ${sourcePersonId}`);
       }
 
-      logger.info(`[MERGE] Merge completed successfully`);
+      logger.debug(`[MERGE] Merge completed successfully`);
 
       return json({
         success: true,

@@ -3,6 +3,7 @@ import path from "node:path";
 import { json, type RequestHandler } from "@sveltejs/kit";
 import { exiftool } from "exiftool-vendored";
 import { dev } from "$app/environment";
+import { createLogger } from "$lib/logger";
 import type { Manifest } from "$lib/types/manifest";
 import { config } from "../../../../scripts/config";
 import {
@@ -11,7 +12,6 @@ import {
   removeFromCache,
   removeImageFromConstraints,
 } from "../../../../scripts/lib/cleanup-utils";
-import { createLogger } from "../../../../scripts/lib/logger";
 
 const logger = createLogger("api:images");
 
@@ -22,7 +22,7 @@ export const DELETE: RequestHandler = async ({ request }) => {
 
   const { ids } = await request.json();
 
-  logger.info("DELETE request received for IDs:", JSON.stringify(ids, null, 2));
+  logger.debug("DELETE request received for IDs:", JSON.stringify(ids, null, 2));
 
   if (!ids || !Array.isArray(ids)) {
     return json({ message: "Invalid request" }, { status: 400 });
@@ -126,7 +126,7 @@ export const DELETE: RequestHandler = async ({ request }) => {
             outputFolders,
           );
           if (assetCleanup.deleted.length > 0) {
-            logger.info(
+            logger.debug(
               `[DELETE] Removed ${assetCleanup.deleted.length} generated assets for ${nameWithoutExt}`,
             );
           }
@@ -140,7 +140,7 @@ export const DELETE: RequestHandler = async ({ request }) => {
           const constraintsPath = path.join(dataRoot, contentDir, "clustering-constraints.json");
           const constraintCleanup = await removeImageFromConstraints(constraintsPath, item.id);
           if (constraintCleanup.disconnectsRemoved > 0 || constraintCleanup.connectsRemoved > 0) {
-            logger.info(`[DELETE] Cleaned constraints for ${item.id}`);
+            logger.debug(`[DELETE] Cleaned constraints for ${item.id}`);
           }
         }
 
@@ -295,7 +295,7 @@ export const POST: RequestHandler = async ({ request }) => {
             "blurs",
           ]);
           if (assetCleanup.deleted.length > 0) {
-            logger.info(`[ARCHIVE] Removed ${assetCleanup.deleted.length} generated assets`);
+            logger.debug(`[ARCHIVE] Removed ${assetCleanup.deleted.length} generated assets`);
           }
 
           const cachePath = path.join(process.cwd(), ".temp", contentDir, "images.cache.json");
@@ -339,7 +339,7 @@ export const PATCH: RequestHandler = async ({ request }) => {
 
   const { images, updates } = await request.json();
 
-  logger.info("PATCH /api/images request:", { images, updates });
+  logger.debug("PATCH /api/images request:", { images, updates });
 
   if (!images || !Array.isArray(images) || !updates) {
     return json({ message: "Invalid request" }, { status: 400 });
@@ -391,7 +391,7 @@ export const PATCH: RequestHandler = async ({ request }) => {
       Object.entries(updates).filter(([, v]) => v !== undefined),
     ) as Record<string, string | string[] | null>;
 
-    logger.info("Filtered updates for content dir", contentDir, ":", {
+    logger.debug("Filtered updates for content dir", contentDir, ":", {
       original: updates,
       filtered: filteredUpdates,
     });

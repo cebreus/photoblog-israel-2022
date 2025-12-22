@@ -59,15 +59,12 @@ describe("Metric Extraction (Unit)", () => {
     const scoreSharp = await calculateSharpness(sharp, sharpImgPath);
     const scoreBlur = await calculateSharpness(sharp, blurImgPath);
 
-    // console.log(`Sharpness Score - Sharp: ${scoreSharp}, Blur: ${scoreBlur}`);
     expect(scoreSharp).toBeGreaterThan(scoreBlur);
   });
 
   it("calculates identical or very similar pHash for original and resized image", async () => {
     const hashOriginal = await calculatePhash(sharp, sharpImgPath);
     const hashResized = await calculatePhash(sharp, resizedImgPath);
-
-    // console.log(`pHash - Original: ${hashOriginal}, Resized: ${hashResized}`);
 
     let diff = 0;
     const h1 = BigInt(`0x${hashOriginal}`);
@@ -78,7 +75,6 @@ describe("Metric Extraction (Unit)", () => {
       if (char === "1") diff++;
     }
 
-    // console.log(`Hamming distance: ${diff}`);
     expect(diff).toBeLessThanOrEqual(5);
   });
 });

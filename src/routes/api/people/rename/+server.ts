@@ -2,9 +2,9 @@ import fsp from "node:fs/promises";
 import path from "node:path";
 import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
+import { createLogger } from "$lib/logger";
 import { validateRenameInput } from "$lib/utils/api-validators";
 import { toSlug } from "$lib/utils/strings";
-import { createLogger } from "../../../../../scripts/lib/logger";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 import {
   loadFacesManifest,
@@ -60,7 +60,7 @@ export async function POST({ request }) {
       const newId = `${baseId}--${slug}`;
 
       if (newId !== personId) {
-        logger.info(`[RENAME] Changing ID: ${personId} -> ${newId}`);
+        logger.debug(`[RENAME] Changing ID: ${personId} -> ${newId}`);
 
         const oldPath = path.resolve(facesDir, personId);
         const newPath = path.resolve(facesDir, newId);
@@ -71,7 +71,7 @@ export async function POST({ request }) {
           await fsp.access(oldPath);
           sourceExists = true;
         } catch {
-          logger.info(`[RENAME] Source folder doesn't exist, will be created by face-clustering`);
+          logger.debug(`[RENAME] Source folder doesn't exist, will be created by face-clustering`);
         }
 
         if (sourceExists) {
@@ -89,7 +89,7 @@ export async function POST({ request }) {
           try {
             await fsp.rename(oldPath, newPath);
             _folderRenamed = true;
-            logger.info(`[RENAME] Folder renamed successfully`);
+            logger.debug(`[RENAME] Folder renamed successfully`);
           } catch (e) {
             const errorMessage = e instanceof Error ? e.message : String(e);
             logger.error(`[RENAME] Folder rename failed: ${errorMessage}`);
@@ -126,7 +126,7 @@ export async function POST({ request }) {
             }
           }
         }
-        logger.info(`[RENAME] Updated ${_updatedCount} image references`);
+        logger.debug(`[RENAME] Updated ${_updatedCount} image references`);
 
         if (person.thumbnail?.includes(personId)) {
           person.thumbnail = person.thumbnail.replace(personId, newId);
@@ -149,7 +149,7 @@ export async function POST({ request }) {
             });
             if (modified) {
               await fsp.writeFile(constraintsPath, JSON.stringify(constraints, null, 2));
-              logger.info("[RENAME] Updated constraints for new ID");
+              logger.debug("[RENAME] Updated constraints for new ID");
             }
           }
         } catch (_e) {}

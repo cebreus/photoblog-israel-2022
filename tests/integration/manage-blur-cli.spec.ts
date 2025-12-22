@@ -32,8 +32,9 @@ describe("Integration: manage blur CLI", () => {
     expect(files.some((f: string) => f.endsWith(".png"))).toBe(true);
 
     // Verify width
-    const firstPng = files.find((f: string) => f.endsWith(".png"))!;
-    const meta = await sharp(path.join(out, firstPng)).metadata();
+    const firstPng = files.find((f: string) => f.endsWith(".png"));
+    expect(firstPng).toBeDefined();
+    const meta = await sharp(path.join(out, firstPng as string)).metadata();
     expect(meta.width).toBeLessThanOrEqual(20);
   });
 

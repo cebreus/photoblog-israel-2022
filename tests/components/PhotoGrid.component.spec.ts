@@ -4,10 +4,21 @@ import { render } from "vitest-browser-svelte";
 import PhotoGrid from "$lib/components/PhotoGrid.svelte";
 import type { ImageEntry, Separator } from "$lib/types/manifest";
 
+vi.mock("$lib/logger", () => ({
+  createLogger: () => ({
+    debug: vi.fn(),
+    info: vi.fn(),
+    warn: vi.fn(),
+    error: vi.fn(),
+    fatal: vi.fn(),
+    trace: vi.fn(),
+  }),
+}));
+
 // 1. Mock Rune Stores
 vi.mock("$lib/stores/ui.svelte", () => ({
   ui: {
-    debug: false,
+    debugMode: false,
     curationMode: false,
     photoLabels: false,
     activeSections: new Set(),

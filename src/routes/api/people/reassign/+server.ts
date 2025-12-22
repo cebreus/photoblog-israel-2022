@@ -2,10 +2,10 @@ import fsp from "node:fs/promises";
 import path from "node:path";
 import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
+import { createLogger } from "$lib/logger";
 import type { ImageEntry } from "$lib/types/manifest";
 import { validateReassignInput } from "$lib/utils/api-validators";
 import type { ClusteringConstraints } from "$lib/utils/manifest-validators";
-import { createLogger } from "../../../../../scripts/lib/logger";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 import {
   loadFacesManifest,

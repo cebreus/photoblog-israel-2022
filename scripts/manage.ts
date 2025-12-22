@@ -115,7 +115,7 @@ async function resolveGalleryAndContinue() {
 
       gallery = selected as string;
       process.stdout.write("\x1B[1A\x1B[2K"); // Clear the default selection line
-      console.log(`${pc.gray("│")}  ${pc.dim(gallery)}`);
+      logger.info(pc.dim(gallery));
       process.env.CONTENT_DIR = gallery;
       return;
     }
@@ -287,7 +287,7 @@ async function main() {
   if (values.help || !command) {
     const galleries = await getAvailableGalleries();
     const _galleryList = galleries.length > 0 ? galleries.join(", ") : "none found";
-    console.log(`
+    process.stdout.write(`
   Usage: bun scripts/manage.ts [command] [options]
 
   Commands:
@@ -320,7 +320,7 @@ async function main() {
     --threshold        Face similarity threshold (default: 0.6)
     --min-confidence   Minimum face detection confidence (default: 0.5)
     --min-face-size    Minimum face size in pixels to process (default: 0)
-      `);
+      \n`);
     process.exit(0);
   }
 

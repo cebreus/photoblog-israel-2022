@@ -127,7 +127,6 @@ export async function deleteOldFaceCrops(
     const cropPath = path.join(facesOutputDir, personId, `${imageId}.jpg`);
     try {
       await fsp.unlink(cropPath);
-      // console.log(`  Deleted old crop: ${personId}/${imageId}.jpg`);
     } catch (e: any) {
       if (e.code !== "ENOENT") {
         logger.warn(`  Failed to delete old crop ${cropPath}: ${e.message}`);
