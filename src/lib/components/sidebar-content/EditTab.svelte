@@ -14,10 +14,13 @@
   import { Input } from "$lib/components/ui/input";
   import { Spinner } from "$lib/components/ui/spinner";
   import { Textarea } from "$lib/components/ui/textarea";
+  import { createLogger } from "$lib/logger";
   import { editor } from "$lib/stores/editor.svelte";
   import { metadataClipboard } from "$lib/stores/metadata-clipboard.svelte";
   import { ui } from "$lib/stores/ui.svelte";
   import type { ImageEntry, Separator } from "$lib/types/manifest";
+
+  const logger = createLogger("EditTab");
 
   type DisplayItem = ImageEntry | Separator;
 
@@ -43,11 +46,11 @@
     validators: false,
     // No validators - relying on manual optional fields
     onUpdate: async ({ form }) => {
-      if (ui.debugMode) console.debug("form: onUpdate", { valid: form.valid, data: form.data });
+      if (ui.debugMode) logger.debug("form: onUpdate", { valid: form.valid, data: form.data });
       if (form.valid) {
         await handleSubmit(form.data);
       } else {
-        if (ui.debugMode) console.debug("form: invalid", form.errors);
+        if (ui.debugMode) logger.debug("form: invalid", form.errors);
       }
     },
   });
@@ -253,8 +256,9 @@
   let previousGeoValues = $state<Partial<typeof initialData>>({});
 
   function restoreGeoValue(field: keyof typeof initialData) {
-    if (previousGeoValues[field] !== undefined) {
-      $formData[field] = previousGeoValues[field]!;
+    const prevValue = previousGeoValues[field];
+    if (prevValue !== undefined) {
+      $formData[field] = prevValue;
       // Update explicit clears: if restored value is empty, mark as explicit clear?
       // Or just unmark explicit clear if it has value.
       if ($formData[field]) {
@@ -311,7 +315,7 @@
         toast.info("Data z mapy se shodují s aktuálními.");
       }
     } catch (e) {
-      console.error(e);
+      logger.error(e);
       toast.error("Chyba při stahování dat.");
     } finally {
       isFetchingGeo = false;
@@ -367,7 +371,7 @@
         },
       };
 
-      console.log("Sending PATCH payload:", updatePayload);
+      logger.debug("Sending PATCH payload:", updatePayload);
 
       const res = await fetch("/api/images", {
         method: "PATCH",
@@ -387,9 +391,9 @@
       await invalidateAll();
 
       // Close offcanvas? No, just keep open in tab.
-    } catch (e: any) {
-      console.error(e);
-      toast.error(`Chyba: ${e.message}`);
+    } catch (e) {
+      logger.error(e);
+      toast.error(`Chyba: ${e instanceof Error ? e.message : "Neznámá chyba"}`);
     } finally {
       isApplyingPaste = false;
     }

@@ -4,7 +4,10 @@
 
   import { Button } from "$lib/components/ui/button";
   import * as Dialog from "$lib/components/ui/dialog";
+  import { createLogger } from "$lib/logger";
   import type { Person } from "$lib/types/manifest";
+
+  const logger = createLogger("PersonMergeDialog");
 
   let {
     open = $bindable(false),
@@ -28,7 +31,7 @@
       await onConfirm();
       open = false;
     } catch (error) {
-      console.error("Merge failed:", error);
+      logger.error("Merge failed:", error);
     } finally {
       isLoading = false;
     }

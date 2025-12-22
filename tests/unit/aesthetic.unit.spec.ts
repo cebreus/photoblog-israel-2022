@@ -70,9 +70,5 @@ describe("Aesthetic Scoring", () => {
 
     expect(scorePretty).toBeGreaterThan(scoreMedium);
     expect(scoreMedium).toBeGreaterThan(scoreUgly);
-
-    // console.log(
-    //   `Calibration Check: Pretty (${scorePretty.toFixed(3)}) > Medium (${scoreMedium.toFixed(3)}) > Ugly (${scoreUgly.toFixed(3)})`,
-    // );
   });
 });

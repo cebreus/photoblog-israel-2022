@@ -8,12 +8,15 @@
   import * as Sidebar from "$lib/components/ui/sidebar";
   import { Switch } from "$lib/components/ui/switch";
   import { ToggleGroup, ToggleGroupItem } from "$lib/components/ui/toggle-group";
+  import { createLogger } from "$lib/logger";
   import { filters } from "$lib/stores/filters.svelte";
   import { ui } from "$lib/stores/ui.svelte";
   import type { MenuDay, QualityBucket } from "$lib/types/manifest";
   import { QUALITY_BUCKETS } from "$lib/utils/gallery";
   import { getMenuItems } from "$lib/utils/menu";
   import { toSlug } from "$lib/utils/strings";
+
+  const logger = createLogger("FiltersTab");
 
   type AuthorStats = {
     name: string;
@@ -51,7 +54,7 @@
   function toggleAuthor(slug: string, displayName?: string) {
     const previous = filters.selectedAuthors;
     if (ui.debugMode) {
-      console.debug("filters: toggleAuthor start", {
+      logger.debug("filters: toggleAuthor start", {
         slug,
         name: displayName,
         previous,

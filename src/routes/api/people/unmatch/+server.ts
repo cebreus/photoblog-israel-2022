@@ -3,10 +3,10 @@ import fsp from "node:fs/promises";
 import path from "node:path";
 import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
+import { createLogger } from "$lib/logger";
 import type { ImageEntry } from "$lib/types/manifest";
 import { validateUnmatchInput } from "$lib/utils/api-validators";
 import { toSlug } from "$lib/utils/strings";
-import { createLogger } from "../../../../../scripts/lib/logger";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
 import {
   loadFacesManifest,
@@ -139,7 +139,7 @@ export async function POST({ request }) {
           !sourcePerson.thumbnail ||
           idsToUnmatch.some((id) => sourcePerson.thumbnail?.includes(id))
         ) {
-          logger.info(`[UNMATCH] Thumbnail matches one of removed images, invalidating...`);
+          logger.debug(`[UNMATCH] Thumbnail matches one of removed images, invalidating...`);
           needsNewThumbnail = true;
         }
 
@@ -152,7 +152,7 @@ export async function POST({ request }) {
             );
             await fsp.access(thumbPath);
           } catch {
-            logger.info(
+            logger.debug(
               `[UNMATCH] Current thumbnail file not found: ${sourcePerson.thumbnail}, invalidating...`,
             );
             needsNewThumbnail = true;
@@ -160,7 +160,7 @@ export async function POST({ request }) {
         }
 
         if (needsNewThumbnail) {
-          logger.info(`[UNMATCH] Searching for new thumbnail for ${sourcePerson.name}...`);
+          logger.debug(`[UNMATCH] Searching for new thumbnail for ${sourcePerson.name}...`);
           try {
             const files = await fsp.readdir(sourceDir);
             const validImages = files
@@ -216,7 +216,7 @@ export async function POST({ request }) {
         }
 
         await fsp.writeFile(constraintsPath, JSON.stringify(constraints, null, 2));
-        logger.info(`[UNMATCH] Updated clustering-constraints.json with disconnects and connects`);
+        logger.debug(`[UNMATCH] Updated clustering-constraints.json with disconnects and connects`);
       } catch (_e) {}
 
       return json({

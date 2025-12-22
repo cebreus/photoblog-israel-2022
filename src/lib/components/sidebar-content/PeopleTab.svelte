@@ -20,6 +20,7 @@
   import { Checkbox } from "$lib/components/ui/checkbox";
   import * as Sidebar from "$lib/components/ui/sidebar";
   import { Switch } from "$lib/components/ui/switch";
+  import { createLogger } from "$lib/logger";
   import { filters } from "$lib/stores/filters.svelte";
   import { people } from "$lib/stores/people.svelte";
   import type { ImageEntry, Person } from "$lib/types/manifest";
@@ -27,6 +28,8 @@
   import SelectionBulkActions from "../SelectionBulkActions.svelte";
 
   import CategoryPersonCard from "./CategoryPersonCard.svelte";
+
+  const logger = createLogger("PeopleTab");
 
   type ApiResponse = {
     success: boolean;
@@ -64,7 +67,7 @@
         (firstImage as ImageEntry).sources.length > 0
       ) {
         const firstPath = (firstImage as ImageEntry).sources[0].path;
-        if (firstPath && firstPath.startsWith("/")) {
+        if (firstPath?.startsWith("/")) {
           // Path format: "/egypt-2025/images/previews/..." -> extract "/egypt-2025"
           const parts = firstPath.split("/");
           if (parts.length > 2) {
@@ -157,29 +160,29 @@
       return;
     }
 
-    console.log("[DEBUG] Starting rename, setting isSaving to true");
+    logger.debug("Starting rename, setting isSaving to true");
     isSaving = true;
-    console.log("[DEBUG] isSaving is now:", isSaving);
+    logger.debug("isSaving is now:", isSaving);
 
     try {
-      console.log("[DEBUG] Calling API...");
+      logger.debug("Calling API...");
       // Add minimum delay to keep overlay visible
       await Promise.all([
         renamePerson(editingPersonId, editingName.trim()),
         new Promise((resolve) => setTimeout(resolve, 500)), // Min 500ms delay
       ]);
-      console.log("[DEBUG] API call successful, triggering reload");
+      logger.debug("API call successful, triggering reload");
       // Trigger reload to show updated name
       await people.refresh();
       toast.success("Osoba byla úspěšně přejmenována.");
       cancelEditing();
     } catch (error) {
-      console.error("Failed to rename person:", error);
+      logger.error("Failed to rename person:", error);
       toast.error("Přejmenování se nezdařilo.");
     } finally {
-      console.log("[DEBUG] Setting isSaving to false");
+      logger.debug("Setting isSaving to false");
       isSaving = false;
-      console.log("[DEBUG] isSaving is now:", isSaving);
+      logger.debug("isSaving is now:", isSaving);
     }
   }
 
@@ -224,7 +227,7 @@
   }
 
   async function toggleHide(personId: string) {
-    console.log("[DEBUG] Toggling hide for person:", personId);
+    logger.debug("Toggling hide for person:", personId);
     isSaving = true;
 
     try {
@@ -238,7 +241,7 @@
       if (response.ok) {
         const data = (await response.json()) as IgnoreResponse;
         const isIgnored = data.results?.[0]?.ignored;
-        console.log("[DEBUG] Person ignored state:", isIgnored);
+        logger.debug("Person ignored state:", isIgnored);
 
         // Also remove from selection if being ignored
         filters.selectedPeople = filters.selectedPeople.filter((id) => id !== personId);
@@ -253,7 +256,7 @@
         toast.error("Akce se nezdařila.");
       }
     } catch (error) {
-      console.error("Failed to toggle hide:", error);
+      logger.error("Failed to toggle hide:", error);
       toast.error("Chyba při komunikaci se serverem.");
     } finally {
       isSaving = false;
@@ -310,7 +313,7 @@
 
   function handleBulkHideAction(e?: MouseEvent) {
     e?.stopPropagation();
-    console.log("[PEOPLE TAB] Executing bulk hide immediately, count:", selectedForMerge.length);
+    logger.info("Executing bulk hide immediately, count:", selectedForMerge.length);
     if (selectedForMerge.length === 0) return;
     executeBulkHide();
   }
@@ -320,7 +323,7 @@
 
     isSaving = true;
     try {
-      console.log("[BULK HIDE] Hiding:", selectedForMerge);
+      logger.debug("Hiding:", selectedForMerge);
 
       // Execute single bulk request
       const response = await fetch("/api/people/ignore", {
@@ -347,7 +350,7 @@
       await people.refresh();
       toast.success(`Bylo skryto ${hiddenIds.length} osob.`);
     } catch (error) {
-      console.error("Bulk hide failed:", error);
+      logger.error("Bulk hide failed:", error);
       toast.error("Hromadné skrytí selhalo.");
     } finally {
       isSaving = false;
@@ -380,7 +383,7 @@
       await people.refresh();
       toast.success(`Obnoveno ${hiddenIds.length} osob.`);
     } catch (e) {
-      console.error("Bulk restore failed:", e);
+      logger.error("Bulk restore failed:", e);
       toast.error("Hromadné obnovení selhalo.");
     } finally {
       isSaving = false;
@@ -415,7 +418,7 @@
       await people.refresh();
       toast.success("Vybrané profily byly označeny jako neplatná detekce.");
     } catch (e) {
-      console.error("Bulk mark-as-junk failed:", e);
+      logger.error("Bulk mark-as-junk failed:", e);
       toast.error("Hromadná akce 'Není osoba' selhala.");
     } finally {
       isSaving = false;
@@ -458,8 +461,8 @@
     const targetPerson = selectedPeopleData[0];
     const sourcePersons = selectedPeopleData.slice(1);
 
-    console.log(
-      "[MERGE UI] Merging",
+    logger.info(
+      "Merging",
       sourcePersons.map((p) => p.name),
       "into",
       targetPerson.name,
@@ -481,7 +484,7 @@
         }
       }
 
-      console.log("[MERGE UI] All merges successful");
+      logger.debug("All merges successful");
 
       // Add delay for loading state
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -494,7 +497,7 @@
       await people.refresh();
       toast.success("Osoby byly úspěšně sloučeny.");
     } catch (error) {
-      console.error("[MERGE UI] Failed to merge people:", error);
+      logger.error("Failed to merge people:", error);
       toast.error("Sloučení se nezdařilo.", {
         description: error instanceof Error ? error.message : String(error),
       });
@@ -523,7 +526,7 @@
       await people.refresh();
       toast.success(`Kategorie změněna pro ${selectedForMerge.length} osob.`);
     } catch (e) {
-      console.error("Bulk update category failed", e);
+      logger.error("Bulk update category failed", e);
       toast.error("Hromadná změna kategorie selhala.");
     } finally {
       isSaving = false;
@@ -554,7 +557,7 @@
         toast.error("Akce se nezdařila.");
       }
     } catch (error) {
-      console.error("Failed to mark as junk:", error);
+      logger.error("Failed to mark as junk:", error);
       toast.error("Chyba při komunikaci se serverem.");
     } finally {
       isSaving = false;
@@ -632,12 +635,6 @@
         >
           <!-- Loading overlay -->
           {#if isSaving && editingPersonId === person.id}
-            {@const _ = console.log(
-              "[DEBUG] Rendering overlay for person:",
-              person.id,
-              "isSaving:",
-              isSaving,
-            )}
             <div
               class="absolute inset-0 bg-background/90 backdrop-blur-sm flex items-center justify-center rounded"
               style="z-index: 9999;"

@@ -81,7 +81,7 @@ const outRoot =
   args[0] || (process.env.CONTENT_DIR ? path.join("static", process.env.CONTENT_DIR) : null);
 
 if (!outRoot) {
-  console.error("Usage: bun migrate-manifests.ts <outRoot>");
+  logger.error("Usage: bun migrate-manifests.ts <outRoot>");
   process.exit(1);
 }
 

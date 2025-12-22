@@ -9,10 +9,13 @@
 
   import { Button } from "$lib/components/ui/button";
   import * as Dialog from "$lib/components/ui/dialog";
+  import { createLogger } from "$lib/logger";
   import { people } from "$lib/stores/people.svelte";
   import type { ImageEntry, Person } from "$lib/types/manifest";
 
   import SelectionBulkActions from "./SelectionBulkActions.svelte";
+
+  const logger = createLogger("PersonDetailDialog");
 
   let {
     open = $bindable(false),
@@ -125,7 +128,7 @@
         });
       }
     } catch (e) {
-      console.error(e);
+      logger.error(e as Error);
       toast.error("Chyba komunikace", {
         description: "Nelze kontaktovat server.",
         duration: 10000,
@@ -161,7 +164,7 @@
         toast.error("Chyba", { description: data.error || "Nepodařilo se uložit nastavení." });
       }
     } catch (e) {
-      console.error(e);
+      logger.error(e);
       toast.error("Chyba komunikace");
     } finally {
       isWorking = false;
@@ -186,7 +189,7 @@
         toast.error("Chyba při změně kategorie.");
       }
     } catch (e) {
-      console.error(e);
+      logger.error(e);
       toast.error("Chyba komunikace");
     } finally {
       isWorking = false;
@@ -219,7 +222,7 @@
         toast.error("Chyba přiřazení", { description: data.error });
       }
     } catch (e) {
-      console.error(e);
+      logger.error(e);
       toast.error("Chyba komunikace");
     } finally {
       isWorking = false;
@@ -260,7 +263,7 @@
       selectedIds = new Set();
       toast.success("Vybrané detekce byly označeny jako neplatné a budou ignorovány.");
     } catch (e) {
-      console.error(e);
+      logger.error("Bulk mark-as-junk failed:", e);
       toast.error("Chyba při hromadném označování detekcí.");
     } finally {
       isWorking = false;

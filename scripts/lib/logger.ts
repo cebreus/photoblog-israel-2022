@@ -1,15 +1,21 @@
 import pc from "picocolors";
-import winston from "winston";
+import pino from "pino";
 import { progressManager } from "./progress-manager";
-
-const { combine, printf } = winston.format;
 
 const levelColors: Record<string, (str: string) => string> = {
   error: pc.red,
   warn: pc.yellow,
   info: pc.cyan,
-  verbose: pc.dim,
-  debug: pc.magenta,
+  debug: pc.dim, // mapped from verbose
+  trace: pc.magenta, // mapped from debug
+};
+
+const pinoToWinstonLevel: Record<string, string> = {
+  "50": "error",
+  "40": "warn",
+  "30": "info",
+  "20": "verbose",
+  "10": "debug",
 };
 
 export function createLogger(label: string) {
@@ -17,24 +23,16 @@ export function createLogger(label: string) {
     return str;
   }
 
-  function customFormatter(payload: any) {
-    const levelUpper = String(payload.level || "").toUpperCase();
-    const colorizer = levelColors[payload.level] || identity;
+  function formatMessage(level: string, message: string) {
+    const levelUpper = level.toUpperCase();
+    const colorizer = levelColors[level] || identity;
 
     if (process.env.LOG_STYLE === "boxed") {
-      // Boxed style: no timestamp, added vertical line prefix to every line
-      // manage process uses single bar, others use double bar for nested look
       let bar = label === "manage" ? `${pc.dim("│")}  ` : `${pc.dim("│ │")} `;
-      let message = payload.message;
       if (message.startsWith("┌")) {
-        // For section starts, we want to maintain the specific nesting
-        // manage: "│  " -> "│ ┌ "
         if (label === "manage") {
           bar = `${pc.dim("│")} ${pc.dim("┌")} `;
         } else {
-          // others: "│ │ " -> "│ ┌ " (to align with manage?)
-          // Or generally just replace the last space with corner?
-          // Let's stick to the requested visual for manage
           bar = bar.replace("│", "┌");
         }
         message = message.slice(1).trim();
@@ -46,25 +44,56 @@ export function createLogger(label: string) {
         .join("\n");
     }
 
-    // Default style: no timestamp
-    return `[${pc.blue(label)}] ${colorizer(levelUpper)}: ${payload.message}`;
+    return `[${pc.blue(label)}] ${colorizer(levelUpper)}: ${message}`;
   }
 
-  const customFormat = printf(customFormatter);
+  const stream = {
+    write(msg: string) {
+      const obj = JSON.parse(msg);
+      const level = pinoToWinstonLevel[obj.level] || "info";
+      const formatted = formatMessage(level, obj.msg);
+      progressManager.log(formatted);
+    },
+  };
 
-  const logger = winston.createLogger({
-    level: process.env.LOG_LEVEL || "info",
-    format: combine(customFormat),
-    transports: [
-      new winston.transports.Console({
-        log(info, callback) {
-          const msg = info[Symbol.for("message") as any] || info.message;
-          progressManager.log(msg);
-          if (callback) callback();
+  const logger = pino(
+    {
+      level: process.env.LOG_LEVEL || "info",
+      customLevels: {
+        verbose: 25, // between info (30) and debug (20)
+      },
+      hooks: {
+        logMethod(inputArgs, method) {
+          if (inputArgs.length >= 2 && typeof inputArgs[0] === "string") {
+            const [msg, ...args] = inputArgs;
+            const formattedMsg =
+              args.length > 0
+                ? msg +
+                  " " +
+                  args.map((a) => (typeof a === "object" ? JSON.stringify(a) : a)).join(" ")
+                : msg;
+            return method.apply(this, [formattedMsg]);
+          }
+          return method.apply(this, inputArgs);
         },
-      }),
-    ],
-  });
+      },
+    },
+    stream,
+  );
 
-  return logger;
+  // Map winston-like methods to pino if they differ or to provide a better API
+  return {
+    error: (msg: string, ...args: any[]) => logger.error(msg, ...args),
+    warn: (msg: string, ...args: any[]) => logger.warn(msg, ...args),
+    info: (msg: string, ...args: any[]) => logger.info(msg, ...args),
+    verbose: (msg: string, ...args: any[]) => (logger as any).verbose(msg, ...args),
+    debug: (msg: string, ...args: any[]) => logger.debug(msg, ...args),
+    silent: false, // Compatibility for some scripts
+    set level(val: string) {
+      logger.level = val === "verbose" ? "verbose" : val;
+    },
+    get level() {
+      return logger.level;
+    },
+  };
 }

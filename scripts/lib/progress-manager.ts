@@ -78,7 +78,7 @@ export class ProgressManager {
     if (this.activeBars.size > 0) {
       this.multiBar.log(`${message}\n`);
     } else {
-      console.log(message);
+      process.stdout.write(`${message}\n`);
     }
   }
 
