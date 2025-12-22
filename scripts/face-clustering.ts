@@ -21,7 +21,7 @@ import {
   savePeopleManifest,
 } from "./lib/manifest-repository";
 import { filterPeopleWithValidDescriptors } from "./lib/people-utils";
-import { createBar, removeBar, stopAllBars } from "./lib/progress-manager";
+import { createBar, stopAllBars } from "./lib/progress-manager";
 
 const SCRIPT_DIR = import.meta.dir;
 const logger = createLogger("face-clustering");
@@ -45,23 +45,12 @@ faceapi.env.monkeyPatch({
 
 async function loadModels() {
   const relativeModelPath = path.relative(process.cwd(), FACE_CONFIG.modelPath);
-  const bar = createBar(3, "[face-clustering]", { suffix: `| Loading: "${relativeModelPath}"` });
-  bar.start(3, 0, { suffix: `| Loading: SsdMobilenetv1` });
-  bar.update(0, { suffix: `| Loading: SsdMobilenetv1` });
+  logger.info(`Loading face models from "${relativeModelPath}"`);
 
   await faceapi.nets.ssdMobilenetv1.loadFromDisk(FACE_CONFIG.modelPath);
-  bar.increment(1, { suffix: `| Loaded: SsdMobilenetv1` });
-  bar.update(1, { suffix: `| Loading: FaceLandmark68` });
-
   await faceapi.nets.faceLandmark68Net.loadFromDisk(FACE_CONFIG.modelPath);
-  bar.increment(1, { suffix: `| Loaded: FaceLandmark68` });
-  bar.update(2, { suffix: `| Loading: FaceRecognition` });
-
   await faceapi.nets.faceRecognitionNet.loadFromDisk(FACE_CONFIG.modelPath);
-  bar.increment(1, { suffix: `| Loaded: FaceRecognition` });
-
-  bar.stop();
-  removeBar(bar);
+  logger.info("Face models loaded.");
 }
 
 async function prepareImageForFaceDetection(imagePath: string, detailsDir: string): Promise<any> {
