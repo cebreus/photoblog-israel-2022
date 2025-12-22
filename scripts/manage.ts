@@ -165,10 +165,10 @@ async function cmdFavicons() {
 }
 
 async function cmdImages() {
-  logger.info("Generating Image Variants (Resizing & Basic Metadata)");
+  logger.info("┌ Generating Image Variants (Resizing & Basic Metadata)");
   await run("bun", [
     "scripts/generate-images.ts",
-    "--title=🏭 Image Variants & Metadata",
+    "--title=Image Variants & Metadata",
     "--skipFaces",
     "--skipEmbeddings",
     ...getCommonFlags(),
