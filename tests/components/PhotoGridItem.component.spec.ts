@@ -18,7 +18,7 @@ vi.mock("$lib/stores/ui.svelte", () => ({
     curationMode: false,
     photoLabels: false,
     debug: false,
-    isCurationVisualsVisible: (hasGroup: boolean, mode: string) => false,
+    isCurationVisualsVisible: (_hasGroup: boolean, _mode: string) => false,
   },
 }));
 

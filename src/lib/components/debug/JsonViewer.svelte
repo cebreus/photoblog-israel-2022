@@ -1,5 +1,4 @@
 <script lang="ts">
-  import JsonViewer from "./JsonViewer.svelte";
   import type { JsonValue } from "./types";
 
   interface Props {
@@ -14,11 +13,11 @@
   let userOverride = $state<boolean | null>(null);
   const isExpanded = $derived(userOverride ?? initialExpanded);
 
-  const isObject = (value: JsonValue): value is { [key: string]: JsonValue } =>
+  const _isObject = (value: JsonValue): value is { [key: string]: JsonValue } =>
     typeof value === "object" && value !== null && !Array.isArray(value);
-  const isArray = (value: JsonValue): value is JsonValue[] => Array.isArray(value);
+  const _isArray = (value: JsonValue): value is JsonValue[] => Array.isArray(value);
 
-  function toggle() {
+  function _toggle() {
     userOverride = !isExpanded;
   }
 </script>

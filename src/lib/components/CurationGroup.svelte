@@ -1,7 +1,5 @@
 <script lang="ts">
-  import PhotoGridItem from "$lib/components/PhotoGridItem.svelte";
   import type { CurationGroup, ImageEntry } from "$lib/types/manifest";
-  import { cn } from "$lib/utils";
 
   let {
     group,

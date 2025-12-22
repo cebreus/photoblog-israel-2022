@@ -1,5 +1,5 @@
 <script lang="ts" module>
-  import { tv, type VariantProps } from "tailwind-variants";
+  import { type VariantProps, tv } from "tailwind-variants";
 
   export const itemMediaVariants = tv({
     base: "flex shrink-0 items-center justify-center gap-2 group-has-[[data-slot=item-description]]/item:translate-y-0.5 group-has-[[data-slot=item-description]]/item:self-start [&_svg]:pointer-events-none",

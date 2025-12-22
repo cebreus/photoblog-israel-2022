@@ -2,7 +2,7 @@
   import type { Snippet } from "svelte";
   import type { HTMLButtonAttributes } from "svelte/elements";
 
-  import { cn, type WithElementRef } from "$lib/utils";
+  import { type WithElementRef, cn } from "$lib/utils";
 
   let {
     ref = $bindable(null),
@@ -16,7 +16,7 @@
     showOnHover?: boolean;
   } = $props();
 
-  const mergedProps = $derived({
+  const _mergedProps = $derived({
     class: cn(
       "text-sidebar-foreground ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer-hover/menu-button:text-sidebar-accent-foreground outline-hidden absolute right-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-md p-0 transition-transform focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
       // Increases the hit area of the button on mobile.

@@ -1,21 +1,7 @@
 <script lang="ts">
-  import Archive from "@lucide/svelte/icons/archive";
-  import ArrowRightLeft from "@lucide/svelte/icons/arrow-right-left";
-  import Copy from "@lucide/svelte/icons/copy";
-  import Trash2 from "@lucide/svelte/icons/trash-2";
-
-  import { useScrollspy } from "$lib/actions/scrollspy";
-  import AspectRatioIcon from "$lib/components/AspectRatioIcon.svelte";
-  import JsonViewer from "$lib/components/debug/JsonViewer.svelte";
-  import { Button } from "$lib/components/ui/button";
-  import * as ContextMenu from "$lib/components/ui/context-menu";
   import { editor } from "$lib/stores/editor.svelte";
-  import { metadataClipboard } from "$lib/stores/metadata-clipboard.svelte";
-  import { people } from "$lib/stores/people.svelte";
   import { ui } from "$lib/stores/ui.svelte";
   import type { CurationGroup, ImageEntry, ImageSource } from "$lib/types/manifest";
-  import { cn } from "$lib/utils";
-  import { getSources } from "$lib/utils/images";
 
   let {
     item,
@@ -58,12 +44,12 @@
     return image.sources.find(isDetail) ?? image.sources[0];
   }
 
-  function shouldShowAspectRatioIcon(aspectRatio: string | undefined): boolean {
+  function _shouldShowAspectRatioIcon(aspectRatio: string | undefined): boolean {
     if (!aspectRatio) return false;
     return !aspectRatio.startsWith("landscape");
   }
 
-  function handleImageClick(id: string, e: MouseEvent | KeyboardEvent) {
+  function _handleImageClick(id: string, e: MouseEvent | KeyboardEvent) {
     if (!editor.editMode) return;
     if (e instanceof KeyboardEvent && e.key !== "Enter" && e.key !== " ") return;
     e.preventDefault();
@@ -74,19 +60,19 @@
     }
   }
 
-  let isSelected = $derived(editor.selection.has(item.id));
-  let showCurationVisuals = $derived(ui.isCurationVisualsVisible(!!curationGroup, mode));
-  let fallback = $derived(findFallbackSource(item)!);
-  let detailSource = $derived(findDetailSource(item));
+  let _isSelected = $derived(editor.selection.has(item.id));
+  let _showCurationVisuals = $derived(ui.isCurationVisualsVisible(!!curationGroup, mode));
+  let _fallback = $derived(findFallbackSource(item)!);
+  let _detailSource = $derived(findDetailSource(item));
 
-  function handleOpenDialog(e: MouseEvent) {
+  function _handleOpenDialog(e: MouseEvent) {
     if (!ui.curationMode || !curationGroup) return;
     e.stopPropagation();
     e.preventDefault();
     onOpenCurationDialog?.(curationGroup);
   }
 
-  function handleDelete(e: MouseEvent) {
+  function _handleDelete(e: MouseEvent) {
     e.stopPropagation();
     e.preventDefault();
     onDelete?.(item);

@@ -1,13 +1,5 @@
 <script lang="ts">
-  import Bug from "@lucide/svelte/icons/bug";
-  import Sparkles from "@lucide/svelte/icons/sparkles";
-  import Tags from "@lucide/svelte/icons/tags";
-  import { dev } from "$app/environment";
   import { page } from "$app/state";
-  import { Button } from "$lib/components/ui/button";
-  import * as Sidebar from "$lib/components/ui/sidebar";
-  import { editor } from "$lib/stores/editor.svelte";
-  import { ui } from "$lib/stores/ui.svelte";
   import type { MenuManifest } from "$lib/types/manifest";
 
   type AuthorStats = {
@@ -19,7 +11,7 @@
   let { menuItems = [], authors = [] }: { menuItems?: MenuManifest; authors?: AuthorStats[] } =
     $props();
 
-  const siteManifest = $derived(page.data.siteManifest);
+  const _siteManifest = $derived(page.data.siteManifest);
 </script>
 
 <header

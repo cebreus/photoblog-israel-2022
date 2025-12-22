@@ -2,7 +2,6 @@
   import type { ComponentProps } from "svelte";
 
   import { Separator } from "$lib/components/ui/separator/index.js";
-  import { cn } from "$lib/utils";
 
   let {
     ref = $bindable(null),

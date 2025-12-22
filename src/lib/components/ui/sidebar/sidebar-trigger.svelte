@@ -1,9 +1,7 @@
 <script lang="ts">
-  import PanelLeft from "@lucide/svelte/icons/panel-left";
   import type { ComponentProps } from "svelte";
 
   import { Button } from "$lib/components/ui/button/index.js";
-  import { cn } from "$lib/utils";
 
   import { useSidebar } from "./context.svelte.js";
 
@@ -16,7 +14,7 @@
     onclick?: (e: MouseEvent) => void;
   } = $props();
 
-  const sidebar = useSidebar();
+  const _sidebar = useSidebar();
 </script>
 
 <Button

@@ -1,10 +1,6 @@
 <script lang="ts">
   import { NavigationMenu as NavigationMenuPrimitive } from "bits-ui";
 
-  import { cn } from "$lib/utils";
-
-  import NavigationMenuViewport from "./navigation-menu-viewport.svelte";
-
   let {
     ref = $bindable(null),
     class: className,

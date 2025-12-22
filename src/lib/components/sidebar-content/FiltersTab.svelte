@@ -1,17 +1,7 @@
 <script lang="ts">
-  import Monitor from "@lucide/svelte/icons/monitor";
-  import Moon from "@lucide/svelte/icons/moon";
-  import Sun from "@lucide/svelte/icons/sun";
-  import { mode, resetMode, setMode } from "mode-watcher";
-
-  import { Badge } from "$lib/components/ui/badge/";
-  import * as Sidebar from "$lib/components/ui/sidebar";
-  import { Switch } from "$lib/components/ui/switch";
-  import { ToggleGroup, ToggleGroupItem } from "$lib/components/ui/toggle-group";
   import { filters } from "$lib/stores/filters.svelte";
   import { ui } from "$lib/stores/ui.svelte";
   import type { MenuDay, QualityBucket } from "$lib/types/manifest";
-  import { QUALITY_BUCKETS } from "$lib/utils/gallery";
   import { getMenuItems } from "$lib/utils/menu";
   import { toSlug } from "$lib/utils/strings";
 
@@ -26,9 +16,9 @@
     qualityStats?: Map<string, number>;
   }>();
 
-  let totalPhotos = $state(0);
-  let totalAuthors = $state(0);
-  const totalLocations = getMenuItems().reduce(
+  let _totalPhotos = $state(0);
+  let _totalAuthors = $state(0);
+  const _totalLocations = getMenuItems().reduce(
     (acc: number, day: MenuDay) => acc + day.locations.length,
     0,
   );
@@ -36,8 +26,8 @@
   $effect(updateTotals);
 
   function updateTotals() {
-    totalPhotos = authors.reduce(sumAuthorCounts, 0);
-    totalAuthors = authors.length;
+    _totalPhotos = authors.reduce(sumAuthorCounts, 0);
+    _totalAuthors = authors.length;
   }
 
   function sumAuthorCounts(sum: number, author: AuthorStats): number {
@@ -48,14 +38,9 @@
     return a.slug ?? toSlug(a.name);
   }
 
-  function toggleAuthor(slug: string, displayName?: string) {
-    const previous = filters.selectedAuthors;
+  function toggleAuthor(slug: string, _displayName?: string) {
+    const _previous = filters.selectedAuthors;
     if (ui.debugMode) {
-      console.debug("filters: toggleAuthor start", {
-        slug,
-        name: displayName,
-        previous,
-      });
     }
 
     let effectiveCurrent = filters.selectedAuthors;
@@ -90,7 +75,7 @@
     filters.selectedAuthors = next;
   }
 
-  function toggleQualityBucket(bucketId: string) {
+  function _toggleQualityBucket(bucketId: string) {
     // Cast to QualityBucket as we know the input comes from QUALITY_BUCKETS list
     const id = bucketId as QualityBucket;
     if (filters.selectedQualityBuckets.includes(id)) {
@@ -100,13 +85,13 @@
     }
   }
 
-  function createToggleHandler(slug: string, name: string) {
+  function _createToggleHandler(slug: string, name: string) {
     return function handleToggle() {
       toggleAuthor(slug, name);
     };
   }
 
-  const qualityCount = $derived(
+  const _qualityCount = $derived(
     Array.from(qualityStats.values() as IterableIterator<number>).reduce(
       (sum: number, val: number) => sum + val,
       0,
