@@ -39,9 +39,7 @@
         "height": 455.00559425354004
       }
     ],
-    "peopleIds": [
-      "person-a8fb780b"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.04351850599050522,
@@ -311,9 +309,7 @@
         "height": 449.5801763534546
       }
     ],
-    "peopleIds": [
-      "person-a8fb780b"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.06743982434272766,
@@ -639,9 +635,7 @@
         "height": 265.07444232702255
       }
     ],
-    "peopleIds": [
-      "person-75d1f75b"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.08945311605930328,
@@ -1063,9 +1057,7 @@
         "height": 198.3828048706054
       }
     ],
-    "peopleIds": [
-      "person-75d1f75b"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.10698194056749344,
@@ -1628,7 +1620,6 @@
       }
     ],
     "peopleIds": [
-      "person-a8fb780b",
       "person-55dd8c4d"
     ],
     "descriptors": [
@@ -1928,9 +1919,7 @@
         "height": 79.45457935333252
       }
     ],
-    "peopleIds": [
-      "person-937f73bd"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.0935116559267044,
@@ -2116,9 +2105,7 @@
         "height": 417.6851406097412
       }
     ],
-    "peopleIds": [
-      "person-2c09ab52"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.11019043624401093,
@@ -2614,9 +2601,7 @@
         "height": 306.7089336812496
       }
     ],
-    "peopleIds": [
-      "person-a8fb780b"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.0009994134306907654,
@@ -2780,9 +2765,9 @@
     ],
     "peopleIds": [
       "person-9053228d",
-      "person-add18d4b",
-      "person-d4130022",
-      "person-d2d56009"
+      "person-add18d4b--jaruska",
+      "person-d4130022--jarek",
+      "person-d2d56009--bobina"
     ],
     "descriptors": [
       [
@@ -3342,8 +3327,6 @@
       }
     ],
     "peopleIds": [
-      "person-9d6c71e2",
-      "person-4f06c408",
       "person-44ec1723"
     ],
     "descriptors": [
@@ -4741,8 +4724,7 @@
       }
     ],
     "peopleIds": [
-      "person-44ec1723",
-      "person-a8fb780b"
+      "person-44ec1723"
     ],
     "descriptors": [
       [
@@ -5102,7 +5084,7 @@
       }
     ],
     "peopleIds": [
-      "person-4fe4f583"
+      "person-5a5adc3d--finda"
     ],
     "descriptors": [
       [
@@ -5290,8 +5272,7 @@
       }
     ],
     "peopleIds": [
-      "person-add18d4b",
-      "person-a8fb780b"
+      "person-add18d4b--jaruska"
     ],
     "descriptors": [
       [
@@ -5646,8 +5627,7 @@
     ],
     "peopleIds": [
       "person-c7aa3346",
-      "person-44ec1723",
-      "person-a8fb780b"
+      "person-44ec1723"
     ],
     "descriptors": [
       [
@@ -6515,7 +6495,7 @@
       }
     ],
     "peopleIds": [
-      "person-add18d4b"
+      "person-add18d4b--jaruska"
     ],
     "descriptors": [
       [
@@ -6679,9 +6659,9 @@
       }
     ],
     "peopleIds": [
-      "person-add18d4b",
+      "person-add18d4b--jaruska",
       "person-9053228d",
-      "person-d4130022"
+      "person-d4130022--jarek"
     ],
     "descriptors": [
       [
@@ -7235,10 +7215,9 @@
       }
     ],
     "peopleIds": [
-      "person-a8fb780b",
-      "person-add18d4b",
+      "person-add18d4b--jaruska",
       "person-44ec1723",
-      "person-d4130022"
+      "person-d4130022--jarek"
     ],
     "descriptors": [
       [
@@ -7858,7 +7837,7 @@
       }
     ],
     "peopleIds": [
-      "person-a8fb780b"
+      "person-f27bd106--odpojeno-od-person-1"
     ],
     "descriptors": [
       [
@@ -8216,7 +8195,7 @@
       }
     ],
     "peopleIds": [
-      "person-add18d4b"
+      "person-add18d4b--jaruska"
     ],
     "descriptors": [
       [
@@ -8373,9 +8352,7 @@
         "height": 111.22764587402342
       }
     ],
-    "peopleIds": [
-      "person-a8fb780b"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.06752321869134903,
@@ -8780,7 +8757,7 @@
       }
     ],
     "peopleIds": [
-      "person-add18d4b"
+      "person-add18d4b--jaruska"
     ],
     "descriptors": [
       [
@@ -8956,7 +8933,7 @@
       }
     ],
     "peopleIds": [
-      "person-a8fb780b"
+      "person-d1e31cb3--odpojeno-od-person-1"
     ],
     "descriptors": [
       [
@@ -9132,7 +9109,7 @@
       }
     ],
     "peopleIds": [
-      "person-a8fb780b"
+      "person-b98d9dd2--odpojeno-od-person-1"
     ],
     "descriptors": [
       [
@@ -9538,7 +9515,7 @@
       }
     ],
     "peopleIds": [
-      "person-a8fb780b"
+      "person-67f97793--odpojeno-od-person-1"
     ],
     "descriptors": [
       [
@@ -9855,10 +9832,10 @@
     ],
     "peopleIds": [
       "person-44ec1723",
-      "person-d2d56009",
+      "person-d2d56009--bobina",
       "person-9053228d",
-      "person-a8fb780b",
-      "person-add18d4b"
+      "person-add18d4b--jaruska",
+      "person-a4c8afad--odpojeno-od-person-1"
     ],
     "descriptors": [
       [
@@ -10591,10 +10568,10 @@
     ],
     "peopleIds": [
       "person-44ec1723",
-      "person-8a42fdd5",
-      "person-a8fb780b",
-      "person-6580ff5f",
-      "person-d8b987de"
+      "person-5a5adc3d--finda",
+      "person-d8b987de",
+      "person-e6861ddd--odpojeno-od-person-22",
+      "person-681d0eb9--odpojeno-od-person-1"
     ],
     "descriptors": [
       [
@@ -11561,9 +11538,7 @@
         "height": 458.341438293457
       }
     ],
-    "peopleIds": [
-      "person-a8fb780b"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.035526685416698456,
@@ -11715,7 +11690,7 @@
     ],
     "peopleIds": [
       "person-44ec1723",
-      "person-90c372c1"
+      "person-d2d56009--bobina"
     ],
     "descriptors": [
       [
@@ -12240,8 +12215,8 @@
     ],
     "peopleIds": [
       "person-9053228d",
-      "person-d4130022",
-      "person-d2d56009"
+      "person-d4130022--jarek",
+      "person-d2d56009--bobina"
     ],
     "descriptors": [
       [
@@ -12838,9 +12813,7 @@
         "height": 3402.807254791259
       }
     ],
-    "peopleIds": [
-      "person-a8fb780b"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.11366993188858032,
@@ -12992,7 +12965,7 @@
     ],
     "peopleIds": [
       "person-44ec1723",
-      "person-5a5adc3d"
+      "person-5a5adc3d--finda"
     ],
     "descriptors": [
       [
@@ -13291,9 +13264,7 @@
         "height": 416.0582696795464
       }
     ],
-    "peopleIds": [
-      "person-a8fb780b"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.11657409369945526,
@@ -13437,9 +13408,7 @@
         "height": 92.14192199707043
       }
     ],
-    "peopleIds": [
-      "person-a8fb780b"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.08264344185590744,
@@ -13584,7 +13553,7 @@
       }
     ],
     "peopleIds": [
-      "person-d2d56009"
+      "person-d2d56009--bobina"
     ],
     "descriptors": [
       [
@@ -13874,8 +13843,8 @@
       }
     ],
     "peopleIds": [
-      "person-cdbe8a4c",
-      "person-add18d4b",
+      "person-d2d56009--bobina",
+      "person-add18d4b--jaruska",
       "person-9053228d"
     ],
     "descriptors": [
@@ -14782,9 +14751,7 @@
         "height": 171.11254119873047
       }
     ],
-    "peopleIds": [
-      "person-a8fb780b"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.08150728791952133,
@@ -14929,7 +14896,7 @@
       }
     ],
     "peopleIds": [
-      "person-add18d4b"
+      "person-add18d4b--jaruska"
     ],
     "descriptors": [
       [
@@ -15212,9 +15179,7 @@
         "height": 74.08359665340836
       }
     ],
-    "peopleIds": [
-      "person-a8fb780b"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.07670073956251144,
@@ -15693,7 +15658,7 @@
       }
     ],
     "peopleIds": [
-      "person-a8fb780b"
+      "person-b511a2da--odpojeno-od-person-1"
     ],
     "descriptors": [
       [
@@ -15881,7 +15846,7 @@
       }
     ],
     "peopleIds": [
-      "person-a8fb780b"
+      "person-7f2c1545--odpojeno-od-person-1"
     ],
     "descriptors": [
       [
@@ -16164,7 +16129,7 @@
     ],
     "peopleIds": [
       "person-44ec1723",
-      "person-a8fb780b"
+      "person-19d0065f--odpojeno-od-person-1"
     ],
     "descriptors": [
       [
@@ -16475,9 +16440,7 @@
         "height": 113.34563827514647
       }
     ],
-    "peopleIds": [
-      "person-a8fb780b"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.06416627764701843,
@@ -16640,7 +16603,7 @@
       }
     ],
     "peopleIds": [
-      "person-a8fb780b"
+      "person-11ddc220--odpojeno-od-person-1"
     ],
     "descriptors": [
       [
@@ -17090,7 +17053,7 @@
       }
     ],
     "peopleIds": [
-      "person-a8fb780b"
+      "person-cf1bf381--odpojeno-od-person-1"
     ],
     "descriptors": [
       [
@@ -17834,7 +17797,7 @@
       }
     ],
     "peopleIds": [
-      "person-a8fb780b"
+      "person-a2677ccc--odpojeno-od-person-1"
     ],
     "descriptors": [
       [
@@ -17985,9 +17948,7 @@
         "height": 149.4089469909668
       }
     ],
-    "peopleIds": [
-      "person-a8fb780b"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.037421733140945435,
@@ -18268,7 +18229,7 @@
       }
     ],
     "peopleIds": [
-      "person-a8fb780b"
+      "person-a8e80335--odpojeno-od-person-1"
     ],
     "descriptors": [
       [
@@ -18568,7 +18529,7 @@
       }
     ],
     "peopleIds": [
-      "person-a8fb780b"
+      "person-31cca3fa--odpojeno-od-person-1"
     ],
     "descriptors": [
       [
@@ -19030,7 +18991,7 @@
       }
     ],
     "peopleIds": [
-      "person-add18d4b"
+      "person-add18d4b--jaruska"
     ],
     "descriptors": [
       [
@@ -19200,7 +19161,7 @@
       }
     ],
     "peopleIds": [
-      "person-add18d4b"
+      "person-add18d4b--jaruska"
     ],
     "descriptors": [
       [
@@ -19965,8 +19926,8 @@
     "peopleIds": [
       "person-44ec1723",
       "person-0144da0f",
-      "person-a8fb780b",
-      "person-06166c2b"
+      "person-06166c2b",
+      "person-a8a8ddbf--odpojeno-od-person-1"
     ],
     "descriptors": [
       [
@@ -20638,7 +20599,7 @@
       }
     ],
     "peopleIds": [
-      "person-a8fb780b"
+      "person-b6daf049--odpojeno-od-person-1"
     ],
     "descriptors": [
       [
@@ -20937,9 +20898,7 @@
         "height": 3469.3330960273743
       }
     ],
-    "peopleIds": [
-      "person-a8fb780b"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.06099303811788559,
@@ -21090,7 +21049,6 @@
       }
     ],
     "peopleIds": [
-      "person-a8fb780b",
       "person-44ec1723"
     ],
     "descriptors": [
@@ -21372,10 +21330,7 @@
         "height": 112.47335386276244
       }
     ],
-    "peopleIds": [
-      "person-a8fb780b",
-      "person-9d6c71e2"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.1268068104982376,
@@ -21739,10 +21694,7 @@
         "height": 167.50020217895496
       }
     ],
-    "peopleIds": [
-      "person-42611503",
-      "person-90aac904"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.08203486353158951,
@@ -22171,7 +22123,6 @@
       }
     ],
     "peopleIds": [
-      "person-a8fb780b",
       "person-44ec1723"
     ],
     "descriptors": [
@@ -22600,7 +22551,6 @@
       }
     ],
     "peopleIds": [
-      "person-a8fb780b",
       "person-44ec1723"
     ],
     "descriptors": [
@@ -22883,7 +22833,6 @@
       }
     ],
     "peopleIds": [
-      "person-a8fb780b",
       "person-44ec1723"
     ],
     "descriptors": [
@@ -23174,7 +23123,7 @@
     "peopleIds": [
       "person-382caa53",
       "person-1e4543e8",
-      "person-8a42fdd5"
+      "person-a6a62d68--odpojeno-od-person-22"
     ],
     "descriptors": [
       [
@@ -23743,9 +23692,7 @@
         "height": 103.1219940185549
       }
     ],
-    "peopleIds": [
-      "person-a8fb780b"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.05268293619155884,
@@ -23889,9 +23836,7 @@
         "height": 171.90657806396496
       }
     ],
-    "peopleIds": [
-      "person-75d1f75b"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.09490108489990234,
@@ -24355,9 +24300,9 @@
     ],
     "peopleIds": [
       "person-7c102b98",
-      "person-a8fb780b",
       "person-b0b27b22",
-      "person-44ec1723"
+      "person-44ec1723",
+      "person-7767c8f9--odpojeno-od-person-1"
     ],
     "descriptors": [
       [
@@ -25073,8 +25018,8 @@
     "peopleIds": [
       "person-98b62bee",
       "person-54fbf04b",
-      "person-a8fb780b",
-      "person-4e3c9bdd"
+      "person-4e3c9bdd",
+      "person-634951ca--odpojeno-od-person-1"
     ],
     "descriptors": [
       [
@@ -25631,7 +25576,7 @@
       "person-357b0605",
       "person-8ef255a9",
       "person-7da969b3",
-      "person-a8fb780b"
+      "person-80530fcf--odpojeno-od-person-1"
     ],
     "descriptors": [
       [
@@ -26214,9 +26159,7 @@
         "height": 96.80905151367176
       }
     ],
-    "peopleIds": [
-      "person-a8fb780b"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.055280908942222595,
@@ -26396,9 +26339,7 @@
         "height": 253.03496360778817
       }
     ],
-    "peopleIds": [
-      "person-75d1f75b"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.07537388056516647,
@@ -26585,7 +26526,7 @@
       }
     ],
     "peopleIds": [
-      "person-8a42fdd5"
+      "person-65c94c80--odpojeno-od-person-22"
     ],
     "descriptors": [
       [
@@ -26755,8 +26696,7 @@
       }
     ],
     "peopleIds": [
-      "person-44ec1723",
-      "person-a8fb780b"
+      "person-44ec1723"
     ],
     "descriptors": [
       [
@@ -27505,9 +27445,7 @@
         "height": 289.5163654088974
       }
     ],
-    "peopleIds": [
-      "person-8a42fdd5"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.11749887466430664,
@@ -27681,9 +27619,7 @@
         "height": 215.70790100097653
       }
     ],
-    "peopleIds": [
-      "person-75d1f75b"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.060895755887031555,
@@ -27827,9 +27763,7 @@
         "height": 278.0051879882812
       }
     ],
-    "peopleIds": [
-      "person-75d1f75b"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         0.005248859524726868,
@@ -28003,9 +27937,7 @@
         "height": 308.44246673583984
       }
     ],
-    "peopleIds": [
-      "person-75d1f75b"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.07595259696245193,
@@ -28149,9 +28081,7 @@
         "height": 143.81776428222656
       }
     ],
-    "peopleIds": [
-      "person-8a42fdd5"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.11400638520717621,
@@ -28319,10 +28249,7 @@
         "height": 95.95541381835926
       }
     ],
-    "peopleIds": [
-      "person-a8fb780b",
-      "person-75d1f75b"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.050408296287059784,
@@ -29144,7 +29071,6 @@
     ],
     "peopleIds": [
       "person-f78ade0a",
-      "person-a8fb780b",
       "person-d7dead22",
       "person-44ec1723",
       "person-5a712fb0"
@@ -31112,9 +31038,7 @@
         "height": 1783.0769636631012
       }
     ],
-    "peopleIds": [
-      "person-a8fb780b"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.06124851852655411,
@@ -31265,8 +31189,7 @@
       }
     ],
     "peopleIds": [
-      "person-a8fb780b",
-      "person-75d1f75b"
+      "person-a431e163--odpojeno-od-person-1"
     ],
     "descriptors": [
       [
@@ -31802,7 +31725,7 @@
       }
     ],
     "peopleIds": [
-      "person-a8fb780b"
+      "person-d2d56009--bobina"
     ],
     "descriptors": [
       [
@@ -32407,8 +32330,8 @@
       }
     ],
     "peopleIds": [
-      "person-add18d4b",
-      "person-d4130022"
+      "person-add18d4b--jaruska",
+      "person-d4130022--jarek"
     ],
     "descriptors": [
       [
@@ -32780,7 +32703,7 @@
       }
     ],
     "peopleIds": [
-      "person-add18d4b"
+      "person-add18d4b--jaruska"
     ],
     "descriptors": [
       [
@@ -32956,8 +32879,8 @@
       }
     ],
     "peopleIds": [
-      "person-add18d4b",
-      "person-d2d56009"
+      "person-add18d4b--jaruska",
+      "person-d2d56009--bobina"
     ],
     "descriptors": [
       [

@@ -1,0 +1,844 @@
+{
+  "disconnects": [
+    {
+      "imageId": "img1527",
+      "personId": "person-8a42fdd5"
+    },
+    {
+      "imageId": "img2342",
+      "personId": "person-8a42fdd5"
+    },
+    {
+      "imageId": "img2445",
+      "personId": "person-8a42fdd5"
+    },
+    {
+      "imageId": "img2518",
+      "personId": "person-8a42fdd5"
+    },
+    {
+      "imageId": "img2580",
+      "personId": "person-8a42fdd5"
+    },
+    {
+      "imageId": "img0900",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img0981",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img1073",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img1202",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img1276",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img1299",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img1377",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img1433",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img1478",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img1527",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img1531",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img1534",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img1544",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img1551",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img1602",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img1756",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img1779",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img1792",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img1962",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2039",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2078",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2104",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2111",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2120",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2132",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2133",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2172",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2182",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2183",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2197",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2228",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2260",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2263",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2268",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2279",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2299",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2337",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2346",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2351",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2355",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2374",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2382",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2416",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2444",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2484",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2563",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2605",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2607",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2657",
+      "personId": "person-a8fb780b"
+    },
+    {
+      "imageId": "img2669",
+      "personId": "person-a8fb780b"
+    }
+  ],
+  "connects": [
+    {
+      "imageId": "img1527",
+      "personId": "person-e6861ddd--odpojeno-od-person-22"
+    },
+    {
+      "imageId": "img2342",
+      "personId": "person-a6a62d68--odpojeno-od-person-22"
+    },
+    {
+      "imageId": "img2445",
+      "personId": "person-65c94c80--odpojeno-od-person-22"
+    },
+    {
+      "imageId": "img2518",
+      "personId": "person-cc0227e1--odpojeno-od-person-22"
+    },
+    {
+      "imageId": "img2580",
+      "personId": "person-a1f8835b--odpojeno-od-person-22"
+    },
+    {
+      "imageId": "img0900",
+      "personId": "person-ed3ce5fd--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img0981",
+      "personId": "person-5ada5f2e--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img1073",
+      "personId": "person-dffd7307--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img1202",
+      "personId": "person-04d4f160--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img1276",
+      "personId": "person-23d1828b--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img1299",
+      "personId": "person-aa7b00bf--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img1377",
+      "personId": "person-d4130022--jarek"
+    },
+    {
+      "imageId": "img1433",
+      "personId": "person-f27bd106--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img1478",
+      "personId": "person-a74aaa29--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img1527",
+      "personId": "person-681d0eb9--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img1531",
+      "personId": "person-a4c8afad--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img1534",
+      "personId": "person-d1e31cb3--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img1544",
+      "personId": "person-b98d9dd2--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img1551",
+      "personId": "person-67f97793--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img1602",
+      "personId": "person-a3dd085b--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img1756",
+      "personId": "person-3f7190d5--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img1779",
+      "personId": "person-66d8d7f6--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img1792",
+      "personId": "person-5d5c2c9e--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img1962",
+      "personId": "person-f75b5c34--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2039",
+      "personId": "person-dbba3c82--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2078",
+      "personId": "person-b511a2da--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2104",
+      "personId": "person-19d0065f--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2111",
+      "personId": "person-7f2c1545--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2120",
+      "personId": "person-5b610806--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2132",
+      "personId": "person-11ddc220--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2133",
+      "personId": "person-cf1bf381--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2172",
+      "personId": "person-a2677ccc--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2182",
+      "personId": "person-a8e80335--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2183",
+      "personId": "person-a539ab59--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2197",
+      "personId": "person-31cca3fa--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2228",
+      "personId": "person-a8a8ddbf--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2260",
+      "personId": "person-b6daf049--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2263",
+      "personId": "person-917fd721--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2268",
+      "personId": "person-79e04255--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2279",
+      "personId": "person-25b9d783--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2299",
+      "personId": "person-4b99f0e8--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2337",
+      "personId": "person-31368587--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2346",
+      "personId": "person-6b1bfc0f--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2351",
+      "personId": "person-7767c8f9--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2355",
+      "personId": "person-65740748--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2374",
+      "personId": "person-634951ca--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2382",
+      "personId": "person-80530fcf--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2416",
+      "personId": "person-9380563e--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2444",
+      "personId": "person-7e6e98f2--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2484",
+      "personId": "person-1909c21d--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2563",
+      "personId": "person-27730a03--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2605",
+      "personId": "person-a431e163--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2607",
+      "personId": "person-8b378bda--odpojeno-od-person-1"
+    },
+    {
+      "imageId": "img2657",
+      "personId": "person-d2d56009--bobina"
+    },
+    {
+      "imageId": "img2669",
+      "personId": "person-7df7cfaf--odpojeno-od-person-1"
+    }
+  ],
+  "ignoredCrops": [
+    {
+      "imageId": "img0981",
+      "box": {
+        "x": 208.69787907600403,
+        "y": 1774.9576606750484,
+        "width": 58.6817786693573,
+        "height": 86.48008346557637
+      }
+    },
+    {
+      "imageId": "img1276",
+      "box": {
+        "x": 1906.19868850708,
+        "y": 1151.956432342529,
+        "width": 80.00930786132812,
+        "height": 102.48867416381847
+      }
+    },
+    {
+      "imageId": "img1792",
+      "box": {
+        "x": 758.7442572911579,
+        "y": 1187.8556364178658,
+        "width": 262.44106403986626,
+        "height": 416.0582696795464
+      }
+    },
+    {
+      "imageId": "img2268",
+      "box": {
+        "x": 0,
+        "y": 76.17195129394531,
+        "width": 2811.0963377952576,
+        "height": 3469.3330960273743
+      }
+    },
+    {
+      "imageId": "img2279",
+      "box": {
+        "x": 743.2929355502129,
+        "y": 1908.3744476437566,
+        "width": 71.38948369026184,
+        "height": 112.47335386276244
+      }
+    },
+    {
+      "imageId": "img2299",
+      "box": {
+        "x": 335.93548250198364,
+        "y": 485.2633194923401,
+        "width": 97.82857418060303,
+        "height": 184.62093114852908
+      }
+    },
+    {
+      "imageId": "img2337",
+      "box": {
+        "x": 2782.2513427734375,
+        "y": 2509.853199005127,
+        "width": 193.3710479736328,
+        "height": 303.0399398803711
+      }
+    },
+    {
+      "imageId": "img2346",
+      "box": {
+        "x": 908.6266708374023,
+        "y": 2565.2978324890137,
+        "width": 189.6753158569336,
+        "height": 308.4477539062499
+      }
+    },
+    {
+      "imageId": "img2416",
+      "box": {
+        "x": 2898.625087738037,
+        "y": 1101.3353805541992,
+        "width": 66.19873809814453,
+        "height": 96.80905151367176
+      }
+    },
+    {
+      "imageId": "img2607",
+      "box": {
+        "x": 470.3127374649048,
+        "y": 168.62240207195282,
+        "width": 1706.8100557923317,
+        "height": 1783.0769636631012
+      }
+    },
+    {
+      "imageId": "img2669",
+      "box": {
+        "x": 590.0560884475708,
+        "y": 478.38516139984137,
+        "width": 293.7557888031006,
+        "height": 455.00559425354
+      }
+    },
+    {
+      "imageId": "img2518",
+      "box": {
+        "x": 1867.107199251652,
+        "y": 631.3386457264423,
+        "width": 165.92255687713623,
+        "height": 289.5163654088974
+      }
+    },
+    {
+      "imageId": "img0908",
+      "box": {
+        "x": 812.7885818481445,
+        "y": 269.9543572962284,
+        "width": 181.96019232273102,
+        "height": 265.07444232702255
+      }
+    },
+    {
+      "imageId": "img0990",
+      "box": {
+        "x": 934.8574047088623,
+        "y": 500.1736807823181,
+        "width": 165.22383499145508,
+        "height": 189.83990907669067
+      }
+    },
+    {
+      "imageId": "img2364",
+      "box": {
+        "x": 3145.7101821899414,
+        "y": 1143.6583385467527,
+        "width": 101.2291259765625,
+        "height": 171.90657806396496
+      }
+    },
+    {
+      "imageId": "img2425",
+      "box": {
+        "x": 1812.5327396392822,
+        "y": 1805.0509128570557,
+        "width": 140.79999160766602,
+        "height": 253.03496360778817
+      }
+    },
+    {
+      "imageId": "img2561",
+      "box": {
+        "x": 2120.038536071777,
+        "y": 2409.1551933288574,
+        "width": 229.49972534179696,
+        "height": 215.70790100097653
+      }
+    },
+    {
+      "imageId": "img2562",
+      "box": {
+        "x": 2699.154327392578,
+        "y": 279.01641941070557,
+        "width": 178.2473373413086,
+        "height": 278.0051879882812
+      }
+    },
+    {
+      "imageId": "img2563",
+      "box": {
+        "x": 3058.9784774780273,
+        "y": 1143.6828517913816,
+        "width": 71.00189208984375,
+        "height": 96.9693489074707
+      }
+    },
+    {
+      "imageId": "img2572",
+      "box": {
+        "x": 1256.4058055877686,
+        "y": 1181.036470413208,
+        "width": 242.47227859497062,
+        "height": 308.44246673583984
+      }
+    },
+    {
+      "imageId": "img2605",
+      "box": {
+        "x": 1784.6107120513916,
+        "y": 879.946174621582,
+        "width": 197.68826293945312,
+        "height": 230.17804527282706
+      }
+    },
+    {
+      "imageId": "img1061",
+      "box": {
+        "x": 1127.6371307373047,
+        "y": 1841.0737266540527,
+        "width": 88.47334671020508,
+        "height": 137.23740005493156
+      }
+    },
+    {
+      "imageId": "img2279",
+      "box": {
+        "x": 1390.1725401878357,
+        "y": 1855.0807494521139,
+        "width": 123.63124378522215,
+        "height": 178.33475589752197
+      }
+    },
+    {
+      "imageId": "img2294",
+      "box": {
+        "x": 2840.1170196533203,
+        "y": 700.0312757492064,
+        "width": 127.31458282470703,
+        "height": 223.57809448242188
+      }
+    },
+    {
+      "imageId": "img1012",
+      "box": {
+        "x": 436.7236024538675,
+        "y": 1629.2485545873642,
+        "width": 62.31823412577313,
+        "height": 79.45457935333252
+      }
+    },
+    {
+      "imageId": "img1044",
+      "box": {
+        "x": 1026.4974060058594,
+        "y": 370.7591600418091,
+        "width": 264.95549011230474,
+        "height": 417.6851406097412
+      }
+    },
+    {
+      "imageId": "img2294",
+      "box": {
+        "x": 1125.0532665252686,
+        "y": 969.6056499481199,
+        "width": 110.42039108276367,
+        "height": 161.79438400268558
+      }
+    },
+    {
+      "imageId": "img0900",
+      "box": {
+        "x": 465.98512458801264,
+        "y": 735.2086229324341,
+        "width": 364.8979110717774,
+        "height": 449.5801763534546
+      }
+    },
+    {
+      "imageId": "img1073",
+      "box": {
+        "x": 1737.942018032074,
+        "y": 1525.0940122306347,
+        "width": 174.5983403523761,
+        "height": 306.7089336812496
+      }
+    },
+    {
+      "imageId": "img1478",
+      "box": {
+        "x": 1581.9808673858638,
+        "y": 3036.1366996765137,
+        "width": 85.08643341064463,
+        "height": 153.74466705322266
+      }
+    },
+    {
+      "imageId": "img1299",
+      "box": {
+        "x": 15.394527912139893,
+        "y": 552.541090965271,
+        "width": 70.3031519651413,
+        "height": 180.68628501892093
+      }
+    },
+    {
+      "imageId": "img1202",
+      "box": {
+        "x": 2325.1102072000504,
+        "y": 1414.1729011535645,
+        "width": 47.29058909416199,
+        "height": 68.16035546196814
+      }
+    },
+    {
+      "imageId": "img1602",
+      "box": {
+        "x": 2205.9973526000977,
+        "y": 1201.294864654541,
+        "width": 316.36024475097634,
+        "height": 458.341438293457
+      }
+    },
+    {
+      "imageId": "img2355",
+      "box": {
+        "x": 3591.7226895689964,
+        "y": 2355.0107479095454,
+        "width": 84.81144905090332,
+        "height": 103.1219940185549
+      }
+    },
+    {
+      "imageId": "img2444",
+      "box": {
+        "x": 1489.6417635977268,
+        "y": 2272.6326486269627,
+        "width": 72.15708249807358,
+        "height": 108.25475120544434
+      }
+    },
+    {
+      "imageId": "img2484",
+      "box": {
+        "x": 1904.5790119171143,
+        "y": 1497.3860206604004,
+        "width": 50.82821273803711,
+        "height": 80.087173461914
+      }
+    },
+    {
+      "imageId": "img1756",
+      "box": {
+        "x": 349.6861209869385,
+        "y": 0,
+        "width": 3531.0104427337646,
+        "height": 3402.807254791259
+      }
+    },
+    {
+      "imageId": "img2263",
+      "box": {
+        "x": 1843.6064014434814,
+        "y": 2073.401126861572,
+        "width": 80.03982925415039,
+        "height": 137.50055694580078
+      }
+    },
+    {
+      "imageId": "img1779",
+      "box": {
+        "x": 1416.1940689086914,
+        "y": 2207.368171691894,
+        "width": 66.37778091430664,
+        "height": 92.14192199707043
+      }
+    },
+    {
+      "imageId": "img1962",
+      "box": {
+        "x": 3732.3198165893555,
+        "y": 2288.0835571289062,
+        "width": 112.22595977783203,
+        "height": 171.11254119873047
+      }
+    },
+    {
+      "imageId": "img2039",
+      "box": {
+        "x": 616.0704830288887,
+        "y": 1256.9585281478035,
+        "width": 60.763473242521286,
+        "height": 74.08359665340836
+      }
+    },
+    {
+      "imageId": "img2580",
+      "box": {
+        "x": 2641.8519744873042,
+        "y": 3734.5036582946773,
+        "width": 76.70242309570301,
+        "height": 143.81776428222656
+      }
+    },
+    {
+      "imageId": "img2120",
+      "box": {
+        "x": 2158.882415771484,
+        "y": 1636.9580669403074,
+        "width": 67.04949188232422,
+        "height": 113.34563827514647
+      }
+    },
+    {
+      "imageId": "img2183",
+      "box": {
+        "x": 1023.2351016998291,
+        "y": 1509.5937366485596,
+        "width": 85.28277969360352,
+        "height": 126.70920181274391
+      }
+    }
+  ]
+}
