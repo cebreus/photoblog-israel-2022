@@ -197,9 +197,8 @@ export async function runBlurBuild(raw: Partial<CliOptions>, concurrency: number
       }
 
       completedCount++;
-      // Compact suffix: "✓ 4 | ↷ 0 | ✗ 0" (success | cached | fail)
       bar.update(completedCount, {
-        suffix: `| ✓ ${successCount} | ↷ ${skipCount} | ✗ ${failCount}`,
+        suffix: `| Processed ${successCount} | Cached ${skipCount} | Failed ${failCount}`,
       });
     }
   }
@@ -214,7 +213,7 @@ export async function runBlurBuild(raw: Partial<CliOptions>, concurrency: number
   const newSizeStr = formatBytes(successSize);
 
   logger.info(
-    `Blur build complete: Total size ${totalSizeStr}${successSize > 0 && skipSize > 0 ? ` (newly generated: ${newSizeStr})` : ""}`,
+    `Complete with total size ${totalSizeStr}${successSize > 0 && skipSize > 0 ? ` (newly generated: ${newSizeStr})` : ""}`,
   );
 
   if (raw.blurClean) {
