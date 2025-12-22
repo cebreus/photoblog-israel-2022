@@ -58,6 +58,14 @@
     return image.sources.find(isDetail) ?? image.sources[0];
   }
 
+  function isAdminThumb(source: ImageSource) {
+    return source.variant === "admin_thumb";
+  }
+
+  function findAdminThumbSource(image: ImageEntry): ImageSource | undefined {
+    return image.sources.find(isAdminThumb);
+  }
+
   function shouldShowAspectRatioIcon(aspectRatio: string | undefined): boolean {
     if (!aspectRatio) return false;
     return !aspectRatio.startsWith("landscape");
@@ -78,6 +86,7 @@
   let showCurationVisuals = $derived(ui.isCurationVisualsVisible(!!curationGroup, mode));
   let fallback = $derived(findFallbackSource(item) ?? item.sources[0]);
   let detailSource = $derived(findDetailSource(item));
+  let adminThumb = $derived(findAdminThumbSource(item));
 
   function handleOpenDialog(e: MouseEvent) {
     if (!ui.curationMode || !curationGroup) return;
@@ -305,7 +314,7 @@
           </picture>
         {:else}
           <img
-            src={item.adminThumbUrl}
+            src={adminThumb?.path ?? item.adminThumbUrl}
             alt={item.alt}
             loading="lazy"
             class="h-full w-full object-contain"
