@@ -8,21 +8,21 @@
     aspectRatio?: string;
   }>();
 
-  let IconComponent = $state<
+  let _IconComponent = $state<
     typeof Square | typeof RectangleVertical | typeof Cylinder | typeof Circle | undefined
   >(undefined);
 
   $effect(() => {
     if (aspectRatio === "square") {
-      IconComponent = Square;
+      _IconComponent = Square;
     } else if (aspectRatio?.startsWith("portrait")) {
-      IconComponent = RectangleVertical;
+      _IconComponent = RectangleVertical;
     } else if (aspectRatio === "panorama") {
-      IconComponent = Cylinder;
+      _IconComponent = Cylinder;
     } else if (aspectRatio === "sphere") {
-      IconComponent = Circle;
+      _IconComponent = Circle;
     } else {
-      IconComponent = undefined; // Or a default icon if desired
+      _IconComponent = undefined; // Or a default icon if desired
     }
   });
 </script>

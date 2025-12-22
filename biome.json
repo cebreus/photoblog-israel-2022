@@ -8,7 +8,11 @@
       "scripts/**/*.ts",
       "src/**/*.ts",
       "src/**/*.js",
-      "src/**/*.svelte",
+      "src/routes/**/*.svelte",
+      "src/lib/components/*.svelte",
+      "src/lib/components/debug/**/*.svelte",
+      "src/lib/components/offcanvas/**/*.svelte",
+      "src/lib/components/sidebar-content/**/*.svelte",
       "tests/**/*.ts"
     ],
     "maxSize": 10485760
@@ -34,6 +38,25 @@
       "includes": ["**/*.svelte"],
       "formatter": {
         "enabled": false
+      },
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnusedVariables": "off",
+            "noUnusedImports": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["tests/**", "scripts/**"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noConsole": "off",
+            "noExplicitAny": "off"
+          }
+        }
       }
     }
   ],

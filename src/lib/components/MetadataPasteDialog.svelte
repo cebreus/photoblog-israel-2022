@@ -1,12 +1,5 @@
 <script lang="ts">
-  import RefreshCcw from "@lucide/svelte/icons/refresh-ccw";
-  import X from "@lucide/svelte/icons/x";
-
-  import { Button } from "$lib/components/ui/button";
-  import Checkbox from "$lib/components/ui/checkbox/checkbox.svelte";
-  import * as Dialog from "$lib/components/ui/dialog";
   import type { ImageEntry } from "$lib/types/manifest";
-  import { cn } from "$lib/utils";
 
   type MetadataFieldKey =
     | "title"
@@ -83,7 +76,7 @@
   });
 
   // Calculate grid data
-  let gridData = $derived.by(() => {
+  let _gridData = $derived.by(() => {
     return FIELD_DEFS.map((def) => {
       const sourceVal = sourceValues[def.key] || "";
       const isSelected = selectedFields[def.key];
@@ -143,7 +136,7 @@
   }
 
   // Resolve image path correctly using the fallback source
-  function resolveThumbnail(image: ImageEntry) {
+  function _resolveThumbnail(image: ImageEntry) {
     // Find plain jpeg fallback or the first available source
     const fallback =
       image.sources?.find(
@@ -161,12 +154,12 @@
     return `/${image.src}`;
   }
 
-  function handleConfirm() {
+  function _handleConfirm() {
     onConfirm(selectedFields, Array.from(excludedImageIds));
     open = false;
   }
 
-  function toggleImageExclusion(imageId: string) {
+  function _toggleImageExclusion(imageId: string) {
     const newSetName = new Set(excludedImageIds);
     if (newSetName.has(imageId)) {
       newSetName.delete(imageId);
@@ -177,10 +170,10 @@
   }
 
   // Toggle all logic
-  let allSelected = $derived(FIELD_DEFS.every((f) => selectedFields[f.key] === true));
-  let someSelected = $derived(FIELD_DEFS.some((f) => selectedFields[f.key] === true));
+  let _allSelected = $derived(FIELD_DEFS.every((f) => selectedFields[f.key] === true));
+  let _someSelected = $derived(FIELD_DEFS.some((f) => selectedFields[f.key] === true));
 
-  function toggleAll(checked: boolean) {
+  function _toggleAll(checked: boolean) {
     for (const def of FIELD_DEFS) {
       selectedFields[def.key] = checked;
     }

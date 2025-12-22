@@ -1,8 +1,6 @@
 <script lang="ts">
   import { NavigationMenu as NavigationMenuPrimitive } from "bits-ui";
 
-  import { cn } from "$lib/utils";
-
   let {
     ref = $bindable(null),
     class: className,

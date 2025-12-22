@@ -2,7 +2,7 @@
   import type { Snippet } from "svelte";
   import type { HTMLAttributes } from "svelte/elements";
 
-  import { cn, type WithElementRef } from "$lib/utils";
+  import { type WithElementRef, cn } from "$lib/utils";
 
   let {
     ref = $bindable(null),
@@ -13,7 +13,7 @@
     child?: Snippet<[{ props: Record<string, unknown> }]>;
   } = $props();
 
-  const mergedProps = $derived({
+  const _mergedProps = $derived({
     ...restProps,
     class: cn(
       "bg-muted flex items-center gap-2 rounded-md border px-4 text-sm font-medium shadow-xs [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4",

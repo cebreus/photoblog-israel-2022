@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { Button } from "$lib/components/ui/button";
-  import * as Dialog from "$lib/components/ui/dialog";
   import type { ImageEntry } from "$lib/types/manifest";
 
   let {

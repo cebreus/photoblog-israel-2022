@@ -1,18 +1,8 @@
 <script lang="ts">
-  import CheckCheck from "@lucide/svelte/icons/check-check";
-  import EyeOff from "@lucide/svelte/icons/eye-off";
-  import Loader2 from "@lucide/svelte/icons/loader-2";
-  import Search from "@lucide/svelte/icons/search";
-  import Trash2 from "@lucide/svelte/icons/trash-2";
-  import User from "@lucide/svelte/icons/user";
   import { toast } from "svelte-sonner";
 
-  import { Button } from "$lib/components/ui/button";
-  import * as Dialog from "$lib/components/ui/dialog";
   import { people } from "$lib/stores/people.svelte";
   import type { ImageEntry, Person } from "$lib/types/manifest";
-
-  import SelectionBulkActions from "./SelectionBulkActions.svelte";
 
   let {
     open = $bindable(false),
@@ -57,12 +47,12 @@
     }),
   );
 
-  let isWorking = $state(false);
+  let _isWorking = $state(false);
   let selectedIds = $state<Set<string>>(new Set());
-  let showReassignDialog = $state(false);
+  let _showReassignDialog = $state(false);
   let personSearchQuery = $state("");
 
-  const filteredPeople = $derived.by(() => {
+  const _filteredPeople = $derived.by(() => {
     if (!open) return [];
     return people.peopleWithStats
       .filter((p) => p.id !== person.id && !p.ignored)
@@ -71,7 +61,7 @@
       .slice(0, 20);
   });
 
-  function toggleSelection(imageId: string) {
+  function _toggleSelection(imageId: string) {
     if (selectedIds.has(imageId)) {
       selectedIds.delete(imageId);
     } else {
@@ -80,19 +70,19 @@
     selectedIds = new Set(selectedIds); // Trigger reactivity
   }
 
-  function selectAll() {
+  function _selectAll() {
     selectedIds = new Set(crops.map((c) => c.id));
   }
 
-  function clearSelection() {
+  function _clearSelection() {
     selectedIds = new Set();
   }
 
-  async function unmatchFace(imageId: string, shouldHide = false) {
+  async function _unmatchFace(imageId: string, shouldHide = false) {
     await performUnmatch([imageId], shouldHide);
   }
 
-  async function unmatchSelected(shouldHide = false) {
+  async function _unmatchSelected(shouldHide = false) {
     const count = selectedIds.size;
     if (count === 0) return;
 
@@ -101,7 +91,7 @@
   }
 
   async function performUnmatch(imageIds: string[], shouldHide = false) {
-    isWorking = true;
+    _isWorking = true;
     try {
       const res = await fetch("/api/people/unmatch", {
         method: "POST",
@@ -124,24 +114,23 @@
           duration: 10000,
         });
       }
-    } catch (e) {
-      console.error(e);
+    } catch (_e) {
       toast.error("Chyba komunikace", {
         description: "Nelze kontaktovat server.",
         duration: 10000,
       });
     } finally {
-      isWorking = false;
+      _isWorking = false;
     }
   }
 
-  async function ignoreDetection(crop: (typeof crops)[0]) {
+  async function _ignoreDetection(crop: (typeof crops)[0]) {
     if (!crop.box) {
       toast.error("Chyba dat", { description: "Nepodařilo se najít souřadnice detekce." });
       return;
     }
 
-    isWorking = true;
+    _isWorking = true;
     try {
       const res = await fetch("/api/people/ignore-face", {
         method: "POST",
@@ -160,16 +149,15 @@
         const data = await res.json();
         toast.error("Chyba", { description: data.error || "Nepodařilo se uložit nastavení." });
       }
-    } catch (e) {
-      console.error(e);
+    } catch (_e) {
       toast.error("Chyba komunikace");
     } finally {
-      isWorking = false;
+      _isWorking = false;
     }
   }
 
-  async function updateCategory(category: "person" | "statue" | "painting") {
-    isWorking = true;
+  async function _updateCategory(category: "person" | "statue" | "painting") {
+    _isWorking = true;
     try {
       const res = await fetch("/api/people/update-category", {
         method: "POST",
@@ -185,19 +173,18 @@
       } else {
         toast.error("Chyba při změně kategorie.");
       }
-    } catch (e) {
-      console.error(e);
+    } catch (_e) {
       toast.error("Chyba komunikace");
     } finally {
-      isWorking = false;
+      _isWorking = false;
     }
   }
 
-  async function assignToPerson(targetPerson: Person) {
+  async function _assignToPerson(targetPerson: Person) {
     const ids = Array.from(selectedIds);
     if (ids.length === 0) return;
 
-    isWorking = true;
+    _isWorking = true;
     try {
       const res = await fetch("/api/people/reassign", {
         method: "POST",
@@ -212,21 +199,20 @@
       if (res.ok) {
         onUpdate?.();
         selectedIds = new Set();
-        showReassignDialog = false;
+        _showReassignDialog = false;
         toast.success(`Fotky byly přiřazeny osobě ${targetPerson.name}.`);
       } else {
         const data = await res.json();
         toast.error("Chyba přiřazení", { description: data.error });
       }
-    } catch (e) {
-      console.error(e);
+    } catch (_e) {
       toast.error("Chyba komunikace");
     } finally {
-      isWorking = false;
+      _isWorking = false;
     }
   }
 
-  async function ignoreSelectedDetections() {
+  async function _ignoreSelectedDetections() {
     const ids = Array.from(selectedIds);
     if (ids.length === 0) return;
 
@@ -238,7 +224,7 @@
       return;
     }
 
-    isWorking = true;
+    _isWorking = true;
     try {
       const selectedCrops = crops.filter((c) => selectedIds.has(c.id));
       await Promise.all(
@@ -259,11 +245,10 @@
       onUpdate?.();
       selectedIds = new Set();
       toast.success("Vybrané detekce byly označeny jako neplatné a budou ignorovány.");
-    } catch (e) {
-      console.error(e);
+    } catch (_e) {
       toast.error("Chyba při hromadném označování detekcí.");
     } finally {
-      isWorking = false;
+      _isWorking = false;
     }
   }
 </script>

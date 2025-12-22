@@ -1,7 +1,7 @@
 <script>
   import { page } from "$app/state";
 
-  const siteManifest = $derived(page.data.siteManifest);
+  const _siteManifest = $derived(page.data.siteManifest);
 </script>
 
 <footer
