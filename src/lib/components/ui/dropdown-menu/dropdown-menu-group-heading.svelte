@@ -2,6 +2,8 @@
   import { DropdownMenu as DropdownMenuPrimitive } from "bits-ui";
   import type { ComponentProps } from "svelte";
 
+  import { cn } from "$lib/utils";
+
   let {
     ref = $bindable(null),
     class: className,

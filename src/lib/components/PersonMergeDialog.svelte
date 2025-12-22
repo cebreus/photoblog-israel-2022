@@ -1,4 +1,9 @@
 <script lang="ts">
+  import ArrowRight from "@lucide/svelte/icons/arrow-right";
+  import Loader2 from "@lucide/svelte/icons/loader-2";
+
+  import { Button } from "$lib/components/ui/button";
+  import * as Dialog from "$lib/components/ui/dialog";
   import type { Person } from "$lib/types/manifest";
 
   let {
@@ -15,28 +20,29 @@
     onConfirm: () => Promise<void>;
   }>();
 
-  let _isLoading = $state(false);
+  let isLoading = $state(false);
 
-  async function _handleConfirm() {
-    _isLoading = true;
+  async function handleConfirm() {
+    isLoading = true;
     try {
       await onConfirm();
       open = false;
-    } catch (_error) {
+    } catch (error) {
+      console.error("Merge failed:", error);
     } finally {
-      _isLoading = false;
+      isLoading = false;
     }
   }
 
   // Get thumbnail URL
-  function _getThumbnailUrl(person: Person): string {
+  function getThumbnailUrl(person: Person): string {
     if (!person.thumbnail) return "";
     if (person.thumbnail.startsWith("/")) return person.thumbnail;
     // Use urlPrefix if available
     return `${urlPrefix}/${person.thumbnail}`;
   }
 
-  const _totalSourceFaces = $derived(
+  const totalSourceFaces = $derived(
     sources.reduce((sum: number, p: Person) => sum + p.faceCount, 0),
   );
 </script>

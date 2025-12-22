@@ -7,7 +7,7 @@
 
   let { checked = $bindable(false), onCheckedChange, ...rest }: Props = $props();
 
-  function _handleClick() {
+  function handleClick() {
     let newVal: boolean;
     if (checked === "indeterminate") newVal = true;
     else newVal = !checked;

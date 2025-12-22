@@ -1,7 +1,18 @@
 <script lang="ts">
+  import CheckSquare from "@lucide/svelte/icons/check-square";
+  import Square from "@lucide/svelte/icons/square";
+
+  import { useFancybox } from "$lib/actions/fancybox";
+  import { useScrollspy } from "$lib/actions/scrollspy";
+  import Hero from "$lib/components/Hero.svelte";
+  import PhotoGrid from "$lib/components/PhotoGrid.svelte";
+  import { Badge } from "$lib/components/ui/badge/";
+  import { Button } from "$lib/components/ui/button";
+  import { editor } from "$lib/stores/editor.svelte";
   import { filters } from "$lib/stores/filters.svelte";
-  import type { PhotoDay } from "$lib/types/manifest";
+  import type { ImageEntry, PhotoDay, Separator } from "$lib/types/manifest";
   import { filterGalleryItems, mergeSparseDays } from "$lib/utils/gallery";
+  import { formatDateForDisplay, formatDateRange, formatWeekdayCzech } from "$lib/utils/strings";
 
   import type { PageData } from "./$types";
 
@@ -30,7 +41,7 @@
    * Merges days with very few photos (<=2) into combined sections
    * to avoid massive headers for tiny content.
    */
-  let _photoDays = $derived(mergeSparseDays(filteredDays));
+  let photoDays = $derived(mergeSparseDays(filteredDays));
 </script>
 
 <Hero />

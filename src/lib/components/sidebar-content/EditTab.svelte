@@ -1,9 +1,22 @@
 <script lang="ts">
+  import RotateCcw from "@lucide/svelte/icons/rotate-ccw";
+  import Trash2 from "@lucide/svelte/icons/trash-2";
+  import X from "@lucide/svelte/icons/x";
+  import { fade } from "svelte/transition";
   import { toast } from "svelte-sonner";
   import { superForm } from "sveltekit-superforms";
   import { invalidateAll } from "$app/navigation";
+  import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
+  import * as Accordion from "$lib/components/ui/accordion";
+  import { Badge } from "$lib/components/ui/badge";
+  import { Button } from "$lib/components/ui/button";
+  import * as Form from "$lib/components/ui/form";
+  import { Input } from "$lib/components/ui/input";
+  import { Spinner } from "$lib/components/ui/spinner";
+  import { Textarea } from "$lib/components/ui/textarea";
   import { editor } from "$lib/stores/editor.svelte";
   import { metadataClipboard } from "$lib/stores/metadata-clipboard.svelte";
+  import { ui } from "$lib/stores/ui.svelte";
   import type { ImageEntry, Separator } from "$lib/types/manifest";
 
   type DisplayItem = ImageEntry | Separator;
@@ -30,8 +43,11 @@
     validators: false,
     // No validators - relying on manual optional fields
     onUpdate: async ({ form }) => {
+      if (ui.debugMode) console.debug("form: onUpdate", { valid: form.valid, data: form.data });
       if (form.valid) {
         await handleSubmit(form.data);
+      } else {
+        if (ui.debugMode) console.debug("form: invalid", form.errors);
       }
     },
   });
@@ -39,23 +55,23 @@
   const { form: formData, enhance } = form;
 
   // Track whether multiple selected images share a common value
-  let _commonTitle = $state<string | null>(null);
-  let _commonAuthor = $state<string | null>(null);
-  let _commonLocation = $state<string | null>(null);
-  let _commonCity = $state<string | null>(null);
-  let _commonState = $state<string | null>(null);
-  let _commonCountry = $state<string | null>(null);
-  let _commonCountryCode = $state<string | null>(null);
-  let _commonCaption = $state<string | null>(null);
-  let _commonKeywords = $state<string | null>(null);
+  let commonTitle = $state<string | null>(null);
+  let commonAuthor = $state<string | null>(null);
+  let commonLocation = $state<string | null>(null);
+  let commonCity = $state<string | null>(null);
+  let commonState = $state<string | null>(null);
+  let commonCountry = $state<string | null>(null);
+  let commonCountryCode = $state<string | null>(null);
+  let commonCaption = $state<string | null>(null);
+  let commonKeywords = $state<string | null>(null);
 
   // Track explicit deletion requests to prevent accidental empty string overwrites
   let explicitClears = $state<Record<string, boolean>>({});
 
   // Derived state from stores (Centralized logic via urlSync.ts)
   let imageIds = $derived(Array.from(editor.selection));
-  let _activeEntry = $derived(editor.selection.size > 0);
-  let _isEditMode = $derived(editor.editMode);
+  let activeEntry = $derived(editor.selection.size > 0);
+  let isEditMode = $derived(editor.editMode);
 
   // Derived file names
   let selectedImages = $derived(
@@ -74,7 +90,7 @@
     }
   });
 
-  function _removeImage(id: string) {
+  function removeImage(id: string) {
     editor.toggleSelection(id);
   }
 
@@ -111,41 +127,41 @@
     const commonKeywordsValue = getCommon((i) => i.keywords?.join(", "));
 
     $formData.title = commonTitleValue ?? "";
-    _commonTitle = commonTitleValue;
+    commonTitle = commonTitleValue;
 
     $formData.author = commonAuthorValue ?? "";
-    _commonAuthor = commonAuthorValue;
+    commonAuthor = commonAuthorValue;
 
     $formData.location = commonLocationValue ?? "";
-    _commonLocation = commonLocationValue;
+    commonLocation = commonLocationValue;
 
     $formData.city = commonCityValue ?? "";
-    _commonCity = commonCityValue;
+    commonCity = commonCityValue;
 
     $formData.state = commonStateValue ?? "";
-    _commonState = commonStateValue;
+    commonState = commonStateValue;
 
     $formData.country = commonCountryValue ?? "";
-    _commonCountry = commonCountryValue;
+    commonCountry = commonCountryValue;
 
     $formData.countryCode = commonCountryCodeValue ?? "";
-    _commonCountryCode = commonCountryCodeValue;
+    commonCountryCode = commonCountryCodeValue;
 
     $formData.caption = commonCaptionValue ?? "";
-    _commonCaption = commonCaptionValue;
+    commonCaption = commonCaptionValue;
 
     $formData.keywords = commonKeywordsValue ?? "";
-    _commonKeywords = commonKeywordsValue;
+    commonKeywords = commonKeywordsValue;
   }
 
-  let _isSaving = $state(false);
+  let isSaving = $state(false);
 
   async function handleSubmit(data: typeof initialData) {
     if (editor.selection.size === 0) {
       return;
     }
 
-    _isSaving = true;
+    isSaving = true;
     try {
       const payload = {
         imageIds: Array.from(editor.selection),
@@ -218,25 +234,25 @@
       const msg = e instanceof Error ? e.message : String(e);
       toast.error(msg);
     } finally {
-      _isSaving = false;
+      isSaving = false;
     }
   }
 
-  function _handleExplicitClear(field: keyof typeof initialData) {
+  function handleExplicitClear(field: keyof typeof initialData) {
     $formData[field] = "";
     explicitClears[field] = true;
   }
 
-  function _handleInput(field: keyof typeof initialData) {
+  function handleInput(field: keyof typeof initialData) {
     if (explicitClears[field]) {
       explicitClears[field] = false;
     }
   }
 
-  let _isFetchingGeo = $state(false);
+  let isFetchingGeo = $state(false);
   let previousGeoValues = $state<Partial<typeof initialData>>({});
 
-  function _restoreGeoValue(field: keyof typeof initialData) {
+  function restoreGeoValue(field: keyof typeof initialData) {
     if (previousGeoValues[field] !== undefined) {
       $formData[field] = previousGeoValues[field]!;
       // Update explicit clears: if restored value is empty, mark as explicit clear?
@@ -254,13 +270,13 @@
     }
   }
 
-  async function _handleFetchGeoData() {
+  async function handleFetchGeoData() {
     if (!activeImage?.exif?.latitude || !activeImage?.exif?.longitude) {
       toast.error("Obrázek nemá GPS souřadnice.");
       return;
     }
 
-    _isFetchingGeo = true;
+    isFetchingGeo = true;
     try {
       const { latitude, longitude } = activeImage.exif;
       const res = await fetch(`/api/geocode?lat=${latitude}&lng=${longitude}`);
@@ -294,18 +310,19 @@
       } else {
         toast.info("Data z mapy se shodují s aktuálními.");
       }
-    } catch (_e) {
+    } catch (e) {
+      console.error(e);
       toast.error("Chyba při stahování dat.");
     } finally {
-      _isFetchingGeo = false;
+      isFetchingGeo = false;
     }
   }
 
-  let _isDeleting = $state(false);
-  let _isPastingOpen = $state(false);
-  let _isApplyingPaste = $state(false);
+  let isDeleting = $state(false);
+  let isPastingOpen = $state(false);
+  let isApplyingPaste = $state(false);
 
-  function _handlePasteMetadata() {
+  function handlePasteMetadata() {
     const clipboard = metadataClipboard;
 
     if (!clipboard.data) {
@@ -313,15 +330,15 @@
       return;
     }
 
-    _isPastingOpen = true;
+    isPastingOpen = true;
   }
 
-  async function _confirmPaste(fieldsToApply: Record<string, boolean>) {
+  async function confirmPaste(fieldsToApply: Record<string, boolean>) {
     const clipboard = metadataClipboard;
 
     if (!clipboard.data || imageIds.length === 0) return;
 
-    _isApplyingPaste = true;
+    isApplyingPaste = true;
     try {
       const updatePayload = {
         images: selectedImages.map((img) => ({
@@ -350,6 +367,8 @@
         },
       };
 
+      console.log("Sending PATCH payload:", updatePayload);
+
       const res = await fetch("/api/images", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -361,7 +380,7 @@
         throw new Error(err.message || "Chyba při ukládání metadata");
       }
 
-      _isPastingOpen = false;
+      isPastingOpen = false;
       toast.success("Metadata úspěšně vložena");
 
       // Refresh data
@@ -369,9 +388,10 @@
 
       // Close offcanvas? No, just keep open in tab.
     } catch (e: any) {
+      console.error(e);
       toast.error(`Chyba: ${e.message}`);
     } finally {
-      _isApplyingPaste = false;
+      isApplyingPaste = false;
     }
   }
 </script>

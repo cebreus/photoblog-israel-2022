@@ -1,11 +1,32 @@
 <script lang="ts">
+  import Ban from "@lucide/svelte/icons/ban";
+  import Check from "@lucide/svelte/icons/check";
+  import EyeOff from "@lucide/svelte/icons/eye-off";
+  import Loader2 from "@lucide/svelte/icons/loader-2";
+  import RotateCcw from "@lucide/svelte/icons/rotate-ccw";
+  import User from "@lucide/svelte/icons/user";
+  import Users from "@lucide/svelte/icons/users";
+  import X from "@lucide/svelte/icons/x";
   import { untrack } from "svelte";
   import { toast } from "svelte-sonner";
+  import { dev } from "$app/environment";
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
+  import PersonDetailDialog from "$lib/components/PersonDetailDialog.svelte";
+  import PersonMergeDialog from "$lib/components/PersonMergeDialog.svelte";
+  import * as Accordion from "$lib/components/ui/accordion";
+  import { Button } from "$lib/components/ui/button";
+  import * as ButtonGroup from "$lib/components/ui/button-group";
+  import { Checkbox } from "$lib/components/ui/checkbox";
+  import * as Sidebar from "$lib/components/ui/sidebar";
+  import { Switch } from "$lib/components/ui/switch";
   import { filters } from "$lib/stores/filters.svelte";
   import { people } from "$lib/stores/people.svelte";
   import type { ImageEntry, Person } from "$lib/types/manifest";
+
+  import SelectionBulkActions from "../SelectionBulkActions.svelte";
+
+  import CategoryPersonCard from "./CategoryPersonCard.svelte";
 
   type ApiResponse = {
     success: boolean;
@@ -43,7 +64,7 @@
         (firstImage as ImageEntry).sources.length > 0
       ) {
         const firstPath = (firstImage as ImageEntry).sources[0].path;
-        if (firstPath?.startsWith("/")) {
+        if (firstPath && firstPath.startsWith("/")) {
           // Path format: "/egypt-2025/images/previews/..." -> extract "/egypt-2025"
           const parts = firstPath.split("/");
           if (parts.length > 2) {
@@ -55,7 +76,7 @@
     })(),
   );
 
-  const _getThumbnailSrc = (p: Person) => {
+  const getThumbnailSrc = (p: Person) => {
     if (!p.thumbnail) return "";
     if (p.thumbnail.startsWith("/")) return p.thumbnail;
     // If relative 'faces/foo.jpg', prepend urlPrefix
@@ -65,11 +86,11 @@
   // Editing state
   let editingPersonId = $state<string | null>(null);
   let editingName = $state("");
-  let _isSaving = $state(false);
+  let isSaving = $state(false);
 
   // Merge state - checkbox selection
   let selectedForMerge = $state<string[]>([]);
-  let _showMergeConfirmDialog = $state(false);
+  let showMergeConfirmDialog = $state(false);
 
   // Detail state for QC
   let detailPerson = $state<Person | null>(null);
@@ -111,7 +132,7 @@
     }
   });
 
-  function _openPersonDetail(person: Person, e?: MouseEvent) {
+  function openPersonDetail(person: Person, e?: MouseEvent) {
     e?.stopPropagation();
 
     // Set URL - valid even if effect handles the rest, provides immediate feedback
@@ -120,7 +141,7 @@
     goto(url, { replaceState: true, noScroll: true, keepFocus: true });
   }
 
-  function _startEditing(person: Person) {
+  function startEditing(person: Person) {
     editingPersonId = person.id;
     editingName = person.name;
   }
@@ -130,31 +151,39 @@
     editingName = "";
   }
 
-  async function _confirmRename() {
+  async function confirmRename() {
     if (!editingPersonId || !editingName.trim()) {
       cancelEditing();
       return;
     }
-    _isSaving = true;
+
+    console.log("[DEBUG] Starting rename, setting isSaving to true");
+    isSaving = true;
+    console.log("[DEBUG] isSaving is now:", isSaving);
 
     try {
+      console.log("[DEBUG] Calling API...");
       // Add minimum delay to keep overlay visible
       await Promise.all([
         renamePerson(editingPersonId, editingName.trim()),
         new Promise((resolve) => setTimeout(resolve, 500)), // Min 500ms delay
       ]);
+      console.log("[DEBUG] API call successful, triggering reload");
       // Trigger reload to show updated name
       await people.refresh();
       toast.success("Osoba byla úspěšně přejmenována.");
       cancelEditing();
-    } catch (_error) {
+    } catch (error) {
+      console.error("Failed to rename person:", error);
       toast.error("Přejmenování se nezdařilo.");
     } finally {
-      _isSaving = false;
+      console.log("[DEBUG] Setting isSaving to false");
+      isSaving = false;
+      console.log("[DEBUG] isSaving is now:", isSaving);
     }
   }
 
-  function _togglePerson(personId: string) {
+  function togglePerson(personId: string) {
     let current = filters.selectedPeople;
     // SAME LOGIC AS AUTHORS:
     // - Empty array [] = ALL selected (default)
@@ -194,8 +223,9 @@
     }
   }
 
-  async function _toggleHide(personId: string) {
-    _isSaving = true;
+  async function toggleHide(personId: string) {
+    console.log("[DEBUG] Toggling hide for person:", personId);
+    isSaving = true;
 
     try {
       // Call API to toggle ignored flag
@@ -208,6 +238,7 @@
       if (response.ok) {
         const data = (await response.json()) as IgnoreResponse;
         const isIgnored = data.results?.[0]?.ignored;
+        console.log("[DEBUG] Person ignored state:", isIgnored);
 
         // Also remove from selection if being ignored
         filters.selectedPeople = filters.selectedPeople.filter((id) => id !== personId);
@@ -221,10 +252,11 @@
       } else {
         toast.error("Akce se nezdařila.");
       }
-    } catch (_error) {
+    } catch (error) {
+      console.error("Failed to toggle hide:", error);
       toast.error("Chyba při komunikaci se serverem.");
     } finally {
-      _isSaving = false;
+      isSaving = false;
     }
   }
 
@@ -255,12 +287,12 @@
   }
 
   // Count of selected that are hidden (for restore action state)
-  const _selectedHiddenCount = $derived(
+  const selectedHiddenCount = $derived(
     selectedForMerge.filter((id) => people.hiddenPeople.some((p) => p.id === id)).length,
   );
 
   // Track quick filter preset for button group highlighting
-  const _selectionMode = $derived.by(() => {
+  const selectionMode = $derived.by(() => {
     const selected = filters.selectedPeople;
     const visibleIds = people.visiblePeople.map((p) => p.id);
 
@@ -270,14 +302,15 @@
     return null;
   });
 
-  function _handleSelectionPreset(mode: "all" | "none" | "reset" | null) {
+  function handleSelectionPreset(mode: "all" | "none" | "reset" | null) {
     if (mode === "all") return selectAll();
     if (mode === "none") return selectNone();
     if (mode === "reset") return clearSelection();
   }
 
-  function _handleBulkHideAction(e?: MouseEvent) {
+  function handleBulkHideAction(e?: MouseEvent) {
     e?.stopPropagation();
+    console.log("[PEOPLE TAB] Executing bulk hide immediately, count:", selectedForMerge.length);
     if (selectedForMerge.length === 0) return;
     executeBulkHide();
   }
@@ -285,8 +318,10 @@
   async function executeBulkHide() {
     if (selectedForMerge.length === 0) return;
 
-    _isSaving = true;
+    isSaving = true;
     try {
+      console.log("[BULK HIDE] Hiding:", selectedForMerge);
+
       // Execute single bulk request
       const response = await fetch("/api/people/ignore", {
         method: "POST",
@@ -311,19 +346,20 @@
       // Reload
       await people.refresh();
       toast.success(`Bylo skryto ${hiddenIds.length} osob.`);
-    } catch (_error) {
+    } catch (error) {
+      console.error("Bulk hide failed:", error);
       toast.error("Hromadné skrytí selhalo.");
     } finally {
-      _isSaving = false;
+      isSaving = false;
     }
   }
 
-  async function _executeBulkRestore() {
+  async function executeBulkRestore() {
     // Only restore those that are currently hidden
     const hiddenIds = selectedForMerge.filter((id) => people.hiddenPeople.some((p) => p.id === id));
     if (hiddenIds.length === 0) return;
 
-    _isSaving = true;
+    isSaving = true;
     try {
       // The /api/people/ignore endpoint only bulk-sets to true.
       // To restore, toggle each id individually with single POSTs.
@@ -343,14 +379,15 @@
       await new Promise((r) => setTimeout(r, 500));
       await people.refresh();
       toast.success(`Obnoveno ${hiddenIds.length} osob.`);
-    } catch (_e) {
+    } catch (e) {
+      console.error("Bulk restore failed:", e);
       toast.error("Hromadné obnovení selhalo.");
     } finally {
-      _isSaving = false;
+      isSaving = false;
     }
   }
 
-  async function _executeBulkMarkAsJunk() {
+  async function executeBulkMarkAsJunk() {
     if (selectedForMerge.length === 0) return;
     if (
       !confirm(
@@ -360,7 +397,7 @@
       return;
     }
 
-    _isSaving = true;
+    isSaving = true;
     try {
       await Promise.all(
         selectedForMerge.map((personId) =>
@@ -377,15 +414,16 @@
       await new Promise((r) => setTimeout(r, 400));
       await people.refresh();
       toast.success("Vybrané profily byly označeny jako neplatná detekce.");
-    } catch (_e) {
+    } catch (e) {
+      console.error("Bulk mark-as-junk failed:", e);
       toast.error("Hromadná akce 'Není osoba' selhala.");
     } finally {
-      _isSaving = false;
+      isSaving = false;
     }
   }
 
   // Merge functions - checkbox selection
-  function _toggleMergeSelection(personId: string) {
+  function toggleMergeSelection(personId: string) {
     if (selectedForMerge.includes(personId)) {
       selectedForMerge = selectedForMerge.filter((id) => id !== personId);
     } else {
@@ -393,12 +431,12 @@
     }
   }
 
-  function _openMergeDialog() {
+  function openMergeDialog() {
     if (selectedForMerge.length < 2) return;
-    _showMergeConfirmDialog = true;
+    showMergeConfirmDialog = true;
   }
 
-  async function _confirmMerge() {
+  async function confirmMerge() {
     if (selectedForMerge.length < 2) return;
 
     // Resolve full person objects to determine best target
@@ -419,7 +457,14 @@
 
     const targetPerson = selectedPeopleData[0];
     const sourcePersons = selectedPeopleData.slice(1);
-    _isSaving = true;
+
+    console.log(
+      "[MERGE UI] Merging",
+      sourcePersons.map((p) => p.name),
+      "into",
+      targetPerson.name,
+    );
+    isSaving = true;
 
     try {
       // Execute merges sequentially
@@ -436,30 +481,33 @@
         }
       }
 
+      console.log("[MERGE UI] All merges successful");
+
       // Add delay for loading state
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       // Clear merge state
       selectedForMerge = [];
-      _showMergeConfirmDialog = false;
+      showMergeConfirmDialog = false;
 
       // Trigger reload
       await people.refresh();
       toast.success("Osoby byly úspěšně sloučeny.");
     } catch (error) {
+      console.error("[MERGE UI] Failed to merge people:", error);
       toast.error("Sloučení se nezdařilo.", {
         description: error instanceof Error ? error.message : String(error),
       });
     } finally {
-      _isSaving = false;
+      isSaving = false;
     }
   }
 
   // Bulk category update (same options as in PersonDetail header)
-  async function _bulkUpdateCategory(category: "person" | "statue" | "painting") {
+  async function bulkUpdateCategory(category: "person" | "statue" | "painting") {
     if (selectedForMerge.length === 0) return;
 
-    _isSaving = true;
+    isSaving = true;
     try {
       await Promise.all(
         selectedForMerge.map((personId) =>
@@ -474,14 +522,15 @@
       await new Promise((r) => setTimeout(r, 300));
       await people.refresh();
       toast.success(`Kategorie změněna pro ${selectedForMerge.length} osob.`);
-    } catch (_e) {
+    } catch (e) {
+      console.error("Bulk update category failed", e);
       toast.error("Hromadná změna kategorie selhala.");
     } finally {
-      _isSaving = false;
+      isSaving = false;
     }
   }
 
-  async function _markAsJunk(personId: string) {
+  async function markAsJunk(personId: string) {
     if (
       !confirm(
         "Opravdu chcete tuto osobu označit jako 'není osoba'? Všechny její detekce budou v budoucnu ignorovány a profil bude smazán.",
@@ -490,7 +539,7 @@
       return;
     }
 
-    _isSaving = true;
+    isSaving = true;
     try {
       const response = await fetch("/api/people/mark-as-junk", {
         method: "POST",
@@ -504,10 +553,11 @@
       } else {
         toast.error("Akce se nezdařila.");
       }
-    } catch (_error) {
+    } catch (error) {
+      console.error("Failed to mark as junk:", error);
       toast.error("Chyba při komunikaci se serverem.");
     } finally {
-      _isSaving = false;
+      isSaving = false;
     }
   }
 

@@ -1,7 +1,17 @@
 <script lang="ts">
   import { toast } from "svelte-sonner";
   import { invalidateAll } from "$app/navigation";
+  import { useScrollspy } from "$lib/actions/scrollspy";
+  import ArchiveImageDialog from "$lib/components/ArchiveImageDialog.svelte";
+  import CurationGroupView from "$lib/components/CurationGroup.svelte";
+  import CurationGroupDialog from "$lib/components/CurationGroupDialog.svelte";
+  import DeleteImageDialog from "$lib/components/DeleteImageDialog.svelte";
+  import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
+  import PhotoGridItem from "$lib/components/PhotoGridItem.svelte";
+  import { buttonVariants } from "$lib/components/ui/button";
+  import * as Dialog from "$lib/components/ui/dialog";
   import { editor } from "$lib/stores/editor.svelte";
+  import { filters } from "$lib/stores/filters.svelte";
   import { metadataClipboard } from "$lib/stores/metadata-clipboard.svelte";
   import { ui } from "$lib/stores/ui.svelte";
   import type { CurationGroup, CurationManifest, ImageEntry, Separator } from "$lib/types/manifest";
@@ -17,7 +27,7 @@
 
   // Identify images that start a new location block (dimmed locations)
   // Maps image ID -> scrollspy ID ("loc-{slug}")
-  let _dimmedLocationMap = $derived.by(() => {
+  let dimmedLocationMap = $derived.by(() => {
     const map = new Map<string, string>();
     let currentLoc = "";
 
@@ -38,7 +48,7 @@
   });
 
   // Map image ID to Curation Group
-  let _curationMap = $derived.by(() => {
+  let curationMap = $derived.by(() => {
     const map = new Map<string, CurationGroup>();
     if (!curationManifest?.groups) return map;
 
@@ -53,45 +63,45 @@
   type DisplayItem = ImageEntry | Separator;
 
   // Deletion and Metadata logic remains here to orchestrate dialogs
-  let _isDeleting = $state(false);
-  let _deleteDialogOpen = $state(false);
+  let isDeleting = $state(false);
+  let deleteDialogOpen = $state(false);
   let imagesToDelete = $state<ImageEntry[]>([]);
 
-  let _isPastingOpen = $state(false);
+  let isPastingOpen = $state(false);
   let imagesToPaste = $state<ImageEntry[]>([]);
-  let _isApplyingPaste = $state(false);
+  let isApplyingPaste = $state(false);
 
-  let _isArchiving = $state(false);
-  let _archiveDialogOpen = $state(false);
+  let isArchiving = $state(false);
+  let archiveDialogOpen = $state(false);
   let imagesToArchive = $state<ImageEntry[]>([]);
 
-  let _curationDialogOpen = $state(false);
-  let _curationGroupToView = $state<CurationGroup | null>(null);
+  let curationDialogOpen = $state(false);
+  let curationGroupToView = $state<CurationGroup | null>(null);
 
-  function _handleOpenCurationDialog(group?: CurationGroup) {
-    _curationGroupToView = group ?? null;
-    _curationDialogOpen = true;
+  function handleOpenCurationDialog(group?: CurationGroup) {
+    curationGroupToView = group ?? null;
+    curationDialogOpen = true;
   }
 
-  function _openDeleteDialog(item: ImageEntry) {
+  function openDeleteDialog(item: ImageEntry) {
     imagesToDelete = [item];
-    _deleteDialogOpen = true;
+    deleteDialogOpen = true;
   }
 
-  async function _confirmDelete() {
+  async function confirmDelete() {
     await performImageAction({
       action: "delete",
       images: imagesToDelete.map(function (img) {
         return { id: img.id, src: img.src };
       }),
       onStart: function () {
-        _isDeleting = true;
+        isDeleting = true;
       },
       onFinish: function () {
-        _isDeleting = false;
+        isDeleting = false;
       },
       onSuccess: function (result) {
-        _deleteDialogOpen = false;
+        deleteDialogOpen = false;
         imagesToDelete = [];
         const deletedIds = new Set((result as { deleted: string[] }).deleted);
         if (editor.selection.size > 0) {
@@ -103,7 +113,7 @@
     });
   }
 
-  function _handleArchive(item: ImageEntry) {
+  function handleArchive(item: ImageEntry) {
     if (editor.selection.has(item.id) && editor.selection.size > 1) {
       imagesToArchive = items.filter(
         (i: DisplayItem): i is ImageEntry => i.type === "image" && editor.selection.has(i.id),
@@ -111,23 +121,23 @@
     } else {
       imagesToArchive = [item];
     }
-    _archiveDialogOpen = true;
+    archiveDialogOpen = true;
   }
 
-  async function _confirmArchive() {
+  async function confirmArchive() {
     await performImageAction({
       action: "archive",
       images: imagesToArchive.map(function (img) {
         return { id: img.id, src: img.src };
       }),
       onStart: function () {
-        _isArchiving = true;
+        isArchiving = true;
       },
       onFinish: function () {
-        _isArchiving = false;
+        isArchiving = false;
       },
       onSuccess: function (result) {
-        _archiveDialogOpen = false;
+        archiveDialogOpen = false;
         imagesToArchive = [];
         const archivedIds = new Set((result as { archived: string[] }).archived);
         if (editor.selection.size > 0) {
@@ -139,12 +149,12 @@
     });
   }
 
-  function _handleCopyMetadata(item: ImageEntry) {
+  function handleCopyMetadata(item: ImageEntry) {
     metadataClipboard.copy(item);
     toast.success(`Metadata zkopírována z "${item.src.split("/").pop()}"`);
   }
 
-  function _handlePasteMetadata(item: ImageEntry, onlyThis = false) {
+  function handlePasteMetadata(item: ImageEntry, onlyThis = false) {
     const clipboard = metadataClipboard;
 
     if (!onlyThis && editor.selection.has(item.id) && editor.selection.size > 1) {
@@ -152,10 +162,22 @@
       const selected = items.filter(
         (i: DisplayItem): i is ImageEntry => i.type === "image" && editor.selection.has(i.id),
       );
+      console.log("DEBUG: Paste Logic", {
+        itemId: item.id,
+        selectionSize: editor.selection.size,
+        sourceId: clipboard.sourceImage?.id,
+        selectedIds: selected.map((i: ImageEntry) => i.id),
+      });
 
       // Filter out usage of source image as target
       imagesToPaste = selected.filter((i: ImageEntry) => i.id !== clipboard.sourceImage?.id);
+
+      console.log(
+        "DEBUG: imagesToPaste",
+        imagesToPaste.map((i: ImageEntry) => i.id),
+      );
     } else {
+      console.log("DEBUG: Single Paste", item.id);
       // Prevent pasting to the same image that was copied
       if (clipboard.sourceImage?.id === item.id) {
         toast.error("Nemůžete vkládat metadata do stejného obrázku, ze kterého jste je kopírovali");
@@ -163,10 +185,10 @@
       }
       imagesToPaste = [item];
     }
-    _isPastingOpen = true;
+    isPastingOpen = true;
   }
 
-  async function _confirmPaste(
+  async function confirmPaste(
     fieldsToApply: Record<string, boolean>,
     excludedImageIds: string[] = [],
   ) {
@@ -189,11 +211,11 @@
     if (targetImages.length === 0) {
       toast.info("Žádné obrázky k úpravě.");
       // If we filtered everything out, we still close the dialog
-      _isPastingOpen = false;
+      isPastingOpen = false;
       return;
     }
 
-    _isApplyingPaste = true;
+    isApplyingPaste = true;
     try {
       const updatePayload = {
         images: targetImages.map((img) => ({
@@ -233,22 +255,29 @@
         throw new Error(err.message || "Chyba při ukládání metadata");
       }
 
-      _isPastingOpen = false;
+      isPastingOpen = false;
       toast.success("Metadata úspěšně vložena");
 
       // Refresh data
       await invalidateAll();
     } catch (e: any) {
+      console.error(e);
       toast.error(`Chyba: ${e.message}`);
     } finally {
-      _isApplyingPaste = false;
+      isApplyingPaste = false;
     }
   }
 
   $effect(debugLog);
 
   function debugLog() {
+    console.log("PhotoGrid debug store value:", ui.debugMode);
     if (ui.debugMode) {
+      console.debug("PhotoGrid render", {
+        items: items.length,
+        selectedAuthors: filters.selectedAuthors,
+        dimmedLocations: dimmedLocationMap,
+      });
     }
   }
 
@@ -339,7 +368,7 @@
     return list;
   });
 
-  function _handleSelect(item: ImageEntry, shiftKey: boolean) {
+  function handleSelect(item: ImageEntry, shiftKey: boolean) {
     if (shiftKey && lastSelectedId) {
       const startIdx = visualOrderedImages.findIndex((i) => i.id === lastSelectedId);
       const endIdx = visualOrderedImages.findIndex((i) => i.id === item.id);

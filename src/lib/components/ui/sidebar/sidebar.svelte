@@ -1,8 +1,10 @@
 <script lang="ts">
   import type { HTMLAttributes } from "svelte/elements";
 
-  import { type WithElementRef } from "$lib/utils";
+  import * as Sheet from "$lib/components/ui/sheet/index.js";
+  import { type WithElementRef, cn } from "$lib/utils";
 
+  import { SIDEBAR_WIDTH_MOBILE } from "./constants.js";
   import { useSidebar } from "./context.svelte.js";
 
   let {
@@ -19,7 +21,7 @@
     collapsible?: "offcanvas" | "icon" | "none";
   } = $props();
 
-  const _sidebar = useSidebar();
+  const sidebar = useSidebar();
 </script>
 
 {#if collapsible === "none"}

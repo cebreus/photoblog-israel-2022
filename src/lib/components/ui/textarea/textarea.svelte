@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { HTMLTextareaAttributes } from "svelte/elements";
 
-  import { type WithElementRef, type WithoutChildren } from "$lib/utils";
+  import { type WithElementRef, type WithoutChildren, cn } from "$lib/utils";
 
   let {
     ref = $bindable(null),
