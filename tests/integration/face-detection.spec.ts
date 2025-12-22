@@ -39,7 +39,7 @@ describe("Face Detection Integration", () => {
   }, 60000); // 60s timeout for setup
 
   it("should detect at least one face in the sample image", async () => {
-    const size = sampleImage.size;
+    const size = (await sampleImage.arrayBuffer()).byteLength;
     logger.info(`Testing with image: ${SAMPLE_IMAGE_PATH} (${size} bytes)`);
     expect(size).toBeGreaterThan(1000); // Ensure it's not a tiny error file
 
