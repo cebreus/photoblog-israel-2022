@@ -13,7 +13,6 @@
  * - tests/fixtures/obama.jpg
  */
 
-import fsp from "node:fs/promises";
 import path from "node:path";
 import { beforeAll, describe, expect, it } from "vitest";
 import { detectFaces, initModels } from "../../scripts/lib/face-detection";
@@ -23,11 +22,12 @@ const logger = createLogger("face-detection-test");
 
 const FIXTURES_DIR = path.resolve(__dirname, "../fixtures");
 const SAMPLE_IMAGE_PATH = path.join(FIXTURES_DIR, "obama.jpg");
+const sampleImage = Bun.file(SAMPLE_IMAGE_PATH);
 
 describe("Face Detection Integration", () => {
   beforeAll(async () => {
     // Ensure fixtures are present (should be vendorized in repo)
-    if (!(await Bun.file(SAMPLE_IMAGE_PATH).exists())) {
+    if (!(await sampleImage.exists())) {
       throw new Error(
         `Missing fixture: ${SAMPLE_IMAGE_PATH}. Please ensure tests/fixtures/obama.jpg exists.`,
       );
@@ -39,9 +39,9 @@ describe("Face Detection Integration", () => {
   }, 60000); // 60s timeout for setup
 
   it("should detect at least one face in the sample image", async () => {
-    const stats = await fsp.stat(SAMPLE_IMAGE_PATH);
-    logger.info(`Testing with image: ${SAMPLE_IMAGE_PATH} (${stats.size} bytes)`);
-    expect(stats.size).toBeGreaterThan(1000); // Ensure it's not a tiny error file
+    const size = sampleImage.size;
+    logger.info(`Testing with image: ${SAMPLE_IMAGE_PATH} (${size} bytes)`);
+    expect(size).toBeGreaterThan(1000); // Ensure it's not a tiny error file
 
     const faces = await detectFaces(SAMPLE_IMAGE_PATH);
     if (faces && faces.length > 1) {
