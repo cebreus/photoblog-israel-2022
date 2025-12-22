@@ -18,7 +18,7 @@ import {
 
 describe("manifest-validators", () => {
   describe("isValidPerson", () => {
-    it("should valid correct person", () => {
+    it("should validate correct person", () => {
       const person = {
         id: "p1",
         name: "Alice",

@@ -55,7 +55,7 @@ export async function POST({ request }) {
       const idSet = new Set(idsToUnmatch);
 
       for (const id of idsToUnmatch) {
-        const name = `Disconnected from ${sourcePerson.name}`;
+        const name = `Odpojeno z ${sourcePerson.name}`;
         const slug = toSlug(name);
 
         const uuid = crypto.randomUUID().slice(0, 8);
@@ -68,7 +68,7 @@ export async function POST({ request }) {
           clusters: [],
           faceCount: 1,
           thumbnail: `faces/${newPersonId}/${id}.jpg`,
-          ignored: shouldIgnore || false,
+          ignored: shouldIgnore ?? false,
           createdAt: new Date().toISOString(),
           lastSeenAt: new Date().toISOString(),
           category: "person" as const, // Explicit category or default

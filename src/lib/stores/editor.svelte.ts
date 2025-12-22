@@ -8,7 +8,7 @@ export class EditorState {
   }
 
   set selection(v: Set<string>) {
-    this.#selection = v;
+    this.#selection = new Set(v);
   }
 
   toggleSelection(id: string) {

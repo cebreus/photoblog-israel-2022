@@ -57,6 +57,7 @@ export async function POST({ request }) {
       await fsp.mkdir(targetDir, { recursive: true });
 
       let movedCount = 0;
+      const successfullyMovedIds: string[] = [];
 
       for (const id of imageIds) {
         let imageUpdated = false;
@@ -95,10 +96,11 @@ export async function POST({ request }) {
           try {
             await fsp.stat(oldPath);
             await fsp.rename(oldPath, newPath);
+            successfullyMovedIds.push(id);
+            movedCount++;
           } catch (_e) {
             logger.warn(`[REASSIGN] File move failed or file missing: ${oldPath}`);
           }
-          movedCount++;
         }
       }
 
@@ -151,12 +153,15 @@ export async function POST({ request }) {
 
       // Thumbnail logic cleanup if needed
       // If target had no thumbnail, give it one
-      if (!targetPerson.thumbnail && movedCount > 0) {
-        targetPerson.thumbnail = `faces/${targetPersonId}/${imageIds[0]}.jpg`;
+      if (!targetPerson.thumbnail && successfullyMovedIds.length > 0) {
+        targetPerson.thumbnail = `faces/${targetPersonId}/${successfullyMovedIds[0]}.jpg`;
       }
 
       // If source thumbnail was moved, find new one
-      if (sourcePerson.thumbnail && imageIds.some((id) => sourcePerson.thumbnail.includes(id))) {
+      if (
+        sourcePerson.thumbnail &&
+        successfullyMovedIds.some((id) => sourcePerson.thumbnail.includes(id))
+      ) {
         try {
           const files = await fsp.readdir(sourceDir);
           const valid = files.filter((f) => f.endsWith(".jpg") && !f.startsWith("."));

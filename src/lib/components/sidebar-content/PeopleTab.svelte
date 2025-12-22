@@ -313,8 +313,20 @@
 
   function handleBulkHideAction(e?: MouseEvent) {
     e?.stopPropagation();
-    logger.info("Executing bulk hide immediately, count:", selectedForMerge.length);
     if (selectedForMerge.length === 0) return;
+
+    const confirmMessage =
+      selectedForMerge.length === 1
+        ? "Opravdu chcete skrýt tuto osobu?"
+        : `Opravdu chcete skrýt ${selectedForMerge.length} osob?`;
+
+    const confirmed = window.confirm(confirmMessage);
+    if (!confirmed) {
+      logger.info("Bulk hide cancelled by user");
+      return;
+    }
+
+    logger.info("Executing bulk hide after confirmation, count:", selectedForMerge.length);
     executeBulkHide();
   }
 
