@@ -53,7 +53,7 @@ test.describe("Gallery Filters", () => {
     let toggledCount = 0;
     for (const bucket of buckets) {
       const row = page.getByTestId(`filters-tab-quality-${bucket.id}`);
-      if (await row.isVisible().catch(() => false)) {
+      if (await row.isVisible()) {
         const sw = row.locator('button[role="switch"]');
         await sw.click();
         toggledCount++;
@@ -88,7 +88,7 @@ test.describe("Gallery Filters", () => {
 
     // Toggle "Dobré" (Good) - but only if visible
     const goodRow = page.getByTestId("filters-tab-quality-good");
-    const isVisible = await goodRow.isVisible().catch(() => false);
+    const isVisible = await goodRow.isVisible();
 
     if (!isVisible) {
       logger.warn(

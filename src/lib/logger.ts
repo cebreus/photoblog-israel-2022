@@ -53,19 +53,19 @@ export function createLogger(label = "app") {
 
   return {
     // biome-ignore lint/suspicious/noExplicitAny: wrapper for pino
-    trace: (msg: any, ...args: any[]) => child.trace(msg, ...args),
+    trace: (msg: unknown, ...args: unknown[]) => child.trace(msg as any, ...(args as any[])),
     // biome-ignore lint/suspicious/noExplicitAny: wrapper for pino
-    debug: (msg: any, ...args: any[]) => child.debug(msg, ...args),
+    debug: (msg: unknown, ...args: unknown[]) => child.debug(msg as any, ...(args as any[])),
     // biome-ignore lint/suspicious/noExplicitAny: wrapper for pino
-    info: (msg: any, ...args: any[]) => child.info(msg, ...args),
+    info: (msg: unknown, ...args: unknown[]) => child.info(msg as any, ...(args as any[])),
     // biome-ignore lint/suspicious/noExplicitAny: wrapper for pino
-    warn: (msg: any, ...args: any[]) => child.warn(msg, ...args),
+    warn: (msg: unknown, ...args: unknown[]) => child.warn(msg as any, ...(args as any[])),
     // biome-ignore lint/suspicious/noExplicitAny: wrapper for pino
-    error: (msg: any, ...args: any[]) => child.error(msg, ...args),
+    error: (msg: unknown, ...args: unknown[]) => child.error(msg as any, ...(args as any[])),
     // biome-ignore lint/suspicious/noExplicitAny: wrapper for pino
-    fatal: (msg: any, ...args: any[]) => child.fatal(msg, ...args),
+    fatal: (msg: unknown, ...args: unknown[]) => child.fatal(msg as any, ...(args as any[])),
     // biome-ignore lint/suspicious/noExplicitAny: wrapper for pino
-    verbose: (msg: any, ...args: any[]) => child.debug(msg, ...args),
+    verbose: (msg: unknown, ...args: unknown[]) => child.debug(msg as any, ...(args as any[])),
   };
 }
 
