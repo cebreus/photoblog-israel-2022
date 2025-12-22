@@ -276,7 +276,8 @@
         id={item.id}
         data-testid="photo-grid-item-figure-{item.id}"
         class={cn(
-          "outline-background relative aspect-video overflow-hidden rounded-lg border-2 border-transparent bg-cover bg-center transition-[outline-color,border-color] duration-300 ease-in-out",
+          "outline-background relative overflow-hidden rounded-lg border-2 border-transparent bg-cover bg-center transition-[outline-color,border-color] duration-300 ease-in-out",
+          editor.editMode ? "aspect-square" : "aspect-video",
           isSelected
             ? "ring-2 ring-blue-300 outline-4 outline-blue-500"
             : "outline-4 outline-offset-2 hover:outline-orange-100",
@@ -342,7 +343,8 @@
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <div
           class={cn(
-            "absolute inset-0 aspect-video cursor-pointer transition-colors",
+            "absolute inset-0 cursor-pointer transition-colors",
+            editor.editMode ? "aspect-square" : "aspect-video",
             isSelected ? "bg-blue-500/20" : "hover:bg-black/20",
             showCurationVisuals && "bg-amber-500/10 hover:bg-amber-500/20",
             !editor.editMode && ui.curationMode && !!curationGroup ? "" : "bg-black/10",
