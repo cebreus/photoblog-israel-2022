@@ -11,7 +11,7 @@
     checked = $bindable(false),
     indeterminate = $bindable(false),
     class: className,
-    children: childrenProp,
+    children: childrenSnippet,
     ...restProps
   }: WithoutChildrenOrChild<DropdownMenuPrimitive.CheckboxItemProps> & {
     children?: Snippet;
@@ -37,6 +37,6 @@
         <CheckIcon class={cn("size-4", !checked && "text-transparent")} />
       {/if}
     </span>
-    {@render childrenProp?.()}
+    {@render childrenSnippet?.()}
   {/snippet}
 </DropdownMenuPrimitive.CheckboxItem>
