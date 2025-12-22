@@ -94,6 +94,7 @@ async function detectChanges(
   manifestOnly: boolean,
   previousEntries: Map<string, ImageEntry>,
   isCuration: boolean,
+  embeddingsManifest?: Record<string, number[]>,
 ) {
   const toProcess: string[] = [];
   const knownKeys = new Set(Object.keys(cache.files));
@@ -120,7 +121,7 @@ async function detectChanges(
     if (isCuration) {
       const prev = previousEntries.get(baseName);
       if (prev) {
-        const embedding = prev.analysis?.embedding;
+        const embedding = embeddingsManifest?.[prev.id];
         if (!embedding || !Array.isArray(embedding) || embedding.length !== EMBEDDING_DIM) {
           logger.verbose(`Stale or missing embedding for ${key}, forcing re-process.`);
           toProcess.push(file);
@@ -387,6 +388,7 @@ async function planBuildWork(
   ARGS: { limit: number; manifestOnly: boolean; curation: boolean },
   cache: Cache,
   previousEntries: Map<string, ImageEntry>,
+  embeddingsManifest: Record<string, number[]>,
 ) {
   const sourceFiles = await findSourceFiles(CTX.srcRoot, ARGS.limit);
   const audit = await detectChanges(
@@ -397,6 +399,7 @@ async function planBuildWork(
     ARGS.manifestOnly,
     previousEntries,
     ARGS.curation,
+    embeddingsManifest,
   );
 
   return { sourceFiles, ...audit };
@@ -490,6 +493,7 @@ export async function runIncrementalBuild(
     ARGS,
     cache,
     previousEntries,
+    embeddingsManifest,
   );
 
   const cachedCount = Math.max(0, sourceFiles.length - toProcess.length);

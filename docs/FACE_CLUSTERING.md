@@ -31,7 +31,7 @@ bun scripts/face-clustering.ts
 
 Tento skript:
 
-- Načte manifest `people.manifest.json` a `images.manifest.json`.
+- Načte manifest `people.manifest.json`, `images.manifest.json` a `embeddings.manifest.json` (pokud existují).
 - Projde všechny fotky.
 - Aktualizuje manifesty o nové osoby a přiřazení.
 - Vygeneruje náhledy (thumbnails) do `static/<GALLERY>/faces/`.

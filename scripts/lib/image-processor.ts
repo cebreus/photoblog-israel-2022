@@ -191,19 +191,20 @@ function determineAnalysisNeeds(fileHash: string, key: string, options: ImagePro
     reusedAnalysis = {
       sharpness: prev.analysis?.sharpness,
       phash: prev.analysis?.phash,
-      embedding: prev.analysis?.embedding,
     };
     reusedExif = prev.exif || {};
     reusedOther = { placeholderColor: prev.placeholderColor };
+
+    const embedding = options.embeddingsManifest?.[key];
+    const isEmbeddingValid =
+      !options.curation || (Array.isArray(embedding) && embedding.length === EMBEDDING_DIM);
 
     const isAnalysisValid =
       typeof reusedAnalysis.sharpness === "number" &&
       reusedAnalysis.sharpness > 0 &&
       typeof reusedAnalysis.phash === "string" &&
       reusedAnalysis.phash.length > 0 &&
-      (!options.curation ||
-        (Array.isArray(reusedAnalysis.embedding) &&
-          reusedAnalysis.embedding.length === EMBEDDING_DIM));
+      isEmbeddingValid;
 
     if (shouldAnalyze && !isAnalysisValid) {
       logger.verbose(`Hash match for ${key}, but re-analyzing due to missing/invalid data.`);
@@ -291,7 +292,7 @@ async function gatherImageData(
       : Promise.resolve(analysisFromManifest?.phash ?? reusedAnalysis?.phash ?? ""),
   ]);
 
-  let embedding = embeddingFromManifest ?? reusedAnalysis?.embedding;
+  let embedding = embeddingFromManifest;
   if (shouldAnalyze && options.curation && !options.skipEmbeddings && !embedding) {
     embedding = await aiService.generateEmbedding(processingPath);
   }
@@ -447,7 +448,6 @@ export async function processImage(
       {
         sharpness: imageData.sharpnessScore ?? 0,
         phash: imageData.phash ?? "",
-        embedding: imageData.embedding ?? [],
         aestheticScore: imageData.aestheticScore,
         qualityBucket: imageData.qualityBucket,
         facesDetected: imageData.facesDetected,

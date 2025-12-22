@@ -54,7 +54,7 @@ describe("Metadata Module (Unit)", () => {
         longitude: 20,
       };
       const meta = { width: 1000, height: 800 };
-      const analysis = { sharpness: 10, phash: "abc", embedding: [] };
+      const analysis = { sharpness: 10, phash: "abc" };
 
       const entry = buildImageEntry(
         "test-image",
