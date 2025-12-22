@@ -18,6 +18,7 @@
   import { Button } from "$lib/components/ui/button";
   import * as ButtonGroup from "$lib/components/ui/button-group";
   import { Checkbox } from "$lib/components/ui/checkbox";
+  import * as Dialog from "$lib/components/ui/dialog";
   import * as Sidebar from "$lib/components/ui/sidebar";
   import { Switch } from "$lib/components/ui/switch";
   import { createLogger } from "$lib/logger";
@@ -51,6 +52,28 @@
 
   // Subscribe to derived store with optimized stats
   let peopleList = $derived(people.peopleWithStats);
+
+  type ConfirmDialogConfig = {
+    title: string;
+    description: string;
+    confirmLabel?: string;
+    onConfirm: () => Promise<void> | void;
+  };
+
+  let confirmDialog = $state<{ open: boolean; config: ConfirmDialogConfig | null }>({
+    open: false,
+    config: null,
+  });
+
+  function openBulkConfirm(config: ConfirmDialogConfig) {
+    confirmDialog = { open: true, config };
+  }
+
+  async function runConfirmedAction() {
+    if (!confirmDialog.config) return;
+    await confirmDialog.config.onConfirm();
+    confirmDialog = { open: false, config: null };
+  }
 
   // Determine URL prefix from first available image source path
   const photoDays = $derived(people.photoDays);
@@ -312,14 +335,18 @@
 
   function handleBulkHideAction(e?: MouseEvent) {
     e?.stopPropagation();
-    logger.info("Executing bulk hide immediately, count:", selectedForMerge.length);
     if (selectedForMerge.length === 0) return;
 
-    if (!confirm(`Opravdu chcete skrýt ${selectedForMerge.length} vybraných osob?`)) {
-      return;
-    }
-
-    executeBulkHide();
+    openBulkConfirm({
+      title:
+        selectedForMerge.length === 1
+          ? "Opravdu chcete skrýt tuto osobu?"
+          : `Opravdu chcete skrýt ${selectedForMerge.length} vybraných osob?`,
+      description:
+        "Hromadné skrytí způsobí, že se vybrané osoby nebudou zobrazovat v přehledech ani filtrech.",
+      confirmLabel: "Skrýt",
+      onConfirm: () => executeBulkHide(),
+    });
   }
 
   async function executeBulkHide() {
@@ -361,15 +388,23 @@
     }
   }
 
-  async function executeBulkRestore() {
-    // Only restore those that are currently hidden
+  function handleBulkRestore() {
     const hiddenIds = selectedForMerge.filter((id) => people.hiddenPeople.some((p) => p.id === id));
+    if (hiddenIds.length === 0) return;
+
+    openBulkConfirm({
+      title: `Obnovit ${hiddenIds.length} skrytých osob?`,
+      description: "Obnovené osoby se znovu objeví ve výběrech i ve fotkách.",
+      confirmLabel: "Obnovit",
+      onConfirm: () => executeBulkRestore(hiddenIds),
+    });
+  }
+
+  async function executeBulkRestore(hiddenIds: string[]) {
     if (hiddenIds.length === 0) return;
 
     isSaving = true;
     try {
-      // The /api/people/ignore endpoint only bulk-sets to true.
-      // To restore, toggle each id individually with single POSTs.
       await Promise.all(
         hiddenIds.map((personId) =>
           fetch("/api/people/ignore", {
@@ -380,7 +415,6 @@
         ),
       );
 
-      // Remove restored from current selection filter
       filters.selectedPeople = filters.selectedPeople.filter((id) => !hiddenIds.includes(id));
 
       await new Promise((r) => setTimeout(r, 500));
@@ -394,15 +428,19 @@
     }
   }
 
+  function handleBulkMarkAsJunk() {
+    if (selectedForMerge.length === 0) return;
+
+    openBulkConfirm({
+      title: `Označit ${selectedForMerge.length} vybraných profilů jako 'není osoba'?`,
+      description: "Operace je nevratná a odstraní profily z budoucí detekce i výběrů.",
+      confirmLabel: "Označit jako neplatné",
+      onConfirm: () => executeBulkMarkAsJunk(),
+    });
+  }
+
   async function executeBulkMarkAsJunk() {
     if (selectedForMerge.length === 0) return;
-    if (
-      !confirm(
-        `Opravdu označit ${selectedForMerge.length} vybraných profilů jako 'není osoba'? Operace je nevratná.`,
-      )
-    ) {
-      return;
-    }
 
     isSaving = true;
     try {
@@ -416,7 +454,6 @@
         ),
       );
 
-      // Clear selection after destructive action
       selectedForMerge = [];
       await new Promise((r) => setTimeout(r, 400));
       await people.refresh();
@@ -510,8 +547,24 @@
     }
   }
 
-  // Bulk category update (same options as in PersonDetail header)
-  async function bulkUpdateCategory(category: "person" | "statue" | "painting") {
+  function bulkUpdateCategory(category: "person" | "statue" | "painting") {
+    if (selectedForMerge.length === 0) return;
+
+    const labels = {
+      person: "Osoba",
+      statue: "Socha",
+      painting: "Malba",
+    } as const;
+
+    openBulkConfirm({
+      title: `Změnit typ u ${selectedForMerge.length} osob?`,
+      description: `Vybrané profily budou nastaveny na typ: ${labels[category]}.`,
+      confirmLabel: "Změnit typ",
+      onConfirm: () => executeBulkUpdateCategory(category),
+    });
+  }
+
+  async function executeBulkUpdateCategory(category: "person" | "statue" | "painting") {
     if (selectedForMerge.length === 0) return;
 
     isSaving = true;
@@ -777,14 +830,41 @@
             testId="people-tab-bulk-actions"
             onMerge={openMergeDialog}
             onHide={handleBulkHideAction}
-            onRestore={executeBulkRestore}
-            onMarkAsJunk={executeBulkMarkAsJunk}
+            onRestore={handleBulkRestore}
+            onMarkAsJunk={handleBulkMarkAsJunk}
             onUpdateCategory={bulkUpdateCategory}
             hiddenCount={selectedHiddenCount}
             canHide={!selectedForMerge.some((id) => people.hiddenPeople.some((p) => p.id === id))}
           />
         </div>
       {/if}
+
+      <Dialog.Root bind:open={confirmDialog.open}>
+        <Dialog.Content>
+          <Dialog.Header>
+            <Dialog.Title>{confirmDialog.config?.title}</Dialog.Title>
+            <Dialog.Description>{confirmDialog.config?.description}</Dialog.Description>
+          </Dialog.Header>
+          <Dialog.Footer>
+            <Button
+              variant="outline"
+              type="button"
+              onclick={() => (confirmDialog = { open: false, config: null })}
+              data-testid="people-tab-bulk-confirm-cancel"
+            >
+              Zrušit
+            </Button>
+            <Button
+              variant="destructive"
+              type="button"
+              onclick={runConfirmedAction}
+              data-testid="people-tab-bulk-confirm-submit"
+            >
+              {confirmDialog.config?.confirmLabel ?? "Potvrdit"}
+            </Button>
+          </Dialog.Footer>
+        </Dialog.Content>
+      </Dialog.Root>
 
       <Accordion.Root type="single" value="ignored" class="mt-4">
         {@const hiddenPersons = people.hiddenPeople}
