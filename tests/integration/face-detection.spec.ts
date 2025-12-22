@@ -50,17 +50,24 @@ describe("Face Detection Integration", () => {
     logger.info(`Detected faces: ${faces?.length}`);
 
     expect(faces).toBeDefined();
-    // In CI/CPU envs, small face models might miss detections.
-    // We primarily verify the pipeline runs without error.
+    // In CI/CPU envs, small face models might miss detections. Treat that as a failure in CI so the
+    // pipeline stays deterministic; allow a warning locally to avoid flakiness while developing.
     if (faces.length === 0) {
-      logger.warn(
-        "Integration: No faces detected in sample image. Verify model/image if consistent failure.",
-      );
-    } else {
-      expect(faces.length).toBeGreaterThan(0);
-      const face = faces[0];
-      expect(face.width).toBeGreaterThan(0);
-      expect(face.height).toBeGreaterThan(0);
+      const message =
+        "Integration: No faces detected in sample image. Verify model/image if consistent failure.";
+      const isCi = Bun.env.CI === "true" || Bun.env.CI === "1";
+
+      if (isCi) {
+        throw new Error(message);
+      }
+
+      logger.warn(message);
+      return;
     }
+
+    expect(faces.length).toBeGreaterThan(0);
+    const face = faces[0];
+    expect(face.width).toBeGreaterThan(0);
+    expect(face.height).toBeGreaterThan(0);
   }, 30000);
 });

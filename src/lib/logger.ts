@@ -11,8 +11,17 @@ const _levels = {
   fatal: 60,
 };
 
+function getLogLevel(): string {
+  if (browser) {
+    return dev ? "debug" : "warn";
+  }
+
+  const bunLogLevel = typeof Bun !== "undefined" ? Bun.env.LOG_LEVEL : undefined;
+  return bunLogLevel || process.env.LOG_LEVEL || "info";
+}
+
 const logger = pino({
-  level: browser ? (dev ? "debug" : "warn") : process.env.LOG_LEVEL || "info",
+  level: getLogLevel(),
   browser: {
     asObject: true,
     transmit: {
