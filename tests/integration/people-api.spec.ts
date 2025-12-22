@@ -148,9 +148,6 @@ describe("Integration: People API", () => {
     const newId = json.id;
 
     // Verify folder rename
-    // Verify folder rename
-    expect(await Bun.file(path.join(STATIC_DIR, "faces", newId)).exists()).toBe(false);
-
     const newIdDir = path.join(STATIC_DIR, "faces", newId);
     expect((await fsp.stat(newIdDir).catch(() => null))?.isDirectory()).toBe(true);
 

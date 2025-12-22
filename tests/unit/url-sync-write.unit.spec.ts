@@ -9,7 +9,6 @@
  * @modules-tested
  * - src/lib/stores/urlSync.svelte.ts
  */
-import { type Writable, writable } from "svelte/store";
 import { afterEach, beforeEach, describe, expect, it, type MockInstance, vi } from "vitest";
 
 // Mock modules BEFORE importing the file under test
@@ -22,30 +21,22 @@ vi.mock("$app/navigation", () => ({
   goto: vi.fn().mockResolvedValue(undefined),
 }));
 
-// Mock page store with a realistic structure
-interface MockPageStore extends Writable<any> {
-  set: (val: any) => void;
-}
+// Mock $app/state (Svelte 5)
+let mockPageState = {
+  url: new URL("https://example.com/"),
+  params: {},
+  route: { id: "/" },
+  status: 200,
+  error: null,
+  data: {},
+  form: null,
+};
 
-vi.mock("$app/stores", () => {
-  const mockPageStore = writable({
-    url: new URL("https://example.com/"),
-    params: {},
-    route: { id: "/" },
-    status: 200,
-    error: null,
-    data: {},
-    form: null,
-  }) as MockPageStore;
-
-  return {
-    page: {
-      subscribe: (fn: any) => mockPageStore.subscribe(fn),
-    },
-    // Export for test access
-    __mockPageStore: mockPageStore,
-  };
-});
+vi.mock("$app/state", () => ({
+  get page() {
+    return mockPageState;
+  },
+}));
 
 // Mock rune-based stores
 vi.mock("$lib/stores/filters.svelte", () => {
@@ -84,7 +75,6 @@ vi.mock("$lib/stores/editor.svelte", () => {
 
 // Import code under test AFTER mocks
 import { goto } from "$app/navigation";
-import * as appStores from "$app/stores";
 import { editor } from "$lib/stores/editor.svelte";
 import { filters } from "$lib/stores/filters.svelte";
 import { ui } from "$lib/stores/ui.svelte";
@@ -117,9 +107,8 @@ describe("syncUrlFromFilters", () => {
     editor.editMode = false;
     editor.showMetadataOverlay = false;
 
-    // Reset page URL
-    const pageStore = (appStores as any).__mockPageStore as MockPageStore;
-    pageStore.set({
+    // Reset page state
+    mockPageState = {
       url: new URL("https://example.com/"),
       params: {},
       route: { id: "/" },
@@ -127,7 +116,7 @@ describe("syncUrlFromFilters", () => {
       error: null,
       data: {},
       form: null,
-    });
+    };
   });
 
   afterEach(() => {

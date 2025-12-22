@@ -15,6 +15,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 // Mock modules BEFORE importing the file under test
 vi.mock("$app/environment", () => ({
   browser: true,
+  dev: true,
 }));
 
 // Mock rune-based stores
