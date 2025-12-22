@@ -20673,7 +20673,7 @@
         0.03616157576401359,
         -0.010454230852578328
       ],
-      "faceCount": 13,
+      "faceCount": 12,
       "thumbnail": "faces/person-cf425672--dasa/2025-11-28-155801-dasa.jpg",
       "ignored": false,
       "createdAt": "2025-12-19T12:12:53.254Z",
@@ -43235,6 +43235,18 @@
       "createdAt": "2025-12-22T20:10:14.805Z",
       "lastSeenAt": "2025-12-22T20:10:14.805Z",
       "category": "statue"
+    },
+    {
+      "id": "person-039b0933--odpojeno-od-dasa",
+      "name": "Odpojeno od Dáša",
+      "faceDescriptor": [],
+      "clusters": [],
+      "faceCount": 1,
+      "thumbnail": "faces/person-039b0933--odpojeno-od-dasa/2025-11-27-124045-dasa.jpg",
+      "ignored": true,
+      "createdAt": "2025-12-22T22:11:48.485Z",
+      "lastSeenAt": "2025-12-22T22:11:48.485Z",
+      "category": "person"
     }
   ]
 }

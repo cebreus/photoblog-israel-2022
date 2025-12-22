@@ -375,6 +375,10 @@
     {
       "imageId": "2025-11-26-130159-cebreus",
       "personId": "person-ed9de0e7--finda"
+    },
+    {
+      "imageId": "2025-11-27-124045-dasa",
+      "personId": "person-cf425672--dasa"
     }
   ],
   "ignoredCrops": [
@@ -655,6 +659,10 @@
     {
       "imageId": "2025-11-26-130159-cebreus",
       "personId": "person-5b3ecd75--odpojeno-od-finda"
+    },
+    {
+      "imageId": "2025-11-27-124045-dasa",
+      "personId": "person-039b0933--odpojeno-od-dasa"
     }
   ]
 }
