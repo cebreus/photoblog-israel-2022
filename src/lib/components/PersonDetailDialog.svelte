@@ -244,10 +244,10 @@
     isWorking = true;
     try {
       const selectedCrops = crops.filter((c) => selectedIds.has(c.id));
-      await Promise.all(
-        selectedCrops.map((crop) => {
-          if (!crop.box) return Promise.resolve();
-          return fetch("/api/people/ignore-face", {
+      const results = await Promise.allSettled(
+        selectedCrops.map(async (crop) => {
+          if (!crop.box) return;
+          const res = await fetch("/api/people/ignore-face", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -256,12 +256,22 @@
               box: crop.box,
             }),
           });
+          if (!res.ok) throw new Error(res.statusText);
         }),
       );
 
+      const failed = results.filter((r) => r.status === "rejected");
+      if (failed.length > 0) {
+        const successCount = selectedCrops.length - failed.length;
+        if (successCount === 0) throw new Error("Všechny operace selhaly");
+        toast.warning(`Dokončeno s chybami: ${successCount} úspěšných, ${failed.length} selhalo.`);
+        logger.error("Some bulk ignore operations failed", failed);
+      } else {
+        toast.success("Vybrané detekce byly označeny jako neplatné a budou ignorovány.");
+      }
+
       onUpdate?.();
       selectedIds = new Set();
-      toast.success("Vybrané detekce byly označeny jako neplatné a budou ignorovány.");
     } catch (e) {
       logger.error("Bulk mark-as-junk failed:", e);
       toast.error("Chyba při hromadném označování detekcí.");
