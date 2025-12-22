@@ -189,7 +189,7 @@ async function cmdBlur() {
 }
 
 async function cmdFaces() {
-  logger.info("Face Clustering & Recognition");
+  logger.info("┌ Face Clustering & Recognition");
   await run("bun", ["scripts/face-clustering.ts", ...getCommonFlags()], {
     filter: (line) => {
       if (line.includes("GNotificationCenterDelegate") && line.includes("implemented in both"))

@@ -1,7 +1,6 @@
 import crypto from "node:crypto";
 import fsp from "node:fs/promises";
 import path from "node:path";
-import { intro, outro } from "@clack/prompts";
 import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
 import * as canvas from "canvas";
 import sharp from "sharp";
@@ -23,7 +22,6 @@ import {
 } from "./lib/manifest-repository";
 import { filterPeopleWithValidDescriptors } from "./lib/people-utils";
 import { progressManager } from "./lib/progress-manager";
-import { formatDuration } from "./lib/time-utils";
 
 const SCRIPT_DIR = import.meta.dir;
 const logger = createLogger("face-clustering");
@@ -46,7 +44,8 @@ faceapi.env.monkeyPatch({
 });
 
 async function loadModels() {
-  logger.info(`Loading models from ${FACE_CONFIG.modelPath}...`);
+  const relativeModelPath = path.relative(process.cwd(), FACE_CONFIG.modelPath);
+  logger.info(`Loading models from ${relativeModelPath}...`);
   await faceapi.nets.ssdMobilenetv1.loadFromDisk(FACE_CONFIG.modelPath);
   await faceapi.nets.faceLandmark68Net.loadFromDisk(FACE_CONFIG.modelPath);
   await faceapi.nets.faceRecognitionNet.loadFromDisk(FACE_CONFIG.modelPath);
@@ -290,11 +289,15 @@ async function processImageQueue(
   facesManifest: FacesManifest, // Added
 ) {
   let processedCount = 0;
+  let successCount = 0;
+  let failCount = 0;
+  let cachedCount = 0;
   const CONCURRENCY = getConcurrency(values.concurrency);
 
-  const bar = progressManager.createBar(queue.length, "[face-clustering]", { people: 0 });
-
-  // bar?.start(queue.length, 0, { people: 0 });
+  const bar = progressManager.createBar(queue.length, "[face-clustering]", {
+    suffix: "| people: 0",
+  });
+  bar.start(queue.length, 0, { suffix: "| people: 0" }); // Explicitly start the bar
 
   const worker = async (item: { image: ImageEntry; oldPeople: string[] }) => {
     const { image, oldPeople } = item;
@@ -435,14 +438,22 @@ async function processImageQueue(
           descriptors: [],
         };
       }
+      if (usedCache) {
+        cachedCount++;
+      } else {
+        successCount++;
+      }
     } catch (e) {
+      failCount++;
       logger.error(`Clustering failed for ${image.id}:`, e);
     }
 
     processedCount++;
 
     if (bar) {
-      bar.update(processedCount, { people: people.length });
+      bar.update(processedCount, {
+        suffix: `| people: ${people.length} | ✓ ${successCount} | ↷ ${cachedCount} | ✗ ${failCount}`,
+      });
     }
   };
 
@@ -462,12 +473,11 @@ async function processImageQueue(
   }
 
   await Promise.all(pool);
-  if (bar) progressManager.removeBar(bar);
+  bar.stop();
+  progressManager.stopAll();
 }
 
 async function main() {
-  intro("🤖 Face Clustering");
-
   const contentDir = await resolveGalleryDirectory();
   if (values.verbose) logger.info(`Running Face Clustering for: ${contentDir}`);
 
@@ -514,7 +524,7 @@ async function main() {
     queue = queue.slice(0, limit);
   }
 
-  logger.info(`Processing ${queue.length} images...`);
+  // logger.info(`Processing ${queue.length} images...`);
 
   await processImageQueue(
     queue,
@@ -560,14 +570,13 @@ async function main() {
   await savePeopleManifest(dataDir, { people });
   // logger.info(`Saved people manifest.`);
 
-  outro("Done");
+  // logger.info(`Saved people manifest.`);
 }
 
 (async () => {
   const startTime = performance.now();
   try {
     await main();
-    logger.info(`Total time: ${formatDuration(performance.now() - startTime)}`);
   } catch (error) {
     logger.error(error);
     process.exit(1);
