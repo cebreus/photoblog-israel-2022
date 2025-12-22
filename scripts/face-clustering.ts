@@ -21,7 +21,7 @@ import {
   savePeopleManifest,
 } from "./lib/manifest-repository";
 import { filterPeopleWithValidDescriptors } from "./lib/people-utils";
-import { progressManager } from "./lib/progress-manager";
+import { createBar, stopAllBars } from "./lib/progress-manager";
 
 const SCRIPT_DIR = import.meta.dir;
 const logger = createLogger("face-clustering");
@@ -409,7 +409,7 @@ async function processImageQueue(
   let cachedCount = 0;
   const CONCURRENCY = getConcurrency(values.concurrency);
 
-  const bar = progressManager.createBar(queue.length, "[face-clustering]", {
+  const bar = createBar(queue.length, "[face-clustering]", {
     suffix: "| people: 0",
   });
   bar.start(queue.length, 0, { suffix: "| people: 0" }); // Explicitly start the bar
@@ -589,7 +589,7 @@ async function processImageQueue(
 
   await Promise.all(pool);
   bar.stop();
-  progressManager.stopAll();
+  stopAllBars();
 }
 
 async function main() {

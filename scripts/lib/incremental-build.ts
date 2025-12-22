@@ -18,7 +18,7 @@ import {
   saveImagesManifest,
   saveManifest,
 } from "./manifest-repository";
-import { progressManager } from "./progress-manager";
+import { createBar, removeBar } from "./progress-manager";
 
 const logger = createLogger("incremental-build");
 
@@ -239,7 +239,7 @@ async function processImages(
   const resolvedConcurrency = getConcurrency(concurrency);
   logger.info(`Using concurrency: ${resolvedConcurrency}`);
 
-  const bar = quiet ? null : progressManager.createBar(toProcess.length, "Processing");
+  const bar = quiet ? null : createBar(toProcess.length, "Processing");
 
   // bar?.start(toProcess.length, 0); // createBar already initializes
 
@@ -265,7 +265,7 @@ async function processImages(
   const pool = Array.from({ length: resolvedConcurrency }, workerLoop);
   await Promise.all(pool);
 
-  if (bar) progressManager.removeBar(bar);
+  if (bar) removeBar(bar);
 
   return results;
 }

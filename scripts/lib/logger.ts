@@ -1,6 +1,6 @@
 import pc from "picocolors";
 import pino from "pino";
-import { progressManager } from "./progress-manager";
+import { logProgress } from "./progress-manager";
 
 const levelColors: Record<string, (str: string) => string> = {
   error: pc.red,
@@ -52,7 +52,7 @@ export function createLogger(label: string) {
       const obj = JSON.parse(msg);
       const level = pinoToWinstonLevel[obj.level] || "info";
       const formatted = formatMessage(level, obj.msg);
-      progressManager.log(formatted);
+      logProgress(formatted);
     },
   };
 
@@ -88,7 +88,7 @@ export function createLogger(label: string) {
     info: (msg: string, ...args: any[]) => logger.info(msg, ...args),
     verbose: (msg: string, ...args: any[]) => (logger as any).verbose(msg, ...args),
     debug: (msg: string, ...args: any[]) => logger.debug(msg, ...args),
-    raw: (msg: string) => progressManager.log(msg),
+    raw: (msg: string) => logProgress(msg),
     silent: false, // Compatibility for some scripts
     set level(val: string) {
       logger.level = val === "verbose" ? "verbose" : val;

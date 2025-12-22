@@ -26,7 +26,7 @@ import {
   saveEmbeddingsManifest,
   saveImagesManifest,
 } from "./lib/manifest-repository";
-import { progressManager } from "./lib/progress-manager";
+import { createBar, removeBar } from "./lib/progress-manager";
 import { formatDuration } from "./lib/time-utils";
 
 const logger = createLogger("analyze-similarity");
@@ -218,7 +218,7 @@ async function computeAestheticScores(
       })
     : null;
   */
-  const bar = progressManager.createBar(totalImages, "analyze-similarity");
+  const bar = createBar(totalImages, "analyze-similarity");
   let processedCount = 0;
   const imagesToEmbed: { img: ImageEntry; absPath: string }[] = [];
 
@@ -267,7 +267,7 @@ async function computeAestheticScores(
     logger.info(
       `Generating embeddings for ${imagesToEmbed.length} images in batches of ${BATCH_SIZE}...`,
     );
-    const embedBar = progressManager.createBar(imagesToEmbed.length, "generate-embeddings");
+    const embedBar = createBar(imagesToEmbed.length, "generate-embeddings");
     for (let i = 0; i < imagesToEmbed.length; i += BATCH_SIZE) {
       const batch = imagesToEmbed.slice(i, i + BATCH_SIZE);
       const paths = batch.map((b) => b.absPath);
@@ -288,7 +288,7 @@ async function computeAestheticScores(
       if (bar)
         bar.update(Math.floor(((i + batch.length) / imagesToEmbed.length) * (totalImages * 0.5)));
     }
-    if (embedBar) progressManager.removeBar(embedBar);
+    if (embedBar) removeBar(embedBar);
   }
 
   for (const day of manifest.photoDays) {
@@ -358,7 +358,7 @@ async function computeAestheticScores(
     }
   }
 
-  if (bar) progressManager.removeBar(bar);
+  if (bar) removeBar(bar);
   // bar?.stop();
   // if (!values.verbose) process.stdout.write("\n");
 
