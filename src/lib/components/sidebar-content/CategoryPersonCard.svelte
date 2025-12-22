@@ -35,6 +35,7 @@
     role="button"
     tabindex="0"
     onclick={() => onToggle(person.id)}
+    aria-label={person.name}
     onkeydown={(e) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();

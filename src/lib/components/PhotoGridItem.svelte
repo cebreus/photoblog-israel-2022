@@ -294,7 +294,7 @@
               />
             {/each}
             <img
-              src={fallback.path}
+              src={fallback?.path ?? ""}
               alt={item.alt}
               loading="lazy"
               class="h-full w-full cursor-zoom-in object-cover"
