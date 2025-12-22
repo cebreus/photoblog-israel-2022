@@ -162,7 +162,7 @@ export function initializeFiltersFromUrl(url: URL) {
     (v) => {
       ui.sidebarOpen = v;
     },
-    false,
+    true,
   );
 
   const peopleCsv = url.searchParams.get("people");
