@@ -32,7 +32,9 @@ export function createBar(
   const isBoxed = process.env.LOG_STYLE === "boxed";
   const useDouble = !prefix.includes("[manage]");
   const boxBar = isBoxed ? (useDouble ? `${colors.dim("│ │")} ` : `${colors.dim("│")}  `) : "";
-  const formattedPrefix = `${boxBar}${colors.cyan(prefix)}`;
+  const normalizedPrefix =
+    prefix.startsWith("[") && prefix.endsWith("]") ? prefix.slice(1, -1) : prefix;
+  const formattedPrefix = `${boxBar}[${colors.cyan(normalizedPrefix)}]`;
   const statsPrefix = isBoxed
     ? useDouble
       ? `${colors.dim("│ │")}     `
