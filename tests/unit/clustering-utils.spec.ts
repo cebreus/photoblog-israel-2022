@@ -39,22 +39,41 @@ describe("clustering-utils", () => {
   });
 
   describe("calculatePersonDistance", () => {
-    it("should return Infinity if person has no descriptor", () => {
-      const person = { faceDescriptors: [] } as unknown as Person;
+    it("should return Infinity if person has no descriptor or clusters", () => {
+      const person = { faceDescriptor: [], clusters: [] } as unknown as Person;
       expect(calculatePersonDistance([1], person)).toBe(1.0);
     });
 
-    it("should return average distance to descriptors", () => {
-      const person = { faceDescriptors: [[0], [2]] } as unknown as Person; // Avg 1
-      // Target [0]
-      // dist([0], [0]) = 0
-      // dist([0], [2]) = 2 (mock implementation abs diff)
-      // avg = 1
+    it("should return min distance to any cluster", () => {
+      // Cluster A: [0] (dist to [1] is 1)
+      // Cluster B: [1] (dist to [1] is 0)
+      const person = {
+        clusters: [{ centroid: [0] }, { centroid: [1] }],
+      } as unknown as Person;
+
       vi.mocked(faceapi.euclideanDistance).mockImplementation((a: any, b: any) =>
         Math.abs(a[0] - b[0]),
       );
 
-      expect(calculatePersonDistance([0], person)).toBe(1);
+      // Should pick Cluster B (dist 0)
+      expect(calculatePersonDistance([1], person)).toBe(0);
+      // Should pick Cluster A (dist 1) vs Cluster B (dist 2) -> 1
+      expect(calculatePersonDistance([0], person)).toBe(0); // dist([0],[0])=0
+      expect(calculatePersonDistance([10], person)).toBe(9); // dist([10],[1])=9
+    });
+
+    it("should fallback to legacy faceDescriptor if clusters missing", () => {
+      const person = {
+        faceDescriptor: [5],
+        clusters: [],
+      } as unknown as Person;
+
+      vi.mocked(faceapi.euclideanDistance).mockImplementation((a: any, b: any) =>
+        Math.abs(a[0] - b[0]),
+      );
+
+      // dist([1],[5]) = 4
+      expect(calculatePersonDistance([1], person)).toBe(4);
     });
   });
 

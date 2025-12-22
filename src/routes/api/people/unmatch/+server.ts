@@ -65,6 +65,7 @@ export async function POST({ request }) {
           id: newPersonId,
           name,
           faceDescriptor: [],
+          clusters: [],
           faceCount: 1,
           thumbnail: `faces/${newPersonId}/${id}.jpg`,
           ignored: shouldIgnore || false,

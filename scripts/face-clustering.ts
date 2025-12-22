@@ -163,10 +163,82 @@ async function processFaceDetections(
         bestMatch.thumbnail = `faces/${bestMatch.id}/${image.id}.jpg`;
       }
 
-      for (let k = 0; k < 128; k++) {
-        bestMatch.faceDescriptor[k] =
-          (bestMatch.faceDescriptor[k] * (bestMatch.faceCount - 1) + descriptor[k]) /
-          bestMatch.faceCount;
+      // Multi-Cluster Update Logic
+      const CLUSTER_MERGE_THRESHOLD = 0.25; // Heuristic: if closer than this, merge. Else new cluster.
+
+      let bestClusterIndex = -1;
+      let minClusterDist = 1.0;
+
+      if (bestMatch.clusters && bestMatch.clusters.length > 0) {
+        bestMatch.clusters.forEach((c, idx) => {
+          const d = faceapi.euclideanDistance(c.centroid, descriptor);
+          if (d < minClusterDist) {
+            minClusterDist = d;
+            bestClusterIndex = idx;
+          }
+        });
+      } else {
+        // Should have been migrated on load, but safe fallback
+        bestMatch.clusters = [];
+        // Use legacy descriptor if available to bootstrap
+        if (bestMatch.faceDescriptor && bestMatch.faceDescriptor.length > 0) {
+          bestMatch.clusters.push({
+            centroid: [...bestMatch.faceDescriptor],
+            faceCount: bestMatch.faceCount,
+            lastSeen: bestMatch.lastSeenAt,
+          });
+          bestClusterIndex = 0;
+          minClusterDist = faceapi.euclideanDistance(bestMatch.faceDescriptor, descriptor);
+        }
+      }
+
+      // Helper to extract year
+      const getYear = (img: ImageEntry): number | undefined => {
+        if (img.date) {
+          const y = new Date(img.date).getFullYear();
+          if (!Number.isNaN(y)) return y;
+        }
+        if (img.exif?.date) {
+          const y = new Date(img.exif.date).getFullYear();
+          if (!Number.isNaN(y)) return y;
+        }
+        // Fallback: Image ID usually starts with YYYY (e.g. 2025-11-21...)
+        const match = img.id.match(/^(\d{4})/);
+        return match ? parseInt(match[1], 10) : undefined;
+      };
+
+      const currentYear = getYear(image);
+
+      if (bestClusterIndex >= 0 && minClusterDist < CLUSTER_MERGE_THRESHOLD) {
+        // Update existing cluster
+        const cluster = bestMatch.clusters[bestClusterIndex];
+        cluster.faceCount++;
+        cluster.lastSeen = new Date().toISOString();
+        // Update year if not set
+        if (!cluster.year && currentYear) cluster.year = currentYear;
+
+        // Weighted average update
+        for (let k = 0; k < 128; k++) {
+          cluster.centroid[k] =
+            (cluster.centroid[k] * (cluster.faceCount - 1) + descriptor[k]) / cluster.faceCount;
+        }
+      } else {
+        // Create NEW cluster for this person (Time-Series evolution)
+        bestMatch.clusters.push({
+          centroid: descriptor,
+          faceCount: 1,
+          lastSeen: new Date().toISOString(),
+          year: currentYear,
+        });
+      }
+
+      // Update legacy descriptors for backward compatibility (using just the first cluster or closest?)
+      // Let's keep faceDescriptor as the *most recent* or *primary* centroid to avoid breaking other tools?
+      // Or just ignore it. Previous simple average logic:
+      // bestMatch.faceDescriptor = ... (averaged global).
+      // We stop updating the global average to prevent drift. We treat 'faceDescriptor' as legacy.
+      if (bestMatch.clusters.length > 0) {
+        bestMatch.faceDescriptor = bestMatch.clusters[0].centroid; // Sync for legacy readers
       }
     } else {
       // Check for minimum face size before creating a new person
@@ -197,6 +269,26 @@ async function processFaceDetections(
         ignored: false,
         createdAt: new Date().toISOString(),
         lastSeenAt: new Date().toISOString(),
+        clusters: [
+          {
+            centroid: descriptor,
+            faceCount: 1,
+            lastSeen: new Date().toISOString(),
+            year: (() => {
+              // Extract year inline for new person scope
+              if (image.date) {
+                const y = new Date(image.date).getFullYear();
+                if (!Number.isNaN(y)) return y;
+              }
+              if (image.exif?.date) {
+                const y = new Date(image.exif.date).getFullYear();
+                if (!Number.isNaN(y)) return y;
+              }
+              const match = image.id.match(/^(\d{4})/);
+              return match ? parseInt(match[1], 10) : undefined;
+            })(),
+          },
+        ],
       };
       people.push(newPerson);
 
@@ -218,6 +310,29 @@ async function loadClusteringResources(dataDir: string): Promise<{
   const existingPeopleManifest = await loadPeopleManifest(dataDir);
   if (existingPeopleManifest?.people) {
     people = filterPeopleWithValidDescriptors(existingPeopleManifest.people);
+    // Migration: Ensure 'clusters' exists
+    let migratedCount = 0;
+    for (const p of people) {
+      if (!p.clusters || p.clusters.length === 0) {
+        if (p.faceDescriptor && p.faceDescriptor.length > 0) {
+          p.clusters = [
+            {
+              centroid: [...p.faceDescriptor],
+              faceCount: p.faceCount,
+              lastSeen: p.lastSeenAt,
+              year: undefined, // Cannot infer year from old average, assumes generic
+            },
+          ];
+          migratedCount++;
+        } else {
+          p.clusters = [];
+        }
+      }
+    }
+    if (migratedCount > 0) {
+      logger.info(`Migrated ${migratedCount} people to multi-cluster schema.`);
+    }
+
     if (values.verbose) logger.info(`Loaded ${people.length} existing people from manifest.`);
   }
 
@@ -504,8 +619,35 @@ async function main() {
     await loadClusteringResources(dataDir);
 
   if (values.clean) {
-    if (values.verbose) logger.info(`Cleaning output directory: ${facesOutputDir}`);
+    if (values.verbose) logger.info(`[CLEAN] Cleaning output directory: ${facesOutputDir}`);
     await fsp.rm(facesOutputDir, { recursive: true, force: true });
+
+    // Reset person statistics but preserve Identity Clusters (Multi-Cluster Seed)
+    logger.info("[CLEAN] Resetting person statistics while preserving identity centroids.");
+    for (const p of people) {
+      p.faceCount = 0;
+      p.thumbnail = ""; // Will be regenerated by first match
+      if (p.clusters) {
+        for (const c of p.clusters) {
+          // Reset weight of historical clusters to avoid double-counting infinite inflation
+          // But keep them strong enough to attract matches.
+          c.faceCount = 1;
+        }
+      }
+    }
+
+    // Mark images for re-processing
+    for (const day of manifest.photoDays) {
+      for (const item of day.items) {
+        if (item.type === "image") {
+          const img = item as ImageEntry;
+          if (img.analysis) {
+            img.analysis.facesDetected = false;
+            img.analysis.faces = [];
+          }
+        }
+      }
+    }
   }
 
   await ensureDir(facesOutputDir);
@@ -574,7 +716,7 @@ async function main() {
 }
 
 (async () => {
-  const startTime = performance.now();
+  // const startTime = performance.now();
   try {
     await main();
   } catch (error) {

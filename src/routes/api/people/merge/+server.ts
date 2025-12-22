@@ -128,32 +128,42 @@ export async function POST({ request }) {
       logger.info(`[MERGE] Source person faceCount: ${oldSourceFaceCount} → ${sourceFaceCount}`);
       logger.info(`[MERGE] Target person faceCount: ${oldTargetFaceCount} → ${targetFaceCount}`);
 
-      if (hasValidFaceDescriptor(sourcePerson)) {
-        if (!hasValidFaceDescriptor(targetPerson)) {
-          targetPerson.faceDescriptor = sourcePerson.faceDescriptor;
-          logger.info("[MERGE] Target person inherited descriptor from source");
-        } else {
-          const sourceDesc = sourcePerson.faceDescriptor;
-          const targetDesc = targetPerson.faceDescriptor;
+      // Handle descriptor merging (Multi-Cluster Strategy)
+      // Migration check for target
+      if (!targetPerson.clusters) targetPerson.clusters = [];
+      if (targetPerson.clusters.length === 0 && hasValidFaceDescriptor(targetPerson)) {
+        targetPerson.clusters.push({
+          centroid: targetPerson.faceDescriptor,
+          faceCount: oldTargetFaceCount,
+        });
+      }
 
-          const sourceWeight = oldSourceFaceCount;
-          const targetWeight = oldTargetFaceCount;
-          const totalWeight = sourceWeight + targetWeight;
+      // Migration check for source
+      if (!sourcePerson.clusters) sourcePerson.clusters = [];
+      if (sourcePerson.clusters.length === 0 && hasValidFaceDescriptor(sourcePerson)) {
+        sourcePerson.clusters.push({
+          centroid: sourcePerson.faceDescriptor,
+          faceCount: oldSourceFaceCount,
+        });
+      }
 
-          if (totalWeight > 0) {
-            function calculateWeightedAverage(targetValue: number, index: number): number {
-              const sourceValue = sourceDesc[index];
-              return (targetValue * targetWeight + sourceValue * sourceWeight) / totalWeight;
-            }
+      if (sourcePerson.clusters.length > 0) {
+        // Concatenate clusters (preserving distinctness of merged person)
+        targetPerson.clusters.push(...sourcePerson.clusters);
+        logger.info(
+          `[MERGE] Merged ${sourcePerson.clusters.length} clusters from source to target.`,
+        );
 
-            const averagedDescriptor = targetDesc.map(calculateWeightedAverage);
-
-            targetPerson.faceDescriptor = averagedDescriptor;
-            logger.info(
-              `[MERGE] Averaged face descriptors (weights: ${sourceWeight}:${targetWeight})`,
-            );
-          }
+        // Update legacy descriptor to be the centroid of the largest cluster? Or just keep target's?
+        // Let's re-calculate a "Global Average" for legacy compatibility if we want.
+        // Or simpler: just use target's original or first cluster.
+        // Leaving it alone might be confusing if the merged person dominates.
+        if (targetPerson.clusters.length > 0) {
+          targetPerson.faceDescriptor = targetPerson.clusters[0].centroid;
         }
+      } else if (hasValidFaceDescriptor(sourcePerson)) {
+        // Fallback if source had descriptor but no clusters (shouldn't happen with migration logic above)
+        targetPerson.faceDescriptor = sourcePerson.faceDescriptor; // Legacy behavior fallback
       }
 
       const constraintsPath = path.resolve(
