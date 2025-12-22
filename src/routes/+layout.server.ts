@@ -2,6 +2,8 @@ import { getCurationManifest, getMenuItems, getPhotoDays, getSiteManifest } from
 import type { Author, MenuManifest, PhotoDay, SiteManifest } from "$lib/types/manifest";
 import { toSlug } from "$lib/utils/strings";
 
+const UNKNOWN_AUTHOR = "Neuvedeno";
+
 function gatherAuthors(photoDays: PhotoDay[]): Author[] {
   const counts = new Map<string, number>();
 
@@ -13,7 +15,7 @@ function gatherAuthors(photoDays: PhotoDay[]): Author[] {
       let rawAuthor = item.author || "";
 
       if (!rawAuthor.trim()) {
-        rawAuthor = "Neuvedeno";
+        rawAuthor = UNKNOWN_AUTHOR;
       }
 
       counts.set(rawAuthor, (counts.get(rawAuthor) ?? 0) + 1);

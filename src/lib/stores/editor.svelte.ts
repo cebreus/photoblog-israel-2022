@@ -1,3 +1,7 @@
+import { createLogger } from "$lib/logger";
+
+const logger = createLogger("editor-store");
+
 export class EditorState {
   #selection = $state(new Set<string>());
   editMode = $state(false);
@@ -8,6 +12,10 @@ export class EditorState {
   }
 
   set selection(v: Set<string>) {
+    if (!(v instanceof Set)) {
+      logger.error("Invalid selection value, expected Set", v);
+      return;
+    }
     this.#selection = v;
   }
 

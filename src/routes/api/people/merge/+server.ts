@@ -75,26 +75,32 @@ export async function POST({ request }) {
                 const oldPath = path.resolve(sourceDir, filename);
                 const newPath = path.resolve(targetDir, filename);
 
+                let renameSuccess = false;
                 try {
                   await fsp.stat(oldPath);
                   await fsp.rename(oldPath, newPath);
-                } catch (_e) {}
-
-                imageItem.people[index] = targetPersonId;
-                imageItem.people = [...new Set(imageItem.people)];
-
-                // Update faces manifest
-                if (Object.hasOwn(facesManifest, id)) {
-                  const faceData = facesManifest[id];
-                  if (faceData.peopleIds?.includes(sourcePersonId)) {
-                    faceData.peopleIds = faceData.peopleIds.map((pid: string) =>
-                      pid === sourcePersonId ? targetPersonId : pid,
-                    );
-                    faceData.peopleIds = [...new Set(faceData.peopleIds)];
-                  }
+                  renameSuccess = true;
+                } catch (e) {
+                  logger.error(`[MERGE] Failed to move file ${oldPath} to ${newPath}: ${e}`);
                 }
 
-                updatedImageCount++;
+                if (renameSuccess) {
+                  imageItem.people[index] = targetPersonId;
+                  imageItem.people = [...new Set(imageItem.people)];
+
+                  // Update faces manifest
+                  if (Object.hasOwn(facesManifest, id)) {
+                    const faceData = facesManifest[id];
+                    if (faceData.peopleIds?.includes(sourcePersonId)) {
+                      faceData.peopleIds = faceData.peopleIds.map((pid: string) =>
+                        pid === sourcePersonId ? targetPersonId : pid,
+                      );
+                      faceData.peopleIds = [...new Set(faceData.peopleIds)];
+                    }
+                  }
+
+                  updatedImageCount++;
+                }
               }
             }
           }

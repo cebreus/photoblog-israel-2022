@@ -18,7 +18,7 @@ import {
 
 describe("manifest-validators", () => {
   describe("isValidPerson", () => {
-    it("should valid correct person", () => {
+    it("should validate correct person", () => {
       const person = {
         id: "p1",
         name: "Alice",
@@ -38,13 +38,13 @@ describe("manifest-validators", () => {
   });
 
   describe("isValidPhotoDay", () => {
-    it("should valid correct photo day", () => {
+    it("should validate correct photo day", () => {
       expect(isValidPhotoDay({ date: "2024-01-01", id: "d1", items: [] })).toBe(true);
     });
   });
 
   describe("isValidClusteringConstraints", () => {
-    it("should valid partial or full constraints", () => {
+    it("should validate partial or full constraints", () => {
       expect(isValidClusteringConstraints({})).toBe(true);
       expect(
         isValidClusteringConstraints({
@@ -87,7 +87,7 @@ describe("manifest-validators", () => {
   });
 
   describe("isValidAnalysisManifest", () => {
-    it("should valid correct analysis", () => {
+    it("should validate correct analysis", () => {
       const manifest = {
         img1: { sharpness: 0.8, phash: "abc" },
       };
@@ -96,7 +96,7 @@ describe("manifest-validators", () => {
   });
 
   describe("isValidFacesManifest", () => {
-    it("should valid correct faces manifest", () => {
+    it("should validate correct faces manifest", () => {
       const manifest = {
         img1: {
           facesDetected: true,
@@ -113,13 +113,13 @@ describe("manifest-validators", () => {
   });
 
   describe("isValidPeopleManifest", () => {
-    it("should valid correct people manifest", () => {
+    it("should validate correct people manifest", () => {
       expect(isValidPeopleManifest({ people: [] })).toBe(true);
     });
   });
 
   describe("isValidManifest", () => {
-    it("should valid manifest with photoDays", () => {
+    it("should validate manifest with photoDays", () => {
       expect(isValidManifest({ photoDays: [] })).toBe(true);
       expect(isValidManifest({ photoDays: [{ date: "2024-01-01", id: "d1", items: [] }] })).toBe(
         true,
@@ -128,13 +128,13 @@ describe("manifest-validators", () => {
   });
 
   describe("isValidMenuManifest", () => {
-    it("should valid menu manifest", () => {
+    it("should validate menu manifest", () => {
       expect(isValidMenuManifest([])).toBe(true);
     });
   });
 
   describe("isValidCurationManifest", () => {
-    it("should valid curation manifest", () => {
+    it("should validate curation manifest", () => {
       const curation = {
         groups: [],
         stats: { totalPhotos: 10, totalGroups: 2 },
@@ -144,7 +144,7 @@ describe("manifest-validators", () => {
   });
 
   describe("isValidCache", () => {
-    it("should valid cache", () => {
+    it("should validate cache", () => {
       const cache = {
         version: 1,
         configHash: "abc",
@@ -155,7 +155,7 @@ describe("manifest-validators", () => {
   });
 
   describe("isValidImageEntry", () => {
-    it("should valid image entry", () => {
+    it("should validate image entry", () => {
       const entry = {
         id: "i1",
         type: "image",
@@ -168,7 +168,7 @@ describe("manifest-validators", () => {
   });
 
   describe("isValidEmbeddingsManifest", () => {
-    it("should valid embeddings", () => {
+    it("should validate embeddings", () => {
       expect(isValidEmbeddingsManifest({ img1: [0.1, 0.2] })).toBe(true);
       expect(isValidEmbeddingsManifest({ img1: ["not a number"] })).toBe(false);
     });

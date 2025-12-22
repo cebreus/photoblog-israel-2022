@@ -15,6 +15,18 @@ export type MetadataKey =
   | "country"
   | "countryCode";
 
+/**
+ * Metadata Field Configuration
+ *
+ * Defines the mapping between internal application fields and standard IPTC/XMP/Exif tags.
+ *
+ * READ PRIORITY:
+ * When importing metadata, fields are checked in the order listed. The first found value is used.
+ *
+ * WRITE PRIORITY:
+ * When writing metadata, ALL fields listed in 'write' are updated to ensure maximum compatibility
+ * across different software (Lightroom, Apple Photos, Windows Explorer, etc.).
+ */
 export const METADATA_STANDARDS: Record<MetadataKey, MetadataFieldConfig> = {
   title: {
     label: "Název",

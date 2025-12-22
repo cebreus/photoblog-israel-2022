@@ -315,6 +315,11 @@
     e?.stopPropagation();
     logger.info("Executing bulk hide immediately, count:", selectedForMerge.length);
     if (selectedForMerge.length === 0) return;
+
+    if (!confirm(`Opravdu chcete skrýt ${selectedForMerge.length} vybraných osob?`)) {
+      return;
+    }
+
     executeBulkHide();
   }
 

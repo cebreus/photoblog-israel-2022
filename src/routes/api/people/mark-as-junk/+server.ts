@@ -105,7 +105,7 @@ export async function POST({ request }) {
       if (!constraints.ignoredCrops) constraints.ignoredCrops = [];
 
       for (const newCrop of ignoredCropsToAdd) {
-        if (!constraints.ignoredCrops) constraints.ignoredCrops = [];
+        // Line 108 redundant check removed
         const exists = constraints.ignoredCrops.some(
           (c) =>
             c.imageId === newCrop.imageId &&
