@@ -134,6 +134,27 @@ function initializeContext() {
 }
 
 let CTX = initializeContext();
+
+function logOutputPlan() {
+  const relSrc = path.posix.normalize(path.relative(process.cwd(), CTX.srcRoot));
+  const relOut = path.posix.normalize(path.relative(process.cwd(), CTX.outRoot));
+  logger.info(`Source: ${relSrc}`);
+  logger.info(`Output root: ${relOut}`);
+
+  const outputs = config.outputs as Record<
+    keyof typeof config.outputs,
+    (typeof config.outputs)[keyof typeof config.outputs]
+  >;
+  Object.entries(outputs).forEach(([key, cfg]) => {
+    const resize = (cfg as any).resize || {};
+    const width = resize.width ? `${resize.width}` : "auto";
+    const height = resize.height ? `${resize.height}` : "auto";
+    const crop = resize.crop ? " crop" : "";
+    const format = (cfg as any).format ? ` ${String((cfg as any).format)}` : "";
+    const target = path.posix.join(config.paths.output, (cfg as any).folderName);
+    logger.info(`${key}: ${width}x${height}${crop}${format} -> ${target}`);
+  });
+}
 async function cleanAllOutputs() {
   await fsp.rm(CTX.outRoot, { recursive: true, force: true });
 }
@@ -160,6 +181,8 @@ export async function main() {
     }
   }
   logger.verbose(`Processing content for: ${contentDir}`);
+
+  logOutputPlan();
 
   RUNTIME_RAW = ARGS.__raw || {};
   RUNTIME_FORMATS = RUNTIME_RAW.formats?.length

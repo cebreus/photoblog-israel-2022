@@ -1,6 +1,7 @@
 import fsp from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
+import pc from "picocolors";
 import type { Cache, ImageEntry, Manifest, StoryDataMap } from "../../src/lib/types/manifest";
 import { config } from "../config";
 import { EMBEDDING_DIM } from "./ai-models";
@@ -18,7 +19,8 @@ import {
   saveImagesManifest,
   saveManifest,
 } from "./manifest-repository";
-import { createBar, removeBar } from "./progress-manager";
+import { createBar, stopAllBars } from "./progress-manager";
+import { formatDuration } from "./time-utils";
 
 const logger = createLogger("incremental-build");
 
@@ -239,7 +241,7 @@ async function processImages(
   const resolvedConcurrency = getConcurrency(concurrency);
   logger.info(`Using concurrency: ${resolvedConcurrency}`);
 
-  const bar = quiet ? null : createBar(toProcess.length, "Processing");
+  const bar = quiet ? null : createBar(toProcess.length, "[images]", { suffix: "| Processing" });
 
   // bar?.start(toProcess.length, 0); // createBar already initializes
 
@@ -265,7 +267,10 @@ async function processImages(
   const pool = Array.from({ length: resolvedConcurrency }, workerLoop);
   await Promise.all(pool);
 
-  if (bar) removeBar(bar);
+  if (bar) {
+    bar.stop();
+    stopAllBars();
+  }
 
   return results;
 }
@@ -480,9 +485,17 @@ export async function runIncrementalBuild(
     facesManifest,
   } = await loadBuildResourceState(CTX, opts.cacheVersion ?? 1, dependencies.storyLoader);
 
-  const { toProcess, toDelete } = await planBuildWork(CTX, ARGS, cache, previousEntries);
+  const { sourceFiles, toProcess, toDelete } = await planBuildWork(
+    CTX,
+    ARGS,
+    cache,
+    previousEntries,
+  );
 
-  logger.info(`Found: ${toProcess.length} new/modified, ${toDelete.length} deleted.`);
+  const cachedCount = Math.max(0, sourceFiles.length - toProcess.length);
+  logger.info(
+    `Found: ${toProcess.length} new/modified, ${toDelete.length} deleted, ${cachedCount} cached.`,
+  );
 
   await pruneDeleted(toDelete, cache, CTX.outRoot);
 
@@ -522,7 +535,121 @@ export async function runIncrementalBuild(
     wasReset,
   });
 
-  logger.info(`Build finished in ${(performance.now() - startTime).toFixed(2)}ms.`);
+  // Aggregate stats per output folder
+  type FolderStat = { processed: number; bytes: number };
+  const folderStats = new Map<string, FolderStat>();
+
+  for (const res of results) {
+    for (const rel of res.outputs) {
+      const folder = rel.split(path.sep)[0] || rel;
+      const abs = path.join(CTX.outRoot, rel);
+      try {
+        const st = await fsp.stat(abs);
+        const current = folderStats.get(folder) || { processed: 0, bytes: 0 };
+        current.processed += 1;
+        current.bytes += st.size;
+        folderStats.set(folder, current);
+      } catch {
+        // If the output disappeared, count it as processed without size.
+        const current = folderStats.get(folder) || { processed: 0, bytes: 0 };
+        current.processed += 1;
+        folderStats.set(folder, current);
+      }
+    }
+  }
+
+  // Ensure we report even when nothing new was processed
+  const expectedFolders = new Set<string>();
+  for (const cfg of Object.values(config.outputs)) {
+    const folderName = (cfg as any).folderName;
+    expectedFolders.add(folderName);
+  }
+  for (const folder of expectedFolders) {
+    if (!folderStats.has(folder)) {
+      folderStats.set(folder, { processed: 0, bytes: 0 });
+    }
+  }
+
+  const failed = Math.max(0, toProcess.length - results.length);
+  const totalOutSize = await getDirectorySize(CTX.outRoot);
+
+  const rows: string[] = [];
+  const header = ["Folder", "Processed", "Cached", "Failed", "Size"];
+  const data = [...folderStats.entries()].map(([folder, stat]) => [
+    capitalize(folder),
+    String(stat.processed),
+    String(cachedCount),
+    String(failed),
+    formatBytes(stat.bytes),
+  ]);
+
+  const totalRow = [
+    pc.bold("Total"),
+    pc.bold(String(results.length)),
+    pc.bold(String(cachedCount)),
+    pc.bold(String(failed)),
+    pc.bold(formatBytes(totalOutSize)),
+  ];
+
+  const widths = header.map((h, idx) =>
+    Math.max(visibleLength(h), ...data.map((row) => visibleLength(row[idx]))),
+  );
+
+  function formatRow(row: string[]) {
+    return row.map((cell, i) => padAnsi(cell, widths[i])).join(" | ");
+  }
+
+  rows.push(formatRow(header));
+  rows.push(widths.map((w) => "-".repeat(w)).join("-+-"));
+  for (const row of data) {
+    rows.push(formatRow(row));
+  }
+  rows.push(widths.map((w) => "-".repeat(w)).join("-+-"));
+  rows.push(formatRow(totalRow));
+
+  logger.info(`\n${rows.join("\n")}`);
+
+  logger.info(`Build finished in ${formatDuration(performance.now() - startTime)}.`);
+}
+
+async function getDirectorySize(dir: string): Promise<number> {
+  let total = 0;
+  const glob = new Bun.Glob("**/*");
+  for await (const file of glob.scan({ cwd: dir, absolute: true, dot: false })) {
+    try {
+      const st = await fsp.stat(file);
+      if (st.isFile()) total += st.size;
+    } catch {
+      // ignore
+    }
+  }
+  return total;
+}
+
+function formatBytes(bytes: number): string {
+  if (bytes === 0) return "0 B";
+  const k = 1024;
+  const sizes = ["B", "KB", "MB", "GB", "TB"];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return `${Number.parseFloat((bytes / k ** i).toFixed(1))} ${sizes[i]}`;
+}
+
+function capitalize(value: string): string {
+  if (!value) return value;
+  return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+function visibleLength(value: string): number {
+  // Strip ANSI escape codes before measuring length for padding
+  const ansiPattern = "\\u001B\\[[0-9;]*m";
+  const ansiRegex = new RegExp(ansiPattern, "g");
+  return value.replace(ansiRegex, "").length;
+}
+
+function padAnsi(value: string, width: number): string {
+  const len = visibleLength(value);
+  if (len >= width) return value;
+  return `${value}${" ".repeat(width - len)}`;
 }
 
 export default runIncrementalBuild;
