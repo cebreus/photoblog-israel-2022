@@ -19,11 +19,13 @@ export const METADATA_STANDARDS: Record<MetadataKey, MetadataFieldConfig> = {
   title: {
     label: "Název",
     read: ["Title", "ObjectName", "XMP:Title"],
+    // Breaking change: Title no longer writes to Exif:ImageDescription (moved to caption field)
     write: ["XMP:Title", "IPTC:ObjectName"],
   },
   caption: {
     label: "Popisek",
     read: ["Description", "Caption-Abstract", "ImageDescription", "UserComment"],
+    // Breaking change: Caption now writes to Exif:ImageDescription (previously only title wrote here)
     write: ["XMP:Description", "IPTC:Caption-Abstract", "Exif:ImageDescription"],
   },
   keywords: {

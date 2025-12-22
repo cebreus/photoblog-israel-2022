@@ -14,6 +14,8 @@ function gatherAuthors(photoDays: PhotoDay[]): Author[] {
       // use canonical top-level author only
       let rawAuthor = item.author || "";
 
+      // Map empty author strings to a placeholder for UI consistency
+      // This treats empty/missing author as a distinct category rather than filtering them out
       if (!rawAuthor.trim()) {
         rawAuthor = UNSPECIFIED_AUTHOR;
       }

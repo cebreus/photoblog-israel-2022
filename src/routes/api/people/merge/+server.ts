@@ -218,6 +218,9 @@ export async function POST({ request }) {
       } catch (_e) {}
 
       // Remove source person from manifest
+      // This happens after all manifest updates are complete and successful.
+      // If any critical error occurred above, it would have thrown and prevented reaching this point.
+      // The withManifestLock wrapper ensures atomicity of manifest changes.
       peopleManifest.people = peopleManifest.people.filter((p) => p.id !== sourcePersonId);
 
       await savePeopleManifest(dataDir, peopleManifest);

@@ -10,6 +10,8 @@ function compareByNameThenFaceCount(a: Person, b: Person): number {
   // Renamed IDs are "person-<short-id>--<slug>"
   // We consider "Generic" anyone whose ID starts with "person-" but does NOT contain "--"
   // This robustly handles the system's ID generation logic.
+  // Note: This logic is tightly coupled to ID generation in face-clustering and unmatch APIs.
+  // If the ID format changes, this comparison function must be updated accordingly.
 
   const isGeneric = (p: Person) => p.id.startsWith("person-") && !p.id.includes("--");
 

@@ -49,6 +49,7 @@ export class EditorState {
 
   toggleEditMode() {
     this.editMode = !this.editMode;
+    // When disabling edit mode, clear selection to reset UI state
     if (!this.editMode) {
       this.clearSelection();
     }
@@ -56,6 +57,7 @@ export class EditorState {
 
   setEditMode(value: boolean) {
     this.editMode = value;
+    // When disabling edit mode, clear selection to reset UI state
     if (!value) {
       this.clearSelection();
     }

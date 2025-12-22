@@ -189,6 +189,8 @@ describe("Integration: People API", () => {
 
     const people = await Bun.file(path.join(DATA_DIR, "people.manifest.json")).json();
     const p2 = people.people.find((p: any) => p.id === "person-2");
+    // Breaking change: After merge, source person is completely removed from manifest
+    // (previously remained with faceCount=0)
     expect(p2).toBeUndefined();
     const p1 = people.people.find((p: any) => p.id === "person-1");
     expect(p1.faceCount).toBe(3); // 2 original + 1 merged
