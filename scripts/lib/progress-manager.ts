@@ -12,7 +12,7 @@ export class ProgressManager {
       {
         clearOnComplete: false,
         hideCursor: true,
-        format: "{prefix} [{bar}] {percentage}% | {value}/{total} {suffix}",
+        format: "{pfx} [{bar}] {percentage}% | {value}/{total} {suffix}",
         barCompleteChar: "\u2588",
         barIncompleteChar: "\u2591",
         stopOnComplete: true,
@@ -43,10 +43,26 @@ export class ProgressManager {
     const formattedPrefix = `${boxBar}${colors.cyan(prefix)}`;
 
     const bar = this.multiBar.create(total, 0, {
-      prefix: formattedPrefix,
+      pfx: formattedPrefix,
       suffix: "",
       ...payload,
     });
+
+    // Wrap update method to preserve pfx in payload
+    const originalUpdate = bar.update.bind(bar);
+    bar.update = (arg1: number | Record<string, any>, arg2?: Record<string, any>) => {
+      if (typeof arg1 === "object") {
+        originalUpdate({ pfx: formattedPrefix, ...arg1 });
+      } else {
+        originalUpdate(arg1, { pfx: formattedPrefix, ...(arg2 || {}) });
+      }
+    };
+
+    // Wrap start method to preserve pfx in payload
+    const originalStart = bar.start.bind(bar);
+    bar.start = (total: number, startValue: number, payload?: Record<string, any>) => {
+      originalStart(total, startValue, { pfx: formattedPrefix, ...payload });
+    };
 
     this.activeBars.add(bar);
     return bar;
