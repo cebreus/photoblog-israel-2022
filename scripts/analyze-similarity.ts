@@ -26,7 +26,7 @@ import {
   saveEmbeddingsManifest,
   saveImagesManifest,
 } from "./lib/manifest-repository";
-import { createBar, removeBar } from "./lib/progress-manager";
+import { createBar, removeBar, stopAllBars } from "./lib/progress-manager";
 import { formatDuration } from "./lib/time-utils";
 
 const logger = createLogger("analyze-similarity");
@@ -218,8 +218,12 @@ async function computeAestheticScores(
       })
     : null;
   */
-  const bar = createBar(totalImages, "analyze-similarity");
+  const barTotal = Math.max(totalImages, 1);
+  const bar = createBar(barTotal, "analyze-similarity");
   let processedCount = 0;
+  let generatedEmbeddings = 0;
+  let cachedEmbeddings = 0;
+  let failedEmbeddings = 0;
   const imagesToEmbed: { img: ImageEntry; absPath: string }[] = [];
 
   for (const day of manifest.photoDays) {
@@ -228,10 +232,12 @@ async function computeAestheticScores(
         const imgEntry = item as ImageEntry;
         if (!imgEntry.analysis) imgEntry.analysis = { sharpness: 0, phash: "", embedding: [] };
         if (imgEntry.analysis?.embedding && imgEntry.analysis.embedding.length > 0) {
+          cachedEmbeddings++;
           // already in current run's memory (just in case)
         } else if (embeddingsManifest[imgEntry.id]) {
           imgEntry.analysis = imgEntry.analysis || { sharpness: 0, phash: "" };
           imgEntry.analysis.embedding = embeddingsManifest[imgEntry.id];
+          cachedEmbeddings++;
         } else {
           const filename = path.basename(imgEntry.src);
           const galleryDir = path.basename(path.dirname(srcRoot));
@@ -279,8 +285,10 @@ async function computeAestheticScores(
             analysis.embedding = embeddings[j];
           }
         }
+        generatedEmbeddings += batch.length;
       } catch (e) {
         logger.error(`Failed batch at offset ${i}:`, e);
+        failedEmbeddings += batch.length;
       }
       if (embedBar) embedBar.update(Math.min(i + batch.length, imagesToEmbed.length));
       // Update main bar as well, but only halfway through total progress since aesthetic scoring follows?
@@ -357,8 +365,13 @@ async function computeAestheticScores(
       break;
     }
   }
-
-  if (bar) removeBar(bar);
+  const summarySuffix = `Processed: ${generatedEmbeddings} | Cached: ${cachedEmbeddings} | Failed: ${failedEmbeddings}`;
+  if (bar) {
+    bar.update(barTotal, { suffix: summarySuffix });
+    (bar as any).stop?.();
+    stopAllBars();
+  }
+  // logger.info(`Summary — ${summarySuffix}`);
   // bar?.stop();
   // if (!values.verbose) process.stdout.write("\n");
 

@@ -155,8 +155,11 @@ async function checkManifest(isCuration = false) {
   flags.push("--title=[MANAGE] Verifying manifest state...");
 
   logger.info("Verifying manifest state...");
-
-  await run("bun", flags);
+  await run("bun", flags, {
+    env: {
+      LOG_LEVEL: "error", // Keep manifest-only check quiet
+    },
+  });
 }
 
 async function cmdFavicons() {

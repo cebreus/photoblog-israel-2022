@@ -42,7 +42,7 @@ let ARGS: ExtendedScriptArgs = {
 };
 
 let logger = createLogger("images");
-if (ARGS.quiet) logger.silent = true;
+if (ARGS.quiet || (ARGS.manifestOnly && !ARGS.verbose)) logger.silent = true;
 if (ARGS.verbose) logger.level = "verbose";
 
 // Context
@@ -72,7 +72,7 @@ export function resetCliState() {
   RUNTIME_QUALITY_OVERRIDES = {};
   RUNTIME_ALLOW_UPSCALE = false;
   logger = createLogger("images");
-  if (ARGS.quiet) logger.silent = true;
+  if (ARGS.quiet || (ARGS.manifestOnly && !ARGS.verbose)) logger.silent = true;
   if (ARGS.verbose) logger.level = "verbose";
   contentDir = process.env.CONTENT_DIR;
   hasSrcArg = process.argv.slice(2).some(isSrcArgFlag);
