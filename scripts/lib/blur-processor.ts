@@ -7,7 +7,7 @@ import type { CliOptions } from "./cli-parser";
 import { getConcurrency } from "./concurrency-utils";
 import { ensureDir } from "./image-utils";
 import { createLogger } from "./logger";
-import { progressManager } from "./progress-manager";
+import { createBar, stopAllBars } from "./progress-manager";
 import { run } from "./shell-utils";
 
 const logger = createLogger("blur");
@@ -177,7 +177,7 @@ export async function runBlurBuild(raw: Partial<CliOptions>, concurrency: number
   let successSize = 0;
   let skipSize = 0;
 
-  const bar = progressManager.createBar(srcFiles.length, "[blur]", { suffix: "" });
+  const bar = createBar(srcFiles.length, "[blur]", { suffix: "" });
 
   async function work() {
     while (true) {
@@ -198,7 +198,7 @@ export async function runBlurBuild(raw: Partial<CliOptions>, concurrency: number
 
       completedCount++;
       bar.update(completedCount, {
-        suffix: `| Processed ${successCount} | Cached ${skipCount} | Failed ${failCount}`,
+        suffix: `| Processed: ${successCount} | Cached: ${skipCount} | Failed: ${failCount}`,
       });
     }
   }
@@ -207,7 +207,7 @@ export async function runBlurBuild(raw: Partial<CliOptions>, concurrency: number
   await Promise.all(runners);
 
   bar.stop();
-  progressManager.stopAll();
+  stopAllBars();
 
   const totalSizeStr = formatBytes(successSize + skipSize);
   const newSizeStr = formatBytes(successSize);
