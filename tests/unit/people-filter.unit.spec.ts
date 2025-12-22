@@ -25,6 +25,7 @@ describe("People Filter Logic", () => {
       ignored: false,
       createdAt: "2025-01-01T00:00:00Z",
       lastSeenAt: "2025-01-01T00:00:00Z",
+      clusters: [],
     },
     {
       id: "person-2",
@@ -35,6 +36,7 @@ describe("People Filter Logic", () => {
       ignored: false,
       createdAt: "2025-01-01T00:00:00Z",
       lastSeenAt: "2025-01-01T00:00:00Z",
+      clusters: [],
     },
     {
       id: "person-3",
@@ -45,6 +47,7 @@ describe("People Filter Logic", () => {
       ignored: true, // Blacklisted
       createdAt: "2025-01-01T00:00:00Z",
       lastSeenAt: "2025-01-01T00:00:00Z",
+      clusters: [],
     },
   ];
 
