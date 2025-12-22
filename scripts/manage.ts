@@ -154,8 +154,6 @@ async function checkManifest(isCuration = false) {
 
   flags.push("--title=[MANAGE] Verifying manifest state...");
 
-  flags.push("--title=[MANAGE] Verifying manifest state...");
-
   logger.info("Verifying manifest state...");
 
   await run("bun", flags);
@@ -190,14 +188,9 @@ async function cmdBlur() {
 
 async function cmdFaces() {
   logger.info("┌ Face Clustering & Recognition");
-  await run("bun", ["scripts/face-clustering.ts", ...getCommonFlags()], {
-    filter: (line) => {
-      if (line.includes("GNotificationCenterDelegate") && line.includes("implemented in both"))
-        return false;
-      if (line.includes("lib/libvips-cpp.") && line.includes("libgio-2.0.0.dylib")) return false;
-      return true;
-    },
-  });
+  // ⚠️ Do not switch this back to piped output: face-clustering needs a TTY for cli-progress to render live.
+  // Piping/stdout filtering hides carriage returns and causes the "silent progress" regression we fixed.
+  await run("bun", ["scripts/face-clustering.ts", ...getCommonFlags()], { stdio: "inherit" });
 }
 
 async function cmdDev() {

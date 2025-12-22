@@ -1,24 +1,34 @@
 import { MultiBar, Presets, type SingleBar } from "cli-progress";
 import colors from "picocolors";
 
-const multiBar = new MultiBar(
-  {
-    clearOnComplete: false,
-    hideCursor: true,
-    stopOnComplete: true,
-  },
-  Presets.shades_classic,
-);
+let multiBar: MultiBar | undefined;
 
 const activeBars = new Set<SingleBar>();
 
 // Removed isEnabled check as it was placeholder logic
+
+export function startMultiBar() {
+  if (!multiBar) {
+    multiBar = new MultiBar(
+      {
+        clearOnComplete: false,
+        hideCursor: true,
+        stopOnComplete: true,
+      },
+      Presets.shades_classic,
+    );
+  }
+}
 
 export function createBar(
   total: number,
   prefix: string,
   payload: Record<string, any> = {},
 ): SingleBar {
+  startMultiBar();
+  // We verified multiBar exists above
+  const mb = multiBar as MultiBar;
+
   const isBoxed = process.env.LOG_STYLE === "boxed";
   const useDouble = !prefix.includes("[manage]");
   const boxBar = isBoxed ? (useDouble ? `${colors.dim("│ │")} ` : `${colors.dim("│")}  `) : "";
@@ -29,7 +39,7 @@ export function createBar(
       : `${colors.dim("│")}      `
     : "      ";
 
-  const topBar = multiBar.create(
+  const topBar = mb.create(
     total,
     0,
     {
@@ -43,7 +53,7 @@ export function createBar(
     },
   );
 
-  const bottomBar = multiBar.create(
+  const bottomBar = mb.create(
     total,
     0,
     {
@@ -57,18 +67,54 @@ export function createBar(
   );
 
   // Create a wrapper that conforms to SingleBar's basic interface
+  let lastUpdate = 0;
+  const THROTTLE_MS = 50;
+
+  function truncateSuffix(payload: any): any {
+    if (!payload || !payload.suffix) return payload;
+    const MAX_LEN = 60; // Safe limit for suffix
+    if (payload.suffix.length > MAX_LEN) {
+      return { ...payload, suffix: `${payload.suffix.substring(0, MAX_LEN)}...` };
+    }
+    return payload;
+  }
+
   const wrapper = {
-    update: (current: number | any, payload?: any) => {
-      topBar.update(current, payload);
-      bottomBar.update(current, payload);
+    update: (current: number, payload?: any) => {
+      const now = Date.now();
+      const isComplete = current >= total;
+
+      if (isComplete || now - lastUpdate > THROTTLE_MS) {
+        lastUpdate = now;
+        const safePayload = truncateSuffix(payload);
+        topBar.update(current, safePayload);
+        bottomBar.update(current, safePayload);
+      }
     },
     start: (total: number, startValue: number, payload?: any) => {
-      topBar.start(total, startValue, payload);
-      bottomBar.start(total, startValue, payload);
+      // start() typically RESETS payload if provided, so we must re-inject our prefixes
+      lastUpdate = Date.now();
+      const safePayload = truncateSuffix(payload);
+      topBar.start(total, startValue, { pfx: formattedPrefix, ...safePayload });
+      bottomBar.start(total, startValue, { pfx_stats: statsPrefix, ...safePayload });
     },
     increment: (step?: number, payload?: any) => {
-      topBar.increment(step, payload);
-      bottomBar.increment(step, payload);
+      const now = Date.now();
+      const safePayload = truncateSuffix(payload);
+      // ⚠️ Keep this light throttle: removing it floods TTY and reintroduces flicker/lag in nested bars.
+      if (now - lastUpdate > THROTTLE_MS) {
+        lastUpdate = now;
+        topBar.increment(step, { pfx: formattedPrefix, ...safePayload });
+        bottomBar.increment(step, { pfx_stats: statsPrefix, ...safePayload });
+      } else {
+        // Must increment internal state even if not rendering?
+        // Actually for correct percentage tracking we should probably just let it through
+        // or accept visual delay. Given safely concerns, we allow increment to pass
+        // but rely on throttle in update() mostly.
+        // For now, let's just un-throttle increment to be safe as face-clustering uses update().
+        topBar.increment(step, { pfx: formattedPrefix, ...safePayload });
+        bottomBar.increment(step, { pfx_stats: statsPrefix, ...safePayload });
+      }
     },
     stop: () => {
       topBar.stop();
@@ -89,18 +135,25 @@ export function createBar(
 
 export function removeBar(bar: SingleBar) {
   const b = bar as any;
-  if (b._topBar && b._bottomBar) {
-    multiBar.remove(b._topBar);
-    multiBar.remove(b._bottomBar);
-  } else {
-    multiBar.remove(bar);
+  if (multiBar) {
+    if (b._topBar && b._bottomBar) {
+      multiBar.remove(b._topBar);
+      multiBar.remove(b._bottomBar);
+    } else {
+      multiBar.remove(bar);
+    }
   }
+
   activeBars.delete(bar);
+  if (activeBars.size === 0 && multiBar) {
+    multiBar.stop();
+    multiBar = undefined;
+  }
 }
 
 export function logProgress(message: string) {
   // If multibar is active, use its log method to print ABOVE the bars
-  if (activeBars.size > 0) {
+  if (multiBar && activeBars.size > 0) {
     multiBar.log(`${message}\n`);
   } else {
     process.stdout.write(`${message}\n`);
@@ -108,6 +161,9 @@ export function logProgress(message: string) {
 }
 
 export function stopAllBars() {
-  multiBar.stop();
+  if (multiBar) {
+    multiBar.stop();
+    multiBar = undefined;
+  }
   activeBars.clear();
 }

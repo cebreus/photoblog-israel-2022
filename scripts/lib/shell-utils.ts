@@ -77,18 +77,30 @@ async function pipeWithFilter(
     if (done) break;
     buffer += decoder.decode(value, { stream: true });
 
-    const lines = buffer.split(/\r?\n/);
-    buffer = lines.pop() || "";
+    // Flush both newline and carriage-return delimited chunks so TTY renderers
+    // (e.g., cli-progress) are not buffered until completion.
+    while (true) {
+      const nextBreak = buffer.search(/[\r\n]/);
+      if (nextBreak === -1) break;
 
-    for (const line of lines) {
-      if (filter(line)) {
-        writable.write(`${line}\n`);
+      const char = buffer[nextBreak];
+      const isCRLF = char === "\r" && buffer[nextBreak + 1] === "\n";
+      const chunk = buffer.slice(0, nextBreak);
+      buffer = buffer.slice(nextBreak + (isCRLF ? 2 : 1));
+
+      if (char === "\n" || isCRLF) {
+        if (filter(chunk)) writable.write(`${chunk}\n`);
+      } else {
+        // Preserve carriage-return updates for progress bars
+        if (chunk.length === 0) {
+          writable.write("\r");
+        } else if (filter(chunk)) {
+          writable.write(`${chunk}\r`);
+        }
       }
     }
   }
-  if (buffer && filter(buffer)) {
-    writable.write(buffer);
-  }
+  if (buffer && filter(buffer)) writable.write(buffer);
 }
 
 export async function execCapture(cmd: string, args: string[]): Promise<string> {
