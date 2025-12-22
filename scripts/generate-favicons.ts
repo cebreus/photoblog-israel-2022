@@ -2,7 +2,7 @@ process.env.GLIB_LOG_LEVEL = "critical";
 
 import { promises as fs } from "node:fs"; // Bun's native fs/promises
 import path from "node:path"; // Bun's native path module
-import { intro, select } from "@clack/prompts";
+import { select } from "@clack/prompts";
 import { type FaviconOptions, favicons } from "favicons";
 import matter from "gray-matter";
 import { parseCliArguments } from "./lib/cli-parser";
@@ -74,8 +74,6 @@ async function loadSiteConfig(contentDir: string): Promise<SiteConfig> {
 }
 
 async function run() {
-  intro("✨ Favicon Generator");
-
   if (values.manifestOnly) {
     logger.info("Manifest-only mode: Skipping favicon generation.");
     return;
