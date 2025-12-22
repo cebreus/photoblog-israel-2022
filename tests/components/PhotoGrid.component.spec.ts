@@ -11,6 +11,7 @@ vi.mock("$lib/stores/ui.svelte", () => ({
     curationMode: false,
     photoLabels: false,
     activeSections: new Set(),
+    isCurationVisualsVisible: (hasGroup: boolean, mode: string) => false,
   },
 }));
 

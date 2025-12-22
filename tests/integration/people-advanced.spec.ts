@@ -12,7 +12,6 @@
  * - src/routes/api/people/update-category/+server.ts
  */
 
-import fs from "node:fs";
 import fsp from "node:fs/promises";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
@@ -176,8 +175,8 @@ describe("Integration: People Advanced API", () => {
     expect(img3.people).not.toContain("person-1");
 
     // Verify filesystem
-    expect(fs.existsSync(path.join(STATIC_DIR, "faces/person-2/img3.jpg"))).toBe(true);
-    expect(fs.existsSync(path.join(STATIC_DIR, "faces/person-1/img3.jpg"))).toBe(false);
+    expect(await Bun.file(path.join(STATIC_DIR, "faces/person-2/img3.jpg")).exists()).toBe(true);
+    expect(await Bun.file(path.join(STATIC_DIR, "faces/person-1/img3.jpg")).exists()).toBe(false);
   });
 
   it("MARK-AS-JUNK should delete person and record ignored crops", async () => {
@@ -201,7 +200,7 @@ describe("Integration: People Advanced API", () => {
     expect(constraints.ignoredCrops[0].imageId).toBe("img2");
 
     // Verify physical folder gone
-    expect(fs.existsSync(path.join(STATIC_DIR, "faces/person-2"))).toBe(false);
+    expect(await fsp.stat(path.join(STATIC_DIR, "faces/person-2")).catch(() => null)).toBeNull();
   });
 
   it("UPDATE-CATEGORY should update category field", async () => {
@@ -270,7 +269,7 @@ describe("Integration: People Advanced API", () => {
     expect(constraints.ignoredCrops[0].imageId).toBe("img1");
 
     // Verify physical file gone (simulated via setupEnv)
-    expect(fs.existsSync(path.join(STATIC_DIR, "faces/person-1/img1.jpg"))).toBe(false);
+    expect(await Bun.file(path.join(STATIC_DIR, "faces/person-1/img1.jpg")).exists()).toBe(false);
   });
 
   it("MERGE should combine two people, average descriptors, and migrate constraints", async () => {
@@ -284,13 +283,15 @@ describe("Integration: People Advanced API", () => {
     const json = await res.json();
     expect(json.success).toBe(true);
 
-    // 1. Verify descriptor averaging
-    // Weighted avg: (0.1 * 2 + 0.8 * 1) / 3 = 1.0 / 3 = 0.333...
+    // 1. Verify descriptor handling (Multi-Cluster Identity)
+    // Descriptors are NOT averaged anymore. Clusters are concatenated.
+    // Person-2 (Target, 0.8) + Person-1 (Source, 0.1) -> Clusters: [[0.8], [0.1]]
+    // Legacy faceDescriptor reflects the first cluster (0.8).
     const people = JSON.parse(
       await fsp.readFile(path.join(DATA_DIR, "people.manifest.json"), "utf8"),
     ).people;
     const mergedBob = people.find((p: any) => p.id === "person-2");
-    expect(mergedBob.faceDescriptor[0]).toBeCloseTo(0.333, 3);
+    expect(mergedBob.faceDescriptor[0]).toBe(0.8);
     expect(mergedBob.faceCount).toBe(3);
 
     // 2. Verify person-1 is gone
@@ -306,7 +307,7 @@ describe("Integration: People Advanced API", () => {
     expect(constraints.connects.find((c: any) => c.imageId === "img6").personId).toBe("person-2");
 
     // 4. Verify filesystem (person-1 folder should be cleaned up)
-    expect(fs.existsSync(path.join(STATIC_DIR, "faces/person-1"))).toBe(false);
+    expect(await fsp.stat(path.join(STATIC_DIR, "faces/person-1")).catch(() => null)).toBeNull();
   });
 
   it("RENAME should change name and ID, and update all references", async () => {
@@ -348,7 +349,9 @@ describe("Integration: People Advanced API", () => {
     expect(constraints.disconnects.find((c: any) => c.imageId === "img5").personId).toBe(newId);
 
     // 5. Verify filesystem rename
-    expect(fs.existsSync(path.join(STATIC_DIR, "faces", newId))).toBe(true);
-    expect(fs.existsSync(path.join(STATIC_DIR, "faces/person-1"))).toBe(false);
+    expect(
+      (await fsp.stat(path.join(STATIC_DIR, "faces", newId)).catch(() => null))?.isDirectory(),
+    ).toBe(true);
+    expect(await fsp.stat(path.join(STATIC_DIR, "faces/person-1")).catch(() => null)).toBeNull();
   });
 });

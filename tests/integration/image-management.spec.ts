@@ -173,9 +173,9 @@ describe("Integration: Image Management API", () => {
       expect(img1.exif.title).toBe("Updated Title");
       expect(img1.city).toBe("Prague");
     } else {
-      // If it failed because of exiftool on dummy file, that's expected too but we want to test success.
+      // If it failed because of exiftool on dummy file, that's expected too but error msg differs
       // Let's create a more realistic test in the next iteration.
-      expect(body.errors[0]).toContain("Chyba při aktualizaci");
+      expect(body.errors[0]).toContain("Error updating");
     }
   });
   it("DELETE should handle invalid request body", async () => {

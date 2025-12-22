@@ -27,12 +27,9 @@ describe("CLI Parser", () => {
       expect(result.quality.avif).toBe(85);
     });
 
-    it("clamps quality.avif to valid range", () => {
-      const resultHigh = parseCliArguments(["--quality.avif=150"]);
-      expect(resultHigh.quality.avif).toBe(100);
-
-      const resultLow = parseCliArguments(["--quality.avif=-10"]);
-      expect(resultLow.quality.avif).toBe(1);
+    it("throws when quality.avif is out of range", () => {
+      expect(() => parseCliArguments(["--quality.avif=150"])).toThrow(/between/);
+      expect(() => parseCliArguments(["--quality.avif=-10"])).toThrow(/between/);
     });
 
     it("parses quality.webp parameter", () => {
@@ -67,16 +64,14 @@ describe("CLI Parser", () => {
       const result = parseCliArguments(["--concurrency=4"]);
       expect(result.concurrency).toBe(4);
 
-      const resultLow = parseCliArguments(["--concurrency=0"]);
-      expect(resultLow.concurrency).toBe(1); // clamped to min
+      expect(() => parseCliArguments(["--concurrency=0"])).toThrow(/between/);
     });
 
     it("parses lqipWidth with range validation", () => {
       const result = parseCliArguments(["--lqipWidth=50"]);
       expect(result.lqipWidth).toBe(50);
 
-      const resultLow = parseCliArguments(["--lqipWidth=-10"]);
-      expect(resultLow.lqipWidth).toBe(1); // clamped to min 1
+      expect(() => parseCliArguments(["--lqipWidth=-10"])).toThrow(/between/);
     });
 
     it("parses multiple blur quality parameters", () => {
@@ -103,10 +98,8 @@ describe("CLI Parser", () => {
       expect(result.blurClean).toBe(true);
     });
 
-    it("handles invalid numeric values gracefully", () => {
-      const result = parseCliArguments(["--quality.avif=invalid"]);
-      // Should keep default when parsing fails
-      expect(result.quality.avif).toBe(DEFAULT_CLI_OPTIONS.quality.avif);
+    it("throws on invalid numeric values", () => {
+      expect(() => parseCliArguments(["--quality.avif=invalid"])).toThrow(/not a number/);
     });
 
     it("parses curation flag", () => {

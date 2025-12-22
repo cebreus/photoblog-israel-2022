@@ -73,7 +73,7 @@ describe("Integration: Metadata API", () => {
       await updateMetadata({ request } as any);
     } catch (e: any) {
       expect(e.status).toBe(400);
-      expect(e.body.message).toContain("Nebyla poskytnuta žádná ID obrázků");
+      expect(e.body.message).toContain("No image IDs provided.");
     }
   });
 
@@ -89,7 +89,7 @@ describe("Integration: Metadata API", () => {
     const body = await res.json();
 
     expect(body.stats.failed).toBe(1);
-    expect(body.results.failed[0].error).toContain("nebylo nalezeno v manifestu");
+    expect(body.results.failed[0].error).toContain("was not found in the manifest");
   });
 
   it("POST /api/metadata should detect no changes", async () => {
@@ -102,6 +102,6 @@ describe("Integration: Metadata API", () => {
 
     const res = await updateMetadata({ request } as any);
     const body = await res.json();
-    expect(body.message).toContain("Nebyla detekována žádná změna");
+    expect(body.message).toContain("No metadata changes detected");
   });
 });
