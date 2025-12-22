@@ -3,7 +3,7 @@
   import type { HTMLAttributes } from "svelte/elements";
   import type { FormPathLeaves } from "sveltekit-superforms";
 
-  import { type WithElementRef, type WithoutChildren } from "$lib/utils";
+  import { type WithElementRef, type WithoutChildren, cn } from "$lib/utils";
 
   let {
     ref = $bindable(null),

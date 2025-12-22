@@ -1,4 +1,6 @@
 <script lang="ts">
+  import CurationGroupView from "$lib/components/CurationGroup.svelte";
+  import * as Dialog from "$lib/components/ui/dialog";
   import type { CurationGroup, ImageEntry } from "$lib/types/manifest";
   import { getImageById } from "$lib/utils/images";
 
@@ -20,7 +22,7 @@
     onSelect?: (item: ImageEntry, shiftKey: boolean) => void;
   }>();
 
-  let _items = $derived.by(() => {
+  let items = $derived.by(() => {
     if (!group) return [];
     return group.items
       .map((id: string) => getImageById(id))

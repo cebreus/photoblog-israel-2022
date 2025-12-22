@@ -1,4 +1,5 @@
 <script lang="ts" module>
+  import X from "@lucide/svelte/icons/x";
   import { type VariantProps, tv } from "tailwind-variants";
 
   export const sheetVariants = tv({

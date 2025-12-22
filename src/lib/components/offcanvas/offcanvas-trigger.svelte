@@ -2,6 +2,8 @@
   import type { Snippet } from "svelte";
   import { getContext } from "svelte";
 
+  import { cn } from "$lib/utils";
+
   import { OFFCANVAS_CONTEXT_KEY, type OffcanvasContext } from "./offcanvas-context";
 
   let {

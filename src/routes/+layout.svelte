@@ -1,9 +1,16 @@
 <script lang="ts">
+  import { ModeWatcher } from "mode-watcher";
   import { browser } from "$app/environment";
+  import AppSidebar from "$lib/components/AppSidebar.svelte";
+  import Footer from "$lib/components/Footer.svelte";
+  import Header from "$lib/components/Header.svelte";
+  import * as Sidebar from "$lib/components/ui/sidebar";
+  import { Toaster } from "$lib/components/ui/sonner";
   import { ui } from "$lib/stores/ui.svelte";
   import { initUrlSync } from "$lib/stores/urlSync.svelte";
   import type { Author, CurationManifest, MenuManifest, SiteManifest } from "$lib/types/manifest";
 
+  import faviconHtml from "../../.temp/favicons.html?raw";
   import "../app.css";
 
   // Explicitly type props instead of relying on loose inferred types

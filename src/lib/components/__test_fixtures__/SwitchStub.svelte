@@ -1,7 +1,7 @@
 <script>
   let { checked = $bindable(false), onCheckedChange, ...rest } = $props();
 
-  function _handleClick() {
+  function handleClick() {
     checked = !checked;
     onCheckedChange?.(checked);
   }

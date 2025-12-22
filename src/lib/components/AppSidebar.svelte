@@ -1,8 +1,18 @@
 <script lang="ts">
+  import Calendar from "@lucide/svelte/icons/calendar";
+  import Pencil from "@lucide/svelte/icons/pencil";
+  import SlidersHorizontal from "@lucide/svelte/icons/sliders-horizontal";
+  import User from "@lucide/svelte/icons/user";
   import type { ComponentProps } from "svelte";
   import { untrack } from "svelte";
+  import { dev } from "$app/environment";
   import { page } from "$app/state";
+  import AgendaTab from "$lib/components/sidebar-content/AgendaTab.svelte";
+  import EditTab from "$lib/components/sidebar-content/EditTab.svelte";
+  import FiltersTab from "$lib/components/sidebar-content/FiltersTab.svelte";
+  import PeopleTab from "$lib/components/sidebar-content/PeopleTab.svelte";
   import * as Sidebar from "$lib/components/ui/sidebar";
+  import * as Tabs from "$lib/components/ui/tabs";
   import { editor } from "$lib/stores/editor.svelte";
   import { ui } from "$lib/stores/ui.svelte";
   import type { MenuManifest, PhotoDay } from "$lib/types/manifest";
@@ -29,7 +39,7 @@
   } = $props();
 
   // Derive items for EditTab
-  const _items = $derived((page.data.photoDays as PhotoDay[])?.flatMap((day) => day.items) ?? []);
+  const items = $derived((page.data.photoDays as PhotoDay[])?.flatMap((day) => day.items) ?? []);
 
   // Auto-switch to edit tab and open sidebar if selection/edit mode active
   $effect(() => {

@@ -7,7 +7,7 @@
     open = false;
     dispatch("close");
   }
-  function _onOverlayKey(e: KeyboardEvent) {
+  function onOverlayKey(e: KeyboardEvent) {
     if (e.key === "Escape" || e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       close();

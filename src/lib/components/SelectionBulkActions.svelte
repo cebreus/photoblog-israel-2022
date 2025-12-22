@@ -1,5 +1,17 @@
 <script lang="ts">
+  import Eye from "@lucide/svelte/icons/eye";
+  import EyeOff from "@lucide/svelte/icons/eye-off";
+  import Landmark from "@lucide/svelte/icons/landmark";
+  import Merge from "@lucide/svelte/icons/merge";
+  import MoreHorizontal from "@lucide/svelte/icons/more-horizontal";
+  import Palette from "@lucide/svelte/icons/palette";
+  import User from "@lucide/svelte/icons/user";
+  import UserMinus from "@lucide/svelte/icons/user-minus";
   import type { Snippet } from "svelte";
+
+  import { Button, buttonVariants } from "$lib/components/ui/button";
+  import * as ButtonGroup from "$lib/components/ui/button-group";
+  import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
 
   let {
     count,

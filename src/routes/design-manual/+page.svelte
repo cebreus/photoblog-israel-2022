@@ -1,5 +1,5 @@
 <script>
-  const _spacing = [
+  const spacing = [
     { size: 0.5, px: 2 },
     { size: 1, px: 4 },
     { size: 1.5, px: 6 },

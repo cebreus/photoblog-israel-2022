@@ -3,6 +3,7 @@
   import type { ComponentProps } from "svelte";
 
   import type { WithoutChildrenOrChild } from "$lib/utils";
+  import { cn } from "$lib/utils";
 
   import ContextMenuPortal from "./context-menu-portal.svelte";
 

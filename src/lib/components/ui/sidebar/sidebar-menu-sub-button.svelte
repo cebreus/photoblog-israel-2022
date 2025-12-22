@@ -2,6 +2,7 @@
   import type { Snippet } from "svelte";
   import type { HTMLAnchorAttributes } from "svelte/elements";
 
+  import Badge from "$lib/components/ui/badge/badge.svelte";
   import { type WithElementRef, cn } from "$lib/utils";
 
   let {
@@ -24,7 +25,7 @@
     firstPhotoExifDate?: string;
   } = $props();
 
-  const _formattedTime = $derived(
+  const formattedTime = $derived(
     firstPhotoExifDate
       ? new Date(firstPhotoExifDate).toLocaleTimeString("cs-CZ", {
           hour: "2-digit",
@@ -33,7 +34,7 @@
       : undefined,
   );
 
-  const _mergedProps = $derived({
+  const mergedProps = $derived({
     class: cn(
       "text-sidebar-foreground ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground active:bg-sidebar-accent active:text-sidebar-accent-foreground [&>svg]:text-sidebar-accent-foreground outline-hidden flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 focus-visible:ring-2",
       "data-[dimmed=true]:text-sidebar-foreground/50 data-[dimmed=true]:cursor-default",
