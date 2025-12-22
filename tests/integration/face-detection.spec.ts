@@ -48,17 +48,12 @@ describe("Face Detection Integration", () => {
     logger.info(`Detected faces: ${faces?.length}`);
 
     expect(faces).toBeDefined();
-    // In CI/CPU envs, small face models might miss detections.
-    // We primarily verify the pipeline runs without error.
-    if (faces.length === 0) {
-      logger.warn(
-        "Integration: No faces detected in sample image. Verify model/image if consistent failure.",
-      );
-    } else {
-      expect(faces.length).toBeGreaterThan(0);
-      const face = faces[0];
-      expect(face.width).toBeGreaterThan(0);
-      expect(face.height).toBeGreaterThan(0);
-    }
+    // The test image should reliably contain detectable faces
+    // If this consistently fails, the test image needs to be replaced with a more suitable one
+    // (frontal face, good lighting, sufficient resolution)
+    expect(faces.length).toBeGreaterThan(0);
+    const face = faces[0];
+    expect(face.width).toBeGreaterThan(0);
+    expect(face.height).toBeGreaterThan(0);
   }, 30000);
 });
