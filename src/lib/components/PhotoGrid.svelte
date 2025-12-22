@@ -1,6 +1,6 @@
 <script lang="ts">
   import { toast } from "svelte-sonner";
-  import { invalidateAll } from "$app/navigation";
+
   import { useScrollspy } from "$lib/actions/scrollspy";
   import ArchiveImageDialog from "$lib/components/ArchiveImageDialog.svelte";
   import CurationGroupView from "$lib/components/CurationGroup.svelte";
@@ -18,6 +18,8 @@
   import type { CurationGroup, CurationManifest, ImageEntry, Separator } from "$lib/types/manifest";
   import { performImageAction } from "$lib/utils/api-actions";
   import { toSlug } from "$lib/utils/strings";
+
+  import { invalidateAll } from "$app/navigation";
 
   const logger = createLogger("PhotoGrid");
 
@@ -466,7 +468,7 @@
         </Dialog.Root>
       {:else}
         <div
-          class="aspect-video overflow-hidden flex flex-col items-center justify-center p-4 bg-linear-to-br from-slate-100 to-slate-300 rounded-lg dark:from-slate-700 dark:to-slate-800"
+          class="aspect-video text-center overflow-hidden flex flex-col items-center justify-center p-4 bg-linear-to-br from-slate-100 to-slate-300 rounded-lg dark:from-slate-700 dark:to-slate-800"
           id={separatorId}
           use:useScrollspy={{ id: separatorId }}
           data-testid="photo-grid-separator-simple-{separatorId}"
