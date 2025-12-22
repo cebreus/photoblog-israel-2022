@@ -21,7 +21,7 @@ import {
   savePeopleManifest,
 } from "./lib/manifest-repository";
 import { filterPeopleWithValidDescriptors } from "./lib/people-utils";
-import { createBar, stopAllBars } from "./lib/progress-manager";
+import { createBar, removeBar, stopAllBars } from "./lib/progress-manager";
 
 const SCRIPT_DIR = import.meta.dir;
 const logger = createLogger("face-clustering");
@@ -45,10 +45,23 @@ faceapi.env.monkeyPatch({
 
 async function loadModels() {
   const relativeModelPath = path.relative(process.cwd(), FACE_CONFIG.modelPath);
-  logger.info(`Loading models from ${relativeModelPath}...`);
+  const bar = createBar(3, "[face-clustering]", { suffix: `| Loading: "${relativeModelPath}"` });
+  bar.start(3, 0, { suffix: `| Loading: SsdMobilenetv1` });
+  bar.update(0, { suffix: `| Loading: SsdMobilenetv1` });
+
   await faceapi.nets.ssdMobilenetv1.loadFromDisk(FACE_CONFIG.modelPath);
+  bar.increment(1, { suffix: `| Loaded: SsdMobilenetv1` });
+  bar.update(1, { suffix: `| Loading: FaceLandmark68` });
+
   await faceapi.nets.faceLandmark68Net.loadFromDisk(FACE_CONFIG.modelPath);
+  bar.increment(1, { suffix: `| Loaded: FaceLandmark68` });
+  bar.update(2, { suffix: `| Loading: FaceRecognition` });
+
   await faceapi.nets.faceRecognitionNet.loadFromDisk(FACE_CONFIG.modelPath);
+  bar.increment(1, { suffix: `| Loaded: FaceRecognition` });
+
+  bar.stop();
+  removeBar(bar);
 }
 
 async function prepareImageForFaceDetection(imagePath: string, detailsDir: string): Promise<any> {
@@ -567,9 +580,12 @@ async function processImageQueue(
 
     if (bar) {
       bar.update(processedCount, {
-        suffix: `| people: ${people.length} | ✓ ${successCount} | ↷ ${cachedCount} | ✗ ${failCount}`,
+        suffix: `| People: ${people.length} | Processed: ${successCount} | Cached: ${cachedCount} | Failed: ${failCount}`,
       });
     }
+
+    // Unblock event loop to allow progress bar updates
+    await new Promise((resolve) => setTimeout(resolve, 0));
   };
 
   const pool: Promise<void>[] = [];
@@ -666,7 +682,7 @@ async function main() {
     queue = queue.slice(0, limit);
   }
 
-  // logger.info(`Processing ${queue.length} images...`);
+  logger.info(`Processing ${queue.length} images...`);
 
   await processImageQueue(
     queue,
@@ -679,7 +695,7 @@ async function main() {
     facesManifest,
   );
 
-  logger.info(`Finished. Found ${people.length} unique people.`);
+  logger.info(`✅ Found ${people.length} unique people.`);
 
   // Sort people by count
   people.sort((a, b) => b.faceCount - a.faceCount);
@@ -701,8 +717,6 @@ async function main() {
         const img = item;
         if (facesManifest[img.id]) {
           facesManifest[img.id].peopleIds = img.people || [];
-          // Ensure faces match what is in analysis if we re-clustered?
-          // Yes, analysis.faces is accurate from processFaceDetections.
         }
       }
     }
@@ -710,9 +724,6 @@ async function main() {
   await saveFacesManifest(dataDir, facesManifest);
 
   await savePeopleManifest(dataDir, { people });
-  // logger.info(`Saved people manifest.`);
-
-  // logger.info(`Saved people manifest.`);
 }
 
 (async () => {
@@ -720,7 +731,7 @@ async function main() {
   try {
     await main();
   } catch (error) {
-    logger.error(error);
+    logger.error((error as Error).message);
     process.exit(1);
   }
 })();
