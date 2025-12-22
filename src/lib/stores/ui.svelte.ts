@@ -39,8 +39,13 @@ export class UIState {
     this.photoLabels = value;
   }
 
-  setDebugMode(value: boolean) {
+  setDebug(value: boolean) {
     this.debugMode = value;
+  }
+
+  // Backwards-compatible alias; prefer using setDebug
+  setDebugMode(value: boolean) {
+    this.setDebug(value);
   }
 
   addSection(id: string) {

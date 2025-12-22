@@ -105,7 +105,7 @@ export async function POST({ request }) {
       if (!constraints.ignoredCrops) constraints.ignoredCrops = [];
 
       for (const newCrop of ignoredCropsToAdd) {
-        // Line 108 redundant check removed
+        // Avoid adding a duplicate ignored crop for the same image and near-identical coordinates
         const exists = constraints.ignoredCrops.some(
           (c) =>
             c.imageId === newCrop.imageId &&

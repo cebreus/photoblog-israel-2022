@@ -280,7 +280,6 @@
 
   function selectAll() {
     // Select all people = show ONLY photos with people (hide photos without people)
-    // Select all people = show ONLY photos with people (hide photos without people)
     const allPeopleIds = people.visiblePeople.map((p) => p.id);
     filters.selectedPeople = allPeopleIds;
   }

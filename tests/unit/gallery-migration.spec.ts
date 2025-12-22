@@ -80,8 +80,12 @@ describe("gallery-migration", () => {
   describe("migrateGeneratedAssets", () => {
     it("should rename assets for all formats", async () => {
       // Mock Bun.file to return true for existence checks
-      const originalBunFile = Bun.file;
-      Bun.file = vi.fn(() => ({
+      const bun = (globalThis as any).Bun;
+      if (!bun || !bun.file) {
+        throw new Error("Bun with Bun.file is required for this test");
+      }
+      const originalBunFile = bun.file;
+      bun.file = vi.fn(() => ({
         exists: async () => true,
       })) as any;
 
@@ -92,7 +96,7 @@ describe("gallery-migration", () => {
         // old.webp -> new.webp
         expect(renamingUtils.safeRename).toHaveBeenCalled();
       } finally {
-        Bun.file = originalBunFile;
+        bun.file = originalBunFile;
       }
     });
   });
