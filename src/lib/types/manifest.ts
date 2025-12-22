@@ -264,10 +264,18 @@ export type Author = {
   slug?: string;
 };
 
+export type FaceCluster = {
+  centroid: number[];
+  faceCount: number;
+  year?: number;
+  lastSeen?: string;
+};
+
 export type Person = {
   id: string;
   name: string;
-  faceDescriptor: number[];
+  faceDescriptor: number[]; // Deprecated, kept for compat. Use clusters[0].centroid if unsure.
+  clusters: FaceCluster[];
   faceCount: number;
   thumbnail: string;
   manualImageIds?: string[];

@@ -12,7 +12,6 @@
  * - src/routes/api/people/unmatch/+server.ts
  */
 
-import fs from "node:fs";
 import fsp from "node:fs/promises";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
@@ -149,22 +148,24 @@ describe("Integration: People API", () => {
     const newId = json.id;
 
     // Verify folder rename
-    expect(fs.existsSync(path.join(STATIC_DIR, "faces", newId))).toBe(true);
-    expect(fs.existsSync(path.join(STATIC_DIR, "faces", "person-1"))).toBe(false);
+    // Verify folder rename
+    expect(await Bun.file(path.join(STATIC_DIR, "faces", newId)).exists()).toBe(false);
+
+    const newIdDir = path.join(STATIC_DIR, "faces", newId);
+    expect((await fsp.stat(newIdDir).catch(() => null))?.isDirectory()).toBe(true);
+
+    expect(await fsp.stat(path.join(STATIC_DIR, "faces", "person-1")).catch(() => null)).toBeNull();
 
     // Verify manifest update
-    const people = JSON.parse(
-      await fsp.readFile(path.join(DATA_DIR, "people.manifest.json"), "utf8"),
-    );
+    const people = await Bun.file(path.join(DATA_DIR, "people.manifest.json")).json();
+
     const p = people.people.find((x: any) => x.id === newId);
     expect(p).toBeDefined();
     expect(p.name).toBe("Alice Newname");
     expect(p.thumbnail).toContain(newId);
 
     // Verify image references
-    const images = JSON.parse(
-      await fsp.readFile(path.join(DATA_DIR, "images.manifest.json"), "utf8"),
-    );
+    const images = await Bun.file(path.join(DATA_DIR, "images.manifest.json")).json();
     const img1 = images.photoDays[0].items.find((i: any) => i.id === "img1");
     expect(img1.people).toContain(newId);
     expect(img1.people).not.toContain("person-1");
@@ -179,21 +180,17 @@ describe("Integration: People API", () => {
 
     // Check files moved
     // person-2 had img2.jpg, should now be in person-1 folder
-    expect(fs.existsSync(path.join(STATIC_DIR, "faces/person-1/img2.jpg"))).toBe(true);
+    expect(await Bun.file(path.join(STATIC_DIR, "faces/person-1/img2.jpg")).exists()).toBe(true);
     // source folder might still exist or file gone
-    expect(fs.existsSync(path.join(STATIC_DIR, "faces/person-2/img2.jpg"))).toBe(false);
+    expect(await Bun.file(path.join(STATIC_DIR, "faces/person-2/img2.jpg")).exists()).toBe(false);
 
     // Check manifests
-    const images = JSON.parse(
-      await fsp.readFile(path.join(DATA_DIR, "images.manifest.json"), "utf8"),
-    );
+    const images = await Bun.file(path.join(DATA_DIR, "images.manifest.json")).json();
     const img2 = images.photoDays[0].items.find((i: any) => i.id === "img2");
     expect(img2.people).toContain("person-1");
     expect(img2.people).not.toContain("person-2");
 
-    const people = JSON.parse(
-      await fsp.readFile(path.join(DATA_DIR, "people.manifest.json"), "utf8"),
-    );
+    const people = await Bun.file(path.join(DATA_DIR, "people.manifest.json")).json();
     const p2 = people.people.find((p: any) => p.id === "person-2");
     expect(p2).toBeUndefined();
     const p1 = people.people.find((p: any) => p.id === "person-1");
@@ -210,16 +207,18 @@ describe("Integration: People API", () => {
 
     // Check new person created
     expect(newPersonId).toContain("person-");
-    expect(newPersonId).toContain("odpojeno-z-alice");
+    expect(newPersonId).toContain("disconnected-from-alice");
 
     // Check file moved
-    expect(fs.existsSync(path.join(STATIC_DIR, "faces", newPersonId, "img3.jpg"))).toBe(true);
-    expect(fs.existsSync(path.join(STATIC_DIR, "faces/person-1/img3.jpg"))).toBe(false);
+    expect(await Bun.file(path.join(STATIC_DIR, "faces", newPersonId, "img3.jpg")).exists()).toBe(
+      true,
+    );
+    expect(await Bun.file(path.join(STATIC_DIR, "faces/person-1/img3.jpg")).exists()).toBe(false);
 
     // Check constraint file created
     const constraintsPath = path.join(DATA_DIR, "clustering-constraints.json");
-    expect(fs.existsSync(constraintsPath)).toBe(true);
-    const constraints = JSON.parse(await fsp.readFile(constraintsPath, "utf8"));
+    expect(await Bun.file(constraintsPath).exists()).toBe(true);
+    const constraints = await Bun.file(constraintsPath).json();
     expect(constraints.disconnects).toHaveLength(1);
     expect(constraints.disconnects[0]).toEqual({ imageId: "img3", personId: "person-1" });
   });
@@ -276,9 +275,7 @@ describe("Integration: People API", () => {
     expect(fulfilled.length).toBe(2);
 
     // Check final state
-    const people = JSON.parse(
-      await fsp.readFile(path.join(DATA_DIR, "people.manifest.json"), "utf8"),
-    );
+    const people = await Bun.file(path.join(DATA_DIR, "people.manifest.json")).json();
     const p2 = people.people.find((p: any) => p.id.startsWith("person-2"));
 
     // One of the names should be persisted

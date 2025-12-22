@@ -3,6 +3,7 @@ import type { Person } from "../../src/lib/types/manifest";
 export const FACE_DESCRIPTOR_DIMENSION = 128;
 
 export function hasValidFaceDescriptor(person: Person): boolean {
+  if (person.clusters && person.clusters.length > 0) return true;
   const descriptor = person.faceDescriptor;
   return Boolean(
     descriptor && Array.isArray(descriptor) && descriptor.length === FACE_DESCRIPTOR_DIMENSION,

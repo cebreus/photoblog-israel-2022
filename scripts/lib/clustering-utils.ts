@@ -5,7 +5,6 @@ import * as canvas from "canvas";
 import type { Person } from "../../src/lib/types/manifest";
 import { ensureDir } from "./image-utils";
 import { createLogger } from "./logger";
-import { hasValidFaceDescriptor } from "./people-utils";
 
 const logger = createLogger("clustering-utils");
 
@@ -14,10 +13,23 @@ export function euclideanDistance(desc1: number[], desc2: number[]): number {
 }
 
 export function calculatePersonDistance(descriptor: number[], person: Person): number {
-  if (!hasValidFaceDescriptor(person)) {
-    return 1.0;
+  if (person.clusters && person.clusters.length > 0) {
+    let minDistance = 100.0;
+    for (const cluster of person.clusters) {
+      if (cluster.centroid && cluster.centroid.length > 0) {
+        const d = euclideanDistance(descriptor, cluster.centroid);
+        if (d < minDistance) minDistance = d;
+      }
+    }
+    return minDistance;
   }
-  return euclideanDistance(descriptor, person.faceDescriptor);
+
+  // Fallback for legacy data (should be migrated by now but safe to keep)
+  if (person.faceDescriptor && person.faceDescriptor.length > 0) {
+    return euclideanDistance(descriptor, person.faceDescriptor);
+  }
+
+  return 1.0;
 }
 
 export function isConstrainedPair(
