@@ -208,7 +208,7 @@ describe("Integration: People API", () => {
 
     // Check new person created
     expect(newPersonId).toContain("person-");
-    expect(newPersonId).toContain("disconnected-from-alice");
+    expect(newPersonId).toContain("odpojeno-od-alice");
 
     // Check file moved
     expect(await Bun.file(path.join(STATIC_DIR, "faces", newPersonId, "img3.jpg")).exists()).toBe(
