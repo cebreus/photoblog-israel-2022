@@ -115,7 +115,7 @@ async function resolveGalleryAndContinue() {
 
       gallery = selected as string;
       process.stdout.write("\x1B[1A\x1B[2K"); // Clear the default selection line
-      logger.info(pc.dim(gallery));
+      logger.raw(`${pc.dim("│")}  ${pc.dim(gallery)}`);
       process.env.CONTENT_DIR = gallery;
       return;
     }

@@ -12,9 +12,6 @@ export class ProgressManager {
       {
         clearOnComplete: false,
         hideCursor: true,
-        format: "{pfx} [{bar}] {percentage}% | {value}/{total} {suffix}",
-        barCompleteChar: "\u2588",
-        barIncompleteChar: "\u2591",
         stopOnComplete: true,
       },
       Presets.shades_classic,
@@ -29,47 +26,82 @@ export class ProgressManager {
   }
 
   public createBar(total: number, prefix: string, payload: Record<string, any> = {}): SingleBar {
-    if (!this.isEnabled) {
-      // Return a dummy object if disabled (though we plan to keep it enabled mostly)
-      // For now, we return a functional bar but might want to handle "quiet" mode here if needed globally
-    }
-
-    // Ensure prefix is colored or formatted if needed
     const isBoxed = process.env.LOG_STYLE === "boxed";
-    // Progress bars are usually from sub-processes, so we use double bar by default
-    // unless the prefix explicitly starts with [manage]
     const useDouble = !prefix.includes("[manage]");
     const boxBar = isBoxed ? (useDouble ? `${colors.dim("│ │")} ` : `${colors.dim("│")}  `) : "";
     const formattedPrefix = `${boxBar}${colors.cyan(prefix)}`;
+    const statsPrefix = isBoxed
+      ? useDouble
+        ? `${colors.dim("│ │")}     `
+        : `${colors.dim("│")}      `
+      : "      ";
 
-    const bar = this.multiBar.create(total, 0, {
-      pfx: formattedPrefix,
-      suffix: "",
-      ...payload,
-    });
+    const topBar = this.multiBar.create(
+      total,
+      0,
+      {
+        pfx: formattedPrefix,
+        ...payload,
+      },
+      {
+        format: "{pfx} [{bar}] {percentage}%",
+        barCompleteChar: "\u2588",
+        barIncompleteChar: "\u2591",
+      },
+    );
 
-    // Wrap update method to preserve pfx in payload
-    const originalUpdate = bar.update.bind(bar);
-    bar.update = (arg1: number | Record<string, any>, arg2?: Record<string, any>) => {
-      if (typeof arg1 === "object") {
-        originalUpdate({ pfx: formattedPrefix, ...arg1 });
-      } else {
-        originalUpdate(arg1, { pfx: formattedPrefix, ...(arg2 || {}) });
-      }
-    };
+    const bottomBar = this.multiBar.create(
+      total,
+      0,
+      {
+        pfx_stats: statsPrefix,
+        suffix: "",
+        ...payload,
+      },
+      {
+        format: "{pfx_stats}   {value}/{total} {suffix}",
+      },
+    );
 
-    // Wrap start method to preserve pfx in payload
-    const originalStart = bar.start.bind(bar);
-    bar.start = (total: number, startValue: number, payload?: Record<string, any>) => {
-      originalStart(total, startValue, { pfx: formattedPrefix, ...payload });
-    };
+    // Create a wrapper that conforms to SingleBar's basic interface
+    const wrapper = {
+      update: (current: number | any, payload?: any) => {
+        topBar.update(current, payload);
+        bottomBar.update(current, payload);
+      },
+      start: (total: number, startValue: number, payload?: any) => {
+        topBar.start(total, startValue, payload);
+        bottomBar.start(total, startValue, payload);
+      },
+      increment: (step?: number, payload?: any) => {
+        topBar.increment(step, payload);
+        bottomBar.increment(step, payload);
+      },
+      stop: () => {
+        topBar.stop();
+        bottomBar.stop();
+      },
+      setTotal: (total: number) => {
+        topBar.setTotal(total);
+        bottomBar.setTotal(total);
+      },
+      // Keep reference to internal bars for removal
+      _topBar: topBar,
+      _bottomBar: bottomBar,
+    } as unknown as SingleBar;
 
-    this.activeBars.add(bar);
-    return bar;
+    this.activeBars.add(wrapper);
+    return wrapper;
   }
 
   public removeBar(bar: SingleBar) {
-    this.multiBar.remove(bar);
+    const b = bar as any;
+    if (b._topBar && b._bottomBar) {
+      this.multiBar.remove(b._topBar);
+      this.multiBar.remove(b._bottomBar);
+    } else {
+      this.multiBar.remove(bar);
+    }
     this.activeBars.delete(bar);
   }
 

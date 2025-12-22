@@ -88,6 +88,7 @@ export function createLogger(label: string) {
     info: (msg: string, ...args: any[]) => logger.info(msg, ...args),
     verbose: (msg: string, ...args: any[]) => (logger as any).verbose(msg, ...args),
     debug: (msg: string, ...args: any[]) => logger.debug(msg, ...args),
+    raw: (msg: string) => progressManager.log(msg),
     silent: false, // Compatibility for some scripts
     set level(val: string) {
       logger.level = val === "verbose" ? "verbose" : val;
