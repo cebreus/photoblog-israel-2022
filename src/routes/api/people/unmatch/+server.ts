@@ -4,7 +4,7 @@ import path from "node:path";
 import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
 import { createLogger } from "$lib/logger";
-import type { ImageEntry } from "$lib/types/manifest";
+import type { ImageEntry, ImageFaces } from "$lib/types/manifest";
 import { validateUnmatchInput } from "$lib/utils/api-validators";
 import { toSlug } from "$lib/utils/strings";
 import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
@@ -104,11 +104,12 @@ export async function POST({ request }) {
         } else if (imageUpdated) {
           // If it was in the main manifest but not in faces.manifest,
           // we should probably initialize it in faces.manifest too if we want it to persist.
-          facesManifest[id] = {
+          const newFaceData: ImageFaces = {
             facesDetected: false,
             faces: [],
             peopleIds: [newPersonId],
           };
+          facesManifest[id] = newFaceData;
         }
 
         if (!imageUpdated) {
