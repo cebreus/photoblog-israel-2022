@@ -63,10 +63,7 @@
     <div class="p-6 space-y-6">
       <div class="grid grid-cols-[1fr,auto,1fr] items-center gap-4">
         <!-- Source Persons List -->
-        <div
-          class="space-y-2 max-h-[240px] overflow-y-auto pr-2"
-          data-testid="person-merge-sources"
-        >
+        <div class="space-y-2 max-h-60 overflow-y-auto pr-2" data-testid="person-merge-sources">
           <h4
             class="text-xs font-semibold text-muted-foreground uppercase mb-1 sticky top-0 bg-background pb-1"
           >

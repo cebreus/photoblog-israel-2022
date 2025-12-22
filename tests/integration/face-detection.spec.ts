@@ -13,7 +13,6 @@
  * - tests/fixtures/obama.jpg
  */
 
-import fs from "node:fs";
 import fsp from "node:fs/promises";
 import path from "node:path";
 import { beforeAll, describe, expect, it } from "vitest";
@@ -28,7 +27,7 @@ const SAMPLE_IMAGE_PATH = path.join(FIXTURES_DIR, "obama.jpg");
 describe("Face Detection Integration", () => {
   beforeAll(async () => {
     // Ensure fixtures are present (should be vendorized in repo)
-    if (!fs.existsSync(SAMPLE_IMAGE_PATH)) {
+    if (!(await Bun.file(SAMPLE_IMAGE_PATH).exists())) {
       throw new Error(
         `Missing fixture: ${SAMPLE_IMAGE_PATH}. Please ensure tests/fixtures/obama.jpg exists.`,
       );
@@ -45,6 +44,9 @@ describe("Face Detection Integration", () => {
     expect(stats.size).toBeGreaterThan(1000); // Ensure it's not a tiny error file
 
     const faces = await detectFaces(SAMPLE_IMAGE_PATH);
+    if (faces && faces.length > 1) {
+      faces.sort((a, b) => a.x - b.x);
+    }
     logger.info(`Detected faces: ${faces?.length}`);
 
     expect(faces).toBeDefined();

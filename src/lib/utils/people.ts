@@ -6,10 +6,15 @@ function isVisiblePerson(person: Person): boolean {
 
 function compareByNameThenFaceCount(a: Person, b: Person): number {
   // 1. Sort Named vs Generic
-  // Generic IDs are basically "person-<uuid>" (where UUID is 8-char hex in face-clustering)
-  // Renamed IDs are "person-<uuid>--<slug>"
-  // We consider "Generic" anyone whose ID starts with "person-" but does NOT contain "--"
-  // This robustly handles the system's ID generation logic.
+  // Generic IDs: "person-<uuid>" (where UUID is an 8-char random string)
+  // Renamed IDs: "person-<uuid>--<slug>"
+  //
+  // LOGIC:
+  // - A "Generic" person is one whose ID starts with "person-" AND does NOT contain "--".
+  // - A "Named" person is anyone else (legacy IDs or IDs with "--" suffix).
+  //
+  // This distinction is crucial for separating "unknown" people from "identified" people
+  // in the UI, ensuring that users see their identified friends/family first.
 
   const isGeneric = (p: Person) => p.id.startsWith("person-") && !p.id.includes("--");
 

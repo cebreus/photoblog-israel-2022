@@ -191,6 +191,10 @@ describe("Integration: People API", () => {
     const p2 = people.people.find((p: any) => p.id === "person-2");
     expect(p2).toBeUndefined();
     const p1 = people.people.find((p: any) => p.id === "person-1");
+    // BREAKING CHANGE DOCUMENTATION:
+    // Merge operation now strictly requires file move success.
+    // If fsp.rename failed, the manifest would NOT be updated and p2 would still exist.
+    // This ensures consistency between filesystem and metadata.
     expect(p1.faceCount).toBe(3); // 2 original + 1 merged
   });
 

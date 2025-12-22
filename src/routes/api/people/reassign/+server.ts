@@ -58,6 +58,8 @@ export async function POST({ request }) {
 
       let movedCount = 0;
 
+      const movedImageIds: string[] = [];
+
       for (const id of imageIds) {
         let imageUpdated = false;
 
@@ -99,6 +101,7 @@ export async function POST({ request }) {
             logger.warn(`[REASSIGN] File move failed or file missing: ${oldPath}`);
           }
           movedCount++;
+          movedImageIds.push(id);
         }
       }
 
@@ -151,8 +154,8 @@ export async function POST({ request }) {
 
       // Thumbnail logic cleanup if needed
       // If target had no thumbnail, give it one
-      if (!targetPerson.thumbnail && movedCount > 0) {
-        targetPerson.thumbnail = `faces/${targetPersonId}/${imageIds[0]}.jpg`;
+      if (!targetPerson.thumbnail && movedImageIds.length > 0) {
+        targetPerson.thumbnail = `faces/${targetPersonId}/${movedImageIds[0]}.jpg`;
       }
 
       // If source thumbnail was moved, find new one
