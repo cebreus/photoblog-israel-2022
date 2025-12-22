@@ -39,7 +39,7 @@ describe("metadataClipboard Store", () => {
     height: 100,
     sizeMB: 1,
     placeholderColor: "#000",
-    analysis: { sharpness: 10, phash: "abc", embedding: [] },
+    analysis: { sharpness: 10, phash: "abc" },
   };
 
   it("starts empty", () => {

@@ -70,7 +70,6 @@ async function main() {
           image.analysis = {
             sharpness: 0,
             phash: "",
-            embedding: [],
             facesDetected: false,
           };
         }

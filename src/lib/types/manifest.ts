@@ -59,7 +59,6 @@ export type ImageEntry = {
     sharpness: number;
     qualityBucket?: QualityBucket;
     phash: string;
-    embedding?: number[];
     facesDetected?: boolean;
     faces?: Array<{ x: number; y: number; width: number; height: number }>;
   };

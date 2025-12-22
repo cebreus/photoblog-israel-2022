@@ -62,6 +62,9 @@ Skript `generate-images.ts` vytváří tři klíč manifesty ve formátu JSON, k
 - **`site.manifest.json`**:
   - Parsovaná konfigurace galerie ze souboru `content/<galerie>/site.md`
   - SEO metadata, názvy, favicon konfigurace, PWA manifest
+- **`embeddings.manifest.json`**:
+  - Obsahuje vektorové reprezentace obrázků pro AI analýzu (podobnost, estetika)
+  - Odděleno od hlavního manifestu pro snížení velikosti payloadu
 
 ## Analýza Podobnosti a Estetiky
 

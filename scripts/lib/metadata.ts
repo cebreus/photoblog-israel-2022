@@ -242,7 +242,6 @@ export function buildImageEntry(
       sharpness: analysis?.sharpness || 0,
       qualityBucket: analysis?.qualityBucket,
       phash: analysis?.phash || "",
-      embedding: analysis?.embedding || [],
       facesDetected: analysis?.facesDetected,
       faces: analysis?.faces,
     },

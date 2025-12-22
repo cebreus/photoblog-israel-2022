@@ -230,13 +230,9 @@ async function computeAestheticScores(
     for (const item of day.items) {
       if (item.type === "image") {
         const imgEntry = item as ImageEntry;
-        if (!imgEntry.analysis) imgEntry.analysis = { sharpness: 0, phash: "", embedding: [] };
-        if (imgEntry.analysis?.embedding && imgEntry.analysis.embedding.length > 0) {
-          cachedEmbeddings++;
-          // already in current run's memory (just in case)
-        } else if (embeddingsManifest[imgEntry.id]) {
-          imgEntry.analysis = imgEntry.analysis || { sharpness: 0, phash: "" };
-          imgEntry.analysis.embedding = embeddingsManifest[imgEntry.id];
+        if (!imgEntry.analysis) imgEntry.analysis = { sharpness: 0, phash: "" };
+
+        if (embeddingsManifest[imgEntry.id] && embeddingsManifest[imgEntry.id].length > 0) {
           cachedEmbeddings++;
         } else {
           const filename = path.basename(imgEntry.src);
@@ -280,10 +276,8 @@ async function computeAestheticScores(
       try {
         const embeddings = await aiService.generateEmbeddingsBatch(paths);
         for (let j = 0; j < batch.length; j++) {
-          const analysis = batch[j].img.analysis;
-          if (analysis) {
-            analysis.embedding = embeddings[j];
-          }
+          const imgId = batch[j].img.id;
+          embeddingsManifest[imgId] = embeddings[j];
         }
         generatedEmbeddings += batch.length;
       } catch (e) {
@@ -303,20 +297,21 @@ async function computeAestheticScores(
     for (const item of day.items) {
       if (item.type === "image") {
         const imgEntry = item as ImageEntry;
+        const embedding = embeddingsManifest[imgEntry.id];
 
-        if (imgEntry.analysis?.embedding && imgEntry.analysis.embedding.length > 0) {
-          const rawScore = calculateAestheticScore(imgEntry.analysis.embedding, aestheticAxis);
+        if (embedding && embedding.length > 0) {
+          const rawScore = calculateAestheticScore(embedding, aestheticAxis);
           const score = normalizeAestheticScore(rawScore);
 
-          const previousAesthetic = imgEntry.analysis.aestheticScore;
-          imgEntry.analysis.aestheticScore = score;
+          const previousAesthetic = imgEntry.analysis?.aestheticScore;
 
-          const rawSharpness = imgEntry.analysis.sharpness || 0;
+          const rawSharpness = imgEntry.analysis?.sharpness || 0;
           let sharpness = rawSharpness;
           if (rawSharpness > 100) {
             sharpness = normalizeSharpness(rawSharpness);
           }
 
+          if (!imgEntry.analysis) imgEntry.analysis = { sharpness: 0, phash: "" };
           imgEntry.analysis.aestheticScore = score;
           imgEntry.analysis.sharpness = sharpness;
           const qualityBucket = getQualityBucket(score, sharpness);
@@ -327,25 +322,11 @@ async function computeAestheticScores(
           }
 
           imgEntry.analysis = {
+            ...imgEntry.analysis,
             aestheticScore: score,
             sharpness: sharpness,
             qualityBucket: qualityBucket,
             phash: imgEntry.analysis.phash || "",
-            ...Object.fromEntries(
-              Object.entries(imgEntry.analysis).filter(
-                ([k]) =>
-                  ![
-                    "aestheticScore",
-                    "sharpness",
-                    "qualityBucket",
-                    "phash",
-                    "facesDetected",
-                    "faces",
-                    "embedding",
-                  ].includes(k),
-              ),
-            ),
-            embedding: imgEntry.analysis.embedding,
           };
 
           allImages.push(imgEntry);
@@ -378,7 +359,10 @@ async function computeAestheticScores(
   return { allImages, missingAestheticCount };
 }
 
-function clusterImagesBySimilarity(images: ImageEntry[]): CurationGroup[] {
+function clusterImagesBySimilarity(
+  images: ImageEntry[],
+  embeddingsManifest: Record<string, number[]>,
+): CurationGroup[] {
   const groups: CurationGroup[] = [];
   const assigned = new Set<string>();
 
@@ -397,8 +381,9 @@ function clusterImagesBySimilarity(images: ImageEntry[]): CurationGroup[] {
     assigned.add(photoA.id);
 
     const timeA = photoA.exif?.date ? new Date(photoA.exif.date).getTime() : 0;
+    const embeddingA = embeddingsManifest[photoA.id];
 
-    if (photoA.analysis?.embedding) {
+    if (embeddingA) {
       for (let j = i + 1; j < sortedImages.length; j++) {
         const photoB = sortedImages[j];
         if (assigned.has(photoB.id)) continue;
@@ -415,8 +400,9 @@ function clusterImagesBySimilarity(images: ImageEntry[]): CurationGroup[] {
           }
         }
 
-        if (photoB.analysis?.embedding) {
-          const similarity = cosineSimilarity(photoA.analysis.embedding, photoB.analysis.embedding);
+        const embeddingB = embeddingsManifest[photoB.id];
+        if (embeddingB) {
+          const similarity = cosineSimilarity(embeddingA, embeddingB);
 
           if (similarity > CURATION_CONFIG.similarityThreshold) {
             groupPhotos.push(photoB);
@@ -505,7 +491,7 @@ async function main() {
     logger.info(`Loaded ${allImages.length} images with embeddings. Clustering...`);
   }
 
-  const groups = clusterImagesBySimilarity(allImages);
+  const groups = clusterImagesBySimilarity(allImages, embeddingsManifest);
 
   const result: CurationManifest = {
     groups,
@@ -542,9 +528,6 @@ async function main() {
             qualityBucket: analysis.qualityBucket,
             phash: analysis.phash,
           };
-          if (analysis.embedding) {
-            embeddingsManifest[img.id] = analysis.embedding;
-          }
         }
       }
     }
