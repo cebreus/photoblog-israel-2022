@@ -143,21 +143,38 @@ function buildRecommendation(best: ImageEntry, photo: ImageEntry): CurationRecom
   };
 }
 
-function evaluateGroup(photos: ImageEntry[]): CurationGroup {
+function evaluateGroup(
+  photos: ImageEntry[],
+  embeddingsManifest: Record<string, number[]>,
+): CurationGroup {
   const groupId = `group-${photos[0].id}`;
   const sortedByQuality = [...photos].sort(compareByImageQuality);
   const best = sortedByQuality[0];
+  const bestEmbedding = embeddingsManifest[best.id];
 
   const recommendations: Record<string, CurationRecommendation> = {};
-  for (const photo of sortedByQuality) {
+  let totalSimilarity = 0;
+  let similarityCount = 0;
+
+  for (const photo of photos) {
     recommendations[photo.id] = buildRecommendation(best, photo);
+
+    if (photo.id !== best.id && bestEmbedding) {
+      const embedding = embeddingsManifest[photo.id];
+      if (embedding) {
+        totalSimilarity += cosineSimilarity(bestEmbedding, embedding);
+        similarityCount++;
+      }
+    }
   }
+
+  const averageSimilarity = similarityCount > 0 ? totalSimilarity / similarityCount : 0;
 
   return {
     id: groupId,
     items: photos.map(extractImageId),
     bestCandidateId: best.id,
-    similarity: 0,
+    similarity: averageSimilarity,
     recommendations,
   };
 }
@@ -414,7 +431,7 @@ function clusterImagesBySimilarity(
 
     if (groupPhotos.length > 1) {
       // Only groups of 2+ count as candidate duplicates
-      groups.push(evaluateGroup(groupPhotos));
+      groups.push(evaluateGroup(groupPhotos, embeddingsManifest));
     }
   }
 
