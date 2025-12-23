@@ -1,173 +1,170 @@
-# Uživatelská Interaktivita a Systémová Odezva
+# 1. Uživatelská Interaktivita a Systémová Odezva
 
-Tento dokument popisuje interaktivní prvky uživatelského rozhraní, jejich chování z pohledu uživatele a odpovídající reakce systému (změny stavu, URL parametrů atd.).
+Tento dokument popisuje interaktivní prvky uživatelského rozhraní a odpovídající reakce systému.
 
-## Obsah
+**Obsah**
 
-- [Hlavička (Header.svelte)](#hlavička-header.svelte)
-  - [Logo](#logo)
-  - [Přepínač zobrazení metadat (Overlay)](#přepínač-zobrazení-metadat-overlay)
-  - [Přepínač režimu kurátora (Curation)](#přepínač-režimu-kurátora-curation)
-  - [Přepínač režimu ladění (Debug)](#přepínač-režimu-ladění-debug)
-  - [Přepínač postranního panelu (Sidebar)](#přepínač-postranního-panelu-sidebar)
-- [Postranní panel (AppSidebar.svelte)](#postranní-panel-appsidebar.svelte)
-  - [Přepínání záložek (Tabs)](#přepínání-záložek-tabs)
-  - [Záložka Agenda](#záložka-agenda-agendatab.svelte)
-  - [Záložka Filtry](#záložka-filtry-filterstab.svelte)
+- [1. Uživatelská Interaktivita a Systémová Odezva](#1-uživatelská-interaktivita-a-systémová-odezva)
+  - [1.1. Klíčové Koncepty](#11-klíčové-koncepty)
+    - [1.1.1. Vývojářský režim (Dev Mode)](#111-vývojářský-režim-dev-mode)
+    - [1.1.2. Filtrační logika](#112-filtrační-logika)
+    - [1.1.3. Editační režim (Edit Mode)](#113-editační-režim-edit-mode)
+    - [1.1.4. Kurátorský režim (Curation Mode)](#114-kurátorský-režim-curation-mode)
+    - [1.1.5. Ladící režim (Debug Mode)](#115-ladící-režim-debug-mode)
+  - [1.2. Hlavička (Header)](#12-hlavička-header)
+  - [1.3. Hlavní zobrazení (Timeline)](#13-hlavní-zobrazení-timeline)
+  - [1.4. Postranní panel (Sidebar)](#14-postranní-panel-sidebar)
+  - [1.5. Patička (Footer)](#15-patička-footer)
+  - [1.6. Manifesty (Datová vrstva)](#16-manifesty-datová-vrstva)
 
 ---
 
-## Hlavička (Header.svelte)
+## 1.1. Klíčové Koncepty
 
-Přehled interaktivních prvků umístěných v horní navigační liště.
+### 1.1.1. Vývojářský režim (Dev Mode)
 
-### Logo
+Základní podmínka pro přístup k editačním a kurátorským funkcím.
 
-- **Element:** `data-testid="header-logo"`
-- **Dostupnost:** Všechny režimy.
-- **Co to dělá:** Odkaz na domovskou stránku.
-- **Akce uživatele:** Kliknutí na logo/název stránky.
-- **Reakce systému:** Navigace na kořenovou URL `/`.
+Dostupné pouze v lokálním vývojovém prostředí. Produkční verze tyto prvky zcela odstraňuje.
 
-### Přepínač zobrazení metadat (Overlay)
+### 1.1.2. Filtrační logika
 
-- **Element:** `data-testid="header-metadata-overlay-trigger"`
-- **Dostupnost:** Pouze v `dev` režimu.
-- **Co to dělá:** Zapíná/vypíná vrstvu s technickými metadaty nad fotografiemi (EXIF, skóre, tagy).
-- **Akce uživatele:** Kliknutí na ikonu "Tagy".
-- **Reakce systému:**
-  - Vizuálně přepne stav tlačítka (aktivní/neaktivní).
-  - Zobrazí/skryje overlay komponenty na fotkách v mřížce.
-  - **URL Sync:** Přidá/odebere parametr `?overlay` (přítomnost značí zapnuto).
+Nezávislá funkční vrstva určující výslednou množinu zobrazených fotografií. Je oddělena od grafického rozhraní (např. karet v panelu).
 
-### Přepínač režimu kurátora (Curation)
+- **Autoři** → výběr alespoň jednoho (Vztah OR).
+- **Kvalita** → povolení kategorií Excellent/Good/Poor (Vztah OR).
+- **Lidé** → výběr konkrétních osob (Vztah OR).
+- **None** → zobrazení pouze fotek bez lidí (krajinky).
+- **Průnik** → kombinace všech výše uvedených kritérií (Vztah AND).
 
-- **Element:** `data-testid="header-curation-trigger"`
-- **Dostupnost:** Pouze v `dev` režimu.
-- **Co to dělá:** Aktivuje nástroje pro správu obsahu (výběr fotek, hromadné akce).
-- **Akce uživatele:** Kliknutí na ikonu "Jiskry".
-- **Reakce systému:**
-  - Vizuálně přepne stav tlačítka.
-  - Povolí výběr fotografií kliknutím.
-  - Zobrazí kontextové menu pro kurátorské akce.
-  - **URL Sync:** Přidá/odebere parametr `?curation`.
+**Systémová odezva:**
 
-### Přepínač režimu ladění (Debug)
+- **Prerekvizity** → Načtené manifesty (viz sekce [1.6](#16-manifesty-datová-vrstva)).
+- **Průběh** → Změna stavu ve filtru storu → aktualizace URL parametrů → reaktivní přepočet a filtrace dat na klientovi.
+- **Výsledek** → Okamžitá změna zobrazení v prohlížeči.
 
-- **Element:** `data-testid="header-debug-trigger"`
-- **Dostupnost:** Pouze v `dev` režimu.
-- **Co to dělá:** Zobrazí detailní ladící informace v UI.
-- **Akce uživatele:** Kliknutí na ikonu "Brouk".
-- **Reakce systému:**
-  - Vizuálně přepne stav tlačítka.
-  - Zobrazí technické detaily o stavu aplikace, storech a datech.
-  - **URL Sync:** Přidá/odebere parametr `?debug`.
+### 1.1.3. Editační režim (Edit Mode)
 
-### Přepínač postranního panelu (Sidebar)
+Slouží k hromadné správě metadat a manipulaci s obsahem (dostupné v Dev Mode).
 
-- **Element:** `data-testid="header-sidebar-trigger"`
-- **Dostupnost:** Všechny režimy.
-- **Co to dělá:** Otevírá nebo zavírá postranní panel s filtry a navigací.
-- **Akce uživatele:** Kliknutí na ikonu šipky/panelu vpravo.
-- **Reakce systému:**
-  - Vysune nebo zasune postranní panel z pravé strany.
-  - Přizpůsobí šířku hlavního obsahu (gridu).
-  - **URL Sync:**
-    - Panel otevřen: Parametr `?sidebar` je **přítomen**.
-    - Panel zavřen: Parametr `?sidebar` je **odstraněn**.
-    - _Poznámka: Výchozí stav při čisté URL je otevřeno._
+- **Aktivace** → výběr záložky **»Editace«** v postranním panelu.
+- **Mřížka** → přepnutí na čtvercový formát 1:1.
+- **Klik na fotku** → přidání do výběru / odebrání z výběru.
+- **Shift + Klik** → hromadný výběr rozsahu fotek.
+- **Pravý klik** → vyvolání kontextového menu s akcemi:
+  - **Smazat / Archivovat** → odstranění snímku z galerie.
+  - **Kopírovat metadata** → uložení metadat snímku do schránky aplikace.
+  - **Vložit metadata** → aplikace metadat ze schránky na konkrétní snímek nebo na celou vybranou skupinu (pokud je cíl součástí výběru).
+- **Správa výběru** → informační řádek v horní části záložky **»Editace«** zobrazující vybrané snímky s možností jejich odebrání nebo hromadného vložení metadat.
 
-## Postranní panel (AppSidebar.svelte)
+**Systémová odezva:**
 
-Ovládání záložek v postranním panelu.
+- **Prerekvizity** → Aktivní Dev Mode.
+- **Průběh** → Interakce uživatele → změna stavu výběru v `editor` storu.
+- **Výsledek** → Vizuální zvýraznění vybraných fotek v mřížce (modrý overlay).
 
-### Přepínání záložek (Tabs)
+### 1.1.4. Kurátorský režim (Curation Mode)
 
-- **Elementy:**
-  - **Agenda** (Všechny režimy): `data-testid="app-sidebar-agenda-tab"`
-  - **Filtry** (Všechny režimy): `data-testid="app-sidebar-filters-tab"`
-  - **Lidé** (Všechny režimy): `data-testid="app-sidebar-people-tab"`
-  - **Editace** (Pouze v `dev`): `data-testid="app-sidebar-edit-tab"`
-- **Co to dělá:** Přepíná obsah postranního panelu mezi různými pohledy.
-- **Akce uživatele:** Kliknutí na sémantickou záložku (ikonu/text).
-- **Reakce systému:**
-  - Zobrazí příslušný obsah panelu (navigace po dnech, filtrování, seznam lidí, editační nástroje).
-  - Při přepnutí na "Editace" se aktivuje editační režim (`editor.editMode = true`).
-  - **URL Sync:** Parametr `?tab=název` (agenda, filters, people, edit). Pokud je aktivní "agenda" (výchozí), parametr se odstraní.
+Slouží výhradně k řešení vizuálních duplicit a podobných sérií (dostupné v Dev Mode).
 
-### Záložka Agenda (AgendaTab.svelte)
+- **Aktivace** → kliknutí na ikonu **»Jiskry«** v hlavičce.
+- **Jantarový okraj** → označení fotky s nalezenou duplicitou.
+- **Štítek »DOPORUČENO«** → zelené označení nejlepšího kandidáta v sérii.
+- **Tlačítko »Porovnat«** → otevření srovnávacího dialogu.
+- **Doporučení** → systém navrhuje nejlepší snímek dle rozlišení, AI skóre a ostrosti.
 
-- **Element:** `data-testid="agenda-tab"`
-- **Dostupnost:** Pouze v režimu záložky "Agenda".
-- **Co to dělá:** Zobrazuje hierarchický seznam dnů a lokalit (míst) v galerii.
-- **Interakce:**
-  - **Navigace na den:** Kliknutí na den (rozbalovací) posune grid na začátek daného dne. (Aktualizuje URL hash u prohlížeče)
-  - **Navigace na lokalitu:** Kliknutí na pod-položku (místo) posune grid na konkrétní sekci fotografií. (Aktualizuje URL hash u prohlížeče)
-  - **Rozbalení/Sbalení:** Šipka vpravo u dne sbalí nebo rozbalí seznam lokalit.
-  - **URL Sync (Hash):** Kliknutí na den/lokalitu nastaví `#YYYY-MM-DD` nebo `#YYYY-MM-DD-loc`.
+**Systémová odezva:**
 
-### Záložka Filtry (FiltersTab.svelte)
+- **Prerekvizity** → Aktivní Dev Mode + `curation.manifest.json`.
+- **Průběh** → Načtení skupin podobnosti → zvýraznění v UI → uživatelské rozhodnutí o smazání/zachování.
+- **Výsledek** → Aktualizace mřížky a případné odstranění duplicit.
 
-- **Element:** `data-testid="filters-tab"`
-- **Dostupnost:** Pouze v režimu záložky "Filtry".
-- **Co to dělá:** Umožňuje filtrování fotografií a nastavení zobrazení a je plně synchronizovaná s URL pro možnost sdílení stavu aplikace.
-- **Reaktivita a URL Sync:**
-  - **Zobrazit popisky:**
-    - **Akce:** Přepínač "Zobrazit popisky".
-    - **Reakce:** Zobrazí/skryje textový popis místa u každé fotografie.
-    - **URL Query:** `?labels` (přítomen = popisky zobrazeny).
-  - **Zobrazit zastávky:**
-    - **Akce:** Přepínač "Zobrazit zastávky".
-    - **Reakce:** Zobrazí/skryje oddělovací hlavičky v mřížce fotografií (seskupení podle místa).
-    - **URL Query:** `?no-separators` (přítomen = zastávky skryty; _inverted logic_).
-  - **Autoři:**
-    - **Akce:** Přepínače u jednotlivých jmen v sekci "Autoři".
-    - **Reakce:** Filtruje mřížku pouze na fotografie od vybraných autorů.
-    - **URL Query:** `?authors=karel,petr` (obsahuje slugy vybraných autorů oddělené čárkou). Pokud jsou vybráni všichni (výchozí stav), parametr se v URL nenachází.
-  - **Kvalita fotek:**
-    - **Akce:** Přepínače "Excellent", "Good", "Poor" v sekci "Kvalita fotek".
-    - **Reakce:** Filtruje fotografie podle jejich technické kvality.
-    - **URL Query:** `?quality=excellent,good` (obsahuje id vybraných kategorií). Výchozí stav je "vše zapnuto", tehdy parametr v URL není. Pokud uživatel vypne "Poor", v URL bude `?quality=excellent,good`.
-    - **Výpočet kvality:**
-      - **Aesthetic Score:** Počítáno pomocí AI modelu CLIP.
-        > **CLIP** (Contrastive Language-Image Pre-training) je AI model od OpenAI, který propojuje text a obraz. Zde hodnotí, jak moc fotografie odpovídá pozitivním (např. 'ostré', 'dobrá kompozice') vs. negativním (např. 'rozmazané') textovým popisům, a generuje tak estetické skóre.
-      - **Sharpness:** Počítáno pomocí Laplacian variance (detekce hran).
-      - **Excellent:** Aesthetic ≥ 65 A Sharpness ≥ 80.
-      - **Poor:** Aesthetic < 45 NEBO Sharpness < 40.
-      - **Good:** Vše ostatní mezi tím.
-  - **Vzhled (Téma):**
-    - **Akce:** Tlačítka Slunce/Monitor/Měsíc v patičce panelu.
-    - **Reakce:** Přepíná vizuální téma aplikace (Světlý/Systémový/Tmavý).
-    - **Persistenece:** Stav se ukládá do `localStorage` prohlížeče (pomocí knihovny `mode-watcher`), **nepropisuje** se do URL query, protože jde o globální uživatelskou preferenci, nikoliv o stav obsahu galerie.
+### 1.1.5. Ladící režim (Debug Mode)
 
-### Záložka Lidé (PeopleTab.svelte)
+Odhaluje vnitřní stav aplikace pro potřeby vývoje.
 
-- **Element:** `data-testid="people-tab"`
-- **Dostupnost:** Pouze v režimu záložky "Lidé".
-- **Co to dělá:** Zobrazuje seznam detekovaných osob, umožňuje jejich filtrování, správu a detailní prohlížení.
-- **Hlavní funkce:**
-  - **Seznam osob:** Zobrazuje jméno, miniaturu tváře a počet fotografií.
-  - **Filtrování (Výběr):**
-    - Kliknutím na řádek osoby se tato osoba vybere.
-    - **Logika:** Zobrazí se POUZE fotografie, na kterých je alespoň jedna z vybraných osob.
-    - **Předvolby (Tlačítka nahoře):**
-      - **Vše (Check):** Vybere všechny osoby = Zobrazí jen fotky s lidmi (skryje krajinky).
-      - **Žádné (X-Circle):** Nevybere nikoho (zvolí speciální stav "none") = Zobrazí jen fotky BEZ lidí (krajinky).
-      - **Reset (X):** Zruší výběr = Zobrazí všechny fotografie (výchozí stav).
-  - **URL Sync:**
-    - Výběr se propisuje do `?people=id1,id2`.
-    - Stav "Žádné" se propisuje jako `?people=none`.
-- **Detail osoby:**
-  - Kliknutím na miniaturu (nebo jméno) se otevře dialog s detaily (`PersonDetailDialog`).
-  - Zobrazuje všechny výřezy tváří dané osoby.
-  - **URL Sync:** Otevření detailu přidá parametr `?person=id`.
-- **Vývojářské nástroje (Dev Mode):**
-  - **Přejmenování:** Kliknutím na jméno lze osobu přejmenovat (input field).
-  - **Slučování (Merge):**
-    - Zaškrtnutím checkboxů u více osob se objeví tlačítko "Sloučit".
-    - Otevře `PersonMergeDialog`.
-    - Logika automaticky vybere cílovou osobu (preferuje uživatelské jméno před generickým, pak vyšší počet fotek).
-  - **Ignorování:**
-    - Tlačítko koše (nebo hromadné "Ignorovat").
-    - Přesune osobu do sekce "Ignorované osoby" (ve spodní části panelu).
-    - Tyto osoby se nezobrazují v hlavním seznamu ani ve filtrech (pokud nejsou explicitně obnoveny).
+- **Aktivace** → ikona **»Brouk«** v hlavičce.
+- **JSON Viewer** → zobrazení surových dat (ID, EXIF, AI parametry) pod každou fotografií.
+- **Technické info** → technické detaily buildu a verze přístupné v surových datech JSON vieweru.
+
+---
+
+## 1.2. Hlavička (Header)
+
+Navigační a ovládací prvky v horní části stránky.
+
+- **Logo** → navigace na kořenovou URL `/`. Tato akce vymaže všechny aktivní filtry a nastavení (reset stavu).
+- **Ikona »Tagy«** → viz [1.1.3](#113-editační-režim-edit-mode) (zapnutí overlay vrstvy s metadaty).
+- **Ikona »Jiskry«** → viz [1.1.4](#114-kurátorský-režim-curation-mode) (aktivace Kurátorského režimu).
+- **Ikona »Brouk«** → viz [1.1.5](#115-ladící-režim-debug-mode) (aktivace Ladícího režimu).
+- **Ikona »Šipka«** → otevření/zavření postranního panelu.
+
+**Systémová odezva:**
+
+- **Prerekvizity** → Aktivní Dev Mode pro editační/kurátorské ikony.
+- **Průběh** → Klik na tlačítko → změna `ui` nebo `editor` storu → synchronizace s URL query.
+- **Výsledek** → Změna stavu komponent, update URL (`?overlay`, `?curation`, `?debug`, `?sidebar`).
+
+---
+
+## 1.3. Hlavní zobrazení (Timeline)
+
+Centrální mřížka s fotografiemi a dělicími prvky.
+
+- **Scroll** → automatická detekce viditelného dne a místa. Tato informace se propisuje do navigace v **Záložce Agenda** v sidebaru.
+- **Položka gridu** → otevření Lightboxu (v režimu prohlížení).
+- **Položka gridu** → výběr/označení (v režimu editace).
+- **Separátor** → zobrazení názvu lokality a města.
+- **Story dialog** → u separátorů obsahujících doprovodný text se zobrazí odkaz **»Zobrazit příběh«**. Kliknutí otevře dialogové okno s formátovaným textem, který je čerpán z manifestu (`story`).
+
+**Systémová odezva:**
+
+- **Prerekvizity** → Vyfiltrovaná data z `filters` storu.
+- **Průběh** → Detekce elementu v viewportu (Scrollspy) → update URL hashe.
+- **Výsledek** → URL se mění na `#RRRR-MM-DD` nebo `#RRRR-MM-DD-loc`.
+
+---
+
+## 1.4. Postranní panel (Sidebar)
+
+UI kontejner pro nástroje interagující s nezávislými logickými celky.
+
+- **Záložka Agenda** → rychlá navigace na dny/místa. Zvýrazňuje aktuální polohu detekovanou pomocí [Scrollu](#13-hlavní-zobrazení-timeline).
+- **Záložka Filtry** → rozhraní pro nastavení [Filtrační logiky](#112-filtrační-logika).
+- **Záložka Lidé** → správa osob a jejich filtraci (propojeno s [Filtrační logikou](#112-filtrační-logika)).
+- **Záložka Editace** → nástroje pro [Editační režim](#113-editační-režim-edit-mode) (jen v Dev Mode).
+
+**Systémová odezva:**
+
+- **Prerekvizity** → Inicializace synchronizace URL parametrů.
+- **Průběh** → Interakce v záložce → změna parametrů v příslušném storu → reaktivní reakce aplikace.
+- **Výsledek** → Okamžité překreslení mřížky fotek nebo změna výběru.
+
+---
+
+## 1.5. Patička (Footer)
+
+Statický prvek na konci stránky.
+
+- **Text** → zobrazení copyrightu z manifestu.
+
+**Systémová odezva:**
+
+- **Prerekvizity** → Data v `siteManifest`.
+- **Průběh** → Vykreslení statického obsahu.
+- **Výsledek** → Zobrazení informací na konci stránky.
+
+---
+
+## 1.6. Manifesty (Datová vrstva)
+
+Aplikace funguje na principu »Split & Link« manifestů generovaných během buildu:
+
+- `images.manifest.json` → Hlavní struktura časové osy a EXIF metadata fotografií. Generuje skript `bun run images:build`.
+- `people.manifest.json` → Katalog identifikovaných osob. Vzniká procesem `bun run face-distillation`.
+- `curation.manifest.json` → Skupiny duplicit a doporučení **bestCandidate**. Generuje `bun run analyze-similarity.ts`.
+- `analysis.manifest.json` → AI analýza obrazu (estetika, ostrost, PHash). Generuje `bun run analyze-similarity.ts`.
+- `embeddings.manifest.json` → Vektorové otisky CLIP pro vyhledávání podobnosti.
+- `faces.manifest.json` → Deskriptory (128-dim) pro clustering tváří. Generuje `bun run face-clustering.ts`.
+
+Všechny manifesty jsou uloženy v `src/data/<gallery-name>/` a jsou nezbytné pro reaktivní chod aplikace.
