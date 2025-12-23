@@ -297,16 +297,25 @@ async function gatherImageData(
     embedding = await aiService.generateEmbedding(processingPath);
   }
 
-  const faces = facesFromManifest?.faces ?? reusedAnalysis?.faces ?? [];
-  const facesDetected = facesFromManifest?.facesDetected ?? reusedAnalysis?.facesDetected ?? false;
-  const peopleIds = facesFromManifest?.peopleIds ?? reusedOther.people ?? [];
-  const aestheticScore = analysisFromManifest?.aestheticScore ?? reusedAnalysis?.aestheticScore;
-  const qualityBucket = analysisFromManifest?.qualityBucket ?? reusedAnalysis?.qualityBucket;
-
   const exifRaw = normalizeExifData(exifTags);
   const dominant = imageStats?.dominant || { r: 0, g: 0, b: 0 };
   const placeholderColor =
     reusedOther.placeholderColor || `rgb(${dominant.r},${dominant.g},${dominant.b})`;
+
+  const existingFaces = facesFromManifest?.faces ?? reusedAnalysis?.faces;
+  const faces = await _extractFaces(
+    sharpModule,
+    processingPath,
+    key,
+    originalMeta.width ?? 0,
+    options,
+    existingFaces,
+  );
+
+  const facesDetected = faces.length > 0;
+  const peopleIds = facesFromManifest?.peopleIds ?? reusedOther.people ?? [];
+  const aestheticScore = analysisFromManifest?.aestheticScore ?? reusedAnalysis?.aestheticScore;
+  const qualityBucket = analysisFromManifest?.qualityBucket ?? reusedAnalysis?.qualityBucket;
 
   return {
     exifRaw,

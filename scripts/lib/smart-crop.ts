@@ -1,3 +1,5 @@
+import { config } from "../config";
+
 export interface Box {
   x: number;
   y: number;
@@ -52,7 +54,7 @@ export function calculateSmartCrop(
   const faceCX = (minX + maxX) / 2;
   const faceCY = (minY + maxY) / 2;
 
-  const targetFaceCenterYRatio = 0.4;
+  const targetFaceCenterYRatio = config.script.cropFaceCenterRatio;
 
   let cropX = Math.round(faceCX - cropW / 2);
   let cropY = Math.round(faceCY - cropH * targetFaceCenterYRatio);

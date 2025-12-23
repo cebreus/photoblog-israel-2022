@@ -97,6 +97,7 @@ export const config = {
       ImageFormat.AVIF,
       "heic",
     ],
+    cropFaceCenterRatio: 0.4,
   },
 
   blur: {

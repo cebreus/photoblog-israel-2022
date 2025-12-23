@@ -148,10 +148,7 @@ export async function generateVariant(
       premultiplied: false,
     };
   } else {
-    const allowSmartCrop =
-      faces.length > 0 &&
-      variantConfig.resize?.crop &&
-      ["default", "xl", "fallback"].includes(variantKey || "");
+    const allowSmartCrop = faces.length > 0 && variantConfig.resize?.crop;
 
     let cropRect = null;
     if (allowSmartCrop) {
