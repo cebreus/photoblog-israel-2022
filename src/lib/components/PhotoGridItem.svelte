@@ -271,6 +271,8 @@
       class="group relative block rounded-lg text-left"
       data-testid="photo-grid-item"
     >
+      <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+      <!-- svelte-ignore a11y_click_events_have_key_events -->
       <figure
         data-label={item?.location ?? item?.caption ?? ""}
         id={item.id}
@@ -285,6 +287,7 @@
           ui.debugMode && "flex flex-col",
         )}
         style={`background-color: ${item.placeholderColor}`}
+        onclick={(e) => (editor.editMode ? handleImageClick(item.id, e) : undefined)}
       >
         {#if scrollspyId}
           <div
@@ -327,10 +330,18 @@
       </figure>
 
       {#if showCurationVisuals}
-        <div class="pointer-events-none absolute top-2 left-2">
+        <div class="pointer-events-none absolute top-2 left-2 flex flex-col gap-1">
           <div class="rounded bg-amber-500 px-1.5 py-0.5 text-[10px] font-bold text-white shadow">
             DUPLICITY
           </div>
+          {#if item.id === curationGroup?.bestCandidateId}
+            <div
+              class="rounded bg-green-600 px-1.5 py-0.5 text-[10px] font-bold text-white shadow"
+              data-testid="curation-recommendation-badge"
+            >
+              DOPORUČENO
+            </div>
+          {/if}
         </div>
       {/if}
 
