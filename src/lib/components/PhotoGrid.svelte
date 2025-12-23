@@ -1,6 +1,6 @@
 <script lang="ts">
   import { toast } from "svelte-sonner";
-  import { invalidateAll } from "$app/navigation";
+
   import { useScrollspy } from "$lib/actions/scrollspy";
   import ArchiveImageDialog from "$lib/components/ArchiveImageDialog.svelte";
   import CurationGroupView from "$lib/components/CurationGroup.svelte";
@@ -18,6 +18,8 @@
   import type { CurationGroup, CurationManifest, ImageEntry, Separator } from "$lib/types/manifest";
   import { performImageAction } from "$lib/utils/api-actions";
   import { toSlug } from "$lib/utils/strings";
+
+  import { invalidateAll } from "$app/navigation";
 
   const logger = createLogger("PhotoGrid");
 
@@ -483,32 +485,27 @@
   {/if}
 {/each}
 
-{#if imagesToDelete.length > 0}
-  <DeleteImageDialog
-    bind:open={deleteDialogOpen}
-    images={imagesToDelete}
-    {isDeleting}
-    onConfirm={confirmDelete}
-  />
-{/if}
+<DeleteImageDialog
+  bind:open={deleteDialogOpen}
+  images={imagesToDelete}
+  {isDeleting}
+  onConfirm={confirmDelete}
+/>
 
-{#if imagesToPaste.length > 0 && metadataClipboard.data}
-  <MetadataPasteDialog
-    bind:open={isPastingOpen}
-    images={imagesToPaste}
-    clipboardData={metadataClipboard.data}
-    onConfirm={confirmPaste}
-    onOpenCurationDialog={handleOpenCurationDialog}
-  />
-{/if}
+<MetadataPasteDialog
+  bind:open={isPastingOpen}
+  images={imagesToPaste}
+  clipboardData={metadataClipboard.data}
+  onConfirm={confirmPaste}
+  onOpenCurationDialog={handleOpenCurationDialog}
+/>
 
-{#if imagesToArchive.length > 0}
-  <ArchiveImageDialog
-    bind:open={archiveDialogOpen}
-    images={imagesToArchive}
-    onConfirm={confirmArchive}
-  />
-{/if}
+<ArchiveImageDialog
+  bind:open={archiveDialogOpen}
+  images={imagesToArchive}
+  {isArchiving}
+  onConfirm={confirmArchive}
+/>
 
 <CurationGroupDialog
   bind:open={curationDialogOpen}
