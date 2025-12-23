@@ -50,7 +50,7 @@ export const config = {
     },
     admin_thumb: {
       kind: "other",
-      resize: { width: 190, height: 107, crop: false, fit: "inside" },
+      resize: { width: 534, height: 534, crop: false, fit: "inside" },
       folderName: "admin-thumbs",
     },
   },
