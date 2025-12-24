@@ -91,14 +91,17 @@ test.describe("Edit Mode - Multi-select", () => {
 
     // Click image 2 as anchor
     await overlays.nth(1).click();
+    expect(
+      await page.locator("[data-testid^='photo-grid-item-selection-indicator-']").count(),
+    ).toBe(1);
 
-    // Shift+Click image 4 (should select 2, 3, 4)
+    // Shift+Click image 4 (should select 2, 3, 4 = 3 images)
     await overlays.nth(3).click({ modifiers: ["Shift"] });
     expect(
       await page.locator("[data-testid^='photo-grid-item-selection-indicator-']").count(),
     ).toBe(3);
 
-    // Another Shift+Click on image 6 (should select from anchor 2 to 6: 2,3,4,5,6)
+    // Another Shift+Click on image 6 (should select from anchor 2 to 6: 2,3,4,5,6 = 5 images)
     await overlays.nth(5).click({ modifiers: ["Shift"] });
     expect(
       await page.locator("[data-testid^='photo-grid-item-selection-indicator-']").count(),
