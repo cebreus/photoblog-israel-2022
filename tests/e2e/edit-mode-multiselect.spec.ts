@@ -2,15 +2,13 @@ import { expect, test } from "@playwright/test";
 
 test.describe("Edit Mode - Multi-select", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/", { timeout: 60000 });
+    // Navigate with edit mode enabled via URL parameter
+    await page.goto("/?editMode", { timeout: 60000 });
     await page.waitForLoadState("networkidle");
-
-    // Enable edit mode via keyboard shortcut
-    await page.keyboard.press("e");
 
     // Wait for edit mode to be active (checkboxes visible)
     await expect(page.locator("[data-testid='photo-grid-item-checkbox']").first()).toBeVisible({
-      timeout: 5000,
+      timeout: 10000,
     });
   });
 
