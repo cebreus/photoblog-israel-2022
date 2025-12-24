@@ -34,10 +34,10 @@ interface ImageData {
   phash: string;
   embedding?: number[];
   aestheticScore?: number;
-  qualityBucket?: import("../../src/lib/types/manifest").QualityBucket;
+  qualityBucket?: import("../../../shared/types/manifest").QualityBucket;
   peopleIds?: string[];
   placeholderColor: string;
-  faces: import("./face-detection").FaceBox[];
+  faces: import("../faces/detection").FaceBox[];
   facesDetected: boolean;
 }
 type OutputConfig = (typeof config.outputs)[keyof typeof config.outputs];
@@ -70,9 +70,9 @@ export type ImageProcessOptions = {
   qualityOverrides: Partial<Record<QualityTypes, number>>;
   previousEntry?: ImageEntry;
   oldHash?: string;
-  analysisManifest?: import("../../src/lib/types/manifest").AnalysisManifest;
-  embeddingsManifest?: import("../../src/lib/types/manifest").EmbeddingsManifest;
-  facesManifest?: import("../../src/lib/types/manifest").FacesManifest;
+  analysisManifest?: import("../../../shared/types/manifest").AnalysisManifest;
+  embeddingsManifest?: import("../../../shared/types/manifest").EmbeddingsManifest;
+  facesManifest?: import("../../../shared/types/manifest").FacesManifest;
 };
 
 const logger = createLogger("images");

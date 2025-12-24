@@ -71,6 +71,7 @@ describe("PeopleTab Component - Basic Rendering", () => {
       junk: false,
       createdAt: "2025-01-01T00:00:00Z",
       lastSeenAt: "2025-01-02T00:00:00Z",
+      clusters: [],
     },
     {
       id: "bob-jones",
@@ -82,6 +83,7 @@ describe("PeopleTab Component - Basic Rendering", () => {
       junk: false,
       createdAt: "2025-01-01T00:00:00Z",
       lastSeenAt: "2025-01-02T00:00:00Z",
+      clusters: [],
     },
   ];
 
@@ -97,7 +99,11 @@ describe("PeopleTab Component - Basic Rendering", () => {
             type: "image",
             id: "img1",
             src: "img1.jpg",
-            sources: [{ path: "/egypt-2025/images/img1.jpg" }],
+            alt: "Test",
+            title: "Test",
+            sources: [
+              { path: "/egypt-2025/images/img1.jpg", variant: "default", type: "image/webp" },
+            ],
           },
         ],
       },
@@ -138,6 +144,7 @@ describe("PeopleTab Component - Basic Rendering", () => {
       junk: false,
       createdAt: "2025-01-03T00:00:00Z",
       lastSeenAt: "2025-01-03T00:00:00Z",
+      clusters: [],
     };
 
     people.peopleWithStats = [...mockPeople, newPerson];
