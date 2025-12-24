@@ -18,6 +18,16 @@ import {
 import { getOutputFolders } from "./cleanup";
 import { type RenameMap, safeRename } from "./renaming";
 
+async function directoryExists(dirPath: string): Promise<boolean> {
+  try {
+    const fsp = await import("node:fs/promises");
+    await fsp.access(dirPath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export async function migrateGeneratedAssets(gallery: string, renameMap: RenameMap): Promise<void> {
   const staticParams = {
     outRoot: `static/${gallery}/images`,
@@ -39,14 +49,7 @@ export async function migrateGeneratedAssets(gallery: string, renameMap: RenameM
       // Since this is a migration script, async is fine.
       if (!(await Bun.file(dir).exists()) && !(await Bun.file(path.join(dir, ".keep")).exists())) {
         // Bun.file(dir).exists() returns false for directories usually.
-        // We should use import("node:fs/promises").
-        const exists = await import("node:fs/promises").then((fs) =>
-          fs
-            .access(dir)
-            .then(() => true)
-            .catch(() => false),
-        );
-        if (!exists) continue;
+        if (!(await directoryExists(dir))) continue;
       }
 
       for (const format of outputFormats) {
@@ -61,14 +64,7 @@ export async function migrateGeneratedAssets(gallery: string, renameMap: RenameM
 
     // Rename face crops
     const facesRootDir = path.resolve(`static/${gallery}/faces`);
-    if (
-      await import("node:fs/promises").then((fs) =>
-        fs
-          .access(facesRootDir)
-          .then(() => true)
-          .catch(() => false),
-      )
-    ) {
+    if (await directoryExists(facesRootDir)) {
       const personDirs = await import("node:fs/promises").then((fs) => fs.readdir(facesRootDir));
       for (const personDir of personDirs) {
         const oldCrop = path.join(facesRootDir, personDir, `${item.oldBase}.jpg`);

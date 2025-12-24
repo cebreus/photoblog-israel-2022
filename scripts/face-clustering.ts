@@ -460,10 +460,8 @@ async function loadClusteringResources(dataDir: string): Promise<{
             p.thumbnail,
           );
           try {
-            const exists = await fsp
-              .stat(thumbPath)
-              .then(() => true)
-              .catch(() => false);
+            await fsp.stat(thumbPath);
+            const exists = true;
             if (exists) {
               logger.warn(
                 `Rescuing person without descriptor: ${p.name} (${p.id}). Calculating from thumbnail...`,
