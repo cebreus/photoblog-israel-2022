@@ -2,11 +2,14 @@
 
 This project is a modern, multi-gallery photoblog built with SvelteKit and powered by Bun. The core architectural concept is the use of a `CONTENT_DIR` environment variable, which allows for managing multiple distinct galleries from a single codebase. Each gallery has its own content, configuration, and generated assets.
 
-The project is structured into three main layers:
+The project is structured into four main layers:
 
 1.  **Content (`content/<gallery-name>`):** Contains the source files for each gallery, including high-resolution images and a `site.md` configuration file.
-2.  **Public Files (`static/<gallery-name>`):** Contains the generated, publicly accessible files for each gallery, such as optimized images and favicons.
-3.  **Application (`src/`):** The main SvelteKit application, which is shared across all galleries. It dynamically loads data based on the active gallery from specialized manifests in `src/data/<gallery-name>/`.
+2.  **Shared (`shared/`):** Types and utilities used by both build scripts and runtime application (added in Dec 2024 refactoring).
+3.  **Build Scripts (`scripts/`):** Build-time code for image processing, face detection, and manifest generation. Organized into logical folders (`core/`, `image/`, `faces/`, etc.).
+4.  **Application (`src/`):** The main SvelteKit application, which is shared across all galleries. It dynamically loads data based on the active gallery from specialized manifests in `src/data/<gallery-name>/`.
+
+**For detailed architecture documentation, see [ARCHITECTURE.md](./docs/ARCHITECTURE.md).**
 
 ## Data Architecture ("Split & Link")
 
@@ -18,6 +21,58 @@ To prevent metadata loss and allow independent script execution, image data is s
 - **`faces.manifest.json`**: Face detection details (`facesDetected`, bounding boxes, `peopleIds`).
 
 These manifests are merged at build time and during runtime data loading to provide a unified `ImageEntry` to the frontend.
+
+## Project Structure (After Dec 2024 Refactoring)
+
+```
+photoblog-israel-2022/
+├── shared/                    # Shared types & utilities (NEW)
+│   ├── types/
+│   │   ├── images.ts         # ImageFormat, Variant, Quality, Cache
+│   │   └── manifest.ts       # ImageEntry, Person, Manifest, PhotoDay
+│   └── utils/
+│       ├── strings.ts        # toSlug() - used by build & runtime
+│       └── metadata-standards.ts  # EXIF/IPTC mappings
+│
+├── scripts/                   # Build-time scripts
+│   ├── build.config.ts       # Build configuration (renamed from config.ts)
+│   ├── manage.ts             # Main CLI entry point
+│   ├── generate-images.ts    # Image variant generation
+│   ├── face-clustering.ts    # Face detection & clustering
+│   └── lib/                  # Organized library (REORGANIZED)
+│       ├── ai/              # AI/ML models
+│       ├── core/            # CLI infrastructure (logger, parser, progress)
+│       ├── faces/           # Face detection & people management
+│       ├── gallery/         # Gallery operations (migration, cleanup)
+│       ├── image/           # Image processing (processor, generator, utils)
+│       ├── manifests/       # Manifest operations (builder, repository)
+│       └── utils/           # Generic utilities (shell, path, time)
+│
+├── src/                      # SvelteKit application
+│   ├── lib/
+│   │   ├── components/      # Svelte components
+│   │   ├── stores/          # Svelte 5 runes-based stores
+│   │   ├── types/           # App types (re-exports from shared/)
+│   │   ├── utils/           # Runtime utilities
+│   │   ├── config.ts        # Runtime config (CONTENT_DIR getter)
+│   │   └── logger.ts        # Browser/server logger (Pino)
+│   ├── routes/              # SvelteKit routes
+│   └── data/                # Generated manifests (per gallery)
+│
+├── content/                  # Gallery source content
+│   ├── egypt-2025/
+│   └── israel-2022/
+│
+├── static/                   # Public assets (generated)
+│   ├── egypt-2025/
+│   └── israel-2022/
+│
+└── tests/                    # Test suites
+    ├── unit/
+    ├── integration/
+    ├── components/
+    └── e2e/
+```
 
 ## Building and Running
 
@@ -92,6 +147,10 @@ This project runs on **Bun** and prioritizes performance.
 
 - Sorted automatically by Prettier (`node:` -> `bun` -> third-party -> local).
 - Do not manually sort.
+- **Import paths after refactoring:**
+  - Shared types: `import type { ImageEntry } from "shared/types/manifest"`
+  - Build scripts: `import { createLogger } from "./lib/core/cli-logger"`
+  - App code: `import { toSlug } from "$lib/utils/strings"`
 
 ### 4. Advanced Performance Patterns (Bun)
 
@@ -102,3 +161,29 @@ This project runs on **Bun** and prioritizes performance.
 | `zlib.gzipSync(data)`             | `Bun.gzipSync(data)`             | Optimized native compression.                    |
 | `crypto.createHash('md5')`        | `Bun.hash(data)`                 | **For non-crypto only**: 5-10x faster (Wyhash).  |
 | `setTimeout(..., ms)`             | `Bun.sleep(ms)`                  | Cleaner syntax, native implementation.           |
+
+## Architectural Principles
+
+### Separation of Concerns
+
+- **`shared/`** - Types and utilities used by both build and runtime
+- **`scripts/`** - Build-time code only (never imported by `src/`)
+- **`src/`** - Runtime code only (never imported by `scripts/`)
+
+**Dependency Rule**: `scripts/` and `src/` may import from `shared/`, but NEVER from each other.
+
+### Single Responsibility
+
+Each folder in `scripts/lib/` has a focused purpose:
+
+- `core/` - CLI infrastructure
+- `image/` - Image processing
+- `faces/` - Face detection & people
+- `manifests/` - Manifest operations
+- `gallery/` - Gallery operations
+- `ai/` - AI/ML models
+- `utils/` - Generic utilities
+
+---
+
+**Last Updated**: 2024-12-24 (Priority 1 & 2 Refactoring)

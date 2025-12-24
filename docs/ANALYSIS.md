@@ -86,7 +86,7 @@ Estetická osa je definována jako rozdíl mezi embeddingem pozitivního promptu
   - `> 0.00`: Dobrá kvalita (Oranžová)
   - `< 0.00`: Podprůměrná kvalita (Červená)
 
-Funkce je implementována v `scripts/lib/aesthetic.ts` a využívána v `scripts/analyze-similarity.ts`.
+Funkce je implementována v `scripts/lib/image/aesthetic.ts` a využívána v `scripts/analyze-similarity.ts`.
 V UI je možné filtrovat fotky podle estetické kvality pomocí přepínačů v postranním panelu (Excelentní, Dobré, Podprůměrné).
 
 ## 3. Frontend (SvelteKit Aplikace)

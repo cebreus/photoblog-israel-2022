@@ -189,7 +189,7 @@ The core system (`scripts/generate-images.ts`) processes images through:
 
 1. **Source Scanning**: Finds JPEG/PNG/HEIC images in `content/<gallery>/pics/`
 2. **EXIF Extraction**: Extracts date, location, GPS, IPTC, and XMP metadata using exifr
-3. **Variant Generation** (defined in `scripts/config.ts`):
+3. **Variant Generation** (defined in `scripts/build.config.ts`):
    - `default`: 370×208px (mobile and large desktop)
    - `xl`: 534×300px (tablets and medium desktop)
    - `detail`: 1280px width (lightbox/full view)
@@ -246,7 +246,7 @@ All types are centralized in `src/lib/types/manifest.ts`:
 
 These types are shared between:
 
-- Build-time scripts (`scripts/generate-images.ts`, `scripts/lib/manifest-builder.ts`)
+- Build-time scripts (`scripts/generate-images.ts`, `scripts/lib/manifests/builder.ts`)
 - Runtime utilities (`src/lib/index.ts`)
 - SvelteKit routes (`+layout.server.ts`, `+page.server.ts`)
 - Svelte stores (`src/lib/stores/*.ts`)
@@ -314,7 +314,7 @@ Source images are in `content/<gallery>/pics/` (within the project). Each galler
 
 ### Cache Management
 
-The `.temp/<gallery>/images.cache.json` file tracks processed images by hash and mtime. If you modify `scripts/config.ts` or change quality settings, increment `CACHE_VERSION` in `generate-images.ts` to force regeneration of all images.
+The `.temp/<gallery>/images.cache.json` file tracks processed images by hash and mtime. If you modify `scripts/build.config.ts` or change quality settings, increment `CACHE_VERSION` in `generate-images.ts` to force regeneration of all images.
 
 ### Manifest-Only Regeneration
 

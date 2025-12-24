@@ -477,7 +477,7 @@ json                                                      chunks/[hash].js
 **Poznámka k reorganizaci**: Původní záměr této sekce byl systematická analýza souborů podle abecedy nebo hierarchie. Z praktického hlediska je však tato analýza přehledněji strukturována **tematicky** v následujících sekcích:
 
 - **Sekce 4**: Konfigurační soubory (svelte.config.js, vite.config.ts, tailwind.config.ts, tsconfig.json, biome.json, atd.)
-- **Sekce 5**: Scripts a build-time zpracování (scripts/generate-images.ts, scripts/config.ts, atd.)
+- **Sekce 5**: Scripts a build-time zpracování (scripts/generate-images.ts, scripts/build.config.ts, atd.)
 - **Sekce 6**: SvelteKit aplikační vrstva (app.html, app.css, routes/, atd.)
 - **Sekce 7**: Svelte komponenty (Hero.svelte, PhotoGrid.svelte, Header.svelte, atd.)
 - **Sekce 8**: Datové toky a runtime logika
@@ -2946,7 +2946,7 @@ Tato sekce poskytuje detailní analýzu jádra projektu - systému pro generová
 
 ### 13.2 config.ts - Centrální konfigurace
 
-**Cesta**: `scripts/config.ts`
+**Cesta**: `scripts/build.config.ts`
 **Účel**: Definuje všechny parametry pro generování obrázků
 
 **Struktura**:
@@ -3411,7 +3411,7 @@ await Promise.all(images.map((img) => limiter(() => processImage(img, outputDir,
 
 ### 13.4 cli-parser.ts - Argument parsing
 
-**Cesta**: `scripts/lib/cli-parser.ts`
+**Cesta**: `scripts/lib/core/cli-parser.ts`
 **Účel**: Parsování CLI argumentů s výchozími hodnotami
 
 **Architektura**:

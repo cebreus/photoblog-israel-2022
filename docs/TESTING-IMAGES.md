@@ -114,7 +114,7 @@ Tento soubor obsahuje klíčové integrační scénáře pro multi-gallery archi
 
 ### `images-cli.unit.spec.ts`
 
-Testuje logiku parsování CLI argumentů v `scripts/lib/cli-parser.ts`:
+Testuje logiku parsování CLI argumentů v `scripts/lib/core/cli-parser.ts`:
 
 - Ověřuje výchozí hodnoty
 - Testuje prioritizaci flagů (CLI args > config defaults)
