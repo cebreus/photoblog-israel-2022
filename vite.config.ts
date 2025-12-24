@@ -10,6 +10,10 @@ const contentDir = process.env.CONTENT_DIR || "egypt-2025";
 export default defineConfig({
   plugins: [tailwindcss(), sveltekit(), devtoolsJson()],
   server: {
+    fs: {
+      // Allow serving files from shared/ directory (added in Dec 2024 refactoring)
+      allow: ['..'],
+    },
     hmr: {
       overlay: false,
     },
