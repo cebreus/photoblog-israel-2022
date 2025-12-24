@@ -210,6 +210,10 @@ describe("syncUrlFromFilters", () => {
     expect(filters.filtersSyncing).toBe(true);
 
     await vi.advanceTimersByTimeAsync(300);
+    // Still syncing due to added safety buffer
+    expect(filters.filtersSyncing).toBe(true);
+
+    await vi.advanceTimersByTimeAsync(100);
     expect(filters.filtersSyncing).toBe(false);
   });
 

@@ -22,7 +22,7 @@ describe("People Filter Logic", () => {
       faceDescriptor: [],
       faceCount: 5,
       thumbnail: "faces/person-1.jpg",
-      ignored: false,
+      hidden: false,
       createdAt: "2025-01-01T00:00:00Z",
       lastSeenAt: "2025-01-01T00:00:00Z",
       clusters: [],
@@ -33,7 +33,7 @@ describe("People Filter Logic", () => {
       faceDescriptor: [],
       faceCount: 3,
       thumbnail: "faces/person-2.jpg",
-      ignored: false,
+      hidden: false,
       createdAt: "2025-01-01T00:00:00Z",
       lastSeenAt: "2025-01-01T00:00:00Z",
       clusters: [],
@@ -44,7 +44,7 @@ describe("People Filter Logic", () => {
       faceDescriptor: [],
       faceCount: 10,
       thumbnail: "faces/person-3.jpg",
-      ignored: true, // Blacklisted
+      hidden: true, // Blacklisted
       createdAt: "2025-01-01T00:00:00Z",
       lastSeenAt: "2025-01-01T00:00:00Z",
       clusters: [],
@@ -166,17 +166,17 @@ describe("People Filter Logic", () => {
     });
   });
 
-  describe("Ignored People", () => {
-    it("should filter out ignored people from visible list", () => {
-      const visiblePeople = mockPeople.filter((p) => !p.ignored);
+  describe("Hidden People", () => {
+    it("should filter out hidden people from visible list", () => {
+      const visiblePeople = mockPeople.filter((p) => !p.hidden);
       expect(visiblePeople).toHaveLength(2);
       expect(visiblePeople.map((p) => p.id)).toEqual(["person-1", "person-2"]);
     });
 
-    it("should include ignored people in ignored list", () => {
-      const ignoredPeople = mockPeople.filter((p) => p.ignored);
-      expect(ignoredPeople).toHaveLength(1);
-      expect(ignoredPeople[0].id).toBe("person-3");
+    it("should include hidden people in hidden list", () => {
+      const hiddenPeople = mockPeople.filter((p) => p.hidden);
+      expect(hiddenPeople).toHaveLength(1);
+      expect(hiddenPeople[0].id).toBe("person-3");
     });
   });
 
@@ -188,7 +188,7 @@ describe("People Filter Logic", () => {
       expect(person).toHaveProperty("faceDescriptor");
       expect(person).toHaveProperty("faceCount");
       expect(person).toHaveProperty("thumbnail");
-      expect(person).toHaveProperty("ignored");
+      expect(person).toHaveProperty("hidden");
       expect(person).toHaveProperty("createdAt");
       expect(person).toHaveProperty("lastSeenAt");
     });
@@ -205,7 +205,7 @@ describe("People Filter Logic", () => {
   describe("Sorting", () => {
     it("should sort people by faceCount descending", () => {
       const sorted = [...mockPeople]
-        .filter((p) => !p.ignored)
+        .filter((p) => !p.hidden)
         .sort((a, b) => b.faceCount - a.faceCount);
 
       expect(sorted[0].id).toBe("person-1"); // Alice: 5 photos

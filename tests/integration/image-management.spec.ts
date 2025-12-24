@@ -5,7 +5,6 @@
 import fsp from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { exiftool } from "exiftool-vendored";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
   POST as archiveImages,
@@ -80,7 +79,7 @@ describe("Integration: Image Management API", () => {
     await fsp.rm(path.join(projectRoot, "src/data", contentDir), { recursive: true, force: true });
 
     process.env.CONTENT_DIR = originalContentDir;
-    await exiftool.end();
+    // await exiftool.end();
   });
 
   it("DELETE should remove file and update manifest", async () => {
@@ -175,7 +174,7 @@ describe("Integration: Image Management API", () => {
     } else {
       // If it failed because of exiftool on dummy file, that's expected too but error msg differs
       // Let's create a more realistic test in the next iteration.
-      expect(body.errors[0]).toContain("Error updating");
+      expect(body.errors[0]).toContain("Error processing");
     }
   });
   it("DELETE should handle invalid request body", async () => {

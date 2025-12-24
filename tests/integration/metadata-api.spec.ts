@@ -1,14 +1,13 @@
 /**
- * @fileoverview Metadata API Integration Tests
+ * @fileoverview Metadata/Images API Integration Tests
  */
 
 import fsp from "node:fs/promises";
 import path from "node:path";
-import { exiftool } from "exiftool-vendored";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { POST as updateMetadata } from "../../src/routes/api/metadata/+server";
+import { PATCH as updateImages } from "../../src/routes/api/images/+server";
 
-describe("Integration: Metadata API", () => {
+describe("Integration: Images API (Metadata)", () => {
   let contentDir: string;
   let dataDir: string;
   let picsDir: string;
@@ -38,7 +37,7 @@ describe("Integration: Metadata API", () => {
             {
               id: "img1",
               type: "image",
-              src: "img1.jpg", // Relative to gallery root in manifest context often
+              src: "img1.jpg",
               alt: "Img 1",
               sources: [],
             },
@@ -48,9 +47,8 @@ describe("Integration: Metadata API", () => {
     };
     await fsp.writeFile(manifestPath, JSON.stringify(manifest, null, 2));
 
-    // Create dummy file - but we want ExifTool to be able to write to it
-    // A simple text file might work if it's named .jpg, but better use a small valid JPG if possible
-    // For now we'll just test the manifest update and errors.
+    // Create a dummy file (text content is enough to crash exiftool if called,
+    // or we can test that it handles missing files correctly)
     await fsp.writeFile(path.join(picsDir, "img1.jpg"), "dummy data");
 
     process.env.CONTENT_DIR = contentDir;
@@ -58,50 +56,60 @@ describe("Integration: Metadata API", () => {
 
   afterEach(async () => {
     const projectRoot = process.cwd();
-    await fsp.rm(path.join(projectRoot, "content", contentDir), { recursive: true, force: true });
-    await fsp.rm(path.join(projectRoot, "src/data", contentDir), { recursive: true, force: true });
+    // Clean up test directories
+    await fsp
+      .rm(path.join(projectRoot, "content", contentDir), { recursive: true, force: true })
+      .catch(() => {});
+    await fsp
+      .rm(path.join(projectRoot, "src/data", contentDir), { recursive: true, force: true })
+      .catch(() => {});
+
     process.env.CONTENT_DIR = originalContentDir;
-    await exiftool.end();
+    // Note: We do *not* call exiftool.end() here as it might be shared or managed globally.
+    // If this test suite starts exiftool, it should close it, but usually the app manages it.
+    // Safe to leave it running for other tests.
   });
 
-  it("POST /api/metadata should return error if no imageIds", async () => {
+  it("PATCH /api/images should return error if no images or updates", async () => {
     const request = {
-      json: async () => ({ imageIds: [], metadata: {} }),
+      json: async () => ({ images: [], updates: {} }),
     };
 
-    try {
-      await updateMetadata({ request } as any);
-    } catch (e: any) {
-      expect(e.status).toBe(400);
-      expect(e.body.message).toContain("No image IDs provided.");
-    }
+    const res = await updateImages({ request } as any);
+    const body = await res.json();
+
+    expect(res.status).toBe(400);
+    expect(body.message).toContain("Invalid request");
   });
 
-  it("POST /api/metadata should handle missing image", async () => {
+  it("PATCH /api/images should handle no metadata updates", async () => {
     const request = {
       json: async () => ({
-        imageIds: ["missing"],
-        metadata: { title: "New Title" },
+        images: [{ id: "img1", src: "img1.jpg" }],
+        updates: {}, // empty updates
       }),
     };
 
-    const res = await updateMetadata({ request } as any);
+    const res = await updateImages({ request } as any);
     const body = await res.json();
 
-    expect(body.stats.failed).toBe(1);
-    expect(body.results.failed[0].error).toContain("was not found in the manifest");
+    expect(res.status).toBe(500); // 500 because it returns "Failed to update metadata" error list
+    expect(body.message).toContain("No metadata to update");
   });
 
-  it("POST /api/metadata should detect no changes", async () => {
+  it("PATCH /api/images should report error for missing physical file", async () => {
     const request = {
       json: async () => ({
-        imageIds: ["img1"],
-        metadata: {}, // empty updates
+        images: [{ id: "missing", src: "tititata.jpg" }],
+        updates: { title: "New Title" },
       }),
     };
 
-    const res = await updateMetadata({ request } as any);
+    const res = await updateImages({ request } as any);
     const body = await res.json();
-    expect(body.message).toContain("No metadata changes detected");
+
+    expect(res.status).toBe(500);
+    expect(body.errors.length).toBeGreaterThan(0);
+    expect(body.errors[0]).toContain("not found");
   });
 });

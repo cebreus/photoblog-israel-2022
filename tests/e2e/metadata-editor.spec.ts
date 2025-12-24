@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+import fs from "node:fs/promises";
 import path from "node:path";
 import { expect, test } from "@playwright/test";
 import { exiftool } from "exiftool-vendored";
@@ -65,7 +67,7 @@ test.describe("Metadata Editor E2E", () => {
     // 6. Submit the form - button text is "Uložit změny"
     // Wait for the API response
     const responsePromise = page.waitForResponse(
-      (response) => response.url().includes("/api/metadata") && response.status() === 200,
+      (response) => response.url().includes("/api/images") && response.status() === 200,
       { timeout: 10000 },
     );
 
@@ -85,7 +87,7 @@ test.describe("Metadata Editor E2E", () => {
     // 9. Read the manifest to get the source file path
     const contentDir = process.env.CONTENT_DIR || "egypt-2025";
     const manifestPath = path.resolve(process.cwd(), `src/data/${contentDir}/images.manifest.json`);
-    const manifest = await Bun.file(manifestPath).json();
+    const manifest = JSON.parse(await fs.readFile(manifestPath, "utf-8"));
 
     // Find the image entry
     let imageEntry = null;
@@ -105,15 +107,15 @@ test.describe("Metadata Editor E2E", () => {
     let filePath = path.join(contentRoot, imageEntry.src);
 
     // If file doesn't exist at root, try pics/ subdirectory
-    if (!(await Bun.file(filePath).exists())) {
+    if (!existsSync(filePath)) {
       const picsPath = path.join(contentRoot, "pics", imageEntry.src);
-      if (await Bun.file(picsPath).exists()) {
+      if (existsSync(picsPath)) {
         filePath = picsPath;
       }
     }
 
     // Skip test if source file doesn't exist (test data issue)
-    if (!(await Bun.file(filePath).exists())) {
+    if (!existsSync(filePath)) {
       logger.warn(`Skipping metadata verification: Source file not found at ${filePath}`);
       test.skip();
       return;
@@ -172,7 +174,7 @@ test.describe("Metadata Editor E2E", () => {
 
     // 6. Save - button text is "Uložit změny"
     const responsePromise = page.waitForResponse(
-      (response) => response.url().includes("/api/metadata") && response.status() === 200,
+      (response) => response.url().includes("/api/images") && response.status() === 200,
       { timeout: 10000 },
     );
 
@@ -190,7 +192,7 @@ test.describe("Metadata Editor E2E", () => {
     // Read manifest and verify each file
     const contentDir = process.env.CONTENT_DIR || "egypt-2025";
     const manifestPath = path.resolve(process.cwd(), `src/data/${contentDir}/images.manifest.json`);
-    const manifest = await Bun.file(manifestPath).json();
+    const manifest = JSON.parse(await fs.readFile(manifestPath, "utf-8"));
 
     for (const id of imageIds) {
       let imageEntry = null;
@@ -208,15 +210,15 @@ test.describe("Metadata Editor E2E", () => {
       let filePath = path.join(contentRoot, imageEntry.src);
 
       // If file doesn't exist at root, try pics/ subdirectory
-      if (!(await Bun.file(filePath).exists())) {
+      if (!existsSync(filePath)) {
         const picsPath = path.join(contentRoot, "pics", imageEntry.src);
-        if (await Bun.file(picsPath).exists()) {
+        if (existsSync(picsPath)) {
           filePath = picsPath;
         }
       }
 
       // Skip verification for this file if it doesn't exist
-      if (!(await Bun.file(filePath).exists())) {
+      if (!existsSync(filePath)) {
         logger.warn(`Skipping file ${id}: Source not found at ${filePath}`);
         continue;
       }

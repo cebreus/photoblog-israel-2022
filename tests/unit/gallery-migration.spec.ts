@@ -29,6 +29,7 @@ vi.mock("node:fs/promises", () => {
     rename: vi.fn(),
     access: vi.fn().mockResolvedValue(undefined),
     rm: vi.fn(),
+    readdir: vi.fn().mockResolvedValue([]),
   };
   return { ...fsImpl, default: fsImpl };
 });

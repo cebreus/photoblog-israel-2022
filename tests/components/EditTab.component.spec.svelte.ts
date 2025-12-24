@@ -1,4 +1,3 @@
-import { writable } from "svelte/store";
 import { describe, expect, it, vi } from "vitest";
 import { page } from "vitest/browser";
 import { render } from "vitest-browser-svelte";
@@ -29,26 +28,6 @@ vi.mock("$lib/stores/metadata-clipboard.svelte", () => {
 });
 
 import { editor } from "$lib/stores/editor.svelte";
-
-// Mock Superforms and stores
-vi.mock("sveltekit-superforms", () => ({
-  superForm: (initial: any) => ({
-    form: writable(initial),
-    errors: writable({}),
-    constraints: writable({}),
-    tainted: writable({}),
-    message: writable(undefined),
-    submitting: writable(false),
-    delayed: writable(false),
-    timeout: writable(false),
-    posted: writable(false),
-    allErrors: writable([]),
-    enhance: (_node: any) => ({ destroy: () => {} }),
-    valid: true,
-    reset: () => {},
-    submit: () => {},
-  }),
-}));
 
 // Mock standard utils
 vi.mock("$app/stores", () => ({

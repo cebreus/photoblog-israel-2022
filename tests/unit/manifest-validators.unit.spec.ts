@@ -25,7 +25,8 @@ describe("manifest-validators", () => {
         faceDescriptor: [0.1, 0.2],
         faceCount: 5,
         thumbnail: "thumb.jpg",
-        ignored: false,
+        junk: false,
+        hidden: false,
         createdAt: "2024-01-01",
         lastSeenAt: "2024-01-02",
       };

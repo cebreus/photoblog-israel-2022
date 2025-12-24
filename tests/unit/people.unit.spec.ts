@@ -17,8 +17,8 @@ import { getVisiblePeople } from "$lib/utils/people";
 describe("getVisiblePeople", () => {
   it("should filter out ignored people", () => {
     const people = [
-      { id: "1", name: "P1", faceCount: 5, ignored: false },
-      { id: "2", name: "P2", faceCount: 5, ignored: true },
+      { id: "1", name: "P1", faceCount: 5, junk: false, hidden: false },
+      { id: "2", name: "P2", faceCount: 5, junk: true, hidden: true },
     ] as Person[];
 
     const result = getVisiblePeople(people);
@@ -28,8 +28,8 @@ describe("getVisiblePeople", () => {
 
   it("should filter out people with 0 photos", () => {
     const people = [
-      { id: "1", name: "P1", faceCount: 5, ignored: false },
-      { id: "2", name: "P2", faceCount: 0, ignored: false },
+      { id: "1", name: "P1", faceCount: 5, junk: false, hidden: false },
+      { id: "2", name: "P2", faceCount: 0, junk: false, hidden: false },
     ] as Person[];
 
     const result = getVisiblePeople(people);
@@ -39,9 +39,9 @@ describe("getVisiblePeople", () => {
 
   it("should sort by faceCount descending", () => {
     const people = [
-      { id: "person-1", name: "P1", faceCount: 2, ignored: false },
-      { id: "person-2", name: "P2", faceCount: 10, ignored: false },
-      { id: "person-3", name: "P3", faceCount: 5, ignored: false },
+      { id: "person-1", name: "P1", faceCount: 2, junk: false, hidden: false },
+      { id: "person-2", name: "P2", faceCount: 10, junk: false, hidden: false },
+      { id: "person-3", name: "P3", faceCount: 5, junk: false, hidden: false },
     ] as Person[];
 
     const result = getVisiblePeople(people);
@@ -51,9 +51,9 @@ describe("getVisiblePeople", () => {
 
   it("should handle mixed conditions", () => {
     const people = [
-      { id: "1", name: "P1", faceCount: 2, ignored: true }, // ignored
-      { id: "2", name: "P2", faceCount: 0, ignored: false }, // empty
-      { id: "3", name: "P3", faceCount: 5, ignored: false }, // ok
+      { id: "1", name: "P1", faceCount: 2, junk: true, hidden: true }, // junk
+      { id: "2", name: "P2", faceCount: 0, junk: false, hidden: false }, // empty
+      { id: "3", name: "P3", faceCount: 5, junk: false, hidden: false }, // ok
     ] as Person[];
 
     const result = getVisiblePeople(people);
@@ -63,8 +63,8 @@ describe("getVisiblePeople", () => {
 
   it("should sort named people before generic people", () => {
     const people = [
-      { id: "person-1", name: "Generic-High", faceCount: 100, ignored: false },
-      { id: "person-2--named", name: "Named-Low", faceCount: 2, ignored: false },
+      { id: "person-1", name: "Generic-High", faceCount: 100, junk: false, hidden: false },
+      { id: "person-2--named", name: "Named-Low", faceCount: 2, junk: false, hidden: false },
     ] as Person[];
 
     const result = getVisiblePeople(people);
@@ -75,9 +75,9 @@ describe("getVisiblePeople", () => {
 
   it("should sort named people alphabetically (Czech locale)", () => {
     const people = [
-      { id: "p2--cert", name: "Čert", faceCount: 5, ignored: false },
-      { id: "p1--adam", name: "Adam", faceCount: 5, ignored: false },
-      { id: "p3--dasa", name: "Dáša", faceCount: 5, ignored: false },
+      { id: "p2--cert", name: "Čert", faceCount: 5, junk: false, hidden: false },
+      { id: "p1--adam", name: "Adam", faceCount: 5, junk: false, hidden: false },
+      { id: "p3--dasa", name: "Dáša", faceCount: 5, junk: false, hidden: false },
     ] as Person[];
 
     const result = getVisiblePeople(people);
@@ -86,8 +86,8 @@ describe("getVisiblePeople", () => {
 
   it("should sort generic people by faceCount descending", () => {
     const people = [
-      { id: "person-1", name: "P1", faceCount: 10, ignored: false },
-      { id: "person-2", name: "P2", faceCount: 50, ignored: false },
+      { id: "person-1", name: "P1", faceCount: 10, junk: false, hidden: false },
+      { id: "person-2", name: "P2", faceCount: 50, junk: false, hidden: false },
     ] as Person[];
 
     const result = getVisiblePeople(people);
@@ -100,9 +100,9 @@ import { enrichPeopleWithStats } from "$lib/utils/people";
 
 describe("enrichPeopleWithStats", () => {
   const mockPeople = [
-    { id: "p1", name: "Alice", faceCount: 0, ignored: false },
-    { id: "p2", name: "Bob", faceCount: 0, ignored: false },
-    { id: "p3", name: "Charlie", faceCount: 0, ignored: false },
+    { id: "p1", name: "Alice", faceCount: 0, junk: false, hidden: false },
+    { id: "p2", name: "Bob", faceCount: 0, junk: false, hidden: false },
+    { id: "p3", name: "Charlie", faceCount: 0, junk: false, hidden: false },
   ] as Person[];
 
   const mockPhotoDays = [

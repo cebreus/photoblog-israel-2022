@@ -16,11 +16,12 @@ import type { Person } from "$lib/types/manifest";
 import {
   calculatePersonDistance,
   euclideanDistance,
+  findBestMatch,
   isConstrainedPair,
 } from "../../scripts/lib/clustering-utils";
 
 // Mock face-api
-vi.mock("@vladmandic/face-api", () => ({
+vi.mock("@vladmandic/face-api/dist/face-api.node.js", () => ({
   euclideanDistance: vi.fn((a, b) => {
     // Simple mock implementation: diff of first elements
     return Math.abs(a[0] - b[0]);
@@ -39,7 +40,7 @@ describe("clustering-utils", () => {
   });
 
   describe("calculatePersonDistance", () => {
-    it("should return Infinity if person has no descriptor or clusters", () => {
+    it("should return 1.0 if person has no descriptor or clusters", () => {
       const person = { faceDescriptor: [], clusters: [] } as unknown as Person;
       expect(calculatePersonDistance([1], person)).toBe(1.0);
     });
@@ -86,6 +87,46 @@ describe("clustering-utils", () => {
     it("should return false if pair is not constrained", () => {
       const disconnected = new Set<string>();
       expect(isConstrainedPair(disconnected, "a", "b")).toBe(false);
+    });
+  });
+
+  describe("findBestMatch", () => {
+    it("should return best match even if person is ignored", () => {
+      const ignoredPerson = {
+        id: "ignored-1",
+        name: "Ignored Person",
+        ignored: true,
+        clusters: [{ centroid: [1.1] }],
+      } as unknown as Person;
+
+      const visiblePerson = {
+        id: "visible-1",
+        name: "Visible Person",
+        ignored: false,
+        clusters: [{ centroid: [2.0] }],
+      } as unknown as Person;
+
+      const people = [ignoredPerson, visiblePerson];
+      const constraints = new Set<string>();
+      const threshold = 0.5;
+
+      // Target [1.0] is closer to ignored [1.1] (dist 0.1) than visible [2.0] (dist 1.0)
+      const match = findBestMatch([1.0], people, constraints, "img1", threshold);
+      expect(match?.id).toBe("ignored-1");
+    });
+
+    it("should return null if best match is constrained", () => {
+      const person = {
+        id: "p1",
+        clusters: [{ centroid: [1.1] }],
+      } as unknown as Person;
+
+      const people = [person];
+      const constraints = new Set<string>(["img1:p1"]);
+      const threshold = 0.5;
+
+      const match = findBestMatch([1.0], people, constraints, "img1", threshold);
+      expect(match).toBeNull();
     });
   });
 });
