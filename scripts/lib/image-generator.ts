@@ -121,7 +121,7 @@ export async function generateVariant(
   options: ImageProcessOptions,
   originalMeta: import("sharp").Metadata,
   faces: FaceBox[] = [],
-  variantKey?: string,
+  _variantKey?: string,
 ) {
   const outExt = format === "jpeg" ? "jpeg" : format;
   const variantFolder =
@@ -202,6 +202,7 @@ export async function generateOtherOutput(
   outputConfig: OtherOutputConfig,
   options: ImageProcessOptions,
   originalMeta: import("sharp").Metadata,
+  faces: FaceBox[] = [],
 ) {
   const format = "format" in outputConfig ? outputConfig.format : ImageFormat.JPEG;
   const outExt = format === "jpeg" ? "jpeg" : format;
@@ -225,12 +226,47 @@ export async function generateOtherOutput(
       premultiplied: false,
     };
   } else {
-    const resizedInstance = buildSharpInstance(
-      sharpModule,
-      input,
-      outputConfig.resize || {},
-      options.allowUpscale,
-    );
+    const resizeConfig = outputConfig.resize || {};
+    const allowSmartCrop =
+      faces.length > 0 &&
+      "crop" in resizeConfig &&
+      resizeConfig.crop === true &&
+      "width" in resizeConfig &&
+      "height" in resizeConfig;
+
+    let cropRect = null;
+    if (allowSmartCrop) {
+      cropRect = calculateSmartCrop(
+        originalMeta.width ?? 0,
+        originalMeta.height ?? 0,
+        faces,
+        resizeConfig.width as number,
+        resizeConfig.height as number,
+      );
+    }
+
+    let resizedInstance: Sharp;
+
+    if (cropRect && "width" in resizeConfig && "height" in resizeConfig) {
+      resizedInstance = sharpModule(input)
+        .extract({
+          left: Math.round(cropRect.left),
+          top: Math.round(cropRect.top),
+          width: Math.round(cropRect.width),
+          height: Math.round(cropRect.height),
+        })
+        .resize({
+          width: resizeConfig.width as number,
+          height: resizeConfig.height as number,
+        });
+    } else {
+      resizedInstance = buildSharpInstance(
+        sharpModule,
+        input,
+        outputConfig.resize || {},
+        options.allowUpscale,
+      );
+    }
 
     if ("blur" in outputConfig && outputConfig.blur) {
       resizedInstance.blur(10).png(config.encoding.sharp.blur.png);

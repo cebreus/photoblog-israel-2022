@@ -219,7 +219,12 @@ function determineAnalysisNeeds(fileHash: string, key: string, options: ImagePro
     }
   }
 
-  return { shouldAnalyze, reusedAnalysis, reusedExif, reusedOther };
+  return {
+    shouldAnalyze,
+    reusedAnalysis,
+    reusedExif,
+    reusedOther: { ...reusedOther, people: options.previousEntry?.people },
+  };
 }
 
 async function _extractFaces(
@@ -390,6 +395,7 @@ async function generateAllOutputs(
         otherConfig,
         options,
         imageData.originalMeta,
+        imageData.faces,
       );
       outputs.push(outPath);
       if (output.isPlaceholder) {
