@@ -68,7 +68,7 @@ Slouží k hromadné správě metadat a manipulaci s obsahem (dostupné v Dev Mo
 Slouží výhradně k řešení vizuálních duplicit a podobných sérií (dostupné v Dev Mode).
 
 - **Aktivace** → kliknutí na ikonu **»Jiskry«** v hlavičce.
-- **Jantarový okraj** → označení fotky s nalezenou duplicitou.
+- **Jantarový okraj** → označení fotografie s nalezenou duplicitou.
 - **Štítek »DOPORUČENO«** → zelené označení nejlepšího kandidáta v sérii.
 - **Tlačítko »Porovnat«** → otevření srovnávacího dialogu.
 - **Doporučení** → systém navrhuje nejlepší snímek dle rozlišení, AI skóre a ostrosti.

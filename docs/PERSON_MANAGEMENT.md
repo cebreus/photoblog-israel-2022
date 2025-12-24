@@ -191,7 +191,7 @@ Příkaz `pnpm process` je **inkrementální**.
 ### 5.1 Jak funguje cache?
 
 - **Kontrola deskriptorů:** Při novém spuštění systém nejprve kontroluje `faces.manifest.json`. Pokud tam jsou deskriptory, AI detekce se přeskakuje a použijí se cachovaná data.
-- **Kontrola hash:** U každé fotky se kontroluje `xxhash`. Pokud se soubor nezměnil, přeskakuje se zpracování.
+- **Kontrola hash:** U každé fotografie se kontroluje `xxhash`. Pokud se soubor nezměnil, přeskakuje se zpracování.
 - **Vynucení pravidel:** Na konci každého běhu jsou aplikována všechna manuální propojení a odpojení z `clustering-constraints.json`. **Vaše manuální korekce mají vždy absolutní přednost.**
 
 ### 5.2 Jak vyvolat opakovaný clustering?

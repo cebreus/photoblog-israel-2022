@@ -119,7 +119,7 @@ content/nova-galerie/pics/
     └── IMG_0011.jpg
 ```
 
-Nebo vložit všechny fotky na jednu hromadu - generátor je automaticky seskupí podle EXIF data pořízení.
+Nebo vložit všechny fotografie na jednu hromadu - generátor je automaticky seskupí podle EXIF data pořízení.
 
 ---
 

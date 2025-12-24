@@ -2868,7 +2868,7 @@ Projekt odděluje **obsah** (content) od **aplikace** (src). Tato sekce popisuje
 
 - Datum a čas pořízení
 - GPS souřadnice (pokud dostupné)
-- Orientace fotky
+- Orientace fotografie
 - Camera info (model, exposure, atd.)
 
 **Podporované formáty**: JPEG (vstup), AVIF/WebP/JPEG (výstup)
@@ -2905,7 +2905,7 @@ Navštívili jsme Západní zeď a procházeli se Starým městem...
 ### 12.4 Content workflow
 
 ```
-1. Přidat fotky do content/egypt-2025/YYYY-MM-DD/
+1. Přidat fotografie do content/egypt-2025/YYYY-MM-DD/
 2. (Volitelně) Vytvořit story.md
 3. Spustit `bun run images:build`
 4. Manifest se automaticky aktualizuje

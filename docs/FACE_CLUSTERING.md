@@ -16,9 +16,9 @@ Tento projekt obsahuje funkcionalitu pro automatickou detekci tváří na fotogr
 Skript automaticky načítá existující `people.manifest.json`.
 
 - **Existující osoby:** ID, jména, kategorie (osoba, socha, malba) a jejich "tvářové deskriptory" jsou zachovány.
-- **Opakovaný běh:** Nové spuštění skriptu **nezruší** existující osoby ani jejich ručně nastavené vlastnosti (např. stav skrytí). Pouze k nim může přiřadit nové fotky.
+- **Opakovaný běh:** Nové spuštění skriptu **nezruší** existující osoby ani jejich ručně nastavené vlastnosti (např. stav skrytí). Pouze k nim může přiřadit nové fotografie.
 - **Změna prahu (Threshold):**
-  - Pokud **snížíte** `distanceThreshold` (např. z 0.6 na 0.5), systém při příštím běhu může usoudit, že některé fotky už nepatří k původní osobě. V takovém případě vytvoří pro tyto fotky **novou osobu** (klon). Původní osoba a její metadata zůstávají. Tyto nové klony pak můžete v UI sloužit.
+  - Pokud **snížíte** `distanceThreshold` (např. z 0.6 na 0.5), systém při příštím běhu může usoudit, že některé fotografie už nepatří k původní osobě. V takovém případě vytvoří pro tyto fotografie **novou osobu** (klon). Původní osoba a její metadata zůstávají. Tyto nové klony pak můžete v UI sloužit.
   - To je záměrné chování pro bezpečnost dat - raději duplikovat, než chybně sloučit.
 
 ## Spuštění
@@ -32,7 +32,7 @@ bun scripts/face-clustering.ts
 Tento skript:
 
 - Načte manifest `people.manifest.json`, `images.manifest.json` a `embeddings.manifest.json` (pokud existují).
-- Projde všechny fotky.
+- Projde všechny fotografie.
 - Aktualizuje manifesty o nové osoby a přiřazení.
 - Vygeneruje náhledy (thumbnails) do `static/<GALLERY>/faces/`.
 
@@ -64,7 +64,7 @@ Tuto strukturu můžete procházet a ověřit, zda ve složce jedné osoby nejso
 
 Systém se učí z vašich manuálních zásahů. Tato pravidla se ukládají do `clustering-constraints.json` ve složce dat galerie:
 
-1. **Odpojení (Unmatch):** Zaznamená se pravidlo: _"Tato konkrétní fotka nikdy nesmí patřit této osobě"_.
+1. **Odpojení (Unmatch):** Zaznamená se pravidlo: _"Tato konkrétní fotografie nikdy nesmí patřit této osobě"_.
 2. **Chybná detekce (Invalidate):** Zaznamená se pravidlo do `invalidDetections`: _"Tato oblast na této fotce není tvář"_.
 3. **Přiřazení (Connect):** Ruční propojení tváře k osobě, které systém sám nespojil.
 
@@ -85,4 +85,4 @@ Pokud se zdá, že na fotce chybí osoby, je pravděpodobné, že byly deteková
 
 ### Ladění (Debugging)
 
-Pro detailní analýzu konkrétní fotky můžete použít debug skript (pokud je available) nebo zkontrolovat logy `face-clustering.ts`, který vypisuje počet nalezených tváří na fotce.
+Pro detailní analýzu konkrétní fotografie můžete použít debug skript (pokud je available) nebo zkontrolovat logy `face-clustering.ts`, který vypisuje počet nalezených tváří na fotografii.
