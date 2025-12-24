@@ -11,9 +11,9 @@ import {
   migrateImagesManifest,
   migrateMarkdownFiles,
   migratePeopleManifest,
-} from "./lib/gallery-migration";
-import { getNewBasename, type RenameMap, safeRename } from "./lib/renaming-utils";
-import { formatDuration } from "./lib/time-utils";
+} from "./lib/gallery/migration";
+import { getNewBasename, type RenameMap, safeRename } from "./lib/gallery/renaming";
+import { formatDuration } from "./lib/utils/time";
 
 const logger = createLogger("rename-images");
 

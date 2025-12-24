@@ -1,7 +1,7 @@
 import path from "node:path";
 import { createLogger } from "./lib/core/cli-logger";
-import { validatePathInsideRoot } from "./lib/path-utils";
-import { fixUnderwaterImage } from "./lib/underwater";
+import { fixUnderwaterImage } from "./lib/image/underwater";
+import { validatePathInsideRoot } from "./lib/utils/path";
 
 const logger = createLogger("fix-underwater");
 

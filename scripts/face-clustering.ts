@@ -11,13 +11,14 @@ import {
   type Person,
 } from "../src/lib/types/manifest";
 import { isValidClusteringConstraints } from "../src/lib/utils/manifest-validators";
-import { getConcurrency } from "./lib/concurrency-utils";
 import { createLogger } from "./lib/core/cli-logger";
 import { parseCliArguments } from "./lib/core/cli-parser";
+import { getConcurrency } from "./lib/core/concurrency-utils";
+import { createBar, stopAllBars } from "./lib/core/progress-manager";
 import { deleteOldFaceCrops, findBestMatch, saveFaceCrop } from "./lib/faces/clustering";
 import { filterPeopleWithValidDescriptors, hasValidFaceDescriptor } from "./lib/faces/people";
 import { resolveGalleryDirectory } from "./lib/gallery/resolver";
-import { convertHeicToPng, ensureDir } from "./lib/image-utils";
+import { convertHeicToPng, ensureDir } from "./lib/image/utils";
 import {
   loadFacesManifest,
   loadImagesManifest,
@@ -26,7 +27,6 @@ import {
   saveImagesManifest,
   savePeopleManifest,
 } from "./lib/manifests/repository";
-import { createBar, stopAllBars } from "./lib/progress-manager";
 
 const SCRIPT_DIR = import.meta.dir;
 const logger = createLogger("face-clustering");

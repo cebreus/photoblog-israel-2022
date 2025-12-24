@@ -16,8 +16,9 @@ import {
 import { aiService } from "./lib/ai/models";
 import { createLogger } from "./lib/core/cli-logger";
 import { parseCliArguments } from "./lib/core/cli-parser";
+import { createBar, removeBar, stopAllBars } from "./lib/core/progress-manager";
 import { resolveGalleryDirectory } from "./lib/gallery/resolver";
-import { getQualityBucket, normalizeSharpness } from "./lib/image-utils";
+import { getQualityBucket, normalizeSharpness } from "./lib/image/utils";
 import {
   loadAnalysisManifest,
   loadEmbeddingsManifest,
@@ -27,8 +28,7 @@ import {
   saveEmbeddingsManifest,
   saveImagesManifest,
 } from "./lib/manifests/repository";
-import { createBar, removeBar, stopAllBars } from "./lib/progress-manager";
-import { formatDuration } from "./lib/time-utils";
+import { formatDuration } from "./lib/utils/time";
 
 const logger = createLogger("analyze-similarity");
 

@@ -9,8 +9,8 @@ import { parseArgs } from "node:util";
 import { cancel, intro, isCancel, outro, select } from "@clack/prompts";
 import pc from "picocolors";
 import { createLogger } from "./lib/core/cli-logger";
-import { run } from "./lib/shell-utils";
-import { formatDuration } from "./lib/time-utils";
+import { run } from "./lib/utils/shell";
+import { formatDuration } from "./lib/utils/time";
 
 const DEFAULT_GALLERY = "egypt-2025";
 const SCRIPT_DIR = import.meta.dir;

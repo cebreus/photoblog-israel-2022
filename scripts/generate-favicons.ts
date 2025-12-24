@@ -7,7 +7,7 @@ import { type FaviconOptions, favicons } from "favicons";
 import matter from "gray-matter";
 import { createLogger } from "./lib/core/cli-logger";
 import { parseCliArguments } from "./lib/core/cli-parser";
-import { formatDuration } from "./lib/time-utils";
+import { formatDuration } from "./lib/utils/time";
 
 const logger = createLogger("favicons");
 
