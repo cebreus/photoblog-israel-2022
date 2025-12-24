@@ -68,5 +68,6 @@ export function createLogger(label = "app") {
     verbose: (msg: unknown, ...args: unknown[]) => child.debug(msg as any, ...(args as any[])),
   };
 }
+export type Logger = ReturnType<typeof createLogger>;
 
 export const log = createLogger();

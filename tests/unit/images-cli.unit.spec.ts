@@ -16,7 +16,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { exiftool } from "exiftool-vendored";
 import { afterAll, describe, expect, it, vi } from "vitest";
-import * as processor from "../../scripts/lib/image-processor";
+import * as processor from "../../scripts/lib/image/processor";
 import { buildInputSet } from "../utils/fixtures";
 import { listTree } from "../utils/fs-helpers";
 import { runGenerator } from "../utils/process-helpers";
@@ -28,7 +28,7 @@ vi.spyOn(processor, "cleanup").mockImplementation(async () => {});
 // However, we want to ensure we don't pollute the project root.
 // process-helpers.runGenerator handles CWD mocking.
 
-import { config } from "../../scripts/config";
+import { config } from "../../scripts/build.config";
 
 const CWD = path.resolve(__dirname, "../../");
 
@@ -68,7 +68,7 @@ describe("CLI (generate-images.ts) – Integration with real FS", { timeout: 300
     ];
 
     // Pre-seed cache to prevent "config mismatch" deletion of outDir
-    const { sha1 } = await import("../../scripts/lib/image-utils");
+    const { sha1 } = await import("../../scripts/lib/image/utils");
     const configHash = sha1(Buffer.from(JSON.stringify(config)));
     const initialCache = {
       version: 17, // Must match CACHE_VERSION in generate-images.ts

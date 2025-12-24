@@ -3,8 +3,8 @@ import process from "node:process";
 import { json, type RequestHandler } from "@sveltejs/kit";
 import { dev } from "$app/environment";
 import { createLogger } from "$lib/logger";
-import { withManifestLock } from "$scripts/lib/manifest-lock";
-import { loadPeopleManifest, savePeopleManifest } from "$scripts/lib/manifest-repository";
+import { withManifestLock } from "$scripts/lib/manifests/lock";
+import { loadPeopleManifest, savePeopleManifest } from "$scripts/lib/manifests/repository";
 
 const logger = createLogger("api:people");
 

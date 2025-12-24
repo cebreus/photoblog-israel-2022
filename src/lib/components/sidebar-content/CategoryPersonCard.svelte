@@ -10,6 +10,7 @@
     selected = false,
     getThumbnailSrc,
     onToggle,
+    onOpenDetail,
     testId,
     showCount = true,
     mergeButtonTestId,
@@ -19,6 +20,7 @@
     selected?: boolean;
     getThumbnailSrc: (p: Person) => string;
     onToggle: (id: string) => void;
+    onOpenDetail?: (p: Person) => void;
     testId: string;
     showCount?: boolean;
     mergeButtonTestId?: string;
@@ -43,7 +45,7 @@
       }
     }}
   >
-    {#if person.ignored}
+    {#if person.hidden}
       <span
         class="absolute top-1 left-1 z-10 rounded bg-amber-500 text-[10px] px-1 py-0.5 text-white shadow"
       >
@@ -92,12 +94,14 @@
   </div>
 
   <div class="p-1 flex flex-col gap-1 bg-muted/20">
-    <span
-      class="text-[10px] text-muted-foreground w-full truncate text-center font-medium px-1"
+    <button
+      type="button"
+      class="text-[10px] text-muted-foreground w-full truncate text-center font-medium px-1 hover:underline cursor-pointer bg-transparent border-none"
       title={person.name}
+      onclick={() => onOpenDetail?.(person)}
     >
       {person.name}
-    </span>
+    </button>
     {#if showCount}
       <div class="text-[10px] text-muted-foreground text-center">{person.faceCount} fotek</div>
     {/if}

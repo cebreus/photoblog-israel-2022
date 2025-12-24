@@ -132,6 +132,11 @@ UI kontejner pro nástroje interagující s nezávislými logickými celky.
 - **Záložka Agenda** → rychlá navigace na dny/místa. Zvýrazňuje aktuální polohu detekovanou pomocí [Scrollu](#13-hlavní-zobrazení-timeline).
 - **Záložka Filtry** → rozhraní pro nastavení [Filtrační logiky](#112-filtrační-logika).
 - **Záložka Lidé** → správa osob a jejich filtraci (propojeno s [Filtrační logikou](#112-filtrační-logika)).
+  - **Shift + Klik** → hromadný výběr osob pro filtraci (výběr rozsahu).
+  - **Checkboxy »Slučování«** → výběr osob pro spojení do jednoho profilu.
+  - **Shift + Klik na checkbox** → hromadné označení osob pro sloučení (výběr rozsahu).
+  - **Sekce »Junk«** → správa nezajímavých osob (příznak `junk`).
+  - **Sekce »Chybné detekce«** → seznam ignorovaných výřezů (AI omyly).
 - **Záložka Editace** → nástroje pro [Editační režim](#113-editační-režim-edit-mode) (jen v Dev Mode).
 
 **Systémová odezva:**
@@ -160,11 +165,10 @@ Statický prvek na konci stránky.
 
 Aplikace funguje na principu »Split & Link« manifestů generovaných během buildu:
 
-- `images.manifest.json` → Hlavní struktura časové osy a EXIF metadata fotografií. Generuje skript `bun run images:build`.
-- `people.manifest.json` → Katalog identifikovaných osob. Vzniká procesem `bun run face-distillation`.
-- `curation.manifest.json` → Skupiny duplicit a doporučení **bestCandidate**. Generuje `bun run analyze-similarity.ts`.
-- `analysis.manifest.json` → AI analýza obrazu (estetika, ostrost, PHash). Generuje `bun run analyze-similarity.ts`.
+- `images.manifest.json` → Hlavní struktura časové osy a EXIF metadata fotografií.
+- `people.manifest.json` → Katalog identifikovaných osob (včetně příznaků `hidden` a `junk`).
+- `curation.manifest.json` → Skupiny duplicit a doporučení **bestCandidate**.
+- `analysis.manifest.json` → AI analýza obrazu (estetika, ostrost, PHash).
 - `embeddings.manifest.json` → Vektorové otisky CLIP pro vyhledávání podobnosti.
-- `faces.manifest.json` → Deskriptory (128-dim) pro clustering tváří. Generuje `bun run face-clustering.ts`.
-
-Všechny manifesty jsou uloženy v `src/data/<gallery-name>/` a jsou nezbytné pro reaktivní chod aplikace.
+- `faces.manifest.json` → Deskriptory (128-dim) pro clustering tváří.
+- `clustering-constraints.json` → Manuální pravidla, propojení, odpojení a `invalidDetections`.

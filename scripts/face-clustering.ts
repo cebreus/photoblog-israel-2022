@@ -4,14 +4,20 @@ import path from "node:path";
 import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
 import * as canvas from "canvas";
 import sharp from "sharp";
-import type { FacesManifest, ImageEntry, Person } from "../src/lib/types/manifest";
+import {
+  type FacesManifest,
+  type ImageEntry,
+  isImageEntry,
+  type Person,
+} from "../src/lib/types/manifest";
 import { isValidClusteringConstraints } from "../src/lib/utils/manifest-validators";
-import { parseCliArguments } from "./lib/cli-parser";
-import { deleteOldFaceCrops, findBestMatch, saveFaceCrop } from "./lib/clustering-utils";
 import { getConcurrency } from "./lib/concurrency-utils";
-import { resolveGalleryDirectory } from "./lib/gallery-resolver";
+import { createLogger } from "./lib/core/cli-logger";
+import { parseCliArguments } from "./lib/core/cli-parser";
+import { deleteOldFaceCrops, findBestMatch, saveFaceCrop } from "./lib/faces/clustering";
+import { filterPeopleWithValidDescriptors, hasValidFaceDescriptor } from "./lib/faces/people";
+import { resolveGalleryDirectory } from "./lib/gallery/resolver";
 import { convertHeicToPng, ensureDir } from "./lib/image-utils";
-import { createLogger } from "./lib/logger";
 import {
   loadFacesManifest,
   loadImagesManifest,
@@ -19,8 +25,7 @@ import {
   saveFacesManifest,
   saveImagesManifest,
   savePeopleManifest,
-} from "./lib/manifest-repository";
-import { filterPeopleWithValidDescriptors } from "./lib/people-utils";
+} from "./lib/manifests/repository";
 import { createBar, stopAllBars } from "./lib/progress-manager";
 
 const SCRIPT_DIR = import.meta.dir;
@@ -84,31 +89,38 @@ async function processFaceDetections(
   image: ImageEntry,
   people: Person[],
   disconnectedPairs: Set<string>,
-  ignoredPairs: Set<string>,
+  junkPairs: Set<string>,
   facesOutputDir: string,
+  manualConnects?: Map<string, string[]>,
 ) {
   if (!image.analysis) {
     image.analysis = {
       sharpness: 0,
       phash: "",
-      embedding: [],
       facesDetected: false,
     };
   }
-  image.analysis.faces = [];
-  image.analysis.facesDetected = true;
+
+  const analysis = image.analysis;
+  analysis.faces = [];
+  analysis.facesDetected = true;
 
   const scaleX = (image.width || img.width) / img.width;
   const scaleY = (image.height || img.height) / img.height;
 
+  // Get manual people for this image
+  const manualPeopleIds = manualConnects?.get(image.id) || [];
+
   for (const detection of detections) {
     const box = detection.detection.box;
-    image.analysis.faces.push({
+    const scaledBox = {
       x: box.x * scaleX,
       y: box.y * scaleY,
       width: box.width * scaleX,
       height: box.height * scaleY,
-    });
+    };
+
+    analysis.faces.push(scaledBox);
 
     const descriptor = Array.from(detection.descriptor) as number[];
     if (descriptor.length !== 128) {
@@ -117,40 +129,79 @@ async function processFaceDetections(
       continue;
     }
 
-    // Check if this crop is marked as ignored (junk)
-    const isIgnored = [...ignoredPairs].some((p) => {
+    // Check if this crop is marked as junk
+    const isJunk = [...junkPairs].some((p) => {
       const [imgId, x, y, w, h] = p.split(":");
       if (imgId !== image.id) return false;
 
-      // Check for significant overlap with ignored box
-      const box = detection.detection.box;
+      // Check for significant overlap with junk box
+      // Coordinates in junkPairs are in full image space (scaled)
       const ix = Number.parseFloat(x);
       const iy = Number.parseFloat(y);
       const iw = Number.parseFloat(w);
       const ih = Number.parseFloat(h);
 
-      const overlapX = Math.max(0, Math.min(box.x + box.width, ix + iw) - Math.max(box.x, ix));
-      const overlapY = Math.max(0, Math.min(box.y + box.height, iy + ih) - Math.max(box.y, iy));
+      const overlapX = Math.max(
+        0,
+        Math.min(scaledBox.x + scaledBox.width, ix + iw) - Math.max(scaledBox.x, ix),
+      );
+      const overlapY = Math.max(
+        0,
+        Math.min(scaledBox.y + scaledBox.height, iy + ih) - Math.max(scaledBox.y, iy),
+      );
       const overlapArea = overlapX * overlapY;
-      const boxArea = box.width * box.height;
-      const ignoredArea = iw * ih;
+      const boxArea = scaledBox.width * scaledBox.height;
+      const junkArea = iw * ih;
 
-      // If more than 80% overlap with an ignored crop, skip it
-      return overlapArea / Math.min(boxArea, ignoredArea) > 0.8;
+      // If more than 80% overlap with a junk crop, skip it
+      return overlapArea / Math.min(boxArea, junkArea) > 0.8;
     });
 
-    if (isIgnored) {
-      if (values.verbose) logger.verbose(`Skipping ignored (junk) crop in ${image.id}`);
+    if (isJunk) {
+      if (values.verbose) logger.verbose(`Skipping junk crop in ${image.id}`);
       continue;
     }
 
-    const bestMatch = findBestMatch(
-      descriptor,
-      people,
-      disconnectedPairs,
-      image.id,
-      DISTANCE_THRESHOLD,
-    );
+    let bestMatch: Person | null = null;
+
+    // Priority Check: Manual Connections
+    // If we have manual people for this image, check if any of them is a perfect/excellent match
+    if (manualPeopleIds.length > 0) {
+      for (const pid of manualPeopleIds) {
+        const p = people.find((pp) => pp.id === pid);
+        if (p) {
+          // Determine distance
+          let dist = 1.0;
+          if (p.faceDescriptor && p.faceDescriptor.length > 0) {
+            dist = faceapi.euclideanDistance(descriptor, p.faceDescriptor);
+          } else if (p.clusters && p.clusters.length > 0) {
+            // check clusters
+            // ... reuse clustering-utils logic but inline for now or access helper?
+            // Just checking faceDescriptor which we rescued is enough?
+            // If we rescued via descriptor, faceDescriptor is set.
+          }
+
+          // If distance is explicitly very low (e.g. < 0.1), it's likely the same face (e.g. from cache)
+          // Normal threshold is 0.6. We want to be strict to avoid assigning wrong face in group photo.
+          if (dist < 0.25) {
+            // 0.25 is very close for 128D
+            bestMatch = p;
+            // logger.info(`Using manual connection for ${p.name} in ${image.id}`);
+            break;
+          }
+        }
+      }
+    }
+
+    if (!bestMatch) {
+      bestMatch = findBestMatch(
+        descriptor,
+        people,
+        disconnectedPairs,
+        image.id,
+        DISTANCE_THRESHOLD,
+      );
+    }
 
     if (bestMatch) {
       bestMatch.faceCount++;
@@ -268,7 +319,7 @@ async function processFaceDetections(
         faceDescriptor: descriptor,
         faceCount: 1,
         thumbnail: thumbPath,
-        ignored: false,
+        hidden: false,
         createdAt: new Date().toISOString(),
         lastSeenAt: new Date().toISOString(),
         clusters: [
@@ -305,13 +356,199 @@ async function processFaceDetections(
 async function loadClusteringResources(dataDir: string): Promise<{
   people: Person[];
   disconnectedPairs: Set<string>;
-  ignoredPairs: Set<string>;
+  junkPairs: Set<string>;
   manualConnects: Map<string, string[]>;
 }> {
+  const disconnectedPairs = new Set<string>();
+  const junkPairs = new Set<string>();
+  const manualConnects = new Map<string, string[]>();
+  const constraintsPath = path.resolve(dataDir, "clustering-constraints.json");
+
+  try {
+    const cData = await fsp.readFile(constraintsPath, "utf-8");
+    const parsed = JSON.parse(cData);
+
+    if (isValidClusteringConstraints(parsed)) {
+      for (const c of parsed.disconnects) {
+        disconnectedPairs.add(`${c.imageId}:${c.personId}`);
+      }
+      for (const c of parsed.connects) {
+        if (!manualConnects.has(c.imageId)) {
+          manualConnects.set(c.imageId, []);
+        }
+        manualConnects.get(c.imageId)?.push(c.personId);
+      }
+      if (parsed.invalidDetections) {
+        for (const c of parsed.invalidDetections) {
+          junkPairs.add(`${c.imageId}:${c.box.x}:${c.box.y}:${c.box.width}:${c.box.height}`);
+        }
+      }
+      if (values.verbose)
+        logger.info(
+          `Loaded ${disconnectedPairs.size} disconnects, ${manualConnects.size} connects, and ${junkPairs.size} junk crops.`, // Renamed from ignoredPairs.size and "ignored crops"
+        );
+    }
+  } catch {
+    if (values.verbose) logger.info("No constraints found or invalid file.");
+  }
+
   let people: Person[] = [];
   const existingPeopleManifest = await loadPeopleManifest(dataDir);
   if (existingPeopleManifest?.people) {
-    people = filterPeopleWithValidDescriptors(existingPeopleManifest.people);
+    people = existingPeopleManifest.people;
+
+    // Rescue/Repair: Check for people with missing descriptors but valid thumbnails OR manifest entries
+    let _rescuedCount = 0;
+
+    // Load facesManifest for descriptor rescue optimization
+    const loadedFacesManifest = (await loadFacesManifest(dataDir)) || {};
+
+    for (const p of people) {
+      if (!filterPeopleWithValidDescriptors([p]).length) {
+        let rescued = false;
+
+        // Strategy 1: Rescue from facesManifest (Preferred, no I/O needed)
+        if (!rescued && loadedFacesManifest) {
+          let foundImageId: string | undefined;
+
+          // Try to find an image ID associated with this person
+          // 1. Check manual connects
+          for (const [imgId, pIds] of manualConnects.entries()) {
+            if (pIds.includes(p.id)) {
+              foundImageId = imgId;
+              break;
+            }
+          }
+
+          // 2. Check thumbnail path string
+          if (!foundImageId && p.thumbnail) {
+            const match = p.thumbnail.match(/([^/]+)\.(jpg|jpeg|png|webp)$/);
+            if (match) foundImageId = match[1];
+          }
+
+          if (foundImageId && loadedFacesManifest[foundImageId]) {
+            const fm = loadedFacesManifest[foundImageId];
+            // fm.peopleIds might contain the person ID.
+            const idx = fm.peopleIds.indexOf(p.id);
+            if (idx !== -1 && fm.descriptors && fm.descriptors[idx]) {
+              const d = fm.descriptors[idx];
+              if (d.length === 128) {
+                p.faceDescriptor = d;
+                p.clusters = [
+                  {
+                    centroid: d,
+                    faceCount: 1,
+                    lastSeen: p.lastSeenAt,
+                    year: new Date().getFullYear(),
+                  },
+                ];
+                rescued = true;
+                _rescuedCount++;
+                logger.info(
+                  `✅ Rescued ${p.name} using cached descriptor from image ${foundImageId}`,
+                );
+              }
+            }
+          }
+        }
+
+        // Strategy 2: Rescue from Thumbnail File (Fallback)
+        if (!rescued && p.thumbnail && p.thumbnail !== "") {
+          const thumbPath = path.resolve(
+            process.cwd(),
+            `static/${process.env.CONTENT_DIR}`,
+            p.thumbnail,
+          );
+          try {
+            const exists = await fsp
+              .stat(thumbPath)
+              .then(() => true)
+              .catch(() => false);
+            if (exists) {
+              logger.warn(
+                `Rescuing person without descriptor: ${p.name} (${p.id}). Calculating from thumbnail...`,
+              );
+              const imgBuffer = await fsp.readFile(thumbPath);
+              const img = await canvas.loadImage(imgBuffer);
+
+              // Detect with single face constraint since it's a crop
+              const detections = await faceapi
+                .detectAllFaces(
+                  img as unknown as faceapi.TNetInput,
+                  new faceapi.SsdMobilenetv1Options({ minConfidence: FACE_CONFIG.minConfidence }),
+                )
+                .withFaceLandmarks()
+                .withFaceDescriptors();
+
+              if (detections.length > 0) {
+                // Sort by size to get the main face if multiple detected (unlikely in crop but possible)
+                const best = detections.sort(
+                  (a, b) =>
+                    b.detection.box.width * b.detection.box.height -
+                    a.detection.box.width * a.detection.box.height,
+                )[0];
+                const descriptor = Array.from(best.descriptor) as number[];
+
+                p.faceDescriptor = descriptor;
+                p.clusters = [
+                  {
+                    centroid: descriptor,
+                    faceCount: 1,
+                    lastSeen: p.lastSeenAt,
+                    year: new Date().getFullYear(),
+                  },
+                ];
+                _rescuedCount++;
+                rescued = true;
+                logger.info(`✅ Rescued ${p.name} (thumbnail calculation)`);
+              }
+            }
+          } catch (e) {
+            logger.warn(`Failed to rescue ${p.name}: ${(e as Error).message}`);
+          }
+        }
+
+        if (!rescued) {
+          logger.warn(
+            `❌ Could not rescue ${p.name}. Kept in manifest without descriptor (manual mode only).`,
+          );
+          p.clusters = [];
+        }
+      }
+    }
+
+    // Now filter again, but allow those we couldn't rescue IF they are needed for manual connects?
+    // Actually, filterPeopleWithValidDescriptors removes them.
+    // If we want manual connections to work for people *without* descriptors (purely manual people),
+    // we must NOT simple filter them out.
+    // We should keep them in the `people` array, but `findBestMatch` will ignore them naturally if they have no clusters/descriptor.
+    // BUT `prepareImageQueues` needs them in `peopleIds` set.
+
+    // Instead of filtering, let's keep ALL people, but handle empty descriptors downstream?
+    // findBestMatch iterates people. If p.faceDescriptor/clusters is empty, distance calc fails or returns infinity?
+    // Let's modify filter? No, let's just NOT filter them out here, but ensure they don't break downstream.
+
+    // We will ONLY filter people who have NO valid descriptor AND NO thumbnail AND seem genuinely broken.
+    // If they have a valid ID (manual entries), we want to keep them.
+    // Actually, `filterPeopleWithValidDescriptors` is too aggressive.
+
+    // Let's replace the strict filter with a logic that keeps them if they seem manual.
+    // But for now, the "Rescuing" logic above fixes the "Odpojeno" people because they HAVE thumbnails.
+    // So if rescue succeeds, `hasValidFaceDescriptor` will return true!
+
+    // What if rescue fails (e.g. no face detected in crop)?
+    // We should probably still keep them if they are manual targets.
+
+    people = people.filter((p) => {
+      const valid = hasValidFaceDescriptor(p);
+      if (valid) return true;
+
+      // Keep if it looks like a manual entry (has thumbnail and ID)
+      if (p.id && p.thumbnail) return true;
+
+      return false;
+    });
+
     // Migration: Ensure 'clusters' exists
     let migratedCount = 0;
     for (const p of people) {
@@ -338,56 +575,49 @@ async function loadClusteringResources(dataDir: string): Promise<{
     if (values.verbose) logger.info(`Loaded ${people.length} existing people from manifest.`);
   }
 
-  const disconnectedPairs = new Set<string>();
-  const ignoredPairs = new Set<string>();
-  const manualConnects = new Map<string, string[]>();
-  const constraintsPath = path.resolve(dataDir, "clustering-constraints.json");
-
-  try {
-    const cData = await fsp.readFile(constraintsPath, "utf-8");
-    const parsed = JSON.parse(cData);
-
-    if (isValidClusteringConstraints(parsed)) {
-      for (const c of parsed.disconnects) {
-        disconnectedPairs.add(`${c.imageId}:${c.personId}`);
-      }
-      for (const c of parsed.connects) {
-        if (!manualConnects.has(c.imageId)) {
-          manualConnects.set(c.imageId, []);
-        }
-        manualConnects.get(c.imageId)?.push(c.personId);
-      }
-      if (parsed.ignoredCrops) {
-        for (const c of parsed.ignoredCrops) {
-          ignoredPairs.add(`${c.imageId}:${c.box.x}:${c.box.y}:${c.box.width}:${c.box.height}`);
-        }
-      }
-      if (values.verbose)
-        logger.info(
-          `Loaded ${disconnectedPairs.size} disconnects, ${manualConnects.size} connects, and ${ignoredPairs.size} ignored crops.`,
-        );
-    }
-  } catch {
-    if (values.verbose) logger.info("No constraints found or invalid file.");
-  }
-
-  return { people, disconnectedPairs, ignoredPairs, manualConnects };
+  return { people, disconnectedPairs, junkPairs, manualConnects };
 }
 
 function prepareImageQueues(
   manifest: any,
   manualConnects: Map<string, string[]>,
+  people: Person[],
+  disconnectedPairs: Set<string>,
 ): { image: ImageEntry; oldPeople: string[] }[] {
   const queue: { image: ImageEntry; oldPeople: string[] }[] = [];
+  const peopleIds = new Set(people.map((p) => p.id));
 
   for (const day of manifest.photoDays) {
     for (const item of day.items) {
-      if (item.type === "image") {
-        const img = item as ImageEntry;
-        const manualIds = manualConnects.get(img.id) || [];
-        const oldPeople = img.people || [];
-        img.people = [...manualIds];
-        queue.push({ image: img, oldPeople });
+      if (isImageEntry(item)) {
+        const manualIds = manualConnects.get(item.id) || [];
+        const validManualIds = manualIds.filter((id) => {
+          if (peopleIds.has(id)) return true;
+          return false;
+        });
+
+        const oldPeople = item.people || [];
+
+        // CRITICAL FIX: Preserve existing people that are still valid AND not disconnected
+        // This prevents loss of GUI-assigned people during re-clustering
+        const preservedPeople = oldPeople.filter((personId) => {
+          // Person must still exist in the manifest
+          if (!peopleIds.has(personId)) return false;
+          // Person must NOT be explicitly disconnected from this image
+          if (disconnectedPairs.has(`${item.id}:${personId}`)) return false;
+          return true;
+        });
+
+        // Combine: manualConnects have priority, then preserved existing assignments
+        const combined = [...validManualIds];
+        for (const pid of preservedPeople) {
+          if (!combined.includes(pid)) {
+            combined.push(pid);
+          }
+        }
+
+        item.people = combined;
+        queue.push({ image: item, oldPeople });
       }
     }
   }
@@ -399,11 +629,12 @@ async function processImageQueue(
   queue: { image: ImageEntry; oldPeople: string[] }[],
   people: Person[],
   disconnectedPairs: Set<string>,
-  ignoredPairs: Set<string>,
+  junkPairs: Set<string>, // Renamed from ignoredPairs
   facesOutputDir: string,
   sourceDir: string,
   detailsDir: string,
-  facesManifest: FacesManifest, // Added
+  facesManifest: FacesManifest,
+  manualConnects: Map<string, string[]>,
 ) {
   let processedCount = 0;
   let successCount = 0;
@@ -531,8 +762,9 @@ async function processImageQueue(
           image,
           people,
           disconnectedPairs,
-          ignoredPairs,
+          junkPairs,
           facesOutputDir,
+          manualConnects,
         );
 
         // Updates facesManifest with the results (newly verified/computed)
@@ -620,7 +852,7 @@ async function main() {
 
   await loadModels();
 
-  const { people, disconnectedPairs, ignoredPairs, manualConnects } =
+  const { people, disconnectedPairs, junkPairs, manualConnects } =
     await loadClusteringResources(dataDir);
 
   if (values.clean) {
@@ -644,11 +876,10 @@ async function main() {
     // Mark images for re-processing
     for (const day of manifest.photoDays) {
       for (const item of day.items) {
-        if (item.type === "image") {
-          const img = item as ImageEntry;
-          if (img.analysis) {
-            img.analysis.facesDetected = false;
-            img.analysis.faces = [];
+        if (isImageEntry(item)) {
+          if (item.analysis) {
+            item.analysis.facesDetected = false;
+            item.analysis.faces = [];
           }
         }
       }
@@ -662,7 +893,7 @@ async function main() {
     return;
   }
 
-  let queue = prepareImageQueues(manifest, manualConnects);
+  let queue = prepareImageQueues(manifest, manualConnects, people, disconnectedPairs);
 
   // Apply limit if specified
   const limit = values.limit ? Number.parseInt(String(values.limit), 10) : 0;
@@ -677,11 +908,12 @@ async function main() {
     queue,
     people,
     disconnectedPairs,
-    ignoredPairs,
+    junkPairs,
     facesOutputDir,
     sourceDir,
     detailsDir,
     facesManifest,
+    manualConnects,
   );
 
   logger.info(`✅ Found ${people.length} unique people.`);

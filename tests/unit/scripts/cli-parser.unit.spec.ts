@@ -12,7 +12,7 @@
 
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { parseCliArguments } from "../../../scripts/lib/cli-parser";
+import { parseCliArguments } from "../../../scripts/lib/core/cli-parser";
 
 describe("CLI Parser", () => {
   it("should return defaults when no arguments are provided", () => {

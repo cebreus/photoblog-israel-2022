@@ -7,156 +7,248 @@
   import Palette from "@lucide/svelte/icons/palette";
   import User from "@lucide/svelte/icons/user";
   import UserMinus from "@lucide/svelte/icons/user-minus";
-  import type { Snippet } from "svelte";
 
   import { Button, buttonVariants } from "$lib/components/ui/button";
   import * as ButtonGroup from "$lib/components/ui/button-group";
   import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
+  import type { Person } from "$lib/types/manifest";
+
+  interface Props {
+    count: number;
+    onClear: () => void;
+    isWorking?: boolean;
+    disabled?: boolean;
+    class?: string;
+    testId?: string;
+
+    // Actions
+    onMerge?: () => void;
+    onMergeInto?: (targetPersonId: string) => void;
+    onHide?: () => void;
+    onRestore?: () => void;
+    onMarkAsJunk?: () => void;
+    onRestoreFromJunk?: () => void;
+    onUpdateCategory?: (cat: "person" | "statue" | "painting") => void;
+
+    // State/Metadata
+    namedPeople?: Person[];
+    hiddenCount?: number;
+    junkCount?: number;
+    canHide?: boolean;
+
+    // Explicit disable overrides
+    mergeDisabled?: boolean;
+    hideDisabled?: boolean;
+    junkDisabled?: boolean;
+    restoreDisabled?: boolean;
+    categoryDisabled?: boolean;
+  }
 
   let {
     count,
     onClear,
     isWorking = false,
-    actions,
-    dropdownItems,
+    disabled = false,
     class: className,
     testId = "bulk-actions",
 
-    // Default PeopleTab actions (optional)
     onMerge,
+    onMergeInto,
     onHide,
     onRestore,
     onMarkAsJunk,
+    onRestoreFromJunk,
     onUpdateCategory,
-    hiddenCount = 0,
-    canHide = true,
-  } = $props<{
-    count: number;
-    onClear: () => void;
-    isWorking?: boolean;
-    actions?: Snippet;
-    dropdownItems?: Snippet;
-    class?: string;
-    testId?: string;
 
-    onMerge?: () => void;
-    onHide?: () => void;
-    onRestore?: () => void;
-    onMarkAsJunk?: () => void;
-    onUpdateCategory?: (cat: "person" | "statue" | "painting") => void;
-    hiddenCount?: number;
-    canHide?: boolean;
-  }>();
+    namedPeople = [],
+    hiddenCount = 0,
+    junkCount = 0,
+    canHide = true,
+
+    mergeDisabled = false,
+    hideDisabled = false,
+    junkDisabled = false,
+    restoreDisabled = false,
+    categoryDisabled = false,
+  }: Props = $props();
+
+  const isGlobalDisabled = $derived(disabled || count === 0 || isWorking);
+
+  // Derived disable states for specific actions
+  const mergeBtnDisabled = $derived(isGlobalDisabled || mergeDisabled || !onMerge || count < 2);
+  const hideBtnDisabled = $derived(isGlobalDisabled || hideDisabled || !onHide || !canHide);
+  const restoreBtnDisabled = $derived(
+    isGlobalDisabled || restoreDisabled || !onRestore || hiddenCount === 0,
+  );
+  const junkBtnDisabled = $derived(isGlobalDisabled || junkDisabled || !onMarkAsJunk);
+  const restoreJunkDisabled = $derived(
+    isGlobalDisabled || restoreDisabled || !onRestoreFromJunk || junkCount === 0,
+  );
+  const mergeIntoDisabled = $derived(
+    isGlobalDisabled || mergeDisabled || !onMergeInto || namedPeople.length === 0,
+  );
+  const categoryBtnDisabled = $derived(isGlobalDisabled || categoryDisabled || !onUpdateCategory);
 </script>
 
 <ButtonGroup.Root class={className} data-testid={testId}>
-  <Button variant="outline" size="sm" disabled class="border-r-0" data-testid="{testId}-count">
+  <Button
+    variant="outline"
+    size="sm"
+    disabled
+    class="border-r-0 font-medium"
+    data-testid="{testId}-count"
+  >
     {count}
   </Button>
 
   <ButtonGroup.Separator />
 
-  {#if actions}
-    {@render actions()}
-  {:else}
-    <!-- Default PeopleTab Actions -->
-    <Button
-      variant="outline"
-      size="sm"
-      onclick={onMerge}
-      class="flex-1"
-      data-testid="{testId}-merge"
-      disabled={count < 2 || isWorking}
-    >
-      <Merge class="w-4 h-4 mr-2" />
-      Sloučit
-    </Button>
+  <!-- Primary Merge Action -->
+  <Button
+    variant="outline"
+    size="sm"
+    onclick={onMerge}
+    class="flex-1"
+    data-testid="{testId}-merge"
+    disabled={mergeBtnDisabled}
+  >
+    <Merge class="w-4 h-4 mr-2" />
+    Sloučit
+  </Button>
 
-    <Button
-      variant="outline"
-      size="sm"
-      onclick={onHide}
-      class="flex-1"
-      data-testid="{testId}-hide"
-      disabled={!canHide || isWorking}
-    >
-      <EyeOff class="w-4 h-4 mr-2" />
-      Skrýt
-    </Button>
-  {/if}
+  <!-- Primary Hide Action -->
+  <Button
+    variant="outline"
+    size="sm"
+    onclick={onHide}
+    class="flex-1"
+    data-testid="{testId}-hide"
+    disabled={hideBtnDisabled}
+  >
+    <EyeOff class="w-4 h-4 mr-2" />
+    Skrýt
+  </Button>
 
   <Button
     variant="outline"
     size="sm"
     onclick={onClear}
-    disabled={isWorking}
+    disabled={isGlobalDisabled}
     data-testid="{testId}-clear"
   >
     Zrušit
   </Button>
 
-  {#if dropdownItems || onRestore || onMarkAsJunk || onUpdateCategory}
-    <DropdownMenu.Root>
-      <DropdownMenu.Trigger
-        class={buttonVariants({
-          variant: "outline",
-          size: "sm",
-        })}
-        disabled={isWorking}
-        data-testid="{testId}-more-trigger"
+  <!-- More Actions Dropdown (Always visible but trigger can be disabled if globally disabled) -->
+  <DropdownMenu.Root>
+    <DropdownMenu.Trigger
+      class={buttonVariants({
+        variant: "outline",
+        size: "sm",
+      })}
+      disabled={isGlobalDisabled}
+      data-testid="{testId}-more-trigger"
+    >
+      <MoreHorizontal class="size-4" />
+    </DropdownMenu.Trigger>
+
+    <DropdownMenu.Content align="end" class="w-56">
+      <DropdownMenu.Item
+        onclick={onMerge}
+        data-testid="{testId}-merge-dropdown"
+        disabled={mergeBtnDisabled}
       >
-        <MoreHorizontal class="w-4 h-4" />
-      </DropdownMenu.Trigger>
-      <DropdownMenu.Content align="end" class="w-56">
-        {#if dropdownItems}
-          {@render dropdownItems()}
-        {:else}
-          <!-- Default PeopleTab Dropdown Items -->
-          {#if onRestore}
-            <DropdownMenu.Item
-              onclick={onRestore}
-              data-testid="{testId}-restore"
-              disabled={hiddenCount === 0}
-            >
-              <Eye class="w-3.5 h-3.5 mr-2" /> Obnovit skryté ({hiddenCount})
-            </DropdownMenu.Item>
-          {/if}
+        <Merge class="size-3.5 mr-1" />
+        Sloučit vybrané
+      </DropdownMenu.Item>
 
-          {#if onMarkAsJunk}
+      <DropdownMenu.Sub>
+        <DropdownMenu.SubTrigger data-testid="{testId}-merge-sub" disabled={mergeIntoDisabled}>
+          <Merge class="size-3.5 mr-1" /> Sloučit do...
+        </DropdownMenu.SubTrigger>
+        <DropdownMenu.SubContent>
+          {#each namedPeople as person (person.id)}
             <DropdownMenu.Item
-              onclick={onMarkAsJunk}
-              data-testid="{testId}-junk"
-              class="text-destructive focus:text-destructive"
+              onclick={() => onMergeInto?.(person.id)}
+              data-testid="{testId}-merge-into-{person.id}"
             >
-              <UserMinus class="w-3.5 h-3.5 mr-2" /> Není osoba
+              <User class="size-3.5 mr-1" />
+              {person.name}
+              <span class="ml-auto text-xs text-muted-foreground font-mono">
+                ({person.faceCount})
+              </span>
             </DropdownMenu.Item>
-          {/if}
+          {/each}
+        </DropdownMenu.SubContent>
+      </DropdownMenu.Sub>
 
-          {#if onUpdateCategory}
-            <DropdownMenu.Separator />
-            <DropdownMenu.Label>Typ osoby</DropdownMenu.Label>
-            <DropdownMenu.Separator />
-            <DropdownMenu.Item
-              onclick={() => onUpdateCategory?.("person")}
-              data-testid="{testId}-type-person"
-            >
-              <User class="w-3.5 h-3.5 mr-2" /> Osoba
-            </DropdownMenu.Item>
-            <DropdownMenu.Item
-              onclick={() => onUpdateCategory?.("statue")}
-              data-testid="{testId}-type-statue"
-            >
-              <Landmark class="w-3.5 h-3.5 mr-2" /> Socha
-            </DropdownMenu.Item>
-            <DropdownMenu.Item
-              onclick={() => onUpdateCategory?.("painting")}
-              data-testid="{testId}-type-painting"
-            >
-              <Palette class="w-3.5 h-3.5 mr-2" /> Malba
-            </DropdownMenu.Item>
-          {/if}
-        {/if}
-      </DropdownMenu.Content>
-    </DropdownMenu.Root>
-  {/if}
+      <DropdownMenu.Separator />
+
+      <DropdownMenu.Item
+        onclick={onHide}
+        data-testid="{testId}-hide-dropdown"
+        disabled={hideBtnDisabled}
+      >
+        <EyeOff class="size-3.5 mr-1" />
+        Skrýt vybrané
+      </DropdownMenu.Item>
+
+      <DropdownMenu.Item
+        onclick={onRestore}
+        data-testid="{testId}-restore"
+        disabled={restoreBtnDisabled}
+      >
+        <Eye class="size-3.5 mr-1" />
+        Obnovit skryté {#if hiddenCount > 0}({hiddenCount}){/if}
+      </DropdownMenu.Item>
+
+      <DropdownMenu.Separator />
+
+      <DropdownMenu.Item
+        onclick={onMarkAsJunk}
+        data-testid="{testId}-junk"
+        class="text-destructive focus:text-destructive"
+        disabled={junkBtnDisabled}
+      >
+        <UserMinus class="size-3.5 mr-1" />
+        Označit jako ignorované
+      </DropdownMenu.Item>
+
+      <DropdownMenu.Item
+        onclick={onRestoreFromJunk}
+        data-testid="{testId}-restore-junk"
+        disabled={restoreJunkDisabled}
+      >
+        <Eye class="size-3.5 mr-1" />
+        Obnovit ignorované {#if junkCount > 0}({junkCount}){/if}
+      </DropdownMenu.Item>
+
+      <DropdownMenu.Separator />
+      <DropdownMenu.Label>Kategorie osob</DropdownMenu.Label>
+      <DropdownMenu.Item
+        onclick={() => onUpdateCategory?.("person")}
+        data-testid="{testId}-type-person"
+        disabled={categoryBtnDisabled}
+      >
+        <User class="size-3.5 mr-1" />
+        Nastavit: Osoba
+      </DropdownMenu.Item>
+      <DropdownMenu.Item
+        onclick={() => onUpdateCategory?.("statue")}
+        data-testid="{testId}-type-statue"
+        disabled={categoryBtnDisabled}
+      >
+        <Landmark class="size-3.5 mr-1" />
+        Nastavit: Socha
+      </DropdownMenu.Item>
+      <DropdownMenu.Item
+        onclick={() => onUpdateCategory?.("painting")}
+        data-testid="{testId}-type-painting"
+        disabled={categoryBtnDisabled}
+      >
+        <Palette class="size-3.5 mr-1" />
+        Nastavit: Malba
+      </DropdownMenu.Item>
+    </DropdownMenu.Content>
+  </DropdownMenu.Root>
 </ButtonGroup.Root>

@@ -15,10 +15,10 @@ Tento projekt obsahuje funkcionalitu pro automatickou detekci tváří na fotogr
 
 Skript automaticky načítá existující `people.manifest.json`.
 
-- **Existující osoby:** ID, jména a jejich "tvářové deskriptory" jsou zachovány.
-- **Opakovaný běh:** Nové spuštění skriptu **nezruší** existující osoby. Pouze k nim může přiřadit nové fotky (nebo odebrat, pokud se změní práh).
+- **Existující osoby:** ID, jména, kategorie (osoba, socha, malba) a jejich "tvářové deskriptory" jsou zachovány.
+- **Opakovaný běh:** Nové spuštění skriptu **nezruší** existující osoby ani jejich ručně nastavené vlastnosti (např. stav skrytí). Pouze k nim může přiřadit nové fotky.
 - **Změna prahu (Threshold):**
-  - Pokud **snížíte** `distanceThreshold` (např. z 0.6 na 0.5), systém při příštím běhu může usoudit, že některé fotky už nepatří k původní osobě (protože 0.55 > 0.5). V takovém případě vytvoří pro tyto fotky **novou osobu** (klon). Původní osoba zůstává. Tyto nové klony pak musíte v UI ručně sloučit s původní osobou.
+  - Pokud **snížíte** `distanceThreshold` (např. z 0.6 na 0.5), systém při příštím běhu může usoudit, že některé fotky už nepatří k původní osobě. V takovém případě vytvoří pro tyto fotky **novou osobu** (klon). Původní osoba a její metadata zůstávají. Tyto nové klony pak můžete v UI sloužit.
   - To je záměrné chování pro bezpečnost dat - raději duplikovat, než chybně sloučit.
 
 ## Spuštění
@@ -47,27 +47,28 @@ Nastavení se nachází přímo v souboru `scripts/face-clustering.ts` v objektu
 
 ## Quality Control (QC)
 
-Pro kontrolu správnosti detekce a shlukování systém ukládá výřezy všech detekovaných tváří:
+Pro kontrolu správnosti detekce a shlukování systém ukládá **faceCrops** (výřezy tváří) jako `.jpg` soubory:
 
 - Cesta: `static/<GALLERY>/faces/<personId>/`
-- Obsah: Výřezy všech tváří přiřazených k dané osobě.
+- Obsah: FaceCrops všech tváří přiřazených k dané osobě.
 
-Tuto strukturu můžete procházet a ověřit, zda ve složce jedné osoby nejsou tváře někoho jiného.
+Tuto strukturu můžete procházet a ověřit, zda ve složce jedné osoby nejsou faceCrops někoho jiného.
 
 ## Správa Osob v UI
 
 - **Sloučení (Merge):** Pokud systém vytvořil více profilů pro jednu osobu, můžete je v záložce "Lidé" vybrat a sloučit.
 - **Odpojení (Unmatch):** Pokud je k osobě chybně přiřazena cizí tvář, můžete ji v detailu osoby odpojit. Tím se vytvoří nová osoba.
-- **Skrytí:** Osoby, které mají po sloučení 0 fotek (byly sloučeny do jiné), jsou v seznamu skryté, ale v datech zůstávají zachovány pro stabilitu.
-- **Ignorování:** Osobu lze označit jako ignorovanou. Systém ji pak při příštím běhu přeskočí a nebude k ní přiřazovat nové tváře.
+- **Skrytí:** Osoby, které mají po sloučení 0 fotek (byly sloučeny do jiné), jsou v seznamu skryté.
+- **Junk (Nezajímavá osoba):** Celou osobu lze označit jako `junk`. Systém ji při příštím běhu **clusteringu ignoruje** (nepoužívá ji jako vzor pro hledání shod), což zabraňuje opětovnému přiřazování náhodných lidí k této osobě. V UI je v sekci "Junk".
+- **Chybná detekce (Invalidate):** Konkrétní detekci lze označit za chybnou (např. stín). Systém si zapamatuje souřadnice a příště toto místo zcela ignoruje.
 
-### Persistentní Učení (Constraints)
+Systém se učí z vašich manuálních zásahů. Tato pravidla se ukládají do `clustering-constraints.json` ve složce dat galerie:
 
-Systém se učí z vašich manuálních zásahů. Pokud v UI provedete **odpojení (Unmatch)** tváře:
+1. **Odpojení (Unmatch):** Zaznamená se pravidlo: _"Tato konkrétní fotka nikdy nesmí patřit této osobě"_.
+2. **Chybná detekce (Invalidate):** Zaznamená se pravidlo do `invalidDetections`: _"Tato oblast na této fotce není tvář"_.
+3. **Přiřazení (Connect):** Ruční propojení tváře k osobě, které systém sám nespojil.
 
-1. Vytvoří se `clustering-constraints.json` ve složce dat galerie.
-2. Zaznamená se pravidlo: _"Tato konkrétní fotka nikdy nesmí patřit této osobě"_.
-3. Při dalším spuštění `face-clustering.ts` skript toto pravidlo respektuje a zabrání AI v opětovném sloučení, i kdyby byla vizuální podobnost vysoká.
+Při dalším spuštění `face-clustering.ts` skript tato pravidla respektuje a zabrání AI v opakování stejných chyb.
 
 ## Řešení Problémů
 

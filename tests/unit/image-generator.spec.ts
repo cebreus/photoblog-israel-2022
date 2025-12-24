@@ -11,7 +11,7 @@
  */
 
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { generateOtherOutput, generateVariant } from "../../scripts/lib/image-generator";
+import { generateOtherOutput, generateVariant } from "../../scripts/lib/image/generator";
 import { ImageFormat } from "../../src/lib/types/images";
 
 // Mock Sharp
@@ -38,12 +38,12 @@ const mockSharpInstance = {
 const mockSharpModule = vi.fn(() => mockSharpInstance) as any;
 
 // Mock image-utils ensureDir
-vi.mock("../../scripts/lib/image-utils", () => ({
+vi.mock("../../scripts/lib/image/utils", () => ({
   ensureDir: vi.fn(),
 }));
 
 // Mock config
-vi.mock("../../scripts/config", () => ({
+vi.mock("../../scripts/build.config", () => ({
   config: {
     encoding: {
       quality: { jpeg: 80, webp: 75, avif: 70 },

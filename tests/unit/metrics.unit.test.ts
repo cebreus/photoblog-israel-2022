@@ -13,7 +13,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 import { beforeAll, describe, expect, it } from "vitest";
-import { calculatePhash, calculateSharpness } from "../../scripts/lib/image-utils";
+import { calculatePhash, calculateSharpness } from "../../scripts/lib/image/utils";
 
 describe("Metric Extraction (Unit)", () => {
   const sharpImgPath = path.resolve(process.cwd(), "tests/fixtures/sharp_test.jpg");

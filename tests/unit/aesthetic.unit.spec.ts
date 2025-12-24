@@ -15,7 +15,7 @@ import {
   calculateAestheticScore,
   createAestheticAxis,
   normalizeAestheticScore,
-} from "../../scripts/lib/aesthetic";
+} from "../../scripts/lib/image/aesthetic";
 
 describe("Aesthetic Scoring", () => {
   it("should create a correct axis vector from positive and negative prompts", () => {

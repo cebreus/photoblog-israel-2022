@@ -15,8 +15,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { exiftool } from "exiftool-vendored";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { config } from "../../scripts/config";
-import { buildImageEntry, type RawExifData } from "../../scripts/lib/metadata";
+import { config } from "../../scripts/build.config";
+import { buildImageEntry, type RawExifData } from "../../scripts/lib/image/metadata";
 import { getExifToolWriteTags } from "../../src/lib/utils/metadata-standards";
 import { buildInputSet } from "../utils/fixtures";
 

@@ -1,6 +1,6 @@
 import fsp from "node:fs/promises";
 import path from "node:path";
-import { createLogger } from "./logger";
+import { createLogger } from "../core/cli-logger";
 
 const logger = createLogger("cleanup");
 

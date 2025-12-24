@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { createLogger } from "../../scripts/lib/logger";
+import { createLogger } from "../../scripts/lib/core/cli-logger";
 
 const logger = createLogger("e2e-filters");
 

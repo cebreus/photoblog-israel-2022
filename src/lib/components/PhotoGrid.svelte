@@ -1,6 +1,6 @@
 <script lang="ts">
   import { toast } from "svelte-sonner";
-
+  import { invalidateAll } from "$app/navigation";
   import { useScrollspy } from "$lib/actions/scrollspy";
   import ArchiveImageDialog from "$lib/components/ArchiveImageDialog.svelte";
   import CurationGroupView from "$lib/components/CurationGroup.svelte";
@@ -18,8 +18,6 @@
   import type { CurationGroup, CurationManifest, ImageEntry, Separator } from "$lib/types/manifest";
   import { performImageAction } from "$lib/utils/api-actions";
   import { toSlug } from "$lib/utils/strings";
-
-  import { invalidateAll } from "$app/navigation";
 
   const logger = createLogger("PhotoGrid");
 

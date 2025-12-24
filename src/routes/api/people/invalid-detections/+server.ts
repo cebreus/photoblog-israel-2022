@@ -1,8 +1,8 @@
 import path from "node:path";
 import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
-import { config } from "$scripts/config";
-import { loadClusteringConstraints } from "$scripts/lib/manifest-repository";
+import { config } from "$scripts/build.config";
+import { loadClusteringConstraints } from "$scripts/lib/manifests/repository";
 
 export async function GET() {
   if (!dev) {

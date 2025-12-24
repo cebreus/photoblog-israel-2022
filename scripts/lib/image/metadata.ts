@@ -1,9 +1,9 @@
 import path from "node:path";
 import { exiftool } from "exiftool-vendored";
-import type { ImageEntry, ExifData as ManifestExifData } from "../../src/lib/types/manifest";
-import { METADATA_STANDARDS } from "../../src/lib/utils/metadata-standards";
-import { toSlug } from "../../src/lib/utils/strings";
-import { getAltText, getAspectRatioName, getKeywords, normalizeText } from "./image-utils";
+import { METADATA_STANDARDS } from "../../../shared/utils/metadata-standards";
+import { toSlug } from "../../../shared/utils/strings";
+import type { ImageEntry, ExifData as ManifestExifData } from "../../../src/lib/types/manifest";
+import { getAltText, getAspectRatioName, getKeywords, normalizeText } from "./utils";
 export interface RawExifData extends ManifestExifData {
   ObjectName?: string;
   Headline?: string;

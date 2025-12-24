@@ -15,8 +15,8 @@
 
 import path from "node:path";
 import { beforeAll, describe, expect, it } from "vitest";
-import { detectFaces, initModels } from "../../scripts/lib/face-detection";
-import { createLogger } from "../../scripts/lib/logger";
+import { createLogger } from "../../scripts/lib/core/cli-logger";
+import { detectFaces, initModels } from "../../scripts/lib/faces/detection";
 
 const logger = createLogger("face-detection-test");
 

@@ -2,7 +2,7 @@ import { spawn } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { createLogger } from "../../scripts/lib/logger";
+import { createLogger } from "../../scripts/lib/core/cli-logger";
 
 const logger = createLogger("test-helpers");
 

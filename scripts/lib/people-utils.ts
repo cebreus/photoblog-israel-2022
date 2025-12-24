@@ -1,4 +1,4 @@
-import type { Person } from "../../src/lib/types/manifest";
+import type { Person } from "../../../src/lib/types/manifest";
 
 export const FACE_DESCRIPTOR_DIMENSION = 128;
 
@@ -16,6 +16,12 @@ export function isValidDescriptor(descriptor: number[] | undefined | null): bool
   );
 }
 
+/**
+ * Filters people who have valid descriptors AND are actively participating in clustering.
+ * People marked as 'junk' are excluded from being matched against new faces.
+ */
 export function filterPeopleWithValidDescriptors(people: Person[]): Person[] {
-  return people.filter(hasValidFaceDescriptor);
+  return people.filter(function (p) {
+    return !p.junk && hasValidFaceDescriptor(p);
+  });
 }

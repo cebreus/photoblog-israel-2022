@@ -43,7 +43,8 @@ export function isValidPerson(value: unknown): value is Person {
     isArray(value.faceDescriptor) &&
     isNumber(value.faceCount) &&
     isString(value.thumbnail) &&
-    isBoolean(value.ignored) &&
+    isBoolean(value.hidden) &&
+    (value.junk === undefined || isBoolean(value.junk)) &&
     isString(value.createdAt) &&
     isString(value.lastSeenAt) &&
     (!value.category || isString(value.category))
@@ -98,7 +99,7 @@ export function isValidCache(value: unknown): value is Cache {
 export interface ClusteringConstraints {
   disconnects: Array<{ imageId: string; personId: string }>;
   connects: Array<{ imageId: string; personId: string }>;
-  ignoredCrops?: Array<{
+  invalidDetections?: Array<{
     imageId: string;
     box: { x: number; y: number; width: number; height: number };
   }>;
@@ -119,10 +120,10 @@ export function isValidClusteringConstraints(value: unknown): value is Clusterin
   const hasConnects =
     !value.connects || (isArray(value.connects) && value.connects.every(isValidConstraintEntry));
 
-  const hasIgnoredCrops =
-    !value.ignoredCrops ||
-    (isArray(value.ignoredCrops) &&
-      value.ignoredCrops.every(
+  const hasInvalidDetections =
+    !value.invalidDetections ||
+    (isArray(value.invalidDetections) &&
+      value.invalidDetections.every(
         (c) =>
           isObject(c) &&
           isString(c.imageId) &&
@@ -133,7 +134,7 @@ export function isValidClusteringConstraints(value: unknown): value is Clusterin
           isNumber(c.box.height),
       ));
 
-  return hasDisconnects && hasConnects && hasIgnoredCrops;
+  return hasDisconnects && hasConnects && hasInvalidDetections;
 }
 
 export function isValidImageEntry(value: unknown): value is ImageEntry {

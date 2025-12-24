@@ -280,14 +280,20 @@ export function syncUrlFromFilters() {
     }
 
     try {
-      await goto(next, { replaceState: true, noScroll: true, keepFocus: true });
+      // CRITICAL FIX: Update lastUrl BEFORE goto to prevent the URL-watch effect
+      // from re-parsing our own URL change as an external navigation
       try {
         lastUrl = new URL(next, pageVal.url.origin);
       } catch {
         /* ignore */
       }
+      await goto(next, { replaceState: true, noScroll: true, keepFocus: true });
     } finally {
-      filters.filtersSyncing = false;
+      // Delay clearing filtersSyncing to allow the render cycle to complete
+      // This prevents race conditions where the URL effect fires before we're done
+      setTimeout(() => {
+        filters.filtersSyncing = false;
+      }, 50);
     }
   }, 300);
 }

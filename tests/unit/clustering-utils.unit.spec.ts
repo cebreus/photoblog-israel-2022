@@ -10,7 +10,7 @@ import {
   calculateCentroid,
   mergeClusters,
   updateCentroid,
-} from "../../scripts/lib/clustering-utils";
+} from "../../scripts/lib/faces/clustering";
 
 describe("Centroid Calculation", () => {
   describe("calculateCentroid", () => {

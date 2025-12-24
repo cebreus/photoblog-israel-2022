@@ -8,7 +8,7 @@ import path from "node:path";
 import { parseArgs } from "node:util";
 import { cancel, intro, isCancel, outro, select } from "@clack/prompts";
 import pc from "picocolors";
-import { createLogger } from "./lib/logger";
+import { createLogger } from "./lib/core/cli-logger";
 import { run } from "./lib/shell-utils";
 import { formatDuration } from "./lib/time-utils";
 

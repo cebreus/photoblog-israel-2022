@@ -2,9 +2,9 @@ import crypto from "node:crypto"; // Bun's native crypto
 import fsp from "node:fs/promises"; // Bun's native fs/promises
 import os from "node:os"; // Bun's native os module
 import path from "node:path"; // Bun's native path module
-import type { AspectRatio, QualityBucket } from "../../src/lib/types/manifest";
-import { validatePathInsideRoot } from "./path-utils";
-import { run } from "./shell-utils";
+import type { AspectRatio, QualityBucket } from "../../../src/lib/types/manifest";
+import { validatePathInsideRoot } from "../utils/path";
+import { run } from "../utils/shell";
 
 const SAFE_INPUT_ROOT = process.cwd();
 

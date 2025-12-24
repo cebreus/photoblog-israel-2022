@@ -4,9 +4,10 @@ import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
 import { createLogger } from "$lib/logger";
 import { validateReassignInput } from "$lib/utils/api-validators";
-import { removeEmptyPersonFolder } from "$scripts/lib/cleanup-utils";
-import { addReassignmentConstraints } from "$scripts/lib/constraint-utils";
-import { withManifestLock } from "$scripts/lib/manifest-lock";
+import { addReassignmentConstraints } from "$scripts/lib/faces/constraints";
+import { updateImagePersonReference } from "$scripts/lib/faces/people";
+import { removeEmptyPersonFolder } from "$scripts/lib/gallery/cleanup";
+import { withManifestLock } from "$scripts/lib/manifests/lock";
 import {
   loadFacesManifest,
   loadImagesManifest,
@@ -14,8 +15,7 @@ import {
   saveFacesManifest,
   saveImagesManifest,
   savePeopleManifest,
-} from "$scripts/lib/manifest-repository";
-import { updateImagePersonReference } from "$scripts/lib/person-utils";
+} from "$scripts/lib/manifests/repository";
 
 const logger = createLogger("api:people:reassign");
 

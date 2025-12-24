@@ -18,7 +18,7 @@ import {
   euclideanDistance,
   findBestMatch,
   isConstrainedPair,
-} from "../../scripts/lib/clustering-utils";
+} from "../../scripts/lib/faces/clustering";
 
 // Mock face-api
 vi.mock("@vladmandic/face-api/dist/face-api.node.js", () => ({

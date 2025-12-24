@@ -1,4 +1,4 @@
-import { config } from "../config";
+import { config } from "../../build.config";
 
 export interface Box {
   x: number;

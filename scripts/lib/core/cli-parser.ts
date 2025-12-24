@@ -1,8 +1,8 @@
 import path from "node:path";
-import type { Quality, VariantType } from "../../src/lib/types/images";
-import { ImageFormat, ImageVariant } from "../../src/lib/types/images";
-import type { QualityTypes } from "../../src/lib/types/manifest";
-import { config } from "../config";
+import type { Quality, VariantType } from "../../../shared/types/images";
+import { ImageFormat, ImageVariant } from "../../../shared/types/images";
+import type { QualityTypes } from "../../../src/lib/types/manifest";
+import { config } from "../../build.config";
 import { getConcurrency } from "./concurrency-utils";
 
 type QualityFormat = Extract<ImageFormat, "avif" | "webp" | "jpeg">;

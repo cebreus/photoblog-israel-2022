@@ -12,11 +12,11 @@ import {
 } from "$lib/types/manifest";
 import { validateMergeInput } from "$lib/utils/api-validators";
 import { toSlug } from "$lib/utils/strings";
-import { config } from "$scripts/config";
-import { removeEmptyPersonFolder } from "$scripts/lib/cleanup-utils";
-import { mergeClusters } from "$scripts/lib/clustering-utils";
-import { migratePersonInConstraints } from "$scripts/lib/constraint-utils";
-import { withManifestLock } from "$scripts/lib/manifest-lock";
+import { config } from "$scripts/build.config";
+import { mergeClusters } from "$scripts/lib/faces/clustering";
+import { migratePersonInConstraints } from "$scripts/lib/faces/constraints";
+import { removeEmptyPersonFolder } from "$scripts/lib/gallery/cleanup";
+import { withManifestLock } from "$scripts/lib/manifests/lock";
 import {
   loadFacesManifest,
   loadImagesManifest,
@@ -24,7 +24,7 @@ import {
   saveFacesManifest,
   saveImagesManifest,
   savePeopleManifest,
-} from "$scripts/lib/manifest-repository";
+} from "$scripts/lib/manifests/repository";
 
 const logger = createLogger("api:people:merge");
 

@@ -11,7 +11,7 @@
  */
 
 import { describe, expect, it } from "vitest";
-import { buildImageEntry } from "../../scripts/lib/metadata";
+import { buildImageEntry } from "../../scripts/lib/image/metadata";
 
 // We need to mock 'sharp' metadata structure if we pass it,
 // but buildImageEntry logic is mostly string normalization and EXIF mapping.

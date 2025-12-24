@@ -11,7 +11,7 @@
  */
 
 import { describe, expect, it } from "vitest";
-import { DEFAULT_CLI_OPTIONS, parseCliArguments } from "../../scripts/lib/cli-parser";
+import { DEFAULT_CLI_OPTIONS, parseCliArguments } from "../../scripts/lib/core/cli-parser";
 
 describe("CLI Parser", () => {
   describe("parseCliArguments", () => {

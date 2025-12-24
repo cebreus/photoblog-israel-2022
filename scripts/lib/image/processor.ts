@@ -2,19 +2,19 @@ import fsp from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import xxhash from "xxhash-wasm";
-import { ImageFormat } from "../../src/lib/types/images";
-import type { ImageEntry, ImageSource, QualityTypes } from "../../src/lib/types/manifest";
-import { config } from "../config";
-import { aiService, EMBEDDING_DIM } from "./ai-models";
-import { detectFaces, type FaceBox } from "./face-detection";
+import { ImageFormat } from "../../../shared/types/images";
+import type { ImageEntry, ImageSource, QualityTypes } from "../../../src/lib/types/manifest";
+import { config } from "../../build.config";
+import { aiService, EMBEDDING_DIM } from "../ai/models";
+import { createLogger } from "../core/cli-logger";
+import { detectFaces, type FaceBox } from "../faces/detection";
+import { run } from "../utils/shell";
 import {
   generateOtherOutput,
   generateVariant,
   type OtherOutputConfig,
   type VariantOutputConfig,
-} from "./image-generator";
-import { calculatePhash, calculateSharpness } from "./image-utils";
-import { createLogger } from "./logger";
+} from "./generator";
 import {
   buildImageEntry,
   cleanupMetadataTool,
@@ -22,7 +22,7 @@ import {
   type RawExifData,
   readRawMetadata,
 } from "./metadata";
-import { run } from "./shell-utils";
+import { calculatePhash, calculateSharpness } from "./utils";
 
 type SharpModule = typeof import("sharp");
 

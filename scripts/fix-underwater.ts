@@ -1,5 +1,5 @@
 import path from "node:path";
-import { createLogger } from "./lib/logger";
+import { createLogger } from "./lib/core/cli-logger";
 import { validatePathInsideRoot } from "./lib/path-utils";
 import { fixUnderwaterImage } from "./lib/underwater";
 
@@ -7,7 +7,7 @@ const logger = createLogger("fix-underwater");
 
 const SAFE_INPUT_ROOT = process.cwd();
 
-import { parseCliArguments } from "./lib/cli-parser";
+import { parseCliArguments } from "./lib/core/cli-parser";
 
 const options = parseCliArguments(process.argv.slice(2));
 const values = options;

@@ -5,17 +5,18 @@ import { json, type RequestEvent } from "@sveltejs/kit";
 import { exiftool } from "exiftool-vendored";
 import { dev } from "$app/environment";
 import { createLogger } from "$lib/logger";
+import { applyMetadataUpdates } from "$lib/shared/metadata-utils";
 import type { ImageEntry, Manifest } from "$lib/types/manifest";
 import { getExifToolWriteTags } from "$lib/utils/metadata-standards";
-import { config } from "$scripts/config";
+import { config } from "$scripts/build.config";
 import {
   deleteGeneratedAssets,
   getOutputFolders,
   removeFromCache,
   removeImageFromConstraints,
-} from "$scripts/lib/cleanup-utils";
-import { withManifestLock } from "$scripts/lib/manifest-lock";
-import { loadImagesManifest, saveImagesManifest } from "$scripts/lib/manifest-repository";
+} from "$scripts/lib/gallery/cleanup";
+import { withManifestLock } from "$scripts/lib/manifests/lock";
+import { loadImagesManifest, saveImagesManifest } from "$scripts/lib/manifests/repository";
 
 const logger = createLogger("api:images");
 
@@ -307,6 +308,7 @@ export async function PATCH({ request }: RequestEvent) {
 
   const groups = groupItemsByContentDir(images);
   const updatedIds: string[] = [];
+  const updatedImages: ImageEntry[] = []; // Track full objects
   const errors: string[] = [];
 
   // Filter valid updates
@@ -337,19 +339,24 @@ export async function PATCH({ request }: RequestEvent) {
         // 2. Update Manifest
         if (!manifest) throw new Error("Manifest failed to load");
 
-        let found = false;
+        let foundItem: ImageEntry | null = null;
         for (const day of manifest.photoDays) {
           for (const imageItem of day.items) {
             if (imageItem.type === "image" && imageItem.id === item.id) {
-              applyUpdatesToImageItem(imageItem, filteredUpdates);
-              found = true;
+              applyMetadataUpdates(imageItem, filteredUpdates);
+              foundItem = imageItem;
               break;
             }
           }
-          if (found) break;
+          if (foundItem) break;
         }
 
-        return item.id;
+        if (foundItem) {
+          updatedImages.push(foundItem);
+          return item.id;
+        }
+
+        return null;
       },
     );
     updatedIds.push(...result);
@@ -359,38 +366,6 @@ export async function PATCH({ request }: RequestEvent) {
     return json({ message: "Failed to update metadata", errors }, { status: 500 });
   }
 
-  return json({ success: true, updated: updatedIds, errors });
-}
-
-/**
- * Helper to modify the ImageEntry object in memory
- */
-function applyUpdatesToImageItem(
-  imageItem: ImageEntry,
-  updates: Record<string, string | string[] | null>,
-) {
-  if (updates.title && imageItem.exif) imageItem.exif.title = updates.title as string;
-  if (updates.caption && imageItem.exif) imageItem.exif.caption = updates.caption as string;
-  if (updates.city) {
-    imageItem.city = updates.city as string;
-    if (imageItem.exif) imageItem.exif.city = updates.city as string;
-  }
-  if (updates.location) {
-    imageItem.location = updates.location as string;
-    if (imageItem.exif) imageItem.exif.location = updates.location as string;
-  }
-  if (updates.author) {
-    imageItem.author = updates.author as string;
-    if (imageItem.exif) imageItem.exif.author = updates.author as string;
-  }
-  if (updates.country && imageItem.exif) imageItem.exif.country = updates.country as string;
-  if (updates.countryCode && imageItem.exif)
-    imageItem.exif.countryCode = updates.countryCode as string;
-  if (updates.state && imageItem.exif) imageItem.exif.state = updates.state as string;
-  if (updates.keywords) {
-    imageItem.keywords = Array.isArray(updates.keywords)
-      ? updates.keywords
-      : [updates.keywords as string];
-    if (imageItem.exif) imageItem.exif.keywords = imageItem.keywords;
-  }
+  // Return both IDs and the full updated objects
+  return json({ success: true, updated: updatedIds, updatedImages, errors });
 }

@@ -1,12 +1,4 @@
 <script lang="ts">
-  import Ban from "@lucide/svelte/icons/ban";
-  import Check from "@lucide/svelte/icons/check";
-  import EyeOff from "@lucide/svelte/icons/eye-off";
-  import Loader2 from "@lucide/svelte/icons/loader-2";
-  import RotateCcw from "@lucide/svelte/icons/rotate-ccw";
-  import User from "@lucide/svelte/icons/user";
-  import Users from "@lucide/svelte/icons/users";
-  import X from "@lucide/svelte/icons/x";
   import { untrack } from "svelte";
   import { toast } from "svelte-sonner";
   import { dev } from "$app/environment";
@@ -16,11 +8,9 @@
   import PersonMergeDialog from "$lib/components/PersonMergeDialog.svelte";
   import * as Accordion from "$lib/components/ui/accordion";
   import { Button } from "$lib/components/ui/button";
-  import * as ButtonGroup from "$lib/components/ui/button-group";
-  import { Checkbox } from "$lib/components/ui/checkbox";
   import * as Dialog from "$lib/components/ui/dialog";
+  import { Separator } from "$lib/components/ui/separator";
   import * as Sidebar from "$lib/components/ui/sidebar";
-  import { Switch } from "$lib/components/ui/switch";
   import { createLogger } from "$lib/logger";
   import { filters } from "$lib/stores/filters.svelte";
   import { people } from "$lib/stores/people.svelte";
@@ -29,8 +19,36 @@
   import SelectionBulkActions from "../SelectionBulkActions.svelte";
 
   import CategoryPersonCard from "./CategoryPersonCard.svelte";
+  import PeopleSelectionControls from "./PeopleSelectionControls.svelte";
+  import VisiblePeopleList from "./VisiblePeopleList.svelte";
 
   const logger = createLogger("PeopleTab");
+
+  // Helper to split people into Named (A-Z) and Generic (Face Count) groups
+  function splitAndSortPeople(list: Person[]) {
+    const isGeneric = (p: Person) =>
+      (p.id.startsWith("person-") && !p.id.includes("--")) ||
+      p.name.toLowerCase().includes("odpojeno od");
+
+    const sortByName = (a: Person, b: Person) =>
+      a.name.localeCompare(b.name, "cs", { sensitivity: "base" });
+
+    const named: Person[] = [];
+    const generic: Person[] = [];
+
+    for (const p of list) {
+      if (isGeneric(p)) {
+        generic.push(p);
+      } else {
+        named.push(p);
+      }
+    }
+
+    named.sort(sortByName);
+    generic.sort((a, b) => b.faceCount - a.faceCount);
+
+    return { named, generic };
+  }
 
   type ApiResponse = {
     success: boolean;
@@ -38,7 +56,7 @@
   };
 
   type IgnoreResponse = ApiResponse & {
-    results?: { id: string; ignored?: boolean; error?: string }[];
+    results?: { id: string; hidden?: boolean; error?: string }[];
   };
 
   type MergeResponse = ApiResponse & {
@@ -53,6 +71,17 @@
   // Subscribe to derived store with optimized stats
   let peopleList = $derived(people.peopleWithStats);
 
+  // Named people for merge target selection (only people with custom names, not auto-generated or detached)
+  const namedPeople = $derived(
+    peopleList.filter(
+      (p) =>
+        (!p.id.startsWith("person-") || p.id.includes("--")) &&
+        !p.junk &&
+        !p.hidden &&
+        !p.name.toLowerCase().includes("odpojeno od"),
+    ),
+  );
+
   type ConfirmDialogConfig = {
     title: string;
     description: string;
@@ -64,6 +93,43 @@
     open: false,
     config: null,
   });
+
+  let invalidDetections = $state<
+    Array<{ imageId: string; box: { x: number; y: number; width: number; height: number } }>
+  >([]);
+
+  async function loadConstraints() {
+    if (!dev) return;
+    try {
+      const res = await fetch("/api/people/invalid-detections");
+      const data = await res.json();
+      if (data.success) {
+        invalidDetections = data.invalidDetections;
+      }
+    } catch (e) {
+      logger.error("Failed to load constraints", e);
+    }
+  }
+
+  $effect(() => {
+    loadConstraints();
+  });
+
+  // Generic helper for API updates
+  async function apiUpdate(
+    updates: { id: string; name?: string; hidden?: boolean; junk?: boolean; category?: string }[],
+  ) {
+    const res = await fetch("/api/people", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ updates }),
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || "Update failed");
+    }
+    return res.json();
+  }
 
   function openBulkConfirm(config: ConfirmDialogConfig) {
     confirmDialog = { open: true, config };
@@ -112,10 +178,14 @@
   // Editing state
   let editingPersonId = $state<string | null>(null);
   let editingName = $state("");
+
+  // Filtering state
+  let lastSelectedFilterId = $state<string | null>(null);
   let isSaving = $state(false);
 
   // Merge state - checkbox selection
   let selectedForMerge = $state<string[]>([]);
+  let lastSelectedMergeId = $state<string | null>(null);
   let showMergeConfirmDialog = $state(false);
 
   // Detail state for QC
@@ -209,43 +279,49 @@
     }
   }
 
-  function togglePerson(personId: string) {
+  function togglePerson(personId: string, shiftKey = false) {
     let current = filters.selectedPeople;
-    // SAME LOGIC AS AUTHORS:
-    // - Empty array [] = ALL selected (default)
-    // - ["none"] = NONE selected
-    // - Specific IDs = only those selected
+    const visibleIds = people.visiblePeople.map((p) => p.id);
 
     let effectiveCurrent = current;
-
-    // If empty, treat as "all selected"
     if (current.length === 0) {
-      effectiveCurrent = people.visiblePeople.map((p) => p.id);
+      effectiveCurrent = visibleIds;
     } else if (current.includes("none")) {
       effectiveCurrent = [];
     }
 
-    const isSelected = effectiveCurrent.includes(personId);
     let next: string[];
 
-    if (isSelected) {
-      // Deselect this person
-      next = effectiveCurrent.filter((id) => id !== personId);
+    if (shiftKey && lastSelectedFilterId) {
+      // Filtering is only applied to the main list (visiblePeople)
+      const startIdx = visibleIds.indexOf(lastSelectedFilterId);
+      const endIdx = visibleIds.indexOf(personId);
+
+      if (startIdx !== -1 && endIdx !== -1) {
+        const [min, max] = [Math.min(startIdx, endIdx), Math.max(startIdx, endIdx)];
+        const range = visibleIds.slice(min, max + 1);
+        next = Array.from(new Set([...effectiveCurrent, ...range]));
+      } else {
+        next = effectiveCurrent.includes(personId)
+          ? effectiveCurrent.filter((id) => id !== personId)
+          : [...effectiveCurrent, personId];
+      }
     } else {
-      // Select this person
-      next = [...effectiveCurrent, personId];
+      next = effectiveCurrent.includes(personId)
+        ? effectiveCurrent.filter((id) => id !== personId)
+        : [...effectiveCurrent, personId];
     }
 
-    const allPeopleIds = people.visiblePeople.map((p) => p.id);
-
-    // If nothing selected, use special "none" marker
     if (next.length === 0) {
       filters.selectedPeople = ["none"];
-    } else if (next.length === allPeopleIds.length) {
-      // If all selected, return empty array (default state)
+    } else if (next.length === visibleIds.length) {
       filters.selectedPeople = [];
     } else {
       filters.selectedPeople = next;
+    }
+
+    if (!shiftKey) {
+      lastSelectedFilterId = personId;
     }
   }
 
@@ -255,29 +331,25 @@
 
     try {
       // Call API to toggle ignored flag
-      const response = await fetch("/api/people/ignore", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ personId }),
+      const person = people.visiblePeople.find(function (p) {
+        return p.id === personId;
       });
+      const newHiddenState = !(person?.hidden ?? false);
 
-      if (response.ok) {
-        const data = (await response.json()) as IgnoreResponse;
-        const isIgnored = data.results?.[0]?.ignored;
-        logger.debug("Person ignored state:", isIgnored);
+      await apiUpdate([{ id: personId, hidden: newHiddenState }]);
 
-        // Also remove from selection if being ignored
-        filters.selectedPeople = filters.selectedPeople.filter((id) => id !== personId);
+      const isHidden = newHiddenState;
+      logger.debug("Person hidden state:", isHidden);
 
-        // Add minimum delay to show loading state
-        await new Promise((resolve) => setTimeout(resolve, 300));
+      // Also remove from selection if being hidden
+      filters.selectedPeople = filters.selectedPeople.filter((id) => id !== personId);
 
-        // Trigger reload to update UI
-        await people.refresh();
-        toast.success(isIgnored ? "Osoba byla skryta." : "Osoba byla obnovena.");
-      } else {
-        toast.error("Akce se nezdařila.");
-      }
+      // Add minimum delay to show loading state
+      await new Promise((resolve) => setTimeout(resolve, 300));
+
+      // Trigger reload to update UI
+      await people.refresh();
+      toast.success(isHidden ? "Osoba byla skryta." : "Osoba byla obnovena.");
     } catch (error) {
       logger.error("Failed to toggle hide:", error);
       toast.error("Chyba při komunikaci se serverem.");
@@ -289,11 +361,7 @@
   async function renamePerson(personId: string, newName: string) {
     if (!newName.trim()) return;
 
-    await fetch("/api/people/rename", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ personId, name: newName.trim() }),
-    });
+    await apiUpdate([{ id: personId, name: newName.trim() }]);
   }
 
   function clearSelection() {
@@ -314,6 +382,10 @@
   // Count of selected that are hidden (for restore action state)
   const selectedHiddenCount = $derived(
     selectedForMerge.filter((id) => people.hiddenPeople.some((p) => p.id === id)).length,
+  );
+
+  const selectedJunkCount = $derived(
+    selectedForMerge.filter((id) => people.junkPeople.some((p) => p.id === id)).length,
   );
 
   // Track quick filter preset for button group highlighting
@@ -357,15 +429,8 @@
       logger.debug("Hiding:", selectedForMerge);
 
       // Execute single bulk request
-      const response = await fetch("/api/people/ignore", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ personIds: selectedForMerge }),
-      });
-
-      if (!response.ok) {
-        throw new Error("API požadavek selhal");
-      }
+      const updates = selectedForMerge.map((id) => ({ id, hidden: true }));
+      await apiUpdate(updates);
 
       // Success - remove from selection store if selected
       const hiddenIds = [...selectedForMerge];
@@ -405,15 +470,8 @@
 
     isSaving = true;
     try {
-      await Promise.all(
-        hiddenIds.map((personId) =>
-          fetch("/api/people/ignore", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ personId }),
-          }),
-        ),
-      );
+      const updates = hiddenIds.map((id) => ({ id, hidden: false }));
+      await apiUpdate(updates);
 
       filters.selectedPeople = filters.selectedPeople.filter((id) => !hiddenIds.includes(id));
 
@@ -432,9 +490,9 @@
     if (selectedForMerge.length === 0) return;
 
     openBulkConfirm({
-      title: `Označit ${selectedForMerge.length} vybraných profilů jako 'není osoba'?`,
-      description: "Operace je nevratná a odstraní profily z budoucí detekce i výběrů.",
-      confirmLabel: "Označit jako neplatné",
+      title: `Ignorovat ${selectedForMerge.length} vybraných profilů?`,
+      description: "Operace je nevratná a odstraní profily ze systému i z budoucí detekce.",
+      confirmLabel: "Ignorovat profily",
       onConfirm: () => executeBulkMarkAsJunk(),
     });
   }
@@ -444,34 +502,92 @@
 
     isSaving = true;
     try {
-      await Promise.all(
-        selectedForMerge.map((personId) =>
-          fetch("/api/people/mark-as-junk", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ personId }),
-          }),
-        ),
-      );
+      const updates = selectedForMerge.map((id) => ({ id, junk: true }));
+      await apiUpdate(updates);
 
       selectedForMerge = [];
       await new Promise((r) => setTimeout(r, 400));
       await people.refresh();
-      toast.success("Vybrané profily byly označeny jako neplatná detekce.");
+      toast.success("Vybrané profily jsou nyní ignorovány.");
     } catch (e) {
       logger.error("Bulk mark-as-junk failed:", e);
-      toast.error("Hromadná akce 'Není osoba' selhala.");
+      toast.error("Hromadné ignorování selhalo.");
+    } finally {
+      isSaving = false;
+    }
+  }
+
+  async function handleBulkRestoreFromJunk() {
+    if (selectedJunkCount === 0) return;
+
+    isSaving = true;
+    try {
+      const junkIds = selectedForMerge.filter((id) => people.junkPeople.some((p) => p.id === id));
+      const updates = junkIds.map((id) => ({ id, junk: false }));
+
+      await apiUpdate(updates);
+
+      selectedForMerge = selectedForMerge.filter((id) => !junkIds.includes(id));
+      await new Promise((r) => setTimeout(r, 400));
+      await people.refresh();
+      toast.success(`Obnoveno ${junkIds.length} profilů z junk.`);
+    } catch (e) {
+      logger.error("Bulk restore from junk failed:", e);
+      toast.error("Hromadné obnovení z junk selhalo.");
     } finally {
       isSaving = false;
     }
   }
 
   // Merge functions - checkbox selection
-  function toggleMergeSelection(personId: string) {
+  function toggleMergeSelection(
+    personId: string,
+    eventOrShift?: MouseEvent | KeyboardEvent | boolean,
+  ) {
+    // Normalize second argument: it can be a boolean (shiftKey) or an event object
+    const shiftKey =
+      typeof eventOrShift === "boolean"
+        ? eventOrShift
+        : !!(
+            eventOrShift &&
+            "shiftKey" in eventOrShift &&
+            (eventOrShift as { shiftKey: boolean }).shiftKey
+          );
+
+    if (shiftKey && lastSelectedMergeId) {
+      // Find which list contains both IDs to determine range
+      const listCandidates = [
+        people.visiblePeople,
+        people.hiddenPeople,
+        people.categoryPeople,
+        people.categoryStatues,
+        people.categoryPaintings,
+      ];
+
+      for (const list of listCandidates) {
+        const ids = list.map((p) => p.id);
+        const startIdx = ids.indexOf(lastSelectedMergeId);
+        const endIdx = ids.indexOf(personId);
+
+        if (startIdx !== -1 && endIdx !== -1) {
+          const [min, max] = [Math.min(startIdx, endIdx), Math.max(startIdx, endIdx)];
+          const range = ids.slice(min, max + 1);
+          const newSelection = new Set([...selectedForMerge, ...range]);
+          selectedForMerge = Array.from(newSelection);
+          return;
+        }
+      }
+    }
+
     if (selectedForMerge.includes(personId)) {
       selectedForMerge = selectedForMerge.filter((id) => id !== personId);
     } else {
       selectedForMerge = [...selectedForMerge, personId];
+    }
+
+    // Update last clicked for next range selection (only when SHIFT not pressed)
+    if (!shiftKey) {
+      lastSelectedMergeId = personId;
     }
   }
 
@@ -511,18 +627,20 @@
     isSaving = true;
 
     try {
-      // Execute merges sequentially
-      for (const source of sourcePersons) {
-        const response = await fetch("/api/people/merge", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ sourcePersonId: source.id, targetPersonId: targetPerson.id }),
-        });
+      const response = await fetch("/api/people/merge", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sourcePersonIds: sourcePersons.map(function (p) {
+            return p.id;
+          }),
+          targetPersonId: targetPerson.id,
+        }),
+      });
 
-        if (!response.ok) {
-          const error = (await response.json()) as MergeResponse;
-          throw new Error(`Sloučení osoby ${source.name} selhalo: ${error.error}`);
-        }
+      if (!response.ok) {
+        const error = (await response.json()) as MergeResponse;
+        throw new Error(error.error || "Sloučení selhalo");
       }
 
       logger.debug("All merges successful");
@@ -542,6 +660,43 @@
       toast.error("Sloučení se nezdařilo.", {
         description: error instanceof Error ? error.message : String(error),
       });
+    } finally {
+      isSaving = false;
+    }
+  }
+
+  async function handleMergeInto(targetPersonId: string) {
+    if (selectedForMerge.length === 0) return;
+
+    // Filter out the target person from sources
+    const sourceIds = selectedForMerge.filter((id) => id !== targetPersonId);
+    if (sourceIds.length === 0) {
+      toast.error("Nelze sloučit osobu samu do sebe.");
+      return;
+    }
+
+    isSaving = true;
+    try {
+      for (const sourcePersonId of sourceIds) {
+        const response = await fetch("/api/people/merge", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sourcePersonId, targetPersonId }),
+        });
+
+        if (!response.ok) {
+          const data = await response.json();
+          throw new Error(data.error || "Merge failed");
+        }
+      }
+
+      selectedForMerge = [];
+      await new Promise((r) => setTimeout(r, 400));
+      await people.refresh();
+      toast.success(`Sloučeno ${sourceIds.length} profilů.`);
+    } catch (e) {
+      logger.error("Merge into failed:", e);
+      toast.error("Sloučení selhalo.");
     } finally {
       isSaving = false;
     }
@@ -569,15 +724,8 @@
 
     isSaving = true;
     try {
-      await Promise.all(
-        selectedForMerge.map((personId) =>
-          fetch("/api/people/update-category", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ personId, category }),
-          }),
-        ),
-      );
+      const updates = selectedForMerge.map((id) => ({ id, category }));
+      await apiUpdate(updates);
 
       await new Promise((r) => setTimeout(r, 300));
       await people.refresh();
@@ -593,7 +741,7 @@
   async function markAsJunk(personId: string) {
     if (
       !confirm(
-        "Opravdu chcete tuto osobu označit jako 'není osoba'? Všechny její detekce budou v budoucnu ignorovány a profil bude smazán.",
+        "Opravdu chcete tuto osobu ignorovat? Všechny její detekce budou v budoucnu ignorovány a profil bude smazán.",
       )
     ) {
       return;
@@ -601,18 +749,9 @@
 
     isSaving = true;
     try {
-      const response = await fetch("/api/people/mark-as-junk", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ personId }),
-      });
-
-      if (response.ok) {
-        toast.success("Osoba byla označena jako neplatná detekce.");
-        await people.refresh();
-      } else {
-        toast.error("Akce se nezdařila.");
-      }
+      await apiUpdate([{ id: personId, junk: true }]);
+      toast.success("Osoba je nyní ignorována.");
+      await people.refresh();
     } catch (error) {
       logger.error("Failed to mark as junk:", error);
       toast.error("Chyba při komunikaci se serverem.");
@@ -624,6 +763,37 @@
   // Use the refresh from person detail updates too
 </script>
 
+{#snippet personGrid(list: Person[], testIdSuffix: string)}
+  {@const { named, generic } = splitAndSortPeople(list)}
+  {#each named as person (person.id)}
+    <CategoryPersonCard
+      {person}
+      {getThumbnailSrc}
+      onToggle={toggleMergeSelection}
+      onOpenDetail={openPersonDetail}
+      selected={selectedForMerge.includes(person.id)}
+      testId={`people-tab-${testIdSuffix}-item`}
+    />
+  {/each}
+
+  {#if named.length > 0 && generic.length > 0}
+    <div class="col-span-3 py-2 flex items-center justify-center">
+      <Separator class="w-full" />
+    </div>
+  {/if}
+
+  {#each generic as person (person.id)}
+    <CategoryPersonCard
+      {person}
+      {getThumbnailSrc}
+      onToggle={toggleMergeSelection}
+      onOpenDetail={openPersonDetail}
+      selected={selectedForMerge.includes(person.id)}
+      testId={`people-tab-${testIdSuffix}-item`}
+    />
+  {/each}
+{/snippet}
+
 <div class="contents" data-testid="people-tab">
   <Sidebar.Content>
     <div class="p-4 border-b space-y-2">
@@ -631,322 +801,163 @@
         <h3 class="font-semibold text-sm" data-testid="people-tab-title">
           Lidé ({peopleList.length})
         </h3>
-        {#if filters.selectedPeople.length > 0 && !filters.selectedPeople.includes("none")}
-          <Button variant="ghost" size="sm" onclick={clearSelection} class="h-6 px-2 text-xs">
-            Zrušit výběr
-          </Button>
-        {/if}
       </div>
 
-      <!-- Control buttons -->
-      <ButtonGroup.Root class="w-full">
-        <Button
-          variant={selectionMode === "all" ? "default" : "outline"}
-          size="sm"
-          class="flex-1 h-7 text-xs px-2"
-          onclick={() => handleSelectionPreset("all")}
-          data-testid="people-tab-select-all"
+      <PeopleSelectionControls {selectionMode} onPreset={handleSelectionPreset} />
+    </div>
+
+    <div
+      class="sticky top-0 z-20 backdrop-blur-lg pt-2 pb-2 px-4"
+      data-testid="people-tab-bulk-actions"
+    >
+      <SelectionBulkActions
+        count={selectedForMerge.length}
+        onClear={() => (selectedForMerge = [])}
+        isWorking={isSaving}
+        disabled={!dev}
+        class="w-full"
+        testId="people-tab-bulk-actions"
+        onMerge={openMergeDialog}
+        onMergeInto={handleMergeInto}
+        {namedPeople}
+        onHide={handleBulkHideAction}
+        onRestore={handleBulkRestore}
+        onMarkAsJunk={handleBulkMarkAsJunk}
+        onRestoreFromJunk={handleBulkRestoreFromJunk}
+        onUpdateCategory={bulkUpdateCategory}
+        hiddenCount={selectedHiddenCount}
+        junkCount={selectedJunkCount}
+        canHide={!selectedForMerge.some((id) => people.hiddenPeople.some((p) => p.id === id))}
+      />
+    </div>
+
+    <VisiblePeopleList
+      visiblePeople={people.visiblePeople}
+      selectedPeople={filters.selectedPeople}
+      {selectedForMerge}
+      {editingPersonId}
+      {editingName}
+      {isSaving}
+      {getThumbnailSrc}
+      {togglePerson}
+      {openPersonDetail}
+      {startEditing}
+      onEditingNameChange={(value) => (editingName = value)}
+      {confirmRename}
+      {cancelEditing}
+      {toggleHide}
+      {toggleMergeSelection}
+    />
+
+    <Accordion.Root type="multiple" class="mt-4">
+      {#if people.hiddenPeople.length > 0 && dev}
+        <Accordion.Item value="hidden" data-testid="people-tab-hidden-section">
+          <Accordion.Trigger class="px-4 py-3 text-sm font-medium">
+            Skryté ({people.hiddenPeople.length})
+          </Accordion.Trigger>
+          <Accordion.Content class="mb-2 px-4 grid grid-cols-3 gap-2 pt-2 pb-1">
+            {@render personGrid(people.hiddenPeople, "hidden")}
+          </Accordion.Content>
+        </Accordion.Item>
+      {/if}
+
+      {#if people.categoryPeople.length > 0 && dev}
+        <Accordion.Item value="cat-person" data-testid="people-tab-category-person-section">
+          <Accordion.Trigger class="px-4 py-3 text-sm font-medium">
+            Osoby ({people.categoryPeople.length})
+          </Accordion.Trigger>
+          <Accordion.Content class="mb-2 px-4 grid grid-cols-3 gap-2 pt-2 pb-1">
+            {@render personGrid(people.categoryPeople, "category-person")}
+          </Accordion.Content>
+        </Accordion.Item>
+      {/if}
+
+      {#if people.categoryStatues.length > 0 && dev}
+        <Accordion.Item value="cat-statue" data-testid="people-tab-category-statue-section">
+          <Accordion.Trigger class="px-4 py-3 text-sm font-medium">
+            Sochy ({people.categoryStatues.length})
+          </Accordion.Trigger>
+          <Accordion.Content class="mb-2 px-4 grid grid-cols-3 gap-2 pt-2 pb-1">
+            {@render personGrid(people.categoryStatues, "category-statue")}
+          </Accordion.Content>
+        </Accordion.Item>
+      {/if}
+
+      {#if people.categoryPaintings.length > 0 && dev}
+        <Accordion.Item value="cat-painting" data-testid="people-tab-category-painting-section">
+          <Accordion.Trigger class="px-4 py-3 text-sm font-medium">
+            Malby ({people.categoryPaintings.length})
+          </Accordion.Trigger>
+          <Accordion.Content class="mb-2 px-4 grid grid-cols-3 gap-2 pt-2 pb-1">
+            {@render personGrid(people.categoryPaintings, "category-painting")}
+          </Accordion.Content>
+        </Accordion.Item>
+      {/if}
+
+      {#if people.junkPeople.length > 0 && dev}
+        <Accordion.Item value="junk" data-testid="people-tab-junk-section">
+          <Accordion.Trigger class="px-4 py-3 text-sm font-medium text-destructive">
+            Junk ({people.junkPeople.length})
+          </Accordion.Trigger>
+          <Accordion.Content class="mb-2 px-4 grid grid-cols-3 gap-2 pt-2 pb-1">
+            {@render personGrid(people.junkPeople, "junk")}
+          </Accordion.Content>
+        </Accordion.Item>
+      {/if}
+
+      {#if invalidDetections.length > 0 && dev}
+        <Accordion.Item
+          value="invalid-detections"
+          data-testid="people-tab-invalid-detections-section"
         >
-          <Users class="w-3 h-3 mr-1" /> Vše
-        </Button>
-        <Button
-          variant={selectionMode === "none" ? "default" : "outline"}
-          size="sm"
-          class="flex-1 h-7 text-xs px-2"
-          onclick={() => handleSelectionPreset("none")}
-          data-testid="people-tab-select-none"
-        >
-          <Ban class="w-3 h-3 mr-1" /> Žádné
-        </Button>
+          <Accordion.Trigger class="px-4 py-3 text-sm font-medium opacity-50">
+            Chybné detekce ({invalidDetections.length})
+          </Accordion.Trigger>
+          <Accordion.Content class="mb-2 px-4 pt-2 pb-1">
+            <div class="text-xs text-muted-foreground flex flex-col gap-1 max-h-40 overflow-y-auto">
+              {#each invalidDetections as det}
+                <div class="flex items-center gap-2 py-1 border-b last:border-0 border-border/50">
+                  <span class="font-mono text-[10px] tabular-nums">{det.imageId}</span>
+                  <span class="text-[9px] opacity-70">
+                    [{Math.round(det.box.x)}, {Math.round(det.box.y)}, {Math.round(
+                      det.box.width,
+                    )}×{Math.round(det.box.height)}]
+                  </span>
+                </div>
+              {/each}
+            </div>
+          </Accordion.Content>
+        </Accordion.Item>
+      {/if}
+    </Accordion.Root>
+  </Sidebar.Content>
+
+  <Dialog.Root bind:open={confirmDialog.open}>
+    <Dialog.Content>
+      <Dialog.Header>
+        <Dialog.Title>{confirmDialog.config?.title}</Dialog.Title>
+        <Dialog.Description>{confirmDialog.config?.description}</Dialog.Description>
+      </Dialog.Header>
+      <Dialog.Footer>
         <Button
           variant="outline"
-          size="sm"
-          class="flex-1 h-7 text-xs px-2"
-          onclick={() => handleSelectionPreset("reset")}
-          data-testid="people-tab-reset"
+          type="button"
+          onclick={() => (confirmDialog = { open: false, config: null })}
+          data-testid="people-tab-bulk-confirm-cancel"
         >
-          <RotateCcw class="w-3 h-3 mr-1" /> Reset
+          Zrušit
         </Button>
-      </ButtonGroup.Root>
-
-      <p class="text-xs text-muted-foreground">
-        <strong>Vše:</strong> Jen fotky s lidmi. <strong>Žádné:</strong> Jen fotky bez lidí.
-        <strong>Reset:</strong> Všechny fotky.
-      </p>
-    </div>
-
-    <div class="flex flex-col">
-      {#each people.visiblePeople as person (person.id)}
-        {@const isSelected =
-          filters.selectedPeople.length === 0
-            ? true // Empty = all selected
-            : filters.selectedPeople.includes("none")
-              ? false // "none" = nothing selected
-              : filters.selectedPeople.includes(person.id)}
-        <!-- svelte-ignore a11y_no_static_element_interactions -->
-        <!-- svelte-ignore a11y_click_events_have_key_events -->
-        <div
-          class={`relative group border-b flex items-center gap-3 p-3 px-4 hover:bg-accent/50 transition-colors cursor-pointer ${isSelected ? "bg-accent/30" : ""}`}
-          onclick={() => !editingPersonId && togglePerson(person.id)}
-          data-testid="people-tab-person-item"
+        <Button
+          variant="destructive"
+          type="button"
+          onclick={runConfirmedAction}
+          data-testid="people-tab-bulk-confirm-submit"
         >
-          <!-- Loading overlay -->
-          {#if isSaving && editingPersonId === person.id}
-            <div
-              class="absolute inset-0 bg-background/90 backdrop-blur-sm flex items-center justify-center rounded"
-              style="z-index: 9999;"
-              data-testid="people-tab-person-loading"
-            >
-              <Loader2 class="w-6 h-6 animate-spin text-primary" />
-            </div>
-          {/if}
-          <button
-            type="button"
-            class="relative w-10 h-10 rounded overflow-hidden bg-slate-200 dark:bg-slate-800 shrink-0 border border-border hover:ring-2 ring-primary transition-all focus:outline-none"
-            onclick={(e) => openPersonDetail(person, e)}
-            data-testid="people-tab-person-thumbnail-button"
-          >
-            {#if person.thumbnail}
-              <img
-                src={getThumbnailSrc(person)}
-                alt={person.name}
-                class="w-full h-full object-cover"
-                data-testid="people-tab-person-thumbnail"
-              />
-            {:else}
-              <div class="flex items-center justify-center w-full h-full">
-                <User class="w-5 h-5 text-slate-400" />
-              </div>
-            {/if}
-          </button>
-
-          <div class="flex-1 min-w-0">
-            {#if dev && editingPersonId === person.id}
-              <!-- Editing mode -->
-              <div class="flex items-center gap-2" onclick={(e) => e.stopPropagation()}>
-                <input
-                  type="text"
-                  bind:value={editingName}
-                  onkeydown={(e) => {
-                    if (e.key === "Enter") confirmRename();
-                    if (e.key === "Escape") cancelEditing();
-                  }}
-                  class="font-medium text-sm flex-1 bg-white dark:bg-slate-700 border border-border px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-primary"
-                  data-testid="people-tab-person-name-input"
-                />
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onclick={confirmRename}
-                  class="h-7 w-7 hover:bg-green-100 dark:hover:bg-green-900"
-                  title="Potvrdit"
-                  data-testid="people-tab-person-confirm"
-                >
-                  <Check class="w-4 h-4 text-green-600" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onclick={cancelEditing}
-                  class="h-7 w-7 hover:bg-red-100 dark:hover:bg-red-900"
-                  title="Zrušit"
-                  data-testid="people-tab-person-cancel"
-                >
-                  <X class="w-4 h-4 text-red-600" />
-                </Button>
-              </div>
-            {:else if dev}
-              <div
-                onclick={(e) => {
-                  e.stopPropagation();
-                  startEditing(person);
-                }}
-                class="font-medium text-sm w-full text-left hover:text-primary transition-colors cursor-text"
-                data-testid="people-tab-person-name"
-              >
-                {person.name}
-              </div>
-            {:else}
-              <!-- Production: just display name -->
-              <div class="font-medium text-sm" data-testid="people-tab-person-name">
-                {person.name}
-              </div>
-            {/if}
-            <div class="text-xs text-muted-foreground" data-testid="people-tab-person-count">
-              {person.faceCount} fotek
-            </div>
-          </div>
-          <Switch
-            checked={isSelected}
-            class="pointer-events-none"
-            data-testid="people-tab-person-switch"
-          />
-
-          {#if dev}
-            <Checkbox
-              checked={selectedForMerge.includes(person.id)}
-              onCheckedChange={() => toggleMergeSelection(person.id)}
-              onclick={(e) => e.stopPropagation()}
-              class="ml-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-              data-testid="people-tab-person-merge-checkbox"
-            />
-            <Button
-              variant="ghost"
-              size="icon"
-              onclick={(e) => {
-                e.stopPropagation();
-                toggleHide(person.id);
-              }}
-              class="h-8 w-8 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
-              title="Skrýt osobu"
-              data-testid="people-tab-person-ignore-button"
-            >
-              <EyeOff class="w-4 h-4" />
-            </Button>
-          {/if}
-        </div>
-      {/each}
-
-      {#if people.visiblePeople.length === 0}
-        <div
-          class="p-8 text-center text-muted-foreground text-sm"
-          data-testid="people-tab-empty-state"
-        >
-          Žádné osoby nebyly detekovány.
-          <br /><span class="text-xs opacity-70"
-            >Spusťte <code>bun scripts/face-clustering.ts</code></span
-          >
-        </div>
-      {/if}
-
-      <!-- Bulk Actions - appears when people selected -->
-      {#if dev && selectedForMerge.length > 0}
-        <div class="px-4 pt-4 mt-2" data-testid="people-tab-bulk-actions">
-          <SelectionBulkActions
-            count={selectedForMerge.length}
-            onClear={() => (selectedForMerge = [])}
-            isWorking={isSaving}
-            class="w-full"
-            testId="people-tab-bulk-actions"
-            onMerge={openMergeDialog}
-            onHide={handleBulkHideAction}
-            onRestore={handleBulkRestore}
-            onMarkAsJunk={handleBulkMarkAsJunk}
-            onUpdateCategory={bulkUpdateCategory}
-            hiddenCount={selectedHiddenCount}
-            canHide={!selectedForMerge.some((id) => people.hiddenPeople.some((p) => p.id === id))}
-          />
-        </div>
-      {/if}
-
-      <Dialog.Root bind:open={confirmDialog.open}>
-        <Dialog.Content>
-          <Dialog.Header>
-            <Dialog.Title>{confirmDialog.config?.title}</Dialog.Title>
-            <Dialog.Description>{confirmDialog.config?.description}</Dialog.Description>
-          </Dialog.Header>
-          <Dialog.Footer>
-            <Button
-              variant="outline"
-              type="button"
-              onclick={() => (confirmDialog = { open: false, config: null })}
-              data-testid="people-tab-bulk-confirm-cancel"
-            >
-              Zrušit
-            </Button>
-            <Button
-              variant="destructive"
-              type="button"
-              onclick={runConfirmedAction}
-              data-testid="people-tab-bulk-confirm-submit"
-            >
-              {confirmDialog.config?.confirmLabel ?? "Potvrdit"}
-            </Button>
-          </Dialog.Footer>
-        </Dialog.Content>
-      </Dialog.Root>
-
-      <Accordion.Root type="single" value="ignored" class="mt-4">
-        {@const hiddenPersons = people.hiddenPeople}
-
-        {#if people.hiddenPeople.length > 0 && dev}
-          <Accordion.Item value="ignored" data-testid="people-tab-hidden-section">
-            <Accordion.Trigger class="px-4 py-3 text-sm font-medium">
-              Skryté ({people.hiddenPeople.length})
-            </Accordion.Trigger>
-            <Accordion.Content class="mb-2 px-4 grid grid-cols-3 gap-2 pt-2 pb-1">
-              {#each hiddenPersons as person (person.id)}
-                <CategoryPersonCard
-                  {person}
-                  {getThumbnailSrc}
-                  onToggle={toggleMergeSelection}
-                  selected={selectedForMerge.includes(person.id)}
-                  testId="people-tab-ignored-person-item"
-                ></CategoryPersonCard>
-              {/each}
-            </Accordion.Content>
-          </Accordion.Item>
-        {/if}
-
-        {#if people.categoryPeople.length > 0 && dev}
-          <Accordion.Item value="cat-person" data-testid="people-tab-category-person-section">
-            <Accordion.Trigger class="px-4 py-3 text-sm font-medium">
-              Osoby ({people.categoryPeople.length})
-            </Accordion.Trigger>
-            <Accordion.Content class="mb-2 px-4 grid grid-cols-3 gap-2 pt-2 pb-1">
-              {#each people.categoryPeople as person (person.id)}
-                <CategoryPersonCard
-                  {person}
-                  {getThumbnailSrc}
-                  onToggle={toggleMergeSelection}
-                  selected={selectedForMerge.includes(person.id)}
-                  testId="people-tab-category-person-item"
-                />
-              {/each}
-            </Accordion.Content>
-          </Accordion.Item>
-        {/if}
-
-        {#if people.categoryStatues.length > 0 && dev}
-          <Accordion.Item value="cat-statue" data-testid="people-tab-category-statue-section">
-            <Accordion.Trigger class="px-4 py-3 text-sm font-medium">
-              Sochy ({people.categoryStatues.length})
-            </Accordion.Trigger>
-            <Accordion.Content class="mb-2 px-4 grid grid-cols-3 gap-2 pt-2 pb-1">
-              {#each people.categoryStatues as person (person.id)}
-                <CategoryPersonCard
-                  {person}
-                  {getThumbnailSrc}
-                  onToggle={toggleMergeSelection}
-                  selected={selectedForMerge.includes(person.id)}
-                  testId="people-tab-category-statue-item"
-                />
-              {/each}
-            </Accordion.Content>
-          </Accordion.Item>
-        {/if}
-
-        {#if people.categoryPaintings.length > 0 && dev}
-          <Accordion.Item value="cat-painting" data-testid="people-tab-category-painting-section">
-            <Accordion.Trigger class="px-4 py-3 text-sm font-medium">
-              Malby ({people.categoryPaintings.length})
-            </Accordion.Trigger>
-            <Accordion.Content class="mb-2 px-4 grid grid-cols-3 gap-2 pt-2 pb-1">
-              {#each people.categoryPaintings as person (person.id)}
-                <CategoryPersonCard
-                  {person}
-                  {getThumbnailSrc}
-                  onToggle={toggleMergeSelection}
-                  selected={selectedForMerge.includes(person.id)}
-                  testId="people-tab-category-painting-item"
-                />
-              {/each}
-            </Accordion.Content>
-          </Accordion.Item>
-        {/if}
-      </Accordion.Root>
-    </div>
-  </Sidebar.Content>
+          {confirmDialog.config?.confirmLabel ?? "Potvrdit"}
+        </Button>
+      </Dialog.Footer>
+    </Dialog.Content>
+  </Dialog.Root>
   <!-- Merge Confirm Dialog -->
   {#if selectedForMerge.length >= 2}
     {@const selectedPeopleData = [...peopleList]

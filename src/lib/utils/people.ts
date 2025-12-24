@@ -1,7 +1,7 @@
 import type { Person, PhotoDay } from "$lib/types/manifest";
 
 function isVisiblePerson(person: Person): boolean {
-  return !person.ignored && person.faceCount > 0;
+  return !person.hidden && !person.junk && person.faceCount > 0;
 }
 
 function compareByNameThenFaceCount(a: Person, b: Person): number {

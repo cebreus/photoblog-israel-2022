@@ -11,7 +11,7 @@
  */
 
 import { describe, expect, it } from "vitest";
-import { normalizeSharpness } from "../../scripts/lib/image-utils";
+import { normalizeSharpness } from "../../scripts/lib/image/utils";
 
 describe("Sharpness Normalization", () => {
   it("should return 0 for non-positive variance", () => {

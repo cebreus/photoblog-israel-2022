@@ -11,7 +11,8 @@ function isStringArray(value: unknown): value is string[] {
 }
 
 export interface MergeInput {
-  sourcePersonId: string;
+  sourcePersonId?: string;
+  sourcePersonIds?: string[];
   targetPersonId: string;
 }
 
@@ -20,49 +21,37 @@ export function validateMergeInput(body: unknown): ValidationResult<MergeInput> 
     return { valid: false, error: "Neplatné tělo požadavku", status: 400 };
   }
 
-  const { sourcePersonId, targetPersonId } = body as Record<string, unknown>;
-
-  if (!isNonEmptyString(sourcePersonId)) {
-    return { valid: false, error: "sourcePersonId musí být neprázdný řetězec", status: 400 };
-  }
+  const { sourcePersonId, sourcePersonIds, targetPersonId } = body as Record<string, unknown>;
 
   if (!isNonEmptyString(targetPersonId)) {
     return { valid: false, error: "targetPersonId musí být neprázdný řetězec", status: 400 };
   }
 
-  if (sourcePersonId === targetPersonId) {
+  let sources: string[] = [];
+  if (isStringArray(sourcePersonIds) && sourcePersonIds.length > 0) {
+    sources = sourcePersonIds;
+  } else if (isNonEmptyString(sourcePersonId)) {
+    sources = [sourcePersonId];
+  } else {
+    return {
+      valid: false,
+      error: "Musí být zadán sourcePersonId nebo sourcePersonIds",
+      status: 400,
+    };
+  }
+
+  if (sources.includes(targetPersonId)) {
     return { valid: false, error: "Nelze sloučit osobu se sebou samou", status: 400 };
   }
 
-  return { valid: true, data: { sourcePersonId, targetPersonId } };
-}
-
-export interface RenameInput {
-  personId: string;
-  name: string;
-}
-
-export function validateRenameInput(body: unknown): ValidationResult<RenameInput> {
-  if (!body || typeof body !== "object") {
-    return { valid: false, error: "Neplatné tělo požadavku", status: 400 };
-  }
-
-  const { personId, name } = body as Record<string, unknown>;
-
-  if (!isNonEmptyString(personId)) {
-    return { valid: false, error: "personId musí být neprázdný řetězec", status: 400 };
-  }
-
-  if (!isNonEmptyString(name)) {
-    return { valid: false, error: "name musí být neprázdný řetězec", status: 400 };
-  }
-
-  const sanitizedName = name.trim().slice(0, 100);
-  if (/[/\\<>:"|?*]/.test(sanitizedName)) {
-    return { valid: false, error: "Jméno obsahuje nepovolené znaky", status: 400 };
-  }
-
-  return { valid: true, data: { personId, name: sanitizedName } };
+  return {
+    valid: true,
+    data: {
+      sourcePersonId: sources.length === 1 ? sources[0] : undefined,
+      sourcePersonIds: sources.length > 1 ? sources : undefined,
+      targetPersonId,
+    },
+  };
 }
 
 export interface UnmatchInput {
@@ -136,29 +125,6 @@ export function validateReassignInput(body: unknown): ValidationResult<ReassignI
   return { valid: true, data: { sourcePersonId, targetPersonId, imageIds } };
 }
 
-export interface IgnoreInput {
-  personId: string;
-  ignored: boolean;
-}
-
-export function validateIgnoreInput(body: unknown): ValidationResult<IgnoreInput> {
-  if (!body || typeof body !== "object") {
-    return { valid: false, error: "Neplatné tělo požadavku", status: 400 };
-  }
-
-  const { personId, ignored } = body as Record<string, unknown>;
-
-  if (!isNonEmptyString(personId)) {
-    return { valid: false, error: "personId musí být neprázdný řetězec", status: 400 };
-  }
-
-  if (typeof ignored !== "boolean") {
-    return { valid: false, error: "ignored musí být boolean", status: 400 };
-  }
-
-  return { valid: true, data: { personId, ignored } };
-}
-
 export interface IgnoreFaceInput {
   personId: string;
   imageId: string;
@@ -206,55 +172,5 @@ export function validateIgnoreFaceInput(body: unknown): ValidationResult<IgnoreF
       imageId,
       box: { x, y, width, height },
     },
-  };
-}
-
-export interface UpdateCategoryInput {
-  personId: string;
-  category: "person" | "statue" | "painting";
-}
-
-export function validateUpdateCategoryInput(body: unknown): ValidationResult<UpdateCategoryInput> {
-  if (!body || typeof body !== "object") {
-    return { valid: false, error: "Neplatné tělo požadavku", status: 400 };
-  }
-
-  const { personId, category } = body as Record<string, unknown>;
-
-  if (!isNonEmptyString(personId)) {
-    return { valid: false, error: "personId musí být neprázdný řetězec", status: 400 };
-  }
-
-  if (category !== "person" && category !== "statue" && category !== "painting") {
-    return { valid: false, error: "Neplatná kategorie", status: 400 };
-  }
-
-  return {
-    valid: true,
-    data: {
-      personId,
-      category: category as "person" | "statue" | "painting",
-    },
-  };
-}
-
-export interface MarkAsJunkInput {
-  personId: string;
-}
-
-export function validateMarkAsJunkInput(body: unknown): ValidationResult<MarkAsJunkInput> {
-  if (!body || typeof body !== "object") {
-    return { valid: false, error: "Neplatné tělo požadavku", status: 400 };
-  }
-
-  const { personId } = body as Record<string, unknown>;
-
-  if (!isNonEmptyString(personId)) {
-    return { valid: false, error: "personId musí být neprázdný řetězec", status: 400 };
-  }
-
-  return {
-    valid: true,
-    data: { personId },
   };
 }

@@ -22,7 +22,7 @@
     size="sm"
     class="h-6 text-[10px] flex-1 px-0"
     onclick={() => onRestore(person.id)}
-    data-testid="people-tab-ignored-person-restore-button"
+    data-testid="people-tab-hidden-person-restore-button"
     title="Obnovit"
   >
     <Eye class="w-3.5 h-3.5" />
@@ -32,8 +32,8 @@
     size="sm"
     class="h-6 text-[10px] flex-1 px-0"
     onclick={() => onMarkAsJunk(person.id)}
-    data-testid="people-tab-ignored-person-junk-button"
-    title="Není osoba"
+    data-testid="people-tab-hidden-person-junk-button"
+    title="Ignorovat"
   >
     <UserMinus class="w-3.5 h-3.5 text-destructive" />
   </Button>

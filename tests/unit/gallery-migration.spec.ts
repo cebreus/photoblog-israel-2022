@@ -16,9 +16,9 @@ import {
   migrateCache,
   migrateGeneratedAssets,
   migrateImagesManifest,
-} from "../../scripts/lib/gallery-migration";
-import * as repo from "../../scripts/lib/manifest-repository";
-import * as renamingUtils from "../../scripts/lib/renaming-utils";
+} from "../../scripts/lib/gallery/migration";
+import * as renamingUtils from "../../scripts/lib/gallery/renaming";
+import * as repo from "../../scripts/lib/manifests/repository";
 
 // Mock dependencies
 // node:fs mock removed
@@ -33,8 +33,8 @@ vi.mock("node:fs/promises", () => {
   };
   return { ...fsImpl, default: fsImpl };
 });
-vi.mock("../../scripts/lib/renaming-utils", () => ({ safeRename: vi.fn() }));
-vi.mock("../../scripts/lib/manifest-repository", () => ({
+vi.mock("../../scripts/lib/gallery/renaming", () => ({ safeRename: vi.fn() }));
+vi.mock("../../scripts/lib/manifests/repository", () => ({
   loadManifest: vi.fn(),
   saveManifest: vi.fn(),
   loadImagesManifest: vi.fn(),
@@ -47,7 +47,7 @@ vi.mock("../../scripts/lib/manifest-repository", () => ({
 vi.mock("fast-glob", () => ({ default: vi.fn() }));
 
 // Mock Config
-vi.mock("../../scripts/config", () => ({
+vi.mock("../../scripts/build.config", () => ({
   config: {
     outputs: {
       preview: { kind: "variant", folderName: "previews" },

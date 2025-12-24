@@ -1,5 +1,6 @@
 import path from "node:path";
 import { marked } from "marked";
+import { toSlug } from "../../../shared/utils/strings";
 import type {
   ImageEntry,
   Manifest,
@@ -7,8 +8,7 @@ import type {
   PhotoDay,
   Separator,
   StoryDataMap,
-} from "../../src/lib/types/manifest";
-import { toSlug } from "../../src/lib/utils/strings";
+} from "../../../src/lib/types/manifest";
 
 function parseMarkdown(content: string): string {
   const parsed = marked.parse(content);

@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { createLogger } from "./lib/logger";
+import { createLogger } from "./lib/core/cli-logger";
 import { run } from "./lib/shell-utils";
 
 const logger = createLogger("benchmark");

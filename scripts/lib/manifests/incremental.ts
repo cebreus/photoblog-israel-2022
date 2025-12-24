@@ -2,14 +2,16 @@ import fsp from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
 import pc from "picocolors";
-import type { Cache, ImageEntry, Manifest, StoryDataMap } from "../../src/lib/types/manifest";
-import { config } from "../config";
-import { EMBEDDING_DIM } from "./ai-models";
-import { getConcurrency } from "./concurrency-utils";
-import type { ProcessedImageResult } from "./image-processor";
-import { type ImageProcessOptions, processImage } from "./image-processor";
-import { createLogger } from "./logger";
-import { buildGeneratorManifest, generateMenuManifest, updateManifest } from "./manifest-builder";
+import type { Cache, ImageEntry, Manifest, StoryDataMap } from "../../../src/lib/types/manifest";
+import { config } from "../../build.config";
+import { EMBEDDING_DIM } from "../ai/models";
+import { createLogger } from "../core/cli-logger";
+import { getConcurrency } from "../core/concurrency-utils";
+import { createBar, stopAllBars } from "../core/progress-manager";
+import type { ProcessedImageResult } from "../image/processor";
+import { type ImageProcessOptions, processImage } from "../image/processor";
+import { formatDuration } from "../utils/time";
+import { buildGeneratorManifest, generateMenuManifest, updateManifest } from "./builder";
 // Repository Imports
 import {
   loadAnalysisManifest,
@@ -18,9 +20,7 @@ import {
   loadManifest,
   saveImagesManifest,
   saveManifest,
-} from "./manifest-repository";
-import { createBar, stopAllBars } from "./progress-manager";
-import { formatDuration } from "./time-utils";
+} from "./repository";
 
 const logger = createLogger("incremental-build");
 

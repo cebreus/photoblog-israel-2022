@@ -1,22 +1,23 @@
 import path from "node:path";
 import { intro } from "@clack/prompts";
 import { AutoTokenizer, CLIPTextModelWithProjection } from "@xenova/transformers";
-import type {
-  CurationGroup,
-  CurationManifest,
-  CurationRecommendation,
-  ImageEntry,
+import {
+  type CurationGroup,
+  type CurationManifest,
+  type CurationRecommendation,
+  type ImageEntry,
+  isImageEntry,
 } from "../src/lib/types/manifest";
 import {
   calculateAestheticScore,
   createAestheticAxis,
   normalizeAestheticScore,
 } from "./lib/aesthetic";
-import { aiService } from "./lib/ai-models";
-import { parseCliArguments } from "./lib/cli-parser";
-import { resolveGalleryDirectory } from "./lib/gallery-resolver";
+import { aiService } from "./lib/ai/models";
+import { createLogger } from "./lib/core/cli-logger";
+import { parseCliArguments } from "./lib/core/cli-parser";
+import { resolveGalleryDirectory } from "./lib/gallery/resolver";
 import { getQualityBucket, normalizeSharpness } from "./lib/image-utils";
-import { createLogger } from "./lib/logger";
 import {
   loadAnalysisManifest,
   loadEmbeddingsManifest,
@@ -25,7 +26,7 @@ import {
   saveCurationManifest,
   saveEmbeddingsManifest,
   saveImagesManifest,
-} from "./lib/manifest-repository";
+} from "./lib/manifests/repository";
 import { createBar, removeBar, stopAllBars } from "./lib/progress-manager";
 import { formatDuration } from "./lib/time-utils";
 
@@ -245,14 +246,13 @@ async function computeAestheticScores(
 
   for (const day of manifest.photoDays) {
     for (const item of day.items) {
-      if (item.type === "image") {
-        const imgEntry = item as ImageEntry;
-        if (!imgEntry.analysis) imgEntry.analysis = { sharpness: 0, phash: "" };
+      if (isImageEntry(item)) {
+        if (!item.analysis) item.analysis = { sharpness: 0, phash: "" };
 
-        if (embeddingsManifest[imgEntry.id] && embeddingsManifest[imgEntry.id].length > 0) {
+        if (embeddingsManifest[item.id] && embeddingsManifest[item.id].length > 0) {
           cachedEmbeddings++;
         } else {
-          const filename = path.basename(imgEntry.src);
+          const filename = path.basename(item.src);
           const galleryDir = path.basename(path.dirname(srcRoot));
 
           // Heuristic: Try to use a thumbnail if it exists (MUCH faster than high-res decoding)
@@ -270,7 +270,7 @@ async function computeAestheticScores(
           }
 
           imagesToEmbed.push({
-            img: imgEntry,
+            img: item,
             absPath: bestPath,
           });
         }
@@ -312,41 +312,40 @@ async function computeAestheticScores(
 
   for (const day of manifest.photoDays) {
     for (const item of day.items) {
-      if (item.type === "image") {
-        const imgEntry = item as ImageEntry;
-        const embedding = embeddingsManifest[imgEntry.id];
+      if (isImageEntry(item)) {
+        const embedding = embeddingsManifest[item.id];
 
         if (embedding && embedding.length > 0) {
           const rawScore = calculateAestheticScore(embedding, aestheticAxis);
           const score = normalizeAestheticScore(rawScore);
 
-          const previousAesthetic = imgEntry.analysis?.aestheticScore;
+          const previousAesthetic = item.analysis?.aestheticScore;
 
-          const rawSharpness = imgEntry.analysis?.sharpness || 0;
+          const rawSharpness = item.analysis?.sharpness || 0;
           let sharpness = rawSharpness;
           if (rawSharpness > 100) {
             sharpness = normalizeSharpness(rawSharpness);
           }
 
-          if (!imgEntry.analysis) imgEntry.analysis = { sharpness: 0, phash: "" };
-          imgEntry.analysis.aestheticScore = score;
-          imgEntry.analysis.sharpness = sharpness;
+          if (!item.analysis) item.analysis = { sharpness: 0, phash: "" };
+          item.analysis.aestheticScore = score;
+          item.analysis.sharpness = sharpness;
           const qualityBucket = getQualityBucket(score, sharpness);
-          imgEntry.analysis.qualityBucket = qualityBucket;
+          item.analysis.qualityBucket = qualityBucket;
 
           if (previousAesthetic === undefined || previousAesthetic === 0) {
             missingAestheticCount++;
           }
 
-          imgEntry.analysis = {
-            ...imgEntry.analysis,
+          item.analysis = {
+            ...item.analysis,
             aestheticScore: score,
             sharpness: sharpness,
             qualityBucket: qualityBucket,
-            phash: imgEntry.analysis.phash || "",
+            phash: item.analysis.phash || "",
           };
 
-          allImages.push(imgEntry);
+          allImages.push(item);
         }
 
         processedCount++;
@@ -535,11 +534,10 @@ async function main() {
   // Update specialized manifests
   for (const day of manifest.photoDays) {
     for (const item of day.items) {
-      if (item.type === "image") {
-        const img = item as ImageEntry;
-        const analysis = img.analysis;
+      if (isImageEntry(item)) {
+        const analysis = item.analysis;
         if (analysis) {
-          analysisManifest[img.id] = {
+          analysisManifest[item.id] = {
             aestheticScore: analysis.aestheticScore,
             sharpness: analysis.sharpness,
             qualityBucket: analysis.qualityBucket,

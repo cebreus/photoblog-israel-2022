@@ -11,7 +11,7 @@
  */
 
 import { describe, expect, it } from "vitest";
-import { type Box, calculateSmartCrop } from "../../scripts/lib/smart-crop";
+import { type Box, calculateSmartCrop } from "../../scripts/lib/image/smart-crop";
 
 describe("calculateSmartCrop", () => {
   it("should return null if no faces provided", () => {

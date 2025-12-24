@@ -2,14 +2,94 @@ import fsp from "node:fs/promises";
 import path from "node:path";
 import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
 import * as canvas from "canvas";
-import type { Person } from "../../src/lib/types/manifest";
-import { ensureDir } from "./image-utils";
-import { createLogger } from "./logger";
+import type { Person } from "../../../src/lib/types/manifest";
+import { createLogger } from "../core/cli-logger";
+import { ensureDir } from "../image/utils";
 
 const logger = createLogger("clustering-utils");
 
 export function euclideanDistance(desc1: number[], desc2: number[]): number {
   return faceapi.euclideanDistance(desc1, desc2);
+}
+
+/**
+ * Calculate the arithmetic mean centroid from multiple descriptors.
+ * Used when creating a new cluster from raw face descriptors.
+ */
+export function calculateCentroid(descriptors: number[][]): number[] {
+  if (descriptors.length === 0) return [];
+  if (descriptors.length === 1) return [...descriptors[0]];
+
+  const dimensions = descriptors[0].length;
+  const centroid = new Array(dimensions).fill(0);
+
+  for (const descriptor of descriptors) {
+    for (let i = 0; i < dimensions; i++) {
+      centroid[i] += descriptor[i];
+    }
+  }
+
+  for (let i = 0; i < dimensions; i++) {
+    centroid[i] /= descriptors.length;
+  }
+
+  return centroid;
+}
+
+/**
+ * Incrementally update a centroid with a new descriptor.
+ * Uses running average formula: new = (old * n + new) / (n + 1)
+ */
+export function updateCentroid(
+  currentCentroid: number[],
+  currentCount: number,
+  newDescriptor: number[],
+): number[] {
+  if (currentCentroid.length === 0) return [...newDescriptor];
+
+  const updatedCentroid = new Array(currentCentroid.length);
+  for (let i = 0; i < currentCentroid.length; i++) {
+    updatedCentroid[i] =
+      (currentCentroid[i] * currentCount + newDescriptor[i]) / (currentCount + 1);
+  }
+  return updatedCentroid;
+}
+
+/**
+ * Merge multiple clusters into a single cluster with weighted centroid.
+ * Each cluster's centroid is weighted by its faceCount.
+ */
+export function mergeClusters(clusters: Array<{ centroid: number[]; faceCount: number }>): {
+  centroid: number[];
+  faceCount: number;
+} {
+  if (clusters.length === 0) {
+    return { centroid: [], faceCount: 0 };
+  }
+
+  if (clusters.length === 1) {
+    return { centroid: [...clusters[0].centroid], faceCount: clusters[0].faceCount };
+  }
+
+  const totalFaceCount = clusters.reduce(function (sum, cluster) {
+    return sum + cluster.faceCount;
+  }, 0);
+
+  if (totalFaceCount === 0) {
+    return { centroid: [], faceCount: 0 };
+  }
+
+  const dimensions = clusters[0].centroid.length;
+  const mergedCentroid = new Array(dimensions).fill(0);
+
+  for (const cluster of clusters) {
+    const weight = cluster.faceCount / totalFaceCount;
+    for (let i = 0; i < dimensions; i++) {
+      mergedCentroid[i] += cluster.centroid[i] * weight;
+    }
+  }
+
+  return { centroid: mergedCentroid, faceCount: totalFaceCount };
 }
 
 export function calculatePersonDistance(descriptor: number[], person: Person): number {
@@ -55,10 +135,6 @@ function compareByDistance(a: DistanceCandidate, b: DistanceCandidate): number {
   return a.distance - b.distance;
 }
 
-function isNotIgnored(candidate: DistanceCandidate): boolean {
-  return !candidate.person.ignored;
-}
-
 function isNotConstrained(constraints: Set<string>, imageId: string) {
   return function candidateIsNotConstrained(candidate: DistanceCandidate): boolean {
     return !isConstrainedPair(constraints, imageId, candidate.person.id);
@@ -83,7 +159,6 @@ export function findBestMatch(
     .map(mapPersonToCandidate)
     .filter(isWithinThreshold(threshold))
     .sort(compareByDistance)
-    .filter(isNotIgnored)
     .filter(isNotConstrained(constraints, imageId))[0];
 
   return bestCandidate?.person ?? null;

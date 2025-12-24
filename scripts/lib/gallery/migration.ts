@@ -1,20 +1,22 @@
 import path from "node:path";
 import fg from "fast-glob";
-import type { Cache } from "../../src/lib/types/manifest";
-import { toSlug } from "../../src/lib/utils/strings";
-import { config } from "../config";
-import { getOutputFolders } from "./cleanup-utils";
+import { toSlug } from "../../../shared/utils/strings";
+import type { Cache } from "../../../src/lib/types/manifest";
+import { config } from "../../build.config";
 import {
   loadCurationManifest,
+  loadFacesManifest,
   loadImagesManifest,
   loadManifest,
   loadPeopleManifest,
   saveCurationManifest,
+  saveFacesManifest,
   saveImagesManifest,
   saveManifest,
   savePeopleManifest,
-} from "./manifest-repository";
-import { type RenameMap, safeRename } from "./renaming-utils";
+} from "../manifests/repository";
+import { getOutputFolders } from "./cleanup";
+import { type RenameMap, safeRename } from "./renaming";
 
 export async function migrateGeneratedAssets(gallery: string, renameMap: RenameMap): Promise<void> {
   const staticParams = {
@@ -53,6 +55,26 @@ export async function migrateGeneratedAssets(gallery: string, renameMap: RenameM
 
         if (await Bun.file(oldVariant).exists()) {
           await safeRename(oldVariant, newVariant);
+        }
+      }
+    }
+
+    // Rename face crops
+    const facesRootDir = path.resolve(`static/${gallery}/faces`);
+    if (
+      await import("node:fs/promises").then((fs) =>
+        fs
+          .access(facesRootDir)
+          .then(() => true)
+          .catch(() => false),
+      )
+    ) {
+      const personDirs = await import("node:fs/promises").then((fs) => fs.readdir(facesRootDir));
+      for (const personDir of personDirs) {
+        const oldCrop = path.join(facesRootDir, personDir, `${item.oldBase}.jpg`);
+        const newCrop = path.join(facesRootDir, personDir, `${item.newBase}.jpg`);
+        if (await Bun.file(oldCrop).exists()) {
+          await safeRename(oldCrop, newCrop);
         }
       }
     }
@@ -147,9 +169,50 @@ export async function migratePeopleManifest(gallery: string, renameMap: RenameMa
           peopleChanged = true;
         }
       }
+
+      if (person.thumbnail) {
+        for (const item of renameMap.values()) {
+          if (person.thumbnail.includes(`/${item.oldBase}.jpg`)) {
+            person.thumbnail = person.thumbnail.replace(
+              `/${item.oldBase}.jpg`,
+              `/${item.newBase}.jpg`,
+            );
+            peopleChanged = true;
+            break;
+          }
+        }
+      }
     }
     if (peopleChanged) {
       await savePeopleManifest(`src/data/${gallery}`, peopleManifest);
+    }
+  }
+}
+
+export async function migrateFacesManifest(gallery: string, renameMap: RenameMap): Promise<void> {
+  const facesManifest = await loadFacesManifest(`src/data/${gallery}`);
+  if (facesManifest) {
+    const newManifest: any = {};
+    let changed = false;
+
+    // Build lookup for slugified IDs
+    const lookup = new Map<string, string>();
+    for (const v of renameMap.values()) {
+      lookup.set(toSlug(v.oldBase), v.newBase); // Use newBase for key
+    }
+
+    for (const [oldId, data] of Object.entries(facesManifest)) {
+      const match = lookup.get(oldId);
+      if (match) {
+        newManifest[toSlug(match)] = data;
+        changed = true;
+      } else {
+        newManifest[oldId] = data;
+      }
+    }
+
+    if (changed) {
+      await saveFacesManifest(`src/data/${gallery}`, newManifest);
     }
   }
 }

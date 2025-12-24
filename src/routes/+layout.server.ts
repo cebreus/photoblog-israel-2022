@@ -1,5 +1,17 @@
-import { getCurationManifest, getMenuItems, getPhotoDays, getSiteManifest } from "$lib";
-import type { Author, MenuManifest, PhotoDay, SiteManifest } from "$lib/types/manifest";
+import {
+  getCurationManifest,
+  getMenuItems,
+  getPeopleManifest,
+  getPhotoDays,
+  getSiteManifest,
+} from "$lib";
+import type {
+  Author,
+  MenuManifest,
+  PeopleManifest,
+  PhotoDay,
+  SiteManifest,
+} from "$lib/types/manifest";
 import { toSlug } from "$lib/utils/strings";
 
 const UNKNOWN_AUTHOR = "Neuvedeno";
@@ -55,6 +67,7 @@ export const load = async () => {
   const qualityStats = gatherQualityStats(photoDays);
   const siteManifest: SiteManifest = getSiteManifest();
   const curationManifest = getCurationManifest();
+  const peopleManifest: PeopleManifest = getPeopleManifest();
 
   return {
     photoDays,
@@ -63,5 +76,6 @@ export const load = async () => {
     qualityStats,
     siteManifest,
     curationManifest,
+    peopleManifest,
   };
 };

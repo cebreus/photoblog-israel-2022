@@ -1,19 +1,20 @@
 <script lang="ts">
   import CheckCheck from "@lucide/svelte/icons/check-check";
   import EyeOff from "@lucide/svelte/icons/eye-off";
-  import Loader2 from "@lucide/svelte/icons/loader-2";
+  import MoreHorizontal from "@lucide/svelte/icons/more-horizontal";
   import Search from "@lucide/svelte/icons/search";
   import Trash2 from "@lucide/svelte/icons/trash-2";
   import User from "@lucide/svelte/icons/user";
   import { toast } from "svelte-sonner";
 
-  import { Button } from "$lib/components/ui/button";
+  import { Button, buttonVariants } from "$lib/components/ui/button";
+  import * as ButtonGroup from "$lib/components/ui/button-group";
   import * as Dialog from "$lib/components/ui/dialog";
+  import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
+  import { Spinner } from "$lib/components/ui/spinner";
   import { createLogger } from "$lib/logger";
   import { people } from "$lib/stores/people.svelte";
   import type { ImageEntry, Person } from "$lib/types/manifest";
-
-  import SelectionBulkActions from "./SelectionBulkActions.svelte";
 
   const logger = createLogger("PersonDetailDialog");
 
@@ -68,7 +69,7 @@
   const filteredPeople = $derived.by(() => {
     if (!open) return [];
     return people.peopleWithStats
-      .filter((p) => p.id !== person.id && !p.ignored)
+      .filter((p) => p.id !== person.id && !p.hidden)
       .filter((p) => p.name.toLowerCase().includes(personSearchQuery.toLowerCase()))
       .sort((a, b) => b.faceCount - a.faceCount)
       .slice(0, 20);
@@ -146,7 +147,7 @@
 
     isWorking = true;
     try {
-      const res = await fetch("/api/people/ignore-face", {
+      const res = await fetch("/api/people/invalidate-detection", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -235,7 +236,7 @@
 
     if (
       !confirm(
-        `Opravdu označit ${ids.length} vybraných detekcí jako 'není osoba'? Budou navždy ignorovány.`,
+        `Opravdu chcete ${ids.length} vybraných detekcí ignorovat? Budou navždy odstraněny ze systému.`,
       )
     ) {
       return;
@@ -247,7 +248,7 @@
       const results = await Promise.allSettled(
         selectedCrops.map(async (crop) => {
           if (!crop.box) return;
-          const res = await fetch("/api/people/ignore-face", {
+          const res = await fetch("/api/people/invalidate-detection", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -411,60 +412,115 @@
       {/if}
 
       {#if selectedIds.size > 0}
-        <SelectionBulkActions
-          count={selectedIds.size}
-          onClear={clearSelection}
-          {isWorking}
-          class="z-10"
-          testId="person-detail-bulk-actions"
-          onMarkAsJunk={ignoreSelectedDetections}
-          onUpdateCategory={updateCategory}
-        >
-          {#snippet actions()}
-            <Button
-              variant="outline"
-              size="sm"
-              onclick={() => {
-                personSearchQuery = "";
-                showReassignDialog = true;
-              }}
-              disabled={isWorking}
-              class="flex-1"
-              data-testid="person-detail-bulk-assign-btn"
-            >
-              <User class="w-4 h-4 mr-2" />
-              Přiřadit k...
-            </Button>
+        <ButtonGroup.Root class="z-10">
+          <Button
+            variant="outline"
+            size="sm"
+            disabled
+            class="border-r-0"
+            data-testid="person-detail-bulk-count"
+          >
+            {selectedIds.size}
+          </Button>
 
-            <Button
-              variant="outline"
-              size="sm"
-              onclick={() => unmatchSelected(true)}
-              disabled={isWorking}
-              class="flex-1"
-              data-testid="person-detail-bulk-ignore-btn"
-            >
-              <EyeOff class="w-4 h-4 mr-2" />
-              Skrýt
-            </Button>
+          <ButtonGroup.Separator />
 
-            <Button
-              variant="outline"
-              size="sm"
-              onclick={() => unmatchSelected(false)}
+          <Button
+            variant="outline"
+            size="sm"
+            onclick={() => {
+              personSearchQuery = "";
+              showReassignDialog = true;
+            }}
+            disabled={isWorking}
+            class="flex-1"
+            data-testid="person-detail-bulk-assign-btn"
+          >
+            <User class="w-4 h-4 mr-2" />
+            Přiřadit k...
+          </Button>
+
+          <Button
+            variant="outline"
+            size="sm"
+            onclick={() => unmatchSelected(true)}
+            disabled={isWorking}
+            class="flex-1"
+            data-testid="person-detail-bulk-ignore-btn"
+          >
+            <EyeOff class="w-4 h-4 mr-2" />
+            Skrýt
+          </Button>
+
+          <Button
+            variant="outline"
+            size="sm"
+            onclick={() => unmatchSelected(false)}
+            disabled={isWorking}
+            class="flex-1 text-destructive hover:text-destructive hover:bg-destructive/10"
+            data-testid="person-detail-bulk-unmatch-btn"
+          >
+            {#if isWorking}
+              <Spinner class="w-4 h-4 mr-2" />
+            {:else}
+              <Trash2 class="w-4 h-4 mr-2" />
+              Odepnout
+            {/if}
+          </Button>
+
+          <Button
+            variant="outline"
+            size="sm"
+            onclick={clearSelection}
+            disabled={isWorking}
+            data-testid="person-detail-bulk-clear"
+          >
+            Zrušit
+          </Button>
+
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger
+              class={buttonVariants({
+                variant: "outline",
+                size: "sm",
+              })}
               disabled={isWorking}
-              class="flex-1 text-destructive hover:text-destructive hover:bg-destructive/10"
-              data-testid="person-detail-bulk-unmatch-btn"
+              data-testid="person-detail-bulk-more"
             >
-              {#if isWorking}
-                <Loader2 class="w-4 h-4 mr-2 animate-spin" />
-              {:else}
-                <Trash2 class="w-4 h-4 mr-2" />
-                Vyjmout
-              {/if}
-            </Button>
-          {/snippet}
-        </SelectionBulkActions>
+              <MoreHorizontal class="w-4 h-4" />
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Content align="end" class="w-56">
+              <DropdownMenu.Item
+                onclick={ignoreSelectedDetections}
+                data-testid="person-detail-bulk-junk"
+                class="text-destructive focus:text-destructive"
+              >
+                Ignorovat detekce
+              </DropdownMenu.Item>
+
+              <DropdownMenu.Separator />
+              <DropdownMenu.Label>Typ osoby</DropdownMenu.Label>
+              <DropdownMenu.Item
+                onclick={() => updateCategory("person")}
+                data-testid="person-detail-type-person"
+              >
+                Osoba
+              </DropdownMenu.Item>
+              <DropdownMenu.Item
+                onclick={() => updateCategory("statue")}
+                data-testid="person-detail-type-statue"
+              >
+                Socha
+              </DropdownMenu.Item>
+              <DropdownMenu.Item
+                onclick={() => updateCategory("painting")}
+                data-testid="person-detail-type-painting"
+              >
+                Malba
+              </DropdownMenu.Item>
+            </DropdownMenu.Content>
+          </DropdownMenu.Root>
+        </ButtonGroup.Root>
       {/if}
 
       <Button

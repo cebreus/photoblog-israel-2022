@@ -11,7 +11,7 @@
  */
 
 import { describe, expect, it, vi } from "vitest";
-import { execCapture, run } from "../../scripts/lib/shell-utils";
+import { execCapture, run } from "../../scripts/lib/utils/shell";
 
 const mockSpawn = vi.fn();
 

@@ -2,7 +2,7 @@ import fsp from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { acquireManifestLock, withManifestLock } from "../../scripts/lib/manifest-lock";
+import { acquireManifestLock, withManifestLock } from "../../scripts/lib/manifests/lock";
 
 describe("Manifest Lock", () => {
   let testDir: string;

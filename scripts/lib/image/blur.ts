@@ -2,13 +2,13 @@ import fsp from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { confirm, isCancel } from "@clack/prompts";
-import { config } from "../config";
-import type { CliOptions } from "./cli-parser";
-import { getConcurrency } from "./concurrency-utils";
-import { ensureDir } from "./image-utils";
-import { createLogger } from "./logger";
-import { createBar, stopAllBars } from "./progress-manager";
-import { run } from "./shell-utils";
+import { config } from "../../build.config";
+import { createLogger } from "../core/cli-logger";
+import type { CliOptions } from "../core/cli-parser";
+import { getConcurrency } from "../core/concurrency-utils";
+import { createBar, stopAllBars } from "../core/progress-manager";
+import { run } from "../utils/shell";
+import { ensureDir } from "./utils";
 
 const logger = createLogger("blur");
 

@@ -14,7 +14,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
-import { fixUnderwaterImage } from "../../scripts/lib/underwater";
+import { fixUnderwaterImage } from "../../scripts/lib/image/underwater";
 
 vi.mock("../../scripts/lib/shell-utils", () => ({
   run: vi.fn(),

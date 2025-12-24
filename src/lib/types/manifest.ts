@@ -1,124 +1,12 @@
-export type ImageSource = {
-  variant: "default" | "xl" | "detail" | "fallback" | "placeholder" | "admin_thumb";
-  type: "image/webp" | "image/jpeg" | "image/avif" | "image/png";
-  path: string;
-  width?: number;
-  height?: number; // Optional as not all variants might have it
-};
+// Re-export shared manifest types used across build and runtime
+export * from "../../../shared/types/manifest";
 
-export type ExifData = {
-  date: string;
-  location?: string;
-  city?: string;
-  latitude?: number;
-  longitude?: number;
-  orientation?: string;
-  title?: string;
-  caption?: string;
-  description?: string;
-  keywords?: string[];
-  author?: string;
-  authorSlug?: string;
-  copyright?: string;
-  category?: string;
-  country?: string;
-  countryCode?: string;
-  state?: string;
-  sublocation?: string;
-};
+// Import types for use in local types
+import type { PhotoDayItem, QualityBucket } from "../../../shared/types/manifest";
 
-export type ImageEntry = {
-  id: string;
-  type: "image";
-  src: string;
-  alt: string;
-  title: string;
-  width?: number;
-  height?: number;
-  aspectRatio?: AspectRatio;
-  placeholderColor?: string;
-  placeholder?: string;
-  adminThumbUrl?: string;
-  author?: string;
-  authorSlug?: string;
-  keywords?: string[];
-  caption?: string;
-  date?: string;
-  location?: string;
-  city?: string;
-  latitude?: number;
-  longitude?: number;
-  description?: string;
-  copyright?: string;
-  category?: string;
-  googleMapsUrl?: string;
-  sizeMB?: number;
-
-  analysis?: {
-    aestheticScore?: number;
-    sharpness: number;
-    qualityBucket?: QualityBucket;
-    phash: string;
-    facesDetected?: boolean;
-    faces?: Array<{ x: number; y: number; width: number; height: number }>;
-  };
-
-  exif?: {
-    date?: string;
-    location?: string;
-    city?: string;
-    sublocation?: string;
-    latitude?: number;
-    longitude?: number;
-    orientation?: number;
-    title?: string;
-    caption?: string;
-    description?: string;
-    keywords?: string[];
-    author?: string;
-    copyright?: string;
-    category?: string;
-    country?: string;
-    countryCode?: string;
-    state?: string;
-  };
-  people?: string[];
-  sources: ImageSource[];
-};
-
-export type Separator = {
-  type: "separator";
-  location: string;
-  city: string;
-  storyTitle?: string;
-  story?: string;
-  id: string;
-};
-
-export type PhotoDayItem = ImageEntry | Separator;
-
-/** Type guard for ImageEntry */
-export function isImageEntry(item: PhotoDayItem): item is ImageEntry {
-  return item.type === "image";
-}
-
-/** Type guard for Separator */
-export function isSeparator(item: PhotoDayItem): item is Separator {
-  return item.type === "separator";
-}
-export type PhotoDay = {
-  date: string;
-  id: string;
-  items: (ImageEntry | Separator)[];
-  cities?: string[];
-  locations?: string[];
-  story?: string;
-  mergedDates?: string[];
-};
-
-export type Manifest = {
-  photoDays: PhotoDay[];
-};
+// ==========================================
+// UI & App-Specific Types Below
+// ==========================================
 
 export type MenuLocation = {
   id: string;
@@ -128,8 +16,6 @@ export type MenuLocation = {
   isDimmed?: boolean;
   firstPhotoExifDate?: string;
 };
-
-export type QualityBucket = "excellent" | "good" | "poor";
 
 export type MenuDay = {
   id: string;

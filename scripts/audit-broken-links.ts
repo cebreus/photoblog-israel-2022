@@ -4,10 +4,10 @@ import fsp from "node:fs/promises";
 import path from "node:path";
 import { intro, note, outro, spinner } from "@clack/prompts";
 import pc from "picocolors";
-import type { ImageEntry } from "../src/lib/types/manifest";
-import { resolveGalleryDirectory } from "./lib/gallery-resolver";
-import { createLogger } from "./lib/logger";
-import { loadImagesManifest, loadPeopleManifest } from "./lib/manifest-repository";
+import { isImageEntry } from "../src/lib/types/manifest";
+import { createLogger } from "./lib/core/cli-logger";
+import { resolveGalleryDirectory } from "./lib/gallery/resolver";
+import { loadImagesManifest, loadPeopleManifest } from "./lib/manifests/repository";
 
 const logger = createLogger("audit-broken-links");
 
@@ -46,16 +46,15 @@ async function main() {
     s.start("Checking face crops for all images...");
     for (const day of imagesManifest.photoDays) {
       for (const item of day.items) {
-        if (item.type === "image") {
-          const img = item as ImageEntry;
-          if (img.people) {
-            for (const pid of img.people) {
-              const cropPath = path.join("faces", pid, `${img.id}.jpg`);
+        if (isImageEntry(item)) {
+          if (item.people) {
+            for (const pid of item.people) {
+              const cropPath = path.join("faces", pid, `${item.id}.jpg`);
               const fullPath = path.join(staticDir, cropPath);
               try {
                 await fsp.access(fullPath);
               } catch {
-                brokenCrops.push({ personId: pid, imageId: img.id, path: cropPath });
+                brokenCrops.push({ personId: pid, imageId: item.id, path: cropPath });
               }
             }
           }

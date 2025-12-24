@@ -11,7 +11,11 @@
  */
 
 import { describe, expect, it } from "vitest";
-import { buildImageEntry, normalizeExifData, type RawExifData } from "../../scripts/lib/metadata";
+import {
+  buildImageEntry,
+  normalizeExifData,
+  type RawExifData,
+} from "../../scripts/lib/image/metadata";
 
 describe("Metadata Module (Unit)", () => {
   describe("normalizeExifData", () => {

@@ -1,9 +1,9 @@
 <script lang="ts">
   import ArrowRight from "@lucide/svelte/icons/arrow-right";
-  import Loader2 from "@lucide/svelte/icons/loader-2";
 
   import { Button } from "$lib/components/ui/button";
   import * as Dialog from "$lib/components/ui/dialog";
+  import { Spinner } from "$lib/components/ui/spinner";
   import { createLogger } from "$lib/logger";
   import type { Person } from "$lib/types/manifest";
 
@@ -157,7 +157,7 @@
         data-testid="person-merge-confirm"
       >
         {#if isLoading}
-          <Loader2 class="w-4 h-4 mr-2 animate-spin" />
+          <Spinner class="w-4 h-4 mr-2" />
           Slučuji...
         {:else}
           Sloučit {sources.length + 1} osob do jedné

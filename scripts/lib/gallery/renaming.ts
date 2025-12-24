@@ -1,6 +1,6 @@
 import fsp from "node:fs/promises"; // Bun's native fs/promises
-import { toSlug } from "../../src/lib/utils/strings";
-import { toSafeFilename } from "./path-utils";
+import { toSlug } from "../../../shared/utils/strings";
+import { toSafeFilename } from "../utils/path";
 
 export type RenameMap = Map<
   string,

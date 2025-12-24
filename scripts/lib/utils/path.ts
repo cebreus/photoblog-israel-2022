@@ -1,5 +1,5 @@
 import path from "node:path";
-import { toSlug } from "../../src/lib/utils/strings";
+import { toSlug } from "../../../shared/utils/strings";
 
 /**
  * Validates and canonicalizes a given path, ensuring it stays within a specified safe root directory.

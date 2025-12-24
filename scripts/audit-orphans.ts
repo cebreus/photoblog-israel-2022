@@ -14,11 +14,11 @@ import {
   spinner,
 } from "@clack/prompts";
 import pc from "picocolors";
-import type { Cache, ImageEntry } from "../src/lib/types/manifest";
+import { type Cache, isImageEntry } from "../src/lib/types/manifest";
 import { config } from "./config";
 import { findOrphanAssets, findOrphanFaceCrops, getOutputFolders } from "./lib/cleanup-utils";
-import { resolveGalleryDirectory } from "./lib/gallery-resolver";
-import { createLogger } from "./lib/logger";
+import { createLogger } from "./lib/core/cli-logger";
+import { resolveGalleryDirectory } from "./lib/gallery/resolver";
 import {
   loadAnalysisManifest,
   loadEmbeddingsManifest,
@@ -30,7 +30,7 @@ import {
   saveEmbeddingsManifest,
   saveFacesManifest,
   savePeopleManifest,
-} from "./lib/manifest-repository";
+} from "./lib/manifests/repository";
 
 interface AuditResults {
   orphanPersonFolders: string[];
@@ -95,13 +95,12 @@ async function main() {
 
   for (const day of imagesManifest.photoDays) {
     for (const item of day.items) {
-      if (item.type === "image") {
-        const img = item as ImageEntry;
-        validImageIds.add(img.id);
-        validImageBaseNames.add(path.parse(img.src).name);
+      if (isImageEntry(item)) {
+        validImageIds.add(item.id);
+        validImageBaseNames.add(path.parse(item.src).name);
 
-        if (img.people) {
-          for (const pid of img.people) {
+        if (item.people) {
+          for (const pid of item.people) {
             actualFaceCounts.set(pid, (actualFaceCounts.get(pid) || 0) + 1);
           }
         }

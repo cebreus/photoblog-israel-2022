@@ -6,9 +6,17 @@
   import Header from "$lib/components/Header.svelte";
   import * as Sidebar from "$lib/components/ui/sidebar";
   import { Toaster } from "$lib/components/ui/sonner";
+  import { people } from "$lib/stores/people.svelte";
   import { ui } from "$lib/stores/ui.svelte";
   import { initUrlSync } from "$lib/stores/urlSync.svelte";
-  import type { Author, CurationManifest, MenuManifest, SiteManifest } from "$lib/types/manifest";
+  import type {
+    Author,
+    CurationManifest,
+    MenuManifest,
+    PeopleManifest,
+    PhotoDay,
+    SiteManifest,
+  } from "$lib/types/manifest";
 
   import faviconHtml from "../../.temp/favicons.html?raw";
   import "../app.css";
@@ -21,6 +29,8 @@
       siteManifest: SiteManifest;
       curationManifest?: CurationManifest;
       qualityStats: Map<string, number>;
+      photoDays: PhotoDay[];
+      peopleManifest: PeopleManifest;
     };
     children?: import("svelte").Snippet;
   }
@@ -39,6 +49,11 @@
     if (browser) {
       document.body.classList.toggle("show-labels", ui.photoLabels);
     }
+  });
+
+  $effect(() => {
+    if (data.peopleManifest) people.setPeople(data.peopleManifest.people);
+    if (data.photoDays) people.setPhotoDays(data.photoDays);
   });
 </script>
 

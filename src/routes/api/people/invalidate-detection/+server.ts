@@ -4,7 +4,7 @@ import { dev } from "$app/environment";
 import { createLogger } from "$lib/logger";
 import { type FacesManifest, isImageEntry } from "$lib/types/manifest";
 import { validateIgnoreFaceInput } from "$lib/utils/api-validators";
-import { withManifestLock } from "$scripts/lib/manifest-lock";
+import { withManifestLock } from "$scripts/lib/manifests/lock";
 import {
   loadClusteringConstraints,
   loadFacesManifest,
@@ -14,7 +14,7 @@ import {
   saveFacesManifest,
   saveImagesManifest,
   savePeopleManifest,
-} from "$scripts/lib/manifest-repository";
+} from "$scripts/lib/manifests/repository";
 
 const logger = createLogger("api:people:invalidate-detection");
 

@@ -3,8 +3,8 @@ import path from "node:path";
 import * as tf from "@tensorflow/tfjs-node";
 import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
 import * as canvas from "canvas";
+import { createLogger } from "./lib/core/cli-logger";
 import { convertHeicToPng } from "./lib/image-utils";
-import { createLogger } from "./lib/logger";
 
 const logger = createLogger("debug-face");
 

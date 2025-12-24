@@ -5,8 +5,8 @@ import path from "node:path"; // Bun's native path module
 import { select } from "@clack/prompts";
 import { type FaviconOptions, favicons } from "favicons";
 import matter from "gray-matter";
-import { parseCliArguments } from "./lib/cli-parser";
-import { createLogger } from "./lib/logger";
+import { createLogger } from "./lib/core/cli-logger";
+import { parseCliArguments } from "./lib/core/cli-parser";
 import { formatDuration } from "./lib/time-utils";
 
 const logger = createLogger("favicons");

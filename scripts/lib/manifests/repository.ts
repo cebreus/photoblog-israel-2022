@@ -8,17 +8,19 @@ import type {
   Manifest,
   MenuManifest,
   PeopleManifest,
-} from "../../src/lib/types/manifest";
+} from "../../../src/lib/types/manifest";
 import {
+  type ClusteringConstraints,
   isValidAnalysisManifest,
+  isValidClusteringConstraints,
   isValidCurationManifest,
   isValidEmbeddingsManifest,
   isValidFacesManifest,
   isValidManifest,
   isValidMenuManifest,
   isValidPeopleManifest,
-} from "../../src/lib/utils/manifest-validators";
-import { createLogger } from "./logger";
+} from "../../../src/lib/utils/manifest-validators";
+import { createLogger } from "../core/cli-logger";
 
 const logger = createLogger("manifest-repo");
 function sortObjectKeys(obj: any): any {
@@ -167,4 +169,24 @@ export async function loadFacesManifest(outRoot: string): Promise<FacesManifest 
 
 export async function saveFacesManifest(outRoot: string, data: FacesManifest): Promise<void> {
   return saveManifest(path.join(outRoot, "faces.manifest.json"), data);
+}
+
+export async function loadClusteringConstraints(
+  outRoot: string,
+): Promise<ClusteringConstraints | null> {
+  const data = await loadManifest<ClusteringConstraints>(
+    path.join(outRoot, "clustering-constraints.json"),
+  );
+  if (data && !isValidClusteringConstraints(data)) {
+    logger.warn(`Invalid clustering constraints structure in ${outRoot}`);
+    return null;
+  }
+  return data;
+}
+
+export async function saveClusteringConstraints(
+  outRoot: string,
+  data: ClusteringConstraints,
+): Promise<void> {
+  return saveManifest(path.join(outRoot, "clustering-constraints.json"), data);
 }

@@ -1,8 +1,8 @@
 import path from "node:path";
 import { intro, outro } from "@clack/prompts";
-import { resolveGalleryDirectory } from "./lib/gallery-resolver";
-import { createLogger } from "./lib/logger";
-import { loadImagesManifest, saveImagesManifest } from "./lib/manifest-repository";
+import { createLogger } from "./lib/core/cli-logger";
+import { resolveGalleryDirectory } from "./lib/gallery/resolver";
+import { loadImagesManifest, saveImagesManifest } from "./lib/manifests/repository";
 
 const logger = createLogger("cleanup-embeddings");
 

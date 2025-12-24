@@ -5,13 +5,13 @@ import type {
   FacesManifest,
   Manifest,
 } from "../src/lib/types/manifest";
-import { createLogger } from "./lib/logger";
+import { createLogger } from "./lib/core/cli-logger";
 import {
   loadManifest,
   saveAnalysisManifest,
   saveEmbeddingsManifest,
   saveFacesManifest,
-} from "./lib/manifest-repository";
+} from "./lib/manifests/repository";
 
 const logger = createLogger("migrate-manifests");
 

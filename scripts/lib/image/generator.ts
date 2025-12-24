@@ -1,12 +1,12 @@
 import path from "node:path";
 import type { Sharp } from "sharp";
-import { ImageFormat } from "../../src/lib/types/images";
-import type { QualityTypes } from "../../src/lib/types/manifest";
-import { config } from "../config";
-import type { FaceBox } from "./face-detection";
-import type { ImageProcessOptions } from "./image-processor";
-import { ensureDir } from "./image-utils";
+import { ImageFormat } from "../../../shared/types/images";
+import type { QualityTypes } from "../../../src/lib/types/manifest";
+import { config } from "../../build.config";
+import type { FaceBox } from "../faces/detection";
+import type { ImageProcessOptions } from "./processor";
 import { calculateSmartCrop } from "./smart-crop";
+import { ensureDir } from "./utils";
 
 type SharpModule = typeof import("sharp");
 type OutputConfig = (typeof config.outputs)[keyof typeof config.outputs];

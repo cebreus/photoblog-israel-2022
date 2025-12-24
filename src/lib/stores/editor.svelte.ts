@@ -2,76 +2,94 @@ import { createLogger } from "$lib/logger";
 
 const logger = createLogger("editor-store");
 
-export class EditorState {
-  #selection = $state(new Set<string>());
-  editMode = $state(false);
-  showMetadataOverlay = $state(false);
+function createEditorStore() {
+  let selection = $state(new Set<string>());
+  let editMode = $state(false);
+  let showMetadataOverlay = $state(false);
 
-  get selection() {
-    return this.#selection;
+  function updateSelection(fn: (s: Set<string>) => void) {
+    const next = new Set(selection);
+    fn(next);
+    selection = next;
   }
 
-  set selection(v: Set<string>) {
-    if (!(v instanceof Set)) {
-      logger.error("Invalid selection value, expected Set", v);
-      return;
-    }
-    this.#selection = v;
-  }
+  return {
+    get selection() {
+      return selection;
+    },
+    set selection(v: Set<string>) {
+      if (!(v instanceof Set)) {
+        logger.error("Invalid selection value, expected Set", v);
+        return;
+      }
+      selection = v;
+    },
+    get editMode() {
+      return editMode;
+    },
+    set editMode(value: boolean) {
+      editMode = value;
+      if (!value) {
+        selection = new Set();
+      }
+    },
+    get showMetadataOverlay() {
+      return showMetadataOverlay;
+    },
+    set showMetadataOverlay(value: boolean) {
+      showMetadataOverlay = value;
+    },
 
-  toggleSelection(id: string) {
-    if (this.#selection.has(id)) {
-      this.#selection.delete(id);
-    } else {
-      this.#selection.add(id);
-    }
-  }
+    toggleSelection(id: string) {
+      updateSelection((s) => (s.has(id) ? s.delete(id) : s.add(id)));
+    },
 
-  addSelection(id: string) {
-    this.#selection.add(id);
-  }
+    addSelection(id: string) {
+      updateSelection((s) => s.add(id));
+    },
 
-  removeSelection(id: string) {
-    this.#selection.delete(id);
-  }
+    removeSelection(id: string) {
+      updateSelection((s) => s.delete(id));
+    },
 
-  clearSelection() {
-    this.#selection.clear();
-  }
+    clearSelection() {
+      selection = new Set();
+    },
 
-  setSelection(ids: Set<string>) {
-    this.#selection = ids;
-  }
+    setSelection(ids: Set<string>) {
+      selection = ids;
+    },
 
-  addMultiple(ids: string[]) {
-    for (const id of ids) {
-      this.#selection.add(id);
-    }
-  }
+    addMultiple(ids: string[]) {
+      updateSelection((s) => {
+        for (const id of ids) s.add(id);
+      });
+    },
 
-  removeMultiple(ids: string[]) {
-    for (const id of ids) {
-      this.#selection.delete(id);
-    }
-  }
+    removeMultiple(ids: string[]) {
+      updateSelection((s) => {
+        for (const id of ids) s.delete(id);
+      });
+    },
 
-  toggleEditMode() {
-    this.editMode = !this.editMode;
-    if (!this.editMode) {
-      this.clearSelection();
-    }
-  }
+    toggleEditMode() {
+      editMode = !editMode;
+      if (!editMode) {
+        selection = new Set();
+      }
+    },
 
-  setEditMode(value: boolean) {
-    this.editMode = value;
-    if (!value) {
-      this.clearSelection();
-    }
-  }
+    setEditMode(value: boolean) {
+      editMode = value;
+      if (!value) {
+        selection = new Set();
+      }
+    },
 
-  setShowMetadataOverlay(value: boolean) {
-    this.showMetadataOverlay = value;
-  }
+    setShowMetadataOverlay(value: boolean) {
+      showMetadataOverlay = value;
+    },
+  };
 }
 
-export const editor = new EditorState();
+export const editor = createEditorStore();

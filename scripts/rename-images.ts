@@ -1,16 +1,17 @@
 import path from "node:path";
 import { confirm, intro, outro, select, spinner, text } from "@clack/prompts";
 import { exiftool } from "exiftool-vendored";
-import { parseCliArguments } from "./lib/cli-parser";
+import { createLogger } from "./lib/core/cli-logger";
+import { parseCliArguments } from "./lib/core/cli-parser";
 import {
   migrateCache,
   migrateCurationManifest,
+  migrateFacesManifest,
   migrateGeneratedAssets,
   migrateImagesManifest,
   migrateMarkdownFiles,
   migratePeopleManifest,
 } from "./lib/gallery-migration";
-import { createLogger } from "./lib/logger";
 import { getNewBasename, type RenameMap, safeRename } from "./lib/renaming-utils";
 import { formatDuration } from "./lib/time-utils";
 
@@ -109,6 +110,8 @@ async function executeRenameAndMigration(gallery: string, renameMap: RenameMap):
   await migrateImagesManifest(gallery, renameMap);
 
   await migratePeopleManifest(gallery, renameMap);
+
+  await migrateFacesManifest(gallery, renameMap);
 
   await migrateCurationManifest(gallery, renameMap);
 

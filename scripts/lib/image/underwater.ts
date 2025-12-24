@@ -2,9 +2,9 @@ import crypto from "node:crypto"; // Bun's native crypto
 import { mkdir, unlink } from "node:fs/promises"; // Bun's native fs/promises
 import path from "node:path"; // Bun's native path module
 import sharp from "sharp";
-import { config } from "../config";
-import { validatePathInsideRoot } from "./path-utils";
-import { run } from "./shell-utils";
+import { config } from "../../build.config";
+import { validatePathInsideRoot } from "../utils/path";
+import { run } from "../utils/shell";
 
 const TMP_DIR = process.env.TMPDIR ?? "/tmp";
 const SAFE_PROJECT_ROOT = process.cwd();

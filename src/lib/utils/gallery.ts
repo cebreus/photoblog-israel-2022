@@ -1,4 +1,9 @@
-import type { ImageEntry, PhotoDay, PhotoDayItem, QualityBucket } from "$lib/types/manifest";
+import {
+  isImageEntry,
+  type PhotoDay,
+  type PhotoDayItem,
+  type QualityBucket,
+} from "$lib/types/manifest";
 import { getImagePeopleMap, getPhotoDays } from "$lib/utils/images";
 
 export const QUALITY_BUCKETS: { id: QualityBucket; label: string }[] = [
@@ -18,29 +23,27 @@ function shouldIncludeItem(
   isDefaultView: boolean,
   imagePeopleMap: Record<string, string[]>,
 ): boolean {
-  if (item.type === "separator") {
+  if (!isImageEntry(item)) {
     return showSeparators;
   }
-
-  const img = item as ImageEntry;
 
   if (selectedAuthors.length > 0) {
     if (selectedAuthors.includes("none")) {
       return false;
     }
-    const authorMatches = selectedAuthors.includes(img.authorSlug || "neuvedeno");
+    const authorMatches = selectedAuthors.includes(item.authorSlug || "neuvedeno");
     if (!authorMatches) return false;
   }
 
   if (!isDefaultView) {
-    const bucket = img.analysis?.qualityBucket;
+    const bucket = item.analysis?.qualityBucket;
     if (!bucket || !selectedQualityBuckets.includes(bucket)) {
       return false;
     }
   }
 
   if (selectedPeople.length > 0) {
-    const people = img.people || imagePeopleMap[img.id] || [];
+    const people = item.people || imagePeopleMap[item.id] || [];
     const hasNone = selectedPeople.includes("none");
 
     if (people.length === 0) {

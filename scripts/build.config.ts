@@ -9,6 +9,7 @@ export const config = {
     source: `content/${contentDir}/${IMAGE_SUBDIR}`,
     siteSource: `content/${contentDir}`,
     output: `static/${contentDir}/images`,
+    facesRoot: `static/${contentDir}/faces`,
     urlPrefix: `/${contentDir}`,
     dataRoot: `src/data/${contentDir}`,
     manifest: `src/data/${contentDir}/images.manifest.json`,
