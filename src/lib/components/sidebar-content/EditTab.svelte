@@ -1,32 +1,24 @@
 <script lang="ts">
-  import RotateCcw from "@lucide/svelte/icons/rotate-ccw";
-  import Trash2 from "@lucide/svelte/icons/trash-2";
-  import X from "@lucide/svelte/icons/x";
   import { fade } from "svelte/transition";
   import { toast } from "svelte-sonner";
-  import { superForm } from "sveltekit-superforms";
   import { invalidateAll } from "$app/navigation";
   import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
-  import * as Accordion from "$lib/components/ui/accordion";
-  import { Badge } from "$lib/components/ui/badge";
   import { Button } from "$lib/components/ui/button";
-  import * as Form from "$lib/components/ui/form";
-  import { Input } from "$lib/components/ui/input";
   import { Spinner } from "$lib/components/ui/spinner";
-  import { Textarea } from "$lib/components/ui/textarea";
   import { createLogger } from "$lib/logger";
+  import { applyMetadataUpdates } from "$lib/shared/metadata-utils";
   import { editor } from "$lib/stores/editor.svelte";
   import { metadataClipboard } from "$lib/stores/metadata-clipboard.svelte";
-  import { ui } from "$lib/stores/ui.svelte";
   import type { ImageEntry, Separator } from "$lib/types/manifest";
+
+  import GeoDataSection from "./GeoDataSection.svelte";
+  import MetadataInputField from "./MetadataInputField.svelte";
+  import SelectedImagesBadges from "./SelectedImagesBadges.svelte";
 
   const logger = createLogger("EditTab");
 
   type DisplayItem = ImageEntry | Separator;
 
-  let { items = [] } = $props<{ items: DisplayItem[] }>();
-
-  // Manual initial data (replaces Schema)
   const initialData = {
     title: "",
     author: "",
@@ -39,76 +31,32 @@
     keywords: "",
   };
 
-  // Form setup
-  const form = superForm(initialData, {
-    SPA: true,
-    dataType: "json",
-    validators: false,
-    // No validators - relying on manual optional fields
-    onUpdate: async ({ form }) => {
-      if (ui.debugMode) logger.debug("form: onUpdate", { valid: form.valid, data: form.data });
-      if (form.valid) {
-        await handleSubmit(form.data);
-      } else {
-        if (ui.debugMode) logger.debug("form: invalid", form.errors);
-      }
-    },
-  });
+  type FormData = typeof initialData;
 
-  const { form: formData, enhance } = form;
+  let { items = [] } = $props<{ items: DisplayItem[] }>();
 
-  // Track whether multiple selected images share a common value
-  let commonTitle = $state<string | null>(null);
-  let commonAuthor = $state<string | null>(null);
-  let commonLocation = $state<string | null>(null);
-  let commonCity = $state<string | null>(null);
-  let commonState = $state<string | null>(null);
-  let commonCountry = $state<string | null>(null);
-  let commonCountryCode = $state<string | null>(null);
-  let commonCaption = $state<string | null>(null);
-  let commonKeywords = $state<string | null>(null);
+  let formData = $state<FormData>({ ...initialData });
+  let explicitClears = $state<Partial<Record<keyof FormData, boolean>>>({});
+  let previousGeoValues = $state<Partial<FormData>>({});
 
-  // Track explicit deletion requests to prevent accidental empty string overwrites
-  let explicitClears = $state<Record<string, boolean>>({});
-
-  // Derived state from stores (Centralized logic via urlSync.ts)
   let imageIds = $derived(Array.from(editor.selection));
-  let activeEntry = $derived(editor.selection.size > 0);
-  let isEditMode = $derived(editor.editMode);
-
-  // Derived file names
   let selectedImages = $derived(
     items.filter(
       (item: DisplayItem) => item.type === "image" && editor.selection.has(item.id),
     ) as ImageEntry[],
   );
-
   let activeImage = $derived(selectedImages.length === 1 ? selectedImages[0] : null);
 
-  // Data population logic - triggers whenever imageIds changes
   $effect(() => {
-    // Reading imageIds ensures reactivity
     if (imageIds.length > 0) {
       populateForm();
     }
   });
 
-  function removeImage(id: string) {
-    editor.toggleSelection(id);
-  }
-
-  // Simplified findImages
-  function findImages(): ImageEntry[] {
-    return items.filter(
-      (item: DisplayItem) => item.type === "image" && editor.selection.has(item.id),
-    ) as ImageEntry[];
-  }
-
   function populateForm() {
-    // Reset explicit clears and previous values when repopulating (switching images)
     explicitClears = {};
     previousGeoValues = {};
-    const images = findImages();
+    const images = selectedImages;
     if (images.length === 0) return;
 
     const getCommon = (getter: (img: ImageEntry) => string | undefined): string | null => {
@@ -119,85 +67,63 @@
       return first;
     };
 
-    const commonTitleValue = getCommon((i) => i.exif?.title);
-    const commonAuthorValue = getCommon((i) => i.author);
-    const commonLocationValue = getCommon((i) => i.location);
-    const commonCityValue = getCommon((i) => i.city);
-    const commonStateValue = getCommon((i) => i.exif?.state);
-    const commonCountryValue = getCommon((i) => i.exif?.country);
-    const commonCountryCodeValue = getCommon((i) => i.exif?.countryCode);
-    const commonCaptionValue = getCommon((i) => i.caption);
-    const commonKeywordsValue = getCommon((i) => i.keywords?.join(", "));
-
-    $formData.title = commonTitleValue ?? "";
-    commonTitle = commonTitleValue;
-
-    $formData.author = commonAuthorValue ?? "";
-    commonAuthor = commonAuthorValue;
-
-    $formData.location = commonLocationValue ?? "";
-    commonLocation = commonLocationValue;
-
-    $formData.city = commonCityValue ?? "";
-    commonCity = commonCityValue;
-
-    $formData.state = commonStateValue ?? "";
-    commonState = commonStateValue;
-
-    $formData.country = commonCountryValue ?? "";
-    commonCountry = commonCountryValue;
-
-    $formData.countryCode = commonCountryCodeValue ?? "";
-    commonCountryCode = commonCountryCodeValue;
-
-    $formData.caption = commonCaptionValue ?? "";
-    commonCaption = commonCaptionValue;
-
-    $formData.keywords = commonKeywordsValue ?? "";
-    commonKeywords = commonKeywordsValue;
+    formData.title = getCommon((i) => i.exif?.title) ?? "";
+    formData.author = getCommon((i) => i.author) ?? "";
+    formData.location = getCommon((i) => i.location) ?? "";
+    formData.city = getCommon((i) => i.city) ?? "";
+    formData.state = getCommon((i) => i.exif?.state) ?? "";
+    formData.country = getCommon((i) => i.exif?.country) ?? "";
+    formData.countryCode = getCommon((i) => i.exif?.countryCode) ?? "";
+    formData.caption = getCommon((i) => i.caption) ?? "";
+    formData.keywords = getCommon((i) => i.keywords?.join(", ")) ?? "";
   }
 
   let isSaving = $state(false);
 
-  async function handleSubmit(data: typeof initialData) {
-    if (editor.selection.size === 0) {
-      return;
-    }
+  function buildUpdates(data: FormData, clears: Partial<Record<string, boolean>>) {
+    const getValue = (field: keyof FormData) => {
+      if (clears[field]) return null;
+      return data[field] === "" ? undefined : data[field];
+    };
+
+    return {
+      title: getValue("title"),
+      author: getValue("author"),
+      location: getValue("location"),
+      city: getValue("city"),
+      state: getValue("state"),
+      country: getValue("country"),
+      countryCode: getValue("countryCode"),
+      caption: getValue("caption"),
+      keywords: clears.keywords
+        ? null
+        : data.keywords === ""
+          ? undefined
+          : data.keywords
+              ?.split(",")
+              .map((k) => k.trim())
+              .filter(Boolean),
+    };
+  }
+
+  async function handleSubmit() {
+    if (editor.selection.size === 0) return;
 
     isSaving = true;
+    const updates = buildUpdates(formData, explicitClears);
+
+    for (const img of selectedImages) {
+      applyMetadataUpdates(img, updates);
+    }
+
     try {
       const payload = {
-        imageIds: Array.from(editor.selection),
-        metadata: {
-          title: explicitClears.title ? null : data.title === "" ? undefined : data.title,
-          author: explicitClears.author ? null : data.author === "" ? undefined : data.author,
-          location: explicitClears.location
-            ? null
-            : data.location === ""
-              ? undefined
-              : data.location,
-          city: explicitClears.city ? null : data.city === "" ? undefined : data.city,
-          state: explicitClears.state ? null : data.state === "" ? undefined : data.state,
-          country: explicitClears.country ? null : data.country === "" ? undefined : data.country,
-          countryCode: explicitClears.countryCode
-            ? null
-            : data.countryCode === ""
-              ? undefined
-              : data.countryCode,
-          caption: explicitClears.caption ? null : data.caption === "" ? undefined : data.caption,
-          keywords: explicitClears.keywords
-            ? null
-            : data.keywords === ""
-              ? undefined
-              : data.keywords
-                  ?.split(",")
-                  .map((k: string) => k.trim())
-                  .filter(Boolean),
-        },
+        images: selectedImages.map((img) => ({ id: img.id, src: img.src })),
+        updates,
       };
 
-      const res = await fetch("/api/metadata", {
-        method: "POST",
+      const res = await fetch("/api/images", {
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
@@ -207,67 +133,54 @@
         throw new Error(errorData.message || "Nepodařilo se aktualizovat metadata");
       }
 
+      const responseData = await res.json();
+
+      if (responseData.updatedImages && Array.isArray(responseData.updatedImages)) {
+        for (const updatedImg of responseData.updatedImages) {
+          const localImg = selectedImages.find((i) => i.id === updatedImg.id);
+          if (localImg) {
+            Object.assign(localImg, updatedImg);
+            if (updatedImg.exif && localImg.exif) {
+              Object.assign(localImg.exif, updatedImg.exif);
+            }
+          }
+        }
+      }
+
       toast.success(
         imageIds.length === 1
           ? `Uložen ${imageIds.length} obrázek.`
           : `Uloženo ${imageIds.length} obrázků.`,
       );
-      // Invalidate server data to refresh manifest with updated metadata
-      // Invalidate server data to refresh manifest with updated metadata
-      // await invalidateAll(); // Refreshing too quickly kills the toast context or causes a re-render that might hide it.
-      // Instead, we will rely on optimistic UI or manual update if needed, but for now let's just NOT hard refresh immediately
-      // to see the toast. Or correct: invalidate keeps page state but data re-run might be clearing something?
-      // Actually invalidateAll re-runs load functions. The toast should persist across navigation if it's in layout.
-
-      // The issue is likely that invalidateAll() triggers a full re-render of the data which might be
-      // causing the component mounting the toast (or the context) to reset if not handled carefully.
-      // However, usually sonner handles this fine.
-
-      // Let's try adding a small delay to see if it's a race condition with the UI update,
-      // or simply remove it if we trust the UI state is local enough?
-      // No, we need invalidate to update the sidebar/grid data from the server (manifest).
-
-      // A common pattern is to wait a bit or use `applyAction` if it was form action.
-      // Here it is fetch.
-
-      setTimeout(() => {
-        invalidateAll();
-      }, 500);
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       toast.error(msg);
+      invalidateAll();
     } finally {
       isSaving = false;
     }
   }
 
-  function handleExplicitClear(field: keyof typeof initialData) {
-    $formData[field] = "";
-    explicitClears[field] = true;
-  }
-
-  function handleInput(field: keyof typeof initialData) {
+  function handleFieldInput(field: keyof FormData, value: string) {
+    formData[field] = value;
     if (explicitClears[field]) {
       explicitClears[field] = false;
     }
   }
 
-  let isFetchingGeo = $state(false);
-  let previousGeoValues = $state<Partial<typeof initialData>>({});
+  function handleFieldClear(field: keyof FormData) {
+    formData[field] = "";
+    explicitClears[field] = true;
+  }
 
-  function restoreGeoValue(field: keyof typeof initialData) {
+  // Geo-specific handlers
+  let isFetchingGeo = $state(false);
+
+  function restoreGeoValue(field: keyof FormData) {
     const prevValue = previousGeoValues[field];
     if (prevValue !== undefined) {
-      $formData[field] = prevValue;
-      // Update explicit clears: if restored value is empty, mark as explicit clear?
-      // Or just unmark explicit clear if it has value.
-      if ($formData[field]) {
-        explicitClears[field] = false;
-      } else {
-        // If restoring empty, usually we want to treat it as "cleared"
-        explicitClears[field] = true;
-      }
-
+      formData[field] = prevValue;
+      explicitClears[field] = !formData[field];
       const newPrev = { ...previousGeoValues };
       delete newPrev[field];
       previousGeoValues = newPrev;
@@ -288,15 +201,14 @@
       if (!res.ok) throw new Error("Nepodařilo se načíst data z mapy.");
 
       const data = await res.json();
-      const snapshot = { ...$formData };
+      const snapshot = { ...formData };
       const newPrevious: typeof previousGeoValues = {};
 
-      const applyField = (field: keyof typeof initialData, value: string | undefined) => {
-        // Do not repopulate a field the user explicitly cleared
+      const applyField = (field: keyof FormData, value: string | undefined) => {
         if (explicitClears[field]) return;
         if (value && value !== snapshot[field]) {
           newPrevious[field] = snapshot[field];
-          $formData[field] = value;
+          formData[field] = value;
           explicitClears[field] = false;
         }
       };
@@ -322,61 +234,53 @@
     }
   }
 
-  let isDeleting = $state(false);
+  // Paste handlers
   let isPastingOpen = $state(false);
   let isApplyingPaste = $state(false);
 
   function handlePasteMetadata() {
-    const clipboard = metadataClipboard;
-
-    if (!clipboard.data) {
+    if (!metadataClipboard.data) {
       toast.error("Žádná metadata v clipboard");
       return;
     }
-
     isPastingOpen = true;
   }
 
   async function confirmPaste(fieldsToApply: Record<string, boolean>) {
     const clipboard = metadataClipboard;
-
     if (!clipboard.data || imageIds.length === 0) return;
 
     isApplyingPaste = true;
     try {
-      const updatePayload = {
-        images: selectedImages.map((img) => ({
-          id: img.id,
-          src: img.src,
-        })),
-        updates: {
-          title: fieldsToApply.title && clipboard.data.title ? clipboard.data.title : undefined,
-          author: fieldsToApply.author && clipboard.data.author ? clipboard.data.author : undefined,
-          location:
-            fieldsToApply.location && clipboard.data.location ? clipboard.data.location : undefined,
-          city: fieldsToApply.city && clipboard.data.city ? clipboard.data.city : undefined,
-          state: fieldsToApply.state && clipboard.data.state ? clipboard.data.state : undefined,
-          country:
-            fieldsToApply.country && clipboard.data.country ? clipboard.data.country : undefined,
-          countryCode:
-            fieldsToApply.countryCode && clipboard.data.countryCode
-              ? clipboard.data.countryCode
-              : undefined,
-          caption:
-            fieldsToApply.caption && clipboard.data.caption ? clipboard.data.caption : undefined,
-          keywords:
-            fieldsToApply.keywords && clipboard.data.keywords?.length
-              ? clipboard.data.keywords
-              : undefined,
-        },
+      const getVal = (field: keyof FormData) =>
+        fieldsToApply[field] && clipboard.data?.[field]
+          ? (clipboard.data[field] as string)
+          : undefined;
+
+      const updates: ReturnType<typeof buildUpdates> = {
+        title: getVal("title"),
+        author: getVal("author"),
+        location: getVal("location"),
+        city: getVal("city"),
+        state: getVal("state"),
+        country: getVal("country"),
+        countryCode: getVal("countryCode"),
+        caption: getVal("caption"),
+        keywords:
+          fieldsToApply.keywords && clipboard.data.keywords?.length
+            ? clipboard.data.keywords
+            : undefined,
       };
 
-      logger.debug("Sending PATCH payload:", updatePayload);
+      const payload = {
+        images: selectedImages.map((img) => ({ id: img.id, src: img.src })),
+        updates,
+      };
 
       const res = await fetch("/api/images", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatePayload),
+        body: JSON.stringify(payload),
       });
 
       if (!res.ok) {
@@ -384,16 +288,16 @@
         throw new Error(err.message || "Chyba při ukládání metadata");
       }
 
+      for (const img of selectedImages) {
+        applyMetadataUpdates(img, updates);
+      }
+
       isPastingOpen = false;
       toast.success("Metadata úspěšně vložena");
-
-      // Refresh data
-      await invalidateAll();
-
-      // Close offcanvas? No, just keep open in tab.
     } catch (e) {
       logger.error(e);
       toast.error(`Chyba: ${e instanceof Error ? e.message : "Neznámá chyba"}`);
+      invalidateAll();
     } finally {
       isApplyingPaste = false;
     }
@@ -421,395 +325,81 @@
     onConfirm={confirmPaste}
   />
 
-  {#if selectedImages.length > 0}
-    <div class="flex flex-wrap gap-1 p-4 pt-2 border-b" data-testid="edit-tab-selected-images">
-      {#if selectedImages.length > 1}
-        <Badge
-          variant="destructive"
-          class="font-mono text-xs cursor-pointer"
-          onclick={() => editor.clearSelection()}
-          data-testid="edit-tab-clear-selection"
-        >
-          Odebrat vše
-        </Badge>
-      {/if}
+  <SelectedImagesBadges
+    images={selectedImages}
+    hasClipboardData={!!metadataClipboard.data}
+    onRemove={(id) => editor.toggleSelection(id)}
+    onClearAll={() => editor.clearSelection()}
+    onPaste={handlePasteMetadata}
+  />
 
-      {#if metadataClipboard.data}
-        <Badge
-          class="font-mono text-ýxs cursor-pointer"
-          onclick={handlePasteMetadata}
-          aria-label="Vložit metadata na vybrané obrázky"
-          data-testid="edit-tab-paste-metadata"
-        >
-          Vložit metadata
-        </Badge>
-      {/if}
-
-      {#each selectedImages as img (img.id)}
-        <Badge
-          variant="secondary"
-          class="font-mono text-xs flex gap-1 items-center pr-1"
-          data-testid="edit-tab-selected-image-{img.id}"
-        >
-          {img.src.split("/").pop()}
-          <button
-            onclick={() => removeImage(img.id)}
-            class="text-muted-foreground hover:text-foreground p-0.5 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-            aria-label="Odebrat z výběru"
-            type="button"
-          >
-            <X size={12} />
-          </button>
-        </Badge>
-      {/each}
-    </div>
-  {/if}
-
-  <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
   <form
     method="POST"
-    use:enhance
     class="grid gap-4 py-4 px-6"
-    onkeydown={(e) => {
-      if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault();
-        form.submit();
-      }
+    onsubmit={(e) => {
+      e.preventDefault();
+      handleSubmit();
     }}
   >
-    <Form.Field {form} name="caption">
-      <Form.Control>
-        {#snippet children({ props })}
-          <Form.Label>Popisek</Form.Label>
-          <div class="flex gap-2 items-start">
-            <Textarea
-              {...props}
-              bind:value={$formData.caption}
-              oninput={() => handleInput("caption")}
-              data-testid="edit-tab-caption-input"
-            />
-            <Button
-              variant={explicitClears.caption ? "destructive" : "outline"}
-              size="icon"
-              type="button"
-              onclick={() => handleExplicitClear("caption")}
-              aria-label="Smazat hodnotu"
-            >
-              <Trash2 class="size-4" />
-            </Button>
-          </div>
-        {/snippet}
-      </Form.Control>
-      <Form.FieldErrors />
-    </Form.Field>
+    <MetadataInputField
+      label="Popisek"
+      name="caption"
+      type="textarea"
+      value={formData.caption}
+      onInput={(v) => handleFieldInput("caption", v)}
+      onClear={() => handleFieldClear("caption")}
+      isCleared={explicitClears.caption}
+    />
 
-    <!-- Geografická data -->
-    <Accordion.Root type="single" value="geo">
-      <Accordion.Item value="geo">
-        <Accordion.Trigger class="text-sm font-medium">Geografické údaje</Accordion.Trigger>
-        <Accordion.Content class="border-b mb-2">
-          <div class="space-y-4 pt-2">
-            <Form.Field {form} name="location">
-              <Form.Control>
-                {#snippet children({ props })}
-                  <Form.Label>Místo</Form.Label>
-                  <div class="flex gap-2">
-                    <Input
-                      {...props}
-                      bind:value={$formData.location}
-                      oninput={() => handleInput("location")}
-                    />
-                    <Button
-                      variant={explicitClears.location ? "destructive" : "outline"}
-                      size="icon"
-                      type="button"
-                      onclick={() => handleExplicitClear("location")}
-                      aria-label="Smazat hodnotu"
-                    >
-                      <Trash2 class="size-4" />
-                    </Button>
-                  </div>
-                  {#if previousGeoValues.location !== undefined}
-                    <button
-                      type="button"
-                      class="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 mt-1 transition-colors group"
-                      onclick={() => restoreGeoValue("location")}
-                      aria-label="Kliknutím vrátíte popisek"
-                    >
-                      <RotateCcw size={10} class="group-hover:-rotate-90 transition-transform" />
-                      Původní:
-                      <span class="font-mono bg-muted px-1 rounded"
-                        >{previousGeoValues.location || "∅"}</span
-                      >
-                    </button>
-                  {/if}
-                {/snippet}
-              </Form.Control>
-              <Form.FieldErrors />
-            </Form.Field>
+    <GeoDataSection
+      location={formData.location}
+      city={formData.city}
+      state={formData.state}
+      country={formData.country}
+      countryCode={formData.countryCode}
+      previousValues={previousGeoValues}
+      clearedFields={explicitClears}
+      onFieldInput={handleFieldInput}
+      onFieldClear={handleFieldClear}
+      onRestore={restoreGeoValue}
+      onFetchGeo={handleFetchGeoData}
+      isFetching={isFetchingGeo}
+      hasGpsCoords={!!activeImage?.exif?.latitude}
+      googleMapsUrl={activeImage?.googleMapsUrl}
+    />
 
-            <Form.Field {form} name="city">
-              <Form.Control>
-                {#snippet children({ props })}
-                  <Form.Label>Město</Form.Label>
-                  <div class="flex gap-2">
-                    <Input
-                      {...props}
-                      bind:value={$formData.city}
-                      oninput={() => handleInput("city")}
-                    />
-                    <Button
-                      variant={explicitClears.city ? "destructive" : "outline"}
-                      size="icon"
-                      type="button"
-                      onclick={() => handleExplicitClear("city")}
-                      aria-label="Smazat hodnotu"
-                    >
-                      <Trash2 class="size-4" />
-                    </Button>
-                  </div>
-                  {#if previousGeoValues.city !== undefined}
-                    <button
-                      type="button"
-                      class="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 mt-1 transition-colors group"
-                      onclick={() => restoreGeoValue("city")}
-                      aria-label="Kliknutím vrátíte původní hodnotu"
-                    >
-                      <RotateCcw size={10} class="group-hover:-rotate-90 transition-transform" />
-                      Původní:
-                      <span class="font-mono bg-muted px-1 rounded"
-                        >{previousGeoValues.city || "∅"}</span
-                      >
-                    </button>
-                  {/if}
-                {/snippet}
-              </Form.Control>
-              <Form.FieldErrors />
-            </Form.Field>
+    <MetadataInputField
+      label="Titulek"
+      name="title"
+      value={formData.title}
+      onInput={(v) => handleFieldInput("title", v)}
+      onClear={() => handleFieldClear("title")}
+      isCleared={explicitClears.title}
+    />
 
-            <Form.Field {form} name="state">
-              <Form.Control>
-                {#snippet children({ props })}
-                  <Form.Label>Stát / Provincie</Form.Label>
-                  <div class="flex gap-2">
-                    <Input
-                      {...props}
-                      bind:value={$formData.state}
-                      oninput={() => handleInput("state")}
-                    />
-                    <Button
-                      variant={explicitClears.state ? "destructive" : "outline"}
-                      size="icon"
-                      type="button"
-                      onclick={() => handleExplicitClear("state")}
-                      aria-label="Smazat hodnotu"
-                    >
-                      <Trash2 class="size-4" />
-                    </Button>
-                  </div>
-                  {#if previousGeoValues.state !== undefined}
-                    <button
-                      type="button"
-                      class="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 mt-1 transition-colors group"
-                      onclick={() => restoreGeoValue("state")}
-                      aria-label="Kliknutím vrátíte původní hodnotu"
-                    >
-                      <RotateCcw size={10} class="group-hover:-rotate-90 transition-transform" />
-                      Původní:
-                      <span class="font-mono bg-muted px-1 rounded"
-                        >{previousGeoValues.state || "∅"}</span
-                      >
-                    </button>
-                  {/if}
-                {/snippet}
-              </Form.Control>
-              <Form.FieldErrors />
-            </Form.Field>
+    <MetadataInputField
+      label="Autor"
+      name="author"
+      value={formData.author}
+      onInput={(v) => handleFieldInput("author", v)}
+      onClear={() => handleFieldClear("author")}
+      isCleared={explicitClears.author}
+    />
 
-            <Form.Field {form} name="country">
-              <Form.Control>
-                {#snippet children({ props })}
-                  <Form.Label>Země</Form.Label>
-                  <div class="flex gap-2">
-                    <Input
-                      {...props}
-                      bind:value={$formData.country}
-                      oninput={() => handleInput("country")}
-                    />
-                    <Button
-                      variant={explicitClears.country ? "destructive" : "outline"}
-                      size="icon"
-                      type="button"
-                      onclick={() => handleExplicitClear("country")}
-                      aria-label="Smazat hodnotu"
-                    >
-                      <Trash2 class="size-4" />
-                    </Button>
-                  </div>
-                  {#if previousGeoValues.country !== undefined}
-                    <button
-                      type="button"
-                      class="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 mt-1 transition-colors group"
-                      onclick={() => restoreGeoValue("country")}
-                      aria-label="Kliknutím vrátíte původní hodnotu"
-                    >
-                      <RotateCcw size={10} class="group-hover:-rotate-90 transition-transform" />
-                      Původní:
-                      <span class="font-mono bg-muted px-1 rounded"
-                        >{previousGeoValues.country || "∅"}</span
-                      >
-                    </button>
-                  {/if}
-                {/snippet}
-              </Form.Control>
-              <Form.FieldErrors />
-            </Form.Field>
-
-            <Form.Field {form} name="countryCode">
-              <Form.Control>
-                {#snippet children({ props })}
-                  <Form.Label>Kód</Form.Label>
-                  <div class="flex gap-2">
-                    <Input
-                      {...props}
-                      bind:value={$formData.countryCode}
-                      oninput={() => handleInput("countryCode")}
-                    />
-                    <Button
-                      variant={explicitClears.countryCode ? "destructive" : "outline"}
-                      size="icon"
-                      type="button"
-                      onclick={() => handleExplicitClear("countryCode")}
-                      aria-label="Smazat hodnotu"
-                    >
-                      <Trash2 class="size-4" />
-                    </Button>
-                  </div>
-                  {#if previousGeoValues.countryCode !== undefined}
-                    <button
-                      type="button"
-                      class="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 mt-1 transition-colors group"
-                      onclick={() => restoreGeoValue("countryCode")}
-                      aria-label="Kliknutím vrátíte původní hodnotu"
-                    >
-                      <RotateCcw size={10} class="group-hover:-rotate-90 transition-transform" />
-                      Původní:
-                      <span class="font-mono bg-muted px-1 rounded"
-                        >{previousGeoValues.countryCode || "∅"}</span
-                      >
-                    </button>
-                  {/if}
-                {/snippet}
-              </Form.Control>
-              <Form.FieldErrors />
-            </Form.Field>
-
-            <div class="flex gap-2 pt-2">
-              {#if activeImage?.googleMapsUrl}
-                <Button
-                  variant="link"
-                  size="sm"
-                  href={activeImage.googleMapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Otevřít v Google Maps"
-                >
-                  Google Maps
-                </Button>
-              {/if}
-              <Button
-                variant="outline"
-                size="sm"
-                class="flex-1 gap-2"
-                onclick={handleFetchGeoData}
-                disabled={isFetchingGeo || !activeImage?.exif?.latitude}
-                aria-label="Načíst adresu z GPS souřadnic"
-              >
-                {#if isFetchingGeo}
-                  Načítám...
-                {:else}
-                  Načíst z mapy
-                {/if}
-              </Button>
-            </div>
-          </div>
-        </Accordion.Content>
-      </Accordion.Item>
-    </Accordion.Root>
-
-    <!-- Other Fields -->
-    <Form.Field {form} name="title">
-      <Form.Control>
-        {#snippet children({ props })}
-          <Form.Label>Titulek</Form.Label>
-          <div class="flex gap-2">
-            <Input {...props} bind:value={$formData.title} oninput={() => handleInput("title")} />
-            <Button
-              variant={explicitClears.title ? "destructive" : "outline"}
-              size="icon"
-              type="button"
-              onclick={() => handleExplicitClear("title")}
-              aria-label="Smazat hodnotu"
-            >
-              <Trash2 class="size-4" />
-            </Button>
-          </div>
-        {/snippet}
-      </Form.Control>
-      <Form.FieldErrors />
-    </Form.Field>
-
-    <Form.Field {form} name="author">
-      <Form.Control>
-        {#snippet children({ props })}
-          <Form.Label>Autor</Form.Label>
-          <div class="flex gap-2">
-            <Input {...props} bind:value={$formData.author} oninput={() => handleInput("author")} />
-            <Button
-              variant={explicitClears.author ? "destructive" : "outline"}
-              size="icon"
-              type="button"
-              onclick={() => handleExplicitClear("author")}
-              aria-label="Smazat hodnotu"
-            >
-              <Trash2 class="size-4" />
-            </Button>
-          </div>
-        {/snippet}
-      </Form.Control>
-      <Form.FieldErrors />
-    </Form.Field>
-
-    <Form.Field {form} name="keywords">
-      <Form.Control>
-        {#snippet children({ props })}
-          <Form.Label>Klíčová slova</Form.Label>
-          <div class="flex gap-2">
-            <Input
-              {...props}
-              bind:value={$formData.keywords}
-              oninput={() => handleInput("keywords")}
-              placeholder="čárkou oddělené"
-            />
-            <Button
-              variant={explicitClears.keywords ? "destructive" : "outline"}
-              size="icon"
-              type="button"
-              onclick={() => handleExplicitClear("keywords")}
-              aria-label="Smazat hodnotu"
-            >
-              <Trash2 class="size-4" />
-            </Button>
-          </div>
-        {/snippet}
-      </Form.Control>
-      <Form.FieldErrors />
-    </Form.Field>
+    <MetadataInputField
+      label="Klíčová slova"
+      name="keywords"
+      value={formData.keywords}
+      placeholder="čárkou oddělené"
+      onInput={(v) => handleFieldInput("keywords", v)}
+      onClear={() => handleFieldClear("keywords")}
+      isCleared={explicitClears.keywords}
+    />
 
     <div class="flex justify-end pt-4 mt-auto">
-      <Button class="w-full" size="lg" type="submit" data-testid="edit-tab-submit-button"
-        >Uložit změny</Button
-      >
+      <Button class="w-full" size="lg" type="submit" data-testid="edit-tab-submit-button">
+        Uložit změny
+      </Button>
     </div>
   </form>
 </div>
