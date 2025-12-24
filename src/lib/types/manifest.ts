@@ -97,6 +97,15 @@ export type Separator = {
 
 export type PhotoDayItem = ImageEntry | Separator;
 
+/** Type guard for ImageEntry */
+export function isImageEntry(item: PhotoDayItem): item is ImageEntry {
+  return item.type === "image";
+}
+
+/** Type guard for Separator */
+export function isSeparator(item: PhotoDayItem): item is Separator {
+  return item.type === "separator";
+}
 export type PhotoDay = {
   date: string;
   id: string;
@@ -278,7 +287,8 @@ export type Person = {
   faceCount: number;
   thumbnail: string;
   manualImageIds?: string[];
-  ignored: boolean;
+  hidden: boolean;
+  junk?: boolean;
   category?: "person" | "statue" | "painting";
   createdAt: string;
   lastSeenAt: string;

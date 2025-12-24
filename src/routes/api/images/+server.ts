@@ -1,516 +1,396 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { json, type RequestHandler } from "@sveltejs/kit";
+import process from "node:process";
+import { json, type RequestEvent } from "@sveltejs/kit";
 import { exiftool } from "exiftool-vendored";
 import { dev } from "$app/environment";
 import { createLogger } from "$lib/logger";
-import type { Manifest } from "$lib/types/manifest";
-import { config } from "../../../../scripts/config";
+import type { ImageEntry, Manifest } from "$lib/types/manifest";
+import { getExifToolWriteTags } from "$lib/utils/metadata-standards";
+import { config } from "$scripts/config";
 import {
   deleteGeneratedAssets,
   getOutputFolders,
   removeFromCache,
   removeImageFromConstraints,
-} from "../../../../scripts/lib/cleanup-utils";
+} from "$scripts/lib/cleanup-utils";
+import { withManifestLock } from "$scripts/lib/manifest-lock";
+import { loadImagesManifest, saveImagesManifest } from "$scripts/lib/manifest-repository";
 
 const logger = createLogger("api:images");
 
-export const DELETE: RequestHandler = async ({ request }) => {
-  if (!dev) {
-    return json({ message: "Forbidden" }, { status: 403 });
+type BatchItem = { id: string; src: string; [key: string]: unknown };
+type GroupedItems = Record<string, BatchItem[]>;
+
+// --- Helpers ---
+
+function groupItemsByContentDir(items: BatchItem[]): GroupedItems {
+  const groups: GroupedItems = {};
+  const defaultContentDir = process.env.CONTENT_DIR;
+
+  for (const item of items) {
+    if (!item.src) continue;
+    const parts = item.src.split("/");
+    let key: string | undefined;
+
+    // Expected format: /images/<contentDir>/<filename>
+    if (parts.length >= 3 && parts[1] === "images") {
+      key = parts[2];
+    } else if (defaultContentDir) {
+      key = defaultContentDir;
+    }
+
+    if (key) {
+      if (!groups[key]) groups[key] = [];
+      groups[key].push(item);
+    } else {
+      logger.warn(`Could not determine content directory for item ${item.src}`);
+    }
   }
+  return groups;
+}
+
+/**
+ * Resolves the physical path of an image file on disk.
+ * It checks the "content/<dir>" root and "content/<dir>/pics" subdirectory.
+ * It also performs a case-insensitive search if strict match fails.
+ */
+async function resolvePhysicalPath(contentRoot: string, fileName: string): Promise<string | null> {
+  const nameWithoutExt = path.parse(fileName).name;
+  const dirsToCheck = [contentRoot, path.join(contentRoot, "pics")];
+
+  for (const dir of dirsToCheck) {
+    const directPath = path.join(dir, fileName);
+    if (await fs.stat(directPath).catch(() => null)) {
+      return directPath;
+    }
+
+    // Case-insensitive fallback
+    try {
+      const files = await fs.readdir(dir);
+      const candidates = files.filter(
+        (f) => path.parse(f).name.toLowerCase() === nameWithoutExt.toLowerCase(),
+      );
+      if (candidates.length > 0) {
+        return path.join(dir, candidates[0]);
+      }
+    } catch {}
+  }
+
+  return null;
+}
+
+/**
+ * Wrapper for processing a batch of items within a manifest lock.
+ */
+async function processBatch(
+  contentDir: string,
+  items: BatchItem[],
+  errors: string[],
+  processor: (
+    manifest: Manifest | null,
+    item: BatchItem,
+    physicalPath: string | null,
+  ) => Promise<string | null>, // Returns ID of processed item or null if failed
+  options: { allowMissingManifest?: boolean } = {},
+): Promise<string[]> {
+  // Fallback if config placeholder logic is strictly ENV based, construct path manually to be safe for multi-gallery:
+  const dataPath = path.resolve(process.cwd(), "src/data", contentDir);
+  const contentRoot = path.resolve(process.cwd(), "content", contentDir);
+
+  const processedIds: string[] = [];
+
+  try {
+    await withManifestLock(dataPath, async () => {
+      const manifest = await loadImagesManifest(dataPath);
+      if (!manifest && !options.allowMissingManifest) {
+        errors.push(`Manifest not found for ${contentDir}`);
+        return;
+      }
+
+      let manifestModified = false;
+      const processedInThisBatch: Set<string> = new Set();
+
+      for (const item of items) {
+        try {
+          // Extract filename from src
+          const srcParts = item.src.split("/");
+          const fileName = decodeURIComponent(srcParts[srcParts.length - 1]);
+
+          const physicalPath = await resolvePhysicalPath(contentRoot, fileName);
+
+          const resultId = await processor(manifest, item, physicalPath);
+
+          if (resultId) {
+            processedIds.push(item.src); // or ID? The API usually returns src list.
+            processedInThisBatch.add(resultId);
+            if (manifest) manifestModified = true;
+          }
+        } catch (err) {
+          errors.push(
+            `Error processing ${item.src}: ${err instanceof Error ? err.message : String(err)}`,
+          );
+        }
+      }
+
+      if (manifestModified && manifest) {
+        // Filter out deleted items if the processor didn't already remove them
+        // (Processor might modify manifest in place, or we handle removal here if needed)
+        // But logic specific to DELETE vs UPDATE differs (DELETE removes item, UPDATE modifies).
+        // So processor should handle manifest modification deeply.
+        await saveImagesManifest(dataPath, manifest);
+      }
+    });
+  } catch (err) {
+    errors.push(
+      `Lock error for ${contentDir}: ${err instanceof Error ? err.message : String(err)}`,
+    );
+  }
+
+  return processedIds;
+}
+
+// --- API Handlers ---
+
+export async function DELETE({ request }: RequestEvent) {
+  if (!dev) return json({ message: "Forbidden" }, { status: 403 });
 
   const { ids } = await request.json();
+  if (!ids || !Array.isArray(ids)) return json({ message: "Invalid request" }, { status: 400 });
 
-  logger.debug("DELETE request received for IDs:", JSON.stringify(ids, null, 2));
-
-  if (!ids || !Array.isArray(ids)) {
-    return json({ message: "Invalid request" }, { status: 400 });
-  }
-
-  const contentRoot = path.resolve(process.cwd(), "content");
-  const dataRoot = path.resolve(process.cwd(), "src/data");
-  const staticRoot = path.resolve(process.cwd(), "static");
-  const tempRoot = path.resolve(process.cwd(), ".temp");
+  const groups = groupItemsByContentDir(ids);
+  const deleted: string[] = [];
+  const errors: string[] = [];
 
   const outputFolders = getOutputFolders({
     outputs: config.outputs,
     formats: config.encoding.formats,
   });
 
-  const deleted: string[] = [];
-  const errors: string[] = [];
+  const staticRoot = path.resolve(process.cwd(), "static");
+  const tempRoot = path.resolve(process.cwd(), ".temp");
+  const dataRoot = path.resolve(process.cwd(), "src/data");
 
-  const itemsByContentDir: Record<string, typeof ids> = {};
-  const defaultContentDir = process.env.CONTENT_DIR;
-
-  for (const item of ids) {
-    if (!item.src) continue;
-
-    const parts = item.src.split("/");
-
-    if (parts.length >= 3 && parts[1] === "images") {
-      const contentDirKey = parts[2];
-      if (!itemsByContentDir[contentDirKey]) {
-        itemsByContentDir[contentDirKey] = [];
-      }
-      itemsByContentDir[contentDirKey].push(item);
-    } else if (defaultContentDir) {
-      if (!itemsByContentDir[defaultContentDir]) {
-        itemsByContentDir[defaultContentDir] = [];
-      }
-      itemsByContentDir[defaultContentDir].push(item);
-    } else {
-      logger.warn(
-        `Could not determine content directory for item ${item.src} and no CONTENT_DIR env set.`,
-      );
-    }
-  }
-
-  for (const [contentDir, items] of Object.entries(itemsByContentDir)) {
-    const manifestPath = path.join(dataRoot, contentDir, "images.manifest.json");
-    let manifest: Manifest | null = null;
-
-    try {
-      const content = await fs.readFile(manifestPath, "utf-8");
-      manifest = JSON.parse(content);
-    } catch (_e) {
-      logger.warn(`Manifest not found for ${contentDir}, skipping manifest update.`);
-    }
-
-    let manifestModified = false;
-    const idsToDelete = new Set(items.map((i) => (i as { id: string }).id));
-
-    for (const item of items) {
-      const srcPath = item.src;
-      let relativePath = srcPath;
-      if (srcPath.startsWith("/images/")) {
-        relativePath = decodeURIComponent(srcPath.replace(/^\/images\//, ""));
-      } else {
-        relativePath = decodeURIComponent(srcPath);
-      }
-
-      const nameWithoutExt = path.parse(relativePath).name;
-      const physicalDir = path.join(contentRoot, contentDir, "pics");
-
-      let deletedPhysical = false;
-      let fileFoundOnDisk = false;
-
-      try {
-        logger.verbose(`Searching in physicalDir: ${physicalDir}`);
-        const files = await fs.readdir(physicalDir).catch((e) => {
-          logger.error(`Failed to read dir ${physicalDir}:`, e);
-          return [];
-        });
-
-        logger.verbose(`Checking ${physicalDir} for ${nameWithoutExt}`);
-
-        const candidates = files.filter(
-          (f) => path.parse(f).name.toLowerCase() === nameWithoutExt.toLowerCase(),
-        );
-
-        logger.verbose(`Found candidates: ${candidates.join(", ")}`);
-
-        if (candidates.length > 0) {
-          fileFoundOnDisk = true;
-          for (const candidate of candidates) {
-            await fs.unlink(path.join(physicalDir, candidate));
-            deletedPhysical = true;
-          }
-
-          // Clean up generated assets
-          const outputRoot = path.join(staticRoot, contentDir, "images");
-          const assetCleanup = await deleteGeneratedAssets(
-            nameWithoutExt,
-            outputRoot,
-            outputFolders,
-          );
-          if (assetCleanup.deleted.length > 0) {
-            logger.debug(
-              `[DELETE] Removed ${assetCleanup.deleted.length} generated assets for ${nameWithoutExt}`,
-            );
-          }
-
-          // Clean up cache
-          const cachePath = path.join(tempRoot, contentDir, "images.cache.json");
-          await removeFromCache(cachePath, `${nameWithoutExt}.heic`);
-          await removeFromCache(cachePath, `${nameWithoutExt}.jpg`);
-
-          // Clean up constraints
-          const constraintsPath = path.join(dataRoot, contentDir, "clustering-constraints.json");
-          const constraintCleanup = await removeImageFromConstraints(constraintsPath, item.id);
-          if (constraintCleanup.disconnectsRemoved > 0 || constraintCleanup.connectsRemoved > 0) {
-            logger.debug(`[DELETE] Cleaned constraints for ${item.id}`);
-          }
-        }
-
-        if (deletedPhysical) {
-          deleted.push(item.src);
+  for (const [contentDir, items] of Object.entries(groups)) {
+    // We define a specific processor for DELETE
+    const result = await processBatch(
+      contentDir,
+      items,
+      errors,
+      async (manifest, item, physicalPath) => {
+        // 1. Delete physical file
+        if (physicalPath) {
+          await fs.unlink(physicalPath);
         } else {
-          if (idsToDelete.has(item.id)) {
-            if (!fileFoundOnDisk) {
-              errors.push(
-                `File ${nameWithoutExt} was not found on disk (but has been removed from the list).`,
-              );
-              deleted.push(item.src); // Mark as processed so UI removes it
-            }
-          } else {
-            errors.push(`File ${nameWithoutExt} was not found on disk or in the list.`);
-          }
+          // If physical file missing, we still want to remove from manifest
+          // so we log but proceed.
+          // errors.push(`Physical file not found for ${item.src}`);
         }
-      } catch (e) {
-        errors.push(`Error deleting ${nameWithoutExt}: ${(e as Error).message}`);
-      }
-    }
 
-    if (manifest) {
-      manifest.photoDays = manifest.photoDays.map((day) => {
-        const originalLength = day.items.length;
-        day.items = day.items.filter((i) => !idsToDelete.has(i.id));
-        if (day.items.length !== originalLength) {
-          manifestModified = true;
+        const nameWithoutExt = path.parse(item.src).name; // simplified
+
+        // 2. Clean up assets
+        const outputRoot = path.join(staticRoot, contentDir, "images");
+        await deleteGeneratedAssets(nameWithoutExt, outputRoot, outputFolders);
+
+        // 3. Clean cache
+        const cachePath = path.join(tempRoot, contentDir, "images.cache.json");
+        await removeFromCache(cachePath, `${nameWithoutExt}.heic`);
+        await removeFromCache(cachePath, `${nameWithoutExt}.jpg`);
+
+        // 4. Clean constraints
+        const constraintsPath = path.join(dataRoot, contentDir, "clustering-constraints.json");
+        await removeImageFromConstraints(constraintsPath, item.id);
+
+        // 5. Update Manifest
+        let itemRemoved = false;
+        if (manifest) {
+          manifest.photoDays = manifest.photoDays.map((day) => {
+            const initialLen = day.items.length;
+            day.items = day.items.filter((i) => i.id !== item.id);
+            if (day.items.length !== initialLen) itemRemoved = true;
+            return day;
+          });
         }
-        return day;
-      });
 
-      if (manifestModified) {
-        await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2));
-      }
-    }
-  }
+        // If item was removed from manifest OR physical file existed (and was deleted), count as success
+        if (itemRemoved || physicalPath) return item.id;
 
-  if (errors.length > 0) {
-    if (deleted.length === 0) {
-      return json({ message: "Failed to delete files", errors }, { status: 500 });
-    }
+        errors.push(`Item ${item.id} not found in manifest or disk`);
+        return null;
+      },
+      { allowMissingManifest: true },
+    );
+    deleted.push(...result);
   }
 
   return json({ success: true, deleted, errors });
-};
+}
 
-export const POST: RequestHandler = async ({ request }) => {
-  if (!dev) {
-    return json({ message: "Forbidden" }, { status: 403 });
-  }
+export async function POST({ request }: RequestEvent) {
+  if (!dev) return json({ message: "Forbidden" }, { status: 403 });
 
   const { ids, action } = await request.json();
+  if (action !== "archive") return json({ message: "Invalid action" }, { status: 400 });
+  if (!ids || !Array.isArray(ids)) return json({ message: "Invalid request" }, { status: 400 });
 
-  if (action !== "archive") {
-    return json({ message: "Invalid action" }, { status: 400 });
-  }
-
-  if (!ids || !Array.isArray(ids)) {
-    return json({ message: "Invalid request" }, { status: 400 });
-  }
-
-  const contentRoot = path.resolve(process.cwd(), "content");
-  const dataRoot = path.resolve(process.cwd(), "src/data");
-
+  const groups = groupItemsByContentDir(ids);
   const archived: string[] = [];
   const errors: string[] = [];
 
-  interface ArchiveItem {
-    id: string;
-    src: string;
-    [key: string]: unknown;
-  }
-  const itemsByContentDir: Record<string, ArchiveItem[]> = {};
-  const defaultContentDir = process.env.CONTENT_DIR;
+  const staticRoot = path.resolve(process.cwd(), "static");
+  const tempRoot = path.resolve(process.cwd(), ".temp");
+  const dataRoot = path.resolve(process.cwd(), "src/data");
 
-  for (const item of ids as ArchiveItem[]) {
-    if (!item.src) continue;
-    const parts = item.src.split("/");
-    if (parts.length >= 3 && parts[1] === "images") {
-      const contentDirKey = parts[2];
-      if (!itemsByContentDir[contentDirKey]) {
-        itemsByContentDir[contentDirKey] = [];
-      }
-      itemsByContentDir[contentDirKey].push(item);
-    } else if (defaultContentDir) {
-      if (!itemsByContentDir[defaultContentDir]) {
-        itemsByContentDir[defaultContentDir] = [];
-      }
-      itemsByContentDir[defaultContentDir].push(item);
-    }
-  }
+  for (const [contentDir, items] of Object.entries(groups)) {
+    const archiveDir = path.resolve(process.cwd(), "content", contentDir, "archive");
+    await fs.mkdir(archiveDir, { recursive: true });
 
-  for (const [contentDir, items] of Object.entries(itemsByContentDir)) {
-    const manifestPath = path.join(dataRoot, contentDir, "images.manifest.json");
-    const physicalPicsDir = path.join(contentRoot, contentDir, "pics");
-    const archiveDir = path.join(contentRoot, contentDir, "archive");
-
-    try {
-      await fs.mkdir(archiveDir, { recursive: true });
-    } catch (e) {
-      errors.push(`Could not create archive directory for ${contentDir}: ${(e as Error).message}`);
-      continue;
-    }
-
-    let manifest: Manifest | null = null;
-    try {
-      const content = await fs.readFile(manifestPath, "utf-8");
-      manifest = JSON.parse(content);
-    } catch (_e) {
-      logger.warn(`Manifest not found for ${contentDir}`);
-    }
-
-    let manifestModified = false;
-    const idsToArchive = new Set(items.map((i) => i.id));
-
-    for (const item of items) {
-      const srcPath = item.src;
-      let relativePath = srcPath;
-      if (srcPath.startsWith("/images/")) {
-        relativePath = decodeURIComponent(srcPath.replace(/^\/images\//, ""));
-      } else {
-        relativePath = decodeURIComponent(srcPath);
-      }
-
-      const nameWithoutExt = path.parse(relativePath).name;
-
-      try {
-        const files = await fs.readdir(physicalPicsDir).catch(() => []);
-        const candidates = files.filter(
-          (f) => path.parse(f).name.toLowerCase() === nameWithoutExt.toLowerCase(),
-        );
-
-        if (candidates.length > 0) {
-          for (const candidate of candidates) {
-            const oldPath = path.join(physicalPicsDir, candidate);
-            const newPath = path.join(archiveDir, candidate);
-            await fs.rename(oldPath, newPath);
-          }
-          archived.push(item.src);
-
-          const staticOutputRoot = path.join(process.cwd(), "static", contentDir, "images");
-          const assetCleanup = await deleteGeneratedAssets(nameWithoutExt, staticOutputRoot, [
-            "previews",
-            "previews-webp",
-            "previews-avif",
-            "previews-xl",
-            "previews-xl-webp",
-            "previews-xl-avif",
-            "details",
-            "previews-xxs",
-            "blurs",
-          ]);
-          if (assetCleanup.deleted.length > 0) {
-            logger.debug(`[ARCHIVE] Removed ${assetCleanup.deleted.length} generated assets`);
-          }
-
-          const cachePath = path.join(process.cwd(), ".temp", contentDir, "images.cache.json");
-          await removeFromCache(cachePath, `${nameWithoutExt}.heic`);
-          await removeFromCache(cachePath, `${nameWithoutExt}.jpg`);
-
-          // Clean up constraints
-          const constraintsPath = path.join(dataRoot, contentDir, "clustering-constraints.json");
-          await removeImageFromConstraints(constraintsPath, item.id);
-        } else {
-          errors.push(`File ${nameWithoutExt} was not found in ${physicalPicsDir}`);
+    const result = await processBatch(
+      contentDir,
+      items,
+      errors,
+      async (manifest, item, physicalPath) => {
+        if (!physicalPath) {
+          throw new Error("Physical file not found, cannot archive");
         }
-      } catch (e) {
-        errors.push(`Error archiving ${nameWithoutExt}: ${(e as Error).message}`);
-      }
-    }
 
-    if (manifest) {
-      manifest.photoDays = manifest.photoDays.map((day) => {
-        const originalLength = day.items.length;
-        day.items = day.items.filter((i) => !idsToArchive.has(i.id));
-        if (day.items.length !== originalLength) {
-          manifestModified = true;
+        // 1. Move file
+        const fileName = path.basename(physicalPath);
+        const destPath = path.join(archiveDir, fileName);
+        await fs.rename(physicalPath, destPath);
+
+        const nameWithoutExt = path.parse(fileName).name;
+
+        // 2. Clean assets
+        const outputRoot = path.join(staticRoot, contentDir, "images");
+        const outputFolders = getOutputFolders({
+          outputs: config.outputs,
+          formats: config.encoding.formats,
+        });
+        await deleteGeneratedAssets(nameWithoutExt, outputRoot, outputFolders);
+
+        // 3. Clean cache
+        const cachePath = path.join(tempRoot, contentDir, "images.cache.json");
+        for (const ext of config.script.inputExtensions) {
+          await removeFromCache(cachePath, `${nameWithoutExt}.${ext}`);
         }
-        return day;
-      });
 
-      if (manifestModified) {
-        await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2));
-      }
-    }
+        // 4. Clean constraints
+        const constraintsPath = path.join(dataRoot, contentDir, "clustering-constraints.json");
+        await removeImageFromConstraints(constraintsPath, item.id);
+
+        // 5. Update Manifest
+        if (manifest) {
+          manifest.photoDays = manifest.photoDays.map((day) => {
+            day.items = day.items.filter((i) => i.id !== item.id);
+            return day;
+          });
+        }
+
+        return item.id;
+      },
+      { allowMissingManifest: true },
+    );
+    archived.push(...result);
   }
 
   return json({ success: true, archived, errors });
-};
+}
 
-export const PATCH: RequestHandler = async ({ request }) => {
-  if (!dev) {
-    return json({ message: "Forbidden" }, { status: 403 });
-  }
+export async function PATCH({ request }: RequestEvent) {
+  if (!dev) return json({ message: "Forbidden" }, { status: 403 });
 
   const { images, updates } = await request.json();
-
-  logger.debug("PATCH /api/images request:", { images, updates });
-
-  if (!images || !Array.isArray(images) || !updates) {
+  if (!images || !Array.isArray(images) || images.length === 0 || !updates)
     return json({ message: "Invalid request" }, { status: 400 });
-  }
 
-  const contentRoot = path.resolve(process.cwd(), "content");
-  const dataRoot = path.resolve(process.cwd(), "src/data");
-
+  const groups = groupItemsByContentDir(images);
+  const updatedIds: string[] = [];
   const errors: string[] = [];
-  const updated: string[] = [];
 
-  const itemsByContentDir: Record<string, typeof images> = {};
-  const defaultContentDir = process.env.CONTENT_DIR;
+  // Filter valid updates
+  const filteredUpdates = Object.fromEntries(
+    Object.entries(updates).filter(([, v]) => v !== undefined),
+  ) as Record<string, string | string[] | null>;
 
-  for (const item of images) {
-    if (!item.src) continue;
-
-    const parts = item.src.split("/");
-    if (parts.length >= 3 && parts[1] === "images") {
-      const contentDirKey = parts[2];
-      if (!itemsByContentDir[contentDirKey]) {
-        itemsByContentDir[contentDirKey] = [];
-      }
-      itemsByContentDir[contentDirKey].push(item);
-    } else if (defaultContentDir) {
-      if (!itemsByContentDir[defaultContentDir]) {
-        itemsByContentDir[defaultContentDir] = [];
-      }
-      itemsByContentDir[defaultContentDir].push(item);
-    }
+  const tags = getExifToolWriteTags(filteredUpdates);
+  if (Object.keys(tags).length === 0) {
+    return json({ message: "No metadata to update", errors: ["No valid tags"] }, { status: 500 });
   }
 
-  for (const [contentDir, contentDirItems] of Object.entries(itemsByContentDir)) {
-    const physicalRoot = path.join(contentRoot, contentDir);
-    const manifestPath = path.join(dataRoot, contentDir, "images.manifest.json");
-
-    let manifest: Manifest | null = null;
-    let manifestModified = false;
-
-    try {
-      const manifestContent = await fs.readFile(manifestPath, "utf-8");
-      manifest = JSON.parse(manifestContent);
-    } catch (_e) {
-      errors.push(`Failed to load manifest for ${contentDir}`);
-      continue;
-    }
-
-    const filteredUpdates = Object.fromEntries(
-      Object.entries(updates).filter(([, v]) => v !== undefined),
-    ) as Record<string, string | string[] | null>;
-
-    logger.debug("Filtered updates for content dir", contentDir, ":", {
-      original: updates,
-      filtered: filteredUpdates,
-    });
-
-    const { getExifToolWriteTags } = await import("$lib/utils/metadata-standards");
-    // Explicitly cast to the expected input type for the utility, or allow it if types align
-    const tags = getExifToolWriteTags(filteredUpdates);
-
-    if (Object.keys(tags).length === 0) {
-      errors.push("No metadata to update");
-      continue;
-    }
-
-    // Use a more specific type than 'any' for the loop item, but since it comes from untyped JSON we can use unknown with casting or a defined interface
-    // Ideally we define an interface for the patch payload items
-    interface PatchItem {
-      id: string;
-      src: string;
-    }
-
-    for (const item of contentDirItems as PatchItem[]) {
-      try {
-        const _physicalDir = physicalRoot;
-        const srcParts = item.src.split("/");
-        const fileName = srcParts[srcParts.length - 1];
-        const nameWithoutExt = path.parse(fileName).name;
-
-        let filePath = path.join(physicalRoot, fileName);
-        if (!(await fs.stat(filePath).catch(() => null))) {
-          const candidate = path.join(physicalRoot, "pics", fileName);
-          if (await fs.stat(candidate).catch(() => null)) {
-            filePath = candidate;
-          } else {
-            const searchDir = await fs.readdir(path.join(physicalRoot, "pics")).catch(() => []);
-            const candidates = searchDir.filter(
-              (f) => path.parse(f).name.toLowerCase() === nameWithoutExt.toLowerCase(),
-            );
-
-            if (candidates.length > 0) {
-              filePath = path.join(physicalRoot, "pics", candidates[0]);
-            } else {
-              throw new Error(`File ${fileName} was not found`);
-            }
-          }
+  for (const [contentDir, items] of Object.entries(groups)) {
+    const result = await processBatch(
+      contentDir,
+      items,
+      errors,
+      async (manifest, item, physicalPath) => {
+        if (!physicalPath) {
+          throw new Error("Physical file not found");
         }
 
-        await exiftool.write(filePath, tags, {
+        // 1. Write EXIF
+        await exiftool.write(physicalPath, tags, {
           writeArgs: ["-overwrite_original", "-coding=utf8", "-m", "-charset", "iptc=UTF8"],
         });
 
-        updated.push(item.src);
+        // 2. Update Manifest
+        if (!manifest) throw new Error("Manifest failed to load");
 
-        if (manifest) {
-          let found = false;
-          for (const day of manifest.photoDays) {
-            for (const imageItem of day.items) {
-              if (imageItem.type === "image" && imageItem.id === item.id) {
-                // Update top-level fields
-                if (filteredUpdates.title && imageItem.exif) {
-                  imageItem.exif.title = filteredUpdates.title as string;
-                }
-                if (filteredUpdates.caption && imageItem.exif) {
-                  imageItem.exif.caption = filteredUpdates.caption as string;
-                }
-                if (filteredUpdates.city) {
-                  imageItem.city = filteredUpdates.city as string;
-                  if (imageItem.exif) imageItem.exif.city = filteredUpdates.city as string;
-                }
-                if (filteredUpdates.location) {
-                  imageItem.location = filteredUpdates.location as string;
-                  if (imageItem.exif) imageItem.exif.location = filteredUpdates.location as string;
-                }
-                if (filteredUpdates.author) {
-                  imageItem.author = filteredUpdates.author as string;
-                  if (imageItem.exif) imageItem.exif.author = filteredUpdates.author as string;
-                }
-                if (filteredUpdates.country && imageItem.exif) {
-                  imageItem.exif.country = filteredUpdates.country as string;
-                }
-                if (filteredUpdates.countryCode && imageItem.exif) {
-                  imageItem.exif.countryCode = filteredUpdates.countryCode as string;
-                }
-                if (filteredUpdates.state && imageItem.exif) {
-                  imageItem.exif.state = filteredUpdates.state as string;
-                }
-                if (filteredUpdates.keywords) {
-                  imageItem.keywords = Array.isArray(filteredUpdates.keywords)
-                    ? filteredUpdates.keywords
-                    : [filteredUpdates.keywords as string];
-                  if (imageItem.exif) {
-                    imageItem.exif.keywords = imageItem.keywords;
-                  }
-                }
-
-                found = true;
-                manifestModified = true;
-                break;
-              }
+        let found = false;
+        for (const day of manifest.photoDays) {
+          for (const imageItem of day.items) {
+            if (imageItem.type === "image" && imageItem.id === item.id) {
+              applyUpdatesToImageItem(imageItem, filteredUpdates);
+              found = true;
+              break;
             }
-            if (found) break;
           }
+          if (found) break;
         }
-      } catch (e) {
-        errors.push(`Error updating ${item.src}: ${(e as Error).message}`);
-      }
-    }
 
-    if (manifest && manifestModified) {
-      try {
-        await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2));
-      } catch (e) {
-        errors.push(`Error saving manifest: ${(e as Error).message}`);
-      }
-    }
+        return item.id;
+      },
+    );
+    updatedIds.push(...result);
   }
 
-  if (updated.length === 0) {
+  if (updatedIds.length === 0 && errors.length > 0) {
     return json({ message: "Failed to update metadata", errors }, { status: 500 });
   }
 
-  return json({ success: true, updated, errors });
-};
+  return json({ success: true, updated: updatedIds, errors });
+}
+
+/**
+ * Helper to modify the ImageEntry object in memory
+ */
+function applyUpdatesToImageItem(
+  imageItem: ImageEntry,
+  updates: Record<string, string | string[] | null>,
+) {
+  if (updates.title && imageItem.exif) imageItem.exif.title = updates.title as string;
+  if (updates.caption && imageItem.exif) imageItem.exif.caption = updates.caption as string;
+  if (updates.city) {
+    imageItem.city = updates.city as string;
+    if (imageItem.exif) imageItem.exif.city = updates.city as string;
+  }
+  if (updates.location) {
+    imageItem.location = updates.location as string;
+    if (imageItem.exif) imageItem.exif.location = updates.location as string;
+  }
+  if (updates.author) {
+    imageItem.author = updates.author as string;
+    if (imageItem.exif) imageItem.exif.author = updates.author as string;
+  }
+  if (updates.country && imageItem.exif) imageItem.exif.country = updates.country as string;
+  if (updates.countryCode && imageItem.exif)
+    imageItem.exif.countryCode = updates.countryCode as string;
+  if (updates.state && imageItem.exif) imageItem.exif.state = updates.state as string;
+  if (updates.keywords) {
+    imageItem.keywords = Array.isArray(updates.keywords)
+      ? updates.keywords
+      : [updates.keywords as string];
+    if (imageItem.exif) imageItem.exif.keywords = imageItem.keywords;
+  }
+}

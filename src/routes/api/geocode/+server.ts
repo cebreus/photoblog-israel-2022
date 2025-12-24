@@ -1,7 +1,11 @@
-import { error, json } from "@sveltejs/kit";
+import { error, json, type RequestEvent } from "@sveltejs/kit";
 import lookup from "country-code-lookup";
+import { dev } from "$app/environment";
 
-export async function GET({ url, fetch }) {
+export async function GET({ url, fetch }: RequestEvent) {
+  if (!dev) {
+    throw error(403, "Geocoding proxy is restricted to DEV mode.");
+  }
   const lat = url.searchParams.get("lat");
   const lng = url.searchParams.get("lng");
 

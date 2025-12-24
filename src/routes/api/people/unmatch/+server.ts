@@ -4,10 +4,12 @@ import path from "node:path";
 import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
 import { createLogger } from "$lib/logger";
-import type { ImageEntry, ImageFaces } from "$lib/types/manifest";
+import { type PeopleManifest, type Person } from "$lib/types/manifest";
 import { validateUnmatchInput } from "$lib/utils/api-validators";
 import { toSlug } from "$lib/utils/strings";
-import { withManifestLock } from "../../../../../scripts/lib/manifest-lock";
+import { removeEmptyPersonFolder } from "$scripts/lib/cleanup-utils";
+import { addReassignmentConstraints } from "$scripts/lib/constraint-utils";
+import { withManifestLock } from "$scripts/lib/manifest-lock";
 import {
   loadFacesManifest,
   loadImagesManifest,
@@ -15,14 +17,68 @@ import {
   saveFacesManifest,
   saveImagesManifest,
   savePeopleManifest,
-} from "../../../../../scripts/lib/manifest-repository";
+} from "$scripts/lib/manifest-repository";
+import { updateImagePersonReference } from "$scripts/lib/person-utils";
 
-const logger = createLogger("people-api");
+const logger = createLogger("api:people:unmatch");
 
-export async function POST({ request }) {
+function createNewPerson(
+  peopleManifest: PeopleManifest,
+  sourcePerson: Person,
+  imgId: string,
+  shouldHide: boolean,
+): Person {
+  const name = `Odpojeno od ${sourcePerson.name}`;
+  const slug = toSlug(name);
+  const uuid = crypto.randomUUID().slice(0, 8);
+  const newPersonId = `person-${uuid}--${slug}`;
+
+  const newPerson: Person = {
+    id: newPersonId,
+    name,
+    faceDescriptor: [],
+    clusters: [],
+    faceCount: 1,
+    thumbnail: `faces/${newPersonId}/${imgId}.jpg`,
+    hidden: shouldHide || sourcePerson.hidden,
+    junk: sourcePerson.junk,
+    createdAt: new Date().toISOString(),
+    lastSeenAt: new Date().toISOString(),
+    category: sourcePerson.category || "person",
+  };
+
+  peopleManifest.people.push(newPerson);
+  return newPerson;
+}
+
+async function moveFaceCrop(
+  facesDir: string,
+  oldPersonId: string,
+  newPersonId: string,
+  imgId: string,
+) {
+  const oldPath = path.resolve(facesDir, oldPersonId, `${imgId}.jpg`);
+  const newDir = path.resolve(facesDir, newPersonId);
+  const newPath = path.resolve(newDir, `${imgId}.jpg`);
+
+  await fsp.mkdir(newDir, { recursive: true });
+  try {
+    await fsp.rename(oldPath, newPath);
+  } catch {
+    /* ignore if faceCrop missing */
+  }
+}
+
+/**
+ * Detaches faces from a person, creating new person entities for them.
+ * Useful when a face cluster contains multiple distinct people.
+ * Handles creating new person entries, moving face crops, and updating references.
+ */
+export async function POST({ request }: { request: Request }) {
   if (!dev) {
     throw error(403, "Manifest modifications are not permitted on the production server.");
   }
+
   const body = await request.json();
   const validation = validateUnmatchInput(body);
 
@@ -30,212 +86,66 @@ export async function POST({ request }) {
     return json({ success: false, error: validation.error }, { status: validation.status });
   }
 
-  const { personId, imageIds: idsToUnmatch, ignore: shouldIgnore } = validation.data;
-
+  const { personId, imageIds, ignore } = validation.data;
   const contentDir = process.env.CONTENT_DIR || "egypt-2025";
-  const dataDir = path.resolve(process.cwd(), `src/data/${contentDir}`);
-  const facesDir = path.resolve(process.cwd(), `static/${contentDir}/faces`);
+  const dataDir = path.resolve(process.cwd(), "src/data", contentDir);
+  const facesDir = path.resolve(process.cwd(), "static", contentDir, "faces");
 
   try {
-    return await withManifestLock(dataDir, async () => {
+    return await withManifestLock(dataDir, async function () {
       const peopleManifest = await loadPeopleManifest(dataDir);
       const imagesManifest = await loadImagesManifest(dataDir);
       const facesManifest = (await loadFacesManifest(dataDir)) || {};
 
-      if (!peopleManifest || !imagesManifest) {
-        return json({ success: false, error: "Manifests not found" }, { status: 500 });
-      }
+      if (!peopleManifest || !imagesManifest) throw new Error("Manifests missing");
 
-      const sourcePerson = peopleManifest.people.find((p) => p.id === personId);
-      if (!sourcePerson) {
-        return json({ success: false, error: "Person not found" }, { status: 404 });
-      }
+      const sourcePerson = peopleManifest.people.find((person) => person.id === personId);
+      if (!sourcePerson) throw new Error("Source person not found");
 
-      const processedNewPeople = [];
-      const idSet = new Set(idsToUnmatch);
+      const processedNewPeople: Person[] = [];
 
-      for (const id of idsToUnmatch) {
-        const name = `Odpojeno od ${sourcePerson.name}`;
-        const slug = toSlug(name);
-
-        const uuid = crypto.randomUUID().slice(0, 8);
-        const newPersonId = `person-${uuid}--${slug}`;
-
-        const newPerson = {
-          id: newPersonId,
-          name,
-          faceDescriptor: [],
-          clusters: [],
-          faceCount: 1,
-          thumbnail: `faces/${newPersonId}/${id}.jpg`,
-          ignored: shouldIgnore ?? false,
-          createdAt: new Date().toISOString(),
-          lastSeenAt: new Date().toISOString(),
-          category: "person" as const, // Explicit category or default
-        };
-
-        peopleManifest.people.push(newPerson);
+      for (const imgId of imageIds) {
+        const newPerson = createNewPerson(peopleManifest, sourcePerson, imgId, !!ignore);
         processedNewPeople.push(newPerson);
 
-        let imageUpdated = false;
-        for (const day of imagesManifest.photoDays) {
-          for (const item of day.items) {
-            if (item.type === "image" && item.id === id) {
-              const img = item as ImageEntry;
-              if (img.people?.includes(personId)) {
-                // Remove old person from main manifest
-                img.people = img.people.filter((pid) => pid !== personId);
-                // Add new person
-                img.people.push(newPersonId);
-                imageUpdated = true;
-              }
-            }
+        const updated = updateImagePersonReference(
+          imagesManifest,
+          facesManifest,
+          imgId,
+          personId,
+          newPerson.id,
+        );
+
+        if (updated) {
+          // Fallback: If facesManifest didn't exist for this image, create it now
+          if (!facesManifest[imgId]) {
+            facesManifest[imgId] = {
+              facesDetected: false,
+              faces: [],
+              peopleIds: [newPerson.id],
+            };
           }
-        }
 
-        // Also update faces manifest to satisfy Split & Link architecture
-        if (Object.hasOwn(facesManifest, id)) {
-          const faceData = facesManifest[id];
-          if (faceData.peopleIds?.includes(personId)) {
-            faceData.peopleIds = faceData.peopleIds.filter((pid: string) => pid !== personId);
-            faceData.peopleIds.push(newPersonId);
-            imageUpdated = true;
-          }
-        } else if (imageUpdated) {
-          // If it was in the main manifest but not in faces.manifest,
-          // we should probably initialize it in faces.manifest too if we want it to persist.
-          const newFaceData: ImageFaces = {
-            facesDetected: false,
-            faces: [],
-            peopleIds: [newPersonId],
-          };
-          facesManifest[id] = newFaceData;
-        }
-
-        if (!imageUpdated) {
-          logger.warn(`[UNMATCH] Image ${id} or person link not found, skipping move`);
-          continue;
-        }
-
-        const oldPath = path.resolve(facesDir, personId, `${id}.jpg`);
-        const newDir = path.resolve(facesDir, newPersonId);
-        const newPath = path.resolve(newDir, `${id}.jpg`);
-
-        await fsp.mkdir(newDir, { recursive: true });
-
-        try {
-          await fsp.rename(oldPath, newPath);
-        } catch (_e) {
-          logger.warn(`[UNMATCH] File move failed: ${oldPath} -> ${newPath}`);
+          await moveFaceCrop(facesDir, personId, newPerson.id, imgId);
+          await addReassignmentConstraints(dataDir, [imgId], personId, newPerson.id);
         }
       }
 
-      sourcePerson.faceCount = Math.max(0, sourcePerson.faceCount - idsToUnmatch.length);
-
-      if (sourcePerson.faceCount > 0) {
-        const sourceDir = path.resolve(facesDir, personId);
-        let needsNewThumbnail = false;
-
-        if (
-          !sourcePerson.thumbnail ||
-          idsToUnmatch.some((id) => sourcePerson.thumbnail?.includes(id))
-        ) {
-          logger.debug(`[UNMATCH] Thumbnail matches one of removed images, invalidating...`);
-          needsNewThumbnail = true;
-        }
-
-        if (!needsNewThumbnail && sourcePerson.thumbnail) {
-          try {
-            const thumbPath = path.resolve(
-              process.cwd(),
-              `static/${contentDir}`,
-              sourcePerson.thumbnail,
-            );
-            await fsp.access(thumbPath);
-          } catch {
-            logger.debug(
-              `[UNMATCH] Current thumbnail file not found: ${sourcePerson.thumbnail}, invalidating...`,
-            );
-            needsNewThumbnail = true;
-          }
-        }
-
-        if (needsNewThumbnail) {
-          logger.debug(`[UNMATCH] Searching for new thumbnail for ${sourcePerson.name}...`);
-          try {
-            const files = await fsp.readdir(sourceDir);
-            const validImages = files
-              .filter(
-                (f) =>
-                  f.endsWith(".jpg") && !idSet.has(f.replace(".jpg", "")) && !f.startsWith("."),
-              )
-              .sort();
-
-            if (validImages.length > 0) {
-              sourcePerson.thumbnail = `faces/${personId}/${validImages[0]}`;
-            } else {
-              sourcePerson.thumbnail = "";
-            }
-          } catch (_e) {
-            sourcePerson.thumbnail = "";
-          }
-        }
-      } else {
-        sourcePerson.thumbnail = "";
+      // Finalize source person
+      sourcePerson.faceCount = Math.max(0, sourcePerson.faceCount - imageIds.length);
+      if (sourcePerson.faceCount <= 0) {
+        peopleManifest.people = peopleManifest.people.filter((person) => person.id !== personId);
+        await removeEmptyPersonFolder(facesDir, personId);
       }
 
       await savePeopleManifest(dataDir, peopleManifest);
       await saveImagesManifest(dataDir, imagesManifest);
       await saveFacesManifest(dataDir, facesManifest);
 
-      // Save Disconnection and Connection Constraints
-      const constraintsPath = path.resolve(
-        process.cwd(),
-        `src/data/${contentDir}/clustering-constraints.json`,
-      );
-      try {
-        interface Constraints {
-          disconnects: { imageId: string; personId: string }[];
-          connects: { imageId: string; personId: string }[];
-        }
-        let constraints: Constraints = { disconnects: [], connects: [] };
-        try {
-          const data = await fsp.readFile(constraintsPath, "utf-8");
-          constraints = JSON.parse(data);
-        } catch (_e) {}
-
-        if (!constraints.disconnects) constraints.disconnects = [];
-        if (!constraints.connects) constraints.connects = [];
-
-        for (let i = 0; i < idsToUnmatch.length; i++) {
-          const id = idsToUnmatch[i];
-          const newPerson = processedNewPeople[i];
-          const newPersonId = newPerson.id;
-
-          constraints.disconnects.push({ imageId: id, personId: personId });
-          constraints.connects.push({ imageId: id, personId: newPersonId });
-        }
-
-        await fsp.writeFile(constraintsPath, JSON.stringify(constraints, null, 2));
-        logger.debug(`[UNMATCH] Updated clustering-constraints.json with disconnects and connects`);
-      } catch (_e) {}
-
-      return json({
-        success: true,
-        count: idsToUnmatch.length,
-        newPerson: processedNewPeople[0], // Return the first new person for the test (test legacy)
-        newPeople: processedNewPeople,
-      });
+      return json({ success: true, count: imageIds.length, newPeople: processedNewPeople });
     });
-  } catch (error) {
-    logger.error(`[UNMATCH] Error: ${error}`);
-    const isLockError = error instanceof Error && error.message.includes("lock");
-    return json(
-      {
-        success: false,
-        error: isLockError ? "Operation blocked by another process" : "Internal Error",
-      },
-      { status: isLockError ? 503 : 500 },
-    );
+  } catch (err) {
+    logger.error("[UNMATCH] Error:", err);
+    return json({ success: false, error: (err as Error).message }, { status: 500 });
   }
 }
