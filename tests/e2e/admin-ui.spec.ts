@@ -10,9 +10,8 @@ test.describe("Admin UI Actions", () => {
     // Navigate with edit mode enabled via URL parameter
     await page.goto("/?editMode", { timeout: 60000 });
     await page.waitForLoadState("networkidle");
-    await expect(page.locator("[data-testid='photo-grid-item-checkbox']").first()).toBeVisible({
-      timeout: 10000,
-    });
+    const firstCheckbox = page.locator("[data-testid^='photo-grid-item-checkbox-']").first();
+    await expect(firstCheckbox).toBeVisible({ timeout: 10000 });
   });
 
   test("context menu appears on right click", async ({ page }) => {

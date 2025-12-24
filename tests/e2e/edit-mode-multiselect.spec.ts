@@ -6,10 +6,9 @@ test.describe("Edit Mode - Multi-select", () => {
     await page.goto("/?editMode", { timeout: 60000 });
     await page.waitForLoadState("networkidle");
 
-    // Wait for edit mode to be active (checkboxes visible)
-    await expect(page.locator("[data-testid='photo-grid-item-checkbox']").first()).toBeVisible({
-      timeout: 10000,
-    });
+    // Wait for edit mode to be active (grid items visible)
+    const firstItem = page.locator("[data-testid^='photo-grid-item-checkbox-']").first();
+    await expect(firstItem).toBeVisible({ timeout: 10000 });
   });
 
   test("selects range of images with Shift+Click", async ({ page }) => {

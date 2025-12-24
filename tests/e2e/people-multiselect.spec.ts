@@ -21,8 +21,8 @@ test.describe("People Tab - Multi-select", () => {
 
   test("Shift+Click selects range of people for filtering", async ({ page }) => {
     // Get visible people items
-    const peopleItems = page.locator("[data-testid^='people-tab-visible-item']");
-    await peopleItems.first().waitFor({ state: "visible", timeout: 5000 });
+    const peopleItems = page.locator("[data-testid='people-tab-person-item']");
+    await peopleItems.first().waitFor({ state: "visible", timeout: 10000 });
 
     const itemCount = await peopleItems.count();
     if (itemCount < 3) {
@@ -50,8 +50,8 @@ test.describe("People Tab - Multi-select", () => {
 
   test("Shift+Click on merge checkboxes selects range", async ({ page }) => {
     // Get people in visible list
-    const peopleItems = page.locator("[data-testid^='people-tab-visible-item']");
-    await peopleItems.first().waitFor({ state: "visible", timeout: 5000 });
+    const peopleItems = page.locator("[data-testid='people-tab-person-item']");
+    await peopleItems.first().waitFor({ state: "visible", timeout: 10000 });
 
     const itemCount = await peopleItems.count();
     if (itemCount < 3) {
@@ -59,14 +59,18 @@ test.describe("People Tab - Multi-select", () => {
     }
 
     // Find and check first person's merge checkbox
-    const firstCheckbox = peopleItems.nth(0).locator("input[type='checkbox']");
+    const firstCheckbox = peopleItems
+      .nth(0)
+      .locator("[data-testid='people-tab-person-merge-checkbox']");
     await firstCheckbox.check();
 
     // Verify merge controls appear
     await expect(page.getByRole("button", { name: /Sloučit/i })).toBeVisible();
 
     // Find third person's checkbox
-    const thirdCheckbox = peopleItems.nth(2).locator("input[type='checkbox']");
+    const thirdCheckbox = peopleItems
+      .nth(2)
+      .locator("[data-testid='people-tab-person-merge-checkbox']");
 
     // Shift+Click third checkbox (hold Shift, then click)
     await page.keyboard.down("Shift");
@@ -86,8 +90,8 @@ test.describe("People Tab - Multi-select", () => {
   test("Shift+Click works across different people sections", async ({ page }) => {
     // This tests range selection when people are split into Named and Generic sections
 
-    const peopleItems = page.locator("[data-testid^='people-tab-visible-item']");
-    await peopleItems.first().waitFor({ state: "visible" });
+    const peopleItems = page.locator("[data-testid='people-tab-person-item']");
+    await peopleItems.first().waitFor({ state: "visible", timeout: 10000 });
 
     const itemCount = await peopleItems.count();
     if (itemCount < 5) {
