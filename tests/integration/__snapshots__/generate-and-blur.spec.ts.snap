@@ -122,11 +122,6 @@ exports[`Integration: main images generation > produces deterministic manifest a
       "jpeg": [
         {
           "height": 107,
-          "path": "/egypt-2025/images/admin-thumbs/big.jpeg",
-          "width": 143,
-        },
-        {
-          "height": 107,
           "path": "/egypt-2025/images/previews-xxs/big.jpeg",
           "width": 190,
         },
@@ -134,6 +129,11 @@ exports[`Integration: main images generation > produces deterministic manifest a
           "height": null,
           "path": "/egypt-2025/images/previews/big.jpeg",
           "width": 370,
+        },
+        {
+          "height": 401,
+          "path": "/egypt-2025/images/admin-thumbs/big.jpeg",
+          "width": 534,
         },
         {
           "height": null,
@@ -201,11 +201,6 @@ exports[`Integration: main images generation > produces deterministic manifest a
       "jpeg": [
         {
           "height": 107,
-          "path": "/egypt-2025/images/admin-thumbs/exif-orient-6.jpeg",
-          "width": 161,
-        },
-        {
-          "height": 107,
           "path": "/egypt-2025/images/previews-xxs/exif-orient-6.jpeg",
           "width": 190,
         },
@@ -213,6 +208,11 @@ exports[`Integration: main images generation > produces deterministic manifest a
           "height": null,
           "path": "/egypt-2025/images/previews/exif-orient-6.jpeg",
           "width": 370,
+        },
+        {
+          "height": 356,
+          "path": "/egypt-2025/images/admin-thumbs/exif-orient-6.jpeg",
+          "width": 534,
         },
         {
           "height": null,
@@ -280,13 +280,13 @@ exports[`Integration: main images generation > produces deterministic manifest a
       "jpeg": [
         {
           "height": 107,
-          "path": "/egypt-2025/images/admin-thumbs/portrait.jpeg",
-          "width": 71,
-        },
-        {
-          "height": 107,
           "path": "/egypt-2025/images/previews-xxs/portrait.jpeg",
           "width": 190,
+        },
+        {
+          "height": 534,
+          "path": "/egypt-2025/images/admin-thumbs/portrait.jpeg",
+          "width": 356,
         },
         {
           "height": null,
@@ -359,13 +359,13 @@ exports[`Integration: main images generation > produces deterministic manifest a
       "jpeg": [
         {
           "height": 107,
-          "path": "/egypt-2025/images/admin-thumbs/square.jpeg",
-          "width": 107,
-        },
-        {
-          "height": 107,
           "path": "/egypt-2025/images/previews-xxs/square.jpeg",
           "width": 190,
+        },
+        {
+          "height": 300,
+          "path": "/egypt-2025/images/admin-thumbs/square.jpeg",
+          "width": 300,
         },
         {
           "height": 300,
