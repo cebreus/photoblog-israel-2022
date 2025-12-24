@@ -24,13 +24,6 @@ import {
 
 const logger = createLogger("incremental-build");
 
-function _ignoreError(_err?: unknown): void {
-  // intentionally empty
-}
-
-function _returnFalse(_err?: unknown): boolean {
-  return false;
-}
 async function fileExists(file: string) {
   try {
     await fsp.access(file);
