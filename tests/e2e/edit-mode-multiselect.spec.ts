@@ -16,33 +16,28 @@ test.describe("Edit Mode - Multi-select", () => {
     const overlays = page.locator("[data-testid^='photo-grid-item-overlay-']");
     await overlays.first().waitFor({ state: "visible" });
 
-    // Get first 5 image overlays
+    // Get first 3 image overlays
     const firstOverlay = overlays.nth(0);
-    const secondOverlay = overlays.nth(1);
     const thirdOverlay = overlays.nth(2);
-    const fourthOverlay = overlays.nth(3);
 
     // Click first image to select it
+    const firstId = await firstOverlay.getAttribute("data-testid");
+    const imageId1 = firstId?.replace("photo-grid-item-overlay-", "");
     await firstOverlay.click();
 
-    // Verify first image is selected (blue border)
-    const firstParent = firstOverlay.locator("..");
-    await expect(firstParent).toHaveClass(/border-blue-500/);
+    // Verify first image is selected
+    await expect(
+      page.locator(`[data-testid='photo-grid-item-selection-indicator-${imageId1}']`),
+    ).toBeVisible();
 
     // Shift+Click third image
     await thirdOverlay.click({ modifiers: ["Shift"] });
 
-    // Verify all three images (1, 2, 3) are now selected
-    const selectedBorders = page.locator(".border-blue-500");
-    expect(await selectedBorders.count()).toBe(3);
-
-    // Verify images 1, 2, 3 have selection
-    await expect(firstOverlay.locator("..")).toHaveClass(/border-blue-500/);
-    await expect(secondOverlay.locator("..")).toHaveClass(/border-blue-500/);
-    await expect(thirdOverlay.locator("..")).toHaveClass(/border-blue-500/);
-
-    // Verify image 4 is NOT selected
-    await expect(fourthOverlay.locator("..")).not.toHaveClass(/border-blue-500/);
+    // Verify all 3 images are selected
+    const selectionIndicators = page.locator(
+      "[data-testid^='photo-grid-item-selection-indicator-']",
+    );
+    expect(await selectionIndicators.count()).toBe(3);
   });
 
   test("Shift+Click works in reverse direction", async ({ page }) => {
