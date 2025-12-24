@@ -50,15 +50,21 @@ test.describe("Edit Mode - Multi-select", () => {
     await overlays.first().waitFor({ state: "visible" });
 
     // Click third image first
+    const thirdId = await overlays.nth(2).getAttribute("data-testid");
+    const imageId3 = thirdId?.replace("photo-grid-item-overlay-", "");
     await overlays.nth(2).click();
-    await expect(overlays.nth(2).locator("..")).toHaveClass(/border-blue-500/);
+    await expect(
+      page.locator(`[data-testid='photo-grid-item-selection-indicator-${imageId3}']`),
+    ).toBeVisible();
 
     // Shift+Click first image (reverse direction)
     await overlays.nth(0).click({ modifiers: ["Shift"] });
 
     // Should still select images 1, 2, 3
-    const selectedCount = await page.locator(".border-blue-500").count();
-    expect(selectedCount).toBe(3);
+    const selectionIndicators = page.locator(
+      "[data-testid^='photo-grid-item-selection-indicator-']",
+    );
+    expect(await selectionIndicators.count()).toBe(3);
   });
 
   test("Shift+Click extends selection, regular click toggles", async ({ page }) => {
@@ -67,15 +73,21 @@ test.describe("Edit Mode - Multi-select", () => {
 
     // Select first image
     await overlays.nth(0).click();
-    expect(await page.locator(".border-blue-500").count()).toBe(1);
+    expect(
+      await page.locator("[data-testid^='photo-grid-item-selection-indicator-']").count(),
+    ).toBe(1);
 
     // Shift+Click third to select range 1-3
     await overlays.nth(2).click({ modifiers: ["Shift"] });
-    expect(await page.locator(".border-blue-500").count()).toBe(3);
+    expect(
+      await page.locator("[data-testid^='photo-grid-item-selection-indicator-']").count(),
+    ).toBe(3);
 
     // Regular click on second image should deselect it
     await overlays.nth(1).click();
-    expect(await page.locator(".border-blue-500").count()).toBe(2);
+    expect(
+      await page.locator("[data-testid^='photo-grid-item-selection-indicator-']").count(),
+    ).toBe(2);
   });
 
   test("preserves anchor point for multiple Shift+Click operations", async ({ page }) => {
@@ -87,10 +99,14 @@ test.describe("Edit Mode - Multi-select", () => {
 
     // Shift+Click image 4 (should select 2, 3, 4)
     await overlays.nth(3).click({ modifiers: ["Shift"] });
-    expect(await page.locator(".border-blue-500").count()).toBe(3);
+    expect(
+      await page.locator("[data-testid^='photo-grid-item-selection-indicator-']").count(),
+    ).toBe(3);
 
     // Another Shift+Click on image 6 (should select from anchor 2 to 6: 2,3,4,5,6)
     await overlays.nth(5).click({ modifiers: ["Shift"] });
-    expect(await page.locator(".border-blue-500").count()).toBe(5);
+    expect(
+      await page.locator("[data-testid^='photo-grid-item-selection-indicator-']").count(),
+    ).toBe(5);
   });
 });
