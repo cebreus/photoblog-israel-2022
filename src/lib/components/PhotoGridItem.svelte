@@ -90,6 +90,13 @@
   let detailSource = $derived(findDetailSource(item));
   let adminThumb = $derived(findAdminThumbSource(item));
 
+  // Simplified conditional logic via derived values
+  let isInteractive = $derived(editor.editMode || showCurationVisuals);
+  let elementTag = $derived(isInteractive ? "div" : "a");
+  let linkHref = $derived(isInteractive ? undefined : detailSource?.path);
+  let fancyboxAttr = $derived(isInteractive ? undefined : "gallery");
+  let captionAttr = $derived(isInteractive ? undefined : item.alt);
+
   function handleOpenDialog(e: MouseEvent) {
     if (!ui.curationMode || !curationGroup) return;
     e.stopPropagation();
