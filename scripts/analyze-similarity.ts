@@ -8,16 +8,16 @@ import {
   type ImageEntry,
   isImageEntry,
 } from "../src/lib/types/manifest";
-import {
-  calculateAestheticScore,
-  createAestheticAxis,
-  normalizeAestheticScore,
-} from "./lib/aesthetic";
 import { aiService } from "./lib/ai/models";
 import { createLogger } from "./lib/core/cli-logger";
 import { parseCliArguments } from "./lib/core/cli-parser";
 import { createBar, removeBar, stopAllBars } from "./lib/core/progress-manager";
 import { resolveGalleryDirectory } from "./lib/gallery/resolver";
+import {
+  calculateAestheticScore,
+  createAestheticAxis,
+  normalizeAestheticScore,
+} from "./lib/image/aesthetic";
 import { getQualityBucket, normalizeSharpness } from "./lib/image/utils";
 import {
   loadAnalysisManifest,
