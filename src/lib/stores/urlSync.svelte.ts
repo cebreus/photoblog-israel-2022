@@ -1,5 +1,5 @@
 import { browser, dev } from "$app/environment";
-import { goto } from "$app/navigation";
+import { goto, replaceState } from "$app/navigation";
 import { page } from "$app/state";
 import { editor } from "$lib/stores/editor.svelte";
 import { filters } from "$lib/stores/filters.svelte";
@@ -298,6 +298,52 @@ export function syncUrlFromFilters() {
   }, 300);
 }
 
+let hashSyncDebounceTimer: ReturnType<typeof setTimeout>;
+let lastSyncedHash = "";
+
+/**
+ * Scrolls to the element matching the current URL hash on initial page load.
+ * Called once after DOM is ready.
+ */
+function scrollToInitialHash(): void {
+  const hash = window.location.hash.slice(1); // Remove leading #
+  if (!hash) return;
+
+  // Small delay to ensure DOM elements are rendered
+  requestAnimationFrame(() => {
+    const element = document.getElementById(hash);
+    if (element) {
+      element.scrollIntoView({ behavior: "instant", block: "start" });
+    }
+  });
+}
+
+/**
+ * Updates the URL hash based on the current active ScrollSpy sections.
+ * Uses debouncing to avoid excessive URL updates during scrolling.
+ */
+function syncHashFromScrollspy(): void {
+  clearTimeout(hashSyncDebounceTimer);
+
+  hashSyncDebounceTimer = setTimeout(() => {
+    // Dynamically import to avoid circular dependency
+    import("$lib/actions/scrollspy").then(({ getPrimaryActiveSection }) => {
+      const primarySection = getPrimaryActiveSection();
+
+      // Only update if the hash has changed
+      if (primarySection && primarySection !== lastSyncedHash) {
+        lastSyncedHash = primarySection;
+
+        // Use SvelteKit's replaceState to avoid polluting browser history
+        // and to properly integrate with SvelteKit router
+        const currentUrl = new URL(window.location.href);
+        currentUrl.hash = primarySection;
+        replaceState(currentUrl, {});
+      }
+    });
+  }, 150); // Debounce 150ms for smooth scrolling
+}
+
 export function initUrlSync(initialAuthors: Author[]) {
   if (!browser || isInitialized) return;
 
@@ -306,6 +352,9 @@ export function initUrlSync(initialAuthors: Author[]) {
   const pageVal = page;
   lastUrl = pageVal.url;
   initializeFiltersFromUrl(pageVal.url);
+
+  // Scroll to initial hash after a brief delay for DOM to be ready
+  setTimeout(scrollToInitialHash, 100);
 
   // 2. Setup effects for automatic URL updates
   $effect.root(() => {
@@ -336,6 +385,13 @@ export function initUrlSync(initialAuthors: Author[]) {
         lastUrl = newPage.url;
         initializeFiltersFromUrl(newPage.url);
       }
+    });
+
+    // 4. Sync URL hash from ScrollSpy active sections
+    $effect(() => {
+      // Track activeSections changes
+      ui.activeSections;
+      syncHashFromScrollspy();
     });
   });
 

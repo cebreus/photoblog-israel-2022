@@ -42,8 +42,8 @@
       size === "md" && "text-sm",
       "group-data-[collapsible=icon]:hidden",
       className,
-      // isScrollspyActive &&
-      //   "bg-orange-100 dark:text-orange-100 dark:bg-orange-900 data-[dimmed=true]:text-sidebar-foreground",
+      isScrollspyActive &&
+        "bg-orange-100 text-orange-700 dark:text-orange-100 dark:bg-orange-900/50",
       isHashActive && !isScrollspyActive && "bg-sidebar-accent text-sidebar-accent-foreground",
     ),
     "data-slot": "sidebar-menu-sub-button",

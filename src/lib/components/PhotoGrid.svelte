@@ -28,21 +28,31 @@
 
   // Derived edit mode state
 
-  // Identify images that start a new location block (dimmed locations)
-  // Maps image ID -> scrollspy ID ("loc-{slug}")
-  let dimmedLocationMap = $derived.by(() => {
+  // Maps image ID -> scrollspy ID ("loc-{slug}") for ALL images in a location
+  // This ensures the location stays highlighted in the menu as long as ANY photo from it is visible
+  let imageLocationMap = $derived.by(() => {
     const map = new Map<string, string>();
+    for (const item of items) {
+      if (item.type === "image" && item.location && item.location !== "Unknown") {
+        map.set(item.id, `loc-${toSlug(item.location)}`);
+      }
+    }
+    return map;
+  });
+
+  // Identify images that start a new location block (for anchor IDs)
+  let imageAnchorsMap = $derived.by(() => {
+    const map = new Map<string, boolean>();
     let currentLoc = "";
 
     for (const item of items) {
       if (item.type === "separator") {
         currentLoc = item.location;
       } else if (item.type === "image") {
-        // Retrieve location from ImageEntry (it has top-level location property)
         const itemLoc = item.location;
         if (itemLoc && itemLoc !== "Unknown" && itemLoc !== currentLoc) {
           // This image starts a new implicit location block
-          map.set(item.id, `loc-${toSlug(itemLoc)}`);
+          map.set(item.id, true);
           currentLoc = itemLoc;
         }
       }
@@ -279,7 +289,7 @@
       logger.debug("PhotoGrid render", {
         items: items.length,
         selectedAuthors: filters.selectedAuthors,
-        dimmedLocations: dimmedLocationMap,
+        imageLocations: imageLocationMap,
       });
     }
   }
@@ -411,7 +421,8 @@
     {#if item.type === "image"}
       <PhotoGridItem
         {item}
-        scrollspyId={dimmedLocationMap.get(item.id)}
+        scrollspyId={imageLocationMap.get(item.id)}
+        isAnchor={imageAnchorsMap.get(item.id)}
         curationGroup={curationMap.get(item.id)}
         onDelete={openDeleteDialog}
         onArchive={handleArchive}
@@ -423,47 +434,48 @@
     {:else if item.type === "separator" && item.location}
       {@const separatorId = item.id}
       {#if item.story}
-        <Dialog.Root>
-          <Dialog.Trigger
-            class="aspect-video overflow-hidden flex flex-col items-center justify-center p-4 bg-linear-to-br from-slate-100 to-slate-300 rounded-lg duration-500 outline-background hover:outline-orange-100 outline-4 outline-offset-2 transition-[outline-color] ease-in-out dark:from-slate-700 dark:to-slate-800"
-            data-testid="photo-grid-separator-trigger-{separatorId}"
-          >
-            <h3 class="text-lg" data-testid="photo-grid-separator-location">
-              {item.location}
-            </h3>
-            {#if item.city}
-              <p class="text-sm text-muted-foreground" data-testid="photo-grid-separator-city">
-                {item.city}
-              </p>
-            {/if}
-            <span
-              class={buttonVariants({
-                size: "sm",
-                variant: "link",
-                class: "text-sm mt-2",
-              })}
-              data-testid="photo-grid-separator-show-story"
+        <!-- Wrapper div for ScrollSpy - must be always visible in DOM for proper detection -->
+        <div id={separatorId} use:useScrollspy={{ id: separatorId }} class="contents">
+          <Dialog.Root>
+            <Dialog.Trigger
+              class="aspect-video overflow-hidden flex flex-col items-center justify-center p-4 bg-linear-to-br from-slate-100 to-slate-300 rounded-lg duration-500 outline-background hover:outline-orange-100 outline-4 outline-offset-2 transition-[outline-color] ease-in-out dark:from-slate-700 dark:to-slate-800"
+              data-testid="photo-grid-separator-trigger-{separatorId}"
             >
-              Zobrazit příběh
-            </span>
-          </Dialog.Trigger>
-          <Dialog.Content>
-            <Dialog.Header>
-              <Dialog.Title>{item.location}</Dialog.Title>
+              <h3 class="text-lg" data-testid="photo-grid-separator-location">
+                {item.location}
+              </h3>
               {#if item.city}
-                <Dialog.Description>{item.city}</Dialog.Description>
+                <p class="text-sm text-muted-foreground" data-testid="photo-grid-separator-city">
+                  {item.city}
+                </p>
               {/if}
-            </Dialog.Header>
-            <div
-              class="prose prose-sm dark:prose-invert max-w-none mt-4"
-              id={separatorId}
-              use:useScrollspy={{ id: separatorId }}
-              data-testid="photo-grid-separator-story-{separatorId}"
-            >
-              {@html item.story}
-            </div>
-          </Dialog.Content>
-        </Dialog.Root>
+              <span
+                class={buttonVariants({
+                  size: "sm",
+                  variant: "link",
+                  class: "text-sm mt-2",
+                })}
+                data-testid="photo-grid-separator-show-story"
+              >
+                Zobrazit příběh
+              </span>
+            </Dialog.Trigger>
+            <Dialog.Content>
+              <Dialog.Header>
+                <Dialog.Title>{item.location}</Dialog.Title>
+                {#if item.city}
+                  <Dialog.Description>{item.city}</Dialog.Description>
+                {/if}
+              </Dialog.Header>
+              <div
+                class="prose prose-sm dark:prose-invert max-w-none mt-4"
+                data-testid="photo-grid-separator-story-{separatorId}"
+              >
+                {@html item.story}
+              </div>
+            </Dialog.Content>
+          </Dialog.Root>
+        </div>
       {:else}
         <div
           class="aspect-video text-center overflow-hidden flex flex-col items-center justify-center p-4 bg-linear-to-br from-slate-100 to-slate-300 rounded-lg dark:from-slate-700 dark:to-slate-800"

@@ -8,23 +8,26 @@
   import { ui } from "$lib/stores/ui.svelte";
   import type { MenuManifest } from "$lib/types/manifest";
 
-  export let menuItems: MenuManifest = [];
+  let { menuItems = [] }: { menuItems: MenuManifest } = $props();
+
+  // Helper function to check if a day is scrollspy active
+  function isDayScrollspyActive(dayId: string, locationIds: string[]): boolean {
+    return ui.activeSections.has(dayId) || locationIds.some((id) => ui.activeSections.has(id));
+  }
 </script>
 
 <Sidebar.Menu data-testid="agenda-tab" class="px-2">
   <Sidebar.Group>
     {#each menuItems as menuDay (menuDay.id)}
       {@const isHashActiveDay = page.url.hash === menuDay.href}
-      {@const isScrollspyActiveDay = menuDay.locations.some((location) =>
-        ui.activeSections.has(location.id),
-      )}
+      {@const locationIds = menuDay.locations.map((loc) => loc.id)}
 
       <Collapsible.Root open={true} class="group/collapsible">
         {#snippet child({ props }: { props: HTMLAttributes<HTMLElement> })}
           <Sidebar.MenuItem {...props}>
             <Sidebar.MenuButton
               isHashActive={isHashActiveDay}
-              isScrollspyActive={isScrollspyActiveDay}
+              isScrollspyActive={isDayScrollspyActive(menuDay.id, locationIds)}
             >
               {#snippet child({ props }: { props: HTMLAttributes<HTMLElement> })}
                 <div class="flex items-center w-full" {...props}>
@@ -44,12 +47,11 @@
               <Sidebar.MenuSub>
                 {#each menuDay.locations as menuLocation (menuLocation.id)}
                   {@const isHashActiveLocation = page.url.hash === menuLocation.href}
-                  {@const isScrollspyActiveLocation = ui.activeSections.has(menuLocation.id)}
                   <Sidebar.MenuSubItem>
                     <Sidebar.MenuSubButton
                       href={menuLocation.href}
                       isHashActive={isHashActiveLocation}
-                      isScrollspyActive={isScrollspyActiveLocation}
+                      isScrollspyActive={ui.activeSections.has(menuLocation.id)}
                       isDimmed={menuLocation.isDimmed}
                       firstPhotoExifDate={menuLocation.firstPhotoExifDate}
                     >

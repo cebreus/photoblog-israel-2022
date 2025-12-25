@@ -29,6 +29,7 @@
     onOpenCurationDialog,
     onSelect,
     mode = "grid",
+    isAnchor = false,
   } = $props<{
     item: ImageEntry;
     scrollspyId?: string;
@@ -40,6 +41,7 @@
     onOpenCurationDialog?: (group: CurationGroup) => void;
     onSelect?: (item: ImageEntry, shiftKey: boolean) => void;
     mode?: "grid" | "curation";
+    isAnchor?: boolean;
   }>();
 
   function isFallback(source: ImageSource) {
@@ -291,7 +293,7 @@
       >
         {#if scrollspyId}
           <div
-            id={scrollspyId}
+            id={isAnchor ? scrollspyId : undefined}
             use:useScrollspy={{ id: scrollspyId }}
             class="pointer-events-none absolute inset-0"
             data-testid="photo-grid-item-scrollspy-anchor-{scrollspyId}"

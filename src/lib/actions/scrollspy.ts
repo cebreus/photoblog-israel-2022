@@ -8,8 +8,12 @@ interface ScrollspyOptions {
 }
 
 const DEFAULT_ROOT_MARGIN = "-64px 0px 0px 0px";
-// Trigger as soon as any part of the target is visible
 const DEFAULT_THRESHOLD = 0;
+
+/** Prefix for day sections (e.g., "2022-11-15") */
+const DAY_SECTION_PREFIX = /^\d{4}-\d{2}-\d{2}/;
+/** Prefix for location sections (e.g., "loc-petra") */
+const LOCATION_SECTION_PREFIX = "loc-";
 
 /**
  * Performance optimization: reuse IntersectionObservers that share the same
@@ -68,20 +72,25 @@ export const useScrollspy: Action<HTMLElement, ScrollspyOptions> = (node, option
         entries.forEach((e) => {
           const nodeId = nodes.get(e.target);
           if (!nodeId) return;
-          if (e.isIntersecting) toAdd.push(nodeId);
-          else toRemove.push(nodeId);
+          if (e.isIntersecting) {
+            toAdd.push(nodeId);
+          } else {
+            toRemove.push(nodeId);
+          }
         });
 
         if (toAdd.length === 0 && toRemove.length === 0) return;
 
         // Apply all changes in a single store update for better performance
-        // Apply all changes in a single store update for better performance
+        // IMPORTANT: Process REMOVEs first, then ADDs
+        // This ensures that if the same ID leaves and enters in one batch
+        // (e.g., scrolling between photo rows of the same location), it stays active
         const current = new Set(ui.activeSections);
-        toAdd.forEach((i) => {
-          current.add(i);
-        });
         toRemove.forEach((i) => {
           current.delete(i);
+        });
+        toAdd.forEach((i) => {
+          current.add(i);
         });
         ui.activeSections = current;
       },
@@ -123,3 +132,41 @@ export const useScrollspy: Action<HTMLElement, ScrollspyOptions> = (node, option
     },
   };
 };
+
+/**
+ * Returns the "primary" active section ID suitable for URL hash.
+ * Priority: first day section found, then first location section.
+ * Returns undefined if no sections are active.
+ */
+export function getPrimaryActiveSection(): string | undefined {
+  const sections = ui.activeSections;
+  if (sections.size === 0) return undefined;
+
+  // Collect day sections and location sections
+  const daySections: string[] = [];
+  const locationSections: string[] = [];
+
+  for (const id of sections) {
+    if (DAY_SECTION_PREFIX.test(id)) {
+      daySections.push(id);
+    } else if (id.startsWith(LOCATION_SECTION_PREFIX)) {
+      locationSections.push(id);
+    }
+  }
+
+  // Return the first day section (they're typically added in DOM order)
+  // If no day section, return first location section
+  return daySections[0] ?? locationSections[0];
+}
+
+/**
+ * Clears all observers and the registry. Useful for cleanup on navigation.
+ */
+export function clearAllObservers(): void {
+  for (const entry of observerRegistry.values()) {
+    entry.observer.disconnect();
+    entry.nodes.clear();
+  }
+  observerRegistry.clear();
+  ui.clearSections();
+}
