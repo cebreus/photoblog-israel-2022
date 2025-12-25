@@ -283,7 +283,7 @@
       <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
       <!-- svelte-ignore a11y_click_events_have_key_events -->
       <figure
-        data-label={item?.location ?? item?.caption ?? ""}
+        data-label={item?.caption ?? item?.location ?? ""}
         id={item.id}
         data-testid="photo-grid-item-figure-{item.id}"
         class={cn(
