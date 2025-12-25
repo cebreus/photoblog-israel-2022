@@ -55,7 +55,7 @@ vi.mock("$lib/stores/editor.svelte", () => {
       get selection() {
         return selection;
       },
-      set selection(v) {
+      set selection(_v) {
         /* no-op */
       },
       toggleSelection: vi.fn(),

@@ -173,24 +173,12 @@ vi.mock("$lib/components/CurationGroupDialog.svelte", async () => {
 
 // Mock Dialogs to prevent portal issues or clutter
 vi.mock("$lib/components/ui/dialog", () => ({
-  Root: class {
-    constructor() {}
-  },
-  Trigger: class {
-    constructor() {}
-  },
-  Content: class {
-    constructor() {}
-  },
-  Header: class {
-    constructor() {}
-  },
-  Title: class {
-    constructor() {}
-  },
-  Description: class {
-    constructor() {}
-  },
+  Root: class {},
+  Trigger: class {},
+  Content: class {},
+  Header: class {},
+  Title: class {},
+  Description: class {},
 }));
 
 // --- Imports ---

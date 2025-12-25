@@ -20,8 +20,6 @@ export class GalleryBuilder {
   private embeddings: EmbeddingsManifest = {};
   private people: Person[] = [];
 
-  constructor(private galleryId: string = "test-gallery") {}
-
   /**
    * Add a photo to the gallery
    */

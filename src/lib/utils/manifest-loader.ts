@@ -8,7 +8,7 @@ export function mergeManifests(
   manifest: Manifest,
   faces: FacesManifest | null,
   analysis: AnalysisManifest | null,
-  people: PeopleManifest | null,
+  _people: PeopleManifest | null,
 ): Manifest {
   // Deep clone to avoid mutating the original manifest if it's imported JSON
   // In a real app we might optimize this, but for safety clone first
@@ -19,7 +19,7 @@ export function mergeManifests(
       if (item.type !== "image") return;
 
       // 1. Merge Faces (Critical for smart cropping)
-      if (faces && faces[item.id]) {
+      if (faces?.[item.id]) {
         const faceData = faces[item.id];
         item.analysis = item.analysis || {
           sharpness: 0,
@@ -36,7 +36,7 @@ export function mergeManifests(
       }
 
       // 2. Merge Analysis (AI scores)
-      if (analysis && analysis[item.id]) {
+      if (analysis?.[item.id]) {
         const analysisData = analysis[item.id];
         item.analysis = item.analysis || {
           sharpness: 0,
