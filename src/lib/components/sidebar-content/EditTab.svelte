@@ -10,6 +10,7 @@
   import { editor } from "$lib/stores/editor.svelte";
   import { metadataClipboard } from "$lib/stores/metadata-clipboard.svelte";
   import type { ImageEntry, Separator } from "$lib/types/manifest";
+  import { IMAGE_MESSAGES } from "$lib/utils/messages";
 
   import GeoDataSection from "./GeoDataSection.svelte";
   import MetadataInputField from "./MetadataInputField.svelte";
@@ -147,11 +148,7 @@
         }
       }
 
-      toast.success(
-        imageIds.length === 1
-          ? `Uložen ${imageIds.length} obrázek.`
-          : `Uloženo ${imageIds.length} obrázků.`,
-      );
+      toast.success(IMAGE_MESSAGES.imageSaved(imageIds.length));
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       toast.error(msg);
@@ -189,7 +186,7 @@
 
   async function handleFetchGeoData() {
     if (!activeImage?.exif?.latitude || !activeImage?.exif?.longitude) {
-      toast.error("Obrázek nemá GPS souřadnice.");
+      toast.error(IMAGE_MESSAGES.NO_GPS_COORDINATES);
       return;
     }
 
@@ -222,13 +219,13 @@
       previousGeoValues = newPrevious;
 
       if (Object.keys(newPrevious).length > 0) {
-        toast.success("Data byla načtena z mapy (změny lze vrátit).");
+        toast.success(IMAGE_MESSAGES.GEO_DATA_LOADED);
       } else {
-        toast.info("Data z mapy se shodují s aktuálními.");
+        toast.info(IMAGE_MESSAGES.GEO_DATA_SAME);
       }
     } catch (e) {
       logger.error(e);
-      toast.error("Chyba při stahování dat.");
+      toast.error(IMAGE_MESSAGES.GEO_FETCH_FAILED);
     } finally {
       isFetchingGeo = false;
     }
@@ -240,7 +237,7 @@
 
   function handlePasteMetadata() {
     if (!metadataClipboard.data) {
-      toast.error("Žádná metadata v clipboard");
+      toast.error(IMAGE_MESSAGES.NO_CLIPBOARD_DATA);
       return;
     }
     isPasteDialogOpen = true;
@@ -293,7 +290,7 @@
       }
 
       isPasteDialogOpen = false;
-      toast.success("Metadata úspěšně vložena");
+      toast.success(IMAGE_MESSAGES.METADATA_PASTED);
     } catch (e) {
       logger.error(e);
       toast.error(`Chyba: ${e instanceof Error ? e.message : "Neznámá chyba"}`);

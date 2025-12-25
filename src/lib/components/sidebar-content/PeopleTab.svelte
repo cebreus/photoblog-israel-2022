@@ -15,6 +15,7 @@
   import { filters } from "$lib/stores/filters.svelte";
   import { people } from "$lib/stores/people.svelte";
   import type { ImageEntry, Person } from "$lib/types/manifest";
+  import { GENERIC_MESSAGES, PERSON_MESSAGES } from "$lib/utils/messages";
   import { type MergeResponse, updatePeopleOrThrow } from "$lib/utils/people-actions";
 
   import SelectionBulkActions from "../SelectionBulkActions.svelte";
@@ -238,11 +239,11 @@
       logger.debug("API call successful, triggering reload");
       // Trigger reload to show updated name
       await people.refresh();
-      toast.success("Osoba byla úspěšně přejmenována.");
+      toast.success(PERSON_MESSAGES.PERSON_RENAMED);
       cancelEditing();
     } catch (error) {
       logger.error("Failed to rename person:", error);
-      toast.error("Přejmenování se nezdařilo.");
+      toast.error(PERSON_MESSAGES.RENAME_FAILED);
     } finally {
       logger.debug("Setting isSaving to false");
       isSaving = false;
@@ -320,10 +321,10 @@
 
       // Trigger reload to update UI
       await people.refresh();
-      toast.success(isHidden ? "Osoba byla skryta." : "Osoba byla obnovena.");
+      toast.success(isHidden ? PERSON_MESSAGES.PERSON_HIDDEN : PERSON_MESSAGES.PERSON_RESTORED);
     } catch (error) {
       logger.error("Failed to toggle hide:", error);
-      toast.error("Chyba při komunikaci se serverem.");
+      toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR);
     } finally {
       isSaving = false;
     }
@@ -415,10 +416,10 @@
 
       // Reload
       await people.refresh();
-      toast.success(`Bylo skryto ${hiddenIds.length} osob.`);
+      toast.success(PERSON_MESSAGES.bulkHidden(hiddenIds.length));
     } catch (error) {
       logger.error("Bulk hide failed:", error);
-      toast.error("Hromadné skrytí selhalo.");
+      toast.error(PERSON_MESSAGES.BULK_HIDE_FAILED);
     } finally {
       isSaving = false;
     }
@@ -448,10 +449,10 @@
 
       await new Promise((r) => setTimeout(r, 500));
       await people.refresh();
-      toast.success(`Obnoveno ${hiddenIds.length} osob.`);
+      toast.success(PERSON_MESSAGES.bulkRestored(hiddenIds.length));
     } catch (e) {
       logger.error("Bulk restore failed:", e);
-      toast.error("Hromadné obnovení selhalo.");
+      toast.error(PERSON_MESSAGES.BULK_RESTORE_FAILED);
     } finally {
       isSaving = false;
     }
@@ -479,10 +480,10 @@
       selectedForMerge = [];
       await new Promise((r) => setTimeout(r, 400));
       await people.refresh();
-      toast.success("Vybrané profily jsou nyní ignorovány.");
+      toast.success(PERSON_MESSAGES.bulkIgnored);
     } catch (e) {
       logger.error("Bulk mark-as-junk failed:", e);
-      toast.error("Hromadné ignorování selhalo.");
+      toast.error(PERSON_MESSAGES.BULK_IGNORE_FAILED);
     } finally {
       isSaving = false;
     }
@@ -501,10 +502,10 @@
       selectedForMerge = selectedForMerge.filter((id) => !junkIds.includes(id));
       await new Promise((r) => setTimeout(r, 400));
       await people.refresh();
-      toast.success(`Obnoveno ${junkIds.length} profilů z junk.`);
+      toast.success(PERSON_MESSAGES.bulkRestoredFromJunk(junkIds.length));
     } catch (e) {
       logger.error("Bulk restore from junk failed:", e);
-      toast.error("Hromadné obnovení z junk selhalo.");
+      toast.error(PERSON_MESSAGES.BULK_RESTORE_FAILED);
     } finally {
       isSaving = false;
     }
@@ -625,7 +626,7 @@
 
       // Trigger reload
       await people.refresh();
-      toast.success("Osoby byly úspěšně sloučeny.");
+      toast.success(PERSON_MESSAGES.MERGE_SUCCESS);
     } catch (error) {
       logger.error("Failed to merge people:", error);
       toast.error("Sloučení se nezdařilo.", {
@@ -664,10 +665,10 @@
       selectedForMerge = [];
       await new Promise((r) => setTimeout(r, 400));
       await people.refresh();
-      toast.success(`Sloučeno ${sourceIds.length} profilů.`);
+      toast.success(PERSON_MESSAGES.bulkMerged(sourceIds.length));
     } catch (e) {
       logger.error("Merge into failed:", e);
-      toast.error("Sloučení selhalo.");
+      toast.error(PERSON_MESSAGES.MERGE_FAILED);
     } finally {
       isSaving = false;
     }
@@ -700,10 +701,10 @@
 
       await new Promise((r) => setTimeout(r, 300));
       await people.refresh();
-      toast.success(`Kategorie změněna pro ${selectedForMerge.length} osob.`);
+      toast.success(PERSON_MESSAGES.bulkCategoryChanged(selectedForMerge.length));
     } catch (e) {
       logger.error("Bulk update category failed", e);
-      toast.error("Hromadná změna kategorie selhala.");
+      toast.error(PERSON_MESSAGES.BULK_CATEGORY_FAILED);
     } finally {
       isSaving = false;
     }
@@ -721,11 +722,11 @@
     isSaving = true;
     try {
       await apiUpdate([{ id: personId, junk: true }]);
-      toast.success("Osoba je nyní ignorována.");
+      toast.success(PERSON_MESSAGES.PERSON_IGNORED);
       await people.refresh();
     } catch (error) {
       logger.error("Failed to mark as junk:", error);
-      toast.error("Chyba při komunikaci se serverem.");
+      toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR);
     } finally {
       isSaving = false;
     }

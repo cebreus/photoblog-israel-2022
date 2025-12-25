@@ -1,5 +1,6 @@
 import { toast } from "svelte-sonner";
 import { invalidateAll } from "$app/navigation";
+import { IMAGE_MESSAGES } from "$lib/utils/messages";
 
 export type ImageAction = "delete" | "archive";
 
@@ -53,7 +54,7 @@ export async function performImageAction(options: ActionOptions): Promise<void> 
 
     if (count > 0) {
       const actionPast = isDelete ? "smazáno" : "archivováno";
-      toast.success(`Úspěšně ${actionPast} ${count} souborů. Stránka se obnoví.`);
+      toast.success(IMAGE_MESSAGES.actionSuccess(actionPast, count));
     }
 
     if (onSuccess) onSuccess(result);

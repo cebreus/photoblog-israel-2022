@@ -9,6 +9,7 @@ import { toast } from "svelte-sonner";
 import { createLogger } from "$lib/logger";
 import { filters } from "$lib/stores/filters.svelte";
 import { people } from "$lib/stores/people.svelte";
+import { GENERIC_MESSAGES, PERSON_MESSAGES } from "$lib/utils/messages";
 
 const logger = createLogger("people-actions");
 
@@ -262,10 +263,10 @@ export async function handleToggleHide(
     });
 
     await people.refresh();
-    toast.success(isHidden ? "Osoba byla skryta." : "Osoba byla obnovena.");
+    toast.success(isHidden ? PERSON_MESSAGES.PERSON_HIDDEN : PERSON_MESSAGES.PERSON_RESTORED);
   } catch (error) {
     logger.error("Failed to toggle hide:", error);
-    toast.error("Chyba při komunikaci se serverem.");
+    toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR);
   } finally {
     callbacks.onFinish?.();
   }
@@ -297,11 +298,11 @@ export async function handleRename(
     ]);
 
     await people.refresh();
-    toast.success("Osoba byla úspěšně přejmenována.");
+    toast.success(PERSON_MESSAGES.PERSON_RENAMED);
     callbacks.onSuccess?.();
   } catch (error) {
     logger.error("Failed to rename person:", error);
-    toast.error("Přejmenování se nezdařilo.");
+    toast.error(PERSON_MESSAGES.RENAME_FAILED);
   } finally {
     callbacks.onFinish?.();
   }
@@ -321,11 +322,11 @@ export async function handleMarkAsJunk(
 
   try {
     await markPersonAsJunk(personId);
-    toast.success("Osoba je nyní ignorována.");
+    toast.success(PERSON_MESSAGES.PERSON_IGNORED);
     await people.refresh();
   } catch (error) {
     logger.error("Failed to mark as junk:", error);
-    toast.error("Chyba při komunikaci se serverem.");
+    toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR);
   } finally {
     callbacks.onFinish?.();
   }

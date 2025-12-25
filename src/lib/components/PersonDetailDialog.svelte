@@ -15,6 +15,7 @@
   import { createLogger } from "$lib/logger";
   import { people } from "$lib/stores/people.svelte";
   import type { ImageEntry, Person } from "$lib/types/manifest";
+  import { DETECTION_MESSAGES, GENERIC_MESSAGES } from "$lib/utils/messages";
 
   const logger = createLogger("PersonDetailDialog");
 
@@ -159,14 +160,14 @@
 
       if (res.ok) {
         onUpdate?.();
-        toast.success("Detekce byla označena jako neplatná a bude v budoucnu ignorována.");
+        toast.success(DETECTION_MESSAGES.DETECTION_INVALIDATED);
       } else {
         const data = await res.json();
         toast.error("Chyba", { description: data.error || "Nepodařilo se uložit nastavení." });
       }
     } catch (e) {
       logger.error(e);
-      toast.error("Chyba komunikace");
+      toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR);
     } finally {
       isWorking = false;
     }
@@ -191,7 +192,7 @@
       }
     } catch (e) {
       logger.error(e);
-      toast.error("Chyba komunikace");
+      toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR);
     } finally {
       isWorking = false;
     }
@@ -224,7 +225,7 @@
       }
     } catch (e) {
       logger.error(e);
-      toast.error("Chyba komunikace");
+      toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR);
     } finally {
       isWorking = false;
     }
@@ -268,14 +269,14 @@
         toast.warning(`Dokončeno s chybami: ${successCount} úspěšných, ${failed.length} selhalo.`);
         logger.error("Some bulk ignore operations failed", failed);
       } else {
-        toast.success("Vybrané detekce byly označeny jako neplatné a budou ignorovány.");
+        toast.success(DETECTION_MESSAGES.BULK_DETECTION_INVALIDATED);
       }
 
       onUpdate?.();
       selectedIds = new Set();
     } catch (e) {
       logger.error("Bulk mark-as-junk failed:", e);
-      toast.error("Chyba při hromadném označování detekcí.");
+      toast.error(DETECTION_MESSAGES.BULK_DETECTION_FAILED);
     } finally {
       isWorking = false;
     }

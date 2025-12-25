@@ -17,6 +17,7 @@
   import { ui } from "$lib/stores/ui.svelte";
   import type { CurationGroup, CurationManifest, ImageEntry, Separator } from "$lib/types/manifest";
   import { performImageAction } from "$lib/utils/api-actions";
+  import { IMAGE_MESSAGES } from "$lib/utils/messages";
   import { findIndexById, getRange } from "$lib/utils/selection";
   import { toSlug } from "$lib/utils/strings";
 
@@ -165,7 +166,7 @@
 
   function handleCopyMetadata(item: ImageEntry) {
     metadataClipboard.copy(item);
-    toast.success(`Metadata zkopírována z "${item.src.split("/").pop()}"`);
+    toast.success(IMAGE_MESSAGES.metadataCopied(item.src.split("/").pop() || ""));
   }
 
   function handlePasteMetadata(item: ImageEntry, onlyThis = false) {
@@ -194,7 +195,7 @@
       logger.debug("Single Paste", item.id);
       // Prevent pasting to the same image that was copied
       if (clipboard.sourceImage?.id === item.id) {
-        toast.error("Nemůžete vkládat metadata do stejného obrázku, ze kterého jste je kopírovali");
+        toast.error(IMAGE_MESSAGES.PASTE_TO_SELF);
         return;
       }
       pasteTargets = [item];
@@ -223,7 +224,7 @@
     }
 
     if (targetImages.length === 0) {
-      toast.info("Žádné obrázky k úpravě.");
+      toast.info(IMAGE_MESSAGES.NO_IMAGES_TO_EDIT);
       // If we filtered everything out, we still close the dialog
       isPasteDialogOpen = false;
       return;
@@ -270,7 +271,7 @@
       }
 
       isPasteDialogOpen = false;
-      toast.success("Metadata úspěšně vložena");
+      toast.success(IMAGE_MESSAGES.METADATA_PASTED);
 
       // Refresh data
       await invalidateAll();
