@@ -117,22 +117,19 @@
       if (res.ok) {
         // Trigger update in parent
         onUpdate?.();
-        toast.success(
-          shouldHide
-            ? `Fotky (${imageIds.length}) byly úspěšně skryty.`
-            : `Fotky (${imageIds.length}) byly úspěšně vyjmuty.`,
-          { duration: 5000 },
-        );
+        toast.success(DETECTION_MESSAGES.unmatchSuccess(imageIds.length, shouldHide), {
+          duration: 5000,
+        });
       } else {
-        toast.error("Chyba při zpracování požadavku", {
-          description: "Operace se nezdařila. Zkuste to prosím znovu.",
+        toast.error(GENERIC_MESSAGES.PROCESSING_ERROR, {
+          description: GENERIC_MESSAGES.OPERATION_FAILED,
           duration: 10000,
         });
       }
     } catch (e) {
       logger.error(e as Error);
-      toast.error("Chyba komunikace", {
-        description: "Nelze kontaktovat server.",
+      toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR, {
+        description: GENERIC_MESSAGES.COMMUNICATION_ERROR_DESCRIPTION,
         duration: 10000,
       });
     } finally {
@@ -142,7 +139,7 @@
 
   async function ignoreDetection(crop: (typeof crops)[0]) {
     if (!crop.box) {
-      toast.error("Chyba dat", { description: "Nepodařilo se najít souřadnice detekce." });
+      toast.error(DETECTION_MESSAGES.DETECTION_ERROR);
       return;
     }
 
@@ -163,7 +160,9 @@
         toast.success(DETECTION_MESSAGES.DETECTION_INVALIDATED);
       } else {
         const data = await res.json();
-        toast.error("Chyba", { description: data.error || "Nepodařilo se uložit nastavení." });
+        toast.error(GENERIC_MESSAGES.PROCESSING_ERROR, {
+          description: data.error || DETECTION_MESSAGES.SAVE_SETTINGS_FAILED,
+        });
       }
     } catch (e) {
       logger.error(e);
@@ -184,11 +183,9 @@
 
       if (res.ok) {
         onUpdate?.();
-        toast.success(
-          `Kategorie změněna na ${category === "person" ? "Osoba" : category === "statue" ? "Socha" : "Malba"}.`,
-        );
+        toast.success(DETECTION_MESSAGES.categoryChanged(category));
       } else {
-        toast.error("Chyba při změně kategorie.");
+        toast.error(DETECTION_MESSAGES.CATEGORY_CHANGE_FAILED);
       }
     } catch (e) {
       logger.error(e);
@@ -218,10 +215,10 @@
         onUpdate?.();
         selectedIds = new Set();
         showReassignDialog = false;
-        toast.success(`Fotky byly přiřazeny osobě ${targetPerson.name}.`);
+        toast.success(DETECTION_MESSAGES.assignedToPerson(targetPerson.name));
       } else {
         const data = await res.json();
-        toast.error("Chyba přiřazení", { description: data.error });
+        toast.error(DETECTION_MESSAGES.ASSIGNMENT_ERROR, { description: data.error });
       }
     } catch (e) {
       logger.error(e);
@@ -266,7 +263,7 @@
       if (failed.length > 0) {
         const successCount = selectedCrops.length - failed.length;
         if (successCount === 0) throw new Error("Všechny operace selhaly");
-        toast.warning(`Dokončeno s chybami: ${successCount} úspěšných, ${failed.length} selhalo.`);
+        toast.warning(GENERIC_MESSAGES.partialSuccess(successCount, failed.length));
         logger.error("Some bulk ignore operations failed", failed);
       } else {
         toast.success(DETECTION_MESSAGES.BULK_DETECTION_INVALIDATED);

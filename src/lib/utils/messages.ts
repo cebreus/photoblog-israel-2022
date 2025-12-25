@@ -124,9 +124,11 @@ export const DETECTION_MESSAGES = {
   BULK_DETECTION_INVALIDATED: "Vybrané detekce byly označeny jako neplatné a budou ignorovány.",
   DETECTION_ERROR: "Nepodařilo se najít souřadnice detekce.",
   BULK_DETECTION_FAILED: "Chyba při hromadném označování detekcí.",
+  SAVE_SETTINGS_FAILED: "Nepodařilo se uložit nastavení.",
 
   // Reassignment
   assignedToPerson: (name: string) => `Fotky byly přiřazeny osobě ${name}.`,
+  ASSIGNMENT_ERROR: "Chyba přiřazení",
   unmatchSuccess: (count: number, hidden: boolean) =>
     hidden ? `Fotky (${count}) byly úspěšně skryty.` : `Fotky (${count}) byly úspěšně vyjmuty.`,
 
@@ -139,6 +141,7 @@ export const DETECTION_MESSAGES = {
     };
     return `Kategorie změněna na ${labels[category] || category}.`;
   },
+  CATEGORY_CHANGE_FAILED: "Chyba při změně kategorie.",
 } as const;
 
 // ============================================================================
