@@ -57,7 +57,8 @@ vi.mock("$lib/stores/editor.svelte", () => {
 import { editor } from "$lib/stores/editor.svelte";
 import { filters } from "$lib/stores/filters.svelte";
 import { ui } from "$lib/stores/ui.svelte";
-import { initializeFiltersFromUrl, parseBooleanParam } from "$lib/stores/urlSync.svelte";
+import { initializeFiltersFromUrl } from "$lib/stores/urlSync.svelte";
+import { parseBooleanParam } from "$lib/utils/url-params";
 
 describe("URL Helpers", () => {
   describe("parseBooleanParam", () => {

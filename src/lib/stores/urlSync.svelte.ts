@@ -4,100 +4,23 @@ import { page } from "$app/state";
 import { editor } from "$lib/stores/editor.svelte";
 import { filters } from "$lib/stores/filters.svelte";
 import { ui } from "$lib/stores/ui.svelte";
-import type { Author, QualityBucket } from "$lib/types/manifest";
+import type { Author } from "$lib/types/manifest";
 import { QUALITY_BUCKETS } from "$lib/utils/gallery";
-import { toSlug } from "$lib/utils/strings";
+import {
+  buildAuthorsParam,
+  buildQualityParam,
+  decodeToken,
+  encodeToken,
+  normalizePresenceParams,
+  parseAuthorsFromUrl,
+  parseBooleanParam,
+  parseQualityFromUrl,
+  syncBooleanParam,
+} from "$lib/utils/url-params";
 
 let isInitialized = false;
 let authors: Author[] = [];
 let lastUrl: URL;
-
-function decodeToken(s: string) {
-  return decodeURIComponent(s.trim());
-}
-
-function encodeToken(s: string) {
-  return encodeURIComponent(s);
-}
-
-function getSlug(a: Author) {
-  return a.slug;
-}
-
-function getNameSlugPair(a: Author): [string, string | undefined] {
-  return [a.name, a.slug];
-}
-
-export function parseBooleanParam(value: string | null): boolean | undefined {
-  if (value == null) return undefined;
-  const v = value.trim().toLowerCase();
-  if (v === "true") return true;
-  if (v === "false") return false;
-  return undefined;
-}
-
-function syncBooleanParam(
-  params: URLSearchParams,
-  key: string,
-  value: boolean,
-  type: "presence" | "inverted-presence",
-) {
-  params.delete(key);
-  if (type === "presence" && value === true) {
-    params.set(key, "");
-  } else if (type === "inverted-presence" && value === false) {
-    params.set(key, "");
-  }
-}
-
-function parseAuthorsFromUrl(url: URL, authors: Author[]): string[] {
-  const csv = url.searchParams.get("authors");
-  if (csv && csv.length > 0) {
-    const parsed = csv.split(",").map(decodeToken).filter(Boolean);
-    const slugs: string[] = [];
-
-    if (authors.length > 0) {
-      const slugSet = new Set(authors.map(getSlug));
-      const nameToSlug = new Map(authors.map(getNameSlugPair));
-      for (const token of parsed) {
-        if (token === "unknown") {
-          slugs.push("");
-        } else if (slugSet.has(token)) {
-          slugs.push(token);
-        } else {
-          const slug = nameToSlug.get(token);
-          slugs.push(slug || toSlug(token));
-        }
-      }
-    } else {
-      for (const token of parsed) slugs.push(toSlug(token));
-    }
-    return slugs;
-  }
-
-  const authorParams = url.searchParams.getAll("author");
-  if (authorParams.length > 0) {
-    if (authors.length > 0) {
-      return authorParams.map((a) => {
-        if (a === "unknown") return "";
-        const slugMatch = authors.find((x) => x.slug === a);
-        if (slugMatch) return slugMatch.slug;
-        const nameMatch = authors.find((x) => x.name === a);
-        return nameMatch ? nameMatch.slug : toSlug(a);
-      }) as string[];
-    }
-    return authorParams.map(toSlug);
-  }
-
-  return [];
-}
-
-function parseQualityFromUrl(url: URL): QualityBucket[] | undefined {
-  if (!url.searchParams.has("quality")) return undefined;
-  const qualityParam = url.searchParams.get("quality");
-  if (!qualityParam) return [];
-  return qualityParam.split(",").filter(Boolean) as QualityBucket[];
-}
 
 function setBooleanStateFromUrl(
   url: URL,
@@ -175,54 +98,6 @@ export function initializeFiltersFromUrl(url: URL) {
 }
 
 let debounceTimer: ReturnType<typeof setTimeout>;
-
-const PRESENCE_ONLY_KEYS = new Set([
-  "labels",
-  "editMode",
-  "debug",
-  "overlay",
-  "no-separators",
-  "sidebar",
-  "curation",
-]);
-
-function buildAuthorsParam(selectedAuthors: string[], authors: Author[]): string | undefined {
-  if (selectedAuthors.length === 0) return undefined;
-
-  const slugSet = new Set(authors.map(getSlug));
-  const nameToSlug = new Map(authors.map(getNameSlugPair));
-
-  return selectedAuthors
-    .map((x) => {
-      if (x === "") return "unknown";
-      return slugSet.has(x) ? x : (nameToSlug.get(x) ?? toSlug(x));
-    })
-    .map(encodeToken)
-    .join(",");
-}
-
-function buildQualityParam(selectedQualityBuckets: QualityBucket[]): string | undefined {
-  const allQualityIds = QUALITY_BUCKETS.map((b) => b.id);
-  const isAllQualitySelected =
-    allQualityIds.length === selectedQualityBuckets.length &&
-    allQualityIds.every((id) => selectedQualityBuckets.includes(id));
-
-  return isAllQualitySelected ? undefined : selectedQualityBuckets.join(",");
-}
-
-function normalizePresenceParams(params: URLSearchParams): string {
-  const rawPairs = params.toString().split("&").filter(Boolean);
-  const normalizedPairs = rawPairs.map((p) => {
-    // p is like "key=value" or "key=" for empty value
-    const idx = p.indexOf("=");
-    if (idx === -1) return p;
-    const key = p.slice(0, idx);
-    const val = p.slice(idx + 1);
-    if (val === "" && PRESENCE_ONLY_KEYS.has(key)) return key;
-    return p;
-  });
-  return normalizedPairs.join("&");
-}
 
 export function syncUrlFromFilters() {
   if (!browser) return;

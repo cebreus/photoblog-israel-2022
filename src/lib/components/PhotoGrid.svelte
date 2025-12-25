@@ -17,6 +17,7 @@
   import { ui } from "$lib/stores/ui.svelte";
   import type { CurationGroup, CurationManifest, ImageEntry, Separator } from "$lib/types/manifest";
   import { performImageAction } from "$lib/utils/api-actions";
+  import { findIndexById, getRange } from "$lib/utils/selection";
   import { toSlug } from "$lib/utils/strings";
 
   const logger = createLogger("PhotoGrid");
@@ -383,12 +384,11 @@
 
   function handleSelect(item: ImageEntry, shiftKey: boolean) {
     if (shiftKey && lastSelectedId) {
-      const startIdx = visualOrderedImages.findIndex((i) => i.id === lastSelectedId);
-      const endIdx = visualOrderedImages.findIndex((i) => i.id === item.id);
+      const startIdx = findIndexById(visualOrderedImages, lastSelectedId);
+      const endIdx = findIndexById(visualOrderedImages, item.id);
 
       if (startIdx !== -1 && endIdx !== -1) {
-        const [min, max] = [Math.min(startIdx, endIdx), Math.max(startIdx, endIdx)];
-        const range = visualOrderedImages.slice(min, max + 1);
+        const range = getRange(visualOrderedImages, startIdx, endIdx);
         editor.addMultiple(range.map((i) => i.id));
         // We don't update lastSelectedId on shift-click to preserve the anchor
         return;

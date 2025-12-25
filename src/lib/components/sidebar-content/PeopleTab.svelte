@@ -15,6 +15,7 @@
   import { filters } from "$lib/stores/filters.svelte";
   import { people } from "$lib/stores/people.svelte";
   import type { ImageEntry, Person } from "$lib/types/manifest";
+  import { type MergeResponse, updatePeopleOrThrow } from "$lib/utils/people-actions";
 
   import SelectionBulkActions from "../SelectionBulkActions.svelte";
 
@@ -50,23 +51,9 @@
     return { named, generic };
   }
 
-  type ApiResponse = {
-    success: boolean;
-    error?: string;
-  };
-
-  type IgnoreResponse = ApiResponse & {
-    results?: { id: string; hidden?: boolean; error?: string }[];
-  };
-
-  type MergeResponse = ApiResponse & {
-    mergedPerson?: Person;
-    updatedImageCount?: number;
-    sourceOldFaceCount?: number;
-    sourceNewFaceCount?: number;
-    targetOldFaceCount?: number;
-    targetNewFaceCount?: number;
-  };
+  // Types are now imported from people-actions.ts
+  // Local alias for backward compatibility with existing code
+  const apiUpdate = updatePeopleOrThrow;
 
   // Subscribe to derived store with optimized stats
   let peopleList = $derived(people.peopleWithStats);
@@ -114,22 +101,6 @@
   $effect(() => {
     loadConstraints();
   });
-
-  // Generic helper for API updates
-  async function apiUpdate(
-    updates: { id: string; name?: string; hidden?: boolean; junk?: boolean; category?: string }[],
-  ) {
-    const res = await fetch("/api/people", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ updates }),
-    });
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.error || "Update failed");
-    }
-    return res.json();
-  }
 
   function openBulkConfirm(config: ConfirmDialogConfig) {
     confirmDialog = { open: true, config };
