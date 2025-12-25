@@ -177,13 +177,11 @@ export function normalizeExifData(exifTags: Record<string, unknown>): Partial<Ra
 }
 
 function getCanonicalTitle(exif: Partial<RawExifData>): string | undefined {
-  return normalizeText(
-    exif.ObjectName || exif.Headline || exif.Title || exif["dc:title"] || exif.ImageDescription,
-  );
+  return normalizeText(exif.Title || exif.Headline || exif.ObjectName || exif["dc:title"]);
 }
 
 function getCanonicalCaption(exif: Partial<RawExifData>): string | undefined {
-  return normalizeText(exif.Caption || exif.CaptionAbstract || exif.ImageDescription);
+  return normalizeText(exif.Caption || exif.ImageDescription || exif.CaptionAbstract);
 }
 
 function getCanonicalAuthor(exif: Partial<RawExifData>): string | undefined {
@@ -249,7 +247,7 @@ export function buildImageEntry(
       date,
       location: exif.Location,
       city: exif.City,
-      title: exif.Title || exif.ObjectName,
+      title: exif.Title,
       sublocation: exif.Sublocation,
       latitude: exif.latitude,
       longitude: exif.longitude,
