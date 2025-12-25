@@ -235,7 +235,7 @@
   }
 
   // Paste handlers
-  let isPastingOpen = $state(false);
+  let isPasteDialogOpen = $state(false);
   let isApplyingPaste = $state(false);
 
   function handlePasteMetadata() {
@@ -243,7 +243,7 @@
       toast.error("Žádná metadata v clipboard");
       return;
     }
-    isPastingOpen = true;
+    isPasteDialogOpen = true;
   }
 
   async function confirmPaste(fieldsToApply: Record<string, boolean>) {
@@ -292,7 +292,7 @@
         applyMetadataUpdates(img, updates);
       }
 
-      isPastingOpen = false;
+      isPasteDialogOpen = false;
       toast.success("Metadata úspěšně vložena");
     } catch (e) {
       logger.error(e);
@@ -320,7 +320,7 @@
   {/if}
 
   <MetadataPasteDialog
-    bind:open={isPastingOpen}
+    bind:open={isPasteDialogOpen}
     clipboardData={metadataClipboard.data}
     onConfirm={confirmPaste}
   />

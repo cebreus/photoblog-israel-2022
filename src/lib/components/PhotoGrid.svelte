@@ -81,8 +81,8 @@
   let deleteDialogOpen = $state(false);
   let imagesToDelete = $state<ImageEntry[]>([]);
 
-  let isPastingOpen = $state(false);
-  let imagesToPaste = $state<ImageEntry[]>([]);
+  let isPasteDialogOpen = $state(false);
+  let pasteTargets = $state<ImageEntry[]>([]);
   let isApplyingPaste = $state(false);
 
   let isArchiving = $state(false);
@@ -184,11 +184,11 @@
       });
 
       // Filter out usage of source image as target
-      imagesToPaste = selected.filter((i: ImageEntry) => i.id !== clipboard.sourceImage?.id);
+      pasteTargets = selected.filter((i: ImageEntry) => i.id !== clipboard.sourceImage?.id);
 
       logger.debug(
-        "imagesToPaste",
-        imagesToPaste.map((i: ImageEntry) => i.id),
+        "pasteTargets",
+        pasteTargets.map((i: ImageEntry) => i.id),
       );
     } else {
       logger.debug("Single Paste", item.id);
@@ -197,9 +197,9 @@
         toast.error("Nemůžete vkládat metadata do stejného obrázku, ze kterého jste je kopírovali");
         return;
       }
-      imagesToPaste = [item];
+      pasteTargets = [item];
     }
-    isPastingOpen = true;
+    isPasteDialogOpen = true;
   }
 
   async function confirmPaste(
@@ -207,10 +207,10 @@
     excludedImageIds: string[] = [],
   ) {
     const clipboard = metadataClipboard;
-    if (!clipboard.data || imagesToPaste.length === 0) return;
+    if (!clipboard.data || pasteTargets.length === 0) return;
 
     // 1. Filter out excluded images from the operation
-    const targetImages = imagesToPaste.filter((img) => !excludedImageIds.includes(img.id));
+    const targetImages = pasteTargets.filter((img) => !excludedImageIds.includes(img.id));
 
     // 2. Sync exclusion with global selection if needed
     // User requested that manual exclusion in dialog should reflect in global selection
@@ -225,7 +225,7 @@
     if (targetImages.length === 0) {
       toast.info("Žádné obrázky k úpravě.");
       // If we filtered everything out, we still close the dialog
-      isPastingOpen = false;
+      isPasteDialogOpen = false;
       return;
     }
 
@@ -269,7 +269,7 @@
         throw new Error(err.message || "Chyba při ukládání metadata");
       }
 
-      isPastingOpen = false;
+      isPasteDialogOpen = false;
       toast.success("Metadata úspěšně vložena");
 
       // Refresh data
@@ -503,8 +503,8 @@
 />
 
 <MetadataPasteDialog
-  bind:open={isPastingOpen}
-  images={imagesToPaste}
+  bind:open={isPasteDialogOpen}
+  images={pasteTargets}
   clipboardData={metadataClipboard.data}
   onConfirm={confirmPaste}
   onOpenCurationDialog={handleOpenCurationDialog}

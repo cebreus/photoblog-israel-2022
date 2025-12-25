@@ -184,6 +184,31 @@ Each folder in `scripts/lib/` has a focused purpose:
 - `ai/` - AI/ML models
 - `utils/` - Generic utilities
 
+### Runtime Utilities (`src/lib/utils/`)
+
+Reusable utility modules extracted from components and stores (Dec 2024):
+
+- **`people-actions.ts`** - API wrappers for people management (CRUD, merge, bulk operations)
+- **`url-params.ts`** - URL parameter parsing and building (authors, quality, boolean params)
+- **`selection.ts`** - Multi-select logic with Shift+click support
+- **`api-actions.ts`** - Generic image action handlers (delete, archive)
+- **`gallery.ts`** - Gallery filtering and statistics
+
+### Store Patterns
+
+All runes-based stores use **class-based pattern** for consistency:
+
+```typescript
+// ✅ Correct pattern
+export class EditorState {
+  selection = $state(new Set<string>());
+  editMode = $state(false);
+
+  toggleSelection(id: string) { ... }
+}
+export const editor = new EditorState();
+```
+
 ---
 
-**Last Updated**: 2024-12-24 (Priority 1 & 2 Refactoring)
+**Last Updated**: 2024-12-25 (Runtime utility extraction & store standardization)
