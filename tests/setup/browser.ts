@@ -1,45 +1,33 @@
 import { vi } from "vitest";
-import Stub from "../fixtures/Stub.svelte";
 
-// Mock bits-ui globally to avoid transport errors in browser tests
-// bits-ui barrel imports cause SSR module evaluation issues in Vitest browser mode
-
-// Create a stub namespace with common component parts
-// All components use Stub.svelte which renders children properly
-const createComponentNamespace = () => ({
-  Root: Stub,
-  Trigger: Stub,
-  Content: Stub,
-  Item: Stub,
-  Group: Stub,
-  Label: Stub,
-  Description: Stub,
-  Title: Stub,
-  Close: Stub,
-  Overlay: Stub,
-  Portal: Stub,
-  Input: Stub,
-  Thumb: Stub,
-  // Add more as needed
-});
+/**
+ * Browser test setup - minimal mocking for external UI libraries
+ *
+ * We mock bits-ui and svelte-sonner to avoid SSR/transport issues in browser tests.
+ * These are lightweight mocks that allow components to render without errors.
+ */
 
 vi.mock("bits-ui", () => ({
-  // Component namespaces
-  Dialog: createComponentNamespace(),
-  Switch: createComponentNamespace(),
-  Accordion: createComponentNamespace(),
-  Tabs: createComponentNamespace(),
-  ContextMenu: createComponentNamespace(),
-  Label: createComponentNamespace(),
-  Checkbox: createComponentNamespace(),
-  Separator: createComponentNamespace(),
-  NavigationMenu: createComponentNamespace(),
-  Tooltip: createComponentNamespace(),
-  Toggle: createComponentNamespace(),
-  ToggleGroup: createComponentNamespace(),
-  Collapsible: createComponentNamespace(),
-  Button: createComponentNamespace(),
-  // Utilities
+  // Return empty objects - components will fail gracefully if they try to use these
+  Dialog: {},
+  Switch: {},
+  Accordion: {},
+  Tabs: {},
+  ContextMenu: {},
+  Label: {},
+  Checkbox: {},
+  Separator: {},
+  NavigationMenu: {},
+  Tooltip: {},
+  Toggle: {},
+  ToggleGroup: {},
+  Collapsible: {},
+  Button: {},
+  DropdownMenu: {},
+  Select: {},
+  Popover: {},
+  AlertDialog: {},
+  ScrollArea: {},
   mergeProps: vi.fn((...args) => Object.assign({}, ...args)),
 }));
 
@@ -51,9 +39,5 @@ vi.mock("svelte-sonner", () => ({
     warning: vi.fn(),
     message: vi.fn(),
   },
-  Toaster: Stub,
-}));
-
-vi.mock("$lib/actions/scrollspy", () => ({
-  useScrollspy: () => ({ destroy: () => {} }),
+  Toaster: {},
 }));

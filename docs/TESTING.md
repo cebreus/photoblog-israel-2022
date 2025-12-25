@@ -6,28 +6,66 @@ Tento dokument slouží jako průvodce pro vývojáře, jak psát a spouštět t
 
 Projekt je **multi-gallery fotoblog** běžící na **Bun runtime**. Testování zahrnuje jak backend skripty pro generování obrázků, tak frontend Svelte 5 komponenty s podporou browseru.
 
+**📖 Pro detailní dokumentaci testovací architektury viz [`tests/README.md`](../tests/README.md)**
+
 ## Strategie testování
 
 Projekt využívá vícevrstvou pyramidu testů:
 
-1.  **Unit Testy:** Testují izolovanou byznys logiku (backend skripty, utility funkce, transformace dat). Běží v Node.js/Bun prostředí.
-2.  **Component Testy:** Testují UI komponenty Svelte v reálném (headless) prohlížeči pomocí Vitest Browser Mode. Ověřují rendering, interakci a integraci s reaktivním stavem (stores).
-3.  **Integration Testy:** Testují kompletní image generation pipeline včetně Sharp processingu a manifest generování.
-4.  **E2E Testy:** Testují celou aplikaci z pohledu uživatele pomocí Playwright, včetně navigace a reálného backendu.
+1. **Unit Testy:** Testují izolovanou byznys logiku (backend skripty, utility funkce, transformace dat). Běží v Node.js/Bun prostředí.
+2. **Component Testy:** Testují UI komponenty Svelte v reálném (headless) prohlížeči pomocí **Vitest Browser Mode**. Ověřují rendering, interakci a integraci s reaktivním stavem (stores).
+3. **Integration Testy:** Testují kompletní flow (ScrollSpy, API endpoints) nebo image generation pipeline.
+4. **E2E Testy:** Testují celou aplikaci z pohledu uživatele pomocí Playwright.
 
 ---
 
-## 1. Jak spouštět testy
+## Struktura testů
+
+```
+tests/
+├── unit/                       # Rychlé unit testy (Node.js/jsdom)
+│   ├── core/                   # Doménová logika (image processing, faces, manifests)
+│   ├── stores/                 # Svelte stores logika
+│   └── features/               # Pomocné funkce (URL sync, utils)
+│
+├── components/                 # Komponentové testy (Browser Mode)
+│   └── AgendaTab.component.spec.ts
+│
+├── integration/                # Integrační testy
+│   ├── flow-scrollspy/        # Browser Mode - reálné scrollování
+│   └── api/                   # Node.js - API endpoint testy
+│
+├── e2e/                        # End-to-End testy (Playwright)
+│   └── *.spec.ts
+│
+├── fixtures/                   # Testovací data
+│   ├── manifests.ts
+│   ├── people.ts
+│   └── observers.ts
+│
+└── setup/                      # Globální konfigurace
+    ├── browser.ts             # Browser Mode setup
+    └── server.ts              # Node.js/jsdom setup
+```
+
+---
+
+## Jak spouštět testy
 
 Všechny příkazy používají `bun`.
 
 ### Unit Testy
 
-Unit testy ověřují jednotlivé funkce a utility. Jsou umístěny v `tests/unit`.
-Příklad: `tests/unit/utils-gallery.unit.spec.ts` testuje filtrování a merge logiku.
-`tests/unit/aesthetic.unit.spec.ts` ověřuje matematiku výpočtu estetického skóre a správnost vah (kalibrace).
+Unit testy ověřují jednotlivé funkce a utility. Jsou umístěny v `tests/unit/`.
 
-Spuštění: `bun test:unit`
+```bash
+# Všechny unit testy
+bun run test:unit
+
+# Konkrétní projekt
+bun run vitest run --project unit-core
+bun run vitest run --project unit-dom
+```
 
 ### Component Testy (Vitest Browser Mode)
 
@@ -37,13 +75,16 @@ Spustí testy UI komponent v headless Chromium. **Vyžadují nastavenou proměnn
 CONTENT_DIR=egypt-2025 bun run vitest run --project client
 ```
 
-_Poznámka: Pokud chcete vidět UI během testování, upravte konfiguraci v `vite.config.ts`._
-
 ### Integration Testy
 
-Spustí integration testy pro image generation pipeline:
-
 ```bash
+# API testy
+bun run vitest run --project integration-api
+
+# Browser integration (ScrollSpy)
+bun run vitest run --project browser-integration
+
+# Image processing pipeline
 bun run test:images
 ```
 
@@ -55,8 +96,6 @@ Spustí end-to-end testy v reálném prohlížeči:
 bun run test:e2e
 ```
 
-_Poznámka: Testy běží v headless Chromium prohlížeči. Pokud chcete vidět UI, odstraňte `--headless` z konfigurace nebo sledujte terminál._
-
 ### Všechny testy
 
 ```bash
@@ -65,133 +104,187 @@ bun run test
 
 ---
 
-## 2. Psaní Unit Testů
+## Psaní testů
 
-- **Umístění:** `tests/unit/` nebo přímo vedle kódu (např. `src/lib/utils/my-util.test.ts`).
-- **Co testovat:** Čisté funkce (pure functions), transformace dat, matematické výpočty.
-- **Co netestovat:** Svelte komponenty, DOM manipulace.
+### 1. Unit Testy
+
+**Kdy použít:**
+
+- Čisté funkce (pure functions)
+- Transformace dat
+- Matematické výpočty
+- Store logika (bez UI)
+
+**Příklad:**
 
 ```typescript
-// Příklad: tests/unit/math.test.ts
+// tests/unit/core/utils/strings.unit.spec.ts
 import { describe, expect, it } from "vitest";
 
-import { add } from "$lib/utils/math";
+import { toSlug } from "$lib/utils/strings";
 
-describe("add", () => {
-  it("adds two numbers", () => {
-    expect(add(1, 2)).toBe(3);
+describe("toSlug", () => {
+  it("converts text to slug", () => {
+    expect(toSlug("Hello World")).toBe("hello-world");
   });
 });
 ```
 
----
+### 2. Component Testy (Browser Mode)
 
-## 3. Psaní Component Testů (Vitest Browser Mode)
+**Kdy použít:**
 
-Toto je klíčová část naší strategie. Používáme **Vitest Browser Mode** (`@vitest/browser`) s **Playwright**, což umožňuje renderovat Svelte 5 komponenty v reálném DOMu.
+- Testování Svelte komponent
+- Interakce vyžadující reálné DOM API
+- Ověření vykreslení a struktury
 
-- **Umístění:** Přímo vedle komponenty, např. `src/lib/components/PhotoGrid.svelte.test.ts`
-- **Technologie:** `vitest-browser-svelte`, `page` objekt z `@vitest/browser/context`
-- **Multi-gallery kontext:** Testy vyžadují `CONTENT_DIR` pro správné načtení manifestů přes `$manifests` alias
+**Klíčové:**
 
-### Klíčový pattern: Mockování Store (Stores Isolation)
+- Používejte `render` z `vitest-browser-svelte`
+- Používejte `page` z `vitest/browser` pro locatory
+- Mockujte pouze stores a API, ne DOM komponenty
 
-Svelte 5 aplikace (a tento projekt) silně využívá globální stores (`$lib/stores/editorState`, `filters`, atd.). Abychom mohli komponentu testovat izolovaně, **musíme tyto stores mockovat**.
-
-**Jak na to:**
-
-1.  Použijte `vi.mock()` na začátku test souboru.
-2.  Pokud používáte `hoisted` proměnné, definujte mock uvnitř factory funkce nebo použijte `in-line` definici.
+**Příklad:**
 
 ```typescript
-// Příklad: src/lib/components/MyComponent.svelte.test.ts
-// Důležité: page objekt pro selektory
-import { page } from "@vitest/browser/context";
+// tests/components/AgendaTab.component.spec.ts
 import { describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-svelte";
+import { page } from "vitest/browser";
 
-import MyComponent from "./MyComponent.svelte";
+import AgendaTab from "$lib/components/sidebar-content/AgendaTab.svelte";
 
-// 1. Mockování globálního storu
-vi.mock("$lib/stores/editorState", () => ({
-  selection: {
-    subscribe: vi.fn((fn: any) => {
-      fn(new Set());
-      return () => {};
-    }), // Simulujeme prázdný Set
-    has: () => false,
-    size: 0,
+// Mock UI store
+const mockActiveSections = new Set<string>();
+vi.mock("$lib/stores/ui.svelte", () => ({
+  ui: {
+    get activeSections() {
+      return mockActiveSections;
+    },
   },
 }));
 
-describe("MyComponent", () => {
-  it("renders correctly", async () => {
-    // 2. Render komponenty
-    render(MyComponent, { props: { title: "Hello" } });
+describe("AgendaTab", () => {
+  it("renders menu items", async () => {
+    render(AgendaTab, { props: { menuItems: mockData } });
 
-    // 3. Assertions pomocí page objektu (Testing Library styl)
-    await expect.element(page.getByText("Hello")).toBeInTheDocument();
+    await expect.element(page.getByText("24. listopadu")).toBeInTheDocument();
   });
 });
 ```
 
-### Best Practices pro Selektory
-
-1.  **Preferujte `getByRole` nebo `getByText`:** Testujte to, co vidí uživatel.
-    ```typescript
-    const btn = page.getByRole("button", { name: "Uložit" });
-    ```
-2.  **Pro interakci použijte `data-testid`:** Pokud je element těžko zacílitelný nebo se text mění.
-    ```html
-    <!-- v komponentě -->
-    <button data-testid="save-button" ...>Save</button>
-    ```
-    ```typescript
-    // v testu
-    await page.getByTestId("save-button").click();
-    ```
-3.  **Pozor na více elementů:** `getByText` selže, pokud je textu více. Použijte `.first()`, `.all()` nebo specifičtější selektor.
-
-### Testování s CONTENT_DIR
-
-Komponentní testy často potřebují přístup k manifestům přes `$manifests` alias. Ujistěte se, že spouštíte test s nastavenou proměnnou `CONTENT_DIR`:
+**Spuštění s CONTENT_DIR:**
 
 ```bash
 CONTENT_DIR=egypt-2025 bun run vitest run --project client
 ```
 
+### 3. Integration Testy
+
+#### Browser Integration (reálný DOM)
+
+Pro testy vyžadující reálný layout engine (ScrollSpy, IntersectionObserver):
+
+```typescript
+// tests/integration/flow-scrollspy/scrollspy.spec.ts
+import { describe, expect, it } from "vitest";
+import { render } from "vitest-browser-svelte";
+import { page } from "vitest/browser";
+
+import ScrollSpyTestSubject from "./ScrollSpyTestSubject.svelte";
+
+describe("ScrollSpy Integration", () => {
+  it("updates activeSections when scrolling", async () => {
+    render(ScrollSpyTestSubject);
+
+    document.getElementById("section-1")?.scrollIntoView();
+    await new Promise((resolve) => setTimeout(resolve, 200)); // Wait for observer
+
+    const activeSections = page.getByTestId("active-sections");
+    await expect.element(activeSections).toHaveTextContent("section-1");
+  });
+});
+```
+
+#### API Integration (Node.js)
+
+Pro testování API endpoints:
+
+```typescript
+// tests/integration/api/people-api.spec.ts
+describe("People API", () => {
+  it("updates person name", async () => {
+    const response = await fetch("/api/people", {
+      method: "PATCH",
+      body: JSON.stringify({ updates: [{ id: "alice", name: "Alice Smith" }] }),
+    });
+
+    expect(response.ok).toBe(true);
+  });
+});
+```
+
+### 4. E2E Testy (Playwright)
+
+Pro smoke testy a kritické user flow:
+
+```typescript
+// tests/e2e/smoke-navigation.spec.ts
+import { expect, test } from "@playwright/test";
+
+test("loads main page and displays photos", async ({ page }) => {
+  await page.goto("/");
+  await expect(page).toHaveTitle(/Fotoblog/);
+
+  const photos = page.locator("[data-testid='photo-grid-item']");
+  await expect(photos.first()).toBeVisible();
+});
+```
+
 ---
 
-## 4. Integration Testy (Image Processing)
+## Rozhodovací matice
 
-Integrační testy pro image generation pipeline používají specializovanou konfiguraci `vitest.config.images.ts`.
-
-- **Umístění:** `tests/integration/`, `tests/e2e-images/`
-- **Spuštění:** `bun run test:images`
-- **Kontext:** Testy vytvářejí dočasné galerie a testují celý pipeline včetně Sharp processing
-
-Více detailů viz [TESTING-IMAGES.md](./TESTING-IMAGES.md).
-
-## 5. E2E Testy (Playwright)
-
-Používají se pro testování kritických průchodů aplikací (Smoke Tests).
-
-- **Umístění:** `e2e/`.
-- **Spuštění:** `bun run test:e2e`.
+| Kritérium                 | Unit (Node/jsdom) | Browser Mode          | Playwright E2E        |
+| ------------------------- | ----------------- | --------------------- | --------------------- |
+| **Závislost na layoutu?** | ❌ Nikdy          | ✅ ANO                | ✅ ANO                |
+| **Potřeba reálného DOM?** | ❌ Simulace       | ✅ Reálný             | ✅ Reálný             |
+| **Rychlost**              | 🚀 < 50ms         | 🚗 ~500ms             | 🐢 > 2s               |
+| **Použití**               | Logika, utils     | Komponenty, ScrollSpy | Smoke, Critical paths |
 
 ---
 
-## 6. Časté problémy a řešení
+## Časté problémy a řešení
 
-### "Cannot use 'in' operator to search for 'set' in undefined"
+### "Invalid Chai property: toHaveText"
 
-Tato chyba často znamená špatně namockovaný store. Zkontrolujte, zda váš mock vrací objekt s metodou `subscribe` (pro Svelte stores). Pokud používáte `sveltekit-superforms`, musíte namockovat celý objekt.
+**Problém:** Chybí matcher z `@vitest/browser`.
 
-### "Hoisting" error ve Vitestu
+**Řešení:** Použijte `toHaveTextContent` nebo přidejte `vitest-setup-client.ts` do setupFiles.
 
-Nemůžete používat top-level proměnné uvnitř `vi.mock()`, pokud nejsou definovány pomocí `vi.hoisted()`. Nejjednodušší je definovat mock objekt přímo (inline) uvnitř `vi.mock` callbacku.
+### "IntersectionObserver is not defined" (jsdom)
 
-### Chybějící `$manifests` nebo `CONTENT_DIR`
+**Problém:** jsdom nepodporuje IntersectionObserver.
+
+**Řešení:** Použijte mock z `tests/fixtures/observers.ts` nebo přesuňte test do Browser Mode.
+
+### "vi.mock factory hoisting error"
+
+**Problém:** Top-level proměnné v `vi.mock()` factory.
+
+**Řešení:** Nepoužívejte `$state` v top-level mock proměnných. Vytvořte mock objekty přímo v factory funkci.
+
+### Timeout v Browser Mode testech
+
+**Problém:** Async operace (IntersectionObserver, animace) nejsou dokončeny.
+
+**Řešení:** Přidejte explicitní čekání:
+
+```typescript
+await new Promise((resolve) => setTimeout(resolve, 200));
+```
+
+### Chybějící `CONTENT_DIR`
 
 Component testy a některé integration testy vyžadují existující manifest data. Ujistěte se, že:
 
@@ -199,10 +292,31 @@ Component testy a některé integration testy vyžadují existující manifest d
 - Manifesty pro danou galerii existují v `src/data/<galerie>/`
 - Nejprve spusťte `bun run images:build` pro vygenerování manifestů
 
-### Sharp timeouty v integration testech
+---
 
-Pokud testy timeoutují, může to být způsobeno paralelním zpracováním obrázků. Nastavte `SHARP_NUM_THREADS=1` pro sériové zpracování:
+## Best Practices
 
-```bash
-SHARP_NUM_THREADS=1 bun run test:images
-```
+1. **Testujte chování, ne implementaci**
+   - ✅ "Když kliknu na tlačítko, zobrazí se dialog"
+   - ❌ "Funkce `openDialog()` byla zavolána"
+
+2. **Preferujte Browser Mode pro UI testy**
+   - Reálný DOM je spolehlivější než jsdom simulace
+   - Odhalí problémy s layoutem a CSS
+
+3. **Držte testy rychlé**
+   - Unit testy < 50ms
+   - Komponentové testy < 500ms
+   - E2E testy pouze pro kritické flow
+
+4. **Používejte data-testid**
+   - Stabilnější než CSS selektory
+   - Nezávislé na textu (i18n)
+   - Konvence: `component-name-element-purpose`
+
+---
+
+**Pro detailní dokumentaci viz:**
+
+- [`tests/README.md`](../tests/README.md) - Kompletní testovací architektura
+- [`TESTING-IMAGES.md`](./TESTING-IMAGES.md) - Testování image processing pipeline

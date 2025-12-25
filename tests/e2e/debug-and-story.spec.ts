@@ -70,6 +70,7 @@ test.describe("Story Dialog", () => {
     // Dialog should contain story content
     const dialogContent = await dialog.textContent();
     expect(dialogContent).toBeTruthy();
+    if (!dialogContent) return;
     expect(dialogContent.length).toBeGreaterThan(10);
 
     // Close dialog
@@ -104,6 +105,7 @@ test.describe("Story Dialog", () => {
 
     // Should have content (paragraphs or text)
     const dialogText = await dialog.textContent();
+    if (!dialogText) return;
     expect(dialogText.length).toBeGreaterThan(50);
   });
 });

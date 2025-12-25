@@ -65,9 +65,30 @@ export default defineConfig({
       {
         extends: "./vite.config.ts",
         test: {
-          name: "server",
+          name: "unit-core",
           environment: "node",
-          include: ["src/**/*.{test,spec}.{js,ts}", "tests/unit/**/*.{test,spec}.{js,ts}"],
+          include: ["tests/unit/core/**/*.{test,spec}.{js,ts}"],
+          setupFiles: ["./tests/setup/server.ts"],
+        },
+      },
+      {
+        extends: "./vite.config.ts",
+        test: {
+          name: "unit-dom",
+          environment: "jsdom",
+          include: [
+            "tests/unit/stores/**/*.{test,spec}.{js,ts}",
+            "tests/unit/features/**/*.{test,spec}.{js,ts}",
+          ],
+          setupFiles: ["./tests/setup/server.ts"],
+        },
+      },
+      {
+        extends: "./vite.config.ts",
+        test: {
+          name: "integration-api",
+          environment: "node",
+          include: ["tests/integration/api/**/*.{test,spec}.{js,ts}"],
           exclude: ["src/**/*.svelte.{test,spec}.{js,ts}"],
           setupFiles: ["./tests/setup/server.ts"],
         },
@@ -75,11 +96,33 @@ export default defineConfig({
       {
         extends: "./vite.config.ts",
         test: {
-          name: "integration",
+          name: "integration-build",
           environment: "node",
-          include: ["tests/integration/**/*.{test,spec}.{js,ts}"],
-          exclude: ["src/**/*.svelte.{test,spec}.{js,ts}"],
+          include: ["tests/integration/cli/**/*.{test,spec}.{js,ts}"],
           setupFiles: ["./tests/setup/server.ts"],
+        },
+      },
+      {
+        extends: "./vite.config.ts",
+        test: {
+          name: "integration-data",
+          environment: "node",
+          include: ["tests/integration/data-integrity/**/*.{test,spec}.{js,ts}"],
+          setupFiles: ["./tests/setup/server.ts"],
+        },
+      },
+      {
+        extends: "./vite.config.ts",
+        test: {
+          name: "browser-integration",
+          browser: {
+            enabled: true,
+            headless: true,
+            provider: playwright(),
+            instances: [{ browser: "chromium" }],
+          },
+          include: ["tests/integration/browser/**/*.{test,spec}.{js,ts}"],
+          setupFiles: ["./vitest-setup-client.ts", "./tests/setup/browser.ts"],
         },
       },
     ],

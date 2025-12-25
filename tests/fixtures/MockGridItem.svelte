@@ -1,0 +1,9 @@
+<script>
+  let { item, onSelect } = $props();
+</script>
+
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<div data-testid="mock-item" data-id={item?.id} onclick={() => onSelect?.(item, false)}>
+  Mock Item
+</div>
