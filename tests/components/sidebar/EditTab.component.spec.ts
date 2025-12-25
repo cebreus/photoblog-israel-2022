@@ -44,35 +44,6 @@ vi.mock("$lib/logger", () => ({
   }),
 }));
 
-// Mock editor store with internal state (no external references)
-vi.mock("$lib/stores/editor.svelte", () => {
-  // State is created inside the factory to avoid hoisting issues
-  const selection = new Set<string>(["test-img-1"]);
-
-  return {
-    editor: {
-      get selection() {
-        return selection;
-      },
-      set selection(v: Set<string>) {
-        selection.clear();
-        for (const id of v) selection.add(id);
-      },
-      editMode: true,
-      showMetadataOverlay: false,
-      clearSelection: vi.fn(() => selection.clear()),
-      toggleSelection: vi.fn((id: string) => {
-        if (selection.has(id)) {
-          selection.delete(id);
-        } else {
-          selection.add(id);
-        }
-      }),
-      addSelection: vi.fn((id: string) => selection.add(id)),
-    },
-  };
-});
-
 vi.mock("$lib/stores/metadata-clipboard.svelte", () => ({
   metadataClipboard: {
     data: null,
@@ -105,8 +76,9 @@ describe("EditTab - Browser Mode", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    // Reset selection state
-    editor.selection = new Set(["test-img-1"]);
+    // Reset real editor store state
+    editor.setSelection(new Set(["test-img-1"]));
+    editor.setEditMode(true);
   });
 
   describe("Rendering", () => {
@@ -167,6 +139,25 @@ describe("EditTab - Browser Mode", () => {
 
       const { container } = renderComponent(EditTab, { items: mockImages });
       expect(container).toBeTruthy();
+    });
+
+    it("resets form values when selection becomes empty", async () => {
+      // Start with selection
+      editor.selection = new Set(["test-img-1"]);
+      renderComponent(EditTab, { items: mockImages });
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      const captionInput = document.querySelector(
+        'textarea[name="caption"]',
+      ) as HTMLTextAreaElement;
+      expect(captionInput.value).toBe("A test caption");
+
+      // Clear selection
+      editor.clearSelection();
+      // Wait for $effect to run
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      expect(captionInput.value).toBe("");
     });
   });
 

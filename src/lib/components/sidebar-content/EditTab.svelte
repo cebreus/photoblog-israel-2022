@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { fade } from "svelte/transition";
   import { toast } from "svelte-sonner";
-  import { invalidateAll } from "$app/navigation";
+  import { fade } from "svelte/transition";
+
   import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
   import { Button } from "$lib/components/ui/button";
   import { Spinner } from "$lib/components/ui/spinner";
@@ -11,6 +11,8 @@
   import { metadataClipboard } from "$lib/stores/metadata-clipboard.svelte";
   import type { ImageEntry, Separator } from "$lib/types/manifest";
   import { IMAGE_MESSAGES } from "$lib/utils/messages";
+
+  import { invalidateAll } from "$app/navigation";
 
   import GeoDataSection from "./GeoDataSection.svelte";
   import MetadataInputField from "./MetadataInputField.svelte";
@@ -51,6 +53,10 @@
   $effect(() => {
     if (imageIds.length > 0) {
       populateForm();
+    } else {
+      formData = { ...initialData };
+      explicitClears = {};
+      previousGeoValues = {};
     }
   });
 
