@@ -149,15 +149,23 @@ async function checkManifest(isCuration = false) {
 
   if (isCuration) flags.push("--curation");
 
-  // checkManifest is meant to be quiet unless verbose
-  if (!values.verbose) flags.push("--quiet");
+  // In curation mode, show progress since it takes longer
+  // In non-curation mode, keep it quiet (it's fast anyway)
+  if (!values.verbose && !isCuration) flags.push("--quiet");
 
-  flags.push("--title=[MANAGE] Verifying manifest state...");
+  flags.push(
+    `--title=[MANAGE] Verifying manifest state${isCuration ? " (with curation analysis)" : ""}...`,
+  );
 
-  logger.info("Verifying manifest state...");
+  logger.info(
+    `Verifying manifest state${isCuration ? " (with curation analysis - this may take a few minutes)" : ""}...`,
+  );
   await run("bun", flags, {
     env: {
-      LOG_LEVEL: "error", // Keep manifest-only check quiet
+      ...process.env,
+      CONTENT_DIR: gallery,
+      // In curation mode, allow info logs so user sees progress
+      LOG_LEVEL: isCuration ? "info" : "error",
     },
   });
 }
