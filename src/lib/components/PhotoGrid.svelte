@@ -1,6 +1,6 @@
 <script lang="ts">
   import { toast } from "svelte-sonner";
-  import { invalidateAll } from "$app/navigation";
+
   import { useScrollspy } from "$lib/actions/scrollspy";
   import ArchiveImageDialog from "$lib/components/ArchiveImageDialog.svelte";
   import CurationGroupView from "$lib/components/CurationGroup.svelte";
@@ -20,6 +20,8 @@
   import { IMAGE_MESSAGES } from "$lib/utils/messages";
   import { findIndexById, getRange } from "$lib/utils/selection";
   import { toSlug } from "$lib/utils/strings";
+
+  import { invalidateAll } from "$app/navigation";
 
   const logger = createLogger("PhotoGrid");
 
@@ -469,7 +471,7 @@
                 {/if}
               </Dialog.Header>
               <div
-                class="prose prose-sm dark:prose-invert max-w-none mt-4"
+                class="prose prose-sm dark:prose-invert max-w-none mt-4 max-h-[80vh] overflow-y-auto pr-4"
                 data-testid="photo-grid-separator-story-{separatorId}"
               >
                 {@html item.story}
