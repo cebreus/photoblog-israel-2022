@@ -5,6 +5,7 @@
   import X from "@lucide/svelte/icons/x";
   import { dev } from "$app/environment";
   import { Button } from "$lib/components/ui/button";
+  import { Input } from "$lib/components/ui/input";
   import { Spinner } from "$lib/components/ui/spinner";
   import { Switch } from "$lib/components/ui/switch";
   import type { Person } from "$lib/types/manifest";
@@ -44,12 +45,12 @@
         tabindex="0"
         aria-pressed={isSelected}
         class={`relative group border-b flex items-center gap-3 p-3 px-4 hover:bg-accent/50 transition-colors cursor-pointer ${isSelected ? "bg-accent/30" : ""}`}
-        on:click={(e) => {
+        onclick={(e: MouseEvent) => {
           if (!editingPersonId) {
             togglePerson(person.id, e.shiftKey);
           }
         }}
-        on:keydown={(e) => {
+        onkeydown={(e: KeyboardEvent) => {
           if (editingPersonId) return;
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
@@ -67,10 +68,13 @@
             <Spinner class="w-6 h-6 text-primary" />
           </div>
         {/if}
-        <button
-          type="button"
-          class="relative w-10 h-10 rounded overflow-hidden bg-slate-200 dark:bg-slate-800 shrink-0 border border-border hover:ring-2 ring-primary transition-all focus:outline-none"
-          on:click={(e) => openPersonDetail(person, e)}
+        <Button
+          variant="outline"
+          class="relative w-10 h-10 p-0 rounded overflow-hidden bg-slate-200 dark:bg-slate-800 shrink-0 border border-border hover:ring-2 ring-primary transition-all focus:outline-none"
+          onclick={(e: MouseEvent) => {
+            e.stopPropagation();
+            openPersonDetail(person, e);
+          }}
           data-testid="people-tab-person-thumbnail-button"
         >
           {#if person.thumbnail}
@@ -85,22 +89,22 @@
               <User class="w-5 h-5 text-slate-400" />
             </div>
           {/if}
-        </button>
+        </Button>
 
         <div class="flex-1 min-w-0">
           {#if dev && editingPersonId === person.id}
             <div class="flex items-center gap-2">
-              <input
+              <Input
                 type="text"
                 value={editingName}
-                on:input={(event) =>
-                  onEditingNameChange((event.currentTarget as HTMLInputElement).value)}
-                on:click={(event) => event.stopPropagation()}
-                on:keydown={(event) => {
+                oninput={(event: Event & { currentTarget: EventTarget & HTMLInputElement }) =>
+                  onEditingNameChange(event.currentTarget.value)}
+                onclick={(event: MouseEvent) => event.stopPropagation()}
+                onkeydown={(event: KeyboardEvent) => {
                   if (event.key === "Enter") confirmRename();
                   if (event.key === "Escape") cancelEditing();
                 }}
-                class="font-medium text-sm flex-1 bg-white dark:bg-slate-700 border border-border px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-primary"
+                class="font-medium text-sm flex-1"
                 data-testid="people-tab-person-name-input"
               />
               <Button
@@ -131,17 +135,17 @@
               </Button>
             </div>
           {:else if dev}
-            <button
-              type="button"
-              class="font-medium text-sm w-full text-left hover:text-primary transition-colors cursor-text bg-transparent border-none"
+            <Button
+              variant="ghost"
+              class="font-medium text-sm w-full text-left hover:text-primary transition-colors cursor-text bg-transparent border-none p-0 h-auto justify-start"
               data-testid="people-tab-person-name"
-              on:click={(event) => {
+              onclick={(event) => {
                 event.stopPropagation();
                 startEditing(person);
               }}
             >
               {person.name}
-            </button>
+            </Button>
           {:else}
             <div class="font-medium text-sm" data-testid="people-tab-person-name">
               {person.name}
@@ -160,13 +164,13 @@
 
         {#if dev}
           {@const isMergeSelected = selectedForMerge.includes(person.id)}
-          <button
-            type="button"
+          <Button
+            variant="ghost"
             class={cn(
-              "ml-2 h-5 w-5 rounded border border-white flex items-center justify-center transition-colors shadow-sm shrink-0 focus-visible:outline-none",
+              "ml-2 h-5 w-5 rounded border border-white flex items-center justify-center transition-colors shadow-sm shrink-0 focus-visible:outline-none p-0",
               isMergeSelected ? "bg-primary border-primary" : "bg-black/20 hover:bg-black/40",
             )}
-            on:click={(event) => {
+            onclick={(event) => {
               event.stopPropagation();
               toggleMergeSelection(person.id, event.shiftKey);
             }}
@@ -190,7 +194,7 @@
                 <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
             {/if}
-          </button>
+          </Button>
           <Button
             variant="ghost"
             size="icon"

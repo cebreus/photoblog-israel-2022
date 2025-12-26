@@ -2,6 +2,7 @@
   import X from "@lucide/svelte/icons/x";
 
   import { Badge } from "$lib/components/ui/badge";
+  import { Button } from "$lib/components/ui/button";
   import type { ImageEntry } from "$lib/types/manifest";
 
   let { images, hasClipboardData, onRemove, onClearAll, onPaste } = $props<{
@@ -44,14 +45,15 @@
         data-testid="edit-tab-selected-image-{img.id}"
       >
         {img.src.split("/").pop()}
-        <button
+        <Button
+          variant="ghost"
+          size="icon"
+          class="size-4 rounded-full p-0 h-4 w-4 text-muted-foreground hover:text-foreground"
           onclick={() => onRemove(img.id)}
-          class="text-muted-foreground hover:text-foreground p-0.5 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
           aria-label="Odebrat z výběru"
-          type="button"
         >
-          <X size={12} />
-        </button>
+          <X size={10} />
+        </Button>
       </Badge>
     {/each}
   </div>

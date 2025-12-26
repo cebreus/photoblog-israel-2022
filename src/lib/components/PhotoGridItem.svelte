@@ -15,6 +15,7 @@
   import { ui } from "$lib/stores/ui.svelte";
   import type { CurationGroup, ImageEntry, ImageSource } from "$lib/types/manifest";
   import { cn } from "$lib/utils";
+  import { isCollage } from "$lib/utils/collage-config";
   import { getSources } from "$lib/utils/images";
 
   let {
@@ -68,9 +69,10 @@
     return image.sources.find(isAdminThumb);
   }
 
-  function shouldShowAspectRatioIcon(aspectRatio: string | undefined): boolean {
-    if (!aspectRatio) return false;
-    return !aspectRatio.startsWith("landscape");
+  function shouldShowAspectRatioIcon(item: ImageEntry): boolean {
+    if (isCollage(item.id)) return true;
+    if (!item.aspectRatio) return false;
+    return !item.aspectRatio.startsWith("landscape");
   }
 
   function handleImageClick(id: string, e: MouseEvent | KeyboardEvent) {
@@ -354,8 +356,8 @@
         </div>
       {/if}
 
-      {#if shouldShowAspectRatioIcon(item.aspectRatio)}
-        <AspectRatioIcon aspectRatio={item.aspectRatio} />
+      {#if shouldShowAspectRatioIcon(item)}
+        <AspectRatioIcon aspectRatio={item.aspectRatio} isCollage={isCollage(item.id)} />
       {/if}
 
       {#if editor.editMode || showCurationVisuals}

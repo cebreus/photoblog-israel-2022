@@ -2,6 +2,7 @@
   import User from "@lucide/svelte/icons/user";
   import type { Snippet } from "svelte";
 
+  import { Button } from "$lib/components/ui/button";
   import type { Person } from "$lib/types/manifest";
   import { cn } from "$lib/utils";
 
@@ -94,14 +95,14 @@
   </div>
 
   <div class="p-1 flex flex-col gap-1 bg-muted/20">
-    <button
-      type="button"
-      class="text-[10px] text-muted-foreground w-full truncate text-center font-medium px-1 hover:underline cursor-pointer bg-transparent border-none"
+    <Button
+      variant="ghost"
+      class="text-[10px] text-muted-foreground w-full truncate text-center font-medium px-1 hover:underline cursor-pointer bg-transparent border-none h-auto p-0"
       title={person.name}
       onclick={() => onOpenDetail?.(person)}
     >
       {person.name}
-    </button>
+    </Button>
     {#if showCount}
       <div class="text-[10px] text-muted-foreground text-center">{person.faceCount} fotek</div>
     {/if}

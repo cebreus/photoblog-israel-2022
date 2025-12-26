@@ -1,19 +1,28 @@
 <script lang="ts">
   import Circle from "@lucide/svelte/icons/circle";
   import Cylinder from "@lucide/svelte/icons/cylinder";
+  import LayoutGrid from "@lucide/svelte/icons/layout-grid";
   import RectangleVertical from "@lucide/svelte/icons/rectangle-vertical";
   import Square from "@lucide/svelte/icons/square";
 
-  let { aspectRatio } = $props<{
+  let { aspectRatio, isCollage } = $props<{
     aspectRatio?: string;
+    isCollage?: boolean;
   }>();
 
   let IconComponent = $state<
-    typeof Square | typeof RectangleVertical | typeof Cylinder | typeof Circle | undefined
+    | typeof Square
+    | typeof RectangleVertical
+    | typeof Cylinder
+    | typeof Circle
+    | typeof LayoutGrid
+    | undefined
   >(undefined);
 
   $effect(() => {
-    if (aspectRatio === "square") {
+    if (isCollage) {
+      IconComponent = LayoutGrid;
+    } else if (aspectRatio === "square") {
       IconComponent = Square;
     } else if (aspectRatio?.startsWith("portrait")) {
       IconComponent = RectangleVertical;
