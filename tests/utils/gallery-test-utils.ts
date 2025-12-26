@@ -128,3 +128,27 @@ export function createCategorizedPeople(): Person[] {
     createMockPerson({ id: "junk-1", name: "Junk Face", faceCount: 1, junk: true }),
   ];
 }
+
+/**
+ * Creates a mock CollageRequest for testing.
+ */
+export function createMockCollageRequest(
+  overrides: Partial<import("../../src/lib/types/collage").CollageRequest> = {},
+): import("../../src/lib/types/collage").CollageRequest {
+  return {
+    items: overrides.items || [
+      {
+        imageId: "test1.jpg",
+        crop: { x: 50, y: 50, scale: 1 },
+      },
+      {
+        imageId: "test2.jpg",
+        crop: { x: 50, y: 50, scale: 1 },
+      },
+    ],
+    template: overrides.template || "row",
+    aspectRatio: overrides.aspectRatio || "auto",
+    border: overrides.border || { width: 10, color: "#ffffff" },
+    ...overrides,
+  };
+}

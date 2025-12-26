@@ -1,0 +1,41 @@
+export type CollageTemplateId = "row" | "column" | "grid-2x2";
+
+export interface CollageBorder {
+  width: number;
+  color: string;
+}
+
+export interface CollageCrop {
+  x: number; // 0-100 (percentage)
+  y: number; // 0-100 (percentage)
+  scale: number; // >= 1
+}
+
+export interface CollageItemConfig {
+  imageId: string; // File path for backend processing
+  id?: string; // Image ID from manifest (for re-edit correlation)
+  crop?: CollageCrop;
+  originalPath?: string; // Path before move (for re-edit reference)
+  movedPath?: string; // Path after move to collage-sources
+}
+
+export interface CollageMetadata {
+  name: string; // Output filename
+  created: string; // ISO timestamp
+  canvasWidth: number; // Final canvas dimensions
+  canvasHeight: number;
+}
+
+export interface CollageRequest {
+  items: CollageItemConfig[];
+  template: CollageTemplateId;
+  border?: CollageBorder;
+  aspectRatio?: string; // Selected ratio preset (e.g., "auto", "16:9", "4:3")
+  metadata?: CollageMetadata; // Added by backend when saving
+}
+
+export interface CollageResponse {
+  success: boolean;
+  outputPath?: string; // Relative to CONTENT_DIR
+  error?: string;
+}
