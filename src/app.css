@@ -200,10 +200,14 @@
 .show-labels figure[data-label]:not([data-label=""]) {
   /* ensure pseudo-element is positioned relative to the figure */
   @apply relative;
+
+  container-type: inline-size;
 }
 
 .show-labels figure[data-label]:not([data-label=""])::after {
   content: attr(data-label);
+  font-size: clamp(0.7em, calc(1cqi + 0.7em), theme("fontSize.sm"));
+  line-height: clamp(1rem, calc(0.5cqi + 1rem), 1.25rem);
 
-  @apply pointer-events-none absolute bottom-0 left-0 max-h-[6.3lh] w-full bg-linear-to-t from-slate-800/90 via-slate-800/80 to-transparent p-4 pt-8 text-sm leading-none text-white;
+  @apply pointer-events-none absolute bottom-0 left-0 max-h-[6.3lh] w-full bg-linear-to-t from-slate-800/90 via-slate-800/80 to-transparent p-4 pt-8 text-white;
 }
