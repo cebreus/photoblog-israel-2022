@@ -89,8 +89,8 @@ export const IMAGE_MESSAGES = {
   // Metadata operations
   metadataCopied: (filename: string) => `Metadata zkopírována z "${filename}"`,
   METADATA_PASTED: "Metadata úspěšně vložena",
-  METADATA_PASTE_FAILED: "Chyba při ukládání metadata",
-  NO_CLIPBOARD_DATA: "Žádná metadata v clipboard",
+  METADATA_PASTE_FAILED: "Chyba při ukládání metadat",
+  NO_CLIPBOARD_DATA: "Žádná metadata ve schránce",
 
   // Save operations
   imageSaved: (count: number) =>
@@ -113,6 +113,29 @@ export const IMAGE_MESSAGES = {
   GEO_DATA_LOADED: "Data byla načtena z mapy (změny lze vrátit).",
   GEO_DATA_SAME: "Data z mapy se shodují s aktuálními.",
   GEO_FETCH_FAILED: "Chyba při stahování dat.",
+  SAVING_METADATA: "Ukládám metadata...",
+  SAVE_CHANGES: "Uložit změny",
+  MAP_FETCH_FAILED: "Nepodařilo se načíst data z mapy.",
+  ERROR_TITLE: (msg: string) => `Chyba: ${msg}`,
+  UNKNOWN_ERROR: "Neznámá chyba",
+  METADATA_UPDATE_FAILED: "Nepodařilo se aktualizovat metadata",
+  KEYWORDS_PLACEHOLDER: "čárkou oddělené",
+  LABEL_CAPTION: "Popisek",
+  LABEL_TITLE: "Titulek",
+  LABEL_AUTHOR: "Autor",
+  LABEL_KEYWORDS: "Klíčová slova",
+  GEO_LABEL: "Geografické údaje",
+  LABEL_LOCATION: "Místo",
+  LABEL_CITY: "Město",
+  LABEL_STATE: "Stát / Provincie",
+  LABEL_COUNTRY: "Země",
+  LABEL_COUNTRY_CODE: "Kód",
+  ORIGINAL_VALUE: "Původní:",
+  FETCHING: "Načítám...",
+  FETCH_FROM_MAP: "Načíst z mapy",
+  RESTORE_VALUE_ARIA: "Kliknutím vrátíte původní hodnotu",
+  OPEN_IN_MAPS_ARIA: "Otevřít v Google Maps",
+  FETCH_FROM_GPS_ARIA: "Načíst adresu z GPS souřadnic",
 } as const;
 
 // ============================================================================
@@ -158,4 +181,65 @@ export const GENERIC_MESSAGES = {
   // Partial success
   partialSuccess: (success: number, failed: number) =>
     `Dokončeno s chybami: ${success} úspěšných, ${failed} selhalo.`,
+} as const;
+
+// ============================================================================
+// Collage Messages
+// ============================================================================
+
+export const COLLAGE_MESSAGES = {
+  // Dialog
+  TITLE: "Nová koláž",
+  TEMPLATE_ROW: "Vedle sebe",
+  TEMPLATE_COLUMN: "Pod sebou",
+  TEMPLATE_GRID: "Mřížka",
+  RATIO_LABEL: "Poměr",
+  RATIO_AUTO: "Auto",
+  RATIO_GROUP_LABEL: "Poměry stran",
+
+  // Settings
+  BORDER_LABEL: "Ohraničení (Border)",
+  BORDER_WIDTH_LABEL: "Referenční šířka (px)",
+  BORDER_WIDTH_HINT: (actual: number) => `Skutečná šířka: ${actual}px podle originálních rozměrů`,
+  BORDER_COLOR_LABEL: "Barva",
+
+  // Preview
+  PREVIEW_INFO: (width: number, height: number, ratio: string) =>
+    `Koláž: ${width}x${height}px • Poměr: ${ratio}`,
+
+  // Image List
+  SELECTED_IMAGES: (count: number) => `Vybrané obrázky (${count})`,
+  ORIGIN_LABEL: "Origin",
+  DETAIL_LABEL: "Detail",
+  MOVE_UP: "Posunout nahoru",
+  MOVE_DOWN: "Posunout dolů",
+  MIN_IMAGES_HINT: (min: number) => `Vyžaduje ${min} obrázky`,
+
+  // Action Buttons
+  CREATE_BUTTON: "Vytvořit koláž (High Quality)",
+  CREATING: "Zpracovávám...",
+  CREATE_HINT: "Výsledek bude uložen ve formátu JPEG (Q100). Metadata zachována.",
+  CLOSE_CONFIRM: "Opravdu chcete zavřít editor? Změny nebudou uloženy.",
+
+  // Toasts / Errors
+  CREATED_SUCCESS: (path: string) => `Koláž vytvořena: ${path}`,
+  RESTORED_DRAFT: "Obnoveno z konceptu",
+  MIN_IMAGES: "Minimálně 2 obrázky jsou potřeba pro koláž.",
+  GRID_MIN_IMAGES: "Šablona 2x2 vyžaduje alespoň 4 obrázky.",
+  OPERATION_FAILED: "Operace selhala",
+
+  // Backend errors & labels
+  DEV_ONLY: "Koláže jsou dostupné pouze v dev módu",
+  IMAGE_NOT_FOUND: (id: string) => `Obrázek nebyl nalezen: ${id}`,
+  INVALID_DIMENSIONS: (path: string) => `Neplatné rozměry obrázku: ${path}`,
+  USER_COMMENT: (names: string) => `Koláž z: ${names}`,
+  SOFTWARE_LABEL: "Photoblog Collage Tool",
+  NOT_AVAILABLE: "nedostupné",
+
+  // Loading & Selection
+  LOAD_CONFIG_FAILED: "Nelze načíst konfiguraci koláže",
+  SOURCE_IMAGES_NOT_FOUND: "Některé source obrázky nebyly nalezeny",
+  LOAD_FAILED: (err: string) => `Chyba při načítání koláže: ${err}`,
+  EDIT_BUTTON: "Upravit koláž",
+  CREATE_TRIGGER_BUTTON: (count: number) => `Vytvořit koláž (${count})`,
 } as const;

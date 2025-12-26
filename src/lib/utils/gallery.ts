@@ -27,6 +27,11 @@ function shouldIncludeItem(
     return showSeparators;
   }
 
+  // Hide source images that were used for collages
+  if (item.category === "collage-source") {
+    return false;
+  }
+
   if (selectedAuthors.length > 0) {
     if (selectedAuthors.includes("none")) {
       return false;

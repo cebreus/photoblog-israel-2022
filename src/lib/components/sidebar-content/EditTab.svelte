@@ -1,7 +1,9 @@
 <script lang="ts">
-  import { toast } from "svelte-sonner";
+  import LayoutGrid from "@lucide/svelte/icons/layout-grid";
   import { fade } from "svelte/transition";
-
+  import { toast } from "svelte-sonner";
+  import { invalidateAll } from "$app/navigation";
+  import CollageDialog from "$lib/components/admin/CollageDialog.svelte";
   import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
   import { Button } from "$lib/components/ui/button";
   import { Spinner } from "$lib/components/ui/spinner";
@@ -9,10 +11,10 @@
   import { applyMetadataUpdates } from "$lib/shared/metadata-utils";
   import { editor } from "$lib/stores/editor.svelte";
   import { metadataClipboard } from "$lib/stores/metadata-clipboard.svelte";
+  import type { CollageRequest } from "$lib/types/collage";
   import type { ImageEntry, Separator } from "$lib/types/manifest";
-  import { IMAGE_MESSAGES } from "$lib/utils/messages";
-
-  import { invalidateAll } from "$app/navigation";
+  import { getCollageSourceIds, isCollage, loadCollageConfig } from "$lib/utils/collage-config";
+  import { COLLAGE_MESSAGES, IMAGE_MESSAGES } from "$lib/utils/messages";
 
   import GeoDataSection from "./GeoDataSection.svelte";
   import MetadataInputField from "./MetadataInputField.svelte";
@@ -137,7 +139,7 @@
 
       if (!res.ok) {
         const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData.message || "Nepodařilo se aktualizovat metadata");
+        throw new Error(errorData.message || IMAGE_MESSAGES.METADATA_UPDATE_FAILED);
       }
 
       const responseData = await res.json();
@@ -201,7 +203,7 @@
       const { latitude, longitude } = activeImage.exif;
       const res = await fetch(`/api/geocode?lat=${latitude}&lng=${longitude}`);
 
-      if (!res.ok) throw new Error("Nepodařilo se načíst data z mapy.");
+      if (!res.ok) throw new Error(IMAGE_MESSAGES.MAP_FETCH_FAILED);
 
       const data = await res.json();
       const snapshot = { ...formData };
@@ -240,6 +242,56 @@
   // Paste handlers
   let isPasteDialogOpen = $state(false);
   let isApplyingPaste = $state(false);
+
+  // Collage handler
+  let isCollageDialogOpen = $state(false);
+  let collageSourceImages = $state<ImageEntry[]>([]);
+  let existingCollageConfig = $state<CollageRequest | undefined>(undefined);
+
+  async function handleOpenCollageDialog() {
+    const selected = selectedImages;
+
+    // Check if single selection is a collage for re-edit
+    if (selected.length === 1 && isCollage(selected[0].id)) {
+      try {
+        const config = await loadCollageConfig(selected[0].id);
+
+        if (!config) {
+          toast.error(COLLAGE_MESSAGES.LOAD_CONFIG_FAILED);
+          return;
+        }
+
+        // Load source images from moved paths
+        const sourceIds = getCollageSourceIds(config);
+        const sources = sourceIds
+          .map(function findImage(id: string) {
+            return items.find(function matchId(img: DisplayItem) {
+              return img.type === "image" && img.id === id;
+            }) as ImageEntry | undefined;
+          })
+          .filter(function filterDefined(img: ImageEntry | undefined): img is ImageEntry {
+            return img !== undefined;
+          });
+
+        if (sources.length !== config.items.length) {
+          toast.error(COLLAGE_MESSAGES.SOURCE_IMAGES_NOT_FOUND);
+          return;
+        }
+
+        collageSourceImages = sources;
+        existingCollageConfig = config;
+      } catch (e) {
+        toast.error(COLLAGE_MESSAGES.LOAD_FAILED(String(e)));
+        return;
+      }
+    } else {
+      // Create new collage
+      collageSourceImages = selected;
+      existingCollageConfig = undefined;
+    }
+
+    isCollageDialogOpen = true;
+  }
 
   function handlePasteMetadata() {
     if (!metadataClipboard.data) {
@@ -288,7 +340,7 @@
 
       if (!res.ok) {
         const err = await res.json();
-        throw new Error(err.message || "Chyba při ukládání metadata");
+        throw new Error(err.message || IMAGE_MESSAGES.METADATA_PASTE_FAILED);
       }
 
       for (const img of selectedImages) {
@@ -299,7 +351,9 @@
       toast.success(IMAGE_MESSAGES.METADATA_PASTED);
     } catch (e) {
       logger.error(e);
-      toast.error(`Chyba: ${e instanceof Error ? e.message : "Neznámá chyba"}`);
+      toast.error(
+        IMAGE_MESSAGES.ERROR_TITLE(e instanceof Error ? e.message : IMAGE_MESSAGES.UNKNOWN_ERROR),
+      );
       invalidateAll();
     } finally {
       isApplyingPaste = false;
@@ -316,7 +370,7 @@
       <div class="flex flex-col items-center gap-3">
         <Spinner size="lg" />
         <span class="text-sm text-muted-foreground font-medium animate-pulse"
-          >Ukládám metadata...</span
+          >{IMAGE_MESSAGES.SAVING_METADATA}</span
         >
       </div>
     </div>
@@ -327,6 +381,26 @@
     clipboardData={metadataClipboard.data}
     onConfirm={confirmPaste}
   />
+
+  <CollageDialog
+    bind:open={isCollageDialogOpen}
+    images={collageSourceImages}
+    existingConfig={existingCollageConfig}
+  />
+
+  {#if import.meta.env.DEV && (selectedImages.length >= 2 || (selectedImages.length === 1 && isCollage(selectedImages[0].id)))}
+    {@const isEditMode = selectedImages.length === 1 && isCollage(selectedImages[0].id)}
+    <div class="px-4 pt-2">
+      <Button variant="outline" size="sm" class="w-full gap-2" onclick={handleOpenCollageDialog}>
+        <LayoutGrid class="w-4 h-4" />
+        {#if isEditMode}
+          {COLLAGE_MESSAGES.EDIT_BUTTON}
+        {:else}
+          {COLLAGE_MESSAGES.CREATE_TRIGGER_BUTTON(selectedImages.length)}
+        {/if}
+      </Button>
+    </div>
+  {/if}
 
   <SelectedImagesBadges
     images={selectedImages}
@@ -345,7 +419,7 @@
     }}
   >
     <MetadataInputField
-      label="Popisek"
+      label={IMAGE_MESSAGES.LABEL_CAPTION}
       name="caption"
       type="textarea"
       value={formData.caption}
@@ -372,7 +446,7 @@
     />
 
     <MetadataInputField
-      label="Titulek"
+      label={IMAGE_MESSAGES.LABEL_TITLE}
       name="title"
       value={formData.title}
       onInput={(v) => handleFieldInput("title", v)}
@@ -381,7 +455,7 @@
     />
 
     <MetadataInputField
-      label="Autor"
+      label={IMAGE_MESSAGES.LABEL_AUTHOR}
       name="author"
       value={formData.author}
       onInput={(v) => handleFieldInput("author", v)}
@@ -390,10 +464,10 @@
     />
 
     <MetadataInputField
-      label="Klíčová slova"
+      label={IMAGE_MESSAGES.LABEL_KEYWORDS}
       name="keywords"
       value={formData.keywords}
-      placeholder="čárkou oddělené"
+      placeholder={IMAGE_MESSAGES.KEYWORDS_PLACEHOLDER}
       onInput={(v) => handleFieldInput("keywords", v)}
       onClear={() => handleFieldClear("keywords")}
       isCleared={explicitClears.keywords}
@@ -401,7 +475,7 @@
 
     <div class="flex justify-end pt-4 mt-auto">
       <Button class="w-full" size="lg" type="submit" data-testid="edit-tab-submit-button">
-        Uložit změny
+        {IMAGE_MESSAGES.SAVE_CHANGES}
       </Button>
     </div>
   </form>
