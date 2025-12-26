@@ -194,8 +194,7 @@ export async function main() {
   if (ARGS.clean) await cleanAllOutputs();
 
   if (ARGS.manifestOnly) {
-    logger.info("Manifest-only mode: Skipping image processing and variants generation.");
-    return;
+    logger.info("Manifest-only mode: Processing metadata and updating manifest...");
   }
 
   if (RUNTIME_RAW.blurEnable && RUNTIME_RAW.blurOnly) {

@@ -56,14 +56,14 @@ Kompletní pipeline pro zpracování dat (obrázky -> AI -> favicons).
 
 Většinu argumentů lze předat skrze `manage.ts` pomocí syntaxe `bun scripts/manage.ts <command> --flag=value`.
 
-| Flag              | Popis                                     | Výchozí         |
-| :---------------- | :---------------------------------------- | :-------------- |
-| `--gallery`, `-g` | Cílová galerie (např. `israel-2022`)      | `egypt-2025`    |
-| `--verbose`, `-v` | Povolí detailní logování                  | `false`         |
-| `--clean`         | Smaže výstupní adresář před procesem      | `false`         |
-| `--manifest-only` | Pouze aktualizace manifestu (bez souborů) | `false`         |
-| `--concurrency`   | Počet paralelních úloh                    | `auto`          |
-| `--limit`         | Omezení počtu zpracovaných obrázků        | `0` (neomezeno) |
+| Flag              | Popis                                                  | Výchozí         |
+| :---------------- | :----------------------------------------------------- | :-------------- |
+| `--gallery`, `-g` | Cílová galerie (např. `israel-2022`)                   | `egypt-2025`    |
+| `--verbose`, `-v` | Povolí detailní logování                               | `false`         |
+| `--clean`         | Smaže výstupní adresář před procesem                   | `false`         |
+| `--manifest-only` | Rychlá aktualizace manifestu (EXIF + .md, bez analýzy) | `false`         |
+| `--concurrency`   | Počet paralelních úloh                                 | `auto`          |
+| `--limit`         | Omezení počtu zpracovaných obrázků                     | `0` (neomezeno) |
 
 ### Specifické argumenty pro sub-kroky
 
@@ -71,6 +71,14 @@ Většinu argumentů lze předat skrze `manage.ts` pomocí syntaxe `bun scripts/
 
 - `--watch`: Sleduje změny v `content/` a automaticky regeneruje.
 - `--curation`: Zapne detekci duplikátů a generování kurátorského manifestu.
+
+> **Poznámka k `--manifest-only`:** V tomto režimu se načítají pouze:
+>
+> - EXIF metadata z obrázků (dimenze, GPS, datum, autor)
+> - Story obsah z `.md` souborů
+>
+> Přeskakuje se: dominantní barva (placeholder), sharpness, pHash, detekce obličejů.
+> Toto umožňuje rychlý start `pnpm dev` (~150ms místo minut).
 
 #### AI & Analysis (`analyze`, `faces`)
 

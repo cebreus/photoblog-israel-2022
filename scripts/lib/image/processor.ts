@@ -36,7 +36,7 @@ interface ImageData {
   aestheticScore?: number;
   qualityBucket?: import("../../../shared/types/manifest").QualityBucket;
   peopleIds?: string[];
-  placeholderColor: string;
+  placeholderColor?: string;
   faces: import("../faces/detection").FaceBox[];
   facesDetected: boolean;
 }
@@ -213,7 +213,10 @@ function determineAnalysisNeeds(fileHash: string, key: string, options: ImagePro
     }
   }
 
-  if (!shouldAnalyze) {
+  // In manifestOnly mode, never force analysis for missing data.
+  // Missing data will be computed during full `pnpm process`.
+  // Only force re-analysis when NOT in manifestOnly mode AND data is missing.
+  if (!shouldAnalyze && !options.manifestOnly) {
     if (!reusedAnalysis.phash || !reusedAnalysis.sharpness) {
       shouldAnalyze = true;
     }
@@ -283,7 +286,9 @@ async function gatherImageData(
 
   const placeholderMissingOrDefault =
     !reusedOther.placeholderColor || reusedOther.placeholderColor === "rgb(0,0,0)";
-  const shouldComputeStats = shouldAnalyze || placeholderMissingOrDefault;
+  // In manifestOnly mode, skip stats computation entirely - placeholder color will be computed during full process
+  const shouldComputeStats =
+    !options.manifestOnly && (shouldAnalyze || placeholderMissingOrDefault);
 
   const [imageStats, exifTags, originalMeta, sharpnessScore, phash] = await Promise.all([
     shouldComputeStats ? sharpInstance.stats() : Promise.resolve(null),
@@ -304,8 +309,10 @@ async function gatherImageData(
 
   const exifRaw = normalizeExifData(exifTags);
   const dominant = imageStats?.dominant || { r: 0, g: 0, b: 0 };
+  // In manifestOnly mode, don't fill in default color - leave undefined if not cached
   const placeholderColor =
-    reusedOther.placeholderColor || `rgb(${dominant.r},${dominant.g},${dominant.b})`;
+    reusedOther.placeholderColor ||
+    (options.manifestOnly ? undefined : `rgb(${dominant.r},${dominant.g},${dominant.b})`);
 
   const existingFaces = facesFromManifest?.faces ?? reusedAnalysis?.faces;
   const faces = await _extractFaces(
@@ -458,7 +465,7 @@ export async function processImage(
       absPath,
       imageData.exifRaw,
       imageData.originalMeta,
-      imageData.placeholderColor,
+      imageData.placeholderColor ?? "",
       Number((stats.size / 1024 / 1024).toFixed(2)),
       {
         sharpness: imageData.sharpnessScore ?? 0,

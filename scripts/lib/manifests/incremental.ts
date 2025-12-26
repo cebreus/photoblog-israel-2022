@@ -12,12 +12,15 @@ import type { ProcessedImageResult } from "../image/processor";
 import { type ImageProcessOptions, processImage } from "../image/processor";
 import { formatDuration } from "../utils/time";
 import { buildGeneratorManifest, generateMenuManifest, updateManifest } from "./builder";
+import { withManifestLock } from "./lock";
 // Repository Imports
 import {
   loadAnalysisManifest,
   loadEmbeddingsManifest,
   loadFacesManifest,
   loadManifest,
+  saveAnalysisManifest,
+  saveFacesManifest,
   saveImagesManifest,
   saveManifest,
 } from "./repository";
@@ -277,6 +280,7 @@ async function updateCacheAndManifests({
   shouldWriteSiteManifests,
   configHash,
   wasReset,
+  outRoot,
 }: {
   cache: Cache;
   results: ProcessedImageResult[];
@@ -292,6 +296,7 @@ async function updateCacheAndManifests({
   shouldWriteSiteManifests: boolean;
   configHash: string;
   wasReset: boolean;
+  outRoot: string;
 }) {
   for (const res of results) {
     cache.files[res.key] = {
@@ -327,6 +332,57 @@ async function updateCacheAndManifests({
 
     const siteManifest = await generateSiteManifest();
     savePromises.push(saveManifest(paths.siteManifestPath, siteManifest));
+
+    // Save split manifests (BUG #5 fix: prevent data loss on cache reset)
+    if (results.length > 0) {
+      // Build analysis entries from results
+      type AnalysisEntryType = {
+        sharpness: number;
+        phash: string;
+        aestheticScore?: number;
+        qualityBucket?: "excellent" | "good" | "poor";
+      };
+      const analysisEntries: Record<string, AnalysisEntryType> = {};
+      type FacesEntryType = {
+        facesDetected: boolean;
+        faces: Array<{ x: number; y: number; width: number; height: number }>;
+        peopleIds: string[];
+      };
+      const facesEntries: Record<string, FacesEntryType> = {};
+
+      for (const res of results) {
+        const img = res.image;
+        if (img.analysis) {
+          analysisEntries[img.id] = {
+            sharpness: img.analysis.sharpness,
+            phash: img.analysis.phash,
+            aestheticScore: img.analysis.aestheticScore,
+            qualityBucket: img.analysis.qualityBucket,
+          };
+        }
+        if (img.analysis?.faces || img.analysis?.facesDetected !== undefined) {
+          facesEntries[img.id] = {
+            facesDetected: img.analysis.facesDetected ?? false,
+            faces: img.analysis.faces ?? [],
+            peopleIds: img.people ?? [],
+          };
+        }
+      }
+
+      if (Object.keys(analysisEntries).length > 0) {
+        // Merge with existing analysis manifest
+        const existingAnalysis = (await loadAnalysisManifest(outRoot)) ?? {};
+        const mergedAnalysis = { ...existingAnalysis, ...analysisEntries };
+        savePromises.push(saveAnalysisManifest(outRoot, mergedAnalysis));
+      }
+
+      if (Object.keys(facesEntries).length > 0) {
+        // Merge with existing faces manifest
+        const existingFaces = (await loadFacesManifest(outRoot)) ?? {};
+        const mergedFaces = { ...existingFaces, ...facesEntries };
+        savePromises.push(saveFacesManifest(outRoot, mergedFaces));
+      }
+    }
   }
 
   await Promise.all(savePromises);
@@ -521,15 +577,19 @@ export async function runIncrementalBuild(
     dependencies.processImageFn,
   );
 
-  await updateCacheAndManifests({
-    cache,
-    results,
-    toDelete,
-    storyData,
-    paths: CTX,
-    shouldWriteSiteManifests: CTX.shouldWriteSiteManifests,
-    configHash: CTX.configHash,
-    wasReset,
+  // Use manifest lock to prevent race conditions with API endpoints
+  await withManifestLock(path.dirname(CTX.manifestPath), async () => {
+    await updateCacheAndManifests({
+      cache,
+      results,
+      toDelete,
+      storyData,
+      paths: CTX,
+      shouldWriteSiteManifests: CTX.shouldWriteSiteManifests,
+      configHash: CTX.configHash,
+      wasReset,
+      outRoot: CTX.outRoot,
+    });
   });
 
   // Aggregate stats per output folder

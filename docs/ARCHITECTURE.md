@@ -122,11 +122,16 @@ Projekt klade velký důraz na **výkon a optimalizaci obrázků** - jádrem je 
 │  ├─ Generuje LQIP placeholders (24px blur)                  │
 │  ├─ Hash-based caching pro rychlost                         │
 │  ├─ Ukládá do static/<CONTENT_DIR>/images/                 │
+│  ├─ 🔒 Manifest Lock (withManifestLock) - race protection  │
 │  └─ Vytváří manifesty: src/data/<CONTENT_DIR>/*.json    │
-│     (images, analysis, embeddings, faces)           │
+│     ├─ images.manifest.json (core image data)          │
+│     ├─ analysis.manifest.json (sharpness, phash) ← NEW  │
+│     ├─ faces.manifest.json (detections) ← NOW PERSISTED │
+│     ├─ embeddings.manifest.json (AI features)          │
+│     └─ menu.manifest.json, site.manifest.json          │
 │                                                              │
 │  Cache: .temp/<CONTENT_DIR>/images.cache.json               │
-│  Režimy: --manifestOnly, --curation, --watch, --clean       │
+│  Režimy: --manifestOnly (~150ms), --curation, --watch       │
 └──────────────────┬──────────────────────────────────────────┘
                    │
                    ▼
