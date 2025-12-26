@@ -16,7 +16,16 @@ import {
   removeImageFromConstraints,
 } from "$scripts/lib/gallery/cleanup";
 import { withManifestLock } from "$scripts/lib/manifests/lock";
-import { loadImagesManifest, saveImagesManifest } from "$scripts/lib/manifests/repository";
+import {
+  loadAnalysisManifest,
+  loadEmbeddingsManifest,
+  loadFacesManifest,
+  loadImagesManifest,
+  saveAnalysisManifest,
+  saveEmbeddingsManifest,
+  saveFacesManifest,
+  saveImagesManifest,
+} from "$scripts/lib/manifests/repository";
 
 const logger = createLogger("api:images");
 
@@ -140,6 +149,56 @@ async function processBatch(
         // But logic specific to DELETE vs UPDATE differs (DELETE removes item, UPDATE modifies).
         // So processor should handle manifest modification deeply.
         await saveImagesManifest(dataPath, manifest);
+
+        // Also remove any stale entries from auxiliary manifests (analysis/embeddings/faces)
+        // for the items processed in this batch. We do this here under the same lock so
+        // concurrent operations remain consistent.
+        try {
+          const processedIdsArray = Array.from(processedInThisBatch);
+
+          // Analysis
+          try {
+            const analysisManifest = (await loadAnalysisManifest(dataPath)) || {};
+            let changed = false;
+            for (const id of processedIdsArray) {
+              if (Object.hasOwn(analysisManifest, id)) {
+                delete (analysisManifest as Record<string, unknown>)[id];
+                changed = true;
+              }
+            }
+            if (changed) await saveAnalysisManifest(dataPath, analysisManifest);
+          } catch (_e: unknown) {}
+
+          // Embeddings
+          try {
+            const embeddingsManifest = (await loadEmbeddingsManifest(dataPath)) || {};
+            let changed = false;
+            for (const id of processedIdsArray) {
+              if (Object.hasOwn(embeddingsManifest, id)) {
+                delete (embeddingsManifest as Record<string, unknown>)[id];
+                changed = true;
+              }
+            }
+            if (changed)
+              await saveEmbeddingsManifest(
+                dataPath,
+                embeddingsManifest as Record<string, number[]>,
+              );
+          } catch (_e: unknown) {}
+
+          // Faces
+          try {
+            const facesManifest = (await loadFacesManifest(dataPath)) || {};
+            let changed = false;
+            for (const id of processedIdsArray) {
+              if (Object.hasOwn(facesManifest, id)) {
+                delete (facesManifest as Record<string, unknown>)[id];
+                changed = true;
+              }
+            }
+            if (changed) await saveFacesManifest(dataPath, facesManifest);
+          } catch (_e: unknown) {}
+        } catch (_e: unknown) {}
       }
     });
   } catch (err) {
