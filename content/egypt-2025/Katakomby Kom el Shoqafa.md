@@ -1,0 +1,7 @@
+---
+location: Katakomby Kom el Shoqafa
+content: |-
+    Katakomby Kom el-Šukafa, poprvé objevené v roce 1900, se skládají ze dvou samostatných komplexů, známých jako „Hlavní katakomby“ a „Caracallova síň“. Tyto podzemní stavby byly vytesány a používány v době, kdy byl Egypt součástí Římské říše. Předpokládá se, že jejich výstavba a užívání započaly na konci 1. století n. l. a následně byly rozšiřovány a zvětšovány až do 4. století n. l.
+
+    K oběma komplexům se lze dostat po točitém schodišti (A), které se vine kolem hrobové šachty Hlavních katakomb. Právě touto šachtou byli zesnulí spouštěni na lanech na místo svého pohřbení. Po dosažení horního patra projdete přes zbytky alabastrové podlahy (B) a stanete před kruhovou halou, Rotundou (C). Po levé straně najdete velkou čtvercovou komoru s lavicemi vytesanými do skály. Jedná se o Triclinium (D), kde se pravděpodobně scházely rodiny zesnulých během pohřebních slavností. Zpět v Rotundě (C) najdete další chodby vedoucí do komor. Uvidíte mnoho lokulů (ve skále vytesaných výklenků pro uložení zesnulých), sarkofágy a další hrobky vytesané do podloží. Do Caracallovy síně vede proražený vchod a schodiště (E), které klesá k velkolepé hlavní hrobce (G). Jakmile budete na této prostřední úrovni, nezapomeňte prozkoumat labyrint komor a lokulů, které ji obklopují (H).
+---
