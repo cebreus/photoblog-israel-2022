@@ -8,6 +8,8 @@ test.describe("Lightbox Behavior", () => {
     await page.goto("/", { timeout: 60000 });
     const photos = page.locator("[data-testid='photo-grid-item']");
     await expect(photos.first()).toBeVisible({ timeout: 15000 });
+    // Wait for Fancybox initialization
+    await page.waitForSelector("[data-fancybox-initialized='true']", { timeout: 10000 });
   });
 
   test("opens lightbox when clicking a photo", async ({ page }) => {
@@ -20,7 +22,7 @@ test.describe("Lightbox Behavior", () => {
 
     // Expect Fancybox UI elements
     await expect(page.locator(".fancybox__container")).toBeVisible();
-    await expect(page.locator(".fancybox__content")).toBeVisible();
+    await expect(page.locator(".fancybox__content")).toBeVisible({ timeout: 10000 });
   });
 
   test("can navigate between photos in lightbox", async ({ page }) => {
@@ -69,9 +71,9 @@ test.describe("Lightbox Behavior", () => {
     await firstPhoto.click();
     await expect(page.locator(".fancybox__container")).toBeVisible();
 
-    // Fancybox usually puts caption in .fancybox__caption
+    // Fancybox usually puts caption in .fancybox__caption or .f-caption
     if (altText) {
-      await expect(page.locator(".fancybox__caption")).toBeVisible();
+      await expect(page.locator(".fancybox__caption, .f-caption").first()).toBeVisible();
     }
   });
 });

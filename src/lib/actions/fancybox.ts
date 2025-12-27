@@ -2,16 +2,24 @@ type FancyboxOptions = Record<string, unknown>;
 
 // Minimal type definition for the Fancybox static object
 type FancyboxStatic = {
-  bind: (container: HTMLElement, selector: string, options: Record<string, unknown>) => void;
+  bind: (container: HTMLElement, selector: string, options: Record<string, unknown>) => () => void;
   destroy: () => void;
   close: () => void;
   show: (items: unknown[], options?: Record<string, unknown>) => void;
   fromNodes: (nodes: unknown[]) => unknown;
 };
 
+const DEFAULT_OPTIONS = {
+  Carousel: {
+    Thumbs: {
+      showOnStart: false,
+    },
+  },
+};
+
 /**
- * Svelte action to bind Fancybox 6 on the client only.
- * Lazily imports JS + CSS on the first click of a data-fancybox element.
+ * Svelte action to bind Fancybox on the client only.
+ * Initializes and binds to the node on mount.
  */
 export function useFancybox(
   node: HTMLElement,
@@ -20,65 +28,31 @@ export function useFancybox(
     options = {},
   }: { selector?: string; options?: Partial<FancyboxOptions> } = {},
 ) {
-  let destroy: (() => void) | undefined;
+  let unbind: (() => void) | undefined;
   let fancyboxInstance: FancyboxStatic | undefined;
 
-  async function initAndOpen(trigger: HTMLElement) {
-    if (fancyboxInstance) return;
+  async function init() {
+    if (typeof window === "undefined") return;
 
-    const [{ Fancybox }] = await Promise.all([
-      import("@fancyapps/ui"),
-      import("@fancyapps/ui/dist/fancybox/fancybox.css"),
-    ]);
+    const { Fancybox } = await import("@fancyapps/ui");
+    await import("@fancyapps/ui/dist/fancybox/fancybox.css");
 
-    fancyboxInstance = Fancybox as FancyboxStatic;
+    fancyboxInstance = Fancybox as unknown as FancyboxStatic;
 
-    // Bind for future clicks
-    fancyboxInstance.bind(node, selector, {
-      Carousel: {
-        Thumbs: {
-          showOnStart: false,
-        },
-      },
-      on: {
-        ready: function (fb: { plugins?: { Thumbs?: { hide?: () => void } } }) {
-          fb?.plugins?.Thumbs?.hide?.();
-        },
-      },
+    // Bind Fancybox to the node using the selector
+    // This allows event delegation across all items in the container
+    unbind = fancyboxInstance.bind(node, selector, {
+      ...DEFAULT_OPTIONS,
       ...options,
     });
-
-    destroy = function () {
-      fancyboxInstance?.destroy();
-    };
-
-    // Trigger the click again? Or manually open?
-    // The 'bind' above attaches a click listener.
-    // But this 'click' event already happened and we prevented default (likely) or consumed it.
-    // We need to tell Fancybox to open *starting at this element*.
-    trigger.click();
+    node.setAttribute("data-fancybox-initialized", "true");
   }
 
-  function handleClick(e: MouseEvent) {
-    const trigger = (e.target as HTMLElement).closest(selector) as HTMLElement;
-    if (!trigger) return;
-
-    if (!fancyboxInstance) {
-      e.preventDefault();
-      e.stopPropagation();
-      initAndOpen(trigger);
-    }
-    // If fancyboxInstance exists, let Fancybox (bound above) handle it
-  }
-
-  // Attach our lazy listener with capture to catch it before potential others (if any)
-  // or just bubble phase.
-  node.addEventListener("click", handleClick);
+  init();
 
   return {
     destroy() {
-      node.removeEventListener("click", handleClick);
-      destroy?.();
+      unbind?.();
     },
   };
 }
