@@ -1,21 +1,9 @@
 {
-  "2025-11-21-175802-cebreus": {
-    "aestheticScore": 42.121518917830265,
-    "sharpness": 100,
-    "qualityBucket": "poor",
-    "phash": "4527a61713535a5c"
-  },
   "2025-11-22-055754-cebreus": {
     "aestheticScore": 59.731700153174984,
     "sharpness": 89,
     "qualityBucket": "good",
     "phash": "9313cd9ff742c301"
-  },
-  "2025-11-22-161654-finda": {
-    "aestheticScore": 41.44840680990375,
-    "sharpness": 88,
-    "qualityBucket": "poor",
-    "phash": "f0b88ed6f2b236bf"
   },
   "2025-11-23-084720-cebreus": {
     "aestheticScore": 57.80021728111441,
@@ -280,12 +268,6 @@
     "sharpness": 99,
     "qualityBucket": "poor",
     "phash": "6152cce8e8e4d0af"
-  },
-  "2025-11-25-084805-cebreus": {
-    "aestheticScore": 35.077148741753,
-    "sharpness": 80,
-    "qualityBucket": "poor",
-    "phash": "e46c74f4f6f0f0f8"
   },
   "2025-11-25-084815-cebreus": {
     "aestheticScore": 37.44522639429891,

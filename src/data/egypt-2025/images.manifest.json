@@ -15,7 +15,6 @@
           "src": "2025-11-21-175802-cebreus.heic",
           "alt": "This is a test caption from E2E, Hlavní nádraží, Prague",
           "title": "Batch Test 1766648828184",
-          "caption": "This is a test caption from E2E",
           "width": 8064,
           "height": 6048,
           "sizeMB": 4.74,
@@ -71,7 +70,6 @@
             "date": "2025-11-21T16:58:02.299Z",
             "location": "Hlavní nádraží",
             "city": "Prague",
-            "title": "Batch Test 1766648828184",
             "latitude": 49.191417,
             "longitude": 16.6135,
             "orientation": 1,
@@ -265,7 +263,6 @@
           "src": "2025-11-22-161654-finda.jpg",
           "alt": "Batch Test 1766270164874, Blend Club Aqua Resort, Hurgada",
           "title": "Batch Test 1766648828184",
-          "caption": "Batch Test 1766270164874",
           "width": 4000,
           "height": 3000,
           "sizeMB": 2.31,
@@ -284,7 +281,6 @@
             "date": "2025-11-22T15:16:54.608Z",
             "location": "Blend Club Aqua Resort",
             "city": "Hurgada",
-            "title": "Batch Test 1766648828184",
             "sublocation": "Blend Club Aqua Resort",
             "latitude": 27.093507,
             "longitude": 33.839129,
@@ -5321,102 +5317,6 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-084614-cebreus.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-25-084805-cebreus",
-          "type": "image",
-          "src": "2025-11-25-084805-cebreus.heic",
-          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
-          "title": "",
-          "width": 4032,
-          "height": 3024,
-          "sizeMB": 1.22,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-25-084805-cebreus.png",
-          "placeholderColor": "rgb(72,56,40)",
-          "analysis": {
-            "sharpness": 80,
-            "phash": "e46c74f4f6f0f0f8",
-            "facesDetected": false,
-            "faces": [],
-            "aestheticScore": 35.077148741753,
-            "qualityBucket": "poor"
-          },
-          "exif": {
-            "date": "2025-11-25T07:48:05.231Z",
-            "location": "Katakomby Kom el Shoqafa",
-            "city": "Alexandrie",
-            "orientation": 1,
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Katakomby Kom el Shoqafa",
-          "city": "Alexandrie",
-          "date": "2025-11-25T07:48:05.231Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-084805-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-084805-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-084805-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-084805-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-084805-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-084805-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-084805-cebreus.jpeg",
-              "width": 1280,
-              "height": 960
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-084805-cebreus.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-084805-cebreus.jpeg",
               "width": 534,
               "height": 534
             }
