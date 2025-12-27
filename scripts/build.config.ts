@@ -99,6 +99,7 @@ export const config = {
       "heic",
     ],
     cropFaceCenterRatio: 0.4,
+    cropFaceZoom: 1.4, // 1.0 = Max area, > 1.0 = Zoomed in on faces
   },
 
   blur: {

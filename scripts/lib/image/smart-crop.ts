@@ -27,17 +27,7 @@ export function calculateSmartCrop(
   const targetAR = targetW / targetH;
   const srcAR = srcW / srcH;
 
-  let cropW: number;
-  let cropH: number;
-
-  if (srcAR > targetAR) {
-    cropH = srcH;
-    cropW = Math.round(srcH * targetAR);
-  } else {
-    cropW = srcW;
-    cropH = Math.round(srcW / targetAR);
-  }
-
+  // 1. Determine the bounding box of all faces
   let minX = faces[0].x;
   let minY = faces[0].y;
   let maxX = faces[0].x + faces[0].width;
@@ -51,28 +41,62 @@ export function calculateSmartCrop(
     maxY = Math.max(maxY, f.y + f.height);
   }
 
+  const groupW = maxX - minX;
+  const groupH = maxY - minY;
   const faceCX = (minX + maxX) / 2;
   const faceCY = (minY + maxY) / 2;
 
+  // 2. Calculate initial crop dimensions based on target aspect ratio and zoom
+  const zoom = (config.script as any).cropFaceZoom || 1.0;
+
+  let cropW: number;
+  let cropH: number;
+
+  if (srcAR > targetAR) {
+    // Source is wider than target
+    cropH = srcH / zoom;
+    cropW = cropH * targetAR;
+  } else {
+    // Source is taller than target
+    cropW = srcW / zoom;
+    cropH = cropW / targetAR;
+  }
+
+  // 3. Safety: Ensure crop window is large enough to contain the face group (with 20% padding)
+  const padding = 1.2;
+  const minRequiredW = groupW * padding;
+  const minRequiredH = groupH * padding;
+
+  if (cropW < minRequiredW || cropH < minRequiredH) {
+    const scale = Math.max(minRequiredW / cropW, minRequiredH / cropH);
+    cropW *= scale;
+    cropH *= scale;
+  }
+
+  // 4. Final safety: Don't exceed source dimensions
+  if (cropW > srcW) {
+    cropW = srcW;
+    cropH = cropW / targetAR;
+  }
+  if (cropH > srcH) {
+    cropH = srcH;
+    cropW = cropH * targetAR;
+  }
+
+  // 5. Calculate top-left based on face center and optical centering (default 40% from top)
   const targetFaceCenterYRatio = config.script.cropFaceCenterRatio;
 
   let cropX = Math.round(faceCX - cropW / 2);
   let cropY = Math.round(faceCY - cropH * targetFaceCenterYRatio);
 
-  cropX = Math.max(0, cropX);
-  cropY = Math.max(0, cropY);
-
-  if (cropX + cropW > srcW) {
-    cropX = Math.max(0, srcW - cropW);
-  }
-  if (cropY + cropH > srcH) {
-    cropY = Math.max(0, srcH - cropH);
-  }
+  // 6. Clamp to image boundaries
+  cropX = Math.max(0, Math.min(cropX, srcW - cropW));
+  cropY = Math.max(0, Math.min(cropY, srcH - cropH));
 
   return {
-    left: cropX,
-    top: cropY,
-    width: cropW,
-    height: cropH,
+    left: Math.round(cropX),
+    top: Math.round(cropY),
+    width: Math.round(cropW),
+    height: Math.round(cropH),
   };
 }
