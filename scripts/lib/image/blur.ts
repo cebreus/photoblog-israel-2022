@@ -7,7 +7,7 @@ import { createLogger } from "../core/cli-logger";
 import type { CliOptions } from "../core/cli-parser";
 import { getConcurrency } from "../core/concurrency-utils";
 import { createBar, stopAllBars } from "../core/progress-manager";
-import { run } from "../utils/shell";
+import { scanGlob, spawnSync } from "../utils/runtime";
 import { ensureDir } from "./utils";
 
 const logger = createLogger("blur");
@@ -58,12 +58,8 @@ export async function processBlurImage(
     const ext = path.extname(file).slice(1).toLowerCase();
     if (ext === "heic" || ext === "heif") {
       tempPath = path.join(os.tmpdir(), `blur_tmp_${baseName}.jpg`);
-      try {
-        await run("vips", ["copy", file, tempPath]);
-        processingPath = tempPath;
-      } catch (err: any) {
-        throw new Error(`HEIC conversion failed: ${err.message}`);
-      }
+      spawnSync("vips", ["copy", file, tempPath]);
+      processingPath = tempPath;
     }
 
     await ensureDir(path.dirname(outPath));
@@ -151,12 +147,14 @@ export async function runBlurBuild(raw: Partial<CliOptions>, concurrency: number
   const _sharpModule = await loadSharp();
 
   const inputExts = config.script.inputExtensions;
-  const glob = new Bun.Glob(`**/*.{${inputExts.join(",")}}`);
   const srcFiles: string[] = [];
   try {
-    for await (const file of glob.scan({ cwd: blurSrc, absolute: true, dot: false })) {
-      srcFiles.push(file);
-    }
+    const files = await scanGlob(`**/*.{${inputExts.join(",")}}`, {
+      cwd: blurSrc,
+      absolute: true,
+      dot: false,
+    });
+    srcFiles.push(...files);
   } catch (err: any) {
     throw new Error(`Failed to scan source directory "${blurSrc}": ${err.message}`);
   }
@@ -217,12 +215,11 @@ export async function runBlurBuild(raw: Partial<CliOptions>, concurrency: number
   );
 
   if (raw.blurClean) {
-    const glob = new Bun.Glob("**/*");
-    const existing: string[] = [];
-    for await (const file of glob.scan({ cwd: blurOut, absolute: true, dot: false })) {
-      existing.push(file);
-    }
-    for (const p of existing) {
+    const srcFiles: string[] = [];
+    const files = await scanGlob("**/*", { cwd: blurOut, absolute: true, dot: false });
+    srcFiles.push(...files);
+
+    for (const p of srcFiles) {
       const ext = path.extname(p).slice(1).toLowerCase();
       if (ext !== "png") {
         try {

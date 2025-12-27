@@ -71,7 +71,13 @@ async function downloadModelFiles() {
 
 async function downloadFile(filename: string) {
   const destPath = path.join(MODELS_DIR, filename);
-  if (await Bun.file(destPath).exists()) return;
+
+  const exists = await fsp
+    .access(destPath)
+    .then(() => true)
+    .catch(() => false);
+
+  if (exists) return;
 
   const url = `${BASE_MODEL_URL}/${filename}`;
   logger.info(`Downloading model file: ${filename}...`);
@@ -82,7 +88,7 @@ async function downloadFile(filename: string) {
   }
 
   const arrayBuffer = await res.arrayBuffer();
-  await Bun.write(destPath, arrayBuffer);
+  await fsp.writeFile(destPath, Buffer.from(arrayBuffer));
 }
 
 export type FaceBox = {

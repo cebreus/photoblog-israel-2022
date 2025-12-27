@@ -1,3 +1,5 @@
+import { IS_BUN } from "./runtime";
+
 export async function run(
   cmd: string,
   args: string[],
@@ -13,7 +15,7 @@ export async function run(
     ...Object.fromEntries(Object.entries(options.env || {}).map(([k, v]) => [k, String(v)])),
   };
 
-  if (typeof Bun !== "undefined") {
+  if (IS_BUN) {
     const shouldPipe = options.stdio === "pipe" || !!options.filter;
     const stdioMode = shouldPipe ? "pipe" : options.stdio || "inherit";
 
@@ -104,7 +106,7 @@ async function pipeWithFilter(
 }
 
 export async function execCapture(cmd: string, args: string[]): Promise<string> {
-  if (typeof Bun !== "undefined") {
+  if (IS_BUN) {
     const proc = Bun.spawn([cmd, ...args], {
       stdout: "pipe",
       stderr: "pipe",

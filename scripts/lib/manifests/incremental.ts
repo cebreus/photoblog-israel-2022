@@ -10,6 +10,7 @@ import { getConcurrency } from "../core/concurrency-utils";
 import { createBar, stopAllBars } from "../core/progress-manager";
 import type { ProcessedImageResult } from "../image/processor";
 import { type ImageProcessOptions, processImage } from "../image/processor";
+import { scanGlob } from "../utils/runtime";
 import { formatDuration } from "../utils/time";
 import { buildGeneratorManifest, generateMenuManifest, updateManifest } from "./builder";
 import { withManifestLock } from "./lock";
@@ -37,11 +38,10 @@ async function fileExists(file: string) {
 }
 
 export async function loadStoryData(contentRoot: string): Promise<StoryDataMap> {
-  const glob = new Bun.Glob("**/*.md");
   const storyFiles: string[] = [];
-  for await (const file of glob.scan({ cwd: contentRoot, absolute: true })) {
-    storyFiles.push(file);
-  }
+
+  const files = await scanGlob("**/*.md", { cwd: contentRoot, absolute: true });
+  storyFiles.push(...files);
   const storyDataMap: StoryDataMap = {};
   for (const file of storyFiles) {
     try {
@@ -182,11 +182,11 @@ async function loadCache(
 
 async function findSourceFiles(srcRoot: string, limit: number | 0) {
   const inputExts = config.script.inputExtensions;
-  const glob = new Bun.Glob(`**/*.{${inputExts.join(",")}}`);
-  const sourceFiles: string[] = [];
-  for await (const file of glob.scan({ cwd: srcRoot, absolute: true, dot: false })) {
-    sourceFiles.push(file);
-  }
+  const sourceFiles = await scanGlob(`**/*.{${inputExts.join(",")}}`, {
+    cwd: srcRoot,
+    absolute: true,
+    dot: false,
+  });
   if (limit > 0) sourceFiles.splice(limit);
   return sourceFiles;
 }
@@ -670,17 +670,15 @@ export async function runIncrementalBuild(
 }
 
 async function getDirectorySize(dir: string): Promise<number> {
-  let total = 0;
-  const glob = new Bun.Glob("**/*");
-  for await (const file of glob.scan({ cwd: dir, absolute: true, dot: false })) {
-    try {
-      const st = await fsp.stat(file);
-      if (st.isFile()) total += st.size;
-    } catch {
-      // ignore
-    }
+  let size = 0;
+
+  const files = await scanGlob("**/*", { cwd: dir, absolute: true });
+  for (const file of files) {
+    const stats = await fsp.stat(file);
+    size += stats.size;
   }
-  return total;
+
+  return size;
 }
 
 function formatBytes(bytes: number): string {

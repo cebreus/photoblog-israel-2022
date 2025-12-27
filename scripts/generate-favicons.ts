@@ -161,7 +161,15 @@ async function run() {
     return !htmlLine.includes('favicon.ico"');
   }
 
-  const finalHtml = response.html.filter(filterOutIco).join("\n");
+  const finalHtml = response.html
+    .filter(filterOutIco)
+    .map((line) => {
+      if (line.includes("apple-mobile-web-app-capable")) {
+        return `${line}\n${line.replace("apple-mobile-web-app-capable", "mobile-web-app-capable")}`;
+      }
+      return line;
+    })
+    .join("\n");
   await fs.writeFile(tempFaviconHtmlPath, finalHtml);
   logger.info(`Wrote temporary favicons.html to ${tempFaviconHtmlPath}`);
 

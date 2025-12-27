@@ -51,7 +51,8 @@ async function prepareTensor(
     if (ext === ".heic" || ext === ".heif") {
       const tempDirPath = await fsp.mkdtemp(path.join(os.tmpdir(), "ai-embed-"));
       tempFile = path.join(tempDirPath, `converted.jpg`);
-      Bun.spawnSync(["vips", "copy", imagePath, tempFile]);
+      const { spawnSync } = await import("../utils/runtime");
+      spawnSync("vips", ["copy", imagePath, tempFile]);
       processingPath = tempFile;
     }
 

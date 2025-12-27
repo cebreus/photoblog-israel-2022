@@ -126,12 +126,12 @@ async function getXxhash() {
 async function calculateFileHash(absPath: string): Promise<string> {
   const { create64 } = await getXxhash();
   const hasher = create64();
-  const stream = Bun.file(absPath).stream();
-  const reader = stream.getReader();
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    hasher.update(value);
+
+  // Fallback for Node-like environment (Vite dev)
+  const { createReadStream } = await import("node:fs");
+  const stream = createReadStream(absPath);
+  for await (const chunk of stream) {
+    hasher.update(chunk);
   }
   return hasher.digest().toString(16);
 }
