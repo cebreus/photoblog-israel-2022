@@ -542,14 +542,7 @@
         : null;
 
       toast.success(COLLAGE_MESSAGES.CREATED_SUCCESS(outputPath || ""), {
-        duration: 10000,
-        description: directUrl ? COLLAGE_MESSAGES.DIRECT_VIEW_HINT : undefined,
-        action: directUrl
-          ? {
-              label: COLLAGE_MESSAGES.DIRECT_VIEW_ACTION,
-              onClick: () => window.open(directUrl, "_blank", "noopener"),
-            }
-          : undefined,
+        duration: 5000,
       });
 
       try {
