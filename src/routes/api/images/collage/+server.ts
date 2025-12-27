@@ -19,15 +19,34 @@ import {
 } from "$lib/utils/collage-layout-engine";
 import { COLLAGE_MESSAGES } from "$lib/utils/messages";
 
-// DEV-ONLY GUARD
+import { config as buildConfig } from "$scripts/build.config";
+import { loadSharpOrExplain, processImage } from "$scripts/lib/image/processor";
+import { generateMenuManifest, updateManifest } from "$scripts/lib/manifests/builder";
+import { loadStoryData } from "$scripts/lib/manifests/incremental";
+import { withManifestLock } from "$scripts/lib/manifests/lock";
+import {
+  loadAnalysisManifest,
+  loadFacesManifest,
+  loadImagesManifest,
+  saveAnalysisManifest,
+  saveFacesManifest,
+  saveImagesManifest,
+  saveMenuManifest,
+} from "$scripts/lib/manifests/repository";
+
+// DEV-only guard (reject in production)
 const IS_DEV = import.meta.env.DEV;
 
-// Helper for map()
+/**
+ * Return the provided item's imageId.
+ */
 function mapImageId(item: CollageItemConfig): string {
   return item.imageId;
 }
 
-// Helper for map()
+/**
+ * Augment item config with source/moved paths used for sidecar persistence.
+ */
 function mapConfigItem(item: CollageItemConfig, idx: number, imageIds: string[]) {
   return {
     ...item,
@@ -36,6 +55,11 @@ function mapConfigItem(item: CollageItemConfig, idx: number, imageIds: string[])
   };
 }
 
+/**
+ * Main POST handler for creating a collage.
+ * Validates request, resolves source files, computes layout, renders collage,
+ * copies EXIF, moves sources and updates manifests.
+ */
 export async function POST({ request }: RequestEvent): Promise<Response> {
   if (!IS_DEV) {
     return json({ success: false, error: COLLAGE_MESSAGES.DEV_ONLY }, { status: 403 });
@@ -45,28 +69,26 @@ export async function POST({ request }: RequestEvent): Promise<Response> {
     const startTotal = Date.now();
 
     const body = (await request.json()) as CollageRequest;
+    log.info(`[Collage API] Received request:`, JSON.parse(JSON.stringify(body)));
     validateCollageRequest(body);
 
     const contentDirName = getContentDir();
     const contentDirRoot = path.join(process.cwd(), "content", contentDirName);
 
-    // 1. Resolve paths
+    // Resolve source paths for requested image IDs.
     const imageIds = body.items.map(mapImageId);
+    log.info(`[Collage API] Resolving paths for IDs:`, imageIds);
     const sourcePaths = await resolveSourcePaths(imageIds, contentDirRoot);
+    log.info(`[Collage API] Resolved source paths:`, sourcePaths);
 
-    // 2. Sort by time for metadata source
-    // 2. Sort by time for metadata source
+    // Choose metadata source by EXIF date (oldest).
     const startSort = Date.now();
     const sortedByTime = await sortByDateTimeOriginal(sourcePaths);
     log.debug(`[Collage] Seřazení podle EXIF: ${Date.now() - startSort}ms`);
     const metadataSourcePath = sortedByTime[0];
 
-    // 3. Get image metadata (dimensions for layout) + bind config
-
-    // 3. Get image metadata (dimensions for layout) + bind config
+    // Gather image dimensions and bind config for layout calculation.
     const startMeta = Date.now();
-
-    // Helper for map/Promise.all
     async function resolveMetadata(p: string, idx: number) {
       const m = await sharp(p).metadata();
       return {
@@ -78,48 +100,44 @@ export async function POST({ request }: RequestEvent): Promise<Response> {
         crop: body.items[idx].crop, // Map crop to root for engine
       };
     }
-
     const imageMetas = await Promise.all(sourcePaths.map(resolveMetadata));
     log.debug(`[Collage] Načtení metadat: ${Date.now() - startMeta}ms`);
 
-    // 4. Calculate layout
-    const layout = calculateLayout(
-      imageMetas,
-      body.template,
-      body.border ?? { width: 0, color: "#fff" },
-    );
+    // Layout calculation (border & crop strategy options).
+    const layout = calculateLayout(imageMetas, body.template, {
+      border: body.border ?? { width: 0, color: "#fff" },
+      cropStrategy: "simple",
+    });
 
-    // 5. Apply Quality-First Scaling (prevent upscale)
+    // Prevent upscaling by reducing overall layout scale if necessary.
     let finalLayout = applyQualityScale(layout);
 
-    // 6. Apply 8K dimension limit
+    // Enforce Aspect Ratio if specified (e.g., "1:1")
+    if (body.aspectRatio && body.aspectRatio !== "auto") {
+      finalLayout = applyAspectRatio(finalLayout, body.aspectRatio);
+    }
+
+    // Enforce an upper bound for resulting canvas (8K).
     finalLayout = applyMaxDimensionLimit(finalLayout);
 
-    // 7. Render collage
-    // 7. Render collage
+    // Render collage to a JPEG buffer.
     const startRender = Date.now();
     const buffer = await renderCollage(finalLayout, body.border);
     log.info(`[Collage] Renderování dokončeno: ${Date.now() - startRender}ms`);
 
-    // 7. Save to disk (in pics/ directory)
+    // Persist collage image and sidecar.
     const ext = path.extname(metadataSourcePath);
     const basename = path.basename(metadataSourcePath, ext);
     const outputFilename = `pics/${basename}--collage.jpg`;
     const outputPath = path.join(contentDirRoot, outputFilename);
 
-    // Ensure pics/ directory exists
     await fs.mkdir(path.dirname(outputPath), { recursive: true });
-
     await saveCollageImage(buffer, outputPath);
 
-    // 8. Save Configuration Sidecar with Path Tracking
     const configPath = path.join(contentDirRoot, `pics/${basename}--collage.json`);
-
-    // Helper closure for map
     function mapItemsForConfig(item: CollageItemConfig, idx: number) {
       return mapConfigItem(item, idx, imageIds);
     }
-
     const configWithPaths = {
       ...body,
       metadata: {
@@ -130,21 +148,89 @@ export async function POST({ request }: RequestEvent): Promise<Response> {
       },
       items: body.items.map(mapItemsForConfig),
     };
+    log.info(
+      `[Collage API] Saving configuration to ${configPath}:`,
+      JSON.parse(JSON.stringify(configWithPaths)),
+    );
     await fs.writeFile(configPath, JSON.stringify(configWithPaths, null, 2));
 
-    // 9. Copy metadata
+    // Copy EXIF metadata from chosen source image into the collage.
     const startExif = Date.now();
-
     function getBasename(p: string) {
       return path.basename(p);
     }
     const sourceNames = sourcePaths.map(getBasename).join(", ");
-
     await copyMetadataFromSource(metadataSourcePath, outputPath, sourceNames);
     log.debug(`[Collage] Kopírování EXIF: ${Date.now() - startExif}ms`);
 
-    // 10. Move source images (preserve directory structure)
+    // Move original source files into content/<gallery>/collage-sources preserving structure.
     await moveSourceImages(sourcePaths, contentDirRoot, imageIds);
+
+    // Post-processing: generate variants and update manifests under lock.
+    const startPost = Date.now();
+    const dataPath = path.join(process.cwd(), "src/data", contentDirName);
+    const staticRoot = path.join(process.cwd(), "static", contentDirName, "images");
+
+    await loadSharpOrExplain();
+
+    await withManifestLock(dataPath, async () => {
+      // A. Process the new collage image (generate variants, blurs, etc.)
+      const processResult = await processImage(outputPath, {
+        manifestOnly: false,
+        curation: false,
+        srcRoot: contentDirRoot,
+        outRoot: staticRoot,
+        allowUpscale: false,
+        formats: [...buildConfig.encoding.formats],
+        qualityOverrides: {},
+        skipFaces: true,
+        skipEmbeddings: true,
+      });
+
+      if (!processResult) {
+        throw new Error("Failed to process collage image variants");
+      }
+
+      // B. Update manifests (hide originals, add collage).
+      const existingManifest = (await loadImagesManifest(dataPath)) || { photoDays: [] };
+      const storyData = await loadStoryData(contentDirRoot);
+      const deletedBasenames = imageIds.map((id) => path.basename(id, path.extname(id)));
+      const updatedManifest = updateManifest(
+        [processResult],
+        deletedBasenames,
+        storyData,
+        existingManifest,
+      );
+
+      // C. Save manifests
+      await saveImagesManifest(dataPath, updatedManifest);
+      const menuManifest = generateMenuManifest(updatedManifest);
+      await saveMenuManifest(dataPath, menuManifest);
+
+      // D. Update auxiliary manifests for the new collage
+      const collageId = processResult.image.id;
+
+      if (processResult.image.analysis) {
+        const analysisManifest = (await loadAnalysisManifest(dataPath)) || {};
+        analysisManifest[collageId] = {
+          sharpness: processResult.image.analysis.sharpness,
+          phash: processResult.image.analysis.phash,
+          aestheticScore: processResult.image.analysis.aestheticScore,
+          qualityBucket: processResult.image.analysis.qualityBucket,
+        };
+        await saveAnalysisManifest(dataPath, analysisManifest);
+      }
+
+      const facesManifest = (await loadFacesManifest(dataPath)) || {};
+      facesManifest[collageId] = {
+        facesDetected: processResult.image.analysis?.facesDetected ?? false,
+        faces: processResult.image.analysis?.faces ?? [],
+        peopleIds: processResult.image.people ?? [],
+      };
+      await saveFacesManifest(dataPath, facesManifest);
+    });
+
+    log.info(`[Collage] Post-processing dokončeno: ${Date.now() - startPost}ms`);
 
     const response: CollageResponse = {
       success: true,
@@ -154,7 +240,7 @@ export async function POST({ request }: RequestEvent): Promise<Response> {
     log.info(`[Collage] Úspěch: ${outputFilename} (Celkem: ${Date.now() - startTotal}ms)`);
     return json(response);
   } catch (err) {
-    log.error(`Chyba koláže: ${err instanceof Error ? err.message : String(err)}`);
+    log.error(`Chyba koláže: ${err instanceof Error ? err.stack || err.message : String(err)}`);
     return json(
       { success: false, error: err instanceof Error ? err.message : String(err) },
       { status: 500 },
@@ -162,6 +248,9 @@ export async function POST({ request }: RequestEvent): Promise<Response> {
   }
 }
 
+/**
+ * Validate minimal request shape and template-specific rules.
+ */
 function validateCollageRequest(body: CollageRequest) {
   if (!body.items || body.items.length < 2) {
     throw new Error(COLLAGE_MESSAGES.MIN_IMAGES);
@@ -171,16 +260,18 @@ function validateCollageRequest(body: CollageRequest) {
   }
 }
 
+/**
+ * Resolve image IDs to actual filesystem paths.
+ * Searches multiple candidate locations and common extensions.
+ * Collects attempted paths for error reporting when not found.
+ */
 async function resolveSourcePaths(imageIds: string[], contentDirRoot: string): Promise<string[]> {
   const resolved: string[] = [];
 
   for (const id of imageIds) {
     const attemptedPaths: string[] = [];
-
-    // Build full path
     let fullPath = path.join(contentDirRoot, id);
 
-    // If already has extension, check if exists
     if (path.extname(id)) {
       try {
         attemptedPaths.push(fullPath);
@@ -188,7 +279,6 @@ async function resolveSourcePaths(imageIds: string[], contentDirRoot: string): P
         resolved.push(fullPath);
         continue;
       } catch {
-        // Try in pics/ subdirectory
         const picsPath = path.join(contentDirRoot, "pics", id);
         try {
           attemptedPaths.push(picsPath);
@@ -196,7 +286,6 @@ async function resolveSourcePaths(imageIds: string[], contentDirRoot: string): P
           resolved.push(picsPath);
           continue;
         } catch {
-          // Try in collage-sources/ (for re-editing)
           const sourcesPath = path.join(contentDirRoot, "collage-sources", id);
           try {
             attemptedPaths.push(sourcesPath);
@@ -204,15 +293,23 @@ async function resolveSourcePaths(imageIds: string[], contentDirRoot: string): P
             resolved.push(sourcesPath);
             continue;
           } catch {
-            const errorMsg = `${COLLAGE_MESSAGES.IMAGE_NOT_FOUND(id)}\nHledáno v: ${attemptedPaths.join(", ")}`;
-            log.error(`[Collage] ${errorMsg}`);
-            throw new Error(errorMsg);
+            const picsSourcesPath = path.join(contentDirRoot, "pics", "collage-sources", id);
+            try {
+              attemptedPaths.push(picsSourcesPath);
+              await fs.access(picsSourcesPath);
+              resolved.push(picsSourcesPath);
+              continue;
+            } catch {
+              const errorMsg = `${COLLAGE_MESSAGES.IMAGE_NOT_FOUND(id)}\nHledáno v: ${attemptedPaths.join(", ")}`;
+              log.error(`[Collage] ${errorMsg}`);
+              throw new Error(errorMsg);
+            }
           }
         }
       }
     }
 
-    // No extension - try common image extensions
+    // When ID has no extension, try common image extensions in several locations.
     const extensions = [
       ".jpg",
       ".jpeg",
@@ -225,19 +322,29 @@ async function resolveSourcePaths(imageIds: string[], contentDirRoot: string): P
       ".heif",
       ".HEIF",
     ];
-    let found = false;
 
-    for (const ext of extensions) {
-      const testPath = fullPath + ext;
-      attemptedPaths.push(testPath);
-      try {
-        await fs.access(testPath);
-        fullPath = testPath;
-        found = true;
-        break;
-      } catch {
-        // File doesn't exist with this extension
+    const searchPaths = [
+      fullPath,
+      path.join(contentDirRoot, "pics", id),
+      path.join(contentDirRoot, "collage-sources", id),
+      path.join(contentDirRoot, "pics", "collage-sources", id),
+    ];
+
+    let found = false;
+    for (const basePath of searchPaths) {
+      for (const ext of extensions) {
+        const testPath = basePath + ext;
+        attemptedPaths.push(testPath);
+        try {
+          await fs.access(testPath);
+          fullPath = testPath;
+          found = true;
+          break;
+        } catch {
+          // continue trying
+        }
       }
+      if (found) break;
     }
 
     if (!found) {
@@ -252,6 +359,9 @@ async function resolveSourcePaths(imageIds: string[], contentDirRoot: string): P
   return resolved;
 }
 
+/**
+ * Sort paths by EXIF DateTimeOriginal or CreateDate, oldest first.
+ */
 async function sortByDateTimeOriginal(paths: string[]): Promise<string[]> {
   async function resolveDate(p: string) {
     const tags = await exiftool.read(p);
@@ -274,6 +384,10 @@ async function sortByDateTimeOriginal(paths: string[]): Promise<string[]> {
   return withDates.map(getPath);
 }
 
+/**
+ * Scale the entire layout down if any placement would cause an upscaling of its source.
+ * This preserves source-image quality by avoiding upscaling.
+ */
 function applyQualityScale(layout: SharedLayout<LayoutItem>): SharedLayout<LayoutItem> {
   let minScaleFactor = 1.0;
 
@@ -311,6 +425,9 @@ function applyQualityScale(layout: SharedLayout<LayoutItem>): SharedLayout<Layou
   return layout;
 }
 
+/**
+ * Reduce layout to fit within a maximum dimension (8K), scaling placements accordingly.
+ */
 function applyMaxDimensionLimit(layout: SharedLayout<LayoutItem>): SharedLayout<LayoutItem> {
   const MAX_DIMENSION = 8000;
 
@@ -337,6 +454,66 @@ function applyMaxDimensionLimit(layout: SharedLayout<LayoutItem>): SharedLayout<
   return layout;
 }
 
+/**
+ * Adjust layout dimensions to match a target aspect ratio by expanding the canvas.
+ * The content is centered within the new bounds.
+ */
+function applyAspectRatio(
+  layout: SharedLayout<LayoutItem>,
+  ratioId: string,
+): SharedLayout<LayoutItem> {
+  const [wRatio, hRatio] = ratioId.split(":").map(Number);
+  if (!wRatio || !hRatio) return layout;
+
+  const currentRatio = layout.width / layout.height;
+  const targetRatio = wRatio / hRatio;
+
+  // Clone to avoid mutating original if passed by ref elsewhere
+  const newLayout = { ...layout, placements: [...layout.placements] };
+
+  if (Math.abs(currentRatio - targetRatio) < 0.01) return newLayout;
+
+  if (currentRatio > targetRatio) {
+    // Current is wider than target -> Increase Height
+    // newHeight = width / targetRatio
+    const newHeight = Math.round(layout.width / targetRatio);
+    const offsetY = Math.round((newHeight - layout.height) / 2);
+
+    newLayout.height = newHeight;
+    newLayout.placements = newLayout.placements.map((p) => ({
+      ...p,
+      y: p.y + offsetY,
+    }));
+    log.info(
+      `[Collage] Enforcing ${ratioId} ratio: Increased height to ${newHeight}px (Padding Y: ${offsetY}px)`,
+    );
+  } else {
+    // Current is taller than target -> Increase Width
+    // newWidth = height * targetRatio
+    const newWidth = Math.round(layout.height * targetRatio);
+    const offsetX = Math.round((newWidth - layout.width) / 2);
+
+    newLayout.width = newWidth;
+    newLayout.placements = newLayout.placements.map((p) => ({
+      ...p,
+      x: p.x + offsetX,
+    }));
+    log.info(
+      `[Collage] Enforcing ${ratioId} ratio: Increased width to ${newWidth}px (Padding X: ${offsetX}px)`,
+    );
+  }
+
+  return newLayout;
+}
+
+/**
+ * Render the collage: load, crop/resize each placement and composite onto a canvas.
+ *
+ * Notes on cropping math:
+ * - finalScale = baseScale * userScale determines the working raster size.
+ * - We compute the extract area in source pixels by dividing viewport by finalScale.
+ * - left/top are derived from user crop percentages and clamped to valid ranges.
+ */
 async function renderCollage(
   layout: SharedLayout<LayoutItem>,
   border?: CollageBorder,
@@ -356,6 +533,7 @@ async function renderCollage(
         throw new Error(COLLAGE_MESSAGES.INVALID_DIMENSIONS(p.item.path ?? "unknown"));
       }
 
+      // Determine how the source must be scaled to fill the placement.
       const scaleW = p.width / inW;
       const scaleH = p.height / inH;
       const baseScale = Math.max(scaleW, scaleH);
@@ -372,8 +550,7 @@ async function renderCollage(
       const maxOffsetX = Math.max(0, finalW - viewportW);
       const maxOffsetY = Math.max(0, finalH - viewportH);
 
-      // p.crop might be undefined in strict null checks but layout engine ensures it?
-      // We checked if (p.crop) above.
+      // Translate user crop percentages into source offsets.
       const left = Math.round(maxOffsetX * (p.crop.x / 100));
       const top = Math.round(maxOffsetY * (p.crop.y / 100));
 
@@ -417,37 +594,44 @@ async function renderCollage(
   return result;
 }
 
+/**
+ * Persist collage buffer to disk.
+ */
 async function saveCollageImage(buffer: Buffer, outputPath: string) {
   await fs.writeFile(outputPath, buffer);
 }
 
-async function copyMetadataFromSource(sourcePath: string, targetPath: string, sourceNames: string) {
+/**
+ * Copy EXIF and attach a custom Software tag, using source as metadata donor.
+ */
+async function copyMetadataFromSource(
+  sourcePath: string,
+  targetPath: string,
+  _sourceNames: string,
+) {
   await exiftool.write(
     targetPath,
     {
-      UserComment: COLLAGE_MESSAGES.USER_COMMENT(sourceNames),
-      ImageDescription: COLLAGE_MESSAGES.USER_COMMENT(sourceNames),
       Software: COLLAGE_MESSAGES.SOFTWARE_LABEL,
     },
     ["-TagsFromFile", sourcePath, "-all:all", "-unsafe", "-icc_profile"],
   );
 }
 
+/**
+ * Move original source images into collage-sources preserving relative paths.
+ */
 async function moveSourceImages(sourcePaths: string[], contentDirRoot: string, imageIds: string[]) {
-  const sourcesDir = path.join(contentDirRoot, "pics", "collage-sources");
+  const sourcesDir = path.join(contentDirRoot, "collage-sources");
 
   for (let i = 0; i < sourcePaths.length; i++) {
     const src = sourcePaths[i];
     const imageId = imageIds[i];
 
-    // Preserve directory structure (e.g., pics/image.heic -> collage-sources/pics/image.heic)
     const destPath = path.join(sourcesDir, imageId);
     const destDir = path.dirname(destPath);
 
-    // Ensure destination directory exists
     await fs.mkdir(destDir, { recursive: true });
-
-    // Move file
     await fs.rename(src, destPath);
   }
 }

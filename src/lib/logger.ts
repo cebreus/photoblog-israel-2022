@@ -16,8 +16,8 @@ function getLogLevel(): string {
     return dev ? "debug" : "warn";
   }
 
-  const bunLogLevel = typeof Bun !== "undefined" ? Bun.env.LOG_LEVEL : undefined;
-  return bunLogLevel || process.env.LOG_LEVEL || "info";
+  // Use process.env which is available in both Bun and Node environments
+  return process.env.LOG_LEVEL || "info";
 }
 
 const logger = pino({

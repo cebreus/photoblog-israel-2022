@@ -1,8 +1,19 @@
-export type CollageTemplateId = "row" | "column" | "grid-2x2";
+export type CollageTemplateId =
+  | "row"
+  | "column"
+  | "grid-2x2"
+  | "hero-top"
+  | "hero-left"
+  | "hero-right"
+  | "density-7"
+  | "grid-3x2"
+  | "mosaic-6"
+  | "sidebar-hero";
 
 export interface CollageBorder {
   width: number;
   color: string;
+  userSetting?: number; // Original input value (before normalization)
 }
 
 export interface CollageCrop {

@@ -192,7 +192,14 @@ export const COLLAGE_MESSAGES = {
   TITLE: "Nová koláž",
   TEMPLATE_ROW: "Vedle sebe",
   TEMPLATE_COLUMN: "Pod sebou",
-  TEMPLATE_GRID: "Mřížka",
+  TEMPLATE_GRID: "Mřížka 2x2",
+  TEMPLATE_HERO_TOP: "Hero Top (3)",
+  TEMPLATE_HERO_LEFT: "Hero Left (3)",
+  TEMPLATE_HERO_RIGHT: "Hero Right (3)",
+  TEMPLATE_SIDEBAR_HERO: "Sidebar Hero (4)",
+  TEMPLATE_GRID_3X2: "Mřížka 3x2 (6)",
+  TEMPLATE_MOSAIC_6: "Mozaika (6)",
+  TEMPLATE_DENSITY_7: "Density (7)",
   RATIO_LABEL: "Poměr",
   RATIO_AUTO: "Auto",
   RATIO_GROUP_LABEL: "Poměry stran",
@@ -216,7 +223,11 @@ export const COLLAGE_MESSAGES = {
   MIN_IMAGES_HINT: (min: number) => `Vyžaduje ${min} obrázky`,
 
   // Action Buttons
-  CREATE_BUTTON: "Vytvořit koláž (High Quality)",
+  CREATE_BUTTON: "Vytvořit koláž",
+  SAVE_BUTTON: "Uložit změny",
+
+  SAVING: "Ukládám...",
+
   CREATING: "Zpracovávám...",
   CREATE_HINT: "Výsledek bude uložen ve formátu JPEG (Q100). Metadata zachována.",
   CLOSE_CONFIRM: "Opravdu chcete zavřít editor? Změny nebudou uloženy.",
@@ -227,6 +238,7 @@ export const COLLAGE_MESSAGES = {
   MIN_IMAGES: "Minimálně 2 obrázky jsou potřeba pro koláž.",
   GRID_MIN_IMAGES: "Šablona 2x2 vyžaduje alespoň 4 obrázky.",
   OPERATION_FAILED: "Operace selhala",
+  DUPLICATES_WARNING: "Upozornění: Koláž obsahuje duplicitní obrázky.",
 
   // Backend errors & labels
   DEV_ONLY: "Koláže jsou dostupné pouze v dev módu",
@@ -236,10 +248,37 @@ export const COLLAGE_MESSAGES = {
   SOFTWARE_LABEL: "Photoblog Collage Tool",
   NOT_AVAILABLE: "nedostupné",
 
+  // Validation
+  MAX_IMAGES_EXCEEDED: (max: number) => `Maximálně ${max} obrázků v koláži.`,
+  INVALID_TEMPLATE: (template: string) => `Neplatná šablona: ${template}`,
+  TEMPLATE_MIN_IMAGES: (template: string, min: number) =>
+    `Šablona ${template} vyžaduje minimálně ${min} obrázků.`,
+  MISSING_IMAGE_ID: "Každá položka musí mít platné imageId.",
+  INVALID_CROP_SCALE: "Crop scale musí být v rozsahu 1-5.",
+  INVALID_BORDER_WIDTH: "Border width nemůže být záporný.",
+  INVALID_BORDER_COLOR: "Border color musí být validní hex kód (#RRGGBB).",
+  TIMEOUT: "Zpracování koláže trvalo příliš dlouho.",
+
   // Loading & Selection
   LOAD_CONFIG_FAILED: "Nelze načíst konfiguraci koláže",
   SOURCE_IMAGES_NOT_FOUND: "Některé source obrázky nebyly nalezeny",
   LOAD_FAILED: (err: string) => `Chyba při načítání koláže: ${err}`,
+  CANCELLED: "Vytváření koláže bylo zrušeno.",
+  EMPTY_SLOT: "Prázdné",
+  TOOLTIP_FLEXIBLE: "Flexibilní počet",
+  TOOLTIP_REQUIRED: (count: number) => `Vyžaduje ${count} obrázky`,
+  TOOLTIP_EXACT: (req: number, have: number) => `Vyžaduje přesně ${req} obrázků (máte ${have})`,
+  LOG_SORTING_EXIF: (ms: number) => `[Collage] Seřazení podle EXIF: ${ms}ms`,
+  LOG_METADATA_LOAD: (ms: number) => `[Collage] Načtení metadat: ${ms}ms`,
+  LOG_RENDER_COMPLETE: (ms: number) => `[Collage] Renderování dokončeno: ${ms}ms`,
+  LOG_ROLLBACK_START: "[Collage] Zahajuji rollback operací...",
+  LOG_ROLLBACK_COMPLETE: "[Collage] Rollback dokončen.",
+  LOG_QUALITY_SCALE: (percent: string) => `Škálování pro zachování kvality: ${percent}%`,
+  LOG_LIMIT_8K: (percent: string) => `[Collage] Zmenšování na 8K limit (${percent}%)`,
+  LOG_SUCCESS: (filename: string, ms: number) => `[Collage] Úspěch: ${filename} (Celkem: ${ms}ms)`,
+  LOG_ERROR: (err: string) => `Chyba koláže: ${err}`,
   EDIT_BUTTON: "Upravit koláž",
   CREATE_TRIGGER_BUTTON: (count: number) => `Vytvořit koláž (${count})`,
+  DIRECT_VIEW_HINT: "Otevřít v novém okně",
+  DIRECT_VIEW_ACTION: "Otevřít",
 } as const;

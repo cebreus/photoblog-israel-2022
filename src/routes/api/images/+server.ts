@@ -67,7 +67,12 @@ function groupItemsByContentDir(items: BatchItem[]): GroupedItems {
  */
 async function resolvePhysicalPath(contentRoot: string, fileName: string): Promise<string | null> {
   const nameWithoutExt = path.parse(fileName).name;
-  const dirsToCheck = [contentRoot, path.join(contentRoot, "pics")];
+  const dirsToCheck = [
+    contentRoot,
+    path.join(contentRoot, "pics"),
+    // also check for moved collage sources (content/<dir>/collage-sources)
+    path.join(contentRoot, "collage-sources"),
+  ];
 
   for (const dir of dirsToCheck) {
     const directPath = path.join(dir, fileName);

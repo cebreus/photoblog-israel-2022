@@ -99,8 +99,11 @@ src/lib/
 │                                                                      │
 │  Output: content/<gallery>/pics/<name>--collage.jpg                  │
 │          content/<gallery>/pics/<name>--collage.json                 │
-│          content/<gallery>/pics/collage-sources/<originals>         │
+│          content/<gallery>/collage-sources/<originals>         │
 └─────────────────────────────────────────────────────────────────────┘
+
+> **Note:** When the backend moves source images into `collage-sources/`, it now updates the images manifest and performs the same cleanup steps as archiving (removing generated assets, cache entries, clustering constraints, and cleaning sub-manifests like analysis/embeddings/faces). The audit script also detects orphaned files in `collage-sources/` so the gallery can be cleaned up when needed.
+
 ```
 
 ---
@@ -133,7 +136,7 @@ Klikněte **„Vytvořit koláž (High Quality)"**. Výsledek:
 
 - Uloží se do `pics/<název>--collage.jpg`
 - Konfigurace do `pics/<název>--collage.json`
-- Zdrojové soubory přesunuty do `pics/collage-sources/`
+- Zdrojové soubory přesunuty do `collage-sources/`
 
 ---
 
@@ -242,11 +245,75 @@ calculateLayout<T extends LayoutItem>(
 
 ### Šablony rozložení
 
-| Šablona    | Min. obrázků | Popis                                   |
-| ---------- | ------------ | --------------------------------------- |
-| `row`      | 2            | Horizontální řazení s vyrovnanou výškou |
-| `column`   | 2            | Vertikální řazení s vyrovnanou šířkou   |
-| `grid-2x2` | 4            | Mřížka 2×2 s proporcionálním škálováním |
+| Šablona        | Min/Max | Popis                                                           |
+| -------------- | ------- | --------------------------------------------------------------- |
+| `row`          | 2+      | (Stávající) Horizontální řazení s vyrovnanou výškou             |
+| `column`       | 2+      | (Stávající) Vertikální řazení s vyrovnanou šířkou               |
+| `grid-2x2`     | 4       | (Stávající) Mřížka 2×2 s proporcionálním škálováním             |
+| `hero-top`     | 3       | 1 velký nahoře, 2 menší vedle sebe dole                         |
+| `hero-left`    | 3       | 1 vysoký vlevo, 2 menší nad sebou vpravo                        |
+| `hero-right`   | 3       | 1 vysoký vpravo, 2 menší nad sebou vlevo                        |
+| `density-7`    | 7       | Komplexní mřížka 2-3-2 (Mosaic)                                 |
+| `grid-3x2`     | 6       | Mřížka 3 řady po 2 sloupcích                                    |
+| `mosaic-6`     | 6       | 3 sloupce s různým dělením (např. 2-3-1)                        |
+| `sidebar-hero` | 4       | 1 vysoký vlevo ("sidebar"), vpravo 2 malé nahoře, 1 široký dole |
+
+### Detailní specifikace nových šablon
+
+**Hero Top (3 items)**
+
+```
+[       1       ]
+[   2   ][   3   ]
+```
+
+**Hero Left (3 items)**
+
+```
+[      ][  2  ]
+[   1  ][     ]
+[      ][  3  ]
+```
+
+**Hero Right (3 items)**
+
+```
+[  2  ][      ]
+[     ][   1  ]
+[  3  ][      ]
+```
+
+**Sidebar Hero (4 items)**
+
+```
+[      ][ 2 ][ 3 ]
+[   1  ][        ]
+[      ][    4   ]
+```
+
+**Density 7 (7 items)**
+
+```
+[   1   ][   2   ]
+[ 3 ][ 4 ][ 5 ]
+[   6   ][   7   ]
+```
+
+**Grid 3x2 (6 items)**
+
+```
+[   1   ][   2   ]
+[   3   ][   4   ]
+[   5   ][   6   ]
+```
+
+**Mosaic 6 (6 items)**
+
+```
+[ A ][ B ][ F ]
+[ A ][ C ][ F ]
+[ D ][ E ][ F ]
+```
 
 ### Okraje (Border)
 

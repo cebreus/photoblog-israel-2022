@@ -7,13 +7,18 @@
   import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
   import { Button } from "$lib/components/ui/button";
   import { Spinner } from "$lib/components/ui/spinner";
+  import { getContentDir } from "$lib/config";
   import { createLogger } from "$lib/logger";
   import { applyMetadataUpdates } from "$lib/shared/metadata-utils";
   import { editor } from "$lib/stores/editor.svelte";
   import { metadataClipboard } from "$lib/stores/metadata-clipboard.svelte";
   import type { CollageRequest } from "$lib/types/collage";
   import type { ImageEntry, Separator } from "$lib/types/manifest";
-  import { getCollageSourceIds, isCollage, loadCollageConfig } from "$lib/utils/collage-config";
+  import {
+    createSourceImagePlaceholders,
+    isCollage,
+    loadCollageConfig,
+  } from "$lib/utils/collage-config";
   import { COLLAGE_MESSAGES, IMAGE_MESSAGES } from "$lib/utils/messages";
 
   import GeoDataSection from "./GeoDataSection.svelte";
@@ -248,6 +253,14 @@
   let collageSourceImages = $state<ImageEntry[]>([]);
   let existingCollageConfig = $state<CollageRequest | undefined>(undefined);
 
+  // Clear collage state when dialog closes to ensure fresh data on next open
+  $effect(() => {
+    if (!isCollageDialogOpen) {
+      collageSourceImages = [];
+      existingCollageConfig = undefined;
+    }
+  });
+
   async function handleOpenCollageDialog() {
     const selected = selectedImages;
 
@@ -261,24 +274,20 @@
           return;
         }
 
-        // Load source images from moved paths
-        const sourceIds = getCollageSourceIds(config);
-        const sources = sourceIds
-          .map(function findImage(id: string) {
-            return items.find(function matchId(img: DisplayItem) {
-              return img.type === "image" && img.id === id;
-            }) as ImageEntry | undefined;
-          })
-          .filter(function filterDefined(img: ImageEntry | undefined): img is ImageEntry {
-            return img !== undefined;
-          });
+        // For collages, source images have been moved to collage-sources/
+        // and removed from the manifest. We need to create placeholders.
+        const urlPrefix = `/${getContentDir()}`;
+        const placeholders = await createSourceImagePlaceholders(config, urlPrefix);
 
-        if (sources.length !== config.items.length) {
+        if (placeholders.length !== config.items.length) {
           toast.error(COLLAGE_MESSAGES.SOURCE_IMAGES_NOT_FOUND);
+          logger.error(
+            `[Collage] Created ${placeholders.length} placeholders but config has ${config.items.length} items`,
+          );
           return;
         }
 
-        collageSourceImages = sources;
+        collageSourceImages = placeholders;
         existingCollageConfig = config;
       } catch (e) {
         toast.error(COLLAGE_MESSAGES.LOAD_FAILED(String(e)));

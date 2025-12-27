@@ -1,7 +1,9 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import process from "node:process";
 import type { RequestEvent } from "@sveltejs/kit";
 import { json } from "@sveltejs/kit";
+import sharp from "sharp";
 import { getContentDir } from "$lib/config";
 
 const IS_DEV = import.meta.env.DEV;
@@ -22,20 +24,40 @@ export async function GET({ params }: RequestEvent): Promise<Response> {
       return json({ error: "Invalid path" }, { status: 403 });
     }
 
-    // Replaced Bun.file with fs.readFile
-    let content: string;
     try {
-      content = await fs.readFile(fullPath, "utf8");
-    } catch (readError) {
-      const error = readError as NodeJS.ErrnoException;
-      if (error.code === "ENOENT") {
-        return json({ error: "File not found" }, { status: 404 });
-      }
-      throw readError;
+      await fs.access(fullPath);
+    } catch {
+      return json({ error: "File not found" }, { status: 404 });
     }
 
-    return new Response(content, {
-      headers: { "Content-Type": "application/json" },
+    const fileBuffer = await fs.readFile(fullPath);
+
+    const ext = path.extname(fullPath).toLowerCase();
+    let contentType = "application/octet-stream";
+
+    if (ext === ".heic") {
+      // Browser doesn't support HEIC natively, convert to JPEG for preview
+      const buffer = await sharp(fullPath).jpeg({ quality: 90 }).toBuffer();
+      return new Response(new Uint8Array(buffer), {
+        headers: {
+          "Content-Type": "image/jpeg",
+          "Cache-Control": "max-age=3600",
+        },
+      });
+    }
+
+    if (ext === ".json") contentType = "application/json";
+    else if (ext === ".md") contentType = "text/markdown";
+    else if (ext === ".jpg" || ext === ".jpeg") contentType = "image/jpeg";
+    else if (ext === ".png") contentType = "image/png";
+    else if (ext === ".webp") contentType = "image/webp";
+    else if (ext === ".avif") contentType = "image/avif";
+
+    return new Response(fileBuffer, {
+      headers: {
+        "Content-Type": contentType,
+        "Cache-Control": "max-age=3600",
+      },
     });
   } catch (err) {
     // biome-ignore lint/suspicious/noConsole: Error logging

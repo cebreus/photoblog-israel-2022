@@ -27,7 +27,7 @@ describe("collage-config utilities", () => {
       const mockConfig: CollageRequest = {
         items: [
           { imageId: "img1", originalPath: "pics/img1.jpg" },
-          { imageId: "img2", movedPath: "pics/collage-sources/img2.jpg" },
+          { imageId: "img2", movedPath: "collage-sources/img2.jpg" },
         ],
         template: "row",
       };
