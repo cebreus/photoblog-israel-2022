@@ -256,30 +256,37 @@ async function cmdProcess() {
 
   const startTime = performance.now();
 
-  logger.info("┌ Step 1/5: Favicons");
+  const isManifestOnly = values["manifest-only"];
+  const totalSteps = isManifestOnly ? 3 : 5;
+
+  logger.info(`┌ Step 1/${totalSteps}: Favicons`);
   const t1 = performance.now();
   await cmdFavicons();
   logger.info(`Step 1 complete in ${formatDuration(performance.now() - t1)}`);
 
-  logger.info("┌ Step 2/5: Image Variants");
+  logger.info(`┌ Step 2/${totalSteps}: Image Variants`);
   const t2 = performance.now();
   await cmdImages();
   logger.info(`Step 2 complete in ${formatDuration(performance.now() - t2)}`);
 
-  logger.info("┌ Step 3/5: Blur Placeholders");
+  logger.info(`┌ Step 3/${totalSteps}: Blur Placeholders`);
   const t3 = performance.now();
   await cmdBlur();
   logger.info(`Step 3 complete in ${formatDuration(performance.now() - t3)}`);
 
-  logger.info("┌ Step 4/5: Similarity & Aesthetic Analysis");
-  const t4 = performance.now();
-  await cmdAnalyze();
-  logger.info(`Step 4 complete in ${formatDuration(performance.now() - t4)}`);
+  if (!isManifestOnly) {
+    logger.info("┌ Step 4/5: Similarity & Aesthetic Analysis");
+    const t4 = performance.now();
+    await cmdAnalyze();
+    logger.info(`Step 4 complete in ${formatDuration(performance.now() - t4)}`);
 
-  logger.info("┌ Step 5/5: Face Clustering");
-  const t5 = performance.now();
-  await cmdFaces();
-  logger.info(`Step 5 complete in ${formatDuration(performance.now() - t5)}`);
+    logger.info("┌ Step 5/5: Face Clustering");
+    const t5 = performance.now();
+    await cmdFaces();
+    logger.info(`Step 5 complete in ${formatDuration(performance.now() - t5)}`);
+  } else {
+    logger.info("Skipping AI analysis steps (Similarity & Faces) in manifest-only mode.");
+  }
 
   logger.info(
     `Data processing pipeline complete in ${formatDuration(performance.now() - startTime)}!`,
