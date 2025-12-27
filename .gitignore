@@ -9,6 +9,7 @@ node_modules/
 build/
 build-*/
 content/*/archive/
+content/*/collage-sources/
 content/*/pics/
 static/*/archive/
 static/*/assets/favicons/
@@ -39,3 +40,4 @@ vite.config.ts.timestamp-*
 # OS
 .DS_Store
 Thumbs.db
+
