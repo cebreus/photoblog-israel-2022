@@ -68,7 +68,7 @@ function buildSharpInstance(
   if (!allowUpscale) {
     resizeSpec.withoutEnlargement = true;
   }
-  return sharpModule(input).resize(resizeSpec);
+  return sharpModule(input).rotate().resize(resizeSpec);
 }
 
 function calculateOutputDimensions(
@@ -165,6 +165,7 @@ export async function generateVariant(
 
     if (cropRect) {
       resizedInstance = sharpModule(input)
+        .rotate()
         .extract({
           left: Math.round(cropRect.left),
           top: Math.round(cropRect.top),
@@ -249,6 +250,7 @@ export async function generateOtherOutput(
 
     if (cropRect && "width" in resizeConfig && "height" in resizeConfig) {
       resizedInstance = sharpModule(input)
+        .rotate()
         .extract({
           left: Math.round(cropRect.left),
           top: Math.round(cropRect.top),

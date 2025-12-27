@@ -244,6 +244,7 @@ async function _extractFaces(
   try {
     const detectWidth = 800;
     const buffer = await sharpModule(processingPath)
+      .rotate()
       .resize({ width: detectWidth, withoutEnlargement: true })
       .toFormat("jpeg")
       .toBuffer();
@@ -293,7 +294,7 @@ async function gatherImageData(
   const [imageStats, exifTags, originalMeta, sharpnessScore, phash] = await Promise.all([
     shouldComputeStats ? sharpInstance.stats() : Promise.resolve(null),
     readRawMetadata(absPath),
-    sharpInstance.metadata(),
+    sharpInstance.rotate().metadata(),
     shouldAnalyze
       ? calculateSharpness(sharpModule, processingPath)
       : Promise.resolve(analysisFromManifest?.sharpness ?? reusedAnalysis?.sharpness ?? 0),
