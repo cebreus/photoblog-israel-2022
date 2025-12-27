@@ -258,6 +258,14 @@ function validateCollageRequest(body: CollageRequest) {
   if (body.template === "grid-2x2" && body.items.length < 4) {
     throw new Error(COLLAGE_MESSAGES.GRID_MIN_IMAGES);
   }
+  if (
+    (body.template === "grid-2-3" ||
+      body.template === "grid-3-2" ||
+      body.template === "sidebar-grid") &&
+    body.items.length < 5
+  ) {
+    throw new Error(COLLAGE_MESSAGES.TEMPLATE_MIN_IMAGES(body.template, 5));
+  }
 }
 
 /**

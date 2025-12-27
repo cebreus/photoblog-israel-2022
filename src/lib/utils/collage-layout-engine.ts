@@ -64,6 +64,18 @@ export function calculateLayout<T extends LayoutItem>(
     return calculateSidebarHeroLayout(items, borderW);
   }
 
+  if (template === "grid-2-3") {
+    return calculateGrid23Layout(items, borderW, cropStrategy);
+  }
+
+  if (template === "grid-3-2") {
+    return calculateGrid32Layout(items, borderW, cropStrategy);
+  }
+
+  if (template === "sidebar-grid") {
+    return calculateSidebarGridLayout(items, borderW);
+  }
+
   if (template === "density-7") {
     return calculateDensity7Layout(items, borderW, cropStrategy);
   }
@@ -966,4 +978,193 @@ function calculateMosaic6Layout<T extends LayoutItem>(
   placements.push({ x, y, width: w3, height: cellH, item: items[5], crop: items[5].crop });
 
   return { width: totalW, height: totalH, placements };
+}
+
+export function calculateGrid23Layout<T extends LayoutItem>(
+  items: T[],
+  borderW: number,
+  cropStrategy: "smart" | "simple" = "smart",
+): SharedLayout<T> {
+  // 2 Rows: 2 items (top), 3 items (bottom)
+  if (items.length < 5) return { width: 1000, height: 1000, placements: [] };
+
+  const gutter = borderW;
+  const marginX = borderW;
+  const marginTop = borderW;
+  const marginBottom = borderW;
+
+  const r1 = calculateRowForItems([items[0], items[1]], gutter);
+  const r2 = calculateRowForItems([items[2], items[3], items[4]], gutter);
+
+  const refW = r1.totalWidth;
+  const r2TargetContentW = refW - (r2.items.length - 1) * gutter;
+  const s2 = r2TargetContentW / r2.contentWidth;
+
+  const placements: LayoutPlacement<T>[] = [];
+  let y = marginTop;
+  let x = marginX;
+
+  // R1
+  for (const p of r1.items) {
+    placements.push({ x, y, width: p.width, height: p.height, item: p.item, crop: p.crop });
+    x += p.width + gutter;
+  }
+  y += r1.height + gutter;
+
+  // R2
+  x = marginX;
+  let remainingW = r2TargetContentW;
+  r2.items.forEach((p, idx) => {
+    let w = Math.round(p.width * s2);
+    if (idx === r2.items.length - 1) {
+      w = remainingW;
+    } else {
+      remainingW -= w;
+    }
+
+    const h = Math.round(p.height * s2);
+    placements.push({ x, y, width: w, height: h, item: p.item, crop: p.crop });
+    x += w + gutter;
+  });
+
+  const totalH = y + Math.round(r2.height * s2) + marginBottom;
+  return { width: marginX + refW + marginX, height: totalH, placements };
+}
+
+export function calculateGrid32Layout<T extends LayoutItem>(
+  items: T[],
+  borderW: number,
+  cropStrategy: "smart" | "simple" = "smart",
+): SharedLayout<T> {
+  // 2 Rows: 3 items (top), 2 items (bottom)
+  if (items.length < 5) return { width: 1000, height: 1000, placements: [] };
+
+  const gutter = borderW;
+  const marginX = borderW;
+  const marginTop = borderW;
+  const marginBottom = borderW;
+
+  const r1 = calculateRowForItems([items[0], items[1], items[2]], gutter);
+  const r2 = calculateRowForItems([items[3], items[4]], gutter);
+
+  const refW = r1.totalWidth;
+  const r2TargetContentW = refW - (r2.items.length - 1) * gutter;
+  const s2 = r2TargetContentW / r2.contentWidth;
+
+  const placements: LayoutPlacement<T>[] = [];
+  let y = marginTop;
+  let x = marginX;
+
+  // R1
+  for (const p of r1.items) {
+    placements.push({ x, y, width: p.width, height: p.height, item: p.item, crop: p.crop });
+    x += p.width + gutter;
+  }
+  y += r1.height + gutter;
+
+  // R2
+  x = marginX;
+  let remainingW = r2TargetContentW;
+  r2.items.forEach((p, idx) => {
+    let w = Math.round(p.width * s2);
+    if (idx === r2.items.length - 1) {
+      w = remainingW;
+    } else {
+      remainingW -= w;
+    }
+
+    const h = Math.round(p.height * s2);
+    placements.push({ x, y, width: w, height: h, item: p.item, crop: p.crop });
+    x += w + gutter;
+  });
+
+  const totalH = y + Math.round(r2.height * s2) + marginBottom;
+  return { width: marginX + refW + marginX, height: totalH, placements };
+}
+
+export function calculateSidebarGridLayout<T extends LayoutItem>(
+  items: T[],
+  borderW: number,
+): SharedLayout<T> {
+  // 1 Left (Hero), Right: [1][2] (Top), [3][4] (Bottom)
+  if (items.length < 5) return { width: 1000, height: 1000, placements: [] };
+
+  const gutter = borderW;
+  const marginX = borderW;
+  const marginTop = borderW;
+  const marginBottom = borderW;
+
+  const leftItem = items[0];
+
+  const rightRow1 = calculateRowForItems([items[1], items[2]], gutter);
+  const rightRow2 = calculateRowForItems([items[3], items[4]], gutter);
+
+  const referenceWidth = rightRow1.totalWidth;
+  const r2TargetContentW = referenceWidth - (rightRow2.items.length - 1) * gutter;
+  const scaleRow2 = r2TargetContentW / rightRow2.contentWidth;
+  const rightRow2H_Scaled = Math.round(rightRow2.height * scaleRow2);
+
+  const rightBlockTotalHeight = 2000;
+  const leftScale = rightBlockTotalHeight / leftItem.height;
+  const leftW = Math.round(leftItem.width * leftScale);
+
+  const rightAvailableH = rightBlockTotalHeight - gutter;
+  const currentRightContentH = rightRow1.height + rightRow2H_Scaled;
+  const rightScale = rightAvailableH / currentRightContentH;
+  const finalRightW = Math.round(referenceWidth * rightScale);
+
+  const placements: LayoutPlacement<T>[] = [];
+
+  placements.push({
+    x: marginX,
+    y: marginTop,
+    width: leftW,
+    height: rightBlockTotalHeight,
+    item: leftItem,
+    crop: leftItem.crop,
+  });
+
+  let startX = marginX + leftW + gutter;
+  let curY = marginTop;
+
+  const r1H = Math.round(rightRow1.height * rightScale);
+  const r1TargetW = finalRightW - (rightRow1.items.length - 1) * gutter;
+  let remainingW = r1TargetW;
+
+  let x = startX;
+  rightRow1.items.forEach((p, idx) => {
+    let w = Math.round(p.width * rightScale);
+    if (idx === rightRow1.items.length - 1) {
+      w = remainingW;
+    } else {
+      remainingW -= w;
+    }
+    placements.push({ x, y: curY, width: w, height: r1H, item: p.item, crop: p.crop });
+    x += w + gutter;
+  });
+
+  curY += r1H + gutter;
+
+  const r2H = rightBlockTotalHeight - r1H - gutter;
+  const r2TargetW = finalRightW - (rightRow2.items.length - 1) * gutter;
+  remainingW = r2TargetW;
+
+  x = startX;
+  rightRow2.items.forEach((p, idx) => {
+    const effectiveScale = scaleRow2 * rightScale;
+    let w = Math.round(p.width * effectiveScale);
+    if (idx === rightRow2.items.length - 1) {
+      w = remainingW;
+    } else {
+      remainingW -= w;
+    }
+    placements.push({ x, y: curY, width: w, height: r2H, item: p.item, crop: p.crop });
+    x += w + gutter;
+  });
+
+  return {
+    width: marginX + leftW + gutter + finalRightW + marginX,
+    height: marginTop + rightBlockTotalHeight + marginBottom,
+    placements,
+  };
 }

@@ -59,11 +59,14 @@
   }[] = [
     { id: "row", capacity: Infinity },
     { id: "column", capacity: Infinity },
-    { id: "grid-2x2", capacity: 4 },
     { id: "hero-top", capacity: 3 },
     { id: "hero-left", capacity: 3 },
     { id: "hero-right", capacity: 3 },
+    { id: "grid-2x2", capacity: 4 },
     { id: "sidebar-hero", capacity: 4 },
+    { id: "grid-2-3", capacity: 5 },
+    { id: "grid-3-2", capacity: 5 },
+    { id: "sidebar-grid", capacity: 5 },
     { id: "grid-3x2", capacity: 6 },
     { id: "mosaic-6", capacity: 6 },
     { id: "density-7", capacity: 7 },
@@ -1010,7 +1013,7 @@
         bind:value={borderWidth}
         min="0"
         step="2"
-        class="w-20 flex-none"
+        class="w-20 flex-none h-7"
         data-testid="collage-border-width-input"
       />
       <input
