@@ -87,7 +87,7 @@ export function calculateCollageLayout(
 
   // Use shared layout engine
   const layout = calculateLayout(validImages, template, {
-    border: { width: borderW, color: "#fff" },
+    border: { width: borderW },
     cropStrategy: "simple",
   });
 
@@ -178,4 +178,53 @@ export function determineAutoTemplate(images: ImageEntry[]): CollageTemplateId {
   const result = orientation === "portrait" ? "column" : "row";
   log.info(`[CollageUtil] Auto-template for ${images.length} images: ${result}`);
   return result;
+}
+
+export function calculateAmbientCanvasSize(
+  layoutWidth: number,
+  layoutHeight: number,
+  sampleScale: number,
+) {
+  return {
+    width: Math.max(1, Math.round(layoutWidth * sampleScale)),
+    height: Math.max(1, Math.round(layoutHeight * sampleScale)),
+  };
+}
+
+export function getAmbientPlacementRect(
+  placement: { left: number; top: number; width: number; height: number },
+  canvasWidth: number,
+  canvasHeight: number,
+  sampleScale: number,
+  bleedScale: number,
+) {
+  const baseLeft = Math.round(placement.left * sampleScale);
+  const baseTop = Math.round(placement.top * sampleScale);
+  const baseWidth = Math.max(1, Math.round(placement.width * sampleScale));
+  const baseHeight = Math.max(1, Math.round(placement.height * sampleScale));
+
+  const bleedWidth = Math.max(1, Math.round(baseWidth * bleedScale));
+  const bleedHeight = Math.max(1, Math.round(baseHeight * bleedScale));
+
+  const boundedWidth = Math.min(bleedWidth, canvasWidth);
+  const boundedHeight = Math.min(bleedHeight, canvasHeight);
+
+  const offsetX = Math.round((boundedWidth - baseWidth) / 2);
+  const offsetY = Math.round((boundedHeight - baseHeight) / 2);
+
+  const maxLeft = Math.max(canvasWidth - boundedWidth, 0);
+  const maxTop = Math.max(canvasHeight - boundedHeight, 0);
+
+  return {
+    left: clamp(baseLeft - offsetX, 0, maxLeft),
+    top: clamp(baseTop - offsetY, 0, maxTop),
+    width: boundedWidth,
+    height: boundedHeight,
+  };
+}
+
+function clamp(value: number, min: number, max: number) {
+  if (value < min) return min;
+  if (value > max) return max;
+  return value;
 }

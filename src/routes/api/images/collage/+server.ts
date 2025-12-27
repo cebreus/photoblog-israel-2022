@@ -6,17 +6,13 @@ import { exiftool } from "exiftool-vendored";
 import sharp from "sharp";
 import { getContentDir } from "$lib/config";
 import { log } from "$lib/logger";
-import type {
-  CollageBorder,
-  CollageItemConfig,
-  CollageRequest,
-  CollageResponse,
-} from "$lib/types/collage";
+import type { CollageItemConfig, CollageRequest, CollageResponse } from "$lib/types/collage";
 import {
   calculateLayout,
   type LayoutItem,
   type SharedLayout,
 } from "$lib/utils/collage-layout-engine";
+import { renderCollage } from "$lib/utils/collage-renderer";
 import { COLLAGE_MESSAGES } from "$lib/utils/messages";
 
 import { config as buildConfig } from "$scripts/build.config";
@@ -103,9 +99,9 @@ export async function POST({ request }: RequestEvent): Promise<Response> {
     const imageMetas = await Promise.all(sourcePaths.map(resolveMetadata));
     log.debug(`[Collage] Načtení metadat: ${Date.now() - startMeta}ms`);
 
-    // Layout calculation (border & crop strategy options).
+    // Layout calculation (border width only, background handled separately).
     const layout = calculateLayout(imageMetas, body.template, {
-      border: body.border ?? { width: 0, color: "#fff" },
+      border: body.border ?? { width: 0 },
       cropStrategy: "simple",
     });
 
@@ -122,7 +118,11 @@ export async function POST({ request }: RequestEvent): Promise<Response> {
 
     // Render collage to a JPEG buffer.
     const startRender = Date.now();
-    const buffer = await renderCollage(finalLayout, body.border);
+    const buffer = await renderCollage(
+      finalLayout,
+      body.border ?? { width: 0 },
+      body.background ?? { style: "color", color: "#ffffff" },
+    );
     log.info(`[Collage] Renderování dokončeno: ${Date.now() - startRender}ms`);
 
     // Persist collage image and sidecar.
@@ -593,85 +593,6 @@ function stretchDimension(layout: SharedLayout<LayoutItem>, axis: "x" | "y", tar
  * - We compute the extract area in source pixels by dividing viewport by finalScale.
  * - left/top are derived from user crop percentages and clamped to valid ranges.
  */
-async function renderCollage(
-  layout: SharedLayout<LayoutItem>,
-  border?: CollageBorder,
-): Promise<Buffer> {
-  log.debug(`[Collage] Velikost plátna: ${layout.width}x${layout.height}`);
-  log.debug(`[Collage] Zpracování ${layout.placements.length} obrázků`);
-
-  async function processPlacement(p: (typeof layout.placements)[0], _idx: number) {
-    const pipeline = sharp(p.item.path); // Use item.path
-
-    if (p.crop) {
-      const meta = await pipeline.metadata();
-      const inW = meta.width ?? 0;
-      const inH = meta.height ?? 0;
-
-      if (inW === 0 || inH === 0) {
-        throw new Error(COLLAGE_MESSAGES.INVALID_DIMENSIONS(p.item.path ?? "unknown"));
-      }
-
-      // Determine how the source must be scaled to fill the placement.
-      const scaleW = p.width / inW;
-      const scaleH = p.height / inH;
-      const baseScale = Math.max(scaleW, scaleH);
-
-      const userScale = p.crop.scale ?? 1;
-      const finalScale = baseScale * userScale;
-
-      const finalW = Math.round(inW * finalScale);
-      const finalH = Math.round(inH * finalScale);
-
-      const viewportW = p.width;
-      const viewportH = p.height;
-
-      const maxOffsetX = Math.max(0, finalW - viewportW);
-      const maxOffsetY = Math.max(0, finalH - viewportH);
-
-      // Translate user crop percentages into source offsets.
-      const left = Math.round(maxOffsetX * (p.crop.x / 100));
-      const top = Math.round(maxOffsetY * (p.crop.y / 100));
-
-      const extractW = Math.min(inW, Math.round(viewportW / finalScale));
-      const extractH = Math.min(inH, Math.round(viewportH / finalScale));
-      const extractLeft = Math.min(inW - extractW, Math.round(left / finalScale));
-      const extractTop = Math.min(inH - extractH, Math.round(top / finalScale));
-
-      pipeline
-        .extract({ left: extractLeft, top: extractTop, width: extractW, height: extractH })
-        .resize(p.width, p.height, { fit: "fill" });
-    } else {
-      pipeline.resize(p.width, p.height, { fit: "cover" });
-    }
-
-    const buffer = await pipeline.toBuffer();
-
-    return {
-      input: buffer,
-      top: p.y,
-      left: p.x,
-    };
-  }
-
-  const resizedInputs = await Promise.all(layout.placements.map(processPlacement));
-
-  const background = border?.color || "#ffffff";
-
-  const result = await sharp({
-    create: {
-      width: layout.width,
-      height: layout.height,
-      channels: 3,
-      background: background,
-    },
-  })
-    .composite(resizedInputs)
-    .jpeg({ quality: 98, chromaSubsampling: "4:4:4" })
-    .toBuffer();
-
-  return result;
-}
 
 /**
  * Persist collage buffer to disk.

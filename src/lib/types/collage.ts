@@ -12,8 +12,12 @@ export type CollageTemplateId =
 
 export interface CollageBorder {
   width: number;
-  color: string;
   userSetting?: number; // Original input value (before normalization)
+}
+
+export interface CollageBackground {
+  style: "ambient" | "color";
+  color?: string; // Only used when style="color"
 }
 
 export interface CollageCrop {
@@ -41,6 +45,7 @@ export interface CollageRequest {
   items: CollageItemConfig[];
   template: CollageTemplateId;
   border?: CollageBorder;
+  background?: CollageBackground;
   aspectRatio?: string; // Selected ratio preset (e.g., "auto", "16:9", "4:3")
   metadata?: CollageMetadata; // Added by backend when saving
 }

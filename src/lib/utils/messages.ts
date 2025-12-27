@@ -205,10 +205,14 @@ export const COLLAGE_MESSAGES = {
   RATIO_GROUP_LABEL: "Poměry stran",
 
   // Settings
-  BORDER_LABEL: "Ohraničení (Border)",
-  BORDER_WIDTH_LABEL: "Referenční šířka (px)",
-  BORDER_WIDTH_HINT: (actual: number) => `Skutečná šířka: ${actual}px podle originálních rozměrů`,
-  BORDER_COLOR_LABEL: "Barva",
+  BORDER_LABEL: "Mřížka",
+  BORDER_WIDTH_HINT: (actual: number) => `Normalizováno na ${actual}px podle rozměrů obrázků`,
+
+  // Background
+  BACKGROUND_AMBIENT_LABEL: "Ambientní pozadí",
+  BACKGROUND_COLOR_LABEL: "Barva pozadí",
+  BACKGROUND_STYLE_AMBIENT: "Ambientní pozadí",
+  BACKGROUND_STYLE_COLOR: "Barva",
 
   // Preview
   PREVIEW_INFO: (width: number, height: number, ratio: string) =>

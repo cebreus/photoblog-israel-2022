@@ -10,7 +10,7 @@ describe("Collage Layout Engine", () => {
     { width: 1000, height: 1000, id: "4" },
   ];
 
-  const border: CollageBorder = { width: 10, color: "#fff" };
+  const border: CollageBorder = { width: 10 };
 
   it("calculates row layout correctly", () => {
     const layout = calculateLayout(mockItems.slice(0, 2), "row", { border });
@@ -94,7 +94,7 @@ describe("Collage Layout Engine", () => {
 
     it("handles zero border width", () => {
       const items = [{ width: 1000, height: 1000 }];
-      const layout = calculateLayout(items, "row", { border: { width: 0, color: "#fff" } });
+      const layout = calculateLayout(items, "row", { border: { width: 0 } });
 
       // No margins when border is 0
       expect(layout.width).toBe(1000);

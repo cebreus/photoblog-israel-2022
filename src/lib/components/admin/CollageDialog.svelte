@@ -10,6 +10,7 @@
   import { Input } from "$lib/components/ui/input";
   import { Label } from "$lib/components/ui/label";
   import { Switch } from "$lib/components/ui/switch";
+  import * as Tabs from "$lib/components/ui/tabs";
   import { getContentDir } from "$lib/config";
   import { log } from "$lib/logger";
   import type {
@@ -21,19 +22,24 @@
   import type { ImageEntry } from "$lib/types/manifest";
   import { cn } from "$lib/utils";
   import {
+    calculateAmbientCanvasSize,
     calculateCollageLayout,
     calculateDenormalizedBorderWidth,
     calculateNormalizedBorderWidth,
     determineAutoTemplate,
     formatDimensionLabel,
     formatRatioLabel,
+    getAmbientPlacementRect,
     getDetailSource,
     getImageAspectRatio,
     parsePresetRatio,
   } from "$lib/utils/collage";
+  import { AMBIENT_FRONTEND_CONFIG } from "$lib/utils/collage-constants";
   import { COLLAGE_MESSAGES } from "$lib/utils/messages";
 
   import { invalidateAll } from "$app/navigation";
+
+  import Separator from "../ui/separator/separator.svelte";
 
   // Props
   let {
@@ -88,7 +94,11 @@
   let imageConfigs = $state<Record<string, CollageCrop>>({});
   let borderEnabled = $state(true);
   let borderWidth = $state(10);
-  let borderColor = $state("#ffffff");
+  let backgroundEnabled = $state(true);
+  let backgroundStyle = $state<"ambient" | "color">("ambient");
+  let backgroundColor = $state("#ffffff");
+  // (UI) prefer explicit backgroundEnabled + backgroundStyle state
+
   let selectedRatioPreset = $state<RatioPresetId>("auto");
   let aspectMode = $state<"auto" | "landscape" | "portrait">("auto");
   let userPickedTemplate = $state(false);
@@ -96,11 +106,27 @@
   let activeImageId = $state<string | null>(null);
   let startX = 0;
   let startY = 0;
+  let ambientCanvas = $state<HTMLCanvasElement | null>(null);
+  const ambientImageCache = new Map<string, Promise<HTMLImageElement>>();
+
+  // Constants
+  const BACKGROUND_STYLES = [
+    { id: "ambient", label: COLLAGE_MESSAGES.BACKGROUND_STYLE_AMBIENT },
+    { id: "color", label: COLLAGE_MESSAGES.BACKGROUND_STYLE_COLOR },
+  ];
 
   let abortController: AbortController | null = null;
 
   // Derived: Are we editing an existing collage?
   let isEditMode = $derived(!!existingConfig);
+
+  // When user picks a tab, treat background as enabled (tabs replace the switch)
+  $effect(() => {
+    // binding to backgroundStyle will trigger this effect
+    if (backgroundStyle === "ambient" || backgroundStyle === "color") {
+      backgroundEnabled = true;
+    }
+  });
 
   // Track initialization to prevent infinite loops
   let initialized = false;
@@ -123,7 +149,7 @@
           log.info(`[CollageDialog] Set template: ${selectedTemplate}`);
           if (existingConfig.border) {
             borderEnabled = true;
-            borderColor = existingConfig.border.color;
+
             if (existingConfig.border.userSetting !== undefined) {
               borderWidth = existingConfig.border.userSetting;
               log.info(`[CollageDialog] Set border from userSetting: ${borderWidth}`);
@@ -147,6 +173,28 @@
           } else {
             borderEnabled = false;
             log.info(`[CollageDialog] Border disabled`);
+          }
+
+          // Backward compatibility: migrate old format to new
+          if ("backgroundStyle" in (existingConfig.border || {})) {
+            // Old format: border contains backgroundStyle and color
+            backgroundEnabled = true;
+            backgroundStyle = (existingConfig.border as any).backgroundStyle || "ambient";
+            backgroundColor = (existingConfig.border as any).color || "#ffffff";
+            log.info(
+              `[CollageDialog] Migrated old format: background=${backgroundStyle}, color=${backgroundColor}`,
+            );
+          } else if (existingConfig.background) {
+            // New format: separate background object
+            backgroundEnabled = true;
+            backgroundStyle = existingConfig.background.style;
+            backgroundColor = existingConfig.background.color || "#ffffff";
+            log.info(
+              `[CollageDialog] Loaded new format: background=${backgroundStyle}, color=${backgroundColor}`,
+            );
+          } else {
+            backgroundEnabled = false;
+            log.info(`[CollageDialog] Background disabled`);
           }
 
           // Load image configs (crop data) & Items
@@ -289,7 +337,9 @@
       selectedTemplate,
       borderEnabled,
       borderWidth,
-      borderColor,
+      backgroundEnabled,
+      backgroundStyle,
+      backgroundColor,
       selectedRatioPreset,
     };
 
@@ -396,6 +446,30 @@
     };
   }, 10); // 10ms debounce (very fast but throttles sync updates)
 
+  function loadAmbientImage(src: string): Promise<HTMLImageElement> {
+    const normalized = src.trim();
+    if (!normalized) {
+      return Promise.reject(new Error("Ambient source is missing"));
+    }
+
+    const cached = ambientImageCache.get(normalized);
+    if (cached) {
+      return cached;
+    }
+
+    const promise = new Promise<HTMLImageElement>((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.decoding = "async";
+      img.onload = () => resolve(img);
+      img.onerror = () => reject(new Error(`Failed to load ambient image ${normalized}`));
+      img.src = normalized;
+    });
+
+    ambientImageCache.set(normalized, promise);
+    return promise;
+  }
+
   function handleMouseDown(e: MouseEvent, id: string) {
     e.preventDefault();
     activeImageId = id;
@@ -477,6 +551,81 @@
     };
   }
 
+  $effect(function renderAmbientPreview() {
+    if (
+      typeof window === "undefined" ||
+      !backgroundEnabled ||
+      backgroundStyle !== "ambient" ||
+      !ambientCanvas ||
+      layout.placements.length === 0
+    ) {
+      return;
+    }
+
+    // Explicitly track layout as dependency to fix canvas invalidation
+    const currentLayout = layout;
+
+    const canvas = ambientCanvas;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let cancelled = false;
+
+    (async () => {
+      const sampleScale = AMBIENT_FRONTEND_CONFIG.sampleScale;
+      const previewScale = AMBIENT_FRONTEND_CONFIG.bleedScale ?? 1.1;
+      const canvasSize = calculateAmbientCanvasSize(
+        currentLayout.width,
+        currentLayout.height,
+        sampleScale,
+      );
+
+      canvas.width = canvasSize.width;
+      canvas.height = canvasSize.height;
+
+      ctx.clearRect(0, 0, canvasSize.width, canvasSize.height);
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
+
+      for (const placement of currentLayout.placements) {
+        if (cancelled) return;
+
+        const source =
+          getDetailSource(placement.img)?.path ??
+          placement.img.adminThumbUrl ??
+          placement.img.sources?.[0]?.path;
+
+        if (!source) continue;
+
+        try {
+          const imageEl = await loadAmbientImage(source);
+          if (cancelled) return;
+
+          const pxLeft = (placement.left / 100) * currentLayout.width;
+          const pxTop = (placement.top / 100) * currentLayout.height;
+          const pxWidth = (placement.width / 100) * currentLayout.width;
+          const pxHeight = (placement.height / 100) * currentLayout.height;
+
+          const rect = getAmbientPlacementRect(
+            { left: pxLeft, top: pxTop, width: pxWidth, height: pxHeight },
+            canvasSize.width,
+            canvasSize.height,
+            sampleScale,
+            previewScale,
+          );
+
+          ctx.drawImage(imageEl, rect.left, rect.top, rect.width, rect.height);
+        } catch (error) {
+          log.warn(`[CollageDialog] Ambient render failed for ${source}: ${error}`);
+        }
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  });
+
   // --- Actions ---
 
   async function createCollage() {
@@ -509,7 +658,16 @@
         items,
         template: selectedTemplate,
         border: borderEnabled
-          ? { width: normalizedWidth, color: borderColor, userSetting: borderWidth }
+          ? {
+              width: normalizedWidth,
+              userSetting: borderWidth,
+            }
+          : undefined,
+        background: backgroundEnabled
+          ? {
+              style: backgroundStyle,
+              color: backgroundStyle === "color" ? backgroundColor : undefined,
+            }
           : undefined,
         aspectRatio: selectedRatioPreset,
         // Metadata handled by backend mostly
@@ -588,7 +746,9 @@
         selectedTemplate = "row";
         borderEnabled = true;
         borderWidth = 10;
-        borderColor = "#ffffff";
+        backgroundEnabled = true;
+        backgroundStyle = "ambient";
+        backgroundColor = "#ffffff";
         selectedRatioPreset = "auto";
         userPickedTemplate = false;
         draggedIndex = null;
@@ -678,9 +838,33 @@
            max-width: 100%;
            max-height: 80vh;
            min-width: 260px;
-           background-color: ${borderEnabled ? borderColor : "transparent"};
+           overflow: hidden;
+           background-color: ${
+             backgroundEnabled
+               ? backgroundStyle === "ambient"
+                 ? "#000"
+                 : backgroundColor
+               : "transparent"
+           };
         `}
       >
+        <!-- Ambient Background Layer -->
+        {#if backgroundEnabled && backgroundStyle === "ambient"}
+          <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+            <canvas
+              bind:this={ambientCanvas}
+              class="absolute inset-0 w-full h-full object-cover"
+              aria-hidden="true"
+              style={`
+                opacity: ${AMBIENT_FRONTEND_CONFIG.opacity};
+                filter: blur(${AMBIENT_FRONTEND_CONFIG.backdropBlur})
+                  saturate(${AMBIENT_FRONTEND_CONFIG.saturation * 100}%)
+                  brightness(${AMBIENT_FRONTEND_CONFIG.brightness * 1.3});
+              `}
+            ></canvas>
+          </div>
+        {/if}
+
         <div
           class="absolute top-3 left-3 z-20 rounded bg-black/70 px-3 py-1 text-[11px] leading-tight text-white"
           data-testid="collage-preview-info"
@@ -813,50 +997,72 @@
 {/snippet}
 
 {#snippet settings()}
-  <div class="space-y-4 border-t pt-4" data-testid="collage-settings">
-    <div class="flex items-center justify-between">
-      <Label>{COLLAGE_MESSAGES.BORDER_LABEL}</Label>
-      <Switch bind:checked={borderEnabled} data-testid="collage-border-toggle" />
-    </div>
+  <Separator />
+  <div class="flex items-center justify-between">
+    <Label>{COLLAGE_MESSAGES.BORDER_LABEL}</Label>
+    <Switch bind:checked={borderEnabled} data-testid="collage-border-toggle" />
+  </div>
 
-    {#if borderEnabled}
-      <div class="grid gap-2" data-testid="collage-border-width">
-        <Label>{COLLAGE_MESSAGES.BORDER_WIDTH_LABEL}</Label>
-        <Input
-          type="number"
-          bind:value={borderWidth}
-          min="0"
-          step="10"
-          data-testid="collage-border-width-input"
-        />
-        <span class="text-xs text-muted-foreground">
-          {COLLAGE_MESSAGES.BORDER_WIDTH_HINT(getNormalizedBorderWidth())}
-        </span>
-      </div>
-      <div class="grid gap-2" data-testid="collage-border-color">
-        <Label>{COLLAGE_MESSAGES.BORDER_COLOR_LABEL}</Label>
+  {#if borderEnabled}
+    <div class="flex items-center gap-x-2" data-testid="collage-border-width">
+      <Input
+        type="number"
+        bind:value={borderWidth}
+        min="0"
+        step="2"
+        class="w-20 flex-none"
+        data-testid="collage-border-width-input"
+      />
+      <input
+        type="range"
+        min="0"
+        max="100"
+        step="2"
+        bind:value={borderWidth}
+        data-testid="collage-border-width-range"
+        class="flex-1"
+      />
+    </div>
+    <span class="text-xs text-muted-foreground">
+      {COLLAGE_MESSAGES.BORDER_WIDTH_HINT(getNormalizedBorderWidth())}
+    </span>
+  {/if}
+
+  <Separator />
+
+  <!-- Background Section -->
+  <Tabs.Root bind:value={backgroundStyle}>
+    <Tabs.List class="w-full">
+      <Tabs.Trigger value="ambient">{COLLAGE_MESSAGES.BACKGROUND_STYLE_AMBIENT}</Tabs.Trigger>
+      <Tabs.Trigger value="color">{COLLAGE_MESSAGES.BACKGROUND_STYLE_COLOR}</Tabs.Trigger>
+    </Tabs.List>
+  </Tabs.Root>
+
+  {#if backgroundEnabled}
+    {#if backgroundStyle === "color"}
+      <div class="grid gap-2" data-testid="collage-background-color">
+        <Label>{COLLAGE_MESSAGES.BACKGROUND_COLOR_LABEL}</Label>
         <div class="flex gap-2">
           <Input
             type="color"
-            bind:value={borderColor}
+            bind:value={backgroundColor}
             class="w-10 p-0.5 h-9"
-            data-testid="collage-border-color-picker"
+            data-testid="collage-background-color-picker"
           />
           <Input
             type="text"
-            bind:value={borderColor}
+            bind:value={backgroundColor}
             class="flex-1 font-mono uppercase"
-            data-testid="collage-border-color-input"
+            data-testid="collage-background-color-input"
           />
         </div>
       </div>
     {/if}
-  </div>
+  {/if}
 
-  <div class="pt-4 mt-auto" data-testid="collage-create-section">
+  <div data-testid="collage-create-section">
     <Button
       class="w-full"
-      size="lg"
       onclick={createCollage}
       disabled={loading}
       data-testid="collage-create-button"

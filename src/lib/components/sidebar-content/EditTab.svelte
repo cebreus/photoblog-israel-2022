@@ -400,7 +400,7 @@
   {#if import.meta.env.DEV && (selectedImages.length >= 2 || (selectedImages.length === 1 && isCollage(selectedImages[0].id)))}
     {@const isEditMode = selectedImages.length === 1 && isCollage(selectedImages[0].id)}
     <div class="px-4 pt-2">
-      <Button variant="outline" size="sm" class="w-full gap-2" onclick={handleOpenCollageDialog}>
+      <Button variant="outline" class="w-full gap-2" onclick={handleOpenCollageDialog}>
         <LayoutGrid class="w-4 h-4" />
         {#if isEditMode}
           {COLLAGE_MESSAGES.EDIT_BUTTON}

@@ -168,7 +168,9 @@ describe("CollageDialog - Browser Mode", function () {
         selectedTemplate: "column",
         borderEnabled: true,
         borderWidth: 20,
-        borderColor: "#000000",
+        colorBackgroundEnabled: false,
+        backgroundColor: "#ffffff",
+        ambientBackgroundEnabled: true,
         selectedRatioPreset: "4:3",
       };
 

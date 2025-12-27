@@ -68,7 +68,7 @@ function isValidCollageConfig(data: unknown): data is CollageRequest {
  */
 export function isCollage(imageId: string): boolean {
   // Matches both --collage (preferred) and -collage (slugified/legacy)
-  return /--collage(\\.jpe?g)?$/i.test(imageId) || /-collage(\\.jpe?g)?$/i.test(imageId);
+  return /--collage(\.jpe?g)?$/i.test(imageId) || /-collage(\.jpe?g)?$/i.test(imageId);
 }
 
 /**

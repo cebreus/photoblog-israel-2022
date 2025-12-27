@@ -148,7 +148,7 @@ export function createMockCollageRequest(
     ],
     template: overrides.template || "row",
     aspectRatio: overrides.aspectRatio || "auto",
-    border: overrides.border || { width: 10, color: "#ffffff" },
+    border: overrides.border || { width: 10 },
     ...overrides,
   };
 }
