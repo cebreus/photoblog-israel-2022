@@ -736,12 +736,12 @@
             {/if}
 
             <div
-              class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2"
+              class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2 pointer-events-none"
               data-testid={`collage-preview-overlay-${uniqueId}`}
             >
               <!-- svelte-ignore a11y_no_static_element_interactions -->
               <div
-                class="p-2 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur-sm cursor-grab active:cursor-grabbing text-white mb-1"
+                class="p-2 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur-sm cursor-grab active:cursor-grabbing text-white mb-1 pointer-events-auto"
                 draggable="true"
                 ondragstart={(e) => handleDragStart(e, i)}
                 onmousedown={(e) => e.stopPropagation()}
