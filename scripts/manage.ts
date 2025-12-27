@@ -180,7 +180,6 @@ async function cmdImages() {
   await run("bun", [
     "scripts/generate-images.ts",
     "--title=Image Variants & Metadata",
-    "--skipFaces",
     "--skipEmbeddings",
     ...getCommonFlags(),
   ]);
