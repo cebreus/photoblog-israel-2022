@@ -5401,12 +5401,6 @@
     "peopleIds": [],
     "descriptors": []
   },
-  "2025-11-25-085430-cebreus": {
-    "facesDetected": false,
-    "faces": [],
-    "peopleIds": [],
-    "descriptors": []
-  },
   "2025-11-25-085626-cebreus": {
     "facesDetected": false,
     "faces": [],
@@ -5480,12 +5474,6 @@
     "descriptors": []
   },
   "2025-11-25-092814-cebreus": {
-    "facesDetected": false,
-    "faces": [],
-    "peopleIds": [],
-    "descriptors": []
-  },
-  "2025-11-25-093510-cebreus": {
     "facesDetected": false,
     "faces": [],
     "peopleIds": [],
@@ -31869,5 +31857,30 @@
         -0.02089914306998253
       ]
     ]
+  },
+  "2025-11-25-084330-cebreus--collage": {
+    "facesDetected": false,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-082944-cebreus--collage": {
+    "facesDetected": false,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-084249-cebreus--collage": {
+    "facesDetected": false,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-090256-cebreus--collage": {
+    "facesDetected": false,
+    "faces": [],
+    "peopleIds": []
+  },
+  "2025-11-25-102804-cebreus--collage": {
+    "facesDetected": false,
+    "faces": [],
+    "peopleIds": []
   }
 }
