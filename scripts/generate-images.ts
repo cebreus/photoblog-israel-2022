@@ -182,14 +182,24 @@ export async function main() {
   }
   logger.verbose(`Processing content for: ${contentDir}`);
 
-  logOutputPlan();
-
   RUNTIME_RAW = ARGS.__raw || {};
   RUNTIME_FORMATS = RUNTIME_RAW.formats?.length
     ? [...RUNTIME_RAW.formats]
     : [...config.encoding.formats];
   RUNTIME_QUALITY_OVERRIDES = RUNTIME_RAW.quality ?? {};
   RUNTIME_ALLOW_UPSCALE = RUNTIME_RAW.allowUpscale ?? false;
+
+  // Only show output plan when it's relevant:
+  // - Not in quiet mode
+  // - Not blur-only (shows all outputs but only generates blur)
+  // - Not manifest-only subprocess (shows all outputs but generates nothing)
+  const isSubprocess = process.env.LOG_STYLE === "boxed";
+  const shouldShowPlan =
+    !ARGS.quiet && !RUNTIME_RAW.blurOnly && !(ARGS.manifestOnly && isSubprocess);
+
+  if (shouldShowPlan) {
+    logOutputPlan();
+  }
 
   if (ARGS.clean) await cleanAllOutputs();
 
