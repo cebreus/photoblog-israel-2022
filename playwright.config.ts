@@ -21,7 +21,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "CONTENT_DIR=egypt-2025 bun run vite dev",
+    command: `CONTENT_DIR=${process.env.CONTENT_DIR || 'egypt-2025'} bun run vite dev`,
     port: 5173,
     reuseExistingServer: !process.env.CI,
   },

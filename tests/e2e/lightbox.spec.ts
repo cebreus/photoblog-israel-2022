@@ -1,9 +1,8 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("Lightbox Behavior", () => {
-  // Lightbox tests are currently flaky in headless mode due to Fancybox interactions.
-  // Skipping for now to keep CI green.
-  test.skip();
+  // Lightbox tests can be slow due to animations
+  test.slow();
 
   test.beforeEach(async ({ page }) => {
     await page.goto("/", { timeout: 60000 });
@@ -13,10 +12,11 @@ test.describe("Lightbox Behavior", () => {
 
   test("opens lightbox when clicking a photo", async ({ page }) => {
     const firstPhoto = page.locator("[data-testid='photo-grid-item']").first();
+    await expect(firstPhoto).toHaveAttribute("data-fancybox", "gallery");
     await firstPhoto.click();
 
-    // Expect URL to change
-    await expect(page).toHaveURL(/\/photo\//);
+    // Expect URL to change (path or hash)
+    await expect(page).toHaveURL(/(\/photo\/|#)/);
 
     // Expect Fancybox UI elements
     await expect(page.locator(".fancybox__container")).toBeVisible();

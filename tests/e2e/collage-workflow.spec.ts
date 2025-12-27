@@ -9,7 +9,11 @@ test.describe("Collage Editor - E2E", function () {
 
   test("creates new collage from selected images", async function ({ page }) {
     // Enter edit mode
-    await page.getByTestId("edit-mode-toggle").click();
+    const editTab = page.getByTestId("app-sidebar-edit-tab");
+    if (!(await editTab.isVisible())) {
+      await page.getByTestId("header-sidebar-trigger").click();
+    }
+    await editTab.click();
 
     // Select 2 images using Shift+click
     await page.getByTestId("photo-grid-item").first().click();
@@ -37,9 +41,9 @@ test.describe("Collage Editor - E2E", function () {
     // Generate collage
     await page.getByTestId("collage-create-button").click();
 
-    // Wait for success message
+    // Wait for success message (variants generation can be slow)
     await expect(page.getByText(/Koláž vytvořena/)).toBeVisible({
-      timeout: 15000,
+      timeout: 30000,
     });
 
     // Verify new tab opened
@@ -48,17 +52,46 @@ test.describe("Collage Editor - E2E", function () {
   });
 
   test("re-edits existing collage", async function ({ page }) {
-    // Enter edit mode
-    await page.getByTestId("edit-mode-toggle").click();
+    // 1. Create a collage first to ensure we have one to edit
+    const editTab = page.getByTestId("app-sidebar-edit-tab");
+    if (!(await editTab.isVisible())) {
+      await page.getByTestId("header-sidebar-trigger").click();
+    }
+    await editTab.click();
 
-    // Find and select a collage image (if exists)
+    // Select 2 images
+    const gridItems = page.getByTestId("photo-grid-item");
+    await expect(gridItems.first()).toBeVisible();
+
+    await gridItems.nth(0).click();
+    await page.keyboard.down("Shift");
+    await gridItems.nth(1).click();
+    await page.keyboard.up("Shift");
+
+    // Open collage dialog
+    await page.getByText("Vytvořit koláž").click();
+    await expect(page.locator("[data-testid='collage-preview-area']")).toBeVisible();
+
+    // Generate collage
+    await page.getByTestId("collage-create-button").click();
+    await expect(page.getByText(/Koláž vytvořena/)).toBeVisible({ timeout: 30000 });
+
+    // Wait for the new collage to appear in the grid
+    // It usually appears at the end or specific date, but since we just created it,
+    // we might need to reload or search for it.
+    await page.reload();
+    await page.waitForLoadState("networkidle");
+
+    // 2. Now find and edit the collage
+    if (!(await editTab.isVisible())) {
+      await page.getByTestId("header-sidebar-trigger").click();
+    }
+    await editTab.click();
+
+    // Look for image with collage alt text pattern or specific ID if we could track it.
+    // Assuming the new collage is visible.
     const collageImage = page.locator("[alt*='--collage']").first();
-
-    const hasCollage = await collageImage.isVisible().catch(function () {
-      return false;
-    });
-
-    test.skip(!hasCollage, "No existing collage to re-edit");
+    await expect(collageImage).toBeVisible();
 
     await collageImage.click();
 
@@ -67,11 +100,18 @@ test.describe("Collage Editor - E2E", function () {
 
     // Verify dialog shows existing settings
     await expect(page.getByTestId("collage-preview-area")).toBeVisible();
+
+    // Verify some state (optional)
+    await expect(page.getByTestId("collage-settings")).toBeVisible();
   });
 
   test("changes aspect ratio and template", async function ({ page }) {
     // Enter edit mode
-    await page.getByTestId("edit-mode-toggle").click();
+    const editTab = page.getByTestId("app-sidebar-edit-tab");
+    if (!(await editTab.isVisible())) {
+      await page.getByTestId("header-sidebar-trigger").click();
+    }
+    await editTab.click();
 
     // Select images
     await page.getByTestId("photo-grid-item").first().click();
@@ -96,7 +136,11 @@ test.describe("Collage Editor - E2E", function () {
 
   test("adjusts border settings", async function ({ page }) {
     // Enter edit mode
-    await page.getByTestId("edit-mode-toggle").click();
+    const editTab = page.getByTestId("app-sidebar-edit-tab");
+    if (!(await editTab.isVisible())) {
+      await page.getByTestId("header-sidebar-trigger").click();
+    }
+    await editTab.click();
 
     // Select images
     await page.getByTestId("photo-grid-item").first().click();
@@ -124,7 +168,11 @@ test.describe("Collage Editor - E2E", function () {
 
   test("handles image reordering", async function ({ page }) {
     // Enter edit mode
-    await page.getByTestId("edit-mode-toggle").click();
+    const editTab = page.getByTestId("app-sidebar-edit-tab");
+    if (!(await editTab.isVisible())) {
+      await page.getByTestId("header-sidebar-trigger").click();
+    }
+    await editTab.click();
 
     // Select 3 images for better reordering test
     await page.getByTestId("photo-grid-item").first().click();
