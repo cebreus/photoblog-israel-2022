@@ -7,7 +7,6 @@ import fsp from "node:fs/promises";
  */
 
 // Safely detect Bun
-// @ts-expect-error - Bun is global in Bun environment
 export const IS_BUN =
   typeof globalThis !== "undefined" && typeof (globalThis as any).Bun !== "undefined";
 
@@ -31,7 +30,6 @@ export async function writeFile(
   data: string | Uint8Array | ArrayBuffer | Buffer,
 ): Promise<void> {
   if (IS_BUN) {
-    // @ts-expect-error
     await Bun.write(filePath, data);
   } else {
     const buffer =
@@ -52,7 +50,6 @@ export async function scanGlob(
   options: { cwd: string; absolute?: boolean; dot?: boolean },
 ): Promise<string[]> {
   if (IS_BUN) {
-    // @ts-expect-error
     const glob = new Bun.Glob(pattern);
     const results: string[] = [];
     for await (const file of glob.scan({
@@ -78,7 +75,6 @@ export async function scanGlob(
  */
 export function spawnSync(cmd: string, args: string[], options: any = {}) {
   if (IS_BUN) {
-    // @ts-expect-error
     return Bun.spawnSync([cmd, ...args], options);
   } else {
     return nodeSpawnSync(cmd, args, options);
@@ -90,7 +86,6 @@ export function spawnSync(cmd: string, args: string[], options: any = {}) {
  */
 export async function readFileText(filePath: string): Promise<string> {
   if (IS_BUN) {
-    // @ts-expect-error
     return await Bun.file(filePath).text();
   } else {
     return await fsp.readFile(filePath, "utf-8");
@@ -102,7 +97,6 @@ export async function readFileText(filePath: string): Promise<string> {
  */
 export async function readFileJson<T>(filePath: string): Promise<T> {
   if (IS_BUN) {
-    // @ts-expect-error
     return await Bun.file(filePath).json();
   } else {
     const content = await fsp.readFile(filePath, "utf-8");
