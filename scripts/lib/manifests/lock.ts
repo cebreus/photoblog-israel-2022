@@ -23,8 +23,33 @@ async function tryCreateLockFile(lockPath: string): Promise<boolean> {
   try {
     await fsp.writeFile(lockPath, String(process.pid), { flag: "wx" });
     return true;
+  } catch (e: any) {
+    if (e.code === "EEXIST") {
+      return false;
+    }
+    throw e;
+  }
+}
+
+async function isProcessRunning(pid: string): Promise<boolean> {
+  try {
+    // signal 0 doesn't kill but checks if process exists
+    process.kill(Number.parseInt(pid, 10), 0);
+    return true;
   } catch {
     return false;
+  }
+}
+
+async function checkAndRemoveStaleLock(lockPath: string): Promise<void> {
+  try {
+    const pid = await fsp.readFile(lockPath, "utf-8");
+    const running = await isProcessRunning(pid);
+    if (!running) {
+      await fsp.unlink(lockPath);
+    }
+  } catch {
+    // Ignore errors reading/checking stale lock
   }
 }
 
@@ -33,6 +58,7 @@ async function removeLockFile(lockPath: string): Promise<void> {
 }
 
 export async function acquireManifestLock(dataDirectory: string): Promise<() => Promise<void>> {
+  await fsp.mkdir(dataDirectory, { recursive: true });
   const lockPath = createLockFilePath(dataDirectory);
   const startTime = Date.now();
 
@@ -44,6 +70,9 @@ export async function acquireManifestLock(dataDirectory: string): Promise<() => 
         return removeLockFile(lockPath);
       };
     }
+
+    // Before waiting, check if the existing lock is stale
+    await checkAndRemoveStaleLock(lockPath);
 
     await wait(LOCK_RETRY_INTERVAL_MS);
   }
