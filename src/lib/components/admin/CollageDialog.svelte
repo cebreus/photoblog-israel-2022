@@ -725,6 +725,7 @@
                 class="w-full h-full object-cover block pointer-events-none will-change-transform"
                 data-testid={`collage-preview-image-${uniqueId}`}
                 style:object-position={`${imageConfigs[uniqueId]?.x ?? 50}% ${imageConfigs[uniqueId]?.y ?? 50}%`}
+                style:transform-origin={`${imageConfigs[uniqueId]?.x ?? 50}% ${imageConfigs[uniqueId]?.y ?? 50}%`}
                 style:transform={`scale(${imageConfigs[uniqueId]?.scale ?? 1})`}
               />
             {:else}
