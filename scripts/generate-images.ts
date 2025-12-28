@@ -201,7 +201,7 @@ export async function main() {
     logOutputPlan();
   }
 
-  if (ARGS.clean) await cleanAllOutputs();
+  if (ARGS.clean && !ARGS.manifestOnly) await cleanAllOutputs();
 
   if (ARGS.manifestOnly) {
     logger.info("Manifest-only mode: Processing metadata and updating manifest...");

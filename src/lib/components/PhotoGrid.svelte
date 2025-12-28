@@ -419,7 +419,7 @@
   {:else}
     <!-- Standard Item Rendering -->
     {@const item = entry.data}
-    {#if item.type === "image"}
+    {#if item.type === "image" || item.type === "sequence" || item.type === "panorama"}
       <PhotoGridItem
         {item}
         scrollspyId={imageLocationMap.get(item.id)}

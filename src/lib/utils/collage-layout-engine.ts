@@ -983,7 +983,7 @@ function calculateMosaic6Layout<T extends LayoutItem>(
 export function calculateGrid23Layout<T extends LayoutItem>(
   items: T[],
   borderW: number,
-  cropStrategy: "smart" | "simple" = "smart",
+  _cropStrategy: "smart" | "simple" = "smart",
 ): SharedLayout<T> {
   // 2 Rows: 2 items (top), 3 items (bottom)
   if (items.length < 5) return { width: 1000, height: 1000, placements: [] };
@@ -1034,7 +1034,7 @@ export function calculateGrid23Layout<T extends LayoutItem>(
 export function calculateGrid32Layout<T extends LayoutItem>(
   items: T[],
   borderW: number,
-  cropStrategy: "smart" | "simple" = "smart",
+  _cropStrategy: "smart" | "simple" = "smart",
 ): SharedLayout<T> {
   // 2 Rows: 3 items (top), 2 items (bottom)
   if (items.length < 5) return { width: 1000, height: 1000, placements: [] };

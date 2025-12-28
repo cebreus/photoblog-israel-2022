@@ -54,6 +54,13 @@ export const config = {
       resize: { width: 534, height: 534, crop: false, fit: "inside" },
       folderName: "admin-thumbs",
     },
+    // Panorama-specific: height-limited, full width preserved
+    pano_detail: {
+      kind: "other",
+      resize: { height: 1280, crop: false, fit: "inside" },
+      format: ImageFormat.JPEG,
+      folderName: "details-pano",
+    },
   },
 
   encoding: {

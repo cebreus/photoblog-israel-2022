@@ -1,7 +1,7 @@
 import type { ImageFormat } from "./images";
 
 export type ImageSource = {
-    variant: "default" | "xl" | "detail" | "fallback" | "placeholder" | "admin_thumb";
+    variant: "default" | "xl" | "detail" | "fallback" | "placeholder" | "admin_thumb" | "pano_detail";
     type: "image/webp" | "image/jpeg" | "image/avif" | "image/png";
     path: string;
     width?: number;
@@ -44,9 +44,28 @@ export type AspectRatio =
     | `landscape-${number}-${number}`
     | `portrait-${number}-${number}`;
 
+export type SequenceType = "zoom" | "pan" | "burst" | "timelapse" | "focus-stack" | "pano";
+
+export type SequenceInfo = {
+    type: SequenceType;
+    index: number;
+    total: number;
+    baseId: string;
+};
+
+export type MediaItemType = "image" | "sequence" | "sequence-member" | "panorama" | "video" | "youtube";
+
+export type PanoramaConfig = {
+    projection: "cylindrical" | "equirectangular";
+    haov: number;
+    vaov: number;
+    hfov?: number;
+    vOffset?: number;
+};
+
 export type ImageEntry = {
     id: string;
-    type: "image";
+    type: MediaItemType;
     src: string;
     alt: string;
     title: string;
@@ -101,6 +120,8 @@ export type ImageEntry = {
     };
     people?: string[];
     sources: ImageSource[];
+    panoramaConfig?: PanoramaConfig;
+    sequenceInfo?: SequenceInfo;
 };
 
 export type Separator = {
@@ -116,7 +137,7 @@ export type PhotoDayItem = ImageEntry | Separator;
 
 /** Type guard for ImageEntry */
 export function isImageEntry(item: PhotoDayItem): item is ImageEntry {
-    return item.type === "image";
+    return item.type !== "separator";
 }
 
 /** Type guard for Separator */
@@ -137,6 +158,26 @@ export type PhotoDay = {
 export type Manifest = {
     photoDays: PhotoDay[];
 };
+
+export type MenuLocation = {
+    id: string;
+    label: string;
+    href: string;
+    isActive?: boolean;
+    isDimmed?: boolean;
+    firstPhotoExifDate?: string;
+};
+
+export type MenuDay = {
+    id: string;
+    date: string;
+    label: string;
+    href: string;
+    locations: MenuLocation[];
+    items?: PhotoDayItem[];
+};
+
+export type MenuManifest = MenuDay[];
 
 export type QualityTypes =
     | typeof ImageFormat.JPEG

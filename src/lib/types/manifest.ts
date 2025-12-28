@@ -1,30 +1,12 @@
 // Re-export shared manifest types used across build and runtime
-export * from "../../../shared/types/manifest";
+export * from "$shared/types/manifest";
 
 // Import types for use in local types
-import type { PhotoDayItem, QualityBucket } from "../../../shared/types/manifest";
+import type { QualityBucket } from "$shared/types/manifest";
 
 // ==========================================
 // UI & App-Specific Types Below
 // ==========================================
-
-export type MenuLocation = {
-  id: string;
-  label: string;
-  href: string;
-  isActive?: boolean;
-  isDimmed?: boolean;
-  firstPhotoExifDate?: string;
-};
-
-export type MenuDay = {
-  id: string;
-  date: string;
-  label: string;
-  href: string;
-  locations: MenuLocation[];
-  items?: PhotoDayItem[];
-};
 
 export type CurationRecommendation = {
   action: "keep" | "delete";
@@ -47,8 +29,6 @@ export type CurationManifest = {
     duplicatesFound: number;
   };
 };
-
-export type MenuManifest = MenuDay[];
 
 export type SiteManifest = {
   favicon?: string;

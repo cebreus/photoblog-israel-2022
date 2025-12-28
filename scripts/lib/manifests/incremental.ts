@@ -2,7 +2,7 @@ import fsp from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
 import pc from "picocolors";
-import type { Cache, ImageEntry, Manifest, StoryDataMap } from "../../../src/lib/types/manifest";
+import type { Cache, ImageEntry, Manifest, StoryDataMap } from "$shared/types/manifest";
 import { config } from "../../build.config";
 import { EMBEDDING_DIM } from "../ai/models";
 import { createLogger } from "../core/cli-logger";
@@ -159,6 +159,7 @@ async function loadCache(
   configHash: string,
   outRoot: string,
   cacheVersion: number,
+  manifestOnly: boolean,
 ) {
   const cache = (await loadManifest<Cache>(cachePath)) || {
     version: cacheVersion,
@@ -170,7 +171,11 @@ async function loadCache(
   if (cache.configHash !== configHash || cache.version !== cacheVersion) {
     logger.warn("Config, cache version, or script change detected. Forcing full rebuild.");
     try {
-      await fsp.rm(outRoot, { recursive: true, force: true });
+      if (!manifestOnly) {
+        await fsp.rm(outRoot, { recursive: true, force: true });
+      } else {
+        logger.info("Skipping output cleanup in manifest-only mode.");
+      }
     } catch {}
     return {
       cache: { version: cacheVersion, configHash, files: {} },
@@ -398,12 +403,14 @@ async function loadBuildResourceState(
   },
   cacheVersion: number,
   storyLoader: typeof loadStoryData,
+  manifestOnly: boolean,
 ) {
   const { cache, wasReset } = await loadCache(
     CTX.cachePath,
     CTX.configHash,
     CTX.outRoot,
     cacheVersion,
+    manifestOnly,
   );
   const storyData = await storyLoader(CTX.contentRoot);
   const previousManifest = (await loadManifest<Manifest>(CTX.manifestPath)) || { photoDays: [] };
@@ -535,7 +542,12 @@ export async function runIncrementalBuild(
     analysisManifest,
     embeddingsManifest,
     facesManifest,
-  } = await loadBuildResourceState(CTX, opts.cacheVersion ?? 1, dependencies.storyLoader);
+  } = await loadBuildResourceState(
+    CTX,
+    opts.cacheVersion ?? 1,
+    dependencies.storyLoader,
+    ARGS.manifestOnly,
+  );
 
   const { sourceFiles, toProcess, toDelete } = await planBuildWork(
     CTX,

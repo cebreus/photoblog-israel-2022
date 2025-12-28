@@ -289,3 +289,17 @@ export const COLLAGE_MESSAGES = {
   DIRECT_VIEW_HINT: "Otevřít v novém okně",
   DIRECT_VIEW_ACTION: "Otevřít",
 } as const;
+
+// ============================================================================
+// Sequence Type Labels
+// ============================================================================
+
+export const SEQUENCE_MESSAGES = {
+  TYPE_ZOOM: "Zoom",
+  TYPE_PAN: "Posun",
+  TYPE_BURST: "Série",
+  TYPE_TIMELAPSE: "Časosběr",
+  TYPE_FOCUS_STACK: "Focus Stack",
+  TYPE_PANORAMA: "Panorama",
+  TYPE_SEQUENCE: "Sekvence", // Generic fallback
+} as const;

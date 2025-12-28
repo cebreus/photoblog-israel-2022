@@ -6,7 +6,14 @@
  * Provides consistent mock data for manifests, photos, and people.
  */
 
-import type { ImageEntry, Person, PhotoDay, QualityBucket } from "../../shared/types/manifest";
+import type {
+  ImageEntry,
+  Person,
+  PhotoDay,
+  QualityBucket,
+  SequenceInfo,
+  SequenceType,
+} from "../../shared/types/manifest";
 
 /**
  * Creates a mock ImageEntry with sensible defaults.
@@ -151,4 +158,116 @@ export function createMockCollageRequest(
     border: overrides.border || { width: 10 },
     ...overrides,
   };
+}
+/**
+ * Creates a mock SequenceInfo object.
+ */
+export function createMockSequenceInfo(
+  type: SequenceType = "zoom",
+  total: number = 3,
+  index?: number,
+): SequenceInfo {
+  return {
+    type,
+    total,
+    index: index ?? total,
+    baseId: `test-${type}-base`,
+  };
+}
+
+/**
+ * Creates a mock sequence member image.
+ * Used for testing sequence detection and playback.
+ */
+export function createMockSequenceImage(
+  baseId: string,
+  type: SequenceType,
+  index: number,
+  total: number,
+  overrides: Partial<ImageEntry> = {},
+): ImageEntry {
+  const suffix = type === "pano" ? "pano" : `${type}${index}from${total}`;
+  const id = `${baseId}--${suffix}`;
+
+  return createMockImage({
+    id,
+    type: index === total ? "sequence" : "sequence-member",
+    sequenceInfo: {
+      type,
+      index,
+      total,
+      baseId,
+    },
+    sources: [
+      {
+        variant: "detail",
+        type: "image/jpeg",
+        path: `/gallery/images/detail/${id}.jpg`,
+        width: 1280,
+        height: 720,
+      },
+      {
+        variant: "default",
+        type: "image/jpeg",
+        path: `/gallery/images/default/${id}.jpg`,
+        width: 370,
+        height: 208,
+      },
+    ],
+    ...overrides,
+  });
+}
+
+/**
+ * Creates a complete sequence (all members) for testing.
+ */
+export function createMockSequence(
+  baseId: string,
+  type: SequenceType,
+  total: number,
+  overrides: Partial<ImageEntry> = {},
+): ImageEntry[] {
+  return Array.from({ length: total }, (_, i) =>
+    createMockSequenceImage(baseId, type, i + 1, total, overrides),
+  );
+}
+
+/**
+ * Creates a mock panorama image.
+ */
+export function createMockPanorama(
+  baseId: string,
+  overrides: Partial<ImageEntry> = {},
+): ImageEntry {
+  const id = `${baseId}--pano`;
+
+  return createMockImage({
+    id,
+    type: "panorama",
+    width: 6000,
+    height: 1280,
+    sequenceInfo: {
+      type: "pano",
+      index: 1,
+      total: 1,
+      baseId,
+    },
+    sources: [
+      {
+        variant: "pano_detail",
+        type: "image/jpeg",
+        path: `/gallery/images/pano_detail/${id}.jpg`,
+        width: 6000,
+        height: 1280,
+      },
+      {
+        variant: "default",
+        type: "image/jpeg",
+        path: `/gallery/images/default/${id}.jpg`,
+        width: 370,
+        height: 208,
+      },
+    ],
+    ...overrides,
+  });
 }

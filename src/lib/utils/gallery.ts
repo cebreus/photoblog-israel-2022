@@ -5,6 +5,7 @@ import {
   type QualityBucket,
 } from "$lib/types/manifest";
 import { getImagePeopleMap, getPhotoDays } from "$lib/utils/images";
+import { isRepresentative, isSequenceMember } from "$lib/utils/sequences";
 
 export const QUALITY_BUCKETS: { id: QualityBucket; label: string }[] = [
   { id: "excellent", label: "Excelentní" },
@@ -29,6 +30,11 @@ function shouldIncludeItem(
 
   // Hide source images that were used for collages
   if (item.category === "collage-source") {
+    return false;
+  }
+
+  // Hide non-representative members of sequences (show only the last frame in grid)
+  if (isSequenceMember(item.id) && !isRepresentative(item.id)) {
     return false;
   }
 

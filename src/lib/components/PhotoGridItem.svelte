@@ -7,6 +7,7 @@
   import { useScrollspy } from "$lib/actions/scrollspy";
   import AspectRatioIcon from "$lib/components/AspectRatioIcon.svelte";
   import JsonViewer from "$lib/components/debug/JsonViewer.svelte";
+  import SequenceBadge from "$lib/components/SequenceBadge.svelte";
   import { Button } from "$lib/components/ui/button";
   import * as ContextMenu from "$lib/components/ui/context-menu";
   import { editor } from "$lib/stores/editor.svelte";
@@ -279,6 +280,8 @@
       href={editor.editMode || showCurationVisuals ? undefined : detailSource?.path}
       data-fancybox={editor.editMode || showCurationVisuals ? undefined : "gallery"}
       data-caption={editor.editMode || showCurationVisuals ? undefined : item.alt}
+      data-image-id={item.id}
+      data-media-type={item.type}
       class="group relative block rounded-lg text-left"
       data-testid="photo-grid-item"
     >
@@ -358,6 +361,10 @@
 
       {#if shouldShowAspectRatioIcon(item)}
         <AspectRatioIcon aspectRatio={item.aspectRatio} isCollage={isCollage(item.id)} />
+      {/if}
+
+      {#if item.type === "sequence" && item.sequenceInfo}
+        <SequenceBadge info={item.sequenceInfo} />
       {/if}
 
       {#if editor.editMode || showCurationVisuals}

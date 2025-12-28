@@ -3,6 +3,7 @@ import { exiftool } from "exiftool-vendored";
 import { METADATA_STANDARDS } from "../../../shared/utils/metadata-standards";
 import { toSlug } from "../../../shared/utils/strings";
 import type { ImageEntry, ExifData as ManifestExifData } from "../../../src/lib/types/manifest";
+import { classifyMediaType, parseSequenceSuffix } from "./sequence-detector";
 import { getAltText, getAspectRatioName, getKeywords, normalizeText } from "./utils";
 export interface RawExifData extends ManifestExifData {
   ObjectName?: string;
@@ -221,7 +222,7 @@ export function buildImageEntry(
 
   return {
     id: toSlug(baseName),
-    type: "image",
+    type: classifyMediaType(baseName),
     src: path.basename(absPath),
     alt: getAltText(exif, caption, title),
     title,
@@ -272,5 +273,6 @@ export function buildImageEntry(
         : undefined,
     date,
     sources: [],
+    sequenceInfo: parseSequenceSuffix(baseName) || undefined,
   };
 }

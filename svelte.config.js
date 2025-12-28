@@ -22,6 +22,7 @@ const config = {
     alias: {
       $manifests: path.resolve(__dirname, "src/data", contentDir),
       $scripts: path.resolve(__dirname, "scripts"),
+      $shared: path.resolve(__dirname, "shared"),
     },
   },
 };

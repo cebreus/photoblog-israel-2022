@@ -2,8 +2,9 @@ import fsp from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import xxhash from "xxhash-wasm";
-import { ImageFormat } from "../../../shared/types/images";
-import type { ImageEntry, ImageSource, QualityTypes } from "../../../src/lib/types/manifest";
+import { ImageFormat } from "$shared/types/images";
+import type { ImageEntry, ImageSource, QualityTypes } from "$shared/types/manifest";
+import { isPanorama } from "$shared/utils/sequences";
 import { config } from "../../build.config";
 import { aiService, EMBEDDING_DIM } from "../ai/models";
 import { createLogger } from "../core/cli-logger";
@@ -34,7 +35,7 @@ interface ImageData {
   phash: string;
   embedding?: number[];
   aestheticScore?: number;
-  qualityBucket?: import("../../../shared/types/manifest").QualityBucket;
+  qualityBucket?: import("$shared/types/manifest").QualityBucket;
   peopleIds?: string[];
   placeholderColor?: string;
   faces: import("../faces/detection").FaceBox[];
@@ -70,9 +71,9 @@ export type ImageProcessOptions = {
   qualityOverrides: Partial<Record<QualityTypes, number>>;
   previousEntry?: ImageEntry;
   oldHash?: string;
-  analysisManifest?: import("../../../shared/types/manifest").AnalysisManifest;
-  embeddingsManifest?: import("../../../shared/types/manifest").EmbeddingsManifest;
-  facesManifest?: import("../../../shared/types/manifest").FacesManifest;
+  analysisManifest?: import("$shared/types/manifest").AnalysisManifest;
+  embeddingsManifest?: import("$shared/types/manifest").EmbeddingsManifest;
+  facesManifest?: import("$shared/types/manifest").FacesManifest;
 };
 
 const logger = createLogger("images");
@@ -371,6 +372,18 @@ async function generateAllOutputs(
   const outputDefinitions = buildOutputDefinitions();
 
   for (const output of outputDefinitions) {
+    const isPano = isPanorama(imageEntry.id);
+
+    // Optimization: only generate pano_detail for actual panoramas
+    if (output.key === "pano_detail" && !isPano) {
+      continue;
+    }
+
+    // Optimization: skip standard detail for panoramas (we have pano_detail instead)
+    if (output.key === "detail" && isPano) {
+      continue;
+    }
+
     if (output.mode === "variant") {
       const variantConfig = output.config as VariantOutputConfig;
       for (const format of options.formats) {

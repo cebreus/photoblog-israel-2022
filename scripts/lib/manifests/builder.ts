@@ -1,6 +1,6 @@
 import path from "node:path";
 import { marked } from "marked";
-import { toSlug } from "../../../shared/utils/strings";
+import { detectSequences } from "$scripts/lib/image/sequence-detector";
 import type {
   ImageEntry,
   Manifest,
@@ -8,7 +8,8 @@ import type {
   PhotoDay,
   Separator,
   StoryDataMap,
-} from "../../../src/lib/types/manifest";
+} from "$shared/types/manifest";
+import { toSlug } from "$shared/utils/strings";
 
 function parseMarkdown(content: string): string {
   const parsed = marked.parse(content);
@@ -55,6 +56,10 @@ function sortGeneratorVariants(list: GeneratorVariant[]): GeneratorVariant[] {
   return [...list].sort(compareVariantsByWidth);
 }
 
+function compareStringsAlphabetically(a: string, b: string): number {
+  return a.localeCompare(b);
+}
+
 export type ProcessedImageResult = {
   key: string;
   outputs: string[];
@@ -86,10 +91,6 @@ export function buildGeneratorManifest(
           height: src.height ?? null,
         });
       }
-    }
-
-    function compareStringsAlphabetically(a: string, b: string): number {
-      return a.localeCompare(b);
     }
 
     manifest[baseName] = {
@@ -130,12 +131,14 @@ function removeImagesStartingWith(day: PhotoDay, baseNameWithoutExt: string): vo
     return !item.src.startsWith(baseNameWithoutExt);
   });
 }
-function _isSeparator(item: ImageEntry | Separator): boolean {
-  return item.type === "separator";
-}
 
 function isImage(item: ImageEntry | Separator): item is ImageEntry {
-  return item.type === "image";
+  return (
+    item.type === "image" ||
+    item.type === "sequence" ||
+    item.type === "sequence-member" ||
+    item.type === "panorama"
+  );
 }
 
 function compareByExifDate(a: ImageEntry, b: ImageEntry): number {
@@ -144,60 +147,95 @@ function compareByExifDate(a: ImageEntry, b: ImageEntry): number {
   return dateA.localeCompare(dateB);
 }
 
+type GeoMetadata = {
+  cities: string[];
+  locations: string[];
+  seenCities: Set<string>;
+  seenLocations: Set<string>;
+};
+
+function createGeoMetadata(): GeoMetadata {
+  return {
+    cities: [],
+    locations: [],
+    seenCities: new Set<string>(),
+    seenLocations: new Set<string>(),
+  };
+}
+
+function accumulateGeoMetadata(geo: GeoMetadata, image: ImageEntry): void {
+  const city = image.exif?.city;
+  if (city && !geo.seenCities.has(city)) {
+    geo.seenCities.add(city);
+    geo.cities.push(city);
+  }
+
+  const location = image.exif?.location;
+  if (location && !geo.seenLocations.has(location)) {
+    geo.seenLocations.add(location);
+    geo.locations.push(location);
+  }
+}
+
+function groupImagesByLocation(images: ImageEntry[]): Record<string, ImageEntry[]> {
+  const groups: Record<string, ImageEntry[]> = {};
+
+  for (const image of images) {
+    const location = image.exif?.location || "Unknown";
+    if (!groups[location]) groups[location] = [];
+    groups[location].push(image);
+  }
+
+  return groups;
+}
+
+function shouldCreateSeparator(
+  location: string,
+  groupSize: number,
+  seenLocations: Set<string>,
+): boolean {
+  return location !== "Unknown" && groupSize > 2 && !seenLocations.has(location);
+}
+
+function createLocationSeparator(
+  location: string,
+  firstImage: ImageEntry,
+  storyData: StoryDataMap,
+): Separator {
+  const story = storyData[location];
+  const storyContent = story?.content?.trim();
+
+  return {
+    id: `loc-${toSlug(location)}`,
+    type: "separator",
+    location,
+    city: firstImage.exif?.city || "",
+    ...(story && storyContent
+      ? {
+          storyTitle: story.title,
+          story: parseMarkdown(storyContent),
+        }
+      : {}),
+  };
+}
+
 function organizeDayItems(day: PhotoDay, storyData: StoryDataMap): PhotoDay {
   const images = (day.items || []).filter(isImage);
   images.sort(compareByExifDate);
 
-  // 2. Group by location
-  const imagesByLocation: Record<string, ImageEntry[]> = {};
-  for (const image of images) {
-    const location = image.exif?.location || "Unknown";
-    if (!imagesByLocation[location]) imagesByLocation[location] = [];
-    imagesByLocation[location].push(image);
-  }
-
-  // 3. Rebuild items list with separators
-  const newItems: (ImageEntry | Separator)[] = [];
+  const imagesByLocation = groupImagesByLocation(images);
+  const geo = createGeoMetadata();
   const seenLocations = new Set<string>();
-  const uniqueCities = new Set<string>();
-  const uniqueLocations = new Set<string>();
-  const citiesList: string[] = [];
-  const locationsList: string[] = [];
-
-  function collectCityAndLocation(img: ImageEntry) {
-    const city = img.exif?.city;
-    if (city && !uniqueCities.has(city)) {
-      uniqueCities.add(city);
-      citiesList.push(city);
-    }
-    const loc = img.exif?.location;
-    if (loc && !uniqueLocations.has(loc)) {
-      uniqueLocations.add(loc);
-      locationsList.push(loc);
-    }
-  }
+  const newItems: (ImageEntry | Separator)[] = [];
 
   for (const image of images) {
-    collectCityAndLocation(image);
+    accumulateGeoMetadata(geo, image);
+
     const location = image.exif?.location || "Unknown";
     const group = imagesByLocation[location] || [];
 
-    if (location !== "Unknown" && group.length > 2 && !seenLocations.has(location)) {
-      const story = storyData[location];
-      const storyContent = story?.content?.trim();
-
-      const separator: Separator = {
-        id: `loc-${toSlug(location)}`,
-        type: "separator",
-        location: location,
-        city: group[0].exif?.city || "",
-        ...(story && storyContent
-          ? {
-              storyTitle: story.title,
-              story: parseMarkdown(storyContent),
-            }
-          : {}),
-      };
+    if (shouldCreateSeparator(location, group.length, seenLocations)) {
+      const separator = createLocationSeparator(location, group[0], storyData);
       newItems.push(separator);
       seenLocations.add(location);
     }
@@ -205,13 +243,11 @@ function organizeDayItems(day: PhotoDay, storyData: StoryDataMap): PhotoDay {
     newItems.push(image);
   }
 
-  const story = storyData[day.date]?.content;
-
   return {
     date: day.date,
-    cities: citiesList,
-    locations: locationsList,
-    story,
+    cities: geo.cities,
+    locations: geo.locations,
+    story: storyData[day.date]?.content,
     items: newItems,
     id: day.id || `day-${day.date}`,
   };
@@ -225,16 +261,7 @@ function compareByDate(a: PhotoDay, b: PhotoDay): number {
 }
 
 function findDayByDate(photoDays: PhotoDay[], targetDate: string): PhotoDay | undefined {
-  function matchesDate(day: PhotoDay) {
-    return day.date === targetDate;
-  }
-  return photoDays.find(matchesDate);
-}
-
-function organizeDayWithStoryData(storyData: StoryDataMap) {
-  return function organizeDay(day: PhotoDay): PhotoDay {
-    return organizeDayItems(day, storyData);
-  };
+  return photoDays.find((day) => day.date === targetDate);
 }
 
 export function updateManifest(
@@ -247,15 +274,34 @@ export function updateManifest(
     photoDays: existingManifest.photoDays.map(clonePhotoDay),
   };
 
-  function removeDeletedKeys(day: PhotoDay) {
+  for (const day of manifest.photoDays) {
     removeDeletedKeysFromDay(day, deletedKeys);
   }
-  manifest.photoDays.forEach(removeDeletedKeys);
   manifest.photoDays = manifest.photoDays.filter(hasItems);
 
   const resultsByDate: Record<string, ProcessedImageResult[]> = {};
+
+  const allProcessedImages: ImageEntry[] = [];
+
   for (const result of results) {
     if (!result) continue;
+    allProcessedImages.push(result.image);
+  }
+
+  const sequenceMap = detectSequences(allProcessedImages);
+
+  for (const result of results) {
+    if (!result) continue;
+    const seqInfo = sequenceMap.get(result.image.id);
+    if (seqInfo) {
+      result.image.sequenceInfo = seqInfo;
+      if (seqInfo.index === seqInfo.total) {
+        result.image.type = "sequence";
+      } else {
+        result.image.type = "sequence-member";
+      }
+    }
+
     const date = result.image.exif?.date?.substring(0, 10);
     if (!date) continue;
     if (!resultsByDate[date]) resultsByDate[date] = [];
@@ -276,8 +322,7 @@ export function updateManifest(
     }
   }
 
-  manifest.photoDays = manifest.photoDays.map(organizeDayWithStoryData(storyData));
-
+  manifest.photoDays = manifest.photoDays.map((day) => organizeDayItems(day, storyData));
   manifest.photoDays.sort(compareByDate);
 
   return manifest;
@@ -286,6 +331,7 @@ export function updateManifest(
 export function generateMenuManifest(manifest: Manifest): MenuManifest {
   return manifest.photoDays.map(mapDayToMenu);
 }
+
 function mapLocationToMenuItem(
   locationName: string,
   day: PhotoDay,
@@ -310,6 +356,7 @@ function mapLocationToMenuItem(
     firstPhotoExifDate: group[0]?.exif?.date,
   };
 }
+
 function mapDayToMenu(d: PhotoDay): MenuManifest[number] {
   const dayId = String(d.id || d.date).startsWith("day-")
     ? String(d.id || d.date)

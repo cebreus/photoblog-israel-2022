@@ -176,7 +176,7 @@ async function cmdFavicons() {
 }
 
 async function cmdImages() {
-  logger.info("┌ Generating Image Variants (Resizing & Basic Metadata)");
+  logger.info("┌ Generating Image Variants (Resizing, Metadata & Blurs)");
   await run("bun", [
     "scripts/generate-images.ts",
     "--title=Image Variants & Metadata",
@@ -186,7 +186,7 @@ async function cmdImages() {
 }
 
 async function cmdBlur() {
-  logger.info("┌ Generating Blur Placeholders");
+  logger.info("┌ Generating Blur Placeholders (Manual Override)");
   await run("bun", [
     "scripts/generate-images.ts",
     "--blur.enable=true",
@@ -256,33 +256,28 @@ async function cmdProcess() {
   const startTime = performance.now();
 
   const isManifestOnly = values["manifest-only"];
-  const totalSteps = isManifestOnly ? 3 : 5;
+  const totalSteps = isManifestOnly ? 2 : 4;
 
   logger.info(`┌ Step 1/${totalSteps}: Favicons`);
   const t1 = performance.now();
   await cmdFavicons();
   logger.info(`Step 1 complete in ${formatDuration(performance.now() - t1)}`);
 
-  logger.info(`┌ Step 2/${totalSteps}: Image Variants`);
+  logger.info(`┌ Step 2/${totalSteps}: Image Variants (including Blurs)`);
   const t2 = performance.now();
   await cmdImages();
   logger.info(`Step 2 complete in ${formatDuration(performance.now() - t2)}`);
 
-  logger.info(`┌ Step 3/${totalSteps}: Blur Placeholders`);
-  const t3 = performance.now();
-  await cmdBlur();
-  logger.info(`Step 3 complete in ${formatDuration(performance.now() - t3)}`);
-
   if (!isManifestOnly) {
-    logger.info("┌ Step 4/5: Similarity & Aesthetic Analysis");
+    logger.info(`┌ Step 3/4: Similarity & Aesthetic Analysis`);
     const t4 = performance.now();
     await cmdAnalyze();
-    logger.info(`Step 4 complete in ${formatDuration(performance.now() - t4)}`);
+    logger.info(`Step 3 complete in ${formatDuration(performance.now() - t4)}`);
 
-    logger.info("┌ Step 5/5: Face Clustering");
+    logger.info("┌ Step 4/4: Face Clustering");
     const t5 = performance.now();
     await cmdFaces();
-    logger.info(`Step 5 complete in ${formatDuration(performance.now() - t5)}`);
+    logger.info(`Step 4 complete in ${formatDuration(performance.now() - t5)}`);
   } else {
     logger.info("Skipping AI analysis steps (Similarity & Faces) in manifest-only mode.");
   }
@@ -311,7 +306,7 @@ async function main() {
     faces     Run face clustering and recognition
 
   Global Options:
-    --gallery, -g      Target gallery directory (default: ${DEFAULT_GALLERY})
+    --gallery, -g      Target gallery directory (default: ${pc.bold(DEFAULT_GALLERY)})
                        Available: ${_galleryList}
     --verbose, -v      Enable verbose logging
     --clean            Clean output directory before processing
