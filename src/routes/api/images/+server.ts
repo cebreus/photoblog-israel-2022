@@ -243,31 +243,22 @@ export async function DELETE({ request }: RequestEvent) {
       items,
       errors,
       async (manifest, item, physicalPath) => {
-        // 1. Delete physical file
-        if (physicalPath) {
-          await fs.unlink(physicalPath);
-        } else {
-          // If physical file missing, we still want to remove from manifest
-          // so we log but proceed.
-          // errors.push(`Physical file not found for ${item.src}`);
-        }
-
         const nameWithoutExt = path.parse(item.src).name; // simplified
 
-        // 2. Clean up assets
+        // 1. Clean up assets
         const outputRoot = path.join(staticRoot, contentDir, "images");
         await deleteGeneratedAssets(nameWithoutExt, outputRoot, outputFolders);
 
-        // 3. Clean cache
+        // 2. Clean cache
         const cachePath = path.join(tempRoot, contentDir, "images.cache.json");
         await removeFromCache(cachePath, `${nameWithoutExt}.heic`);
         await removeFromCache(cachePath, `${nameWithoutExt}.jpg`);
 
-        // 4. Clean constraints
+        // 3. Clean constraints
         const constraintsPath = path.join(dataRoot, contentDir, "clustering-constraints.json");
         await removeImageFromConstraints(constraintsPath, item.id);
 
-        // 5. Update Manifest
+        // 4. Update Manifest
         let itemRemoved = false;
         if (manifest) {
           manifest.photoDays = manifest.photoDays.map((day) => {
@@ -278,7 +269,22 @@ export async function DELETE({ request }: RequestEvent) {
           });
         }
 
-        // If item was removed from manifest OR physical file existed (and was deleted), count as success
+        // 5. Delete physical file (LAST STEP)
+        // Only proceed if manifest update was successful or not needed
+        if (physicalPath) {
+          try {
+            await fs.unlink(physicalPath);
+          } catch (e) {
+            // If unlink fails, we have a problem: Manifest updated, file remains.
+            // This is an "Orphaned File" state, which is safer than "Ghost Record" (File gone, Manifest entry remains).
+            // We count this as success effectively, because the app logic is consistent (item gone from UI).
+            logger.warn(`Failed to delete file ${physicalPath}: ${(e as Error).message}`);
+          }
+        } else {
+          // errors.push(`Physical file not found for ${item.src}`);
+        }
+
+        // If item was removed from manifest OR physical file existed (and was deleted/attempted), count as success
         if (itemRemoved || physicalPath) return item.id;
 
         errors.push(`Item ${item.id} not found in manifest or disk`);
@@ -320,14 +326,10 @@ export async function POST({ request }: RequestEvent) {
           throw new Error("Physical file not found, cannot archive");
         }
 
-        // 1. Move file
         const fileName = path.basename(physicalPath);
-        const destPath = path.join(archiveDir, fileName);
-        await fs.rename(physicalPath, destPath);
-
         const nameWithoutExt = path.parse(fileName).name;
 
-        // 2. Clean assets
+        // 1. Clean assets
         const outputRoot = path.join(staticRoot, contentDir, "images");
         const outputFolders = getOutputFolders({
           outputs: config.outputs,
@@ -335,15 +337,22 @@ export async function POST({ request }: RequestEvent) {
         });
         await deleteGeneratedAssets(nameWithoutExt, outputRoot, outputFolders);
 
-        // 3. Clean cache
+        // 2. Clean cache
         const cachePath = path.join(tempRoot, contentDir, "images.cache.json");
         for (const ext of config.script.inputExtensions) {
           await removeFromCache(cachePath, `${nameWithoutExt}.${ext}`);
         }
 
-        // 4. Clean constraints
+        // 3. Clean constraints
         const constraintsPath = path.join(dataRoot, contentDir, "clustering-constraints.json");
         await removeImageFromConstraints(constraintsPath, item.id);
+
+        // 4. Move file (CRITICAL STEP)
+        // We move the file BEFORE updating the manifest.
+        // If this fails, the manifest remains untouched and consistent.
+        // If it succeeds, but manifest update crashes (unlikely), we have a ghost record.
+        const destPath = path.join(archiveDir, fileName);
+        await fs.rename(physicalPath, destPath);
 
         // 5. Update Manifest
         if (manifest) {
