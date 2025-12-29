@@ -196,7 +196,9 @@ function determineAnalysisNeeds(fileHash: string, key: string, options: ImagePro
     reusedExif = prev.exif || {};
     reusedOther = { placeholderColor: prev.placeholderColor };
 
-    const embedding = options.embeddingsManifest?.[key];
+    // Extract ID for manifest lookup (embeddings manifest is keyed by ID)
+    const id = path.basename(key, path.extname(key));
+    const embedding = options.embeddingsManifest?.[id];
     const isEmbeddingValid =
       !options.curation || (Array.isArray(embedding) && embedding.length === EMBEDDING_DIM);
 
@@ -282,9 +284,14 @@ async function gatherImageData(
   reusedOther: Partial<ImageEntry>,
   options: ImageProcessOptions,
 ): Promise<ImageData> {
-  const analysisFromManifest = options.analysisManifest?.[key];
-  const embeddingFromManifest = options.embeddingsManifest?.[key];
-  const facesFromManifest = options.facesManifest?.[key];
+  // Extract image ID from key (basename without extension)
+  // Split manifests are keyed by ID, not by relative path
+  const baseName = path.basename(key, path.extname(key));
+  const id = baseName;
+
+  const analysisFromManifest = options.analysisManifest?.[id];
+  const embeddingFromManifest = options.embeddingsManifest?.[id];
+  const facesFromManifest = options.facesManifest?.[id];
 
   const placeholderMissingOrDefault =
     !reusedOther.placeholderColor || reusedOther.placeholderColor === "rgb(0,0,0)";

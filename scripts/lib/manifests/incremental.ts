@@ -283,6 +283,84 @@ async function processImages(
 
   return results;
 }
+/**
+ * Merges data from split manifests (analysis, faces) into images.manifest.json.
+ * This ensures that metadata computed by other scripts (face-clustering, analyze-similarity)
+ * is preserved in the main manifest even when images are cached and not reprocessed.
+ * Reconstructs the analysis object with consistent key order.
+ */
+async function mergeSplitManifestsIntoImages(manifest: Manifest, dataDir: string): Promise<void> {
+  const analysisManifest = (await loadAnalysisManifest(dataDir)) || {};
+  const facesManifest = (await loadFacesManifest(dataDir)) || {};
+
+  let mergedCount = 0;
+
+  for (const day of manifest.photoDays) {
+    for (const item of day.items) {
+      if (item.type !== "image" && item.type !== "sequence" && item.type !== "sequence-member") {
+        continue;
+      }
+
+      const id = item.id;
+      const analysisData = analysisManifest[id];
+      const facesData = facesManifest[id];
+
+      // Get existing values or defaults
+      const existing = item.analysis ?? {
+        sharpness: 0,
+        phash: "",
+        facesDetected: false,
+        faces: [] as Array<{ x: number; y: number; width: number; height: number }>,
+      };
+      const sharpness = analysisData?.sharpness ?? existing.sharpness ?? 0;
+      const phash = analysisData?.phash ?? existing.phash ?? "";
+      const aestheticScore = analysisData?.aestheticScore ?? existing.aestheticScore;
+      const qualityBucket = analysisData?.qualityBucket ?? existing.qualityBucket;
+      const facesDetected = facesData?.facesDetected ?? existing.facesDetected ?? false;
+      const faces = facesData?.faces ?? existing.faces ?? [];
+
+      // Reconstruct analysis object with consistent key order:
+      // aestheticScore, sharpness, qualityBucket, phash, facesDetected, faces
+      const newAnalysis: typeof item.analysis = {
+        sharpness,
+        phash,
+        facesDetected,
+        faces,
+      };
+
+      // Add optional fields in correct order (before sharpness)
+      if (aestheticScore !== undefined) {
+        newAnalysis.aestheticScore = aestheticScore;
+      }
+      if (qualityBucket !== undefined) {
+        newAnalysis.qualityBucket = qualityBucket;
+      }
+
+      // Rebuild with correct order: aestheticScore, sharpness, qualityBucket, phash, facesDetected, faces
+      item.analysis = {
+        ...(aestheticScore !== undefined ? { aestheticScore } : {}),
+        sharpness,
+        ...(qualityBucket !== undefined ? { qualityBucket } : {}),
+        phash,
+        facesDetected,
+        faces,
+      };
+
+      // Merge people IDs
+      if (facesData?.peopleIds && facesData.peopleIds.length > 0) {
+        item.people = facesData.peopleIds;
+        mergedCount++;
+      } else if (facesData) {
+        mergedCount++;
+      }
+    }
+  }
+
+  if (mergedCount > 0) {
+    logger.verbose(`Merged split manifest data for ${mergedCount} images.`);
+  }
+}
+
 async function updateCacheAndManifests({
   cache,
   results,
@@ -329,6 +407,11 @@ async function updateCacheAndManifests({
       : (await loadManifest<Manifest>(paths.manifestPath)) || { photoDays: [] };
 
     finalManifest = updateManifest(results, toDelete, storyData, existingManifest);
+
+    // Always merge split manifest data into the main manifest
+    // This ensures data from face-clustering, analyze-similarity, etc. is preserved
+    const dataDir = path.dirname(paths.manifestPath);
+    await mergeSplitManifestsIntoImages(finalManifest, dataDir);
   }
 
   const savePromises = [
@@ -431,9 +514,11 @@ async function loadBuildResourceState(
     }
   }
 
-  const analysisManifest = (await loadAnalysisManifest(CTX.outRoot)) || {};
-  const embeddingsManifest = (await loadEmbeddingsManifest(CTX.outRoot)) || {};
-  const facesManifest = (await loadFacesManifest(CTX.outRoot)) || {};
+  // Load split manifests from data directory (same location as main manifest)
+  const dataDir = path.dirname(CTX.manifestPath);
+  const analysisManifest = (await loadAnalysisManifest(dataDir)) || {};
+  const embeddingsManifest = (await loadEmbeddingsManifest(dataDir)) || {};
+  const facesManifest = (await loadFacesManifest(dataDir)) || {};
 
   return {
     cache,
