@@ -8,7 +8,7 @@
         "2025-11-23-151514-cebreus-fixed"
       ],
       "bestCandidateId": "2025-11-23-151444-cebreus-fixed",
-      "similarity": 0.9623685627692653,
+      "similarity": 0.9559658025898718,
       "recommendations": {
         "2025-11-23-151444-cebreus-fixed": {
           "action": "keep",
@@ -16,7 +16,7 @@
         },
         "2025-11-23-151450-cebreus-fixed": {
           "action": "delete",
-          "reason": "Lower aesthetics (46 vs 51), Less sharp"
+          "reason": "Less sharp"
         },
         "2025-11-23-151514-cebreus-fixed": {
           "action": "delete",
@@ -25,21 +25,21 @@
       }
     },
     {
-      "id": "group-2025-11-25-082736-cebreus",
+      "id": "group-2025-11-25-082811-cebreus",
       "items": [
-        "2025-11-25-082736-cebreus",
+        "2025-11-25-082811-cebreus",
         "2025-11-25-082818-cebreus"
       ],
-      "bestCandidateId": "2025-11-25-082736-cebreus",
-      "similarity": 0.8979450305239856,
+      "bestCandidateId": "2025-11-25-082818-cebreus",
+      "similarity": 0.9107677216020642,
       "recommendations": {
-        "2025-11-25-082736-cebreus": {
-          "action": "keep",
-          "reason": "Best candidate"
+        "2025-11-25-082811-cebreus": {
+          "action": "delete",
+          "reason": "Lower aesthetics (39 vs 50)"
         },
         "2025-11-25-082818-cebreus": {
-          "action": "delete",
-          "reason": "Lower aesthetics (53 vs 63)"
+          "action": "keep",
+          "reason": "Best candidate"
         }
       }
     },
@@ -50,11 +50,11 @@
         "2025-11-25-084614-cebreus"
       ],
       "bestCandidateId": "2025-11-25-084614-cebreus",
-      "similarity": 0.9193543478348493,
+      "similarity": 0.9240390929334983,
       "recommendations": {
         "2025-11-25-084606-cebreus": {
           "action": "delete",
-          "reason": "Lower aesthetics (38 vs 44)"
+          "reason": "Lower aesthetics (39 vs 44)"
         },
         "2025-11-25-084614-cebreus": {
           "action": "keep",
@@ -63,19 +63,19 @@
       }
     },
     {
-      "id": "group-2025-11-25-095052-cebreus",
+      "id": "group-2025-11-25-095052-cebreus--zoom1from3",
       "items": [
-        "2025-11-25-095052-cebreus",
-        "2025-11-25-095053-cebreus"
+        "2025-11-25-095052-cebreus--zoom1from3",
+        "2025-11-25-095053-cebreus--zoom2from3"
       ],
-      "bestCandidateId": "2025-11-25-095052-cebreus",
-      "similarity": 0.9042932482192622,
+      "bestCandidateId": "2025-11-25-095052-cebreus--zoom1from3",
+      "similarity": 0.9034808698136265,
       "recommendations": {
-        "2025-11-25-095052-cebreus": {
+        "2025-11-25-095052-cebreus--zoom1from3": {
           "action": "keep",
           "reason": "Best candidate"
         },
-        "2025-11-25-095053-cebreus": {
+        "2025-11-25-095053-cebreus--zoom2from3": {
           "action": "delete",
           "reason": "Lower resolution"
         }
@@ -100,7 +100,7 @@
         "2025-11-26-100538-cebreus"
       ],
       "bestCandidateId": "2025-11-26-080555-cebreus",
-      "similarity": 0.9402909120787548,
+      "similarity": 0.9433819651697279,
       "recommendations": {
         "2025-11-26-075932-cebreus": {
           "action": "delete",
@@ -112,7 +112,7 @@
         },
         "2025-11-26-080216-cebreus": {
           "action": "delete",
-          "reason": "Lower resolution, Lower aesthetics (51 vs 58)"
+          "reason": "Lower resolution"
         },
         "2025-11-26-080508-cebreus": {
           "action": "delete",
@@ -140,11 +140,11 @@
         },
         "2025-11-26-081043-cebreus": {
           "action": "delete",
-          "reason": "Lower resolution, Lower aesthetics (53 vs 58)"
+          "reason": "Lower resolution, Lower aesthetics (52 vs 58)"
         },
         "2025-11-26-081120-cebreus": {
           "action": "delete",
-          "reason": "Lower resolution, Lower aesthetics (46 vs 58), Less sharp"
+          "reason": "Lower resolution, Lower aesthetics (49 vs 58), Less sharp"
         },
         "2025-11-26-081923-cebreus": {
           "action": "delete",
@@ -168,15 +168,15 @@
         "2025-11-26-095057-cebreus"
       ],
       "bestCandidateId": "2025-11-26-095057-cebreus",
-      "similarity": 0.9028241592401716,
+      "similarity": 0.8957822727820646,
       "recommendations": {
         "2025-11-26-080834-cebreus": {
           "action": "delete",
-          "reason": "Lower aesthetics (71 vs 81), Less sharp"
+          "reason": "Lower aesthetics (63 vs 80), Less sharp"
         },
         "2025-11-26-091502-cebreus": {
           "action": "delete",
-          "reason": "Lower aesthetics (60 vs 81), Less sharp"
+          "reason": "Lower aesthetics (58 vs 80), Less sharp"
         },
         "2025-11-26-095057-cebreus": {
           "action": "keep",
@@ -191,7 +191,7 @@
         "2025-11-26-113817-dasa"
       ],
       "bestCandidateId": "2025-11-26-113642-dasa",
-      "similarity": 0.9113982139220926,
+      "similarity": 0.8950667408269254,
       "recommendations": {
         "2025-11-26-113642-dasa": {
           "action": "keep",
@@ -199,7 +199,7 @@
         },
         "2025-11-26-113817-dasa": {
           "action": "delete",
-          "reason": "Lower resolution, Lower aesthetics (78 vs 88)"
+          "reason": "Lower resolution"
         }
       }
     },
@@ -210,11 +210,11 @@
         "2025-11-26-121358-cebreus"
       ],
       "bestCandidateId": "2025-11-26-121358-cebreus",
-      "similarity": 0.9107122167748777,
+      "similarity": 0.9085710654823772,
       "recommendations": {
         "2025-11-26-121346-cebreus": {
           "action": "delete",
-          "reason": "Lower aesthetics (34 vs 44)"
+          "reason": "Lower aesthetics (37 vs 47)"
         },
         "2025-11-26-121358-cebreus": {
           "action": "keep",
@@ -228,35 +228,16 @@
         "2025-11-26-125147-cebreus",
         "2025-11-26-125334-cebreus"
       ],
-      "bestCandidateId": "2025-11-26-125334-cebreus",
-      "similarity": 0.8990482114235359,
+      "bestCandidateId": "2025-11-26-125147-cebreus",
+      "similarity": 0.8913329997343036,
       "recommendations": {
         "2025-11-26-125147-cebreus": {
-          "action": "delete",
-          "reason": "Lower aesthetics (74 vs 81)"
+          "action": "keep",
+          "reason": "Best candidate"
         },
         "2025-11-26-125334-cebreus": {
-          "action": "keep",
-          "reason": "Best candidate"
-        }
-      }
-    },
-    {
-      "id": "group-2025-11-26-125315-cebreus",
-      "items": [
-        "2025-11-26-125315-cebreus",
-        "2025-11-26-125323-cebreus"
-      ],
-      "bestCandidateId": "2025-11-26-125323-cebreus",
-      "similarity": 0.8936151685764706,
-      "recommendations": {
-        "2025-11-26-125315-cebreus": {
           "action": "delete",
-          "reason": "Lower resolution"
-        },
-        "2025-11-26-125323-cebreus": {
-          "action": "keep",
-          "reason": "Best candidate"
+          "reason": "Less sharp"
         }
       }
     },
@@ -270,7 +251,7 @@
         "2025-11-26-131140-cebreus"
       ],
       "bestCandidateId": "2025-11-26-125352-cebreus",
-      "similarity": 0.9043687965696942,
+      "similarity": 0.9043301870037618,
       "recommendations": {
         "2025-11-26-125352-cebreus": {
           "action": "keep",
@@ -278,19 +259,19 @@
         },
         "2025-11-26-125717-cebreus": {
           "action": "delete",
-          "reason": "Lower resolution, Lower aesthetics (45 vs 50), Less sharp"
+          "reason": "Lower resolution, Less sharp"
         },
         "2025-11-26-130404-cebreus": {
           "action": "delete",
-          "reason": "Lower resolution, Lower aesthetics (40 vs 50), Less sharp"
+          "reason": "Lower resolution, Lower aesthetics (38 vs 49), Less sharp"
         },
         "2025-11-26-130905-cebreus": {
           "action": "delete",
-          "reason": "Lower resolution, Lower aesthetics (38 vs 50), Less sharp"
+          "reason": "Lower resolution, Lower aesthetics (42 vs 49), Less sharp"
         },
         "2025-11-26-131140-cebreus": {
           "action": "delete",
-          "reason": "Lower aesthetics (45 vs 50)"
+          "reason": "Lower aesthetics (41 vs 49)"
         }
       }
     },
@@ -301,7 +282,7 @@
         "2025-11-26-125421-cebreus"
       ],
       "bestCandidateId": "2025-11-26-125359-cebreus",
-      "similarity": 0.8926756864950868,
+      "similarity": 0.9029896319322084,
       "recommendations": {
         "2025-11-26-125359-cebreus": {
           "action": "keep",
@@ -309,7 +290,7 @@
         },
         "2025-11-26-125421-cebreus": {
           "action": "delete",
-          "reason": "Less sharp"
+          "reason": "Lower aesthetics (52 vs 61), Less sharp"
         }
       }
     },
@@ -320,20 +301,20 @@
         "2025-11-26-130842-cebreus",
         "2025-11-26-130858-cebreus"
       ],
-      "bestCandidateId": "2025-11-26-130842-cebreus",
-      "similarity": 0.909884966415454,
+      "bestCandidateId": "2025-11-26-130858-cebreus",
+      "similarity": 0.8915344375823061,
       "recommendations": {
         "2025-11-26-125411-cebreus": {
           "action": "delete",
-          "reason": "Lower aesthetics (31 vs 40), Less sharp"
+          "reason": "Less sharp"
         },
         "2025-11-26-130842-cebreus": {
-          "action": "keep",
-          "reason": "Best candidate"
+          "action": "delete",
+          "reason": "Lower aesthetics (35 vs 44)"
         },
         "2025-11-26-130858-cebreus": {
-          "action": "delete",
-          "reason": "Semantic duplicate"
+          "action": "keep",
+          "reason": "Best candidate"
         }
       }
     },
@@ -344,11 +325,11 @@
         "2025-11-26-135431-cebreus"
       ],
       "bestCandidateId": "2025-11-26-135431-cebreus",
-      "similarity": 0.8998118266865949,
+      "similarity": 0.8948169846571499,
       "recommendations": {
         "2025-11-26-135353-dasa": {
           "action": "delete",
-          "reason": "Lower resolution, Lower aesthetics (49 vs 66)"
+          "reason": "Lower resolution, Lower aesthetics (45 vs 69)"
         },
         "2025-11-26-135431-cebreus": {
           "action": "keep",
@@ -363,7 +344,7 @@
         "2025-11-26-140159-dasa"
       ],
       "bestCandidateId": "2025-11-26-140121-dasa",
-      "similarity": 0.9022530840260007,
+      "similarity": 0.9131969215724329,
       "recommendations": {
         "2025-11-26-140121-dasa": {
           "action": "keep",
@@ -371,7 +352,7 @@
         },
         "2025-11-26-140159-dasa": {
           "action": "delete",
-          "reason": "Lower resolution, Lower aesthetics (70 vs 77)"
+          "reason": "Lower resolution"
         }
       }
     },
@@ -383,7 +364,7 @@
         "2025-11-26-155425-cebreus"
       ],
       "bestCandidateId": "2025-11-26-155425-cebreus",
-      "similarity": 0.9160989237580959,
+      "similarity": 0.9109796129841676,
       "recommendations": {
         "2025-11-26-142739-cebreus": {
           "action": "delete",
@@ -391,7 +372,7 @@
         },
         "2025-11-26-155357-cebreus": {
           "action": "delete",
-          "reason": "Lower resolution, Lower aesthetics (57 vs 64)"
+          "reason": "Lower resolution"
         },
         "2025-11-26-155425-cebreus": {
           "action": "keep",
@@ -406,51 +387,13 @@
         "2025-11-26-153319-cebreus"
       ],
       "bestCandidateId": "2025-11-26-153319-cebreus",
-      "similarity": 0.9297001740357743,
+      "similarity": 0.9120974916504112,
       "recommendations": {
         "2025-11-26-153302-cebreus": {
           "action": "delete",
-          "reason": "Less sharp"
+          "reason": "Lower aesthetics (38 vs 49), Less sharp"
         },
         "2025-11-26-153319-cebreus": {
-          "action": "keep",
-          "reason": "Best candidate"
-        }
-      }
-    },
-    {
-      "id": "group-2025-11-27-064232-de673c66-3e14-44fe-a9b6-f385d499971a",
-      "items": [
-        "2025-11-27-064232-de673c66-3e14-44fe-a9b6-f385d499971a",
-        "2025-11-27-064239-bdf77f1c-1c18-4672-b444-a6e6430a3c43"
-      ],
-      "bestCandidateId": "2025-11-27-064232-de673c66-3e14-44fe-a9b6-f385d499971a",
-      "similarity": 0.8905148091555313,
-      "recommendations": {
-        "2025-11-27-064232-de673c66-3e14-44fe-a9b6-f385d499971a": {
-          "action": "keep",
-          "reason": "Best candidate"
-        },
-        "2025-11-27-064239-bdf77f1c-1c18-4672-b444-a6e6430a3c43": {
-          "action": "delete",
-          "reason": "Semantic duplicate"
-        }
-      }
-    },
-    {
-      "id": "group-2025-11-27-150730-dasa",
-      "items": [
-        "2025-11-27-150730-dasa",
-        "2025-11-27-150735-dasa"
-      ],
-      "bestCandidateId": "2025-11-27-150735-dasa",
-      "similarity": 0.891542784782465,
-      "recommendations": {
-        "2025-11-27-150730-dasa": {
-          "action": "delete",
-          "reason": "Lower aesthetics (62 vs 76), Less sharp"
-        },
-        "2025-11-27-150735-dasa": {
           "action": "keep",
           "reason": "Best candidate"
         }
@@ -458,8 +401,8 @@
     }
   ],
   "stats": {
-    "totalPhotos": 317,
-    "totalGroups": 19,
-    "duplicatesFound": 38
+    "totalPhotos": 299,
+    "totalGroups": 16,
+    "duplicatesFound": 35
   }
 }
