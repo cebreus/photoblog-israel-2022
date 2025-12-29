@@ -245,7 +245,50 @@ Skript kontroluje:
 | **Re-clustering bez mazání manifestu** | Existující přiřazení jsou zachována, pokud nejsou v disconnects.                                   |
 | **Race conditions (rychlé klikání)**   | Systém používá zámky, ale při velmi rychlých operacích může dojít k nekonzistenci. Použijte audit. |
 
-### 6.3 Úplný reset (nuclear option)
+### 6.3 Bezpečnostní mechanismy
+
+#### Automatický backup constraints
+
+Před každým spuštěním face clusteringu se automaticky zálohuje `clustering-constraints.json`:
+
+```
+src/data/<galerie>/.constraints-backups/
+├── constraints-2024-12-29T09-00-00.json
+├── constraints-2024-12-29T10-00-00.json
+└── ... (posledních 5 verzí)
+```
+
+**Obnovení ze zálohy:**
+
+```bash
+cp src/data/egypt-2025/.constraints-backups/constraints-TIMESTAMP.json \
+   src/data/egypt-2025/clustering-constraints.json
+```
+
+#### Pre-build kontroly
+
+Před zpracováním se automaticky spustí kontroly konzistence:
+
+- Osoby s `faceCount=0` ale s thumbnail
+- Osoby bez validních deskriptorů
+- Faces manifest reference na neexistující obrázky
+- Zastaralé odkazy v constraints
+
+#### Dry-run mód
+
+Pro náhled změn bez jejich uložení:
+
+```bash
+bun scripts/face-clustering.ts --dry-run
+```
+
+Zobrazí:
+
+- Počet osob (celkem, pojmenované, junk, skryté)
+- Počet obrázků s tváří
+- Celkový počet face referencí
+
+### 6.4 Úplný reset (nuclear option)
 
 Pokud jsou data v nekonzistentním stavu a audit nepomáhá:
 
