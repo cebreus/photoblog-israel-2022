@@ -5,7 +5,7 @@ import { dev } from "$app/environment";
 import { createLogger } from "$lib/logger";
 import { validateReassignInput } from "$lib/utils/api-validators";
 import { addReassignmentConstraints } from "$scripts/lib/faces/constraints";
-import { updateImagePersonReference } from "$scripts/lib/faces/people";
+import { refreshPersonThumbnail, updateImagePersonReference } from "$scripts/lib/faces/people";
 import { removeEmptyPersonFolder } from "$scripts/lib/gallery/cleanup";
 import { withManifestLock } from "$scripts/lib/manifests/lock";
 import {
@@ -96,6 +96,9 @@ export async function POST({ request }: { request: Request }) {
           (person) => person.id !== sourcePersonId,
         );
         await removeEmptyPersonFolder(facesDir, sourcePersonId);
+      } else {
+        // Person remains, ensure they have a valid thumbnail (in case we moved the cover photo)
+        await refreshPersonThumbnail(sourcePerson, facesDir);
       }
 
       await savePeopleManifest(dataDir, peopleManifest);

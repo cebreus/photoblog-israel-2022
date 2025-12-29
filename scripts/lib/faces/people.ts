@@ -235,6 +235,36 @@ export async function findAvailableThumbnail(personId: string, facesDir: string)
 }
 
 /**
+ * Refreshes the person's thumbnail if the current one is invalid or missing.
+ * Should be called after moving/deleting face crops.
+ */
+export async function refreshPersonThumbnail(person: Person, facesDir: string): Promise<void> {
+  // Check if current thumbnail still exists
+  if (person.thumbnail) {
+    // Construct absolute path to the thumbnail file
+    // person.thumbnail is relative like "faces/<id>/<image>.jpg"
+    // We need to resolve it against facesDir's parent or construct carefully
+
+    // Actually, person.thumbnail might be "faces/person-id/img.jpg"
+    // facesDir is ".../static/content/faces"
+    // We can just look for the file in facesDir/<person-id>/...
+
+    const thumbFilename = path.basename(person.thumbnail);
+    const thumbPath = path.resolve(facesDir, person.id, thumbFilename);
+
+    try {
+      await fsp.access(thumbPath);
+      return; // Current thumbnail is valid
+    } catch {
+      // Thumbnail missing, need to find new one
+    }
+  }
+
+  // Find any available face crop
+  person.thumbnail = await findAvailableThumbnail(person.id, facesDir);
+}
+
+/**
  * Removes empty person entries (faceCount === 0) from the manifest.
  * Returns the number of removed entries.
  */

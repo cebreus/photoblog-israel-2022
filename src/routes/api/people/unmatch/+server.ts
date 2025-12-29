@@ -8,7 +8,7 @@ import { type PeopleManifest, type Person } from "$lib/types/manifest";
 import { validateUnmatchInput } from "$lib/utils/api-validators";
 import { toSlug } from "$lib/utils/strings";
 import { addReassignmentConstraints } from "$scripts/lib/faces/constraints";
-import { updateImagePersonReference } from "$scripts/lib/faces/people";
+import { refreshPersonThumbnail, updateImagePersonReference } from "$scripts/lib/faces/people";
 import { removeEmptyPersonFolder } from "$scripts/lib/gallery/cleanup";
 import { withManifestLock } from "$scripts/lib/manifests/lock";
 import {
@@ -136,6 +136,9 @@ export async function POST({ request }: { request: Request }) {
       if (sourcePerson.faceCount <= 0) {
         peopleManifest.people = peopleManifest.people.filter((person) => person.id !== personId);
         await removeEmptyPersonFolder(facesDir, personId);
+      } else {
+        // Person remains, ensure valid thumbnail
+        await refreshPersonThumbnail(sourcePerson, facesDir);
       }
 
       await savePeopleManifest(dataDir, peopleManifest);
