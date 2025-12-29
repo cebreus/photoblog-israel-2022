@@ -206,6 +206,22 @@
     const ids = Array.from(selectedIds);
     if (ids.length === 0) return;
 
+    // Check for redundancy
+    const existing = new Set<string>();
+    for (const day of people.photoDays) {
+      for (const item of day.items) {
+        if (item.type === "image" && item.people?.includes(targetPerson.id)) {
+          existing.add(item.id);
+        }
+      }
+    }
+
+    const newAssignments = ids.filter((id) => !existing.has(id));
+    if (newAssignments.length === 0) {
+      toast.info(`${targetPerson.name} už má všechny vybrané fotky.`);
+      return;
+    }
+
     isWorking = true;
     const isRemovingAll = ids.length >= crops.length;
 
