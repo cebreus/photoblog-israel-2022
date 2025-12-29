@@ -185,6 +185,132 @@ Linting, formátování a type-checking pomocí Biome, Prettier, Stylelint a sve
 
 - **`bun run prepare`** - SvelteKit synchronizace (generování typů, cest). Spouští se automaticky při instalaci
 
+## Cache Systém
+
+Projekt používá vícevrstvý cache systém pro efektivní inkrementální buildy.
+
+### Struktura cache a manifestů
+
+```
+.temp/<gallery>/
+└── images.cache.json          # Hash-based build cache
+
+src/data/<gallery>/
+├── images.manifest.json       # Hlavní manifest (struktura, EXIF, sources)
+├── analysis.manifest.json     # AI analýza (sharpness, phash, aestheticScore, qualityBucket)
+├── embeddings.manifest.json   # CLIP vektory (768D) pro podobnost
+├── faces.manifest.json        # Detekce tváří (bounding boxy, peopleIds, descriptors)
+├── people.manifest.json       # Shlukované osoby + ruční úpravy
+├── menu.manifest.json         # Navigační struktura
+└── site.manifest.json         # Metadata galerie (z site.md)
+```
+
+### Jak cache funguje
+
+1. **Při spuštění buildu** se načte `images.cache.json`:
+
+   ```typescript
+   type Cache = {
+     version: number; // Verze cache schématu (CACHE_VERSION = 17)
+     configHash: string; // SHA1 hash build konfigurace
+     files: {
+       [relativePath: string]: {
+         hash: string; // SHA1 hash obsahu souboru
+         mtimeMs: number; // Čas modifikace souboru
+         outputs: string[]; // Seznam vygenerovaných variant
+       };
+     };
+   };
+   ```
+
+2. **Detekce změn** (`detectChanges`):
+   - Pro každý soubor na disku se porovná `mtimeMs` s cache
+   - Pokud se liší nebo soubor není v cache → přidat do `toProcess`
+   - Pokud soubor chybí na disku ale je v cache → přidat do `toDelete`
+
+3. **Detekce ghost záznamů** (`detectGhostManifestEntries`):
+   - Porovná záznamy v manifestu s fyzickými soubory
+   - Záznamy bez odpovídajících souborů → přidat do `toDelete`
+   - Toto řeší situaci, kdy soubor byl smazán a cache byla vymazána
+
+4. **Invalidace cache**:
+
+   Cache se automaticky invaliduje při:
+   - Změně `CACHE_VERSION` v `generate-images.ts` (aktuálně 17)
+   - Změně konfigurace v `build.config.ts` (detekováno přes `configHash`)
+   - Změně `mtimeMs` zdrojového souboru
+
+### Split Manifest Architektura
+
+Pro optimalizaci velikosti a nezávislé aktualizace jsou metadata rozdělena do několika manifestů:
+
+| Manifest                   | Obsah                                           | Kdy se aktualizuje           |
+| -------------------------- | ----------------------------------------------- | ---------------------------- |
+| `images.manifest.json`     | Struktura, EXIF, sources, PhotoDays             | Step 2 (Image Variants)      |
+| `analysis.manifest.json`   | sharpness, phash, aestheticScore, qualityBucket | Step 2 + Step 3              |
+| `embeddings.manifest.json` | 768D CLIP vektory                               | Step 3 (Similarity Analysis) |
+| `faces.manifest.json`      | bounding boxy, peopleIds, descriptors           | Step 2 + Step 4              |
+| `people.manifest.json`     | Person clusters, jména, kategorie               | Step 4 (Face Clustering)     |
+
+### Pipeline kroky (`pnpm process`)
+
+```
+Step 1: Favicons
+├── Vstup: content/<gallery>/favicons-source.png
+└── Výstup: static/<gallery>/assets/favicons/
+
+Step 2: Image Variants (--skipEmbeddings)
+├── Vstup: content/<gallery>/pics/*.{jpg,heic,png}
+├── Zpracování:
+│   ├── Resize: default (370px), xl (534px), detail (1280px), fallback (190px)
+│   ├── Formáty: AVIF, WebP, JPEG
+│   ├── LQIP blur placeholders (24px)
+│   ├── EXIF extraction
+│   ├── Sharpness score
+│   ├── pHash (perceptual hash)
+│   ├── Dominant color (CSS rgb())
+│   └── Face detection (SSD MobileNet) - pro smart cropping
+└── Výstup: static/<gallery>/images/*, manifesty
+
+Step 3: Similarity & Aesthetic Analysis
+├── checkManifest(true) - s curation flag
+│   └── Generuje CLIP embeddings (768D vektory)
+└── analyze-similarity.ts
+    ├── Počítá aestheticScore (kosinová podobnost)
+    ├── Kvalitativní bucket (excellent/good/poor)
+    └── Detekuje duplikáty (time-window grouping)
+
+Step 4: Face Clustering
+├── Vstup: detail JPEG varianty (1280px)
+├── Zpracování:
+│   ├── Face detection (face-api.js)
+│   ├── 128D face embeddings
+│   ├── Euclidean distance clustering
+│   └── Face crops do static/<gallery>/faces/
+└── Výstup: people.manifest.json, faces.manifest.json
+
+Step 5: Manifest Validation
+├── Validace konzistence split manifestů
+│   ├── Odstranění ghost záznamů z analysis/embeddings/faces
+│   └── Vyčištění orphaned references z people.manifest
+├── Cleanup orphaned assets
+│   ├── Face crops pro smazané osoby
+│   └── Prázdné adresáře
+└── Výstup: Vyčištěné manifesty + freed disk space
+```
+
+### Co běží při `pnpm dev`
+
+```
+pnpm dev
+├── checkManifest(false)  # --manifestOnly --quiet
+│   ├── Načte pouze EXIF metadata
+│   ├── PŘESKAKUJE: sharpness, pHash, dominantColor, face detection, embeddings
+│   └── Čas: ~150ms
+├── cmdFavicons()
+└── vite dev
+```
+
 ## Poznámky
 
 ### Proměnné prostředí
@@ -278,3 +404,53 @@ For this reason, `upng-js` implementation was reverted and we continue to use `s
 ```
 
 **Decision:** Do not attempt to re-implement `upng-js` for this specific use case unless a significant change in requirements or library performance occurs.
+
+### Nové CLI Flagy
+
+#### `--detect-renames` (experimentální)
+
+Detekuje přejmenování souborů porovnáním content hashů. Místo zpracování jako "smazaný + nový" migruje všechny reference.
+
+```bash
+pnpm process --detect-renames
+```
+
+**Jak to funguje:**
+
+1. Spočítá SHA-256 hash prvních 64KB každého nového souboru
+2. Porovná s uloženými hashy v `.temp/<gallery>/content-hashes.json`
+3. Pokud najde shodu s jiným názvem → migrace místo regenerace
+
+#### `--clean-outputs` (validátor)
+
+Při spuštění Step 5 (Manifest Validation) vyčistí i osiřelé output soubory (previews, details).
+
+```bash
+# V manage.ts - prozatím není exponováno jako CLI flag
+# Lze aktivovat modifikací volání validateAndCleanManifests(dataDir, false, true)
+```
+
+### Budoucí Optimalizace
+
+#### Face Detection Architektura (záměrně odděleno)
+
+Step 2 a Step 4 používají **různé modely** z důvodu optimalizace:
+
+| Krok   | Modely                                 | Velikost | Účel                               |
+| ------ | -------------------------------------- | -------- | ---------------------------------- |
+| Step 2 | SSD MobileNet                          | ~5 MB    | Pouze bounding boxy pro smart crop |
+| Step 4 | SSD + FaceLandmark68 + FaceRecognition | ~100 MB  | Landmarky + 128D descriptors       |
+
+**Proč jsou oddělené:**
+
+1. **Memory footprint** - Step 2 běží na všech obrázcích
+2. **Rychlost** - Landmarky + recognition jsou ~5x pomalejší
+3. **Nezávislost** - Step 4 je volitelný, Step 2 je povinný
+
+**Potenciální optimalizace (složitá implementace):**
+
+- Sdílený singleton pro face-api modely
+- Lazy loading recognition modelů pouze při prvním clusteru
+- Úspora: ~500ms/obrázek, ale vyžaduje refaktoring inicializace
+
+**Důvod odložení:** Současná architektura je záměrně oddělená pro izolaci memory footprintu a nezávislost kroků.

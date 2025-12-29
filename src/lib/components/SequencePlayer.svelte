@@ -1,8 +1,8 @@
 <script lang="ts">
   import Pause from "@lucide/svelte/icons/pause";
   import Play from "@lucide/svelte/icons/play";
-  import { Button } from "$lib/components/ui/button";
   import { untrack } from "svelte";
+  import { Button } from "$lib/components/ui/button";
   import type { ImageEntry, SequenceInfo } from "$lib/types/manifest";
   import { SEQUENCE_MESSAGES } from "$lib/utils/messages";
   import {

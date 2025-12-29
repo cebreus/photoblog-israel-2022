@@ -9,6 +9,7 @@ import { parseArgs } from "node:util";
 import { cancel, intro, isCancel, outro, select } from "@clack/prompts";
 import pc from "picocolors";
 import { createLogger } from "./lib/core/cli-logger";
+import { validateAndCleanManifests } from "./lib/manifests/validator";
 import { run } from "./lib/utils/shell";
 import { formatDuration } from "./lib/utils/time";
 
@@ -256,7 +257,7 @@ async function cmdProcess() {
   const startTime = performance.now();
 
   const isManifestOnly = values["manifest-only"];
-  const totalSteps = isManifestOnly ? 2 : 4;
+  const totalSteps = isManifestOnly ? 2 : 5;
 
   logger.info(`┌ Step 1/${totalSteps}: Favicons`);
   const t1 = performance.now();
@@ -269,17 +270,29 @@ async function cmdProcess() {
   logger.info(`Step 2 complete in ${formatDuration(performance.now() - t2)}`);
 
   if (!isManifestOnly) {
-    logger.info(`┌ Step 3/4: Similarity & Aesthetic Analysis`);
+    logger.info(`┌ Step 3/5: Similarity & Aesthetic Analysis`);
     const t4 = performance.now();
     await cmdAnalyze();
     logger.info(`Step 3 complete in ${formatDuration(performance.now() - t4)}`);
 
-    logger.info("┌ Step 4/4: Face Clustering");
+    logger.info("┌ Step 4/5: Face Clustering");
     const t5 = performance.now();
     await cmdFaces();
     logger.info(`Step 4 complete in ${formatDuration(performance.now() - t5)}`);
+
+    // Step 5: Manifest Validation & Cleanup
+    logger.info("┌ Step 5/5: Manifest Validation");
+    const t6 = performance.now();
+    const dataDir = path.resolve(PROJECT_ROOT, `src/data/${gallery}`);
+    const validationResult = await validateAndCleanManifests(dataDir);
+    if (validationResult.totalCleaned > 0) {
+      logger.info(`Cleaned ${validationResult.totalCleaned} orphaned manifest entries.`);
+    }
+    logger.info(`Step 5 complete in ${formatDuration(performance.now() - t6)}`);
   } else {
-    logger.info("Skipping AI analysis steps (Similarity & Faces) in manifest-only mode.");
+    logger.info(
+      "Skipping AI analysis steps (Similarity, Faces, Validation) in manifest-only mode.",
+    );
   }
 
   logger.info(

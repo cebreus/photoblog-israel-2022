@@ -656,7 +656,23 @@ async function processImageQueue(
     try {
       await fsp.access(imagePath);
     } catch {
-      logger.warn(`Image file not found: ${imagePath}`);
+      logger.warn(`Image file not found: ${imagePath} - cleaning ghost references`);
+
+      // Clean up ghost entry from facesManifest
+      if (facesManifest[image.id]) {
+        delete facesManifest[image.id];
+      }
+
+      // Track for people cleanup (remove from person.manualImageIds)
+      for (const person of people) {
+        if (person.manualImageIds?.includes(image.id)) {
+          person.manualImageIds = person.manualImageIds.filter((id) => id !== image.id);
+        }
+      }
+
+      // Clear the image's people references
+      image.people = [];
+
       return;
     }
 

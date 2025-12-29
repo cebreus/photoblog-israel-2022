@@ -10,6 +10,13 @@ import { getConcurrency } from "../core/concurrency-utils";
 import { createBar, stopAllBars } from "../core/progress-manager";
 import type { ProcessedImageResult } from "../image/processor";
 import { type ImageProcessOptions, processImage } from "../image/processor";
+import {
+  detectRenames,
+  loadContentTracker,
+  migrateReferences,
+  saveContentTracker,
+  updateContentTracker,
+} from "../utils/content-tracker";
 import { scanGlob } from "../utils/runtime";
 import { formatDuration } from "../utils/time";
 import { buildGeneratorManifest, generateMenuManifest, updateManifest } from "./builder";
@@ -439,6 +446,36 @@ async function loadBuildResourceState(
   };
 }
 
+/**
+ * Detect ghost entries: manifest entries that reference files no longer on disk.
+ * This handles the case where files are deleted but cache was cleared,
+ * leaving orphaned entries in the manifest.
+ */
+function detectGhostManifestEntries(
+  sourceFiles: string[],
+  previousEntries: Map<string, ImageEntry>,
+): string[] {
+  // Build a set of basenames from physical files
+  const physicalBasenames = new Set(sourceFiles.map((f) => path.basename(f)));
+
+  // Find manifest entries that don't have corresponding physical files
+  const ghostKeys: string[] = [];
+  for (const [src] of previousEntries) {
+    if (!physicalBasenames.has(src)) {
+      // This is a ghost entry - in manifest but no file on disk
+      ghostKeys.push(src);
+    }
+  }
+
+  if (ghostKeys.length > 0) {
+    logger.warn(
+      `Found ${ghostKeys.length} ghost manifest entries (no matching files): ${ghostKeys.slice(0, 5).join(", ")}${ghostKeys.length > 5 ? "..." : ""}`,
+    );
+  }
+
+  return ghostKeys;
+}
+
 async function planBuildWork(
   CTX: { srcRoot: string; outRoot: string },
   ARGS: { limit: number; manifestOnly: boolean; curation: boolean },
@@ -458,7 +495,13 @@ async function planBuildWork(
     embeddingsManifest,
   );
 
-  return { sourceFiles, ...audit };
+  // Also detect ghost manifest entries (files deleted but manifest not updated)
+  const ghostEntries = detectGhostManifestEntries(sourceFiles, previousEntries);
+
+  // Merge ghost entries with toDelete (deduplicated)
+  const allToDelete = [...new Set([...audit.toDelete, ...ghostEntries])];
+
+  return { sourceFiles, toProcess: audit.toProcess, toDelete: allToDelete };
 }
 
 async function _processBuildQueue(
@@ -522,6 +565,7 @@ export async function runIncrementalBuild(
     limit: number | 0;
     skipFaces?: boolean;
     skipEmbeddings?: boolean;
+    detectRenames?: boolean;
   },
   opts: {
     allowUpscale?: boolean;
@@ -561,6 +605,47 @@ export async function runIncrementalBuild(
   logger.info(
     `Found: ${toProcess.length} new/modified, ${toDelete.length} deleted, ${cachedCount} cached.`,
   );
+
+  // Rename detection (opt-in)
+  if (ARGS.detectRenames && toProcess.length > 0) {
+    const cacheDir = path.dirname(CTX.cachePath);
+    const contentTracker = await loadContentTracker(cacheDir);
+    const renames = await detectRenames(toProcess, contentTracker, CTX.srcRoot);
+
+    if (renames.length > 0) {
+      logger.info(`Detected ${renames.length} file rename(s), migrating references...`);
+
+      // Load manifests for migration
+      const previousManifest = (await loadManifest<Manifest>(CTX.manifestPath)) || {
+        photoDays: [],
+      };
+
+      for (const rename of renames) {
+        // Migrate references in manifests
+        migrateReferences(rename, previousManifest, facesManifest, { people: [] });
+
+        // Update cache key
+        if (cache.files[rename.oldId]) {
+          cache.files[rename.newId] = cache.files[rename.oldId];
+          delete cache.files[rename.oldId];
+        }
+
+        // Remove from toProcess since we migrated it
+        const idx = toProcess.indexOf(path.join(CTX.srcRoot, rename.newPath));
+        if (idx !== -1) {
+          toProcess.splice(idx, 1);
+          logger.verbose(`Skipping re-processing of renamed file: ${rename.newPath}`);
+        }
+      }
+
+      // Save updated manifest
+      await saveImagesManifest(path.dirname(CTX.manifestPath), previousManifest);
+    }
+
+    // Update content tracker for future runs
+    await updateContentTracker(sourceFiles, contentTracker, CTX.srcRoot);
+    await saveContentTracker(cacheDir, contentTracker);
+  }
 
   await pruneDeleted(toDelete, cache, CTX.outRoot);
 

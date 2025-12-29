@@ -50,7 +50,9 @@ Tento skript je centrálním bodem pro zpracování všech fotografií v projekt
 
 ### 2.3. Generování manifestů
 
-Skript `generate-images.ts` vytváří tři klíč manifesty ve formátu JSON, které jsou uloženy v `src/data/<galerie>/`:
+Skript `generate-images.ts` a související skripty vytváří několik manifestů ve formátu JSON, které jsou uloženy v `src/data/<galerie>/`:
+
+#### Hlavní manifesty
 
 - **`images.manifest.json`**:
   - Obsahuje strukturovaná data o všech fotografiích seskupená podle dnů (`photoDays`)
@@ -62,9 +64,30 @@ Skript `generate-images.ts` vytváří tři klíč manifesty ve formátu JSON, k
 - **`site.manifest.json`**:
   - Parsovaná konfigurace galerie ze souboru `content/<galerie>/site.md`
   - SEO metadata, názvy, favicon konfigurace, PWA manifest
+
+#### Split manifesty (oddělená metadata)
+
+Pro optimalizaci velikosti a nezávislé aktualizace jsou některá metadata oddělena:
+
+- **`analysis.manifest.json`**:
+  - Obsahuje výsledky AI analýzy pro každý obrázek podle `imageId`
+  - Klíče: `sharpness`, `phash`, `aestheticScore`, `qualityBucket`
+  - Aktualizuje se ve Step 2 (základní analýza) a Step 3 (estetické skóre)
+
 - **`embeddings.manifest.json`**:
-  - Obsahuje vektorové reprezentace obrázků pro AI analýzu (podobnost, estetika)
-  - Odděleno od hlavního manifestu pro snížení velikosti payloadu
+  - Obsahuje vektorové reprezentace obrázků (768D CLIP vektory)
+  - Odděleno od hlavního manifestu pro snížení velikosti payloadu (~6MB pro 300 fotek)
+  - Používá se pro výpočet podobnosti a estetického skóre
+
+- **`faces.manifest.json`**:
+  - Obsahuje detekce tváří pro každý obrázek
+  - Klíče: `facesDetected`, `faces[]` (bounding boxy), `peopleIds[]`, `descriptors[][]`
+  - Aktualizuje se ve Step 2 (detekce) a Step 4 (přiřazení k osobám)
+
+- **`people.manifest.json`**:
+  - Obsahuje seznam shlukovaných osob
+  - Pro každou osobu: `id`, `name`, `clusters[]`, `thumbnail`, `category`, atd.
+  - Uchovává ruční úpravy uživatele (sloučení, junk, skrytí)
 
 ## Analýza Podobnosti a Estetiky
 
