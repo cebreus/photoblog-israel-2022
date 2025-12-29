@@ -19,21 +19,6 @@ import {
 
 const logger = createLogger("api:people:reassign");
 
-async function moveFaceCrop(
-  facesDir: string,
-  imgId: string,
-  oldPersonId: string,
-  newPersonId: string,
-) {
-  const oldPath = path.resolve(facesDir, oldPersonId, `${imgId}.jpg`);
-  const newPath = path.resolve(facesDir, newPersonId, `${imgId}.jpg`);
-  try {
-    await fsp.rename(oldPath, newPath);
-  } catch {
-    /* ignore if faceCrop missing */
-  }
-}
-
 /**
  * Reassigns selected images from one person to another.
  * Moves face crops, updates manifests, and records reassignment constraints.
@@ -68,44 +53,73 @@ export async function POST({ request }: { request: Request }) {
 
       if (!sourcePerson || !targetPerson) throw new Error("Person not found");
 
-      await fsp.mkdir(path.resolve(facesDir, targetPersonId), { recursive: true });
+      const transactionLog: Array<{ from: string; to: string }> = [];
 
-      let movedCount = 0;
-      for (const id of imageIds) {
-        const updated = updateImagePersonReference(
-          imagesManifest,
-          facesManifest,
-          id,
-          sourcePersonId,
-          targetPersonId,
-        );
-        if (updated) {
-          await moveFaceCrop(facesDir, id, sourcePersonId, targetPersonId);
-          movedCount++;
+      try {
+        await fsp.mkdir(path.resolve(facesDir, targetPersonId), { recursive: true });
+
+        let movedCount = 0;
+        for (const id of imageIds) {
+          const updated = updateImagePersonReference(
+            imagesManifest,
+            facesManifest,
+            id,
+            sourcePersonId,
+            targetPersonId,
+          );
+          if (updated) {
+            const oldPath = path.resolve(facesDir, sourcePersonId, `${id}.jpg`);
+            const newPath = path.resolve(facesDir, targetPersonId, `${id}.jpg`);
+            try {
+              await fsp.rename(oldPath, newPath);
+              transactionLog.push({ from: oldPath, to: newPath });
+              movedCount++;
+            } catch (e) {
+              // Ignore if file is missing (ENOENT), strictly throw on other errors
+              if ((e as NodeJS.ErrnoException).code !== "ENOENT") {
+                throw e;
+              }
+            }
+          }
         }
+
+        sourcePerson.faceCount = Math.max(0, sourcePerson.faceCount - movedCount);
+        targetPerson.faceCount += movedCount;
+
+        await addReassignmentConstraints(dataDir, imageIds, sourcePersonId, targetPersonId);
+
+        // Source cleanup
+        if (sourcePerson.faceCount === 0) {
+          peopleManifest.people = peopleManifest.people.filter(
+            (person) => person.id !== sourcePersonId,
+          );
+          await removeEmptyPersonFolder(facesDir, sourcePersonId);
+        } else {
+          // Person remains, ensure they have a valid thumbnail (in case we moved the cover photo)
+          await refreshPersonThumbnail(sourcePerson, facesDir);
+        }
+
+        await savePeopleManifest(dataDir, peopleManifest);
+        await saveImagesManifest(dataDir, imagesManifest);
+        await saveFacesManifest(dataDir, facesManifest);
+
+        return json({ success: true, movedCount });
+      } catch (err) {
+        // Rollback transaction
+        if (transactionLog.length > 0) {
+          logger.warn(
+            `[REASSIGN] Error occurred. Rolling back ${transactionLog.length} file moves...`,
+          );
+          for (const log of transactionLog.reverse()) {
+            try {
+              await fsp.rename(log.to, log.from);
+            } catch (rollbackErr) {
+              logger.error(`[REASSIGN] Rollback failed for ${log.to} -> ${log.from}`, rollbackErr);
+            }
+          }
+        }
+        throw err;
       }
-
-      sourcePerson.faceCount = Math.max(0, sourcePerson.faceCount - movedCount);
-      targetPerson.faceCount += movedCount;
-
-      await addReassignmentConstraints(dataDir, imageIds, sourcePersonId, targetPersonId);
-
-      // Source cleanup
-      if (sourcePerson.faceCount === 0) {
-        peopleManifest.people = peopleManifest.people.filter(
-          (person) => person.id !== sourcePersonId,
-        );
-        await removeEmptyPersonFolder(facesDir, sourcePersonId);
-      } else {
-        // Person remains, ensure they have a valid thumbnail (in case we moved the cover photo)
-        await refreshPersonThumbnail(sourcePerson, facesDir);
-      }
-
-      await savePeopleManifest(dataDir, peopleManifest);
-      await saveImagesManifest(dataDir, imagesManifest);
-      await saveFacesManifest(dataDir, facesManifest);
-
-      return json({ success: true, movedCount });
     });
   } catch (err) {
     logger.error("[REASSIGN] Failure:", err);

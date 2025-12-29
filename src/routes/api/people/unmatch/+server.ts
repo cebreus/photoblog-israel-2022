@@ -51,24 +51,6 @@ function createNewPerson(
   return newPerson;
 }
 
-async function moveFaceCrop(
-  facesDir: string,
-  oldPersonId: string,
-  newPersonId: string,
-  imgId: string,
-) {
-  const oldPath = path.resolve(facesDir, oldPersonId, `${imgId}.jpg`);
-  const newDir = path.resolve(facesDir, newPersonId);
-  const newPath = path.resolve(newDir, `${imgId}.jpg`);
-
-  await fsp.mkdir(newDir, { recursive: true });
-  try {
-    await fsp.rename(oldPath, newPath);
-  } catch {
-    /* ignore if faceCrop missing */
-  }
-}
-
 /**
  * Detaches faces from a person, creating new person entities for them.
  * Useful when a face cluster contains multiple distinct people.
@@ -102,50 +84,87 @@ export async function POST({ request }: { request: Request }) {
       const sourcePerson = peopleManifest.people.find((person) => person.id === personId);
       if (!sourcePerson) throw new Error("Source person not found");
 
-      const processedNewPeople: Person[] = [];
+      const transactionLog: Array<{ from: string; to: string }> = [];
 
-      for (const imgId of imageIds) {
-        const newPerson = createNewPerson(peopleManifest, sourcePerson, imgId, !!ignore);
-        processedNewPeople.push(newPerson);
+      try {
+        const processedNewPeople: Person[] = [];
 
-        const updated = updateImagePersonReference(
-          imagesManifest,
-          facesManifest,
-          imgId,
-          personId,
-          newPerson.id,
-        );
+        for (const imgId of imageIds) {
+          const newPerson = createNewPerson(peopleManifest, sourcePerson, imgId, !!ignore);
+          processedNewPeople.push(newPerson);
 
-        if (updated) {
-          // Fallback: If facesManifest didn't exist for this image, create it now
-          if (!facesManifest[imgId]) {
-            facesManifest[imgId] = {
-              facesDetected: false,
-              faces: [],
-              peopleIds: [newPerson.id],
-            };
+          const updated = updateImagePersonReference(
+            imagesManifest,
+            facesManifest,
+            imgId,
+            personId,
+            newPerson.id,
+          );
+
+          if (updated) {
+            // Fallback: If facesManifest didn't exist for this image, create it now
+            if (!facesManifest[imgId]) {
+              facesManifest[imgId] = {
+                facesDetected: false,
+                faces: [],
+                peopleIds: [newPerson.id],
+              };
+            }
+
+            // Move Face Crop logic inline with tracking
+            const oldPath = path.resolve(facesDir, personId, `${imgId}.jpg`);
+            const newDir = path.resolve(facesDir, newPerson.id);
+            const newPath = path.resolve(newDir, `${imgId}.jpg`);
+
+            await fsp.mkdir(newDir, { recursive: true });
+            try {
+              await fsp.rename(oldPath, newPath);
+              transactionLog.push({ from: oldPath, to: newPath });
+            } catch (e) {
+              if ((e as NodeJS.ErrnoException).code !== "ENOENT") {
+                throw e; // Throw only if real FS error, ignore missing files
+              }
+            }
+
+            await addReassignmentConstraints(dataDir, [imgId], personId, newPerson.id);
           }
-
-          await moveFaceCrop(facesDir, personId, newPerson.id, imgId);
-          await addReassignmentConstraints(dataDir, [imgId], personId, newPerson.id);
         }
+
+        // Finalize source person
+        sourcePerson.faceCount = Math.max(0, sourcePerson.faceCount - imageIds.length);
+        if (sourcePerson.faceCount <= 0) {
+          peopleManifest.people = peopleManifest.people.filter((person) => person.id !== personId);
+          await removeEmptyPersonFolder(facesDir, personId);
+        } else {
+          // Person remains, ensure valid thumbnail
+          await refreshPersonThumbnail(sourcePerson, facesDir);
+        }
+
+        await savePeopleManifest(dataDir, peopleManifest);
+        await saveImagesManifest(dataDir, imagesManifest);
+        await saveFacesManifest(dataDir, facesManifest);
+
+        return json({
+          success: true,
+          count: imageIds.length,
+          newPeople: processedNewPeople,
+        });
+      } catch (err) {
+        // Rollback
+        if (transactionLog.length > 0) {
+          logger.warn(
+            `[UNMATCH] Error occurred. Rolling back ${transactionLog.length} file moves...`,
+          );
+          for (const log of transactionLog.reverse()) {
+            try {
+              await fsp.rename(log.to, log.from);
+            } catch (rollbackErr) {
+              logger.error(`[UNMATCH] Rollback failed for ${log.to} -> ${log.from}`, rollbackErr);
+            }
+          }
+        }
+        throw err;
       }
-
-      // Finalize source person
-      sourcePerson.faceCount = Math.max(0, sourcePerson.faceCount - imageIds.length);
-      if (sourcePerson.faceCount <= 0) {
-        peopleManifest.people = peopleManifest.people.filter((person) => person.id !== personId);
-        await removeEmptyPersonFolder(facesDir, personId);
-      } else {
-        // Person remains, ensure valid thumbnail
-        await refreshPersonThumbnail(sourcePerson, facesDir);
-      }
-
-      await savePeopleManifest(dataDir, peopleManifest);
-      await saveImagesManifest(dataDir, imagesManifest);
-      await saveFacesManifest(dataDir, facesManifest);
-
-      return json({ success: true, count: imageIds.length, newPeople: processedNewPeople });
     });
   } catch (err) {
     logger.error("[UNMATCH] Error:", err);

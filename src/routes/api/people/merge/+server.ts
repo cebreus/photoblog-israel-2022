@@ -28,24 +28,37 @@ import {
 
 const logger = createLogger("api:people:merge");
 
+async function safeRename(
+  oldPath: string,
+  newPath: string,
+  log: Array<{ from: string; to: string }>,
+) {
+  try {
+    await fsp.rename(oldPath, newPath);
+    log.push({ from: oldPath, to: newPath });
+  } catch (e) {
+    // Standard behavior in this module is to ignore missing files (ENOENT)
+    // but propagate other errors (EPERM etc)
+    if ((e as NodeJS.ErrnoException).code !== "ENOENT") {
+      throw e;
+    }
+  }
+}
+
 async function renamePhysicalFiles(
   item: ImageEntry,
   oldId: string,
   newId: string,
   picsDir: string,
   imagesDir: string,
+  log: Array<{ from: string; to: string }>,
 ) {
   // 1. Rename original content file
   if (item.src) {
     const ext = path.extname(item.src);
     const oldPath = path.resolve(picsDir, `${oldId}${ext}`);
     const newPath = path.resolve(picsDir, `${newId}${ext}`);
-
-    try {
-      await fsp.rename(oldPath, newPath);
-    } catch (e) {
-      logger.warn(`Failed content rename for ${oldId}:`, (e as Error).message);
-    }
+    await safeRename(oldPath, newPath, log);
   }
 
   // 2. Rename generated assets
@@ -59,11 +72,7 @@ async function renamePhysicalFiles(
 
         const oldAsset = path.resolve(imagesDir, folder, `${oldId}${ext}`);
         const newAsset = path.resolve(imagesDir, folder, `${newId}${ext}`);
-        try {
-          await fsp.rename(oldAsset, newAsset);
-        } catch {
-          /* ignore missing variants */
-        }
+        await safeRename(oldAsset, newAsset, log);
       }
     } else {
       // 'other' outputs (detail, placeholder, admin_thumb)
@@ -71,26 +80,25 @@ async function renamePhysicalFiles(
       const ext = `.${format === "jpeg" ? "jpeg" : format}`;
       const oldAsset = path.resolve(imagesDir, output.folderName, `${oldId}${ext}`);
       const newAsset = path.resolve(imagesDir, output.folderName, `${newId}${ext}`);
-      try {
-        await fsp.rename(oldAsset, newAsset);
-      } catch {
-        /* ignore missing */
-      }
+      await safeRename(oldAsset, newAsset, log);
     }
   }
 }
 
-async function renameFaceCrops(item: ImageEntry, oldId: string, newId: string, facesDir: string) {
+async function renameFaceCrops(
+  item: ImageEntry,
+  oldId: string,
+  newId: string,
+  facesDir: string,
+  log: Array<{ from: string; to: string }>,
+) {
   if (item.people) {
     for (const personId of item.people) {
-      try {
-        await fsp.rename(
-          path.resolve(facesDir, personId, `${oldId}.jpg`),
-          path.resolve(facesDir, personId, `${newId}.jpg`),
-        );
-      } catch {
-        /* ignore */
-      }
+      await safeRename(
+        path.resolve(facesDir, personId, `${oldId}.jpg`),
+        path.resolve(facesDir, personId, `${newId}.jpg`),
+        log,
+      );
     }
   }
 }
@@ -128,6 +136,7 @@ async function processDeepRename(
   picsDir: string,
   imagesDir: string,
   facesDir: string,
+  log: Array<{ from: string; to: string }>,
 ) {
   const sourceSlug = toSlug(sourcePerson.name);
   const targetSlug = toSlug(targetPerson.name);
@@ -145,8 +154,8 @@ async function processDeepRename(
 
       const oldId = item.id;
 
-      await renamePhysicalFiles(item, oldId, newId, picsDir, imagesDir);
-      await renameFaceCrops(item, oldId, newId, facesDir);
+      await renamePhysicalFiles(item, oldId, newId, picsDir, imagesDir, log);
+      await renameFaceCrops(item, oldId, newId, facesDir, log);
       updateEntryMetadata(item, oldId, newId, facesManifest);
     }
   }
@@ -161,6 +170,7 @@ async function mergeAssignments(
   sourceId: string,
   targetId: string,
   facesDir: string,
+  log: Array<{ from: string; to: string }>,
 ) {
   const sourceDir = path.resolve(facesDir, sourceId);
   const targetDir = path.resolve(facesDir, targetId);
@@ -172,14 +182,11 @@ async function mergeAssignments(
       if (!item.people?.includes(sourceId)) continue;
 
       // Move faceCrop
-      try {
-        await fsp.rename(
-          path.resolve(sourceDir, `${item.id}.jpg`),
-          path.resolve(targetDir, `${item.id}.jpg`),
-        );
-      } catch {
-        /* missing ok */
-      }
+      await safeRename(
+        path.resolve(sourceDir, `${item.id}.jpg`),
+        path.resolve(targetDir, `${item.id}.jpg`),
+        log,
+      );
 
       // Update refs
       item.people = item.people.map((personId) => (personId === sourceId ? targetId : personId));
@@ -224,50 +231,75 @@ export async function POST({ request }: { request: Request }) {
       const targetPerson = peopleManifest.people.find((person) => person.id === targetPersonId);
       if (!targetPerson) throw new Error("Target person not found.");
 
-      for (const sourceId of sources) {
-        const sourcePerson = peopleManifest.people.find((person) => person.id === sourceId);
-        if (!sourcePerson) continue;
+      const transactionLog: Array<{ from: string; to: string }> = [];
 
-        await processDeepRename(
-          imagesManifest,
-          facesManifest,
-          sourcePerson,
-          targetPerson,
-          picsDir,
-          imagesDir,
-          facesDir,
-        );
-        await mergeAssignments(imagesManifest, facesManifest, sourceId, targetPersonId, facesDir);
-        await migratePersonInConstraints(dataDir, sourceId, targetPersonId);
+      try {
+        for (const sourceId of sources) {
+          const sourcePerson = peopleManifest.people.find((person) => person.id === sourceId);
+          if (!sourcePerson) continue;
 
-        // Merge clusters with weighted centroids
-        if (sourcePerson.clusters?.length) {
-          const allClusters = [...(targetPerson.clusters || []), ...sourcePerson.clusters];
-          const merged = mergeClusters(allClusters);
-          targetPerson.clusters = [merged];
-          targetPerson.faceDescriptor = merged.centroid;
+          await processDeepRename(
+            imagesManifest,
+            facesManifest,
+            sourcePerson,
+            targetPerson,
+            picsDir,
+            imagesDir,
+            facesDir,
+            transactionLog,
+          );
+          await mergeAssignments(
+            imagesManifest,
+            facesManifest,
+            sourceId,
+            targetPersonId,
+            facesDir,
+            transactionLog,
+          );
+          await migratePersonInConstraints(dataDir, sourceId, targetPersonId);
+
+          // Merge clusters with weighted centroids
+          if (sourcePerson.clusters?.length) {
+            const allClusters = [...(targetPerson.clusters || []), ...sourcePerson.clusters];
+            const merged = mergeClusters(allClusters);
+            targetPerson.clusters = [merged];
+            targetPerson.faceDescriptor = merged.centroid;
+          }
+
+          // Cleanup source
+          peopleManifest.people = peopleManifest.people.filter((person) => person.id !== sourceId);
+          await removeEmptyPersonFolder(facesDir, sourceId);
         }
 
-        // Cleanup source
-        peopleManifest.people = peopleManifest.people.filter((person) => person.id !== sourceId);
-        await removeEmptyPersonFolder(facesDir, sourceId);
-      }
-
-      // Recalculate faceCount
-      targetPerson.faceCount = 0;
-      for (const day of imagesManifest.photoDays) {
-        for (const item of day.items) {
-          if (isImageEntry(item) && item.people?.includes(targetPersonId)) {
-            targetPerson.faceCount++;
+        // Recalculate faceCount
+        targetPerson.faceCount = 0;
+        for (const day of imagesManifest.photoDays) {
+          for (const item of day.items) {
+            if (isImageEntry(item) && item.people?.includes(targetPersonId)) {
+              targetPerson.faceCount++;
+            }
           }
         }
+
+        await savePeopleManifest(dataDir, peopleManifest);
+        await saveImagesManifest(dataDir, imagesManifest);
+        await saveFacesManifest(dataDir, facesManifest);
+
+        return json({ success: true, count: targetPerson.faceCount });
+      } catch (err) {
+        // Rollback
+        if (transactionLog.length > 0) {
+          logger.warn(`[MERGE] Error. Rolling back ${transactionLog.length} file moves...`);
+          for (const log of transactionLog.reverse()) {
+            try {
+              await fsp.rename(log.to, log.from);
+            } catch (rollbackErr) {
+              logger.error(`[MERGE] Rollback failed for ${log.to} -> ${log.from}`, rollbackErr);
+            }
+          }
+        }
+        throw err;
       }
-
-      await savePeopleManifest(dataDir, peopleManifest);
-      await saveImagesManifest(dataDir, imagesManifest);
-      await saveFacesManifest(dataDir, facesManifest);
-
-      return json({ success: true, count: targetPerson.faceCount });
     });
   } catch (err) {
     logger.error("[API/PEOPLE/MERGE] Error:", err);
