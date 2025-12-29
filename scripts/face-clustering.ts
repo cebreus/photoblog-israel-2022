@@ -16,7 +16,9 @@ import { parseCliArguments } from "./lib/core/cli-parser";
 import { getConcurrency } from "./lib/core/concurrency-utils";
 import { createBar, stopAllBars } from "./lib/core/progress-manager";
 import { deleteOldFaceCrops, findBestMatch, saveFaceCrop } from "./lib/faces/clustering";
+import { backupConstraints } from "./lib/faces/constraints-backup";
 import { filterPeopleWithValidDescriptors, hasValidFaceDescriptor } from "./lib/faces/people";
+import { runPreBuildChecks } from "./lib/faces/pre-build-check";
 import { resolveGalleryDirectory } from "./lib/gallery/resolver";
 import { convertHeicToPng, ensureDir } from "./lib/image/utils";
 import {
@@ -864,7 +866,13 @@ async function main() {
     process.exit(1);
   }
 
+  // Run pre-build consistency checks
+  await runPreBuildChecks(dataDir);
+
   await loadModels();
+
+  // Backup constraints before any changes
+  await backupConstraints(dataDir);
 
   const { people, disconnectedPairs, junkPairs, manualConnects } =
     await loadClusteringResources(dataDir);
@@ -936,6 +944,36 @@ async function main() {
   people.sort((a, b) => b.faceCount - a.faceCount);
 
   // Save via Repository
+  // Dry-run mode: show what would change without saving
+  if (values.dryRun) {
+    logger.info("════════════════════════════════════════════════════════════════");
+    logger.info("DRY RUN MODE - No changes will be saved");
+    logger.info("════════════════════════════════════════════════════════════════");
+    logger.info(`People count: ${people.length}`);
+    logger.info(
+      `Named people: ${people.filter((p) => p.name && !p.name.startsWith("Person")).length}`,
+    );
+    logger.info(`Junk people: ${people.filter((p) => p.junk).length}`);
+    logger.info(`Hidden people: ${people.filter((p) => p.hidden).length}`);
+
+    // Count images with faces
+    let imagesWithFaces = 0;
+    let totalFaceRefs = 0;
+    for (const day of manifest.photoDays) {
+      for (const item of day.items) {
+        if (item.type === "image" && item.people && item.people.length > 0) {
+          imagesWithFaces++;
+          totalFaceRefs += item.people.length;
+        }
+      }
+    }
+    logger.info(`Images with faces: ${imagesWithFaces}`);
+    logger.info(`Total face references: ${totalFaceRefs}`);
+    logger.info("════════════════════════════════════════════════════════════════");
+    logger.info("To apply these changes, run without --dry-run flag.");
+    return;
+  }
+
   await saveImagesManifest(dataDir, manifest);
 
   // Update faces manifest peopleIds from current clustering state
