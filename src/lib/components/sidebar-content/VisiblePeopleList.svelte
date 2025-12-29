@@ -3,6 +3,7 @@
   import EyeOff from "@lucide/svelte/icons/eye-off";
   import User from "@lucide/svelte/icons/user";
   import X from "@lucide/svelte/icons/x";
+  import { fade } from "svelte/transition";
   import { dev } from "$app/environment";
   import { Button } from "$lib/components/ui/button";
   import { Input } from "$lib/components/ui/input";
@@ -64,6 +65,8 @@
           <div
             class="absolute inset-0 bg-background/90 backdrop-blur-sm flex items-center justify-center rounded"
             style="z-index: 10;"
+            in:fade={{ duration: 100, delay: 300 }}
+            out:fade={{ duration: 100 }}
             data-testid="people-tab-person-loading"
           >
             <Spinner class="w-6 h-6 text-primary" />

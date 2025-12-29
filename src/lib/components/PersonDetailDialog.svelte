@@ -106,6 +106,7 @@
   }
 
   async function performUnmatch(imageIds: string[], shouldHide = false) {
+    if (isWorking) return;
     isWorking = true;
     const isRemovingAll = imageIds.length >= crops.length;
 
@@ -150,6 +151,7 @@
       return;
     }
 
+    if (isWorking) return;
     isWorking = true;
     try {
       const res = await fetch("/api/people/invalidate-detection", {
@@ -180,6 +182,7 @@
   }
 
   async function updateCategory(category: "person" | "statue" | "painting") {
+    if (isWorking) return;
     isWorking = true;
     try {
       const res = await fetch("/api/people/update-category", {
@@ -203,6 +206,7 @@
   }
 
   async function assignToPerson(targetPerson: Person) {
+    if (isWorking) return;
     const ids = Array.from(selectedIds);
     if (ids.length === 0) return;
 
@@ -269,6 +273,7 @@
       return;
     }
 
+    if (isWorking) return;
     isWorking = true;
     try {
       const selectedCrops = crops.filter((c) => selectedIds.has(c.id));
@@ -587,8 +592,9 @@
     <div class="max-h-75 overflow-y-auto p-2" data-testid="reassign-person-list">
       {#each filteredPeople as p}
         <button
-          class="w-full flex items-center gap-3 p-2 hover:bg-accent rounded-md transition-colors text-left"
+          class="w-full flex items-center gap-3 p-2 hover:bg-accent rounded-md transition-colors text-left disabled:opacity-50 disabled:pointer-events-none"
           onclick={() => assignToPerson(p)}
+          disabled={isWorking}
           data-testid={`reassign-person-option-${p.id}`}
         >
           {#if p.thumbnail}

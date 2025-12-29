@@ -20,6 +20,7 @@
     loadCollageConfig,
   } from "$lib/utils/collage-config";
   import { COLLAGE_MESSAGES, IMAGE_MESSAGES } from "$lib/utils/messages";
+  import { smartToast } from "$lib/utils/toasts";
 
   import GeoDataSection from "./GeoDataSection.svelte";
   import MetadataInputField from "./MetadataInputField.svelte";
@@ -315,11 +316,12 @@
     if (!clipboard.data || imageIds.length === 0) return;
 
     isApplyingPaste = true;
-    try {
+
+    const performOperation = async () => {
+      const data = clipboard.data;
+      if (!data) return;
       const getVal = (field: keyof FormData) =>
-        fieldsToApply[field] && clipboard.data?.[field]
-          ? (clipboard.data[field] as string)
-          : undefined;
+        fieldsToApply[field] && data?.[field] ? (data[field] as string) : undefined;
 
       const updates: ReturnType<typeof buildUpdates> = {
         title: getVal("title"),
@@ -330,10 +332,7 @@
         country: getVal("country"),
         countryCode: getVal("countryCode"),
         caption: getVal("caption"),
-        keywords:
-          fieldsToApply.keywords && clipboard.data.keywords?.length
-            ? clipboard.data.keywords
-            : undefined,
+        keywords: fieldsToApply.keywords && data.keywords?.length ? data.keywords : undefined,
       };
 
       const payload = {
@@ -357,12 +356,22 @@
       }
 
       isPasteDialogOpen = false;
-      toast.success(IMAGE_MESSAGES.METADATA_PASTED);
+    };
+
+    const promise = performOperation();
+
+    smartToast(promise, {
+      loading: IMAGE_MESSAGES.APPLYING_METADATA_PASTE,
+      success: IMAGE_MESSAGES.METADATA_PASTED,
+      error: (e) =>
+        IMAGE_MESSAGES.ERROR_TITLE(e instanceof Error ? e.message : IMAGE_MESSAGES.UNKNOWN_ERROR),
+      delay: 500,
+    });
+
+    try {
+      await promise;
     } catch (e) {
       logger.error(e);
-      toast.error(
-        IMAGE_MESSAGES.ERROR_TITLE(e instanceof Error ? e.message : IMAGE_MESSAGES.UNKNOWN_ERROR),
-      );
       invalidateAll();
     } finally {
       isApplyingPaste = false;
@@ -373,8 +382,9 @@
 <div class="flex flex-col h-full relative" data-testid="edit-tab">
   {#if isSaving}
     <div
-      class="absolute inset-0 z-50 bg-background/80 flex items-center justify-center backdrop-blur-sm transition-all duration-200"
-      transition:fade={{ duration: 200 }}
+      class="absolute inset-0 z-50 bg-background/80 flex items-center justify-center backdrop-blur-sm"
+      in:fade={{ duration: 200, delay: 300 }}
+      out:fade={{ duration: 150 }}
     >
       <div class="flex flex-col items-center gap-3">
         <Spinner size="lg" />

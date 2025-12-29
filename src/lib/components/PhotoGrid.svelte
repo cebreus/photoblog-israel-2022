@@ -20,6 +20,7 @@
   import { IMAGE_MESSAGES } from "$lib/utils/messages";
   import { findIndexById, getRange } from "$lib/utils/selection";
   import { toSlug } from "$lib/utils/strings";
+  import { smartToast } from "$lib/utils/toasts";
 
   const logger = createLogger("PhotoGrid");
 
@@ -104,6 +105,7 @@
   }
 
   async function confirmDelete() {
+    if (isDeleting) return;
     await performImageAction({
       action: "delete",
       images: imagesToDelete.map(function (img) {
@@ -140,6 +142,7 @@
   }
 
   async function confirmArchive() {
+    if (isArchiving) return;
     await performImageAction({
       action: "archive",
       images: imagesToArchive.map(function (img) {
@@ -231,31 +234,24 @@
     }
 
     isApplyingPaste = true;
-    try {
+    const performOperation = async () => {
+      const data = clipboard.data;
+      if (!data) return;
       const updatePayload = {
         images: targetImages.map((img) => ({
           id: img.id,
           src: img.src,
         })),
         updates: {
-          title: fieldsToApply.title && clipboard.data.title ? clipboard.data.title : undefined,
-          author: fieldsToApply.author && clipboard.data.author ? clipboard.data.author : undefined,
-          location:
-            fieldsToApply.location && clipboard.data.location ? clipboard.data.location : undefined,
-          city: fieldsToApply.city && clipboard.data.city ? clipboard.data.city : undefined,
-          state: fieldsToApply.state && clipboard.data.state ? clipboard.data.state : undefined,
-          country:
-            fieldsToApply.country && clipboard.data.country ? clipboard.data.country : undefined,
-          countryCode:
-            fieldsToApply.countryCode && clipboard.data.countryCode
-              ? clipboard.data.countryCode
-              : undefined,
-          caption:
-            fieldsToApply.caption && clipboard.data.caption ? clipboard.data.caption : undefined,
-          keywords:
-            fieldsToApply.keywords && clipboard.data.keywords?.length
-              ? clipboard.data.keywords
-              : undefined,
+          title: fieldsToApply.title && data.title ? data.title : undefined,
+          author: fieldsToApply.author && data.author ? data.author : undefined,
+          location: fieldsToApply.location && data.location ? data.location : undefined,
+          city: fieldsToApply.city && data.city ? data.city : undefined,
+          state: fieldsToApply.state && data.state ? data.state : undefined,
+          country: fieldsToApply.country && data.country ? data.country : undefined,
+          countryCode: fieldsToApply.countryCode && data.countryCode ? data.countryCode : undefined,
+          caption: fieldsToApply.caption && data.caption ? data.caption : undefined,
+          keywords: fieldsToApply.keywords && data.keywords?.length ? data.keywords : undefined,
         },
       };
 
@@ -267,17 +263,28 @@
 
       if (!res.ok) {
         const err = await res.json();
-        throw new Error(err.message || "Chyba při ukládání metadata");
+        throw new Error(err.message || IMAGE_MESSAGES.METADATA_PASTE_FAILED);
       }
 
       isPasteDialogOpen = false;
-      toast.success(IMAGE_MESSAGES.METADATA_PASTED);
+    };
 
+    const promise = performOperation();
+
+    smartToast(promise, {
+      loading: IMAGE_MESSAGES.APPLYING_METADATA_PASTE,
+      success: IMAGE_MESSAGES.METADATA_PASTED,
+      error: (e) =>
+        IMAGE_MESSAGES.ERROR_TITLE(e instanceof Error ? e.message : IMAGE_MESSAGES.UNKNOWN_ERROR),
+      delay: 500,
+    });
+
+    try {
+      await promise;
       // Refresh data
       await invalidateAll();
     } catch (e) {
       logger.error(e);
-      toast.error(`Chyba: ${e instanceof Error ? e.message : "Neznámá chyba"}`);
     } finally {
       isApplyingPaste = false;
     }

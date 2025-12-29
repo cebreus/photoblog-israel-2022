@@ -90,6 +90,7 @@ export const IMAGE_MESSAGES = {
   metadataCopied: (filename: string) => `Metadata zkopírována z "${filename}"`,
   METADATA_PASTED: "Metadata úspěšně vložena",
   METADATA_PASTE_FAILED: "Chyba při ukládání metadat",
+  APPLYING_METADATA_PASTE: "Aplikuji metadata na vybrané obrázky...",
   NO_CLIPBOARD_DATA: "Žádná metadata ve schránce",
 
   // Save operations
