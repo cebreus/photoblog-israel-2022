@@ -12,6 +12,7 @@
   import { cn } from "$lib/utils";
 
   export let visiblePeople: Person[] = [];
+  export let processingIds = new Set<string>();
   export let selectedPeople: string[] = [];
   export let selectedForMerge: string[] = [];
   export let editingPersonId: string | null = null;
@@ -59,16 +60,17 @@
         }}
         data-testid="people-tab-person-item"
       >
-        {#if isSaving && editingPersonId === person.id}
+        {#if (isSaving && editingPersonId === person.id) || processingIds.has(person.id)}
           <div
             class="absolute inset-0 bg-background/90 backdrop-blur-sm flex items-center justify-center rounded"
-            style="z-index: 9999;"
+            style="z-index: 10;"
             data-testid="people-tab-person-loading"
           >
             <Spinner class="w-6 h-6 text-primary" />
           </div>
         {/if}
         <Button
+          disabled={processingIds.has(person.id)}
           variant="outline"
           class="relative w-10 h-10 p-0 rounded overflow-hidden bg-slate-200 dark:bg-slate-800 shrink-0 border border-border hover:ring-2 ring-primary transition-all focus:outline-none"
           onclick={(e: MouseEvent) => {
@@ -200,6 +202,7 @@
             size="icon"
             class="h-8 w-8 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
             title="Skrýt osobu"
+            disabled={processingIds.has(person.id)}
             data-testid="people-tab-person-ignore-button"
             onclick={(event) => {
               event.stopPropagation();

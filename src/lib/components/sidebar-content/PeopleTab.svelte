@@ -86,6 +86,16 @@
     Array<{ imageId: string; box: { x: number; y: number; width: number; height: number } }>
   >([]);
 
+  // Track processing state for individual items to prevent race conditions
+  let processingIds = $state(new Set<string>());
+  let lastUpdateTimestamp = $state(Date.now());
+
+  function setProcessing(id: string, busy: boolean) {
+    if (busy) processingIds.add(id);
+    else processingIds.delete(id);
+    processingIds = new Set(processingIds);
+  }
+
   async function loadConstraints() {
     if (!dev) return;
     try {
@@ -142,9 +152,8 @@
 
   const getThumbnailSrc = (p: Person) => {
     if (!p.thumbnail) return "";
-    if (p.thumbnail.startsWith("/")) return p.thumbnail;
-    // If relative 'faces/foo.jpg', prepend urlPrefix
-    return `${urlPrefix}/${p.thumbnail}`;
+    const base = p.thumbnail.startsWith("/") ? p.thumbnail : `${urlPrefix}/${p.thumbnail}`;
+    return `${base}?v=${lastUpdateTimestamp}`;
   };
 
   // Editing state
@@ -239,6 +248,7 @@
       logger.debug("API call successful, triggering reload");
       // Trigger reload to show updated name
       await people.refresh();
+      lastUpdateTimestamp = Date.now();
       toast.success(PERSON_MESSAGES.PERSON_RENAMED);
       cancelEditing();
     } catch (error) {
@@ -247,6 +257,7 @@
     } finally {
       logger.debug("Setting isSaving to false");
       isSaving = false;
+      setProcessing(editingPersonId, false);
       logger.debug("isSaving is now:", isSaving);
     }
   }
@@ -300,6 +311,7 @@
   async function toggleHide(personId: string) {
     logger.debug("Toggling hide for person:", personId);
     isSaving = true;
+    setProcessing(personId, true);
 
     try {
       // Call API to toggle ignored flag
@@ -327,12 +339,14 @@
       toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR);
     } finally {
       isSaving = false;
+      setProcessing(personId, false);
     }
   }
 
   async function renamePerson(personId: string, newName: string) {
     if (!newName.trim()) return;
-
+    setProcessing(personId, true);
+    // Note: API update happens in confirmRename
     await apiUpdate([{ id: personId, name: newName.trim() }]);
   }
 
@@ -819,6 +833,7 @@
       {cancelEditing}
       {toggleHide}
       {toggleMergeSelection}
+      {processingIds}
     />
 
     <Accordion.Root type="multiple" class="mt-4">
