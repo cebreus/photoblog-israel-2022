@@ -30,6 +30,9 @@ describe("people utils", () => {
         clusters: [],
         createdAt: "",
         lastSeenAt: "",
+        hidden: false,
+        junk: false,
+        category: "person",
       };
 
       // Mock access to succeed (file exists)
@@ -51,6 +54,9 @@ describe("people utils", () => {
         clusters: [],
         createdAt: "",
         lastSeenAt: "",
+        hidden: false,
+        junk: false,
+        category: "person",
       };
 
       // Mock access to fail (file missing)
@@ -80,6 +86,9 @@ describe("people utils", () => {
         clusters: [],
         createdAt: "",
         lastSeenAt: "",
+        hidden: false,
+        junk: false,
+        category: "person",
       };
 
       vi.mocked(fsp.access).mockRejectedValue(new Error("ENOENT"));
