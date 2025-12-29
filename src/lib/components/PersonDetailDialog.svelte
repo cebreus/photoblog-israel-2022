@@ -107,6 +107,8 @@
 
   async function performUnmatch(imageIds: string[], shouldHide = false) {
     isWorking = true;
+    const isRemovingAll = imageIds.length >= crops.length;
+
     try {
       const res = await fetch("/api/people/unmatch", {
         method: "POST",
@@ -120,9 +122,14 @@
         toast.success(DETECTION_MESSAGES.unmatchSuccess(imageIds.length, shouldHide), {
           duration: 5000,
         });
+
+        if (isRemovingAll) {
+          open = false;
+        }
       } else {
+        const data = await res.json();
         toast.error(GENERIC_MESSAGES.PROCESSING_ERROR, {
-          description: GENERIC_MESSAGES.OPERATION_FAILED,
+          description: data.error || GENERIC_MESSAGES.OPERATION_FAILED,
           duration: 10000,
         });
       }
@@ -200,6 +207,8 @@
     if (ids.length === 0) return;
 
     isWorking = true;
+    const isRemovingAll = ids.length >= crops.length;
+
     try {
       const res = await fetch("/api/people/reassign", {
         method: "POST",
@@ -216,6 +225,10 @@
         selectedIds = new Set();
         showReassignDialog = false;
         toast.success(DETECTION_MESSAGES.assignedToPerson(targetPerson.name));
+
+        if (isRemovingAll) {
+          open = false;
+        }
       } else {
         const data = await res.json();
         toast.error(DETECTION_MESSAGES.ASSIGNMENT_ERROR, { description: data.error });
