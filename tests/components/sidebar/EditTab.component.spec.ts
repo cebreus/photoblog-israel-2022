@@ -35,14 +35,21 @@ vi.mock("$app/navigation", () => ({
   invalidateAll: vi.fn(),
 }));
 
-vi.mock("$lib/logger", () => ({
-  createLogger: () => ({
+vi.mock("$lib/logger", () => {
+  const mockLogger = {
     info: vi.fn(),
     error: vi.fn(),
     warn: vi.fn(),
     debug: vi.fn(),
-  }),
-}));
+    trace: vi.fn(),
+    fatal: vi.fn(),
+    verbose: vi.fn(),
+  };
+  return {
+    createLogger: () => mockLogger,
+    log: mockLogger,
+  };
+});
 
 vi.mock("$lib/stores/metadata-clipboard.svelte", () => ({
   metadataClipboard: {

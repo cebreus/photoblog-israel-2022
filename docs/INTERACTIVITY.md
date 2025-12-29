@@ -87,6 +87,23 @@ Odhaluje vnitřní stav aplikace pro potřeby vývoje.
 - **JSON Viewer** → zobrazení surových dat (ID, EXIF, AI parametry) pod každou fotografií.
 - **Technické info** → technické detaily buildu a verze přístupné v surových datech JSON vieweru.
 
+### 1.1.6. Anti-Flicker a Indikace Načítání
+
+Pro zajištění plynulého uživatelského zážitku (UX) a prevenci vizuálního "problikávání" (flickering) během rychlých operací systém implementuje inteligentní zpoždění indikátorů načítání.
+
+- **Okamžité blokování interakce** → Jakákoliv destruktivní nebo editační akce (např. uložení metadat, skrytí osoby) **okamžitě** zablokuje příslušné UI prvky, aby se zabránilo race conditions a vícenásobným odesláním.
+
+- **Vizuální zpoždění (300-500ms)** → Grafický indikátor načítání (spinner, overlay) se zobrazí pouze tehdy, pokud operace trvá déle než definovaný práh.
+  - **Edit Overlay (300ms)**: "Ukládám metadata..." se zobrazí tlumě až po 300ms. Rychlé uložení neproblikne.
+  - **Seznam osob (300ms)**: Spinner u jednotlivé osoby se zobrazí až po 300ms.
+  - **Smart Toast (500ms)**: Informační bublina "Zpracovávám..." se zobrazí jen u dlouhých operací (např. hromadné vložení metadat). Pokud je akce rychlá, zobrazí se rovnou "Hotovo".
+
+**Systémová odezva:**
+
+- **Prerekvizity** → Asynchronní volání API.
+- **Průběh** → Start akce → Zámek UI → Start časovače → Po 300ms zobrazení spinneru (pokud stále běží).
+- **Výsledek** → Uživatel vnímá systém jako okamžitý a stabilní, bez rušivých elementů u běžných rychlých operací.
+
 ---
 
 ## 1.2. Hlavička (Header)
