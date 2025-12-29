@@ -22,8 +22,7 @@ describe("smartToast", () => {
 
   it("should show loading toast after delay", async () => {
     vi.mocked(toast.loading).mockReturnValue("123");
-    let resolve: (v: any) => void;
-    // @ts-expect-error
+    let resolve: (v: any) => void = () => {};
     const p = new Promise((r) => {
       resolve = r;
     });
@@ -34,15 +33,13 @@ describe("smartToast", () => {
     await vi.advanceTimersByTimeAsync(600);
 
     expect(toast.loading).toHaveBeenCalledWith("Load");
-    // @ts-expect-error
     resolve("Done");
     await wrapped;
     expect(toast.success).toHaveBeenCalledWith("Ok", { id: "123" });
   });
 
   it("should skip loading toast if fast", async () => {
-    let resolve: (v: any) => void;
-    // @ts-expect-error
+    let resolve: (v: any) => void = () => {};
     const p = new Promise((r) => {
       resolve = r;
     });
@@ -51,7 +48,6 @@ describe("smartToast", () => {
     await vi.advanceTimersByTimeAsync(200);
     expect(toast.loading).not.toHaveBeenCalled();
 
-    // @ts-expect-error
     resolve("Done");
     await wrapped;
     expect(toast.success).toHaveBeenCalledWith("Ok");
@@ -59,8 +55,7 @@ describe("smartToast", () => {
 
   it("should handle error", async () => {
     vi.mocked(toast.loading).mockReturnValue("err-id");
-    let reject: (v: any) => void;
-    // @ts-expect-error
+    let reject: (v: any) => void = () => {};
     const p = new Promise((_, r) => {
       reject = r;
     });
@@ -70,7 +65,6 @@ describe("smartToast", () => {
     await vi.advanceTimersByTimeAsync(600);
     expect(toast.loading).toHaveBeenCalledWith("Load");
 
-    // @ts-expect-error
     reject(new Error("Boom"));
     await expect(wrapped).rejects.toThrow("Boom");
     expect(toast.error).toHaveBeenCalledWith("Err", { id: "err-id" });

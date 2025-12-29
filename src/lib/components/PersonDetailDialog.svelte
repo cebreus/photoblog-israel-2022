@@ -1,6 +1,8 @@
 <script lang="ts">
   import CheckCheck from "@lucide/svelte/icons/check-check";
+  import ChevronDown from "@lucide/svelte/icons/chevron-down";
   import EyeOff from "@lucide/svelte/icons/eye-off";
+  import Image from "@lucide/svelte/icons/image";
   import MoreHorizontal from "@lucide/svelte/icons/more-horizontal";
   import Search from "@lucide/svelte/icons/search";
   import Trash2 from "@lucide/svelte/icons/trash-2";
@@ -65,6 +67,8 @@
   let isWorking = $state(false);
   let selectedIds = $state<Set<string>>(new Set());
   let showReassignDialog = $state(false);
+  let showAvatarDialog = $state(false);
+  let availableAvatars = $state<string[]>([]);
   let personSearchQuery = $state("");
 
   const filteredPeople = $derived.by(() => {
@@ -312,6 +316,43 @@
       isWorking = false;
     }
   }
+
+  async function loadAvatars() {
+    try {
+      const res = await fetch("/api/people/avatars");
+      if (res.ok) {
+        const data = await res.json();
+        availableAvatars = data.avatars;
+      }
+    } catch (e) {
+      logger.error("Failed to load avatars", e);
+    }
+  }
+
+  async function setAvatar(avatar: string) {
+    if (isWorking) return;
+    isWorking = true;
+    try {
+      const res = await fetch("/api/people/set-avatar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ personId: person.id, avatar }),
+      });
+
+      if (res.ok) {
+        onUpdate?.();
+        showAvatarDialog = false;
+        toast.success("Avatar úspěšně změněn");
+      } else {
+        toast.error("Změna avatara selhala");
+      }
+    } catch (e) {
+      logger.error(e);
+      toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR);
+    } finally {
+      isWorking = false;
+    }
+  }
 </script>
 
 <Dialog.Root bind:open>
@@ -323,12 +364,51 @@
       <div class="flex items-center justify-between">
         <Dialog.Title class="flex items-center gap-2" data-testid="person-detail-dialog-title">
           {#if person.thumbnail}
-            <img
-              src={`${urlPrefix}/${person.thumbnail}`}
-              class="w-8 h-8 rounded-full object-cover"
-              alt={person.name}
-              data-testid="person-detail-header-thumbnail"
-            />
+            <button
+              class="group flex items-center gap-1.5 rounded-full pl-0 pr-2 py-0 hover:bg-muted transition-colors ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              onclick={() => {
+                loadAvatars();
+                showAvatarDialog = true;
+              }}
+              title="Změnit avatar"
+              type="button"
+            >
+              <div class="relative w-8 h-8 rounded-full overflow-hidden">
+                <img
+                  src={`${urlPrefix}/${person.thumbnail}`}
+                  class="w-full h-full object-cover"
+                  alt={person.name}
+                  data-testid="person-detail-header-thumbnail"
+                />
+                <div
+                  class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity"
+                >
+                  <Image class="w-4 h-4 text-white" />
+                </div>
+              </div>
+              <ChevronDown
+                class="w-3.5 h-3.5 text-muted-foreground/70 group-hover:text-foreground transition-colors"
+              />
+            </button>
+          {:else}
+            <button
+              class="group flex items-center gap-1.5 rounded-full pl-0 pr-2 py-0 hover:bg-muted transition-colors ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              onclick={() => {
+                loadAvatars();
+                showAvatarDialog = true;
+              }}
+              title="Nastavit avatar"
+              type="button"
+            >
+              <div
+                class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center group-hover:bg-slate-300 dark:group-hover:bg-slate-700 transition-colors"
+              >
+                <User class="w-4 h-4 text-muted-foreground" />
+              </div>
+              <ChevronDown
+                class="w-3.5 h-3.5 text-muted-foreground/70 group-hover:text-foreground transition-colors"
+              />
+            </button>
           {/if}
           <span data-testid="person-detail-header-name">{person.name}</span>
 
@@ -624,6 +704,42 @@
 
     <Dialog.Footer class="px-6 py-4 border-t bg-muted/20">
       <Button variant="outline" onclick={() => (showReassignDialog = false)}>Zrušit</Button>
+    </Dialog.Footer>
+  </Dialog.Content>
+</Dialog.Root>
+<Dialog.Root bind:open={showAvatarDialog}>
+  <Dialog.Content class="max-w-2xl" data-testid="avatar-selection-dialog">
+    <Dialog.Header>
+      <Dialog.Title>Vybrat avatar</Dialog.Title>
+      <Dialog.Description>Vyberte předpřipravený avatar pro tuto osobu.</Dialog.Description>
+    </Dialog.Header>
+
+    {#if availableAvatars.length === 0}
+      <div class="p-8 text-center text-muted-foreground">Žádné avatary nenalezeny.</div>
+    {:else}
+      <div class="grid grid-cols-4 gap-4 max-h-[60vh] overflow-y-auto p-4">
+        {#each availableAvatars as avatar}
+          <button
+            class="aspect-square relative rounded-lg overflow-hidden border hover:ring-2 ring-primary transition-all group"
+            onclick={() => setAvatar(avatar)}
+            disabled={isWorking}
+          >
+            <img
+              src={`${urlPrefix}/${avatar}`}
+              class="w-full h-full object-cover"
+              alt="avatar"
+              loading="lazy"
+            />
+            <div
+              class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"
+            ></div>
+          </button>
+        {/each}
+      </div>
+    {/if}
+
+    <Dialog.Footer>
+      <Button variant="outline" onclick={() => (showAvatarDialog = false)}>Zrušit</Button>
     </Dialog.Footer>
   </Dialog.Content>
 </Dialog.Root>

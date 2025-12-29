@@ -745,6 +745,85 @@ async function processImageQueue(
         }
       }
 
+      // 2. Fast Path: Use cached boxes from manifest + padding crop -> Detect on crop (Much faster than full scan)
+      if (!usedCache && detections.length === 0 && facesManifest[image.id]?.facesDetected) {
+        const cached = facesManifest[image.id];
+        if (cached.faces && cached.faces.length > 0) {
+          try {
+            const fastDetections: any[] = [];
+            const scaleX = (image.width || img.width) / img.width;
+            const scaleY = (image.height || img.height) / img.height;
+
+            // Prepare crops
+            for (const face of cached.faces) {
+              // Manifest boxes are in ORIGINAL coordinates. Scale to THUMBNAIL.
+              const box = {
+                x: face.x / scaleX,
+                y: face.y / scaleY,
+                width: face.width / scaleX,
+                height: face.height / scaleY,
+              };
+
+              // Add padding for detection context (SSD needs some context)
+              const pad = 0.5; // 50% padding
+              const cropX = Math.max(0, box.x - box.width * pad);
+              const cropY = Math.max(0, box.y - box.height * pad);
+              const cropW = Math.min(img.width - cropX, box.width * (1 + 2 * pad));
+              const cropH = Math.min(img.height - cropY, box.height * (1 + 2 * pad));
+
+              const cropCanvas = canvas.createCanvas(cropW, cropH);
+              const ctx = cropCanvas.getContext("2d");
+              ctx.drawImage(img, cropX, cropY, cropW, cropH, 0, 0, cropW, cropH);
+
+              // Detect on CROP
+              const faceImg = (await canvas.loadImage(
+                cropCanvas.toBuffer("image/jpeg"),
+              )) as unknown as faceapi.TNetInput;
+
+              const cropDetections = await faceapi
+                .detectAllFaces(
+                  faceImg,
+                  new faceapi.SsdMobilenetv1Options({ minConfidence: 0.2 }), // Lower confidence since we expect a face
+                )
+                .withFaceLandmarks()
+                .withFaceDescriptors();
+
+              if (cropDetections.length > 0) {
+                // Take the largest face in the crop (should be the target)
+                const best = cropDetections.sort(
+                  (a, b) => b.detection.box.area - a.detection.box.area,
+                )[0];
+
+                // Push result using certain MANIFEST box (trust the build)
+                // We rely on the descriptor from the crop, but the box from the global context
+                fastDetections.push({
+                  detection: {
+                    box: box, // Use the global thumbnail-scaled box
+                  },
+                  descriptor: new Float32Array(best.descriptor),
+                });
+              }
+            }
+
+            // If we found all expected faces (or at least some), use them?
+            // Safer to only use if count matches, otherwise fallback to full scan?
+            // Actually, if we found *some*, using them saves time. Missing ones will be missed.
+            // But full scan might find them.
+            // Let's use if we found *any*.
+            if (fastDetections.length > 0) {
+              detections = fastDetections;
+              if (values.verbose)
+                logger.info(
+                  `⚡️ Fast Path: Computed ${detections.length} descriptors from manifest crops for ${image.id}`,
+                );
+            }
+          } catch (e) {
+            logger.warn(`Fast Path failed for ${image.id}, falling back to full scan: ${e}`);
+            detections = []; // Fallback
+          }
+        }
+      }
+
       if (!usedCache) {
         try {
           detections = await faceapi

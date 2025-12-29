@@ -241,22 +241,28 @@ export async function findAvailableThumbnail(personId: string, facesDir: string)
 export async function refreshPersonThumbnail(person: Person, facesDir: string): Promise<void> {
   // Check if current thumbnail still exists
   if (person.thumbnail) {
-    // Construct absolute path to the thumbnail file
-    // person.thumbnail is relative like "faces/<id>/<image>.jpg"
-    // We need to resolve it against facesDir's parent or construct carefully
+    if (person.thumbnail.includes("assets/avatars/")) {
+      // It's a custom avatar, check if it exists in assets
+      // We assume facesDir is ".../faces", so assetsDir is ".../assets"
+      const assetsDir = path.resolve(facesDir, "../assets");
+      const avatarPath = path.resolve(assetsDir, "avatars", path.basename(person.thumbnail));
+      try {
+        await fsp.access(avatarPath);
+        return; // Custom avatar is valid
+      } catch {
+        // Avatar missing, fall back to finding a face crop
+      }
+    } else {
+      // It's a face crop
+      const thumbFilename = path.basename(person.thumbnail);
+      const thumbPath = path.resolve(facesDir, person.id, thumbFilename);
 
-    // Actually, person.thumbnail might be "faces/person-id/img.jpg"
-    // facesDir is ".../static/content/faces"
-    // We can just look for the file in facesDir/<person-id>/...
-
-    const thumbFilename = path.basename(person.thumbnail);
-    const thumbPath = path.resolve(facesDir, person.id, thumbFilename);
-
-    try {
-      await fsp.access(thumbPath);
-      return; // Current thumbnail is valid
-    } catch {
-      // Thumbnail missing, need to find new one
+      try {
+        await fsp.access(thumbPath);
+        return; // Current thumbnail is valid
+      } catch {
+        // Thumbnail missing, need to find new one
+      }
     }
   }
 
