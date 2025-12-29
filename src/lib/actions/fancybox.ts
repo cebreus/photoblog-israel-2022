@@ -166,6 +166,7 @@ function handleCarouselDestroy(_fancybox: FancyboxInstance, carousel: FancyboxCa
 }
 
 const DEFAULT_OPTIONS = {
+  Hash: false, // Disable hash plugin to avoid conflicts with SvelteKit router
   Carousel: {
     Thumbs: {
       showOnStart: false,

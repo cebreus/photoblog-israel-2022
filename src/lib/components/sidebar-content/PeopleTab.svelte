@@ -88,7 +88,8 @@
 
   // Track processing state for individual items to prevent race conditions
   let processingIds = $state(new Set<string>());
-  let lastUpdateTimestamp = $state(Date.now());
+  // Initialize to 0 to avoid hydration mismatch - will be set to actual timestamp on client
+  let lastUpdateTimestamp = $state(0);
 
   function setProcessing(id: string, busy: boolean) {
     if (busy) processingIds.add(id);
@@ -110,6 +111,10 @@
   }
 
   $effect(() => {
+    // Set initial timestamp only on client to avoid hydration mismatch
+    if (typeof window !== "undefined" && lastUpdateTimestamp === 0) {
+      lastUpdateTimestamp = Date.now();
+    }
     loadConstraints();
   });
 
