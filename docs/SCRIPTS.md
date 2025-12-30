@@ -96,6 +96,8 @@ Většinu argumentů lze předat skrze `manage.ts` pomocí syntaxe `bun scripts/
 - **`bun run images:rename`** - Interaktivní skript pro hromadné přejmenování fotek podle metadat (datum, autor). Podporuje "chytrou migraci" (přejmenování assetů, cache i manifestů bez nutnosti rebuildu).
 
   **Podporované flagy:**
+  - `--dryRun` - Simulace přejmenování, vygeneruje JSON plán bez provedení změn
+  - `--author=<name>` - Výchozí autor pro EXIF data
   - `--manifestOnly` - Pouze regenerace manifestu (bez přegenerování obrázků)
   - `--curation` - Generování kurátorského manifestu s detekcí duplikátů
   - `--watch` - Watch režim pro automatickou regeneraci
@@ -111,7 +113,11 @@ Většinu argumentů lze předat skrze `manage.ts` pomocí syntaxe `bun scripts/
   bun run images:build --manifestOnly          # Pouze manifest
   bun run images:build --curation              # S kurátorským režimem
   bun run images:build --watch                 # Watch režim
+  bun run images:rename --dryRun --gallery=egypt-2025 # Simulace přejmenování
   ```
+
+- **`bun run images:rename:revert`** - Skript pro vrácení změn provedených `images:rename`. Vyžaduje JSON plán vygenerovaný při `--dryRun` (nebo automaticky vytvořený předchozím během, pokud by byl integrován log).
+  - Použití: `bun run images:rename:revert` (interaktivně se zeptá na cestu k JSON plánu)
 
 - **`bun run images:watch`** - Watch režim, automatická regenerace při změnách v content/
 - **`bun run images:blur`** - Vygeneruje pouze blur placeholders (LQIP)

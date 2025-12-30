@@ -1,6 +1,5 @@
 import path from "node:path";
 import { confirm, intro, outro, select, spinner, text } from "@clack/prompts";
-import { exiftool } from "exiftool-vendored";
 import { createLogger } from "./lib/core/cli-logger";
 import { parseCliArguments } from "./lib/core/cli-parser";
 import {
@@ -17,18 +16,15 @@ import {
   migrateSortOrderManifest,
   restoreManifests,
 } from "./lib/gallery/migration";
-import { analyzeRenameCandidates, type RenameMap, safeRename } from "./lib/gallery/renaming";
-import { loadImagesManifest } from "./lib/manifests/repository";
+import { type RenameItem, type RenameMap, safeRename } from "./lib/gallery/renaming";
 import { formatDuration } from "./lib/utils/time";
 
-const logger = createLogger("rename-images");
+const logger = createLogger("revert-rename");
 
 const options = parseCliArguments(process.argv.slice(2));
-const values = options;
 
 async function getGalleries() {
   const contentDir = path.resolve("content");
-
   const entries = await import("node:fs/promises").then((fs) =>
     fs.readdir(contentDir, { withFileTypes: true }),
   );
@@ -36,12 +32,12 @@ async function getGalleries() {
 }
 
 async function getGalleryOrPrompt(galleries: string[]): Promise<string> {
-  if (values.gallery && galleries.includes(values.gallery)) {
-    return values.gallery;
+  if (options.gallery && galleries.includes(options.gallery)) {
+    return options.gallery;
   }
 
   const selected = await select({
-    message: "Select a gallery to rename images in:",
+    message: "Select a gallery:",
     options: galleries.map((g) => ({ value: g, label: g })),
   });
 
@@ -52,28 +48,61 @@ async function getGalleryOrPrompt(galleries: string[]): Promise<string> {
   return selected;
 }
 
-async function executeRenameAndMigration(gallery: string, renameMap: RenameMap): Promise<void> {
+async function loadRenameMapFromJson(jsonPath: string): Promise<RenameMap> {
+  const content = await Bun.file(jsonPath).text();
+  const data = JSON.parse(content) as RenameItem[];
+
+  const renameMap: RenameMap = new Map();
+
+  for (const item of data) {
+    // For revert, we swap old and new
+    // The "item" describes how it WAS renamed (Old -> New)
+    // To revert, we need to go (New -> Old)
+
+    renameMap.set(item.newName, {
+      oldName: item.newName, // Current name on disk (New)
+      newName: item.oldName, // Target name (Old)
+      oldPath: "", // Will be set based on gallery
+      newPath: "",
+      oldBase: item.newBase,
+      newBase: item.oldBase,
+      oldRelPath: item.newRelPath,
+      newRelPath: item.oldRelPath,
+    });
+  }
+
+  return renameMap;
+}
+
+async function executeRevert(gallery: string, renameMap: RenameMap): Promise<void> {
+  const picsDir = path.resolve(`content/${gallery}/pics`);
+
+  // Update paths
+  for (const [_key, item] of renameMap.entries()) {
+    item.oldPath = path.join(picsDir, item.oldName);
+    item.newPath = path.join(picsDir, item.newName);
+  }
+
   const sRun = spinner();
-  sRun.start("Creating backup and starting migration...");
+  sRun.start("Creating backup and reverting...");
 
   let backupDir: string | null = null;
 
   try {
-    // 1. Transactional Backup
     backupDir = await backupManifests(gallery);
-    sRun.message("Renaming files...");
+    sRun.message("Reverting files...");
 
-    // 2. Rename Files
+    // Rename files back
     for (const item of renameMap.values()) {
       const result = await safeRename(item.oldPath, item.newPath);
       if (!result.success && !result.skipped) {
-        throw new Error(`Failed to rename ${item.oldName}: ${result.error}`);
+        throw new Error(`Failed to revert ${item.oldName}: ${result.error}`);
       }
     }
 
-    sRun.message("Migrating assets and manifests...");
+    sRun.message("Reverting assets and manifests...");
 
-    // 3. Migrate Everything
+    // Validate all references
     await migrateGeneratedAssets(gallery, renameMap);
     await migrateCache(gallery, renameMap);
     await migrateImagesManifest(gallery, renameMap);
@@ -85,10 +114,10 @@ async function executeRenameAndMigration(gallery: string, renameMap: RenameMap):
     await migrateEmbeddingsManifest(gallery, renameMap);
     await migrateSortOrderManifest(gallery, renameMap);
 
-    sRun.stop(`Successfully processed ${renameMap.size} files.`);
+    sRun.stop(`Successfully reverted ${renameMap.size} files.`);
   } catch (err) {
-    sRun.stop("Migration failed!", 1);
-    logger.error(`Error during migration: ${err}`);
+    sRun.stop("Revert failed!", 1);
+    logger.error(`Error during revert: ${err}`);
 
     if (backupDir) {
       const sRestore = spinner();
@@ -96,9 +125,7 @@ async function executeRenameAndMigration(gallery: string, renameMap: RenameMap):
       try {
         await restoreManifests(gallery, backupDir);
         sRestore.stop("Restoration complete.");
-        logger.warn(
-          "NOTE: Source files may still be renamed. Manual check required for file naming.",
-        );
+        logger.warn("NOTE: Files might be in mixed state. Check filenames manually.");
       } catch (restoreErr) {
         sRestore.stop("Restoration FAILED!", 1);
         logger.error(`CRITICAL: Failed to restore backup! Error: ${restoreErr}`);
@@ -109,7 +136,7 @@ async function executeRenameAndMigration(gallery: string, renameMap: RenameMap):
 }
 
 async function main() {
-  intro("🖼️  Smart Image Renamer");
+  intro("🔄 Revert Image Rename");
 
   const galleries = await getGalleries();
   if (galleries.length === 0) {
@@ -119,65 +146,34 @@ async function main() {
 
   const gallery = await getGalleryOrPrompt(galleries);
 
-  let defaultAuthor = typeof values.author === "string" ? values.author : "";
-  if (!values.author) {
-    const defaultAuthorInput = await text({
-      message: "Default author (leave empty to omit author from filename if missing in EXIF):",
-      placeholder: "",
-      defaultValue: "",
-    });
+  const jsonPathInput = await text({
+    message: "Path to rename plan JSON file:",
+    placeholder: "./rename-plan-egypt-2025-1234567890.json",
+  });
 
-    if (typeof defaultAuthorInput !== "string") {
-      outro("Operation cancelled.");
-      process.exit(0);
-    }
-    defaultAuthor = defaultAuthorInput;
+  if (typeof jsonPathInput !== "string" || !jsonPathInput) {
+    outro("Operation cancelled.");
+    process.exit(0);
   }
 
-  const s = spinner();
-  s.start("Analyzing images...");
+  const jsonPath = path.resolve(jsonPathInput);
 
-  const picsDir = path.resolve(`content/${gallery}/pics`);
   try {
-    await (await import("node:fs/promises")).access(picsDir);
+    await Bun.file(jsonPath).text();
   } catch {
-    s.stop("No pics folder found!");
-    outro(`Directory not found: ${picsDir}`);
+    outro(`JSON file not found: ${jsonPath}`);
     process.exit(1);
   }
 
-  // Load existing manifest to find authors not in EXIF
-  const imagesManifest = await loadImagesManifest(`src/data/${gallery}`);
-
-  const renameMap = await analyzeRenameCandidates(picsDir, defaultAuthor, imagesManifest);
-
-  await exiftool.end();
-  s.stop(`Analysis complete.`);
+  const renameMap = await loadRenameMapFromJson(jsonPath);
 
   if (renameMap.size === 0) {
-    outro("All files seem to be already named correctly or no changes needed.");
-    return;
-  }
-
-  // Dry-run mode: export JSON and exit
-  if (values.dryRun) {
-    const jsonPath = path.join(process.cwd(), `rename-plan-${gallery}-${Date.now()}.json`);
-    const plan = Array.from(renameMap.values());
-
-    await Bun.write(jsonPath, JSON.stringify(plan, null, 2));
-
-    outro(`
-      🔍 Dry-run complete!
-      - ${renameMap.size} files would be renamed
-      - Plan saved to: ${jsonPath}
-      
-      Review the JSON and run scripts/revert-rename.ts if needed (after executing).
-    `);
+    outro("No rename operations found in JSON.");
     return;
   }
 
   const shouldContinue = await confirm({
-    message: `Ready to rename ${renameMap.size} files. This involves migrating cache, manifests, and content. Continue?`,
+    message: `Ready to revert ${renameMap.size} files. This will undo the previous rename. Continue?`,
   });
 
   if (!shouldContinue) {
@@ -185,21 +181,17 @@ async function main() {
     process.exit(0);
   }
 
-  await executeRenameAndMigration(gallery, renameMap);
+  await executeRevert(gallery, renameMap);
 
   outro(`
     ✅ Done!
-    - Source files renamed.
-    - Generated assets renamed.
-    - Cache updated.
-    - Manifests logging updated.
-    - Manifests updated.
-    - Markdown references updated.
+    - ${renameMap.size} files reverted
+    - All manifests and references updated
     
     Now run:
     1. bun run build (to verify integrity)
     2. bun run dev (to preview)
-    `);
+  `);
 }
 
 if (import.meta.main) {
