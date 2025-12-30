@@ -25,3 +25,12 @@ export function toSlug(name: string): string {
 
     return slug;
 }
+
+/**
+ * Check if an image ID or filename represents a collage.
+ * Matches both --collage (preferred) and -collage (slugified/legacy).
+ * Used by both build scripts and runtime to consistently identify collages.
+ */
+export function isCollage(imageId: string): boolean {
+    return /--collage(\.jpe?g)?$/i.test(imageId) || /-collage(\.jpe?g)?$/i.test(imageId);
+}

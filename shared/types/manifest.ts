@@ -35,6 +35,7 @@ export type AspectRatio =
     | "square"
     | "sphere"
     | "panorama"
+    | "collage"
     | "landscape-16-9"
     | "landscape-3-2"
     | "landscape-4-3"
@@ -51,10 +52,48 @@ export type SequenceInfo = {
     index: number;
     total: number;
     baseId: string;
+    /** All member IDs in this sequence, sorted by index. Populated at build time. */
+    members?: string[];
 };
 
 export type MediaItemType = "image" | "sequence" | "sequence-member" | "panorama" | "video" | "youtube";
 
+/**
+ * Image projection type used for rendering.
+ */
+export type ImageProjection =
+    | "rectilinear"     // Standard flat image (default)
+    | "equirectangular" // 360° sphere (2:1 ratio)
+    | "cylindrical"     // Standard panorama (horizontal scrolling)
+    | "fisheye"         // Fisheye lens
+    | "stereographic";  // Little planet
+
+/**
+ * Metadata for special media types requiring custom viewers.
+ */
+export type SpecialMediaData = {
+    isPanorama: boolean;
+    is360: boolean;
+    projection: ImageProjection;
+    /** Horizontal Field of View in degrees */
+    hfov?: number;
+    /** Vertical Field of View in degrees */
+    vfov?: number;
+    /** Camera orientation (for compass) */
+    pose?: {
+        heading: number;
+        pitch: number;
+        roll: number;
+    };
+    /** Initial view settings */
+    initialView?: {
+        yaw: number;
+        pitch: number;
+        fov: number;
+    };
+};
+
+/** @deprecated Use SpecialMediaData instead */
 export type PanoramaConfig = {
     projection: "cylindrical" | "equirectangular";
     haov: number;
@@ -120,6 +159,8 @@ export type ImageEntry = {
     };
     people?: string[];
     sources: ImageSource[];
+    specialMedia?: SpecialMediaData;
+    /** @deprecated Use specialMedia instead */
     panoramaConfig?: PanoramaConfig;
     sequenceInfo?: SequenceInfo;
 };
