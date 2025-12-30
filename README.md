@@ -74,14 +74,14 @@ bun run test:unit                                      # Unit testy
 CONTENT_DIR=egypt-2025 bun run vitest run --project client  # Component testy
 ```
 
-## Dokumentace
+## Documentation
 
-- **[Architektura projektu](./docs/ARCHITECTURE.md)** - Detailní popis struktury, datových toků a 3vrstvé architektury
-- **[Přehled projektu](./docs/ANALYSIS.md)** - Technický přehled klíčových funkcí
-- **[Kompletní seznam skriptů](./docs/SCRIPTS.md)** - Všechny dostupné Bun skripty s příklady použití
-- **[Přidání nové galerie](./docs/ADD-GALLERY.md)** - Návod krok za krokem
-- **[Testování](./docs/TESTING.md)** - Testing strategie a best practices
-- **[Testování image processing](./docs/TESTING-IMAGES.md)** - Testování generování obrázků
+- **[Architecture](./docs/ARCHITECTURE.md)** — System overview and structure
+- **[Scripts Reference](./docs/SCRIPTS.md)** — Available CLI commands
+- **[Add New Gallery](./docs/ADD-GALLERY.md)** — Step-by-step guide
+- **[Testing](./docs/TESTING.md)** — Testing strategy and best practices
+- **[Collage Editor](./docs/COLLAGE-EDITOR.md)** — Photo collage creation tool
+- **[Person Management](./docs/PERSON-MANAGEMENT.md)** — Face detection and clustering
 
 ## Technologie
 

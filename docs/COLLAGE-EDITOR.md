@@ -6,8 +6,6 @@
 ![SvelteKit](https://img.shields.io/badge/framework-SvelteKit-ff3e00)
 ![Sharp](https://img.shields.io/badge/processing-Sharp-99cc00)
 
----
-
 ## Obsah
 
 1. [Popis](#popis)
@@ -20,8 +18,6 @@
 8. [Re-editace koláží](#re-editace-koláží)
 9. [Testování](#testování)
 10. [Roadmap](#roadmap)
-
----
 
 ## Popis
 
@@ -36,8 +32,6 @@ Collage Editor je pokročilý nástroj pro vytváření foto koláží přímo v
 
 Fotografové často potřebují kombinovat více snímků do jednoho kompozitního výstupu. Tradiční nástroje (Photoshop, Canva) vyžadují manuální import/export a ztrácí EXIF metadata. Tento editor je integrován přímo do workflow galerie.
 
----
-
 ## Klíčové funkce
 
 | Funkce                  | Popis                                                  |
@@ -49,8 +43,6 @@ Fotografové často potřebují kombinovat více snímků do jednoho kompozitní
 | **Auto-save konceptů**  | localStorage ukládá rozpracovanou koláž                |
 | **Re-edit podpora**     | JSON sidecar pro opětovné otevření a úpravu            |
 | **8K limit**            | Automatická redukce při překročení 8000px              |
-
----
 
 ## Architektura
 
@@ -106,8 +98,6 @@ src/lib/
 
 ```
 
----
-
 ## Quick Start
 
 ### 1. Výběr obrázků
@@ -137,8 +127,6 @@ Klikněte **„Vytvořit koláž (High Quality)"**. Výsledek:
 - Uloží se do `pics/<název>--collage.jpg`
 - Konfigurace do `pics/<název>--collage.json`
 - Zdrojové soubory přesunuty do `collage-sources/`
-
----
 
 ## API Reference
 
@@ -238,8 +226,6 @@ calculateLayout<T extends LayoutItem>(
   border: CollageBorder
 ): SharedLayout<T>
 ```
-
----
 
 ## Konfigurace
 
@@ -341,8 +327,6 @@ u = borderWidth (gutter)
 
 **Poznámka:** API endpoint je dostupný pouze v development módu (`import.meta.env.DEV`).
 
----
-
 ## Příklady použití
 
 ### Základní koláž dvou obrázků
@@ -423,8 +407,6 @@ if (result.success) {
 }
 ```
 
----
-
 ## Re-editace koláží
 
 ### Detekce koláže
@@ -501,8 +483,6 @@ content/egypt-2025/
 6. Uložení **přemaže** starý `.jpg` a `.json`
 7. Zdrojové fotky zůstávají v `collage-sources/`
 
----
-
 ## Testování
 
 ### Jednotkové testy
@@ -538,8 +518,6 @@ bun run test:e2e -- --grep "collage"
    - Výstup má správné rozměry
    - EXIF metadata jsou zachována
 
----
-
 ## Roadmap
 
 ### Plánované funkce
@@ -564,8 +542,6 @@ bun run test:e2e -- --grep "collage"
 1. **WebAssembly rendering** – Rychlejší zpracování v prohlížeči
 2. **AI-based composition** – Automatické rozpoznání hlavních subjektů
 3. **Cloud backup** – Synchronizace konceptů napříč zařízeními
-
----
 
 ## Troubleshooting
 
@@ -594,8 +570,6 @@ bun run test:e2e -- --grep "collage"
 **Log:** `Škálování pro zachování kvality: 85%`
 
 **Význam:** Zoom způsobil potenciální upscale, systém automaticky zmenšil canvas pro zachování kvality.
-
----
 
 ## Poznámky pro vývojáře
 
@@ -627,6 +601,13 @@ Všechny texty jsou centralizovány v `src/lib/utils/messages.ts` pod `COLLAGE_M
 2. Implementovat i18n provider
 3. Přepnout import v komponentách
 
+## Související dokumenty
+
+- [ARCHITECTURE.md](./ARCHITECTURE.md) — Hlavní přehled architektury
+- [SPECIAL-MEDIA.md](./SPECIAL-MEDIA.md) — Speciální média (panoramata, sekvence)
+- [INTERACTIVITY.md](./INTERACTIVITY.md) — UI interakce
+- [SCRIPTS.md](./SCRIPTS.md) — CLI příkazy
+
 ---
 
-_Poslední aktualizace: 2025-12-26_
+_Poslední aktualizace: 2025-12-30_

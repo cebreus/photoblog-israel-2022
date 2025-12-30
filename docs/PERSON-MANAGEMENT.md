@@ -16,8 +16,6 @@ Tento dokument definuje principy správy osob, automatické detekce a manuální
 | **Chybná detekce (Invalid)** | Skutečná chyba AI (stín, kámen). Odstraní se z manifestu a souřadnice se zapíšou do `invalidDetections` v constraints.         |
 | **Přejmenování (Rename)**    | Změna jména a technického ID. Vyžaduje unikátnost.                                                                             |
 
----
-
 ## 1. Uživatelské rozhraní (GUI)
 
 Systém poskytuje dva hlavní prvky pro správu entit:
@@ -46,8 +44,6 @@ Otevírá se kliknutím na miniaturu osoby v sidebaru.
   - **Ignorovat detekce** – Označí výřezy jako chybné (AI omyl). Zapíše se do `invalidDetections`.
 - **Změna kategorie:** 3 tečky → Typ osoby → Osoba / Socha / Malba.
 
----
-
 ## 2. Kategorie a Typy
 
 Každá entita má přiřazenou kategorii:
@@ -63,8 +59,6 @@ Každá entita má přiřazenou kategorii:
 3.  Vyberte "Typ osoby" → zvolte kategorii.
 
 Při **Odepnutí** nově vzniklá entita **dědí kategorii** původní entity.
-
----
 
 ## 3. Životní cyklus entity
 
@@ -90,8 +84,6 @@ Při **Odepnutí** nově vzniklá entita **dědí kategorii** původní entity.
   - Souřadnice jsou zapsány do pole `invalidDetections` v `clustering-constraints.json`.
   - Tvář zmizí z manifestu.
   - Používá se pro věci, které nejsou lidi (stíny, kameny, pařezy).
-
----
 
 ## 4. Manuální akce a omezení
 
@@ -182,8 +174,6 @@ Při **Odepnutí** nově vzniklá entita **dědí kategorii** původní entity.
 
 **Konflikt:** Pokud již existuje entita s daným slugem, operace selže (409). V takovém případě použijte Sloučení.
 
----
-
 ## 5. Proces sestavení a opakování clusteringu
 
 Příkaz `pnpm process` je **inkrementální**.
@@ -212,8 +202,6 @@ Pokud chcete znovu přeskupit tváře od nuly (např. po úpravě parametrů clu
 - Klastry se **nezmění**, pokud nedošlo k novým detekcím.
 - Manuální pravidla jsou **znovu vynutěna** (pro případ, že došlo k manuální úpravě manifestů).
 - **Existující přiřazení osob k fotkám jsou zachována** (pokud nejsou explicitně odpojeny v constraints).
-
----
 
 ## 6. Řešení problémů a údržba
 
@@ -299,3 +287,14 @@ Pokud jsou data v nekonzistentním stavu a audit nepomáhá:
 3.  Spusťte: `pnpm process`
 
 Systém znovu provede detekci tváří, vytvoří nové klastry a následně aplikuje vaše uložená manuální pravidla.
+
+## Související dokumenty
+
+- [ARCHITECTURE.md](./ARCHITECTURE.md) — Hlavní přehled architektury
+- [FACE-CLUSTERING.md](./FACE-CLUSTERING.md) — Technické detaily clusteringu
+- [INTERACTIVITY.md](./INTERACTIVITY.md) — UI interakce
+- [SCRIPTS.md](./SCRIPTS.md) — CLI příkazy
+
+---
+
+_Poslední aktualizace: 2025-12-30_

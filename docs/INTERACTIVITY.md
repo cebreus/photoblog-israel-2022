@@ -17,8 +17,6 @@ Tento dokument popisuje interaktivní prvky uživatelského rozhraní a odpovíd
   - [1.5. Patička (Footer)](#15-patička-footer)
   - [1.6. Manifesty (Datová vrstva)](#16-manifesty-datová-vrstva)
 
----
-
 ## 1.1. Klíčové Koncepty
 
 ### 1.1.1. Vývojářský režim (Dev Mode)
@@ -104,8 +102,6 @@ Pro zajištění plynulého uživatelského zážitku (UX) a prevenci vizuální
 - **Průběh** → Start akce → Zámek UI → Start časovače → Po 300ms zobrazení spinneru (pokud stále běží).
 - **Výsledek** → Uživatel vnímá systém jako okamžitý a stabilní, bez rušivých elementů u běžných rychlých operací.
 
----
-
 ## 1.2. Hlavička (Header)
 
 Navigační a ovládací prvky v horní části stránky.
@@ -122,8 +118,6 @@ Navigační a ovládací prvky v horní části stránky.
 - **Průběh** → Klik na tlačítko → změna `ui` nebo `editor` storu → synchronizace s URL query.
 - **Výsledek** → Změna stavu komponent, update URL (`?overlay`, `?curation`, `?debug`, `?sidebar`).
 
----
-
 ## 1.3. Hlavní zobrazení (Timeline)
 
 Centrální mřížka s fotografiemi a dělicími prvky.
@@ -139,8 +133,6 @@ Centrální mřížka s fotografiemi a dělicími prvky.
 - **Prerekvizity** → Vyfiltrovaná data z `filters` storu.
 - **Průběh** → Detekce elementu v viewportu (Scrollspy) → update URL hashe.
 - **Výsledek** → URL se mění na `#RRRR-MM-DD` nebo `#RRRR-MM-DD-loc`.
-
----
 
 ## 1.4. Postranní panel (Sidebar)
 
@@ -162,8 +154,6 @@ UI kontejner pro nástroje interagující s nezávislými logickými celky.
 - **Průběh** → Interakce v záložce → změna parametrů v příslušném storu → reaktivní reakce aplikace.
 - **Výsledek** → Okamžité překreslení mřížky fotek nebo změna výběru.
 
----
-
 ## 1.5. Patička (Footer)
 
 Statický prvek na konci stránky.
@@ -176,8 +166,6 @@ Statický prvek na konci stránky.
 - **Průběh** → Vykreslení statického obsahu.
 - **Výsledek** → Zobrazení informací na konci stránky.
 
----
-
 ## 1.6. Manifesty (Datová vrstva)
 
 Aplikace funguje na principu »Split & Link« manifestů generovaných během buildu:
@@ -189,3 +177,14 @@ Aplikace funguje na principu »Split & Link« manifestů generovaných během bu
 - `embeddings.manifest.json` → Vektorové otisky CLIP pro vyhledávání podobnosti.
 - `faces.manifest.json` → Deskriptory (128-dim) pro clustering tváří.
 - `clustering-constraints.json` → Manuální pravidla, propojení, odpojení a `invalidDetections`.
+
+## Související dokumenty
+
+- [ARCHITECTURE.md](./ARCHITECTURE.md) — Hlavní přehled architektury
+- [ARCH-FEATURES.md](./ARCH-FEATURES.md) — Features a stores
+- [ARCH-COMPONENTS.md](./ARCH-COMPONENTS.md) — GUI komponenty
+- [PERSON-MANAGEMENT.md](./PERSON-MANAGEMENT.md) — Správa osob
+
+---
+
+_Poslední aktualizace: 2025-12-30_

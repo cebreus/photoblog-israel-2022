@@ -86,3 +86,14 @@ Pokud se zdá, že na fotce chybí osoby, je pravděpodobné, že byly deteková
 ### Ladění (Debugging)
 
 Pro detailní analýzu konkrétní fotografie můžete použít debug skript (pokud je available) nebo zkontrolovat logy `face-clustering.ts`, který vypisuje počet nalezených tváří na fotografii.
+
+## Související dokumenty
+
+- [ARCHITECTURE.md](./ARCHITECTURE.md) — Hlavní přehled architektury
+- [PERSON-MANAGEMENT.md](./PERSON-MANAGEMENT.md) — Správa osob v UI
+- [ARCH-BUILD.md](./ARCH-BUILD.md) — Build proces
+- [SCRIPTS.md](./SCRIPTS.md) — CLI příkazy
+
+---
+
+_Poslední aktualizace: 2025-12-30_

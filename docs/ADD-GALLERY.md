@@ -11,8 +11,6 @@ Díky multi-gallery architektuře s proměnnou `CONTENT_DIR` můžete snadno př
 - Vlastní manifesty v `src/data/<název-galerie>/`
 - Vlastní skripty v `package.json`
 
----
-
 ## Krok 1: Vytvoření adresářové struktury
 
 Vytvořte nový adresář pro vaši galerii v `content/`:
@@ -30,8 +28,6 @@ content/
     ├── site.md              # Konfigurace galerie (viz krok 2)
     └── favicons-source.png  # Zdrojový obrázek pro favicon (volitelné)
 ```
-
----
 
 ## Krok 2: Konfigurace galerie (`site.md`)
 
@@ -87,8 +83,6 @@ V březnu 2024 jsme vyrazili na měsíční roadtrip po Španělsku. Navštívil
 
 > **Tip:** Zkopírujte a upravte existující `site.md` z jiné galerie jako šablonu.
 
----
-
 ## Krok 3: Přidání fotografií
 
 Zkopírujte vaše zdrojové fotografie (ve vysokém rozlišení) do `content/nova-galerie/pics/`:
@@ -120,8 +114,6 @@ content/nova-galerie/pics/
 ```
 
 Nebo vložit všechny fotografie na jednu hromadu - generátor je automaticky seskupí podle EXIF data pořízení.
-
----
 
 ## Krok 4: Spuštění (pomocí CLI)
 
@@ -158,8 +150,6 @@ Pokud chcete mít zkratku jako `bun run dev:spanelsko`, můžete přidat skripty
 }
 ```
 
----
-
 ## Krok 5: První generování assetů
 
 Vygenerujte optimalizované obrázky a favicons:
@@ -183,8 +173,6 @@ Tento proces může trvat několik minut v závislosti na počtu fotografií.
 - `src/data/nova-galerie/site.manifest.json` - Konfigurace galerie
 - `.temp/nova-galerie/images.cache.json` - Cache pro rychlejší přegenerování
 
----
-
 ## Krok 6: Spuštění vývojového serveru
 
 Spusťte dev server pro novou galerii:
@@ -201,8 +189,6 @@ CONTENT_DIR=nova-galerie bun run dev
 
 Otevřete prohlížeč na `http://localhost:5173` a měli byste vidět vaši novou galerii!
 
----
-
 ## Krok 7: Production build
 
 Když jste spokojeni s výsledkem, vytvořte production build:
@@ -212,8 +198,6 @@ bun run build -- -g nova-galerie
 ```
 
 Výsledek bude v adresáři `build-nova-galerie/`, který můžete nasadit na libovolný statický hosting (Netlify, Vercel, GitHub Pages, atd.).
-
----
 
 ## Volitelné kroky
 
@@ -261,8 +245,6 @@ Po vytvoření nové galerie spusťte testy:
 CONTENT_DIR=nova-galerie bun run test
 ```
 
----
-
 ## Troubleshooting
 
 ### Chyba: "CONTENT_DIR not set"
@@ -292,20 +274,23 @@ Nainstalujte systémovou knihovnu Sharp:
 - Omezení počtu fotek: `bun run images:build --limit=10`
 - Nastavte paralelní zpracování: `bun run images:build --concurrency=8`
 
----
-
 ## Shrnutí Checklist
 
 - [ ] Vytvořit `content/nova-galerie/pics/`
 - [ ] Vytvořit `content/nova-galerie/site.md`
 - [ ] Zkopírovat fotografie do `pics/`
-- [ ] Přidat skripty do `package.json`
-- [ ] Spustit `CONTENT_DIR=nova-galerie bun run images:build`
-- [ ] Spustit `CONTENT_DIR=nova-galerie bun run favicons:build`
-- [ ] Spustit `bun run dev:nova-galerie`
+- [ ] Spustit `pnpm process -- -g nova-galerie`
+- [ ] Spustit `pnpm dev -- -g nova-galerie`
 - [ ] Ověřit galerii v prohlížeči
-- [ ] Production build: `bun run build:nova-galerie`
+- [ ] Production build: `pnpm build -- -g nova-galerie`
+
+## Související dokumenty
+
+- [ARCHITECTURE.md](./ARCHITECTURE.md) — Hlavní přehled architektury
+- [SCRIPTS.md](./SCRIPTS.md) — CLI příkazy
+- [ARCH-STRUCTURE.md](./ARCH-STRUCTURE.md) — Struktura projektu
+- [ARCH-BUILD.md](./ARCH-BUILD.md) — Build proces
 
 ---
 
-**Hotovo!** Vaše nová galerie je připravena. Pro další podrobnosti viz [ARCHITECTURE.md](./ARCHITECTURE.md) a [SCRIPTS.md](./SCRIPTS.md).
+_Poslední aktualizace: 2025-12-30_

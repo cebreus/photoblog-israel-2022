@@ -454,3 +454,14 @@ Step 2 a Step 4 používají **různé modely** z důvodu optimalizace:
 - Úspora: ~500ms/obrázek, ale vyžaduje refaktoring inicializace
 
 **Důvod odložení:** Současná architektura je záměrně oddělená pro izolaci memory footprintu a nezávislost kroků.
+
+## Související dokumenty
+
+- [ARCHITECTURE.md](./ARCHITECTURE.md) — Hlavní přehled architektury
+- [ARCH-BUILD.md](./ARCH-BUILD.md) — Build proces
+- [TESTING.md](./TESTING.md) — Testovací strategie
+- [ADD-GALLERY.md](./ADD-GALLERY.md) — Přidání nové galerie
+
+---
+
+_Poslední aktualizace: 2025-12-30_

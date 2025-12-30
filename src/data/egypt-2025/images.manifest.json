@@ -20,7 +20,7 @@
           "sizeMB": 2.31,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-22-161654-finda.png",
-          "placeholderColor": "rgb(24,24,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 43.682172964008004,
             "sharpness": 88,
@@ -133,7 +133,7 @@
           "sizeMB": 1.49,
           "aspectRatio": "landscape-16-9",
           "placeholder": "blurs/2025-11-23-084720-cebreus.png",
-          "placeholderColor": "rgb(168,184,200)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 58.559298695489055,
             "sharpness": 81,
@@ -229,7 +229,7 @@
           "sizeMB": 1.52,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-23-092139-cebreus.png",
-          "placeholderColor": "rgb(120,200,232)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 64.27477035237523,
             "sharpness": 78,
@@ -341,7 +341,7 @@
           "sizeMB": 0.88,
           "aspectRatio": "square",
           "placeholder": "blurs/2025-11-23-101607-cebreus.png",
-          "placeholderColor": "rgb(8,120,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 83.15470747617485,
             "sharpness": 100,
@@ -452,7 +452,7 @@
           "sizeMB": 1.54,
           "aspectRatio": "landscape-16-9",
           "placeholder": "blurs/2025-11-23-104951-cebreus.png",
-          "placeholderColor": "rgb(136,168,200)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 79.35970516008162,
             "sharpness": 100,
@@ -550,7 +550,7 @@
           "sizeMB": 2.63,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-23-121048-dasa.png",
-          "placeholderColor": "rgb(88,88,88)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 45.13198326170403,
             "sharpness": 100,
@@ -648,7 +648,7 @@
           "sizeMB": 1.34,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-23-125850-cebreus.png",
-          "placeholderColor": "rgb(200,216,216)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 86.71978270458885,
             "sharpness": 97,
@@ -769,7 +769,7 @@
           "sizeMB": 1.78,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-23-131151-cebreus.png",
-          "placeholderColor": "rgb(216,232,216)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 89.10990966569662,
             "sharpness": 100,
@@ -883,7 +883,7 @@
           "sizeMB": 7.37,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-23-131411-cebreus.png",
-          "placeholderColor": "rgb(200,216,216)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 64.12528799161328,
             "sharpness": 90,
@@ -990,7 +990,7 @@
           "sizeMB": 7.65,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-23-151444-cebreus-fixed.png",
-          "placeholderColor": "rgb(8,216,232)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 48.50571687592119,
             "sharpness": 12.052777483968608,
@@ -1086,7 +1086,7 @@
           "sizeMB": 6.5,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-23-151450-cebreus-fixed.png",
-          "placeholderColor": "rgb(8,184,216)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 52.804558613948615,
             "sharpness": 2.555936437221313,
@@ -1182,7 +1182,7 @@
           "sizeMB": 1.37,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-23-151514-cebreus-fixed.png",
-          "placeholderColor": "rgb(8,56,56)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 64.80047047118417,
             "sharpness": 69.18364492254095,
@@ -1278,7 +1278,7 @@
           "sizeMB": 0.94,
           "aspectRatio": "landscape-16-9",
           "placeholder": "blurs/2025-11-23-152954-cebreus.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 60.74093233540914,
             "sharpness": 100,
@@ -1374,7 +1374,7 @@
           "sizeMB": 2.2,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-23-153413-dasa.png",
-          "placeholderColor": "rgb(248,248,248)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 64.02568734525732,
             "sharpness": 100,
@@ -1479,7 +1479,7 @@
           "sizeMB": 0.21,
           "aspectRatio": "landscape-16-9",
           "placeholder": "blurs/2025-11-23-205255-2a60e1a3-17c3-4789-ab44-7e0bd28e5bd5.png",
-          "placeholderColor": "rgb(104,104,104)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 34.5988300137284,
             "sharpness": 100,
@@ -1631,7 +1631,7 @@
           "sizeMB": 1.68,
           "aspectRatio": "landscape-16-9",
           "placeholder": "blurs/2025-11-24-082240-cebreus.png",
-          "placeholderColor": "rgb(152,184,200)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 69.32073215903678,
             "sharpness": 63,
@@ -1726,7 +1726,7 @@
           "sizeMB": 4.14,
           "aspectRatio": "landscape-16-9",
           "placeholder": "blurs/2025-11-24-112843-cebreus.png",
-          "placeholderColor": "rgb(56,56,40)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 45.39728621468472,
             "sharpness": 64,
@@ -1821,7 +1821,7 @@
           "sizeMB": 0.7,
           "aspectRatio": "landscape-16-9",
           "placeholder": "blurs/2025-11-24-123506-cebreus.png",
-          "placeholderColor": "rgb(184,200,184)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 53.775920712649096,
             "sharpness": 56,
@@ -1918,7 +1918,7 @@
           "sizeMB": 2.23,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-24-152241-finda.png",
-          "placeholderColor": "rgb(24,24,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 65.29133479647476,
             "sharpness": 100,
@@ -2022,7 +2022,7 @@
           "sizeMB": 2.74,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-24-194927-dasa.png",
-          "placeholderColor": "rgb(136,120,104)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 32.51607528817655,
             "sharpness": 88,
@@ -2129,7 +2129,7 @@
           "sizeMB": 4.43,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-24-201244-cebreus.png",
-          "placeholderColor": "rgb(24,24,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 70.49228428759618,
             "sharpness": 99,
@@ -2257,7 +2257,7 @@
           "sizeMB": 1.51,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-24-201534-cebreus.png",
-          "placeholderColor": "rgb(24,24,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 55.5660589659987,
             "sharpness": 56,
@@ -2355,7 +2355,7 @@
           "sizeMB": 0.86,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-24-205551-cebreus.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 51.803276545409204,
             "sharpness": 100,
@@ -2490,7 +2490,7 @@
           "sizeMB": 1.83,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-24-205949-cebreus.png",
-          "placeholderColor": "rgb(24,56,104)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 75.6421512741215,
             "sharpness": 76,
@@ -2588,7 +2588,7 @@
           "sizeMB": 4.52,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-24-210138-cebreus.png",
-          "placeholderColor": "rgb(24,24,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 82.14594158417563,
             "sharpness": 100,
@@ -2700,7 +2700,7 @@
           "sizeMB": 2.13,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-24-210141-cebreus.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 83.22294843037463,
             "sharpness": 100,
@@ -2819,7 +2819,7 @@
           "sizeMB": 1.2,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-24-210212-cebreus.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 76.92955240751287,
             "sharpness": 100,
@@ -2915,7 +2915,7 @@
           "sizeMB": 2.47,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-24-210259-cebreus.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 23.570891770839047,
             "sharpness": 89,
@@ -3026,7 +3026,7 @@
           "sizeMB": 1.19,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-24-211848-dasa.png",
-          "placeholderColor": "rgb(8,8,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 53.813270337062185,
             "sharpness": 100,
@@ -3126,7 +3126,7 @@
           "sizeMB": 0.35,
           "aspectRatio": "landscape-16-9",
           "placeholder": "blurs/2025-11-24-215717-cebreus.png",
-          "placeholderColor": "rgb(184,152,120)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 25.62182421167689,
             "sharpness": 80,
@@ -3244,7 +3244,7 @@
           "sizeMB": 0.3,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-075730-cebreus.png",
-          "placeholderColor": "rgb(152,200,216)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 62.82060590170996,
             "sharpness": 96,
@@ -3346,7 +3346,7 @@
           "sizeMB": 1.57,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-082736-cebreus.png",
-          "placeholderColor": "rgb(88,72,56)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 64.41505421972346,
             "sharpness": 100,
@@ -3447,7 +3447,7 @@
           "sizeMB": 1.61,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-082811-cebreus.png",
-          "placeholderColor": "rgb(72,56,40)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 39.07886122517117,
             "sharpness": 100,
@@ -3548,7 +3548,7 @@
           "sizeMB": 1.61,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-082818-cebreus.png",
-          "placeholderColor": "rgb(104,88,72)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 50.249246639554045,
             "sharpness": 100,
@@ -3648,7 +3648,7 @@
           "sizeMB": 1.44,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-082852-cebreus.png",
-          "placeholderColor": "rgb(120,104,88)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 37.120945670278125,
             "sharpness": 62,
@@ -3753,9 +3753,9 @@
           "width": 3776,
           "height": 2832,
           "sizeMB": 3.88,
-          "aspectRatio": "landscape-4-3",
+          "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-082944-cebreus--collage.png",
-          "placeholderColor": "rgb(104,88,72)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 61.63505113270587,
             "sharpness": 88,
@@ -3855,7 +3855,7 @@
           "sizeMB": 5.06,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-083005-cebreus.png",
-          "placeholderColor": "rgb(168,168,168)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 67.11601741730233,
             "sharpness": 43,
@@ -4054,7 +4054,8 @@
             "total": 2,
             "baseId": "2025-11-25-083807-cebreus",
             "members": [
-              "2025-11-25-083807-cebreus--zoom1from2"
+              "2025-11-25-083807-cebreus--zoom1from2",
+              "2025-11-25-083812-cebreus--zoom2from2"
             ]
           },
           "people": [
@@ -4183,6 +4184,7 @@
             "total": 2,
             "baseId": "2025-11-25-083812-cebreus",
             "members": [
+              "2025-11-25-083807-cebreus--zoom1from2",
               "2025-11-25-083812-cebreus--zoom2from2"
             ]
           },
@@ -4201,9 +4203,9 @@
           "width": 8000,
           "height": 3428,
           "sizeMB": 12.75,
-          "aspectRatio": "panorama",
+          "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-084249-cebreus--collage.png",
-          "placeholderColor": "rgb(104,88,72)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 43.91218707787307,
             "sharpness": 95,
@@ -4300,9 +4302,9 @@
           "width": 3288,
           "height": 2466,
           "sizeMB": 3.48,
-          "aspectRatio": "landscape-4-3",
+          "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-084330-cebreus--collage.png",
-          "placeholderColor": "rgb(72,56,40)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 40.71132902003039,
             "sharpness": 100,
@@ -4401,7 +4403,7 @@
           "sizeMB": 1.73,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-084606-cebreus.png",
-          "placeholderColor": "rgb(120,104,88)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 38.83432574808596,
             "sharpness": 100,
@@ -4500,7 +4502,7 @@
           "sizeMB": 2.08,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-084614-cebreus.png",
-          "placeholderColor": "rgb(88,72,56)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 44.42214071487803,
             "sharpness": 99,
@@ -4599,7 +4601,7 @@
           "sizeMB": 6.32,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-085235-cebreus.png",
-          "placeholderColor": "rgb(88,72,56)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 40.961678398249795,
             "sharpness": 95,
@@ -4698,7 +4700,7 @@
           "sizeMB": 0.89,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-085626-cebreus.png",
-          "placeholderColor": "rgb(88,72,56)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 42.583431593621135,
             "sharpness": 100,
@@ -4795,9 +4797,9 @@
           "width": 2971,
           "height": 2228,
           "sizeMB": 3.88,
-          "aspectRatio": "landscape-4-3",
+          "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-090256-cebreus--collage.png",
-          "placeholderColor": "rgb(56,56,56)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 56.82829954845965,
             "sharpness": 100,
@@ -4896,7 +4898,7 @@
           "sizeMB": 1.85,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-090636-cebreus.png",
-          "placeholderColor": "rgb(40,72,136)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 55.80640980761183,
             "sharpness": 100,
@@ -4999,7 +5001,7 @@
           "sizeMB": 7.37,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-092409-cebreus.png",
-          "placeholderColor": "rgb(120,104,88)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 42.48384185531222,
             "sharpness": 100,
@@ -5098,7 +5100,7 @@
           "sizeMB": 3.01,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-092514-cebreus.png",
-          "placeholderColor": "rgb(56,56,56)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 47.72435345655831,
             "sharpness": 100,
@@ -5198,7 +5200,7 @@
           "sizeMB": 0.85,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-092544-cebreus.png",
-          "placeholderColor": "rgb(120,136,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 83.50191318256908,
             "sharpness": 63,
@@ -5299,7 +5301,7 @@
           "sizeMB": 1.77,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-092627-cebreus.png",
-          "placeholderColor": "rgb(56,88,136)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 63.20784582700223,
             "sharpness": 86,
@@ -5399,7 +5401,7 @@
           "sizeMB": 6.94,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-092702-cebreus.png",
-          "placeholderColor": "rgb(88,88,88)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 38.332488659614356,
             "sharpness": 82,
@@ -5499,7 +5501,7 @@
           "sizeMB": 0.5,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-092814-cebreus.png",
-          "placeholderColor": "rgb(56,104,184)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 76.1735056078221,
             "sharpness": 30,
@@ -5600,7 +5602,7 @@
           "sizeMB": 4.13,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-093002-cebreus.png",
-          "placeholderColor": "rgb(200,184,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 67.7932261858444,
             "sharpness": 100,
@@ -5700,7 +5702,7 @@
           "sizeMB": 5.63,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-093034-cebreus.png",
-          "placeholderColor": "rgb(24,56,104)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 68.26609680704892,
             "sharpness": 100,
@@ -5799,7 +5801,7 @@
           "sizeMB": 1.59,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-093351-dasa.png",
-          "placeholderColor": "rgb(56,40,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 40.661621131424845,
             "sharpness": 100,
@@ -5898,7 +5900,7 @@
           "sizeMB": 5.44,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-093404-cebreus.png",
-          "placeholderColor": "rgb(72,56,40)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 60.00676307483127,
             "sharpness": 100,
@@ -6006,7 +6008,7 @@
           "sizeMB": 5.52,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-093419-cebreus.png",
-          "placeholderColor": "rgb(56,40,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 36.711638497115906,
             "sharpness": 100,
@@ -6121,7 +6123,7 @@
           "sizeMB": 4.19,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-093710-cebreus.png",
-          "placeholderColor": "rgb(72,56,40)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 51.22898951432387,
             "sharpness": 74,
@@ -6220,7 +6222,7 @@
           "sizeMB": 1.29,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-094025-cebreus.png",
-          "placeholderColor": "rgb(56,40,40)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 46.60267582444247,
             "sharpness": 72,
@@ -6335,7 +6337,7 @@
           "sizeMB": 5.19,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-094206-cebreus.png",
-          "placeholderColor": "rgb(56,40,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 28.06474721565251,
             "sharpness": 77,
@@ -6434,7 +6436,7 @@
           "sizeMB": 3.55,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-094825-cebreus.png",
-          "placeholderColor": "rgb(56,88,136)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 67.54384951796251,
             "sharpness": 100,
@@ -6549,7 +6551,7 @@
           "sizeMB": 1.92,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-094915-dasa.png",
-          "placeholderColor": "rgb(88,120,168)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 51.403466670737494,
             "sharpness": 100,
@@ -6649,7 +6651,7 @@
           "sizeMB": 1.05,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-095050-cebreus.png",
-          "placeholderColor": "rgb(56,88,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 53.09365332866027,
             "sharpness": 61,
@@ -6843,7 +6845,9 @@
             "total": 3,
             "baseId": "2025-11-25-095052-cebreus",
             "members": [
-              "2025-11-25-095052-cebreus--zoom1from3"
+              "2025-11-25-095052-cebreus--zoom1from3",
+              "2025-11-25-095053-cebreus--zoom2from3",
+              "2025-11-25-095055-cebreus--zoom3from3"
             ]
           },
           "people": []
@@ -6953,7 +6957,9 @@
             "total": 3,
             "baseId": "2025-11-25-095053-cebreus",
             "members": [
-              "2025-11-25-095053-cebreus--zoom2from3"
+              "2025-11-25-095052-cebreus--zoom1from3",
+              "2025-11-25-095053-cebreus--zoom2from3",
+              "2025-11-25-095055-cebreus--zoom3from3"
             ]
           },
           "people": []
@@ -7063,6 +7069,8 @@
             "total": 3,
             "baseId": "2025-11-25-095055-cebreus",
             "members": [
+              "2025-11-25-095052-cebreus--zoom1from3",
+              "2025-11-25-095053-cebreus--zoom2from3",
               "2025-11-25-095055-cebreus--zoom3from3"
             ]
           },
@@ -7079,7 +7087,7 @@
           "sizeMB": 2.61,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-095226-cebreus.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 83.51093652240942,
             "sharpness": 96,
@@ -7184,7 +7192,7 @@
           "sizeMB": 5.47,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-101558-cebreus.png",
-          "placeholderColor": "rgb(168,184,200)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 46.69312529109064,
             "sharpness": 100,
@@ -7299,7 +7307,7 @@
           "sizeMB": 7.84,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-101952-cebreus.png",
-          "placeholderColor": "rgb(152,136,120)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 47.256988867780414,
             "sharpness": 100,
@@ -7398,7 +7406,7 @@
           "sizeMB": 1.65,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-102006-cebreus.png",
-          "placeholderColor": "rgb(40,56,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 59.11971886298289,
             "sharpness": 89,
@@ -7495,9 +7503,9 @@
           "width": 3673,
           "height": 2066,
           "sizeMB": 5.27,
-          "aspectRatio": "landscape-16-9",
+          "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-102804-cebreus--collage.png",
-          "placeholderColor": "rgb(168,152,136)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 55.07519096036731,
             "sharpness": 91,
@@ -7596,7 +7604,7 @@
           "sizeMB": 5,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-103135-cebreus.png",
-          "placeholderColor": "rgb(168,168,168)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 79.969140126865,
             "sharpness": 83,
@@ -7695,7 +7703,7 @@
           "sizeMB": 2.72,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-103145-cebreus.png",
-          "placeholderColor": "rgb(184,184,168)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 84.10452283945175,
             "sharpness": 53,
@@ -7794,7 +7802,7 @@
           "sizeMB": 1.38,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-104058-cebreus.png",
-          "placeholderColor": "rgb(200,184,168)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 49.510222161779126,
             "sharpness": 100,
@@ -7994,7 +8002,8 @@
             "total": 2,
             "baseId": "2025-11-25-104318-cebreus",
             "members": [
-              "2025-11-25-104318-cebreus--zoom2from2"
+              "2025-11-25-104318-cebreus--zoom2from2",
+              "2025-11-25-104322-cebreus--zoom1from2"
             ]
           },
           "people": []
@@ -8121,6 +8130,7 @@
             "total": 2,
             "baseId": "2025-11-25-104322-cebreus",
             "members": [
+              "2025-11-25-104318-cebreus--zoom2from2",
               "2025-11-25-104322-cebreus--zoom1from2"
             ]
           },
@@ -8141,7 +8151,7 @@
           "sizeMB": 7.66,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-105010-cebreus.png",
-          "placeholderColor": "rgb(152,136,120)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 42.58909166085885,
             "sharpness": 100,
@@ -8249,7 +8259,7 @@
           "sizeMB": 10.16,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-105048-cebreus.png",
-          "placeholderColor": "rgb(168,152,120)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 50.29799992639115,
             "sharpness": 100,
@@ -8357,7 +8367,7 @@
           "sizeMB": 6.58,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-105444-cebreus.png",
-          "placeholderColor": "rgb(216,216,200)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 53.05662063993577,
             "sharpness": 100,
@@ -8456,7 +8466,7 @@
           "sizeMB": 5.97,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-105523-cebreus.png",
-          "placeholderColor": "rgb(232,232,216)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 25.384206502591955,
             "sharpness": 100,
@@ -8555,7 +8565,7 @@
           "sizeMB": 4.01,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-105655-cebreus.png",
-          "placeholderColor": "rgb(200,200,200)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 78.03477812256526,
             "sharpness": 77,
@@ -8670,7 +8680,7 @@
           "sizeMB": 1.06,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-110638-cebreus.png",
-          "placeholderColor": "rgb(216,200,184)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 57.36287030955741,
             "sharpness": 100,
@@ -8775,7 +8785,7 @@
           "sizeMB": 2.08,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-112118-dasa.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 43.472649712872936,
             "sharpness": 100,
@@ -8874,7 +8884,7 @@
           "sizeMB": 2.03,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-112457-dasa.png",
-          "placeholderColor": "rgb(184,200,232)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 40.22624940735818,
             "sharpness": 67,
@@ -8982,7 +8992,7 @@
           "sizeMB": 2.61,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-112858-finda.png",
-          "placeholderColor": "rgb(152,152,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 56.829539215059846,
             "sharpness": 63,
@@ -9082,7 +9092,7 @@
           "sizeMB": 1.97,
           "aspectRatio": "landscape-16-9",
           "placeholder": "blurs/2025-11-25-112911-cebreus.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 63.47242593789533,
             "sharpness": 100,
@@ -9182,7 +9192,7 @@
           "sizeMB": 1.56,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-115354-dasa.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 56.92837817742857,
             "sharpness": 100,
@@ -9322,7 +9332,7 @@
           "sizeMB": 2.32,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-131142-dasa.png",
-          "placeholderColor": "rgb(24,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 55.22660692046005,
             "sharpness": 100,
@@ -9421,7 +9431,7 @@
           "sizeMB": 1.52,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-131147-cebreus.png",
-          "placeholderColor": "rgb(72,56,40)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 37.62129894702914,
             "sharpness": 79,
@@ -9520,7 +9530,7 @@
           "sizeMB": 2.33,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-131217-dasa.png",
-          "placeholderColor": "rgb(120,104,88)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 51.55239768195027,
             "sharpness": 44,
@@ -9619,7 +9629,7 @@
           "sizeMB": 0.98,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-131320-cebreus.png",
-          "placeholderColor": "rgb(104,88,72)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 35.686268664084444,
             "sharpness": 31,
@@ -9718,7 +9728,7 @@
           "sizeMB": 1.39,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-132137-dasa.png",
-          "placeholderColor": "rgb(216,216,216)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 64.21441973566867,
             "sharpness": 100,
@@ -9817,7 +9827,7 @@
           "sizeMB": 0.93,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-133004-dasa.png",
-          "placeholderColor": "rgb(200,216,216)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 63.749920612893305,
             "sharpness": 100,
@@ -9914,7 +9924,7 @@
           "sizeMB": 3.85,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-133713-cebreus.png",
-          "placeholderColor": "rgb(104,152,232)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 69.47512365033052,
             "sharpness": 100,
@@ -10029,7 +10039,7 @@
           "sizeMB": 0.99,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-145152-dasa.png",
-          "placeholderColor": "rgb(40,40,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 36.426543246165494,
             "sharpness": 100,
@@ -10130,7 +10140,7 @@
           "sizeMB": 0.9,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-145159-cebreus.png",
-          "placeholderColor": "rgb(24,24,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 53.38209860606556,
             "sharpness": 91,
@@ -10231,7 +10241,7 @@
           "sizeMB": 0.85,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-145215-cebreus.png",
-          "placeholderColor": "rgb(56,56,56)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 48.04903249086708,
             "sharpness": 64,
@@ -10332,7 +10342,7 @@
           "sizeMB": 1.1,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-145232-dasa.png",
-          "placeholderColor": "rgb(56,56,40)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 35.08894828499254,
             "sharpness": 100,
@@ -10434,7 +10444,7 @@
           "sizeMB": 1.09,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-145322-dasa.png",
-          "placeholderColor": "rgb(72,56,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 33.329732694200324,
             "sharpness": 87,
@@ -10535,7 +10545,7 @@
           "sizeMB": 0.77,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-145345-cebreus.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 66.67749709406598,
             "sharpness": 90,
@@ -10636,7 +10646,7 @@
           "sizeMB": 5.15,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-145714-cebreus.png",
-          "placeholderColor": "rgb(168,168,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 59.8598866967782,
             "sharpness": 84,
@@ -10742,7 +10752,7 @@
           "sizeMB": 5.8,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-150525-cebreus.png",
-          "placeholderColor": "rgb(72,88,56)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 62.39196544192781,
             "sharpness": 98,
@@ -10841,7 +10851,7 @@
           "sizeMB": 2.39,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-150559-dasa.png",
-          "placeholderColor": "rgb(56,72,40)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 53.897064131745786,
             "sharpness": 73,
@@ -10940,7 +10950,7 @@
           "sizeMB": 3.58,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-150836-cebreus.png",
-          "placeholderColor": "rgb(24,24,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 58.344067522297024,
             "sharpness": 93,
@@ -11039,7 +11049,7 @@
           "sizeMB": 4.66,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-151216-cebreus.png",
-          "placeholderColor": "rgb(40,56,40)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 49.93790260520656,
             "sharpness": 100,
@@ -11138,7 +11148,7 @@
           "sizeMB": 5.27,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-151454-cebreus.png",
-          "placeholderColor": "rgb(40,40,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 43.8814094176948,
             "sharpness": 100,
@@ -11246,7 +11256,7 @@
           "sizeMB": 8.85,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-151616-cebreus.png",
-          "placeholderColor": "rgb(24,40,40)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 48.8629256804446,
             "sharpness": 100,
@@ -11345,7 +11355,7 @@
           "sizeMB": 4.01,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-151630-cebreus.png",
-          "placeholderColor": "rgb(24,24,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 70.75051903512824,
             "sharpness": 100,
@@ -11453,7 +11463,7 @@
           "sizeMB": 7.75,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-151709-cebreus.png",
-          "placeholderColor": "rgb(248,248,248)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 63.11793392298037,
             "sharpness": 100,
@@ -11552,7 +11562,7 @@
           "sizeMB": 2.53,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-151710-cebreus.png",
-          "placeholderColor": "rgb(168,136,136)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 53.28757163729827,
             "sharpness": 100,
@@ -11651,7 +11661,7 @@
           "sizeMB": 4.17,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-152350-cebreus.png",
-          "placeholderColor": "rgb(184,184,184)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 67.92813257103936,
             "sharpness": 56,
@@ -11752,7 +11762,7 @@
           "sizeMB": 2.48,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-152518-cebreus.png",
-          "placeholderColor": "rgb(200,216,216)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 78.51831960748251,
             "sharpness": 100,
@@ -11844,7 +11854,7 @@
           "sizeMB": 2.23,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-154350-cebreus.png",
-          "placeholderColor": "rgb(152,152,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 69.8156629378139,
             "sharpness": 83,
@@ -11936,7 +11946,7 @@
           "sizeMB": 0.24,
           "aspectRatio": "landscape-16-9",
           "placeholder": "blurs/2025-11-25-174738-292de74a-cd06-497e-a02a-784f82370d6e.png",
-          "placeholderColor": "rgb(184,168,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 69.86083118953269,
             "sharpness": 87,
@@ -12064,7 +12074,7 @@
           "sizeMB": 8.94,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-075932-cebreus.png",
-          "placeholderColor": "rgb(120,136,168)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 68.24805312135753,
             "sharpness": 67,
@@ -12161,7 +12171,7 @@
           "sizeMB": 7.51,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-080112-cebreus.png",
-          "placeholderColor": "rgb(168,152,120)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 65.70277724667781,
             "sharpness": 57,
@@ -12258,7 +12268,7 @@
           "sizeMB": 8.63,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-080216-cebreus.png",
-          "placeholderColor": "rgb(104,120,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 54.47205717605883,
             "sharpness": 64,
@@ -12355,7 +12365,7 @@
           "sizeMB": 1.44,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-080508-cebreus.png",
-          "placeholderColor": "rgb(152,152,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 64.26988761455024,
             "sharpness": 23,
@@ -12452,7 +12462,7 @@
           "sizeMB": 2.39,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-080521-dasa.png",
-          "placeholderColor": "rgb(152,168,168)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 75.77531596062262,
             "sharpness": 50,
@@ -12553,7 +12563,12 @@
           "sizeMB": 11.84,
           "aspectRatio": "panorama",
           "placeholder": "blurs/2025-11-26-080529-cebreus.png",
-          "placeholderColor": "rgb(216,184,136)",
+          "placeholderColor": "",
+          "specialMedia": {
+            "isPanorama": true,
+            "is360": false,
+            "projection": "cylindrical"
+          },
           "analysis": {
             "aestheticScore": 61.38055733043854,
             "sharpness": 91,
@@ -12623,13 +12638,6 @@
               "width": 534
             },
             {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-080529-cebreus.jpeg",
-              "width": 1280,
-              "height": 355
-            },
-            {
               "variant": "fallback",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/previews-xxs/2025-11-26-080529-cebreus.jpeg",
@@ -12642,6 +12650,13 @@
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-080529-cebreus.jpeg",
               "width": 534,
               "height": 534
+            },
+            {
+              "variant": "pano_detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details-pano/2025-11-26-080529-cebreus.jpeg",
+              "width": 4609,
+              "height": 1280
             }
           ],
           "people": [
@@ -12659,7 +12674,12 @@
           "sizeMB": 10.33,
           "aspectRatio": "panorama",
           "placeholder": "blurs/2025-11-26-080555-cebreus.png",
-          "placeholderColor": "rgb(200,168,120)",
+          "placeholderColor": "",
+          "specialMedia": {
+            "isPanorama": true,
+            "is360": false,
+            "projection": "cylindrical"
+          },
           "analysis": {
             "aestheticScore": 58.44068701140927,
             "sharpness": 61,
@@ -12722,13 +12742,6 @@
               "width": 534
             },
             {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-080555-cebreus.jpeg",
-              "width": 1280,
-              "height": 307
-            },
-            {
               "variant": "fallback",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/previews-xxs/2025-11-26-080555-cebreus.jpeg",
@@ -12741,6 +12754,13 @@
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-080555-cebreus.jpeg",
               "width": 534,
               "height": 534
+            },
+            {
+              "variant": "pano_detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details-pano/2025-11-26-080555-cebreus.jpeg",
+              "width": 5331,
+              "height": 1280
             }
           ],
           "people": []
@@ -12756,7 +12776,7 @@
           "sizeMB": 3.8,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-080834-cebreus.png",
-          "placeholderColor": "rgb(152,168,200)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 63.2432360214424,
             "sharpness": 55,
@@ -12862,7 +12882,7 @@
           "sizeMB": 2.14,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-081030-cebreus.png",
-          "placeholderColor": "rgb(72,88,120)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 66.85192227966174,
             "sharpness": 75,
@@ -12959,7 +12979,7 @@
           "sizeMB": 8.74,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-081032-cebreus.png",
-          "placeholderColor": "rgb(104,120,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 76.50960544216801,
             "sharpness": 60,
@@ -13056,7 +13076,7 @@
           "sizeMB": 1.86,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-081034-cebreus.png",
-          "placeholderColor": "rgb(152,152,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 62.47674497461047,
             "sharpness": 30,
@@ -13153,7 +13173,7 @@
           "sizeMB": 1.86,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-081035-cebreus.png",
-          "placeholderColor": "rgb(168,168,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 56.38315883007935,
             "sharpness": 30,
@@ -13250,7 +13270,12 @@
           "sizeMB": 10.28,
           "aspectRatio": "panorama",
           "placeholder": "blurs/2025-11-26-081043-cebreus.png",
-          "placeholderColor": "rgb(136,136,136)",
+          "placeholderColor": "",
+          "specialMedia": {
+            "isPanorama": true,
+            "is360": false,
+            "projection": "cylindrical"
+          },
           "analysis": {
             "aestheticScore": 52.06778043981277,
             "sharpness": 65,
@@ -13313,13 +13338,6 @@
               "width": 534
             },
             {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-081043-cebreus.jpeg",
-              "width": 1280,
-              "height": 345
-            },
-            {
               "variant": "fallback",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/previews-xxs/2025-11-26-081043-cebreus.jpeg",
@@ -13332,6 +13350,13 @@
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-081043-cebreus.jpeg",
               "width": 534,
               "height": 534
+            },
+            {
+              "variant": "pano_detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details-pano/2025-11-26-081043-cebreus.jpeg",
+              "width": 4748,
+              "height": 1280
             }
           ],
           "people": []
@@ -13347,7 +13372,7 @@
           "sizeMB": 1.64,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-081049-dasa.png",
-          "placeholderColor": "rgb(232,232,216)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 64.05599777983946,
             "sharpness": 100,
@@ -13439,7 +13464,7 @@
           "sizeMB": 2.16,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-081120-cebreus.png",
-          "placeholderColor": "rgb(168,168,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 49.09076904115149,
             "sharpness": 31,
@@ -13536,7 +13561,7 @@
           "sizeMB": 1.58,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-081434-cebreus.png",
-          "placeholderColor": "rgb(152,152,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 71.2655738707577,
             "sharpness": 65,
@@ -13642,7 +13667,7 @@
           "sizeMB": 2.06,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-081544-cebreus.png",
-          "placeholderColor": "rgb(232,232,216)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 63.44063277811965,
             "sharpness": 100,
@@ -13755,7 +13780,7 @@
           "sizeMB": 9.25,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-081923-cebreus.png",
-          "placeholderColor": "rgb(168,136,104)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 79.07375767900855,
             "sharpness": 58,
@@ -13852,7 +13877,12 @@
           "sizeMB": 9.67,
           "aspectRatio": "panorama",
           "placeholder": "blurs/2025-11-26-082550-cebreus.png",
-          "placeholderColor": "rgb(232,216,200)",
+          "placeholderColor": "",
+          "specialMedia": {
+            "isPanorama": true,
+            "is360": false,
+            "projection": "cylindrical"
+          },
           "analysis": {
             "aestheticScore": 77.85137034771111,
             "sharpness": 71,
@@ -13915,13 +13945,6 @@
               "width": 534
             },
             {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-082550-cebreus.jpeg",
-              "width": 1280,
-              "height": 325
-            },
-            {
               "variant": "fallback",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/previews-xxs/2025-11-26-082550-cebreus.jpeg",
@@ -13934,6 +13957,13 @@
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-082550-cebreus.jpeg",
               "width": 534,
               "height": 534
+            },
+            {
+              "variant": "pano_detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details-pano/2025-11-26-082550-cebreus.jpeg",
+              "width": 5045,
+              "height": 1280
             }
           ],
           "people": []
@@ -13949,7 +13979,12 @@
           "sizeMB": 6.1,
           "aspectRatio": "panorama",
           "placeholder": "blurs/2025-11-26-082610-cebreus.png",
-          "placeholderColor": "rgb(216,216,200)",
+          "placeholderColor": "",
+          "specialMedia": {
+            "isPanorama": true,
+            "is360": false,
+            "projection": "cylindrical"
+          },
           "analysis": {
             "aestheticScore": 59.3054757988887,
             "sharpness": 62,
@@ -14012,13 +14047,6 @@
               "width": 534
             },
             {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-082610-cebreus.jpeg",
-              "width": 1280,
-              "height": 310
-            },
-            {
               "variant": "fallback",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/previews-xxs/2025-11-26-082610-cebreus.jpeg",
@@ -14031,6 +14059,13 @@
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-082610-cebreus.jpeg",
               "width": 534,
               "height": 534
+            },
+            {
+              "variant": "pano_detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details-pano/2025-11-26-082610-cebreus.jpeg",
+              "width": 5285,
+              "height": 1280
             }
           ],
           "people": []
@@ -14046,7 +14081,7 @@
           "sizeMB": 9.88,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-084453-cebreus.png",
-          "placeholderColor": "rgb(88,104,120)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 53.01225321131735,
             "sharpness": 97,
@@ -14143,7 +14178,7 @@
           "sizeMB": 1.07,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-085933-cebreus.png",
-          "placeholderColor": "rgb(104,88,72)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 57.54990360013954,
             "sharpness": 60,
@@ -14249,7 +14284,7 @@
           "sizeMB": 4.01,
           "aspectRatio": "landscape-4051-1895",
           "placeholder": "blurs/2025-11-26-085943-cebreus.png",
-          "placeholderColor": "rgb(104,88,72)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 44.79209147731134,
             "sharpness": 75,
@@ -14346,7 +14381,7 @@
           "sizeMB": 2.01,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-090727-cebreus.png",
-          "placeholderColor": "rgb(216,216,200)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 49.95591747582613,
             "sharpness": 85,
@@ -14486,7 +14521,7 @@
           "sizeMB": 3.77,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-091502-cebreus.png",
-          "placeholderColor": "rgb(168,184,216)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 57.98560786028409,
             "sharpness": 95,
@@ -14592,7 +14627,7 @@
           "sizeMB": 8.49,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-091556-cebreus.png",
-          "placeholderColor": "rgb(216,184,136)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 55.51122778161556,
             "sharpness": 100,
@@ -14689,7 +14724,7 @@
           "sizeMB": 6.51,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-092110-cebreus.png",
-          "placeholderColor": "rgb(72,56,40)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 60.2607574496013,
             "sharpness": 100,
@@ -14795,7 +14830,7 @@
           "sizeMB": 3.43,
           "aspectRatio": "landscape-3-2",
           "placeholder": "blurs/2025-11-26-093233-cebreus.png",
-          "placeholderColor": "rgb(152,168,184)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 77.45287531326397,
             "sharpness": 63,
@@ -14892,7 +14927,7 @@
           "sizeMB": 3.71,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-095057-cebreus.png",
-          "placeholderColor": "rgb(216,184,136)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 80.10558013635176,
             "sharpness": 100,
@@ -14998,7 +15033,7 @@
           "sizeMB": 1.98,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-095124-dasa.png",
-          "placeholderColor": "rgb(152,152,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 78.83414506283879,
             "sharpness": 87,
@@ -15090,7 +15125,7 @@
           "sizeMB": 6.6,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-095210-cebreus.png",
-          "placeholderColor": "rgb(216,184,136)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 53.92991551403775,
             "sharpness": 98,
@@ -15187,7 +15222,7 @@
           "sizeMB": 2.7,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-095523-cebreus.png",
-          "placeholderColor": "rgb(120,120,120)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 54.406948357032356,
             "sharpness": 100,
@@ -15324,7 +15359,7 @@
           "sizeMB": 2.92,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-095535-cebreus.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 77.8895369121609,
             "sharpness": 100,
@@ -15465,7 +15500,7 @@
           "sizeMB": 4.04,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-095929-cebreus.png",
-          "placeholderColor": "rgb(120,136,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 60.247437084583865,
             "sharpness": 100,
@@ -15620,7 +15655,7 @@
           "sizeMB": 3.62,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-100007-cebreus.png",
-          "placeholderColor": "rgb(104,136,184)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 54.03191162654289,
             "sharpness": 100,
@@ -15747,7 +15782,12 @@
           "sizeMB": 5.99,
           "aspectRatio": "panorama",
           "placeholder": "blurs/2025-11-26-100151-cebreus.png",
-          "placeholderColor": "rgb(216,200,152)",
+          "placeholderColor": "",
+          "specialMedia": {
+            "isPanorama": true,
+            "is360": false,
+            "projection": "cylindrical"
+          },
           "analysis": {
             "aestheticScore": 78.8294916574172,
             "sharpness": 100,
@@ -15810,13 +15850,6 @@
               "width": 534
             },
             {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-100151-cebreus.jpeg",
-              "width": 1280,
-              "height": 549
-            },
-            {
               "variant": "fallback",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/previews-xxs/2025-11-26-100151-cebreus.jpeg",
@@ -15829,6 +15862,13 @@
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-100151-cebreus.jpeg",
               "width": 534,
               "height": 534
+            },
+            {
+              "variant": "pano_detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details-pano/2025-11-26-100151-cebreus.jpeg",
+              "width": 2987,
+              "height": 1280
             }
           ],
           "people": []
@@ -15844,7 +15884,7 @@
           "sizeMB": 5.75,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-100538-cebreus.png",
-          "placeholderColor": "rgb(72,88,120)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 60.071071727997435,
             "sharpness": 100,
@@ -15963,7 +16003,7 @@
           "sizeMB": 1.81,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-113457-cebreus.png",
-          "placeholderColor": "rgb(8,8,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 77.21877946829194,
             "sharpness": 100,
@@ -16078,7 +16118,7 @@
           "sizeMB": 2.86,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-113557-dasa.png",
-          "placeholderColor": "rgb(56,24,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 57.62734676924469,
             "sharpness": 100,
@@ -16177,7 +16217,7 @@
           "sizeMB": 2.02,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-113612-dasa.png",
-          "placeholderColor": "rgb(216,200,184)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 74.90497913722193,
             "sharpness": 100,
@@ -16285,7 +16325,7 @@
           "sizeMB": 2.03,
           "aspectRatio": "landscape-4021-2573",
           "placeholder": "blurs/2025-11-26-113642-dasa.png",
-          "placeholderColor": "rgb(8,24,56)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 85.17689189848865,
             "sharpness": 100,
@@ -16393,7 +16433,7 @@
           "sizeMB": 3.36,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-113757-dasa.png",
-          "placeholderColor": "rgb(8,8,40)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 66.12704824223654,
             "sharpness": 100,
@@ -16492,7 +16532,7 @@
           "sizeMB": 2.9,
           "aspectRatio": "landscape-16-9",
           "placeholder": "blurs/2025-11-26-113817-dasa.png",
-          "placeholderColor": "rgb(8,24,56)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 80.69319256591484,
             "sharpness": 100,
@@ -16591,7 +16631,7 @@
           "sizeMB": 4.34,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-114502-cebreus.png",
-          "placeholderColor": "rgb(216,200,168)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 67.59756899737387,
             "sharpness": 100,
@@ -16696,7 +16736,7 @@
           "sizeMB": 7.05,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-121346-cebreus.png",
-          "placeholderColor": "rgb(200,216,232)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 36.57464393860592,
             "sharpness": 100,
@@ -16804,7 +16844,7 @@
           "sizeMB": 6.46,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-121358-cebreus.png",
-          "placeholderColor": "rgb(200,216,232)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 47.05542201697706,
             "sharpness": 100,
@@ -16912,7 +16952,7 @@
           "sizeMB": 6.26,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-121411-cebreus.png",
-          "placeholderColor": "rgb(232,216,184)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 49.83438900591679,
             "sharpness": 100,
@@ -17020,7 +17060,7 @@
           "sizeMB": 6.7,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-121422-cebreus.png",
-          "placeholderColor": "rgb(184,200,216)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 40.20965595351518,
             "sharpness": 100,
@@ -17128,7 +17168,7 @@
           "sizeMB": 1.63,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-121518-dasa.png",
-          "placeholderColor": "rgb(152,152,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 43.10122196033864,
             "sharpness": 70,
@@ -17220,7 +17260,7 @@
           "sizeMB": 1.14,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-122029-dasa.png",
-          "placeholderColor": "rgb(120,104,88)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 21.60953613061401,
             "sharpness": 63,
@@ -17312,7 +17352,7 @@
           "sizeMB": 9.26,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-123437-cebreus.png",
-          "placeholderColor": "rgb(40,40,40)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 43.696880694405976,
             "sharpness": 100,
@@ -17411,7 +17451,7 @@
           "sizeMB": 6.14,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-123858-cebreus.png",
-          "placeholderColor": "rgb(88,88,72)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 60.844987896248725,
             "sharpness": 89,
@@ -17510,7 +17550,7 @@
           "sizeMB": 9.59,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-123940-cebreus.png",
-          "placeholderColor": "rgb(24,24,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 54.82606928468564,
             "sharpness": 100,
@@ -17609,7 +17649,7 @@
           "sizeMB": 10.01,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-124004-cebreus.png",
-          "placeholderColor": "rgb(56,56,56)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 39.70075600643126,
             "sharpness": 100,
@@ -17708,7 +17748,7 @@
           "sizeMB": 5.99,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-125147-cebreus.png",
-          "placeholderColor": "rgb(88,88,88)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 74.99653819789468,
             "sharpness": 100,
@@ -17816,7 +17856,7 @@
           "sizeMB": 5.91,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-125240-cebreus.png",
-          "placeholderColor": "rgb(72,72,72)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 92.60193484130936,
             "sharpness": 95,
@@ -17924,7 +17964,7 @@
           "sizeMB": 2.39,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-125315-cebreus.png",
-          "placeholderColor": "rgb(216,216,200)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 45.38147919049676,
             "sharpness": 100,
@@ -18023,7 +18063,7 @@
           "sizeMB": 3.15,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-125323-cebreus.png",
-          "placeholderColor": "rgb(184,168,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 41.355649711034,
             "sharpness": 90,
@@ -18122,7 +18162,7 @@
           "sizeMB": 6.3,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-125334-cebreus.png",
-          "placeholderColor": "rgb(184,168,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 78.73865893650614,
             "sharpness": 94,
@@ -18230,7 +18270,7 @@
           "sizeMB": 0.49,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-125341-cebreus.png",
-          "placeholderColor": "rgb(184,168,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 52.23916570684368,
             "sharpness": 98,
@@ -18329,7 +18369,7 @@
           "sizeMB": 5.72,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-125352-cebreus.png",
-          "placeholderColor": "rgb(216,184,168)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 48.508612302301756,
             "sharpness": 95,
@@ -18428,7 +18468,7 @@
           "sizeMB": 5.6,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-125359-cebreus.png",
-          "placeholderColor": "rgb(104,104,88)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 61.29621696980787,
             "sharpness": 83,
@@ -18527,7 +18567,7 @@
           "sizeMB": 4.69,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-125411-cebreus.png",
-          "placeholderColor": "rgb(200,184,168)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 39.44219599489409,
             "sharpness": 79,
@@ -18626,7 +18666,7 @@
           "sizeMB": 5.41,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-125421-cebreus.png",
-          "placeholderColor": "rgb(104,104,88)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 51.948520011160696,
             "sharpness": 72,
@@ -18725,7 +18765,7 @@
           "sizeMB": 2.68,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-125706-cebreus.png",
-          "placeholderColor": "rgb(136,120,104)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 78.69690958660317,
             "sharpness": 81,
@@ -18824,7 +18864,7 @@
           "sizeMB": 1.68,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-125717-cebreus.png",
-          "placeholderColor": "rgb(168,168,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 44.74479029114438,
             "sharpness": 77,
@@ -18923,7 +18963,7 @@
           "sizeMB": 5.28,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-125755-cebreus.png",
-          "placeholderColor": "rgb(104,88,72)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 46.4727004180027,
             "sharpness": 100,
@@ -19038,7 +19078,7 @@
           "sizeMB": 3.21,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-125848-cebreus.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 48.77241350819253,
             "sharpness": 100,
@@ -19137,7 +19177,7 @@
           "sizeMB": 3.09,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-125913-cebreus.png",
-          "placeholderColor": "rgb(24,24,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 50.58650662808066,
             "sharpness": 100,
@@ -19259,7 +19299,7 @@
           "sizeMB": 1.45,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-125931-dasa.png",
-          "placeholderColor": "rgb(40,40,40)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 51.532531141574395,
             "sharpness": 100,
@@ -19351,7 +19391,7 @@
           "sizeMB": 5.79,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-130017-cebreus.png",
-          "placeholderColor": "rgb(88,72,72)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 41.946608269691126,
             "sharpness": 94,
@@ -19450,7 +19490,7 @@
           "sizeMB": 4.16,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-130021-cebreus.png",
-          "placeholderColor": "rgb(152,136,120)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 38.51690354036594,
             "sharpness": 84,
@@ -19549,7 +19589,7 @@
           "sizeMB": 4.62,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-130159-cebreus.png",
-          "placeholderColor": "rgb(104,88,72)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 29.25811537315828,
             "sharpness": 54,
@@ -19669,7 +19709,7 @@
           "sizeMB": 6.32,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-130237-cebreus.png",
-          "placeholderColor": "rgb(56,56,56)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 44.11336562841539,
             "sharpness": 100,
@@ -19777,7 +19817,7 @@
           "sizeMB": 4.57,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-130323-cebreus.png",
-          "placeholderColor": "rgb(56,56,40)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 65.79033872586041,
             "sharpness": 92,
@@ -19876,7 +19916,7 @@
           "sizeMB": 3.03,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-130404-cebreus.png",
-          "placeholderColor": "rgb(72,56,56)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 37.588364230876344,
             "sharpness": 56,
@@ -19975,7 +20015,7 @@
           "sizeMB": 3.25,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-130440-cebreus.png",
-          "placeholderColor": "rgb(104,88,56)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 41.97910252275047,
             "sharpness": 56,
@@ -20074,7 +20114,7 @@
           "sizeMB": 3.9,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-130501-cebreus.png",
-          "placeholderColor": "rgb(104,88,72)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 51.386767679672325,
             "sharpness": 91,
@@ -20173,7 +20213,7 @@
           "sizeMB": 3.39,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-130515-cebreus.png",
-          "placeholderColor": "rgb(88,88,72)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 45.86717981325164,
             "sharpness": 61,
@@ -20272,7 +20312,7 @@
           "sizeMB": 4.71,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-130543-cebreus.png",
-          "placeholderColor": "rgb(152,152,136)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 48.32974561543717,
             "sharpness": 74,
@@ -20371,7 +20411,7 @@
           "sizeMB": 4.14,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-130603-cebreus.png",
-          "placeholderColor": "rgb(56,56,56)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 62.38972001976634,
             "sharpness": 100,
@@ -20486,7 +20526,7 @@
           "sizeMB": 5.35,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-130753-cebreus.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 54.855714554900594,
             "sharpness": 100,
@@ -20585,7 +20625,7 @@
           "sizeMB": 4.44,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-130842-cebreus.png",
-          "placeholderColor": "rgb(40,40,40)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 35.26901800026276,
             "sharpness": 100,
@@ -20684,7 +20724,7 @@
           "sizeMB": 3.75,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-130849-cebreus.png",
-          "placeholderColor": "rgb(24,24,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 39.878532663558,
             "sharpness": 100,
@@ -20783,7 +20823,7 @@
           "sizeMB": 4.82,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-130858-cebreus.png",
-          "placeholderColor": "rgb(40,40,40)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 43.56240898598082,
             "sharpness": 100,
@@ -20882,7 +20922,7 @@
           "sizeMB": 1.31,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-130905-cebreus.png",
-          "placeholderColor": "rgb(136,120,104)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 41.71128862020269,
             "sharpness": 39,
@@ -20981,7 +21021,7 @@
           "sizeMB": 4.18,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-131110-cebreus.png",
-          "placeholderColor": "rgb(40,24,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 28.36618946215916,
             "sharpness": 95,
@@ -21089,7 +21129,7 @@
           "sizeMB": 4.28,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-131113-cebreus.png",
-          "placeholderColor": "rgb(184,168,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 49.292755790282186,
             "sharpness": 68,
@@ -21188,7 +21228,7 @@
           "sizeMB": 5.26,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-131135-cebreus.png",
-          "placeholderColor": "rgb(24,24,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 47.760909643243586,
             "sharpness": 100,
@@ -21287,7 +21327,7 @@
           "sizeMB": 4.72,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-131140-cebreus.png",
-          "placeholderColor": "rgb(200,184,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 40.587015309091285,
             "sharpness": 97,
@@ -21386,7 +21426,7 @@
           "sizeMB": 5.42,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-131155-cebreus.png",
-          "placeholderColor": "rgb(24,24,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 39.424731053423976,
             "sharpness": 100,
@@ -21485,7 +21525,7 @@
           "sizeMB": 3.47,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-131935-dasa.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 58.06525329607811,
             "sharpness": 100,
@@ -21577,7 +21617,7 @@
           "sizeMB": 2.43,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-132422-cebreus.png",
-          "placeholderColor": "rgb(24,24,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 65.01565245065191,
             "sharpness": 96,
@@ -21685,7 +21725,7 @@
           "sizeMB": 4.67,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-132432-cebreus.png",
-          "placeholderColor": "rgb(24,24,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 39.73729288307439,
             "sharpness": 100,
@@ -21784,7 +21824,7 @@
           "sizeMB": 0.31,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-132537-cebreus.png",
-          "placeholderColor": "rgb(200,200,184)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 32.082923323842174,
             "sharpness": 100,
@@ -21883,7 +21923,7 @@
           "sizeMB": 1.37,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-133202-dasa.png",
-          "placeholderColor": "rgb(168,152,120)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 57.33640314409407,
             "sharpness": 100,
@@ -21991,7 +22031,7 @@
           "sizeMB": 1.88,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-133231-dasa.png",
-          "placeholderColor": "rgb(168,152,120)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 55.60082331785067,
             "sharpness": 100,
@@ -22119,7 +22159,7 @@
           "sizeMB": 6.55,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-133422-cebreus.png",
-          "placeholderColor": "rgb(136,120,104)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 45.79562917002728,
             "sharpness": 99,
@@ -22218,7 +22258,7 @@
           "sizeMB": 1.44,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-133428-cebreus.png",
-          "placeholderColor": "rgb(152,136,120)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 23.507050095775067,
             "sharpness": 100,
@@ -22317,7 +22357,7 @@
           "sizeMB": 5.79,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-133714-cebreus.png",
-          "placeholderColor": "rgb(40,40,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 39.53444234501552,
             "sharpness": 80,
@@ -22416,7 +22456,7 @@
           "sizeMB": 2.14,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-133722-cebreus.png",
-          "placeholderColor": "rgb(40,40,40)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 63.48921227743952,
             "sharpness": 100,
@@ -22515,7 +22555,7 @@
           "sizeMB": 4.92,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-134543-cebreus.png",
-          "placeholderColor": "rgb(56,56,56)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 37.86320871990945,
             "sharpness": 100,
@@ -22669,7 +22709,7 @@
           "sizeMB": 1.86,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-134549-cebreus.png",
-          "placeholderColor": "rgb(56,56,56)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 76.10292764120902,
             "sharpness": 100,
@@ -22833,7 +22873,7 @@
           "sizeMB": 1.69,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-135353-dasa.png",
-          "placeholderColor": "rgb(248,248,248)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 44.56373705725049,
             "sharpness": 100,
@@ -22953,7 +22993,7 @@
           "sizeMB": 5.03,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-135413-cebreus.png",
-          "placeholderColor": "rgb(136,120,104)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 46.295166234392575,
             "sharpness": 100,
@@ -23052,7 +23092,7 @@
           "sizeMB": 2.91,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-135431-cebreus.png",
-          "placeholderColor": "rgb(248,248,248)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 69.42255334439503,
             "sharpness": 100,
@@ -23181,7 +23221,7 @@
           "sizeMB": 0.88,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-140121-dasa.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 77.13623185840679,
             "sharpness": 100,
@@ -23273,7 +23313,7 @@
           "sizeMB": 1.08,
           "aspectRatio": "portrait-9-16",
           "placeholder": "blurs/2025-11-26-140159-dasa.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 76.34895195990313,
             "sharpness": 100,
@@ -23374,7 +23414,7 @@
           "sizeMB": 1.51,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-140307-cebreus.png",
-          "placeholderColor": "rgb(72,72,72)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 68.42249302972549,
             "sharpness": 100,
@@ -23473,7 +23513,7 @@
           "sizeMB": 2.28,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-140324-dasa.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 49.859081359671436,
             "sharpness": 100,
@@ -23565,7 +23605,7 @@
           "sizeMB": 1.93,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-140433-dasa.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 39.25627510394217,
             "sharpness": 100,
@@ -23679,7 +23719,7 @@
           "sizeMB": 1.32,
           "aspectRatio": "portrait-9-16",
           "placeholder": "blurs/2025-11-26-140614-dasa.png",
-          "placeholderColor": "rgb(56,56,40)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 39.27141967978277,
             "sharpness": 100,
@@ -23807,7 +23847,7 @@
           "sizeMB": 1.97,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-142032-dasa.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 51.62430770258814,
             "sharpness": 100,
@@ -23899,7 +23939,7 @@
           "sizeMB": 1.84,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-142128-dasa.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 32.498776344326494,
             "sharpness": 100,
@@ -24000,7 +24040,7 @@
           "sizeMB": 0.95,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-142225-dasa.png",
-          "placeholderColor": "rgb(24,24,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 45.19150015277504,
             "sharpness": 94,
@@ -24092,7 +24132,7 @@
           "sizeMB": 0.67,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-142739-cebreus.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 70.64192831034028,
             "sharpness": 100,
@@ -24191,7 +24231,7 @@
           "sizeMB": 2.26,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-153058-cebreus.png",
-          "placeholderColor": "rgb(232,232,232)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 75.1077652109181,
             "sharpness": 100,
@@ -24299,7 +24339,7 @@
           "sizeMB": 1.66,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-153129-cebreus.png",
-          "placeholderColor": "rgb(104,88,72)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 58.75110188881432,
             "sharpness": 90,
@@ -24407,7 +24447,7 @@
           "sizeMB": 4.99,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-153302-cebreus.png",
-          "placeholderColor": "rgb(136,104,88)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 38.10348467232067,
             "sharpness": 84,
@@ -24506,7 +24546,7 @@
           "sizeMB": 5.58,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-153319-cebreus.png",
-          "placeholderColor": "rgb(24,24,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 49.45526860650891,
             "sharpness": 100,
@@ -24605,7 +24645,7 @@
           "sizeMB": 1.61,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-155237-cebreus.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 75.14603616998798,
             "sharpness": 100,
@@ -24704,7 +24744,7 @@
           "sizeMB": 1.81,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-155305-cebreus.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 65.15247518675008,
             "sharpness": 100,
@@ -24812,7 +24852,7 @@
           "sizeMB": 0.87,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-155357-cebreus.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 60.26331752454775,
             "sharpness": 100,
@@ -24911,7 +24951,7 @@
           "sizeMB": 1.53,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-155425-cebreus.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 64.40497813359092,
             "sharpness": 100,
@@ -25010,7 +25050,7 @@
           "sizeMB": 1.52,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-161403-dasa.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 42.5050255345214,
             "sharpness": 100,
@@ -25123,7 +25163,7 @@
           "sizeMB": 0.19,
           "aspectRatio": "landscape-5-3",
           "placeholder": "blurs/2025-11-26-164807-dasa.png",
-          "placeholderColor": "rgb(56,40,40)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 55.94415557931794,
             "sharpness": 100,
@@ -25221,7 +25261,7 @@
           "sizeMB": 0.27,
           "aspectRatio": "portrait-9-16",
           "placeholder": "blurs/2025-11-26-164810-a3766bfe-6c64-477a-888c-9a5d243d0d10.png",
-          "placeholderColor": "rgb(104,88,72)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 54.47663228912596,
             "sharpness": 100,
@@ -25315,7 +25355,7 @@
           "sizeMB": 0.22,
           "aspectRatio": "portrait-9-16",
           "placeholder": "blurs/2025-11-26-164824-68759101-755d-4ffa-863a-a82c7f2edc5d.png",
-          "placeholderColor": "rgb(24,24,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 42.38827868686138,
             "sharpness": 100,
@@ -25409,7 +25449,7 @@
           "sizeMB": 0.15,
           "aspectRatio": "portrait-9-16",
           "placeholder": "blurs/2025-11-26-170618-8635c848-e986-4a54-96ce-1d33d44647c5.png",
-          "placeholderColor": "rgb(40,24,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 81.58037329818775,
             "sharpness": 100,
@@ -25494,7 +25534,7 @@
           "sizeMB": 0.35,
           "aspectRatio": "landscape-400-331",
           "placeholder": "blurs/2025-11-26-182507-2025-11-26-182507-2025-11-26-182507-e5426e65-71cb-4ff3-b538-43333b412999.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 49.78130132168639,
             "sharpness": 100,
@@ -25602,7 +25642,7 @@
           "sizeMB": 0.4,
           "aspectRatio": "landscape-100-93",
           "placeholder": "blurs/2025-11-26-182606-285d090d-93d8-4286-8aab-fc58d572ef98.png",
-          "placeholderColor": "rgb(200,200,184)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 61.11106976025108,
             "sharpness": 100,
@@ -25731,7 +25771,7 @@
           "sizeMB": 1.38,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-191950-dasa.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 40.709948108038446,
             "sharpness": 100,
@@ -25823,7 +25863,7 @@
           "sizeMB": 1.49,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-192016-cebreus.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 47.72917728330042,
             "sharpness": 100,
@@ -25927,7 +25967,7 @@
           "sizeMB": 0.98,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-202254-cebreus.png",
-          "placeholderColor": "rgb(88,88,72)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 64.53696592184511,
             "sharpness": 100,
@@ -26052,7 +26092,7 @@
           "sizeMB": 1,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-27-051203-cebreus.png",
-          "placeholderColor": "rgb(184,184,168)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 67.1420731887265,
             "sharpness": 96,
@@ -26151,7 +26191,7 @@
           "sizeMB": 0.31,
           "aspectRatio": "landscape-16-9",
           "placeholder": "blurs/2025-11-27-064232-de673c66-3e14-44fe-a9b6-f385d499971a.png",
-          "placeholderColor": "rgb(24,24,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 46.927297364537324,
             "sharpness": 71,
@@ -26245,7 +26285,7 @@
           "sizeMB": 0.24,
           "aspectRatio": "landscape-16-9",
           "placeholder": "blurs/2025-11-27-064239-bdf77f1c-1c18-4672-b444-a6e6430a3c43.png",
-          "placeholderColor": "rgb(104,104,104)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 34.55941557750333,
             "sharpness": 74,
@@ -26330,7 +26370,7 @@
           "sizeMB": 0.22,
           "aspectRatio": "landscape-16-9",
           "placeholder": "blurs/2025-11-27-064240-81ea6390-30a6-4303-8b6f-bb014f58e62d.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 36.87177932441126,
             "sharpness": 100,
@@ -26415,7 +26455,7 @@
           "sizeMB": 0.31,
           "aspectRatio": "landscape-16-9",
           "placeholder": "blurs/2025-11-27-064240-9625dee9-e875-4c32-a88b-4cd781fc1614.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 47.95038748480975,
             "sharpness": 100,
@@ -26515,7 +26555,7 @@
           "sizeMB": 2.03,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-27-123935-dasa.png",
-          "placeholderColor": "rgb(232,200,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 29.250551278508492,
             "sharpness": 100,
@@ -26614,7 +26654,7 @@
           "sizeMB": 1.02,
           "aspectRatio": "landscape-1442-1327",
           "placeholder": "blurs/2025-11-27-124012-dasa.png",
-          "placeholderColor": "rgb(88,72,56)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 26.74110577743691,
             "sharpness": 94,
@@ -26713,7 +26753,7 @@
           "sizeMB": 1.95,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-27-124304-dasa.png",
-          "placeholderColor": "rgb(232,200,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 39.08209231574598,
             "sharpness": 100,
@@ -26812,7 +26852,7 @@
           "sizeMB": 1.59,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-27-124915-dasa.png",
-          "placeholderColor": "rgb(120,152,184)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 50.189314766120226,
             "sharpness": 75,
@@ -26904,7 +26944,7 @@
           "sizeMB": 2.04,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-27-150730-dasa.png",
-          "placeholderColor": "rgb(184,152,104)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 57.47574874437822,
             "sharpness": 82,
@@ -26996,7 +27036,7 @@
           "sizeMB": 2.81,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-27-150735-dasa.png",
-          "placeholderColor": "rgb(184,152,104)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 70.407909579218,
             "sharpness": 100,
@@ -27088,7 +27128,7 @@
           "sizeMB": 1.01,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-27-154619-dasa.png",
-          "placeholderColor": "rgb(200,216,200)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 83.84840559047618,
             "sharpness": 100,
@@ -27180,7 +27220,7 @@
           "sizeMB": 0.68,
           "aspectRatio": "landscape-1477-1230",
           "placeholder": "blurs/2025-11-27-161227-dasa.png",
-          "placeholderColor": "rgb(136,152,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 48.64486760998998,
             "sharpness": 94,
@@ -27272,7 +27312,7 @@
           "sizeMB": 1.53,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-27-162535-dasa.png",
-          "placeholderColor": "rgb(56,72,104)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 50.72806029523882,
             "sharpness": 97,
@@ -27364,7 +27404,7 @@
           "sizeMB": 1.04,
           "aspectRatio": "landscape-1753-1512",
           "placeholder": "blurs/2025-11-27-162603-dasa.png",
-          "placeholderColor": "rgb(56,40,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 42.453440962747074,
             "sharpness": 75,
@@ -27464,7 +27504,7 @@
           "sizeMB": 1.08,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-28-132902-dasa.png",
-          "placeholderColor": "rgb(184,184,184)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 75.28387176976781,
             "sharpness": 62,
@@ -27556,7 +27596,7 @@
           "sizeMB": 2,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-28-133626-dasa.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 57.63897257726787,
             "sharpness": 100,
@@ -27664,7 +27704,7 @@
           "sizeMB": 1.29,
           "aspectRatio": "portrait-2-3",
           "placeholder": "blurs/2025-11-28-133635-dasa.png",
-          "placeholderColor": "rgb(136,120,104)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 72.31183780717751,
             "sharpness": 100,
@@ -27784,7 +27824,7 @@
           "sizeMB": 2.86,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-28-152459-dasa.png",
-          "placeholderColor": "rgb(168,168,168)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 77.54285421440578,
             "sharpness": 100,
@@ -27885,7 +27925,7 @@
           "sizeMB": 1.86,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-28-155801-dasa.png",
-          "placeholderColor": "rgb(136,136,120)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 47.94948547459696,
             "sharpness": 100,
@@ -27986,7 +28026,7 @@
           "sizeMB": 0.21,
           "aspectRatio": "landscape-16-9",
           "placeholder": "blurs/2025-11-28-170307-ace230a6-8982-4c26-9552-bbff3294a6de.png",
-          "placeholderColor": "rgb(184,200,200)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 42.44608658224916,
             "sharpness": 100,
@@ -28079,7 +28119,7 @@
           "sizeMB": 0.8,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-29-053518-dasa.png",
-          "placeholderColor": "rgb(136,88,40)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 77.48422964811888,
             "sharpness": 100,
@@ -28184,7 +28224,7 @@
           "sizeMB": 0.96,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-30-073857-dasa.png",
-          "placeholderColor": "rgb(152,136,120)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 81.09042471150643,
             "sharpness": 90,
@@ -28285,7 +28325,7 @@
           "sizeMB": 1.83,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-30-133909-dasa.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 78.9799238936101,
             "sharpness": 100,
@@ -28411,7 +28451,7 @@
           "sizeMB": 2.45,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-30-140650-dasa.png",
-          "placeholderColor": "rgb(24,40,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 46.637467332012875,
             "sharpness": 100,
@@ -28510,7 +28550,7 @@
           "sizeMB": 2.48,
           "aspectRatio": "portrait-3022-3735",
           "placeholder": "blurs/2025-11-30-140824-dasa.png",
-          "placeholderColor": "rgb(168,184,216)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 71.30717974956424,
             "sharpness": 100,
@@ -28609,7 +28649,7 @@
           "sizeMB": 4.43,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-30-141202-dasa.png",
-          "placeholderColor": "rgb(248,248,248)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 39.5452085999095,
             "sharpness": 100,
@@ -28708,7 +28748,7 @@
           "sizeMB": 4.24,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-30-141416-dasa.png",
-          "placeholderColor": "rgb(24,24,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 50.173038232265185,
             "sharpness": 100,
@@ -28807,7 +28847,7 @@
           "sizeMB": 3.36,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-30-141437-dasa.png",
-          "placeholderColor": "rgb(56,56,40)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 63.358860131397506,
             "sharpness": 100,
@@ -28906,7 +28946,7 @@
           "sizeMB": 3.92,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-30-141440-dasa.png",
-          "placeholderColor": "rgb(248,248,248)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 66.94551650861317,
             "sharpness": 100,
@@ -29005,7 +29045,7 @@
           "sizeMB": 2.56,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-30-141813-dasa.png",
-          "placeholderColor": "rgb(24,24,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 36.71409607263966,
             "sharpness": 100,
@@ -29104,7 +29144,7 @@
           "sizeMB": 4.07,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-30-141921-dasa.png",
-          "placeholderColor": "rgb(104,88,88)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 60.86345471740885,
             "sharpness": 100,
@@ -29203,7 +29243,7 @@
           "sizeMB": 1.53,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-30-142248-dasa.png",
-          "placeholderColor": "rgb(200,200,200)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 78.43169098279841,
             "sharpness": 100,
@@ -29302,7 +29342,7 @@
           "sizeMB": 1.29,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-30-142326-dasa.png",
-          "placeholderColor": "rgb(88,120,88)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 63.11082866199961,
             "sharpness": 64,
@@ -29401,7 +29441,7 @@
           "sizeMB": 1.26,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-30-143428-dasa.png",
-          "placeholderColor": "rgb(120,152,200)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 55.873205495940574,
             "sharpness": 100,
@@ -29500,7 +29540,7 @@
           "sizeMB": 2.83,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-30-144512-dasa.png",
-          "placeholderColor": "rgb(120,168,248)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 37.02600134662356,
             "sharpness": 98,
@@ -29599,7 +29639,7 @@
           "sizeMB": 1.24,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-30-144520-dasa.png",
-          "placeholderColor": "rgb(72,88,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 55.76787251110262,
             "sharpness": 85,
@@ -29698,7 +29738,7 @@
           "sizeMB": 1.1,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-30-150529-dasa.png",
-          "placeholderColor": "rgb(120,120,120)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 67.30521398267119,
             "sharpness": 98,
@@ -29790,7 +29830,7 @@
           "sizeMB": 1,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-30-150912-dasa.png",
-          "placeholderColor": "rgb(200,200,200)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 97.27980604619468,
             "sharpness": 100,
@@ -29883,7 +29923,7 @@
           "sizeMB": 2.04,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-30-152003-dasa.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 74.44699714019102,
             "sharpness": 100,
@@ -29982,7 +30022,7 @@
           "sizeMB": 3.31,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-30-152210-dasa.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 49.27376498103636,
             "sharpness": 100,
@@ -30081,7 +30121,7 @@
           "sizeMB": 2.24,
           "aspectRatio": "landscape-199-168",
           "placeholder": "blurs/2025-11-30-152213-dasa.png",
-          "placeholderColor": "rgb(216,216,216)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 65.64219831655174,
             "sharpness": 100,
@@ -30185,7 +30225,7 @@
           "sizeMB": 2.31,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-30-154257-dasa.png",
-          "placeholderColor": "rgb(248,248,248)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 82.39547692696885,
             "sharpness": 100,
@@ -30282,7 +30322,7 @@
           "sizeMB": 1.58,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-30-154425-dasa.png",
-          "placeholderColor": "rgb(8,56,88)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 57.57700931588373,
             "sharpness": 100,
@@ -30379,7 +30419,7 @@
           "sizeMB": 0.75,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-30-161336-dasa.png",
-          "placeholderColor": "rgb(120,104,88)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 49.047899621130775,
             "sharpness": 64,
@@ -30476,7 +30516,7 @@
           "sizeMB": 0.79,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-30-161354-dasa.png",
-          "placeholderColor": "rgb(168,184,200)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 53.997020109422266,
             "sharpness": 79,
@@ -30573,7 +30613,7 @@
           "sizeMB": 1.78,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-30-161524-dasa.png",
-          "placeholderColor": "rgb(184,184,184)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 58.33337533923105,
             "sharpness": 100,
@@ -30685,7 +30725,7 @@
           "sizeMB": 1.05,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-30-173928-dasa.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 51.68721259506444,
             "sharpness": 100,
@@ -30796,7 +30836,7 @@
           "sizeMB": 2.46,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-12-01-073611-dasa.png",
-          "placeholderColor": "rgb(200,216,216)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 53.96415624889228,
             "sharpness": 66,
@@ -30905,7 +30945,7 @@
           "sizeMB": 0.63,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-12-02-111144-dasa.png",
-          "placeholderColor": "rgb(120,152,200)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 90.68168327405218,
             "sharpness": 100,
