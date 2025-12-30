@@ -10,6 +10,8 @@ export class EditorState {
   selection = $state(new Set<string>());
   editMode = $state(false);
   showMetadataOverlay = $state(false);
+  /** When true, drag & drop reordering is enabled in edit mode */
+  reorderMode = $state(false);
 
   private updateSelection(fn: (s: Set<string>) => void) {
     const next = new Set(this.selection);
@@ -69,6 +71,14 @@ export class EditorState {
 
   setShowMetadataOverlay(value: boolean) {
     this.showMetadataOverlay = value;
+  }
+
+  setReorderMode(value: boolean) {
+    this.reorderMode = value;
+  }
+
+  toggleReorderMode() {
+    this.reorderMode = !this.reorderMode;
   }
 }
 

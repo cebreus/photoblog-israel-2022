@@ -8,6 +8,7 @@ import type {
   Manifest,
   MenuManifest,
   PeopleManifest,
+  SortOrderManifest,
 } from "../../../src/lib/types/manifest";
 import {
   type ClusteringConstraints,
@@ -19,6 +20,7 @@ import {
   isValidManifest,
   isValidMenuManifest,
   isValidPeopleManifest,
+  isValidSortOrderManifest,
 } from "../../../src/lib/utils/manifest-validators";
 import { createLogger } from "../core/cli-logger";
 
@@ -189,4 +191,27 @@ export async function saveClusteringConstraints(
   data: ClusteringConstraints,
 ): Promise<void> {
   return saveManifest(path.join(outRoot, "clustering-constraints.json"), data);
+}
+
+/**
+ * Load the persistent sort order manifest.
+ * This file stores manual image ordering that survives manifest rebuilds.
+ */
+export async function loadSortOrderManifest(outRoot: string): Promise<SortOrderManifest | null> {
+  const data = await loadManifest<SortOrderManifest>(path.join(outRoot, "sortorder.manifest.json"));
+  if (data && !isValidSortOrderManifest(data)) {
+    logger.warn(`Invalid sort order manifest structure in ${outRoot}`);
+    return null;
+  }
+  return data;
+}
+
+/**
+ * Save the persistent sort order manifest.
+ */
+export async function saveSortOrderManifest(
+  outRoot: string,
+  data: SortOrderManifest,
+): Promise<void> {
+  return saveManifest(path.join(outRoot, "sortorder.manifest.json"), data);
 }
