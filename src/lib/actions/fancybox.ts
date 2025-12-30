@@ -7,7 +7,7 @@ import { mount, unmount } from "svelte";
 import SequencePlayer from "$lib/components/SequencePlayer.svelte";
 import type { ImageEntry } from "$lib/types/manifest";
 import { getPhotoDays } from "$lib/utils/images";
-import { getSequenceMembers, parseSequenceSuffix } from "$lib/utils/sequences";
+import { getSequenceMembers, isSequenceMember, parseSequenceSuffix } from "$lib/utils/sequences";
 
 /** Slide object from Fancybox carousel - extended with our custom properties */
 interface FancyboxSlide {
@@ -75,17 +75,73 @@ function getImageIdFromTrigger(slide: FancyboxSlide): string | null {
   return triggerEl.dataset.imageId || triggerEl.getAttribute("data-image-id");
 }
 
-function isSequenceImage(imageId: string | null): boolean {
-  return imageId?.includes("--") ?? false;
+/**
+ * Lookup an image entry by ID from the cached images.
+ */
+function getImageEntry(imageId: string): ImageEntry | null {
+  const allImages = getAllImages();
+  return allImages.find((img) => img.id === imageId) ?? null;
 }
 
-function createSequencePlayer(imageId: string, host: HTMLElement): ReturnType<typeof mount> | null {
-  const sequenceInfo = parseSequenceSuffix(imageId);
-  if (!sequenceInfo) return null;
+/**
+ * Determine if the image should use SequencePlayer.
+ * True for: sequences, panoramas, or 360 content.
+ */
+function shouldUseSequencePlayer(imageId: string): boolean {
+  const image = getImageEntry(imageId);
+  if (!image) return false;
 
-  const allImages = getAllImages();
-  const sequenceMembers = getSequenceMembers(allImages, sequenceInfo.baseId);
-  if (sequenceMembers.length === 0) return null;
+  // Check suffix-based sequences
+  if (isSequenceMember(imageId)) return true;
+
+  // Check special media (panoramas, 360)
+  if (image.specialMedia) return true;
+
+  return false;
+}
+
+/**
+ * Create the appropriate player component for a special media type.
+ * Handles both suffix-based sequences (using members from manifest) and aspectRatio-based panoramas.
+ */
+function createSequencePlayer(imageId: string, host: HTMLElement): ReturnType<typeof mount> | null {
+  const image = getImageEntry(imageId);
+  if (!image) return null;
+
+  let sequenceInfo = image.sequenceInfo || parseSequenceSuffix(imageId);
+  let sequenceMembers: ImageEntry[] = [];
+
+  if (sequenceInfo) {
+    // Use members from manifest if available (handles different timestamps correctly)
+    if (sequenceInfo.members && sequenceInfo.members.length > 0) {
+      const allImages = getAllImages();
+      const memberIds = new Set(sequenceInfo.members);
+      sequenceMembers = allImages.filter((img) => memberIds.has(img.id));
+      // Sort by sequence index
+      sequenceMembers.sort((a, b) => {
+        const aInfo = a.sequenceInfo || parseSequenceSuffix(a.id);
+        const bInfo = b.sequenceInfo || parseSequenceSuffix(b.id);
+        return (aInfo?.index ?? 0) - (bInfo?.index ?? 0);
+      });
+    } else {
+      // Fallback to baseId matching (for same-timestamp sequences)
+      const allImages = getAllImages();
+      sequenceMembers = getSequenceMembers(allImages, sequenceInfo.baseId);
+    }
+
+    if (sequenceMembers.length === 0) return null;
+  } else if (image.specialMedia?.isPanorama) {
+    // Panorama / 360: single image with synthetic SequenceInfo
+    sequenceInfo = {
+      type: "pano",
+      index: 1,
+      total: 1,
+      baseId: imageId,
+    };
+    sequenceMembers = [image];
+  } else {
+    return null;
+  }
 
   try {
     return mount(SequencePlayer, {
@@ -119,11 +175,11 @@ function handleCreateSlide(
   slide: FancyboxSlide,
 ): void {
   const imageId = getImageIdFromTrigger(slide);
-  if (!isSequenceImage(imageId)) return;
+  if (!imageId || !shouldUseSequencePlayer(imageId)) return;
 
   slide.type = "html";
   slide.html = `<div class="sequence-player-host" style="width:100%; height:100%; display:flex; flex-direction:column; background:black;"></div>`;
-  slide._imageId = imageId ?? undefined;
+  slide._imageId = imageId;
 }
 
 function handleAttachSlideEl(
