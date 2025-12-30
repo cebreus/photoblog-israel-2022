@@ -1,5 +1,20 @@
 [
   {
+    "id": "day-2025-11-21",
+    "date": "2025-11-21",
+    "label": "pátek 21. listopadu 2025",
+    "href": "#day-2025-11-21",
+    "locations": [
+      {
+        "id": "loc-hlavni-nadrazi",
+        "label": "Hlavní nádraží",
+        "href": "#2025-11-21-175802-cebreus",
+        "isDimmed": true,
+        "firstPhotoExifDate": "2025-11-21T16:58:02.299Z"
+      }
+    ]
+  },
+  {
     "id": "day-2025-11-22",
     "date": "2025-11-22",
     "label": "sobota 22. listopadu 2025",
@@ -86,11 +101,17 @@
         "firstPhotoExifDate": "2025-11-25T08:24:09.133Z"
       },
       {
+        "id": "loc-kom-el-deka",
+        "label": "Kom El Deka",
+        "href": "#loc-kom-el-deka",
+        "isDimmed": false,
+        "firstPhotoExifDate": "2025-11-25T09:15:58.184Z"
+      },
+      {
         "id": "loc-rimsky-amfiteatr",
         "label": "Římský amfiteátr",
         "href": "#loc-rimsky-amfiteatr",
-        "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-25T09:15:58.184Z"
+        "isDimmed": true
       },
       {
         "id": "loc-alexandrijska-opera",

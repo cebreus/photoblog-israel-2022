@@ -1,6 +1,161 @@
 {
   "photoDays": [
     {
+      "date": "2025-11-21",
+      "cities": [
+        "Brno"
+      ],
+      "locations": [
+        "Hlavní nádraží"
+      ],
+      "items": [
+        {
+          "id": "2025-11-21-175802-cebreus",
+          "type": "image",
+          "src": "2025-11-21-175802-cebreus.heic",
+          "alt": "Hlavní nádraží, Brno",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "sizeMB": 4.74,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/2025-11-21-175802-cebreus.png",
+          "placeholderColor": "",
+          "analysis": {
+            "aestheticScore": 29.09688003899494,
+            "sharpness": 100,
+            "qualityBucket": "poor",
+            "phash": "4527a61713535a5c",
+            "facesDetected": true,
+            "faces": [
+              {
+                "x": 6139.424789428711,
+                "y": 1796.0889186859126,
+                "width": 580.3544311523438,
+                "height": 646.9274768829347
+              },
+              {
+                "x": 4037.348213195801,
+                "y": 1622.5794868469234,
+                "width": 452.46546936035156,
+                "height": 661.2707290649414
+              },
+              {
+                "x": 1054.2485618591309,
+                "y": 1873.8776149749756,
+                "width": 591.0342750549316,
+                "height": 746.4291400909423
+              },
+              {
+                "x": 5189.241920471191,
+                "y": 1943.6328163146973,
+                "width": 478.7657775878906,
+                "height": 587.9934310913086
+              },
+              {
+                "x": 2866.2543869018555,
+                "y": 2014.4751319885254,
+                "width": 416.03638458251953,
+                "height": 504.4345092773438
+              },
+              {
+                "x": 1897.662431716919,
+                "y": 873.9925203323364,
+                "width": 507.2714366912842,
+                "height": 799.1515417098998
+              }
+            ]
+          },
+          "exif": {
+            "date": "2025-11-21T16:58:02.299Z",
+            "location": "Hlavní nádraží",
+            "city": "Brno",
+            "latitude": 49.191417,
+            "longitude": 16.6135,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Česko",
+            "countryCode": "CZ",
+            "state": "Jihomoravský kraj"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Hlavní nádraží",
+          "city": "Brno",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=49.191417,16.6135",
+          "date": "2025-11-21T16:58:02.299Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-21-175802-cebreus.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-21-175802-cebreus.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-21-175802-cebreus.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-21-175802-cebreus.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-21-175802-cebreus.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-21-175802-cebreus.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-21-175802-cebreus.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-21-175802-cebreus.jpeg",
+              "width": 190,
+              "height": 107
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-21-175802-cebreus.jpeg",
+              "width": 534,
+              "height": 534
+            }
+          ],
+          "people": [
+            "person-16f7cd5e",
+            "person-8534a578--odpojeno-od-bobo",
+            "person-5e38b07f",
+            "person-4bdf7087",
+            "person-bbf0791e",
+            "person-e06d2881"
+          ]
+        }
+      ],
+      "id": "day-2025-11-21"
+    },
+    {
       "date": "2025-11-22",
       "cities": [
         "Hurgada"
@@ -9,6 +164,97 @@
         "Blend Club Aqua Resort"
       ],
       "items": [
+        {
+          "id": "2025-11-22-055754-cebreus",
+          "type": "image",
+          "src": "2025-11-22-055754-cebreus.heic",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "sizeMB": 3.71,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/2025-11-22-055754-cebreus.png",
+          "placeholderColor": "",
+          "analysis": {
+            "aestheticScore": 62.131635435823966,
+            "sharpness": 89,
+            "qualityBucket": "good",
+            "phash": "9313cd9ff742c301",
+            "facesDetected": false,
+            "faces": []
+          },
+          "exif": {
+            "date": "2025-11-22T04:57:54.694Z",
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "date": "2025-11-22T04:57:54.694Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-22-055754-cebreus.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-22-055754-cebreus.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-22-055754-cebreus.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-22-055754-cebreus.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-22-055754-cebreus.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-22-055754-cebreus.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-22-055754-cebreus.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-22-055754-cebreus.jpeg",
+              "width": 190,
+              "height": 107
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-22-055754-cebreus.jpeg",
+              "width": 534,
+              "height": 534
+            }
+          ],
+          "people": []
+        },
         {
           "id": "2025-11-22-161654-finda",
           "type": "image",
@@ -326,7 +572,7 @@
             }
           ],
           "people": [
-            "person-1d627693",
+            "person-e06d2881",
             "person-bbf0791e"
           ]
         },
@@ -432,7 +678,7 @@
             }
           ],
           "people": [
-            "person-116be315"
+            "person-e06d2881"
           ]
         },
         {
@@ -754,8 +1000,8 @@
           ],
           "people": [
             "person-4bdf7087",
-            "person-ce808cdd",
-            "person-a5eee7aa"
+            "person-16f7cd5e",
+            "person-5e38b07f"
           ]
         },
         {
@@ -868,8 +1114,8 @@
             }
           ],
           "people": [
-            "person-16f7cd5e",
-            "person-c310b7fb"
+            "person-5e38b07f",
+            "person-16f7cd5e"
           ]
         },
         {
@@ -1601,7 +1847,7 @@
             "person-bbf0791e",
             "person-16f7cd5e",
             "person-4bdf7087",
-            "person-bfb4c83b"
+            "person-8534a578--odpojeno-od-bobo"
           ]
         }
       ],
@@ -2114,9 +2360,7 @@
               "height": 534
             }
           ],
-          "people": [
-            "person-39fe7c15"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-24-201244-cebreus",
@@ -2242,7 +2486,7 @@
           "people": [
             "person-16f7cd5e",
             "person-4bdf7087",
-            "person-d64bfb72",
+            "person-8534a578--odpojeno-od-bobo",
             "person-bbf0791e"
           ]
         },
@@ -2472,11 +2716,12 @@
             }
           ],
           "people": [
+            "person-8534a578--odpojeno-od-bobo",
             "person-5e38b07f",
-            "person-2453ccc3",
-            "person-ce808cdd",
-            "person-94ca7bbb",
-            "person-4bdf7087"
+            "person-e06d2881",
+            "person-16f7cd5e",
+            "person-4bdf7087",
+            "person-078ff269--odpojeno-od-person-20"
           ]
         },
         {
@@ -2685,8 +2930,8 @@
             }
           ],
           "people": [
-            "person-3bdf1aa1",
-            "person-0cdc16dd"
+            "person-4bdf7087",
+            "person-bbf0791e"
           ]
         },
         {
@@ -3224,6 +3469,7 @@
         "Hrobka z ulice Tigran",
         "Katakomby Kom el Shoqafa",
         "Serapeum",
+        "Kom El Deka",
         "Římský amfiteátr",
         "Alexandrijská opera",
         "Alexandrijská knihovna",
@@ -5290,107 +5536,6 @@
           "people": []
         },
         {
-          "id": "2025-11-25-092627-cebreus",
-          "type": "image",
-          "src": "2025-11-25-092627-cebreus.heic",
-          "alt": "Pompeiův sloup, Serapeum, Alexandrie",
-          "title": "",
-          "caption": "Pompeiův sloup",
-          "width": 4032,
-          "height": 3024,
-          "sizeMB": 1.77,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-25-092627-cebreus.png",
-          "placeholderColor": "",
-          "analysis": {
-            "aestheticScore": 63.20784582700223,
-            "sharpness": 86,
-            "qualityBucket": "good",
-            "phash": "5f3eb4fcff316167",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T08:26:27.017Z",
-            "location": "Serapeum",
-            "city": "Alexandrie",
-            "latitude": 31.181983,
-            "longitude": 29.896047,
-            "orientation": 1,
-            "description": "Pompeiův sloup",
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Serapeum",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.181983,29.896047",
-          "date": "2025-11-25T08:26:27.017Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-092627-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-092627-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-092627-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-092627-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-092627-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-092627-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-092627-cebreus.jpeg",
-              "width": 1280,
-              "height": 960
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-092627-cebreus.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-092627-cebreus.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "people": []
-        },
-        {
           "id": "2025-11-25-092702-cebreus",
           "type": "image",
           "src": "2025-11-25-092702-cebreus.heic",
@@ -6108,8 +6253,8 @@
             }
           ],
           "people": [
-            "person-1d627693",
-            "person-8535e7b9"
+            "person-e06d2881",
+            "person-bbf0791e"
           ]
         },
         {
@@ -6323,7 +6468,7 @@
           ],
           "people": [
             "person-bbf0791e",
-            "person-1a6ca8fc"
+            "person-4bdf7087"
           ]
         },
         {
@@ -7176,16 +7321,16 @@
           "people": []
         },
         {
-          "id": "loc-rimsky-amfiteatr",
+          "id": "loc-kom-el-deka",
           "type": "separator",
-          "location": "Římský amfiteátr",
+          "location": "Kom El Deka",
           "city": "Alexandrie"
         },
         {
           "id": "2025-11-25-101558-cebreus",
           "type": "image",
           "src": "2025-11-25-101558-cebreus.heic",
-          "alt": "Římský amfiteátr, Alexandrie",
+          "alt": "Kom El Deka, Alexandrie",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -7194,7 +7339,7 @@
           "placeholder": "blurs/2025-11-25-101558-cebreus.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 46.69312529109064,
+            "aestheticScore": 47.127126437504195,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "aeaeae733c22274c",
@@ -7216,7 +7361,7 @@
           },
           "exif": {
             "date": "2025-11-25T09:15:58.184Z",
-            "location": "Římský amfiteátr",
+            "location": "Kom El Deka",
             "city": "Alexandrie",
             "latitude": 31.193972,
             "longitude": 29.903742,
@@ -7228,7 +7373,7 @@
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
-          "location": "Římský amfiteátr",
+          "location": "Kom El Deka",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.193972,29.903742",
           "date": "2025-11-25T09:15:58.184Z",
@@ -7292,16 +7437,16 @@
             }
           ],
           "people": [
-            "person-39fe7c15",
-            "person-cbbbd28a"
+            "person-9ac1d3ed"
           ]
         },
         {
           "id": "2025-11-25-101952-cebreus",
           "type": "image",
           "src": "2025-11-25-101952-cebreus.heic",
-          "alt": "Římský amfiteátr, Alexandrie",
+          "alt": "Římský amfiteátr, Kom El Deka, Alexandrie",
           "title": "",
+          "caption": "Římský amfiteátr",
           "width": 8064,
           "height": 6048,
           "sizeMB": 7.84,
@@ -7309,7 +7454,7 @@
           "placeholder": "blurs/2025-11-25-101952-cebreus.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 47.256988867780414,
+            "aestheticScore": 51.42858699437046,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "e9e8f6f4e53fb0c1",
@@ -7318,11 +7463,12 @@
           },
           "exif": {
             "date": "2025-11-25T09:19:52.720Z",
-            "location": "Římský amfiteátr",
+            "location": "Kom El Deka",
             "city": "Alexandrie",
             "latitude": 31.194325,
             "longitude": 29.903844,
             "orientation": 1,
+            "description": "Římský amfiteátr",
             "author": "Cebreus",
             "country": "Egypt",
             "countryCode": "EGY",
@@ -7330,7 +7476,7 @@
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
-          "location": "Římský amfiteátr",
+          "location": "Kom El Deka",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.194325,29.903844",
           "date": "2025-11-25T09:19:52.720Z",
@@ -7399,7 +7545,7 @@
           "id": "2025-11-25-102006-cebreus",
           "type": "image",
           "src": "2025-11-25-102006-cebreus.heic",
-          "alt": "Římský amfiteátr, Alexandrie",
+          "alt": "Kom El Deka, Alexandrie",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -7408,7 +7554,7 @@
           "placeholder": "blurs/2025-11-25-102006-cebreus.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 59.11971886298289,
+            "aestheticScore": 61.75677255139433,
             "sharpness": 89,
             "qualityBucket": "good",
             "phash": "59428f8cd0cccc76",
@@ -7417,7 +7563,7 @@
           },
           "exif": {
             "date": "2025-11-25T09:20:06.894Z",
-            "location": "Římský amfiteátr",
+            "location": "Kom El Deka",
             "city": "Alexandrie",
             "latitude": 31.194278,
             "longitude": 29.903789,
@@ -7429,7 +7575,7 @@
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
-          "location": "Římský amfiteátr",
+          "location": "Kom El Deka",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.194278,29.903789",
           "date": "2025-11-25T09:20:06.894Z",
@@ -7498,7 +7644,7 @@
           "id": "2025-11-25-102804-cebreus--collage",
           "type": "image",
           "src": "2025-11-25-102804-cebreus--collage.jpg",
-          "alt": "Římský amfiteátr, Alexandrie",
+          "alt": "Kom El Deka, Alexandrie",
           "title": "",
           "width": 3673,
           "height": 2066,
@@ -7507,7 +7653,7 @@
           "placeholder": "blurs/2025-11-25-102804-cebreus--collage.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 55.07519096036731,
+            "aestheticScore": 62.48692654712809,
             "sharpness": 91,
             "qualityBucket": "good",
             "phash": "a69e94ecb0b0980a",
@@ -7516,8 +7662,9 @@
           },
           "exif": {
             "date": "2025-11-25T09:28:04.319Z",
-            "location": "Římský amfiteátr",
+            "location": "Kom El Deka",
             "city": "Alexandrie",
+            "sublocation": "Kom El Deka",
             "latitude": 31.195428,
             "longitude": 29.905267,
             "orientation": 1,
@@ -7528,7 +7675,7 @@
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
-          "location": "Římský amfiteátr",
+          "location": "Kom El Deka",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.195428,29.905267",
           "date": "2025-11-25T09:28:04.319Z",
@@ -7597,7 +7744,7 @@
           "id": "2025-11-25-103135-cebreus",
           "type": "image",
           "src": "2025-11-25-103135-cebreus.heic",
-          "alt": "Římský amfiteátr, Alexandrie",
+          "alt": "Kom El Deka, Alexandrie",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -7606,7 +7753,7 @@
           "placeholder": "blurs/2025-11-25-103135-cebreus.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 79.969140126865,
+            "aestheticScore": 75.93574397973232,
             "sharpness": 83,
             "qualityBucket": "excellent",
             "phash": "2e296e8a828a8a3e",
@@ -7615,7 +7762,7 @@
           },
           "exif": {
             "date": "2025-11-25T09:31:35.233Z",
-            "location": "Římský amfiteátr",
+            "location": "Kom El Deka",
             "city": "Alexandrie",
             "latitude": 31.195442,
             "longitude": 29.905792,
@@ -7627,7 +7774,7 @@
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
-          "location": "Římský amfiteátr",
+          "location": "Kom El Deka",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.195442,29.905792",
           "date": "2025-11-25T09:31:35.233Z",
@@ -7696,7 +7843,7 @@
           "id": "2025-11-25-103145-cebreus",
           "type": "image",
           "src": "2025-11-25-103145-cebreus.heic",
-          "alt": "Římský amfiteátr, Alexandrie",
+          "alt": "Kom El Deka, Alexandrie",
           "title": "",
           "width": 6252,
           "height": 4689,
@@ -7705,7 +7852,7 @@
           "placeholder": "blurs/2025-11-25-103145-cebreus.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 84.10452283945175,
+            "aestheticScore": 82.1253331009682,
             "sharpness": 53,
             "qualityBucket": "good",
             "phash": "b2a7a1e1e4f7a7ad",
@@ -7714,7 +7861,7 @@
           },
           "exif": {
             "date": "2025-11-25T09:31:45.426Z",
-            "location": "Římský amfiteátr",
+            "location": "Kom El Deka",
             "city": "Alexandrie",
             "latitude": 31.195622,
             "longitude": 29.905303,
@@ -7726,7 +7873,7 @@
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
-          "location": "Římský amfiteátr",
+          "location": "Kom El Deka",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.195622,29.905303",
           "date": "2025-11-25T09:31:45.426Z",
@@ -7795,7 +7942,7 @@
           "id": "2025-11-25-104058-cebreus",
           "type": "image",
           "src": "2025-11-25-104058-cebreus.heic",
-          "alt": "Římský amfiteátr, Alexandrie",
+          "alt": "Kom El Deka, Alexandrie",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -7804,7 +7951,7 @@
           "placeholder": "blurs/2025-11-25-104058-cebreus.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 49.510222161779126,
+            "aestheticScore": 51.141751508144615,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "46c686a4d6dc6663",
@@ -7820,7 +7967,7 @@
           },
           "exif": {
             "date": "2025-11-25T09:40:58.982Z",
-            "location": "Římský amfiteátr",
+            "location": "Kom El Deka",
             "city": "Alexandrie",
             "latitude": 31.195214,
             "longitude": 29.903528,
@@ -7832,7 +7979,7 @@
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
-          "location": "Římský amfiteátr",
+          "location": "Kom El Deka",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.195214,29.903528",
           "date": "2025-11-25T09:40:58.982Z",
@@ -8144,7 +8291,7 @@
           "id": "2025-11-25-105010-cebreus",
           "type": "image",
           "src": "2025-11-25-105010-cebreus.heic",
-          "alt": "Římský amfiteátr, Alexandrie",
+          "alt": "Kom El Deka, Alexandrie",
           "title": "",
           "width": 6048,
           "height": 8064,
@@ -8153,7 +8300,7 @@
           "placeholder": "blurs/2025-11-25-105010-cebreus.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 42.58909166085885,
+            "aestheticScore": 41.29266474630989,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "066a38b37796a6d7",
@@ -8169,7 +8316,7 @@
           },
           "exif": {
             "date": "2025-11-25T09:50:10.856Z",
-            "location": "Římský amfiteátr",
+            "location": "Kom El Deka",
             "city": "Alexandrie",
             "latitude": 31.19485,
             "longitude": 29.903372,
@@ -8181,7 +8328,7 @@
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
-          "location": "Římský amfiteátr",
+          "location": "Kom El Deka",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.19485,29.903372",
           "date": "2025-11-25T09:50:10.856Z",
@@ -8245,14 +8392,14 @@
             }
           ],
           "people": [
-            "person-ecbdafdc"
+            "person-d55ce766"
           ]
         },
         {
           "id": "2025-11-25-105048-cebreus",
           "type": "image",
           "src": "2025-11-25-105048-cebreus.heic",
-          "alt": "Římský amfiteátr, Alexandrie",
+          "alt": "Kom El Deka, Alexandrie",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -8261,9 +8408,9 @@
           "placeholder": "blurs/2025-11-25-105048-cebreus.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 50.29799992639115,
+            "aestheticScore": 43.678199476034266,
             "sharpness": 100,
-            "qualityBucket": "good",
+            "qualityBucket": "poor",
             "phash": "db7673f2d2575ec6",
             "facesDetected": true,
             "faces": [
@@ -8277,7 +8424,7 @@
           },
           "exif": {
             "date": "2025-11-25T09:50:48.210Z",
-            "location": "Římský amfiteátr",
+            "location": "Kom El Deka",
             "city": "Alexandrie",
             "latitude": 31.194869,
             "longitude": 29.903386,
@@ -8289,7 +8436,7 @@
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
-          "location": "Římský amfiteátr",
+          "location": "Kom El Deka",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.194869,29.903386",
           "date": "2025-11-25T09:50:48.210Z",
@@ -8360,7 +8507,7 @@
           "id": "2025-11-25-105444-cebreus",
           "type": "image",
           "src": "2025-11-25-105444-cebreus.heic",
-          "alt": "Římský amfiteátr, Alexandrie",
+          "alt": "Kom El Deka, Alexandrie",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -8369,7 +8516,7 @@
           "placeholder": "blurs/2025-11-25-105444-cebreus.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 53.05662063993577,
+            "aestheticScore": 52.2345077581581,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "fe81262e6666a6f0",
@@ -8378,7 +8525,7 @@
           },
           "exif": {
             "date": "2025-11-25T09:54:44.046Z",
-            "location": "Římský amfiteátr",
+            "location": "Kom El Deka",
             "city": "Alexandrie",
             "latitude": 31.194283,
             "longitude": 29.903539,
@@ -8390,7 +8537,7 @@
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
-          "location": "Římský amfiteátr",
+          "location": "Kom El Deka",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.194283,29.903539",
           "date": "2025-11-25T09:54:44.046Z",
@@ -8459,7 +8606,7 @@
           "id": "2025-11-25-105523-cebreus",
           "type": "image",
           "src": "2025-11-25-105523-cebreus.heic",
-          "alt": "Římský amfiteátr, Alexandrie",
+          "alt": "Kom El Deka, Alexandrie",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -8468,7 +8615,7 @@
           "placeholder": "blurs/2025-11-25-105523-cebreus.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 25.384206502591955,
+            "aestheticScore": 28.69254462901344,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "1022462db114000e",
@@ -8477,7 +8624,7 @@
           },
           "exif": {
             "date": "2025-11-25T09:55:23.164Z",
-            "location": "Římský amfiteátr",
+            "location": "Kom El Deka",
             "city": "Alexandrie",
             "latitude": 31.194214,
             "longitude": 29.903575,
@@ -8489,7 +8636,7 @@
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
-          "location": "Římský amfiteátr",
+          "location": "Kom El Deka",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.194214,29.903575",
           "date": "2025-11-25T09:55:23.164Z",
@@ -8558,7 +8705,7 @@
           "id": "2025-11-25-105655-cebreus",
           "type": "image",
           "src": "2025-11-25-105655-cebreus.heic",
-          "alt": "Římský amfiteátr, Alexandrie",
+          "alt": "Kom El Deka, Alexandrie",
           "title": "",
           "width": 6770,
           "height": 5078,
@@ -8567,7 +8714,7 @@
           "placeholder": "blurs/2025-11-25-105655-cebreus.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 78.03477812256526,
+            "aestheticScore": 78.51474843051385,
             "sharpness": 77,
             "qualityBucket": "good",
             "phash": "2c79d8e698d8f89a",
@@ -8589,7 +8736,7 @@
           },
           "exif": {
             "date": "2025-11-25T09:56:55.230Z",
-            "location": "Římský amfiteátr",
+            "location": "Kom El Deka",
             "city": "Alexandrie",
             "latitude": 31.194433,
             "longitude": 29.903861,
@@ -8601,7 +8748,7 @@
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
-          "location": "Římský amfiteátr",
+          "location": "Kom El Deka",
           "city": "Alexandrie",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.194433,29.903861",
           "date": "2025-11-25T09:56:55.230Z",
@@ -8665,8 +8812,8 @@
             }
           ],
           "people": [
-            "person-6a49d7d2",
-            "person-0c3a0092"
+            "person-c1943046--odpojeno-od-person-28",
+            "person-43a83bcf"
           ]
         },
         {
@@ -8978,7 +9125,7 @@
             }
           ],
           "people": [
-            "person-395f983f"
+            "person-e669f828--odpojeno-od-person-30"
           ]
         },
         {
@@ -9308,9 +9455,12 @@
             }
           ],
           "people": [
-            "person-89922047",
-            "person-39fe7c15",
-            "person-16f7cd5e"
+            "person-2d774e3d",
+            "person-4bdf7087",
+            "person-16f7cd5e",
+            "person-65fd0b93",
+            "person-9ac1d3ed",
+            "person-a1b4b980--odpojeno-od-person-13"
           ]
         },
         {
@@ -11943,14 +12093,14 @@
           "title": "",
           "width": 1600,
           "height": 900,
-          "sizeMB": 0.24,
+          "sizeMB": 0.25,
           "aspectRatio": "landscape-16-9",
           "placeholder": "blurs/2025-11-25-174738-292de74a-cd06-497e-a02a-784f82370d6e.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 69.86083118953269,
+            "aestheticScore": 63.182427395710064,
             "sharpness": 87,
-            "qualityBucket": "excellent",
+            "qualityBucket": "good",
             "phash": "574696f2e2e6ca49",
             "facesDetected": true,
             "faces": [
@@ -11981,8 +12131,11 @@
             ]
           },
           "exif": {
-            "date": "2025-11-25T16:47:38.000Z"
+            "date": "2025-11-25T16:47:38.000Z",
+            "author": "Bobo"
           },
+          "author": "Bobo",
+          "authorSlug": "bobo",
           "date": "2025-11-25T16:47:38.000Z",
           "sources": [
             {
@@ -12044,10 +12197,11 @@
             }
           ],
           "people": [
+            "person-5e38b07f",
+            "person-16f7cd5e",
             "person-9c18698b",
-            "person-1f5e978d",
-            "person-39fe7c15",
-            "person-c310b7fb"
+            "person-8534a578--odpojeno-od-bobo",
+            "person-65fd0b93"
           ]
         }
       ],
@@ -12548,9 +12702,7 @@
               "height": 534
             }
           ],
-          "people": [
-            "person-39fe7c15"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-26-080529-cebreus",
@@ -12563,7 +12715,7 @@
           "sizeMB": 11.84,
           "aspectRatio": "panorama",
           "placeholder": "blurs/2025-11-26-080529-cebreus.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(216,184,136)",
           "specialMedia": {
             "isPanorama": true,
             "is360": false,
@@ -12649,7 +12801,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-080529-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 148
             },
             {
               "variant": "pano_detail",
@@ -12660,7 +12812,8 @@
             }
           ],
           "people": [
-            "person-c310b7fb"
+            "person-bbf0791e",
+            "person-16f7cd5e"
           ]
         },
         {
@@ -12674,7 +12827,7 @@
           "sizeMB": 10.33,
           "aspectRatio": "panorama",
           "placeholder": "blurs/2025-11-26-080555-cebreus.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(200,168,120)",
           "specialMedia": {
             "isPanorama": true,
             "is360": false,
@@ -12753,7 +12906,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-080555-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 128
             },
             {
               "variant": "pano_detail",
@@ -13270,7 +13423,7 @@
           "sizeMB": 10.28,
           "aspectRatio": "panorama",
           "placeholder": "blurs/2025-11-26-081043-cebreus.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(136,136,136)",
           "specialMedia": {
             "isPanorama": true,
             "is360": false,
@@ -13349,7 +13502,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-081043-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 144
             },
             {
               "variant": "pano_detail",
@@ -13653,7 +13806,8 @@
             }
           ],
           "people": [
-            "person-cbbbd28a"
+            "person-5e38b07f",
+            "person-65fd0b93"
           ]
         },
         {
@@ -13877,7 +14031,7 @@
           "sizeMB": 9.67,
           "aspectRatio": "panorama",
           "placeholder": "blurs/2025-11-26-082550-cebreus.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(232,216,200)",
           "specialMedia": {
             "isPanorama": true,
             "is360": false,
@@ -13956,7 +14110,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-082550-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 135
             },
             {
               "variant": "pano_detail",
@@ -13979,7 +14133,7 @@
           "sizeMB": 6.1,
           "aspectRatio": "panorama",
           "placeholder": "blurs/2025-11-26-082610-cebreus.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(216,216,200)",
           "specialMedia": {
             "isPanorama": true,
             "is360": false,
@@ -14058,7 +14212,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-082610-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 129
             },
             {
               "variant": "pano_detail",
@@ -14503,11 +14657,14 @@
             }
           ],
           "people": [
-            "person-39fe7c15",
+            "person-cbbbd28a",
+            "person-8534a578--odpojeno-od-bobo",
+            "person-4bdf7087",
             "person-bbf0791e",
-            "person-8c2a5fe1",
-            "person-3bdf1aa1",
-            "person-cbbbd28a"
+            "person-5e38b07f",
+            "person-9ac1d3ed",
+            "person-16f7cd5e",
+            "person-08072763--odpojeno-od-person-13"
           ]
         },
         {
@@ -15344,8 +15501,9 @@
             }
           ],
           "people": [
-            "person-39fe7c15",
-            "person-65fd0b93"
+            "person-bbf0791e",
+            "person-8113a65d--odpojeno-od-person-13",
+            "person-a1b4b980--odpojeno-od-person-13"
           ]
         },
         {
@@ -15481,11 +15639,10 @@
             }
           ],
           "people": [
-            "person-3a8dc1af",
+            "person-5e38b07f",
+            "person-8534a578--odpojeno-od-bobo",
             "person-16f7cd5e",
-            "person-3bdf1aa1",
             "person-bbf0791e",
-            "person-39fe7c15",
             "person-4bdf7087"
           ]
         },
@@ -15637,11 +15794,10 @@
             "person-f25a91e9",
             "person-16f7cd5e",
             "person-bbf0791e",
-            "person-3a8dc1af",
+            "person-8534a578--odpojeno-od-bobo",
             "person-4bdf7087",
             "person-5e38b07f",
-            "person-8b4653c5",
-            "person-39fe7c15"
+            "person-8b4653c5"
           ]
         },
         {
@@ -15766,7 +15922,6 @@
           ],
           "people": [
             "person-e06d2881",
-            "person-39fe7c15",
             "person-bbf0791e",
             "person-833d4762"
           ]
@@ -15782,7 +15937,7 @@
           "sizeMB": 5.99,
           "aspectRatio": "panorama",
           "placeholder": "blurs/2025-11-26-100151-cebreus.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(216,200,152)",
           "specialMedia": {
             "isPanorama": true,
             "is360": false,
@@ -15861,7 +16016,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-100151-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 229
             },
             {
               "variant": "pano_detail",
@@ -15982,8 +16137,8 @@
             }
           ],
           "people": [
-            "person-39fe7c15",
-            "person-9ac1d3ed"
+            "person-9ac1d3ed",
+            "person-944aab60"
           ]
         },
         {
@@ -16311,7 +16466,7 @@
             }
           ],
           "people": [
-            "person-39fe7c15"
+            "person-7bfd4e96--odpojeno-od-person-13"
           ]
         },
         {
@@ -16418,9 +16573,106 @@
               "height": 534
             }
           ],
-          "people": [
-            "person-39fe7c15"
-          ]
+          "people": []
+        },
+        {
+          "id": "img1231",
+          "type": "image",
+          "src": "IMG_1231.heic",
+          "alt": "Egyptský papyrusový institut, Gíza",
+          "title": "",
+          "width": 2345,
+          "height": 3487,
+          "sizeMB": 2.06,
+          "aspectRatio": "portrait-2-3",
+          "placeholder": "blurs/IMG_1231.png",
+          "placeholderColor": "rgb(200,184,152)",
+          "analysis": {
+            "aestheticScore": 41.50126117021059,
+            "sharpness": 100,
+            "qualityBucket": "poor",
+            "phash": "caca8a9696aaa688",
+            "facesDetected": false,
+            "faces": []
+          },
+          "exif": {
+            "date": "2025-11-26T10:37:45.401Z",
+            "location": "Egyptský papyrusový institut",
+            "city": "Gíza",
+            "latitude": 29.985419,
+            "longitude": 31.141778,
+            "orientation": 1,
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
+          },
+          "author": "Dáša",
+          "authorSlug": "dasa",
+          "location": "Egyptský papyrusový institut",
+          "city": "Gíza",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.985419,31.141778",
+          "date": "2025-11-26T10:37:45.401Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/IMG_1231.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/IMG_1231.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/IMG_1231.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/IMG_1231.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/IMG_1231.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/IMG_1231.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/IMG_1231.jpeg",
+              "width": 1280,
+              "height": 1903
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/IMG_1231.jpeg",
+              "width": 190,
+              "height": 107
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/IMG_1231.jpeg",
+              "width": 534,
+              "height": 534
+            }
+          ],
+          "people": []
         },
         {
           "id": "2025-11-26-113757-dasa",
@@ -16938,7 +17190,7 @@
             }
           ],
           "people": [
-            "person-3a8dc1af"
+            "person-8534a578--odpojeno-od-bobo"
           ]
         },
         {
@@ -17841,9 +18093,7 @@
               "height": 534
             }
           ],
-          "people": [
-            "person-39fe7c15"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-26-125240-cebreus",
@@ -17949,9 +18199,7 @@
               "height": 534
             }
           ],
-          "people": [
-            "person-39fe7c15"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-26-125315-cebreus",
@@ -18255,9 +18503,7 @@
               "height": 534
             }
           ],
-          "people": [
-            "person-65fd0b93"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-26-125341-cebreus",
@@ -19063,8 +19309,7 @@
             }
           ],
           "people": [
-            "person-252fc6bb",
-            "person-39fe7c15"
+            "person-252fc6bb"
           ]
         },
         {
@@ -19695,7 +19940,7 @@
             }
           ],
           "people": [
-            "person-39fe7c15"
+            "person-a1b4b980--odpojeno-od-person-13"
           ]
         },
         {
@@ -20511,8 +20756,7 @@
             }
           ],
           "people": [
-            "person-39fe7c15",
-            "person-cbbbd28a"
+            "person-5e38b07f"
           ]
         },
         {
@@ -21115,7 +21359,7 @@
             }
           ],
           "people": [
-            "person-94ca7bbb"
+            "person-078ff269--odpojeno-od-person-20"
           ]
         },
         {
@@ -22142,10 +22386,10 @@
             }
           ],
           "people": [
-            "person-3a8dc1af",
-            "person-65fd0b93",
-            "person-39fe7c15",
-            "person-94ca7bbb"
+            "person-fbbd3e0b--odpojeno-od-person-39",
+            "person-a1b4b980--odpojeno-od-person-13",
+            "person-8113a65d--odpojeno-od-person-13",
+            "person-078ff269--odpojeno-od-person-20"
           ]
         },
         {
@@ -22691,11 +22935,13 @@
             }
           ],
           "people": [
-            "person-cbbbd28a",
-            "person-758e48cc",
+            "person-34987086--odpojeno-od-person-21",
+            "person-ddefd0d0--odpojeno-od-person-53",
+            "person-2c0b0509--odpojeno-od-person-20",
             "person-a89d7512",
-            "person-94ca7bbb",
-            "person-39fe7c15"
+            "person-357d5b5c--odpojeno-od-person-53",
+            "person-078ff269--odpojeno-od-person-20",
+            "person-08072763--odpojeno-od-person-13"
           ]
         },
         {
@@ -22857,9 +23103,11 @@
             }
           ],
           "people": [
-            "person-758e48cc",
-            "person-65fd0b93",
-            "person-cbbbd28a"
+            "person-e3bc8033--odpojeno-od-person-44",
+            "person-c1850ca6--odpojeno-od-person-21",
+            "person-357d5b5c--odpojeno-od-person-53",
+            "person-bbf0791e",
+            "person-34987086--odpojeno-od-person-21"
           ]
         },
         {
@@ -22978,8 +23226,9 @@
             }
           ],
           "people": [
-            "person-39fe7c15",
-            "person-34a5b9ab"
+            "person-34a5b9ab",
+            "person-8113a65d--odpojeno-od-person-13",
+            "person-bf0cee36"
           ]
         },
         {
@@ -23204,10 +23453,10 @@
             }
           ],
           "people": [
+            "person-4d223294--odpojeno-od-person-56",
             "person-d90450b6",
-            "person-39fe7c15",
             "person-ea49a794",
-            "person-d7349353"
+            "person-d425c680--odpojeno-od-person-56"
           ]
         },
         {
@@ -23400,7 +23649,7 @@
             }
           ],
           "people": [
-            "person-d7349353"
+            "person-d425c680--odpojeno-od-person-56"
           ]
         },
         {
@@ -23830,9 +24079,9 @@
             }
           ],
           "people": [
-            "person-395f983f",
-            "person-94ca7bbb",
-            "person-758e48cc",
+            "person-95f7dab4--odpojeno-od-person-53",
+            "person-3abb7df3--odpojeno-od-person-20",
+            "person-b6ef1ba2--odpojeno-od-person-30",
             "person-c938e13d"
           ]
         },
@@ -24025,9 +24274,7 @@
               "height": 534
             }
           ],
-          "people": [
-            "person-39fe7c15"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-26-142225-dasa",
@@ -24432,9 +24679,7 @@
               "height": 534
             }
           ],
-          "people": [
-            "person-39fe7c15"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-26-153302-cebreus",
@@ -25149,7 +25394,10 @@
             }
           ],
           "people": [
-            "person-39fe7c15"
+            "person-e06d2881",
+            "person-a1b4b980--odpojeno-od-person-13",
+            "person-65fd0b93",
+            "person-8113a65d--odpojeno-od-person-13"
           ]
         },
         {
@@ -25247,7 +25495,7 @@
             }
           ],
           "people": [
-            "person-d7349353"
+            "person-fa6f46ab--odpojeno-od-person-56"
           ]
         },
         {
@@ -25263,7 +25511,7 @@
           "placeholder": "blurs/2025-11-26-164810-a3766bfe-6c64-477a-888c-9a5d243d0d10.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 54.47663228912596,
+            "aestheticScore": 52.19216979016202,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "9dc8e0e0f27343e1",
@@ -25278,8 +25526,11 @@
             ]
           },
           "exif": {
-            "date": "2025-11-26T15:48:10.000Z"
+            "date": "2025-11-26T15:48:10.000Z",
+            "author": "Bobo"
           },
+          "author": "Bobo",
+          "authorSlug": "bobo",
           "date": "2025-11-26T15:48:10.000Z",
           "sources": [
             {
@@ -25341,7 +25592,7 @@
             }
           ],
           "people": [
-            "person-758e48cc"
+            "person-3c4f2577--odpojeno-od-person-53"
           ]
         },
         {
@@ -25357,7 +25608,7 @@
           "placeholder": "blurs/2025-11-26-164824-68759101-755d-4ffa-863a-a82c7f2edc5d.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 42.38827868686138,
+            "aestheticScore": 42.10822759051512,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "7fc7c1e5a1e93131",
@@ -25372,8 +25623,11 @@
             ]
           },
           "exif": {
-            "date": "2025-11-26T15:48:24.000Z"
+            "date": "2025-11-26T15:48:24.000Z",
+            "author": "Bobo"
           },
+          "author": "Bobo",
+          "authorSlug": "bobo",
           "date": "2025-11-26T15:48:24.000Z",
           "sources": [
             {
@@ -25435,7 +25689,8 @@
             }
           ],
           "people": [
-            "person-758e48cc"
+            "person-5d662456--odpojeno-od-person-53",
+            "person-e3bc8033--odpojeno-od-person-44"
           ]
         },
         {
@@ -25451,7 +25706,7 @@
           "placeholder": "blurs/2025-11-26-170618-8635c848-e986-4a54-96ce-1d33d44647c5.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 81.58037329818775,
+            "aestheticScore": 78.33950362403993,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "95939bc9b3acccf1",
@@ -25459,8 +25714,11 @@
             "faces": []
           },
           "exif": {
-            "date": "2025-11-26T16:06:18.000Z"
+            "date": "2025-11-26T16:06:18.000Z",
+            "author": "Bobo"
           },
+          "author": "Bobo",
+          "authorSlug": "bobo",
           "date": "2025-11-26T16:06:18.000Z",
           "sources": [
             {
@@ -25531,12 +25789,12 @@
           "title": "",
           "width": 1600,
           "height": 1324,
-          "sizeMB": 0.35,
+          "sizeMB": 0.36,
           "aspectRatio": "landscape-400-331",
           "placeholder": "blurs/2025-11-26-182507-2025-11-26-182507-2025-11-26-182507-e5426e65-71cb-4ff3-b538-43333b412999.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 49.78130132168639,
+            "aestheticScore": 46.35125835133722,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "26263e9e8e9c4d08",
@@ -25563,8 +25821,11 @@
             ]
           },
           "exif": {
-            "date": "2025-11-26T17:25:07.000Z"
+            "date": "2025-11-26T17:25:07.000Z",
+            "author": "Bobo"
           },
+          "author": "Bobo",
+          "authorSlug": "bobo",
           "date": "2025-11-26T17:25:07.000Z",
           "sources": [
             {
@@ -25626,9 +25887,9 @@
             }
           ],
           "people": [
-            "person-1d627693",
-            "person-bbf0791e",
-            "person-4bdf7087"
+            "person-8534a578--odpojeno-od-bobo",
+            "person-e06d2881",
+            "person-bbf0791e"
           ]
         },
         {
@@ -25644,7 +25905,7 @@
           "placeholder": "blurs/2025-11-26-182606-285d090d-93d8-4286-8aab-fc58d572ef98.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 61.11106976025108,
+            "aestheticScore": 54.115130718867036,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "d8403b373f386402",
@@ -25689,8 +25950,11 @@
             ]
           },
           "exif": {
-            "date": "2025-11-26T17:26:06.000Z"
+            "date": "2025-11-26T17:26:06.000Z",
+            "author": "Bobo"
           },
+          "author": "Bobo",
+          "authorSlug": "bobo",
           "date": "2025-11-26T17:26:06.000Z",
           "sources": [
             {
@@ -25752,12 +26016,14 @@
             }
           ],
           "people": [
+            "person-5e38b07f",
+            "person-cbbbd28a",
+            "person-8534a578--odpojeno-od-bobo",
             "person-16f7cd5e",
-            "person-5f5eae0f",
-            "person-39fe7c15",
-            "person-85cb105f",
+            "person-e06d2881",
+            "person-8113a65d--odpojeno-od-person-13",
             "person-4bdf7087",
-            "person-65fd0b93"
+            "person-bbf0791e"
           ]
         },
         {
@@ -26063,8 +26329,7 @@
             }
           ],
           "people": [
-            "person-427fe931",
-            "person-39fe7c15"
+            "person-427fe931"
           ]
         }
       ],
@@ -26193,9 +26458,9 @@
           "placeholder": "blurs/2025-11-27-064232-de673c66-3e14-44fe-a9b6-f385d499971a.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 46.927297364537324,
+            "aestheticScore": 42.6310843789855,
             "sharpness": 71,
-            "qualityBucket": "good",
+            "qualityBucket": "poor",
             "phash": "392547d68c9d8d2f",
             "facesDetected": true,
             "faces": [
@@ -26208,8 +26473,11 @@
             ]
           },
           "exif": {
-            "date": "2025-11-27T05:42:32.000Z"
+            "date": "2025-11-27T05:42:32.000Z",
+            "author": "Bobo"
           },
+          "author": "Bobo",
+          "authorSlug": "bobo",
           "date": "2025-11-27T05:42:32.000Z",
           "sources": [
             {
@@ -26270,9 +26538,7 @@
               "height": 534
             }
           ],
-          "people": [
-            "person-39fe7c15"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-27-064239-bdf77f1c-1c18-4672-b444-a6e6430a3c43",
@@ -26287,7 +26553,7 @@
           "placeholder": "blurs/2025-11-27-064239-bdf77f1c-1c18-4672-b444-a6e6430a3c43.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 34.55941557750333,
+            "aestheticScore": 35.14753911941839,
             "sharpness": 74,
             "qualityBucket": "poor",
             "phash": "c4d6faeb76e09298",
@@ -26295,8 +26561,11 @@
             "faces": []
           },
           "exif": {
-            "date": "2025-11-27T05:42:39.000Z"
+            "date": "2025-11-27T05:42:39.000Z",
+            "author": "Bobo"
           },
+          "author": "Bobo",
+          "authorSlug": "bobo",
           "date": "2025-11-27T05:42:39.000Z",
           "sources": [
             {
@@ -26372,7 +26641,7 @@
           "placeholder": "blurs/2025-11-27-064240-81ea6390-30a6-4303-8b6f-bb014f58e62d.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 36.87177932441126,
+            "aestheticScore": 37.61145209169823,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "cc7c7d756ccd2d68",
@@ -26380,8 +26649,11 @@
             "faces": []
           },
           "exif": {
-            "date": "2025-11-27T05:42:40.000Z"
+            "date": "2025-11-27T05:42:40.000Z",
+            "author": "Bobo"
           },
+          "author": "Bobo",
+          "authorSlug": "bobo",
           "date": "2025-11-27T05:42:40.000Z",
           "sources": [
             {
@@ -26452,12 +26724,12 @@
           "title": "",
           "width": 1600,
           "height": 900,
-          "sizeMB": 0.31,
+          "sizeMB": 0.32,
           "aspectRatio": "landscape-16-9",
           "placeholder": "blurs/2025-11-27-064240-9625dee9-e875-4c32-a88b-4cd781fc1614.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 47.95038748480975,
+            "aestheticScore": 50.30551937607771,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "ec780ee0a6e2f8e6",
@@ -26472,8 +26744,11 @@
             ]
           },
           "exif": {
-            "date": "2025-11-27T05:42:40.000Z"
+            "date": "2025-11-27T05:42:40.000Z",
+            "author": "Bobo"
           },
+          "author": "Bobo",
+          "authorSlug": "bobo",
           "date": "2025-11-27T05:42:40.000Z",
           "sources": [
             {
@@ -26535,7 +26810,8 @@
             }
           ],
           "people": [
-            "person-39fe7c15"
+            "person-220158a5--odpojeno-od-person-13",
+            "person-a1b4b980--odpojeno-od-person-13"
           ]
         },
         {
@@ -27689,8 +27965,7 @@
             }
           ],
           "people": [
-            "person-9e90f413",
-            "person-bbf0791e"
+            "person-9e90f413"
           ]
         },
         {
@@ -27809,8 +28084,9 @@
             }
           ],
           "people": [
+            "person-a1b4b980--odpojeno-od-person-13",
             "person-3ec8d8e8",
-            "person-39fe7c15"
+            "person-9ac1d3ed"
           ]
         },
         {
@@ -28012,7 +28288,7 @@
             }
           ],
           "people": [
-            "person-d64bfb72"
+            "person-8534a578--odpojeno-od-bobo"
           ]
         },
         {
@@ -28028,7 +28304,7 @@
           "placeholder": "blurs/2025-11-28-170307-ace230a6-8982-4c26-9552-bbff3294a6de.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 42.44608658224916,
+            "aestheticScore": 42.03924299712104,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "b0b81c91d1800000",
@@ -28036,8 +28312,11 @@
             "faces": []
           },
           "exif": {
-            "date": "2025-11-28T16:03:07.000Z"
+            "date": "2025-11-28T16:03:07.000Z",
+            "author": "Bobo"
           },
+          "author": "Bobo",
+          "authorSlug": "bobo",
           "date": "2025-11-28T16:03:07.000Z",
           "sources": [
             {
@@ -28430,8 +28709,9 @@
             }
           ],
           "people": [
-            "person-cbbbd28a",
-            "person-39fe7c15"
+            "person-8113a65d--odpojeno-od-person-13",
+            "person-08072763--odpojeno-od-person-13",
+            "person-a1b4b980--odpojeno-od-person-13"
           ]
         },
         {
@@ -30711,7 +30991,8 @@
             }
           ],
           "people": [
-            "person-39fe7c15"
+            "person-08072763--odpojeno-od-person-13",
+            "person-a1b4b980--odpojeno-od-person-13"
           ]
         },
         {

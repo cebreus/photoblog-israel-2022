@@ -1,6 +1,25 @@
 {
   "groups": [
     {
+      "id": "group-2025-11-22-161654-finda",
+      "items": [
+        "2025-11-22-161654-finda",
+        "img20251122171652"
+      ],
+      "bestCandidateId": "2025-11-22-161654-finda",
+      "similarity": 0.9899663502294361,
+      "recommendations": {
+        "2025-11-22-161654-finda": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img20251122171652": {
+          "action": "delete",
+          "reason": "Lower aesthetics (38 vs 44)"
+        }
+      }
+    },
+    {
       "id": "group-2025-11-23-151444-cebreus-fixed",
       "items": [
         "2025-11-23-151444-cebreus-fixed",
@@ -21,6 +40,44 @@
         "2025-11-23-151514-cebreus-fixed": {
           "action": "delete",
           "reason": "Lower resolution"
+        }
+      }
+    },
+    {
+      "id": "group-2025-11-24-152241-finda",
+      "items": [
+        "2025-11-24-152241-finda",
+        "img20251124162238"
+      ],
+      "bestCandidateId": "img20251124162238",
+      "similarity": 0.9885965352977358,
+      "recommendations": {
+        "2025-11-24-152241-finda": {
+          "action": "delete",
+          "reason": "Lower aesthetics (65 vs 71)"
+        },
+        "img20251124162238": {
+          "action": "keep",
+          "reason": "Best candidate"
+        }
+      }
+    },
+    {
+      "id": "group-2025-11-24-210259-cebreus",
+      "items": [
+        "2025-11-24-210259-cebreus",
+        "img20251124220257"
+      ],
+      "bestCandidateId": "2025-11-24-210259-cebreus",
+      "similarity": 0.9821929199567626,
+      "recommendations": {
+        "2025-11-24-210259-cebreus": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img20251124220257": {
+          "action": "delete",
+          "reason": "Lower aesthetics (18 vs 24)"
         }
       }
     },
@@ -78,6 +135,25 @@
         "2025-11-25-095053-cebreus--zoom2from3": {
           "action": "delete",
           "reason": "Lower resolution"
+        }
+      }
+    },
+    {
+      "id": "group-2025-11-25-112858-finda",
+      "items": [
+        "2025-11-25-112858-finda",
+        "img20251125122855"
+      ],
+      "bestCandidateId": "2025-11-25-112858-finda",
+      "similarity": 0.9887723925766031,
+      "recommendations": {
+        "2025-11-25-112858-finda": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img20251125122855": {
+          "action": "delete",
+          "reason": "Semantic duplicate"
         }
       }
     },
@@ -188,18 +264,28 @@
       "id": "group-2025-11-26-113642-dasa",
       "items": [
         "2025-11-26-113642-dasa",
-        "2025-11-26-113817-dasa"
+        "img1230",
+        "2025-11-26-113817-dasa",
+        "img1233"
       ],
       "bestCandidateId": "2025-11-26-113642-dasa",
-      "similarity": 0.8950667408269254,
+      "similarity": 0.9273203534710999,
       "recommendations": {
         "2025-11-26-113642-dasa": {
           "action": "keep",
           "reason": "Best candidate"
         },
+        "img1230": {
+          "action": "delete",
+          "reason": "Lower aesthetics (80 vs 85)"
+        },
         "2025-11-26-113817-dasa": {
           "action": "delete",
           "reason": "Lower resolution"
+        },
+        "img1233": {
+          "action": "delete",
+          "reason": "Lower resolution, Lower aesthetics (79 vs 85)"
         }
       }
     },
@@ -341,10 +427,11 @@
       "id": "group-2025-11-26-140121-dasa",
       "items": [
         "2025-11-26-140121-dasa",
-        "2025-11-26-140159-dasa"
+        "2025-11-26-140159-dasa",
+        "img1297"
       ],
       "bestCandidateId": "2025-11-26-140121-dasa",
-      "similarity": 0.9131969215724329,
+      "similarity": 0.9132234538240527,
       "recommendations": {
         "2025-11-26-140121-dasa": {
           "action": "keep",
@@ -353,6 +440,29 @@
         "2025-11-26-140159-dasa": {
           "action": "delete",
           "reason": "Lower resolution"
+        },
+        "img1297": {
+          "action": "delete",
+          "reason": "Lower resolution"
+        }
+      }
+    },
+    {
+      "id": "group-2025-11-26-140614-dasa",
+      "items": [
+        "2025-11-26-140614-dasa",
+        "img1302"
+      ],
+      "bestCandidateId": "2025-11-26-140614-dasa",
+      "similarity": 0.9835047508851652,
+      "recommendations": {
+        "2025-11-26-140614-dasa": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img1302": {
+          "action": "delete",
+          "reason": "Semantic duplicate"
         }
       }
     },
@@ -398,11 +508,182 @@
           "reason": "Best candidate"
         }
       }
+    },
+    {
+      "id": "group-2025-11-26-164807-dasa",
+      "items": [
+        "2025-11-26-164807-dasa",
+        "3b72bc2e-5b2c-4dec-994b-55a5937b3c45"
+      ],
+      "bestCandidateId": "2025-11-26-164807-dasa",
+      "similarity": 0.986158732731904,
+      "recommendations": {
+        "2025-11-26-164807-dasa": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "3b72bc2e-5b2c-4dec-994b-55a5937b3c45": {
+          "action": "delete",
+          "reason": "Semantic duplicate"
+        }
+      }
+    },
+    {
+      "id": "group-2025-11-27-124012-dasa",
+      "items": [
+        "2025-11-27-124012-dasa",
+        "img1357"
+      ],
+      "bestCandidateId": "img1357",
+      "similarity": 0.9832806510163818,
+      "recommendations": {
+        "2025-11-27-124012-dasa": {
+          "action": "delete",
+          "reason": "Lower aesthetics (27 vs 35)"
+        },
+        "img1357": {
+          "action": "keep",
+          "reason": "Best candidate"
+        }
+      }
+    },
+    {
+      "id": "group-2025-11-27-161227-dasa",
+      "items": [
+        "2025-11-27-161227-dasa",
+        "img1452"
+      ],
+      "bestCandidateId": "img1452",
+      "similarity": 0.9894878027798107,
+      "recommendations": {
+        "2025-11-27-161227-dasa": {
+          "action": "delete",
+          "reason": "Lower aesthetics (49 vs 54)"
+        },
+        "img1452": {
+          "action": "keep",
+          "reason": "Best candidate"
+        }
+      }
+    },
+    {
+      "id": "group-2025-11-27-162603-dasa",
+      "items": [
+        "2025-11-27-162603-dasa",
+        "img1464"
+      ],
+      "bestCandidateId": "2025-11-27-162603-dasa",
+      "similarity": 0.9871482621453034,
+      "recommendations": {
+        "2025-11-27-162603-dasa": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img1464": {
+          "action": "delete",
+          "reason": "Semantic duplicate"
+        }
+      }
+    },
+    {
+      "id": "group-2025-11-28-132902-dasa",
+      "items": [
+        "2025-11-28-132902-dasa",
+        "img1643"
+      ],
+      "bestCandidateId": "img1643",
+      "similarity": 0.9926026168442351,
+      "recommendations": {
+        "2025-11-28-132902-dasa": {
+          "action": "delete",
+          "reason": "Lower aesthetics (75 vs 81)"
+        },
+        "img1643": {
+          "action": "keep",
+          "reason": "Best candidate"
+        }
+      }
+    },
+    {
+      "id": "group-2025-11-28-133635-dasa",
+      "items": [
+        "2025-11-28-133635-dasa",
+        "img1645"
+      ],
+      "bestCandidateId": "2025-11-28-133635-dasa",
+      "similarity": 0.9876257965078405,
+      "recommendations": {
+        "2025-11-28-133635-dasa": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img1645": {
+          "action": "delete",
+          "reason": "Semantic duplicate"
+        }
+      }
+    },
+    {
+      "id": "group-2025-11-30-140824-dasa",
+      "items": [
+        "2025-11-30-140824-dasa",
+        "img1899"
+      ],
+      "bestCandidateId": "2025-11-30-140824-dasa",
+      "similarity": 0.9848404968826794,
+      "recommendations": {
+        "2025-11-30-140824-dasa": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img1899": {
+          "action": "delete",
+          "reason": "Semantic duplicate"
+        }
+      }
+    },
+    {
+      "id": "group-2025-11-30-152210-dasa",
+      "items": [
+        "2025-11-30-152210-dasa",
+        "img1930"
+      ],
+      "bestCandidateId": "2025-11-30-152210-dasa",
+      "similarity": 0.984743633938239,
+      "recommendations": {
+        "2025-11-30-152210-dasa": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "img1930": {
+          "action": "delete",
+          "reason": "Semantic duplicate"
+        }
+      }
+    },
+    {
+      "id": "group-2025-11-30-152213-dasa",
+      "items": [
+        "2025-11-30-152213-dasa",
+        "img1931"
+      ],
+      "bestCandidateId": "img1931",
+      "similarity": 0.9889830504325876,
+      "recommendations": {
+        "2025-11-30-152213-dasa": {
+          "action": "delete",
+          "reason": "Lower aesthetics (66 vs 71)"
+        },
+        "img1931": {
+          "action": "keep",
+          "reason": "Best candidate"
+        }
+      }
     }
   ],
   "stats": {
-    "totalPhotos": 299,
-    "totalGroups": 16,
-    "duplicatesFound": 35
+    "totalPhotos": 318,
+    "totalGroups": 30,
+    "duplicatesFound": 52
   }
 }
