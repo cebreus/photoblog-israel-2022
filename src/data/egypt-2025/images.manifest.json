@@ -4113,7 +4113,7 @@
             }
           ],
           "people": [],
-          "sortOrder": 6
+          "sortOrder": 7
         },
         {
           "id": "2025-11-25-083005-cebreus",
@@ -4215,7 +4215,7 @@
             }
           ],
           "people": [],
-          "sortOrder": 7
+          "sortOrder": 6
         },
         {
           "id": "2025-11-25-084249-cebreus--collage",
@@ -4415,7 +4415,7 @@
             }
           ],
           "people": [],
-          "sortOrder": 16
+          "sortOrder": 9
         },
         {
           "id": "2025-11-25-084606-cebreus",
@@ -4515,7 +4515,7 @@
             }
           ],
           "people": [],
-          "sortOrder": 9
+          "sortOrder": 10
         },
         {
           "id": "2025-11-25-084614-cebreus",
@@ -4615,7 +4615,7 @@
             }
           ],
           "people": [],
-          "sortOrder": 10
+          "sortOrder": 11
         },
         {
           "id": "2025-11-25-084943-cebreus",
@@ -4715,7 +4715,7 @@
             }
           ],
           "people": [],
-          "sortOrder": 11
+          "sortOrder": 12
         },
         {
           "id": "2025-11-25-085235-cebreus",
@@ -4815,7 +4815,7 @@
             }
           ],
           "people": [],
-          "sortOrder": 12
+          "sortOrder": 13
         },
         {
           "id": "2025-11-25-085626-cebreus",
@@ -4915,7 +4915,7 @@
             }
           ],
           "people": [],
-          "sortOrder": 13
+          "sortOrder": 14
         },
         {
           "id": "2025-11-25-090256-cebreus--collage",
@@ -5015,7 +5015,7 @@
             }
           ],
           "people": [],
-          "sortOrder": 14
+          "sortOrder": 15
         },
         {
           "id": "2025-11-25-090636-cebreus",
@@ -5113,7 +5113,7 @@
             }
           ],
           "people": [],
-          "sortOrder": 15
+          "sortOrder": 16
         },
         {
           "id": "loc-serapeum",
@@ -9003,7 +9003,7 @@
           ],
           "people": [
             "person-2d774e3d",
-            "person-4bdf7087",
+            "person-7f7496c5--odpojeno-od-bobo",
             "person-16f7cd5e",
             "person-9ac1d3ed",
             "person-a1b4b980--odpojeno-od-person-13",
@@ -12033,7 +12033,9 @@
           "people": [
             "person-cbbbd28a",
             "person-c310b7fb",
-            "person-16f7cd5e"
+            "person-16f7cd5e",
+            "person-5e38b07f",
+            "person-34a5b9ab"
           ],
           "sortOrder": 81
         },
@@ -13224,8 +13226,8 @@
             }
           ],
           "people": [
-            "person-bbf0791e",
-            "person-16f7cd5e"
+            "person-c1c62e37--odpojeno-od-jaruska",
+            "person-bbf0791e"
           ]
         },
         {
@@ -14372,8 +14374,7 @@
             }
           ],
           "people": [
-            "person-5e38b07f",
-            "person-d90450b6"
+            "person-5e38b07f"
           ]
         },
         {
@@ -15224,12 +15225,12 @@
           ],
           "people": [
             "person-cbbbd28a",
-            "person-8534a578--odpojeno-od-bobo",
-            "person-4bdf7087",
+            "person-9e6cbf39--odpojeno-od-dasa",
+            "person-0b424e65--odpojeno-od-bobo",
             "person-bbf0791e",
             "person-5e38b07f",
             "person-9ac1d3ed",
-            "person-16f7cd5e",
+            "person-4bdf7087",
             "person-08072763--odpojeno-od-person-13",
             "person-8113a65d--odpojeno-od-person-13",
             "person-34987086--odpojeno-od-person-21"
@@ -24166,7 +24167,7 @@
           ],
           "people": [
             "person-4d223294--odpojeno-od-person-56",
-            "person-d90450b6",
+            "person-5e38b07f",
             "person-ea49a794",
             "person-d425c680--odpojeno-od-person-56",
             "person-d866bde4"
@@ -26107,7 +26108,7 @@
             }
           ],
           "people": [
-            "person-e06d2881",
+            "person-28472354--odpojeno-od-jarek",
             "person-5e38b07f",
             "person-a1b4b980--odpojeno-od-person-13",
             "person-8113a65d--odpojeno-od-person-13",
@@ -27919,7 +27920,7 @@
           "people": [
             "person-8113a65d--odpojeno-od-person-13",
             "person-f7b6c005",
-            "person-8534a578--odpojeno-od-bobo",
+            "person-a2852590--odpojeno-od-dasa",
             "person-4b13d6fa"
           ]
         },

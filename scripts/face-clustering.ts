@@ -355,7 +355,10 @@ async function processFaceDetections(
   }
 }
 
-async function loadClusteringResources(dataDir: string): Promise<{
+async function loadClusteringResources(
+  dataDir: string,
+  gallery: string,
+): Promise<{
   people: Person[];
   disconnectedPairs: Set<string>;
   junkPairs: Set<string>;
@@ -409,10 +412,10 @@ async function loadClusteringResources(dataDir: string): Promise<{
       if (!filterPeopleWithValidDescriptors([p]).length) {
         let rescued = false;
 
+        let foundImageId: string | undefined;
+
         // Strategy 1: Rescue from facesManifest (Preferred, no I/O needed)
         if (!rescued && loadedFacesManifest) {
-          let foundImageId: string | undefined;
-
           // Try to find an image ID associated with this person
           // 1. Check manual connects
           for (const [imgId, pIds] of manualConnects.entries()) {
@@ -454,13 +457,32 @@ async function loadClusteringResources(dataDir: string): Promise<{
           }
         }
 
+        // Strategy 3: Rescue from Source Image Manifest (Single Face Assumption)
+        // If we found an image ID but couldn't link it via peopleIds, check if it has exactly ONE face.
+        if (!rescued && foundImageId && loadedFacesManifest && loadedFacesManifest[foundImageId]) {
+          const fm = loadedFacesManifest[foundImageId];
+          if (fm.facesDetected && fm.descriptors && fm.descriptors.length === 1) {
+            const d = fm.descriptors[0];
+            if (d.length === 128) {
+              p.faceDescriptor = d;
+              p.clusters = [
+                {
+                  centroid: d,
+                  faceCount: 1,
+                  lastSeen: p.lastSeenAt,
+                  year: new Date().getFullYear(),
+                },
+              ];
+              rescued = true;
+              _rescuedCount++;
+              logger.info(`✅ Rescued ${p.name} from single-face image ${foundImageId}`);
+            }
+          }
+        }
+
         // Strategy 2: Rescue from Thumbnail File (Fallback)
         if (!rescued && p.thumbnail && p.thumbnail !== "") {
-          const thumbPath = path.resolve(
-            process.cwd(),
-            `static/${process.env.CONTENT_DIR}`,
-            p.thumbnail,
-          );
+          const thumbPath = path.resolve(process.cwd(), `static/${gallery}`, p.thumbnail);
           try {
             await fsp.stat(thumbPath);
             const exists = true;
@@ -953,8 +975,10 @@ async function main() {
   // Backup constraints before any changes
   await backupConstraints(dataDir);
 
-  const { people, disconnectedPairs, junkPairs, manualConnects } =
-    await loadClusteringResources(dataDir);
+  const { people, disconnectedPairs, junkPairs, manualConnects } = await loadClusteringResources(
+    dataDir,
+    contentDir,
+  );
 
   if (values.clean) {
     if (values.verbose) logger.info(`[CLEAN] Cleaning output directory: ${facesOutputDir}`);

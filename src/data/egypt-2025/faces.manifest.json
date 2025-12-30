@@ -5246,7 +5246,7 @@
     ],
     "peopleIds": [
       "person-2d774e3d",
-      "person-4bdf7087",
+      "person-7f7496c5--odpojeno-od-bobo",
       "person-16f7cd5e",
       "person-9ac1d3ed",
       "person-a1b4b980--odpojeno-od-person-13",
@@ -6428,8 +6428,8 @@
       }
     ],
     "peopleIds": [
-      "person-bbf0791e",
-      "person-16f7cd5e"
+      "person-c1c62e37--odpojeno-od-jaruska",
+      "person-bbf0791e"
     ],
     "descriptors": [
       [
@@ -6883,8 +6883,7 @@
       }
     ],
     "peopleIds": [
-      "person-5e38b07f",
-      "person-d90450b6"
+      "person-5e38b07f"
     ],
     "descriptors": [
       [
@@ -7976,12 +7975,12 @@
     ],
     "peopleIds": [
       "person-cbbbd28a",
-      "person-8534a578--odpojeno-od-bobo",
-      "person-4bdf7087",
+      "person-9e6cbf39--odpojeno-od-dasa",
+      "person-0b424e65--odpojeno-od-bobo",
       "person-bbf0791e",
       "person-5e38b07f",
       "person-9ac1d3ed",
-      "person-16f7cd5e",
+      "person-4bdf7087",
       "person-08072763--odpojeno-od-person-13",
       "person-8113a65d--odpojeno-od-person-13",
       "person-34987086--odpojeno-od-person-21"
@@ -18254,7 +18253,7 @@
     ],
     "peopleIds": [
       "person-4d223294--odpojeno-od-person-56",
-      "person-d90450b6",
+      "person-5e38b07f",
       "person-ea49a794",
       "person-d425c680--odpojeno-od-person-56",
       "person-d866bde4"
@@ -20116,7 +20115,7 @@
       }
     ],
     "peopleIds": [
-      "person-e06d2881",
+      "person-28472354--odpojeno-od-jarek",
       "person-5e38b07f",
       "person-a1b4b980--odpojeno-od-person-13",
       "person-8113a65d--odpojeno-od-person-13",
@@ -32837,7 +32836,7 @@
     "peopleIds": [
       "person-8113a65d--odpojeno-od-person-13",
       "person-f7b6c005",
-      "person-8534a578--odpojeno-od-bobo",
+      "person-a2852590--odpojeno-od-dasa",
       "person-4b13d6fa"
     ],
     "descriptors": [
