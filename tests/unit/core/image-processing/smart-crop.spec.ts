@@ -10,8 +10,18 @@
  * - scripts/lib/smart-crop.ts
  */
 
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { type Box, calculateSmartCrop } from "../../../../scripts/lib/image/smart-crop";
+
+// Mock config to ensure deterministic behavior (cropFaceZoom = 1.0)
+vi.mock("../../../../scripts/build.config", () => ({
+  config: {
+    script: {
+      cropFaceZoom: 1.0,
+      cropFaceCenterRatio: 0.4,
+    },
+  },
+}));
 
 describe("calculateSmartCrop", () => {
   it("should return null if no faces provided", () => {

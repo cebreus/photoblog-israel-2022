@@ -57,34 +57,58 @@ describe("sequence-detector", () => {
 
     it("detects sequence members and groups them", () => {
       const images = [
-        createMockImage({ id: "test--zoom1from3" }),
-        createMockImage({ id: "test--zoom2from3" }),
-        createMockImage({ id: "test--zoom3from3" }),
+        createMockImage({ id: "2025-01-01-100000-test--zoom1from3" }),
+        createMockImage({ id: "2025-01-01-100005-test--zoom2from3" }),
+        createMockImage({ id: "2025-01-01-100010-test--zoom3from3" }),
       ];
 
       const result = detectSequences(images);
 
       expect(result.size).toBe(3);
-      expect(result.get("test--zoom1from3")).toMatchObject({
+      expect(result.get("2025-01-01-100000-test--zoom1from3")).toMatchObject({
         type: "zoom",
         index: 1,
         total: 3,
-        baseId: "test",
+        baseId: "2025-01-01-100000-test",
       });
-      expect(result.get("test--zoom3from3")?.members).toEqual([
-        "test--zoom1from3",
-        "test--zoom2from3",
-        "test--zoom3from3",
+      expect(result.get("2025-01-01-100010-test--zoom3from3")?.members).toEqual([
+        "2025-01-01-100000-test--zoom1from3",
+        "2025-01-01-100005-test--zoom2from3",
+        "2025-01-01-100010-test--zoom3from3",
       ]);
+    });
+
+    it("groups sequences by time window even with different timestamps", () => {
+      const images = [
+        createMockImage({ id: "2025-01-01-100000-user--zoom1from2" }),
+        createMockImage({ id: "2025-01-01-100900-user--zoom2from2" }), // 9 mins later
+      ];
+
+      const result = detectSequences(images);
+      expect(result.size).toBe(2);
+      expect(result.get("2025-01-01-100000-user--zoom1from2")?.members).toHaveLength(2);
+    });
+
+    it("separates sequences outside time window", () => {
+      const images = [
+        createMockImage({ id: "2025-01-01-100000-user--zoom1from2" }),
+        createMockImage({ id: "2025-01-01-110000-user--zoom2from2" }), // 1 hour later
+      ];
+
+      const result = detectSequences(images);
+      // Even though they look like a sequence, large time gap splits them into separate groups (of 1)
+      // They are still detected as sequences, just not grouped together in `members`
+      expect(result.size).toBe(2);
+      expect(result.get("2025-01-01-100000-user--zoom1from2")?.members).toHaveLength(1);
     });
 
     it("handles multiple separate sequences", () => {
       const images = [
-        createMockImage({ id: "seq1--zoom1from2" }),
-        createMockImage({ id: "seq1--zoom2from2" }),
-        createMockImage({ id: "seq2--pan1from3" }),
-        createMockImage({ id: "seq2--pan2from3" }),
-        createMockImage({ id: "seq2--pan3from3" }),
+        createMockImage({ id: "2025-01-01-100000-seq1--zoom1from2" }),
+        createMockImage({ id: "2025-01-01-100005-seq1--zoom2from2" }),
+        createMockImage({ id: "2025-01-01-120000-seq2--pan1from3" }),
+        createMockImage({ id: "2025-01-01-120005-seq2--pan2from3" }),
+        createMockImage({ id: "2025-01-01-120010-seq2--pan3from3" }),
       ];
 
       const result = detectSequences(images);
@@ -92,25 +116,26 @@ describe("sequence-detector", () => {
       expect(result.size).toBe(5);
 
       // Check seq1 members
-      const seq1Info = result.get("seq1--zoom1from2");
+      const seq1Info = result.get("2025-01-01-100000-seq1--zoom1from2");
       expect(seq1Info?.members).toHaveLength(2);
 
       // Check seq2 members
-      const seq2Info = result.get("seq2--pan1from3");
+      const seq2Info = result.get("2025-01-01-120000-seq2--pan1from3");
       expect(seq2Info?.members).toHaveLength(3);
     });
 
     it("handles panoramas", () => {
-      const images = [createMockImage({ id: "landscape--pano" })];
+      // Panoramas also need valid timestamp format for unified parsing logic
+      const images = [createMockImage({ id: "2025-01-01-100000-land--pano" })];
 
       const result = detectSequences(images);
 
       expect(result.size).toBe(1);
-      expect(result.get("landscape--pano")).toMatchObject({
+      expect(result.get("2025-01-01-100000-land--pano")).toMatchObject({
         type: "pano",
         index: 1,
         total: 1,
-        baseId: "landscape",
+        baseId: "2025-01-01-100000-land",
       });
     });
   });

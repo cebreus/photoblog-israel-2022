@@ -23,6 +23,7 @@ const mockWebp = vi.fn().mockReturnThis();
 const mockAvif = vi.fn().mockReturnThis();
 const mockPng = vi.fn().mockReturnThis();
 const mockBlur = vi.fn().mockReturnThis();
+const mockRotate = vi.fn().mockReturnThis();
 
 const mockSharpInstance = {
   resize: mockResize,
@@ -32,6 +33,7 @@ const mockSharpInstance = {
   avif: mockAvif,
   png: mockPng,
   blur: mockBlur,
+  rotate: mockRotate,
   toFile: mockToFile,
 };
 
