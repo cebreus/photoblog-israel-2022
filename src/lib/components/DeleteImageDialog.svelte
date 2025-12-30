@@ -24,14 +24,14 @@
         Tato akce je nevratná. Následující soubory budou trvale smazány z disku:
       </Dialog.Description>
     </Dialog.Header>
-    <div class="max-h-75 overflow-y-auto my-4 border rounded p-2">
+    <div class="my-4 max-h-75 overflow-y-auto rounded border p-2">
       <ul class="space-y-2">
         {#each images as img}
           <li class="flex items-center gap-3 text-sm">
             <img
               src={img.sources.find((s) => s.variant === "fallback")?.path}
               alt={img.alt}
-              class="w-20 h-20 object-cover rounded bg-muted"
+              class="bg-muted h-20 w-20 rounded object-cover"
             />
             <span class="font-mono text-xs">{img.src.split("/").pop()}</span>
           </li>

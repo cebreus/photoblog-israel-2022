@@ -46,7 +46,7 @@
         role="button"
         tabindex="0"
         aria-pressed={isSelected}
-        class={`relative group border-b flex items-center gap-3 p-3 px-4 hover:bg-accent/50 transition-colors cursor-pointer ${isSelected ? "bg-accent/30" : ""}`}
+        class={`group hover:bg-accent/50 relative flex cursor-pointer items-center gap-3 border-b p-3 px-4 transition-colors ${isSelected ? "bg-accent/30" : ""}`}
         onclick={(e: MouseEvent) => {
           if (!editingPersonId) {
             togglePerson(person.id, e.shiftKey);
@@ -63,19 +63,19 @@
       >
         {#if (isSaving && editingPersonId === person.id) || processingIds.has(person.id)}
           <div
-            class="absolute inset-0 bg-background/90 backdrop-blur-sm flex items-center justify-center rounded"
+            class="bg-background/90 absolute inset-0 flex items-center justify-center rounded backdrop-blur-sm"
             style="z-index: 10;"
             in:fade={{ duration: 100, delay: 300 }}
             out:fade={{ duration: 100 }}
             data-testid="people-tab-person-loading"
           >
-            <Spinner class="w-6 h-6 text-primary" />
+            <Spinner class="text-primary h-6 w-6" />
           </div>
         {/if}
         <Button
           disabled={processingIds.has(person.id)}
           variant="outline"
-          class="relative w-10 h-10 p-0 rounded overflow-hidden bg-slate-200 dark:bg-slate-800 shrink-0 border border-border hover:ring-2 ring-primary transition-all focus:outline-none"
+          class="border-border ring-primary relative h-10 w-10 shrink-0 overflow-hidden rounded border bg-slate-200 p-0 transition-all hover:ring-2 focus:outline-none dark:bg-slate-800"
           onclick={(e: MouseEvent) => {
             e.stopPropagation();
             openPersonDetail(person, e);
@@ -86,17 +86,17 @@
             <img
               src={getThumbnailSrc(person)}
               alt={person.name}
-              class="w-full h-full object-cover"
+              class="h-full w-full object-cover"
               data-testid="people-tab-person-thumbnail"
             />
           {:else}
-            <div class="flex items-center justify-center w-full h-full">
-              <User class="w-5 h-5 text-slate-400" />
+            <div class="flex h-full w-full items-center justify-center">
+              <User class="h-5 w-5 text-slate-400" />
             </div>
           {/if}
         </Button>
 
-        <div class="flex-1 min-w-0">
+        <div class="min-w-0 flex-1">
           {#if dev && editingPersonId === person.id}
             <div class="flex items-center gap-2">
               <Input
@@ -109,7 +109,7 @@
                   if (event.key === "Enter") confirmRename();
                   if (event.key === "Escape") cancelEditing();
                 }}
-                class="font-medium text-sm flex-1"
+                class="flex-1 text-sm font-medium"
                 data-testid="people-tab-person-name-input"
               />
               <Button
@@ -123,7 +123,7 @@
                   confirmRename();
                 }}
               >
-                <Check class="w-4 h-4 text-green-600" />
+                <Check class="h-4 w-4 text-green-600" />
               </Button>
               <Button
                 variant="ghost"
@@ -136,13 +136,13 @@
                   cancelEditing();
                 }}
               >
-                <X class="w-4 h-4 text-red-600" />
+                <X class="h-4 w-4 text-red-600" />
               </Button>
             </div>
           {:else if dev}
             <Button
               variant="ghost"
-              class="font-medium text-sm w-full text-left hover:text-primary transition-colors cursor-text bg-transparent border-none p-0 h-auto justify-start"
+              class="hover:text-primary h-auto w-full cursor-text justify-start border-none bg-transparent p-0 text-left text-sm font-medium transition-colors"
               data-testid="people-tab-person-name"
               onclick={(event) => {
                 event.stopPropagation();
@@ -152,11 +152,11 @@
               {person.name}
             </Button>
           {:else}
-            <div class="font-medium text-sm" data-testid="people-tab-person-name">
+            <div class="text-sm font-medium" data-testid="people-tab-person-name">
               {person.name}
             </div>
           {/if}
-          <div class="text-xs text-muted-foreground" data-testid="people-tab-person-count">
+          <div class="text-muted-foreground text-xs" data-testid="people-tab-person-count">
             {person.faceCount} fotek
           </div>
         </div>
@@ -172,7 +172,7 @@
           <Button
             variant="ghost"
             class={cn(
-              "ml-2 h-5 w-5 rounded border border-white flex items-center justify-center transition-colors shadow-sm shrink-0 focus-visible:outline-none p-0",
+              "ml-2 flex h-5 w-5 shrink-0 items-center justify-center rounded border border-white p-0 shadow-sm transition-colors focus-visible:outline-none",
               isMergeSelected ? "bg-primary border-primary" : "bg-black/20 hover:bg-black/40",
             )}
             onclick={(event) => {
@@ -203,7 +203,7 @@
           <Button
             variant="ghost"
             size="icon"
-            class="h-8 w-8 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+            class="h-8 w-8 text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-200"
             title="Skrýt osobu"
             disabled={processingIds.has(person.id)}
             data-testid="people-tab-person-ignore-button"
@@ -212,13 +212,13 @@
               toggleHide(person.id);
             }}
           >
-            <EyeOff class="w-4 h-4" />
+            <EyeOff class="h-4 w-4" />
           </Button>
         {/if}
       </div>
     {/each}
   {:else}
-    <div class="p-8 text-center text-muted-foreground text-sm" data-testid="people-tab-empty-state">
+    <div class="text-muted-foreground p-8 text-center text-sm" data-testid="people-tab-empty-state">
       Žádné osoby nebyly detekovány.
       <br />
       <span class="text-xs opacity-70">Spusťte <code>bun scripts/face-clustering.ts</code></span>

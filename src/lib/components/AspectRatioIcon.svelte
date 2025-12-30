@@ -37,10 +37,10 @@
 </script>
 
 <div
-  class="absolute top-2 right-2 bg-gray-900 bg-opacity-50 p-1.5 rounded-md text-white pointer-events-none"
+  class="bg-opacity-50 pointer-events-none absolute top-2 right-2 rounded-md bg-gray-900 p-1.5 text-white"
   data-testid="aspect-ratio-icon"
 >
   {#if IconComponent}
-    <IconComponent class="w-4 h-4" />
+    <IconComponent class="h-4 w-4" />
   {/if}
 </div>

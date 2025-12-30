@@ -32,7 +32,7 @@
 
 <Dialog.Root bind:open>
   <Dialog.Content
-    class="max-w-[90vw] md:max-w-screen-xl max-h-[90vh] overflow-y-auto"
+    class="max-h-[90vh] max-w-[90vw] overflow-y-auto md:max-w-screen-xl"
     data-testid="curation-group-dialog-content"
   >
     <Dialog.Header>
@@ -43,7 +43,7 @@
       <CurationGroupView
         {group}
         {items}
-        class="border-0 shadow-none bg-transparent dark:bg-transparent my-0 p-0"
+        class="my-0 border-0 bg-transparent p-0 shadow-none dark:bg-transparent"
         {onDelete}
         {onArchive}
         {onCopyMetadata}

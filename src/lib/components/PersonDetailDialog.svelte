@@ -357,15 +357,15 @@
 
 <Dialog.Root bind:open>
   <Dialog.Content
-    class="max-w-5xl min-w-3xl h-[80vh] flex flex-col p-0 gap-0"
+    class="flex h-[80vh] max-w-5xl min-w-3xl flex-col gap-0 p-0"
     data-testid="person-detail-dialog-content"
   >
-    <Dialog.Header class="px-6 py-4 border-b" data-testid="person-detail-dialog-header">
+    <Dialog.Header class="border-b px-6 py-4" data-testid="person-detail-dialog-header">
       <div class="flex items-center justify-between">
         <Dialog.Title class="flex items-center gap-2" data-testid="person-detail-dialog-title">
           {#if person.thumbnail}
             <button
-              class="group flex items-center gap-1.5 rounded-full pl-0 pr-2 py-0 hover:bg-muted transition-colors ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              class="group hover:bg-muted ring-offset-background focus-visible:ring-ring flex items-center gap-1.5 rounded-full py-0 pr-2 pl-0 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
               onclick={() => {
                 loadAvatars();
                 showAvatarDialog = true;
@@ -373,26 +373,26 @@
               title="Změnit avatar"
               type="button"
             >
-              <div class="relative w-8 h-8 rounded-full overflow-hidden">
+              <div class="relative h-8 w-8 overflow-hidden rounded-full">
                 <img
                   src={`${urlPrefix}/${person.thumbnail}`}
-                  class="w-full h-full object-cover"
+                  class="h-full w-full object-cover"
                   alt={person.name}
                   data-testid="person-detail-header-thumbnail"
                 />
                 <div
-                  class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity"
+                  class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100"
                 >
-                  <Image class="w-4 h-4 text-white" />
+                  <Image class="h-4 w-4 text-white" />
                 </div>
               </div>
               <ChevronDown
-                class="w-3.5 h-3.5 text-muted-foreground/70 group-hover:text-foreground transition-colors"
+                class="text-muted-foreground/70 group-hover:text-foreground h-3.5 w-3.5 transition-colors"
               />
             </button>
           {:else}
             <button
-              class="group flex items-center gap-1.5 rounded-full pl-0 pr-2 py-0 hover:bg-muted transition-colors ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              class="group hover:bg-muted ring-offset-background focus-visible:ring-ring flex items-center gap-1.5 rounded-full py-0 pr-2 pl-0 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
               onclick={() => {
                 loadAvatars();
                 showAvatarDialog = true;
@@ -401,19 +401,19 @@
               type="button"
             >
               <div
-                class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center group-hover:bg-slate-300 dark:group-hover:bg-slate-700 transition-colors"
+                class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-200 transition-colors group-hover:bg-slate-300 dark:bg-slate-800 dark:group-hover:bg-slate-700"
               >
-                <User class="w-4 h-4 text-muted-foreground" />
+                <User class="text-muted-foreground h-4 w-4" />
               </div>
               <ChevronDown
-                class="w-3.5 h-3.5 text-muted-foreground/70 group-hover:text-foreground transition-colors"
+                class="text-muted-foreground/70 group-hover:text-foreground h-3.5 w-3.5 transition-colors"
               />
             </button>
           {/if}
           <span data-testid="person-detail-header-name">{person.name}</span>
 
           <span
-            class="text-muted-foreground font-normal text-sm ml-1"
+            class="text-muted-foreground ml-1 text-sm font-normal"
             data-testid="person-detail-header-count"
           >
             ({crops.length} detekcí)
@@ -426,12 +426,12 @@
     </Dialog.Header>
 
     <div
-      class="flex-1 overflow-y-auto p-6 bg-slate-50 dark:bg-slate-900/50"
+      class="flex-1 overflow-y-auto bg-slate-50 p-6 dark:bg-slate-900/50"
       data-testid="person-detail-dialog-body"
     >
       {#if crops.length === 0}
         <div
-          class="flex items-center justify-center h-full text-muted-foreground"
+          class="text-muted-foreground flex h-full items-center justify-center"
           data-testid="person-detail-empty-state"
         >
           Žádné detekované tváře. (Možná běží clustering nebo refresh dat?)
@@ -439,7 +439,7 @@
       {:else}
         <!-- Grid layout with Cards (No overlaps) -->
         <div
-          class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4"
+          class="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3"
           data-testid="person-detail-crop-grid"
         >
           {#each crops as crop}
@@ -447,7 +447,7 @@
             <!-- svelte-ignore a11y_click_events_have_key_events -->
             <!-- svelte-ignore a11y_no_static_element_interactions -->
             <div
-              class={`flex flex-col bg-background rounded-lg shadow-sm border overflow-hidden transition-all cursor-pointer relative ${isSelected ? "ring-2 ring-blue-500 border-blue-500" : "hover:border-primary/50"}`}
+              class={`bg-background relative flex cursor-pointer flex-col overflow-hidden rounded-lg border shadow-sm transition-all ${isSelected ? "border-blue-500 ring-2 ring-blue-500" : "hover:border-primary/50"}`}
               data-testid={`person-detail-crop-item-${crop.id}`}
               onclick={() => toggleSelection(crop.id)}
             >
@@ -475,11 +475,11 @@
               </div>
 
               <!-- Image Area -->
-              <div class="aspect-square relative group overflow-hidden">
+              <div class="group relative aspect-square overflow-hidden">
                 <img
                   src={crop.src}
                   alt="Face crop"
-                  class={`w-full h-full object-cover transition-opacity ${isSelected ? "opacity-90" : ""}`}
+                  class={`h-full w-full object-cover transition-opacity ${isSelected ? "opacity-90" : ""}`}
                   loading="lazy"
                   data-testid={`person-detail-crop-image-${crop.id}`}
                 />
@@ -487,11 +487,11 @@
 
               <!-- Footer Info -->
               <div
-                class="p-2 border-t flex flex-col gap-1 bg-muted/10 items-center"
+                class="bg-muted/10 flex flex-col items-center gap-1 border-t p-2"
                 data-testid="person-detail-crop-footer"
               >
                 <span
-                  class="font-mono text-[10px] text-muted-foreground w-full truncate text-center"
+                  class="text-muted-foreground w-full truncate text-center font-mono text-[10px]"
                   title={crop.id}
                   data-testid="person-detail-crop-id"
                 >
@@ -505,18 +505,18 @@
     </div>
 
     <Dialog.Footer
-      class="px-6 py-4 border-t bg-muted/20 flex items-center justify-between"
+      class="bg-muted/20 flex items-center justify-between border-t px-6 py-4"
       data-testid="person-detail-dialog-footer"
     >
       {#if crops.length > 0 && selectedIds.size === 0}
-        <div class="flex items-center gap-2 mr-auto" data-testid="person-detail-header-actions">
+        <div class="mr-auto flex items-center gap-2" data-testid="person-detail-header-actions">
           <Button
             variant="ghost"
             size="sm"
             onclick={selectAll}
             data-testid="person-detail-select-all-btn"
           >
-            <CheckCheck class="w-3.5 h-3.5 mr-1" /> Vybrat vše
+            <CheckCheck class="mr-1 h-3.5 w-3.5" /> Vybrat vše
           </Button>
         </div>
       {:else}
@@ -548,7 +548,7 @@
             class="flex-1"
             data-testid="person-detail-bulk-assign-btn"
           >
-            <User class="w-4 h-4 mr-2" />
+            <User class="mr-2 h-4 w-4" />
             Přiřadit k...
           </Button>
 
@@ -560,7 +560,7 @@
             class="flex-1"
             data-testid="person-detail-bulk-ignore-btn"
           >
-            <EyeOff class="w-4 h-4 mr-2" />
+            <EyeOff class="mr-2 h-4 w-4" />
             Skrýt
           </Button>
 
@@ -569,13 +569,13 @@
             size="sm"
             onclick={() => unmatchSelected(false)}
             disabled={isWorking}
-            class="flex-1 text-destructive hover:text-destructive hover:bg-destructive/10"
+            class="text-destructive hover:text-destructive hover:bg-destructive/10 flex-1"
             data-testid="person-detail-bulk-unmatch-btn"
           >
             {#if isWorking}
-              <Spinner class="w-4 h-4 mr-2" />
+              <Spinner class="mr-2 h-4 w-4" />
             {:else}
-              <Trash2 class="w-4 h-4 mr-2" />
+              <Trash2 class="mr-2 h-4 w-4" />
               Odepnout
             {/if}
           </Button>
@@ -599,7 +599,7 @@
               disabled={isWorking}
               data-testid="person-detail-bulk-more"
             >
-              <MoreHorizontal class="w-4 h-4" />
+              <MoreHorizontal class="h-4 w-4" />
             </DropdownMenu.Trigger>
             <DropdownMenu.Content align="end" class="w-56">
               <DropdownMenu.Item
@@ -650,20 +650,20 @@
 
 <!-- Secondary Dialog for Reassignment Selection -->
 <Dialog.Root bind:open={showReassignDialog}>
-  <Dialog.Content class="max-w-md p-0 gap-0" data-testid="reassign-selection-dialog">
-    <Dialog.Header class="px-6 py-4 border-b">
+  <Dialog.Content class="max-w-md gap-0 p-0" data-testid="reassign-selection-dialog">
+    <Dialog.Header class="border-b px-6 py-4">
       <Dialog.Title>Přiřadit k osobě</Dialog.Title>
       <Dialog.Description>Vyberte osobu, ke které chcete přiřadit vybrané tváře.</Dialog.Description
       >
     </Dialog.Header>
 
-    <div class="p-4 border-b bg-muted/20">
+    <div class="bg-muted/20 border-b p-4">
       <div class="relative">
-        <Search class="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+        <Search class="text-muted-foreground absolute top-2.5 left-3 h-4 w-4" />
         <input
           bind:value={personSearchQuery}
           placeholder="Hledat osobu..."
-          class="w-full pl-9 pr-4 py-2 bg-background border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50"
+          class="bg-background focus:ring-primary/50 w-full rounded-md border py-2 pr-4 pl-9 focus:ring-2 focus:outline-none"
           data-testid="reassign-search-input"
         />
       </div>
@@ -672,7 +672,7 @@
     <div class="max-h-75 overflow-y-auto p-2" data-testid="reassign-person-list">
       {#each filteredPeople as p}
         <button
-          class="w-full flex items-center gap-3 p-2 hover:bg-accent rounded-md transition-colors text-left disabled:opacity-50 disabled:pointer-events-none"
+          class="hover:bg-accent flex w-full items-center gap-3 rounded-md p-2 text-left transition-colors disabled:pointer-events-none disabled:opacity-50"
           onclick={() => assignToPerson(p)}
           disabled={isWorking}
           data-testid={`reassign-person-option-${p.id}`}
@@ -680,19 +680,19 @@
           {#if p.thumbnail}
             <img
               src={`${urlPrefix}/${p.thumbnail}`}
-              class="w-8 h-8 rounded-full object-cover shrink-0"
+              class="h-8 w-8 shrink-0 rounded-full object-cover"
               alt={p.name}
             />
           {:else}
             <div
-              class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center shrink-0"
+              class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-200 dark:bg-slate-800"
             >
-              <User class="w-4 h-4 text-muted-foreground" />
+              <User class="text-muted-foreground h-4 w-4" />
             </div>
           {/if}
-          <div class="flex-1 min-w-0">
-            <div class="font-medium truncate">{p.name}</div>
-            <div class="text-[10px] text-muted-foreground">{p.faceCount} fotek</div>
+          <div class="min-w-0 flex-1">
+            <div class="truncate font-medium">{p.name}</div>
+            <div class="text-muted-foreground text-[10px]">{p.faceCount} fotek</div>
           </div>
         </button>
       {:else}
@@ -702,7 +702,7 @@
       {/each}
     </div>
 
-    <Dialog.Footer class="px-6 py-4 border-t bg-muted/20">
+    <Dialog.Footer class="bg-muted/20 border-t px-6 py-4">
       <Button variant="outline" onclick={() => (showReassignDialog = false)}>Zrušit</Button>
     </Dialog.Footer>
   </Dialog.Content>
@@ -715,23 +715,23 @@
     </Dialog.Header>
 
     {#if availableAvatars.length === 0}
-      <div class="p-8 text-center text-muted-foreground">Žádné avatary nenalezeny.</div>
+      <div class="text-muted-foreground p-8 text-center">Žádné avatary nenalezeny.</div>
     {:else}
-      <div class="grid grid-cols-4 gap-4 max-h-[60vh] overflow-y-auto p-4">
+      <div class="grid max-h-[60vh] grid-cols-4 gap-4 overflow-y-auto p-4">
         {#each availableAvatars as avatar}
           <button
-            class="aspect-square relative rounded-lg overflow-hidden border hover:ring-2 ring-primary transition-all group"
+            class="ring-primary group relative aspect-square overflow-hidden rounded-lg border transition-all hover:ring-2"
             onclick={() => setAvatar(avatar)}
             disabled={isWorking}
           >
             <img
               src={`${urlPrefix}/${avatar}`}
-              class="w-full h-full object-cover"
+              class="h-full w-full object-cover"
               alt="avatar"
               loading="lazy"
             />
             <div
-              class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"
+              class="absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/10"
             ></div>
           </button>
         {/each}

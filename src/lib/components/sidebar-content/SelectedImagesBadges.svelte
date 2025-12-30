@@ -15,11 +15,11 @@
 </script>
 
 {#if images.length > 0}
-  <div class="flex flex-wrap gap-1 p-4 pt-2 border-b" data-testid="edit-tab-selected-images">
+  <div class="flex flex-wrap gap-1 border-b p-4 pt-2" data-testid="edit-tab-selected-images">
     {#if images.length > 1}
       <Badge
         variant="destructive"
-        class="font-mono text-xs cursor-pointer"
+        class="cursor-pointer font-mono text-xs"
         onclick={onClearAll}
         data-testid="edit-tab-clear-selection"
       >
@@ -29,7 +29,7 @@
 
     {#if hasClipboardData}
       <Badge
-        class="font-mono text-xs cursor-pointer"
+        class="cursor-pointer font-mono text-xs"
         onclick={onPaste}
         aria-label="Vložit metadata na vybrané obrázky"
         data-testid="edit-tab-paste-metadata"
@@ -41,14 +41,14 @@
     {#each images as img (img.id)}
       <Badge
         variant="secondary"
-        class="font-mono text-xs flex gap-1 items-center pr-1"
+        class="flex items-center gap-1 pr-1 font-mono text-xs"
         data-testid="edit-tab-selected-image-{img.id}"
       >
         {img.src.split("/").pop()}
         <Button
           variant="ghost"
           size="icon"
-          class="size-4 rounded-full p-0 h-4 w-4 text-muted-foreground hover:text-foreground"
+          class="text-muted-foreground hover:text-foreground size-4 h-4 w-4 rounded-full p-0"
           onclick={() => onRemove(img.id)}
           aria-label="Odebrat z výběru"
         >

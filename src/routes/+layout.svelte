@@ -84,7 +84,7 @@
 
 <Sidebar.Provider bind:open={ui.sidebarOpen} style="--sidebar-width: 24rem;">
   <Sidebar.Inset>
-    <div class="flex flex-col min-h-screen">
+    <div class="flex min-h-screen flex-col">
       <Header menuItems={data.menuItems} authors={data.authors} />
 
       <main class="flex flex-1 flex-col" data-testid="main-content">

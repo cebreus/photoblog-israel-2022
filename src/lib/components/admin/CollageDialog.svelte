@@ -767,10 +767,10 @@
 
 {#snippet header()}
   <div class="flex items-center gap-4">
-    <h2 class="text-lg font-semibold transform-none tracking-tight">{COLLAGE_MESSAGES.TITLE}</h2>
+    <h2 class="transform-none text-lg font-semibold tracking-tight">{COLLAGE_MESSAGES.TITLE}</h2>
     <div class="h-6 w-px bg-white/20"></div>
     <div
-      class="flex items-center gap-2 bg-white/5 p-1 rounded-lg"
+      class="flex items-center gap-2 rounded-lg bg-white/5 p-1"
       data-testid="collage-template-buttons"
     >
       {#each templates as t}
@@ -782,8 +782,8 @@
           class={cn(
             "relative flex items-center justify-center gap-1 p-0 transition-all",
             selectedTemplate === t.id
-              ? "border-transparent bg-white/10 text-foreground ring-1 ring-white/20"
-              : "border-white/10 text-muted-foreground hover:border-white/50 hover:bg-white/5",
+              ? "text-foreground border-transparent bg-white/10 ring-1 ring-white/20"
+              : "text-muted-foreground border-white/10 hover:border-white/50 hover:bg-white/5",
           )}
           onclick={() => !disabled && handleTemplateSelect(t.id)}
           {disabled}
@@ -796,7 +796,7 @@
         >
           <CollageTemplateIcon template={t.id} className="w-12 h-12 opacity-90" />
 
-          <span class="text-[12px] font-mono leading-none opacity-60">
+          <span class="font-mono text-[12px] leading-none opacity-60">
             {t.capacity === Infinity ? "∞" : t.capacity}
           </span>
         </Button>
@@ -805,7 +805,7 @@
   </div>
 
   <div class="mt-3 flex flex-wrap items-center gap-3 text-xs" data-testid="collage-ratio-controls">
-    <span class="uppercase tracking-[0.3em] text-muted-foreground"
+    <span class="text-muted-foreground tracking-[0.3em] uppercase"
       >{COLLAGE_MESSAGES.RATIO_LABEL}</span
     >
     <ButtonGroup.Root aria-label={COLLAGE_MESSAGES.RATIO_GROUP_LABEL}>
@@ -827,12 +827,12 @@
 
 {#snippet preview()}
   <div
-    class="flex flex-1 flex-col gap-4 bg-neutral-900/50 relative overflow-hidden p-8 select-none"
+    class="relative flex flex-1 flex-col gap-4 overflow-hidden bg-neutral-900/50 p-8 select-none"
     data-testid="collage-preview-area"
   >
-    <div class="flex flex-1 w-full items-center justify-center min-h-55">
+    <div class="flex min-h-55 w-full flex-1 items-center justify-center">
       <div
-        class="shadow-lg transition-all duration-300 relative bg-white ring-1 ring-white/10"
+        class="relative bg-white shadow-lg ring-1 ring-white/10 transition-all duration-300"
         data-testid="collage-preview-canvas"
         style={`
            aspect-ratio: ${ratioValue};
@@ -853,10 +853,10 @@
       >
         <!-- Ambient Background Layer -->
         {#if backgroundEnabled && backgroundStyle === "ambient"}
-          <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+          <div class="pointer-events-none absolute inset-0 z-0 overflow-hidden">
             <canvas
               bind:this={ambientCanvas}
-              class="absolute inset-0 w-full h-full object-cover"
+              class="absolute inset-0 h-full w-full object-cover"
               aria-hidden="true"
               style={`
                 opacity: ${AMBIENT_FRONTEND_CONFIG.opacity};
@@ -881,7 +881,7 @@
           {@const detailSource = getDetailSource(p.img)}
           <!-- svelte-ignore a11y_no_static_element_interactions -->
           <div
-            class="absolute overflow-hidden group bg-neutral-800/80 transition-colors cursor-move"
+            class="group absolute cursor-move overflow-hidden bg-neutral-800/80 transition-colors"
             style={`
                 left: ${p.left}%;
                 top: ${p.top}%;
@@ -902,7 +902,7 @@
               <!-- svelte-ignore a11y_missing_attribute -->
               <img
                 src={detailSource?.path ?? p.img.adminThumbUrl ?? p.img.sources?.[0]?.path}
-                class="w-full h-full object-cover block pointer-events-none will-change-transform"
+                class="pointer-events-none block h-full w-full object-cover will-change-transform"
                 data-testid={`collage-preview-image-${uniqueId}`}
                 style:object-position={`${imageConfigs[uniqueId]?.x ?? 50}% ${imageConfigs[uniqueId]?.y ?? 50}%`}
                 style:transform-origin={`${imageConfigs[uniqueId]?.x ?? 50}% ${imageConfigs[uniqueId]?.y ?? 50}%`}
@@ -910,28 +910,28 @@
               />
             {:else}
               <div
-                class="w-full h-full flex items-center justify-center text-white/30 text-xs font-mono uppercase tracking-widest bg-white/5"
+                class="flex h-full w-full items-center justify-center bg-white/5 font-mono text-xs tracking-widest text-white/30 uppercase"
               >
                 {COLLAGE_MESSAGES.EMPTY_SLOT}
               </div>
             {/if}
 
             <div
-              class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2 pointer-events-none"
+              class="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/40 opacity-0 transition-opacity group-hover:opacity-100"
               data-testid={`collage-preview-overlay-${uniqueId}`}
             >
               <!-- svelte-ignore a11y_no_static_element_interactions -->
               <div
-                class="p-2 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur-sm cursor-grab active:cursor-grabbing text-white mb-1 pointer-events-auto"
+                class="pointer-events-auto mb-1 cursor-grab rounded-full bg-white/20 p-2 text-white backdrop-blur-sm hover:bg-white/40 active:cursor-grabbing"
                 draggable="true"
                 ondragstart={(e) => handleDragStart(e, i)}
                 onmousedown={(e) => e.stopPropagation()}
               >
-                <Move class="w-4 h-4" />
+                <Move class="h-4 w-4" />
               </div>
 
               <span
-                class="text-white font-mono text-xs font-bold drop-shadow-md pointer-events-none mt-1"
+                class="pointer-events-none mt-1 font-mono text-xs font-bold text-white drop-shadow-md"
               >
                 {i + 1}
               </span>
@@ -944,7 +944,7 @@
 {/snippet}
 
 {#snippet imageList()}
-  <div class="space-y-3 flex-1" data-testid="collage-images-list">
+  <div class="flex-1 space-y-3" data-testid="collage-images-list">
     <div class="flex items-center justify-between">
       <Label>{COLLAGE_MESSAGES.SELECTED_IMAGES(images.length)}</Label>
     </div>
@@ -954,7 +954,7 @@
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <div
           class={cn(
-            "flex items-center gap-3 p-2 bg-card cursor-grab active:cursor-grabbing hover:bg-accent/50 transition-colors",
+            "bg-card hover:bg-accent/50 flex cursor-grab items-center gap-3 p-2 transition-colors active:cursor-grabbing",
             dragSourceType === "source" && draggedSourceIndex === i && "opacity-50",
           )}
           draggable="true"
@@ -964,18 +964,18 @@
           data-testid={`collage-source-item-${img.id}`}
         >
           <div
-            class="h-12 min-w-12 flex items-center justify-center overflow-hidden rounded bg-muted"
+            class="bg-muted flex h-12 min-w-12 items-center justify-center overflow-hidden rounded"
           >
             <img
               src={img.adminThumbUrl ?? img.sources?.[0]?.path}
               alt={img.id}
-              class="h-full w-auto max-w-full pointer-events-none"
+              class="pointer-events-none h-full w-auto max-w-full"
               style={`aspect-ratio: ${getImageAspectRatio(img)};`}
               data-testid={`collage-image-thumb-${img.id}`}
             />
           </div>
-          <div class="flex-1 min-w-0 flex flex-col gap-0.5 text-[11px] text-muted-foreground">
-            <span class="truncate font-semibold text-[12px] text-foreground">
+          <div class="text-muted-foreground flex min-w-0 flex-1 flex-col gap-0.5 text-[11px]">
+            <span class="text-foreground truncate text-[12px] font-semibold">
               {img.title ?? img.alt ?? img.id}
             </span>
             <span class="truncate">
@@ -1013,7 +1013,7 @@
         bind:value={borderWidth}
         min="0"
         step="2"
-        class="w-20 flex-none h-7"
+        class="h-7 w-20 flex-none"
         data-testid="collage-border-width-input"
       />
       <input
@@ -1026,7 +1026,7 @@
         class="flex-1"
       />
     </div>
-    <span class="text-xs text-muted-foreground">
+    <span class="text-muted-foreground text-xs">
       {COLLAGE_MESSAGES.BORDER_WIDTH_HINT(getNormalizedBorderWidth())}
     </span>
   {/if}
@@ -1049,7 +1049,7 @@
           <Input
             type="color"
             bind:value={backgroundColor}
-            class="w-10 p-0.5 h-9"
+            class="h-9 w-10 p-0.5"
             data-testid="collage-background-color-picker"
           />
           <Input
@@ -1076,7 +1076,7 @@
         {isEditMode ? COLLAGE_MESSAGES.SAVE_BUTTON : COLLAGE_MESSAGES.CREATE_BUTTON}
       {/if}
     </Button>
-    <p class="text-[10px] text-muted-foreground mt-2 text-center">
+    <p class="text-muted-foreground mt-2 text-center text-[10px]">
       {COLLAGE_MESSAGES.CREATE_HINT}
     </p>
   </div>
@@ -1084,21 +1084,21 @@
 
 <Dialog.Root {open} onOpenChange={handleOpenChange}>
   <Dialog.Content
-    class="sm:max-w-screen w-screen h-screen max-w-none m-0 rounded-none flex flex-col p-0 gap-0 overflow-hidden border-none bg-black/95 text-white"
+    class="m-0 flex h-screen w-screen max-w-none flex-col gap-0 overflow-hidden rounded-none border-none bg-black/95 p-0 text-white sm:max-w-screen"
     data-testid="collage-dialog-content"
   >
     <div
-      class="border-b border-border/20 p-4 flex items-center justify-between bg-muted/10"
+      class="border-border/20 bg-muted/10 flex items-center justify-between border-b p-4"
       data-testid="collage-dialog-header"
     >
       {@render header()}
     </div>
 
-    <div class="flex flex-1 overflow-hidden gap-6">
+    <div class="flex flex-1 gap-6 overflow-hidden">
       {@render preview()}
 
       <div
-        class="w-78 border-l border-border/20 bg-background text-foreground p-4 flex flex-col gap-4 overflow-y-auto z-10"
+        class="border-border/20 bg-background text-foreground z-10 flex w-78 flex-col gap-4 overflow-y-auto border-l p-4"
         data-testid="collage-sidebar"
       >
         {@render imageList()}

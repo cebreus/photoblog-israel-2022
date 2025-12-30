@@ -85,14 +85,14 @@
         editor.setEditMode(false);
       }
     }}
-    class="flex flex-col h-full w-full"
+    class="flex h-full w-full flex-col"
   >
     <Sidebar.Header class="p-0">
-      <div class="h-14 flex flex-row items-center px-4 border-b border-sidebar-border">
+      <div class="border-sidebar-border flex h-14 flex-row items-center border-b px-4">
         <Tabs.List class="w-full bg-transparent p-0">
           <Tabs.Trigger
             value="agenda"
-            class="flex-1 gap-2 data-[state=active]:bg-sidebar-accent data-[state=active]:text-sidebar-accent-foreground"
+            class="data-[state=active]:bg-sidebar-accent data-[state=active]:text-sidebar-accent-foreground flex-1 gap-2"
             data-testid="app-sidebar-agenda-tab"
           >
             <Calendar class="size-4" />
@@ -100,7 +100,7 @@
           </Tabs.Trigger>
           <Tabs.Trigger
             value="filters"
-            class="flex-1 gap-2 data-[state=active]:bg-sidebar-accent data-[state=active]:text-sidebar-accent-foreground"
+            class="data-[state=active]:bg-sidebar-accent data-[state=active]:text-sidebar-accent-foreground flex-1 gap-2"
             data-testid="app-sidebar-filters-tab"
           >
             <SlidersHorizontal class="size-4" />
@@ -108,7 +108,7 @@
           </Tabs.Trigger>
           <Tabs.Trigger
             value="people"
-            class="flex-1 gap-2 data-[state=active]:bg-sidebar-accent data-[state=active]:text-sidebar-accent-foreground"
+            class="data-[state=active]:bg-sidebar-accent data-[state=active]:text-sidebar-accent-foreground flex-1 gap-2"
             data-testid="app-sidebar-people-tab"
           >
             <User class="size-4" />
@@ -117,7 +117,7 @@
           {#if dev}
             <Tabs.Trigger
               value="edit"
-              class="flex-1 gap-2 data-[state=active]:bg-sidebar-accent data-[state=active]:text-sidebar-accent-foreground"
+              class="data-[state=active]:bg-sidebar-accent data-[state=active]:text-sidebar-accent-foreground flex-1 gap-2"
               data-testid="app-sidebar-edit-tab"
             >
               <Pencil class="size-4" />
@@ -128,21 +128,21 @@
       </div>
     </Sidebar.Header>
 
-    <Tabs.Content value="agenda" class="mt-0 h-full flex flex-col overflow-hidden">
+    <Tabs.Content value="agenda" class="mt-0 flex h-full flex-col overflow-hidden">
       <Sidebar.Content>
         <AgendaTab {menuItems} />
       </Sidebar.Content>
     </Tabs.Content>
-    <Tabs.Content value="filters" class="mt-0 h-full flex flex-col overflow-hidden">
+    <Tabs.Content value="filters" class="mt-0 flex h-full flex-col overflow-hidden">
       <FiltersTab {authors} {qualityStats} />
     </Tabs.Content>
-    <Tabs.Content value="people" class="mt-0 h-full flex flex-col overflow-hidden">
+    <Tabs.Content value="people" class="mt-0 flex h-full flex-col overflow-hidden">
       <Sidebar.Content>
         <PeopleTab />
       </Sidebar.Content>
     </Tabs.Content>
     {#if dev}
-      <Tabs.Content value="edit" class="mt-0 h-full flex flex-col overflow-hidden">
+      <Tabs.Content value="edit" class="mt-0 flex h-full flex-col overflow-hidden">
         <Sidebar.Content>
           <EditTab {items} />
         </Sidebar.Content>

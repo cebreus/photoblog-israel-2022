@@ -768,7 +768,7 @@
   {/each}
 
   {#if named.length > 0 && generic.length > 0}
-    <div class="col-span-3 py-2 flex items-center justify-center">
+    <div class="col-span-3 flex items-center justify-center py-2">
       <Separator class="w-full" />
     </div>
   {/if}
@@ -787,9 +787,9 @@
 
 <div class="contents" data-testid="people-tab">
   <Sidebar.Content>
-    <div class="p-4 border-b space-y-2">
+    <div class="space-y-2 border-b p-4">
       <div class="flex items-center justify-between">
-        <h3 class="font-semibold text-sm" data-testid="people-tab-title">
+        <h3 class="text-sm font-semibold" data-testid="people-tab-title">
           Lidé ({peopleList.length})
         </h3>
       </div>
@@ -798,7 +798,7 @@
     </div>
 
     <div
-      class="sticky top-0 z-20 backdrop-blur-lg pt-2 pb-2 px-4"
+      class="sticky top-0 z-20 px-4 pt-2 pb-2 backdrop-blur-lg"
       data-testid="people-tab-bulk-actions"
     >
       <SelectionBulkActions
@@ -847,7 +847,7 @@
           <Accordion.Trigger class="px-4 py-3 text-sm font-medium">
             Skryté ({people.hiddenPeople.length})
           </Accordion.Trigger>
-          <Accordion.Content class="mb-2 px-4 grid grid-cols-3 gap-2 pt-2 pb-1">
+          <Accordion.Content class="mb-2 grid grid-cols-3 gap-2 px-4 pt-2 pb-1">
             {@render personGrid(people.hiddenPeople, "hidden")}
           </Accordion.Content>
         </Accordion.Item>
@@ -858,7 +858,7 @@
           <Accordion.Trigger class="px-4 py-3 text-sm font-medium">
             Osoby ({people.categoryPeople.length})
           </Accordion.Trigger>
-          <Accordion.Content class="mb-2 px-4 grid grid-cols-3 gap-2 pt-2 pb-1">
+          <Accordion.Content class="mb-2 grid grid-cols-3 gap-2 px-4 pt-2 pb-1">
             {@render personGrid(people.categoryPeople, "category-person")}
           </Accordion.Content>
         </Accordion.Item>
@@ -869,7 +869,7 @@
           <Accordion.Trigger class="px-4 py-3 text-sm font-medium">
             Sochy ({people.categoryStatues.length})
           </Accordion.Trigger>
-          <Accordion.Content class="mb-2 px-4 grid grid-cols-3 gap-2 pt-2 pb-1">
+          <Accordion.Content class="mb-2 grid grid-cols-3 gap-2 px-4 pt-2 pb-1">
             {@render personGrid(people.categoryStatues, "category-statue")}
           </Accordion.Content>
         </Accordion.Item>
@@ -880,7 +880,7 @@
           <Accordion.Trigger class="px-4 py-3 text-sm font-medium">
             Malby ({people.categoryPaintings.length})
           </Accordion.Trigger>
-          <Accordion.Content class="mb-2 px-4 grid grid-cols-3 gap-2 pt-2 pb-1">
+          <Accordion.Content class="mb-2 grid grid-cols-3 gap-2 px-4 pt-2 pb-1">
             {@render personGrid(people.categoryPaintings, "category-painting")}
           </Accordion.Content>
         </Accordion.Item>
@@ -888,10 +888,10 @@
 
       {#if people.junkPeople.length > 0 && dev}
         <Accordion.Item value="junk" data-testid="people-tab-junk-section">
-          <Accordion.Trigger class="px-4 py-3 text-sm font-medium text-destructive">
+          <Accordion.Trigger class="text-destructive px-4 py-3 text-sm font-medium">
             Junk ({people.junkPeople.length})
           </Accordion.Trigger>
-          <Accordion.Content class="mb-2 px-4 grid grid-cols-3 gap-2 pt-2 pb-1">
+          <Accordion.Content class="mb-2 grid grid-cols-3 gap-2 px-4 pt-2 pb-1">
             {@render personGrid(people.junkPeople, "junk")}
           </Accordion.Content>
         </Accordion.Item>
@@ -906,9 +906,9 @@
             Chybné detekce ({invalidDetections.length})
           </Accordion.Trigger>
           <Accordion.Content class="mb-2 px-4 pt-2 pb-1">
-            <div class="text-xs text-muted-foreground flex flex-col gap-1 max-h-40 overflow-y-auto">
+            <div class="text-muted-foreground flex max-h-40 flex-col gap-1 overflow-y-auto text-xs">
               {#each invalidDetections as det}
-                <div class="flex items-center gap-2 py-1 border-b last:border-0 border-border/50">
+                <div class="border-border/50 flex items-center gap-2 border-b py-1 last:border-0">
                   <span class="font-mono text-[10px] tabular-nums">{det.imageId}</span>
                   <span class="text-[9px] opacity-70">
                     [{Math.round(det.box.x)}, {Math.round(det.box.y)}, {Math.round(

@@ -20,21 +20,21 @@
   <Button
     variant="secondary"
     size="sm"
-    class="h-6 text-[10px] flex-1 px-0"
+    class="h-6 flex-1 px-0 text-[10px]"
     onclick={() => onRestore(person.id)}
     data-testid="people-tab-hidden-person-restore-button"
     title="Obnovit"
   >
-    <Eye class="w-3.5 h-3.5" />
+    <Eye class="h-3.5 w-3.5" />
   </Button>
   <Button
     variant="secondary"
     size="sm"
-    class="h-6 text-[10px] flex-1 px-0"
+    class="h-6 flex-1 px-0 text-[10px]"
     onclick={() => onMarkAsJunk(person.id)}
     data-testid="people-tab-hidden-person-junk-button"
     title="Ignorovat"
   >
-    <UserMinus class="w-3.5 h-3.5 text-destructive" />
+    <UserMinus class="text-destructive h-3.5 w-3.5" />
   </Button>
 </div>

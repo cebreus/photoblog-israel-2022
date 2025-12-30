@@ -45,7 +45,7 @@
 <Accordion.Root type="single" value="geo">
   <Accordion.Item value="geo">
     <Accordion.Trigger class="text-sm font-medium">{IMAGE_MESSAGES.GEO_LABEL}</Accordion.Trigger>
-    <Accordion.Content class="border-b mb-2">
+    <Accordion.Content class="mb-2 border-b">
       <div class="space-y-4 pt-2">
         <!-- Location -->
         <div class="space-y-2">
@@ -61,13 +61,13 @@
             <Button
               variant="ghost"
               size="sm"
-              class="h-auto p-0 text-xs text-muted-foreground hover:text-foreground hover:bg-transparent flex items-center gap-1 mt-1 transition-colors group"
+              class="text-muted-foreground hover:text-foreground group mt-1 flex h-auto items-center gap-1 p-0 text-xs transition-colors hover:bg-transparent"
               onclick={() => onRestore("location")}
               aria-label={IMAGE_MESSAGES.RESTORE_VALUE_ARIA}
             >
-              <RotateCcw size={10} class="group-hover:-rotate-90 transition-transform" />
+              <RotateCcw size={10} class="transition-transform group-hover:-rotate-90" />
               {IMAGE_MESSAGES.ORIGINAL_VALUE}
-              <span class="font-mono bg-muted px-1 rounded">{previousValues.location || "∅"}</span>
+              <span class="bg-muted rounded px-1 font-mono">{previousValues.location || "∅"}</span>
             </Button>
           {/if}
         </div>
@@ -86,13 +86,13 @@
             <Button
               variant="ghost"
               size="sm"
-              class="h-auto p-0 text-xs text-muted-foreground hover:text-foreground hover:bg-transparent flex items-center gap-1 mt-1 transition-colors group"
+              class="text-muted-foreground hover:text-foreground group mt-1 flex h-auto items-center gap-1 p-0 text-xs transition-colors hover:bg-transparent"
               onclick={() => onRestore("city")}
               aria-label={IMAGE_MESSAGES.RESTORE_VALUE_ARIA}
             >
-              <RotateCcw size={10} class="group-hover:-rotate-90 transition-transform" />
+              <RotateCcw size={10} class="transition-transform group-hover:-rotate-90" />
               {IMAGE_MESSAGES.ORIGINAL_VALUE}
-              <span class="font-mono bg-muted px-1 rounded">{previousValues.city || "∅"}</span>
+              <span class="bg-muted rounded px-1 font-mono">{previousValues.city || "∅"}</span>
             </Button>
           {/if}
         </div>
@@ -111,13 +111,13 @@
             <Button
               variant="ghost"
               size="sm"
-              class="h-auto p-0 text-xs text-muted-foreground hover:text-foreground hover:bg-transparent flex items-center gap-1 mt-1 transition-colors group"
+              class="text-muted-foreground hover:text-foreground group mt-1 flex h-auto items-center gap-1 p-0 text-xs transition-colors hover:bg-transparent"
               onclick={() => onRestore("state")}
               aria-label={IMAGE_MESSAGES.RESTORE_VALUE_ARIA}
             >
-              <RotateCcw size={10} class="group-hover:-rotate-90 transition-transform" />
+              <RotateCcw size={10} class="transition-transform group-hover:-rotate-90" />
               {IMAGE_MESSAGES.ORIGINAL_VALUE}
-              <span class="font-mono bg-muted px-1 rounded">{previousValues.state || "∅"}</span>
+              <span class="bg-muted rounded px-1 font-mono">{previousValues.state || "∅"}</span>
             </Button>
           {/if}
         </div>
@@ -136,13 +136,13 @@
             <Button
               variant="ghost"
               size="sm"
-              class="h-auto p-0 text-xs text-muted-foreground hover:text-foreground hover:bg-transparent flex items-center gap-1 mt-1 transition-colors group"
+              class="text-muted-foreground hover:text-foreground group mt-1 flex h-auto items-center gap-1 p-0 text-xs transition-colors hover:bg-transparent"
               onclick={() => onRestore("country")}
               aria-label={IMAGE_MESSAGES.RESTORE_VALUE_ARIA}
             >
-              <RotateCcw size={10} class="group-hover:-rotate-90 transition-transform" />
+              <RotateCcw size={10} class="transition-transform group-hover:-rotate-90" />
               {IMAGE_MESSAGES.ORIGINAL_VALUE}
-              <span class="font-mono bg-muted px-1 rounded">{previousValues.country || "∅"}</span>
+              <span class="bg-muted rounded px-1 font-mono">{previousValues.country || "∅"}</span>
             </Button>
           {/if}
         </div>
@@ -161,13 +161,13 @@
             <Button
               variant="ghost"
               size="sm"
-              class="h-auto p-0 text-xs text-muted-foreground hover:text-foreground hover:bg-transparent flex items-center gap-1 mt-1 transition-colors group"
+              class="text-muted-foreground hover:text-foreground group mt-1 flex h-auto items-center gap-1 p-0 text-xs transition-colors hover:bg-transparent"
               onclick={() => onRestore("countryCode")}
               aria-label={IMAGE_MESSAGES.RESTORE_VALUE_ARIA}
             >
-              <RotateCcw size={10} class="group-hover:-rotate-90 transition-transform" />
+              <RotateCcw size={10} class="transition-transform group-hover:-rotate-90" />
               {IMAGE_MESSAGES.ORIGINAL_VALUE}
-              <span class="font-mono bg-muted px-1 rounded"
+              <span class="bg-muted rounded px-1 font-mono"
                 >{previousValues.countryCode || "∅"}</span
               >
             </Button>

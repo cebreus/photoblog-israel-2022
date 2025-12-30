@@ -188,7 +188,7 @@
 </script>
 
 <Dialog.Root bind:open>
-  <Dialog.Content class="xl:max-w-7xl max-h-[95vh] flex flex-col p-0 gap-0">
+  <Dialog.Content class="flex max-h-[95vh] flex-col gap-0 p-0 xl:max-w-7xl">
     <Dialog.Header class="p-6 pb-4">
       <Dialog.Title>Vložit metadata</Dialog.Title>
       <Dialog.Description>
@@ -201,18 +201,18 @@
       </Dialog.Description>
     </Dialog.Header>
 
-    <div class="flex-1 overflow-auto min-h-0 border-y bg-muted/10 relative">
+    <div class="bg-muted/10 relative min-h-0 flex-1 overflow-auto border-y">
       {#if !clipboardData}
-        <div class="text-sm text-center text-muted-foreground p-8">
+        <div class="text-muted-foreground p-8 text-center text-sm">
           Žádná data nejsou ve schránce.
         </div>
       {:else}
-        <table class="text-sm border-collapse border-spacing-0 w-max min-w-full">
+        <table class="w-max min-w-full border-collapse border-spacing-0 text-sm">
           <thead>
             <tr>
               <!-- Controls Header (Sticky Left + Top) -->
               <th
-                class="sticky left-0 top-0 z-30 bg-background border-b border-r px-4 py-3 text-left w-72"
+                class="bg-background sticky top-0 left-0 z-30 w-72 border-r border-b px-4 py-3 text-left"
               >
                 <div class="flex items-center gap-2">
                   <Checkbox
@@ -229,27 +229,27 @@
                 {@const isExcluded = excludedImageIds.has(img.id)}
                 <th
                   class={cn(
-                    "sticky top-0 z-20 bg-background/95 backdrop-blur-sm border-b px-4 py-3 text-left min-w-[220px] transition-opacity",
+                    "bg-background/95 sticky top-0 z-20 min-w-[220px] border-b px-4 py-3 text-left backdrop-blur-sm transition-opacity",
                     isExcluded && "opacity-50 grayscale",
                   )}
                   data-testid={`metadata-paste-dialog-header-${img.id}`}
                 >
-                  <div class="flex items-center gap-3 justify-between">
+                  <div class="flex items-center justify-between gap-3">
                     <div class="flex items-center gap-3">
                       <img
                         src={resolveThumbnail(img)}
                         alt=""
-                        class="h-10 w-10 object-cover rounded border bg-muted"
+                        class="bg-muted h-10 w-10 rounded border object-cover"
                       />
                       <div class="flex flex-col truncate">
                         <span
-                          class="text-xs font-mono text-muted-foreground truncate max-w-[120px]"
+                          class="text-muted-foreground max-w-[120px] truncate font-mono text-xs"
                           title={img.src.split("/").pop()}
                         >
                           {img.src.split("/").pop()}
                         </span>
                         {#if isExcluded}
-                          <span class="text-[10px] text-red-500 font-bold">VYLUČENO</span>
+                          <span class="text-[10px] font-bold text-red-500">VYLUČENO</span>
                         {/if}
                       </div>
                     </div>
@@ -263,7 +263,7 @@
                       data-testid={`metadata-paste-dialog-exclude-${img.id}`}
                     >
                       {#if isExcluded}
-                        <RefreshCcw class="h-3.5 w-3.5 text-muted-foreground" />
+                        <RefreshCcw class="text-muted-foreground h-3.5 w-3.5" />
                       {:else}
                         <X class="h-3.5 w-3.5 text-red-500" />
                       {/if}
@@ -279,7 +279,7 @@
                 <!-- Field Control Cell (Sticky Left) -->
                 <td
                   class={cn(
-                    "sticky left-0 z-20 bg-background border-r px-4 py-3 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] valign-top transition-colors",
+                    "bg-background valign-top sticky left-0 z-20 border-r px-4 py-3 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] transition-colors",
                     selectedFields[row.key] && "bg-blue-50 dark:bg-blue-950/40",
                   )}
                   onclick={(e) => {
@@ -291,16 +291,16 @@
                   data-testid={`metadata-paste-dialog-row-${row.key}`}
                 >
                   <div class="flex flex-col gap-1">
-                    <div class="flex items-start gap-3 cursor-pointer">
+                    <div class="flex cursor-pointer items-start gap-3">
                       <Checkbox
                         bind:checked={selectedFields[row.key]}
                         class="mt-1"
                         data-testid={`metadata-paste-dialog-checkbox-${row.key}`}
                       />
-                      <div class="flex flex-col flex-1 min-w-0">
+                      <div class="flex min-w-0 flex-1 flex-col">
                         <span class="font-medium">{row.label}</span>
                         <span
-                          class="text-xs text-blue-600 dark:text-blue-400 font-mono truncate w-full"
+                          class="w-full truncate font-mono text-xs text-blue-600 dark:text-blue-400"
                           title={row.sourceVal}
                         >
                           {row.sourceVal}
@@ -314,11 +314,11 @@
                 {#each row.imageCells as cell (cell.imageId)}
                   <td
                     class={cn(
-                      "px-4 py-3 align-top min-w-[220px] transition-opacity",
-                      cell.isExcluded && "opacity-30 grayscale bg-muted/20",
+                      "min-w-[220px] px-4 py-3 align-top transition-opacity",
+                      cell.isExcluded && "bg-muted/20 opacity-30 grayscale",
                     )}
                   >
-                    <div class="flex flex-col gap-1 text-xs font-mono">
+                    <div class="flex flex-col gap-1 font-mono text-xs">
                       {#if cell.willChange}
                         <!-- Change Mode: Original -> New -->
                         <div
@@ -328,7 +328,7 @@
                           {cell.originalVal}
                         </div>
                         <div
-                          class="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-semibold bg-emerald-50 dark:bg-emerald-950/30 px-1.5 py-1 rounded -ml-1.5 w-fit max-w-full"
+                          class="-ml-1.5 flex w-fit max-w-full items-center gap-1.5 rounded bg-emerald-50 px-1.5 py-1 font-semibold text-emerald-600 dark:bg-emerald-950/30 dark:text-emerald-400"
                           title="Nová hodnota"
                         >
                           <span>→</span>
@@ -353,7 +353,7 @@
       {/if}
     </div>
 
-    <Dialog.Footer class="p-4 pt-4 border-t gap-2 bg-background z-20">
+    <Dialog.Footer class="bg-background z-20 gap-2 border-t p-4 pt-4">
       <Button variant="outline" onclick={() => (open = false)}>Zrušit</Button>
       <Button
         onclick={handleConfirm}

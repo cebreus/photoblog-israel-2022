@@ -35,7 +35,7 @@
     </button>
     <span class="text-white">{isExpanded ? "{" : "{...}"}</span>
     {#if isExpanded}
-      <div class="pl-2 border-l border-gray-700">
+      <div class="border-l border-gray-700 pl-2">
         {#each Object.entries(data) as [key, value]}
           <div class="flex">
             <span class="text-pink-400">"{key}":</span>
@@ -55,7 +55,7 @@
         : ""}</span
     >
     {#if isExpanded}
-      <div class="pl-2 border-l border-gray-700">
+      <div class="border-l border-gray-700 pl-2">
         {#each data as value, i}
           <div class="flex">
             <span class="text-gray-500">{i}:</span>
@@ -66,7 +66,7 @@
       <span class="text-white">]</span>
     {/if}
   {:else if typeof data === "string"}
-    <span class="text-green-400 break-all">"{data}"</span>
+    <span class="break-all text-green-400">"{data}"</span>
   {:else if typeof data === "number"}
     <span class="text-blue-400">{data}</span>
   {:else if typeof data === "boolean"}

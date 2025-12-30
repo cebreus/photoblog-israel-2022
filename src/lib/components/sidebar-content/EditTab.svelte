@@ -379,16 +379,16 @@
   }
 </script>
 
-<div class="flex flex-col h-full relative" data-testid="edit-tab">
+<div class="relative flex h-full flex-col" data-testid="edit-tab">
   {#if isSaving}
     <div
-      class="absolute inset-0 z-50 bg-background/80 flex items-center justify-center backdrop-blur-sm"
+      class="bg-background/80 absolute inset-0 z-50 flex items-center justify-center backdrop-blur-sm"
       in:fade={{ duration: 200, delay: 300 }}
       out:fade={{ duration: 150 }}
     >
       <div class="flex flex-col items-center gap-3">
         <Spinner size="lg" />
-        <span class="text-sm text-muted-foreground font-medium animate-pulse"
+        <span class="text-muted-foreground animate-pulse text-sm font-medium"
           >{IMAGE_MESSAGES.SAVING_METADATA}</span
         >
       </div>
@@ -411,7 +411,7 @@
     {@const isEditMode = selectedImages.length === 1 && isCollage(selectedImages[0].id)}
     <div class="px-4 pt-2">
       <Button variant="outline" class="w-full gap-2" onclick={handleOpenCollageDialog}>
-        <LayoutGrid class="w-4 h-4" />
+        <LayoutGrid class="h-4 w-4" />
         {#if isEditMode}
           {COLLAGE_MESSAGES.EDIT_BUTTON}
         {:else}
@@ -431,7 +431,7 @@
 
   <form
     method="POST"
-    class="grid gap-4 py-4 px-6"
+    class="grid gap-4 px-6 py-4"
     onsubmit={(e) => {
       e.preventDefault();
       handleSubmit();
@@ -492,7 +492,7 @@
       isCleared={explicitClears.keywords}
     />
 
-    <div class="flex justify-end pt-4 mt-auto">
+    <div class="mt-auto flex justify-end pt-4">
       <Button class="w-full" size="lg" type="submit" data-testid="edit-tab-submit-button">
         {IMAGE_MESSAGES.SAVE_CHANGES}
       </Button>

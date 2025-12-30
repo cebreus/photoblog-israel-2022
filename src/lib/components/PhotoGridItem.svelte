@@ -228,7 +228,7 @@
   {#if editor.showMetadataOverlay}
     <div data-testid="photo-grid-item-metadata-container">
       <table
-        class="mt-2 w-full rounded-md text-xs bg-slate-50 dark:bg-slate-950"
+        class="mt-2 w-full rounded-md bg-slate-50 text-xs dark:bg-slate-950"
         data-testid="photo-grid-item-metadata-table"
       >
         <tbody>
@@ -431,7 +431,7 @@
 
     {#if ui.debugMode}
       <div
-        class="mt-2 rounded-md bg-slate-950 p-2 overflow-x-auto whitespace-nowrap text-xs text-white"
+        class="mt-2 overflow-x-auto rounded-md bg-slate-950 p-2 text-xs whitespace-nowrap text-white"
       >
         <JsonViewer data={item} />
       </div>

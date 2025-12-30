@@ -1,5 +1,6 @@
 <script lang="ts">
   import Bug from "@lucide/svelte/icons/bug";
+  import GripVertical from "@lucide/svelte/icons/grip-vertical";
   import Sparkles from "@lucide/svelte/icons/sparkles";
   import Tags from "@lucide/svelte/icons/tags";
   import { dev } from "$app/environment";
@@ -40,6 +41,21 @@
     >
       <Tags strokeWidth={2.5} />
     </Button>
+
+    {#if editor.editMode}
+      <Button
+        variant={editor.reorderMode ? "secondary" : "ghost"}
+        size="icon"
+        onclick={() => editor.toggleReorderMode()}
+        aria-label={editor.reorderMode ? "Vypnout přeřazování" : "Zapnout přeřazování fotek"}
+        title={editor.reorderMode
+          ? "Vypnout přeřazování"
+          : "Zapnout přeřazování fotek (drag & drop)"}
+        data-testid="header-reorder-trigger"
+      >
+        <GripVertical strokeWidth={2.5} />
+      </Button>
+    {/if}
 
     <Button
       variant={ui.curationMode ? "secondary" : "ghost"}

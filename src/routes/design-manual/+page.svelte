@@ -36,13 +36,13 @@
   ];
 </script>
 
-<div class="container mx-auto p-8 space-y-16">
-  <h1 class="text-5xl font-bold border-b pb-6">Design Manual</h1>
+<div class="container mx-auto space-y-16 p-8">
+  <h1 class="border-b pb-6 text-5xl font-bold">Design Manual</h1>
 
   <!-- Section: Colors -->
   <section>
-    <h2 class="text-4xl font-semibold mb-8">Colour Scheme</h2>
-    <div class="prose prose-lg max-w-none mb-12">
+    <h2 class="mb-8 text-4xl font-semibold">Colour Scheme</h2>
+    <div class="prose prose-lg mb-12 max-w-none">
       <p>
         The colour palette is a customised version of the default
         <a href="https://tailwindcss.com/docs/colors" target="_blank" rel="noopener noreferrer"
@@ -59,9 +59,9 @@
         <code>src/app.css</code>.
       </p>
     </div>
-    <div class="grid grid-cols-12 gap-x-2 gap-y-3 items-center">
+    <div class="grid grid-cols-12 items-center gap-x-2 gap-y-3">
       <!-- Headers -->
-      <div class="font-bold text-sm text-right">Colour</div>
+      <div class="text-right text-sm font-bold">Colour</div>
       <div class="text-center font-mono text-xs">50</div>
       <div class="text-center font-mono text-xs">100</div>
       <div class="text-center font-mono text-xs">200</div>
@@ -75,67 +75,67 @@
       <div class="text-center font-mono text-xs">950</div>
 
       <!-- Red -->
-      <div class="font-bold text-sm text-right">Red</div>
-      <div class="h-12 w-full bg-red-50 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-red-100 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-red-200 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-red-300 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-red-400 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-red-500 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-red-600 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-red-700 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-red-800 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-red-900 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-red-950 rounded-lg shadow-md border"></div>
+      <div class="text-right text-sm font-bold">Red</div>
+      <div class="h-12 w-full rounded-lg border bg-red-50 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-red-100 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-red-200 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-red-300 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-red-400 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-red-500 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-red-600 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-red-700 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-red-800 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-red-900 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-red-950 shadow-md"></div>
 
       <!-- Orange -->
-      <div class="font-bold text-sm text-right">Orange</div>
-      <div class="h-12 w-full bg-orange-50 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-orange-100 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-orange-200 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-orange-300 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-orange-400 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-orange-500 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-orange-600 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-orange-700 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-orange-800 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-orange-900 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-orange-950 rounded-lg shadow-md border"></div>
+      <div class="text-right text-sm font-bold">Orange</div>
+      <div class="h-12 w-full rounded-lg border bg-orange-50 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-orange-100 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-orange-200 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-orange-300 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-orange-400 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-orange-500 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-orange-600 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-orange-700 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-orange-800 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-orange-900 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-orange-950 shadow-md"></div>
 
       <!-- Blue -->
-      <div class="font-bold text-sm text-right">Blue</div>
-      <div class="h-12 w-full bg-blue-50 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-blue-100 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-blue-200 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-blue-300 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-blue-400 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-blue-500 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-blue-600 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-blue-700 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-blue-800 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-blue-900 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-blue-950 rounded-lg shadow-md border"></div>
+      <div class="text-right text-sm font-bold">Blue</div>
+      <div class="h-12 w-full rounded-lg border bg-blue-50 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-blue-100 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-blue-200 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-blue-300 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-blue-400 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-blue-500 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-blue-600 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-blue-700 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-blue-800 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-blue-900 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-blue-950 shadow-md"></div>
 
       <!-- Slate -->
-      <div class="font-bold text-sm text-right">Slate</div>
-      <div class="h-12 w-full bg-slate-50 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-slate-100 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-slate-200 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-slate-300 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-slate-400 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-slate-500 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-slate-600 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-slate-700 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-slate-800 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-slate-900 rounded-lg shadow-md border"></div>
-      <div class="h-12 w-full bg-slate-950 rounded-lg shadow-md border"></div>
+      <div class="text-right text-sm font-bold">Slate</div>
+      <div class="h-12 w-full rounded-lg border bg-slate-50 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-slate-100 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-slate-200 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-slate-300 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-slate-400 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-slate-500 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-slate-600 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-slate-700 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-slate-800 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-slate-900 shadow-md"></div>
+      <div class="h-12 w-full rounded-lg border bg-slate-950 shadow-md"></div>
     </div>
   </section>
 
   <!-- Section: Typography -->
   <section>
-    <h2 class="text-4xl font-semibold mb-8">Typography</h2>
-    <div class="prose prose-lg max-w-none mb-12">
+    <h2 class="mb-8 text-4xl font-semibold">Typography</h2>
+    <div class="prose prose-lg mb-12 max-w-none">
       <p>
         This section is not using the <code>@tailwindcss/typography</code> plugin to ensure the raw heading
         styles are displayed without prose styling.
@@ -151,13 +151,13 @@
     </div>
 
     <div class="mt-12">
-      <h3 class="text-2xl font-medium mb-4">Font Stacks</h3>
+      <h3 class="mb-4 text-2xl font-medium">Font Stacks</h3>
       <p class="text-gray-700">
         The project currently uses the default Tailwind CSS font stacks, as no custom fonts are
         defined in either <code>tailwind.config.ts</code> or
         <code>src/app.css</code>.
       </p>
-      <ul class="list-disc list-inside mt-4 space-y-2">
+      <ul class="mt-4 list-inside list-disc space-y-2">
         <li>
           <span class="font-bold">Sans-serif:</span>
           <code class="text-xs"
@@ -185,8 +185,8 @@
 
   <!-- Section: Spacing -->
   <section>
-    <h2 class="text-4xl font-semibold mb-8">Spacing and Sizing Scale</h2>
-    <p class="text-gray-600 mb-8">
+    <h2 class="mb-8 text-4xl font-semibold">Spacing and Sizing Scale</h2>
+    <p class="mb-8 text-gray-600">
       A visual demonstration of the default spacing and sizing scale (e.g., for padding, margin,
       width, and height) in Tailwind CSS. The values are in rem (1rem = 16px).
     </p>
@@ -198,7 +198,7 @@
             style="width: {item.px}px; height: {item.px}px;"
             title="Class: p-{item.size} | px: {item.px}"
           ></div>
-          <p class="text-xs mt-1">p-{item.size}</p>
+          <p class="mt-1 text-xs">p-{item.size}</p>
         </div>
       {/each}
     </div>

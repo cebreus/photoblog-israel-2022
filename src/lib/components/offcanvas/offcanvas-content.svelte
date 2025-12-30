@@ -31,12 +31,12 @@
 {#if open}
   <div
     class={cn(
-      "fixed z-50 h-full w-96 shadow-lg bg-background",
+      "bg-background fixed z-50 h-full w-96 shadow-lg",
       "transition-transform duration-300 ease-in-out",
-      side === "left" && "left-0 top-0",
-      side === "right" && "right-0 top-0",
-      side === "top" && "left-0 top-0 w-full h-1/2",
-      side === "bottom" && "left-0 bottom-0 w-full h-1/2",
+      side === "left" && "top-0 left-0",
+      side === "right" && "top-0 right-0",
+      side === "top" && "top-0 left-0 h-1/2 w-full",
+      side === "bottom" && "bottom-0 left-0 h-1/2 w-full",
       open
         ? side === "right"
           ? "translate-x-0"

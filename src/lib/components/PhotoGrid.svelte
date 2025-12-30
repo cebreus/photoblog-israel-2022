@@ -18,14 +18,16 @@
   import type { CurationGroup, CurationManifest, ImageEntry, Separator } from "$lib/types/manifest";
   import { performImageAction } from "$lib/utils/api-actions";
   import { IMAGE_MESSAGES } from "$lib/utils/messages";
+  import { reorderArray, saveImageOrder } from "$lib/utils/reorder";
   import { findIndexById, getRange } from "$lib/utils/selection";
   import { toSlug } from "$lib/utils/strings";
   import { smartToast } from "$lib/utils/toasts";
 
   const logger = createLogger("PhotoGrid");
 
-  let { items, curationManifest } = $props<{
+  let { items, dayId, curationManifest } = $props<{
     items: DisplayItem[];
+    dayId?: string;
     curationManifest?: CurationManifest;
   }>();
 
@@ -77,6 +79,44 @@
   });
 
   type DisplayItem = ImageEntry | Separator;
+
+  // Drag & Drop state
+  let draggedId = $state<string | null>(null);
+  let dropTargetId = $state<string | null>(null);
+
+  // Get only image items for reordering
+  let imageItems = $derived(
+    items.filter(
+      (i: DisplayItem): i is ImageEntry =>
+        i.type === "image" || i.type === "sequence" || i.type === "panorama",
+    ),
+  );
+
+  async function handleDrop(targetId: string) {
+    if (!draggedId || draggedId === targetId || !dayId) return;
+
+    const fromIndex = imageItems.findIndex((i: ImageEntry) => i.id === draggedId);
+    const toIndex = imageItems.findIndex((i: ImageEntry) => i.id === targetId);
+
+    if (fromIndex === -1 || toIndex === -1) return;
+
+    // Reorder locally
+    const reordered = reorderArray(imageItems, fromIndex, toIndex) as ImageEntry[];
+    const newOrder = reordered.map((i) => i.id);
+
+    // Save to API
+    const result = await saveImageOrder({ dayId, imageIds: newOrder });
+
+    if (result.success) {
+      toast.success("Pořadí uloženo");
+    } else {
+      toast.error(result.error || "Nepodařilo se uložit pořadí");
+    }
+
+    // Reset drag state
+    draggedId = null;
+    dropTargetId = null;
+  }
 
   // Deletion and Metadata logic remains here to orchestrate dialogs
   let isDeleting = $state(false);
@@ -427,18 +467,69 @@
     <!-- Standard Item Rendering -->
     {@const item = entry.data}
     {#if item.type === "image" || item.type === "sequence" || item.type === "panorama"}
-      <PhotoGridItem
-        {item}
-        scrollspyId={imageLocationMap.get(item.id)}
-        isAnchor={imageAnchorsMap.get(item.id)}
-        curationGroup={curationMap.get(item.id)}
-        onDelete={openDeleteDialog}
-        onArchive={handleArchive}
-        onCopyMetadata={handleCopyMetadata}
-        onPasteMetadata={handlePasteMetadata}
-        onSelect={handleSelect}
-        onOpenCurationDialog={handleOpenCurationDialog}
-      />
+      <!-- Draggable wrapper when reorderMode is active -->
+      {#if editor.reorderMode && dayId}
+        <div
+          draggable="true"
+          class="transition-all duration-150"
+          class:opacity-50={draggedId === item.id}
+          class:ring-2={dropTargetId === item.id}
+          class:ring-blue-500={dropTargetId === item.id}
+          class:cursor-grab={!draggedId}
+          class:cursor-grabbing={draggedId === item.id}
+          ondragstart={(e) => {
+            draggedId = item.id;
+            e.dataTransfer?.setData("text/plain", item.id);
+            if (e.dataTransfer) e.dataTransfer.effectAllowed = "move";
+          }}
+          ondragend={() => {
+            draggedId = null;
+            dropTargetId = null;
+          }}
+          ondragover={(e) => {
+            e.preventDefault();
+            if (e.dataTransfer) e.dataTransfer.dropEffect = "move";
+            if (draggedId && draggedId !== item.id) {
+              dropTargetId = item.id;
+            }
+          }}
+          ondragleave={() => {
+            if (dropTargetId === item.id) dropTargetId = null;
+          }}
+          ondrop={(e) => {
+            e.preventDefault();
+            handleDrop(item.id);
+          }}
+          role="listitem"
+          aria-grabbed={draggedId === item.id}
+        >
+          <PhotoGridItem
+            {item}
+            scrollspyId={imageLocationMap.get(item.id)}
+            isAnchor={imageAnchorsMap.get(item.id)}
+            curationGroup={curationMap.get(item.id)}
+            onDelete={openDeleteDialog}
+            onArchive={handleArchive}
+            onCopyMetadata={handleCopyMetadata}
+            onPasteMetadata={handlePasteMetadata}
+            onSelect={handleSelect}
+            onOpenCurationDialog={handleOpenCurationDialog}
+          />
+        </div>
+      {:else}
+        <PhotoGridItem
+          {item}
+          scrollspyId={imageLocationMap.get(item.id)}
+          isAnchor={imageAnchorsMap.get(item.id)}
+          curationGroup={curationMap.get(item.id)}
+          onDelete={openDeleteDialog}
+          onArchive={handleArchive}
+          onCopyMetadata={handleCopyMetadata}
+          onPasteMetadata={handlePasteMetadata}
+          onSelect={handleSelect}
+          onOpenCurationDialog={handleOpenCurationDialog}
+        />
+      {/if}
     {:else if item.type === "separator" && item.location}
       {@const separatorId = item.id}
       {#if item.story}
@@ -446,14 +537,14 @@
         <div id={separatorId} use:useScrollspy={{ id: separatorId }} class="contents">
           <Dialog.Root>
             <Dialog.Trigger
-              class="aspect-video overflow-hidden flex flex-col items-center justify-center p-4 bg-linear-to-br from-slate-100 to-slate-300 rounded-lg duration-500 outline-background hover:outline-orange-100 outline-4 outline-offset-2 transition-[outline-color] ease-in-out dark:from-slate-700 dark:to-slate-800"
+              class="outline-background flex aspect-video flex-col items-center justify-center overflow-hidden rounded-lg bg-linear-to-br from-slate-100 to-slate-300 p-4 outline-4 outline-offset-2 transition-[outline-color] duration-500 ease-in-out hover:outline-orange-100 dark:from-slate-700 dark:to-slate-800"
               data-testid="photo-grid-separator-trigger-{separatorId}"
             >
               <h3 class="text-lg" data-testid="photo-grid-separator-location">
                 {item.location}
               </h3>
               {#if item.city}
-                <p class="text-sm text-muted-foreground" data-testid="photo-grid-separator-city">
+                <p class="text-muted-foreground text-sm" data-testid="photo-grid-separator-city">
                   {item.city}
                 </p>
               {/if}
@@ -461,7 +552,7 @@
                 class={buttonVariants({
                   size: "sm",
                   variant: "link",
-                  class: "text-sm mt-2",
+                  class: "mt-2 text-sm",
                 })}
                 data-testid="photo-grid-separator-show-story"
               >
@@ -476,7 +567,7 @@
                 {/if}
               </Dialog.Header>
               <div
-                class="prose prose-sm dark:prose-invert max-w-none mt-4 max-h-[80vh] overflow-y-auto pr-4"
+                class="prose prose-sm dark:prose-invert mt-4 max-h-[80vh] max-w-none overflow-y-auto pr-4"
                 data-testid="photo-grid-separator-story-{separatorId}"
               >
                 {@html item.story}
@@ -486,7 +577,7 @@
         </div>
       {:else}
         <div
-          class="aspect-video text-center overflow-hidden flex flex-col items-center justify-center p-4 bg-linear-to-br from-slate-100 to-slate-300 rounded-lg dark:from-slate-700 dark:to-slate-800"
+          class="flex aspect-video flex-col items-center justify-center overflow-hidden rounded-lg bg-linear-to-br from-slate-100 to-slate-300 p-4 text-center dark:from-slate-700 dark:to-slate-800"
           id={separatorId}
           use:useScrollspy={{ id: separatorId }}
           data-testid="photo-grid-separator-simple-{separatorId}"
@@ -495,7 +586,7 @@
             {item.location}
           </h3>
           {#if item.city}
-            <p class="text-sm text-muted-foreground mt-1">{item.city}</p>
+            <p class="text-muted-foreground mt-1 text-sm">{item.city}</p>
           {/if}
         </div>
       {/if}

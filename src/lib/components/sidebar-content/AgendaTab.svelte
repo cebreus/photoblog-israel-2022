@@ -30,8 +30,8 @@
               isScrollspyActive={isDayScrollspyActive(menuDay.id, locationIds)}
             >
               {#snippet child({ props }: { props: HTMLAttributes<HTMLElement> })}
-                <div class="flex items-center w-full" {...props}>
-                  <a href={menuDay.href} class="flex items-center gap-2 grow">
+                <div class="flex w-full items-center" {...props}>
+                  <a href={menuDay.href} class="flex grow items-center gap-2">
                     <Calendar class="size-4" />
                     {menuDay.label}
                   </a>

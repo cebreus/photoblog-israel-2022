@@ -112,7 +112,7 @@
     data-testid="{testId}-merge"
     disabled={mergeBtnDisabled}
   >
-    <Merge class="w-4 h-4 mr-2" />
+    <Merge class="mr-2 h-4 w-4" />
     Sloučit
   </Button>
 
@@ -125,7 +125,7 @@
     data-testid="{testId}-hide"
     disabled={hideBtnDisabled}
   >
-    <EyeOff class="w-4 h-4 mr-2" />
+    <EyeOff class="mr-2 h-4 w-4" />
     Skrýt
   </Button>
 
@@ -158,13 +158,13 @@
         data-testid="{testId}-merge-dropdown"
         disabled={mergeBtnDisabled}
       >
-        <Merge class="size-3.5 mr-1" />
+        <Merge class="mr-1 size-3.5" />
         Sloučit vybrané
       </DropdownMenu.Item>
 
       <DropdownMenu.Sub>
         <DropdownMenu.SubTrigger data-testid="{testId}-merge-sub" disabled={mergeIntoDisabled}>
-          <Merge class="size-3.5 mr-1" /> Sloučit do...
+          <Merge class="mr-1 size-3.5" /> Sloučit do...
         </DropdownMenu.SubTrigger>
         <DropdownMenu.SubContent>
           {#each namedPeople as person (person.id)}
@@ -172,9 +172,9 @@
               onclick={() => onMergeInto?.(person.id)}
               data-testid="{testId}-merge-into-{person.id}"
             >
-              <User class="size-3.5 mr-1" />
+              <User class="mr-1 size-3.5" />
               {person.name}
-              <span class="ml-auto text-xs text-muted-foreground font-mono">
+              <span class="text-muted-foreground ml-auto font-mono text-xs">
                 ({person.faceCount})
               </span>
             </DropdownMenu.Item>
@@ -189,7 +189,7 @@
         data-testid="{testId}-hide-dropdown"
         disabled={hideBtnDisabled}
       >
-        <EyeOff class="size-3.5 mr-1" />
+        <EyeOff class="mr-1 size-3.5" />
         Skrýt vybrané
       </DropdownMenu.Item>
 
@@ -198,7 +198,7 @@
         data-testid="{testId}-restore"
         disabled={restoreBtnDisabled}
       >
-        <Eye class="size-3.5 mr-1" />
+        <Eye class="mr-1 size-3.5" />
         Obnovit skryté {#if hiddenCount > 0}({hiddenCount}){/if}
       </DropdownMenu.Item>
 
@@ -210,7 +210,7 @@
         class="text-destructive focus:text-destructive"
         disabled={junkBtnDisabled}
       >
-        <UserMinus class="size-3.5 mr-1" />
+        <UserMinus class="mr-1 size-3.5" />
         Označit jako ignorované
       </DropdownMenu.Item>
 
@@ -219,7 +219,7 @@
         data-testid="{testId}-restore-junk"
         disabled={restoreJunkDisabled}
       >
-        <Eye class="size-3.5 mr-1" />
+        <Eye class="mr-1 size-3.5" />
         Obnovit ignorované {#if junkCount > 0}({junkCount}){/if}
       </DropdownMenu.Item>
 
@@ -230,7 +230,7 @@
         data-testid="{testId}-type-person"
         disabled={categoryBtnDisabled}
       >
-        <User class="size-3.5 mr-1" />
+        <User class="mr-1 size-3.5" />
         Nastavit: Osoba
       </DropdownMenu.Item>
       <DropdownMenu.Item
@@ -238,7 +238,7 @@
         data-testid="{testId}-type-statue"
         disabled={categoryBtnDisabled}
       >
-        <Landmark class="size-3.5 mr-1" />
+        <Landmark class="mr-1 size-3.5" />
         Nastavit: Socha
       </DropdownMenu.Item>
       <DropdownMenu.Item
@@ -246,7 +246,7 @@
         data-testid="{testId}-type-painting"
         disabled={categoryBtnDisabled}
       >
-        <Palette class="size-3.5 mr-1" />
+        <Palette class="mr-1 size-3.5" />
         Nastavit: Malba
       </DropdownMenu.Item>
     </DropdownMenu.Content>

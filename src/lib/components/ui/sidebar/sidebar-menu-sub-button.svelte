@@ -65,7 +65,7 @@
         variant="outline"
         class={cn(
           "text-sidebar-foreground/50",
-          isScrollspyActive && "text-orange-300 border-orange-300/50",
+          isScrollspyActive && "border-orange-300/50 text-orange-300",
         )}
       >
         {formattedTime}

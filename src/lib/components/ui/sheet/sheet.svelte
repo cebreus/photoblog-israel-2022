@@ -24,7 +24,7 @@
     on:keydown={onOverlayKey}
   ></div>
   <aside
-    class="fixed right-0 top-0 h-full w-80 bg-background text-foreground shadow-xl p-4 overflow-auto"
+    class="bg-background text-foreground fixed top-0 right-0 h-full w-80 overflow-auto p-4 shadow-xl"
   >
     <slot />
   </aside>

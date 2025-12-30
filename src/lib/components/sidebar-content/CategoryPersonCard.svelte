@@ -30,11 +30,11 @@
 </script>
 
 <div
-  class="flex flex-col rounded-md border bg-card text-card-foreground shadow-sm overflow-hidden"
+  class="bg-card text-card-foreground flex flex-col overflow-hidden rounded-md border shadow-sm"
   data-testid={testId}
 >
   <div
-    class="aspect-square relative group overflow-hidden bg-slate-100 dark:bg-slate-900 cursor-pointer"
+    class="group relative aspect-square cursor-pointer overflow-hidden bg-slate-100 dark:bg-slate-900"
     role="button"
     tabindex="0"
     onclick={() => onToggle(person.id)}
@@ -48,7 +48,7 @@
   >
     {#if person.hidden}
       <span
-        class="absolute top-1 left-1 z-10 rounded bg-amber-500 text-[10px] px-1 py-0.5 text-white shadow"
+        class="absolute top-1 left-1 z-10 rounded bg-amber-500 px-1 py-0.5 text-[10px] text-white shadow"
       >
         Skrytá
       </span>
@@ -58,18 +58,18 @@
       <img
         src={getThumbnailSrc(person)}
         alt={person.name}
-        class="w-full h-full object-cover transition-all duration-300"
+        class="h-full w-full object-cover transition-all duration-300"
       />
     {:else}
-      <div class="flex items-center justify-center w-full h-full">
-        <User class="w-4 h-4 text-slate-400" />
+      <div class="flex h-full w-full items-center justify-center">
+        <User class="h-4 w-4 text-slate-400" />
       </div>
     {/if}
 
     <div class="absolute top-1 right-1 z-10">
       <div
         class={cn(
-          "h-5 w-5 rounded border border-white flex items-center justify-center transition-colors shadow-sm",
+          "flex h-5 w-5 items-center justify-center rounded border border-white shadow-sm transition-colors",
           selected ? "bg-primary border-primary" : "bg-black/40 group-hover:bg-black/60",
         )}
         data-testid={mergeButtonTestId ?? `${testId}-merge-button`}
@@ -94,17 +94,17 @@
     </div>
   </div>
 
-  <div class="p-1 flex flex-col gap-1 bg-muted/20">
+  <div class="bg-muted/20 flex flex-col gap-1 p-1">
     <Button
       variant="ghost"
-      class="text-[10px] text-muted-foreground w-full truncate text-center font-medium px-1 hover:underline cursor-pointer bg-transparent border-none h-auto p-0"
+      class="text-muted-foreground h-auto w-full cursor-pointer truncate border-none bg-transparent p-0 px-1 text-center text-[10px] font-medium hover:underline"
       title={person.name}
       onclick={() => onOpenDetail?.(person)}
     >
       {person.name}
     </Button>
     {#if showCount}
-      <div class="text-[10px] text-muted-foreground text-center">{person.faceCount} fotek</div>
+      <div class="text-muted-foreground text-center text-[10px]">{person.faceCount} fotek</div>
     {/if}
     {@render footer?.(person)}
   </div>

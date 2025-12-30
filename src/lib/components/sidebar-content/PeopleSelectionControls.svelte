@@ -12,7 +12,7 @@
   export let onPreset: (mode: SelectionPreset) => void = () => {};
 </script>
 
-<ButtonGroup.Root class="w-full mb-2">
+<ButtonGroup.Root class="mb-2 w-full">
   <Button
     variant={selectionMode === "all" ? "default" : "outline"}
     size="sm"
@@ -20,7 +20,7 @@
     onclick={() => onPreset("all")}
     data-testid="people-tab-select-all"
   >
-    <Users class="size-3.5 mr-1" /> Vše
+    <Users class="mr-1 size-3.5" /> Vše
   </Button>
   <Button
     variant={selectionMode === "none" ? "default" : "outline"}
@@ -29,7 +29,7 @@
     onclick={() => onPreset("none")}
     data-testid="people-tab-select-none"
   >
-    <Ban class="size-3.5 mr-1" /> Žádné
+    <Ban class="mr-1 size-3.5" /> Žádné
   </Button>
   <Button
     variant="outline"
@@ -38,11 +38,11 @@
     onclick={() => onPreset("reset")}
     data-testid="people-tab-reset"
   >
-    <RotateCcw class="size-3.5 mr-1" /> Reset
+    <RotateCcw class="mr-1 size-3.5" /> Reset
   </Button>
 </ButtonGroup.Root>
 
-<p class="text-xs text-muted-foreground text-center">
+<p class="text-muted-foreground text-center text-xs">
   <strong>Vše:</strong> Jen fotky s lidmi. <strong>Žádné:</strong> Jen fotky bez lidí.
   <br /><strong>Reset:</strong> Všechny fotky.
 </p>

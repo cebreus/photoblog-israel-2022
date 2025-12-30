@@ -5,7 +5,7 @@
 </script>
 
 <footer
-  class="border-t container mx-auto px-4 py-6 text-center text-sm text-muted-foreground block"
+  class="text-muted-foreground container mx-auto block border-t px-4 py-6 text-center text-sm"
   data-testid="footer"
 >
   {@html siteManifest?.copyright ?? "Cebreus © 2022"}
