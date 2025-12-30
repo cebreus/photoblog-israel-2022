@@ -15,7 +15,7 @@ import {
 } from "@clack/prompts";
 import pc from "picocolors";
 import { type Cache, isImageEntry } from "../src/lib/types/manifest";
-import { config } from "./config";
+import { config } from "./build.config";
 import { createLogger } from "./lib/core/cli-logger";
 import { findOrphanAssets, findOrphanFaceCrops, getOutputFolders } from "./lib/gallery/cleanup";
 import { resolveGalleryDirectory } from "./lib/gallery/resolver";
