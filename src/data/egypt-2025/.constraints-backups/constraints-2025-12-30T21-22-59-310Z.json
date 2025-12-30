@@ -171,6 +171,22 @@
     {
       "imageId": "2025-11-25-105655-cebreus",
       "personId": "person-6a49d7d2"
+    },
+    {
+      "imageId": "2025-11-25-115354-dasa",
+      "personId": "person-65fd0b93"
+    },
+    {
+      "imageId": "2025-11-25-174738-292de74a-cd06-497e-a02a-784f82370d6e",
+      "personId": "person-65fd0b93"
+    },
+    {
+      "imageId": "2025-11-26-081434-cebreus",
+      "personId": "person-65fd0b93"
+    },
+    {
+      "imageId": "2025-11-26-161403-dasa",
+      "personId": "person-65fd0b93"
     }
   ],
   "connects": [
@@ -345,6 +361,14 @@
     {
       "imageId": "2025-11-25-105655-cebreus",
       "personId": "person-c1943046--odpojeno-od-person-28"
+    },
+    {
+      "imageId": "2025-11-25-115354-dasa",
+      "personId": "person-4bdf7087"
+    },
+    {
+      "imageId": "2025-11-26-161403-dasa",
+      "personId": "person-5e38b07f"
     }
   ],
   "invalidDetections": [

@@ -110,8 +110,9 @@
       {
         "id": "loc-rimsky-amfiteatr",
         "label": "Římský amfiteátr",
-        "href": "#loc-rimsky-amfiteatr",
-        "isDimmed": true
+        "href": "#2025-11-25-102939-cebreus",
+        "isDimmed": true,
+        "firstPhotoExifDate": "2025-11-25T09:29:39.304Z"
       },
       {
         "id": "loc-alexandrijska-opera",
@@ -132,7 +133,7 @@
         "label": "Pevnost Qaitbay",
         "href": "#loc-pevnost-qaitbay",
         "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-25T12:11:42.981Z"
+        "firstPhotoExifDate": "2025-11-25T11:48:10.190Z"
       },
       {
         "id": "loc-kralovska-vlakova-garaz",
