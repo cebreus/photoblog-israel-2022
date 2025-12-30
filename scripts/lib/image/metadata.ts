@@ -1,7 +1,7 @@
 import path from "node:path";
 import { exiftool } from "exiftool-vendored";
 import { METADATA_STANDARDS } from "../../../shared/utils/metadata-standards";
-import { toSlug } from "../../../shared/utils/strings";
+import { isCollage, toSlug } from "../../../shared/utils/strings";
 import type { ImageEntry, ExifData as ManifestExifData } from "../../../src/lib/types/manifest";
 import { classifyMediaType, parseSequenceSuffix } from "./sequence-detector";
 import { getAltText, getAspectRatioName, getKeywords, normalizeText } from "./utils";
@@ -206,6 +206,46 @@ function getIsoDate(exif: Partial<RawExifData>): string | undefined {
   return undefined;
 }
 
+/**
+ * Detect special media type based on filename and dimensions.
+ */
+function detectSpecialMedia(
+  baseName: string,
+  aspectRatioName: string | undefined,
+): ImageEntry["specialMedia"] {
+  const isCollageMedia = isCollage(baseName);
+
+  if (isCollageMedia) {
+    // Collages are flat images
+    return undefined;
+  }
+
+  const seqInfo = parseSequenceSuffix(baseName);
+  const isPanoSuffix = seqInfo?.type === "pano";
+  const isSphereSuffix = baseName.includes("--sphere");
+
+  if (isSphereSuffix) {
+    return {
+      isPanorama: true,
+      is360: true,
+      projection: "equirectangular",
+      hfov: 360,
+      vfov: 180,
+    };
+  }
+
+  if (isPanoSuffix || aspectRatioName === "panorama") {
+    return {
+      isPanorama: true,
+      is360: false,
+      projection: "cylindrical",
+      // Default to partial panorama unless we have more info
+    };
+  }
+
+  return undefined;
+}
+
 export function buildImageEntry(
   baseName: string,
   absPath: string,
@@ -219,9 +259,16 @@ export function buildImageEntry(
   const caption = getCanonicalCaption(exif);
   const author = getCanonicalAuthor(exif);
   const date = getIsoDate(exif);
+  const id = toSlug(baseName);
+
+  const aspectRatio = isCollage(baseName)
+    ? "collage"
+    : originalMeta.width && originalMeta.height
+      ? getAspectRatioName(originalMeta.width, originalMeta.height)
+      : undefined;
 
   return {
-    id: toSlug(baseName),
+    id,
     type: classifyMediaType(baseName),
     src: path.basename(absPath),
     alt: getAltText(exif, caption, title),
@@ -230,12 +277,10 @@ export function buildImageEntry(
     width: originalMeta.width,
     height: originalMeta.height,
     sizeMB,
-    aspectRatio:
-      originalMeta.width && originalMeta.height
-        ? getAspectRatioName(originalMeta.width, originalMeta.height)
-        : undefined,
+    aspectRatio: aspectRatio as ImageEntry["aspectRatio"], // Type cast needed due to "collage"
     placeholder: undefined,
     placeholderColor,
+    specialMedia: detectSpecialMedia(baseName, aspectRatio),
     analysis: {
       aestheticScore: analysis?.aestheticScore,
       sharpness: analysis?.sharpness || 0,

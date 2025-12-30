@@ -4,7 +4,6 @@ import path from "node:path";
 import xxhash from "xxhash-wasm";
 import { ImageFormat } from "$shared/types/images";
 import type { ImageEntry, ImageSource, QualityTypes } from "$shared/types/manifest";
-import { isPanorama } from "$shared/utils/sequences";
 import { config } from "../../build.config";
 import { aiService, EMBEDDING_DIM } from "../ai/models";
 import { createLogger } from "../core/cli-logger";
@@ -379,7 +378,8 @@ async function generateAllOutputs(
   const outputDefinitions = buildOutputDefinitions();
 
   for (const output of outputDefinitions) {
-    const isPano = isPanorama(imageEntry.id);
+    // Panorama detection: check specialMedia metadata
+    const isPano = imageEntry.specialMedia?.isPanorama ?? false;
 
     // Optimization: only generate pano_detail for actual panoramas
     if (output.key === "pano_detail" && !isPano) {

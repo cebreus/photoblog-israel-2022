@@ -33,36 +33,107 @@ export function classifyMediaType(
   return info.index === info.total ? "sequence" : "sequence-member";
 }
 
+/** Time window for grouping sequences (10 minutes in milliseconds) */
+const SEQUENCE_TIME_WINDOW_MS = 10 * 60 * 1000;
+
 /**
- * Groups photos by baseId and returns complete SequenceInfo for each.
+ * Extract timestamp from image ID (format: YYYY-MM-DD-HHMMSS-author--suffix)
+ */
+function extractTimestamp(imageId: string): Date | null {
+  // Match: 2025-11-25-083807 (YYYY-MM-DD-HHMMSS)
+  const match = imageId.match(/^(\d{4})-(\d{2})-(\d{2})-(\d{2})(\d{2})(\d{2})/);
+  if (!match) return null;
+  const [, year, month, day, hour, min, sec] = match;
+  return new Date(
+    Number(year),
+    Number(month) - 1,
+    Number(day),
+    Number(hour),
+    Number(min),
+    Number(sec),
+  );
+}
+
+/**
+ * Extract author from image ID (format: YYYY-MM-DD-HHMMSS-author--suffix)
+ */
+function extractAuthor(imageId: string): string {
+  const match = imageId.match(/^\d{4}-\d{2}-\d{2}-\d{6}-([^-]+)/);
+  return match?.[1] ?? "";
+}
+
+/**
+ * Groups photos by sequence type + author + time proximity and returns complete SequenceInfo for each.
+ * Sequences are grouped within a 10-minute time window.
  */
 export function detectSequences(
   images: ImageEntry[],
 ): Map<string, SequenceInfo & { members?: string[] }> {
   const sequences = new Map<string, SequenceInfo & { members?: string[] }>();
-  const membersByBaseId = new Map<string, string[]>();
 
-  // First pass: collect members
+  // Collect all sequence images with their parsed info and timestamp
+  const sequenceImages: Array<{
+    id: string;
+    info: SequenceInfo;
+    timestamp: Date;
+    author: string;
+  }> = [];
+
   for (const image of images) {
     const info = parseSequenceSuffix(image.id);
     if (info) {
-      if (!membersByBaseId.has(info.baseId)) {
-        membersByBaseId.set(info.baseId, []);
+      const timestamp = extractTimestamp(image.id);
+      if (timestamp) {
+        sequenceImages.push({
+          id: image.id,
+          info,
+          timestamp,
+          author: extractAuthor(image.id),
+        });
       }
-      membersByBaseId.get(info.baseId)?.push(image.id);
     }
   }
 
-  // Second pass: build SequenceInfo
-  for (const [_baseId, members] of membersByBaseId) {
-    for (const imageId of members) {
-      const info = parseSequenceSuffix(imageId);
-      if (info) {
-        sequences.set(imageId, {
-          ...info,
-          members: [...members].sort(),
-        });
-      }
+  // Sort by type, author, then timestamp
+  sequenceImages.sort((a, b) => {
+    if (a.info.type !== b.info.type) return a.info.type.localeCompare(b.info.type);
+    if (a.author !== b.author) return a.author.localeCompare(b.author);
+    return a.timestamp.getTime() - b.timestamp.getTime();
+  });
+
+  // Group by type + author + time proximity
+  const groups: Array<typeof sequenceImages> = [];
+  let currentGroup: typeof sequenceImages = [];
+
+  for (const img of sequenceImages) {
+    if (currentGroup.length === 0) {
+      currentGroup.push(img);
+      continue;
+    }
+
+    const lastInGroup = currentGroup[currentGroup.length - 1];
+    const sameType = img.info.type === lastInGroup.info.type;
+    const sameAuthor = img.author === lastInGroup.author;
+    const withinWindow =
+      Math.abs(img.timestamp.getTime() - lastInGroup.timestamp.getTime()) < SEQUENCE_TIME_WINDOW_MS;
+
+    if (sameType && sameAuthor && withinWindow) {
+      currentGroup.push(img);
+    } else {
+      if (currentGroup.length > 0) groups.push(currentGroup);
+      currentGroup = [img];
+    }
+  }
+  if (currentGroup.length > 0) groups.push(currentGroup);
+
+  // Build SequenceInfo for each image in each group
+  for (const group of groups) {
+    const memberIds = group.map((g) => g.id).sort();
+    for (const img of group) {
+      sequences.set(img.id, {
+        ...img.info,
+        members: memberIds,
+      });
     }
   }
 
