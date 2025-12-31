@@ -3,10 +3,13 @@
   import ChevronDown from "@lucide/svelte/icons/chevron-down";
   import EyeOff from "@lucide/svelte/icons/eye-off";
   import Image from "@lucide/svelte/icons/image";
+  import Landmark from "@lucide/svelte/icons/landmark";
   import MoreHorizontal from "@lucide/svelte/icons/more-horizontal";
+  import Palette from "@lucide/svelte/icons/palette";
   import Search from "@lucide/svelte/icons/search";
   import Trash2 from "@lucide/svelte/icons/trash-2";
   import User from "@lucide/svelte/icons/user";
+  import UserMinus from "@lucide/svelte/icons/user-minus";
   import { toast } from "svelte-sonner";
 
   import { Button, buttonVariants } from "$lib/components/ui/button";
@@ -75,6 +78,7 @@
     if (!open) return [];
     return people.peopleWithStats
       .filter((p) => p.id !== person.id && !p.hidden)
+      .filter((p) => !p.name.toLowerCase().includes("odpojeno od")) // Exclude "Odpojeno od..." people
       .filter((p) => p.name.toLowerCase().includes(personSearchQuery.toLowerCase()))
       .sort((a, b) => b.faceCount - a.faceCount)
       .slice(0, 20);
@@ -122,12 +126,17 @@
       });
 
       if (res.ok) {
-        // Trigger update in parent
-        onUpdate?.();
+        // Wait for data refresh to complete
+        await onUpdate?.();
+
+        // Clear selection to show fresh state
+        selectedIds = new Set();
+
         toast.success(DETECTION_MESSAGES.unmatchSuccess(imageIds.length, shouldHide), {
           duration: 5000,
         });
 
+        // Close dialog only if all crops were removed
         if (isRemovingAll) {
           open = false;
         }
@@ -214,7 +223,7 @@
     const ids = Array.from(selectedIds);
     if (ids.length === 0) return;
 
-    // Check for redundancy
+    // Detect photos where target already exists (both people on same photo)
     const existing = new Set<string>();
     for (const day of people.photoDays) {
       for (const item of day.items) {
@@ -224,9 +233,12 @@
       }
     }
 
+    const overlapping = ids.filter((id) => existing.has(id));
     const newAssignments = ids.filter((id) => !existing.has(id));
-    if (newAssignments.length === 0) {
-      toast.info(`${targetPerson.name} už má všechny vybrané fotky.`);
+
+    // If all photos already have target person, just unmatch source person from them
+    if (newAssignments.length === 0 && overlapping.length > 0) {
+      await performUnmatch(overlapping, false);
       return;
     }
 
@@ -245,11 +257,16 @@
       });
 
       if (res.ok) {
-        onUpdate?.();
+        // Wait for data refresh before clearing UI state
+        await onUpdate?.();
+
+        // Clear selection to show fresh state
         selectedIds = new Set();
         showReassignDialog = false;
+
         toast.success(DETECTION_MESSAGES.assignedToPerson(targetPerson.name));
 
+        // Close dialog only if all crops were removed
         if (isRemovingAll) {
           open = false;
         }
@@ -603,32 +620,57 @@
             </DropdownMenu.Trigger>
             <DropdownMenu.Content align="end" class="w-56">
               <DropdownMenu.Item
-                onclick={ignoreSelectedDetections}
-                data-testid="person-detail-bulk-junk"
-                class="text-destructive focus:text-destructive"
+                onclick={() => unmatchSelected(false)}
+                data-testid="person-detail-unmatch"
+                disabled={isWorking || selectedIds.size === 0}
               >
+                <Trash2 class="mr-1 size-3.5" />
+                Odepnout vybrané
+              </DropdownMenu.Item>
+
+              <DropdownMenu.Item
+                onclick={() => unmatchSelected(true)}
+                data-testid="person-detail-hide"
+                disabled={isWorking || selectedIds.size === 0}
+              >
+                <EyeOff class="mr-1 size-3.5" />
+                Skrýt vybrané
+              </DropdownMenu.Item>
+
+              <DropdownMenu.Separator />
+
+              <DropdownMenu.Item
+                onclick={ignoreSelectedDetections}
+                data-testid="person-detail-bulk-invalid-detections"
+                class="text-destructive focus:text-destructive"
+                disabled={isWorking || selectedIds.size === 0}
+              >
+                <UserMinus class="mr-1 size-3.5" />
                 Ignorovat detekce
               </DropdownMenu.Item>
 
               <DropdownMenu.Separator />
-              <DropdownMenu.Label>Typ osoby</DropdownMenu.Label>
+              <DropdownMenu.Label>Kategorie osob</DropdownMenu.Label>
               <DropdownMenu.Item
                 onclick={() => updateCategory("person")}
                 data-testid="person-detail-type-person"
               >
-                Osoba
+                <User class="mr-1 size-3.5" />
+                Nastavit: Osoba
               </DropdownMenu.Item>
               <DropdownMenu.Item
                 onclick={() => updateCategory("statue")}
                 data-testid="person-detail-type-statue"
               >
-                Socha
+                <Landmark class="mr-1 size-3.5" />
+                Nastavit: Socha
               </DropdownMenu.Item>
               <DropdownMenu.Item
                 onclick={() => updateCategory("painting")}
                 data-testid="person-detail-type-painting"
               >
-                Malba
+                <Palette class="mr-1 size-3.5" />
+                Nastavit: Malba
               </DropdownMenu.Item>
             </DropdownMenu.Content>
           </DropdownMenu.Root>

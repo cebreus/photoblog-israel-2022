@@ -28,7 +28,33 @@ function createNewPerson(
   imgId: string,
   shouldHide: boolean,
 ): Person {
-  const name = `Odpojeno od ${sourcePerson.name}`;
+  // Prevent nested "Odpojeno od..." names
+  let baseName: string;
+
+  if (sourcePerson.name.startsWith("Odpojeno od ")) {
+    // Extract the original name (e.g., "Odpojeno od Dáša" -> "Dáša")
+    baseName = sourcePerson.name.replace(/^Odpojeno od /, "");
+  } else {
+    baseName = sourcePerson.name;
+  }
+
+  // Check if "Odpojeno od {baseName}" already exists
+  const existingNames = peopleManifest.people
+    .filter((p) => p.name.startsWith(`Odpojeno od ${baseName}`))
+    .map((p) => p.name);
+
+  let name: string;
+  if (existingNames.length === 0) {
+    name = `Odpojeno od ${baseName}`;
+  } else {
+    // Add counter suffix
+    let counter = 2;
+    do {
+      name = `Odpojeno od ${baseName} ${counter}`;
+      counter++;
+    } while (existingNames.includes(name));
+  }
+
   const slug = toSlug(name);
   const uuid = crypto.randomUUID().slice(0, 8);
   const newPersonId = `person-${uuid}--${slug}`;

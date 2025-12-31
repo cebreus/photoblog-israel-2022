@@ -907,6 +907,21 @@
             Chybné detekce ({invalidDetections.length})
           </Accordion.Trigger>
           <Accordion.Content class="mb-2 px-4 pt-2 pb-1">
+            <div class="mb-2 flex items-center justify-between">
+              <p class="text-muted-foreground text-xs">
+                Souřadnice, které AI přeskočí při dalším clusteringu
+              </p>
+              <Button
+                variant="outline"
+                size="sm"
+                class="h-7 text-xs"
+                onclick={clearAllInvalidDetections}
+                disabled={isSaving}
+                data-testid="people-tab-clear-invalid-detections"
+              >
+                Vyčistit vše
+              </Button>
+            </div>
             <div class="text-muted-foreground flex max-h-40 flex-col gap-1 overflow-y-auto text-xs">
               {#each invalidDetections as det}
                 <div class="border-border/50 flex items-center gap-2 border-b py-1 last:border-0">
