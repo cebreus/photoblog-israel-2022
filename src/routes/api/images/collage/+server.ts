@@ -235,8 +235,27 @@ export async function POST({ request }: RequestEvent): Promise<Response> {
 
       // B. Update manifests (hide originals, add collage).
       const existingManifest = (await loadImagesManifest(dataPath)) || { photoDays: [] };
+
+      // INHERIT PEOPLE: Collect people from source images before they are hidden
+      const sourceBasenames = imageIds.map((id) => path.basename(id, path.extname(id)));
+      const inheritedPeople = new Set<string>();
+
+      for (const day of existingManifest.photoDays) {
+        for (const item of day.items) {
+          if (item.type === "image" && sourceBasenames.includes(item.id) && item.people) {
+            for (const p of item.people) {
+              inheritedPeople.add(p);
+            }
+          }
+        }
+      }
+
+      // Assign inherited people to the new collage image
+      processResult.image.people = Array.from(inheritedPeople);
+      log.info(`[Collage] Inherited people: ${processResult.image.people.join(", ")}`);
+
       const storyData = await loadStoryData(contentDirRoot);
-      const deletedBasenames = imageIds.map((id) => path.basename(id, path.extname(id)));
+      const deletedBasenames = sourceBasenames;
       const updatedManifest = updateManifest(
         [processResult],
         deletedBasenames,
