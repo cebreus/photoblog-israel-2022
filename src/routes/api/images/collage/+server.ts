@@ -25,10 +25,12 @@ import {
   loadAnalysisManifest,
   loadFacesManifest,
   loadImagesManifest,
+  loadSortOrderManifest,
   saveAnalysisManifest,
   saveFacesManifest,
   saveImagesManifest,
   saveMenuManifest,
+  saveSortOrderManifest,
 } from "$scripts/lib/manifests/repository";
 
 // DEV-only guard (reject in production)
@@ -190,6 +192,45 @@ export async function POST({ request }: RequestEvent): Promise<Response> {
 
       if (!processResult) {
         throw new Error("Failed to process collage image variants");
+      }
+
+      // Handle Sort Order Persistence:
+      // If the source images had a custom sort order, the collage should inherit the position
+      // of the *first* (earliest sorted) source image.
+      const sortOrderManifest = (await loadSortOrderManifest(dataPath)) || {};
+      const collageDate = processResult.image.exif?.date?.substring(0, 10);
+      const dayId = `day-${collageDate}`;
+
+      if (collageDate && sortOrderManifest[dayId]) {
+        const currentSortList = sortOrderManifest[dayId];
+        const firstSourceId = imageIds.find((id) => currentSortList.includes(id));
+
+        if (firstSourceId) {
+          const insertAt = currentSortList.indexOf(firstSourceId);
+          // Remove all sources and insert collage ID at the position of the first source
+          const cleaned = currentSortList
+            .filter((id) => !imageIds.includes(id))
+            .toSpliced(insertAt, 0, processResult.image.id);
+
+          // Save persistence
+          sortOrderManifest[dayId] = cleaned;
+          await saveSortOrderManifest(dataPath, sortOrderManifest);
+
+          // Assign sortOrder to the new image so updateManifest respects it immediately
+          // Note: We use the index in the *cleaned* list + 1 (1-based index)
+          // Actually, since we essentially replaced item at 'insertAt' (ignoring shifts from deletions before it for a sec),
+          // using the new index in 'cleaned' is the most robust way.
+          // We just spliced it in at 'insertAt'. Wait, if we filtered items *before* insertAt, the index changes.
+          // Correct logic:
+          // 1. Remove sources.
+          // 2. Determine where to put it. Ideally where the 'firstSource' was relative to remaining items.
+          //    If firstSource was index 5. And index 3 was also a source.
+          //    New list: 0,1,2, (3 gone), 4, (5 gone - replaced here).
+          //    So we want it after 4.
+          //    Simpler approach for stability: just use the new list's index.
+          const newIndex = cleaned.indexOf(processResult.image.id);
+          processResult.image.sortOrder = newIndex + 1;
+        }
       }
 
       // B. Update manifests (hide originals, add collage).
