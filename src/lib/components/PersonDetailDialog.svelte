@@ -71,6 +71,7 @@
   let selectedIds = $state<Set<string>>(new Set());
   let showReassignDialog = $state(false);
   let showAvatarDialog = $state(false);
+  let showIgnoreConfirm = $state(false);
   let availableAvatars = $state<string[]>([]);
   let personSearchQuery = $state("");
 
@@ -282,17 +283,14 @@
     }
   }
 
-  async function ignoreSelectedDetections() {
+  function ignoreSelectedDetections() {
     const ids = Array.from(selectedIds);
     if (ids.length === 0) return;
+    showIgnoreConfirm = true;
+  }
 
-    if (
-      !confirm(
-        `Opravdu chcete ${ids.length} vybraných detekcí ignorovat? Budou navždy odstraněny ze systému.`,
-      )
-    ) {
-      return;
-    }
+  async function performIgnoreDetections() {
+    showIgnoreConfirm = false;
 
     if (isWorking) return;
     isWorking = true;
@@ -646,7 +644,7 @@
                 disabled={isWorking || selectedIds.size === 0}
               >
                 <UserMinus class="mr-1 size-3.5" />
-                Ignorovat detekce
+                Není tvář, ignorovat
               </DropdownMenu.Item>
 
               <DropdownMenu.Separator />
@@ -782,6 +780,23 @@
 
     <Dialog.Footer>
       <Button variant="outline" onclick={() => (showAvatarDialog = false)}>Zrušit</Button>
+    </Dialog.Footer>
+  </Dialog.Content>
+</Dialog.Root>
+
+<!-- Confirmation Dialog for Ignoring Detections -->
+<Dialog.Root bind:open={showIgnoreConfirm}>
+  <Dialog.Content>
+    <Dialog.Header>
+      <Dialog.Title>Opravdu zneplatnit detekce?</Dialog.Title>
+      <Dialog.Description>
+        Tato akce trvale označí vybrané detekce ({selectedIds.size}) jako "neplatné" (není tvář).
+        Tváře budou z fotek odstraněny a systém je už nebude znovu detekovat.
+      </Dialog.Description>
+    </Dialog.Header>
+    <Dialog.Footer>
+      <Button variant="outline" onclick={() => (showIgnoreConfirm = false)}>Zrušit</Button>
+      <Button variant="destructive" onclick={performIgnoreDetections}>Ano, zneplatnit</Button>
     </Dialog.Footer>
   </Dialog.Content>
 </Dialog.Root>

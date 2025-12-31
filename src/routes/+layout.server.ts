@@ -61,6 +61,11 @@ function gatherQualityStats(photoDays: PhotoDay[]): Map<string, number> {
 }
 
 export const load = async () => {
+  if (import.meta.env.DEV) {
+    const { reloadManifests } = await import("$lib/utils/images");
+    await reloadManifests();
+  }
+
   const photoDays = getPhotoDays();
   const menuItems: MenuManifest = getMenuItems();
   const authors: Author[] = gatherAuthors(photoDays);

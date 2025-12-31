@@ -9,8 +9,10 @@ export class PeopleState {
 
   peopleWithStats = $derived(enrichPeopleWithStats(this.people, this.photoDays));
 
-  // Filter people by ignored flag from manifest AND hide empty profiles
-  visiblePeople = $derived(getVisiblePeople(this.peopleWithStats));
+  // Filter people by ignored flag from manifest, hide empty profiles, and show ONLY persons (no statues/paintings)
+  visiblePeople = $derived(
+    getVisiblePeople(this.peopleWithStats.filter((p) => !p.category || p.category === "person")),
+  );
 
   // Hidden list shows only"person" category (statue/painting stay in their accordions even if ignored)
   hiddenPeople = $derived(

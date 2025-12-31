@@ -890,7 +890,7 @@
       {#if people.junkPeople.length > 0 && dev}
         <Accordion.Item value="junk" data-testid="people-tab-junk-section">
           <Accordion.Trigger class="text-destructive px-4 py-3 text-sm font-medium">
-            Junk ({people.junkPeople.length})
+            Odpad ({people.junkPeople.length})
           </Accordion.Trigger>
           <Accordion.Content class="mb-2 grid grid-cols-3 gap-2 px-4 pt-2 pb-1">
             {@render personGrid(people.junkPeople, "junk")}
@@ -911,16 +911,6 @@
               <p class="text-muted-foreground text-xs">
                 Souřadnice, které AI přeskočí při dalším clusteringu
               </p>
-              <Button
-                variant="outline"
-                size="sm"
-                class="h-7 text-xs"
-                onclick={clearAllInvalidDetections}
-                disabled={isSaving}
-                data-testid="people-tab-clear-invalid-detections"
-              >
-                Vyčistit vše
-              </Button>
             </div>
             <div class="text-muted-foreground flex max-h-40 flex-col gap-1 overflow-y-auto text-xs">
               {#each invalidDetections as det}
@@ -997,7 +987,12 @@
       person={detailPerson}
       {urlPrefix}
       onUpdate={async () => {
+        const currentId = detailPerson?.id;
         await people.refresh();
+        if (currentId) {
+          // Re-fetch the person object to get updated properties (check visible, hidden, and category lists)
+          detailPerson = people.peopleWithStats.find((p: Person) => p.id === currentId) || null;
+        }
       }}
     />
   {/if}

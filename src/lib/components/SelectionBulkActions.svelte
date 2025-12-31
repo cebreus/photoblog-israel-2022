@@ -211,7 +211,7 @@
         disabled={junkBtnDisabled}
       >
         <UserMinus class="mr-1 size-3.5" />
-        Označit jako ignorované
+        Přesunout do odpadu
       </DropdownMenu.Item>
 
       <DropdownMenu.Item
@@ -220,7 +220,7 @@
         disabled={restoreJunkDisabled}
       >
         <Eye class="mr-1 size-3.5" />
-        Obnovit ignorované {#if junkCount > 0}({junkCount}){/if}
+        Obnovit z odpadu {#if junkCount > 0}({junkCount}){/if}
       </DropdownMenu.Item>
 
       <DropdownMenu.Separator />

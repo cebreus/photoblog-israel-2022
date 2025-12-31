@@ -46,7 +46,7 @@ export const PERSON_MESSAGES = {
   PERSON_HIDDEN: "Osoba byla skryta.",
   PERSON_RESTORED: "Osoba byla obnovena.",
   PERSON_RENAMED: "Osoba byla úspěšně přejmenována.",
-  PERSON_IGNORED: "Osoba je nyní ignorována.",
+  PERSON_IGNORED: "Osoba byla přesunuta do odpadu.",
 
   // Bulk operations
   bulkHidden: (count: number) =>
@@ -57,11 +57,11 @@ export const PERSON_MESSAGES = {
     count === 1
       ? `Obnovena ${count} ${PLURALS.osoba(count)}.`
       : `Obnoveno ${count} ${PLURALS.osoba(count)}.`,
-  bulkIgnored: "Vybrané profily jsou nyní ignorovány.",
+  bulkIgnored: "Vybrané profily byly přesunuty do odpadu.",
   bulkRestoredFromJunk: (count: number) =>
     count === 1
-      ? `Obnoven ${count} ${PLURALS.profil(count)} z junk.`
-      : `Obnoveno ${count} ${PLURALS.profil(count)} z junk.`,
+      ? `Obnoven ${count} ${PLURALS.profil(count)} z odpadu.`
+      : `Obnoveno ${count} ${PLURALS.profil(count)} z odpadu.`,
   bulkCategoryChanged: (count: number) => `Kategorie změněna pro ${count} ${PLURALS.osoba(count)}.`,
 
   // Merge operations
@@ -144,8 +144,8 @@ export const IMAGE_MESSAGES = {
 // ============================================================================
 
 export const DETECTION_MESSAGES = {
-  DETECTION_INVALIDATED: "Detekce byla označena jako neplatná a bude v budoucnu ignorována.",
-  BULK_DETECTION_INVALIDATED: "Vybrané detekce byly označeny jako neplatné a budou ignorovány.",
+  DETECTION_INVALIDATED: "Detekce byla zneplatněna (označena jako 'není tvář').",
+  BULK_DETECTION_INVALIDATED: "Vybrané detekce byly zneplatněny (označeny jako 'není tvář').",
   DETECTION_ERROR: "Nepodařilo se najít souřadnice detekce.",
   BULK_DETECTION_FAILED: "Chyba při hromadném označování detekcí.",
   SAVE_SETTINGS_FAILED: "Nepodařilo se uložit nastavení.",

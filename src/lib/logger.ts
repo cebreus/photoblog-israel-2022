@@ -22,6 +22,23 @@ function getLogLevel(): string {
 
 const logger = pino({
   level: getLogLevel(),
+  // Add FE/BE distinction to all logs
+  base: {
+    env: browser ? "FE" : "BE",
+  },
+  // Use pino-pretty for server-side dev logging
+  transport:
+    !browser && dev
+      ? {
+          target: "pino-pretty",
+          options: {
+            colorize: true,
+            ignore: "pid,hostname",
+            translateTime: "HH:MM:ss",
+            messageFormat: "{env} > {label} \t {msg}", // Custom format: BE > app   Message
+          },
+        }
+      : undefined,
   browser: {
     asObject: true,
     transmit: {
