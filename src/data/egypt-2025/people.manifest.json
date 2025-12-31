@@ -6488,7 +6488,7 @@
     },
     {
       "id": "person-9b0bc40f",
-      "name": "Person 6",
+      "name": "Jaruška",
       "faceDescriptor": [
         -0.13891449570655823,
         0.07371648401021957,
@@ -6620,7 +6620,7 @@
         0.02474283054471016
       ],
       "faceCount": 30,
-      "thumbnail": "faces/person-9b0bc40f/2025-11-28-133626-dasa.jpg",
+      "thumbnail": "assets/avatars/avatar-jaruska.png",
       "hidden": false,
       "createdAt": "2025-12-31T07:33:39.947Z",
       "lastSeenAt": "2025-12-31T07:33:39.947Z",
@@ -10679,7 +10679,7 @@
     },
     {
       "id": "person-6abf63c9",
-      "name": "Person 2",
+      "name": "Bobo",
       "faceDescriptor": [
         -0.1060052365064621,
         0.07893545925617218,
@@ -15557,7 +15557,7 @@
     },
     {
       "id": "person-4d28f02d",
-      "name": "Person 4",
+      "name": "Jarek",
       "faceDescriptor": [
         -0.12111151218414307,
         0.14720876514911652,
@@ -16913,7 +16913,7 @@
     },
     {
       "id": "person-0db741fb",
-      "name": "Person 8",
+      "name": "Bobina",
       "faceDescriptor": [
         -0.08309934288263321,
         -0.008481264114379883,
@@ -30180,7 +30180,7 @@
     },
     {
       "id": "person-d060cef5",
-      "name": "Person 30",
+      "name": "Honza",
       "faceDescriptor": [
         -0.1119319498538971,
         0.07116895914077759,
@@ -40116,7 +40116,7 @@
     },
     {
       "id": "person-975aa917--odpojeno-od-person-2",
-      "name": "Odpojeno od Person 2",
+      "name": "Dáša",
       "faceDescriptor": [],
       "clusters": [],
       "faceCount": 1,
