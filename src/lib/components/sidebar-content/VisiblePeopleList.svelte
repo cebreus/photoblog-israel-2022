@@ -4,13 +4,15 @@
   import User from "@lucide/svelte/icons/user";
   import X from "@lucide/svelte/icons/x";
   import { fade } from "svelte/transition";
-  import { dev } from "$app/environment";
+
   import { Button } from "$lib/components/ui/button";
   import { Input } from "$lib/components/ui/input";
   import { Spinner } from "$lib/components/ui/spinner";
   import { Switch } from "$lib/components/ui/switch";
   import type { Person } from "$lib/types/manifest";
   import { cn } from "$lib/utils";
+
+  import { dev } from "$app/environment";
 
   export let visiblePeople: Person[] = [];
   export let processingIds = new Set<string>();
@@ -169,12 +171,15 @@
 
         {#if dev}
           {@const isMergeSelected = selectedForMerge.includes(person.id)}
-          <Button
-            variant="ghost"
+          <button
+            type="button"
             class={cn(
-              "ml-2 flex h-5 w-5 shrink-0 items-center justify-center rounded border border-white p-0 shadow-sm transition-colors focus-visible:outline-none",
-              isMergeSelected ? "bg-primary border-primary" : "bg-black/20 hover:bg-black/40",
+              "ml-2 flex shrink-0 items-center justify-center rounded border border-white p-0 shadow-sm transition-colors focus-visible:outline-none",
+              isMergeSelected
+                ? "bg-primary border-primary"
+                : "bg-black/20 hover:bg-black/40 dark:bg-white/10 dark:hover:bg-white/20",
             )}
+            style="width: 20px; height: 20px;"
             onclick={(event) => {
               event.stopPropagation();
               toggleMergeSelection(person.id, event.shiftKey);
@@ -199,7 +204,7 @@
                 <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
             {/if}
-          </Button>
+          </button>
           <Button
             variant="ghost"
             size="icon"
