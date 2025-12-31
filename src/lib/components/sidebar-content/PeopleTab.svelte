@@ -1,9 +1,7 @@
 <script lang="ts">
   import { untrack } from "svelte";
   import { toast } from "svelte-sonner";
-  import { dev } from "$app/environment";
-  import { goto } from "$app/navigation";
-  import { page } from "$app/state";
+
   import PersonDetailDialog from "$lib/components/PersonDetailDialog.svelte";
   import PersonMergeDialog from "$lib/components/PersonMergeDialog.svelte";
   import * as Accordion from "$lib/components/ui/accordion";
@@ -18,6 +16,10 @@
   import { GENERIC_MESSAGES, PERSON_MESSAGES } from "$lib/utils/messages";
   import { type MergeResponse, updatePeopleOrThrow } from "$lib/utils/people-actions";
 
+  import { dev } from "$app/environment";
+  import { goto } from "$app/navigation";
+  import { page } from "$app/state";
+
   import SelectionBulkActions from "../SelectionBulkActions.svelte";
 
   import CategoryPersonCard from "./CategoryPersonCard.svelte";
@@ -29,8 +31,7 @@
   // Helper to split people into Named (A-Z) and Generic (Face Count) groups
   function splitAndSortPeople(list: Person[]) {
     const isGeneric = (p: Person) =>
-      (p.id.startsWith("person-") && !p.id.includes("--")) ||
-      p.name.toLowerCase().includes("odpojeno od");
+      p.name.match(/^Person \d+$/) || p.name.toLowerCase().includes("odpojeno od");
 
     const sortByName = (a: Person, b: Person) =>
       a.name.localeCompare(b.name, "cs", { sensitivity: "base" });
