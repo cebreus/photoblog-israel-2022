@@ -74,25 +74,35 @@ flowchart TB
     AUTHORS[Autoři] --> OR1[OR]
     QUALITY[Kvalita] --> OR2[OR]
     PEOPLE[Osoby] --> OR3[OR]
+    MEDIA[Typ média] --> OR4[OR]
+    SNAPSHOTS[Momentky] --> BOOL[Boolean]
 
     OR1 --> AND[AND]
     OR2 --> AND
     OR3 --> AND
+    OR4 --> AND
+    BOOL --> AND
 
     AND --> RESULT[Filtrované fotky]
 ```
 
-| Filtr   | Vztah | Popis                   |
-| ------- | ----- | ----------------------- |
-| Autoři  | OR    | Alespoň jeden vybraný   |
-| Kvalita | OR    | Excellent / Good / Poor |
-| Osoby   | OR    | Alespoň jedna vybraná   |
-| Průnik  | AND   | Kombinace všech filtrů  |
+| Filtr     | Vztah   | Popis                                      |
+| --------- | ------- | ------------------------------------------ |
+| Autoři    | OR      | Alespoň jeden vybraný                      |
+| Kvalita   | OR      | Excellent / Good / Poor (prázdné = vše)    |
+| Osoby     | OR      | Alespoň jedna vybraná                      |
+| Typ média | OR      | Foto / Panorama / Sekvence (prázdné = vše) |
+| Momentky  | Boolean | Zobrazit/skrýt cizí momentky               |
+| Průnik    | AND     | Kombinace všech filtrů                     |
+
+### Empty State
+
+Když žádné fotky neodpovídají filtrům, zobrazí se Empty state komponenta s tlačítkem "Resetovat filtry".
 
 ### URL synchronizace
 
 ```
-/?authors=cebreus,jana&quality=excellent,good&people=alice
+/?authors=cebreus,jana&quality=excellent,good&people=alice&media=panorama&others-snapshots
 ```
 
 ## 4. Editační režim
@@ -149,4 +159,4 @@ flowchart LR
 
 ---
 
-_Poslední aktualizace: 2025-12-30_
+_Poslední aktualizace: 2025-12-31_
