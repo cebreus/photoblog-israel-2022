@@ -79,17 +79,18 @@ export async function PATCH({ request }: RequestEvent) {
         return;
       }
 
-      // 3. Calculate new ReleaseDate values
-      const baseDateStr = targetDay.date; // e.g., "2025-11-25"
-      const newDates = calculateReleaseDates(imageIds, baseDateStr);
-
-      // 4. Ensure all images have ReleaseDate initialized
+      // 3. Get current image items
       const imageItems = targetDay.items.filter(
         (item) => item.type !== "separator",
       ) as ImageEntry[];
+
+      // 4. Calculate new ReleaseDate values (only for moved images)
+      const newDates = calculateReleaseDates(imageIds, imageItems);
+
+      // 5. Ensure all images have ReleaseDate initialized
       await ensureReleaseDatesExist(imageItems, contentDirRoot);
 
-      // 5. Write to files using exiftool
+      // 6. Write to files using exiftool (only changed images)
       for (const [id, releaseDate] of Object.entries(newDates)) {
         const imagePath = await resolveImagePath(id, contentDirRoot);
         if (!imagePath) {
@@ -149,17 +150,71 @@ export async function PATCH({ request }: RequestEvent) {
 }
 
 /**
- * Calculate ReleaseDate values for an ordered list of images.
- * Creates sequential timestamps within the day.
+ * Calculate ReleaseDate values for moved images only.
+ * Strategy: For each moved image, set its ReleaseDate to the target position's time minus 10 seconds.
+ * This preserves original times for unmoved images and allows space for future insertions.
+ *
+ * @param imageIds - New ordered list of image IDs
+ * @param currentItems - Current day items with existing releaseDate values
+ * @returns Map of imageId -> new ReleaseDate (only for images that need updating)
  */
-function calculateReleaseDates(imageIds: string[], baseDate: string): Record<string, string> {
+function calculateReleaseDates(
+  imageIds: string[],
+  currentItems: ImageEntry[],
+): Record<string, string> {
   const result: Record<string, string> = {};
 
-  for (let i = 0; i < imageIds.length; i++) {
-    const seconds = i + 1; // 1-based to avoid midnight exactly
-    const date = new Date(`${baseDate}T00:00:00Z`);
-    date.setSeconds(seconds);
-    result[imageIds[i]] = date.toISOString();
+  // Build map of current positions and releaseDates
+  const currentOrder = currentItems.map((item) => item.id);
+  const releaseDateMap = new Map<string, string>();
+
+  for (const item of currentItems) {
+    const releaseDate = item.exif?.releaseDate || item.exif?.date;
+    if (releaseDate) {
+      releaseDateMap.set(item.id, releaseDate);
+    }
+  }
+
+  // Find images that changed position
+  for (let newIndex = 0; newIndex < imageIds.length; newIndex++) {
+    const imageId = imageIds[newIndex];
+    const oldIndex = currentOrder.indexOf(imageId);
+
+    // Skip if image didn't move
+    if (oldIndex === newIndex) continue;
+
+    // Get neighbors in the NEW order
+    const previousImageId = newIndex > 0 ? imageIds[newIndex - 1] : null;
+    const nextImageId = newIndex < imageIds.length - 1 ? imageIds[newIndex + 1] : null;
+
+    if (previousImageId && nextImageId) {
+      // Insertion between two images: interpolate (average their times)
+      const prevTime = releaseDateMap.get(previousImageId);
+      const nextTime = releaseDateMap.get(nextImageId);
+
+      if (prevTime && nextTime) {
+        const prevMs = new Date(prevTime).getTime();
+        const nextMs = new Date(nextTime).getTime();
+        const avgMs = Math.floor((prevMs + nextMs) / 2);
+        result[imageId] = new Date(avgMs).toISOString();
+      }
+    } else if (nextImageId) {
+      // Move to beginning: next image time minus 10 seconds
+      const nextTime = releaseDateMap.get(nextImageId);
+      if (nextTime) {
+        const nextDate = new Date(nextTime);
+        nextDate.setSeconds(nextDate.getSeconds() - 10);
+        result[imageId] = nextDate.toISOString();
+      }
+    } else if (previousImageId) {
+      // Move to end: previous image time plus 10 seconds
+      const prevTime = releaseDateMap.get(previousImageId);
+      if (prevTime) {
+        const prevDate = new Date(prevTime);
+        prevDate.setSeconds(prevDate.getSeconds() + 10);
+        result[imageId] = prevDate.toISOString();
+      }
+    }
   }
 
   return result;
