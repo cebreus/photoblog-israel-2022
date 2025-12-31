@@ -13,14 +13,14 @@
           "id": "2025-11-21-175802-cebreus",
           "type": "image",
           "src": "2025-11-21-175802-cebreus.heic",
-          "alt": "Hlavní nádraží, Brno",
+          "alt": "Hlavní nádraží, Prague",
           "title": "",
           "width": 8064,
           "height": 6048,
           "sizeMB": 4.74,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-21-175802-cebreus.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(216,200,184)",
           "analysis": {
             "aestheticScore": 29.09688003899494,
             "sharpness": 100,
@@ -144,12 +144,12 @@
             }
           ],
           "people": [
-            "person-16f7cd5e",
-            "person-8534a578--odpojeno-od-bobo",
-            "person-5e38b07f",
-            "person-4bdf7087",
-            "person-bbf0791e",
-            "person-e06d2881"
+            "person-f4999137",
+            "person-86077f36",
+            "person-0db741fb",
+            "person-6abf63c9",
+            "person-9b0bc40f",
+            "person-4d28f02d"
           ]
         }
       ],
@@ -168,14 +168,14 @@
           "id": "2025-11-22-055754-cebreus",
           "type": "image",
           "src": "2025-11-22-055754-cebreus.heic",
-          "alt": "Photoblog image",
-          "title": "",
+          "alt": "Batch Test 1766648828184",
+          "title": "Batch Test 1766648828184",
           "width": 8064,
           "height": 6048,
           "sizeMB": 3.71,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-22-055754-cebreus.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(56,104,152)",
           "analysis": {
             "aestheticScore": 62.131635435823966,
             "sharpness": 89,
@@ -572,8 +572,8 @@
             }
           ],
           "people": [
-            "person-e06d2881",
-            "person-bbf0791e"
+            "person-4d28f02d",
+            "person-9b0bc40f"
           ]
         },
         {
@@ -678,7 +678,7 @@
             }
           ],
           "people": [
-            "person-e06d2881"
+            "person-b07ab886"
           ]
         },
         {
@@ -999,9 +999,9 @@
             }
           ],
           "people": [
-            "person-4bdf7087",
-            "person-16f7cd5e",
-            "person-5e38b07f"
+            "person-6abf63c9",
+            "person-f4999137",
+            "person-94167a2f"
           ]
         },
         {
@@ -1114,8 +1114,8 @@
             }
           ],
           "people": [
-            "person-5e38b07f",
-            "person-16f7cd5e"
+            "person-83453a3f",
+            "person-cea3aaf8"
           ]
         },
         {
@@ -1222,7 +1222,7 @@
             }
           ],
           "people": [
-            "person-e06d2881"
+            "person-4d28f02d"
           ]
         },
         {
@@ -1711,7 +1711,7 @@
             }
           ],
           "people": [
-            "person-90ddcb68"
+            "person-9cf6d040"
           ]
         },
         {
@@ -1831,16 +1831,16 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-23-205255-bobo.jpeg",
               "width": 534,
-              "height": 534
+              "height": 300
             }
           ],
           "people": [
-            "person-8761bcf4",
-            "person-5e565cb9",
-            "person-bbf0791e",
-            "person-16f7cd5e",
-            "person-4bdf7087",
-            "person-8534a578--odpojeno-od-bobo"
+            "person-42e2992e",
+            "person-604b93f2",
+            "person-9b0bc40f",
+            "person-83453a3f",
+            "person-6abf63c9",
+            "person-86077f36"
           ]
         }
       ],
@@ -2353,7 +2353,9 @@
               "height": 534
             }
           ],
-          "people": []
+          "people": [
+            "person-183e8294"
+          ]
         },
         {
           "id": "2025-11-24-201212-cebreus",
@@ -2479,15 +2481,14 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-24-201212-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 300
             }
           ],
           "people": [
-            "person-8534a578--odpojeno-od-bobo",
-            "person-bbf0791e",
-            "person-16f7cd5e",
-            "person-4bdf7087",
-            "person-c310b7fb"
+            "person-86077f36",
+            "person-9b0bc40f",
+            "person-f4999137",
+            "person-cea3aaf8"
           ]
         },
         {
@@ -2686,7 +2687,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-24-201550-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 213
             },
             {
               "variant": "pano_detail",
@@ -2697,7 +2698,7 @@
             }
           ],
           "people": [
-            "person-078ff269--odpojeno-od-person-20"
+            "person-5b35fe23"
           ]
         },
         {
@@ -2830,16 +2831,16 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-24-205551-cebreus--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": [
-            "person-4bdf7087",
-            "person-e06d2881",
-            "person-bbf0791e",
-            "person-16f7cd5e",
-            "person-5e38b07f",
-            "person-39fe7c15"
+            "person-6abf63c9",
+            "person-fd46756e",
+            "person-9b0bc40f",
+            "person-f4999137",
+            "person-0db741fb",
+            "person-183e8294"
           ]
         },
         {
@@ -2950,8 +2951,8 @@
             }
           ],
           "people": [
-            "person-4bdf7087",
-            "person-bbf0791e"
+            "person-d0efee91",
+            "person-a51c7486"
           ]
         },
         {
@@ -3068,9 +3069,9 @@
             }
           ],
           "people": [
-            "person-4bdf7087",
-            "person-5e38b07f",
-            "person-bbf0791e"
+            "person-6abf63c9",
+            "person-0db741fb",
+            "person-9b0bc40f"
           ]
         },
         {
@@ -3276,8 +3277,8 @@
             }
           ],
           "people": [
-            "person-bbf0791e",
-            "person-e06d2881"
+            "person-9b0bc40f",
+            "person-4d28f02d"
           ]
         },
         {
@@ -3590,8 +3591,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 1
+          "sortOrder": 1,
+          "people": []
         },
         {
           "id": "loc-hrobka-z-ulice-tigran",
@@ -3700,8 +3701,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 2
+          "sortOrder": 2,
+          "people": []
         },
         {
           "id": "2025-11-25-082811-cebreus",
@@ -3802,8 +3803,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 3
+          "sortOrder": 3,
+          "people": []
         },
         {
           "id": "2025-11-25-082818-cebreus",
@@ -3904,8 +3905,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 4
+          "sortOrder": 4,
+          "people": []
         },
         {
           "id": "2025-11-25-082852-cebreus",
@@ -4004,8 +4005,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 5
+          "sortOrder": 5,
+          "people": []
         },
         {
           "id": "loc-katakomby-kom-el-shoqafa",
@@ -4014,106 +4015,6 @@
           "city": "Alexandrie",
           "storyTitle": "",
           "story": "<p>Katakomby Kom el-Šukafa, poprvé objevené v roce 1900, se skládají ze dvou samostatných komplexů, známých jako „Hlavní katakomby“ a „Caracallova síň“. Tyto podzemní stavby byly vytesány a používány v době, kdy byl Egypt součástí Římské říše. Předpokládá se, že jejich výstavba a užívání započaly na konci 1. století n. l. a následně byly rozšiřovány a zvětšovány až do 4. století n. l.</p>\n<p>K oběma komplexům se lze dostat po točitém schodišti (A), které se vine kolem hrobové šachty Hlavních katakomb. Právě touto šachtou byli zesnulí spouštěni na lanech na místo svého pohřbení. Po dosažení horního patra projdete přes zbytky alabastrové podlahy (B) a stanete před kruhovou halou, Rotundou (C). Po levé straně najdete velkou čtvercovou komoru s lavicemi vytesanými do skály. Jedná se o Triclinium (D), kde se pravděpodobně scházely rodiny zesnulých během pohřebních slavností. Zpět v Rotundě (C) najdete další chodby vedoucí do komor. Uvidíte mnoho lokulů (ve skále vytesaných výklenků pro uložení zesnulých), sarkofágy a další hrobky vytesané do podloží. Do Caracallovy síně vede proražený vchod a schodiště (E), které klesá k velkolepé hlavní hrobce (G). Jakmile budete na této prostřední úrovni, nezapomeňte prozkoumat labyrint komor a lokulů, které ji obklopují (H).</p>\n"
-        },
-        {
-          "id": "2025-11-25-082944-cebreus--collage",
-          "type": "image",
-          "src": "2025-11-25-082944-cebreus--collage.jpg",
-          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
-          "title": "",
-          "width": 3776,
-          "height": 2832,
-          "sizeMB": 3.88,
-          "aspectRatio": "collage",
-          "placeholder": "blurs/2025-11-25-082944-cebreus--collage.png",
-          "placeholderColor": "",
-          "analysis": {
-            "aestheticScore": 61.63505113270587,
-            "sharpness": 88,
-            "qualityBucket": "good",
-            "phash": "f6c5f9cacaa2f6f6",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T07:29:44.983Z",
-            "location": "Katakomby Kom el Shoqafa",
-            "city": "Alexandrie",
-            "latitude": 31.178306,
-            "longitude": 29.893253,
-            "orientation": 1,
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Katakomby Kom el Shoqafa",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178306,29.893253",
-          "date": "2025-11-25T07:29:44.983Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-082944-cebreus--collage.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-082944-cebreus--collage.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-082944-cebreus--collage.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-082944-cebreus--collage.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-082944-cebreus--collage.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-082944-cebreus--collage.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-082944-cebreus--collage.jpeg",
-              "width": 1280,
-              "height": 960
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-082944-cebreus--collage.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-082944-cebreus--collage.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "people": [],
-          "sortOrder": 7
         },
         {
           "id": "2025-11-25-083005-cebreus",
@@ -4214,8 +4115,108 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 6
+          "sortOrder": 6,
+          "people": []
+        },
+        {
+          "id": "2025-11-25-082944-cebreus--collage",
+          "type": "image",
+          "src": "2025-11-25-082944-cebreus--collage.jpg",
+          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
+          "title": "",
+          "width": 3776,
+          "height": 2832,
+          "sizeMB": 3.88,
+          "aspectRatio": "collage",
+          "placeholder": "blurs/2025-11-25-082944-cebreus--collage.png",
+          "placeholderColor": "",
+          "analysis": {
+            "aestheticScore": 61.63505113270587,
+            "sharpness": 88,
+            "qualityBucket": "good",
+            "phash": "f6c5f9cacaa2f6f6",
+            "facesDetected": false,
+            "faces": []
+          },
+          "exif": {
+            "date": "2025-11-25T07:29:44.983Z",
+            "location": "Katakomby Kom el Shoqafa",
+            "city": "Alexandrie",
+            "latitude": 31.178306,
+            "longitude": 29.893253,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Katakomby Kom el Shoqafa",
+          "city": "Alexandrie",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178306,29.893253",
+          "date": "2025-11-25T07:29:44.983Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-25-082944-cebreus--collage.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-25-082944-cebreus--collage.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-25-082944-cebreus--collage.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-082944-cebreus--collage.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-25-082944-cebreus--collage.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-082944-cebreus--collage.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-25-082944-cebreus--collage.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-25-082944-cebreus--collage.jpeg",
+              "width": 190,
+              "height": 107
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-082944-cebreus--collage.jpeg",
+              "width": 534,
+              "height": 534
+            }
+          ],
+          "sortOrder": 7,
+          "people": []
         },
         {
           "id": "2025-11-25-084249-cebreus--collage",
@@ -4314,8 +4315,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 8
+          "sortOrder": 8,
+          "people": []
         },
         {
           "id": "2025-11-25-084330-cebreus--collage",
@@ -4414,8 +4415,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 9
+          "sortOrder": 9,
+          "people": []
         },
         {
           "id": "2025-11-25-084606-cebreus",
@@ -4514,8 +4515,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 10
+          "sortOrder": 10,
+          "people": []
         },
         {
           "id": "2025-11-25-084614-cebreus",
@@ -4614,8 +4615,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 11
+          "sortOrder": 11,
+          "people": []
         },
         {
           "id": "2025-11-25-084943-cebreus",
@@ -4710,12 +4711,12 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-084943-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 12
+          "sortOrder": 12,
+          "people": []
         },
         {
           "id": "2025-11-25-085235-cebreus",
@@ -4814,8 +4815,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 13
+          "sortOrder": 13,
+          "people": []
         },
         {
           "id": "2025-11-25-085626-cebreus",
@@ -4914,8 +4915,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 14
+          "sortOrder": 14,
+          "people": []
         },
         {
           "id": "2025-11-25-090256-cebreus--collage",
@@ -5014,8 +5015,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 15
+          "sortOrder": 15,
+          "people": []
         },
         {
           "id": "2025-11-25-090636-cebreus",
@@ -5112,8 +5113,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 16
+          "sortOrder": 16,
+          "people": []
         },
         {
           "id": "loc-serapeum",
@@ -5218,8 +5219,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 17
+          "sortOrder": 17,
+          "people": []
         },
         {
           "id": "2025-11-25-092514-cebreus",
@@ -5318,8 +5319,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 18
+          "sortOrder": 18,
+          "people": []
         },
         {
           "id": "2025-11-25-092544-cebreus",
@@ -5420,8 +5421,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 19
+          "sortOrder": 19,
+          "people": []
         },
         {
           "id": "2025-11-25-092702-cebreus",
@@ -5520,8 +5521,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 20
+          "sortOrder": 20,
+          "people": []
         },
         {
           "id": "2025-11-25-092814-cebreus",
@@ -5622,8 +5623,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 21
+          "sortOrder": 21,
+          "people": []
         },
         {
           "id": "2025-11-25-093002-cebreus",
@@ -5724,8 +5725,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 22
+          "sortOrder": 22,
+          "people": []
         },
         {
           "id": "2025-11-25-093034-cebreus",
@@ -5824,8 +5825,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 23
+          "sortOrder": 23,
+          "people": []
         },
         {
           "id": "2025-11-25-093351-dasa",
@@ -5924,8 +5925,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 24
+          "sortOrder": 24,
+          "people": []
         },
         {
           "id": "2025-11-25-093404-cebreus",
@@ -6031,10 +6032,10 @@
               "height": 534
             }
           ],
+          "sortOrder": 25,
           "people": [
-            "person-bbf0791e"
-          ],
-          "sortOrder": 25
+            "person-9b0bc40f"
+          ]
         },
         {
           "id": "2025-11-25-093419-cebreus",
@@ -6146,11 +6147,11 @@
               "height": 534
             }
           ],
+          "sortOrder": 26,
           "people": [
-            "person-e06d2881",
-            "person-bbf0791e"
-          ],
-          "sortOrder": 26
+            "person-4d28f02d",
+            "person-a21f58f8"
+          ]
         },
         {
           "id": "2025-11-25-093510-cebreus",
@@ -6245,12 +6246,12 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-093510-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 27
+          "sortOrder": 27,
+          "people": []
         },
         {
           "id": "2025-11-25-093710-cebreus",
@@ -6349,8 +6350,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 28
+          "sortOrder": 28,
+          "people": []
         },
         {
           "id": "2025-11-25-094025-cebreus",
@@ -6462,11 +6463,11 @@
               "height": 534
             }
           ],
+          "sortOrder": 29,
           "people": [
-            "person-bbf0791e",
-            "person-4bdf7087"
-          ],
-          "sortOrder": 29
+            "person-9b0bc40f",
+            "person-f2c08e03"
+          ]
         },
         {
           "id": "2025-11-25-094113-cebreus",
@@ -6561,12 +6562,12 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-094113-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 30
+          "sortOrder": 30,
+          "people": []
         },
         {
           "id": "2025-11-25-094206-cebreus",
@@ -6665,8 +6666,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 31
+          "sortOrder": 31,
+          "people": []
         },
         {
           "id": "2025-11-25-094825-cebreus",
@@ -6778,11 +6779,11 @@
               "height": 534
             }
           ],
+          "sortOrder": 32,
           "people": [
-            "person-bbf0791e",
-            "person-8400a0ad"
-          ],
-          "sortOrder": 32
+            "person-9b0bc40f",
+            "person-df7fbd2c"
+          ]
         },
         {
           "id": "2025-11-25-094915-dasa",
@@ -6881,8 +6882,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 33
+          "sortOrder": 33,
+          "people": []
         },
         {
           "id": "2025-11-25-095226-cebreus",
@@ -6981,8 +6982,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 34
+          "sortOrder": 34,
+          "people": []
         },
         {
           "id": "loc-kom-el-deka",
@@ -6994,7 +6995,7 @@
           "id": "2025-11-25-101558-cebreus",
           "type": "image",
           "src": "2025-11-25-101558-cebreus.heic",
-          "alt": "Kom El Deka, Alexandrie",
+          "alt": "Římský amfiteátr, Alexandrie",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -7100,19 +7101,18 @@
               "height": 534
             }
           ],
+          "sortOrder": 35,
           "people": [
-            "person-9ac1d3ed",
-            "person-34987086--odpojeno-od-person-21"
-          ],
-          "sortOrder": 35
+            "person-183e8294",
+            "person-a4e0e8c2"
+          ]
         },
         {
           "id": "2025-11-25-101952-cebreus",
           "type": "image",
           "src": "2025-11-25-101952-cebreus.heic",
-          "alt": "Římský amfiteátr, Kom El Deka, Alexandrie",
+          "alt": "Římský amfiteátr, Alexandrie",
           "title": "",
-          "caption": "Římský amfiteátr",
           "width": 8064,
           "height": 6048,
           "sizeMB": 7.84,
@@ -7134,11 +7134,11 @@
             "latitude": 31.194325,
             "longitude": 29.903844,
             "orientation": 1,
-            "description": "Římský amfiteátr",
             "author": "Cebreus",
             "country": "Egypt",
             "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
+            "state": "Alexandrie (guvernorát)",
+            "caption": "Římský amfiteátr"
           },
           "author": "Cebreus",
           "authorSlug": "cebreus",
@@ -7205,14 +7205,15 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 36
+          "caption": "Římský amfiteátr",
+          "sortOrder": 36,
+          "people": []
         },
         {
           "id": "2025-11-25-102006-cebreus",
           "type": "image",
           "src": "2025-11-25-102006-cebreus.heic",
-          "alt": "Kom El Deka, Alexandrie",
+          "alt": "Římský amfiteátr, Alexandrie",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -7305,14 +7306,14 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 37
+          "sortOrder": 37,
+          "people": []
         },
         {
           "id": "2025-11-25-102804-cebreus--collage",
           "type": "image",
           "src": "2025-11-25-102804-cebreus--collage.jpg",
-          "alt": "Kom El Deka, Alexandrie",
+          "alt": "Římský amfiteátr, Alexandrie",
           "title": "",
           "width": 3673,
           "height": 2066,
@@ -7332,7 +7333,6 @@
             "date": "2025-11-25T09:28:04.319Z",
             "location": "Kom El Deka",
             "city": "Alexandrie",
-            "sublocation": "Kom El Deka",
             "latitude": 31.195428,
             "longitude": 29.905267,
             "orientation": 1,
@@ -7406,8 +7406,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 38
+          "sortOrder": 38,
+          "people": []
         },
         {
           "id": "loc-rimsky-amfiteatr",
@@ -7512,14 +7512,14 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 39
+          "sortOrder": 39,
+          "people": []
         },
         {
           "id": "2025-11-25-103135-cebreus",
           "type": "image",
           "src": "2025-11-25-103135-cebreus.heic",
-          "alt": "Kom El Deka, Alexandrie",
+          "alt": "Římský amfiteátr, Alexandrie",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -7612,14 +7612,14 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 40
+          "sortOrder": 40,
+          "people": []
         },
         {
           "id": "2025-11-25-103145-cebreus",
           "type": "image",
           "src": "2025-11-25-103145-cebreus.heic",
-          "alt": "Kom El Deka, Alexandrie",
+          "alt": "Římský amfiteátr, Alexandrie",
           "title": "",
           "width": 6252,
           "height": 4689,
@@ -7712,14 +7712,14 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 41
+          "sortOrder": 41,
+          "people": []
         },
         {
           "id": "2025-11-25-104058-cebreus",
           "type": "image",
           "src": "2025-11-25-104058-cebreus.heic",
-          "alt": "Kom El Deka, Alexandrie",
+          "alt": "Římský amfiteátr, Alexandrie",
           "title": "",
           "width": 4032,
           "height": 3024,
@@ -7819,16 +7819,16 @@
               "height": 534
             }
           ],
+          "sortOrder": 42,
           "people": [
-            "person-bbf0791e"
-          ],
-          "sortOrder": 42
+            "person-9b0bc40f"
+          ]
         },
         {
           "id": "2025-11-25-105010-cebreus",
           "type": "image",
           "src": "2025-11-25-105010-cebreus.heic",
-          "alt": "Kom El Deka, Alexandrie",
+          "alt": "Římský amfiteátr, Alexandrie",
           "title": "",
           "width": 6048,
           "height": 8064,
@@ -7928,16 +7928,16 @@
               "height": 534
             }
           ],
+          "sortOrder": 43,
           "people": [
-            "person-d55ce766"
-          ],
-          "sortOrder": 43
+            "person-dec450ff"
+          ]
         },
         {
           "id": "2025-11-25-105048-cebreus",
           "type": "image",
           "src": "2025-11-25-105048-cebreus.heic",
-          "alt": "Kom El Deka, Alexandrie",
+          "alt": "Římský amfiteátr, Alexandrie",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -8037,16 +8037,16 @@
               "height": 534
             }
           ],
+          "sortOrder": 44,
           "people": [
-            "person-d55ce766"
-          ],
-          "sortOrder": 44
+            "person-5745d31a"
+          ]
         },
         {
           "id": "2025-11-25-105444-cebreus",
           "type": "image",
           "src": "2025-11-25-105444-cebreus.heic",
-          "alt": "Kom El Deka, Alexandrie",
+          "alt": "Římský amfiteátr, Alexandrie",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -8139,14 +8139,14 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 45
+          "sortOrder": 45,
+          "people": []
         },
         {
           "id": "2025-11-25-105523-cebreus",
           "type": "image",
           "src": "2025-11-25-105523-cebreus.heic",
-          "alt": "Kom El Deka, Alexandrie",
+          "alt": "Římský amfiteátr, Alexandrie",
           "title": "",
           "width": 8064,
           "height": 6048,
@@ -8239,14 +8239,14 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 46
+          "sortOrder": 46,
+          "people": []
         },
         {
           "id": "2025-11-25-105655-cebreus",
           "type": "image",
           "src": "2025-11-25-105655-cebreus.heic",
-          "alt": "Kom El Deka, Alexandrie",
+          "alt": "Římský amfiteátr, Alexandrie",
           "title": "",
           "width": 6770,
           "height": 5078,
@@ -8352,11 +8352,11 @@
               "height": 534
             }
           ],
+          "sortOrder": 47,
           "people": [
-            "person-c1943046--odpojeno-od-person-28",
-            "person-43a83bcf"
-          ],
-          "sortOrder": 47
+            "person-ecf332ec",
+            "person-de22d0b0"
+          ]
         },
         {
           "id": "2025-11-25-110638-cebreus",
@@ -8455,8 +8455,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 48
+          "sortOrder": 48,
+          "people": []
         },
         {
           "id": "loc-alexandrijska-knihovna",
@@ -8561,8 +8561,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 49
+          "sortOrder": 49,
+          "people": []
         },
         {
           "id": "2025-11-25-112457-dasa",
@@ -8668,10 +8668,10 @@
               "height": 534
             }
           ],
+          "sortOrder": 50,
           "people": [
-            "person-e669f828--odpojeno-od-person-30"
-          ],
-          "sortOrder": 50
+            "person-340b9d37"
+          ]
         },
         {
           "id": "2025-11-25-112858-finda",
@@ -8770,8 +8770,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 51
+          "sortOrder": 51,
+          "people": []
         },
         {
           "id": "2025-11-25-112911-cebreus",
@@ -8872,8 +8872,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 52
+          "sortOrder": 52,
+          "people": []
         },
         {
           "id": "2025-11-25-115354-dasa",
@@ -9001,17 +9001,12 @@
               "height": 534
             }
           ],
+          "sortOrder": 53,
           "people": [
-            "person-2d774e3d",
-            "person-7f7496c5--odpojeno-od-bobo",
-            "person-16f7cd5e",
-            "person-9ac1d3ed",
-            "person-a1b4b980--odpojeno-od-person-13",
-            "person-8113a65d--odpojeno-od-person-13",
-            "person-220158a5--odpojeno-od-person-13",
-            "person-3ec8d8e8"
-          ],
-          "sortOrder": 53
+            "person-867b9aa5",
+            "person-183e8294",
+            "person-a49e5cdc"
+          ]
         },
         {
           "id": "loc-pevnost-qaitbay",
@@ -9115,11 +9110,11 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-124810-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
-          "people": [],
-          "sortOrder": 54
+          "sortOrder": 54,
+          "people": []
         },
         {
           "id": "2025-11-25-131142-dasa",
@@ -9218,8 +9213,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 55
+          "sortOrder": 55,
+          "people": []
         },
         {
           "id": "2025-11-25-131147-cebreus",
@@ -9318,8 +9313,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 56
+          "sortOrder": 56,
+          "people": []
         },
         {
           "id": "2025-11-25-131217-dasa",
@@ -9418,8 +9413,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 57
+          "sortOrder": 57,
+          "people": []
         },
         {
           "id": "2025-11-25-131320-cebreus",
@@ -9518,8 +9513,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 58
+          "sortOrder": 58,
+          "people": []
         },
         {
           "id": "2025-11-25-132137-dasa",
@@ -9618,8 +9613,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 59
+          "sortOrder": 59,
+          "people": []
         },
         {
           "id": "2025-11-25-133004-dasa",
@@ -9716,8 +9711,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 60
+          "sortOrder": 60,
+          "people": []
         },
         {
           "id": "2025-11-25-133706-cebreus",
@@ -9820,13 +9815,13 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-133706-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
+          "sortOrder": 61,
           "people": [
-            "person-bbf0791e"
-          ],
-          "sortOrder": 61
+            "person-9b0bc40f"
+          ]
         },
         {
           "id": "2025-11-25-133713-cebreus",
@@ -9932,10 +9927,10 @@
               "height": 534
             }
           ],
+          "sortOrder": 62,
           "people": [
-            "person-bbf0791e"
-          ],
-          "sortOrder": 62
+            "person-9b0bc40f"
+          ]
         },
         {
           "id": "loc-kralovska-vlakova-garaz",
@@ -10042,8 +10037,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 63
+          "sortOrder": 63,
+          "people": []
         },
         {
           "id": "2025-11-25-145159-cebreus",
@@ -10144,8 +10139,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 64
+          "sortOrder": 64,
+          "people": []
         },
         {
           "id": "2025-11-25-145215-cebreus",
@@ -10246,8 +10241,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 65
+          "sortOrder": 65,
+          "people": []
         },
         {
           "id": "2025-11-25-145232-dasa",
@@ -10349,8 +10344,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 66
+          "sortOrder": 66,
+          "people": []
         },
         {
           "id": "2025-11-25-145322-dasa",
@@ -10451,8 +10446,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 67
+          "sortOrder": 67,
+          "people": []
         },
         {
           "id": "2025-11-25-145345-cebreus",
@@ -10553,8 +10548,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 68
+          "sortOrder": 68,
+          "people": []
         },
         {
           "id": "2025-11-25-145714-cebreus",
@@ -10655,8 +10650,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 69
+          "sortOrder": 69,
+          "people": []
         },
         {
           "id": "loc-kralovsky-sklenik",
@@ -10761,8 +10756,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 70
+          "sortOrder": 70,
+          "people": []
         },
         {
           "id": "2025-11-25-150559-dasa",
@@ -10861,8 +10856,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 71
+          "sortOrder": 71,
+          "people": []
         },
         {
           "id": "2025-11-25-150836-cebreus",
@@ -10961,8 +10956,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 72
+          "sortOrder": 72,
+          "people": []
         },
         {
           "id": "2025-11-25-151216-cebreus",
@@ -11061,8 +11056,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 73
+          "sortOrder": 73,
+          "people": []
         },
         {
           "id": "2025-11-25-151454-cebreus",
@@ -11168,10 +11163,10 @@
               "height": 534
             }
           ],
+          "sortOrder": 74,
           "people": [
-            "person-bbf0791e"
-          ],
-          "sortOrder": 74
+            "person-9b0bc40f"
+          ]
         },
         {
           "id": "2025-11-25-151616-cebreus",
@@ -11270,8 +11265,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 75
+          "sortOrder": 75,
+          "people": []
         },
         {
           "id": "2025-11-25-151630-cebreus",
@@ -11377,10 +11372,10 @@
               "height": 534
             }
           ],
+          "sortOrder": 76,
           "people": [
-            "person-bbf0791e"
-          ],
-          "sortOrder": 76
+            "person-9b0bc40f"
+          ]
         },
         {
           "id": "2025-11-25-152350-cebreus",
@@ -11479,10 +11474,10 @@
               "height": 534
             }
           ],
+          "sortOrder": 77,
           "people": [
-            "person-2d774e3d"
-          ],
-          "sortOrder": 77
+            "person-d060cef5"
+          ]
         },
         {
           "id": "2025-11-25-152518-cebreus",
@@ -11574,8 +11569,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 78
+          "sortOrder": 78,
+          "people": []
         },
         {
           "id": "2025-11-25-154350-cebreus",
@@ -11667,8 +11662,8 @@
               "height": 534
             }
           ],
-          "people": [],
-          "sortOrder": 79
+          "sortOrder": 79,
+          "people": []
         },
         {
           "id": "2025-11-25-174738-bobo",
@@ -11775,16 +11770,16 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-174738-bobo.jpeg",
               "width": 534,
-              "height": 534
+              "height": 300
             }
           ],
+          "sortOrder": 80,
           "people": [
-            "person-e2a7b780",
-            "person-8534a578--odpojeno-od-bobo",
-            "person-9c18698b",
-            "person-16f7cd5e"
-          ],
-          "sortOrder": 80
+            "person-7e345eeb",
+            "person-4afd5309",
+            "person-183e8294",
+            "person-cea3aaf8"
+          ]
         },
         {
           "id": "2025-11-25-083807-cebreus--zoom1from2",
@@ -11901,7 +11896,7 @@
             ]
           },
           "people": [
-            "person-3df5afb5"
+            "person-42561f61"
           ]
         },
         {
@@ -12031,11 +12026,9 @@
             ]
           },
           "people": [
-            "person-cbbbd28a",
-            "person-c310b7fb",
-            "person-16f7cd5e",
-            "person-5e38b07f",
-            "person-34a5b9ab"
+            "person-a4e0e8c2",
+            "person-cea3aaf8",
+            "person-83453a3f"
           ],
           "sortOrder": 81
         },
@@ -12613,9 +12606,9 @@
             ]
           },
           "people": [
-            "person-4bdf7087",
-            "person-bbf0791e",
-            "person-5e38b07f"
+            "person-6abf63c9",
+            "person-9b0bc40f",
+            "person-0db741fb"
           ]
         }
       ],
@@ -13116,7 +13109,9 @@
               "height": 534
             }
           ],
-          "people": []
+          "people": [
+            "person-183e8294"
+          ]
         },
         {
           "id": "2025-11-26-080529-cebreus",
@@ -13226,8 +13221,7 @@
             }
           ],
           "people": [
-            "person-c1c62e37--odpojeno-od-jaruska",
-            "person-bbf0791e"
+            "person-cea3aaf8"
           ]
         },
         {
@@ -13435,7 +13429,7 @@
             }
           ],
           "people": [
-            "person-bbf0791e"
+            "person-9b0bc40f"
           ]
         },
         {
@@ -13537,11 +13531,11 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-080907-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": [
-            "person-bbf0791e"
+            "person-9b0bc40f"
           ]
         },
         {
@@ -14374,7 +14368,7 @@
             }
           ],
           "people": [
-            "person-5e38b07f"
+            "person-a4e0e8c2"
           ]
         },
         {
@@ -14486,8 +14480,8 @@
             }
           ],
           "people": [
-            "person-4bdf7087",
-            "person-cc9378dc"
+            "person-6abf63c9",
+            "person-e9ed35a6"
           ]
         },
         {
@@ -14991,7 +14985,7 @@
             }
           ],
           "people": [
-            "person-47e003bd"
+            "person-3fba74e7"
           ]
         },
         {
@@ -15224,16 +15218,11 @@
             }
           ],
           "people": [
-            "person-cbbbd28a",
-            "person-9e6cbf39--odpojeno-od-dasa",
-            "person-0b424e65--odpojeno-od-bobo",
-            "person-bbf0791e",
-            "person-5e38b07f",
-            "person-9ac1d3ed",
-            "person-4bdf7087",
-            "person-08072763--odpojeno-od-person-13",
-            "person-8113a65d--odpojeno-od-person-13",
-            "person-34987086--odpojeno-od-person-21"
+            "person-183e8294",
+            "person-9b0bc40f",
+            "person-4333735d",
+            "person-d0efee91",
+            "person-cea3aaf8"
           ]
         },
         {
@@ -15339,7 +15328,7 @@
             }
           ],
           "people": [
-            "person-bbf0791e"
+            "person-9b0bc40f"
           ]
         },
         {
@@ -15542,7 +15531,7 @@
             }
           ],
           "people": [
-            "person-bbf0791e"
+            "person-9b0bc40f"
           ]
         },
         {
@@ -15745,7 +15734,7 @@
             }
           ],
           "people": [
-            "person-bbf0791e"
+            "person-9b0bc40f"
           ]
         },
         {
@@ -16070,11 +16059,8 @@
             }
           ],
           "people": [
-            "person-bbf0791e",
-            "person-8113a65d--odpojeno-od-person-13",
-            "person-a1b4b980--odpojeno-od-person-13",
-            "person-9ac1d3ed",
-            "person-3ec8d8e8"
+            "person-183e8294",
+            "person-79c593b4"
           ]
         },
         {
@@ -16210,11 +16196,12 @@
             }
           ],
           "people": [
-            "person-5e38b07f",
-            "person-8534a578--odpojeno-od-bobo",
-            "person-16f7cd5e",
-            "person-bbf0791e",
-            "person-4bdf7087"
+            "person-6eebb90f",
+            "person-83453a3f",
+            "person-d0efee91",
+            "person-9b0bc40f",
+            "person-183e8294",
+            "person-6abf63c9"
           ]
         },
         {
@@ -16362,13 +16349,14 @@
             }
           ],
           "people": [
-            "person-f25a91e9",
-            "person-16f7cd5e",
-            "person-bbf0791e",
-            "person-8534a578--odpojeno-od-bobo",
-            "person-4bdf7087",
-            "person-5e38b07f",
-            "person-8b4653c5"
+            "person-e8450521",
+            "person-f4999137",
+            "person-9b0bc40f",
+            "person-6eebb90f",
+            "person-6abf63c9",
+            "person-0db741fb",
+            "person-6c7393c4",
+            "person-cea3aaf8"
           ]
         },
         {
@@ -16492,9 +16480,10 @@
             }
           ],
           "people": [
-            "person-e06d2881",
-            "person-bbf0791e",
-            "person-833d4762"
+            "person-4d28f02d",
+            "person-183e8294",
+            "person-9b0bc40f",
+            "person-6b5b73d5"
           ]
         },
         {
@@ -16708,8 +16697,8 @@
             }
           ],
           "people": [
-            "person-9ac1d3ed",
-            "person-944aab60"
+            "person-183e8294",
+            "person-4b808b59"
           ]
         },
         {
@@ -16811,11 +16800,11 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-100545-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": [
-            "person-8113a65d--odpojeno-od-person-13"
+            "person-e9ed35a6"
           ]
         },
         {
@@ -16935,8 +16924,8 @@
             }
           ],
           "people": [
-            "person-1b9d1576",
-            "person-a2a65131"
+            "person-8aeea50b",
+            "person-421decab"
           ]
         },
         {
@@ -17143,7 +17132,7 @@
             }
           ],
           "people": [
-            "person-7bfd4e96--odpojeno-od-person-13"
+            "person-183e8294"
           ]
         },
         {
@@ -17250,7 +17239,9 @@
               "height": 534
             }
           ],
-          "people": []
+          "people": [
+            "person-183e8294"
+          ]
         },
         {
           "id": "2025-11-26-113745-dasa",
@@ -17262,7 +17253,7 @@
           "height": 3487,
           "sizeMB": 2.06,
           "aspectRatio": "portrait-2-3",
-          "placeholder": "blurs/IMG_1231.png",
+          "placeholder": "blurs/2025-11-26-113745-dasa.png",
           "placeholderColor": "rgb(200,184,152)",
           "analysis": {
             "aestheticScore": 41.50126117021059,
@@ -17345,7 +17336,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-113745-dasa.jpeg",
-              "width": 534,
+              "width": 359,
               "height": 534
             }
           ],
@@ -17759,7 +17750,7 @@
             }
           ],
           "people": [
-            "person-4bdf7087"
+            "person-6abf63c9"
           ]
         },
         {
@@ -17867,7 +17858,7 @@
             }
           ],
           "people": [
-            "person-8534a578--odpojeno-od-bobo"
+            "person-6eebb90f"
           ]
         },
         {
@@ -17975,7 +17966,7 @@
             }
           ],
           "people": [
-            "person-5e38b07f"
+            "person-0db741fb"
           ]
         },
         {
@@ -18083,7 +18074,7 @@
             }
           ],
           "people": [
-            "person-bbf0791e"
+            "person-9b0bc40f"
           ]
         },
         {
@@ -18770,7 +18761,9 @@
               "height": 534
             }
           ],
-          "people": []
+          "people": [
+            "person-183e8294"
+          ]
         },
         {
           "id": "2025-11-26-125240-cebreus",
@@ -18876,7 +18869,9 @@
               "height": 534
             }
           ],
-          "people": []
+          "people": [
+            "person-183e8294"
+          ]
         },
         {
           "id": "2025-11-26-125315-cebreus",
@@ -19180,7 +19175,9 @@
               "height": 534
             }
           ],
-          "people": []
+          "people": [
+            "person-79c593b4"
+          ]
         },
         {
           "id": "2025-11-26-125341-cebreus",
@@ -19986,7 +19983,8 @@
             }
           ],
           "people": [
-            "person-252fc6bb"
+            "person-fbb59ec6",
+            "person-183e8294"
           ]
         },
         {
@@ -20205,9 +20203,9 @@
             }
           ],
           "people": [
-            "person-eb690fcc",
-            "person-44de5bf9",
-            "person-0c3a0092"
+            "person-b57ab993",
+            "person-cd0417ee",
+            "person-de22d0b0"
           ]
         },
         {
@@ -20617,9 +20615,7 @@
             }
           ],
           "people": [
-            "person-a1b4b980--odpojeno-od-person-13",
-            "person-9ac1d3ed",
-            "person-3ec8d8e8"
+            "person-183e8294"
           ]
         },
         {
@@ -21327,7 +21323,8 @@
             }
           ],
           "people": [
-            "person-5e38b07f"
+            "person-183e8294",
+            "person-a4e0e8c2"
           ]
         },
         {
@@ -21542,13 +21539,13 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-130813-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": [
-            "person-5e38b07f",
-            "person-5d662456--odpojeno-od-person-53",
-            "person-3ec8d8e8"
+            "person-0db741fb",
+            "person-0a61c713",
+            "person-183e8294"
           ]
         },
         {
@@ -22052,7 +22049,7 @@
             }
           ],
           "people": [
-            "person-078ff269--odpojeno-od-person-20"
+            "person-fd46756e"
           ]
         },
         {
@@ -22648,7 +22645,7 @@
             }
           ],
           "people": [
-            "person-29f4d981"
+            "person-80875c1d"
           ]
         },
         {
@@ -22953,8 +22950,8 @@
             }
           ],
           "people": [
-            "person-089842df",
-            "person-c0dcf623"
+            "person-d2793d77",
+            "person-4bfa9341"
           ]
         },
         {
@@ -23079,12 +23076,10 @@
             }
           ],
           "people": [
-            "person-fbbd3e0b--odpojeno-od-person-39",
-            "person-a1b4b980--odpojeno-od-person-13",
-            "person-8113a65d--odpojeno-od-person-13",
-            "person-078ff269--odpojeno-od-person-20",
-            "person-9ac1d3ed",
-            "person-3ec8d8e8"
+            "person-6eebb90f",
+            "person-79c593b4",
+            "person-183e8294",
+            "person-fd46756e"
           ]
         },
         {
@@ -23640,13 +23635,13 @@
             ]
           },
           "people": [
-            "person-34987086--odpojeno-od-person-21",
-            "person-758e48cc",
-            "person-a89d7512",
-            "person-2c0b0509--odpojeno-od-person-20",
-            "person-3ec8d8e8",
-            "person-078ff269--odpojeno-od-person-20",
-            "person-08072763--odpojeno-od-person-13"
+            "person-a4e0e8c2",
+            "person-e106e434",
+            "person-ba30172f",
+            "person-0a61c713",
+            "person-183e8294",
+            "person-fd46756e",
+            "person-cea3aaf8"
           ]
         },
         {
@@ -23818,9 +23813,9 @@
             ]
           },
           "people": [
-            "person-758e48cc",
-            "person-bbf0791e",
-            "person-34987086--odpojeno-od-person-21"
+            "person-e106e434",
+            "person-79c593b4",
+            "person-a4e0e8c2"
           ]
         },
         {
@@ -23939,9 +23934,8 @@
             }
           ],
           "people": [
-            "person-34a5b9ab",
-            "person-8113a65d--odpojeno-od-person-13",
-            "person-bf0cee36"
+            "person-183e8294",
+            "person-d3a57e62"
           ]
         },
         {
@@ -24166,11 +24160,10 @@
             }
           ],
           "people": [
-            "person-4d223294--odpojeno-od-person-56",
-            "person-5e38b07f",
-            "person-ea49a794",
-            "person-d425c680--odpojeno-od-person-56",
-            "person-d866bde4"
+            "person-2e552971",
+            "person-183e8294",
+            "person-50161bca",
+            "person-9c35d0a8"
           ]
         },
         {
@@ -24363,7 +24356,7 @@
             }
           ],
           "people": [
-            "person-d425c680--odpojeno-od-person-56"
+            "person-9c35d0a8"
           ]
         },
         {
@@ -24667,8 +24660,8 @@
             }
           ],
           "people": [
-            "person-537da4f7",
-            "person-6a49d7d2"
+            "person-592046e5",
+            "person-ecf332ec"
           ]
         },
         {
@@ -24793,10 +24786,10 @@
             }
           ],
           "people": [
-            "person-95f7dab4--odpojeno-od-person-53",
-            "person-3abb7df3--odpojeno-od-person-20",
-            "person-b6ef1ba2--odpojeno-od-person-30",
-            "person-c938e13d"
+            "person-340b9d37",
+            "person-fd46756e",
+            "person-e106e434",
+            "person-411a302c"
           ]
         },
         {
@@ -24988,7 +24981,9 @@
               "height": 534
             }
           ],
-          "people": []
+          "people": [
+            "person-183e8294"
+          ]
         },
         {
           "id": "2025-11-26-142225-dasa",
@@ -25286,7 +25281,7 @@
             }
           ],
           "people": [
-            "person-3231a986"
+            "person-1b1e0ede"
           ]
         },
         {
@@ -25393,7 +25388,9 @@
               "height": 534
             }
           ],
-          "people": []
+          "people": [
+            "person-183e8294"
+          ]
         },
         {
           "id": "2025-11-26-153302-cebreus",
@@ -25797,7 +25794,7 @@
             }
           ],
           "people": [
-            "person-891e9dc8"
+            "person-34f5fb9e"
           ]
         },
         {
@@ -26108,11 +26105,7 @@
             }
           ],
           "people": [
-            "person-28472354--odpojeno-od-jarek",
-            "person-5e38b07f",
-            "person-a1b4b980--odpojeno-od-person-13",
-            "person-8113a65d--odpojeno-od-person-13",
-            "person-9ac1d3ed"
+            "person-183e8294"
           ]
         },
         {
@@ -26210,7 +26203,7 @@
             }
           ],
           "people": [
-            "person-fa6f46ab--odpojeno-od-person-56"
+            "person-9c35d0a8"
           ]
         },
         {
@@ -26299,12 +26292,12 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-164810-bobo.jpeg",
-              "width": 534,
+              "width": 300,
               "height": 534
             }
           ],
           "people": [
-            "person-758e48cc"
+            "person-e106e434"
           ]
         },
         {
@@ -26393,12 +26386,12 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-164824-bobo.jpeg",
-              "width": 534,
+              "width": 300,
               "height": 534
             }
           ],
           "people": [
-            "person-758e48cc"
+            "person-e106e434"
           ]
         },
         {
@@ -26480,7 +26473,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-170618-bobo.jpeg",
-              "width": 534,
+              "width": 300,
               "height": 534
             }
           ],
@@ -26585,13 +26578,13 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-182507-bobo.jpeg",
               "width": 534,
-              "height": 534
+              "height": 442
             }
           ],
           "people": [
-            "person-e06d2881",
-            "person-bbf0791e",
-            "person-8534a578--odpojeno-od-bobo"
+            "person-4d28f02d",
+            "person-9b0bc40f",
+            "person-6abf63c9"
           ]
         },
         {
@@ -26711,15 +26704,16 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-182606.jpeg",
               "width": 534,
-              "height": 534
+              "height": 445
             }
           ],
           "people": [
-            "person-16f7cd5e",
-            "person-08072763--odpojeno-od-person-13",
-            "person-e06d2881",
-            "person-4bdf7087",
-            "person-bbf0791e"
+            "person-83453a3f",
+            "person-cea3aaf8",
+            "person-4d28f02d",
+            "person-c50da1a1",
+            "person-6abf63c9",
+            "person-183e8294"
           ]
         },
         {
@@ -26915,7 +26909,7 @@
             }
           ],
           "people": [
-            "person-bbf0791e"
+            "person-9b0bc40f"
           ]
         },
         {
@@ -27025,7 +27019,8 @@
             }
           ],
           "people": [
-            "person-427fe931"
+            "person-02cab6df",
+            "person-183e8294"
           ]
         }
       ],
@@ -27228,11 +27223,11 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-27-064232-bobo.jpeg",
               "width": 534,
-              "height": 534
+              "height": 300
             }
           ],
           "people": [
-            "person-3ec8d8e8"
+            "person-183e8294"
           ]
         },
         {
@@ -27315,7 +27310,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-27-064239-bobo.jpeg",
               "width": 534,
-              "height": 534
+              "height": 300
             }
           ],
           "people": []
@@ -27344,8 +27339,6 @@
             "date": "2025-11-27T05:42:40.000Z",
             "author": "Bobo"
           },
-          "author": "Bobo",
-          "authorSlug": "bobo",
           "date": "2025-11-27T05:42:40.000Z",
           "sources": [
             {
@@ -27406,6 +27399,7 @@
               "height": 534
             }
           ],
+          "author": "Bobo",
           "people": []
         },
         {
@@ -27416,7 +27410,7 @@
           "title": "",
           "width": 1600,
           "height": 900,
-          "sizeMB": 0.32,
+          "sizeMB": 0.31,
           "aspectRatio": "landscape-16-9",
           "placeholder": "blurs/2025-11-27-064240-9625dee9-e875-4c32-a88b-4cd781fc1614.png",
           "placeholderColor": "",
@@ -27439,8 +27433,6 @@
             "date": "2025-11-27T05:42:40.000Z",
             "author": "Bobo"
           },
-          "author": "Bobo",
-          "authorSlug": "bobo",
           "date": "2025-11-27T05:42:40.000Z",
           "sources": [
             {
@@ -27501,9 +27493,9 @@
               "height": 534
             }
           ],
+          "author": "Bobo",
           "people": [
-            "person-220158a5--odpojeno-od-person-13",
-            "person-a1b4b980--odpojeno-od-person-13"
+            "person-183e8294"
           ]
         },
         {
@@ -27586,7 +27578,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-27-064240-bobo.jpeg",
               "width": 534,
-              "height": 534
+              "height": 300
             }
           ],
           "people": []
@@ -27913,15 +27905,15 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-27-124045-dasa.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
           "people": [
-            "person-8113a65d--odpojeno-od-person-13",
-            "person-f7b6c005",
-            "person-a2852590--odpojeno-od-dasa",
-            "person-4b13d6fa"
+            "person-183e8294",
+            "person-d9879ec3",
+            "person-6eebb90f",
+            "person-858eb410"
           ]
         },
         {
@@ -28385,7 +28377,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-27-154552-dasa.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -28662,7 +28654,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-27-162526-dasa.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -28946,7 +28938,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-28-132857-dasa.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -29147,7 +29139,8 @@
             }
           ],
           "people": [
-            "person-9e90f413"
+            "person-cd15cc55",
+            "person-9b0bc40f"
           ]
         },
         {
@@ -29266,9 +29259,8 @@
             }
           ],
           "people": [
-            "person-a1b4b980--odpojeno-od-person-13",
-            "person-3ec8d8e8",
-            "person-9ac1d3ed"
+            "person-7cac6dc6",
+            "person-183e8294"
           ]
         },
         {
@@ -29369,7 +29361,7 @@
             }
           ],
           "people": [
-            "person-a98fa8fb"
+            "person-cbbd0594"
           ]
         },
         {
@@ -29472,12 +29464,12 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-28-152506-dasa.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": [
-            "person-7909a13c",
-            "person-a98fa8fb"
+            "person-566ffc0b",
+            "person-0ea5405f"
           ]
         },
         {
@@ -29578,7 +29570,7 @@
             }
           ],
           "people": [
-            "person-8534a578--odpojeno-od-bobo"
+            "person-86077f36"
           ]
         },
         {
@@ -29661,7 +29653,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-28-170307-bobo.jpeg",
               "width": 534,
-              "height": 534
+              "height": 300
             }
           ],
           "people": []
@@ -29877,7 +29869,7 @@
             }
           ],
           "people": [
-            "person-a3878e68"
+            "person-3adf6fed"
           ]
         },
         {
@@ -29996,11 +29988,8 @@
             }
           ],
           "people": [
-            "person-8113a65d--odpojeno-od-person-13",
-            "person-08072763--odpojeno-od-person-13",
-            "person-a1b4b980--odpojeno-od-person-13",
-            "person-3ec8d8e8",
-            "person-9ac1d3ed"
+            "person-cea3aaf8",
+            "person-183e8294"
           ]
         },
         {
@@ -30102,13 +30091,13 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-30-134741-dasa.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
           "people": [
-            "person-d8284eed",
-            "person-65fd0b93"
+            "person-0f3e0c7f",
+            "person-79c593b4"
           ]
         },
         {
@@ -30507,7 +30496,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-30-141253-dasa.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -32388,10 +32377,7 @@
             }
           ],
           "people": [
-            "person-08072763--odpojeno-od-person-13",
-            "person-a1b4b980--odpojeno-od-person-13",
-            "person-9ac1d3ed",
-            "person-3ec8d8e8"
+            "person-183e8294"
           ]
         },
         {
@@ -32492,7 +32478,7 @@
             }
           ],
           "people": [
-            "person-e06d2881"
+            "person-4d28f02d"
           ]
         }
       ],
