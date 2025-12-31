@@ -175,6 +175,11 @@ function calculateReleaseDates(
     }
   }
 
+  // CRITICAL: Never modify first or last image timestamps
+  // They define the separator time range (e.g., "Pyramids, 08:00 - 12:00")
+  const firstImageId = imageIds[0];
+  const lastImageId = imageIds[imageIds.length - 1];
+
   // Find images that changed position
   for (let newIndex = 0; newIndex < imageIds.length; newIndex++) {
     const imageId = imageIds[newIndex];
@@ -182,6 +187,11 @@ function calculateReleaseDates(
 
     // Skip if image didn't move
     if (oldIndex === newIndex) continue;
+
+    // PROTECTION: Never change first or last image
+    if (imageId === firstImageId || imageId === lastImageId) {
+      continue;
+    }
 
     // Get neighbors in the NEW order
     const previousImageId = newIndex > 0 ? imageIds[newIndex - 1] : null;
@@ -199,19 +209,19 @@ function calculateReleaseDates(
         result[imageId] = new Date(avgMs).toISOString();
       }
     } else if (nextImageId) {
-      // Move to beginning: next image time minus 10 minutes
+      // Move near beginning: use 1 minute offset
       const nextTime = releaseDateMap.get(nextImageId);
       if (nextTime) {
         const nextDate = new Date(nextTime);
-        nextDate.setMinutes(nextDate.getMinutes() - 10);
+        nextDate.setMinutes(nextDate.getMinutes() - 1);
         result[imageId] = nextDate.toISOString();
       }
     } else if (previousImageId) {
-      // Move to end: previous image time plus 10 minutes
+      // Move near end: use 1 minute offset
       const prevTime = releaseDateMap.get(previousImageId);
       if (prevTime) {
         const prevDate = new Date(prevTime);
-        prevDate.setMinutes(prevDate.getMinutes() + 10);
+        prevDate.setMinutes(prevDate.getMinutes() + 1);
         result[imageId] = prevDate.toISOString();
       }
     }
