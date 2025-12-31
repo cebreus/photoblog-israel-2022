@@ -9,6 +9,7 @@ import { parseArgs } from "node:util";
 import { cancel, intro, isCancel, outro, select } from "@clack/prompts";
 import pc from "picocolors";
 import { createLogger } from "./lib/core/cli-logger";
+import { cleanPhantomAssignments } from "./lib/manifests/cleaner";
 import { validateAndCleanManifests } from "./lib/manifests/validator";
 import { run } from "./lib/utils/shell";
 import { formatDuration } from "./lib/utils/time";
@@ -204,6 +205,25 @@ async function cmdFaces() {
   await run("bun", ["scripts/face-clustering.ts", ...getCommonFlags()], { stdio: "inherit" });
 }
 
+async function cmdCleanup() {
+  logger.info("┌ Running Manifest Integrity Cleanup");
+  const dataDir = path.resolve(PROJECT_ROOT, `src/data/${gallery}`);
+
+  // 1. Standard manifest validation
+  const validationResult = await validateAndCleanManifests(dataDir);
+  if (validationResult.totalCleaned > 0) {
+    logger.info(`Cleaned ${validationResult.totalCleaned} orphaned manifest entries.`);
+  }
+
+  // 2. Phantom assignment cleanup
+  const phantomResult = await cleanPhantomAssignments(gallery);
+  if (phantomResult.totalRemoved > 0) {
+    logger.info(`Cleaned ${phantomResult.totalRemoved} phantom assignments (missing face crops).`);
+  } else {
+    logger.info("No phantom assignments found.");
+  }
+}
+
 async function cmdDev() {
   await checkManifest(false);
   await cmdFavicons();
@@ -248,6 +268,8 @@ async function cmdProcess() {
         return await cmdAnalyze();
       case "faces":
         return await cmdFaces();
+      case "cleanup":
+        return await cmdCleanup();
       default:
         logger.error(`Unknown step: ${subcommand}`);
         process.exit(1);
@@ -281,13 +303,24 @@ async function cmdProcess() {
     logger.info(`Step 4 complete in ${formatDuration(performance.now() - t5)}`);
 
     // Step 5: Manifest Validation & Cleanup
-    logger.info("┌ Step 5/5: Manifest Validation");
+    logger.info("┌ Step 5/5: Manifest Validation & Integrity");
     const t6 = performance.now();
     const dataDir = path.resolve(PROJECT_ROOT, `src/data/${gallery}`);
+
+    // 1. Standard manifest validation
     const validationResult = await validateAndCleanManifests(dataDir);
     if (validationResult.totalCleaned > 0) {
       logger.info(`Cleaned ${validationResult.totalCleaned} orphaned manifest entries.`);
     }
+
+    // 2. Phantom assignment cleanup (missing crops on disk)
+    const phantomResult = await cleanPhantomAssignments(gallery);
+    if (phantomResult.totalRemoved > 0) {
+      logger.info(
+        `Cleaned ${phantomResult.totalRemoved} phantom assignments (missing face crops).`,
+      );
+    }
+
     logger.info(`Step 5 complete in ${formatDuration(performance.now() - t6)}`);
   } else {
     logger.info(
@@ -317,7 +350,8 @@ async function main() {
     images    Generate image variants and basic metadata
     blur      Generate blur placeholders (LQIP)
     faces     Run face clustering and recognition
-
+    cleanup   Clean phantom assignments and orphaned manifest entries
+ 
   Global Options:
     --gallery, -g      Target gallery directory (default: ${pc.bold(DEFAULT_GALLERY)})
                        Available: ${_galleryList}
