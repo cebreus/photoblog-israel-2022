@@ -9,122 +9,150 @@ export const MEDIA_TYPES: { id: MediaItemType; label: string }[] = [
   { id: "sequence", label: "Sekvence" },
 ];
 
-/** All media type IDs for "select all" logic */
-const _ALL_MEDIA_TYPE_IDS = MEDIA_TYPES.map(function getId(t) {
-  return t.id;
-});
+// Module-level state
+let selectedAuthors = $state<string[]>([]);
+let selectedPeople = $state<string[]>([]);
+let showSeparators = $state(true);
+let selectedQualityBuckets = $state<QualityBucket[]>([]);
+/** Media types to show (photo, panorama, sequence). Empty = all. */
+let selectedMediaTypes = $state<MediaItemType[]>([]);
+/** Show snapshots made by others (default: visible) */
+let showOthersSnapshots = $state(true);
+/** Show snapshots made by the author (default: visible) */
+let showAuthorSnapshots = $state(true);
+/** Show ONLY snapshots (hide all regular photos) */
+let onlySnapshots = $state(false);
+let filtersSyncing = $state(false);
 
-export class FilterState {
-  selectedAuthors = $state<string[]>([]);
-  selectedPeople = $state<string[]>([]);
-  showSeparators = $state(true);
-  selectedQualityBuckets = $state<QualityBucket[]>([]);
-  /** Media types to show (photo, panorama, sequence). Empty = all. */
-  selectedMediaTypes = $state<MediaItemType[]>([]);
-  /** Show snapshots made by others (default: visible) */
-  showOthersSnapshots = $state(true);
-  /** Show snapshots made by the author (default: visible) */
-  showAuthorSnapshots = $state(true);
-  /** Show ONLY snapshots (hide all regular photos) */
-  onlySnapshots = $state(false);
-  filtersSyncing = $state(false);
+/** Source data for filtering - injected from page load */
+let sourceData = $state(getPhotoDays());
 
-  /** Source data for filtering - injected from page load */
-  sourceData = $state(getPhotoDays());
-
-  filteredPhotoDays = $derived.by(
-    function computeFilteredDays(this: FilterState) {
-      const days = this.sourceData;
-      const self = this;
-      return days
-        .map(function mapDay(day) {
-          return {
-            ...day,
-            items: filterGalleryItems(
-              day.items,
-              self.selectedAuthors,
-              self.showSeparators,
-              self.selectedQualityBuckets,
-              self.selectedPeople,
-              self.selectedMediaTypes,
-              self.showOthersSnapshots,
-              self.showAuthorSnapshots,
-              self.onlySnapshots,
-            ),
-          };
-        })
-        .filter(function hasItems(day) {
-          return day.items && day.items.length > 0;
-        });
-    }.bind(this),
-  );
-
-  stats = $derived.by(
-    function computeStats(this: FilterState) {
-      return computeTotals(
-        this.selectedAuthors,
-        this.showSeparators,
-        this.selectedQualityBuckets,
-        this.selectedPeople,
-        this.selectedMediaTypes,
-        this.showOthersSnapshots,
-        this.showAuthorSnapshots,
-        this.onlySnapshots,
-        this.sourceData,
-      );
-    }.bind(this),
-  );
-
-  visiblePhotos = $derived(this.stats.visiblePhotos);
-  totalLocations = $derived(this.stats.totalLocations);
-
-  setSelectedAuthors(authors: string[]) {
-    this.selectedAuthors = authors;
-  }
-
-  setSelectedPeople(people: string[]) {
-    this.selectedPeople = people;
-  }
-
-  setShowSeparators(value: boolean) {
-    this.showSeparators = value;
-  }
-
-  setSelectedQualityBuckets(buckets: QualityBucket[]) {
-    this.selectedQualityBuckets = buckets;
-  }
-
-  setSelectedMediaTypes(types: MediaItemType[]) {
-    this.selectedMediaTypes = types;
-  }
-
-  setShowOthersSnapshots(value: boolean) {
-    this.showOthersSnapshots = value;
-  }
-
-  setShowAuthorSnapshots(value: boolean) {
-    this.showAuthorSnapshots = value;
-  }
-
-  setOnlySnapshots(value: boolean) {
-    this.onlySnapshots = value;
-  }
-
-  setFiltersSyncing(value: boolean) {
-    this.filtersSyncing = value;
-  }
-
-  setSourceData(data: PhotoDay[]) {
-    this.sourceData = data;
-  }
-
-  reset() {
-    this.selectedAuthors = [];
-    this.selectedQualityBuckets = [];
-    this.selectedPeople = [];
-    this.selectedMediaTypes = [];
-    this.onlySnapshots = false;
-  }
+function reset() {
+  selectedAuthors = [];
+  selectedQualityBuckets = [];
+  selectedPeople = [];
+  selectedMediaTypes = [];
+  onlySnapshots = false;
 }
 
-export const filters = new FilterState();
+// Derived state
+const filteredPhotoDays = $derived.by(() => {
+  const criteria = {
+    selectedAuthors,
+    showSeparators,
+    selectedQualityBuckets,
+    selectedPeople,
+    selectedMediaTypes,
+    showOthersSnapshots,
+    showAuthorSnapshots,
+    onlySnapshots,
+  };
+
+  return sourceData
+    .map((day) => ({
+      ...day,
+      items: filterGalleryItems(day.items, criteria),
+    }))
+    .filter((day) => day.items && day.items.length > 0);
+});
+
+const stats = $derived.by(() => {
+  return computeTotals(
+    {
+      selectedAuthors,
+      showSeparators,
+      selectedQualityBuckets,
+      selectedPeople,
+      selectedMediaTypes,
+      showOthersSnapshots,
+      showAuthorSnapshots,
+      onlySnapshots,
+    },
+    sourceData,
+  );
+});
+
+export const filters = {
+  get selectedAuthors() {
+    return selectedAuthors;
+  },
+  set selectedAuthors(v) {
+    selectedAuthors = v;
+  },
+
+  get selectedPeople() {
+    return selectedPeople;
+  },
+  set selectedPeople(v) {
+    selectedPeople = v;
+  },
+
+  get showSeparators() {
+    return showSeparators;
+  },
+  set showSeparators(v) {
+    showSeparators = v;
+  },
+
+  get selectedQualityBuckets() {
+    return selectedQualityBuckets;
+  },
+  set selectedQualityBuckets(v) {
+    selectedQualityBuckets = v;
+  },
+
+  get selectedMediaTypes() {
+    return selectedMediaTypes;
+  },
+  set selectedMediaTypes(v) {
+    selectedMediaTypes = v;
+  },
+
+  get showOthersSnapshots() {
+    return showOthersSnapshots;
+  },
+  set showOthersSnapshots(v) {
+    showOthersSnapshots = v;
+  },
+
+  get showAuthorSnapshots() {
+    return showAuthorSnapshots;
+  },
+  set showAuthorSnapshots(v) {
+    showAuthorSnapshots = v;
+  },
+
+  get onlySnapshots() {
+    return onlySnapshots;
+  },
+  set onlySnapshots(v) {
+    onlySnapshots = v;
+  },
+
+  get filtersSyncing() {
+    return filtersSyncing;
+  },
+  set filtersSyncing(v) {
+    filtersSyncing = v;
+  },
+
+  get sourceData() {
+    return sourceData;
+  },
+  // Custom setter for sourceData to match previous API
+  setSourceData(data: PhotoDay[]) {
+    sourceData = data;
+  },
+
+  get filteredPhotoDays() {
+    return filteredPhotoDays;
+  },
+  get visiblePhotos() {
+    return stats.visiblePhotos;
+  },
+  get totalLocations() {
+    return stats.totalLocations;
+  },
+
+  reset,
+};

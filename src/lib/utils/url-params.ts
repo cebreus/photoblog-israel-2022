@@ -136,17 +136,10 @@ export function parseQualityFromUrl(url: URL): QualityBucket[] | undefined {
 }
 
 export function buildQualityParam(selectedQualityBuckets: QualityBucket[]): string | undefined {
-  const allQualityIds = QUALITY_BUCKETS.map(function (b) {
-    return b.id;
-  });
-  const isAllQualitySelected =
-    allQualityIds.length === selectedQualityBuckets.length &&
-    allQualityIds.every(function (id) {
-      return selectedQualityBuckets.includes(id);
-    });
+  const isAllQualitySelected = QUALITY_BUCKETS.every((b) => selectedQualityBuckets.includes(b.id));
 
   if (selectedQualityBuckets.length === 0 || isAllQualitySelected) return undefined;
-  if (selectedQualityBuckets.includes("none" as any)) return "none";
+  if ((selectedQualityBuckets as string[]).includes("none")) return "none";
   return selectedQualityBuckets.join(",");
 }
 
@@ -234,7 +227,7 @@ export function buildMediaTypesParam(selected: MediaItemType[]): string | undefi
     });
 
   if (selected.length === 0 || isAllSelected) return undefined;
-  if (selected.includes("none" as any)) return "none";
+  if ((selected as string[]).includes("none")) return "none";
   return selected.join(",");
 }
 

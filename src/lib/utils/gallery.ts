@@ -39,25 +39,29 @@ function isAuthorSnapshot(item: PhotoDayItem): boolean {
   return isSnap;
 }
 
+export type FilterCriteria = {
+  selectedAuthors: string[];
+  showSeparators: boolean;
+  selectedQualityBuckets: QualityBucket[];
+  selectedPeople: string[];
+  selectedMediaTypes: MediaItemType[];
+  showOthersSnapshots: boolean;
+  showAuthorSnapshots: boolean;
+  onlySnapshots: boolean;
+};
+
 function shouldIncludeItem(
   item: PhotoDayItem,
-  showSeparators: boolean,
-  selectedAuthors: string[],
-  selectedQualityBuckets: QualityBucket[],
-  selectedPeople: string[],
-  selectedMediaTypes: MediaItemType[],
-  showOthersSnapshots: boolean,
-  showAuthorSnapshots: boolean,
-  onlySnapshots: boolean,
+  criteria: FilterCriteria,
   isDefaultQualityView: boolean,
   imagePeopleMap: Record<string, string[]>,
 ): boolean {
   if (!isImageEntry(item)) {
-    return showSeparators;
+    return criteria.showSeparators;
   }
 
   // Filter ONLY snapshots mode
-  if (onlySnapshots && !isAuthorSnapshot(item) && !isOthersSnapshot(item)) {
+  if (criteria.onlySnapshots && !isAuthorSnapshot(item) && !isOthersSnapshot(item)) {
     return false;
   }
 
@@ -71,55 +75,55 @@ function shouldIncludeItem(
     return false;
   }
 
-  if (selectedMediaTypes.length > 0) {
-    if (selectedMediaTypes.includes("none" as any)) {
+  if (criteria.selectedMediaTypes.length > 0) {
+    if ((criteria.selectedMediaTypes as string[]).includes("none")) {
       return false;
     }
-    if (!selectedMediaTypes.includes(item.type)) {
+    if (!criteria.selectedMediaTypes.includes(item.type)) {
       return false;
     }
   }
 
   // Hide others' snapshots unless explicitly enabled
-  if (!showOthersSnapshots && isOthersSnapshot(item)) {
+  if (!criteria.showOthersSnapshots && isOthersSnapshot(item)) {
     return false;
   }
 
   // Hide author's snapshots unless explicitly enabled
-  if (!showAuthorSnapshots && isAuthorSnapshot(item)) {
+  if (!criteria.showAuthorSnapshots && isAuthorSnapshot(item)) {
     return false;
   }
 
-  if (selectedAuthors.length > 0) {
-    if (selectedAuthors.includes("none")) {
+  if (criteria.selectedAuthors.length > 0) {
+    if (criteria.selectedAuthors.includes("none")) {
       return false;
     }
-    const authorMatches = selectedAuthors.includes(item.authorSlug || "neuvedeno");
+    const authorMatches = criteria.selectedAuthors.includes(item.authorSlug || "neuvedeno");
     if (!authorMatches) return false;
   }
 
   if (!isDefaultQualityView) {
-    if (selectedQualityBuckets.includes("none" as any)) {
+    if ((criteria.selectedQualityBuckets as string[]).includes("none")) {
       return false;
     }
     const bucket = item.analysis?.qualityBucket;
-    if (!bucket || !selectedQualityBuckets.includes(bucket)) {
+    if (!bucket || !criteria.selectedQualityBuckets.includes(bucket)) {
       return false;
     }
   }
 
-  if (selectedPeople.length > 0) {
-    if (selectedPeople.includes("none")) {
+  if (criteria.selectedPeople.length > 0) {
+    if (criteria.selectedPeople.includes("none")) {
       return false;
     }
     const itemPeople = item.people || imagePeopleMap[item.id] || [];
-    const hasUnknown = selectedPeople.includes("unknown");
+    const hasUnknown = criteria.selectedPeople.includes("unknown");
 
     if (itemPeople.length === 0) {
       if (!hasUnknown) return false;
     } else {
       const personMatches = itemPeople.some(function checkPerson(p: string) {
-        return selectedPeople.includes(p);
+        return criteria.selectedPeople.includes(p);
       });
       if (!personMatches) return false;
     }
@@ -130,45 +134,18 @@ function shouldIncludeItem(
 
 export function filterGalleryItems(
   items: PhotoDayItem[],
-  selectedAuthors: string[],
-  showSeparators: boolean,
-  selectedQualityBuckets: QualityBucket[] = [],
-  selectedPeople: string[] = [],
-  selectedMediaTypes: MediaItemType[] = [],
-  showOthersSnapshots: boolean = true,
-  showAuthorSnapshots: boolean = true,
-  onlySnapshots: boolean = false,
+  criteria: FilterCriteria,
 ): PhotoDayItem[] {
-  const isDefaultQualityView = selectedQualityBuckets.length === 0;
-
+  const isDefaultQualityView = criteria.selectedQualityBuckets.length === 0;
   const imagePeopleMap = getImagePeopleMap();
 
   return items.filter(function filterItem(item) {
-    return shouldIncludeItem(
-      item,
-      showSeparators,
-      selectedAuthors,
-      selectedQualityBuckets,
-      selectedPeople,
-      selectedMediaTypes,
-      showOthersSnapshots,
-      showAuthorSnapshots,
-      onlySnapshots,
-      isDefaultQualityView,
-      imagePeopleMap,
-    );
+    return shouldIncludeItem(item, criteria, isDefaultQualityView, imagePeopleMap);
   });
 }
 
 export function computeTotals(
-  selectedAuthors: string[],
-  showSeparators: boolean,
-  selectedQualityBuckets: QualityBucket[] = [],
-  selectedPeople: string[],
-  selectedMediaTypes: MediaItemType[] = [],
-  showOthersSnapshots: boolean = true,
-  showAuthorSnapshots: boolean = true,
-  onlySnapshots: boolean = false,
+  criteria: FilterCriteria,
   photoDaysData: PhotoDay[] = getPhotoDays(),
 ): { visiblePhotos: number; totalLocations: number } {
   let visiblePhotos = 0;
@@ -177,17 +154,7 @@ export function computeTotals(
   const allPhotoDays = photoDaysData;
 
   for (const day of allPhotoDays) {
-    const filteredItems = filterGalleryItems(
-      day.items,
-      selectedAuthors,
-      showSeparators,
-      selectedQualityBuckets,
-      selectedPeople,
-      selectedMediaTypes,
-      showOthersSnapshots,
-      showAuthorSnapshots,
-      onlySnapshots,
-    );
+    const filteredItems = filterGalleryItems(day.items, criteria);
 
     for (const item of filteredItems) {
       if (item.type !== "separator") {
@@ -195,7 +162,7 @@ export function computeTotals(
         if (item.location) {
           uniqueLocations.add(item.location);
         }
-      } else if (item.type === "separator" && showSeparators) {
+      } else if (item.type === "separator" && criteria.showSeparators) {
         if (item.location) {
           uniqueLocations.add(item.location);
         }

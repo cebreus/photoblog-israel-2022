@@ -23,6 +23,8 @@ vi.mock("mode-watcher", () => ({
 vi.mock("$app/environment", () => ({
   dev: true,
   browser: true,
+  building: false,
+  version: "test",
 }));
 
 vi.mock("$lib/logger", () => ({
@@ -40,6 +42,7 @@ vi.mock("$lib/stores/filters.svelte", () => {
     selectedAuthors: [] as string[],
     selectedPeople: [] as string[],
     selectedQualityBuckets: ["excellent", "good", "poor"] as string[],
+    selectedMediaTypes: [] as string[],
     showSeparators: true,
     filtersSyncing: false,
   };
@@ -64,6 +67,12 @@ vi.mock("$lib/stores/filters.svelte", () => {
       set selectedQualityBuckets(v: string[]) {
         state.selectedQualityBuckets = v;
       },
+      get selectedMediaTypes() {
+        return state.selectedMediaTypes;
+      },
+      set selectedMediaTypes(v: string[]) {
+        state.selectedMediaTypes = v;
+      },
       get showSeparators() {
         return state.showSeparators;
       },
@@ -74,6 +83,11 @@ vi.mock("$lib/stores/filters.svelte", () => {
         return state.filtersSyncing;
       },
     },
+    MEDIA_TYPES: [
+      { id: "image", label: "Fotografie" },
+      { id: "panorama", label: "Panoramata" },
+      { id: "sequence", label: "Sekvence" },
+    ],
   };
 });
 

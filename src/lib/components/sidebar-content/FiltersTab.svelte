@@ -12,7 +12,7 @@
   import { createLogger } from "$lib/logger";
   import { filters, MEDIA_TYPES } from "$lib/stores/filters.svelte";
   import { ui } from "$lib/stores/ui.svelte";
-  import type { MenuDay, QualityBucket } from "$lib/types/manifest";
+  import type { MediaItemType, QualityBucket } from "$lib/types/manifest";
   import { QUALITY_BUCKETS } from "$lib/utils/gallery";
   import { getMenuItems } from "$lib/utils/menu";
   import { toSlug } from "$lib/utils/strings";
@@ -32,10 +32,7 @@
 
   let totalPhotos = $state(0);
   let totalAuthors = $state(0);
-  const totalLocations = getMenuItems().reduce(
-    (acc: number, day: MenuDay) => acc + day.locations.length,
-    0,
-  );
+  const totalLocations = getMenuItems().reduce((acc: number, day) => acc + day.locations.length, 0);
 
   $effect(updateTotals);
 
@@ -50,6 +47,11 @@
 
   function getAuthorSlug(a: AuthorStats) {
     return a.slug ?? toSlug(a.name);
+  }
+
+  function isAuthorActive(slug: string): boolean {
+    if (filters.selectedAuthors.length === 0) return true;
+    return filters.selectedAuthors.includes(slug) && !filters.selectedAuthors.includes("none");
   }
 
   function toggleAuthor(slug: string, displayName?: string) {
@@ -94,12 +96,21 @@
     filters.selectedAuthors = next;
   }
 
-  function toggleQualityBucket(bucketId: string) {
-    // Cast to QualityBucket as we know the input comes from QUALITY_BUCKETS list
-    const id = bucketId as QualityBucket;
+  function isQualityActive(bucketId: QualityBucket): boolean {
+    if (filters.selectedQualityBuckets.length === 0) return true;
+    // We check for "none" explicitly, though strictly typed array shouldn't have it mixed ideally.
+    // However, our logic uses "none" as a special marker in the same array sometimes (legacy/URL param logic).
+    // Safe check:
+    return (
+      filters.selectedQualityBuckets.includes(bucketId) &&
+      !filters.selectedQualityBuckets.includes("none" as QualityBucket)
+    );
+  }
+
+  function toggleQualityBucket(id: QualityBucket) {
     let current = filters.selectedQualityBuckets;
 
-    if (current.includes("none" as any)) {
+    if (current.includes("none" as QualityBucket)) {
       current = [];
     } else if (current.length === 0) {
       current = QUALITY_BUCKETS.map((b) => b.id);
@@ -112,11 +123,52 @@
     }
 
     if (current.length === 0) {
-      filters.selectedQualityBuckets = ["none" as any];
+      filters.selectedQualityBuckets = ["none" as QualityBucket];
     } else if (current.length === QUALITY_BUCKETS.length) {
       filters.selectedQualityBuckets = [];
     } else {
       filters.selectedQualityBuckets = current;
+    }
+  }
+
+  function isMediaTypeActive(typeId: MediaItemType): boolean {
+    if (filters.selectedMediaTypes.length === 0) return true;
+    return (
+      filters.selectedMediaTypes.includes(typeId) &&
+      !filters.selectedMediaTypes.includes("none" as MediaItemType)
+    );
+  }
+
+  function handleMediaTypeToggle(typeId: MediaItemType, checked: boolean) {
+    let current = filters.selectedMediaTypes;
+    // Handle special "none" case
+    if (current.includes("none" as MediaItemType)) {
+      current = [];
+    } else if (current.length === 0) {
+      current = MEDIA_TYPES.map((t) => t.id);
+    }
+
+    if (checked) {
+      current = [...current, typeId];
+    } else {
+      current = current.filter((id) => id !== typeId);
+    }
+
+    if (current.length === 0) {
+      filters.selectedMediaTypes = ["none" as MediaItemType];
+    } else if (current.length === MEDIA_TYPES.length) {
+      filters.selectedMediaTypes = [];
+    } else {
+      filters.selectedMediaTypes = current;
+    }
+  }
+
+  function handleModeChange(v: string | undefined) {
+    if (!v) return;
+    if (v === "system") {
+      resetMode();
+    } else {
+      setMode(v as "light" | "dark");
     }
   }
 
@@ -126,11 +178,14 @@
     };
   }
 
+  function createQualityToggleHandler(id: QualityBucket) {
+    return function handleToggle() {
+      toggleQualityBucket(id);
+    };
+  }
+
   const qualityCount = $derived(
-    Array.from(qualityStats.values() as IterableIterator<number>).reduce(
-      (sum: number, val: number) => sum + val,
-      0,
-    ),
+    (Array.from(qualityStats.values()) as number[]).reduce((sum, val) => sum + val, 0),
   );
 </script>
 
@@ -214,16 +269,12 @@
         <div class="flex flex-col gap-3">
           {#each authors as author (author.name)}
             {@const slugKey = author.slug ?? toSlug(author.name)}
-            {@const isActive =
-              filters.selectedAuthors.length === 0 ||
-              (filters.selectedAuthors.includes(slugKey) &&
-                !filters.selectedAuthors.includes("none"))}
-            {@const testIdKey = slugKey}
+            {@const isActive = isAuthorActive(slugKey)}
             <label
               class={`flex cursor-pointer items-center justify-between text-sm ${
                 isActive ? "text-primary" : "text-slate-100"
               }`}
-              data-testid={`filters-tab-author-${testIdKey}`}
+              data-testid={`filters-tab-author-${slugKey}`}
             >
               <span class="flex items-center gap-2">
                 <span>{author.name}</span>
@@ -234,7 +285,7 @@
                 aria-label={isActive
                   ? `Vypnout filtr ${author.name}`
                   : `Zapnout filtr ${author.name}`}
-                data-testid={`filters-tab-author-switch-${testIdKey}`}
+                data-testid={`filters-tab-author-switch-${slugKey}`}
                 onCheckedChange={createToggleHandler(slugKey, author.name)}
               />
             </label>
@@ -250,10 +301,7 @@
       </div>
       <div class="grid gap-2">
         {#each MEDIA_TYPES as type}
-          {@const isChecked =
-            filters.selectedMediaTypes.length === 0 ||
-            (filters.selectedMediaTypes.includes(type.id) &&
-              !filters.selectedMediaTypes.includes("none" as any))}
+          {@const isChecked = isMediaTypeActive(type.id)}
           <label
             class={`flex cursor-pointer items-center justify-between text-sm ${
               isChecked ? "text-primary" : "text-slate-100"
@@ -262,30 +310,7 @@
             <span>{type.label}</span>
             <Switch
               checked={isChecked}
-              onCheckedChange={function handleMediaTypeToggle(checked: boolean | "indeterminate") {
-                let current = filters.selectedMediaTypes;
-                if (current.includes("none" as any)) {
-                  current = [];
-                } else if (current.length === 0) {
-                  current = MEDIA_TYPES.map((t) => t.id);
-                }
-
-                if (checked) {
-                  current = [...current, type.id];
-                } else {
-                  current = current.filter(function keepOther(id) {
-                    return id !== type.id;
-                  });
-                }
-
-                if (current.length === 0) {
-                  filters.selectedMediaTypes = ["none" as any];
-                } else if (current.length === MEDIA_TYPES.length) {
-                  filters.selectedMediaTypes = [];
-                } else {
-                  filters.selectedMediaTypes = current;
-                }
-              }}
+              onCheckedChange={(c) => handleMediaTypeToggle(type.id, c)}
               aria-label={`Filtr ${type.label}`}
             />
           </label>
@@ -369,10 +394,7 @@
               <div class="flex flex-col gap-3 pb-4">
                 {#each QUALITY_BUCKETS as bucket (bucket.id)}
                   {@const count = qualityStats.get(bucket.id) ?? 0}
-                  {@const isActive =
-                    filters.selectedQualityBuckets.length === 0 ||
-                    (filters.selectedQualityBuckets.includes(bucket.id) &&
-                      !filters.selectedQualityBuckets.includes("none" as any))}
+                  {@const isActive = isQualityActive(bucket.id)}
                   <label
                     class={`flex cursor-pointer items-center justify-between text-sm ${
                       isActive ? "text-primary" : "text-slate-100"
@@ -388,9 +410,7 @@
                       aria-label={isActive
                         ? `Vypnout filtr ${bucket.label}`
                         : `Zapnout filtr ${bucket.label}`}
-                      onCheckedChange={function handleQualityToggle() {
-                        toggleQualityBucket(bucket.id);
-                      }}
+                      onCheckedChange={createQualityToggleHandler(bucket.id)}
                     />
                   </label>
                 {/each}
@@ -416,14 +436,7 @@
         <ToggleGroup
           type="single"
           value={mode?.current ?? "system"}
-          onValueChange={(v) => {
-            if (!v) return;
-            if (v === "system") {
-              resetMode();
-            } else {
-              setMode(v as "light" | "dark");
-            }
-          }}
+          onValueChange={handleModeChange}
           class="border-border gap-1 rounded-lg border p-1"
         >
           <ToggleGroupItem

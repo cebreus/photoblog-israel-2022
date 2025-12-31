@@ -44,20 +44,22 @@ function setBooleanStateFromUrl(
   }
 }
 
-export function initializeFiltersFromUrl(url: URL) {
-  if (!browser) return;
-
+function initAuthors(url: URL) {
   const slugs = parseAuthorsFromUrl(url, authors);
   if (JSON.stringify(filters.selectedAuthors) !== JSON.stringify(slugs)) {
     filters.selectedAuthors = slugs;
   }
+}
 
+function initQuality(url: URL) {
   const buckets = parseQualityFromUrl(url);
   const nextBuckets = buckets !== undefined ? buckets : QUALITY_BUCKETS.map((b) => b.id);
   if (JSON.stringify(filters.selectedQualityBuckets) !== JSON.stringify(nextBuckets)) {
     filters.selectedQualityBuckets = nextBuckets;
   }
+}
 
+function initInvertedPresence(url: URL) {
   if (url.searchParams.has("no-separators")) {
     if (filters.showSeparators !== false) filters.showSeparators = false;
   } else {
@@ -67,9 +69,50 @@ export function initializeFiltersFromUrl(url: URL) {
     }
   }
 
+  // Others snapshots toggle
+  if (url.searchParams.has("no-others-snapshots")) {
+    if (filters.showOthersSnapshots !== false) filters.showOthersSnapshots = false;
+  } else {
+    const legacyOthers = url.searchParams.has("others-snapshots");
+    if (legacyOthers) {
+      if (filters.showOthersSnapshots !== true) filters.showOthersSnapshots = true;
+    } else {
+      const showOthers = parseOthersSnapshotsFromUrl(url);
+      if (filters.showOthersSnapshots !== showOthers) filters.showOthersSnapshots = showOthers;
+    }
+  }
+
+  // Author snapshots toggle
+  if (url.searchParams.has("no-author-snapshots")) {
+    if (filters.showAuthorSnapshots !== false) filters.showAuthorSnapshots = false;
+  } else {
+    setBooleanStateFromUrl(url, "author-snapshots", (v) => {
+      if (filters.showAuthorSnapshots !== v) filters.showAuthorSnapshots = v;
+    });
+  }
+}
+
+function initPresenceParams(url: URL) {
   setBooleanStateFromUrl(url, "labels", (v) => {
     ui.photoLabels = v;
   });
+
+  setBooleanStateFromUrl(
+    url,
+    "sidebar",
+    (v) => {
+      ui.sidebarOpen = v;
+    },
+    true,
+  );
+
+  // Only snapshots toggle - presence means TRUE
+  if (url.searchParams.has("only-snapshots")) {
+    if (filters.onlySnapshots !== true) filters.onlySnapshots = true;
+  } else {
+    if (filters.onlySnapshots !== false) filters.onlySnapshots = false;
+  }
+
   if (dev) {
     setBooleanStateFromUrl(url, "editMode", (v) => {
       editor.editMode = v;
@@ -84,67 +127,106 @@ export function initializeFiltersFromUrl(url: URL) {
       ui.curationMode = v;
     });
   }
+}
 
-  setBooleanStateFromUrl(
-    url,
-    "sidebar",
-    (v) => {
-      ui.sidebarOpen = v;
-    },
-    true,
-  );
-
+function initPeople(url: URL) {
   const nextPeople = parsePeopleFromUrl(url);
   if (JSON.stringify(filters.selectedPeople) !== JSON.stringify(nextPeople)) {
     filters.selectedPeople = nextPeople;
   }
+}
 
+function initEditorSelection(url: URL) {
   const editCsv = url.searchParams.get("edit");
   editor.selection = new Set(editCsv ? editCsv.split(",").filter(Boolean) : []);
+}
 
+function initTabs(url: URL) {
   ui.activeTab = url.searchParams.get("tab") || "agenda";
+}
 
-  // Media types filter
+function initMediaTypes(url: URL) {
   const mediaTypes = parseMediaTypesFromUrl(url);
   if (JSON.stringify(filters.selectedMediaTypes) !== JSON.stringify(mediaTypes)) {
     filters.selectedMediaTypes = mediaTypes;
   }
+}
 
-  // Others snapshots toggle (inverted presence: 'no-others-snapshots' means hidden)
-  if (url.searchParams.has("no-others-snapshots")) {
-    if (filters.showOthersSnapshots !== false) filters.showOthersSnapshots = false;
-  } else {
-    // Also support legacy 'others-snapshots' if present
-    const legacyOthers = url.searchParams.has("others-snapshots");
-    if (legacyOthers) {
-      if (filters.showOthersSnapshots !== true) filters.showOthersSnapshots = true;
-    } else {
-      // Default state (true) - no changes needed if lastUrl was empty,
-      // but if we are navigating back from a hidden state, we might need to restore.
-      // parseOthersSnapshotsFromUrl will return true here.
-      const showOthers = parseOthersSnapshotsFromUrl(url);
-      if (filters.showOthersSnapshots !== showOthers) filters.showOthersSnapshots = showOthers;
-    }
-  }
+export function initializeFiltersFromUrl(url: URL) {
+  if (!browser) return;
 
-  // Author snapshots toggle (inverted presence: 'no-author-snapshots' means hidden)
-  if (url.searchParams.has("no-author-snapshots")) {
-    if (filters.showAuthorSnapshots !== false) filters.showAuthorSnapshots = false;
-  } else {
-    setBooleanStateFromUrl(url, "author-snapshots", (v) => {
-      if (filters.showAuthorSnapshots !== v) filters.showAuthorSnapshots = v;
-    });
-  }
+  initAuthors(url);
+  initQuality(url);
+  initInvertedPresence(url);
+  initPresenceParams(url);
+  initPeople(url);
+  initEditorSelection(url);
+  initTabs(url);
+  initMediaTypes(url);
+}
 
-  // Only snapshots toggle
-  if (url.searchParams.has("only-snapshots")) {
-    if (filters.onlySnapshots !== true) filters.onlySnapshots = true;
+export let debounceTimer: ReturnType<typeof setTimeout>;
+
+function syncAuthors(params: URLSearchParams) {
+  params.delete("author");
+  params.delete("authors");
+  const authorsVal = buildAuthorsParam(filters.selectedAuthors, authors);
+  if (authorsVal) params.set("authors", authorsVal);
+}
+
+function syncQuality(params: URLSearchParams) {
+  params.delete("quality");
+  const qualityVal = buildQualityParam(filters.selectedQualityBuckets);
+  if (qualityVal !== undefined) params.set("quality", qualityVal);
+}
+
+function syncPeople(params: URLSearchParams) {
+  params.delete("people");
+  const peopleVal = buildPeopleParam(filters.selectedPeople);
+  if (peopleVal) params.set("people", peopleVal);
+}
+
+function syncInvertedPresence(params: URLSearchParams) {
+  params.delete("separators");
+  syncBooleanParam(params, "no-separators", filters.showSeparators, "inverted-presence");
+
+  syncBooleanParam(params, "no-others-snapshots", filters.showOthersSnapshots, "inverted-presence");
+
+  syncBooleanParam(params, "no-author-snapshots", filters.showAuthorSnapshots, "inverted-presence");
+}
+
+function syncPresenceParams(params: URLSearchParams) {
+  syncBooleanParam(params, "labels", ui.photoLabels, "presence");
+  syncBooleanParam(params, "editMode", editor.editMode, "presence");
+  syncBooleanParam(params, "debug", ui.debugMode, "presence");
+  syncBooleanParam(params, "overlay", editor.showMetadataOverlay, "presence");
+  syncBooleanParam(params, "sidebar", ui.sidebarOpen, "presence");
+  syncBooleanParam(params, "curation", ui.curationMode, "presence");
+  syncBooleanParam(params, "only-snapshots", filters.onlySnapshots, "presence");
+}
+
+function syncEditorSelection(params: URLSearchParams) {
+  const selectionVal = editor.selection;
+  if (selectionVal.size > 0) {
+    params.set("edit", Array.from(selectionVal).join(","));
   } else {
-    if (filters.onlySnapshots !== false) filters.onlySnapshots = false;
+    params.delete("edit");
   }
 }
 
-let debounceTimer: ReturnType<typeof setTimeout>;
+function syncTabs(params: URLSearchParams) {
+  params.delete("tab");
+  const activeTabVal = ui.activeTab;
+  if (activeTabVal !== "agenda") {
+    params.set("tab", activeTabVal);
+  }
+}
+
+function syncMediaTypes(params: URLSearchParams) {
+  params.delete("mediaTypes");
+  const mediaTypesVal = buildMediaTypesParam(filters.selectedMediaTypes);
+  if (mediaTypesVal) params.set("mediaTypes", mediaTypesVal);
+}
 
 export function syncUrlFromFilters() {
   if (!browser) return;
@@ -157,65 +239,14 @@ export function syncUrlFromFilters() {
     const pageVal = page;
     const params = new URLSearchParams(pageVal.url.searchParams.toString());
 
-    params.delete("author");
-    params.delete("authors");
-    const authorsVal = buildAuthorsParam(filters.selectedAuthors, authors);
-    if (authorsVal) params.set("authors", authorsVal);
-
-    params.delete("quality");
-    const qualityVal = buildQualityParam(filters.selectedQualityBuckets);
-    if (qualityVal !== undefined) params.set("quality", qualityVal);
-
-    params.delete("people");
-    const peopleVal = buildPeopleParam(filters.selectedPeople);
-    if (peopleVal) params.set("people", peopleVal);
-
-    params.delete("separators");
-    syncBooleanParam(params, "no-separators", filters.showSeparators, "inverted-presence");
-
-    syncBooleanParam(params, "labels", ui.photoLabels, "presence");
-    syncBooleanParam(params, "editMode", editor.editMode, "presence");
-    syncBooleanParam(params, "debug", ui.debugMode, "presence");
-    syncBooleanParam(params, "overlay", editor.showMetadataOverlay, "presence");
-    syncBooleanParam(params, "sidebar", ui.sidebarOpen, "presence");
-    syncBooleanParam(params, "curation", ui.curationMode, "presence");
-
-    const selectionVal = editor.selection;
-    if (selectionVal.size > 0) {
-      params.set("edit", Array.from(selectionVal).join(","));
-    } else {
-      params.delete("edit");
-    }
-
-    params.delete("tab");
-    const activeTabVal = ui.activeTab;
-    if (activeTabVal !== "agenda") {
-      params.set("tab", activeTabVal);
-    }
-
-    // Media types
-    params.delete("mediaTypes");
-    const mediaTypesVal = buildMediaTypesParam(filters.selectedMediaTypes);
-    if (mediaTypesVal) params.set("mediaTypes", mediaTypesVal);
-
-    // Others snapshots
-    syncBooleanParam(
-      params,
-      "no-others-snapshots",
-      filters.showOthersSnapshots,
-      "inverted-presence",
-    );
-
-    // Author snapshots
-    syncBooleanParam(
-      params,
-      "no-author-snapshots",
-      filters.showAuthorSnapshots,
-      "inverted-presence",
-    );
-
-    // Only snapshots
-    syncBooleanParam(params, "only-snapshots", filters.onlySnapshots, "presence");
+    syncAuthors(params);
+    syncQuality(params);
+    syncPeople(params);
+    syncInvertedPresence(params);
+    syncPresenceParams(params);
+    syncEditorSelection(params);
+    syncTabs(params);
+    syncMediaTypes(params);
 
     const newQuery = normalizePresenceParams(params);
     const next = `${pageVal.url.pathname}${newQuery ? `?${newQuery}` : ""}${pageVal.url.hash}`;
