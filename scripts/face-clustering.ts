@@ -900,7 +900,8 @@ async function processImageQueue(
         facesManifest[image.id] = {
           facesDetected: false,
           faces: [],
-          peopleIds: [],
+          // Fix: Preserve existing manual people assignments (e.g. collages)
+          peopleIds: image.people || [],
           descriptors: [],
         };
       }
