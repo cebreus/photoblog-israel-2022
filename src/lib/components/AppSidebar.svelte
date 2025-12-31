@@ -5,7 +5,8 @@
   import User from "@lucide/svelte/icons/user";
   import type { ComponentProps } from "svelte";
   import { untrack } from "svelte";
-
+  import { dev } from "$app/environment";
+  import { page } from "$app/state";
   import AgendaTab from "$lib/components/sidebar-content/AgendaTab.svelte";
   import EditTab from "$lib/components/sidebar-content/EditTab.svelte";
   import FiltersTab from "$lib/components/sidebar-content/FiltersTab.svelte";
@@ -15,9 +16,6 @@
   import { editor } from "$lib/stores/editor.svelte";
   import { ui } from "$lib/stores/ui.svelte";
   import type { MenuManifest, PhotoDay } from "$lib/types/manifest";
-
-  import { dev } from "$app/environment";
-  import { page } from "$app/state";
 
   type AuthorStats = {
     name: string;
