@@ -1,18 +1,14 @@
 import path from "node:path";
 import process from "node:process";
 import { json, type RequestEvent } from "@sveltejs/kit";
+import { exiftool } from "exiftool-vendored";
 import { dev } from "$app/environment";
 import { createLogger } from "$lib/logger";
-import type { ImageEntry, SortOrderManifest } from "$lib/types/manifest";
+import type { ImageEntry } from "$lib/types/manifest";
 import { reloadManifests } from "$lib/utils/images";
 import { organizeDayItems } from "$scripts/lib/manifests/builder";
 import { withManifestLock } from "$scripts/lib/manifests/lock";
-import {
-  loadImagesManifest,
-  loadSortOrderManifest,
-  saveImagesManifest,
-  saveSortOrderManifest,
-} from "$scripts/lib/manifests/repository";
+import { loadImagesManifest, saveImagesManifest } from "$scripts/lib/manifests/repository";
 import { loadStoryData } from "./loader";
 
 const logger = createLogger("api:images:reorder");
@@ -32,9 +28,8 @@ type ReorderPayload = {
 /**
  * PATCH /api/images/reorder
  *
- * Updates the sortOrder of images within a specific day.
- * The order is persisted to sortorder.manifest.json (survives rebuilds)
- * and also applied to images.manifest.json for immediate effect.
+ * Reorders images by modifying their XMP:ReleaseDate values.
+ * This persists the order directly in the image files.
  */
 export async function PATCH({ request }: RequestEvent) {
   if (!dev) {
@@ -60,19 +55,18 @@ export async function PATCH({ request }: RequestEvent) {
   }
 
   const dataPath = path.resolve(process.cwd(), "src/data", resolvedContentDir);
+  const contentDirRoot = path.resolve(process.cwd(), "content", resolvedContentDir);
   const errors: string[] = [];
   let updatedCount = 0;
 
   try {
     await withManifestLock(dataPath, async () => {
-      // 1. Load both manifests
+      // 1. Load manifest
       const manifest = await loadImagesManifest(dataPath);
       if (!manifest) {
         errors.push(`Images manifest not found for ${resolvedContentDir}`);
         return;
       }
-
-      const sortOrderManifest: SortOrderManifest = (await loadSortOrderManifest(dataPath)) || {};
 
       // 2. Find the target day
       const normalizedDayId = dayId.startsWith("day-") ? dayId : `day-${dayId}`;
@@ -85,44 +79,43 @@ export async function PATCH({ request }: RequestEvent) {
         return;
       }
 
-      // 3. Save to persistent sortorder.manifest.json
-      sortOrderManifest[normalizedDayId] = imageIds;
-      await saveSortOrderManifest(dataPath, sortOrderManifest);
-      logger.info(`Saved sort order for ${normalizedDayId} to sortorder.manifest.json`);
+      // 3. Calculate new ReleaseDate values
+      const baseDateStr = targetDay.date; // e.g., "2025-11-25"
+      const newDates = calculateReleaseDates(imageIds, baseDateStr);
 
-      // 4. Also apply to images.manifest.json for immediate effect
-      const orderMap = new Map<string, number>();
-      imageIds.forEach((id, index) => {
-        orderMap.set(id, index + 1); // 1-based indexing
-      });
+      // 4. Ensure all images have ReleaseDate initialized
+      const imageItems = targetDay.items.filter(
+        (item) => item.type !== "separator",
+      ) as ImageEntry[];
+      await ensureReleaseDatesExist(imageItems, contentDirRoot);
 
+      // 5. Write to files using exiftool
+      for (const [id, releaseDate] of Object.entries(newDates)) {
+        const imagePath = await resolveImagePath(id, contentDirRoot);
+        if (!imagePath) {
+          logger.warn(`Could not resolve path for image ${id}`);
+          continue;
+        }
+
+        await exiftool.write(imagePath, {
+          "XMP:ReleaseDate": releaseDate,
+        } as any);
+        updatedCount++;
+      }
+
+      // 6. Update manifest
       for (const item of targetDay.items) {
         if (item.type === "separator") continue;
-
         const imageItem = item as ImageEntry;
-        const newOrder = orderMap.get(imageItem.id);
 
-        if (newOrder !== undefined) {
-          imageItem.sortOrder = newOrder;
-          updatedCount++;
-          logger.debug(`Set sortOrder for ${imageItem.id} to ${newOrder}`);
-        } else {
-          // Image not in the reorder list - clear its sortOrder
-          if (imageItem.sortOrder !== undefined) {
-            delete imageItem.sortOrder;
-            logger.debug(`Cleared sortOrder for ${imageItem.id}`);
-          }
+        if (newDates[imageItem.id]) {
+          if (!imageItem.exif) imageItem.exif = {};
+          imageItem.exif.releaseDate = newDates[imageItem.id];
         }
       }
 
-      // 5. Re-organize the day items (sorts by sortOrder and regenerates separators)
-      // We need to load story data for this to work correctly with separators
-      const storyData = await loadStoryData(
-        path.resolve(process.cwd(), "content", resolvedContentDir),
-      );
-
-      // organizeDayItems expects the day object to be mutable/compatible
-      // It sorts items and regenerates separators based on the new order
+      // 7. Re-organize the day items (sorts by releaseDate and regenerates separators)
+      const storyData = await loadStoryData(contentDirRoot);
       const newDay = organizeDayItems(targetDay, storyData);
 
       // Update the day in the manifest
@@ -132,7 +125,7 @@ export async function PATCH({ request }: RequestEvent) {
       }
 
       await saveImagesManifest(dataPath, manifest);
-      logger.info(`Applied sortOrder to ${updatedCount} images in ${normalizedDayId}`);
+      logger.info(`Updated ReleaseDate for ${updatedCount} images in ${normalizedDayId}`);
     });
 
     // Reload in-memory manifests so the UI gets fresh data immediately
@@ -156,10 +149,88 @@ export async function PATCH({ request }: RequestEvent) {
 }
 
 /**
+ * Calculate ReleaseDate values for an ordered list of images.
+ * Creates sequential timestamps within the day.
+ */
+function calculateReleaseDates(imageIds: string[], baseDate: string): Record<string, string> {
+  const result: Record<string, string> = {};
+
+  for (let i = 0; i < imageIds.length; i++) {
+    const seconds = i + 1; // 1-based to avoid midnight exactly
+    const date = new Date(`${baseDate}T00:00:00Z`);
+    date.setSeconds(seconds);
+    result[imageIds[i]] = date.toISOString();
+  }
+
+  return result;
+}
+
+/**
+ * Ensure all images have ReleaseDate initialized.
+ * If missing, initialize from DateTimeOriginal.
+ */
+async function ensureReleaseDatesExist(
+  dayItems: ImageEntry[],
+  contentDirRoot: string,
+): Promise<void> {
+  const needsInit: ImageEntry[] = [];
+
+  for (const item of dayItems) {
+    if (!item.exif?.releaseDate) {
+      needsInit.push(item);
+    }
+  }
+
+  if (needsInit.length === 0) return;
+
+  // Initialize missing ReleaseDates from DateTimeOriginal
+  for (const item of needsInit) {
+    const imagePath = await resolveImagePath(item.id, contentDirRoot);
+    if (!imagePath) continue;
+
+    const initialDate = item.exif?.date ?? new Date().toISOString();
+
+    await exiftool.write(imagePath, {
+      "XMP:ReleaseDate": initialDate,
+    } as any);
+
+    if (!item.exif) item.exif = {};
+    item.exif.releaseDate = initialDate;
+  }
+
+  logger.info(`Initialized ReleaseDate for ${needsInit.length} images`);
+}
+
+/**
+ * Resolve image ID to filesystem path.
+ */
+async function resolveImagePath(imageId: string, contentDirRoot: string): Promise<string | null> {
+  const extensions = [".jpg", ".jpeg", ".JPG", ".JPEG", ".png", ".PNG", ".heic", ".HEIC"];
+  const searchPaths = [
+    path.join(contentDirRoot, "pics"),
+    path.join(contentDirRoot, "collage-sources"),
+  ];
+
+  for (const basePath of searchPaths) {
+    for (const ext of extensions) {
+      const testPath = path.join(basePath, imageId + ext);
+      const exists = await Bun.file(testPath).exists();
+      if (exists) {
+        return testPath;
+      }
+    }
+  }
+
+  return null;
+}
+
+/**
  * DELETE /api/images/reorder
  *
- * Clears sortOrder from all images in a day, reverting to EXIF date ordering.
- * Also removes the day from sortorder.manifest.json.
+ * Resets ReleaseDate for all images in a day to their DateTimeOriginal values,
+ * effectively reverting to chronological EXIF order.
+ *
+ * NOTE: We do NOT delete ReleaseDate - we reset it. ReleaseDate must always exist.
  */
 export async function DELETE({ request }: RequestEvent) {
   if (!dev) {
@@ -185,8 +256,9 @@ export async function DELETE({ request }: RequestEvent) {
   }
 
   const dataPath = path.resolve(process.cwd(), "src/data", resolvedContentDir);
+  const contentDirRoot = path.resolve(process.cwd(), "content", resolvedContentDir);
   const errors: string[] = [];
-  let clearedCount = 0;
+  let resetCount = 0;
 
   try {
     await withManifestLock(dataPath, async () => {
@@ -196,18 +268,9 @@ export async function DELETE({ request }: RequestEvent) {
         return;
       }
 
-      const sortOrderManifest: SortOrderManifest = (await loadSortOrderManifest(dataPath)) || {};
-
       const normalizedDayId = dayId.startsWith("day-") ? dayId : `day-${dayId}`;
 
-      // 1. Remove from persistent sortorder.manifest.json
-      if (sortOrderManifest[normalizedDayId]) {
-        delete sortOrderManifest[normalizedDayId];
-        await saveSortOrderManifest(dataPath, sortOrderManifest);
-        logger.info(`Removed ${normalizedDayId} from sortorder.manifest.json`);
-      }
-
-      // 2. Clear sortOrder from images.manifest.json
+      // 1. Find the target day
       const targetDay = manifest.photoDays.find(
         (day) => day.id === normalizedDayId || day.date === dayId.replace("day-", ""),
       );
@@ -217,20 +280,33 @@ export async function DELETE({ request }: RequestEvent) {
         return;
       }
 
+      // 2. For each image, reset XMP:ReleaseDate to DateTimeOriginal
       for (const item of targetDay.items) {
         if (item.type === "separator") continue;
 
         const imageItem = item as ImageEntry;
-        if (imageItem.sortOrder !== undefined) {
-          delete imageItem.sortOrder;
-          clearedCount++;
+        const imagePath = await resolveImagePath(imageItem.id, contentDirRoot);
+        if (!imagePath) {
+          logger.warn(`Could not resolve path for image ${imageItem.id}`);
+          continue;
         }
+
+        // Get the original EXIF date
+        const originalDate = imageItem.exif?.date ?? new Date().toISOString();
+
+        // Reset ReleaseDate to match DateTimeOriginal
+        await exiftool.write(imagePath, {
+          "XMP:ReleaseDate": originalDate,
+        } as any);
+
+        // Update manifest - releaseDate now equals original date
+        if (!imageItem.exif) imageItem.exif = {};
+        imageItem.exif.releaseDate = originalDate;
+        resetCount++;
       }
 
       // 3. Re-organize to restore default sort (EXIF date)
-      const storyData = await loadStoryData(
-        path.resolve(process.cwd(), "content", resolvedContentDir),
-      );
+      const storyData = await loadStoryData(contentDirRoot);
       const newDay = organizeDayItems(targetDay, storyData);
 
       const dayIndex = manifest.photoDays.indexOf(targetDay);
@@ -239,25 +315,26 @@ export async function DELETE({ request }: RequestEvent) {
       }
 
       await saveImagesManifest(dataPath, manifest);
-      logger.info(`Cleared sortOrder from ${clearedCount} images in ${normalizedDayId}`);
+      logger.info(`Reset ReleaseDate for ${resetCount} images in ${normalizedDayId}`);
     });
 
     // Reload in-memory manifests so the UI gets fresh data immediately
     await reloadManifests();
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    logger.error(`Failed to clear sortOrder: ${message}`);
+    logger.error(`Failed to reset order: ${message}`);
     errors.push(message);
   }
 
-  if (errors.length > 0 && clearedCount === 0) {
+  if (errors.length > 0 && resetCount === 0) {
     return json({ success: false, message: errors.join("; "), errors }, { status: 500 });
   }
 
   return json({
     success: true,
-    cleared: clearedCount,
+    reset: resetCount,
     dayId,
+    message: "Order reset to EXIF dates",
     errors: errors.length > 0 ? errors : undefined,
   });
 }
