@@ -4,6 +4,7 @@ import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
 import { createLogger } from "$lib/logger";
 import { validateReassignInput } from "$lib/utils/api-validators";
+import { reloadManifests } from "$lib/utils/images";
 import { addReassignmentConstraints } from "$scripts/lib/faces/constraints";
 import { refreshPersonThumbnail, updateImagePersonReference } from "$scripts/lib/faces/people";
 import { removeEmptyPersonFolder } from "$scripts/lib/gallery/cleanup";
@@ -102,6 +103,9 @@ export async function POST({ request }: { request: Request }) {
         await savePeopleManifest(dataDir, peopleManifest);
         await saveImagesManifest(dataDir, imagesManifest);
         await saveFacesManifest(dataDir, facesManifest);
+
+        // Force reload of in-memory manifest cache
+        await reloadManifests();
 
         return json({ success: true, movedCount });
       } catch (err) {

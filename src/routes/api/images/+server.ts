@@ -7,6 +7,7 @@ import { dev } from "$app/environment";
 import { createLogger } from "$lib/logger";
 import { applyMetadataUpdates } from "$lib/shared/metadata-utils";
 import type { ImageEntry, Manifest } from "$lib/types/manifest";
+import { reloadManifests } from "$lib/utils/images";
 import { getExifToolWriteTags } from "$lib/utils/metadata-standards";
 import { config } from "$scripts/build.config";
 import {
@@ -295,6 +296,9 @@ export async function DELETE({ request }: RequestEvent) {
     deleted.push(...result);
   }
 
+  // Force reload of in-memory manifest cache
+  await reloadManifests();
+
   return json({ success: true, deleted, errors });
 }
 
@@ -368,6 +372,9 @@ export async function POST({ request }: RequestEvent) {
     );
     archived.push(...result);
   }
+
+  // Force reload of in-memory manifest cache
+  await reloadManifests();
 
   return json({ success: true, archived, errors });
 }
@@ -453,5 +460,9 @@ export async function PATCH({ request }: RequestEvent) {
   }
 
   // Return both IDs and the full updated objects
+  // Return both IDs and the full updated objects
+  // Force reload of in-memory manifest cache
+  await reloadManifests();
+
   return json({ success: true, updated: updatedIds, updatedImages, errors });
 }

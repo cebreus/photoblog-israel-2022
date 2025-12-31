@@ -4,6 +4,7 @@ import { dev } from "$app/environment";
 import { createLogger } from "$lib/logger";
 import { type FacesManifest, isImageEntry } from "$lib/types/manifest";
 import { validateIgnoreFaceInput } from "$lib/utils/api-validators";
+import { reloadManifests } from "$lib/utils/images";
 import { withManifestLock } from "$scripts/lib/manifests/lock";
 import {
   loadClusteringConstraints,
@@ -95,6 +96,9 @@ export async function POST({ request }: { request: Request }) {
       await savePeopleManifest(dataDir, peopleManifest);
       await saveImagesManifest(dataDir, imagesManifest);
       await saveFacesManifest(dataDir, facesManifest);
+
+      // Force reload of in-memory manifest cache
+      await reloadManifests();
 
       return json({ success: true });
     });

@@ -3,6 +3,7 @@ import process from "node:process";
 import { json, type RequestHandler } from "@sveltejs/kit";
 import { dev } from "$app/environment";
 import { createLogger } from "$lib/logger";
+import { reloadManifests } from "$lib/utils/images";
 import { withManifestLock } from "$scripts/lib/manifests/lock";
 import { loadPeopleManifest, savePeopleManifest } from "$scripts/lib/manifests/repository";
 
@@ -73,6 +74,9 @@ export const PATCH: RequestHandler = async ({ request }) => {
         await savePeopleManifest(dataDir, manifest);
       }
     });
+
+    // Force reload of in-memory manifest cache
+    await reloadManifests();
 
     return json({
       success: true,

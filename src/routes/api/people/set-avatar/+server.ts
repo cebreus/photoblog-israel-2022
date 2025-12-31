@@ -3,6 +3,7 @@ import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
 import { getContentDir } from "$lib/config";
 import { createLogger } from "$lib/logger";
+import { reloadManifests } from "$lib/utils/images";
 import { withManifestLock } from "$scripts/lib/manifests/lock";
 import { loadPeopleManifest, savePeopleManifest } from "$scripts/lib/manifests/repository";
 
@@ -35,6 +36,8 @@ export async function POST({ request }: { request: Request }) {
       person.thumbnail = avatar;
 
       await savePeopleManifest(dataDir, peopleManifest);
+
+      await reloadManifests();
 
       return json({ success: true, avatar });
     });

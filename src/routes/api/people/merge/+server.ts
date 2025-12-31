@@ -11,6 +11,7 @@ import {
   type Person,
 } from "$lib/types/manifest";
 import { validateMergeInput } from "$lib/utils/api-validators";
+import { reloadManifests } from "$lib/utils/images";
 import { toSlug } from "$lib/utils/strings";
 import { config } from "$scripts/build.config";
 import { mergeClusters } from "$scripts/lib/faces/clustering";
@@ -284,6 +285,9 @@ export async function POST({ request }: { request: Request }) {
         await savePeopleManifest(dataDir, peopleManifest);
         await saveImagesManifest(dataDir, imagesManifest);
         await saveFacesManifest(dataDir, facesManifest);
+
+        // Force reload of in-memory manifest cache
+        await reloadManifests();
 
         return json({ success: true, count: targetPerson.faceCount });
       } catch (err) {
