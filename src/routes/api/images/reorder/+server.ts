@@ -266,11 +266,12 @@ async function resolveImagePath(imageId: string, contentDirRoot: string): Promis
     path.join(contentDirRoot, "collage-sources"),
   ];
 
+  const { fileExists } = await import("$scripts/lib/utils/runtime");
+
   for (const basePath of searchPaths) {
     for (const ext of extensions) {
       const testPath = path.join(basePath, imageId + ext);
-      const exists = await Bun.file(testPath).exists();
-      if (exists) {
+      if (await fileExists(testPath)) {
         return testPath;
       }
     }

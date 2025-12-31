@@ -111,6 +111,26 @@
     {
       "imageId": "2025-11-26-133231-dasa",
       "personId": "person-86077f36"
+    },
+    {
+      "imageId": "2025-11-25-115354-dasa",
+      "personId": "person-79c593b4"
+    },
+    {
+      "imageId": "2025-11-25-174738-bobo",
+      "personId": "person-79c593b4"
+    },
+    {
+      "imageId": "2025-11-26-161403-dasa",
+      "personId": "person-79c593b4"
+    },
+    {
+      "imageId": "2025-11-24-201212-cebreus",
+      "personId": "person-6abf63c9"
+    },
+    {
+      "imageId": "2025-11-26-090727-cebreus",
+      "personId": "person-f4999137"
     }
   ],
   "invalidDetections": [
@@ -392,6 +412,15 @@
         "width": 128.5791778564453,
         "height": 188.1701545715332
       }
+    },
+    {
+      "imageId": "2025-11-30-133909-dasa",
+      "box": {
+        "x": 2411.5173568725586,
+        "y": 1529.7127418518064,
+        "width": 64.54193115234375,
+        "height": 75.93025588989246
+      }
     }
   ],
   "connects": [
@@ -514,6 +543,18 @@
     {
       "imageId": "2025-11-26-133231-dasa",
       "personId": "person-868f5939--odpojeno-od-person-38-2"
+    },
+    {
+      "imageId": "2025-11-25-115354-dasa",
+      "personId": "person-6abf63c9"
+    },
+    {
+      "imageId": "2025-11-26-161403-dasa",
+      "personId": "person-0db741fb"
+    },
+    {
+      "imageId": "2025-11-24-201212-cebreus",
+      "personId": "person-9b0bc40f"
     }
   ]
 }
