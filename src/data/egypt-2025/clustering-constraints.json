@@ -1,1 +1,15 @@
-{"disconnects": [], "invalidDetections": []}
+{
+  "disconnects": [
+    {
+      "imageId": "2025-11-26-182507-bobo",
+      "personId": "person-6abf63c9"
+    }
+  ],
+  "invalidDetections": [],
+  "connects": [
+    {
+      "imageId": "2025-11-26-182507-bobo",
+      "personId": "person-975aa917--odpojeno-od-person-2"
+    }
+  ]
+}

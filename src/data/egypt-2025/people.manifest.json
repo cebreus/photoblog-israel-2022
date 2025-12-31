@@ -10810,7 +10810,7 @@
         0.049113497138023376,
         -0.0068421512842178345
       ],
-      "faceCount": 12,
+      "faceCount": 11,
       "thumbnail": "faces/person-6abf63c9/2025-11-26-182606.jpg",
       "hidden": false,
       "createdAt": "2025-12-31T07:33:39.944Z",
@@ -40113,6 +40113,18 @@
           "year": 2025
         }
       ]
+    },
+    {
+      "id": "person-975aa917--odpojeno-od-person-2",
+      "name": "Odpojeno od Person 2",
+      "faceDescriptor": [],
+      "clusters": [],
+      "faceCount": 1,
+      "thumbnail": "faces/person-975aa917--odpojeno-od-person-2/2025-11-26-182507-bobo.jpg",
+      "hidden": false,
+      "createdAt": "2025-12-31T08:18:36.676Z",
+      "lastSeenAt": "2025-12-31T08:18:36.676Z",
+      "category": "person"
     }
   ]
 }
