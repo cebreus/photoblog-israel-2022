@@ -20,6 +20,7 @@
   import PhotoGrid from "$lib/components/PhotoGrid.svelte";
   import { Badge } from "$lib/components/ui/badge/";
   import { Button } from "$lib/components/ui/button";
+  import * as Dialog from "$lib/components/ui/dialog";
   import { editor } from "$lib/stores/editor.svelte";
   import { filters } from "$lib/stores/filters.svelte";
   import type { ImageEntry, Separator } from "$lib/types/manifest";
@@ -27,6 +28,7 @@
   import { EMPTY_MESSAGES } from "$lib/utils/messages";
   import { clearImageOrder } from "$lib/utils/reorder";
   import { formatDateForDisplay, formatDateRange, formatWeekdayCzech } from "$lib/utils/strings";
+  import { smartToast } from "$lib/utils/toasts";
 
   import type { PageData } from "./$types";
 
@@ -144,6 +146,22 @@
       action: { label: EMPTY_MESSAGES.RESET_ALL, handler: () => filters.reset() },
     };
   });
+
+  let resetDialogOpen = $state(false);
+  let dayToReset = $state<string | null>(null);
+
+  async function handleResetOrder() {
+    if (!dayToReset) return;
+
+    await smartToast(clearImageOrder(dayToReset), {
+      loading: "Resetuji pořadí fotek...",
+      success: "Pořadí fotek bylo obnoveno dle data pořízení (EXIF).",
+      error: "Nepodařilo se resetovat pořadí fotek.",
+    });
+
+    resetDialogOpen = false;
+    dayToReset = null;
+  }
 </script>
 
 <Hero />
@@ -248,8 +266,9 @@
                   variant="outline"
                   size="sm"
                   class="gap-2"
-                  onclick={async () => {
-                    await clearImageOrder(daySectionId);
+                  onclick={() => {
+                    dayToReset = daySectionId;
+                    resetDialogOpen = true;
                   }}
                 >
                   <RotateCcw size={14} />
@@ -271,3 +290,29 @@
     {/each}
   </div>
 {/if}
+
+<Dialog.Root bind:open={resetDialogOpen}>
+  <Dialog.Content>
+    <Dialog.Header>
+      <Dialog.Title>Obnovit původní pořadí?</Dialog.Title>
+      <Dialog.Description class="pt-2">
+        Tato akce zruší veškeré manuální úpravy pořadí pro vybraný den a seřadí fotky chronologicky
+        podle času pořízení (EXIF).
+        <br /><br />
+        Nastavené časy (ReleaseDate) budou přepsány původním časem pořízení. Tato akce je nevratná.
+      </Dialog.Description>
+    </Dialog.Header>
+    <Dialog.Footer>
+      <Button
+        variant="outline"
+        onclick={() => {
+          resetDialogOpen = false;
+          dayToReset = null;
+        }}
+      >
+        Zrušit
+      </Button>
+      <Button variant="destructive" onclick={handleResetOrder}>Obnovit pořadí</Button>
+    </Dialog.Footer>
+  </Dialog.Content>
+</Dialog.Root>
