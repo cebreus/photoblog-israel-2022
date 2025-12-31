@@ -98,7 +98,7 @@
         "label": "Serapeum",
         "href": "#loc-serapeum",
         "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-25T08:25:44.250Z"
+        "firstPhotoExifDate": "2025-11-25T08:24:09.133Z"
       },
       {
         "id": "loc-kom-el-deka",
@@ -126,14 +126,14 @@
         "label": "Pevnost Qaitbay",
         "href": "#loc-pevnost-qaitbay",
         "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-25T11:48:10.190Z"
+        "firstPhotoExifDate": "2025-11-25T12:13:20.943Z"
       },
       {
         "id": "loc-kralovska-vlakova-garaz",
         "label": "Královská vlaková garáž",
-        "href": "#loc-kralovska-vlakova-garaz",
-        "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-25T13:51:52.220Z"
+        "href": "#2025-11-25-145714-cebreus",
+        "isDimmed": true,
+        "firstPhotoExifDate": "2025-11-25T13:57:14.787Z"
       },
       {
         "id": "loc-kralovsky-sklenik",

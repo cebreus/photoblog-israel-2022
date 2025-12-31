@@ -8,7 +8,7 @@
         "2025-11-23-151514-cebreus-fixed"
       ],
       "bestCandidateId": "2025-11-23-151444-cebreus-fixed",
-      "similarity": 0.9551588386471417,
+      "similarity": 0.9540109854447181,
       "recommendations": {
         "2025-11-23-151444-cebreus-fixed": {
           "action": "keep",
@@ -57,25 +57,6 @@
           "reason": "Lower aesthetics (39 vs 44)"
         },
         "2025-11-25-084614-cebreus": {
-          "action": "keep",
-          "reason": "Best candidate"
-        }
-      }
-    },
-    {
-      "id": "group-2025-11-25-094113-cebreus",
-      "items": [
-        "2025-11-25-094113-cebreus",
-        "2025-11-25-094206-cebreus"
-      ],
-      "bestCandidateId": "2025-11-25-094206-cebreus",
-      "similarity": 0.8913895309367835,
-      "recommendations": {
-        "2025-11-25-094113-cebreus": {
-          "action": "delete",
-          "reason": "Lower resolution"
-        },
-        "2025-11-25-094206-cebreus": {
           "action": "keep",
           "reason": "Best candidate"
         }
@@ -448,13 +429,32 @@
       }
     },
     {
+      "id": "group-2025-11-26-182507-bobo",
+      "items": [
+        "2025-11-26-182507-bobo",
+        "2025-11-26-182606"
+      ],
+      "bestCandidateId": "2025-11-26-182606",
+      "similarity": 0.8931702850399567,
+      "recommendations": {
+        "2025-11-26-182507-bobo": {
+          "action": "delete",
+          "reason": "Lower resolution, Lower aesthetics (50 vs 64)"
+        },
+        "2025-11-26-182606": {
+          "action": "keep",
+          "reason": "Best candidate"
+        }
+      }
+    },
+    {
       "id": "group-2025-11-27-064240-81ea6390-30a6-4303-8b6f-bb014f58e62d",
       "items": [
         "2025-11-27-064240-81ea6390-30a6-4303-8b6f-bb014f58e62d",
         "2025-11-27-064240-bobo"
       ],
       "bestCandidateId": "2025-11-27-064240-81ea6390-30a6-4303-8b6f-bb014f58e62d",
-      "similarity": 0.9851661148450325,
+      "similarity": 1.0000000000000002,
       "recommendations": {
         "2025-11-27-064240-81ea6390-30a6-4303-8b6f-bb014f58e62d": {
           "action": "keep",
@@ -468,7 +468,7 @@
     }
   ],
   "stats": {
-    "totalPhotos": 312,
+    "totalPhotos": 292,
     "totalGroups": 19,
     "duplicatesFound": 40
   }

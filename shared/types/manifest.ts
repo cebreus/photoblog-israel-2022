@@ -140,6 +140,7 @@ export type ImageEntry = {
 
     exif?: {
         date?: string;
+        releaseDate?: string;
         location?: string;
         city?: string;
         sublocation?: string;

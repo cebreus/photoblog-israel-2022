@@ -1352,7 +1352,7 @@
           "placeholder": "blurs/2025-11-23-151450-cebreus-fixed.png",
           "placeholderColor": "rgb(8,184,216)",
           "analysis": {
-            "aestheticScore": 50.19646369420434,
+            "aestheticScore": 51.09417737647465,
             "sharpness": 2.555936437221313,
             "qualityBucket": "poor",
             "phash": "a3c33b391b3f38fd",
@@ -1433,7 +1433,6 @@
               "height": 534
             }
           ],
-          "flags": [],
           "people": []
         },
         {
@@ -1749,7 +1748,7 @@
           "placeholder": "blurs/2025-11-23-205255-bobo.png",
           "placeholderColor": "rgb(104,104,104)",
           "analysis": {
-            "aestheticScore": 39.30271592845701,
+            "aestheticScore": 36.86836921391077,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "0b9b1bdb8abaf4e0",
@@ -1797,6 +1796,8 @@
             "date": "2025-11-23T19:52:55.000Z",
             "author": "Bobo"
           },
+          "author": "Bobo",
+          "authorSlug": "bobo",
           "date": "2025-11-23T19:52:55.000Z",
           "sources": [
             {
@@ -1857,7 +1858,9 @@
               "height": 534
             }
           ],
-          "flags": [],
+          "flags": [
+            "snapshot-others"
+          ],
           "people": [
             "person-42e2992e",
             "person-604b93f2",
@@ -1865,8 +1868,7 @@
             "person-f4999137",
             "person-6abf63c9",
             "person-86077f36"
-          ],
-          "author": "Bobo"
+          ]
         }
       ],
       "id": "day-2025-11-23"
@@ -2512,9 +2514,11 @@
           ],
           "people": [
             "person-6abf63c9",
+            "person-9b0bc40f",
             "person-86077f36",
             "person-f4999137",
-            "person-183e8294"
+            "person-183e8294",
+            "person-49d89637"
           ]
         },
         {
@@ -2866,7 +2870,8 @@
             "person-4d28f02d",
             "person-9b0bc40f",
             "person-0db741fb",
-            "person-4b808b59"
+            "person-4b808b59",
+            "person-50161bca"
           ]
         },
         {
@@ -3623,8 +3628,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 1,
-          "people": []
+          "people": [],
+          "sortOrder": 1
         },
         {
           "id": "loc-hrobka-z-ulice-tigran",
@@ -3733,8 +3738,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 2,
-          "people": []
+          "people": [],
+          "sortOrder": 2
         },
         {
           "id": "2025-11-25-082811-cebreus",
@@ -3835,8 +3840,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 3,
-          "people": []
+          "people": [],
+          "sortOrder": 3
         },
         {
           "id": "2025-11-25-082818-cebreus",
@@ -3937,8 +3942,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 4,
-          "people": []
+          "people": [],
+          "sortOrder": 4
         },
         {
           "id": "2025-11-25-082852-cebreus",
@@ -4037,8 +4042,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 5,
-          "people": []
+          "people": [],
+          "sortOrder": 5
         },
         {
           "id": "loc-katakomby-kom-el-shoqafa",
@@ -4147,8 +4152,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 6,
-          "people": []
+          "people": [],
+          "sortOrder": 6
         },
         {
           "id": "2025-11-25-090256-cebreus--collage",
@@ -4247,8 +4252,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 7,
-          "people": []
+          "people": [],
+          "sortOrder": 7
         },
         {
           "id": "2025-11-25-082944-cebreus--collage",
@@ -4347,8 +4352,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 8,
-          "people": []
+          "people": [],
+          "sortOrder": 8
         },
         {
           "id": "2025-11-25-084249-cebreus--collage",
@@ -4447,108 +4452,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 9,
-          "people": []
-        },
-        {
-          "id": "2025-11-25-084330-cebreus--collage",
-          "type": "image",
-          "src": "2025-11-25-084330-cebreus--collage.jpg",
-          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
-          "title": "",
-          "width": 3288,
-          "height": 2466,
-          "sizeMB": 3.48,
-          "aspectRatio": "collage",
-          "placeholder": "blurs/2025-11-25-084330-cebreus--collage.png",
-          "placeholderColor": "",
-          "analysis": {
-            "aestheticScore": 40.71132902003039,
-            "sharpness": 100,
-            "qualityBucket": "poor",
-            "phash": "898d0e0a8b87b6ae",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T07:43:30.516Z",
-            "location": "Katakomby Kom el Shoqafa",
-            "city": "Alexandrie",
-            "latitude": 31.178297,
-            "longitude": 29.893289,
-            "orientation": 1,
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Katakomby Kom el Shoqafa",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178297,29.893289",
-          "date": "2025-11-25T07:43:30.516Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-084330-cebreus--collage.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-084330-cebreus--collage.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-084330-cebreus--collage.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-084330-cebreus--collage.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-084330-cebreus--collage.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-084330-cebreus--collage.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-084330-cebreus--collage.jpeg",
-              "width": 1280,
-              "height": 960
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-084330-cebreus--collage.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-084330-cebreus--collage.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "sortOrder": 10,
-          "people": []
+          "people": [],
+          "sortOrder": 10
         },
         {
           "id": "2025-11-25-084606-cebreus",
@@ -4647,8 +4552,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 11,
-          "people": []
+          "people": [],
+          "sortOrder": 11
         },
         {
           "id": "2025-11-25-084614-cebreus",
@@ -4747,8 +4652,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 12,
-          "people": []
+          "people": [],
+          "sortOrder": 12
         },
         {
           "id": "2025-11-25-084943-cebreus",
@@ -4847,108 +4752,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 13,
-          "people": []
-        },
-        {
-          "id": "2025-11-25-085235-cebreus",
-          "type": "image",
-          "src": "2025-11-25-085235-cebreus.heic",
-          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
-          "title": "",
-          "width": 6048,
-          "height": 8064,
-          "sizeMB": 6.32,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-25-085235-cebreus.png",
-          "placeholderColor": "",
-          "analysis": {
-            "aestheticScore": 40.961678398249795,
-            "sharpness": 95,
-            "qualityBucket": "poor",
-            "phash": "9c0e0eacec32664f",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T07:52:35.111Z",
-            "location": "Katakomby Kom el Shoqafa",
-            "city": "Alexandrie",
-            "latitude": 31.177739,
-            "longitude": 29.893325,
-            "orientation": 6,
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Katakomby Kom el Shoqafa",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.177739,29.893325",
-          "date": "2025-11-25T07:52:35.111Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-085235-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-085235-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-085235-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-085235-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-085235-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-085235-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-085235-cebreus.jpeg",
-              "width": 1280,
-              "height": 1707
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-085235-cebreus.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-085235-cebreus.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "sortOrder": 14,
-          "people": []
+          "people": [],
+          "sortOrder": 13
         },
         {
           "id": "2025-11-25-085626-cebreus",
@@ -5047,8 +4852,208 @@
               "height": 534
             }
           ],
-          "sortOrder": 15,
-          "people": []
+          "people": [],
+          "sortOrder": 14
+        },
+        {
+          "id": "2025-11-25-084330-cebreus--collage",
+          "type": "image",
+          "src": "2025-11-25-084330-cebreus--collage.jpg",
+          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
+          "title": "",
+          "width": 3288,
+          "height": 2466,
+          "sizeMB": 3.48,
+          "aspectRatio": "collage",
+          "placeholder": "blurs/2025-11-25-084330-cebreus--collage.png",
+          "placeholderColor": "",
+          "analysis": {
+            "aestheticScore": 40.71132902003039,
+            "sharpness": 100,
+            "qualityBucket": "poor",
+            "phash": "898d0e0a8b87b6ae",
+            "facesDetected": false,
+            "faces": []
+          },
+          "exif": {
+            "date": "2025-11-25T07:43:30.516Z",
+            "location": "Katakomby Kom el Shoqafa",
+            "city": "Alexandrie",
+            "latitude": 31.178297,
+            "longitude": 29.893289,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Katakomby Kom el Shoqafa",
+          "city": "Alexandrie",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178297,29.893289",
+          "date": "2025-11-25T07:43:30.516Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-25-084330-cebreus--collage.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-25-084330-cebreus--collage.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-25-084330-cebreus--collage.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-084330-cebreus--collage.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-25-084330-cebreus--collage.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-084330-cebreus--collage.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-25-084330-cebreus--collage.jpeg",
+              "width": 1280,
+              "height": 960
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-25-084330-cebreus--collage.jpeg",
+              "width": 190,
+              "height": 107
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-084330-cebreus--collage.jpeg",
+              "width": 534,
+              "height": 534
+            }
+          ],
+          "people": [],
+          "sortOrder": 15
+        },
+        {
+          "id": "2025-11-25-085235-cebreus",
+          "type": "image",
+          "src": "2025-11-25-085235-cebreus.heic",
+          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
+          "title": "",
+          "width": 6048,
+          "height": 8064,
+          "sizeMB": 6.32,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/2025-11-25-085235-cebreus.png",
+          "placeholderColor": "",
+          "analysis": {
+            "aestheticScore": 40.961678398249795,
+            "sharpness": 95,
+            "qualityBucket": "poor",
+            "phash": "9c0e0eacec32664f",
+            "facesDetected": false,
+            "faces": []
+          },
+          "exif": {
+            "date": "2025-11-25T07:52:35.111Z",
+            "location": "Katakomby Kom el Shoqafa",
+            "city": "Alexandrie",
+            "latitude": 31.177739,
+            "longitude": 29.893325,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Katakomby Kom el Shoqafa",
+          "city": "Alexandrie",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.177739,29.893325",
+          "date": "2025-11-25T07:52:35.111Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-25-085235-cebreus.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-25-085235-cebreus.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-25-085235-cebreus.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-085235-cebreus.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-25-085235-cebreus.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-085235-cebreus.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-25-085235-cebreus.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-25-085235-cebreus.jpeg",
+              "width": 190,
+              "height": 107
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-085235-cebreus.jpeg",
+              "width": 534,
+              "height": 534
+            }
+          ],
+          "people": [],
+          "sortOrder": 16
         },
         {
           "id": "2025-11-25-090636-cebreus",
@@ -5145,8 +5150,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 16,
-          "people": []
+          "people": [],
+          "sortOrder": 17
         },
         {
           "id": "loc-serapeum",
@@ -5155,34 +5160,32 @@
           "city": "Alexandrie"
         },
         {
-          "id": "2025-11-25-092544-cebreus",
+          "id": "2025-11-25-092409-cebreus--collage",
           "type": "image",
-          "src": "2025-11-25-092544-cebreus.heic",
-          "alt": "Pompeiův sloup, Serapeum, Alexandrie",
+          "src": "2025-11-25-092409-cebreus--collage.jpg",
+          "alt": "Serapeum, Alexandrie",
           "title": "",
-          "caption": "Pompeiův sloup",
-          "width": 4032,
-          "height": 3024,
-          "sizeMB": 0.85,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-25-092544-cebreus.png",
+          "width": 2879,
+          "height": 2159,
+          "sizeMB": 4.08,
+          "aspectRatio": "collage",
+          "placeholder": "blurs/2025-11-25-092409-cebreus--collage.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 83.50191318256908,
-            "sharpness": 63,
-            "qualityBucket": "good",
-            "phash": "f3e3a43606371608",
+            "aestheticScore": 94.07632772279989,
+            "sharpness": 100,
+            "qualityBucket": "excellent",
+            "phash": "afb8bae98f9ba292",
             "facesDetected": false,
             "faces": []
           },
           "exif": {
-            "date": "2025-11-25T08:25:44.250Z",
+            "date": "2025-11-25T08:24:09.133Z",
             "location": "Serapeum",
             "city": "Alexandrie",
-            "latitude": 31.181683,
-            "longitude": 29.896181,
+            "latitude": 31.181322,
+            "longitude": 29.896389,
             "orientation": 1,
-            "description": "Pompeiův sloup",
             "author": "Cebreus",
             "country": "Egypt",
             "countryCode": "EGY",
@@ -5192,171 +5195,69 @@
           "authorSlug": "cebreus",
           "location": "Serapeum",
           "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.181683,29.896181",
-          "date": "2025-11-25T08:25:44.250Z",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.181322,29.896389",
+          "date": "2025-11-25T08:24:09.133Z",
           "sources": [
             {
               "variant": "default",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-092544-cebreus.webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-25-092409-cebreus--collage.webp",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-092544-cebreus.jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-25-092409-cebreus--collage.jpeg",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-092544-cebreus.avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-25-092409-cebreus--collage.avif",
               "width": 370
             },
             {
               "variant": "xl",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-092544-cebreus.webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-092409-cebreus--collage.webp",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-092544-cebreus.jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-25-092409-cebreus--collage.jpeg",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-092544-cebreus.avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-092409-cebreus--collage.avif",
               "width": 534
             },
             {
               "variant": "detail",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-092544-cebreus.jpeg",
+              "path": "/egypt-2025/images/details/2025-11-25-092409-cebreus--collage.jpeg",
               "width": 1280,
               "height": 960
             },
             {
               "variant": "fallback",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-092544-cebreus.jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-25-092409-cebreus--collage.jpeg",
               "width": 190,
               "height": 107
             },
             {
               "variant": "admin_thumb",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-092544-cebreus.jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-092409-cebreus--collage.jpeg",
               "width": 534,
               "height": 534
             }
           ],
-          "sortOrder": 17,
-          "people": []
-        },
-        {
-          "id": "2025-11-25-092814-cebreus",
-          "type": "image",
-          "src": "2025-11-25-092814-cebreus.heic",
-          "alt": "Pompeiův sloup, Serapeum, Alexandrie",
-          "title": "",
-          "caption": "Pompeiův sloup",
-          "width": 1614,
-          "height": 2152,
-          "sizeMB": 0.5,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-25-092814-cebreus.png",
-          "placeholderColor": "",
-          "analysis": {
-            "aestheticScore": 76.1735056078221,
-            "sharpness": 30,
-            "qualityBucket": "poor",
-            "phash": "9a4a492326262cc6",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T08:28:14.323Z",
-            "location": "Serapeum",
-            "city": "Alexandrie",
-            "latitude": 31.182556,
-            "longitude": 29.896422,
-            "orientation": 1,
-            "description": "Pompeiův sloup",
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Serapeum",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.182556,29.896422",
-          "date": "2025-11-25T08:28:14.323Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-092814-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-092814-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-092814-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-092814-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-092814-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-092814-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-092814-cebreus.jpeg",
-              "width": 1280,
-              "height": 1707
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-092814-cebreus.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-092814-cebreus.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "sortOrder": 18,
-          "people": []
+          "people": [],
+          "sortOrder": 18
         },
         {
           "id": "2025-11-25-093002-cebreus",
@@ -5457,8 +5358,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 19,
-          "people": []
+          "people": [],
+          "sortOrder": 20
         },
         {
           "id": "2025-11-25-093034-cebreus",
@@ -5557,8 +5458,110 @@
               "height": 534
             }
           ],
-          "sortOrder": 20,
-          "people": []
+          "people": [],
+          "sortOrder": 21
+        },
+        {
+          "id": "2025-11-25-092814-cebreus",
+          "type": "image",
+          "src": "2025-11-25-092814-cebreus.heic",
+          "alt": "Pompeiův sloup, Serapeum, Alexandrie",
+          "title": "",
+          "caption": "Pompeiův sloup",
+          "width": 1614,
+          "height": 2152,
+          "sizeMB": 0.5,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/2025-11-25-092814-cebreus.png",
+          "placeholderColor": "",
+          "analysis": {
+            "aestheticScore": 76.1735056078221,
+            "sharpness": 30,
+            "qualityBucket": "poor",
+            "phash": "9a4a492326262cc6",
+            "facesDetected": false,
+            "faces": []
+          },
+          "exif": {
+            "date": "2025-11-25T08:28:14.323Z",
+            "location": "Serapeum",
+            "city": "Alexandrie",
+            "latitude": 31.182556,
+            "longitude": 29.896422,
+            "orientation": 1,
+            "description": "Pompeiův sloup",
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Serapeum",
+          "city": "Alexandrie",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.182556,29.896422",
+          "date": "2025-11-25T08:28:14.323Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-25-092814-cebreus.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-25-092814-cebreus.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-25-092814-cebreus.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-092814-cebreus.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-25-092814-cebreus.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-092814-cebreus.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-25-092814-cebreus.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-25-092814-cebreus.jpeg",
+              "width": 190,
+              "height": 107
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-092814-cebreus.jpeg",
+              "width": 534,
+              "height": 534
+            }
+          ],
+          "people": [],
+          "sortOrder": 22
         },
         {
           "id": "2025-11-25-093351-dasa",
@@ -5657,120 +5660,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 21,
-          "people": []
-        },
-        {
-          "id": "2025-11-25-093404-cebreus",
-          "type": "image",
-          "src": "2025-11-25-093404-cebreus.heic",
-          "alt": "Serapeum, Alexandrie",
-          "title": "",
-          "width": 6048,
-          "height": 8064,
-          "sizeMB": 5.44,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-25-093404-cebreus.png",
-          "placeholderColor": "rgb(72,56,40)",
-          "analysis": {
-            "aestheticScore": 58.724874320337,
-            "sharpness": 100,
-            "qualityBucket": "good",
-            "phash": "0001496d2e0cc962",
-            "facesDetected": true,
-            "faces": [
-              {
-                "x": 1165.5353279113767,
-                "y": 3722.7786369323726,
-                "width": 402.52694320678705,
-                "height": 555.2209053039551
-              }
-            ]
-          },
-          "exif": {
-            "date": "2025-11-25T08:34:04.738Z",
-            "location": "Serapeum",
-            "city": "Alexandrie",
-            "latitude": 31.181969,
-            "longitude": 29.896672,
-            "orientation": 6,
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Serapeum",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.181969,29.896672",
-          "date": "2025-11-25T08:34:04.738Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-093404-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-093404-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-093404-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-093404-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-093404-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-093404-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-093404-cebreus.jpeg",
-              "width": 1280,
-              "height": 1707
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-093404-cebreus.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-093404-cebreus.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "flags": [
-            "snapshot-author"
-          ],
-          "people": [
-            "person-9b0bc40f"
-          ],
-          "sortOrder": 22
+          "people": [],
+          "sortOrder": 23
         },
         {
           "id": "2025-11-25-093419-cebreus",
@@ -5889,107 +5780,7 @@
             "person-4d28f02d",
             "person-9b0bc40f"
           ],
-          "sortOrder": 23
-        },
-        {
-          "id": "2025-11-25-093510-cebreus",
-          "type": "image",
-          "src": "2025-11-25-093510-cebreus.heic",
-          "alt": "Serapeum, Alexandrie",
-          "title": "",
-          "width": 2864,
-          "height": 3819,
-          "sizeMB": 1.76,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-25-093510-cebreus.png",
-          "placeholderColor": "rgb(56,40,24)",
-          "analysis": {
-            "aestheticScore": 45.45623623213709,
-            "sharpness": 100,
-            "qualityBucket": "good",
-            "phash": "f1e1811393c6e6f2",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T08:35:10.393Z",
-            "location": "Serapeum",
-            "city": "Alexandrie",
-            "latitude": 31.181986,
-            "longitude": 29.896781,
-            "orientation": 1,
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Serapeum",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.181986,29.896781",
-          "date": "2025-11-25T08:35:10.393Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-093510-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-093510-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-093510-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-093510-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-093510-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-093510-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-093510-cebreus.jpeg",
-              "width": 1280,
-              "height": 1707
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-093510-cebreus.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-093510-cebreus.jpeg",
-              "width": 401,
-              "height": 534
-            }
-          ],
-          "sortOrder": 24,
-          "people": []
+          "sortOrder": 25
         },
         {
           "id": "2025-11-25-093710-cebreus",
@@ -6088,8 +5879,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 25,
-          "people": []
+          "people": [],
+          "sortOrder": 27
         },
         {
           "id": "2025-11-25-094025-cebreus",
@@ -6208,107 +5999,7 @@
             "person-9b0bc40f",
             "person-6abf63c9"
           ],
-          "sortOrder": 26
-        },
-        {
-          "id": "2025-11-25-094113-cebreus",
-          "type": "image",
-          "src": "2025-11-25-094113-cebreus.heic",
-          "alt": "Serapeum, Alexandrie",
-          "title": "",
-          "width": 3024,
-          "height": 4032,
-          "sizeMB": 1.53,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-25-094113-cebreus.png",
-          "placeholderColor": "rgb(72,56,40)",
-          "analysis": {
-            "aestheticScore": 33.74870720235955,
-            "sharpness": 95,
-            "qualityBucket": "poor",
-            "phash": "340144c4d8e0c8ec",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T08:41:13.046Z",
-            "location": "Serapeum",
-            "city": "Alexandrie",
-            "latitude": 31.182186,
-            "longitude": 29.896531,
-            "orientation": 6,
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Serapeum",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.182186,29.896531",
-          "date": "2025-11-25T08:41:13.046Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-094113-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-094113-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-094113-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-094113-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-094113-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-094113-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-094113-cebreus.jpeg",
-              "width": 1280,
-              "height": 1707
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-094113-cebreus.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-094113-cebreus.jpeg",
-              "width": 401,
-              "height": 534
-            }
-          ],
-          "sortOrder": 27,
-          "people": []
+          "sortOrder": 28
         },
         {
           "id": "2025-11-25-094206-cebreus",
@@ -6407,8 +6098,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 28,
-          "people": []
+          "people": [],
+          "sortOrder": 29
         },
         {
           "id": "2025-11-25-094825-cebreus",
@@ -6527,7 +6218,7 @@
             "person-9b0bc40f",
             "person-df7fbd2c"
           ],
-          "sortOrder": 29
+          "sortOrder": 30
         },
         {
           "id": "2025-11-25-094915-dasa",
@@ -6626,8 +6317,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 30,
-          "people": []
+          "people": [],
+          "sortOrder": 31
         },
         {
           "id": "loc-kom-el-deka",
@@ -6734,108 +6425,8 @@
             }
           ],
           "caption": "Římský amfiteátr",
-          "sortOrder": 31,
-          "people": []
-        },
-        {
-          "id": "2025-11-25-102006-cebreus",
-          "type": "image",
-          "src": "2025-11-25-102006-cebreus.heic",
-          "alt": "Římský amfiteátr, Alexandrie",
-          "title": "",
-          "width": 4032,
-          "height": 3024,
-          "sizeMB": 1.65,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-25-102006-cebreus.png",
-          "placeholderColor": "",
-          "analysis": {
-            "aestheticScore": 61.75677255139433,
-            "sharpness": 89,
-            "qualityBucket": "good",
-            "phash": "59428f8cd0cccc76",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T09:20:06.894Z",
-            "location": "Kom El Deka",
-            "city": "Alexandrie",
-            "latitude": 31.194278,
-            "longitude": 29.903789,
-            "orientation": 1,
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Kom El Deka",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.194278,29.903789",
-          "date": "2025-11-25T09:20:06.894Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-102006-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-102006-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-102006-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-102006-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-102006-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-102006-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-102006-cebreus.jpeg",
-              "width": 1280,
-              "height": 960
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-102006-cebreus.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-102006-cebreus.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "sortOrder": 32,
-          "people": []
+          "people": [],
+          "sortOrder": 32
         },
         {
           "id": "2025-11-25-102804-cebreus--collage",
@@ -6934,8 +6525,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 33,
-          "people": []
+          "people": [],
+          "sortOrder": 34
         },
         {
           "id": "2025-11-25-103135-cebreus",
@@ -7034,8 +6625,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 34,
-          "people": []
+          "people": [],
+          "sortOrder": 35
         },
         {
           "id": "2025-11-25-103145-cebreus",
@@ -7134,8 +6725,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 35,
-          "people": []
+          "people": [],
+          "sortOrder": 36
         },
         {
           "id": "2025-11-25-104058-cebreus",
@@ -7247,252 +6838,34 @@
           "people": [
             "person-9b0bc40f"
           ],
-          "sortOrder": 36
+          "sortOrder": 37
         },
         {
-          "id": "2025-11-25-105010-cebreus",
+          "id": "2025-11-25-102006-cebreus--collage",
           "type": "image",
-          "src": "2025-11-25-105010-cebreus.heic",
-          "alt": "Římský amfiteátr, Alexandrie",
+          "src": "2025-11-25-102006-cebreus--collage.jpg",
+          "alt": "Kom El Deka, Alexandrie",
           "title": "",
-          "width": 6048,
-          "height": 8064,
-          "sizeMB": 7.66,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-25-105010-cebreus.png",
+          "width": 2197,
+          "height": 1648,
+          "sizeMB": 2.53,
+          "aspectRatio": "collage",
+          "placeholder": "blurs/2025-11-25-102006-cebreus--collage.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 41.29266474630989,
-            "sharpness": 100,
-            "qualityBucket": "poor",
-            "phash": "066a38b37796a6d7",
-            "facesDetected": true,
-            "faces": [
-              {
-                "x": 1326.4704265594482,
-                "y": 4534.658500671387,
-                "width": 123.32252883911131,
-                "height": 185.5191192626953
-              }
-            ]
-          },
-          "exif": {
-            "date": "2025-11-25T09:50:10.856Z",
-            "location": "Kom El Deka",
-            "city": "Alexandrie",
-            "latitude": 31.19485,
-            "longitude": 29.903372,
-            "orientation": 6,
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Kom El Deka",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.19485,29.903372",
-          "date": "2025-11-25T09:50:10.856Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-105010-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-105010-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-105010-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-105010-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-105010-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-105010-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-105010-cebreus.jpeg",
-              "width": 1280,
-              "height": 1707
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-105010-cebreus.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-105010-cebreus.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "sortOrder": 37,
-          "people": [
-            "person-dec450ff"
-          ]
-        },
-        {
-          "id": "2025-11-25-105048-cebreus",
-          "type": "image",
-          "src": "2025-11-25-105048-cebreus.heic",
-          "alt": "Římský amfiteátr, Alexandrie",
-          "title": "",
-          "width": 8064,
-          "height": 6048,
-          "sizeMB": 10.16,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-25-105048-cebreus.png",
-          "placeholderColor": "",
-          "analysis": {
-            "aestheticScore": 43.678199476034266,
-            "sharpness": 100,
-            "qualityBucket": "poor",
-            "phash": "db7673f2d2575ec6",
-            "facesDetected": true,
-            "faces": [
-              {
-                "x": 6592.2829513549805,
-                "y": 2383.437915802002,
-                "width": 169.4326629638672,
-                "height": 266.92039489746094
-              }
-            ]
-          },
-          "exif": {
-            "date": "2025-11-25T09:50:48.210Z",
-            "location": "Kom El Deka",
-            "city": "Alexandrie",
-            "latitude": 31.194869,
-            "longitude": 29.903386,
-            "orientation": 1,
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Kom El Deka",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.194869,29.903386",
-          "date": "2025-11-25T09:50:48.210Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-105048-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-105048-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-105048-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-105048-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-105048-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-105048-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-105048-cebreus.jpeg",
-              "width": 1280,
-              "height": 960
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-105048-cebreus.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-105048-cebreus.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "sortOrder": 38,
-          "people": [
-            "person-dec450ff"
-          ]
-        },
-        {
-          "id": "2025-11-25-105444-cebreus",
-          "type": "image",
-          "src": "2025-11-25-105444-cebreus.heic",
-          "alt": "Římský amfiteátr, Alexandrie",
-          "title": "",
-          "width": 8064,
-          "height": 6048,
-          "sizeMB": 6.58,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-25-105444-cebreus.png",
-          "placeholderColor": "",
-          "analysis": {
-            "aestheticScore": 52.2345077581581,
+            "aestheticScore": 55.93342258608035,
             "sharpness": 100,
             "qualityBucket": "good",
-            "phash": "fe81262e6666a6f0",
+            "phash": "a69aab0ed2c30536",
             "facesDetected": false,
             "faces": []
           },
           "exif": {
-            "date": "2025-11-25T09:54:44.046Z",
+            "date": "2025-11-25T09:20:06.894Z",
             "location": "Kom El Deka",
             "city": "Alexandrie",
-            "latitude": 31.194283,
-            "longitude": 29.903539,
+            "latitude": 31.194278,
+            "longitude": 29.903789,
             "orientation": 1,
             "author": "Cebreus",
             "country": "Egypt",
@@ -7503,169 +6876,69 @@
           "authorSlug": "cebreus",
           "location": "Kom El Deka",
           "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.194283,29.903539",
-          "date": "2025-11-25T09:54:44.046Z",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.194278,29.903789",
+          "date": "2025-11-25T09:20:06.894Z",
           "sources": [
             {
               "variant": "default",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-105444-cebreus.webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-25-102006-cebreus--collage.webp",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-105444-cebreus.jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-25-102006-cebreus--collage.jpeg",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-105444-cebreus.avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-25-102006-cebreus--collage.avif",
               "width": 370
             },
             {
               "variant": "xl",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-105444-cebreus.webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-102006-cebreus--collage.webp",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-105444-cebreus.jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-25-102006-cebreus--collage.jpeg",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-105444-cebreus.avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-102006-cebreus--collage.avif",
               "width": 534
             },
             {
               "variant": "detail",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-105444-cebreus.jpeg",
+              "path": "/egypt-2025/images/details/2025-11-25-102006-cebreus--collage.jpeg",
               "width": 1280,
               "height": 960
             },
             {
               "variant": "fallback",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-105444-cebreus.jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-25-102006-cebreus--collage.jpeg",
               "width": 190,
               "height": 107
             },
             {
               "variant": "admin_thumb",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-105444-cebreus.jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-102006-cebreus--collage.jpeg",
               "width": 534,
               "height": 534
             }
           ],
-          "sortOrder": 39,
-          "people": []
-        },
-        {
-          "id": "2025-11-25-105523-cebreus",
-          "type": "image",
-          "src": "2025-11-25-105523-cebreus.heic",
-          "alt": "Římský amfiteátr, Alexandrie",
-          "title": "",
-          "width": 8064,
-          "height": 6048,
-          "sizeMB": 5.97,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-25-105523-cebreus.png",
-          "placeholderColor": "",
-          "analysis": {
-            "aestheticScore": 28.69254462901344,
-            "sharpness": 100,
-            "qualityBucket": "poor",
-            "phash": "1022462db114000e",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T09:55:23.164Z",
-            "location": "Kom El Deka",
-            "city": "Alexandrie",
-            "latitude": 31.194214,
-            "longitude": 29.903575,
-            "orientation": 1,
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Kom El Deka",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.194214,29.903575",
-          "date": "2025-11-25T09:55:23.164Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-105523-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-105523-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-105523-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-105523-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-105523-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-105523-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-105523-cebreus.jpeg",
-              "width": 1280,
-              "height": 960
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-105523-cebreus.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-105523-cebreus.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "sortOrder": 40,
-          "people": []
+          "people": [],
+          "sortOrder": 38
         },
         {
           "id": "2025-11-25-105655-cebreus",
@@ -7777,10 +7050,10 @@
               "height": 534
             }
           ],
-          "sortOrder": 41,
           "people": [
             "person-ecf332ec"
-          ]
+          ],
+          "sortOrder": 39
         },
         {
           "id": "2025-11-25-110638-cebreus",
@@ -7879,8 +7152,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 42,
-          "people": []
+          "people": [],
+          "sortOrder": 40
         },
         {
           "id": "loc-alexandrijska-knihovna",
@@ -7985,8 +7258,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 43,
-          "people": []
+          "people": [],
+          "sortOrder": 41
         },
         {
           "id": "2025-11-25-112457-dasa",
@@ -8092,10 +7365,10 @@
               "height": 534
             }
           ],
-          "sortOrder": 44,
           "people": [
             "person-340b9d37"
-          ]
+          ],
+          "sortOrder": 42
         },
         {
           "id": "2025-11-25-112858-finda",
@@ -8194,8 +7467,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 45,
-          "people": []
+          "people": [],
+          "sortOrder": 43
         },
         {
           "id": "2025-11-25-112911-cebreus",
@@ -8296,8 +7569,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 46,
-          "people": []
+          "people": [],
+          "sortOrder": 44
         },
         {
           "id": "2025-11-25-115354-dasa",
@@ -8425,14 +7698,135 @@
               "height": 534
             }
           ],
-          "sortOrder": 47,
           "people": [
             "person-d060cef5",
             "person-6abf63c9",
             "person-f4999137",
-            "person-79c593b4",
-            "person-4b808b59"
-          ]
+            "person-4b808b59",
+            "person-70411e25",
+            "person-50161bca"
+          ],
+          "sortOrder": 45
+        },
+        {
+          "id": "2025-11-25-174738-bobo",
+          "type": "image",
+          "src": "2025-11-25-174738-bobo.jpg",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 1600,
+          "height": 900,
+          "sizeMB": 0.25,
+          "aspectRatio": "landscape-16-9",
+          "placeholder": "blurs/2025-11-25-174738-bobo.png",
+          "placeholderColor": "rgb(184,168,152)",
+          "analysis": {
+            "aestheticScore": 72.14155970731464,
+            "sharpness": 87,
+            "qualityBucket": "excellent",
+            "phash": "574696f2e2e6ca49",
+            "facesDetected": true,
+            "faces": [
+              {
+                "x": 325.8040428161621,
+                "y": 366.98341369628906,
+                "width": 35.04176139831543,
+                "height": 55.03673553466796
+              },
+              {
+                "x": 1030.196762084961,
+                "y": 464.92457389831543,
+                "width": 56.92253112792969,
+                "height": 81.20584487915036
+              },
+              {
+                "x": 1494.9990272521973,
+                "y": 385.50870418548584,
+                "width": 26.100730895996094,
+                "height": 41.72675609588622
+              },
+              {
+                "x": 604.1411876678467,
+                "y": 543.2830810546875,
+                "width": 96.9411849975586,
+                "height": 141.44344329833982
+              }
+            ]
+          },
+          "exif": {
+            "date": "2025-11-25T16:47:38.000Z",
+            "author": "Bobo"
+          },
+          "author": "Bobo",
+          "authorSlug": "bobo",
+          "date": "2025-11-25T16:47:38.000Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-25-174738-bobo.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-25-174738-bobo.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-25-174738-bobo.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-174738-bobo.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-25-174738-bobo.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-174738-bobo.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-25-174738-bobo.jpeg",
+              "width": 1280,
+              "height": 720
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-25-174738-bobo.jpeg",
+              "width": 190,
+              "height": 107
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-174738-bobo.jpeg",
+              "width": 534,
+              "height": 534
+            }
+          ],
+          "people": [
+            "person-f4999137",
+            "person-7e345eeb",
+            "person-86077f36",
+            "person-16cf018f",
+            "person-7e2471ac"
+          ],
+          "sortOrder": 46
         },
         {
           "id": "loc-pevnost-qaitbay",
@@ -8441,406 +7835,6 @@
           "city": "Alexandrie",
           "storyTitle": "",
           "story": "<p><strong>Pevnost Qaitbay</strong> (nebo také Citadela Qaitbay; arabsky: قلعة قايتباي) je obranná pevnost z 15. století, která se nachází na pobřeží Středozemního moře v Alexandrii v Egyptě. Byla vybudována v letech 1477 až 1479 n. l. (882–884 hidžry) sultánem Al-Ašraf Sajf ad-Dín Káitbájem. Pevnost je situována na východní straně severního cípu ostrova Faros u ústí Východního přístavu.</p>\n<h2>Historie</h2>\n<p>Pevnost Qaitbay v Alexandrii je považována za jednu z nejdůležitějších obranných bašt nejen v Egyptě, ale i podél celého pobřeží Středozemního moře. V 15. století n. l. tvořila významnou součást opevňovacího systému Alexandrie.</p>\n<h3>Alexandrijský maják</h3>\n<p>Pevnost se nachází u vstupu do východního přístavu na východním cípu ostrova Faros. Byla postavena na místě bývalého Alexandrijského majáku, který byl jedním ze sedmi divů starověkého světa. Po arabském dobytí Egypta bylo na majáku provedeno mnoho stavebních úprav, ale maják fungoval ještě po mnoho staletí. Obnova začala v období Ahmada ibn Túlúna (kolem roku 880 n. l.). V 11. století došlo k zemětřesení, které poškodilo osmibokou část. Spodní část přežila, ale mohla sloužit pouze jako strážní věž a na jejím vrcholu byla postavena malá mešita. Dvě velmi ničivá zemětřesení v letech 1303 a 1323 měla za následek úplnou zkázu majáku.</p>\n<h3>Opevnění z 15. století</h3>\n<p>Kolem roku 1480 n. l. opevnil čerkeský mamlúcký sultán Al-Ašraf Káitbáj toto místo jako součást svých pobřežních obranných staveb proti Turkům (Osmanské říši), kteří v té době ohrožovali Egypt. Postavil pevnost a uvnitř ní umístil mešitu. Citadela plnila svou funkci po většinu mamlúckého období, osmanského období i v moderní době, ale po britském bombardování Alexandrie v roce 1882 se ocitla mimo zájem. Chátrala až do 20. století, kdy byla několikrát restaurována egyptskou Nejvyšší radou pro památky.</p>\n<p>Zakladatelem pevnosti Qaitbay je čerkeský sultán jménem Al-Ašraf Abú an-Nasr Sajf ad-Dín Káitbáj al-Jarkasí az-Záhirí (1468–1496 n. l.), který se narodil kolem roku 1423 n. l. (826 hidžry). Byl to mamlúk, který přišel do Egypta jako mladý muž, mladší 20 let. Byl zakoupen sultánem Al-Ašraf Barsbájem a zůstal v jeho službách až do Barsbájovy smrti. Poté Káitbáje koupil sultán Džakmak a později mu udělil svobodu. Káitbáj poté zastával různé úřady. Za vlády sultána Timurbughy se stal vrchním velitelem armády (Atabeg al-Askar). Když byl sultán sesazen, byl Káitbáj jmenován sultánem s titulem Al-Malik al-Ašraf v pondělí 26. radžabu 872 hidžry (1468 n. l.).</p>\n<h3>Stavitel budovy</h3>\n<p>Káitbáj měl takovou zálibu v umění a architektuře, že vytvořil důležitou funkci v administrativním systému státu; byl jí „Stavitel budov“ (Šádí al-Amá&#39;ir). Postavil mnoho prospěšných staveb v Mekce, Medíně a Jeruzalémě. V Egyptě se mu připisuje asi 70 renovovaných staveb, mezi nimiž jsou mešity, medresy, agentury, fontány (sebily), kuttáby (školy koránu), domy a vojenské stavby jako citadely v Alexandrii a Rosettě (dnešní město Rašíd). Tyto citadely byly postaveny na ochranu severu Egypta, hlavně proti Osmanům, jejichž moc ve Středomoří rostla.</p>\n<p>Architektem citadely byl Kagmas al-Ishaqí, „Stavitel budov“. Před svým příchodem do Egypta byl mamlúkem Džakmaka v Sýrii. Za vlády Káitbáje se stal stavitelem budov a poté místokrálem Alexandrie. Byl jmenován guvernérem Sýrie (Damašku), postavil mešitu u brány Rašíd (Báb Rašíd) a také kenotaf a chán. Renovoval také mešitu El-Sawary u brány Sadrah (Báb Sadrah).</p>\n<p>Kagmas byl inteligentní a skromný a také dohlížel na mnoho staveb v době Káitbáje. V roce 882 hidžry (1477 n. l.) navštívil sultán Káitbáj místo starého majáku v Alexandrii a nařídil postavit na jeho základech pevnost. Stavba trvala asi 2 roky a říká se, že Káitbáj na práce na citadele vynaložil více než sto tisíc zlatých dinárů.</p>\n<h3>Výstavba</h3>\n<p>Ibn Ijás uvedl, že stavba této pevnosti začala v měsíci rabí al-awwal roku 882 hidžry. Řekl, že sultán Káitbáj odcestoval do Alexandrie v doprovodu několika dalších mamlúckých princů, aby navštívil místo starého majáku, a během této návštěvy nařídil stavbu citadely.</p>\n<p>V měsíci ša&#39;bán roku 884 hidžry cestoval sultán Káitbáj do Alexandrie znovu, když byla stavba dokončena. Vybavil pevnost statečnou legií vojáků a různými zbraněmi. Jak uvedl Ibn Ijás, věnoval také několik <em>vakufů</em> (náboženských nadací), z nichž financoval stavební práce i platy vojáků.</p>\n<p>Po celé mamlúcké období a díky její strategické poloze byla citadela dobře udržována všemi vládci, kteří přišli po Káitbájovi.</p>\n<h3>Posílení posádky</h3>\n<p>Sultán Kánsúh al-Gaurí věnoval citadele zvláštní pozornost. Několikrát ji navštívil a zvýšil sílu posádky, kterou vybavil různými zbraněmi a vybavením. Součástí bylo i velké vězení určené pro prince a státní úředníky, které sultán z nějakého důvodu zbavil své přízně. V událostech roku 960 hidžry cestoval Kánsúh al-Gaurí do Alexandrie s dalšími princi.</p>\n<h3>Hrozba osmanského útoku</h3>\n<p>Al-Gaurí se vydal do pevnosti Qaitbay, kde sledoval manévry a vojenský výcvik s obrannými zbraněmi citadely té doby. Když vycítil blížící se osmanskou hrozbu, vydal vojenský dekret zakazující vynášení zbraní z citadely; dokonce oznámil, že trest smrti bude trestem pro ty, kteří se pokusí z citadely cokoli ukrást, a nařídil vytesání tohoto dekretu na mramorovou desku upevněnou nad dveřmi vedoucími na nádvoří. Stojí na ní: <em>Bismilláhi r-rahmáni r-rahím</em> (Ve jménu Boha, Milosrdného, Slitovného).</p>\n<p>„Dekret na příkaz našeho pána, vznešené hodnosti, krále Al-Ašrafa Abú an-Nasr Kánsúha al-Gaurího, nechť Bůh zvěční jeho vládu, že nikdo nesmí brát zbraně <em>makahel</em>, střelný prach, nástroje ani žádnou jinou věc z vznešené věže v Alexandrii: a kdokoli ze strany věže, ať už mamlúk, otrok nebo Zarad Kashia, kdo toto (nařízení) poruší a opustí věž s něčím, bude oběšen u brány věže, zasluhujíc si prokletí Boží.“ Datováno rabí al-awwal 907 H.</p>\n<p>Poté, co Osmanští Turci dobyli Egypt, i oni o tuto jedinečnou citadelu pečovali. Používali ji jako úkryt, stejně jako to dělali s Citadelou Saladína v Káhiře a citadelami v Damiettě, Rosettě, Al Borollos a El-Arish. Udržovali ji v dobrém stavu a umístili do ní pěchotu, dělostřelectvo, rotu bubeníků a trubačů, zedníky a tesaře.</p>\n<h3>Osmanská hrozba ustupuje</h3>\n<p>Jak osmanská armáda slábla, citadela začala ztrácet svůj vojenský význam. V roce 1798 n. l., během francouzské expedice do Egypta, padla do rukou francouzských vojsk, především kvůli slabosti posádky citadely a síle moderních francouzských zbraní té doby. Uvnitř Francouzi našli některé křižácké zbraně, které pocházely z výpravy Ludvíka IX. Mohlo jít o kořist z bitvy u Al-Mansúry.</p>\n<h3>Renovace v 19. století</h3>\n<p>Když se v roce 1805 stal vládcem Egypta Muhammad Alí Paša, renovoval starou citadelu, obnovil a opravil její vnější hradby a vybavil pevnost nejmodernějšími zbraněmi té doby, zejména pobřežními děly. Vládu Muhammada Alího můžeme považovat za další zlatou éru citadely.</p>\n<h3>Urábího povstání</h3>\n<p>Citadela si udržela zájem nástupců Muhammada Alího až do roku 1882, kdy došlo k Urábího povstání. Britská flotila bombardovala Alexandrii 11. července 1882 a poškodila velkou část města, zejména v oblasti citadely. Tento útok pevnost poškodil a způsobil velké škody. Severní a západní fasády byly v důsledku výbuchů děl, mířených přímo na stavbu, vážně poškozeny. Západní fasáda byla zcela zničena a zůstaly v ní velké díry.</p>\n<h3>Renovace ve 20. století</h3>\n<p>Citadela poté zůstala zanedbána až do roku 1904, kdy ministerstvo obrany obnovilo horní patra. Král Farúk chtěl citadelu proměnit v královské odpočinkové sídlo, a tak nařídil její rychlou renovaci.</p>\n<p>Po revoluci v roce 1952 proměnilo egyptské námořnictvo budovu na Námořní muzeum. Největší restaurátorské práce se datují do roku 1984, kdy Egyptská organizace pro památky vytvořila ambiciózní plány na obnovu pevnosti.</p>\n"
-        },
-        {
-          "id": "2025-11-25-124810-cebreus",
-          "type": "image",
-          "src": "2025-11-25-124810-cebreus.heic",
-          "alt": "Pevnost Qaitbay, Alexandrie",
-          "title": "",
-          "width": 4032,
-          "height": 3024,
-          "sizeMB": 1.53,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-25-124810-cebreus.png",
-          "placeholderColor": "rgb(200,200,200)",
-          "analysis": {
-            "aestheticScore": 66.70034492191915,
-            "sharpness": 31,
-            "qualityBucket": "poor",
-            "phash": "b23664cac47c8ce2",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T11:48:10.190Z",
-            "location": "Pevnost Qaitbay",
-            "city": "Alexandrie",
-            "latitude": 31.213075,
-            "longitude": 29.885681,
-            "orientation": 1,
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Pevnost Qaitbay",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.213075,29.885681",
-          "date": "2025-11-25T11:48:10.190Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-124810-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-124810-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-124810-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-124810-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-124810-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-124810-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-124810-cebreus.jpeg",
-              "width": 1280,
-              "height": 960
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-124810-cebreus.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-124810-cebreus.jpeg",
-              "width": 534,
-              "height": 401
-            }
-          ],
-          "sortOrder": 48,
-          "people": []
-        },
-        {
-          "id": "2025-11-25-131142-dasa",
-          "type": "image",
-          "src": "2025-11-25-131142-dasa.heic",
-          "alt": "Pevnost Qaitbay, Alexandrie",
-          "title": "",
-          "width": 3024,
-          "height": 4032,
-          "sizeMB": 2.32,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-25-131142-dasa.png",
-          "placeholderColor": "",
-          "analysis": {
-            "aestheticScore": 55.22660692046005,
-            "sharpness": 100,
-            "qualityBucket": "good",
-            "phash": "7afadacadbdae86c",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T12:11:42.981Z",
-            "location": "Pevnost Qaitbay",
-            "city": "Alexandrie",
-            "latitude": 31.210103,
-            "longitude": 29.9015,
-            "orientation": 6,
-            "author": "Dáša",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Dáša",
-          "authorSlug": "dasa",
-          "location": "Pevnost Qaitbay",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.210103,29.9015",
-          "date": "2025-11-25T12:11:42.981Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-131142-dasa.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-131142-dasa.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-131142-dasa.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-131142-dasa.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-131142-dasa.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-131142-dasa.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-131142-dasa.jpeg",
-              "width": 1280,
-              "height": 1707
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-131142-dasa.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-131142-dasa.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "sortOrder": 49,
-          "people": []
-        },
-        {
-          "id": "2025-11-25-131147-cebreus",
-          "type": "image",
-          "src": "2025-11-25-131147-cebreus.heic",
-          "alt": "Pevnost Qaitbay, Alexandrie",
-          "title": "",
-          "width": 3024,
-          "height": 4032,
-          "sizeMB": 1.52,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-25-131147-cebreus.png",
-          "placeholderColor": "",
-          "analysis": {
-            "aestheticScore": 37.62129894702914,
-            "sharpness": 79,
-            "qualityBucket": "poor",
-            "phash": "38e9b9ededdbcf9f",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T12:11:47.124Z",
-            "location": "Pevnost Qaitbay",
-            "city": "Alexandrie",
-            "latitude": 31.209478,
-            "longitude": 29.893528,
-            "orientation": 6,
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Pevnost Qaitbay",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.209478,29.893528",
-          "date": "2025-11-25T12:11:47.124Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-131147-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-131147-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-131147-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-131147-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-131147-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-131147-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-131147-cebreus.jpeg",
-              "width": 1280,
-              "height": 1707
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-131147-cebreus.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-131147-cebreus.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "sortOrder": 50,
-          "people": []
-        },
-        {
-          "id": "2025-11-25-131217-dasa",
-          "type": "image",
-          "src": "2025-11-25-131217-dasa.heic",
-          "alt": "Pevnost Qaitbay, Alexandrie",
-          "title": "",
-          "width": 3024,
-          "height": 4032,
-          "sizeMB": 2.33,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-25-131217-dasa.png",
-          "placeholderColor": "",
-          "analysis": {
-            "aestheticScore": 51.55239768195027,
-            "sharpness": 44,
-            "qualityBucket": "good",
-            "phash": "e2f0e0f0c8e8f0f0",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T12:12:17.498Z",
-            "location": "Pevnost Qaitbay",
-            "city": "Alexandrie",
-            "latitude": 31.205533,
-            "longitude": 29.902731,
-            "orientation": 6,
-            "author": "Dáša",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Dáša",
-          "authorSlug": "dasa",
-          "location": "Pevnost Qaitbay",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.205533,29.902731",
-          "date": "2025-11-25T12:12:17.498Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-131217-dasa.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-131217-dasa.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-131217-dasa.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-131217-dasa.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-131217-dasa.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-131217-dasa.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-131217-dasa.jpeg",
-              "width": 1280,
-              "height": 1707
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-131217-dasa.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-131217-dasa.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "sortOrder": 51,
-          "people": []
         },
         {
           "id": "2025-11-25-131320-cebreus",
@@ -8939,35 +7933,135 @@
               "height": 534
             }
           ],
-          "sortOrder": 52,
-          "people": []
+          "people": [],
+          "sortOrder": 47
         },
         {
-          "id": "2025-11-25-132137-dasa",
+          "id": "2025-11-25-131147-cebreus",
           "type": "image",
-          "src": "2025-11-25-132137-dasa.heic",
+          "src": "2025-11-25-131147-cebreus.heic",
           "alt": "Pevnost Qaitbay, Alexandrie",
           "title": "",
           "width": 3024,
           "height": 4032,
-          "sizeMB": 1.39,
+          "sizeMB": 1.52,
           "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-25-132137-dasa.png",
+          "placeholder": "blurs/2025-11-25-131147-cebreus.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 64.21441973566867,
-            "sharpness": 100,
-            "qualityBucket": "good",
-            "phash": "6e13783332d84964",
+            "aestheticScore": 37.62129894702914,
+            "sharpness": 79,
+            "qualityBucket": "poor",
+            "phash": "38e9b9ededdbcf9f",
             "facesDetected": false,
             "faces": []
           },
           "exif": {
-            "date": "2025-11-25T12:21:37.446Z",
+            "date": "2025-11-25T12:11:47.124Z",
             "location": "Pevnost Qaitbay",
             "city": "Alexandrie",
-            "latitude": 31.213944,
-            "longitude": 29.885683,
+            "latitude": 31.209478,
+            "longitude": 29.893528,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Pevnost Qaitbay",
+          "city": "Alexandrie",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.209478,29.893528",
+          "date": "2025-11-25T12:11:47.124Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-25-131147-cebreus.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-25-131147-cebreus.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-25-131147-cebreus.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-131147-cebreus.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-25-131147-cebreus.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-131147-cebreus.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-25-131147-cebreus.jpeg",
+              "width": 1280,
+              "height": 1707
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-25-131147-cebreus.jpeg",
+              "width": 190,
+              "height": 107
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-131147-cebreus.jpeg",
+              "width": 534,
+              "height": 534
+            }
+          ],
+          "people": [],
+          "sortOrder": 48
+        },
+        {
+          "id": "2025-11-25-131217-dasa",
+          "type": "image",
+          "src": "2025-11-25-131217-dasa.heic",
+          "alt": "Pevnost Qaitbay, Alexandrie",
+          "title": "",
+          "width": 3024,
+          "height": 4032,
+          "sizeMB": 2.33,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/2025-11-25-131217-dasa.png",
+          "placeholderColor": "",
+          "analysis": {
+            "aestheticScore": 51.55239768195027,
+            "sharpness": 44,
+            "qualityBucket": "good",
+            "phash": "e2f0e0f0c8e8f0f0",
+            "facesDetected": false,
+            "faces": []
+          },
+          "exif": {
+            "date": "2025-11-25T12:12:17.498Z",
+            "location": "Pevnost Qaitbay",
+            "city": "Alexandrie",
+            "latitude": 31.205533,
+            "longitude": 29.902731,
             "orientation": 6,
             "author": "Dáša",
             "country": "Egypt",
@@ -8978,96 +8072,97 @@
           "authorSlug": "dasa",
           "location": "Pevnost Qaitbay",
           "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.213944,29.885683",
-          "date": "2025-11-25T12:21:37.446Z",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.205533,29.902731",
+          "date": "2025-11-25T12:12:17.498Z",
           "sources": [
             {
               "variant": "default",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-132137-dasa.webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-25-131217-dasa.webp",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-132137-dasa.jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-25-131217-dasa.jpeg",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-132137-dasa.avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-25-131217-dasa.avif",
               "width": 370
             },
             {
               "variant": "xl",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-132137-dasa.webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-131217-dasa.webp",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-132137-dasa.jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-25-131217-dasa.jpeg",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-132137-dasa.avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-131217-dasa.avif",
               "width": 534
             },
             {
               "variant": "detail",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-132137-dasa.jpeg",
+              "path": "/egypt-2025/images/details/2025-11-25-131217-dasa.jpeg",
               "width": 1280,
               "height": 1707
             },
             {
               "variant": "fallback",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-132137-dasa.jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-25-131217-dasa.jpeg",
               "width": 190,
               "height": 107
             },
             {
               "variant": "admin_thumb",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-132137-dasa.jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-131217-dasa.jpeg",
               "width": 534,
               "height": 534
             }
           ],
-          "sortOrder": 53,
-          "people": []
+          "people": [],
+          "sortOrder": 49
         },
         {
-          "id": "2025-11-25-133004-dasa",
+          "id": "2025-11-25-131142-dasa",
           "type": "image",
-          "src": "2025-11-25-133004-dasa.heic",
-          "alt": "Alexandrie",
+          "src": "2025-11-25-131142-dasa.heic",
+          "alt": "Pevnost Qaitbay, Alexandrie",
           "title": "",
-          "width": 4032,
-          "height": 3024,
-          "sizeMB": 0.93,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-25-133004-dasa.png",
+          "width": 3024,
+          "height": 4032,
+          "sizeMB": 2.32,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/2025-11-25-131142-dasa.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 63.749920612893305,
+            "aestheticScore": 55.22660692046005,
             "sharpness": 100,
             "qualityBucket": "good",
-            "phash": "58b99292695adba2",
+            "phash": "7afadacadbdae86c",
             "facesDetected": false,
             "faces": []
           },
           "exif": {
-            "date": "2025-11-25T12:30:04.422Z",
+            "date": "2025-11-25T12:11:42.981Z",
+            "location": "Pevnost Qaitbay",
             "city": "Alexandrie",
-            "latitude": 31.213294,
-            "longitude": 29.885431,
-            "orientation": 3,
+            "latitude": 31.210103,
+            "longitude": 29.9015,
+            "orientation": 6,
             "author": "Dáša",
             "country": "Egypt",
             "countryCode": "EGY",
@@ -9075,182 +8170,71 @@
           },
           "author": "Dáša",
           "authorSlug": "dasa",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.213294,29.885431",
-          "date": "2025-11-25T12:30:04.422Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-133004-dasa.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-133004-dasa.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-133004-dasa.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-133004-dasa.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-133004-dasa.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-133004-dasa.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-133004-dasa.jpeg",
-              "width": 1280,
-              "height": 960
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-133004-dasa.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-133004-dasa.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "sortOrder": 54,
-          "people": []
-        },
-        {
-          "id": "2025-11-25-133706-cebreus",
-          "type": "image",
-          "src": "2025-11-25-133706-cebreus.heic",
-          "alt": "Pevnost Qaitbay, Alexandrie",
-          "title": "",
-          "width": 8064,
-          "height": 6048,
-          "sizeMB": 4.94,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-25-133706-cebreus.png",
-          "placeholderColor": "rgb(200,200,184)",
-          "analysis": {
-            "aestheticScore": 52.10363225152161,
-            "sharpness": 98,
-            "qualityBucket": "good",
-            "phash": "2626a62006068981",
-            "facesDetected": true,
-            "faces": [
-              {
-                "x": 2693.6727333068848,
-                "y": 3320.4783210754395,
-                "width": 320.3246612548828,
-                "height": 561.5604629516599
-              }
-            ]
-          },
-          "exif": {
-            "date": "2025-11-25T12:37:06.515Z",
-            "location": "Pevnost Qaitbay",
-            "city": "Alexandrie",
-            "latitude": 31.213344,
-            "longitude": 29.885714,
-            "orientation": 1,
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
           "location": "Pevnost Qaitbay",
           "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.213344,29.885714",
-          "date": "2025-11-25T12:37:06.515Z",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.210103,29.9015",
+          "date": "2025-11-25T12:11:42.981Z",
           "sources": [
             {
               "variant": "default",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-133706-cebreus.webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-25-131142-dasa.webp",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-133706-cebreus.jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-25-131142-dasa.jpeg",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-133706-cebreus.avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-25-131142-dasa.avif",
               "width": 370
             },
             {
               "variant": "xl",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-133706-cebreus.webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-131142-dasa.webp",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-133706-cebreus.jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-25-131142-dasa.jpeg",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-133706-cebreus.avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-131142-dasa.avif",
               "width": 534
             },
             {
               "variant": "detail",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-133706-cebreus.jpeg",
+              "path": "/egypt-2025/images/details/2025-11-25-131142-dasa.jpeg",
               "width": 1280,
-              "height": 960
+              "height": 1707
             },
             {
               "variant": "fallback",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-133706-cebreus.jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-25-131142-dasa.jpeg",
               "width": 190,
               "height": 107
             },
             {
               "variant": "admin_thumb",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-133706-cebreus.jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-131142-dasa.jpeg",
               "width": 534,
               "height": 534
             }
           ],
-          "flags": [
-            "snapshot-author"
-          ],
-          "people": [
-            "person-9b0bc40f"
-          ],
-          "sortOrder": 55
+          "people": [],
+          "sortOrder": 50
         },
         {
           "id": "2025-11-25-133713-cebreus",
@@ -9362,43 +8346,35 @@
           "people": [
             "person-9b0bc40f"
           ],
-          "sortOrder": 56
+          "sortOrder": 52
         },
         {
-          "id": "loc-kralovska-vlakova-garaz",
-          "type": "separator",
-          "location": "Královská vlaková garáž",
-          "city": "Alexandrie"
-        },
-        {
-          "id": "2025-11-25-145152-dasa",
+          "id": "2025-11-25-132137-dasa",
           "type": "image",
-          "src": "2025-11-25-145152-dasa.heic",
-          "alt": "Vlak krále Farúka, Královská vlaková garáž, Alexandrie",
+          "src": "2025-11-25-132137-dasa.heic",
+          "alt": "Pevnost Qaitbay, Alexandrie",
           "title": "",
-          "caption": "Vlak krále Farúka",
           "width": 3024,
           "height": 4032,
-          "sizeMB": 0.99,
+          "sizeMB": 1.39,
           "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-25-145152-dasa.png",
+          "placeholder": "blurs/2025-11-25-132137-dasa.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 36.426543246165494,
+            "aestheticScore": 64.21441973566867,
             "sharpness": 100,
-            "qualityBucket": "poor",
-            "phash": "840624f0f3e2f226",
+            "qualityBucket": "good",
+            "phash": "6e13783332d84964",
             "facesDetected": false,
             "faces": []
           },
           "exif": {
-            "date": "2025-11-25T13:51:52.220Z",
-            "location": "Královská vlaková garáž",
+            "date": "2025-11-25T12:21:37.446Z",
+            "location": "Pevnost Qaitbay",
             "city": "Alexandrie",
-            "latitude": 31.283475,
-            "longitude": 30.025228,
+            "latitude": 31.213944,
+            "longitude": 29.885683,
             "orientation": 6,
-            "description": "Vlak krále Farúka",
             "author": "Dáša",
             "country": "Egypt",
             "countryCode": "EGY",
@@ -9406,306 +8382,98 @@
           },
           "author": "Dáša",
           "authorSlug": "dasa",
-          "location": "Královská vlaková garáž",
+          "location": "Pevnost Qaitbay",
           "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.283475,30.025228",
-          "date": "2025-11-25T13:51:52.220Z",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.213944,29.885683",
+          "date": "2025-11-25T12:21:37.446Z",
           "sources": [
             {
               "variant": "default",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-145152-dasa.webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-25-132137-dasa.webp",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-145152-dasa.jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-25-132137-dasa.jpeg",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-145152-dasa.avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-25-132137-dasa.avif",
               "width": 370
             },
             {
               "variant": "xl",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-145152-dasa.webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-132137-dasa.webp",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-145152-dasa.jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-25-132137-dasa.jpeg",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-145152-dasa.avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-132137-dasa.avif",
               "width": 534
             },
             {
               "variant": "detail",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-145152-dasa.jpeg",
+              "path": "/egypt-2025/images/details/2025-11-25-132137-dasa.jpeg",
               "width": 1280,
               "height": 1707
             },
             {
               "variant": "fallback",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-145152-dasa.jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-25-132137-dasa.jpeg",
               "width": 190,
               "height": 107
             },
             {
               "variant": "admin_thumb",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-145152-dasa.jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-132137-dasa.jpeg",
               "width": 534,
               "height": 534
             }
           ],
-          "sortOrder": 57,
-          "people": []
+          "people": [],
+          "sortOrder": 53
         },
         {
-          "id": "2025-11-25-145159-cebreus",
+          "id": "2025-11-25-133004-dasa",
           "type": "image",
-          "src": "2025-11-25-145159-cebreus.heic",
-          "alt": "Vlak krále Farúka, Královská vlaková garáž, Alexandrie",
+          "src": "2025-11-25-133004-dasa.heic",
+          "alt": "Alexandrie",
           "title": "",
-          "caption": "Vlak krále Farúka",
           "width": 4032,
           "height": 3024,
-          "sizeMB": 0.9,
+          "sizeMB": 0.93,
           "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-25-145159-cebreus.png",
+          "placeholder": "blurs/2025-11-25-133004-dasa.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 53.38209860606556,
-            "sharpness": 91,
-            "qualityBucket": "good",
-            "phash": "633bcceae6653970",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T13:51:59.691Z",
-            "location": "Královská vlaková garáž",
-            "city": "Alexandrie",
-            "latitude": 31.283508,
-            "longitude": 30.025022,
-            "orientation": 1,
-            "description": "Vlak krále Farúka",
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Královská vlaková garáž",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.283508,30.025022",
-          "date": "2025-11-25T13:51:59.691Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-145159-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-145159-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-145159-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-145159-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-145159-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-145159-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-145159-cebreus.jpeg",
-              "width": 1280,
-              "height": 960
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-145159-cebreus.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-145159-cebreus.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "sortOrder": 58,
-          "people": []
-        },
-        {
-          "id": "2025-11-25-145215-cebreus",
-          "type": "image",
-          "src": "2025-11-25-145215-cebreus.heic",
-          "alt": "Vlak krále Farúka, Královská vlaková garáž, Alexandrie",
-          "title": "",
-          "caption": "Vlak krále Farúka",
-          "width": 3024,
-          "height": 4032,
-          "sizeMB": 0.85,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-25-145215-cebreus.png",
-          "placeholderColor": "",
-          "analysis": {
-            "aestheticScore": 48.04903249086708,
-            "sharpness": 64,
-            "qualityBucket": "good",
-            "phash": "4f6f8fccf4309819",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T13:52:15.449Z",
-            "location": "Královská vlaková garáž",
-            "city": "Alexandrie",
-            "latitude": 31.283508,
-            "longitude": 30.025022,
-            "orientation": 6,
-            "description": "Vlak krále Farúka",
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Královská vlaková garáž",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.283508,30.025022",
-          "date": "2025-11-25T13:52:15.449Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-145215-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-145215-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-145215-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-145215-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-145215-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-145215-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-145215-cebreus.jpeg",
-              "width": 1280,
-              "height": 1707
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-145215-cebreus.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-145215-cebreus.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "sortOrder": 59,
-          "people": []
-        },
-        {
-          "id": "2025-11-25-145232-dasa",
-          "type": "image",
-          "src": "2025-11-25-145232-dasa.heic",
-          "alt": "Batch Test 1765987405998, Královská vlaková garáž, Alexandrie",
-          "title": "Batch Test 1765987405998",
-          "caption": "Batch Test 1765987405998",
-          "width": 4032,
-          "height": 3024,
-          "sizeMB": 1.1,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-25-145232-dasa.png",
-          "placeholderColor": "",
-          "analysis": {
-            "aestheticScore": 35.08894828499254,
+            "aestheticScore": 63.749920612893305,
             "sharpness": 100,
-            "qualityBucket": "poor",
-            "phash": "e0e0b0cce8231392",
+            "qualityBucket": "good",
+            "phash": "58b99292695adba2",
             "facesDetected": false,
             "faces": []
           },
           "exif": {
-            "date": "2025-11-25T13:52:32.752Z",
-            "location": "Královská vlaková garáž",
+            "date": "2025-11-25T12:30:04.422Z",
             "city": "Alexandrie",
-            "title": "Batch Test 1765987405998",
-            "latitude": 31.283469,
-            "longitude": 30.025228,
+            "latitude": 31.213294,
+            "longitude": 29.885431,
             "orientation": 3,
-            "description": "Batch Test 1765987405998",
             "author": "Dáša",
             "country": "Egypt",
             "countryCode": "EGY",
@@ -9713,275 +8481,70 @@
           },
           "author": "Dáša",
           "authorSlug": "dasa",
-          "location": "Královská vlaková garáž",
           "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.283469,30.025228",
-          "date": "2025-11-25T13:52:32.752Z",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.213294,29.885431",
+          "date": "2025-11-25T12:30:04.422Z",
           "sources": [
             {
               "variant": "default",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-145232-dasa.webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-25-133004-dasa.webp",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-145232-dasa.jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-25-133004-dasa.jpeg",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-145232-dasa.avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-25-133004-dasa.avif",
               "width": 370
             },
             {
               "variant": "xl",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-145232-dasa.webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-133004-dasa.webp",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-145232-dasa.jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-25-133004-dasa.jpeg",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-145232-dasa.avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-133004-dasa.avif",
               "width": 534
             },
             {
               "variant": "detail",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-145232-dasa.jpeg",
+              "path": "/egypt-2025/images/details/2025-11-25-133004-dasa.jpeg",
               "width": 1280,
               "height": 960
             },
             {
               "variant": "fallback",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-145232-dasa.jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-25-133004-dasa.jpeg",
               "width": 190,
               "height": 107
             },
             {
               "variant": "admin_thumb",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-145232-dasa.jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-133004-dasa.jpeg",
               "width": 534,
               "height": 534
             }
           ],
-          "sortOrder": 60,
-          "people": []
-        },
-        {
-          "id": "2025-11-25-145322-dasa",
-          "type": "image",
-          "src": "2025-11-25-145322-dasa.heic",
-          "alt": "Vlak krále Farúka, Královská vlaková garáž, Alexandrie",
-          "title": "",
-          "caption": "Vlak krále Farúka",
-          "width": 4032,
-          "height": 3024,
-          "sizeMB": 1.09,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-25-145322-dasa.png",
-          "placeholderColor": "",
-          "analysis": {
-            "aestheticScore": 33.329732694200324,
-            "sharpness": 87,
-            "qualityBucket": "poor",
-            "phash": "3d60569703372d71",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T13:53:22.773Z",
-            "location": "Královská vlaková garáž",
-            "city": "Alexandrie",
-            "latitude": 31.283464,
-            "longitude": 30.025222,
-            "orientation": 3,
-            "description": "Vlak krále Farúka",
-            "author": "Dáša",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Dáša",
-          "authorSlug": "dasa",
-          "location": "Královská vlaková garáž",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.283464,30.025222",
-          "date": "2025-11-25T13:53:22.773Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-145322-dasa.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-145322-dasa.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-145322-dasa.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-145322-dasa.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-145322-dasa.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-145322-dasa.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-145322-dasa.jpeg",
-              "width": 1280,
-              "height": 960
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-145322-dasa.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-145322-dasa.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "sortOrder": 61,
-          "people": []
-        },
-        {
-          "id": "2025-11-25-145345-cebreus",
-          "type": "image",
-          "src": "2025-11-25-145345-cebreus.heic",
-          "alt": "Vlak krále Farúka, Královská vlaková garáž, Alexandrie",
-          "title": "",
-          "caption": "Vlak krále Farúka",
-          "width": 3024,
-          "height": 4032,
-          "sizeMB": 0.77,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-25-145345-cebreus.png",
-          "placeholderColor": "",
-          "analysis": {
-            "aestheticScore": 66.67749709406598,
-            "sharpness": 90,
-            "qualityBucket": "excellent",
-            "phash": "c0f47cfccce48602",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T13:53:45.722Z",
-            "location": "Královská vlaková garáž",
-            "city": "Alexandrie",
-            "latitude": 31.283506,
-            "longitude": 30.025025,
-            "orientation": 6,
-            "description": "Vlak krále Farúka",
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Královská vlaková garáž",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.283506,30.025025",
-          "date": "2025-11-25T13:53:45.722Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-145345-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-145345-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-145345-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-145345-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-145345-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-145345-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-145345-cebreus.jpeg",
-              "width": 1280,
-              "height": 1707
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-145345-cebreus.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-145345-cebreus.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "sortOrder": 62,
-          "people": []
+          "people": [],
+          "sortOrder": 54
         },
         {
           "id": "2025-11-25-145714-cebreus",
@@ -10082,8 +8645,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 63,
-          "people": []
+          "people": [],
+          "sortOrder": 55
         },
         {
           "id": "loc-kralovsky-sklenik",
@@ -10188,8 +8751,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 64,
-          "people": []
+          "people": [],
+          "sortOrder": 56
         },
         {
           "id": "2025-11-25-150559-dasa",
@@ -10288,8 +8851,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 65,
-          "people": []
+          "people": [],
+          "sortOrder": 57
         },
         {
           "id": "2025-11-25-150836-cebreus",
@@ -10388,8 +8951,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 66,
-          "people": []
+          "people": [],
+          "sortOrder": 58
         },
         {
           "id": "2025-11-25-151216-cebreus",
@@ -10488,8 +9051,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 67,
-          "people": []
+          "people": [],
+          "sortOrder": 59
         },
         {
           "id": "2025-11-25-151454-cebreus",
@@ -10601,7 +9164,7 @@
           "people": [
             "person-9b0bc40f"
           ],
-          "sortOrder": 68
+          "sortOrder": 60
         },
         {
           "id": "2025-11-25-151616-cebreus",
@@ -10700,120 +9263,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 69,
-          "people": []
-        },
-        {
-          "id": "2025-11-25-151630-cebreus",
-          "type": "image",
-          "src": "2025-11-25-151630-cebreus.heic",
-          "alt": "Královský skleník, Alexandrie",
-          "title": "",
-          "width": 8064,
-          "height": 6048,
-          "sizeMB": 4.01,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-25-151630-cebreus.png",
-          "placeholderColor": "rgb(24,24,8)",
-          "analysis": {
-            "aestheticScore": 76.18252155417457,
-            "sharpness": 100,
-            "qualityBucket": "excellent",
-            "phash": "8eccc2ca5c42525a",
-            "facesDetected": true,
-            "faces": [
-              {
-                "x": 4999.361846923828,
-                "y": 1966.6906471252437,
-                "width": 853.85302734375,
-                "height": 1189.0764541625974
-              }
-            ]
-          },
-          "exif": {
-            "date": "2025-11-25T14:16:30.498Z",
-            "location": "Královský skleník",
-            "city": "Alexandrie",
-            "latitude": 31.287567,
-            "longitude": 30.024392,
-            "orientation": 1,
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Královský skleník",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.287567,30.024392",
-          "date": "2025-11-25T14:16:30.498Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-151630-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-151630-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-151630-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-151630-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-151630-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-151630-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-151630-cebreus.jpeg",
-              "width": 1280,
-              "height": 960
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-151630-cebreus.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-151630-cebreus.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "flags": [
-            "snapshot-author"
-          ],
-          "people": [
-            "person-9b0bc40f"
-          ],
-          "sortOrder": 70
+          "people": [],
+          "sortOrder": 61
         },
         {
           "id": "2025-11-25-152350-cebreus",
@@ -10912,10 +9363,10 @@
               "height": 534
             }
           ],
-          "sortOrder": 71,
           "people": [
             "person-d060cef5"
-          ]
+          ],
+          "sortOrder": 63
         },
         {
           "id": "2025-11-25-152518-cebreus",
@@ -11007,8 +9458,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 72,
-          "people": []
+          "people": [],
+          "sortOrder": 64
         },
         {
           "id": "2025-11-25-154350-cebreus",
@@ -11100,228 +9551,8 @@
               "height": 534
             }
           ],
-          "sortOrder": 73,
-          "people": []
-        },
-        {
-          "id": "2025-11-25-174738-bobo",
-          "type": "image",
-          "src": "2025-11-25-174738-bobo.jpg",
-          "alt": "Photoblog image",
-          "title": "",
-          "width": 1600,
-          "height": 900,
-          "sizeMB": 0.24,
-          "aspectRatio": "landscape-16-9",
-          "placeholder": "blurs/2025-11-25-174738-bobo.png",
-          "placeholderColor": "rgb(184,168,152)",
-          "analysis": {
-            "aestheticScore": 64.59361792984105,
-            "sharpness": 87,
-            "qualityBucket": "good",
-            "phash": "574696f2e2e6ca49",
-            "facesDetected": true,
-            "faces": [
-              {
-                "x": 325.8040428161621,
-                "y": 366.98341369628906,
-                "width": 35.04176139831543,
-                "height": 55.03673553466796
-              },
-              {
-                "x": 1030.196762084961,
-                "y": 464.92457389831543,
-                "width": 56.92253112792969,
-                "height": 81.20584487915036
-              },
-              {
-                "x": 1494.9990272521973,
-                "y": 385.50870418548584,
-                "width": 26.100730895996094,
-                "height": 41.72675609588622
-              },
-              {
-                "x": 604.1411876678467,
-                "y": 543.2830810546875,
-                "width": 96.9411849975586,
-                "height": 141.44344329833982
-              }
-            ]
-          },
-          "exif": {
-            "date": "2025-11-25T16:47:38.000Z",
-            "author": "Bobo"
-          },
-          "date": "2025-11-25T16:47:38.000Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-174738-bobo.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-174738-bobo.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-174738-bobo.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-174738-bobo.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-174738-bobo.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-174738-bobo.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-174738-bobo.jpeg",
-              "width": 1280,
-              "height": 720
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-174738-bobo.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-174738-bobo.jpeg",
-              "width": 534,
-              "height": 300
-            }
-          ],
-          "sortOrder": 74,
-          "people": [
-            "person-f4999137",
-            "person-7e345eeb",
-            "person-86077f36",
-            "person-79c593b4",
-            "person-16cf018f"
-          ],
-          "author": "Bobo",
-          "flags": []
-        },
-        {
-          "id": "2025-11-25-092409-cebreus--collage",
-          "type": "image",
-          "src": "2025-11-25-092409-cebreus--collage.jpg",
-          "alt": "Serapeum, Alexandrie",
-          "title": "",
-          "width": 2879,
-          "height": 2159,
-          "sizeMB": 4.36,
-          "aspectRatio": "collage",
-          "placeholder": "blurs/2025-11-25-092409-cebreus--collage.png",
-          "placeholderColor": "",
-          "analysis": {
-            "aestheticScore": 94.07632772279989,
-            "sharpness": 100,
-            "qualityBucket": "excellent",
-            "phash": "aca489ace7685a61",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T08:24:09.133Z",
-            "location": "Serapeum",
-            "city": "Alexandrie",
-            "latitude": 31.181322,
-            "longitude": 29.896389,
-            "orientation": 1,
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Serapeum",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.181322,29.896389",
-          "date": "2025-11-25T08:24:09.133Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-092409-cebreus--collage.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-092409-cebreus--collage.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-092409-cebreus--collage.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-092409-cebreus--collage.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-092409-cebreus--collage.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-092409-cebreus--collage.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-092409-cebreus--collage.jpeg",
-              "width": 1280,
-              "height": 960
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-092409-cebreus--collage.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-092409-cebreus--collage.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
           "people": [],
-          "sortOrder": 76
+          "sortOrder": 65
         },
         {
           "id": "2025-11-25-083807-cebreus--zoom1from2",
@@ -11572,304 +9803,7 @@
             "person-183e8294",
             "person-f4999137"
           ],
-          "sortOrder": 75
-        },
-        {
-          "id": "2025-11-25-092409-cebreus",
-          "type": "image",
-          "src": "2025-11-25-092409-cebreus.heic",
-          "alt": "Serapeum, Alexandrie",
-          "title": "",
-          "width": 8064,
-          "height": 6048,
-          "sizeMB": 7.37,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-25-092409-cebreus.png",
-          "placeholderColor": "rgb(120,104,88)",
-          "analysis": {
-            "aestheticScore": 42.56735584814064,
-            "sharpness": 100,
-            "qualityBucket": "poor",
-            "phash": "6d4fc704180a97b6",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T08:24:09.133Z",
-            "location": "Serapeum",
-            "city": "Alexandrie",
-            "latitude": 31.181322,
-            "longitude": 29.896389,
-            "orientation": 1,
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Serapeum",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.181322,29.896389",
-          "date": "2025-11-25T08:24:09.133Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-092409-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-092409-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-092409-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-092409-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-092409-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-092409-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-092409-cebreus.jpeg",
-              "width": 1280,
-              "height": 960
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-092409-cebreus.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-092409-cebreus.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-25-092514-cebreus",
-          "type": "image",
-          "src": "2025-11-25-092514-cebreus.heic",
-          "alt": "Serapeum, Alexandrie",
-          "title": "",
-          "width": 4032,
-          "height": 3024,
-          "sizeMB": 3.01,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-25-092514-cebreus.png",
-          "placeholderColor": "rgb(56,56,56)",
-          "analysis": {
-            "aestheticScore": 50.837426717760934,
-            "sharpness": 100,
-            "qualityBucket": "good",
-            "phash": "b337263606581836",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T08:25:14.725Z",
-            "location": "Serapeum",
-            "city": "Alexandrie",
-            "latitude": 31.181539,
-            "longitude": 29.896136,
-            "orientation": 1,
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Serapeum",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.181539,29.896136",
-          "date": "2025-11-25T08:25:14.725Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-092514-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-092514-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-092514-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-092514-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-092514-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-092514-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-092514-cebreus.jpeg",
-              "width": 1280,
-              "height": 960
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-092514-cebreus.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-092514-cebreus.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-25-092702-cebreus",
-          "type": "image",
-          "src": "2025-11-25-092702-cebreus.heic",
-          "alt": "Serapeum, Alexandrie",
-          "title": "",
-          "width": 8064,
-          "height": 6048,
-          "sizeMB": 6.94,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-25-092702-cebreus.png",
-          "placeholderColor": "rgb(88,88,88)",
-          "analysis": {
-            "aestheticScore": 33.91032875273785,
-            "sharpness": 82,
-            "qualityBucket": "poor",
-            "phash": "d06125644a676764",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T08:27:02.680Z",
-            "location": "Serapeum",
-            "city": "Alexandrie",
-            "latitude": 31.18225,
-            "longitude": 29.895936,
-            "orientation": 1,
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Serapeum",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.18225,29.895936",
-          "date": "2025-11-25T08:27:02.680Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-092702-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-092702-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-092702-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-092702-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-092702-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-092702-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-092702-cebreus.jpeg",
-              "width": 1280,
-              "height": 960
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-092702-cebreus.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-092702-cebreus.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "people": []
+          "sortOrder": 9
         },
         {
           "id": "2025-11-25-095052-cebreus--zoom1from3",
@@ -12206,106 +10140,7 @@
             ]
           },
           "people": [],
-          "sortOrder": 77
-        },
-        {
-          "id": "2025-11-25-095226-cebreus",
-          "type": "image",
-          "src": "2025-11-25-095226-cebreus.heic",
-          "alt": "Serapeum, Alexandrie",
-          "title": "",
-          "width": 4032,
-          "height": 3024,
-          "sizeMB": 2.61,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-25-095226-cebreus.png",
-          "placeholderColor": "rgb(8,8,8)",
-          "analysis": {
-            "aestheticScore": 91.26031774595192,
-            "sharpness": 96,
-            "qualityBucket": "excellent",
-            "phash": "e4e666b4cd45264d",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T08:52:26.844Z",
-            "location": "Serapeum",
-            "city": "Alexandrie",
-            "latitude": 31.181864,
-            "longitude": 29.897139,
-            "orientation": 1,
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Serapeum",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.181864,29.897139",
-          "date": "2025-11-25T08:52:26.844Z",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-095226-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-095226-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-095226-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-095226-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-095226-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-095226-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-095226-cebreus.jpeg",
-              "width": 1280,
-              "height": 960
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-095226-cebreus.jpeg",
-              "width": 190,
-              "height": 107
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-095226-cebreus.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "people": []
+          "sortOrder": 19
         },
         {
           "id": "2025-11-25-104318-cebreus--zoom2from2",
@@ -12415,7 +10250,7 @@
             ]
           },
           "people": [],
-          "sortOrder": 78
+          "sortOrder": 33
         },
         {
           "id": "2025-11-25-104322-cebreus--zoom1from2",
@@ -12548,6 +10383,107 @@
             "person-9b0bc40f",
             "person-0db741fb"
           ]
+        },
+        {
+          "id": "2025-11-25-145152-dasa--collage",
+          "type": "image",
+          "src": "2025-11-25-145152-dasa--collage.jpg",
+          "alt": "Vlak krále Farúka, Královská vlaková garáž, Alexandrie",
+          "title": "",
+          "caption": "Vlak krále Farúka",
+          "width": 2437,
+          "height": 1828,
+          "sizeMB": 1.55,
+          "aspectRatio": "collage",
+          "placeholder": "blurs/2025-11-25-145152-dasa--collage.png",
+          "placeholderColor": "rgb(8,8,8)",
+          "analysis": {
+            "aestheticScore": 53.61927250831657,
+            "sharpness": 100,
+            "qualityBucket": "good",
+            "phash": "b6b0a269469aba2c",
+            "facesDetected": false,
+            "faces": []
+          },
+          "exif": {
+            "date": "2025-11-25T13:51:52.220Z",
+            "location": "Královská vlaková garáž",
+            "city": "Alexandrie",
+            "latitude": 31.283475,
+            "longitude": 30.025228,
+            "orientation": 6,
+            "description": "Vlak krále Farúka",
+            "author": "Dáša",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
+          },
+          "author": "Dáša",
+          "authorSlug": "dasa",
+          "location": "Královská vlaková garáž",
+          "city": "Alexandrie",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.283475,30.025228",
+          "date": "2025-11-25T13:51:52.220Z",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-25-145152-dasa--collage.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-25-145152-dasa--collage.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-25-145152-dasa--collage.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-145152-dasa--collage.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-25-145152-dasa--collage.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-145152-dasa--collage.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-25-145152-dasa--collage.jpeg",
+              "width": 1280,
+              "height": 1706
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-25-145152-dasa--collage.jpeg",
+              "width": 190,
+              "height": 107
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-145152-dasa--collage.jpeg",
+              "width": 401,
+              "height": 534
+            }
+          ],
+          "people": []
         }
       ],
       "id": "day-2025-11-25"
@@ -15178,7 +13114,8 @@
             "person-0db741fb",
             "person-4b808b59",
             "person-c1502128--odpojeno-od-person-15",
-            "person-a4e0e8c2"
+            "person-a4e0e8c2",
+            "person-50161bca"
           ]
         },
         {
@@ -16030,7 +13967,8 @@
             "person-9b0bc40f",
             "person-183e8294",
             "person-4b808b59",
-            "person-27636fc8--odpojeno-od-person-43-2"
+            "person-27636fc8--odpojeno-od-person-43-2",
+            "person-50161bca"
           ]
         },
         {
@@ -20597,7 +18535,8 @@
           ],
           "people": [
             "person-183e8294",
-            "person-4b808b59"
+            "person-4b808b59",
+            "person-50161bca"
           ]
         },
         {
@@ -26080,8 +24019,10 @@
           ],
           "people": [
             "person-4d28f02d",
+            "person-0db741fb",
             "person-4b808b59",
-            "person-79c593b4"
+            "person-50161bca",
+            "person-27636fc8--odpojeno-od-person-43-2"
           ]
         },
         {
@@ -26195,7 +24136,7 @@
           "placeholder": "blurs/2025-11-26-164810-bobo.png",
           "placeholderColor": "rgb(104,88,72)",
           "analysis": {
-            "aestheticScore": 52.22109573856485,
+            "aestheticScore": 50.619363935941195,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "9dc8e0e0f27343e1",
@@ -26213,6 +24154,8 @@
             "date": "2025-11-26T15:48:10.000Z",
             "author": "Bobo"
           },
+          "author": "Bobo",
+          "authorSlug": "bobo",
           "date": "2025-11-26T15:48:10.000Z",
           "sources": [
             {
@@ -26269,15 +24212,13 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-164810-bobo.jpeg",
-              "width": 300,
+              "width": 534,
               "height": 534
             }
           ],
           "people": [
             "person-191caf24--odpojeno-od-person-50-2"
-          ],
-          "author": "Bobo",
-          "flags": []
+          ]
         },
         {
           "id": "2025-11-26-164824-bobo",
@@ -26292,7 +24233,7 @@
           "placeholder": "blurs/2025-11-26-164824-bobo.png",
           "placeholderColor": "rgb(24,24,24)",
           "analysis": {
-            "aestheticScore": 41.933277763622655,
+            "aestheticScore": 37.703332995778844,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "7fc7c1e5a1e93131",
@@ -26310,6 +24251,8 @@
             "date": "2025-11-26T15:48:24.000Z",
             "author": "Bobo"
           },
+          "author": "Bobo",
+          "authorSlug": "bobo",
           "date": "2025-11-26T15:48:24.000Z",
           "sources": [
             {
@@ -26366,15 +24309,13 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-164824-bobo.jpeg",
-              "width": 300,
+              "width": 534,
               "height": 534
             }
           ],
           "people": [
             "person-e106e434"
-          ],
-          "author": "Bobo",
-          "flags": []
+          ]
         },
         {
           "id": "2025-11-26-170618-bobo",
@@ -26389,7 +24330,7 @@
           "placeholder": "blurs/2025-11-26-170618-bobo.png",
           "placeholderColor": "rgb(40,24,24)",
           "analysis": {
-            "aestheticScore": 84.08519209881915,
+            "aestheticScore": 81.34555050168893,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "95939bc9b3acccf1",
@@ -26400,6 +24341,8 @@
             "date": "2025-11-26T16:06:18.000Z",
             "author": "Bobo"
           },
+          "author": "Bobo",
+          "authorSlug": "bobo",
           "date": "2025-11-26T16:06:18.000Z",
           "sources": [
             {
@@ -26456,13 +24399,11 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-170618-bobo.jpeg",
-              "width": 300,
+              "width": 534,
               "height": 534
             }
           ],
-          "people": [],
-          "author": "Bobo",
-          "flags": []
+          "people": []
         },
         {
           "id": "2025-11-26-182507-bobo",
@@ -26477,7 +24418,7 @@
           "placeholder": "blurs/2025-11-26-182507-bobo.png",
           "placeholderColor": "rgb(8,8,8)",
           "analysis": {
-            "aestheticScore": 50.00352183010504,
+            "aestheticScore": 49.956265017702265,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "26263e9e8e9c4d08",
@@ -26507,6 +24448,8 @@
             "date": "2025-11-26T17:25:07.000Z",
             "author": "Bobo"
           },
+          "author": "Bobo",
+          "authorSlug": "bobo",
           "date": "2025-11-26T17:25:07.000Z",
           "sources": [
             {
@@ -26567,13 +24510,11 @@
               "height": 534
             }
           ],
-          "flags": [],
           "people": [
             "person-86077f36",
             "person-4d28f02d",
             "person-9b0bc40f"
-          ],
-          "author": "Bobo"
+          ]
         },
         {
           "id": "2025-11-26-182606",
@@ -26588,7 +24529,7 @@
           "placeholder": "blurs/2025-11-26-182606.png",
           "placeholderColor": "rgb(200,200,184)",
           "analysis": {
-            "aestheticScore": 61.05739094498405,
+            "aestheticScore": 64.09950916176122,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "d22e33361f386481",
@@ -26636,6 +24577,8 @@
             "date": "2025-11-26T17:26:06.000Z",
             "author": "Bobo"
           },
+          "author": "Bobo",
+          "authorSlug": "bobo",
           "date": "2025-11-26T17:26:06.000Z",
           "sources": [
             {
@@ -26696,7 +24639,6 @@
               "height": 534
             }
           ],
-          "flags": [],
           "people": [
             "person-86077f36",
             "person-0db741fb",
@@ -26706,8 +24648,7 @@
             "person-6abf63c9",
             "person-c1502128--odpojeno-od-person-15",
             "person-cd0417ee"
-          ],
-          "author": "Bobo"
+          ]
         },
         {
           "id": "2025-11-26-191950-dasa",
@@ -27144,7 +25085,7 @@
           "placeholder": "blurs/2025-11-27-064232-bobo.png",
           "placeholderColor": "rgb(24,24,24)",
           "analysis": {
-            "aestheticScore": 42.647949714030425,
+            "aestheticScore": 41.27204192734763,
             "sharpness": 71,
             "qualityBucket": "poor",
             "phash": "392547d68c9d8d2f",
@@ -27162,6 +25103,8 @@
             "date": "2025-11-27T05:42:32.000Z",
             "author": "Bobo"
           },
+          "author": "Bobo",
+          "authorSlug": "bobo",
           "date": "2025-11-27T05:42:32.000Z",
           "sources": [
             {
@@ -27219,12 +25162,10 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-27-064232-bobo.jpeg",
               "width": 534,
-              "height": 300
+              "height": 534
             }
           ],
-          "people": [],
-          "author": "Bobo",
-          "flags": []
+          "people": []
         },
         {
           "id": "2025-11-27-064239-bobo",
@@ -27239,7 +25180,7 @@
           "placeholder": "blurs/2025-11-27-064239-bobo.png",
           "placeholderColor": "rgb(104,104,104)",
           "analysis": {
-            "aestheticScore": 38.30043841376412,
+            "aestheticScore": 31.25870413289082,
             "sharpness": 74,
             "qualityBucket": "poor",
             "phash": "c4d6faeb76e09298",
@@ -27250,6 +25191,8 @@
             "date": "2025-11-27T05:42:39.000Z",
             "author": "Bobo"
           },
+          "author": "Bobo",
+          "authorSlug": "bobo",
           "date": "2025-11-27T05:42:39.000Z",
           "sources": [
             {
@@ -27307,12 +25250,10 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-27-064239-bobo.jpeg",
               "width": 534,
-              "height": 300
+              "height": 534
             }
           ],
-          "people": [],
-          "author": "Bobo",
-          "flags": []
+          "people": []
         },
         {
           "id": "2025-11-27-064240-81ea6390-30a6-4303-8b6f-bb014f58e62d",
@@ -27327,7 +25268,7 @@
           "placeholder": "blurs/2025-11-27-064240-81ea6390-30a6-4303-8b6f-bb014f58e62d.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 37.61145209169823,
+            "aestheticScore": 36.94390889929941,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "cc7c7d756ccd2d68",
@@ -27338,6 +25279,8 @@
             "date": "2025-11-27T05:42:40.000Z",
             "author": "Bobo"
           },
+          "author": "Bobo",
+          "authorSlug": "bobo",
           "date": "2025-11-27T05:42:40.000Z",
           "sources": [
             {
@@ -27398,9 +25341,7 @@
               "height": 534
             }
           ],
-          "author": "Bobo",
-          "people": [],
-          "flags": []
+          "people": []
         },
         {
           "id": "2025-11-27-064240-9625dee9-e875-4c32-a88b-4cd781fc1614",
@@ -27410,12 +25351,12 @@
           "title": "",
           "width": 1600,
           "height": 900,
-          "sizeMB": 0.31,
+          "sizeMB": 0.32,
           "aspectRatio": "landscape-16-9",
           "placeholder": "blurs/2025-11-27-064240-9625dee9-e875-4c32-a88b-4cd781fc1614.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 50.30551937607771,
+            "aestheticScore": 45.629413573749474,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "ec780ee0a6e2f8e6",
@@ -27433,6 +25374,8 @@
             "date": "2025-11-27T05:42:40.000Z",
             "author": "Bobo"
           },
+          "author": "Bobo",
+          "authorSlug": "bobo",
           "date": "2025-11-27T05:42:40.000Z",
           "sources": [
             {
@@ -27493,9 +25436,7 @@
               "height": 534
             }
           ],
-          "author": "Bobo",
-          "people": [],
-          "flags": []
+          "people": []
         },
         {
           "id": "2025-11-27-064240-bobo",
@@ -27510,7 +25451,7 @@
           "placeholder": "blurs/2025-11-27-064240-bobo.png",
           "placeholderColor": "rgb(8,8,8)",
           "analysis": {
-            "aestheticScore": 39.06906691164944,
+            "aestheticScore": 36.94390889929941,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "cc7c7d756ccd2d68",
@@ -27521,6 +25462,8 @@
             "date": "2025-11-27T05:42:40.000Z",
             "author": "Bobo"
           },
+          "author": "Bobo",
+          "authorSlug": "bobo",
           "date": "2025-11-27T05:42:40.000Z",
           "sources": [
             {
@@ -27578,12 +25521,10 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-27-064240-bobo.jpeg",
               "width": 534,
-              "height": 300
+              "height": 534
             }
           ],
-          "people": [],
-          "author": "Bobo",
-          "flags": []
+          "people": []
         },
         {
           "id": "loc-karnak-visitor-center",
@@ -29263,7 +27204,8 @@
           "people": [
             "person-7cac6dc6",
             "person-183e8294",
-            "person-4b808b59"
+            "person-4b808b59",
+            "person-50161bca"
           ]
         },
         {
@@ -29592,9 +27534,9 @@
           "placeholder": "blurs/2025-11-28-170307-bobo.png",
           "placeholderColor": "rgb(184,200,200)",
           "analysis": {
-            "aestheticScore": 41.986504567864124,
+            "aestheticScore": 48.85440260692862,
             "sharpness": 100,
-            "qualityBucket": "poor",
+            "qualityBucket": "good",
             "phash": "b0b81c91d1800000",
             "facesDetected": false,
             "faces": []
@@ -29603,6 +27545,8 @@
             "date": "2025-11-28T16:03:07.000Z",
             "author": "Bobo"
           },
+          "author": "Bobo",
+          "authorSlug": "bobo",
           "date": "2025-11-28T16:03:07.000Z",
           "sources": [
             {
@@ -29660,12 +27604,10 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-28-170307-bobo.jpeg",
               "width": 534,
-              "height": 300
+              "height": 534
             }
           ],
-          "people": [],
-          "author": "Bobo",
-          "flags": []
+          "people": []
         }
       ],
       "id": "day-2025-11-28"
@@ -29999,8 +27941,9 @@
           "people": [
             "person-9b0bc40f",
             "person-c1502128--odpojeno-od-person-15",
+            "person-4b808b59",
             "person-4d28f02d",
-            "person-4b808b59"
+            "person-50161bca"
           ]
         },
         {

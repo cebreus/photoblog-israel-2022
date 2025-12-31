@@ -142,22 +142,9 @@ function isImage(item: ImageEntry | Separator): item is ImageEntry {
 }
 
 function compareByExifDate(a: ImageEntry, b: ImageEntry): number {
-  // Priority: sortOrder > exif.date
-  const aHasOrder = a.sortOrder !== undefined;
-  const bHasOrder = b.sortOrder !== undefined;
-
-  // Both have sortOrder - compare by sortOrder
-  if (aHasOrder && bHasOrder) {
-    return (a.sortOrder ?? 0) - (b.sortOrder ?? 0);
-  }
-
-  // Only one has sortOrder - it comes first
-  if (aHasOrder) return -1;
-  if (bHasOrder) return 1;
-
-  // Neither has sortOrder - fallback to EXIF date
-  const dateA = a.exif?.date ?? "";
-  const dateB = b.exif?.date ?? "";
+  // Priority: exif.releaseDate > exif.date (DateTimeOriginal)
+  const dateA = a.exif?.releaseDate ?? a.exif?.date ?? "";
+  const dateB = b.exif?.releaseDate ?? b.exif?.date ?? "";
   return dateA.localeCompare(dateB);
 }
 

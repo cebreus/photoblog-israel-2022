@@ -23,6 +23,7 @@ export interface RawExifData extends ManifestExifData {
   Orientation?: number | string;
   DateTimeOriginal?: Date | string;
   CreateDate?: Date | string;
+  ReleaseDate?: Date | string;
   Location?: string;
   City?: string;
   Copyright?: string;
@@ -134,6 +135,13 @@ const EXIF_MAPPING: Record<string, (tags: Record<string, unknown>) => unknown> =
   CreateDate: function (tags) {
     return getDateValue(tags, "CreateDate");
   },
+  ReleaseDate: function (tags) {
+    return (
+      getDateValue(tags, "ReleaseDate") ||
+      getDateValue(tags, "XMP:ReleaseDate") ||
+      getDateValue(tags, "xmp:ReleaseDate")
+    );
+  },
   Location: function (tags) {
     return getStandardValue(tags, "location");
   },
@@ -229,6 +237,16 @@ function getIsoDate(exif: Partial<RawExifData>): string | undefined {
   return undefined;
 }
 
+function getReleaseDate(exif: Partial<RawExifData>): string | undefined {
+  try {
+    // Priority: ReleaseDate > DateTimeOriginal > CreateDate
+    const d = exif.ReleaseDate || exif.DateTimeOriginal || exif.CreateDate;
+    if (d instanceof Date) return d.toISOString();
+    if (typeof d === "string") return new Date(d).toISOString();
+  } catch {}
+  return undefined;
+}
+
 /**
  * Detect special media type based on filename and dimensions.
  */
@@ -282,6 +300,7 @@ export function buildImageEntry(
   const caption = getCanonicalCaption(exif);
   const author = getCanonicalAuthor(exif);
   const date = getIsoDate(exif);
+  const releaseDate = getReleaseDate(exif);
   const id = toSlug(baseName);
 
   const aspectRatio = isCollage(baseName)
@@ -314,6 +333,7 @@ export function buildImageEntry(
     },
     exif: {
       date,
+      releaseDate,
       location: exif.Location,
       city: exif.City,
       title: exif.Title,
