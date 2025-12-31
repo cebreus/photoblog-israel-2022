@@ -175,10 +175,10 @@ function calculateReleaseDates(
     }
   }
 
-  // CRITICAL: Never modify first or last image timestamps
+  // CRITICAL: Never modify first or last image timestamps in ORIGINAL order
   // They define the separator time range (e.g., "Pyramids, 08:00 - 12:00")
-  const firstImageId = imageIds[0];
-  const lastImageId = imageIds[imageIds.length - 1];
+  const originalFirstImageId = currentOrder[0];
+  const originalLastImageId = currentOrder[currentOrder.length - 1];
 
   // Find images that changed position
   for (let newIndex = 0; newIndex < imageIds.length; newIndex++) {
@@ -188,8 +188,8 @@ function calculateReleaseDates(
     // Skip if image didn't move
     if (oldIndex === newIndex) continue;
 
-    // PROTECTION: Never change first or last image
-    if (imageId === firstImageId || imageId === lastImageId) {
+    // PROTECTION: Never change ORIGINAL first or last image
+    if (imageId === originalFirstImageId || imageId === originalLastImageId) {
       continue;
     }
 

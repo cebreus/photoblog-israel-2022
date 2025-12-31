@@ -6,6 +6,7 @@
     Database,
     Filter,
     Image as ImageIcon,
+    RotateCcw,
     Square,
     SquarePlay,
     UserRound,
@@ -24,6 +25,7 @@
   import type { ImageEntry, Separator } from "$lib/types/manifest";
   import { mergeSparseDays } from "$lib/utils/gallery";
   import { EMPTY_MESSAGES } from "$lib/utils/messages";
+  import { clearImageOrder } from "$lib/utils/reorder";
   import { formatDateForDisplay, formatDateRange, formatWeekdayCzech } from "$lib/utils/strings";
 
   import type { PageData } from "./$types";
@@ -241,6 +243,17 @@
                     <CheckSquare size={14} />
                     {day.mergedDates ? "Vybrat celé dny" : "Vybrat celý den"}
                   {/if}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  class="gap-2"
+                  onclick={async () => {
+                    await clearImageOrder(daySectionId);
+                  }}
+                >
+                  <RotateCcw size={14} />
+                  Resetovat pořadí
                 </Button>
               </div>
             {/if}
