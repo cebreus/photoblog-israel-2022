@@ -12,7 +12,6 @@ import type {
   PeopleManifest,
   Person,
   PhotoDay,
-  SortOrderManifest,
 } from "../types/manifest";
 
 function isObject(value: unknown): value is Record<string, unknown> {
@@ -208,13 +207,4 @@ function isValidImageFaces(value: unknown): value is ImageFaces {
 export function isValidFacesManifest(value: unknown): value is FacesManifest {
   if (!isObject(value)) return false;
   return Object.values(value).every(isValidImageFaces);
-}
-
-/**
- * Validates that value is a SortOrderManifest.
- * Each key is a dayId, each value is an array of image ID strings.
- */
-export function isValidSortOrderManifest(value: unknown): value is SortOrderManifest {
-  if (!isObject(value)) return false;
-  return Object.values(value).every((entry) => isArray(entry) && entry.every((id) => isString(id)));
 }

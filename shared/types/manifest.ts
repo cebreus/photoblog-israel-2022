@@ -165,11 +165,6 @@ export type ImageEntry = {
     panoramaConfig?: PanoramaConfig;
     sequenceInfo?: SequenceInfo;
     /**
-     * Manual sort order within a day. When present, takes precedence over EXIF date.
-     * Lower values sort first. Assigned via drag & drop in edit mode.
-     */
-    sortOrder?: number;
-    /**
      * User-defined flags for filtering and categorization.
      * Examples: "snapshot-author", "snapshot-others", "favorite", "archived"
      */
@@ -322,11 +317,4 @@ export type FacesManifest = {
     [imageId: string]: ImageFaces;
 };
 
-/**
- * Persistent storage for manual sort order.
- * Stored separately from images.manifest.json to survive rebuilds.
- * Key is dayId (e.g., "day-2025-11-25"), value is ordered array of image IDs.
- */
-export type SortOrderManifest = {
-    [dayId: string]: string[];
-};
+

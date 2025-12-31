@@ -27,7 +27,6 @@ import {
   loadEmbeddingsManifest,
   loadFacesManifest,
   loadManifest,
-  loadSortOrderManifest,
   saveAnalysisManifest,
   saveFacesManifest,
   saveImagesManifest,
@@ -285,30 +284,18 @@ async function processImages(
   return results;
 }
 /**
- * Merges data from split manifests (analysis, faces, sortorder) into images.manifest.json.
- * This ensures that metadata computed by other scripts (face-clustering, analyze-similarity)
- * and manual sort order is preserved in the main manifest even when images are cached and not reprocessed.
+ * Merges split manifests (analysis, faces) into the main images manifest.
+ * This ensures that AI-generated metadata and face detection data are preserved
+ * even when images are cached and not reprocessed.
  * Reconstructs the analysis object with consistent key order.
  */
 async function mergeSplitManifestsIntoImages(manifest: Manifest, dataDir: string): Promise<void> {
   const analysisManifest = (await loadAnalysisManifest(dataDir)) || {};
   const facesManifest = (await loadFacesManifest(dataDir)) || {};
-  const sortOrderManifest = (await loadSortOrderManifest(dataDir)) || {};
 
   let mergedCount = 0;
-  let sortOrderMergedCount = 0;
 
   for (const day of manifest.photoDays) {
-    // Build sortOrder map for this day from persistent manifest
-    const dayId = day.id || `day-${day.date}`;
-    const sortOrderForDay = sortOrderManifest[dayId];
-    const sortOrderMap = new Map<string, number>();
-    if (sortOrderForDay && Array.isArray(sortOrderForDay)) {
-      sortOrderForDay.forEach((id, index) => {
-        sortOrderMap.set(id, index + 1);
-      });
-    }
-
     for (const item of day.items) {
       if (item.type !== "image" && item.type !== "sequence" && item.type !== "sequence-member") {
         continue;
@@ -317,16 +304,6 @@ async function mergeSplitManifestsIntoImages(manifest: Manifest, dataDir: string
       const id = item.id;
       const analysisData = analysisManifest[id];
       const facesData = facesManifest[id];
-
-      // Apply sortOrder from persistent manifest
-      const sortOrder = sortOrderMap.get(id);
-      if (sortOrder !== undefined) {
-        item.sortOrder = sortOrder;
-        sortOrderMergedCount++;
-      } else if (item.sortOrder !== undefined) {
-        // Clear sortOrder if not in persistent manifest (was removed)
-        delete item.sortOrder;
-      }
 
       // Get existing values or defaults
       const existing = item.analysis ?? {
@@ -381,11 +358,6 @@ async function mergeSplitManifestsIntoImages(manifest: Manifest, dataDir: string
 
   if (mergedCount > 0) {
     logger.verbose(`Merged split manifest data for ${mergedCount} images.`);
-  }
-  if (sortOrderMergedCount > 0) {
-    logger.verbose(
-      `Restored sortOrder for ${sortOrderMergedCount} images from persistent manifest.`,
-    );
   }
 }
 

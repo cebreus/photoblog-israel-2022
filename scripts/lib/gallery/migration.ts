@@ -12,14 +12,12 @@ import {
   loadFacesManifest,
   loadImagesManifest,
   loadPeopleManifest,
-  loadSortOrderManifest,
   saveAnalysisManifest,
   saveCurationManifest,
   saveEmbeddingsManifest,
   saveFacesManifest,
   saveImagesManifest,
   savePeopleManifest,
-  saveSortOrderManifest,
 } from "../manifests/repository";
 import { getOutputFolders } from "./cleanup";
 import { type RenameMap, safeRename } from "./renaming";
@@ -236,52 +234,6 @@ export async function migrateFacesManifest(gallery: string, renameMap: RenameMap
   // Face manifest usage is slightly different but fits the pattern if we check keys
   // Faces manifest keys ARE image IDs (slugs)
   await migrateKeyValueManifest(gallery, renameMap, loadFacesManifest, saveFacesManifest);
-}
-
-/**
- * Migrates sortorder.manifest.json (Map<DayID, ImageID[]>)
- * This breaks the Key-Value pattern slightly because the Value is an array of IDs, not data.
- */
-export async function migrateSortOrderManifest(
-  gallery: string,
-  renameMap: RenameMap,
-): Promise<void> {
-  const sortOrderManifest = await loadSortOrderManifest(`src/data/${gallery}`);
-  if (!sortOrderManifest) return;
-
-  const lookup = new Map<string, string>();
-  for (const v of renameMap.values()) {
-    lookup.set(toSlug(v.oldBase), toSlug(v.newBase));
-  }
-
-  let changed = false;
-
-  for (const [dayId, imageIds] of Object.entries(sortOrderManifest)) {
-    const newIds: string[] = [];
-    let dayChanged = false;
-
-    // Cast is necessary because Object.entries infers unknown value types
-    const ids = imageIds as string[];
-
-    for (const oldId of ids) {
-      const newId = lookup.get(oldId);
-      if (newId) {
-        newIds.push(newId);
-        dayChanged = true;
-      } else {
-        newIds.push(oldId);
-      }
-    }
-
-    if (dayChanged) {
-      sortOrderManifest[dayId] = newIds;
-      changed = true;
-    }
-  }
-
-  if (changed) {
-    await saveSortOrderManifest(`src/data/${gallery}`, sortOrderManifest);
-  }
 }
 
 /**
