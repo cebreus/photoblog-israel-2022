@@ -17,26 +17,28 @@ export class PeopleState {
   // Hidden list shows only"person" category (statue/painting stay in their accordions even if ignored)
   hiddenPeople = $derived(
     this.peopleWithStats
-      .filter((p) => p.hidden && !p.junk && (!p.category || p.category === "person"))
+      .filter(
+        (p) => p.hidden && !p.junk && p.faceCount > 0 && (!p.category || p.category === "person"),
+      )
       .sort((a, b) => b.faceCount - a.faceCount),
   );
 
   // Category lists (based on visible/active people)
   categoryPeople = $derived(
     this.peopleWithStats
-      .filter((p) => (!p.category || p.category === "person") && !p.junk)
+      .filter((p) => (!p.category || p.category === "person") && !p.junk && p.faceCount > 0)
       .sort((a, b) => b.faceCount - a.faceCount),
   );
 
   categoryStatues = $derived(
     this.peopleWithStats
-      .filter((p) => p.category === "statue" && !p.junk)
+      .filter((p) => p.category === "statue" && !p.junk && p.faceCount > 0)
       .sort((a, b) => b.faceCount - a.faceCount),
   );
 
   categoryPaintings = $derived(
     this.peopleWithStats
-      .filter((p) => p.category === "painting" && !p.junk)
+      .filter((p) => p.category === "painting" && !p.junk && p.faceCount > 0)
       .sort((a, b) => b.faceCount - a.faceCount),
   );
 

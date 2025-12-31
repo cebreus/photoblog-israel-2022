@@ -19567,18 +19567,6 @@
       "category": "statue"
     },
     {
-      "id": "person-4e3ae318--odpojeno-od-person-16-2",
-      "name": "Odpojeno od Person 16 2",
-      "faceDescriptor": [],
-      "clusters": [],
-      "faceCount": 0,
-      "thumbnail": "faces/person-4e3ae318--odpojeno-od-person-16-2/2025-11-26-133231-dasa.jpg",
-      "hidden": false,
-      "createdAt": "2025-12-31T09:22:32.637Z",
-      "lastSeenAt": "2025-12-31T09:22:32.637Z",
-      "category": "person"
-    },
-    {
       "id": "person-b0503ddd--odpojeno-od-person-16-3",
       "name": "Odpojeno od Person 16 3",
       "faceDescriptor": [],
@@ -19615,18 +19603,6 @@
       "category": "person"
     },
     {
-      "id": "person-430ee4ca--odpojeno-od-person-43",
-      "name": "Odpojeno od Person 43",
-      "faceDescriptor": [],
-      "clusters": [],
-      "faceCount": 0,
-      "thumbnail": "faces/person-430ee4ca--odpojeno-od-person-43/2025-11-26-133231-dasa.jpg",
-      "hidden": false,
-      "createdAt": "2025-12-31T10:06:26.760Z",
-      "lastSeenAt": "2025-12-31T10:06:26.760Z",
-      "category": "person"
-    },
-    {
       "id": "person-27636fc8--odpojeno-od-person-43-2",
       "name": "Odpojeno od Person 43 2",
       "faceDescriptor": [],
@@ -19648,18 +19624,6 @@
       "hidden": true,
       "createdAt": "2025-12-31T10:07:21.022Z",
       "lastSeenAt": "2025-12-31T10:07:21.022Z",
-      "category": "person"
-    },
-    {
-      "id": "person-868f5939--odpojeno-od-person-38-2",
-      "name": "Odpojeno od Person 38 2",
-      "faceDescriptor": [],
-      "clusters": [],
-      "faceCount": 0,
-      "thumbnail": "faces/person-868f5939--odpojeno-od-person-38-2/2025-11-26-133231-dasa.jpg",
-      "hidden": false,
-      "createdAt": "2025-12-31T10:07:21.023Z",
-      "lastSeenAt": "2025-12-31T10:07:21.023Z",
       "category": "person"
     }
   ]
