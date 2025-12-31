@@ -78,6 +78,31 @@ flowchart TB
 5. Lazy load obrázku
 6. Nahradí placeholder
 
+### 2.1. Client-Side Data Flow (Filtering)
+
+> **Architektonická změna (Dec 2025):** Všechna logika filtrování je centralizovaná v `filters` store. `+page.svelte` již neprovádí žádné filtrování, pouze konzumuje výsledky.
+
+```mermaid
+flowchart TB
+    URL[URL Parameters] <--> SYNC[urlSync.ts]
+    SYNC <--> STORE[filters.svelte.ts]
+    DATA[Page Data] --> STORE
+
+    subgraph Store Logic
+        STORE --> FILTER_FN[filterGalleryItems]
+        FILTER_FN --> COMPUTED[filteredPhotoDays]
+        COMPUTED --> VISIBLE[visiblePhotos count]
+    end
+
+    COMPUTED --> UI_LIST[+page.svelte List]
+    VISIBLE --> UI_EMPTY[+page.svelte Global Empty State]
+```
+
+1. **Load:** Data z `+page.server.ts` jsou nalita do `filters.sourceData`.
+2. **Sync:** `urlSync.ts` inicializuje store podle URL.
+3. **Compute:** Store reaktivně přepočítá `filteredPhotoDays`.
+4. **Render:** `+page.svelte` zobrazí fotky nebo globální Empty State (pokud `visiblePhotos === 0`).
+
 ## 3. Manifesty
 
 ### Split & Link architektura

@@ -39,15 +39,15 @@ flowchart LR
 
 Svelte 5 runes-based stores:
 
-| Store                  | Účel                                    |
-| ---------------------- | --------------------------------------- |
-| `filters.ts`           | Aktivní filtry (autoři, kvalita, osoby) |
-| `curation.ts`          | Kurátorský workflow                     |
-| `editorState.ts`       | Multi-výběr, editační stav              |
-| `urlSync.ts`           | Synchronizace s URL parametry           |
-| `metadataClipboard.ts` | Kopírování/vkládání metadat             |
-| `uiState.ts`           | Viditelnost UI prvků                    |
-| `scrollspy.ts`         | Detekce aktivní sekce                   |
+| Store                  | Účel                                      |
+| ---------------------- | ----------------------------------------- |
+| `filters.ts`           | SSoT pro filtrovaná data a aktivní filtry |
+| `curation.ts`          | Kurátorský workflow                       |
+| `editorState.ts`       | Multi-výběr, editační stav                |
+| `urlSync.ts`           | Synchronizace s URL parametry             |
+| `metadataClipboard.ts` | Kopírování/vkládání metadat               |
+| `uiState.ts`           | Viditelnost UI prvků                      |
+| `scrollspy.ts`         | Detekce aktivní sekce                     |
 
 ### Pattern
 
@@ -97,13 +97,28 @@ flowchart TB
 
 ### Empty State
 
-Když žádné fotky neodpovídají filtrům, zobrazí se Empty state komponenta s tlačítkem "Resetovat filtry".
+### Empty State
+
+**Globální úroveň (+page.svelte):**
+Pokud filtry vyřadí všechny fotografie (`visiblePhotos === 0`), aplikace skryje celou strukturu galerie (včetně hlaviček dnů a zastávek) a zobrazí centrální **GalleryEmptyState** komponentu. To zabraňuje zobrazení "prázdných nadpisů".
+
+**Reset:**
+Tlačítko "Zrušit aktivní filtry" resetuje pouze omezující kritéria (autory, kvalitu...), ale zachovává uživatelské nastavení zobrazení (zastávky, popisky).
 
 ### URL synchronizace
 
 ```
-/?authors=cebreus,jana&quality=excellent,good&people=alice&media=panorama&others-snapshots
+
 ```
+
+/?authors=cebreus,jana&quality=excellent,good&people=alice&media=panorama&no-others-snapshots
+
+````
+
+Synchronizace je **obousměrná** a **debouncovaná** (50ms):
+1. Změna ve Store -> `urlSync.ts` -> `goto(?params)`
+2. Změna URL (back/forward) -> `urlSync.ts` -> Update Store
+
 
 ## 4. Editační režim
 
@@ -135,7 +150,7 @@ flowchart LR
     TIME[Časové okno 4h] --> GROUP
     GROUP --> BEST[Doporučeno]
     GROUP --> REST[Ostatní]
-```
+````
 
 ### Indikátory
 
