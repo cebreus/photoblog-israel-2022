@@ -233,7 +233,7 @@ function createLocationSeparator(
   };
 }
 
-function organizeDayItems(day: PhotoDay, storyData: StoryDataMap): PhotoDay {
+export function organizeDayItems(day: PhotoDay, storyData: StoryDataMap): PhotoDay {
   const images = (day.items || []).filter(isImage);
   images.sort(compareByExifDate);
 

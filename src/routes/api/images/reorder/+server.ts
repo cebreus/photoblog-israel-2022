@@ -4,6 +4,8 @@ import { json, type RequestEvent } from "@sveltejs/kit";
 import { dev } from "$app/environment";
 import { createLogger } from "$lib/logger";
 import type { ImageEntry, SortOrderManifest } from "$lib/types/manifest";
+import { reloadManifests } from "$lib/utils/images";
+import { organizeDayItems } from "$scripts/lib/manifests/builder";
 import { withManifestLock } from "$scripts/lib/manifests/lock";
 import {
   loadImagesManifest,
@@ -11,6 +13,7 @@ import {
   saveImagesManifest,
   saveSortOrderManifest,
 } from "$scripts/lib/manifests/repository";
+import { loadStoryData } from "./loader";
 
 const logger = createLogger("api:images:reorder");
 
@@ -112,9 +115,28 @@ export async function PATCH({ request }: RequestEvent) {
         }
       }
 
+      // 5. Re-organize the day items (sorts by sortOrder and regenerates separators)
+      // We need to load story data for this to work correctly with separators
+      const storyData = await loadStoryData(
+        path.resolve(process.cwd(), "content", resolvedContentDir),
+      );
+
+      // organizeDayItems expects the day object to be mutable/compatible
+      // It sorts items and regenerates separators based on the new order
+      const newDay = organizeDayItems(targetDay, storyData);
+
+      // Update the day in the manifest
+      const dayIndex = manifest.photoDays.indexOf(targetDay);
+      if (dayIndex !== -1) {
+        manifest.photoDays[dayIndex] = newDay;
+      }
+
       await saveImagesManifest(dataPath, manifest);
       logger.info(`Applied sortOrder to ${updatedCount} images in ${normalizedDayId}`);
     });
+
+    // Reload in-memory manifests so the UI gets fresh data immediately
+    await reloadManifests();
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     logger.error(`Failed to reorder images: ${message}`);
@@ -205,9 +227,23 @@ export async function DELETE({ request }: RequestEvent) {
         }
       }
 
+      // 3. Re-organize to restore default sort (EXIF date)
+      const storyData = await loadStoryData(
+        path.resolve(process.cwd(), "content", resolvedContentDir),
+      );
+      const newDay = organizeDayItems(targetDay, storyData);
+
+      const dayIndex = manifest.photoDays.indexOf(targetDay);
+      if (dayIndex !== -1) {
+        manifest.photoDays[dayIndex] = newDay;
+      }
+
       await saveImagesManifest(dataPath, manifest);
       logger.info(`Cleared sortOrder from ${clearedCount} images in ${normalizedDayId}`);
     });
+
+    // Reload in-memory manifests so the UI gets fresh data immediately
+    await reloadManifests();
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     logger.error(`Failed to clear sortOrder: ${message}`);

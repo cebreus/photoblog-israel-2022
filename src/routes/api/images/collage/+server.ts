@@ -13,6 +13,7 @@ import {
   type SharedLayout,
 } from "$lib/utils/collage-layout-engine";
 import { renderCollage } from "$lib/utils/collage-renderer";
+import { reloadManifests } from "$lib/utils/images";
 import { COLLAGE_MESSAGES } from "$lib/utils/messages";
 
 import { config as buildConfig } from "$scripts/build.config";
@@ -229,6 +230,9 @@ export async function POST({ request }: RequestEvent): Promise<Response> {
       };
       await saveFacesManifest(dataPath, facesManifest);
     });
+
+    // Force reload of in-memory manifest cache
+    await reloadManifests();
 
     log.info(`[Collage] Post-processing dokončeno: ${Date.now() - startPost}ms`);
 
