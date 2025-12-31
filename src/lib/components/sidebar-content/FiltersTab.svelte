@@ -4,12 +4,14 @@
   import Sun from "@lucide/svelte/icons/sun";
   import { mode, resetMode, setMode } from "mode-watcher";
 
+  import * as Accordion from "$lib/components/ui/accordion";
   import { Badge } from "$lib/components/ui/badge/";
+  import { Checkbox } from "$lib/components/ui/checkbox";
   import * as Sidebar from "$lib/components/ui/sidebar";
   import { Switch } from "$lib/components/ui/switch";
   import { ToggleGroup, ToggleGroupItem } from "$lib/components/ui/toggle-group";
   import { createLogger } from "$lib/logger";
-  import { filters } from "$lib/stores/filters.svelte";
+  import { filters, MEDIA_TYPES } from "$lib/stores/filters.svelte";
   import { ui } from "$lib/stores/ui.svelte";
   import type { MenuDay, QualityBucket } from "$lib/types/manifest";
   import { QUALITY_BUCKETS } from "$lib/utils/gallery";
@@ -226,37 +228,111 @@
       </div>
     {/if}
 
-    {#if qualityStats.size > 0 && qualityCount > 0}
-      <div class="space-y-3 border-b px-6 py-4">
-        <div class="flex items-center justify-between">
-          <p class="text-sm font-semibold">Kvalita fotek</p>
-        </div>
-        <div class="flex flex-col gap-3">
-          {#each QUALITY_BUCKETS as bucket (bucket.id)}
-            {@const count = qualityStats.get(bucket.id) ?? 0}
-            {@const isActive = filters.selectedQualityBuckets.includes(bucket.id)}
-            <label
-              class={`flex cursor-pointer items-center justify-between text-sm ${
-                isActive ? "text-primary" : "text-slate-100"
-              }`}
-              data-testid={`filters-tab-quality-${bucket.id}`}
-            >
-              <span class="flex items-center gap-2">
-                <span>{bucket.label}</span>
-                <Badge variant="outline">{count}</Badge>
-              </span>
-              <Switch
-                checked={isActive}
-                aria-label={isActive
-                  ? `Vypnout filtr ${bucket.label}`
-                  : `Zapnout filtr ${bucket.label}`}
-                onCheckedChange={() => toggleQualityBucket(bucket.id)}
-              />
-            </label>
-          {/each}
-        </div>
+    <!-- Media Types Section -->
+    <div class="space-y-3 border-b px-6 py-4">
+      <div class="flex items-center justify-between">
+        <p class="text-sm font-semibold">Typ média</p>
       </div>
-    {/if}
+      <div class="grid gap-2">
+        {#each MEDIA_TYPES as type}
+          {@const isChecked = filters.selectedMediaTypes.includes(type.id)}
+          <label class="flex cursor-pointer items-center justify-between text-sm">
+            <span>{type.label}</span>
+            <Checkbox
+              checked={isChecked}
+              onCheckedChange={function handleMediaTypeToggle(checked: boolean | "indeterminate") {
+                let current = filters.selectedMediaTypes;
+                if (checked) {
+                  current = [...current, type.id];
+                } else {
+                  current = current.filter(function keepOther(id) {
+                    return id !== type.id;
+                  });
+                }
+                filters.selectedMediaTypes = current;
+              }}
+              aria-label={`Filtr ${type.label}`}
+            />
+          </label>
+        {/each}
+      </div>
+      <p class="pt-1 text-xs text-slate-400">Pokud není vybrán žádný typ, zobrazují se všechny.</p>
+    </div>
+
+    <!-- Collapsible Sections (Snapshots & Quality) -->
+    <div class="px-6 pb-2">
+      <Accordion.Root type="multiple" class="w-full">
+        <!-- Snapshots Section -->
+        <Accordion.Item value="snapshots" class="border-b-0">
+          <Accordion.Trigger class="py-3 hover:no-underline">
+            <span class="text-sm font-semibold">Momentky</span>
+          </Accordion.Trigger>
+          <Accordion.Content>
+            <div class="flex flex-col gap-3 pb-4">
+              <label
+                class="flex cursor-pointer items-center justify-between text-sm"
+                data-testid="filters-tab-others-snapshots-control"
+              >
+                <span>Zobrazit další momentky</span>
+                <Switch
+                  bind:checked={filters.showOthersSnapshots}
+                  aria-label={filters.showOthersSnapshots
+                    ? "Skrýt další momentky"
+                    : "Zobrazit další momentky"}
+                  data-testid="filters-tab-others-snapshots-switch"
+                />
+              </label>
+
+              <p class="pt-1 text-xs text-slate-400">
+                Momentky jsou soukromé snímky typu „tady jsme byli“. Nemají obecnou dokumentární
+                hodnotu a jsou proto ve výchozím nastavení (zejména ty cizí) potlačeny.
+              </p>
+            </div>
+          </Accordion.Content>
+        </Accordion.Item>
+
+        <!-- Quality Section -->
+        {#if qualityStats.size > 0 && qualityCount > 0}
+          <Accordion.Item value="quality" class="border-t border-b-0">
+            <Accordion.Trigger class="py-3 hover:no-underline">
+              <span class="text-sm font-semibold">Kvalita fotek</span>
+            </Accordion.Trigger>
+            <Accordion.Content>
+              <div class="flex flex-col gap-3 pb-4">
+                {#each QUALITY_BUCKETS as bucket (bucket.id)}
+                  {@const count = qualityStats.get(bucket.id) ?? 0}
+                  {@const isActive = filters.selectedQualityBuckets.includes(bucket.id)}
+                  <label
+                    class={`flex cursor-pointer items-center justify-between text-sm ${
+                      isActive ? "text-primary" : "text-slate-100"
+                    }`}
+                    data-testid={`filters-tab-quality-${bucket.id}`}
+                  >
+                    <span class="flex items-center gap-2">
+                      <span>{bucket.label}</span>
+                      <Badge variant="outline">{count}</Badge>
+                    </span>
+                    <Switch
+                      checked={isActive}
+                      aria-label={isActive
+                        ? `Vypnout filtr ${bucket.label}`
+                        : `Zapnout filtr ${bucket.label}`}
+                      onCheckedChange={function handleQualityToggle() {
+                        toggleQualityBucket(bucket.id);
+                      }}
+                    />
+                  </label>
+                {/each}
+                <p class="pt-1 text-xs text-slate-400">
+                  Kvalita je určena automaticky pomocí AI (estetika) a technické analýzy (ostrost).
+                  Pomáhá skrýt slabší snímky, které jsou ale ponechány pro dokumentární účely.
+                </p>
+              </div>
+            </Accordion.Content>
+          </Accordion.Item>
+        {/if}
+      </Accordion.Root>
+    </div>
   </Sidebar.Content>
 
   <Sidebar.Footer class="border-sidebar-border bg-sidebar border-t p-4 px-6">

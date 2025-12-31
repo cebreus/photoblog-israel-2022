@@ -131,7 +131,7 @@ export async function analyzeRenameCandidates(
   const manifestAuthors = new Map<string, string>();
   const uuidRegex = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
 
-  if (imagesManifest && imagesManifest.photoDays) {
+  if (imagesManifest?.photoDays) {
     for (const day of imagesManifest.photoDays) {
       for (const item of day.items) {
         if (item.type === "image" && item.exif?.author) {

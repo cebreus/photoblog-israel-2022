@@ -3,7 +3,7 @@
   import ArrowRightLeft from "@lucide/svelte/icons/arrow-right-left";
   import Copy from "@lucide/svelte/icons/copy";
   import Trash2 from "@lucide/svelte/icons/trash-2";
-
+  import { dev } from "$app/environment";
   import { useScrollspy } from "$lib/actions/scrollspy";
   import AspectRatioIcon from "$lib/components/AspectRatioIcon.svelte";
   import JsonViewer from "$lib/components/debug/JsonViewer.svelte";
@@ -343,18 +343,34 @@
         {/if}
       </figure>
 
-      {#if showCurationVisuals}
-        <div class="pointer-events-none absolute top-2 left-2 flex flex-col gap-1">
-          <div class="rounded bg-amber-500 px-1.5 py-0.5 text-[10px] font-bold text-white shadow">
-            DUPLICITY
-          </div>
-          {#if item.id === curationGroup?.bestCandidateId}
+      {#if showCurationVisuals || (dev && (item.flags?.includes("snapshot-author") || item.flags?.includes("snapshot-others")))}
+        <div class="pointer-events-none absolute top-2 left-2 z-10 flex flex-col gap-1">
+          {#if dev && item.flags?.includes("snapshot-author")}
             <div
-              class="rounded bg-green-600 px-1.5 py-0.5 text-[10px] font-bold text-white shadow"
-              data-testid="curation-recommendation-badge"
+              class="rounded bg-indigo-600/80 px-1.5 py-0.5 text-[9px] font-black text-white shadow-sm backdrop-blur-sm"
             >
-              DOPORUČENO
+              MOMENTKA
             </div>
+          {/if}
+          {#if dev && item.flags?.includes("snapshot-others")}
+            <div
+              class="rounded bg-slate-600/80 px-1.5 py-0.5 text-[9px] font-black text-white shadow-sm backdrop-blur-sm"
+            >
+              CIZÍ MOMENTKA
+            </div>
+          {/if}
+          {#if showCurationVisuals}
+            <div class="rounded bg-amber-500 px-1.5 py-0.5 text-[10px] font-bold text-white shadow">
+              DUPLICITY
+            </div>
+            {#if item.id === curationGroup?.bestCandidateId}
+              <div
+                class="rounded bg-green-600 px-1.5 py-0.5 text-[10px] font-bold text-white shadow"
+                data-testid="curation-recommendation-badge"
+              >
+                DOPORUČENO
+              </div>
+            {/if}
           {/if}
         </div>
       {/if}

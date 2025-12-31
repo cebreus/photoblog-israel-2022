@@ -1,5 +1,6 @@
 import {
   isImageEntry,
+  type MediaItemType,
   type PhotoDay,
   type PhotoDayItem,
   type QualityBucket,
@@ -13,7 +14,25 @@ export const QUALITY_BUCKETS: { id: QualityBucket; label: string }[] = [
   { id: "poor", label: "Podprůměrné" },
 ];
 
-const ALL_QUALITY_BUCKET_IDS = QUALITY_BUCKETS.map((b) => b.id);
+const ALL_QUALITY_BUCKET_IDS = QUALITY_BUCKETS.map(function getId(b) {
+  return b.id;
+});
+
+/** Check if item has a specific flag */
+function hasFlag(item: PhotoDayItem, flag: string): boolean {
+  if (!isImageEntry(item)) return false;
+  return Array.isArray(item.flags) && item.flags.includes(flag);
+}
+
+/** Check if item is a snapshot (author or others) */
+function _isSnapshot(item: PhotoDayItem): boolean {
+  return hasFlag(item, "snapshot-author") || hasFlag(item, "snapshot-others");
+}
+
+/** Check if item is a snapshot by others */
+function isOthersSnapshot(item: PhotoDayItem): boolean {
+  return hasFlag(item, "snapshot-others");
+}
 
 function shouldIncludeItem(
   item: PhotoDayItem,
@@ -21,7 +40,9 @@ function shouldIncludeItem(
   selectedAuthors: string[],
   selectedQualityBuckets: QualityBucket[],
   selectedPeople: string[],
-  isDefaultView: boolean,
+  selectedMediaTypes: MediaItemType[],
+  showOthersSnapshots: boolean,
+  isDefaultQualityView: boolean,
   imagePeopleMap: Record<string, string[]>,
 ): boolean {
   if (!isImageEntry(item)) {
@@ -38,6 +59,18 @@ function shouldIncludeItem(
     return false;
   }
 
+  // Filter by media type (empty array = show all)
+  if (selectedMediaTypes.length > 0) {
+    if (!selectedMediaTypes.includes(item.type)) {
+      return false;
+    }
+  }
+
+  // Hide others' snapshots unless explicitly enabled
+  if (!showOthersSnapshots && isOthersSnapshot(item)) {
+    return false;
+  }
+
   if (selectedAuthors.length > 0) {
     if (selectedAuthors.includes("none")) {
       return false;
@@ -46,7 +79,7 @@ function shouldIncludeItem(
     if (!authorMatches) return false;
   }
 
-  if (!isDefaultView) {
+  if (!isDefaultQualityView) {
     const bucket = item.analysis?.qualityBucket;
     if (!bucket || !selectedQualityBuckets.includes(bucket)) {
       return false;
@@ -65,7 +98,9 @@ function shouldIncludeItem(
       return false;
     }
 
-    const personMatches = people.some((p) => selectedPeople.includes(p));
+    const personMatches = people.some(function checkPerson(p) {
+      return selectedPeople.includes(p);
+    });
     if (!personMatches) return false;
   }
 
@@ -78,22 +113,28 @@ export function filterGalleryItems(
   showSeparators: boolean,
   selectedQualityBuckets: QualityBucket[] = [],
   selectedPeople: string[] = [],
+  selectedMediaTypes: MediaItemType[] = [],
+  showOthersSnapshots: boolean = true,
 ): PhotoDayItem[] {
-  const isDefaultView = ALL_QUALITY_BUCKET_IDS.every((b) => selectedQualityBuckets.includes(b));
+  const isDefaultQualityView = ALL_QUALITY_BUCKET_IDS.every(function checkBucket(b) {
+    return selectedQualityBuckets.includes(b);
+  });
 
   const imagePeopleMap = getImagePeopleMap();
 
-  return items.filter((item) =>
-    shouldIncludeItem(
+  return items.filter(function filterItem(item) {
+    return shouldIncludeItem(
       item,
       showSeparators,
       selectedAuthors,
       selectedQualityBuckets,
       selectedPeople,
-      isDefaultView,
+      selectedMediaTypes,
+      showOthersSnapshots,
+      isDefaultQualityView,
       imagePeopleMap,
-    ),
-  );
+    );
+  });
 }
 
 export function computeTotals(

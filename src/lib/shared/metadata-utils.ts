@@ -100,4 +100,12 @@ export function applyMetadataUpdates(
       else imageItem.exif.keywords = imageItem.keywords;
     }
   }
+
+  if (updates.flags !== undefined) {
+    if (updates.flags === null) {
+      delete imageItem.flags;
+    } else {
+      imageItem.flags = Array.isArray(updates.flags) ? updates.flags : [updates.flags as string];
+    }
+  }
 }

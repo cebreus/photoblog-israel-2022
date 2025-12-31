@@ -4,15 +4,13 @@
   import User from "@lucide/svelte/icons/user";
   import X from "@lucide/svelte/icons/x";
   import { fade } from "svelte/transition";
-
+  import { dev } from "$app/environment";
   import { Button } from "$lib/components/ui/button";
   import { Input } from "$lib/components/ui/input";
   import { Spinner } from "$lib/components/ui/spinner";
   import { Switch } from "$lib/components/ui/switch";
   import type { Person } from "$lib/types/manifest";
   import { cn } from "$lib/utils";
-
-  import { dev } from "$app/environment";
 
   export let visiblePeople: Person[] = [];
   export let processingIds = new Set<string>();

@@ -34,6 +34,7 @@ export interface RawExifData extends ManifestExifData {
   State?: string;
   latitude?: number;
   longitude?: number;
+  flags?: string[];
 }
 
 export async function cleanupMetadataTool(): Promise<void> {
@@ -173,6 +174,28 @@ export function normalizeExifData(exifTags: Record<string, unknown>): Partial<Ra
   }
 
   exifRaw.keywords = getKeywordsList(exifTags);
+
+  const flagsFromExif = new Set<string>();
+
+  // 1. Read from Label (XMP standard for status)
+  const label = exifTags.Label;
+  if (typeof label === "string" && label) {
+    flagsFromExif.add(label);
+  }
+
+  // 2. Read from SupplementalCategories (IPTC standard for extra categories)
+  const supp = exifTags.SupplementalCategories;
+  if (Array.isArray(supp)) {
+    for (const s of supp) {
+      flagsFromExif.add(String(s));
+    }
+  } else if (typeof supp === "string" && supp) {
+    flagsFromExif.add(supp);
+  }
+
+  if (flagsFromExif.size > 0) {
+    exifRaw.flags = Array.from(flagsFromExif);
+  }
 
   return exifRaw as Partial<RawExifData>;
 }
@@ -319,5 +342,6 @@ export function buildImageEntry(
     date,
     sources: [],
     sequenceInfo: parseSequenceSuffix(baseName) || undefined,
+    flags: (exif.flags?.length ?? 0) > 0 ? exif.flags : undefined,
   };
 }

@@ -168,6 +168,11 @@ export type ImageEntry = {
      * Lower values sort first. Assigned via drag & drop in edit mode.
      */
     sortOrder?: number;
+    /**
+     * User-defined flags for filtering and categorization.
+     * Examples: "snapshot-author", "snapshot-others", "favorite", "archived"
+     */
+    flags?: string[];
 };
 
 export type Separator = {

@@ -5,7 +5,8 @@
  * Extracted from urlSync.svelte.ts for testability.
  */
 
-import type { Author, QualityBucket } from "$lib/types/manifest";
+import { MEDIA_TYPES } from "$lib/stores/filters.svelte";
+import type { Author, MediaItemType, QualityBucket } from "$lib/types/manifest";
 import { QUALITY_BUCKETS } from "$lib/utils/gallery";
 import { toSlug } from "$lib/utils/strings";
 
@@ -173,11 +174,13 @@ const PRESENCE_ONLY_KEYS = new Set([
   "no-separators",
   "sidebar",
   "curation",
+  "others-snapshots",
+  "no-author-snapshots",
 ]);
 
 export function normalizePresenceParams(params: URLSearchParams): string {
   const rawPairs = params.toString().split("&").filter(Boolean);
-  const normalizedPairs = rawPairs.map(function (p) {
+  const normalizedPairs = rawPairs.map(function normalizePair(p) {
     const idx = p.indexOf("=");
     if (idx === -1) return p;
     const key = p.slice(0, idx);
@@ -200,4 +203,41 @@ export function parseEditSelectionFromUrl(url: URL): Set<string> {
 export function buildEditSelectionParam(selection: Set<string>): string | undefined {
   if (selection.size === 0) return undefined;
   return Array.from(selection).join(",");
+}
+
+// ---------------------------------------------------------------------------
+// Media Types Parameter Parsing
+// ---------------------------------------------------------------------------
+
+const ALL_MEDIA_TYPE_IDS = MEDIA_TYPES.map(function getId(t) {
+  return t.id;
+});
+
+export function parseMediaTypesFromUrl(url: URL): MediaItemType[] {
+  const csv = url.searchParams.get("mediaTypes");
+  if (!csv) return [];
+  return csv.split(",").filter(Boolean) as MediaItemType[];
+}
+
+export function buildMediaTypesParam(selected: MediaItemType[]): string | undefined {
+  if (selected.length === 0) return undefined;
+  // If all types selected, omit param
+  const isAllSelected = ALL_MEDIA_TYPE_IDS.every(function checkType(id) {
+    return selected.includes(id);
+  });
+  if (isAllSelected) return undefined;
+  return selected.join(",");
+}
+
+// ---------------------------------------------------------------------------
+// Others Snapshots Parameter Parsing
+// ---------------------------------------------------------------------------
+
+export function parseOthersSnapshotsFromUrl(url: URL): boolean {
+  return url.searchParams.has("others-snapshots");
+}
+
+export function buildOthersSnapshotsParam(show: boolean): boolean {
+  // Return true if param should be present (show=true means param exists)
+  return show;
 }

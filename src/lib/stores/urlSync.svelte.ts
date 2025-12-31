@@ -8,12 +8,15 @@ import type { Author } from "$lib/types/manifest";
 import { QUALITY_BUCKETS } from "$lib/utils/gallery";
 import {
   buildAuthorsParam,
+  buildMediaTypesParam,
   buildQualityParam,
   decodeToken,
   encodeToken,
   normalizePresenceParams,
   parseAuthorsFromUrl,
   parseBooleanParam,
+  parseMediaTypesFromUrl,
+  parseOthersSnapshotsFromUrl,
   parseQualityFromUrl,
   syncBooleanParam,
 } from "$lib/utils/url-params";
@@ -95,6 +98,13 @@ export function initializeFiltersFromUrl(url: URL) {
   editor.selection = new Set(editCsv ? editCsv.split(",").filter(Boolean) : []);
 
   ui.activeTab = url.searchParams.get("tab") || "agenda";
+
+  // Media types filter
+  const mediaTypes = parseMediaTypesFromUrl(url);
+  filters.selectedMediaTypes = mediaTypes;
+
+  // Others snapshots toggle
+  filters.showOthersSnapshots = parseOthersSnapshotsFromUrl(url);
 }
 
 let debounceTimer: ReturnType<typeof setTimeout>;
@@ -144,6 +154,14 @@ export function syncUrlFromFilters() {
     if (activeTabVal !== "agenda") {
       params.set("tab", activeTabVal);
     }
+
+    // Media types
+    params.delete("mediaTypes");
+    const mediaTypesVal = buildMediaTypesParam(filters.selectedMediaTypes);
+    if (mediaTypesVal) params.set("mediaTypes", mediaTypesVal);
+
+    // Others snapshots
+    syncBooleanParam(params, "others-snapshots", filters.showOthersSnapshots, "presence");
 
     const newQuery = normalizePresenceParams(params);
     const next = `${pageVal.url.pathname}${newQuery ? `?${newQuery}` : ""}${pageVal.url.hash}`;
@@ -218,6 +236,8 @@ export function initUrlSync(initialAuthors: Author[]) {
       ui.sidebarOpen;
       ui.curationMode;
       filters.selectedPeople;
+      filters.selectedMediaTypes;
+      filters.showOthersSnapshots;
 
       syncUrlFromFilters();
     });

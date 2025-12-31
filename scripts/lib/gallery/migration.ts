@@ -144,7 +144,7 @@ export async function migrateCache(gallery: string, renameMap: RenameMap): Promi
     return;
   }
 
-  if (cache && cache.files) {
+  if (cache?.files) {
     for (const item of renameMap.values()) {
       const oldKey = item.oldRelPath;
       const newKey = item.newRelPath;

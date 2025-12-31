@@ -89,21 +89,17 @@ describe("computeTotals", () => {
     // author and authorSlug fields in the manifest; filtering should match
     // when selecting slugs.
     const r1 = computeTotals(["a"], true, ["good"], [], mockDays);
-    // images by author 'a' (slug): i1, i3 => 2 (separators are not images)
     expect(r1.visiblePhotos).toBe(2);
 
     const r2 = computeTotals([], true, ["good"], [], mockDays);
-    // empty authors => IMPLICIT ALL => visible images should be 4 (i1, i2, i3, i4)
     expect(r2.visiblePhotos).toBe(4);
 
     const r3 = computeTotals(["a"], false, ["good"], [], mockDays);
-    // separators excluded doesn't affect image count (still 2)
     expect(r3.visiblePhotos).toBe(2);
   });
 
   it("handles explicit 'none' state", () => {
     const r = computeTotals(["none"], true, ["good"], [], mockDays);
-    // 'none' => explicit hide all => 0
     expect(r.visiblePhotos).toBe(0);
   });
 

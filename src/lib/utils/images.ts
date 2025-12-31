@@ -47,9 +47,7 @@ export async function reloadManifests() {
           allImagesMap = null; // Clear cache
           imagePeopleMap = null; // Clear cache
         }
-      } catch (e) {
-        console.warn("[images] Failed to reload images.manifest:", e);
-      }
+      } catch (_e) {}
 
       // Reload People Manifest
       try {
@@ -58,9 +56,7 @@ export async function reloadManifests() {
         if (isValidPeopleManifest(json)) {
           currentPeopleManifest = json;
         }
-      } catch (e) {
-        console.warn("[images] Failed to reload people.manifest:", e);
-      }
+      } catch (_e) {}
 
       // Reload Curation Manifest
       try {
@@ -72,9 +68,7 @@ export async function reloadManifests() {
       } catch (_e) {
         // Curation manifest might not exist
       }
-    } catch (e) {
-      console.error("[images] Failed to reload manifests:", e);
-    }
+    } catch (_e) {}
   }
 }
 

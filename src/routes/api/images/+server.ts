@@ -389,11 +389,6 @@ export async function PATCH({ request }: RequestEvent) {
     Object.entries(updates).filter(([, v]) => v !== undefined),
   ) as Record<string, string | string[] | null>;
 
-  const tags = getExifToolWriteTags(filteredUpdates);
-  if (Object.keys(tags).length === 0) {
-    return json({ message: "No metadata to update", errors: ["No valid tags"] }, { status: 500 });
-  }
-
   for (const [contentDir, items] of Object.entries(groups)) {
     const result = await processBatch(
       contentDir,
@@ -404,12 +399,30 @@ export async function PATCH({ request }: RequestEvent) {
           throw new Error("Physical file not found");
         }
 
-        // 1. Write EXIF
-        await exiftool.write(physicalPath, tags, {
-          writeArgs: ["-overwrite_original", "-coding=utf8", "-m", "-charset", "iptc=UTF8"],
-        });
+        // 1. Prepare metadata for EXIF write
+        // To maintain "Single Source of Truth" in the image file, we must not overwrite
+        // everything. We merge updates with existing item data for fields that share
+        // storage (like Keywords/Subject).
+        // biome-ignore lint/suspicious/noExplicitAny: Dynamic metadata merging requires any
+        const fullExifUpdates: any = { ...filteredUpdates };
 
-        // 2. Update Manifest
+        if (updates.keywords === undefined) {
+          fullExifUpdates.keywords = item.keywords || [];
+        }
+        if (updates.flags === undefined) {
+          fullExifUpdates.flags = item.flags || [];
+        }
+
+        const writeTags = getExifToolWriteTags(fullExifUpdates);
+
+        // 写 EXIF (only if there are tags to write)
+        if (Object.keys(writeTags).length > 0) {
+          await exiftool.write(physicalPath, writeTags, {
+            writeArgs: ["-overwrite_original", "-coding=utf8", "-m", "-charset", "iptc=UTF8"],
+          });
+        }
+
+        // 2. Update Manifest (optimistic update to the in-memory manifest)
         if (!manifest) throw new Error("Manifest failed to load");
 
         let foundItem: ImageEntry | null = null;

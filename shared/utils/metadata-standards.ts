@@ -13,7 +13,8 @@ export type MetadataKey =
     | "city"
     | "state"
     | "country"
-    | "countryCode";
+    | "countryCode"
+    | "flags";
 
 /**
  * Metadata Field Configuration
@@ -73,6 +74,11 @@ export const METADATA_STANDARDS: Record<MetadataKey, MetadataFieldConfig> = {
         read: ["CountryCode", "Country-PrimaryLocationCode"],
         write: ["XMP:CountryCode", "IPTC:Country-PrimaryLocationCode"],
     },
+    flags: {
+        label: "Příznaky",
+        read: ["Label", "SupplementalCategories"],
+        write: ["XMP:Label", "IPTC:SupplementalCategories"],
+    },
 };
 
 export function getExifToolWriteTags(
@@ -86,7 +92,17 @@ export function getExifToolWriteTags(
         if (!config) continue;
 
         for (const tag of config.write) {
-            tags[tag] = value;
+            if (key === "flags" && Array.isArray(value)) {
+                // If it's a 'Label' tag (single string), use the first flag
+                // If it's plural (SupplementalCategories), use the whole array
+                if (tag.includes("Label")) {
+                    tags[tag] = value[0] || null;
+                } else {
+                    tags[tag] = value;
+                }
+            } else {
+                tags[tag] = value;
+            }
         }
     }
 

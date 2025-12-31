@@ -8,8 +8,9 @@
   import DeleteImageDialog from "$lib/components/DeleteImageDialog.svelte";
   import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
   import PhotoGridItem from "$lib/components/PhotoGridItem.svelte";
-  import { buttonVariants } from "$lib/components/ui/button";
+  import { Button, buttonVariants } from "$lib/components/ui/button";
   import * as Dialog from "$lib/components/ui/dialog";
+  import * as Empty from "$lib/components/ui/empty";
   import { createLogger } from "$lib/logger";
   import { editor } from "$lib/stores/editor.svelte";
   import { filters } from "$lib/stores/filters.svelte";
@@ -451,58 +452,100 @@
   }
 </script>
 
-{#each processedItems as entry}
-  {#if entry.type === "group"}
-    <!-- Full width row for duplicate group using component -->
-    <CurationGroupView
-      items={entry.items}
-      group={entry.data}
-      onDelete={openDeleteDialog}
-      onArchive={handleArchive}
-      onCopyMetadata={handleCopyMetadata}
-      onPasteMetadata={handlePasteMetadata}
-      onSelect={handleSelect}
-    />
-  {:else}
-    <!-- Standard Item Rendering -->
-    {@const item = entry.data}
-    {#if item.type === "image" || item.type === "sequence" || item.type === "panorama"}
-      <!-- Draggable wrapper when reorderMode is active -->
-      {#if editor.reorderMode && dayId}
-        <div
-          draggable="true"
-          class="transition-all duration-150"
-          class:opacity-50={draggedId === item.id}
-          class:ring-2={dropTargetId === item.id}
-          class:ring-blue-500={dropTargetId === item.id}
-          class:cursor-grab={!draggedId}
-          class:cursor-grabbing={draggedId === item.id}
-          ondragstart={(e) => {
-            draggedId = item.id;
-            e.dataTransfer?.setData("text/plain", item.id);
-            if (e.dataTransfer) e.dataTransfer.effectAllowed = "move";
+{#if processedItems.length === 0}
+  <div class="col-span-full flex min-h-[300px] items-center justify-center">
+    <Empty.Root class="max-w-md border-none">
+      <Empty.Header>
+        <Empty.Title>Žádné fotky nenalezeny</Empty.Title>
+        <Empty.Description>
+          Aktuální kombinace filtrů nevyhovuje žádné fotografii. Zkuste upravit filtry nebo je
+          resetovat.
+        </Empty.Description>
+      </Empty.Header>
+      <Empty.Content>
+        <Button
+          variant="outline"
+          onclick={() => {
+            filters.selectedAuthors = [];
+            filters.selectedQualityBuckets = [];
+            filters.selectedMediaTypes = [];
+            filters.selectedPeople = [];
+            filters.showSeparators = true;
+            filters.showOthersSnapshots = false;
           }}
-          ondragend={() => {
-            draggedId = null;
-            dropTargetId = null;
-          }}
-          ondragover={(e) => {
-            e.preventDefault();
-            if (e.dataTransfer) e.dataTransfer.dropEffect = "move";
-            if (draggedId && draggedId !== item.id) {
-              dropTargetId = item.id;
-            }
-          }}
-          ondragleave={() => {
-            if (dropTargetId === item.id) dropTargetId = null;
-          }}
-          ondrop={(e) => {
-            e.preventDefault();
-            handleDrop(item.id);
-          }}
-          role="listitem"
-          aria-grabbed={draggedId === item.id}
         >
+          Resetovat filtry
+        </Button>
+      </Empty.Content>
+    </Empty.Root>
+  </div>
+{:else}
+  {#each processedItems as entry}
+    {#if entry.type === "group"}
+      <!-- Full width row for duplicate group using component -->
+      <CurationGroupView
+        items={entry.items}
+        group={entry.data}
+        onDelete={openDeleteDialog}
+        onArchive={handleArchive}
+        onCopyMetadata={handleCopyMetadata}
+        onPasteMetadata={handlePasteMetadata}
+        onSelect={handleSelect}
+      />
+    {:else}
+      <!-- Standard Item Rendering -->
+      {@const item = entry.data}
+      {#if item.type === "image" || item.type === "sequence" || item.type === "panorama"}
+        <!-- Draggable wrapper when reorderMode is active -->
+        {#if editor.reorderMode && dayId}
+          <div
+            draggable="true"
+            class="transition-all duration-150"
+            class:opacity-50={draggedId === item.id}
+            class:ring-2={dropTargetId === item.id}
+            class:ring-blue-500={dropTargetId === item.id}
+            class:cursor-grab={!draggedId}
+            class:cursor-grabbing={draggedId === item.id}
+            ondragstart={(e) => {
+              draggedId = item.id;
+              e.dataTransfer?.setData("text/plain", item.id);
+              if (e.dataTransfer) e.dataTransfer.effectAllowed = "move";
+            }}
+            ondragend={() => {
+              draggedId = null;
+              dropTargetId = null;
+            }}
+            ondragover={(e) => {
+              e.preventDefault();
+              if (e.dataTransfer) e.dataTransfer.dropEffect = "move";
+              if (draggedId && draggedId !== item.id) {
+                dropTargetId = item.id;
+              }
+            }}
+            ondragleave={() => {
+              if (dropTargetId === item.id) dropTargetId = null;
+            }}
+            ondrop={(e) => {
+              e.preventDefault();
+              handleDrop(item.id);
+            }}
+            role="listitem"
+            aria-grabbed={draggedId === item.id}
+          >
+            <PhotoGridItem
+              {item}
+              scrollspyId={imageLocationMap.get(item.id)}
+              isAnchor={imageAnchorsMap.get(item.id)}
+              curationGroup={curationMap.get(item.id)}
+              onDelete={openDeleteDialog}
+              onArchive={handleArchive}
+              onCopyMetadata={handleCopyMetadata}
+              onPasteMetadata={handlePasteMetadata}
+              onSelect={handleSelect}
+              onOpenCurationDialog={handleOpenCurationDialog}
+            />
+          </div>
+        {:else}
           <PhotoGridItem
             {item}
             scrollspyId={imageLocationMap.get(item.id)}
@@ -515,84 +558,71 @@
             onSelect={handleSelect}
             onOpenCurationDialog={handleOpenCurationDialog}
           />
-        </div>
-      {:else}
-        <PhotoGridItem
-          {item}
-          scrollspyId={imageLocationMap.get(item.id)}
-          isAnchor={imageAnchorsMap.get(item.id)}
-          curationGroup={curationMap.get(item.id)}
-          onDelete={openDeleteDialog}
-          onArchive={handleArchive}
-          onCopyMetadata={handleCopyMetadata}
-          onPasteMetadata={handlePasteMetadata}
-          onSelect={handleSelect}
-          onOpenCurationDialog={handleOpenCurationDialog}
-        />
-      {/if}
-    {:else if item.type === "separator" && item.location}
-      {@const separatorId = item.id}
-      {#if item.story}
-        <!-- Wrapper div for ScrollSpy - must be always visible in DOM for proper detection -->
-        <div id={separatorId} use:useScrollspy={{ id: separatorId }} class="contents">
-          <Dialog.Root>
-            <Dialog.Trigger
-              class="outline-background flex aspect-video flex-col items-center justify-center overflow-hidden rounded-lg bg-linear-to-br from-slate-100 to-slate-300 p-4 outline-4 outline-offset-2 transition-[outline-color] duration-500 ease-in-out hover:outline-orange-100 dark:from-slate-700 dark:to-slate-800"
-              data-testid="photo-grid-separator-trigger-{separatorId}"
-            >
-              <h3 class="text-lg" data-testid="photo-grid-separator-location">
-                {item.location}
-              </h3>
-              {#if item.city}
-                <p class="text-muted-foreground text-sm" data-testid="photo-grid-separator-city">
-                  {item.city}
-                </p>
-              {/if}
-              <span
-                class={buttonVariants({
-                  size: "sm",
-                  variant: "link",
-                  class: "mt-2 text-sm",
-                })}
-                data-testid="photo-grid-separator-show-story"
+        {/if}
+      {:else if item.type === "separator" && item.location}
+        {@const separatorId = item.id}
+        {#if item.story}
+          <!-- Wrapper div for ScrollSpy - must be always visible in DOM for proper detection -->
+          <div id={separatorId} use:useScrollspy={{ id: separatorId }} class="contents">
+            <Dialog.Root>
+              <Dialog.Trigger
+                class="outline-background flex aspect-video flex-col items-center justify-center overflow-hidden rounded-lg bg-linear-to-br from-slate-100 to-slate-300 p-4 outline-4 outline-offset-2 transition-[outline-color] duration-500 ease-in-out hover:outline-orange-100 dark:from-slate-700 dark:to-slate-800"
+                data-testid="photo-grid-separator-trigger-{separatorId}"
               >
-                Zobrazit příběh
-              </span>
-            </Dialog.Trigger>
-            <Dialog.Content>
-              <Dialog.Header>
-                <Dialog.Title>{item.location}</Dialog.Title>
+                <h3 class="text-lg" data-testid="photo-grid-separator-location">
+                  {item.location}
+                </h3>
                 {#if item.city}
-                  <Dialog.Description>{item.city}</Dialog.Description>
+                  <p class="text-muted-foreground text-sm" data-testid="photo-grid-separator-city">
+                    {item.city}
+                  </p>
                 {/if}
-              </Dialog.Header>
-              <div
-                class="prose prose-sm dark:prose-invert mt-4 max-h-[80vh] max-w-none overflow-y-auto pr-4"
-                data-testid="photo-grid-separator-story-{separatorId}"
-              >
-                {@html item.story}
-              </div>
-            </Dialog.Content>
-          </Dialog.Root>
-        </div>
-      {:else}
-        <div
-          class="flex aspect-video flex-col items-center justify-center overflow-hidden rounded-lg bg-linear-to-br from-slate-100 to-slate-300 p-4 text-center dark:from-slate-700 dark:to-slate-800"
-          id={separatorId}
-          use:useScrollspy={{ id: separatorId }}
-          data-testid="photo-grid-separator-simple-{separatorId}"
-        >
-          <h3 class="text-lg" data-testid="photo-grid-separator-location">
-            {item.location}
-          </h3>
-          {#if item.city}
-            <p class="text-muted-foreground mt-1 text-sm">{item.city}</p>
-          {/if}
-        </div>
+                <span
+                  class={buttonVariants({
+                    size: "sm",
+                    variant: "link",
+                    class: "mt-2 text-sm",
+                  })}
+                  data-testid="photo-grid-separator-show-story"
+                >
+                  Zobrazit příběh
+                </span>
+              </Dialog.Trigger>
+              <Dialog.Content>
+                <Dialog.Header>
+                  <Dialog.Title>{item.location}</Dialog.Title>
+                  {#if item.city}
+                    <Dialog.Description>{item.city}</Dialog.Description>
+                  {/if}
+                </Dialog.Header>
+                <div
+                  class="prose prose-sm dark:prose-invert mt-4 max-h-[80vh] max-w-none overflow-y-auto pr-4"
+                  data-testid="photo-grid-separator-story-{separatorId}"
+                >
+                  {@html item.story}
+                </div>
+              </Dialog.Content>
+            </Dialog.Root>
+          </div>
+        {:else}
+          <div
+            class="flex aspect-video flex-col items-center justify-center overflow-hidden rounded-lg bg-linear-to-br from-slate-100 to-slate-300 p-4 text-center dark:from-slate-700 dark:to-slate-800"
+            id={separatorId}
+            use:useScrollspy={{ id: separatorId }}
+            data-testid="photo-grid-separator-simple-{separatorId}"
+          >
+            <h3 class="text-lg" data-testid="photo-grid-separator-location">
+              {item.location}
+            </h3>
+            {#if item.city}
+              <p class="text-muted-foreground mt-1 text-sm">{item.city}</p>
+            {/if}
+          </div>
+        {/if}
       {/if}
     {/if}
-  {/if}
-{/each}
+  {/each}
+{/if}
 
 <DeleteImageDialog
   bind:open={deleteDialogOpen}

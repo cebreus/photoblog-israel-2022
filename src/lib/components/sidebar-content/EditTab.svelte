@@ -6,6 +6,7 @@
   import CollageDialog from "$lib/components/admin/CollageDialog.svelte";
   import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
   import { Button } from "$lib/components/ui/button";
+  import { Label } from "$lib/components/ui/label";
   import { Spinner } from "$lib/components/ui/spinner";
   import { getContentDir } from "$lib/config";
   import { createLogger } from "$lib/logger";
@@ -40,6 +41,7 @@
     countryCode: "",
     caption: "",
     keywords: "",
+    snapshotType: "none" as "none" | "author" | "others",
   };
 
   type FormData = typeof initialData;
@@ -58,7 +60,7 @@
   );
   let activeImage = $derived(selectedImages.length === 1 ? selectedImages[0] : null);
 
-  $effect(() => {
+  $effect(function updateFormOnSelectionChange() {
     if (imageIds.length > 0) {
       populateForm();
     } else {
@@ -91,6 +93,24 @@
     formData.countryCode = getCommon((i) => i.exif?.countryCode) ?? "";
     formData.caption = getCommon((i) => i.caption) ?? "";
     formData.keywords = getCommon((i) => i.keywords?.join(", ")) ?? "";
+
+    // Determine snapshot type from flags
+    const getSnapshotType = (img: ImageEntry): "none" | "author" | "others" => {
+      if (!img.flags) return "none";
+      if (img.flags.includes("snapshot-author")) return "author";
+      if (img.flags.includes("snapshot-others")) return "others";
+      return "none";
+    };
+
+    const firstType = getSnapshotType(images[0]);
+    let allSame = true;
+    for (let i = 1; i < images.length; i++) {
+      if (getSnapshotType(images[i]) !== firstType) {
+        allSame = false;
+        break;
+      }
+    }
+    formData.snapshotType = allSame ? firstType : "none";
   }
 
   let isSaving = $state(false);
@@ -100,6 +120,16 @@
       if (clears[field]) return null;
       return data[field] === "" ? undefined : data[field];
     };
+
+    // Build flags array based on snapshot type
+    let flags: string[] | undefined;
+    if (data.snapshotType === "author") {
+      flags = ["snapshot-author"];
+    } else if (data.snapshotType === "others") {
+      flags = ["snapshot-others"];
+    } else if (data.snapshotType === "none") {
+      flags = []; // Explicitly clear flags
+    }
 
     return {
       title: getValue("title"),
@@ -116,8 +146,11 @@
           ? undefined
           : data.keywords
               ?.split(",")
-              .map((k) => k.trim())
+              .map(function trimKeyword(k) {
+                return k.trim();
+              })
               .filter(Boolean),
+      flags,
     };
   }
 
@@ -173,14 +206,16 @@
   }
 
   function handleFieldInput(field: keyof FormData, value: string) {
-    formData[field] = value;
+    // biome-ignore lint/suspicious/noExplicitAny: Dynamic field access requires any
+    formData[field] = value as any;
     if (explicitClears[field]) {
       explicitClears[field] = false;
     }
   }
 
   function handleFieldClear(field: keyof FormData) {
-    formData[field] = "";
+    // biome-ignore lint/suspicious/noExplicitAny: Dynamic field access requires any
+    formData[field] = "" as any;
     explicitClears[field] = true;
   }
 
@@ -190,7 +225,8 @@
   function restoreGeoValue(field: keyof FormData) {
     const prevValue = previousGeoValues[field];
     if (prevValue !== undefined) {
-      formData[field] = prevValue;
+      // biome-ignore lint/suspicious/noExplicitAny: Dynamic field access requires any
+      formData[field] = prevValue as any;
       explicitClears[field] = !formData[field];
       const newPrev = { ...previousGeoValues };
       delete newPrev[field];
@@ -218,8 +254,10 @@
       const applyField = (field: keyof FormData, value: string | undefined) => {
         if (explicitClears[field]) return;
         if (value && value !== snapshot[field]) {
-          newPrevious[field] = snapshot[field];
-          formData[field] = value;
+          // biome-ignore lint/suspicious/noExplicitAny: Dynamic field access requires any
+          newPrevious[field] = snapshot[field] as any;
+          // biome-ignore lint/suspicious/noExplicitAny: Dynamic field access requires any
+          formData[field] = value as any;
           explicitClears[field] = false;
         }
       };
@@ -333,6 +371,7 @@
         countryCode: getVal("countryCode"),
         caption: getVal("caption"),
         keywords: fieldsToApply.keywords && data.keywords?.length ? data.keywords : undefined,
+        flags: undefined,
       };
 
       const payload = {
@@ -487,10 +526,34 @@
       name="keywords"
       value={formData.keywords}
       placeholder={IMAGE_MESSAGES.KEYWORDS_PLACEHOLDER}
-      onInput={(v) => handleFieldInput("keywords", v)}
-      onClear={() => handleFieldClear("keywords")}
+      onInput={function handleKeywordsInput(v) {
+        handleFieldInput("keywords", v);
+      }}
+      onClear={function handleKeywordsClear() {
+        handleFieldClear("keywords");
+      }}
       isCleared={explicitClears.keywords}
     />
+
+    <div class="grid gap-2">
+      <Label for="snapshot-type" class="text-sm font-medium">Typ fotky</Label>
+      <select
+        id="snapshot-type"
+        class="border-input placeholder:text-muted-foreground focus-visible:ring-ring flex h-9 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+        value={formData.snapshotType}
+        onchange={function handleSnapshotChange(e) {
+          formData.snapshotType = e.currentTarget.value as "none" | "author" | "others";
+        }}
+        data-testid="edit-tab-snapshot-type"
+      >
+        <option value="none">Běžná fotka</option>
+        <option value="author">Momentka autora</option>
+        <option value="others">Momentka ostatních</option>
+      </select>
+      <p class="text-muted-foreground text-xs">
+        Momentky ostatních jsou skryté ve výchozím zobrazení
+      </p>
+    </div>
 
     <div class="mt-auto flex justify-end pt-4">
       <Button class="w-full" size="lg" type="submit" data-testid="edit-tab-submit-button">
