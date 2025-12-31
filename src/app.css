@@ -211,3 +211,9 @@
 
   @apply pointer-events-none absolute bottom-0 left-0 max-h-[6.3lh] w-full bg-linear-to-t from-slate-800/90 via-slate-800/80 to-transparent p-4 pt-8 text-white;
 }
+
+/* Debug screens indicator */
+body.debug-screens::after {
+  @apply fixed bottom-0 left-0 z-[100] bg-black px-2 py-1 font-mono text-xs text-white opacity-70;
+  @apply content-["XS"] sm:content-["SM"] md:content-["MD"] lg:content-["LG"] xl:content-["XL"] 2xl:content-["2XL"];
+}

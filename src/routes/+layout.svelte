@@ -1,6 +1,6 @@
 <script lang="ts">
   import { ModeWatcher } from "mode-watcher";
-  import { browser } from "$app/environment";
+
   import AppSidebar from "$lib/components/AppSidebar.svelte";
   import Footer from "$lib/components/Footer.svelte";
   import Header from "$lib/components/Header.svelte";
@@ -17,6 +17,8 @@
     PhotoDay,
     SiteManifest,
   } from "$lib/types/manifest";
+
+  import { browser, dev } from "$app/environment";
 
   import faviconHtml from "../../.temp/favicons.html?raw";
   import "../app.css";
@@ -54,6 +56,13 @@
   $effect(() => {
     if (data.peopleManifest) people.setPeople(data.peopleManifest.people);
     if (data.photoDays) people.setPhotoDays(data.photoDays);
+  });
+
+  $effect(() => {
+    if (browser && dev) {
+      document.body.classList.add("debug-screens");
+      return () => document.body.classList.remove("debug-screens");
+    }
   });
 </script>
 
