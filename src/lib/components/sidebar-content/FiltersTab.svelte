@@ -396,8 +396,8 @@
                 {/each}
                 <p class="pt-1 text-xs text-slate-400">
                   Pokud není vybrána žádná kvalita, nezobrazí se nic.
-                </p>
-                <p class="pt-1 text-xs text-slate-400">
+                  <br />
+
                   Kvalita je určena automaticky pomocí AI (estetika) a technické analýzy (ostrost).
                   Pomáhá skrýt slabší snímky, které jsou ale ponechány pro dokumentární účely.
                 </p>

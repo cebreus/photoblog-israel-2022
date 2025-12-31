@@ -1,4 +1,14 @@
 <script lang="ts">
+  import {
+    Award,
+    Camera,
+    Database,
+    Filter,
+    Image as ImageIcon,
+    SquarePlay,
+    UserRound,
+    Users,
+  } from "@lucide/svelte";
   import { toast } from "svelte-sonner";
   import { invalidateAll } from "$app/navigation";
   import { useScrollspy } from "$lib/actions/scrollspy";
@@ -6,11 +16,11 @@
   import CurationGroupView from "$lib/components/CurationGroup.svelte";
   import CurationGroupDialog from "$lib/components/CurationGroupDialog.svelte";
   import DeleteImageDialog from "$lib/components/DeleteImageDialog.svelte";
+  import GalleryEmptyState from "$lib/components/GalleryEmptyState.svelte";
   import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
   import PhotoGridItem from "$lib/components/PhotoGridItem.svelte";
-  import { Button, buttonVariants } from "$lib/components/ui/button";
+  import { buttonVariants } from "$lib/components/ui/button";
   import * as Dialog from "$lib/components/ui/dialog";
-  import * as Empty from "$lib/components/ui/empty";
   import { createLogger } from "$lib/logger";
   import { editor } from "$lib/stores/editor.svelte";
   import { filters } from "$lib/stores/filters.svelte";
@@ -18,7 +28,7 @@
   import { ui } from "$lib/stores/ui.svelte";
   import type { CurationGroup, CurationManifest, ImageEntry, Separator } from "$lib/types/manifest";
   import { performImageAction } from "$lib/utils/api-actions";
-  import { IMAGE_MESSAGES } from "$lib/utils/messages";
+  import { EMPTY_MESSAGES, IMAGE_MESSAGES } from "$lib/utils/messages";
   import { reorderArray, saveImageOrder } from "$lib/utils/reorder";
   import { findIndexById, getRange } from "$lib/utils/selection";
   import { toSlug } from "$lib/utils/strings";
@@ -31,6 +41,122 @@
     dayId?: string;
     curationManifest?: CurationManifest;
   }>();
+
+  // Empty state logic
+  let emptyState = $derived.by(() => {
+    // Only show empty state if there are NO images/sequences/panoramas
+    const hasPhotos = items.some(
+      (i: DisplayItem) => i.type === "image" || i.type === "sequence" || i.type === "panorama",
+    );
+
+    if (hasPhotos) return null;
+
+    const activeFilters = {
+      authors: filters.selectedAuthors.length > 0,
+      people: filters.selectedPeople.length > 0,
+      quality: filters.selectedQualityBuckets.length > 0,
+      mediaTypes: filters.selectedMediaTypes.length > 0,
+      onlySnapshots: filters.onlySnapshots,
+    };
+
+    const activeCount = Object.values(activeFilters).filter(Boolean).length;
+
+    if (filters.sourceData.length === 0) {
+      return {
+        title: EMPTY_MESSAGES.NO_DATA_TITLE,
+        description: EMPTY_MESSAGES.NO_DATA_DESCRIPTION,
+        icon: Database,
+        action: null,
+      };
+    }
+
+    if (activeCount > 1) {
+      return {
+        title: EMPTY_MESSAGES.GENERIC_TITLE,
+        description: EMPTY_MESSAGES.GENERIC_DESCRIPTION,
+        icon: Filter,
+        action: { label: EMPTY_MESSAGES.RESET_ALL, handler: () => filters.reset() },
+      };
+    }
+
+    if (activeFilters.authors) {
+      return {
+        title: EMPTY_MESSAGES.AUTHORS_TITLE,
+        description: EMPTY_MESSAGES.AUTHORS_DESCRIPTION,
+        icon: UserRound,
+        action: {
+          label: EMPTY_MESSAGES.AUTHORS_RESET,
+          handler: () => {
+            filters.selectedAuthors = [];
+          },
+        },
+      };
+    }
+
+    if (activeFilters.people) {
+      return {
+        title: EMPTY_MESSAGES.PEOPLE_TITLE,
+        description: EMPTY_MESSAGES.PEOPLE_DESCRIPTION,
+        icon: Users,
+        action: {
+          label: EMPTY_MESSAGES.PEOPLE_RESET,
+          handler: () => {
+            filters.selectedPeople = [];
+          },
+        },
+      };
+    }
+
+    if (activeFilters.quality) {
+      return {
+        title: EMPTY_MESSAGES.QUALITY_TITLE,
+        description: EMPTY_MESSAGES.QUALITY_DESCRIPTION,
+        icon: Award,
+        action: {
+          label: EMPTY_MESSAGES.QUALITY_RESET,
+          handler: () => {
+            filters.selectedQualityBuckets = [];
+          },
+        },
+      };
+    }
+
+    if (activeFilters.mediaTypes) {
+      const isSequence = filters.selectedMediaTypes.includes("sequence");
+      return {
+        title: EMPTY_MESSAGES.MEDIA_TYPE_TITLE,
+        description: EMPTY_MESSAGES.MEDIA_TYPE_DESCRIPTION,
+        icon: isSequence ? SquarePlay : ImageIcon,
+        action: {
+          label: EMPTY_MESSAGES.MEDIA_TYPE_RESET,
+          handler: () => {
+            filters.selectedMediaTypes = [];
+          },
+        },
+      };
+    }
+
+    if (activeFilters.onlySnapshots) {
+      return {
+        title: EMPTY_MESSAGES.ONLY_SNAPSHOTS_TITLE,
+        description: EMPTY_MESSAGES.ONLY_SNAPSHOTS_DESCRIPTION,
+        icon: Camera,
+        action: {
+          label: EMPTY_MESSAGES.ONLY_SNAPSHOTS_RESET,
+          handler: () => {
+            filters.onlySnapshots = false;
+          },
+        },
+      };
+    }
+
+    return {
+      title: EMPTY_MESSAGES.GENERIC_TITLE,
+      description: EMPTY_MESSAGES.GENERIC_DESCRIPTION,
+      icon: Filter,
+      action: { label: EMPTY_MESSAGES.RESET_ALL, handler: () => filters.reset() },
+    };
+  });
 
   // Derived edit mode state
 
@@ -452,21 +578,13 @@
   }
 </script>
 
-{#if processedItems.length === 0}
-  <div class="col-span-full flex min-h-[300px] items-center justify-center">
-    <Empty.Root class="max-w-md border-none">
-      <Empty.Header>
-        <Empty.Title>Žádné fotky nenalezeny</Empty.Title>
-        <Empty.Description>
-          Aktuální kombinace filtrů nevyhovuje žádné fotografii. Zkuste upravit filtry nebo je
-          resetovat.
-        </Empty.Description>
-      </Empty.Header>
-      <Empty.Content>
-        <Button variant="outline" onclick={() => filters.reset()}>Resetovat filtry</Button>
-      </Empty.Content>
-    </Empty.Root>
-  </div>
+{#if emptyState}
+  <GalleryEmptyState
+    title={emptyState.title}
+    description={emptyState.description}
+    icon={emptyState.icon}
+    action={emptyState.action}
+  />
 {:else}
   {#each processedItems as entry}
     {#if entry.type === "group"}

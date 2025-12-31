@@ -1,4 +1,4 @@
-import type { MediaItemType, QualityBucket } from "$lib/types/manifest";
+import type { MediaItemType, PhotoDay, QualityBucket } from "$lib/types/manifest";
 import { computeTotals, filterGalleryItems } from "$lib/utils/gallery";
 import { getPhotoDays } from "$lib/utils/images";
 
@@ -123,9 +123,6 @@ export class FilterState {
     this.selectedQualityBuckets = [];
     this.selectedPeople = [];
     this.selectedMediaTypes = [];
-    this.showSeparators = true;
-    this.showAuthorSnapshots = true;
-    this.showOthersSnapshots = true;
     this.onlySnapshots = false;
   }
 }

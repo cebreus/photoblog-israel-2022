@@ -145,7 +145,7 @@ export function buildQualityParam(selectedQualityBuckets: QualityBucket[]): stri
       return selectedQualityBuckets.includes(id);
     });
 
-  if (selectedQualityBuckets.length === 0) return undefined;
+  if (selectedQualityBuckets.length === 0 || isAllQualitySelected) return undefined;
   if (selectedQualityBuckets.includes("none" as any)) return "none";
   return selectedQualityBuckets.join(",");
 }
@@ -227,7 +227,13 @@ export function parseMediaTypesFromUrl(url: URL): MediaItemType[] {
 }
 
 export function buildMediaTypesParam(selected: MediaItemType[]): string | undefined {
-  if (selected.length === 0) return undefined;
+  const isAllSelected =
+    ALL_MEDIA_TYPE_IDS.length === selected.length &&
+    ALL_MEDIA_TYPE_IDS.every(function (id) {
+      return selected.includes(id);
+    });
+
+  if (selected.length === 0 || isAllSelected) return undefined;
   if (selected.includes("none" as any)) return "none";
   return selected.join(",");
 }

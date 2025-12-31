@@ -14,10 +14,6 @@ export const QUALITY_BUCKETS: { id: QualityBucket; label: string }[] = [
   { id: "poor", label: "Podprůměrné" },
 ];
 
-const ALL_QUALITY_BUCKET_IDS = QUALITY_BUCKETS.map(function getId(b) {
-  return b.id;
-});
-
 /** Check if item has a specific flag */
 function hasFlag(item: PhotoDayItem, flag: string): boolean {
   if (!isImageEntry(item)) return false;
@@ -116,13 +112,13 @@ function shouldIncludeItem(
     if (selectedPeople.includes("none")) {
       return false;
     }
-    const itemPeople = item.people || imagePeopleMap.get(item.id) || [];
+    const itemPeople = item.people || imagePeopleMap[item.id] || [];
     const hasUnknown = selectedPeople.includes("unknown");
 
     if (itemPeople.length === 0) {
       if (!hasUnknown) return false;
     } else {
-      const personMatches = itemPeople.some(function checkPerson(p) {
+      const personMatches = itemPeople.some(function checkPerson(p: string) {
         return selectedPeople.includes(p);
       });
       if (!personMatches) return false;
@@ -194,7 +190,7 @@ export function computeTotals(
     );
 
     for (const item of filteredItems) {
-      if (item.type === "image") {
+      if (item.type !== "separator") {
         visiblePhotos++;
         if (item.location) {
           uniqueLocations.add(item.location);

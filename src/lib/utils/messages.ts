@@ -304,3 +304,38 @@ export const SEQUENCE_MESSAGES = {
   TYPE_PANORAMA: "Panorama",
   TYPE_SEQUENCE: "Sekvence", // Generic fallback
 } as const;
+
+// ============================================================================
+// Empty State Messages
+// ============================================================================
+
+export const EMPTY_MESSAGES = {
+  GENERIC_TITLE: "Žádné shody nenalezeny",
+  GENERIC_DESCRIPTION: "Vaše aktuální nastavení filtrů neodpovídá žádné fotografii v této galerii.",
+  RESET_ALL: "Zrušit aktivní filtry",
+
+  AUTHORS_TITLE: "Chybějící autoři",
+  AUTHORS_DESCRIPTION: "Od tohoto autora (nebo autorů) jsme zatím nenašli žádné nahrané snímky.",
+  AUTHORS_RESET: "Zobrazit všechny autory",
+
+  PEOPLE_TITLE: "Hledané osoby nenalezeny",
+  PEOPLE_DESCRIPTION:
+    "Ve vybraném časovém období nebo s aktuálními filtry se tyto osoby nevyskytují.",
+  PEOPLE_RESET: "Zrušit výběr osob",
+
+  QUALITY_TITLE: "Nedostatečná kvalita",
+  QUALITY_DESCRIPTION: "Žádné snímky v galerii neodpovídají zvolené úrovni estetické kvality.",
+  QUALITY_RESET: "Ukázat vše bez ohledu na kvalitu",
+
+  MEDIA_TYPE_TITLE: "Typ média nedostupný",
+  MEDIA_TYPE_DESCRIPTION: "Pro tento výběr nejsou k dispozici žádná panoramata ani video-sekvence.",
+  MEDIA_TYPE_RESET: "Zobrazit všechny typy médií",
+
+  ONLY_SNAPSHOTS_TITLE: "Bez momentek",
+  ONLY_SNAPSHOTS_DESCRIPTION: "V tomto zobrazení se nenacházejí žádné neformální momentky.",
+  ONLY_SNAPSHOTS_RESET: "Vrátit se k běžným fotkám",
+
+  NO_DATA_TITLE: "Galerie je zatím prázdná",
+  NO_DATA_DESCRIPTION:
+    "Tato galerie zatím neobsahuje žádný obsah. Nahrajte první fotografie pro začátek.",
+} as const;

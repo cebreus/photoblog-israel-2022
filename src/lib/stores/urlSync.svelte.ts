@@ -9,12 +9,14 @@ import { QUALITY_BUCKETS } from "$lib/utils/gallery";
 import {
   buildAuthorsParam,
   buildMediaTypesParam,
+  buildPeopleParam,
   buildQualityParam,
   normalizePresenceParams,
   parseAuthorsFromUrl,
   parseBooleanParam,
   parseMediaTypesFromUrl,
   parseOthersSnapshotsFromUrl,
+  parsePeopleFromUrl,
   parseQualityFromUrl,
   syncBooleanParam,
 } from "$lib/utils/url-params";
