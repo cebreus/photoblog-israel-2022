@@ -21,8 +21,8 @@
   import { Button } from "$lib/components/ui/button";
   import { editor } from "$lib/stores/editor.svelte";
   import { filters } from "$lib/stores/filters.svelte";
-  import type { ImageEntry, PhotoDay, Separator } from "$lib/types/manifest";
-  import { filterGalleryItems, mergeSparseDays } from "$lib/utils/gallery";
+  import type { ImageEntry, Separator } from "$lib/types/manifest";
+  import { mergeSparseDays } from "$lib/utils/gallery";
   import { EMPTY_MESSAGES } from "$lib/utils/messages";
   import { formatDateForDisplay, formatDateRange, formatWeekdayCzech } from "$lib/utils/strings";
 
@@ -40,121 +40,120 @@
    * Compute page-specific filtered days.
    * Preserves page metadata like cities/locations.
    */
-  let filteredDays = $derived(
-    (data.photoDays || [])
-      .map((day: PhotoDay) => ({
-        ...day,
-        items: filterGalleryItems(
-          day.items,
-          filters.selectedAuthors,
-          filters.showSeparators,
-          filters.selectedQualityBuckets,
-          filters.selectedPeople,
-          filters.selectedMediaTypes,
-          filters.showOthersSnapshots,
-          filters.showAuthorSnapshots,
-          filters.onlySnapshots,
-        ),
-      }))
-      .filter((d: PhotoDay) => d.items && d.items.length > 0),
-  );
+  let filteredDays = $derived(filters.filteredPhotoDays);
 
   /**
    * Merges days with very few photos (<=2) into combined sections
    * to avoid massive headers for tiny content.
    */
   let photoDays = $derived(mergeSparseDays(filteredDays));
-</script>
+  /**
+   * Determine active empty state configuration
+   */
+  let activeEmptyState = $derived.by(() => {
+    const activeFilters = {
+      authors: filters.selectedAuthors.length > 0,
+      people: filters.selectedPeople.length > 0,
+      quality: filters.selectedQualityBuckets.length > 0,
+      mediaTypes: filters.selectedMediaTypes.length > 0,
+      onlySnapshots: filters.onlySnapshots,
+    };
+    const count = Object.values(activeFilters).filter(Boolean).length;
 
-<Hero />
-
-<!-- visible count moved to FiltersOffcanvas header -->
-
-{#if filters.visiblePhotos === 0 && filters.sourceData.length > 0}
-  {@const emptyState = {
-    authors: filters.selectedAuthors.length > 0,
-    people: filters.selectedPeople.length > 0,
-    quality: filters.selectedQualityBuckets.length > 0,
-    mediaTypes: filters.selectedMediaTypes.length > 0,
-    onlySnapshots: filters.onlySnapshots,
-  }}
-  {@const activeCount = Object.values(emptyState).filter(Boolean).length}
-  <section class="container mx-auto px-6 py-12">
-    {#if activeCount > 1}
-      <GalleryEmptyState
-        title={EMPTY_MESSAGES.GENERIC_TITLE}
-        description={EMPTY_MESSAGES.GENERIC_DESCRIPTION}
-        icon={Filter}
-        action={{ label: EMPTY_MESSAGES.RESET_ALL, handler: () => filters.reset() }}
-      />
-    {:else if emptyState.authors}
-      <GalleryEmptyState
-        title={EMPTY_MESSAGES.AUTHORS_TITLE}
-        description={EMPTY_MESSAGES.AUTHORS_DESCRIPTION}
-        icon={UserRound}
-        action={{
+    if (count > 1) {
+      return {
+        title: EMPTY_MESSAGES.GENERIC_TITLE,
+        description: EMPTY_MESSAGES.GENERIC_DESCRIPTION,
+        icon: Filter,
+        action: { label: EMPTY_MESSAGES.RESET_ALL, handler: () => filters.reset() },
+      };
+    }
+    if (activeFilters.authors) {
+      return {
+        title: EMPTY_MESSAGES.AUTHORS_TITLE,
+        description: EMPTY_MESSAGES.AUTHORS_DESCRIPTION,
+        icon: UserRound,
+        action: {
           label: EMPTY_MESSAGES.AUTHORS_RESET,
           handler: () => {
             filters.selectedAuthors = [];
           },
-        }}
-      />
-    {:else if emptyState.people}
-      <GalleryEmptyState
-        title={EMPTY_MESSAGES.PEOPLE_TITLE}
-        description={EMPTY_MESSAGES.PEOPLE_DESCRIPTION}
-        icon={Users}
-        action={{
+        },
+      };
+    }
+    if (activeFilters.people) {
+      return {
+        title: EMPTY_MESSAGES.PEOPLE_TITLE,
+        description: EMPTY_MESSAGES.PEOPLE_DESCRIPTION,
+        icon: Users,
+        action: {
           label: EMPTY_MESSAGES.PEOPLE_RESET,
           handler: () => {
             filters.selectedPeople = [];
           },
-        }}
-      />
-    {:else if emptyState.quality}
-      <GalleryEmptyState
-        title={EMPTY_MESSAGES.QUALITY_TITLE}
-        description={EMPTY_MESSAGES.QUALITY_DESCRIPTION}
-        icon={Award}
-        action={{
+        },
+      };
+    }
+    if (activeFilters.quality) {
+      return {
+        title: EMPTY_MESSAGES.QUALITY_TITLE,
+        description: EMPTY_MESSAGES.QUALITY_DESCRIPTION,
+        icon: Award,
+        action: {
           label: EMPTY_MESSAGES.QUALITY_RESET,
           handler: () => {
             filters.selectedQualityBuckets = [];
           },
-        }}
-      />
-    {:else if emptyState.mediaTypes}
-      <GalleryEmptyState
-        title={EMPTY_MESSAGES.MEDIA_TYPE_TITLE}
-        description={EMPTY_MESSAGES.MEDIA_TYPE_DESCRIPTION}
-        icon={filters.selectedMediaTypes.includes("sequence") ? SquarePlay : ImageIcon}
-        action={{
+        },
+      };
+    }
+    if (activeFilters.mediaTypes) {
+      const isSequence = filters.selectedMediaTypes.includes("sequence");
+      return {
+        title: EMPTY_MESSAGES.MEDIA_TYPE_TITLE,
+        description: EMPTY_MESSAGES.MEDIA_TYPE_DESCRIPTION,
+        icon: isSequence ? SquarePlay : ImageIcon,
+        action: {
           label: EMPTY_MESSAGES.MEDIA_TYPE_RESET,
           handler: () => {
             filters.selectedMediaTypes = [];
           },
-        }}
-      />
-    {:else if emptyState.onlySnapshots}
-      <GalleryEmptyState
-        title={EMPTY_MESSAGES.ONLY_SNAPSHOTS_TITLE}
-        description={EMPTY_MESSAGES.ONLY_SNAPSHOTS_DESCRIPTION}
-        icon={Camera}
-        action={{
+        },
+      };
+    }
+    if (activeFilters.onlySnapshots) {
+      return {
+        title: EMPTY_MESSAGES.ONLY_SNAPSHOTS_TITLE,
+        description: EMPTY_MESSAGES.ONLY_SNAPSHOTS_DESCRIPTION,
+        icon: Camera,
+        action: {
           label: EMPTY_MESSAGES.ONLY_SNAPSHOTS_RESET,
           handler: () => {
             filters.onlySnapshots = false;
           },
-        }}
-      />
-    {:else}
-      <GalleryEmptyState
-        title={EMPTY_MESSAGES.GENERIC_TITLE}
-        description={EMPTY_MESSAGES.GENERIC_DESCRIPTION}
-        icon={Filter}
-        action={{ label: EMPTY_MESSAGES.RESET_ALL, handler: () => filters.reset() }}
-      />
-    {/if}
+        },
+      };
+    }
+    // Fallback/Default
+    return {
+      title: EMPTY_MESSAGES.GENERIC_TITLE,
+      description: EMPTY_MESSAGES.GENERIC_DESCRIPTION,
+      icon: Filter,
+      action: { label: EMPTY_MESSAGES.RESET_ALL, handler: () => filters.reset() },
+    };
+  });
+</script>
+
+<Hero />
+
+{#if filters.visiblePhotos === 0 && filters.sourceData.length > 0}
+  <section class="container mx-auto px-6 py-12">
+    <GalleryEmptyState
+      title={activeEmptyState.title}
+      description={activeEmptyState.description}
+      icon={activeEmptyState.icon}
+      action={activeEmptyState.action}
+    />
   </section>
 {:else if photoDays.length === 0 && filters.sourceData.length === 0}
   <section class="container mx-auto px-6 py-12 text-center">
