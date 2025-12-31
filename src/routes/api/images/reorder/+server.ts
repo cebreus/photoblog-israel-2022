@@ -199,19 +199,19 @@ function calculateReleaseDates(
         result[imageId] = new Date(avgMs).toISOString();
       }
     } else if (nextImageId) {
-      // Move to beginning: next image time minus 10 seconds
+      // Move to beginning: next image time minus 10 minutes
       const nextTime = releaseDateMap.get(nextImageId);
       if (nextTime) {
         const nextDate = new Date(nextTime);
-        nextDate.setSeconds(nextDate.getSeconds() - 10);
+        nextDate.setMinutes(nextDate.getMinutes() - 10);
         result[imageId] = nextDate.toISOString();
       }
     } else if (previousImageId) {
-      // Move to end: previous image time plus 10 seconds
+      // Move to end: previous image time plus 10 minutes
       const prevTime = releaseDateMap.get(previousImageId);
       if (prevTime) {
         const prevDate = new Date(prevTime);
-        prevDate.setSeconds(prevDate.getSeconds() + 10);
+        prevDate.setMinutes(prevDate.getMinutes() + 10);
         result[imageId] = prevDate.toISOString();
       }
     }
