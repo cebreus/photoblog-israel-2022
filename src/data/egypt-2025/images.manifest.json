@@ -1115,7 +1115,7 @@
           ],
           "people": [
             "person-f4999137",
-            "person-cea3aaf8"
+            "person-0db741fb"
           ]
         },
         {
@@ -2353,9 +2353,7 @@
               "height": 534
             }
           ],
-          "people": [
-            "person-183e8294"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-24-201212-cebreus",
@@ -2487,8 +2485,7 @@
           "people": [
             "person-86077f36",
             "person-6abf63c9",
-            "person-f4999137",
-            "person-cea3aaf8"
+            "person-f4999137"
           ]
         },
         {
@@ -2839,8 +2836,7 @@
             "person-4d28f02d",
             "person-9b0bc40f",
             "person-f4999137",
-            "person-0db741fb",
-            "person-183e8294"
+            "person-0db741fb"
           ]
         },
         {
@@ -2951,8 +2947,8 @@
             }
           ],
           "people": [
-            "person-d0efee91",
-            "person-a51c7486"
+            "person-6abf63c9",
+            "person-9b0bc40f"
           ]
         },
         {
@@ -6150,7 +6146,7 @@
           "sortOrder": 26,
           "people": [
             "person-4d28f02d",
-            "person-a21f58f8"
+            "person-9b0bc40f"
           ]
         },
         {
@@ -6466,7 +6462,7 @@
           "sortOrder": 29,
           "people": [
             "person-9b0bc40f",
-            "person-f2c08e03"
+            "person-6abf63c9"
           ]
         },
         {
@@ -7103,7 +7099,6 @@
           ],
           "sortOrder": 35,
           "people": [
-            "person-183e8294",
             "person-a4e0e8c2"
           ]
         },
@@ -8039,7 +8034,7 @@
           ],
           "sortOrder": 44,
           "people": [
-            "person-5745d31a"
+            "person-dec450ff"
           ]
         },
         {
@@ -8354,8 +8349,7 @@
           ],
           "sortOrder": 47,
           "people": [
-            "person-ecf332ec",
-            "person-de22d0b0"
+            "person-ecf332ec"
           ]
         },
         {
@@ -9003,9 +8997,9 @@
           ],
           "sortOrder": 53,
           "people": [
-            "person-867b9aa5",
-            "person-183e8294",
-            "person-a49e5cdc"
+            "person-6abf63c9",
+            "person-d060cef5",
+            "person-f4999137"
           ]
         },
         {
@@ -11776,9 +11770,8 @@
           "sortOrder": 80,
           "people": [
             "person-7e345eeb",
-            "person-4afd5309",
-            "person-183e8294",
-            "person-cea3aaf8"
+            "person-86077f36",
+            "person-f4999137"
           ]
         },
         {
@@ -12027,7 +12020,7 @@
           },
           "people": [
             "person-a4e0e8c2",
-            "person-cea3aaf8",
+            "person-183e8294",
             "person-f4999137"
           ],
           "sortOrder": 81
@@ -13109,9 +13102,7 @@
               "height": 534
             }
           ],
-          "people": [
-            "person-183e8294"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-26-080529-cebreus",
@@ -13221,7 +13212,7 @@
             }
           ],
           "people": [
-            "person-cea3aaf8"
+            "person-9b0bc40f"
           ]
         },
         {
@@ -15218,11 +15209,11 @@
             }
           ],
           "people": [
-            "person-183e8294",
+            "person-86077f36",
             "person-9b0bc40f",
-            "person-4333735d",
-            "person-d0efee91",
-            "person-cea3aaf8"
+            "person-0db741fb",
+            "person-6abf63c9",
+            "person-f4999137"
           ]
         },
         {
@@ -16059,8 +16050,7 @@
             }
           ],
           "people": [
-            "person-183e8294",
-            "person-79c593b4"
+            "person-9b0bc40f"
           ]
         },
         {
@@ -16196,11 +16186,10 @@
             }
           ],
           "people": [
-            "person-6eebb90f",
+            "person-86077f36",
             "person-f4999137",
             "person-0db741fb",
             "person-9b0bc40f",
-            "person-183e8294",
             "person-6abf63c9"
           ]
         },
@@ -16352,11 +16341,10 @@
             "person-e8450521",
             "person-f4999137",
             "person-9b0bc40f",
-            "person-6eebb90f",
+            "person-86077f36",
             "person-6abf63c9",
             "person-0db741fb",
-            "person-6c7393c4",
-            "person-cea3aaf8"
+            "person-6c7393c4"
           ]
         },
         {
@@ -16481,7 +16469,6 @@
           ],
           "people": [
             "person-4d28f02d",
-            "person-183e8294",
             "person-9b0bc40f",
             "person-6b5b73d5"
           ]
@@ -16697,7 +16684,6 @@
             }
           ],
           "people": [
-            "person-183e8294",
             "person-4b808b59"
           ]
         },
@@ -17132,7 +17118,7 @@
             }
           ],
           "people": [
-            "person-183e8294"
+            "person-c1502128--odpojeno-od-person-15"
           ]
         },
         {
@@ -17239,9 +17225,7 @@
               "height": 534
             }
           ],
-          "people": [
-            "person-183e8294"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-26-113745-dasa",
@@ -17858,7 +17842,7 @@
             }
           ],
           "people": [
-            "person-6eebb90f"
+            "person-86077f36"
           ]
         },
         {
@@ -18761,9 +18745,7 @@
               "height": 534
             }
           ],
-          "people": [
-            "person-183e8294"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-26-125240-cebreus",
@@ -18869,9 +18851,7 @@
               "height": 534
             }
           ],
-          "people": [
-            "person-183e8294"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-26-125315-cebreus",
@@ -19176,7 +19156,7 @@
             }
           ],
           "people": [
-            "person-79c593b4"
+            "person-27636fc8--odpojeno-od-person-43-2"
           ]
         },
         {
@@ -19983,8 +19963,7 @@
             }
           ],
           "people": [
-            "person-fbb59ec6",
-            "person-183e8294"
+            "person-fbb59ec6"
           ]
         },
         {
@@ -20614,9 +20593,7 @@
               "height": 534
             }
           ],
-          "people": [
-            "person-183e8294"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-26-130323-cebreus",
@@ -21323,7 +21300,6 @@
             }
           ],
           "people": [
-            "person-183e8294",
             "person-0db741fb"
           ]
         },
@@ -21544,8 +21520,7 @@
           ],
           "people": [
             "person-0db741fb",
-            "person-0a61c713",
-            "person-183e8294"
+            "person-0a61c713"
           ]
         },
         {
@@ -23075,11 +23050,7 @@
               "height": 534
             }
           ],
-          "people": [
-            "person-6eebb90f",
-            "person-79c593b4",
-            "person-183e8294"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-26-133422-cebreus",
@@ -23639,8 +23610,7 @@
             "person-ba30172f",
             "person-0a61c713",
             "person-183e8294",
-            "person-4d28f02d",
-            "person-cea3aaf8"
+            "person-4d28f02d"
           ]
         },
         {
@@ -23933,7 +23903,6 @@
             }
           ],
           "people": [
-            "person-183e8294",
             "person-d3a57e62"
           ]
         },
@@ -24160,7 +24129,6 @@
           ],
           "people": [
             "person-2e552971",
-            "person-183e8294",
             "person-50161bca",
             "person-9c35d0a8"
           ]
@@ -24980,9 +24948,7 @@
               "height": 534
             }
           ],
-          "people": [
-            "person-183e8294"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-26-142225-dasa",
@@ -25387,9 +25353,7 @@
               "height": 534
             }
           ],
-          "people": [
-            "person-183e8294"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-26-153302-cebreus",
@@ -26104,7 +26068,7 @@
             }
           ],
           "people": [
-            "person-183e8294"
+            "person-4d28f02d"
           ]
         },
         {
@@ -26708,11 +26672,11 @@
           ],
           "people": [
             "person-f4999137",
-            "person-cea3aaf8",
+            "person-86077f36",
             "person-4d28f02d",
-            "person-c50da1a1",
+            "person-9b0bc40f",
             "person-6abf63c9",
-            "person-183e8294"
+            "person-0db741fb"
           ]
         },
         {
@@ -27018,8 +26982,7 @@
             }
           ],
           "people": [
-            "person-02cab6df",
-            "person-183e8294"
+            "person-02cab6df"
           ]
         }
       ],
@@ -27225,9 +27188,7 @@
               "height": 300
             }
           ],
-          "people": [
-            "person-183e8294"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-27-064239-bobo",
@@ -27493,9 +27454,7 @@
             }
           ],
           "author": "Bobo",
-          "people": [
-            "person-183e8294"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-27-064240-bobo",
@@ -27909,9 +27868,9 @@
             }
           ],
           "people": [
-            "person-183e8294",
+            "person-fa59e028--odpojeno-od-person-15-3",
             "person-d9879ec3",
-            "person-6eebb90f",
+            "person-13ccd78d--odpojeno-od-person-38",
             "person-858eb410"
           ]
         },
@@ -29257,8 +29216,7 @@
             }
           ],
           "people": [
-            "person-7cac6dc6",
-            "person-183e8294"
+            "person-7cac6dc6"
           ]
         },
         {
@@ -29986,8 +29944,8 @@
             }
           ],
           "people": [
-            "person-cea3aaf8",
-            "person-183e8294"
+            "person-183e8294",
+            "person-9b0bc40f"
           ]
         },
         {
