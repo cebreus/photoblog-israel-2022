@@ -187,7 +187,21 @@ Linting, formátování a type-checking pomocí Biome, Prettier, Stylelint a sve
 - **`bun run check`** - TypeScript type-checking pro Svelte komponenty
 - **`bun run check:watch`** - Type-checking v watch režimu
 
-## Utility
+## Maintenance a Monitoring
+
+191:
+192: Skripty pro zajištění konzistence dat a real-time dohled.
+193:
+194: - **`bun scripts/watchdog.ts`** - **Doporučeno při práci v GUI.** Real-time monitoring konzistence:
+195: - Hlídá "zombie" profily (0 fotek).
+196: - Hlídá zanořené názvy.
+197: - Indikuje stav dat (srdíčko každých 5s).
+198:
+199: - **`bun scripts/clean-empty-people.ts`** - Jednorázový čistič.
+200: - Odstraní z `people.manifest.json` osoby, které nemají žádné fotky.
+201: - Řeší problém "duchů" v postranním panelu.
+202:
+203: ## Utility
 
 - **`bun run prepare`** - SvelteKit synchronizace (generování typů, cest). Spouští se automaticky při instalaci
 

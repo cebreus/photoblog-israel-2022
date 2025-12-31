@@ -4,17 +4,17 @@ Tento dokument definuje principy správy osob, automatické detekce a manuální
 
 ## Slovník pojmů
 
-| Pojem                        | Význam                                                                                                                         |
-| :--------------------------- | :----------------------------------------------------------------------------------------------------------------------------- |
-| **Osoba (Person)**           | Logická entita reprezentující konkrétního člověka, sochu nebo malbu. Sdružuje detekované tváře.                                |
-| **Tvář (Face)**              | Abstraktní pojem – detekovaná tvář na fotografii.                                                                              |
-| **FaceCrop**                 | Fyzický výřez tváře – `.jpg` soubor uložený ve `static/<galerie>/faces/<personId>/`.                                           |
-| **Odepnutí (Disconnect)**    | Akce rozbití vztahu mezi konkrétní tváří a skupinou. Tvář se oddělí do nové vlastní entity.                                    |
-| **Sloučení (Merge)**         | Spojení dvou nebo více entit do jedné. Cílová entita absorbuje všechna vizuální data a pravidla.                               |
-| **Skrytí (Hidden)**          | Příznak (`hidden: true`), který entitu přesouvá do sekce "Skryté". Entita je stále v hlavní kategorii, ale vizuálně potlačena. |
-| **Junk (Junk Person)**       | "Nezajímavá" osoba (např. turista v pozadí). Má příznak `junk: true`. Clustering ji ignoruje. Lze kdykoliv vrátit.             |
-| **Chybná detekce (Invalid)** | Skutečná chyba AI (stín, kámen). Odstraní se z manifestu a souřadnice se zapíšou do `invalidDetections` v constraints.         |
-| **Přejmenování (Rename)**    | Změna jména a technického ID. Vyžaduje unikátnost.                                                                             |
+| Pojem                        | Význam                                                                                                                                 |
+| :--------------------------- | :------------------------------------------------------------------------------------------------------------------------------------- |
+| **Osoba (Person)**           | Logická entita reprezentující konkrétního člověka, sochu nebo malbu. Sdružuje detekované tváře.                                        |
+| **Tvář (Face)**              | Abstraktní pojem – detekovaná tvář na fotografii.                                                                                      |
+| **FaceCrop**                 | Fyzický výřez tváře – `.jpg` soubor uložený ve `static/<galerie>/faces/<personId>/`.                                                   |
+| **Odepnutí (Disconnect)**    | Akce rozbití vztahu mezi konkrétní tváří a skupinou. Tvář se oddělí do nové vlastní entity.                                            |
+| **Sloučení (Merge)**         | Spojení dvou nebo více entit do jedné. Cílová entita absorbuje všechna vizuální data a pravidla.                                       |
+| **Skrytí (Hidden)**          | Příznak (`hidden: true`), který entitu přesouvá do sekce "Skryté". Entita je stále v hlavní kategorii, ale vizuálně potlačena.         |
+| **Odpad (Junk Person)**      | "Nezajímavá" osoba (např. turista v pozadí). Má příznak `junk: true`. Clustering ji ignoruje. Lze kdykoliv vrátit.                     |
+| **Zneplatnění (Invalidate)** | Oznaceni detekce jako "není tvář" (stín, kámen). Odstraní se z manifestu a souřadnice se zapíšou do `invalidDetections` v constraints. |
+| **Přejmenování (Rename)**    | Změna jména a technického ID. Vyžaduje unikátnost.                                                                                     |
 
 ## 1. Uživatelské rozhraní (GUI)
 
@@ -27,8 +27,8 @@ Systém poskytuje dva hlavní prvky pro správu entit:
 - **Editace:** Kliknutím na jméno entity můžete přímo přejmenovat (v dev módu).
 - **Skrytí:** Ikona oka (`EyeOff`) přepíná příznak `hidden`.
 - **Sekce "Skryté":** Expandovatelný accordion pro entity s příznakem `hidden: true`.
-- **Sekce "Junk":** Expandovatelný accordion pro nezajímavé osoby (`junk: true`).
-- **Sekce "Chybné detekce":** Seznam smazaných detekcí, u kterých AI v budoucnu nemá nic hledat.
+- **Sekce "Odpad":** Expandovatelný accordion pro nezajímavé osoby (`junk: true`).
+- **Sekce "Zneplatněné detekce":** Seznam smazaných detekcí, u kterých AI v budoucnu nemá nic hledat.
 - **Kategorie:** Accordiony pro "Osoby", "Sochy", "Malby".
 
 ### 1.2 Dialog detailu entity
@@ -41,7 +41,7 @@ Otevírá se kliknutím na miniaturu osoby v sidebaru.
   - **Přiřadit k...** – Přesun vybraných tváří do jiné entity.
   - **Skrýt** – Odepne vybrané tváře a vytvoří novou skrytou entitu.
   - **Odepnout** – Odepne vybrané tváře do nové entity.
-  - **Ignorovat detekce** – Označí výřezy jako chybné (AI omyl). Zapíše se do `invalidDetections`.
+  - **Není tvář, ignorovat** (Zneplatnit) – Označí výřezy jako chybné (AI omyl). Zapíše se do `invalidDetections`.
 - **Změna kategorie:** 3 tečky → Typ osoby → Osoba / Socha / Malba.
 
 ## 2. Kategorie a Typy
@@ -74,13 +74,13 @@ Při **Odepnutí** nově vzniklá entita **dědí kategorii** původní entity.
   - Entita se přesunuje do sekce "Skryté".
   - Používá se pro lidi, které znáte, ale nechcete je mít v hlavním seznamu.
 
-- **Junk (Junk Person):**
+- **Odpad (Junk Person):**
   - Příznak `junk: true`.
-  - Entita se přesune do sekce "Junk".
+  - Entita se přesune do sekce "Odpad".
   - **Clustering tuto osobu ignoruje** (nehledá ji na nových fotkách).
   - Používá se pro náhodné kolemjdoucí, které nechcete mazat, ale ani identifikovat.
 
-- **Chybná detekce (Invalidate):**
+- **Zneplatnění detekce (Invalidate):**
   - Souřadnice jsou zapsány do pole `invalidDetections` v `clustering-constraints.json`.
   - Tvář zmizí z manifestu.
   - Používá se pro věci, které nejsou lidi (stíny, kameny, pařezy).
@@ -120,7 +120,7 @@ Při **Odepnutí** nově vzniklá entita **dědí kategorii** původní entity.
 
 **Obnovení:** Klikněte znovu na ikonu oka.
 
-### 4.3 Označení za chybné ("Invalidate Detection")
+### 4.3 Zneplatnění detekce ("Invalidate Detection")
 
 **Cíl:** Trvalé vyřazení chybné detekce (např. vzor na tričku, reflex), kterou AI omylem považuje za tvář.
 
@@ -128,7 +128,8 @@ Při **Odepnutí** nově vzniklá entita **dědí kategorii** původní entity.
 
 1.  Otevřete dialog detailu entity.
 2.  Vyberte tvář, která není validní.
-3.  Klikněte 3 tečky → Ignorovat detekce.
+3.  Klikněte 3 tečky → **Není tvář, ignorovat**.
+    - Zobrazí se potvrzovací dialog.
 
 **Co se stane:**
 
@@ -205,7 +206,31 @@ Pokud chcete znovu přeskupit tváře od nuly (např. po úpravě parametrů clu
 
 ## 6. Řešení problémů a údržba
 
-### 6.1 Audit konzistence dat
+### 6.1 Audit a Watchdog
+
+**Watchdog (Real-time monitoring):**
+
+Během práce v GUI doporučujeme mít v terminálu spuštěný watchdog:
+
+```bash
+bun scripts/watchdog.ts
+```
+
+Tento nástroj v reálném čase hlídá:
+
+- "Zombie" profily (osoby s 0 fotkami, které v GUI straší).
+- Zanořené názvy ("Odpojeno od Odpojeno od...").
+- Konzistenci manifestů.
+
+**Jednorázový úklid:**
+
+Pokud narazíte na "duchy" (osoby bez fotek v sidebaru), spusťte:
+
+```bash
+bun scripts/clean-empty-people.ts
+```
+
+**Hloubkový audit:**
 
 Pro kontrolu a opravu nekonzistencí v datech použijte:
 
@@ -220,7 +245,6 @@ bun scripts/audit-people.ts --fix
 Skript kontroluje:
 
 - **faceCount** – zda hodnota odpovídá skutečnému počtu fotek s danou osobou.
-- **Prázdné entity** – osoby s `faceCount === 0`.
 - **Osiřelé složky** – složky ve `static/<galerie>/faces/` bez odpovídajících záznamů v manifestu.
 - **Zastaralá omezení** – odkazy na smazané osoby v `clustering-constraints.json`.
 
