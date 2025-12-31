@@ -1,6 +1,6 @@
 <script lang="ts">
   import { toast } from "svelte-sonner";
-  import { invalidateAll } from "$app/navigation";
+
   import { useScrollspy } from "$lib/actions/scrollspy";
   import ArchiveImageDialog from "$lib/components/ArchiveImageDialog.svelte";
   import CurationGroupView from "$lib/components/CurationGroup.svelte";
@@ -22,6 +22,8 @@
   import { findIndexById, getRange } from "$lib/utils/selection";
   import { toSlug } from "$lib/utils/strings";
   import { smartToast } from "$lib/utils/toasts";
+
+  import { invalidateAll } from "$app/navigation";
 
   const logger = createLogger("PhotoGrid");
 
@@ -99,6 +101,9 @@
   async function handleDrop(targetId: string) {
     if (!draggedId || draggedId === targetId || !dayId) return;
 
+    // Capture previous order for Undo
+    const previousOrder = imageItems.map((i: ImageEntry) => i.id);
+
     const fromIndex = imageItems.findIndex((i: ImageEntry) => i.id === draggedId);
     const toIndex = imageItems.findIndex((i: ImageEntry) => i.id === targetId);
 
@@ -112,7 +117,19 @@
     const result = await saveImageOrder({ dayId, imageIds: newOrder });
 
     if (result.success) {
-      toast.success("Pořadí uloženo");
+      toast.success("Pořadí uloženo", {
+        action: {
+          label: "Vrátit zpět",
+          onClick: async () => {
+            const undoResult = await saveImageOrder({ dayId, imageIds: previousOrder });
+            if (undoResult.success) {
+              toast.success("Vráceno zpět");
+            } else {
+              toast.error("Nepodařilo se vrátit změny");
+            }
+          },
+        },
+      });
     } else {
       toast.error(result.error || "Nepodařilo se uložit pořadí");
     }
