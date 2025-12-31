@@ -193,19 +193,19 @@
         "2025-11-26-095057-cebreus"
       ],
       "bestCandidateId": "2025-11-26-095057-cebreus",
-      "similarity": 0.9037116181027048,
+      "similarity": 0.9101205451002121,
       "recommendations": {
         "2025-11-26-080834-cebreus": {
           "action": "delete",
-          "reason": "Lower aesthetics (63 vs 80), Less sharp"
+          "reason": "Lower aesthetics (69 vs 80), Less sharp"
         },
         "2025-11-26-080907-cebreus": {
           "action": "delete",
-          "reason": "Lower aesthetics (71 vs 80), Less sharp"
+          "reason": "Lower aesthetics (64 vs 80), Less sharp"
         },
         "2025-11-26-091502-cebreus": {
           "action": "delete",
-          "reason": "Lower aesthetics (58 vs 80), Less sharp"
+          "reason": "Lower aesthetics (59 vs 80), Less sharp"
         },
         "2025-11-26-095057-cebreus": {
           "action": "keep",
@@ -468,7 +468,7 @@
     }
   ],
   "stats": {
-    "totalPhotos": 313,
+    "totalPhotos": 312,
     "totalGroups": 19,
     "duplicatesFound": 40
   }
