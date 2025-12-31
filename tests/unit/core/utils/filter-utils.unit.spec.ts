@@ -85,21 +85,19 @@ mockDays[1].items[1] = withAnalysis(mockDays[1].items[1]); // i4
 
 describe("computeTotals", () => {
   it("counts visible images given author slugs & separators", () => {
-    // Update tests to use slug-first author selection. Images include top-level
-    // author and authorSlug fields in the manifest; filtering should match
-    // when selecting slugs.
-    const r1 = computeTotals(["a"], true, ["good"], [], mockDays);
+    // Update tests to use [] as default quality filter (all).
+    const r1 = computeTotals(["a"], true, [], [], [], true, true, false, mockDays);
     expect(r1.visiblePhotos).toBe(2);
 
-    const r2 = computeTotals([], true, ["good"], [], mockDays);
+    const r2 = computeTotals([], true, [], [], [], true, true, false, mockDays);
     expect(r2.visiblePhotos).toBe(4);
 
-    const r3 = computeTotals(["a"], false, ["good"], [], mockDays);
+    const r3 = computeTotals(["a"], false, [], [], [], true, true, false, mockDays);
     expect(r3.visiblePhotos).toBe(2);
   });
 
   it("handles explicit 'none' state", () => {
-    const r = computeTotals(["none"], true, ["good"], [], mockDays);
+    const r = computeTotals(["none"], true, [], [], [], true, true, false, mockDays);
     expect(r.visiblePhotos).toBe(0);
   });
 
@@ -124,12 +122,12 @@ describe("computeTotals", () => {
     ];
 
     // selecting by slug should match the image that has authorSlug
-    const r = computeTotals(["a-slug"], true, ["good"], [], mock);
+    const r = computeTotals(["a-slug"], true, [], [], [], true, true, false, mock);
     expect(r.visiblePhotos).toBe(1);
   });
 
   it("counts unique locations across days", () => {
-    const r = computeTotals([], true, ["good"], [], mockDays);
+    const r = computeTotals([], true, [], [], [], true, true, false, mockDays);
     // locations: L1 and L2 (unique) => 2
     expect(r.totalLocations).toBe(2);
   });

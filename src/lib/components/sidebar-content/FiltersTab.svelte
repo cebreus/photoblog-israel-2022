@@ -6,7 +6,6 @@
 
   import * as Accordion from "$lib/components/ui/accordion";
   import { Badge } from "$lib/components/ui/badge/";
-  import { Checkbox } from "$lib/components/ui/checkbox";
   import * as Sidebar from "$lib/components/ui/sidebar";
   import { Switch } from "$lib/components/ui/switch";
   import { ToggleGroup, ToggleGroupItem } from "$lib/components/ui/toggle-group";
@@ -98,10 +97,26 @@
   function toggleQualityBucket(bucketId: string) {
     // Cast to QualityBucket as we know the input comes from QUALITY_BUCKETS list
     const id = bucketId as QualityBucket;
-    if (filters.selectedQualityBuckets.includes(id)) {
-      filters.selectedQualityBuckets = filters.selectedQualityBuckets.filter((i) => i !== id);
+    let current = filters.selectedQualityBuckets;
+
+    if (current.includes("none" as any)) {
+      current = [];
+    } else if (current.length === 0) {
+      current = QUALITY_BUCKETS.map((b) => b.id);
+    }
+
+    if (current.includes(id)) {
+      current = current.filter((i) => i !== id);
     } else {
-      filters.selectedQualityBuckets = [...filters.selectedQualityBuckets, id];
+      current = [...current, id];
+    }
+
+    if (current.length === 0) {
+      filters.selectedQualityBuckets = ["none" as any];
+    } else if (current.length === QUALITY_BUCKETS.length) {
+      filters.selectedQualityBuckets = [];
+    } else {
+      filters.selectedQualityBuckets = current;
     }
   }
 
@@ -235,13 +250,26 @@
       </div>
       <div class="grid gap-2">
         {#each MEDIA_TYPES as type}
-          {@const isChecked = filters.selectedMediaTypes.includes(type.id)}
-          <label class="flex cursor-pointer items-center justify-between text-sm">
+          {@const isChecked =
+            filters.selectedMediaTypes.length === 0 ||
+            (filters.selectedMediaTypes.includes(type.id) &&
+              !filters.selectedMediaTypes.includes("none" as any))}
+          <label
+            class={`flex cursor-pointer items-center justify-between text-sm ${
+              isChecked ? "text-primary" : "text-slate-100"
+            }`}
+          >
             <span>{type.label}</span>
-            <Checkbox
+            <Switch
               checked={isChecked}
               onCheckedChange={function handleMediaTypeToggle(checked: boolean | "indeterminate") {
                 let current = filters.selectedMediaTypes;
+                if (current.includes("none" as any)) {
+                  current = [];
+                } else if (current.length === 0) {
+                  current = MEDIA_TYPES.map((t) => t.id);
+                }
+
                 if (checked) {
                   current = [...current, type.id];
                 } else {
@@ -249,14 +277,21 @@
                     return id !== type.id;
                   });
                 }
-                filters.selectedMediaTypes = current;
+
+                if (current.length === 0) {
+                  filters.selectedMediaTypes = ["none" as any];
+                } else if (current.length === MEDIA_TYPES.length) {
+                  filters.selectedMediaTypes = [];
+                } else {
+                  filters.selectedMediaTypes = current;
+                }
               }}
               aria-label={`Filtr ${type.label}`}
             />
           </label>
         {/each}
       </div>
-      <p class="pt-1 text-xs text-slate-400">Pokud není vybrán žádný typ, zobrazují se všechny.</p>
+      <p class="pt-1 text-xs text-slate-400">Pokud není vybrán žádný typ, nezobrazí se nic.</p>
     </div>
 
     <!-- Collapsible Sections (Snapshots & Quality) -->
@@ -270,7 +305,41 @@
           <Accordion.Content>
             <div class="flex flex-col gap-3 pb-4">
               <label
-                class="flex cursor-pointer items-center justify-between text-sm"
+                class={`flex cursor-pointer items-center justify-between text-sm ${
+                  filters.onlySnapshots ? "text-primary" : "text-slate-100"
+                }`}
+                data-testid="filters-tab-only-snapshots-control"
+              >
+                <span><b>Pouze momentky</b></span>
+                <Switch
+                  bind:checked={filters.onlySnapshots}
+                  aria-label={filters.onlySnapshots
+                    ? "Zobrazit všechny fotky"
+                    : "Zobrazit pouze momentky"}
+                  data-testid="filters-tab-only-snapshots-switch"
+                />
+              </label>
+
+              <label
+                class={`flex cursor-pointer items-center justify-between text-sm ${
+                  filters.showAuthorSnapshots ? "text-primary" : "text-slate-100"
+                }`}
+                data-testid="filters-tab-author-snapshots-control"
+              >
+                <span>Zobrazit momentky autora</span>
+                <Switch
+                  bind:checked={filters.showAuthorSnapshots}
+                  aria-label={filters.showAuthorSnapshots
+                    ? "Skrýt momentky autora"
+                    : "Zobrazit momentky autora"}
+                  data-testid="filters-tab-author-snapshots-switch"
+                />
+              </label>
+
+              <label
+                class={`flex cursor-pointer items-center justify-between text-sm ${
+                  filters.showOthersSnapshots ? "text-primary" : "text-slate-100"
+                }`}
                 data-testid="filters-tab-others-snapshots-control"
               >
                 <span>Zobrazit další momentky</span>
@@ -284,8 +353,7 @@
               </label>
 
               <p class="pt-1 text-xs text-slate-400">
-                Momentky jsou soukromé snímky typu „tady jsme byli“. Nemají obecnou dokumentární
-                hodnotu a jsou proto ve výchozím nastavení (zejména ty cizí) potlačeny.
+                Momentky jsou soukromé snímky a nemají obecnou dokumentární hodnotu.
               </p>
             </div>
           </Accordion.Content>
@@ -301,7 +369,10 @@
               <div class="flex flex-col gap-3 pb-4">
                 {#each QUALITY_BUCKETS as bucket (bucket.id)}
                   {@const count = qualityStats.get(bucket.id) ?? 0}
-                  {@const isActive = filters.selectedQualityBuckets.includes(bucket.id)}
+                  {@const isActive =
+                    filters.selectedQualityBuckets.length === 0 ||
+                    (filters.selectedQualityBuckets.includes(bucket.id) &&
+                      !filters.selectedQualityBuckets.includes("none" as any))}
                   <label
                     class={`flex cursor-pointer items-center justify-between text-sm ${
                       isActive ? "text-primary" : "text-slate-100"
@@ -323,6 +394,9 @@
                     />
                   </label>
                 {/each}
+                <p class="pt-1 text-xs text-slate-400">
+                  Pokud není vybrána žádná kvalita, nezobrazí se nic.
+                </p>
                 <p class="pt-1 text-xs text-slate-400">
                   Kvalita je určena automaticky pomocí AI (estetika) a technické analýzy (ostrost).
                   Pomáhá skrýt slabší snímky, které jsou ale ponechány pro dokumentární účely.

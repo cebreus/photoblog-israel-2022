@@ -18,6 +18,12 @@
 
   let { data } = $props<{ data: PageData }>();
 
+  $effect(() => {
+    if (data.photoDays) {
+      filters.setSourceData(data.photoDays);
+    }
+  });
+
   /**
    * Compute page-specific filtered days.
    * Preserves page metadata like cities/locations.
@@ -32,6 +38,10 @@
           filters.showSeparators,
           filters.selectedQualityBuckets,
           filters.selectedPeople,
+          filters.selectedMediaTypes,
+          filters.showOthersSnapshots,
+          filters.showAuthorSnapshots,
+          filters.onlySnapshots,
         ),
       }))
       .filter((d: PhotoDay) => d.items && d.items.length > 0),

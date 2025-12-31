@@ -366,6 +366,7 @@
   }
 
   function selectNone() {
+    // none = hide everything in this category
     filters.selectedPeople = ["none"];
   }
 

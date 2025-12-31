@@ -131,7 +131,7 @@ export function buildAuthorsParam(
 export function parseQualityFromUrl(url: URL): QualityBucket[] | undefined {
   if (!url.searchParams.has("quality")) return undefined;
   const qualityParam = url.searchParams.get("quality");
-  if (!qualityParam) return [];
+  if (!qualityParam || qualityParam === "none") return [];
   return qualityParam.split(",").filter(Boolean) as QualityBucket[];
 }
 
@@ -145,7 +145,9 @@ export function buildQualityParam(selectedQualityBuckets: QualityBucket[]): stri
       return selectedQualityBuckets.includes(id);
     });
 
-  return isAllQualitySelected ? undefined : selectedQualityBuckets.join(",");
+  if (selectedQualityBuckets.length === 0) return undefined;
+  if (selectedQualityBuckets.includes("none" as any)) return "none";
+  return selectedQualityBuckets.join(",");
 }
 
 // ---------------------------------------------------------------------------
@@ -154,11 +156,14 @@ export function buildQualityParam(selectedQualityBuckets: QualityBucket[]): stri
 
 export function parsePeopleFromUrl(url: URL): string[] {
   const peopleCsv = url.searchParams.get("people");
-  return peopleCsv ? peopleCsv.split(",").map(decodeToken).filter(Boolean) : [];
+  if (!peopleCsv) return [];
+  if (peopleCsv === "none") return ["none"];
+  return peopleCsv.split(",").map(decodeToken).filter(Boolean);
 }
 
 export function buildPeopleParam(selectedPeople: string[]): string | undefined {
   if (selectedPeople.length === 0) return undefined;
+  if (selectedPeople.includes("none")) return "none";
   return selectedPeople.map(encodeToken).join(",");
 }
 
@@ -174,8 +179,9 @@ const PRESENCE_ONLY_KEYS = new Set([
   "no-separators",
   "sidebar",
   "curation",
-  "others-snapshots",
+  "no-others-snapshots",
   "no-author-snapshots",
+  "only-snapshots",
 ]);
 
 export function normalizePresenceParams(params: URLSearchParams): string {
@@ -216,16 +222,13 @@ const ALL_MEDIA_TYPE_IDS = MEDIA_TYPES.map(function getId(t) {
 export function parseMediaTypesFromUrl(url: URL): MediaItemType[] {
   const csv = url.searchParams.get("mediaTypes");
   if (!csv) return [];
+  if (csv === "none") return ["none"] as unknown as MediaItemType[];
   return csv.split(",").filter(Boolean) as MediaItemType[];
 }
 
 export function buildMediaTypesParam(selected: MediaItemType[]): string | undefined {
   if (selected.length === 0) return undefined;
-  // If all types selected, omit param
-  const isAllSelected = ALL_MEDIA_TYPE_IDS.every(function checkType(id) {
-    return selected.includes(id);
-  });
-  if (isAllSelected) return undefined;
+  if (selected.includes("none" as any)) return "none";
   return selected.join(",");
 }
 
@@ -234,7 +237,8 @@ export function buildMediaTypesParam(selected: MediaItemType[]): string | undefi
 // ---------------------------------------------------------------------------
 
 export function parseOthersSnapshotsFromUrl(url: URL): boolean {
-  return url.searchParams.has("others-snapshots");
+  if (url.searchParams.has("no-others-snapshots")) return false;
+  return true;
 }
 
 export function buildOthersSnapshotsParam(show: boolean): boolean {

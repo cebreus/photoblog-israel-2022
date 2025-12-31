@@ -10,8 +10,6 @@ import {
   buildAuthorsParam,
   buildMediaTypesParam,
   buildQualityParam,
-  decodeToken,
-  encodeToken,
   normalizePresenceParams,
   parseAuthorsFromUrl,
   parseBooleanParam,
@@ -48,20 +46,23 @@ export function initializeFiltersFromUrl(url: URL) {
   if (!browser) return;
 
   const slugs = parseAuthorsFromUrl(url, authors);
-  filters.selectedAuthors = slugs;
+  if (JSON.stringify(filters.selectedAuthors) !== JSON.stringify(slugs)) {
+    filters.selectedAuthors = slugs;
+  }
 
   const buckets = parseQualityFromUrl(url);
-  if (buckets !== undefined) {
-    filters.selectedQualityBuckets = buckets;
-  } else {
-    filters.selectedQualityBuckets = QUALITY_BUCKETS.map((b) => b.id);
+  const nextBuckets = buckets !== undefined ? buckets : QUALITY_BUCKETS.map((b) => b.id);
+  if (JSON.stringify(filters.selectedQualityBuckets) !== JSON.stringify(nextBuckets)) {
+    filters.selectedQualityBuckets = nextBuckets;
   }
 
   if (url.searchParams.has("no-separators")) {
-    filters.showSeparators = false;
+    if (filters.showSeparators !== false) filters.showSeparators = false;
   } else {
     const separatorsParam = parseBooleanParam(url.searchParams.get("separators"));
-    if (separatorsParam !== undefined) filters.showSeparators = separatorsParam;
+    if (separatorsParam !== undefined) {
+      if (filters.showSeparators !== separatorsParam) filters.showSeparators = separatorsParam;
+    }
   }
 
   setBooleanStateFromUrl(url, "labels", (v) => {
@@ -91,8 +92,10 @@ export function initializeFiltersFromUrl(url: URL) {
     true,
   );
 
-  const peopleCsv = url.searchParams.get("people");
-  filters.selectedPeople = peopleCsv ? peopleCsv.split(",").map(decodeToken).filter(Boolean) : [];
+  const nextPeople = parsePeopleFromUrl(url);
+  if (JSON.stringify(filters.selectedPeople) !== JSON.stringify(nextPeople)) {
+    filters.selectedPeople = nextPeople;
+  }
 
   const editCsv = url.searchParams.get("edit");
   editor.selection = new Set(editCsv ? editCsv.split(",").filter(Boolean) : []);
@@ -101,10 +104,42 @@ export function initializeFiltersFromUrl(url: URL) {
 
   // Media types filter
   const mediaTypes = parseMediaTypesFromUrl(url);
-  filters.selectedMediaTypes = mediaTypes;
+  if (JSON.stringify(filters.selectedMediaTypes) !== JSON.stringify(mediaTypes)) {
+    filters.selectedMediaTypes = mediaTypes;
+  }
 
-  // Others snapshots toggle
-  filters.showOthersSnapshots = parseOthersSnapshotsFromUrl(url);
+  // Others snapshots toggle (inverted presence: 'no-others-snapshots' means hidden)
+  if (url.searchParams.has("no-others-snapshots")) {
+    if (filters.showOthersSnapshots !== false) filters.showOthersSnapshots = false;
+  } else {
+    // Also support legacy 'others-snapshots' if present
+    const legacyOthers = url.searchParams.has("others-snapshots");
+    if (legacyOthers) {
+      if (filters.showOthersSnapshots !== true) filters.showOthersSnapshots = true;
+    } else {
+      // Default state (true) - no changes needed if lastUrl was empty,
+      // but if we are navigating back from a hidden state, we might need to restore.
+      // parseOthersSnapshotsFromUrl will return true here.
+      const showOthers = parseOthersSnapshotsFromUrl(url);
+      if (filters.showOthersSnapshots !== showOthers) filters.showOthersSnapshots = showOthers;
+    }
+  }
+
+  // Author snapshots toggle (inverted presence: 'no-author-snapshots' means hidden)
+  if (url.searchParams.has("no-author-snapshots")) {
+    if (filters.showAuthorSnapshots !== false) filters.showAuthorSnapshots = false;
+  } else {
+    setBooleanStateFromUrl(url, "author-snapshots", (v) => {
+      if (filters.showAuthorSnapshots !== v) filters.showAuthorSnapshots = v;
+    });
+  }
+
+  // Only snapshots toggle
+  if (url.searchParams.has("only-snapshots")) {
+    if (filters.onlySnapshots !== true) filters.onlySnapshots = true;
+  } else {
+    if (filters.onlySnapshots !== false) filters.onlySnapshots = false;
+  }
 }
 
 let debounceTimer: ReturnType<typeof setTimeout>;
@@ -112,8 +147,9 @@ let debounceTimer: ReturnType<typeof setTimeout>;
 export function syncUrlFromFilters() {
   if (!browser) return;
 
-  clearTimeout(debounceTimer);
+  // Set syncing to true IMMEDIATELY to block the URL observer from reverting states
   filters.filtersSyncing = true;
+  clearTimeout(debounceTimer);
 
   debounceTimer = setTimeout(async () => {
     const pageVal = page;
@@ -129,8 +165,8 @@ export function syncUrlFromFilters() {
     if (qualityVal !== undefined) params.set("quality", qualityVal);
 
     params.delete("people");
-    const people = filters.selectedPeople;
-    if (people.length > 0) params.set("people", people.map(encodeToken).join(","));
+    const peopleVal = buildPeopleParam(filters.selectedPeople);
+    if (peopleVal) params.set("people", peopleVal);
 
     params.delete("separators");
     syncBooleanParam(params, "no-separators", filters.showSeparators, "inverted-presence");
@@ -161,7 +197,23 @@ export function syncUrlFromFilters() {
     if (mediaTypesVal) params.set("mediaTypes", mediaTypesVal);
 
     // Others snapshots
-    syncBooleanParam(params, "others-snapshots", filters.showOthersSnapshots, "presence");
+    syncBooleanParam(
+      params,
+      "no-others-snapshots",
+      filters.showOthersSnapshots,
+      "inverted-presence",
+    );
+
+    // Author snapshots
+    syncBooleanParam(
+      params,
+      "no-author-snapshots",
+      filters.showAuthorSnapshots,
+      "inverted-presence",
+    );
+
+    // Only snapshots
+    syncBooleanParam(params, "only-snapshots", filters.onlySnapshots, "presence");
 
     const newQuery = normalizePresenceParams(params);
     const next = `${pageVal.url.pathname}${newQuery ? `?${newQuery}` : ""}${pageVal.url.hash}`;
@@ -182,13 +234,13 @@ export function syncUrlFromFilters() {
       }
       await goto(next, { replaceState: true, noScroll: true, keepFocus: true });
     } finally {
-      // Delay clearing filtersSyncing to allow the render cycle to complete
-      // This prevents race conditions where the URL effect fires before we're done
+      // Delay clearing filtersSyncing just enough to let the SvelteKit 'page' store catch up
+      // and for our own effect observers to see the change
       setTimeout(() => {
         filters.filtersSyncing = false;
-      }, 50);
+      }, 100);
     }
-  }, 300);
+  }, 50);
 }
 
 /**
@@ -238,6 +290,8 @@ export function initUrlSync(initialAuthors: Author[]) {
       filters.selectedPeople;
       filters.selectedMediaTypes;
       filters.showOthersSnapshots;
+      filters.showAuthorSnapshots;
+      filters.onlySnapshots;
 
       syncUrlFromFilters();
     });
@@ -245,9 +299,13 @@ export function initUrlSync(initialAuthors: Author[]) {
     // 3. When URL changes (e.g., back/forward button), update the states
     $effect(() => {
       const newPage = page;
+      // Skip if we are currently syncing TO the URL to prevent feedback loops
       if (filters.filtersSyncing) return;
 
-      if (newPage.url.toString() !== lastUrl.toString()) {
+      const newUrlStr = newPage.url.toString();
+      const lastUrlStr = lastUrl.toString();
+
+      if (newUrlStr !== lastUrlStr) {
         lastUrl = newPage.url;
         initializeFiltersFromUrl(newPage.url);
       }

@@ -43,6 +43,6 @@
 </ButtonGroup.Root>
 
 <p class="text-muted-foreground text-center text-xs">
-  <strong>Vše:</strong> Jen fotky s lidmi. <strong>Žádné:</strong> Jen fotky bez lidí.
+  <strong>Vše:</strong> Jen fotky s lidmi. <strong>Žádné:</strong> Nezobrazit nic.
   <br /><strong>Reset:</strong> Všechny fotky.
 </p>

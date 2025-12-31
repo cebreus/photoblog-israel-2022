@@ -34,6 +34,15 @@ function isOthersSnapshot(item: PhotoDayItem): boolean {
   return hasFlag(item, "snapshot-others");
 }
 
+/** Check if item is a snapshot by author */
+function isAuthorSnapshot(item: PhotoDayItem): boolean {
+  const isSnap = hasFlag(item, "snapshot-author");
+  if (isSnap) {
+    // console.log(`[DEBUG] Item ${item.id} is author snapshot. Flags:`, item.flags);
+  }
+  return isSnap;
+}
+
 function shouldIncludeItem(
   item: PhotoDayItem,
   showSeparators: boolean,
@@ -42,11 +51,18 @@ function shouldIncludeItem(
   selectedPeople: string[],
   selectedMediaTypes: MediaItemType[],
   showOthersSnapshots: boolean,
+  showAuthorSnapshots: boolean,
+  onlySnapshots: boolean,
   isDefaultQualityView: boolean,
   imagePeopleMap: Record<string, string[]>,
 ): boolean {
   if (!isImageEntry(item)) {
     return showSeparators;
+  }
+
+  // Filter ONLY snapshots mode
+  if (onlySnapshots && !isAuthorSnapshot(item) && !isOthersSnapshot(item)) {
+    return false;
   }
 
   // Hide source images that were used for collages
@@ -59,8 +75,10 @@ function shouldIncludeItem(
     return false;
   }
 
-  // Filter by media type (empty array = show all)
   if (selectedMediaTypes.length > 0) {
+    if (selectedMediaTypes.includes("none" as any)) {
+      return false;
+    }
     if (!selectedMediaTypes.includes(item.type)) {
       return false;
     }
@@ -68,6 +86,11 @@ function shouldIncludeItem(
 
   // Hide others' snapshots unless explicitly enabled
   if (!showOthersSnapshots && isOthersSnapshot(item)) {
+    return false;
+  }
+
+  // Hide author's snapshots unless explicitly enabled
+  if (!showAuthorSnapshots && isAuthorSnapshot(item)) {
     return false;
   }
 
@@ -80,6 +103,9 @@ function shouldIncludeItem(
   }
 
   if (!isDefaultQualityView) {
+    if (selectedQualityBuckets.includes("none" as any)) {
+      return false;
+    }
     const bucket = item.analysis?.qualityBucket;
     if (!bucket || !selectedQualityBuckets.includes(bucket)) {
       return false;
@@ -87,21 +113,20 @@ function shouldIncludeItem(
   }
 
   if (selectedPeople.length > 0) {
-    const people = item.people || imagePeopleMap[item.id] || [];
-    const hasNone = selectedPeople.includes("none");
-
-    if (people.length === 0) {
-      return hasNone;
-    }
-
-    if (hasNone && selectedPeople.length === 1) {
+    if (selectedPeople.includes("none")) {
       return false;
     }
+    const itemPeople = item.people || imagePeopleMap.get(item.id) || [];
+    const hasUnknown = selectedPeople.includes("unknown");
 
-    const personMatches = people.some(function checkPerson(p) {
-      return selectedPeople.includes(p);
-    });
-    if (!personMatches) return false;
+    if (itemPeople.length === 0) {
+      if (!hasUnknown) return false;
+    } else {
+      const personMatches = itemPeople.some(function checkPerson(p) {
+        return selectedPeople.includes(p);
+      });
+      if (!personMatches) return false;
+    }
   }
 
   return true;
@@ -115,10 +140,10 @@ export function filterGalleryItems(
   selectedPeople: string[] = [],
   selectedMediaTypes: MediaItemType[] = [],
   showOthersSnapshots: boolean = true,
+  showAuthorSnapshots: boolean = true,
+  onlySnapshots: boolean = false,
 ): PhotoDayItem[] {
-  const isDefaultQualityView = ALL_QUALITY_BUCKET_IDS.every(function checkBucket(b) {
-    return selectedQualityBuckets.includes(b);
-  });
+  const isDefaultQualityView = selectedQualityBuckets.length === 0;
 
   const imagePeopleMap = getImagePeopleMap();
 
@@ -131,6 +156,8 @@ export function filterGalleryItems(
       selectedPeople,
       selectedMediaTypes,
       showOthersSnapshots,
+      showAuthorSnapshots,
+      onlySnapshots,
       isDefaultQualityView,
       imagePeopleMap,
     );
@@ -140,8 +167,12 @@ export function filterGalleryItems(
 export function computeTotals(
   selectedAuthors: string[],
   showSeparators: boolean,
-  selectedQualityBuckets: QualityBucket[],
-  selectedAestheticBuckets: string[],
+  selectedQualityBuckets: QualityBucket[] = [],
+  selectedPeople: string[],
+  selectedMediaTypes: MediaItemType[] = [],
+  showOthersSnapshots: boolean = true,
+  showAuthorSnapshots: boolean = true,
+  onlySnapshots: boolean = false,
   photoDaysData: PhotoDay[] = getPhotoDays(),
 ): { visiblePhotos: number; totalLocations: number } {
   let visiblePhotos = 0;
@@ -155,7 +186,11 @@ export function computeTotals(
       selectedAuthors,
       showSeparators,
       selectedQualityBuckets,
-      selectedAestheticBuckets,
+      selectedPeople,
+      selectedMediaTypes,
+      showOthersSnapshots,
+      showAuthorSnapshots,
+      onlySnapshots,
     );
 
     for (const item of filteredItems) {

@@ -463,19 +463,7 @@
         </Empty.Description>
       </Empty.Header>
       <Empty.Content>
-        <Button
-          variant="outline"
-          onclick={() => {
-            filters.selectedAuthors = [];
-            filters.selectedQualityBuckets = [];
-            filters.selectedMediaTypes = [];
-            filters.selectedPeople = [];
-            filters.showSeparators = true;
-            filters.showOthersSnapshots = false;
-          }}
-        >
-          Resetovat filtry
-        </Button>
+        <Button variant="outline" onclick={() => filters.reset()}>Resetovat filtry</Button>
       </Empty.Content>
     </Empty.Root>
   </div>

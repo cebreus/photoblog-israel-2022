@@ -45,9 +45,17 @@ vi.mock("$lib/stores/filters.svelte", () => {
       filtersSyncing: false,
       selectedAuthors: [],
       showSeparators: true,
-      selectedQualityBuckets: ["excellent", "good", "poor"],
+      selectedQualityBuckets: [],
       selectedPeople: [],
+      selectedMediaTypes: [],
+      showOthersSnapshots: true,
+      showAuthorSnapshots: true,
     },
+    MEDIA_TYPES: [
+      { id: "image", label: "Fotografie" },
+      { id: "panorama", label: "Panoramata" },
+      { id: "sequence", label: "Sekvence" },
+    ],
   };
 });
 
@@ -92,8 +100,11 @@ describe("syncUrlFromFilters", () => {
 
     // Reset all states to default state
     filters.selectedAuthors = [];
-    filters.selectedQualityBuckets = ["excellent", "good", "poor"];
+    filters.selectedQualityBuckets = [];
     filters.selectedPeople = [];
+    filters.selectedMediaTypes = [];
+    filters.showOthersSnapshots = true;
+    filters.showAuthorSnapshots = true;
     filters.showSeparators = true;
     filters.filtersSyncing = false;
 
@@ -124,13 +135,13 @@ describe("syncUrlFromFilters", () => {
     consoleLogSpy.mockRestore();
   });
 
-  it("debounces URL updates (300ms)", async () => {
+  it("debounces URL updates (50ms)", async () => {
     filters.selectedAuthors = ["jan"];
 
     syncUrlFromFilters();
     expect(goto).not.toHaveBeenCalled();
 
-    await vi.advanceTimersByTimeAsync(299);
+    await vi.advanceTimersByTimeAsync(49);
     expect(goto).not.toHaveBeenCalled();
 
     await vi.advanceTimersByTimeAsync(1);
@@ -141,7 +152,7 @@ describe("syncUrlFromFilters", () => {
     filters.selectedAuthors = ["jan", "petr"];
 
     syncUrlFromFilters();
-    await vi.advanceTimersByTimeAsync(300);
+    await vi.advanceTimersByTimeAsync(50);
 
     expect(goto).toHaveBeenCalledWith(
       expect.stringContaining("authors=jan%2Cpetr"),
@@ -153,7 +164,7 @@ describe("syncUrlFromFilters", () => {
     filters.selectedQualityBuckets = ["excellent"];
 
     syncUrlFromFilters();
-    await vi.advanceTimersByTimeAsync(300);
+    await vi.advanceTimersByTimeAsync(50);
 
     expect(goto).toHaveBeenCalledWith(
       expect.stringContaining("quality=excellent"),
@@ -161,13 +172,13 @@ describe("syncUrlFromFilters", () => {
     );
   });
 
-  it("omits quality param when all buckets selected (default)", async () => {
-    filters.selectedQualityBuckets = ["excellent", "good", "poor"];
+  it("omits quality param when no buckets selected (default)", async () => {
+    filters.selectedQualityBuckets = [];
 
     syncUrlFromFilters();
-    await vi.advanceTimersByTimeAsync(300);
+    await vi.advanceTimersByTimeAsync(50);
 
-    // When all buckets are selected (default), URL should be unchanged, so no navigation
+    // When no buckets are selected (default/all), URL should be unchanged, so no navigation
     expect(goto).not.toHaveBeenCalled();
   });
 
@@ -176,7 +187,7 @@ describe("syncUrlFromFilters", () => {
     ui.sidebarOpen = true;
 
     syncUrlFromFilters();
-    await vi.advanceTimersByTimeAsync(300);
+    await vi.advanceTimersByTimeAsync(50);
 
     const url = vi.mocked(goto).mock.calls[0]?.[0] as string;
     expect(url).toMatch(/[?&]labels($|&)/);
@@ -189,7 +200,7 @@ describe("syncUrlFromFilters", () => {
     filters.showSeparators = false;
 
     syncUrlFromFilters();
-    await vi.advanceTimersByTimeAsync(300);
+    await vi.advanceTimersByTimeAsync(50);
 
     const url = vi.mocked(goto).mock.calls[0]?.[0] as string;
     expect(url).toMatch(/[?&]no-separators($|&)/);
@@ -198,7 +209,7 @@ describe("syncUrlFromFilters", () => {
   it("skips navigation if URL unchanged", async () => {
     // No filters changed, URL should stay the same
     syncUrlFromFilters();
-    await vi.advanceTimersByTimeAsync(300);
+    await vi.advanceTimersByTimeAsync(50);
 
     expect(goto).not.toHaveBeenCalled();
   });
@@ -209,7 +220,7 @@ describe("syncUrlFromFilters", () => {
     syncUrlFromFilters();
     expect(filters.filtersSyncing).toBe(true);
 
-    await vi.advanceTimersByTimeAsync(300);
+    await vi.advanceTimersByTimeAsync(50);
     // Still syncing due to added safety buffer
     expect(filters.filtersSyncing).toBe(true);
 
@@ -221,12 +232,12 @@ describe("syncUrlFromFilters", () => {
     filters.selectedAuthors = ["jan"];
 
     syncUrlFromFilters();
-    await vi.advanceTimersByTimeAsync(100);
+    await vi.advanceTimersByTimeAsync(20);
 
     filters.selectedAuthors = ["petr"];
     syncUrlFromFilters(); // Should reset timer
 
-    await vi.advanceTimersByTimeAsync(299);
+    await vi.advanceTimersByTimeAsync(49);
     expect(goto).not.toHaveBeenCalled();
 
     await vi.advanceTimersByTimeAsync(1);
@@ -238,7 +249,7 @@ describe("syncUrlFromFilters", () => {
     filters.selectedAuthors = ["test"];
 
     syncUrlFromFilters();
-    await vi.advanceTimersByTimeAsync(300);
+    await vi.advanceTimersByTimeAsync(50);
 
     expect(goto).toHaveBeenCalledWith(
       expect.any(String),
@@ -254,10 +265,28 @@ describe("syncUrlFromFilters", () => {
     editor.selection = new Set(["img1", "img2", "img3"]);
 
     syncUrlFromFilters();
-    await vi.advanceTimersByTimeAsync(300);
+    await vi.advanceTimersByTimeAsync(50);
 
     const url = vi.mocked(goto).mock.calls[0]?.[0] as string;
     expect(url).toContain("edit=");
     expect(url).toMatch(/img1.*img2.*img3|img3.*img2.*img1/); // Order may vary
+  });
+
+  it("handles snapshot filters", async () => {
+    filters.showAuthorSnapshots = false;
+    syncUrlFromFilters();
+    await vi.advanceTimersByTimeAsync(50);
+    expect(vi.mocked(goto)).toHaveBeenCalledWith(
+      expect.stringContaining("no-author-snapshots"),
+      expect.any(Object),
+    );
+
+    filters.showOthersSnapshots = false;
+    syncUrlFromFilters();
+    await vi.advanceTimersByTimeAsync(50);
+    expect(vi.mocked(goto)).toHaveBeenCalledWith(
+      expect.stringContaining("no-others-snapshots"),
+      expect.any(Object),
+    );
   });
 });

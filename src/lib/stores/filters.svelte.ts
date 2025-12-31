@@ -1,5 +1,5 @@
 import type { MediaItemType, QualityBucket } from "$lib/types/manifest";
-import { computeTotals, filterGalleryItems, QUALITY_BUCKETS } from "$lib/utils/gallery";
+import { computeTotals, filterGalleryItems } from "$lib/utils/gallery";
 import { getPhotoDays } from "$lib/utils/images";
 
 /** All available media types for filtering */
@@ -18,20 +18,23 @@ export class FilterState {
   selectedAuthors = $state<string[]>([]);
   selectedPeople = $state<string[]>([]);
   showSeparators = $state(true);
-  selectedQualityBuckets = $state<QualityBucket[]>(
-    QUALITY_BUCKETS.map(function getId(b) {
-      return b.id;
-    }),
-  );
+  selectedQualityBuckets = $state<QualityBucket[]>([]);
   /** Media types to show (photo, panorama, sequence). Empty = all. */
   selectedMediaTypes = $state<MediaItemType[]>([]);
-  /** Show snapshots made by others (default: hidden) */
-  showOthersSnapshots = $state(false);
+  /** Show snapshots made by others (default: visible) */
+  showOthersSnapshots = $state(true);
+  /** Show snapshots made by the author (default: visible) */
+  showAuthorSnapshots = $state(true);
+  /** Show ONLY snapshots (hide all regular photos) */
+  onlySnapshots = $state(false);
   filtersSyncing = $state(false);
+
+  /** Source data for filtering - injected from page load */
+  sourceData = $state(getPhotoDays());
 
   filteredPhotoDays = $derived.by(
     function computeFilteredDays(this: FilterState) {
-      const days = getPhotoDays();
+      const days = this.sourceData;
       const self = this;
       return days
         .map(function mapDay(day) {
@@ -45,6 +48,8 @@ export class FilterState {
               self.selectedPeople,
               self.selectedMediaTypes,
               self.showOthersSnapshots,
+              self.showAuthorSnapshots,
+              self.onlySnapshots,
             ),
           };
         })
@@ -61,6 +66,11 @@ export class FilterState {
         this.showSeparators,
         this.selectedQualityBuckets,
         this.selectedPeople,
+        this.selectedMediaTypes,
+        this.showOthersSnapshots,
+        this.showAuthorSnapshots,
+        this.onlySnapshots,
+        this.sourceData,
       );
     }.bind(this),
   );
@@ -92,8 +102,31 @@ export class FilterState {
     this.showOthersSnapshots = value;
   }
 
+  setShowAuthorSnapshots(value: boolean) {
+    this.showAuthorSnapshots = value;
+  }
+
+  setOnlySnapshots(value: boolean) {
+    this.onlySnapshots = value;
+  }
+
   setFiltersSyncing(value: boolean) {
     this.filtersSyncing = value;
+  }
+
+  setSourceData(data: PhotoDay[]) {
+    this.sourceData = data;
+  }
+
+  reset() {
+    this.selectedAuthors = [];
+    this.selectedQualityBuckets = [];
+    this.selectedPeople = [];
+    this.selectedMediaTypes = [];
+    this.showSeparators = true;
+    this.showAuthorSnapshots = true;
+    this.showOthersSnapshots = true;
+    this.onlySnapshots = false;
   }
 }
 

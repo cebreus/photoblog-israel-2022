@@ -25,9 +25,17 @@ vi.mock("$lib/stores/filters.svelte", () => {
       filtersSyncing: false,
       selectedAuthors: [],
       showSeparators: true,
-      selectedQualityBuckets: ["excellent", "good", "poor"],
+      selectedQualityBuckets: [],
       selectedPeople: [],
+      selectedMediaTypes: [],
+      showOthersSnapshots: true,
+      showAuthorSnapshots: true,
     },
+    MEDIA_TYPES: [
+      { id: "image", label: "Fotografie" },
+      { id: "panorama", label: "Panoramata" },
+      { id: "sequence", label: "Sekvence" },
+    ],
   };
 });
 
@@ -86,8 +94,11 @@ describe("initializeFiltersFromUrl", () => {
 
     // Reset states
     filters.selectedAuthors = [];
-    filters.selectedQualityBuckets = ["excellent", "good", "poor"];
+    filters.selectedQualityBuckets = [];
     filters.selectedPeople = [];
+    filters.selectedMediaTypes = [];
+    filters.showOthersSnapshots = true;
+    filters.showAuthorSnapshots = true;
     filters.showSeparators = true;
 
     ui.photoLabels = false;
@@ -223,6 +234,16 @@ describe("initializeFiltersFromUrl", () => {
     it("handles conflicting separator params (no-separators takes precedence)", () => {
       initializeFiltersFromUrl(new URL("https://example.com/?separators=true&no-separators"));
       expect(filters.showSeparators).toBe(false);
+    });
+
+    it("handles snapshot filters", () => {
+      // author snapshots hidden
+      initializeFiltersFromUrl(new URL("https://example.com/?no-author-snapshots"));
+      expect(filters.showAuthorSnapshots).toBe(false);
+
+      // others snapshots hidden
+      initializeFiltersFromUrl(new URL("https://example.com/?no-others-snapshots"));
+      expect(filters.showOthersSnapshots).toBe(false);
     });
   });
 });
