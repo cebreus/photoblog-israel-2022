@@ -174,6 +174,17 @@ flowchart LR
     EXISTS -->|Ano| MTIME
 ```
 
+### 4.1. API Consistency (Dev Mode)
+
+V development módu (`bun run dev`) běží server v dlouhodobém procesu s in-memory cache pro manifesty. API endpointy, které modifikují data na disku (např. `api/people/merge`, `api/images/collage`), musí explicitně invalidovat tuto cache.
+
+**Mechanismus:**
+
+1. API provede změnu na disku (např. `fs.writeFile`).
+2. API zavolá `await reloadManifests()` (z `$lib/utils/images`).
+3. Server znovu načte JSON soubory do paměti.
+4. UI zavolá `invalidateAll()`, což triggeruje `load` funkce, které nyní dostanou čerstvá data.
+
 ## Související dokumenty
 
 - [ARCHITECTURE.md](./ARCHITECTURE.md) — Hlavní přehled

@@ -42,6 +42,7 @@ Fotografové často potřebují kombinovat více snímků do jednoho kompozitní
 | **Drag & Drop řazení**  | Změna pořadí obrázků přetažením                        |
 | **Auto-save konceptů**  | localStorage ukládá rozpracovanou koláž                |
 | **Re-edit podpora**     | JSON sidecar pro opětovné otevření a úpravu            |
+| **Sort Inheritance**    | Nová koláž dědí řazení svých zdrojových fotek          |
 | **8K limit**            | Automatická redukce při překročení 8000px              |
 
 ## Architektura
@@ -94,7 +95,7 @@ src/lib/
 │          content/<gallery>/collage-sources/<originals>         │
 └─────────────────────────────────────────────────────────────────────┘
 
-> **Note:** When the backend moves source images into `collage-sources/`, it now updates the images manifest and performs the same cleanup steps as archiving (removing generated assets, cache entries, clustering constraints, and cleaning sub-manifests like analysis/embeddings/faces). The audit script also detects orphaned files in `collage-sources/` so the gallery can be cleaned up when needed.
+> **Note:** When the backend moves source images into `collage-sources/`, it now updates the images manifest and performs the same cleanup steps as archiving. It also **inherits the sortOrder** from the oldest source image, ensuring the collage remains in the correct chronological or manual sequence position. Finally, it calls `reloadManifests()` to valid the server cache immediately.
 
 ```
 
@@ -482,6 +483,14 @@ content/egypt-2025/
 5. Uživatel upraví (řazení, zoom, okraje, poměr stran...)
 6. Uložení **přemaže** starý `.jpg` a `.json`
 7. Zdrojové fotky zůstávají v `collage-sources/`
+
+### Důležité: Mazání vs. Archivace
+
+Pokud chcete koláž odstranit, máte dvě možnosti s různými důsledky:
+
+- **Archivace (Archive):** Bezpečné. Koláž se přesune do `archive/`. Zdrojové fotky zůstávají v `collage-sources/` a koláž lze teoreticky později obnovit (manuálním přesunem zpět).
+- **Smazání (Delete):** Destruktivní. Smaže se koláž **A TAKÉ** její zdrojové fotky z `collage-sources/`.
+  - **Varování:** Pokud smažete koláž, přijdete o originální zdrojové fotky, pokud je nemáte zálohované jinde.
 
 ## Testování
 

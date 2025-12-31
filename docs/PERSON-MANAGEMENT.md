@@ -255,7 +255,7 @@ Skript kontroluje:
 | **Odepnutí od junk osoby**             | Nová entita dědí příznak `junk: true`.                                                             |
 | **Sloučení s junk osobou**             | Pokud je zdrojová osoba junk, cílová se stane také junk.                                           |
 | **Re-clustering bez mazání manifestu** | Existující přiřazení jsou zachována, pokud nejsou v disconnects.                                   |
-| **Race conditions (rychlé klikání)**   | Systém používá zámky, ale při velmi rychlých operacích může dojít k nekonzistenci. Použijte audit. |
+| **Konzistence dat v DEV**              | **Opraveno (2025-12-31):** Všechny akce (merge, rename, unmatch) nyní automaticky reloadují cache. |
 
 ### 6.3 Bezpečnostní mechanismy
 
