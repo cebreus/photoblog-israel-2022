@@ -9,7 +9,17 @@
       "personId": "person-9b0bc40f"
     }
   ],
-  "invalidDetections": [],
+  "invalidDetections": [
+    {
+      "imageId": "2025-11-28-133626-dasa",
+      "box": {
+        "x": 3860.2277641296387,
+        "y": 1580.4055309295652,
+        "width": 71.84735870361328,
+        "height": 114.19470977783226
+      }
+    }
+  ],
   "connects": [
     {
       "imageId": "2025-11-26-182507-bobo",
