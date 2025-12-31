@@ -12571,8 +12571,8 @@
         0.07916527986526489,
         0.022347819060087204
       ],
-      "faceCount": 11,
-      "thumbnail": "faces/person-e106e434/2025-11-26-164810-bobo.jpg",
+      "faceCount": 9,
+      "thumbnail": "faces/person-e106e434/2025-11-26-134543-cebreus--zoom1from2.jpg",
       "hidden": false,
       "createdAt": "2025-12-31T07:33:54.773Z",
       "lastSeenAt": "2025-12-31T07:33:54.773Z",
@@ -14062,7 +14062,8 @@
           "lastSeen": "2025-12-31T07:33:56.529Z",
           "year": 2025
         }
-      ]
+      ],
+      "category": "statue"
     },
     {
       "id": "person-cea3aaf8",
@@ -18130,7 +18131,7 @@
         -0.028826501220464706,
         0.03498528152704239
       ],
-      "faceCount": 7,
+      "faceCount": 5,
       "thumbnail": "faces/person-a4e0e8c2/2025-11-26-134549-cebreus--zoom2from2.jpg",
       "hidden": false,
       "createdAt": "2025-12-31T07:33:44.172Z",
@@ -19081,7 +19082,8 @@
           "lastSeen": "2025-12-31T07:33:55.855Z",
           "year": 2025
         }
-      ]
+      ],
+      "category": "statue"
     },
     {
       "id": "person-79c593b4",
@@ -20441,8 +20443,8 @@
         0.012783072888851166,
         0.12361522018909454
       ],
-      "faceCount": 5,
-      "thumbnail": "faces/person-fd46756e/2025-11-26-140614-dasa.jpg",
+      "faceCount": 2,
+      "thumbnail": "faces/person-fd46756e/2025-11-24-205551-cebreus--collage.jpg",
       "hidden": false,
       "createdAt": "2025-12-31T07:33:41.720Z",
       "lastSeenAt": "2025-12-31T07:33:41.720Z",
@@ -23711,7 +23713,8 @@
           "lastSeen": "2025-12-31T07:33:56.024Z",
           "year": 2025
         }
-      ]
+      ],
+      "category": "statue"
     },
     {
       "id": "person-9c35d0a8",
@@ -24257,7 +24260,8 @@
           "lastSeen": "2025-12-31T07:33:56.529Z",
           "year": 2025
         }
-      ]
+      ],
+      "category": "statue"
     },
     {
       "id": "person-ecf332ec",
@@ -24668,7 +24672,8 @@
           "lastSeen": "2025-12-31T07:33:55.856Z",
           "year": 2025
         }
-      ]
+      ],
+      "category": "statue"
     },
     {
       "id": "person-de22d0b0",
@@ -25490,7 +25495,8 @@
           "lastSeen": "2025-12-31T07:33:50.458Z",
           "year": 2025
         }
-      ]
+      ],
+      "category": "statue"
     },
     {
       "id": "person-0a61c713",
@@ -25901,7 +25907,8 @@
           "lastSeen": "2025-12-31T07:33:55.164Z",
           "year": 2025
         }
-      ]
+      ],
+      "category": "statue"
     },
     {
       "id": "person-592046e5",
@@ -26312,7 +26319,8 @@
           "lastSeen": "2025-12-31T07:33:55.853Z",
           "year": 2025
         }
-      ]
+      ],
+      "category": "statue"
     },
     {
       "id": "person-b07ab886",
@@ -28796,7 +28804,8 @@
           "lastSeen": "2025-12-31T07:33:44.173Z",
           "year": 2025
         }
-      ]
+      ],
+      "category": "statue"
     },
     {
       "id": "person-5b35fe23",
@@ -33212,7 +33221,8 @@
           "lastSeen": "2025-12-31T07:33:50.721Z",
           "year": 2025
         }
-      ]
+      ],
+      "category": "statue"
     },
     {
       "id": "person-6c7393c4",
@@ -34592,7 +34602,8 @@
           "lastSeen": "2025-12-31T07:33:54.072Z",
           "year": 2025
         }
-      ]
+      ],
+      "category": "statue"
     },
     {
       "id": "person-d2793d77",
@@ -40126,6 +40137,90 @@
       "createdAt": "2025-12-31T08:18:36.676Z",
       "lastSeenAt": "2025-12-31T08:18:36.676Z",
       "category": "person"
+    },
+    {
+      "id": "person-065af7e2--odpojeno-od-person-50",
+      "name": "Odpojeno od Person 50",
+      "faceDescriptor": [],
+      "clusters": [],
+      "faceCount": 1,
+      "thumbnail": "faces/person-065af7e2--odpojeno-od-person-50/2025-11-26-140614-dasa.jpg",
+      "hidden": false,
+      "createdAt": "2025-12-31T09:22:17.325Z",
+      "lastSeenAt": "2025-12-31T09:22:17.325Z",
+      "category": "statue"
+    },
+    {
+      "id": "person-191caf24--odpojeno-od-person-50-2",
+      "name": "Odpojeno od Person 50 2",
+      "faceDescriptor": [],
+      "clusters": [],
+      "faceCount": 1,
+      "thumbnail": "faces/person-191caf24--odpojeno-od-person-50-2/2025-11-26-164810-bobo.jpg",
+      "hidden": false,
+      "createdAt": "2025-12-31T09:22:17.327Z",
+      "lastSeenAt": "2025-12-31T09:22:17.327Z",
+      "category": "statue"
+    },
+    {
+      "id": "person-60521dc5--odpojeno-od-person-20",
+      "name": "Odpojeno od Person 20",
+      "faceDescriptor": [],
+      "clusters": [],
+      "faceCount": 1,
+      "thumbnail": "faces/person-60521dc5--odpojeno-od-person-20/2025-11-26-081434-cebreus.jpg",
+      "hidden": false,
+      "createdAt": "2025-12-31T09:22:24.523Z",
+      "lastSeenAt": "2025-12-31T09:22:24.523Z",
+      "category": "person"
+    },
+    {
+      "id": "person-6fa36e93--odpojeno-od-person-20-2",
+      "name": "Odpojeno od Person 20 2",
+      "faceDescriptor": [],
+      "clusters": [],
+      "faceCount": 1,
+      "thumbnail": "faces/person-6fa36e93--odpojeno-od-person-20-2/2025-11-26-130603-cebreus.jpg",
+      "hidden": false,
+      "createdAt": "2025-12-31T09:22:24.525Z",
+      "lastSeenAt": "2025-12-31T09:22:24.525Z",
+      "category": "person"
+    },
+    {
+      "id": "person-bca304cf--odpojeno-od-person-16",
+      "name": "Odpojeno od Person 16",
+      "faceDescriptor": [],
+      "clusters": [],
+      "faceCount": 1,
+      "thumbnail": "faces/person-bca304cf--odpojeno-od-person-16/2025-11-26-131110-cebreus.jpg",
+      "hidden": false,
+      "createdAt": "2025-12-31T09:22:32.635Z",
+      "lastSeenAt": "2025-12-31T09:22:32.635Z",
+      "category": "statue"
+    },
+    {
+      "id": "person-4e3ae318--odpojeno-od-person-16-2",
+      "name": "Odpojeno od Person 16 2",
+      "faceDescriptor": [],
+      "clusters": [],
+      "faceCount": 1,
+      "thumbnail": "faces/person-4e3ae318--odpojeno-od-person-16-2/2025-11-26-133231-dasa.jpg",
+      "hidden": false,
+      "createdAt": "2025-12-31T09:22:32.637Z",
+      "lastSeenAt": "2025-12-31T09:22:32.637Z",
+      "category": "person"
+    },
+    {
+      "id": "person-b0503ddd--odpojeno-od-person-16-3",
+      "name": "Odpojeno od Person 16 3",
+      "faceDescriptor": [],
+      "clusters": [],
+      "faceCount": 1,
+      "thumbnail": "faces/person-b0503ddd--odpojeno-od-person-16-3/2025-11-26-140614-dasa.jpg",
+      "hidden": false,
+      "createdAt": "2025-12-31T09:22:32.638Z",
+      "lastSeenAt": "2025-12-31T09:22:32.638Z",
+      "category": "statue"
     }
   ]
 }
