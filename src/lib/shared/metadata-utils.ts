@@ -108,4 +108,13 @@ export function applyMetadataUpdates(
       imageItem.flags = Array.isArray(updates.flags) ? updates.flags : [updates.flags as string];
     }
   }
+
+  if (updates.releaseDate !== undefined) {
+    if (!imageItem.exif) imageItem.exif = {};
+    if (updates.releaseDate === null) {
+      if (imageItem.exif) delete imageItem.exif.releaseDate;
+    } else {
+      if (imageItem.exif) imageItem.exif.releaseDate = updates.releaseDate as string;
+    }
+  }
 }
