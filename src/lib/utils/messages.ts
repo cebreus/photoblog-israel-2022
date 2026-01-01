@@ -88,6 +88,7 @@ export const PERSON_MESSAGES = {
 export const IMAGE_MESSAGES = {
   // Metadata operations
   metadataCopied: (filename: string) => `Metadata zkopírována z "${filename}"`,
+  METADATA_CLIPBOARD_SUCCESS: "Info zkopírováno do schránky",
   METADATA_PASTED: "Metadata úspěšně vložena",
   METADATA_PASTE_FAILED: "Chyba při ukládání metadat",
   APPLYING_METADATA_PASTE: "Aplikuji metadata na vybrané obrázky...",

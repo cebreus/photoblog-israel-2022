@@ -3,6 +3,7 @@
   import ArrowRightLeft from "@lucide/svelte/icons/arrow-right-left";
   import Copy from "@lucide/svelte/icons/copy";
   import Trash2 from "@lucide/svelte/icons/trash-2";
+  import { toast } from "svelte-sonner";
   import { dev } from "$app/environment";
   import { useScrollspy } from "$lib/actions/scrollspy";
   import AspectRatioIcon from "$lib/components/AspectRatioIcon.svelte";
@@ -18,6 +19,8 @@
   import { cn } from "$lib/utils";
   import { isCollage } from "$lib/utils/collage-config";
   import { getSources } from "$lib/utils/images";
+  import { IMAGE_MESSAGES } from "$lib/utils/messages";
+  import { formatMetadataForClipboard } from "$lib/utils/metadata";
 
   let {
     item,
@@ -111,6 +114,16 @@
     e.stopPropagation();
     e.preventDefault();
     onDelete?.(item);
+  }
+
+  async function handleCopyToClipboard() {
+    try {
+      const text = formatMetadataForClipboard(item);
+      await navigator.clipboard.writeText(text);
+      toast.success(IMAGE_MESSAGES.METADATA_CLIPBOARD_SUCCESS);
+    } catch {
+      toast.error(IMAGE_MESSAGES.UNKNOWN_ERROR);
+    }
   }
 </script>
 
@@ -468,6 +481,15 @@
         >
           <Copy class="h-4 w-4" />
           <span>Kopírovat metadata</span>
+        </ContextMenu.Item>
+
+        <ContextMenu.Item
+          class="flex items-center gap-2"
+          onclick={handleCopyToClipboard}
+          data-testid="photo-grid-item-contextmenu-copy-to-clipboard"
+        >
+          <Copy class="h-4 w-4" />
+          <span>Kopírovat do schránky</span>
         </ContextMenu.Item>
 
         {#if metadataClipboard.sourceImage?.id !== item.id && metadataClipboard.data}
