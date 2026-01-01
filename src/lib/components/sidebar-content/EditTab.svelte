@@ -1,10 +1,10 @@
 <script lang="ts">
   import LayoutGrid from "@lucide/svelte/icons/layout-grid";
-  import { fade } from "svelte/transition";
   import { toast } from "svelte-sonner";
-  import { invalidateAll } from "$app/navigation";
-  import CollageDialog from "$lib/components/admin/CollageDialog.svelte";
+  import { fade } from "svelte/transition";
+
   import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
+  import CollageDialog from "$lib/components/admin/CollageDialog.svelte";
   import { Button } from "$lib/components/ui/button";
   import { Label } from "$lib/components/ui/label";
   import { Spinner } from "$lib/components/ui/spinner";
@@ -22,6 +22,8 @@
   } from "$lib/utils/collage-config";
   import { COLLAGE_MESSAGES, IMAGE_MESSAGES } from "$lib/utils/messages";
   import { smartToast } from "$lib/utils/toasts";
+
+  import { invalidateAll } from "$app/navigation";
 
   import GeoDataSection from "./GeoDataSection.svelte";
   import MetadataInputField from "./MetadataInputField.svelte";
@@ -42,13 +44,58 @@
     caption: "",
     keywords: "",
     snapshotType: "none" as "none" | "author" | "others",
+    releaseDate: "",
   };
+
+  /**
+   * Helper to parse UTC ISO string into Local Date and Time parts
+   */
+  function getLocalParts(iso: string) {
+    if (!iso) return { date: "", time: "" };
+    try {
+      const d = new Date(iso);
+      if (isNaN(d.getTime())) return { date: "", time: "" };
+      const pad = (n: number) => n.toString().padStart(2, "0");
+      return {
+        date: `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`,
+        time: `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`,
+      };
+    } catch {
+      return { date: "", time: "" };
+    }
+  }
+
+  /**
+   * Updates formData.releaseDate by combining local date and time parts into UTC ISO
+   */
+  function updateReleaseDateParts(type: "date" | "time", val: string) {
+    const current = getLocalParts(formData.releaseDate);
+    const newParts = { ...current, [type]: val };
+
+    if (newParts.date && newParts.time) {
+      const d = new Date(`${newParts.date}T${newParts.time}`);
+      if (!isNaN(d.getTime())) {
+        handleFieldInput("releaseDate", d.toISOString());
+      }
+    } else if (formData.releaseDate) {
+      // If one part is cleared but we had a value, what to do?
+      // Keep it as is or clear? Let's clear if date is gone.
+      if (!newParts.date) handleFieldInput("releaseDate", "");
+    }
+  }
+
+  function handleResetReleaseDate() {
+    if (!activeImage?.exif?.date) return;
+    // activeImage.exif.date is typically UTC ISO. Just copy it directly.
+    handleFieldInput("releaseDate", activeImage.exif.date);
+  }
 
   type FormData = typeof initialData;
 
   let { items = [] } = $props<{ items: DisplayItem[] }>();
 
   let formData = $state<FormData>({ ...initialData });
+  let releaseDateParts = $derived(getLocalParts(formData.releaseDate));
   let explicitClears = $state<Partial<Record<keyof FormData, boolean>>>({});
   let previousGeoValues = $state<Partial<FormData>>({});
 
@@ -93,6 +140,10 @@
     formData.countryCode = getCommon((i) => i.exif?.countryCode) ?? "";
     formData.caption = getCommon((i) => i.caption) ?? "";
     formData.keywords = getCommon((i) => i.keywords?.join(", ")) ?? "";
+
+    const commonReleaseDate = getCommon((i) => i.exif?.releaseDate || i.exif?.date);
+    // Store as is (UTC ISO) or empty
+    formData.releaseDate = commonReleaseDate || "";
 
     // Determine snapshot type from flags
     const getSnapshotType = (img: ImageEntry): "none" | "author" | "others" => {
@@ -140,6 +191,7 @@
       country: getValue("country"),
       countryCode: getValue("countryCode"),
       caption: getValue("caption"),
+      releaseDate: getValue("releaseDate"), // Already ISO string
       keywords: clears.keywords
         ? null
         : data.keywords === ""
@@ -372,6 +424,7 @@
         caption: getVal("caption"),
         keywords: fieldsToApply.keywords && data.keywords?.length ? data.keywords : undefined,
         flags: undefined,
+        releaseDate: undefined,
       };
 
       const payload = {
@@ -476,6 +529,39 @@
       handleSubmit();
     }}
   >
+    <div class="space-y-1">
+      <Label>Datum řazení</Label>
+      <div class="flex flex-col gap-1">
+        <div class="flex gap-2">
+          <input
+            type="date"
+            class="border-input placeholder:text-muted-foreground focus-visible:ring-ring flex h-9 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+            value={releaseDateParts.date}
+            oninput={(e) => updateReleaseDateParts("date", e.currentTarget.value)}
+          />
+          <input
+            type="time"
+            step="1"
+            class="border-input placeholder:text-muted-foreground focus-visible:ring-ring flex h-9 w-32 rounded-md border bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+            value={releaseDateParts.time}
+            oninput={(e) => updateReleaseDateParts("time", e.currentTarget.value)}
+          />
+        </div>
+        {#if activeImage?.exif?.date}
+          <div class="text-muted-foreground flex items-center gap-2 text-xs">
+            <span>Původní (EXIF):</span>
+            <button
+              type="button"
+              class="hover:text-foreground cursor-pointer underline"
+              onclick={handleResetReleaseDate}
+              title="Použít původní čas"
+            >
+              {new Date(activeImage.exif.date).toLocaleString()}
+            </button>
+          </div>
+        {/if}
+      </div>
+    </div>
     <MetadataInputField
       label={IMAGE_MESSAGES.LABEL_CAPTION}
       name="caption"
