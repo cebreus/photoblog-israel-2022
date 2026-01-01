@@ -37,12 +37,14 @@ export async function loadStoryData(contentRoot: string): Promise<StoryDataMap> 
           location: data.location || undefined,
           date: data.date ? new Date(data.date).toISOString().substring(0, 10) : undefined,
         };
-      } catch (e: any) {
-        logger.warn(`Could not parse story file ${file}: ${e.message}`);
+      } catch (e: unknown) {
+        const msg = e instanceof Error ? e.message : String(e);
+        logger.warn(`Could not parse story file ${file}: ${msg}`);
       }
     }
-  } catch (e: any) {
-    logger.error(`Failed to load stories: ${e.message}`);
+  } catch (e: unknown) {
+    const msg = e instanceof Error ? e.message : String(e);
+    logger.error(`Failed to load stories: ${msg}`);
   }
 
   return storyDataMap;
