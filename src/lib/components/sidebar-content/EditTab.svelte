@@ -52,7 +52,7 @@
     if (!iso) return { date: "", time: "" };
     try {
       const d = new Date(iso);
-      if (isNaN(d.getTime())) return { date: "", time: "" };
+      if (Number.isNaN(d.getTime())) return { date: "", time: "" };
       const pad = (n: number) => n.toString().padStart(2, "0");
       return {
         date: `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`,
@@ -72,7 +72,7 @@
 
     if (newParts.date && newParts.time) {
       const d = new Date(`${newParts.date}T${newParts.time}`);
-      if (!isNaN(d.getTime())) {
+      if (!Number.isNaN(d.getTime())) {
         handleFieldInput("releaseDate", d.toISOString());
       }
     } else if (formData.releaseDate) {
