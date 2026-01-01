@@ -129,6 +129,7 @@
             }
           },
         },
+        duration: 8000,
       });
     } else {
       toast.error(result.error || "Nepodařilo se uložit pořadí");

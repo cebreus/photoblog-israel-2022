@@ -1,6 +1,6 @@
 <script lang="ts">
   import { ModeWatcher } from "mode-watcher";
-  import { browser, dev } from "$app/environment";
+
   import AppSidebar from "$lib/components/AppSidebar.svelte";
   import Footer from "$lib/components/Footer.svelte";
   import Header from "$lib/components/Header.svelte";
@@ -17,6 +17,8 @@
     PhotoDay,
     SiteManifest,
   } from "$lib/types/manifest";
+
+  import { browser, dev } from "$app/environment";
 
   import faviconHtml from "../../.temp/favicons.html?raw";
   import "../app.css";
@@ -109,4 +111,4 @@
   />
 </Sidebar.Provider>
 
-<Toaster position="top-right" />
+<Toaster position="top-right" richColors closeButton />
