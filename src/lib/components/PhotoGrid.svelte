@@ -1,6 +1,6 @@
 <script lang="ts">
   import { toast } from "svelte-sonner";
-  import { invalidateAll } from "$app/navigation";
+
   import { useScrollspy } from "$lib/actions/scrollspy";
   import ArchiveImageDialog from "$lib/components/ArchiveImageDialog.svelte";
   import CurationGroupView from "$lib/components/CurationGroup.svelte";
@@ -22,6 +22,8 @@
   import { findIndexById, getRange } from "$lib/utils/selection";
   import { toSlug } from "$lib/utils/strings";
   import { smartToast } from "$lib/utils/toasts";
+
+  import { invalidateAll } from "$app/navigation";
 
   const logger = createLogger("PhotoGrid");
 
@@ -554,10 +556,15 @@
       {@const separatorId = item.id}
       {#if item.story}
         <!-- Wrapper div for ScrollSpy - must be always visible in DOM for proper detection -->
-        <div id={separatorId} use:useScrollspy={{ id: separatorId }} class="contents">
+        <div
+          id={separatorId}
+          use:useScrollspy={{ id: separatorId }}
+          class="contents"
+          class:col-span-full={editor.editMode}
+        >
           <Dialog.Root>
             <Dialog.Trigger
-              class="outline-background flex aspect-video flex-col items-center justify-center overflow-hidden rounded-lg bg-linear-to-br from-slate-100 to-slate-300 p-4 outline-4 outline-offset-2 transition-[outline-color] duration-500 ease-in-out hover:outline-orange-100 dark:from-slate-700 dark:to-slate-800"
+              class={`outline-background flex flex-col items-center justify-center overflow-hidden rounded-lg bg-linear-to-br from-slate-100 to-slate-300 p-4 outline-4 outline-offset-2 transition-[outline-color] duration-500 ease-in-out hover:outline-orange-100 dark:from-slate-700 dark:to-slate-800 ${editor.editMode ? "col-span-full py-12" : "aspect-video"}`}
               data-testid="photo-grid-separator-trigger-{separatorId}"
             >
               <h3 class="text-lg" data-testid="photo-grid-separator-location">
@@ -581,7 +588,7 @@
             </Dialog.Trigger>
             <Dialog.Content>
               <Dialog.Header>
-                <Dialog.Title>{item.location}</Dialog.Title>
+                <Dialog.Title>{item.storyTitle || item.location}</Dialog.Title>
                 {#if item.city}
                   <Dialog.Description>{item.city}</Dialog.Description>
                 {/if}
@@ -597,7 +604,10 @@
         </div>
       {:else}
         <div
-          class="flex aspect-video flex-col items-center justify-center overflow-hidden rounded-lg bg-linear-to-br from-slate-100 to-slate-300 p-4 text-center dark:from-slate-700 dark:to-slate-800"
+          class="flex flex-col items-center justify-center overflow-hidden rounded-lg bg-linear-to-br from-slate-100 to-slate-300 p-4 text-center dark:from-slate-700 dark:to-slate-800"
+          class:col-span-full={editor.editMode}
+          class:aspect-video={!editor.editMode}
+          class:py-12={editor.editMode}
           id={separatorId}
           use:useScrollspy={{ id: separatorId }}
           data-testid="photo-grid-separator-simple-{separatorId}"
