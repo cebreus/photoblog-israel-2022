@@ -164,68 +164,51 @@ function calculateReleaseDates(
 ): Record<string, string> {
   const result: Record<string, string> = {};
 
-  // Build map of current positions and releaseDates
-  const currentOrder = currentItems.map((item) => item.id);
-  const releaseDateMap = new Map<string, string>();
+  // STRATEGY: Time Slot Swapping (Rank-Order Preservation)
+  // Instead of interpolating new times (which can shift boundaries), we collect
+  // all existing timestamps from the affected images, sort them, and re-assign
+  // them to the images in their new order.
+  //
+  // This guarantees:
+  // 1. The Day Start (Min Time) is preserved.
+  // 2. The Day End (Max Time) is preserved.
+  // 3. Any internal gaps (e.g. travel time between locations) are preserved as "slots".
+  // 4. No timestamps ever drift outside the original range.
+
+  // 1. Filter relevant items (only those involved in reordering)
+  const relevantItemsMap = new Map<string, ImageEntry>();
+  const timestamps: number[] = [];
 
   for (const item of currentItems) {
-    const releaseDate = item.exif?.releaseDate || item.exif?.date;
-    if (releaseDate) {
-      releaseDateMap.set(item.id, releaseDate);
-    }
-  }
-
-  // CRITICAL: Never modify first or last image timestamps in ORIGINAL order
-  // They define the separator time range (e.g., "Pyramids, 08:00 - 12:00")
-  const originalFirstImageId = currentOrder[0];
-  const originalLastImageId = currentOrder[currentOrder.length - 1];
-
-  // Find images that changed position
-  for (let newIndex = 0; newIndex < imageIds.length; newIndex++) {
-    const imageId = imageIds[newIndex];
-    const oldIndex = currentOrder.indexOf(imageId);
-
-    // Skip if image didn't move
-    if (oldIndex === newIndex) continue;
-
-    // PROTECTION: Never change ORIGINAL first or last image
-    if (imageId === originalFirstImageId || imageId === originalLastImageId) {
-      continue;
-    }
-
-    // Get neighbors in the NEW order
-    const previousImageId = newIndex > 0 ? imageIds[newIndex - 1] : null;
-    const nextImageId = newIndex < imageIds.length - 1 ? imageIds[newIndex + 1] : null;
-
-    if (previousImageId && nextImageId) {
-      // Insertion between two images: interpolate (average their times)
-      const prevTime = releaseDateMap.get(previousImageId);
-      const nextTime = releaseDateMap.get(nextImageId);
-
-      if (prevTime && nextTime) {
-        const prevMs = new Date(prevTime).getTime();
-        const nextMs = new Date(nextTime).getTime();
-        const avgMs = Math.floor((prevMs + nextMs) / 2);
-        result[imageId] = new Date(avgMs).toISOString();
-      }
-    } else if (nextImageId) {
-      // Move near beginning: use 1 minute offset
-      const nextTime = releaseDateMap.get(nextImageId);
-      if (nextTime) {
-        const nextDate = new Date(nextTime);
-        nextDate.setMinutes(nextDate.getMinutes() - 1);
-        result[imageId] = nextDate.toISOString();
-      }
-    } else if (previousImageId) {
-      // Move near end: use 1 minute offset
-      const prevTime = releaseDateMap.get(previousImageId);
-      if (prevTime) {
-        const prevDate = new Date(prevTime);
-        prevDate.setMinutes(prevDate.getMinutes() + 1);
-        result[imageId] = prevDate.toISOString();
+    if (imageIds.includes(item.id)) {
+      relevantItemsMap.set(item.id, item);
+      const timeStr = item.exif?.releaseDate || item.exif?.date;
+      if (timeStr) {
+        timestamps.push(new Date(timeStr).getTime());
       }
     }
   }
+
+  // 2. Sort available timestamps to create ordered "slots"
+  timestamps.sort((a, b) => a - b);
+
+  // 3. Assign sorted timestamps to the new image order
+  imageIds.forEach((id, index) => {
+    // Safety check: ensure we have a slot for this image
+    if (index < timestamps.length) {
+      const newTimeMs = timestamps[index];
+      const newTimeStr = new Date(newTimeMs).toISOString();
+
+      const item = relevantItemsMap.get(id);
+      const oldTimeStr = item?.exif?.releaseDate || item?.exif?.date;
+
+      // Only update if time actually changed (avoids unnecessary writes)
+      // We compare ISO strings to handle potential millisecond differences cleanly
+      if (item && new Date(oldTimeStr || "").getTime() !== newTimeMs) {
+        result[id] = newTimeStr;
+      }
+    }
+  });
 
   return result;
 }
