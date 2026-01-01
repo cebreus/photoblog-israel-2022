@@ -33,7 +33,7 @@
 
   {#if dev}
     <Button
-      variant={editor.showMetadataOverlay ? "secondary" : "ghost"}
+      variant={editor.showMetadataOverlay ? "default" : "ghost"}
       size="icon"
       onclick={() => editor.setShowMetadataOverlay(!editor.showMetadataOverlay)}
       aria-label="Zobrazit/skrýt popisky fotek"
@@ -44,7 +44,7 @@
 
     {#if editor.editMode}
       <Button
-        variant={editor.reorderMode ? "secondary" : "ghost"}
+        variant={editor.reorderMode ? "default" : "ghost"}
         size="icon"
         onclick={() => editor.toggleReorderMode()}
         aria-label={editor.reorderMode ? "Vypnout přeřazování" : "Zapnout přeřazování fotek"}
@@ -58,7 +58,7 @@
     {/if}
 
     <Button
-      variant={ui.curationMode ? "secondary" : "ghost"}
+      variant={ui.curationMode ? "default" : "ghost"}
       size="icon"
       onclick={() => ui.setCurationMode(!ui.curationMode)}
       aria-label="Režim kurátora"
@@ -68,7 +68,7 @@
     </Button>
 
     <Button
-      variant={ui.debugMode ? "secondary" : "ghost"}
+      variant={ui.debugMode ? "default" : "ghost"}
       size="icon"
       onclick={() => ui.setDebugMode(!ui.debugMode)}
       aria-label="Přepnout režim ladění"
