@@ -178,6 +178,9 @@ export type Separator = {
     storyTitle?: string;
     story?: string;
     id: string;
+    startDate?: string;
+    endDate?: string;
+    hasPhotos?: boolean;
 };
 
 export type PhotoDayItem = ImageEntry | Separator;
@@ -213,6 +216,8 @@ export type MenuLocation = {
     isActive?: boolean;
     isDimmed?: boolean;
     firstPhotoExifDate?: string;
+    startDate?: string;
+    endDate?: string;
 };
 
 export type MenuDay = {
@@ -250,6 +255,9 @@ export type StoryData = {
     content: string;
     location?: string;
     date?: string;
+    startDate?: string;
+    endDate?: string;
+    visits?: Array<{ startDate?: string; endDate?: string }>;
 };
 
 export type StoryDataMap = Record<string, StoryData>;

@@ -11,7 +11,7 @@
  */
 
 import { describe, expect, it } from "vitest";
-import type { Manifest, StoryDataMap } from "$lib/types/manifest";
+import type { Manifest, Separator, StoryDataMap } from "$shared/types/manifest";
 import type { ProcessedImageResult } from "../../../../scripts/lib/image/processor";
 import { updateManifest } from "../../../../scripts/lib/manifests/builder";
 
@@ -191,5 +191,56 @@ describe("manifest-builder: updateManifest", () => {
     expect(day2).toBeDefined();
     expect(day2?.cities).toEqual(["Nazareth"]);
     expect(day2?.story).toBeUndefined(); // No story for this day
+  });
+
+  it("creates multiple separators for a location with multiple visits", () => {
+    const storyData: StoryDataMap = {
+      Hotel: {
+        title: "The Hotel",
+        content: "Our base",
+        location: "Hotel",
+        visits: [
+          { startDate: "2025-11-25T08:00:00", endDate: "2025-11-25T09:00:00" },
+          { startDate: "2025-11-25T18:00:00", endDate: "2025-11-25T20:00:00" },
+        ],
+      },
+    };
+
+    const existingManifest: Manifest = { photoDays: [] };
+    const manifest = updateManifest([], [], storyData, existingManifest);
+
+    const day = manifest.photoDays.find((d) => d.date === "2025-11-25");
+    expect(day).toBeDefined();
+    if (!day) return;
+
+    const separators = day.items.filter(
+      (item) => item.type === "separator" && item.location === "Hotel",
+    ) as Separator[];
+
+    expect(separators.length).toBe(2);
+    expect(separators[0].id).toBe("loc-hotel-0800");
+    expect(separators[1].id).toBe("loc-hotel-1800");
+  });
+
+  it("handles markdown dates correctly during sorting", () => {
+    // loadStoryData normalizes all dates to strings, so Date objects
+    // should never reach the builder. This test verifies the string path works.
+    const storyData: StoryDataMap = {
+      "Old Tomb": {
+        title: "Old Tomb",
+        content: "Historic site",
+        location: "Old Tomb",
+        startDate: "2025-11-25T10:00:00",
+      },
+    };
+
+    const existingManifest: Manifest = { photoDays: [] };
+    // updateManifest calls organizeDayItems -> allItems.sort(compareItemsByTimestamp)
+    const manifest = updateManifest([], [], storyData, existingManifest);
+
+    const day = manifest.photoDays.find((d) => d.date === "2025-11-25");
+    expect(day).toBeDefined();
+    expect(day?.items.length).toBe(1);
+    expect(day?.items[0].type).toBe("separator");
   });
 });

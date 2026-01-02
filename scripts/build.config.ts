@@ -109,6 +109,33 @@ export const config = {
     cropFaceZoom: 1.4, // 1.0 = Max area, > 1.0 = Zoomed in on faces
   },
 
+  /**
+   * Separator & Menu Configuration
+   *
+   * Separators are visual dividers in the photo grid that group photos by location.
+   * They can be created automatically (from EXIF location data) or manually (from markdown).
+   */
+  separator: {
+    /**
+     * Minimum number of photos required to auto-generate a separator for a location.
+     * Locations with fewer photos will NOT get an automatic separator.
+     * Set to 3 to avoid cluttering the UI with single-photo locations.
+     *
+     * NOTE: Markdown-defined separators are ALWAYS created regardless of photo count.
+     * This threshold only affects AUTO-GENERATED separators.
+     */
+    minPhotosForAutoSeparator: 3,
+
+    /**
+     * Minimum number of photos required for a separator to be DISPLAYED in the photo grid.
+     * Separators with fewer photos are hidden (orphan separators).
+     *
+     * This applies to BOTH markdown-defined and auto-generated separators.
+     * A separator may exist in the manifest but not be rendered if it has too few photos.
+     */
+    minPhotosForDisplay: 3,
+  },
+
   blur: {
     enable: false,
     only: false,

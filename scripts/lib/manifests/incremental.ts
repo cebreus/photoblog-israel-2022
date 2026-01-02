@@ -44,6 +44,61 @@ async function fileExists(file: string) {
   }
 }
 
+/**
+ * Validates story data from markdown and logs warnings for common issues.
+ * This helps catch configuration problems early during build.
+ */
+function validateStoryData(
+  story: {
+    location?: string;
+    startDate?: string;
+    endDate?: string;
+    visits?: Array<{ startDate?: string; endDate?: string }>;
+  },
+  filename: string,
+): void {
+  const warnings: string[] = [];
+
+  // Only validate location-based stories (not day stories)
+  if (!story.location) return;
+
+  // Check if any dates are defined
+  const hasRootDates = story.startDate || story.endDate;
+  const hasVisits = story.visits && story.visits.length > 0;
+
+  if (!hasRootDates && !hasVisits) {
+    warnings.push("No dates defined (startDate, endDate, or visits required for separators)");
+  }
+
+  // Validate root date range
+  if (story.startDate && story.endDate && story.startDate > story.endDate) {
+    warnings.push(`startDate > endDate: ${story.startDate} > ${story.endDate}`);
+  }
+
+  // Validate visits
+  if (story.visits) {
+    for (let i = 0; i < story.visits.length; i++) {
+      const visit = story.visits[i];
+      if (!visit.startDate && !visit.endDate) {
+        warnings.push(`Visit #${i + 1} has no dates`);
+      }
+      if (visit.startDate && visit.endDate && visit.startDate > visit.endDate) {
+        warnings.push(
+          `Visit #${i + 1}: startDate > endDate: ${visit.startDate} > ${visit.endDate}`,
+        );
+      }
+    }
+  }
+
+  // Log warnings
+  if (warnings.length > 0) {
+    console.warn(`⚠️  Markdown validation issues in "${filename}.md":`);
+    for (const w of warnings) {
+      console.warn(`   - ${w}`);
+    }
+  }
+}
+
 export async function loadStoryData(contentRoot: string): Promise<StoryDataMap> {
   const storyFiles: string[] = [];
 
@@ -56,16 +111,49 @@ export async function loadStoryData(contentRoot: string): Promise<StoryDataMap> 
       const { data, content } = matter(fileContent);
       const storyBody = (data.content || content).trim();
       const filename = path.basename(file, ".md");
-      const locationKey =
-        data.location ||
-        (data.date ? new Date(data.date).toISOString().substring(0, 10) : filename);
 
-      storyDataMap[locationKey] = {
+      // Normalize date fields to ISO strings if they are Date objects (gray-matter might parse them)
+      function toISO(val: any): string | undefined {
+        if (!val) return undefined;
+        if (val instanceof Date) {
+          // Preserve "wall clock" time by using UTC getters.
+          // YAML parsers (js-yaml) usually treat untagged ISO dates as UTC.
+          const pad = (n: number) => n.toString().padStart(2, "0");
+          return `${val.getUTCFullYear()}-${pad(val.getUTCMonth() + 1)}-${pad(val.getUTCDate())}T${pad(val.getUTCHours())}:${pad(val.getUTCMinutes())}:${pad(val.getUTCSeconds())}`;
+        }
+        if (typeof val === "string") return val;
+        return String(val);
+      }
+
+      // Determine startDate: priority is data.startDate > data.date
+      const startDateRaw = data.startDate || data.date;
+      const startDate = toISO(startDateRaw);
+      const endDate = toISO(data.endDate);
+
+      const visits = Array.isArray(data.visits)
+        ? data.visits.map((v: any) => ({
+            startDate: toISO(v.startDate),
+            endDate: toISO(v.endDate),
+          }))
+        : undefined;
+
+      // Location key: use location field, or derive from date if present
+      const locationKey = data.location || (startDate ? startDate.substring(0, 10) : filename);
+
+      const storyData = {
         title: data.title || "",
         content: storyBody,
         location: data.location || undefined,
-        date: data.date ? new Date(data.date).toISOString().substring(0, 10) : undefined,
+        date: data.date ? toISO(data.date)?.substring(0, 10) : undefined,
+        startDate: startDate || undefined,
+        endDate: endDate || undefined,
+        visits,
       };
+
+      // Validate story data and warn about issues
+      validateStoryData(storyData, filename);
+
+      storyDataMap[locationKey] = storyData;
     } catch (e: any) {
       logger.warn(`Could not parse story file ${file}: ${e.message}`);
     }
@@ -422,7 +510,7 @@ async function updateCacheAndManifests({
   if (shouldWriteSiteManifests) {
     savePromises.push(saveImagesManifest(path.dirname(paths.manifestPath), finalManifest));
 
-    const menuManifest = generateMenuManifest(finalManifest);
+    const menuManifest = generateMenuManifest(finalManifest, storyData);
     savePromises.push(saveManifest(paths.menuManifestPath, menuManifest));
 
     const siteManifest = await generateSiteManifest();
