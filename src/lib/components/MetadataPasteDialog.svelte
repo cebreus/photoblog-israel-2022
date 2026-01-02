@@ -300,7 +300,7 @@
                       <div class="flex min-w-0 flex-1 flex-col">
                         <span class="font-medium">{row.label}</span>
                         <span
-                          class="w-full truncate font-mono text-xs text-blue-600 dark:text-blue-400"
+                          class="w-40 truncate font-mono text-xs text-blue-600 dark:text-blue-400"
                           title={row.sourceVal}
                         >
                           {row.sourceVal}
@@ -328,7 +328,7 @@
                           {cell.originalVal}
                         </div>
                         <div
-                          class="-ml-1.5 flex w-fit max-w-full items-center gap-1.5 rounded bg-emerald-50 px-1.5 py-1 font-semibold text-emerald-600 dark:bg-emerald-950/30 dark:text-emerald-400"
+                          class="-ml-1.5 flex w-fit max-w-48 items-center gap-1.5 rounded bg-emerald-50 px-1.5 py-1 font-semibold text-emerald-600 dark:bg-emerald-950/30 dark:text-emerald-400"
                           title="Nová hodnota"
                         >
                           <span>→</span>

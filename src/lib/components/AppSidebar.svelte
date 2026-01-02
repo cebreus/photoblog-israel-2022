@@ -134,12 +134,16 @@
       </Sidebar.Content>
     </Tabs.Content>
     <Tabs.Content value="filters" class="mt-0 flex h-full flex-col overflow-hidden">
-      <FiltersTab {authors} {qualityStats} />
+      <Sidebar.Content>
+        <FiltersTab {authors} {qualityStats} />
+      </Sidebar.Content>
     </Tabs.Content>
     <Tabs.Content value="people" class="mt-0 flex h-full flex-col overflow-hidden">
-      <Sidebar.Content>
-        <PeopleTab />
-      </Sidebar.Content>
+      {#if ui.activeTab === "people"}
+        <Sidebar.Content>
+          <PeopleTab />
+        </Sidebar.Content>
+      {/if}
     </Tabs.Content>
     {#if dev}
       <Tabs.Content value="edit" class="mt-0 flex h-full flex-col overflow-hidden">
