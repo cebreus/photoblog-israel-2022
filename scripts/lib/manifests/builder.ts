@@ -141,6 +141,10 @@ function isImage(item: ImageEntry | Separator): item is ImageEntry {
   );
 }
 
+function getImageDate(image: ImageEntry): string | undefined {
+  return (image.exif?.releaseDate ?? image.exif?.date)?.substring(0, 10);
+}
+
 function compareByExifDate(a: ImageEntry, b: ImageEntry): number {
   // Priority: exif.releaseDate > exif.date (DateTimeOriginal)
   const dateA = a.exif?.releaseDate ?? a.exif?.date ?? "";
@@ -285,7 +289,7 @@ export function updateManifest(
   // 1. Group new results by date
   for (const result of results) {
     if (!result) continue;
-    const date = result.image.exif?.date?.substring(0, 10);
+    const date = getImageDate(result.image);
     if (!date) continue;
     if (!resultsByDate[date]) resultsByDate[date] = [];
     resultsByDate[date].push(result);
@@ -333,6 +337,40 @@ export function updateManifest(
       }
     }
   }
+
+  // 4. Force sequence members into the same day as their representative
+  // This handles cases where sequence members might have dates crossing midnight
+  for (const image of allImages) {
+    if (image.sequenceInfo && image.type === "sequence-member") {
+      const repId = image.sequenceInfo.members?.find((mId) => {
+        const m = imageMap.get(mId);
+        return m?.type === "sequence";
+      });
+
+      if (repId) {
+        const representative = imageMap.get(repId);
+        const repDayDate = representative ? getImageDate(representative) : null;
+        const currentDayDate = getImageDate(image);
+
+        if (repDayDate && currentDayDate && repDayDate !== currentDayDate) {
+          // Move image to representative's day in the manifest
+          // 1. Remove from current day
+          for (const day of manifest.photoDays) {
+            day.items = day.items.filter((item) => item.id !== image.id);
+          }
+          // 2. Add to representative's day
+          let targetDay = findDayByDate(manifest.photoDays, repDayDate);
+          if (!targetDay) {
+            targetDay = { date: repDayDate, items: [], id: `day-${repDayDate}` };
+            manifest.photoDays.push(targetDay);
+          }
+          targetDay.items.push(image);
+        }
+      }
+    }
+  }
+
+  manifest.photoDays = manifest.photoDays.filter(hasItems);
 
   manifest.photoDays = manifest.photoDays.map((day) => organizeDayItems(day, storyData));
   manifest.photoDays.sort(compareByDate);
