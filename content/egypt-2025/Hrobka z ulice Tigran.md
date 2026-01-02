@@ -1,7 +1,7 @@
 ---
 location: Hrobka z ulice Tigran
 startDate: 2025-11-25T09:16:00
-endDate: 2025-11-25T09:25:00
+endDate: 2025-11-25T09:35:00
 content: |-
   Tato hrobka byla objevena v obvodu východní nekropole města a nacházela se v ulici Tigran Paši (nyní Port Said) na východě města. Odtud také pochází její název, protože ve skutečnosti neznáme jméno ani jména jejích původních majitelů.
 
