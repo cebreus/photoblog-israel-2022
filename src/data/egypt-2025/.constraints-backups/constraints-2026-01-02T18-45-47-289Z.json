@@ -123,6 +123,34 @@
     {
       "imageId": "2025-11-26-090727-cebreus",
       "personId": "person-f4999137"
+    },
+    {
+      "imageId": "2025-11-26-095523-cebreus",
+      "personId": "person-27636fc8--odpojeno-od-person-43-2"
+    },
+    {
+      "imageId": "2025-11-26-161403-dasa",
+      "personId": "person-9b0bc40f"
+    },
+    {
+      "imageId": "2025-11-24-205551-cebreus--collage",
+      "personId": "person-9b0bc40f"
+    },
+    {
+      "imageId": "2025-11-26-095523-cebreus",
+      "personId": "person-9b0bc40f"
+    },
+    {
+      "imageId": "2025-11-26-130159-cebreus",
+      "personId": "person-9b0bc40f"
+    },
+    {
+      "imageId": "2025-11-26-090727-cebreus",
+      "personId": "person-9b0bc40f"
+    },
+    {
+      "imageId": "2025-11-26-135431-cebreus",
+      "personId": "person-9b0bc40f"
     }
   ],
   "invalidDetections": [
@@ -413,6 +441,33 @@
         "width": 64.54193115234375,
         "height": 75.93025588989246
       }
+    },
+    {
+      "imageId": "2025-11-26-100545-cebreus",
+      "box": {
+        "x": 2398.2057037353516,
+        "y": 1947.5703163146968,
+        "width": 75.90742492675781,
+        "height": 117.45376968383789
+      }
+    },
+    {
+      "imageId": "2025-11-26-125334-cebreus",
+      "box": {
+        "x": 2319.4287872314453,
+        "y": 2331.1009368896484,
+        "width": 314.1646270751953,
+        "height": 604.2644577026367
+      }
+    },
+    {
+      "imageId": "2025-11-28-133635-dasa",
+      "box": {
+        "x": 513.6461151206428,
+        "y": 1491.7712950706482,
+        "width": 44.157453109657816,
+        "height": 63.35101938247681
+      }
     }
   ],
   "connects": [
@@ -539,6 +594,26 @@
     {
       "imageId": "2025-11-24-201212-cebreus",
       "personId": "person-9b0bc40f"
+    },
+    {
+      "imageId": "2025-11-26-095523-cebreus",
+      "personId": "person-673bff6b--odpojeno-od-person-43-2-2"
+    },
+    {
+      "imageId": "2025-11-26-095523-cebreus",
+      "personId": "person-6af04704--odpojeno-od-person-56-3"
+    },
+    {
+      "imageId": "2025-11-26-130159-cebreus",
+      "personId": "person-503c7162--odpojeno-od-person-56-4"
+    },
+    {
+      "imageId": "2025-11-26-090727-cebreus",
+      "personId": "person-1246ccd2--odpojeno-od-person-56-5"
+    },
+    {
+      "imageId": "2025-11-26-135431-cebreus",
+      "personId": "person-44540c09--odpojeno-od-person-56-6"
     }
   ]
 }
