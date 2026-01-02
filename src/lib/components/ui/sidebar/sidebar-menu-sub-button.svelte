@@ -64,7 +64,7 @@
       <Badge
         variant="outline"
         class={cn(
-          "text-sidebar-foreground/50",
+          "text-sidebar-foreground/50 tabular-nums",
           isScrollspyActive && "border-orange-300/50 text-orange-300",
         )}
       >
