@@ -229,7 +229,7 @@ export async function POST({ request }: RequestEvent): Promise<Response> {
 
       // C. Save manifests
       await saveImagesManifest(dataPath, updatedManifest);
-      const menuManifest = generateMenuManifest(updatedManifest);
+      const menuManifest = generateMenuManifest(updatedManifest, storyData);
       await saveMenuManifest(dataPath, menuManifest);
 
       // D. Update auxiliary manifests for the new collage

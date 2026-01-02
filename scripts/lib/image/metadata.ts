@@ -77,6 +77,10 @@ export function getKeywordsList(exifTags: Record<string, unknown>): string[] | u
 
 function getDateValue(exifTags: Record<string, unknown>, key: string): Date | string | undefined {
   const val = exifTags[key];
+  // Prefer raw string value to avoid any timezone conversions
+  if (val && typeof val === "object" && "rawValue" in val) {
+    return (val as { rawValue: string }).rawValue;
+  }
   if (typeof val === "object" && val !== null && "toDate" in val) {
     return (val as { toDate: () => Date }).toDate();
   }
@@ -228,11 +232,32 @@ function getCanonicalAuthor(exif: Partial<RawExifData>): string | undefined {
   return normalizeText(authorRaw);
 }
 
+function toWallClockISO(d: Date | string): string {
+  if (typeof d === "string") {
+    // Handle EXIF format "YYYY:MM:DD HH:MM:SS"
+    if (d.match(/^\d{4}:\d{2}:\d{2} \d{2}:\d{2}:\d{2}/)) {
+      const [datePart, timePart] = d.split(" ");
+      const isoDate = datePart.replace(/:/g, "-");
+      // preserve time exactly as is
+      return `${isoDate}T${timePart}`;
+    }
+    // Try to parse standard string but keep wall clock logic if it parses to Date
+    const dateObj = new Date(d);
+    if (!Number.isNaN(dateObj.getTime())) {
+      return toWallClockISO(dateObj);
+    }
+    return d; // Return as is if we can't parse
+  }
+
+  const pad = (n: number) => n.toString().padStart(2, "0");
+  const pad3 = (n: number) => n.toString().padStart(3, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}.${pad3(d.getMilliseconds())}`;
+}
+
 function getIsoDate(exif: Partial<RawExifData>): string | undefined {
   try {
     const d = exif.DateTimeOriginal || exif.CreateDate;
-    if (d instanceof Date) return d.toISOString();
-    if (typeof d === "string") return new Date(d).toISOString();
+    if (d) return toWallClockISO(d);
   } catch {}
   return undefined;
 }
@@ -241,8 +266,7 @@ function getReleaseDate(exif: Partial<RawExifData>): string | undefined {
   try {
     // Priority: ReleaseDate > DateTimeOriginal > CreateDate
     const d = exif.ReleaseDate || exif.DateTimeOriginal || exif.CreateDate;
-    if (d instanceof Date) return d.toISOString();
-    if (typeof d === "string") return new Date(d).toISOString();
+    if (d) return toWallClockISO(d);
   } catch {}
   return undefined;
 }

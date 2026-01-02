@@ -1,7 +1,6 @@
 <script lang="ts">
   import { toast } from "svelte-sonner";
-  import { invalidateAll } from "$app/navigation";
-  import { page } from "$app/state";
+
   import { useScrollspy } from "$lib/actions/scrollspy";
   import ArchiveImageDialog from "$lib/components/ArchiveImageDialog.svelte";
   import CurationGroupView from "$lib/components/CurationGroup.svelte";
@@ -29,6 +28,9 @@
   import { findIndexById, getRange } from "$lib/utils/selection";
   import { toSlug } from "$lib/utils/strings";
   import { smartToast } from "$lib/utils/toasts";
+
+  import { invalidateAll } from "$app/navigation";
+  import { page } from "$app/state";
 
   const logger = createLogger("PhotoGrid");
 
@@ -603,86 +605,91 @@
           />
         </div>
       {:else}
-        <PhotoGridItem
-          {item}
-          scrollspyId={imageLocationMap.get(item.id)}
-          isAnchor={imageAnchorsMap.get(item.id)}
-          curationGroup={curationMap.get(item.id)}
-          onDelete={openDeleteDialog}
-          onArchive={handleArchive}
-          onCopyMetadata={handleCopyMetadata}
-          onPasteMetadata={handlePasteMetadata}
-          onSelect={handleSelect}
-          onOpenCurationDialog={handleOpenCurationDialog}
-        />
+        <div class="relative">
+          <PhotoGridItem
+            {item}
+            scrollspyId={imageLocationMap.get(item.id)}
+            isAnchor={imageAnchorsMap.get(item.id)}
+            curationGroup={curationMap.get(item.id)}
+            onDelete={openDeleteDialog}
+            onArchive={handleArchive}
+            onCopyMetadata={handleCopyMetadata}
+            onPasteMetadata={handlePasteMetadata}
+            onSelect={handleSelect}
+            onOpenCurationDialog={handleOpenCurationDialog}
+          />
+        </div>
       {/if}
     {:else if item.type === "separator" && item.location}
-      {@const separatorId = item.id}
-      {#if item.story}
-        <!-- Wrapper div for ScrollSpy - must be always visible in DOM for proper detection -->
-        <div
-          id={separatorId}
-          use:useScrollspy={{ id: separatorId }}
-          class="contents"
-          class:col-span-full={editor.editMode}
-        >
-          <Dialog.Root>
-            <Dialog.Trigger
-              class={`outline-background flex flex-col items-center justify-center overflow-hidden rounded-lg bg-linear-to-br from-slate-100 to-slate-300 p-4 outline-4 outline-offset-2 transition-[outline-color] duration-500 ease-in-out hover:outline-orange-100 dark:from-slate-700 dark:to-slate-800 ${editor.editMode ? "col-span-full py-12" : "aspect-video"}`}
-              data-testid="photo-grid-separator-trigger-{separatorId}"
-            >
-              <h3 class="text-lg" data-testid="photo-grid-separator-location">
-                {item.location}
-              </h3>
-              {#if item.city}
-                <p class="text-muted-foreground text-sm" data-testid="photo-grid-separator-city">
-                  {item.city}
-                </p>
-              {/if}
-              <span
-                class={buttonVariants({
-                  size: "sm",
-                  variant: "link",
-                  class: "mt-2 text-sm",
-                })}
-                data-testid="photo-grid-separator-show-story"
+      <!-- Only render non-orphan separators (those with photos) -->
+      {#if item.hasPhotos}
+        {@const separatorId = item.id}
+        {#if item.story}
+          <!-- Wrapper div for ScrollSpy - must be always visible in DOM for proper detection -->
+          <div
+            id={separatorId}
+            use:useScrollspy={{ id: separatorId }}
+            class="contents"
+            class:col-span-full={editor.editMode}
+          >
+            <Dialog.Root>
+              <Dialog.Trigger
+                class={`outline-background relative flex flex-col items-center justify-center overflow-hidden rounded-lg bg-linear-to-br from-slate-100 to-slate-300 p-4 outline-4 outline-offset-2 transition-[outline-color] duration-500 ease-in-out hover:outline-orange-100 dark:from-slate-700 dark:to-slate-800 ${editor.editMode ? "col-span-full py-12" : "aspect-video"}`}
+                data-testid="photo-grid-separator-trigger-{separatorId}"
               >
-                Zobrazit příběh
-              </span>
-            </Dialog.Trigger>
-            <Dialog.Content>
-              <Dialog.Header>
-                <Dialog.Title>{item.storyTitle || item.location}</Dialog.Title>
+                <h3 class="text-lg" data-testid="photo-grid-separator-location">
+                  {item.location}
+                </h3>
                 {#if item.city}
-                  <Dialog.Description>{item.city}</Dialog.Description>
+                  <p class="text-muted-foreground text-sm" data-testid="photo-grid-separator-city">
+                    {item.city}
+                  </p>
                 {/if}
-              </Dialog.Header>
-              <div
-                class="prose prose-sm dark:prose-invert mt-4 max-h-[80vh] max-w-none overflow-y-auto pr-4"
-                data-testid="photo-grid-separator-story-{separatorId}"
-              >
-                {@html item.story}
-              </div>
-            </Dialog.Content>
-          </Dialog.Root>
-        </div>
-      {:else}
-        <div
-          class="flex flex-col items-center justify-center overflow-hidden rounded-lg bg-linear-to-br from-slate-100 to-slate-300 p-4 text-center dark:from-slate-700 dark:to-slate-800"
-          class:col-span-full={editor.editMode}
-          class:aspect-video={!editor.editMode}
-          class:py-12={editor.editMode}
-          id={separatorId}
-          use:useScrollspy={{ id: separatorId }}
-          data-testid="photo-grid-separator-simple-{separatorId}"
-        >
-          <h3 class="text-lg" data-testid="photo-grid-separator-location">
-            {item.location}
-          </h3>
-          {#if item.city}
-            <p class="text-muted-foreground mt-1 text-sm">{item.city}</p>
-          {/if}
-        </div>
+                <span
+                  class={buttonVariants({
+                    size: "sm",
+                    variant: "link",
+                    class: "mt-2 text-sm",
+                  })}
+                  data-testid="photo-grid-separator-show-story"
+                >
+                  Zobrazit příběh
+                </span>
+              </Dialog.Trigger>
+              <Dialog.Content>
+                <Dialog.Header>
+                  <Dialog.Title>{item.storyTitle || item.location}</Dialog.Title>
+                  {#if item.city}
+                    <Dialog.Description>{item.city}</Dialog.Description>
+                  {/if}
+                </Dialog.Header>
+                <div
+                  class="prose prose-sm dark:prose-invert mt-4 max-h-[80vh] max-w-none overflow-y-auto pr-4"
+                  data-testid="photo-grid-separator-story-{separatorId}"
+                >
+                  {@html item.story}
+                </div>
+              </Dialog.Content>
+            </Dialog.Root>
+          </div>
+        {:else}
+          <div
+            class="flex flex-col items-center justify-center overflow-hidden rounded-lg bg-linear-to-br from-slate-100 to-slate-300 p-4 text-center dark:from-slate-700 dark:to-slate-800"
+            class:col-span-full={editor.editMode}
+            class:aspect-video={!editor.editMode}
+            class:py-12={editor.editMode}
+            id={separatorId}
+            use:useScrollspy={{ id: separatorId }}
+            data-testid="photo-grid-separator-simple-{separatorId}"
+          >
+            <h3 class="text-lg" data-testid="photo-grid-separator-location">
+              {item.location}
+            </h3>
+            {#if item.city}
+              <p class="text-muted-foreground mt-1 text-sm">{item.city}</p>
+            {/if}
+          </div>
+        {/if}
       {/if}
     {/if}
   {/if}

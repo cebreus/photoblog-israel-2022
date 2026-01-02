@@ -15,6 +15,8 @@
     isScrollspyActive = false,
     isDimmed = false,
     firstPhotoExifDate,
+    startDate,
+    endDate,
     ...restProps
   }: WithElementRef<HTMLAnchorAttributes> & {
     child?: Snippet<[{ props: Record<string, unknown> }]>;
@@ -23,14 +25,15 @@
     isScrollspyActive?: boolean;
     isDimmed?: boolean;
     firstPhotoExifDate?: string;
+    startDate?: string;
+    endDate?: string;
   } = $props();
 
   const formattedTime = $derived(
-    firstPhotoExifDate
-      ? new Date(firstPhotoExifDate).toLocaleTimeString("cs-CZ", {
-          hour: "2-digit",
-          minute: "2-digit",
-        })
+    startDate || firstPhotoExifDate || endDate
+      ? (startDate || firstPhotoExifDate || (endDate as string)).includes("T")
+        ? (startDate || firstPhotoExifDate || (endDate as string)).split("T")[1].substring(0, 5)
+        : undefined
       : undefined,
   );
 

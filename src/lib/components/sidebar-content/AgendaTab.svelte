@@ -54,6 +54,8 @@
                       isScrollspyActive={ui.activeSections.has(menuLocation.id)}
                       isDimmed={menuLocation.isDimmed}
                       firstPhotoExifDate={menuLocation.firstPhotoExifDate}
+                      startDate={menuLocation.startDate}
+                      endDate={menuLocation.endDate}
                     >
                       {menuLocation.label}
                     </Sidebar.MenuSubButton>
