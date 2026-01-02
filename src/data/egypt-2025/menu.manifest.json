@@ -91,14 +91,14 @@
         "label": "Katakomby Kom el Shoqafa",
         "href": "#loc-katakomby-kom-el-shoqafa",
         "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-25T07:29:44.983Z"
+        "firstPhotoExifDate": "2025-11-25T07:30:05.030Z"
       },
       {
         "id": "loc-serapeum",
         "label": "Serapeum",
         "href": "#loc-serapeum",
         "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-25T08:24:09.133Z"
+        "firstPhotoExifDate": "2025-11-25T08:30:02.391Z"
       },
       {
         "id": "loc-kom-el-deka",
@@ -132,14 +132,7 @@
         "label": "Pevnost Qaitbay",
         "href": "#loc-pevnost-qaitbay",
         "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-25T12:11:42.981Z"
-      },
-      {
-        "id": "loc-kralovska-vlakova-garaz",
-        "label": "Královská vlaková garáž",
-        "href": "#2025-11-25-145152-dasa--collage",
-        "isDimmed": true,
-        "firstPhotoExifDate": "2025-11-25T13:51:52.220Z"
+        "firstPhotoExifDate": "2025-11-25T12:11:47.124Z"
       },
       {
         "id": "loc-kralovsky-sklenik",
@@ -147,6 +140,13 @@
         "href": "#loc-kralovsky-sklenik",
         "isDimmed": false,
         "firstPhotoExifDate": "2025-11-25T14:05:25.923Z"
+      },
+      {
+        "id": "loc-kralovska-vlakova-garaz",
+        "label": "Královská vlaková garáž",
+        "href": "#2025-11-25-150152-dasa--collage",
+        "isDimmed": true,
+        "firstPhotoExifDate": "2025-11-25T13:51:52.220Z"
       }
     ]
   },
