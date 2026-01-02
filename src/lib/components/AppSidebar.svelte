@@ -81,8 +81,6 @@
       ui.activeTab = v;
       if (v === "edit") {
         editor.setEditMode(true);
-      } else {
-        editor.setEditMode(false);
       }
     }}
     class="flex h-full w-full flex-col"
