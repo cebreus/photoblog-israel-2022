@@ -1,5 +1,7 @@
 ---
 location: Alexandrijská knihovna
+startDate: 2025-11-25T12:17:00
+endDate: 2025-11-25T12:34:00
 content: |-
   **Historický kontext**
 

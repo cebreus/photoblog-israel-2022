@@ -1,6 +1,8 @@
 ---
 location: Kom El Deka
 title: Archeologické naleziště Kom El Deka
+startDate: 2025-11-25T11:19:00
+endDate: 2025-11-25T12:02:00
 content: |-
   Kom El Deka (v překladu „Pahorek trosek“) je unikátní městská archeologická zóna v srdci moderní Alexandrie. Systematické vykopávky zde od 60. let 20. století provádí polsko-egyptská mise. Areál představuje soubor veřejných, vzdělávacích i soukromých budov z římského a byzantského období (převážně 2.–7. století n. l.).
 

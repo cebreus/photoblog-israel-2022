@@ -1,6 +1,8 @@
 ---
 location: Serapeum
 title: Serapeum
+startDate: 2025-11-25T10:17:00
+endDate: 2025-11-25T10:59:00
 content: |-
   Alexandrijské Serapeum bylo ve starověku jedním z nejvýznamnějších náboženských center Středomoří, vybudovaným převážně za vlády Ptolemaia III. Euergeta (3. stol. př. n. l.) a zasvěceným bohu Serapisovi, ochránci Alexandrie. Tento chrámový komplex nesloužil pouze rituálům, ale fungoval i jako významná kulturní instituce, která hostila „dceřinou“ pobočku slavné Alexandrijské knihovny s tisíci svitky. Osudovým se pro chrám stal rok 391 n. l., kdy byl na příkaz císaře Theodosia I. a pod vedením patriarchy Theofila zničen davem křesťanů jako symbol pohanství, což znamenalo nenávratnou ztrátu mnoha uměleckých a literárních děl. Dnes místu dominuje římský Diokleciánův sloup (mylně zvaný Pompeiův) a podzemní galerie, kde byla nalezena socha býka Apise, svědčící o unikátním propojení egyptské a helénistické kultury na tomto místě.
 
