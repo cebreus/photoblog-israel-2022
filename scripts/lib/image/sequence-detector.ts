@@ -129,9 +129,13 @@ export function detectSequences(
   // Build SequenceInfo for each image in each group
   for (const group of groups) {
     const memberIds = group.map((g) => g.id).sort();
+    // Use the first member's ID (earliest timestamp) as the common baseId
+    const commonBaseId = group[0].id.replace(/--[a-z]+\d+from\d+$|--pano$/, "");
+
     for (const img of group) {
       sequences.set(img.id, {
         ...img.info,
+        baseId: commonBaseId, // Override with common baseId
         members: memberIds,
       });
     }

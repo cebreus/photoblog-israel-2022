@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Info from "@lucide/svelte/icons/info";
   import LayoutGrid from "@lucide/svelte/icons/layout-grid";
   import { fade } from "svelte/transition";
   import { toast } from "svelte-sonner";
@@ -100,10 +101,35 @@
   let imageIds = $derived(Array.from(editor.selection));
   let selectedImages = $derived(
     items.filter(
-      (item: DisplayItem) => item.type === "image" && editor.selection.has(item.id),
+      (item: DisplayItem) =>
+        (item.type === "image" || item.type === "sequence" || item.type === "sequence-member") &&
+        editor.selection.has(item.id),
     ) as ImageEntry[],
   );
   let activeImage = $derived(selectedImages.length === 1 ? selectedImages[0] : null);
+
+  let affectedItemsCount = $derived.by(() => {
+    let count = 0;
+    const processedSequences = new Set<string>();
+
+    for (const img of selectedImages) {
+      if (img.sequenceInfo && img.sequenceInfo.total > 1) {
+        const baseId = img.sequenceInfo.baseId;
+        // Check if we already counted this sequence group
+        // If multiple visible items belong to same sequence (rare but possible), we count the group only once
+        // But we must subtract the *other* selected members from this group to avoid undercounting?
+        // Actually, if we just want "Total Items Touched":
+        if (!processedSequences.has(baseId)) {
+          count += img.sequenceInfo.total;
+          processedSequences.add(baseId);
+        }
+        // If we revisit the same sequence via another selected member, we do nothing (already added total)
+      } else {
+        count += 1;
+      }
+    }
+    return count;
+  });
 
   $effect(function updateFormOnSelectionChange() {
     if (imageIds.length > 0) {
@@ -518,6 +544,19 @@
     onClearAll={() => editor.clearSelection()}
     onPaste={handlePasteMetadata}
   />
+
+  {#if affectedItemsCount > selectedImages.length}
+    <div class="px-6 py-2">
+      <div
+        class="flex items-center gap-2 rounded-md bg-blue-50 p-2 text-sm text-blue-700 dark:bg-blue-900/30 dark:text-blue-300"
+      >
+        <Info class="h-4 w-4 shrink-0" />
+        <span>
+          Výběr obsahuje skupiny. Změny se projeví na celkem <strong>{affectedItemsCount}</strong> obrázcích.
+        </span>
+      </div>
+    </div>
+  {/if}
 
   <form
     method="POST"

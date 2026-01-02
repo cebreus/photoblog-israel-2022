@@ -6,7 +6,7 @@ import { exiftool } from "exiftool-vendored";
 import { dev } from "$app/environment";
 import { createLogger } from "$lib/logger";
 import { applyMetadataUpdates } from "$lib/shared/metadata-utils";
-import type { ImageEntry, Manifest } from "$lib/types/manifest";
+import { type ImageEntry, isImageEntry, type Manifest } from "$lib/types/manifest";
 import { reloadManifests } from "$lib/utils/images";
 import { getExifToolWriteTags } from "$lib/utils/metadata-standards";
 import { config } from "$scripts/build.config";
@@ -107,7 +107,7 @@ async function processBatch(
     manifest: Manifest | null,
     item: BatchItem,
     physicalPath: string | null,
-  ) => Promise<string | null>, // Returns ID of processed item or null if failed
+  ) => Promise<string | string[] | null>, // Returns ID(s) of processed item(s) or null if failed
   options: { allowMissingManifest?: boolean } = {},
 ): Promise<string[]> {
   // Fallback if config placeholder logic is strictly ENV based, construct path manually to be safe for multi-gallery:
@@ -128,6 +128,8 @@ async function processBatch(
       const processedInThisBatch: Set<string> = new Set();
 
       for (const item of items) {
+        if (processedInThisBatch.has(item.id)) continue;
+
         try {
           // Extract filename from src
           const srcParts = item.src.split("/");
@@ -135,11 +137,12 @@ async function processBatch(
 
           const physicalPath = await resolvePhysicalPath(contentRoot, fileName);
 
-          const resultId = await processor(manifest, item, physicalPath);
+          const rawResult = await processor(manifest, item, physicalPath);
 
-          if (resultId) {
-            processedIds.push(item.src); // or ID? The API usually returns src list.
-            processedInThisBatch.add(resultId);
+          if (rawResult) {
+            const ids = Array.isArray(rawResult) ? rawResult : [rawResult];
+            processedIds.push(...ids);
+            for (const id of ids) processedInThisBatch.add(id);
             if (manifest) manifestModified = true;
           }
         } catch (err) {
@@ -154,7 +157,11 @@ async function processBatch(
         // (Processor might modify manifest in place, or we handle removal here if needed)
         // But logic specific to DELETE vs UPDATE differs (DELETE removes item, UPDATE modifies).
         // So processor should handle manifest modification deeply.
+        logger.info(
+          `processBatch: Saving manifest for ${contentDir}, modified=${manifestModified}, processedIds=${processedIds.length}`,
+        );
         await saveImagesManifest(dataPath, manifest);
+        logger.info(`processBatch: Manifest saved successfully to ${dataPath}`);
 
         // Also remove any stale entries from auxiliary manifests (analysis/embeddings/faces)
         // for the items processed in this batch. We do this here under the same lock so
@@ -402,54 +409,92 @@ export async function PATCH({ request }: RequestEvent) {
       items,
       errors,
       async (manifest, item, physicalPath) => {
-        if (!physicalPath) {
-          throw new Error("Physical file not found");
-        }
-
-        // 1. Prepare metadata for EXIF write
-        // To maintain "Single Source of Truth" in the image file, we must not overwrite
-        // everything. We merge updates with existing item data for fields that share
-        // storage (like Keywords/Subject).
-        // biome-ignore lint/suspicious/noExplicitAny: Dynamic metadata merging requires any
-        const fullExifUpdates: any = { ...filteredUpdates };
-
-        if (updates.keywords === undefined) {
-          fullExifUpdates.keywords = item.keywords || [];
-        }
-        if (updates.flags === undefined) {
-          fullExifUpdates.flags = item.flags || [];
-        }
-
-        const writeTags = getExifToolWriteTags(fullExifUpdates);
-
-        // 写 EXIF (only if there are tags to write)
-        if (Object.keys(writeTags).length > 0) {
-          await exiftool.write(physicalPath, writeTags, {
-            writeArgs: ["-overwrite_original", "-coding=utf8", "-m", "-charset", "iptc=UTF8"],
-          });
-        }
-
-        // 2. Update Manifest (optimistic update to the in-memory manifest)
         if (!manifest) throw new Error("Manifest failed to load");
 
-        let foundItem: ImageEntry | null = null;
+        // Find the main item in manifest
+        let mainEntry: ImageEntry | null = null;
         for (const day of manifest.photoDays) {
-          for (const imageItem of day.items) {
-            if (imageItem.type === "image" && imageItem.id === item.id) {
-              applyMetadataUpdates(imageItem, filteredUpdates);
-              foundItem = imageItem;
+          for (const i of day.items) {
+            if (i.id === item.id && isImageEntry(i)) {
+              mainEntry = i;
               break;
             }
           }
-          if (foundItem) break;
+          if (mainEntry) break;
         }
 
-        if (foundItem) {
-          updatedImages.push(foundItem);
-          return item.id;
+        if (!mainEntry) {
+          return null; // Item not found in manifest
         }
 
-        return null;
+        const targets: ImageEntry[] = [mainEntry];
+
+        // Check for siblings (sequence/group members)
+        if (mainEntry.sequenceInfo) {
+          const baseId = mainEntry.sequenceInfo.baseId;
+          for (const day of manifest.photoDays) {
+            for (const i of day.items) {
+              if (isImageEntry(i) && i.sequenceInfo?.baseId === baseId && i.id !== mainEntry.id) {
+                targets.push(i);
+              }
+            }
+          }
+        }
+
+        const processedIds: string[] = [];
+        const contentRoot = path.resolve(process.cwd(), "content", contentDir);
+
+        for (const target of targets) {
+          let targetPath: string | null = null;
+
+          // Optimization: Use provided physicalPath for the main item
+          if (target.id === item.id) {
+            targetPath = physicalPath;
+          } else {
+            const srcParts = target.src.split("/");
+            const fileName = decodeURIComponent(srcParts[srcParts.length - 1]);
+            targetPath = await resolvePhysicalPath(contentRoot, fileName);
+          }
+
+          if (!targetPath) continue;
+
+          // 1. Prepare metadata for EXIF write
+          // biome-ignore lint/suspicious/noExplicitAny: Dynamic metadata merging requires any
+          const fullExifUpdates: any = { ...filteredUpdates };
+
+          // Use target's existing keywords/flags if not explicitly updated
+          if (updates.keywords === undefined) {
+            fullExifUpdates.keywords = target.keywords || [];
+          }
+          if (updates.flags === undefined) {
+            fullExifUpdates.flags = target.flags || [];
+          }
+
+          const writeTags = getExifToolWriteTags(fullExifUpdates);
+
+          // Write EXIF (only if there are tags to write)
+          if (Object.keys(writeTags).length > 0) {
+            try {
+              await exiftool.write(targetPath, writeTags, {
+                writeArgs: ["-overwrite_original", "-coding=utf8", "-m", "-charset", "iptc=UTF8"],
+              });
+            } catch (exifError) {
+              const msg = `ExifTool failed for ${targetPath}: ${exifError}`;
+              logger.error(msg);
+              throw new Error(msg);
+            }
+          }
+
+          // 2. Update Manifest (optimistic update to the in-memory manifest)
+          applyMetadataUpdates(target, filteredUpdates);
+          updatedImages.push(target);
+          processedIds.push(target.id);
+        }
+
+        logger.info(
+          `PATCH: Processed ${processedIds.length} items for baseId ${mainEntry.sequenceInfo?.baseId || item.id}`,
+        );
+        return processedIds.length > 0 ? processedIds : null;
       },
     );
     updatedIds.push(...result);

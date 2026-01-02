@@ -1,6 +1,7 @@
 <script lang="ts">
   import { toast } from "svelte-sonner";
   import { invalidateAll } from "$app/navigation";
+  import { page } from "$app/state";
   import { useScrollspy } from "$lib/actions/scrollspy";
   import ArchiveImageDialog from "$lib/components/ArchiveImageDialog.svelte";
   import CurationGroupView from "$lib/components/CurationGroup.svelte";
@@ -15,7 +16,13 @@
   import { filters } from "$lib/stores/filters.svelte";
   import { metadataClipboard } from "$lib/stores/metadata-clipboard.svelte";
   import { ui } from "$lib/stores/ui.svelte";
-  import type { CurationGroup, CurationManifest, ImageEntry, Separator } from "$lib/types/manifest";
+  import type {
+    CurationGroup,
+    CurationManifest,
+    ImageEntry,
+    PhotoDay,
+    Separator,
+  } from "$lib/types/manifest";
   import { performImageAction } from "$lib/utils/api-actions";
   import { IMAGE_MESSAGES } from "$lib/utils/messages";
   import { reorderArray, saveImageOrder } from "$lib/utils/reorder";
@@ -30,6 +37,11 @@
     dayId?: string;
     curationManifest?: CurationManifest;
   }>();
+
+  // Flatten all items from all photoDays for sequence member lookup
+  let allPhotoDayItems = $derived(
+    (page.data.photoDays || []).flatMap((day: PhotoDay) => day.items),
+  );
 
   // Empty state logic
   // Empty state logic - mostly handled by parent page now
@@ -236,9 +248,11 @@
     const clipboard = metadataClipboard;
 
     if (!onlyThis && editor.selection.has(item.id) && editor.selection.size > 1) {
-      // Paste to all selected
-      const selected = items.filter(
-        (i: DisplayItem): i is ImageEntry => i.type === "image" && editor.selection.has(i.id),
+      // Paste to all selected - search allPhotoDayItems to include hidden sequence members
+      const selected = allPhotoDayItems.filter(
+        (i: DisplayItem): i is ImageEntry =>
+          (i.type === "image" || i.type === "sequence" || i.type === "sequence-member") &&
+          editor.selection.has(i.id),
       );
       logger.debug("Paste Logic", {
         itemId: item.id,
@@ -261,7 +275,23 @@
         toast.error(IMAGE_MESSAGES.PASTE_TO_SELF);
         return;
       }
-      pasteTargets = [item];
+
+      // Single paste - expand to all sequence members if applicable
+      if (item.sequenceInfo && !onlyThis) {
+        const baseId = item.sequenceInfo.baseId;
+        const allMembers = allPhotoDayItems.filter(
+          (i: DisplayItem): i is ImageEntry =>
+            (i.type === "image" || i.type === "sequence" || i.type === "sequence-member") &&
+            i.sequenceInfo?.baseId === baseId,
+        );
+        pasteTargets = allMembers.filter((i: ImageEntry) => i.id !== clipboard.sourceImage?.id);
+        logger.debug(
+          "Expanded sequence paste targets",
+          pasteTargets.map((i) => i.id),
+        );
+      } else {
+        pasteTargets = [item];
+      }
     }
     isPasteDialogOpen = true;
   }
@@ -322,8 +352,17 @@
       });
 
       if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.message || IMAGE_MESSAGES.METADATA_PASTE_FAILED);
+        let errorMessage = IMAGE_MESSAGES.METADATA_PASTE_FAILED;
+        try {
+          const err = await res.json();
+          errorMessage = err.message || errorMessage;
+          if (err.errors && Array.isArray(err.errors)) {
+            logger.error("Batch processing errors:", err.errors);
+          }
+        } catch (e) {
+          logger.error("Failed to parse error response:", e);
+        }
+        throw new Error(errorMessage);
       }
 
       isPasteDialogOpen = false;
@@ -463,10 +502,37 @@
       }
     }
 
-    // Standard toggle behavior
-    editor.toggleSelection(item.id);
-    if (!shiftKey) {
-      lastSelectedId = item.id;
+    // If this item is part of a sequence, select ALL members of the sequence
+    if (item.sequenceInfo) {
+      const baseId = item.sequenceInfo.baseId;
+
+      // Search through ALL photoDays for sequence members
+      // Include: "sequence" (representative), "sequence-member" (hidden members), "image" with sequenceInfo
+      const allMembers = allPhotoDayItems.filter(
+        (i: DisplayItem): i is ImageEntry =>
+          (i.type === "image" || i.type === "sequence" || i.type === "sequence-member") &&
+          i.sequenceInfo?.baseId === baseId,
+      );
+      const memberIds = allMembers.map((m: ImageEntry) => m.id);
+
+      // Toggle behavior: if ANY member is selected, deselect all; otherwise select all
+      const anySelected = memberIds.some((id: string) => editor.selection.has(id));
+
+      if (anySelected) {
+        editor.removeMultiple(memberIds);
+      } else {
+        editor.addMultiple(memberIds);
+      }
+
+      if (!shiftKey && memberIds.length > 0) {
+        lastSelectedId = memberIds[0];
+      }
+    } else {
+      // Standard toggle behavior for non-sequence items
+      editor.toggleSelection(item.id);
+      if (!shiftKey) {
+        lastSelectedId = item.id;
+      }
     }
   }
 </script>

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Layers from "@lucide/svelte/icons/layers";
   import X from "@lucide/svelte/icons/x";
 
   import { Badge } from "$lib/components/ui/badge";
@@ -44,7 +45,17 @@
         class="flex items-center gap-1 pr-1 font-mono text-xs"
         data-testid="edit-tab-selected-image-{img.id}"
       >
-        {img.src.split("/").pop()}
+        {#if img.sequenceInfo}
+          <Layers class="h-3 w-3 text-blue-500" />
+        {/if}
+        <span class="max-w-[150px] truncate" title={img.src.split("/").pop()}>
+          {img.src.split("/").pop()}
+        </span>
+        {#if img.sequenceInfo}
+          <span class="text-muted-foreground ml-0.5 text-[10px]">
+            (skupina {img.sequenceInfo.total})
+          </span>
+        {/if}
         <Button
           variant="ghost"
           size="icon"

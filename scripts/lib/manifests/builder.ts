@@ -282,33 +282,16 @@ export function updateManifest(
 
   const resultsByDate: Record<string, ProcessedImageResult[]> = {};
 
-  const allProcessedImages: ImageEntry[] = [];
-
+  // 1. Group new results by date
   for (const result of results) {
     if (!result) continue;
-    allProcessedImages.push(result.image);
-  }
-
-  const sequenceMap = detectSequences(allProcessedImages);
-
-  for (const result of results) {
-    if (!result) continue;
-    const seqInfo = sequenceMap.get(result.image.id);
-    if (seqInfo) {
-      result.image.sequenceInfo = seqInfo;
-      if (seqInfo.index === seqInfo.total) {
-        result.image.type = "sequence";
-      } else {
-        result.image.type = "sequence-member";
-      }
-    }
-
     const date = result.image.exif?.date?.substring(0, 10);
     if (!date) continue;
     if (!resultsByDate[date]) resultsByDate[date] = [];
     resultsByDate[date].push(result);
   }
 
+  // 2. Merge new results into the manifest
   for (const [date, dayResults] of Object.entries(resultsByDate)) {
     let day = findDayByDate(manifest.photoDays, date);
     if (!day) {
@@ -320,6 +303,34 @@ export function updateManifest(
       const baseNameWithoutExt = path.basename(result.key, path.extname(result.key));
       removeImagesStartingWith(day, baseNameWithoutExt);
       day.items.push(result.image);
+    }
+  }
+
+  // 3. Detect sequences across the ENTIRE manifest to ensure consistent grouping
+  const allImages: ImageEntry[] = [];
+  const imageMap = new Map<string, ImageEntry>();
+
+  for (const day of manifest.photoDays) {
+    for (const item of day.items) {
+      if (isImage(item)) {
+        allImages.push(item);
+        imageMap.set(item.id, item);
+      }
+    }
+  }
+
+  const globalSequenceMap = detectSequences(allImages);
+
+  for (const [id, seqInfo] of globalSequenceMap) {
+    const image = imageMap.get(id);
+    if (image) {
+      image.sequenceInfo = seqInfo;
+      // Ensure type reflects sequence status (representative vs member)
+      if (seqInfo.index === seqInfo.total) {
+        image.type = "sequence";
+      } else {
+        image.type = "sequence-member";
+      }
     }
   }
 
