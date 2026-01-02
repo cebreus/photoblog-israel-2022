@@ -1,12 +1,11 @@
 <script lang="ts">
-  
   import Pause from "@lucide/svelte/icons/pause";
   import Play from "@lucide/svelte/icons/play";
   import { untrack } from "svelte";
   import { Button } from "$lib/components/ui/button";
   import type { ImageEntry, SequenceInfo } from "$lib/types/manifest";
   import { SEQUENCE_MESSAGES } from "$lib/utils/messages";
-import {
+  import {
     DEFAULT_FRAME_DELAY_MS,
     PANO_PROGRESS_MAX,
     PANO_PROGRESS_MIN,
@@ -252,7 +251,7 @@ import {
   }
 
   .sequence-player.zoom-mode .frame {
-    transition: opacity 1.5s ease-in-out;
+    transition: opacity 1s ease-in-out;
   }
 
   .image-stack {
