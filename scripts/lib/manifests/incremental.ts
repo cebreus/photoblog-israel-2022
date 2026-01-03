@@ -92,7 +92,7 @@ function validateStoryData(
 
   // Log warnings
   if (warnings.length > 0) {
-    console.warn(`⚠️  Markdown validation issues in "${filename}.md":`);
+    console.warn(`⚠️  Markdown validation issues in "${filename}":`);
     for (const w of warnings) {
       console.warn(`   - ${w}`);
     }
@@ -109,6 +109,7 @@ export async function loadStoryData(contentRoot: string): Promise<StoryDataMap> 
     try {
       const fileContent = await fsp.readFile(file, "utf8");
       const { data, content } = matter(fileContent);
+      if (data.type === "settings") continue;
       const storyBody = (data.content || content).trim();
       const filename = path.basename(file, ".md");
 

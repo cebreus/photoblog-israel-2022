@@ -114,7 +114,7 @@ function initializeContext() {
     srcRoot: raw?.src
       ? path.resolve(process.cwd(), raw.src)
       : path.resolve(process.cwd(), config.paths.source),
-    contentRoot: path.resolve(process.cwd(), "content"),
+    contentRoot: path.resolve(process.cwd(), config.paths.siteSource),
     outRoot: raw?.out
       ? path.resolve(process.cwd(), raw.out)
       : path.resolve(process.cwd(), config.paths.output),
