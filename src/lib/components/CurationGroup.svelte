@@ -11,6 +11,7 @@
     onArchive,
     onCopyMetadata,
     onPasteMetadata,
+    onResetReleaseDate,
     onSelect,
   } = $props<{
     group: CurationGroup;
@@ -20,6 +21,7 @@
     onArchive?: (item: ImageEntry) => void;
     onCopyMetadata?: (item: ImageEntry) => void;
     onPasteMetadata?: (item: ImageEntry, onlyThis?: boolean) => void;
+    onResetReleaseDate?: (item: ImageEntry, onlyThis?: boolean) => void;
     onSelect?: (item: ImageEntry, shiftKey: boolean) => void;
   }>();
 </script>
@@ -57,6 +59,7 @@
         {onArchive}
         {onCopyMetadata}
         {onPasteMetadata}
+        {onResetReleaseDate}
         {onSelect}
       />
     {/each}

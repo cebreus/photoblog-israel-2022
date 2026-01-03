@@ -10,7 +10,7 @@ export function applyMetadataUpdates(
   updates: Record<string, string | string[] | null | undefined>,
 ) {
   if (updates.title !== undefined) {
-    if (!imageItem.exif) imageItem.exif = {};
+    if (!imageItem.exif) imageItem.exif = {} as ImageEntry["exif"];
     if (updates.title === null) {
       if (imageItem.exif) delete imageItem.exif.title;
     } else {
@@ -50,7 +50,7 @@ export function applyMetadataUpdates(
   }
 
   if (updates.state !== undefined) {
-    if (!imageItem.exif) imageItem.exif = {};
+    if (!imageItem.exif) imageItem.exif = {} as ImageEntry["exif"];
     if (updates.state === null) {
       if (imageItem.exif) delete imageItem.exif.state;
     } else {
@@ -59,7 +59,7 @@ export function applyMetadataUpdates(
   }
 
   if (updates.country !== undefined) {
-    if (!imageItem.exif) imageItem.exif = {};
+    if (!imageItem.exif) imageItem.exif = {} as ImageEntry["exif"];
     if (updates.country === null) {
       if (imageItem.exif) delete imageItem.exif.country;
     } else {
@@ -68,7 +68,7 @@ export function applyMetadataUpdates(
   }
 
   if (updates.countryCode !== undefined) {
-    if (!imageItem.exif) imageItem.exif = {};
+    if (!imageItem.exif) imageItem.exif = {} as ImageEntry["exif"];
     if (updates.countryCode === null) {
       if (imageItem.exif) delete imageItem.exif.countryCode;
     } else {
@@ -110,9 +110,10 @@ export function applyMetadataUpdates(
   }
 
   if (updates.releaseDate !== undefined) {
-    if (!imageItem.exif) imageItem.exif = {};
+    if (!imageItem.exif) imageItem.exif = {} as ImageEntry["exif"];
     if (updates.releaseDate === null) {
-      if (imageItem.exif) delete imageItem.exif.releaseDate;
+      // Reset to original date instead of deleting
+      if (imageItem.exif) imageItem.exif.releaseDate = imageItem.exif.date;
     } else {
       if (imageItem.exif) imageItem.exif.releaseDate = updates.releaseDate as string;
     }

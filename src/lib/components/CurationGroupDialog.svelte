@@ -11,6 +11,7 @@
     onArchive,
     onCopyMetadata,
     onPasteMetadata,
+    onResetReleaseDate,
     onSelect,
   } = $props<{
     open: boolean;
@@ -19,6 +20,7 @@
     onArchive?: (item: ImageEntry) => void;
     onCopyMetadata?: (item: ImageEntry) => void;
     onPasteMetadata?: (item: ImageEntry, onlyThis?: boolean) => void;
+    onResetReleaseDate?: (item: ImageEntry, onlyThis?: boolean) => void;
     onSelect?: (item: ImageEntry, shiftKey: boolean) => void;
   }>();
 
@@ -48,6 +50,7 @@
         {onArchive}
         {onCopyMetadata}
         {onPasteMetadata}
+        {onResetReleaseDate}
         {onSelect}
       />
     {/if}

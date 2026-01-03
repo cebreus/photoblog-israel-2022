@@ -2,6 +2,7 @@
   import Archive from "@lucide/svelte/icons/archive";
   import ArrowRightLeft from "@lucide/svelte/icons/arrow-right-left";
   import Copy from "@lucide/svelte/icons/copy";
+  import RotateCcw from "@lucide/svelte/icons/rotate-ccw";
   import Trash2 from "@lucide/svelte/icons/trash-2";
   import { toast } from "svelte-sonner";
   import { dev } from "$app/environment";
@@ -32,6 +33,7 @@
     onArchive,
     onCopyMetadata,
     onPasteMetadata,
+    onResetReleaseDate,
 
     onOpenCurationDialog,
     onSelect,
@@ -45,6 +47,7 @@
     onArchive?: (item: ImageEntry) => void;
     onCopyMetadata?: (item: ImageEntry) => void;
     onPasteMetadata?: (item: ImageEntry, onlyThis?: boolean) => void;
+    onResetReleaseDate?: (item: ImageEntry, onlyThis?: boolean) => void;
     onOpenCurationDialog?: (group: CurationGroup) => void;
     onSelect?: (item: ImageEntry, shiftKey: boolean) => void;
     mode?: "grid" | "curation";
@@ -190,11 +193,20 @@
 
 {#snippet MetadataTable({ item }: { item: ImageEntry })}
   {@const fileName = item.src.split("/").pop() ?? item.src}
+  {@const isReleaseDateModified =
+    item.exif?.releaseDate && item.exif?.date && item.exif.releaseDate !== item.exif.date}
   {@const metadataRows = [
     { label: "Soubor", value: fileName, isTechnical: true },
     {
-      label: "Datum pořízení",
-      value: formatWallClock(item.date),
+      label: "Pořízení",
+      value: formatWallClock(item.exif?.date || ""),
+      isTechnical: true,
+    },
+    {
+      label: "Řazení",
+      value: formatWallClock(item.exif?.releaseDate || ""),
+      isTechnical: true,
+      isModified: isReleaseDateModified,
     },
     {
       label: "Lidé",
@@ -260,6 +272,7 @@
                 class={cn(
                   "line-clamp-3 w-full max-w-full min-w-0 py-1 font-mono whitespace-pre-line",
                   field.isTechnical && "text-muted-foreground",
+                  field.isModified && "text-pink-600 dark:text-pink-400",
                 )}
               >
                 {#if field.value}
@@ -526,6 +539,43 @@
               <span>Vložit metadata</span>
             </ContextMenu.Item>
           {/if}
+        {/if}
+
+        <ContextMenu.Separator />
+
+        <!-- Reset ReleaseDate -->
+        {#if editor.selection.has(item.id) && editor.selection.size > 1}
+          <ContextMenu.Item
+            class="flex items-center gap-2"
+            onclick={() => onResetReleaseDate?.(item)}
+            data-testid="photo-grid-item-contextmenu-reset-releasedate-selection"
+          >
+            <div class="flex flex-1 items-center gap-2">
+              <RotateCcw class="h-4 w-4" />
+              <span>Resetovat datum řazení ({editor.selection.size}×)</span>
+            </div>
+          </ContextMenu.Item>
+
+          <!-- Reset ONLY this one (ignoring selection) -->
+          <ContextMenu.Item
+            class="flex items-center gap-2"
+            onclick={() => onResetReleaseDate?.(item, true)}
+            data-testid="photo-grid-item-contextmenu-reset-releasedate-single"
+          >
+            <div class="text-muted-foreground flex flex-1 items-center gap-2 pl-6 text-xs">
+              <span>↳ Pouze tento obrázek</span>
+            </div>
+          </ContextMenu.Item>
+        {:else}
+          <!-- Standard single reset -->
+          <ContextMenu.Item
+            class="flex items-center gap-2"
+            onclick={() => onResetReleaseDate?.(item)}
+            data-testid="photo-grid-item-contextmenu-reset-releasedate"
+          >
+            <RotateCcw class="h-4 w-4" />
+            <span>Resetovat datum řazení</span>
+          </ContextMenu.Item>
         {/if}
 
         <ContextMenu.Separator />

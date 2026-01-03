@@ -1,6 +1,7 @@
 <script lang="ts">
   import { toast } from "svelte-sonner";
-
+  import { invalidateAll } from "$app/navigation";
+  import { page } from "$app/state";
   import ArchiveImageDialog from "$lib/components/ArchiveImageDialog.svelte";
   import CurationGroupView from "$lib/components/CurationGroup.svelte";
   import CurationGroupDialog from "$lib/components/CurationGroupDialog.svelte";
@@ -26,9 +27,6 @@
   import { findIndexById, getRange } from "$lib/utils/selection";
   import { toSlug } from "$lib/utils/strings";
   import { smartToast } from "$lib/utils/toasts";
-
-  import { invalidateAll } from "$app/navigation";
-  import { page } from "$app/state";
 
   const logger = createLogger("PhotoGrid");
 
@@ -389,6 +387,74 @@
     }
   }
 
+  async function handleResetReleaseDate(item: ImageEntry, onlyThis = false) {
+    let targetImages: ImageEntry[] = [];
+
+    if (!onlyThis && editor.selection.has(item.id) && editor.selection.size > 1) {
+      // Reset for all selected - include hidden sequence members
+      targetImages = allPhotoDayItems.filter(
+        (i: DisplayItem): i is ImageEntry =>
+          (i.type === "image" || i.type === "sequence" || i.type === "sequence-member") &&
+          editor.selection.has(i.id),
+      );
+    } else if (item.sequenceInfo && !onlyThis) {
+      // Expand to all sequence members
+      const baseId = item.sequenceInfo.baseId;
+      targetImages = allPhotoDayItems.filter(
+        (i: DisplayItem): i is ImageEntry =>
+          (i.type === "image" || i.type === "sequence" || i.type === "sequence-member") &&
+          i.sequenceInfo?.baseId === baseId,
+      );
+    } else {
+      // Single image
+      targetImages = [item];
+    }
+
+    if (targetImages.length === 0) {
+      toast.error("Žádné obrázky k resetování");
+      return;
+    }
+
+    const performReset = async () => {
+      const updatePayload = {
+        images: targetImages.map((img) => ({
+          id: img.id,
+          src: img.src,
+        })),
+        updates: {
+          releaseDate: null, // null triggers reset to original date
+        },
+      };
+
+      const res = await fetch("/api/images", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatePayload),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.message || "Nepodařilo se resetovat datum řazení");
+      }
+    };
+
+    const promise = performReset();
+
+    smartToast(promise, {
+      loading: `Resetuji datum řazení (${targetImages.length}×)...`,
+      success: `Datum řazení resetováno (${targetImages.length}×)`,
+      error: (e) => (e instanceof Error ? e.message : "Nepodařilo se resetovat"),
+      delay: 500,
+    });
+
+    try {
+      await promise;
+      await invalidateAll();
+    } catch (e) {
+      logger.error(e);
+    }
+  }
+
   $effect(debugLog);
 
   function debugLog() {
@@ -553,6 +619,7 @@
       onArchive={handleArchive}
       onCopyMetadata={handleCopyMetadata}
       onPasteMetadata={handlePasteMetadata}
+      onResetReleaseDate={handleResetReleaseDate}
       onSelect={handleSelect}
     />
   {:else}
@@ -618,6 +685,7 @@
           onArchive={handleArchive}
           onCopyMetadata={handleCopyMetadata}
           onPasteMetadata={handlePasteMetadata}
+          onResetReleaseDate={handleResetReleaseDate}
           onSelect={handleSelect}
           onOpenCurationDialog={handleOpenCurationDialog}
         />
@@ -657,5 +725,6 @@
   onArchive={handleArchive}
   onCopyMetadata={handleCopyMetadata}
   onPasteMetadata={handlePasteMetadata}
+  onResetReleaseDate={handleResetReleaseDate}
   onSelect={handleSelect}
 />
