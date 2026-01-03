@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { page } from "$app/state";
+  import { formatWallClock } from "$shared/utils/dates";
 
   import { useScrollspy } from "$lib/actions/scrollspy";
   import { buttonVariants } from "$lib/components/ui/button";
@@ -7,7 +7,8 @@
   import { editor } from "$lib/stores/editor.svelte";
   import type { Separator } from "$lib/types/manifest";
   import { cn } from "$lib/utils";
-  import { formatWallClock } from "$shared/utils/dates";
+
+  import { page } from "$app/state";
 
   let { item, showMetadataOverlay = false } = $props<{
     item: Separator;
@@ -77,20 +78,20 @@
 {/snippet}
 
 {#if item.hasPhotos}
-  {#if item.story}
-    <!-- Separator with story (dialog) -->
-    <div class="flex flex-col">
-      <div
-        id={separatorId}
-        use:useScrollspy={{ id: separatorId }}
-        class="contents"
-        class:col-span-full={editor.editMode}
-      >
+  <div
+    id={separatorId}
+    use:useScrollspy={{ id: separatorId }}
+    class={cn("contents flex flex-col", editor.editMode ? "col-span-full py-12" : "aspect-[3/2]")}
+  >
+    {#if item.story}
+      <!-- Separator with story (dialog) -->
+
+      <div>
         <Dialog.Root>
           <Dialog.Trigger
             class={cn(
-              "outline-background relative flex flex-col items-center justify-center overflow-hidden rounded-lg bg-linear-to-br from-slate-100 to-slate-300 p-4 outline-4 outline-offset-2 transition-[outline-color] duration-500 ease-in-out hover:outline-orange-100 dark:from-slate-700 dark:to-slate-800",
-              editor.editMode ? "col-span-full py-12" : "aspect-[3/2]",
+              "flex  w-full flex-col items-center justify-center overflow-hidden rounded-lg bg-linear-to-br from-slate-100 to-slate-300 p-4 text-center dark:from-slate-700 dark:to-slate-800",
+              editor.editMode ? "dark:from-pink-700 dark:to-pink-800" : "aspect-[3/2]",
             )}
             data-testid="photo-grid-separator-trigger-{separatorId}"
           >
@@ -131,14 +132,13 @@
 
         {@render SeparatorMetadata()}
       </div>
-    </div>
-  {:else}
-    <!-- Simple separator (no story) -->
-    <div class="flex flex-col">
+    {:else}
+      <!-- Simple separator (no story) -->
+
       <div
         class={cn(
-          "flex flex-col items-center justify-center overflow-hidden rounded-lg bg-linear-to-br from-slate-100 to-slate-300 p-4 text-center dark:from-slate-700 dark:to-slate-800",
-          editor.editMode ? "col-span-full py-12" : "aspect-[3/2]",
+          "flex w-full flex-col  items-center justify-center overflow-hidden rounded-lg bg-linear-to-br from-slate-100 to-slate-300 p-4 text-center dark:from-slate-700 dark:to-slate-800",
+          editor.editMode ? "dark:from-pink-700 dark:to-pink-800" : "aspect-[3/2]",
         )}
         id={separatorId}
         use:useScrollspy={{ id: separatorId }}
@@ -152,6 +152,6 @@
         {/if}
       </div>
       {@render SeparatorMetadata()}
-    </div>
-  {/if}
+    {/if}
+  </div>
 {/if}
