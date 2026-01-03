@@ -1,6 +1,7 @@
 import fsp from "node:fs/promises";
 import path from "node:path";
 import { exiftool } from "exiftool-vendored";
+import { toPureWallClockISO } from "../../../shared/utils/dates";
 import { toSlug } from "../../../shared/utils/strings";
 import { toSafeFilename } from "../utils/path";
 
@@ -57,21 +58,17 @@ export function getNewBasename(
   }
 
   try {
-    // Avoid Date object to prevent timezone shifts
-    // dateObj is likely ExifDateTime which has a good toString() (ISO format)
-    const rawStr = dateObj.toString();
+    // Use shared utility to ensure consistent date parsing logic
+    // Convert to string first because ExifDateTime objects from exiftool need to be stringified
+    const isoDate = toPureWallClockISO(dateObj.toString());
 
-    // Match basic ISO-like patterns: YYYY-MM-DDTHH:MM:SS or YYYY:MM:DD HH:MM:SS
-    // capture: Year, Month, Day, Hour, Minute, Second
-    const match = rawStr.match(/^(\d{4})[-:](\d{2})[-:](\d{2})[T ](\d{2}):(\d{2}):(\d{2})/);
-
-    if (!match) {
-      // Fallback: try parsing simplified format if needed, or throw
-      throw new Error(`Invalid date format: ${rawStr}`);
+    if (!isoDate) {
+      throw new Error(`Invalid date format: ${dateObj}`);
     }
 
-    const [, yyyy, mm, dd, HH, Min, Sec] = match;
-    dateStr = `${yyyy}-${mm}-${dd}-${HH}${Min}${Sec}`;
+    // toPureWallClockISO returns YYYY-MM-DDTHH:MM:SS
+    // We convert it to the filename format: YYYY-MM-DD-HHMMSS
+    dateStr = isoDate.replace("T", "-").replace(/:/g, "");
   } catch (e) {
     throw new Error(`Failed to parse date: ${e instanceof Error ? e.message : String(e)}`);
   }
