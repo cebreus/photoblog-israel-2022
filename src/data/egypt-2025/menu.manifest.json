@@ -28,11 +28,12 @@
         "endDate": "2025-11-22T00:45:00"
       },
       {
-        "id": "loc-blend-club-aqua-resort",
+        "id": "loc-blend-club-aqua-resort-2142",
         "label": "Blend Club Aqua Resort",
-        "href": "#2025-11-22-161654-finda",
+        "href": "#loc-blend-club-aqua-resort-2142",
         "isDimmed": true,
-        "firstPhotoExifDate": "2025-11-22T17:16:54.608355"
+        "startDate": "2025-11-22T21:42:00",
+        "endDate": "2025-11-22T23:59:00"
       }
     ]
   },
@@ -102,7 +103,6 @@
         "label": "Pyramid Front Hotel",
         "href": "#loc-pyramid-front-hotel-2314",
         "isDimmed": true,
-        "firstPhotoExifDate": "2025-11-24T16:22:41.300410",
         "startDate": "2025-11-24T23:14:00",
         "endDate": "2025-11-24T23:59:00"
       }
@@ -121,7 +121,7 @@
         "isDimmed": false,
         "firstPhotoExifDate": "2025-11-25T09:27:36.058+02:00",
         "startDate": "2025-11-25T09:16:00",
-        "endDate": "2025-11-25T09:25:00"
+        "endDate": "2025-11-25T09:35:00"
       },
       {
         "id": "loc-katakomby-kom-el-shoqafa-0929",
@@ -149,6 +149,13 @@
         "firstPhotoExifDate": "2025-11-25T11:19:52.720+02:00",
         "startDate": "2025-11-25T11:19:00",
         "endDate": "2025-11-25T12:02:00"
+      },
+      {
+        "id": "loc-rimsky-amfiteatr",
+        "label": "Římský amfiteátr",
+        "href": "#2025-11-25-104322-cebreus--zoom1from2",
+        "isDimmed": true,
+        "firstPhotoExifDate": "2025-11-25T11:43:22.008+02:00"
       },
       {
         "id": "loc-alexandrijska-opera",
