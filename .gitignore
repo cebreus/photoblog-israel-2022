@@ -6,6 +6,7 @@ node_modules/
 .svelte-kit/
 .temp/
 .vercel/
+logs/
 build/
 build-*/
 content/*/pics/

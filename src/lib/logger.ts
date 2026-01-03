@@ -35,13 +35,24 @@ const logger = pino({
   transport:
     !browser && dev
       ? {
-          target: "pino-pretty",
-          options: {
-            colorize: true,
-            ignore: "pid,hostname",
-            translateTime: "HH:MM:ss",
-            messageFormat: "{env} > {label} \t {msg}", // Custom format: BE > app   Message
-          },
+          targets: [
+            {
+              target: "pino-pretty",
+              options: {
+                colorize: true,
+                ignore: "pid,hostname,env,label,method,path,status,durationMs",
+                translateTime: "HH:MM:ss",
+                messageFormat: "{env} > {label} \t {msg}", // Custom format: BE > app   Message
+              },
+            },
+            {
+              target: "pino/file",
+              options: {
+                destination: "./logs/dev.log",
+                mkdir: true,
+              },
+            },
+          ],
         }
       : undefined,
   browser: {
