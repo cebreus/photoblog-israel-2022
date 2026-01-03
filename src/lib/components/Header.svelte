@@ -4,13 +4,15 @@
   import Pencil from "@lucide/svelte/icons/pencil";
   import Sparkles from "@lucide/svelte/icons/sparkles";
   import Tags from "@lucide/svelte/icons/tags";
-  import { dev } from "$app/environment";
-  import { page } from "$app/state";
+
   import { Button } from "$lib/components/ui/button";
   import * as Sidebar from "$lib/components/ui/sidebar";
   import { editor } from "$lib/stores/editor.svelte";
   import { ui } from "$lib/stores/ui.svelte";
   import type { MenuManifest } from "$lib/types/manifest";
+
+  import { dev } from "$app/environment";
+  import { page } from "$app/state";
 
   type AuthorStats = {
     name: string;
@@ -34,7 +36,8 @@
 
   {#if dev}
     <Button
-      variant={editor.editMode ? "default" : "destructive"}
+      variant={editor.editMode ? "destructive" : "secondary"}
+      class="mr-3"
       size="icon"
       onclick={() => editor.toggleEditMode()}
       aria-label={editor.editMode ? "Vypnout editaci" : "Zapnout editaci"}
