@@ -21,7 +21,7 @@ export function formatWallClock(isoStr: string | undefined): string {
  * Normalizes any date input to a "Pure Wall Clock" ISO string (YYYY-MM-DDTHH:mm:ss).
  * Strips offsets and ensures no "Z" suffix.
  */
-export function toPureWallClockISO(val: string | Date | undefined): string | undefined {
+export function toPureWallClockISO(val: string | Date | undefined, fallbackDate?: string): string | undefined {
     if (!val) return undefined;
 
     if (val instanceof Date) {
@@ -43,6 +43,13 @@ export function toPureWallClockISO(val: string | Date | undefined): string | und
     // Fallback for dates without time
     const dateOnly = sanitized.match(/^\d{4}-\d{2}-\d{2}/);
     if (dateOnly) return `${dateOnly[0]}T00:00:00`;
+
+    // Fallback for time without date (e.g. "09:42:00")
+    // If fallbackDate is provided, prepend it
+    const timeOnly = sanitized.match(/^\d{2}:\d{2}(:\d{2})?$/);
+    if (timeOnly && fallbackDate) {
+        return `${fallbackDate}T${sanitized}`;
+    }
 
     return sanitized;
 }
