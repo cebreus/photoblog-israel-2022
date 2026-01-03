@@ -44,15 +44,6 @@
     >
       <Pencil strokeWidth={2.5} />
     </Button>
-    <Button
-      variant={editor.showMetadataOverlay ? "default" : "ghost"}
-      size="icon"
-      onclick={() => editor.setShowMetadataOverlay(!editor.showMetadataOverlay)}
-      aria-label="Zobrazit/skrýt popisky fotek"
-      data-testid="header-metadata-overlay-trigger"
-    >
-      <Tags strokeWidth={2.5} />
-    </Button>
 
     {#if editor.editMode}
       <Button
@@ -70,13 +61,13 @@
     {/if}
 
     <Button
-      variant={ui.curationMode ? "default" : "ghost"}
+      variant={editor.showMetadataOverlay ? "default" : "ghost"}
       size="icon"
-      onclick={() => ui.setCurationMode(!ui.curationMode)}
-      aria-label="Režim kurátora"
-      data-testid="header-curation-trigger"
+      onclick={() => editor.setShowMetadataOverlay(!editor.showMetadataOverlay)}
+      aria-label="Zobrazit/skrýt popisky fotek"
+      data-testid="header-metadata-overlay-trigger"
     >
-      <Sparkles strokeWidth={2.5} />
+      <Tags strokeWidth={2.5} />
     </Button>
 
     <Button
@@ -87,6 +78,16 @@
       data-testid="header-debug-trigger"
     >
       <Bug strokeWidth={2.5} />
+    </Button>
+
+    <Button
+      variant={ui.curationMode ? "default" : "ghost"}
+      size="icon"
+      onclick={() => ui.setCurationMode(!ui.curationMode)}
+      aria-label="Režim kurátora"
+      data-testid="header-curation-trigger"
+    >
+      <Sparkles strokeWidth={2.5} />
     </Button>
   {/if}
 
