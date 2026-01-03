@@ -16,6 +16,7 @@ export {
 
 import type { ImageEntry, SequenceInfo } from "$shared/types/manifest";
 import { parseSequenceSuffix } from "$shared/utils/sequences";
+import { diffIsoStringsInSeconds } from "../../../shared/utils/dates";
 
 /**
  * Classify media type based on filename.
@@ -38,20 +39,14 @@ const SEQUENCE_TIME_WINDOW_MS = 10 * 60 * 1000;
 
 /**
  * Extract timestamp from image ID (format: YYYY-MM-DD-HHMMSS-author--suffix)
+ * Returns ISO string: YYYY-MM-DDTHH:MM:SS
  */
-function extractTimestamp(imageId: string): Date | null {
+function extractTimestampIso(imageId: string): string | null {
   // Match: 2025-11-25-083807 (YYYY-MM-DD-HHMMSS)
   const match = imageId.match(/^(\d{4})-(\d{2})-(\d{2})-(\d{2})(\d{2})(\d{2})/);
   if (!match) return null;
   const [, year, month, day, hour, min, sec] = match;
-  return new Date(
-    Number(year),
-    Number(month) - 1,
-    Number(day),
-    Number(hour),
-    Number(min),
-    Number(sec),
-  );
+  return `${year}-${month}-${day}T${hour}:${min}:${sec}`;
 }
 
 /**
@@ -75,19 +70,19 @@ export function detectSequences(
   const sequenceImages: Array<{
     id: string;
     info: SequenceInfo;
-    timestamp: Date;
+    timestampIso: string;
     author: string;
   }> = [];
 
   for (const image of images) {
     const info = parseSequenceSuffix(image.id);
     if (info) {
-      const timestamp = extractTimestamp(image.id);
-      if (timestamp) {
+      const timestampIso = extractTimestampIso(image.id);
+      if (timestampIso) {
         sequenceImages.push({
           id: image.id,
           info,
-          timestamp,
+          timestampIso,
           author: extractAuthor(image.id),
         });
       }
@@ -98,7 +93,7 @@ export function detectSequences(
   sequenceImages.sort((a, b) => {
     if (a.info.type !== b.info.type) return a.info.type.localeCompare(b.info.type);
     if (a.author !== b.author) return a.author.localeCompare(b.author);
-    return a.timestamp.getTime() - b.timestamp.getTime();
+    return a.timestampIso.localeCompare(b.timestampIso);
   });
 
   // Group by type + author + time proximity
@@ -114,8 +109,12 @@ export function detectSequences(
     const lastInGroup = currentGroup[currentGroup.length - 1];
     const sameType = img.info.type === lastInGroup.info.type;
     const sameAuthor = img.author === lastInGroup.author;
-    const withinWindow =
-      Math.abs(img.timestamp.getTime() - lastInGroup.timestamp.getTime()) < SEQUENCE_TIME_WINDOW_MS;
+
+    // Time check using string diff
+    const diffSeconds = Math.abs(
+      diffIsoStringsInSeconds(lastInGroup.timestampIso, img.timestampIso),
+    );
+    const withinWindow = diffSeconds * 1000 < SEQUENCE_TIME_WINDOW_MS;
 
     if (sameType && sameAuthor && withinWindow) {
       currentGroup.push(img);

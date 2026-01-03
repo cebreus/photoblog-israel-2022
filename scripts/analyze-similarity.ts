@@ -1,12 +1,11 @@
 import path from "node:path";
 import { intro } from "@clack/prompts";
 import { AutoTokenizer, CLIPTextModelWithProjection } from "@xenova/transformers";
+import { type ImageEntry, isImageEntry } from "../shared/types/manifest";
 import {
   type CurationGroup,
   type CurationManifest,
   type CurationRecommendation,
-  type ImageEntry,
-  isImageEntry,
 } from "../src/lib/types/manifest";
 import { aiService } from "./lib/ai/models";
 import { createLogger } from "./lib/core/cli-logger";
@@ -382,11 +381,11 @@ function clusterImagesBySimilarity(
   const groups: CurationGroup[] = [];
   const assigned = new Set<string>();
 
-  // Sort images by timestamp to enable time-windowing
+  // Sort images by timestamp to enable time-windowing (ISO strings sort correctly)
   const sortedImages = [...images].sort((a, b) => {
-    const timeA = a.exif?.date ? new Date(a.exif.date).getTime() : 0;
-    const timeB = b.exif?.date ? new Date(b.exif.date).getTime() : 0;
-    return timeA - timeB;
+    const timeA = a.exif?.date || "";
+    const timeB = b.exif?.date || "";
+    return timeA.localeCompare(timeB);
   });
 
   for (let i = 0; i < sortedImages.length; i++) {
@@ -396,7 +395,7 @@ function clusterImagesBySimilarity(
     const groupPhotos = [photoA];
     assigned.add(photoA.id);
 
-    const timeA = photoA.exif?.date ? new Date(photoA.exif.date).getTime() : 0;
+    const timeA = photoA.exif?.date || "";
     const embeddingA = embeddingsManifest[photoA.id];
 
     if (embeddingA) {
@@ -404,11 +403,15 @@ function clusterImagesBySimilarity(
         const photoB = sortedImages[j];
         if (assigned.has(photoB.id)) continue;
 
-        // Time Windowing Heuristic
-        const timeB = photoB.exif?.date ? new Date(photoB.exif.date).getTime() : 0;
-        if (timeA > 0 && timeB > 0) {
-          const diff = Math.abs(timeA - timeB);
-          if (diff > TIME_WINDOW_MS) {
+        // Time Windowing Heuristic (using string-based diff)
+        const timeB = photoB.exif?.date || "";
+        if (timeA && timeB) {
+          // Import diffIsoStringsInSeconds from shared utils
+          const { diffIsoStringsInSeconds } = require("$shared/utils/dates");
+          const diffSeconds = Math.abs(diffIsoStringsInSeconds(timeA, timeB));
+          const diffMs = diffSeconds * 1000;
+
+          if (diffMs > TIME_WINDOW_MS) {
             // Since it's sorted by time, we can stop early for subsequent photos if we're moving forward
             // Actually, if we're moving forward in i, we need to check if we can stop for j.
             // If sortedImages[j] is more than 4h from photoA, all subsequent are too.

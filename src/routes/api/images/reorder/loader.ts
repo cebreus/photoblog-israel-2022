@@ -1,6 +1,10 @@
 import fsp from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
+import { ensureIsoDateString } from "$shared/utils/dates";
+
+// ... existing imports
+
 import { createLogger } from "$lib/logger";
 import type { StoryDataMap } from "$shared/types/manifest";
 
@@ -28,14 +32,13 @@ export async function loadStoryData(contentRoot: string): Promise<StoryDataMap> 
         const storyBody = (data.content || content).trim();
         const filename = path.basename(file, ".md");
         const locationKey =
-          data.location ||
-          (data.date ? new Date(data.date).toISOString().substring(0, 10) : filename);
+          data.location || (data.date ? ensureIsoDateString(data.date) : filename);
 
         storyDataMap[locationKey] = {
           title: data.title || "",
           content: storyBody,
           location: data.location || undefined,
-          date: data.date ? new Date(data.date).toISOString().substring(0, 10) : undefined,
+          date: data.date ? ensureIsoDateString(data.date) : undefined,
         };
       } catch (e: unknown) {
         const msg = e instanceof Error ? e.message : String(e);

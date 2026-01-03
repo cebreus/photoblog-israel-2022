@@ -57,16 +57,20 @@ export function getNewBasename(
   }
 
   try {
-    const d = dateObj.toDate ? dateObj.toDate() : new Date(dateObj.toString());
-    if (Number.isNaN(d.getTime())) {
-      throw new Error("Invalid date format in EXIF data");
+    // Avoid Date object to prevent timezone shifts
+    // dateObj is likely ExifDateTime which has a good toString() (ISO format)
+    const rawStr = dateObj.toString();
+
+    // Match basic ISO-like patterns: YYYY-MM-DDTHH:MM:SS or YYYY:MM:DD HH:MM:SS
+    // capture: Year, Month, Day, Hour, Minute, Second
+    const match = rawStr.match(/^(\d{4})[-:](\d{2})[-:](\d{2})[T ](\d{2}):(\d{2}):(\d{2})/);
+
+    if (!match) {
+      // Fallback: try parsing simplified format if needed, or throw
+      throw new Error(`Invalid date format: ${rawStr}`);
     }
-    const yyyy = d.getFullYear();
-    const mm = String(d.getMonth() + 1).padStart(2, "0");
-    const dd = String(d.getDate()).padStart(2, "0");
-    const HH = String(d.getHours()).padStart(2, "0");
-    const Min = String(d.getMinutes()).padStart(2, "0");
-    const Sec = String(d.getSeconds()).padStart(2, "0");
+
+    const [, yyyy, mm, dd, HH, Min, Sec] = match;
     dateStr = `${yyyy}-${mm}-${dd}-${HH}${Min}${Sec}`;
   } catch (e) {
     throw new Error(`Failed to parse date: ${e instanceof Error ? e.message : String(e)}`);
