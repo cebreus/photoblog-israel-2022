@@ -1,5 +1,7 @@
 # 1. Uživatelská Interaktivita a Systémová Odezva
 
+**Navigace:** [← INDEX](./INDEX.md) | [ARCH-FEATURES →](./ARCH-FEATURES.md) | [ARCH-COMPONENTS →](./ARCH-COMPONENTS.md)
+
 Tento dokument popisuje interaktivní prvky uživatelského rozhraní a odpovídající reakce systému.
 
 **Obsah**
@@ -187,4 +189,4 @@ Aplikace funguje na principu »Split & Link« manifestů generovaných během bu
 
 ---
 
-_Poslední aktualizace: 2026-01-03_
+_Poslední aktualizace: 2026-01-05_

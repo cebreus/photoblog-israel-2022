@@ -2,6 +2,8 @@
 
 > Vývoj, závislosti a testování.
 
+**Navigace:** [← INDEX](./INDEX.md) | [ARCHITECTURE →](./ARCHITECTURE.md) | [CODE-QUALITY →](./CODE-QUALITY.md)
+
 ## Obsah
 
 1. [Požadavky](#1-požadavky)
@@ -133,4 +135,4 @@ CONTENT_DIR=egypt-2025 pnpm vitest run --project client
 
 ---
 
-_Poslední aktualizace: 2026-01-03_
+_Poslední aktualizace: 2026-01-05_

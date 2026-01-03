@@ -2,6 +2,8 @@
 
 Tento návod popisuje krok za krokem, jak přidat novou galerii do projektu.
 
+**Navigace:** [← INDEX](./INDEX.md) | [ARCH-STRUCTURE →](./ARCH-STRUCTURE.md) | [SCRIPTS →](./SCRIPTS.md)
+
 ## Přehled
 
 Díky multi-gallery architektuře s proměnnou `CONTENT_DIR` můžete snadno přidat novou galerii bez úpravy kódu aplikace. Každá galerie má:
@@ -293,4 +295,4 @@ Nainstalujte systémovou knihovnu Sharp:
 
 ---
 
-_Poslední aktualizace: 2026-01-03_
+_Poslední aktualizace: 2026-01-05_

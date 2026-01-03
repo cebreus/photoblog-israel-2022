@@ -2,6 +2,8 @@
 
 Tento dokument definuje principy správy osob, automatické detekce a manuálních zásahů v systému fotoblogu.
 
+**Navigace:** [← INDEX](./INDEX.md) | [FACE-CLUSTERING →](./FACE-CLUSTERING.md) | [ARCH-BUILD →](./ARCH-BUILD.md)
+
 ## Slovník pojmů
 
 | Pojem                        | Význam                                                                                                                                 |
@@ -321,4 +323,4 @@ Systém znovu provede detekci tváří, vytvoří nové klastry a následně apl
 
 ---
 
-_Poslední aktualizace: 2026-01-03_
+_Poslední aktualizace: 2026-01-05_

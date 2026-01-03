@@ -2,13 +2,19 @@
 
 > Klíčové funkce implementované v projektu.
 
+**Navigace:** [← INDEX](./INDEX.md) | [ARCHITECTURE →](./ARCHITECTURE.md) | [ARCH-COMPONENTS →](./ARCH-COMPONENTS.md)
+
 ## Obsah
 
 1. [Routing](#1-routing)
 2. [Stores](#2-stores)
 3. [Filtrace](#3-filtrace)
-4. [Editační režim](#4-editační-režim)
-5. [Kurátorský režim](#5-kurátorský-režim)
+4. [Separátory](#4-separátory)
+5. [Sekvence (Sequences)](#5-sekvence-sequences)
+6. [Řazení (ReleaseDate)](#6-řazení-releasedate)
+7. [Editační režim](#7-editační-režim)
+8. [CLAP (Clean Aperture)](#8-clap-clean-aperture)
+9. [Kurátorský režim](#9-kurátorský-režim)
 
 ## 1. Routing
 
@@ -37,35 +43,47 @@ flowchart LR
 
 ## 2. Stores
 
-Svelte 5 runes-based stores:
+Svelte 5 runes-based stores: **Detailní dokumentace viz [STORES.md](./STORES.md)**
 
-| Store                  | Účel                                      |
-| ---------------------- | ----------------------------------------- |
-| `filters.ts`           | SSoT pro filtrovaná data a aktivní filtry |
-| `curation.ts`          | Kurátorský workflow                       |
-| `editorState.ts`       | Multi-výběr, editační stav                |
-| `urlSync.ts`           | Synchronizace s URL parametry             |
-| `metadataClipboard.ts` | Kopírování/vkládání metadat               |
-| `uiState.ts`           | Viditelnost UI prvků                      |
-| `scrollspy.ts`         | Detekce aktivní sekce                     |
+| Store                      | Účel                                      |
+| -------------------------- | ----------------------------------------- |
+| `filters.svelte.ts`        | SSoT pro filtrovaná data a aktivní filtry |
+| `manifest.svelte.ts`       | Centrální manifest store (PhotoDay[])     |
+| `selectedImages.svelte.ts` | Multi-výběr fotek                         |
+| `editingMode.svelte.ts`    | Editační stav a aktuální editor           |
 
 ### Pattern
 
 ```typescript
-// Class-based pattern
-export class FilterStore {
-  authors = $state(new Set<string>());
-  quality = $state(new Set<string>());
+// Module-level state (2026 pattern)
+export let selectedAuthors = $state<Set<string>>(new Set());
+export let selectedPeople = $state<Set<string>>(new Set());
+export let showSeparators = $state(true);
 
-  toggleAuthor(id: string) {
-    /* ... */
-  }
+// Functions for mutations
+export function addAuthor(id: string) {
+  selectedAuthors.add(id);
 }
 
-export const filters = new FilterStore();
+// Derived state
+export let filterCount = $derived(selectedAuthors.size + selectedPeople.size);
 ```
 
+**Key:** Module-level `$state` s funkcemi pro mutace (instead of writable stores).
+
 ## 3. Filtrace
+
+### Dostupné filtry
+
+| Filtr                 | Typ     | Popis                                              |
+| --------------------- | ------- | -------------------------------------------------- |
+| **Autoři**            | OR      | Výběr fotografů (výchozí: všichni)                 |
+| **Typ média**         | OR      | Fotografie / Panoramata / Sekvence / Koláže        |
+| **Momentky**          | Complex | 3 režimy: Pouze momentky / Momentky autora / Další |
+| **Kvalita fotek**     | OR      | Excelentní / Dobré / Podprůměrné (AI + ostrost)    |
+| **Osoby**             | OR      | Filtr podle detekovaných osob                      |
+| **Zobrazit popisky**  | Boolean | Popisky u fotek                                    |
+| **Zobrazit zastávky** | Boolean | Separátory mezi zastávkami                         |
 
 ### Filtrační logika
 
@@ -75,52 +93,244 @@ flowchart TB
     QUALITY[Kvalita] --> OR2[OR]
     PEOPLE[Osoby] --> OR3[OR]
     MEDIA[Typ média] --> OR4[OR]
-    SNAPSHOTS[Momentky] --> BOOL[Boolean]
+    SNAPSHOTS[Momentky] --> COMPLEX[Complex Logic]
 
     OR1 --> AND[AND]
     OR2 --> AND
     OR3 --> AND
     OR4 --> AND
-    BOOL --> AND
+    COMPLEX --> AND
 
     AND --> RESULT[Filtrované fotky]
 ```
 
-| Filtr     | Vztah   | Popis                                      |
-| --------- | ------- | ------------------------------------------ |
-| Autoři    | OR      | Alespoň jeden vybraný                      |
-| Kvalita   | OR      | Excellent / Good / Poor (prázdné = vše)    |
-| Osoby     | OR      | Alespoň jedna vybraná                      |
-| Typ média | OR      | Foto / Panorama / Sekvence (prázdné = vše) |
-| Momentky  | Boolean | Zobrazit/skrýt cizí momentky               |
-| Průnik    | AND     | Kombinace všech filtrů                     |
+### Speciální filtry
 
-### Empty State
+#### Momentky (Snapshots)
 
-### Empty State
+3 nezávislé přepínače:
 
-**Globální úroveň (+page.svelte):**
-Pokud filtry vyřadí všechny fotografie (`visiblePhotos === 0`), aplikace skryje celou strukturu galerie (včetně hlaviček dnů a zastávek) a zobrazí centrální **GalleryEmptyState** komponentu. To zabraňuje zobrazení "prázdných nadpisů".
+1. **Pouze momentky** (`onlySnapshots`) — Zobrazí POUZE momentky, skryje běžné fotky
+2. **Zobrazit momentky autora** (`showAuthorSnapshots`) — Zapnuto = viditelné, vypnuto = skryté
+3. **Zobrazit další momentky** (`showOthersSnapshots`) — Zapnuto = viditelné, vypnuto = skryté
 
-**Reset:**
-Tlačítko "Zrušit aktivní filtry" resetuje pouze omezující kritéria (autory, kvalitu...), ale zachovává uživatelské nastavení zobrazení (zastávky, popisky).
+**Flagy v manifestu:**
 
-### URL synchronizace
+- `snapshot-author` — Soukromé snímky autora (bez dokumentární hodnoty)
+- `snapshot-others` — Momentky od ostatních osob
 
+#### Kategorie (skryté)
+
+- `collage-source` — Zdrojové obrázky použité pro koláže (automaticky skryté)
+- Sekvenční členy (nereprezentativní framy) — skryté, zobrazuje se pouze reprezentativní snímek
+
+## 4. Separátory
+
+**Poznámka:** Separátory jsou dynamicky generované prvky oddělující fotky podle místa/času.
+
+### Zdroje separátorů
+
+1. **Markdown-driven** — Definované v `content/<gallery>/locations/*.md`
+2. **Auto-generated** — Vytvořeny pro skupiny fotek bez markdown (dle `minPhotosForAutoSeparator`)
+
+### Markdown struktura
+
+```yaml
+---
+title: Nazareth
+location: Nazareth
+city: Izrael
+startDate: 2022-10-20T09:00:00
+endDate: 2022-10-20T12:00:00
+visits:
+  - startDate: 2025-11-25T08:00:00
+    endDate: 2025-11-25T09:00:00
+  - startDate: 2025-11-25T18:00:00
+    endDate: 2025-11-25T20:00:00
+---
+# Obsah příběhu v markdown
 ```
 
+**Klíčové vlastnosti:**
+
+- `location` — Identifikátor pro spojení s fotkami (EXIF location field)
+- `startDate` / `endDate` — Čas separátoru v galerii
+- `visits` — Více navštívení stejného místa v jeden den
+- Markdown obsah → HTML (`marked.js` parser) → Uloženo v manifestu
+
+### Zobrazení
+
+| Podmínka                             | Výsledek                           |
+| ------------------------------------ | ---------------------------------- |
+| S fotkami + s příběhem               | Modal dialog se příběhem           |
+| S fotkami + bez příběhu              | Gradient header bez dialogu        |
+| Bez fotek (orphan)                   | Skrytý v galerii, viditelný v menu |
+| Méně fotek než `minPhotosForDisplay` | Skrytý (nastavitelné)              |
+
+### Konfigurace (build.config.ts)
+
+```typescript
+separator: {
+  minPhotosForAutoSeparator: 3,  // Pro auto-generování
+  minPhotosForDisplay: 3,        // Pro zobrazení v gridu
+}
 ```
 
-/?authors=cebreus,jana&quality=excellent,good&people=alice&media=panorama&no-others-snapshots
+### ID generování
 
-````
+```typescript
+// Format: loc-{slugLocation}{-timeSuffix}
+"loc-nazareth"; // Simple
+"loc-hotel-0800"; // Multiple visits same day
+"loc-hotel-1800"; // (time suffix: -HHMM)
+```
 
-Synchronizace je **obousměrná** a **debouncovaná** (50ms):
-1. Změna ve Store -> `urlSync.ts` -> `goto(?params)`
-2. Změna URL (back/forward) -> `urlSync.ts` -> Update Store
+---
 
+## 5. Sekvence (Sequences)
 
-## 4. Editační režim
+**Princip:** Fotografie pořízené v krátké posloupnosti (zoom, pan, timelapse, focus-stack) jsou seskupeny pod jeden reprezentativní snímek.
+
+### Detekce
+
+```
+10-minute time window
+        ↓
+Automatické seskupení
+        ↓
+Výběr reprezentanta (nejostřejší nebo pers)
+        ↓
+Ostatní členy: skryté, přístupné v SequencePlayer
+```
+
+**Detekčních kritéria:**
+
+- Stejné `location` EXIF pole
+- Časy v rozmezí 10 minut od sebe
+- Typ: zoom, pan, timelapse, focus-stack, panorama
+
+### Struktura manifestu
+
+```typescript
+type ImageEntry = {
+  id: string;
+  type: "sequence" | "sequence-member" | "panorama" | ...;
+
+  sequenceInfo?: {
+    representativeId: string;  // ID reprezentanta
+    memberIds: string[];        // Ostatní členy
+    type: "zoom" | "pan" | "timelapse" | "focus-stack" | "panorama";
+    description?: string;       // "10 snímků zoom" apod.
+  };
+};
+```
+
+### Day grouping s sekvencemi
+
+**KRITICKÉ:** Všichni členové sekvence jsou **silně umisťováni do reprezentantova PhotoDay**, i když mají EXIF časy na jiných dnech.
+
+```
+Sekvence člen 1: 2025-11-25T23:50:00 (Egypt TZ)
+Sekvence člen 2: 2025-11-25T23:55:00
+Sekvence člen 3: 2025-11-26T00:05:00 ← Přechod přes půlnoc!
+Reprezentant:    2025-11-25T23:52:00
+
+Výsledek: Všichni → PhotoDay 2025-11-25 (reprezentanta)
+```
+
+**ReleaseDate inheritance:** Když změníte `releaseDate` reprezentanta, všichni členové dědí stejnou hodnotu.
+
+### UI komponenta
+
+```svelte
+<SequencePlayer {sequence} {variant} />
+```
+
+Umožňuje procházení members, přepínání reprezentanta apod.
+
+---
+
+## 6. Řazení (ReleaseDate)
+
+**⚠️ KRITICKÁ ZMĚNA:** Migrace z `sortOrder.manifest.json` na XMP:ReleaseDate metadata.
+
+### Historické řešení (DEPRECATED)
+
+```json
+// Stará: sortorder.manifest.json
+{
+  "IMG_1234": 0,
+  "IMG_5678": 1
+}
+```
+
+**Problémy:**
+
+- Nepersistentní (pouze v jednom souboru)
+- Při přenosu fotek se ztratilo
+- Nelze migrovat bez manifestu
+
+### Nový systém (CURRENT)
+
+```
+Uživatel draguje fotku v grid
+        ↓
+API: POST /api/images/reorder
+        ↓
+Kalkulace releaseDate (Time Slot Swapping algoritmus)
+        ↓
+ExifTool zapisuje do souboru (XMP:ReleaseDate)
+        ↓
+Trvale v HEIC/JPEG metadatech
+        ↓
+Manifest: exif.releaseDate
+```
+
+**Příklad:**
+
+```typescript
+// API payload
+{
+  dayId: "d1",
+  moves: [
+    { imageId: "IMG_001", targetIndex: 0 },
+    { imageId: "IMG_002", targetIndex: 1 },
+  ]
+}
+
+// Odpověď
+{
+  success: true,
+  relocations: {
+    "IMG_001": {
+      oldReleaseDate: "2022-10-20T10:00:00",
+      newReleaseDate: "2022-10-20T09:58:00"
+    }
+  }
+}
+```
+
+### Time Slot Swapping
+
+Algoritmus zajišťuje:
+
+1. **Seřazení** — Fotky setřídí se v pořadí od nejstarších k nejnovějším
+2. **Slotování** — Přiřadí časové sloty (interval mezi fotkami)
+3. **Konflikt resolution** — Pokud jsou fotky ve stejném slotu, adjustuje o 1 sekundu
+
+### Priorita řazení
+
+```
+Reprezentant sekvence
+    ↓ (priorita)
+Běžné fotky
+    ↓
+Sekvence členy (nemajetní v UI, ale viditelní v Player)
+```
+
+---
+
+## 7. Editační režim
 
 **Aktivace:** Záložka „Editace" v sidebaru (pouze Dev Mode)
 
@@ -132,13 +342,74 @@ Synchronizace je **obousměrná** a **debouncovaná** (50ms):
 | Shift + Klik  | Hromadný výběr rozsahu  |
 | Pravý klik    | Kontextové menu         |
 
-### Kontextové menu
+### Kontextové menu (na separátoru)
+
+- **Distribuovat rovnoměrně** — Rozprostře fotky rovnoměrně v čase separátoru
+- **Obnovit** — Vrátí fotky na původní časy
+
+### Kontextové menu (na fotce)
 
 - **Smazat / Archivovat** → Odstranění z galerie
 - **Kopírovat metadata** → Do schránky aplikace
 - **Vložit metadata** → Na vybrané fotky
+- **Swap časy** — Prohodit časy s jinou fotkou
 
-## 5. Kurátorský režim
+---
+
+## 8. CLAP (Clean Aperture)
+
+**Princip:** HEIC/HEIF fotografie mohou obsahovat CLAP atom (Clean Aperture) — instrukci jak ořezat "surový" snímek na užitečnou část.
+
+### Zdroj dat
+
+```
+HEIC fotografický soubor (native resolution: 3000×2000)
+    ↓
+CLAP atom (instrukce: ořez na 2500×1800 viditelné části)
+    ↓
+ExifTool parser → CleanApertureData
+    ↓
+GUI editor → UserCrop (po rotaci)
+    ↓
+ExifTool writer (persistuje do HEIC)
+```
+
+### Souřadnicové systémy
+
+```
+Native (nativní snímač, bez rotace):
+┌─────────────────┐
+│ 3000×2000       │
+│ CLAP atom zde   │
+└─────────────────┘
+
+User-space (po aplikaci EXIF Orientation):
+┌────────┐
+│ 2000×3000 (otočeno) │
+│ Editor UI   │
+└────────┘
+```
+
+### EditTab CLAP integracija
+
+```svelte
+<ClapEditor image={currentImage} onCropChange={(crop) => saveClapMetadata(crop)} />
+```
+
+### API: POST /api/images/clap-preview
+
+```typescript
+// Náhled CLAP ořezu
+{
+  imageId: "IMG_1234",
+  clap: { width: 2500, height: 1800, ... },
+  variant: "detail"
+}
+```
+
+---
+
+## 9. Kurátorský režim
 
 **Aktivace:** Ikona „Jiskry" v hlavičce (pouze Dev Mode)
 
@@ -150,7 +421,7 @@ flowchart LR
     TIME[Časové okno 4h] --> GROUP
     GROUP --> BEST[Doporučeno]
     GROUP --> REST[Ostatní]
-````
+```
 
 ### Indikátory
 
@@ -174,4 +445,4 @@ flowchart LR
 
 ---
 
-_Poslední aktualizace: 2026-01-03_
+_Poslední aktualizace: 2026-01-05_

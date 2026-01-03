@@ -2,6 +2,8 @@
 
 Tento projekt obsahuje funkcionalitu pro automatickou detekci tváří na fotografiích a jejich shlukování do osob (clustering).
 
+**Navigace:** [← INDEX](./INDEX.md) | [PERSON-MANAGEMENT →](./PERSON-MANAGEMENT.md) | [ARCH-BUILD →](./ARCH-BUILD.md)
+
 ## Jak to funguje
 
 1. **Detekce:** Script projde všechny fotografie v galerii a pomocí AI modelu (SSD MobileNet V1) nalezne tváře.
@@ -96,4 +98,4 @@ Pro detailní analýzu konkrétní fotografie můžete použít debug skript (po
 
 ---
 
-_Poslední aktualizace: 2026-01-03_
+_Poslední aktualizace: 2026-01-05_

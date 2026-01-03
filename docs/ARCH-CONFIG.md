@@ -2,6 +2,8 @@
 
 > Přehled konfiguračních souborů v root adresáři projektu.
 
+**Navigace:** [← INDEX](./INDEX.md) | [ARCHITECTURE →](./ARCHITECTURE.md) | [ARCH-DEV →](./ARCH-DEV.md)
+
 ## Obsah
 
 1. [SvelteKit](#1-sveltekit)
@@ -68,16 +70,32 @@ export default defineConfig({
 
 ### tsconfig.json
 
-```json
+```jsonc
 {
   "extends": "./.svelte-kit/tsconfig.json",
   "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
     "strict": true,
     "moduleResolution": "bundler",
-    "resolveJsonModule": true
-  }
+    "lib": ["esnext", "dom", "dom.iterable"],
+  },
 }
 ```
+
+**Klíčové options:**
+
+| Option              | Hodnota         | Účel                   |
+| ------------------- | --------------- | ---------------------- |
+| `strict`            | `true`          | Striktní type checking |
+| `moduleResolution`  | `bundler`       | ESM bundler resolution |
+| `resolveJsonModule` | `true`          | Import JSON souborů    |
+| `lib`               | `esnext`, `dom` | TypeScript knihovny    |
 
 **Path aliases** (SvelteKit managed):
 
@@ -85,6 +103,8 @@ export default defineConfig({
 | ------------ | ------------------------ |
 | `$lib`       | `src/lib`                |
 | `$manifests` | `src/data/<CONTENT_DIR>` |
+| `$scripts`   | `scripts/`               |
+| `$shared`    | `shared/`                |
 
 ## 4. Tailwind CSS
 
@@ -140,4 +160,4 @@ export default {
 
 ---
 
-_Poslední aktualizace: 2026-01-03_
+_Poslední aktualizace: 2026-01-05_

@@ -2,208 +2,127 @@
 
 Tento dokument obsahuje referenční příručku všech skriptů dostupných v `package.json`. Většina příkazů využívá sjednocený CLI nástroj (`scripts/manage.ts`), který umožňuje interaktivní výběr galerie nebo použití argumentů.
 
+**Navigace:** [← INDEX](./INDEX.md) | [ARCH-BUILD →](./ARCH-BUILD.md) | [TESTING →](./TESTING.md)
+
 ## Obsah
 
 - [Kompletní seznam skriptů](#kompletní-seznam-skriptů)
   - [Obsah](#obsah)
   - [Development](#development)
   - [Build (produkce)](#build-produkce)
-  - [Generování assetů](#generování-assetů)
-    - [Image processing](#image-processing)
-    - [Manifest skripty](#manifest-skripty)
-    - [Favicon generation](#favicon-generation)
-    - [Kompletní generování](#kompletní-generování)
-    - [Similarity analysis](#similarity-analysis)
+  - [Generování assetů (Process pipeline)](#generování-assetů-process-pipeline)
   - [Testování](#testování)
   - [Code quality](#code-quality)
-  - [Utility](#utility)
+  - [Utility skripty](#utility-skripty)
+  - [Cache Systém](#cache-systém)
+    - [Struktura cache a manifestů](#struktura-cache-a-manifestů)
+    - [Jak cache funguje](#jak-cache-funguje)
+    - [Split Manifest Architektura](#split-manifest-architektura)
+    - [Pipeline kroky (`pnpm process`)](#pipeline-kroky-pnpm-process)
+    - [Co běží při `pnpm dev`](#co-běží-při-pnpm-dev)
   - [Poznámky](#poznámky)
     - [Proměnné prostředí](#proměnné-prostředí)
     - [Běžné workflow](#běžné-workflow)
+  - [Troubleshooting](#troubleshooting)
+    - [Problémy s AI Skripty (Bun + Native Addons)](#problémy-s-ai-skripty-bun--native-addons)
+    - [Optimization Notes: upng-js vs Sharp](#optimization-notes-upng-js-vs-sharp)
+    - [Nové CLI Flagy](#nové-cli-flagy)
+      - [`--detect-renames` (experimentální)](#--detect-renames-experimentální)
+      - [`--clean-outputs` (validátor)](#--clean-outputs-validátor)
+    - [Budoucí Optimalizace](#budoucí-optimalizace)
+      - [Face Detection Architektura (záměrně odděleno)](#face-detection-architektura-záměrně-odděleno)
+  - [Související dokumenty](#související-dokumenty)
 
 ## Development
 
 Vývojové servery. Doporučujeme používat interaktivní režim.
 
-- **`bun run dev`** - Spustí interaktivní výběr galerie a následně dev server.
-- **`bun run dev -- -g egypt-2025`** - Spustí přímo pro konkrétní galerii.
-
-### Legacy aliasy
-
-- **`bun run dev:israel`** - Alias pro `bun run dev -- -g israel-2022`
-- **`bun run dev:egypt`** - Alias pro `bun run dev -- -g egypt-2025`
-- **`bun run preview`** - Náhled production buildu lokálně
+- **`bun run dev`** — Spustí interaktivní výběr galerie a následně dev server
+- **`bun run preview`** — Náhled production buildu lokálně
 
 ## Build (produkce)
 
 Build celého webu pro deployment.
 
-- **`bun run build`** - Interaktivní výběr galerie.
-- **`bun run build -- -g egypt-2025`** - Build pro konkrétní galerii.
+- **`bun run build`** — Interaktivní výběr galerie
 
-## Generování assetů
+## Generování assetů (Process pipeline)
 
-Skripty pro manuální generování obrázků, manifestů a favicon. Používají proměnnou `CONTENT_DIR` pro určení aktivní galerie.
+Unified CLI pro zpracování dat přes `scripts/manage.ts`. Všechny příkazy podporují:
 
-### Kompletní pipeline (Process)
+- `--gallery`, `-g` — Cílová galerie (např. `egypt-2025`, `israel-2022`)
+- `--verbose`, `-v` — Detailní logování
+- `--clean` — Smazání výstupu před procesem
+- `--manifest-only` — Rychlá aktualizace manifestu (EXIF + .md, bez analýzy)
+- `--concurrency` — Počet paralelních úloh
+- `--limit` — Omezení počtu zpracovaných obrázků
 
-Kompletní pipeline pro zpracování dat (obrázky -> AI -> favicons).
+**Kompletní pipeline:**
 
-- **`bun run process`** - Interaktivní výběr.
-- **`bun run process -- -g egypt-2025`** - Spustí pipeline pro konkrétní galerii.
+- **`bun run process`** — Kompletní pipeline (images → blur → analysis → faces → favicons)
 
-### Podporované argumenty (všechny skripty)
+**Dílčí kroky:**
 
-Většinu argumentů lze předat skrze `manage.ts` pomocí syntaxe `bun scripts/manage.ts <command> --flag=value`.
+- **`bun run process:images`** — Generování image variant (AVIF, WebP, JPEG)
+- **`bun run process:blur`** — Generování LQIP blur placeholders
+- **`bun run process:analysis`** — AI analýza (sharpness, perceptual hash, aesthetic score)
+- **`bun run process:faces`** — Face detection a clustering
+- **`bun run process:favicons`** — Generování faviconů a PWA manifestu
 
-| Flag              | Popis                                                  | Výchozí         |
-| :---------------- | :----------------------------------------------------- | :-------------- |
-| `--gallery`, `-g` | Cílová galerie (např. `israel-2022`)                   | `egypt-2025`    |
-| `--verbose`, `-v` | Povolí detailní logování                               | `false`         |
-| `--clean`         | Smaže výstupní adresář před procesem                   | `false`         |
-| `--manifest-only` | Rychlá aktualizace manifestu (EXIF + .md, bez analýzy) | `false`         |
-| `--concurrency`   | Počet paralelních úloh                                 | `auto`          |
-| `--limit`         | Omezení počtu zpracovaných obrázků                     | `0` (neomezeno) |
+**Příklady:**
 
-### Specifické argumenty pro sub-kroky
-
-#### Image Processing (`images`, `blur`)
-
-- `--watch`: Sleduje změny v `content/` a automaticky regeneruje.
-- `--curation`: Zapne detekci duplikátů a generování kurátorského manifestu.
-
-> **Poznámka k `--manifest-only`:** V tomto režimu se načítají pouze:
->
-> - EXIF metadata z obrázků (dimenze, GPS, datum [Wall Clock], autor)
-> - Story obsah z `.md` souborů
->
-> Přeskakuje se: dominantní barva (placeholder), sharpness, pHash, detekce obličejů.
-> Toto umožňuje rychlý start `pnpm dev` (~150ms místo minut).
-
-#### AI & Analysis (`analyze`, `faces`)
-
-- `--batch-size`: Velikost dávky pro AI modely (default: `8`).
-- `--time-window`: Časové okno pro hledání podobností v hodinách (default: `4`).
-- `--threshold`: Práh podobnosti pro obličeje (0.1 - 1.0, default: `0.6`).
-- `--min-confidence`: Minimální jistota detekce obličeje (default: `0.5`).
-- `--min-face-size`: Minimální velikost obličeje v pixelech (např. `80`).
-
-### Image processing
-
-- **`bun run images:build`** - Vygeneruje všechny varianty obrázků pro výchozí galerii
-- **`bun run images:build:israel`** - Pro Israel 2022
-- **`bun run images:build:egypt`** - Pro Egypt 2025
-- **`bun run images:rename`** - Interaktivní skript pro hromadné přejmenování fotek podle metadat (datum, autor). Podporuje "chytrou migraci" (přejmenování assetů, cache i manifestů bez nutnosti rebuildu).
-
-  **Podporované flagy:**
-  - `--dryRun` - Simulace přejmenování, vygeneruje JSON plán bez provedení změn
-  - `--author=<name>` - Výchozí autor pro EXIF data
-  - `--manifestOnly` - Pouze regenerace manifestu (bez přegenerování obrázků)
-  - `--curation` - Generování kurátorského manifestu s detekcí duplikátů
-  - `--watch` - Watch režim pro automatickou regeneraci
-  - `--clean` - Odstranění osiřelých souborů po buildu
-  - `--limit=<n>` - Omezení počtu zpracovaných obrázků (pro testování)
-  - `--concurrency=<n|auto>` - Nastavení paralelního zpracování
-
-  **Příklady použití:**
-
-  ```bash
-  bun run images:build:israel                  # Základní použití
-  CONTENT_DIR=israel-2022 bun run images:build # Alternativa s proměnnou
-  bun run images:build --manifestOnly          # Pouze manifest
-  bun run images:build --curation              # S kurátorským režimem
-  bun run images:build --watch                 # Watch režim
-  bun run images:rename --dryRun --gallery=egypt-2025 # Simulace přejmenování
-  ```
-
-- **`bun run images:rename:revert`** - Skript pro vrácení změn provedených `images:rename`. Vyžaduje JSON plán vygenerovaný při `--dryRun` (nebo automaticky vytvořený předchozím během, pokud by byl integrován log).
-  - Použití: `bun run images:rename:revert` (interaktivně se zeptá na cestu k JSON plánu)
-
-- **`bun run images:watch`** - Watch režim, automatická regenerace při změnách v content/
-- **`bun run images:blur`** - Vygeneruje pouze blur placeholders (LQIP)
-- **`bun run images:blur:israel`** - Blur pro Israel 2022
-- **`bun run images:blur:egypt`** - Blur pro Egypt 2025
-- **`bun run images:all`** - Kompletní generování: všechny varianty + blur placeholders
-
-### Manifest skripty
-
-- **`bun run manifest:build:israel`** - Rychlá regenerace pouze manifestu pro Israel 2022
-- **`bun run manifest:build:egypt`** - Rychlá regenerace pouze manifestu pro Egypt 2025
-- **`bun run manifest:curation:israel`** - Generování kurátorského manifestu pro Israel 2022 (s detekcí duplikátů)
-- **`bun run manifest:curation:egypt`** - Generování kurátorského manifestu pro Egypt 2025
-
-### Face Clustering
-
-- **`bun run faces:cluster:israel`** - Sdružování obličejů pro Israel 2022
-- **`bun run faces:cluster:egypt`** - Sdružování obličejů pro Egypt 2025
-
-### Favicon generation
-
-- **`bun run favicons:build`** - Vygeneruje favicons a PWA manifest pro výchozí galerii
-- **`bun run favicons:build:israel`** - Vygeneruje favicons pro Israel 2022
-- **`bun run favicons:build:egypt`** - Vygeneruje favicons pro Egypt 2025
-
-### Kompletní generování
-
-- **`bun run generate`** - Vygeneruje obrázky i favicons pro výchozí galerii
-
-### Similarity analysis
-
-- **`bun run analyze:israel`** - Analýza podobnosti fotografií pro Israel 2022 (perceptual hashing)
-- **`bun run analyze:egypt`** - Analýza podobnosti fotografií pro Egypt 2025
+```bash
+bun run dev                                # Interaktivní výběr
+bun run dev -- -g egypt-2025               # Přímé spuštění
+bun run process -- -g israel-2022 --clean  # Kompletní pipeline s clean
+bun run process:images -- --manifest-only  # Rychlá regenerace manifestu
+```
 
 ## Testování
 
-Kompletní testovací strategie zahrnující unit, component, integration a E2E testy.
+**Unit & Integration testy:**
 
-- **`bun run test`** - Spustí všechny testy (unit + integration + E2E)
-- **`bun run test:unit`** - Spustí unit testy v watch režimu
+- **`bun run test`** — Všechny testy (unit + integration)
+- **`bun run test:unit`** — Pouze unit testy (core + DOM)
+- **`bun run test:integration`** — Pouze integration testy (API + build + data, s `SHARP_NUM_THREADS=1`)
+- **`bun run test:coverage`** — Testy s code coverage reportem
 
-  **Varianty:**
+**E2E testy:**
 
-  ```bash
-  bun run vitest run                                     # Jednorázový běh
-  CONTENT_DIR=egypt-2025 bun run vitest run --project client  # Component testy
-  ```
-
-- **`bun run test:integration`** - Spustí integration testy pro image processing pipeline
-  > **Poznámka:** Používá `SHARP_NUM_THREADS=1` pro deterministické výstupy
-- **`bun run test:e2e`** - Spustí E2E testy pomocí Playwright
+- **`bun run test:e2e`** — Playwright end-to-end testy
 
 **Více informací:** [TESTING.md](./TESTING.md)
 
 ## Code quality
 
-Linting, formátování a type-checking pomocí Biome, Prettier, Stylelint a svelte-check.
+- **`bun run lint`** — Kontrola kódu (Prettier + Stylelint + Biome)
+- **`bun run format`** — Automatická oprava formátování
+- **`bun run lint:ci`** — Linting pro CI (s diagnostic-level=warn)
+- **`bun run lint-staged`** — Pre-commit hook (pouze staged soubory)
+- **`bun run check`** — TypeScript type-checking pro Svelte komponenty
+- **`bun run check:watch`** — Type-checking v watch režimu
 
-- **`bun run lint`** - Kontrola kódu pomocí Biome a Stylelint
-- **`bun run lint:css`** - Kontrola CSS souborů pomocí Stylelint
-- **`bun run lint:fix`** - Automatická oprava problémů nalezených Biome
-- **`bun run lint:ci`** - Linting pro CI/CD (summary report, warnings)
-- **`bun run format`** - Naformátuje kód pomocí Biome a Prettier
-  - **Biome:** TypeScript, JavaScript
-  - **Prettier:** Svelte, Markdown, HTML, CSS
-- **`bun run format:check`** - Kontrola formátování bez zápisu
-- **`bun run check`** - TypeScript type-checking pro Svelte komponenty
-- **`bun run check:watch`** - Type-checking v watch režimu
+## Utility skripty
 
-## Maintenance a Monitoring
+**Image management:**
 
-191:
-192: Skripty pro zajištění konzistence dat a real-time dohled.
-193:
-194: - **`bun scripts/watchdog.ts`** - **Doporučeno při práci v GUI.** Real-time monitoring konzistence:
-195: - Hlídá "zombie" profily (0 fotek).
-196: - Hlídá zanořené názvy.
-197: - Indikuje stav dat (srdíčko každých 5s).
-198:
-199: - **`bun scripts/clean-empty-people.ts`** - Jednorázový čistič.
-200: - Odstraní z `people.manifest.json` osoby, které nemají žádné fotky.
-201: - Řeší problém "duchů" v postranním panelu.
-202:
-203: ## Utility
+- **`bun run images:rename`** — Interaktivní hromadné přejmenování fotek podle metadat
+- **`bun run images:rename:revert`** — Vrácení změn z `images:rename` (vyžaduje JSON plán)
+- **`bun run images:underwater`** — Fix underwater images (speciální úpravy)
 
-- **`bun run prepare`** - SvelteKit synchronizace (generování typů, cest). Spouští se automaticky při instalaci
+**Face & people auditing:**
+
+- **`bun run faces:cluster`** — Face clustering a people management
+- **`bun run faces:audit`** — Audit orphaned faces a consistency check
+
+**Cleanup:**
+
+- **`bun run clean`** — Vymaže build výstupy a manifesty
+- **`bun run clean:all`** — Vymaže vše (build, cache, generované obrázky)
+
+**Maintenance:**
+
+- **`bun run prepare`** — SvelteKit synchronizace (generování typů, cest, spouští se automaticky při instalaci)
 
 ## Cache Systém
 
@@ -371,9 +290,12 @@ bun run test
 
 Pro podrobnosti o architektuře a implementaci viz:
 
-- [ARCHITECTURE.md](./ARCHITECTURE.md) - Detailní architektura projektu
-- [TESTING.md](./TESTING.md) - Testovací strategie
-- [ADD-GALLERY.md](./ADD-GALLERY.md) - Návod na přidání nové galerie
+- [INDEX.md](./INDEX.md) — Rozcestník dokumentace
+- [ARCHITECTURE.md](./ARCHITECTURE.md) — Detailní architektura projektu
+- [ARCH-BUILD.md](./ARCH-BUILD.md) — Build proces a pipeline
+- [TESTING.md](./TESTING.md) — Testovací strategie
+- [ADD-GALLERY.md](./ADD-GALLERY.md) — Návod na přidání nové galerie
+- [CODE-QUALITY.md](./CODE-QUALITY.md) — QA nástroje a workflow
 
 ## Troubleshooting
 
@@ -484,4 +406,4 @@ Step 2 a Step 4 používají **různé modely** z důvodu optimalizace:
 
 ---
 
-_Poslední aktualizace: 2026-01-03_
+_Poslední aktualizace: 2026-01-05_

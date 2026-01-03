@@ -2,6 +2,8 @@
 
 > Jak data prochází systémem od obsahu po výstup.
 
+**Navigace:** [← INDEX](./INDEX.md) | [ARCHITECTURE →](./ARCHITECTURE.md) | [ARCH-BUILD →](./ARCH-BUILD.md)
+
 ## Obsah
 
 1. [Build-time flow](#1-build-time-flow)
@@ -121,6 +123,132 @@ Metadata rozdělena pro optimalizaci:
 
 > ⚠️ **Date & Time Policy:** Všechny časové údaje v manifestech jsou ukládány jako "Pure Wall Clock" ISO řetězce (bez offsetu). Viz [ARCHITECTURE.md > Zpracování času](./ARCHITECTURE.md#4-zpracování-času-date--time-policy).
 
+### ImageEntry struktura
+
+Klíčové vlastnosti **ImageEntry** typu:
+
+```typescript
+type ImageEntry = {
+  id: string;
+  type: MediaItemType; // "image" | "sequence" | "sequence-member" | "panorama" | "collage" | "video" | "youtube"
+  src: string;
+
+  // Metadata
+  author?: string;
+  location?: string;
+  city?: string;
+  latitude?: number;
+  longitude?: number;
+
+  // EXIF data (REQUIRED)
+  exif: {
+    date: string; // Original EXIF time (Wall Clock)
+    releaseDate: string; // Sorting time (XMP:ReleaseDate persistent)
+    location?: string;
+    city?: string;
+    latitude?: number;
+    longitude?: number;
+    orientation?: number; // EXIF rotation (1-8)
+  };
+
+  /** User-defined flags */
+  flags?: string[]; // ["snapshot-author", "snapshot-others", "favorite", "archived"]
+
+  /** Special categories */
+  category?: string; // "collage-source" (auto-hidden in UI)
+
+  /** Sequence information (zoom, pan, timelapse, focus-stack, panorama) */
+  sequenceInfo?: {
+    representativeId: string; // ID of representative
+    memberIds: string[]; // Other members
+    type: "zoom" | "pan" | "timelapse" | "focus-stack" | "panorama";
+    description?: string;
+  };
+
+  /** CLAP (Clean Aperture) metadata from HEIC/HEIF */
+  clap?: {
+    width: number; // Visible width in pixels
+    height: number; // Visible height in pixels
+    horizOffset: number; // Horizontal offset (px)
+    vertOffset: number; // Vertical offset (px)
+  };
+
+  // Other metadata
+  sources?: ImageSource[]; // For collages (source images)
+  people?: string[];
+  analysis?: {
+    qualityBucket?: QualityBucket; // "excellent" | "good" | "poor"
+    sharpness: number;
+    phash: string;
+    aestheticScore?: number;
+  };
+};
+```
+
+**Special properties:**
+
+- **`exif.date`** — Original EXIF time (Wall Clock string, never Date object)
+- **`exif.releaseDate`** — Persistent sorting time (XMP:ReleaseDate in file)
+- **`flags`** — User-defined filtering flags
+  - `"snapshot-author"` — Private snapshot (no documentary value)
+  - `"snapshot-others"` — Snapshot from others
+  - `"favorite"`, `"archived"` — Custom markers
+- **`category`** — Special categories
+  - `"collage-source"` — Source image for collage (auto-hidden)
+- **`sequenceInfo`** — For grouped shots (zoom sequences, burst, timelapse, etc.)
+- **`clap`** — HEIC/HEIF Clean Aperture crop data (from native HEIC atom)
+
+### Separator struktura
+
+```typescript
+type Separator = {
+  type: "separator";
+  id: string; // Format: loc-{slugLocation}{-timeSuffix}
+  location: string; // Key from markdown, maps to EXIF location
+  city: string;
+  storyTitle?: string; // From markdown frontmatter
+  story?: string; // HTML (parsed via marked.js)
+  startDate?: string; // Wall Clock time
+  endDate?: string; // Wall Clock time
+  hasPhotos?: boolean; // Calculated during build
+};
+```
+
+**Properties:**
+
+- **Markdown-driven:** Defined in `content/<gallery>/locations/*.md`
+- **Auto-generated:** For photo groups without markdown (if `>= minPhotosForAutoSeparator`)
+- **Multiple visits:** `visits[]` in markdown → Multiple separators same day
+- **Story rendering:** Markdown → HTML (via marked.js parser)
+
+### PhotoDay struktura
+
+```typescript
+type PhotoDay = {
+  date: string; // YYYY-MM-DD (Wall Clock)
+  id: string;
+  items: (ImageEntry | Separator)[]; // Mixed sequence
+  cities?: string[];
+  locations?: string[];
+  story?: string; // Day-level story
+  mergedDates?: string[]; // If multiple days merged
+};
+```
+
+**Critical: Sequence members in PhotoDay:**
+
+All sequence members are placed in the representative's PhotoDay, **even if they have EXIF times on other days** (midnight crossings):
+
+```
+Example:
+- Member 1: 2025-11-25T23:50:00 (Egypt TZ)
+- Member 2: 2025-11-25T23:55:00
+- Member 3: 2025-11-26T00:05:00 ← Crosses midnight!
+- Representative: 2025-11-25T23:52:00
+
+Result: All members → PhotoDay 2025-11-25 (representative's)
+```
+
 ### Merge při runtime
 
 ```typescript
@@ -195,4 +323,4 @@ V development módu (`bun run dev`) běží server v dlouhodobém procesu s in-m
 
 ---
 
-_Poslední aktualizace: 2026-01-03_
+_Poslední aktualizace: 2026-01-05_

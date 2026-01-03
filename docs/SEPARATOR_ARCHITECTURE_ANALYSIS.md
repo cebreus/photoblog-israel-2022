@@ -1,5 +1,7 @@
 # Kritická analýza architektury generování separátorů a menu
 
+**Navigace:** [← INDEX](./INDEX.md) | [ARCH-DATA-FLOW →](./ARCH-DATA-FLOW.md) | [SCRIPTS →](./SCRIPTS.md)
+
 ## Shrnutí
 
 Současná architektura trpí **rozptýlenou odpovědností**, **implicitní logikou** a **nedostatečnou validací vstupních dat**. To vedlo k 4+ hodinám ladění problémů, které by měla architektura předcházet.
@@ -243,7 +245,15 @@ Současná architektura je **funkční, ale křehká**. Hlavní problémy:
 3. **Rozptýlená odpovědnost** → Budoucí refactoring
 4. **Závislost na přesném řazení** → Dokumentováno (Wall Clock principle)
 
+Tento dokument slouží jako referenční analýza pro budoucí refaktoringy a onboarding nových vývojářů.
+
+## Související dokumenty
+
+- [ARCH-DATA-FLOW.md](./ARCH-DATA-FLOW.md) — Datové toky a manifesty
+- [SCRIPTS.md](./SCRIPTS.md) — CLI příkazy a build proces
+- [ARCHITECTURE.md](./ARCHITECTURE.md) — Hlavní přehled architektury
+
 ---
 
 _Vytvořeno: 2026-01-02_
-_Aktualizováno: 2026-01-02_
+_Aktualizováno: 2026-01-05_

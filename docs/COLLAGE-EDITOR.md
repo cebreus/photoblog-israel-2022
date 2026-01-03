@@ -6,6 +6,8 @@
 ![SvelteKit](https://img.shields.io/badge/framework-SvelteKit-ff3e00)
 ![Sharp](https://img.shields.io/badge/processing-Sharp-99cc00)
 
+**Navigace:** [← INDEX](./INDEX.md) | [ARCH-BUILD →](./ARCH-BUILD.md) | [TESTING →](./TESTING.md)
+
 ## Obsah
 
 1. [Popis](#popis)
@@ -619,4 +621,4 @@ Všechny texty jsou centralizovány v `src/lib/utils/messages.ts` pod `COLLAGE_M
 
 ---
 
-_Poslední aktualizace: 2026-01-03_
+_Poslední aktualizace: 2026-01-05_

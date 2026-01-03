@@ -2,6 +2,8 @@
 
 > Multi-gallery fotoblog postavený na SvelteKit 5 + Bun runtime.
 
+**Navigace:** [← INDEX](./INDEX.md) | [ARCH-STRUCTURE →](./ARCH-STRUCTURE.md) | [ARCH-CONFIG →](./ARCH-CONFIG.md)
+
 ## Obsah
 
 1. [Přehled](#1-přehled)
@@ -14,6 +16,17 @@
 
 **Klíčový koncept:** Proměnná `CONTENT_DIR` řídí aktivní galerii → jedna kódová základna, více nezávislých galerií.
 
+### Hlavní architektury
+
+| Subsystém      | Klíč                                      |
+| -------------- | ----------------------------------------- |
+| **Separátory** | Markdown-driven s auto-generováním        |
+| **Sekvence**   | 10-min detection window, day-grouping     |
+| **Řazení**     | XMP:ReleaseDate persistent (ne sortorder) |
+| **CLAP**       | HEIC/HEIF native crop metadata            |
+| **Kolláže**    | Detekce `--collage` suffixu, media type   |
+| **Filtrace**   | 7 filtrů + momentky (snapshot flags)      |
+
 ### Charakteristiky
 
 | Vlastnost        | Popis                                              |
@@ -22,29 +35,32 @@
 | Image processing | Sharp → AVIF/WebP/JPEG varianty, LQIP placeholders |
 | Static export    | Pre-rendered SSG, optimální SEO                    |
 | Type-safe        | Kompletní TypeScript pokrytí                       |
+| Time as string   | Wall Clock (nikdy Date object) — bez timezone      |
 
 ## 2. Technologický stack
 
 ### Runtime & Build
 
-| Nástroj                                   | Verze | Účel                      |
-| ----------------------------------------- | ----- | ------------------------- |
-| [Bun](https://bun.sh/)                    | -     | Runtime + package manager |
-| [SvelteKit](https://kit.svelte.dev/)      | 2.43+ | Framework                 |
-| [Vite](https://vitejs.dev/)               | 7.1+  | Build tool                |
-| [Sharp](https://sharp.pixelplumbing.com/) | 0.33+ | Image processing          |
+| Nástroj                                   | Verze  | Účel                      |
+| ----------------------------------------- | ------ | ------------------------- |
+| [Bun](https://bun.sh/)                    | latest | Runtime + package manager |
+| [SvelteKit](https://kit.svelte.dev/)      | 2.49+  | Framework                 |
+| [Vite](https://vitejs.dev/)               | 7.3+   | Build tool                |
+| [Sharp](https://sharp.pixelplumbing.com/) | 0.34+  | Image processing          |
 
 ### Frontend
 
-- **Svelte 5** (runes API)
-- **Tailwind CSS v4** (`@tailwindcss/vite`)
-- **bits-ui** (headless komponenty)
+- **Svelte 5** (5.46+, runes API)
+- **Tailwind CSS v4** (4.1+, `@tailwindcss/vite`)
+- **bits-ui** (2.14+, headless komponenty)
+- **Fancybox** (6.1+, lightbox)
 
 ### Testing
 
-- **Vitest** — Unit + Integration
-- **Playwright** — E2E
-- **Biome** — Linting/Formatting
+- **Vitest** (4.0+) — Unit + Integration
+- **Playwright** (1.57+) — E2E
+- **Biome** (2.3+) — Linting/Formatting
+- **Prettier** (3.7+) — Markdown/Svelte formatting
 
 ## 3. Architektura systému
 
@@ -97,7 +113,70 @@ Metadata jsou rozdělena pro optimalizaci:
 | `embeddings.manifest.json` | CLIP vektory (768D)              |
 | `people.manifest.json`     | Shlukované osoby                 |
 
-## 4. Zpracování času (Date & Time Policy)
+## 4. Zpracování času: "Wall Clock" politika
+
+> **⚠️ KRITICKÁ DESIGN DECISION — Neměňte bez konzultace!**
+
+### Proč ne Date objekty?
+
+```javascript
+// ❌ PROBLÉM: Časová zóna je závisová na systému
+new Date("2025-11-25T09:16:00");
+// Na systému s UTC+1: 2025-11-25T08:16:00 UTC
+// Na systému s UTC+0: 2025-11-25T09:16:00 UTC
+// → Výsledek je nepředviditelný!
+
+// ✅ ŘEŠENÍ: Práce jen s ISO stringy
+"2025-11-25T09:16:00" < "2025-11-25T09:28:00";
+// Funguje správně bez ohledu na timezone
+```
+
+### Zdrojové časy (Immutable)
+
+```
+HEIC fotografický soubor
+    ↓
+ExifTool extrahuje raw čas → "2025:11:25 09:28:36"
+    ↓
+metadata.ts konvertuje → "2025-11-25T09:28:36" (BEZ ZMĚNY hodin/minut)
+    ↓
+exif.date v manifestu ← Wall Clock čas z fotoaparátu
+```
+
+### Řazovací časy (Mutable)
+
+```
+Uživatel draguje fotku v gridu
+    ↓
+API: POST /api/images/reorder
+    ↓
+Time Slot Swapping algoritmus
+    ↓
+ExifTool zapisuje → XMP:ReleaseDate "2025-11-25T09:58:00"
+    ↓
+exif.releaseDate v manifestu ← Nový čas (persistent v HEIC)
+```
+
+### Data storage
+
+| Pole               | Typ    | Příklad               | Mutabilní? | Perzistentní? |
+| ------------------ | ------ | --------------------- | ---------- | ------------- |
+| `exif.date`        | string | "2025-11-25T09:28:00" | ❌ Nikdy   | ✅ HEIC       |
+| `exif.releaseDate` | string | "2025-11-25T09:58:00" | ✅ API     | ✅ HEIC       |
+| `date` (root)      | string | "2025-11-25T..."      | Deprecated | —             |
+
+### Komparování (Sorting)
+
+```typescript
+// Všechny časy jsou stringy ISO 8601 → lexicographic porovnání funguje!
+const times = ["2025-11-25T09:58:00", "2025-11-25T10:05:00", "2025-11-25T10:00:00"];
+
+times.sort();
+// Výsledek: správné!
+// ["2025-11-25T09:58:00", "2025-11-25T10:00:00", "2025-11-25T10:05:00"]
+```
+
+(Date & Time Policy)
 
 **Breaking Change (Jan 2026):** Projekt přešel na striktní **"True Wall Clock"** princip.
 
@@ -142,4 +221,4 @@ Metadata jsou rozdělena pro optimalizaci:
 
 ---
 
-_Poslední aktualizace: 2026-01-03_
+_Poslední aktualizace: 2026-01-05_

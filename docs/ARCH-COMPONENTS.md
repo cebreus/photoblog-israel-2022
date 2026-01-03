@@ -2,6 +2,8 @@
 
 > Přehled Svelte komponent v aplikaci.
 
+**Navigace:** [← INDEX](./INDEX.md) | [ARCHITECTURE →](./ARCHITECTURE.md) | [ARCH-FEATURES →](./ARCH-FEATURES.md)
+
 ## Obsah
 
 1. [Layout](#1-layout)
@@ -78,6 +80,26 @@ Jednotlivá fotka v gridu.
 - Placeholder color před načtením
 - Lazy loading (`loading="lazy"`)
 - Kontextové menu (pravý klik)
+- Sequence/collage badgy
+
+### Dialogové komponenty
+
+**Administrační dialogy:**
+
+- `ArchiveImageDialog.svelte` — Archivace fotografie
+- `DeleteImageDialog.svelte` — Mazání fotografie
+- `MetadataPasteDialog.svelte` — Vkládání metadat
+- `PersonDetailDialog.svelte` — Detail osoby
+- `PersonMergeDialog.svelte` — Sloučení osob
+- `CurationGroupDialog.svelte` — Srovnání duplicit
+
+### Speciální komponenty
+
+- `SequencePlayer.svelte` — Přehrávač sekvencí
+- `CurationGroup.svelte` — Skupina podobných fotek
+- `SelectionBulkActions.svelte` — Hromadné akce s výběrem
+- `GalleryEmptyState.svelte` — Prázdný stav galerie
+- `AspectRatioIcon.svelte` — Ikona poměru stran
 - Fancybox integrace
 
 ## 3. Sidebar
@@ -97,36 +119,80 @@ Postranní panel s záložkami.
 | Lidé    | `PeopleTab.svelte`  | Správa osob                |
 | Editace | `EditTab.svelte`    | Hromadné úpravy (Dev only) |
 
-### AgendaTab.svelte
+### Komponenty v záložkách
+
+**FiltersTab.svelte:**
+
+- Statistiky (fotky, autoři, zastávky)
+- Přepínače zobrazení (popisky, zastávky)
+- Filtry autorů s počty
+- Filtry typu média (4 typy)
+- Accordion s Momentkami (3 přepínače) a Kvalitou (3 buckety)
+- Přepínač vzhledu (Light/Dark/System)
+
+**AgendaTab.svelte:**
 
 - Rychlá navigace na dny/místa
 - Zvýrazňuje aktivní sekci (Scrollspy)
 
-### PeopleTab.svelte
+**PeopleTab.svelte:**
 
 - Seznam detekovaných osob
 - Filtrace podle osob
 - Sloučení / skrytí osob
-- Sekce: Osoby, Sochy, Malby, Skryté, Junk
+- Kategorie: `CategoryPersonCard` komponenta
+- `PeopleSelectionControls` — ovládání výběru
+- `VisiblePeopleList` — seznam viditelných osob
+- `HiddenPersonActions` — akce pro skryté osoby
+
+**EditTab.svelte:**
+
+- Multi-výběr fotek
+- `SelectedImagesBadges` — vizualizace výběru
+- Bulk operace (Archive, Delete, Metadata)
+- `MetadataInputField` — vstupní pole pro metadata
+- `GeoDataSection` — sekce s GPS daty
+- Typ fotky dropdown (Běžná / Momentka autora / Momentka ostatních)
 
 ## 4. UI knihovna
 
-**Základ:** [shadcn-svelte](https://www.shadcn-svelte.com/) (bits-ui)
+Projekt používá **bits-ui** (headless komponenty) + vlastní styled wrapper komponenty v `src/lib/components/ui/`:
 
-### Komponenty
+### Dostupné komponenty
 
-```
-src/lib/components/ui/
-├── button/
-├── card/
-├── dialog/
-├── dropdown-menu/
-├── input/
-├── sheet/
-├── sidebar/
-├── tabs/
-└── tooltip/
-```
+- `accordion/` — Rozbalovací sekce
+- `alert/` — Upozornění a notifikace
+- `badge/` — Štítky a označení
+- `breadcrumb/` — Navigační drobečková navigace
+- `button/` + `button-group/` — Tlačítka
+- `card/` — Kartičky
+- `checkbox/` — Zaškrtávací políčka
+- `context-menu/` — Kontextové menu
+- `dialog/` — Modální dialogy
+- `dropdown-menu/` — Rozbalovací menu
+- `empty/` — Prázdný stav
+- `form/` — Formulářové prvky
+- `input/` + `textarea/` — Textové vstupy
+- `item/` — Generický list item
+- `label/` — Popisky
+- `navigation-menu/` — Navigační menu
+- `separator/` — Oddělovač
+- `sheet/` — Boční panel
+- `sidebar/` — Sidebary (bits-ui komponenty)
+- `skeleton/` — Načítací placeholder
+- `sonner/` — Toast notifikace (svelte-sonner)
+- `spinner/` — Načítací indikátor
+- `switch/` — Přepínač
+- `tabs/` — Záložky
+- `toggle/` + `toggle-group/` — Toggle tlačítka
+- `tooltip/` — Nápovědy
+
+### Design system
+
+- **Tailwind CSS v4** pro styling
+- **Tailwind Merge** pro merge classnames
+- **Tailwind Variants** pro varianty komponent
+- **tw-animate-css** pro animace
 
 ### Použití
 
@@ -152,4 +218,4 @@ src/lib/components/ui/
 
 ---
 
-_Poslední aktualizace: 2026-01-03_
+_Poslední aktualizace: 2026-01-05_

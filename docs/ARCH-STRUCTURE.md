@@ -2,12 +2,21 @@
 
 > Mapování adresářů a organizace kódu.
 
+**Navigace:** [← INDEX](./INDEX.md) | [ARCHITECTURE →](./ARCHITECTURE.md)
+
 ## Obsah
 
-1. [Hlavní adresáře](#1-hlavní-adresáře)
-2. [Content Layer](#2-content-layer)
-3. [Application Layer](#3-application-layer)
-4. [Scripts Layer](#4-scripts-layer)
+- [Struktura projektu](#struktura-projektu)
+  - [Obsah](#obsah)
+  - [1. Hlavní adresáře](#1-hlavní-adresáře)
+  - [2. Content Layer](#2-content-layer)
+    - [site.md](#sitemd)
+  - [3. Application Layer](#3-application-layer)
+    - [SvelteKit konvence](#sveltekit-konvence)
+    - [API endpointy](#api-endpointy)
+  - [4. Scripts Layer](#4-scripts-layer)
+    - [Shared Layer](#shared-layer)
+  - [Související dokumenty](#související-dokumenty)
 
 ## 1. Hlavní adresáře
 
@@ -90,6 +99,32 @@ src/
 | `+server.ts`      | API endpoint             |
 | `+error.svelte`   | Error stránka            |
 
+### API endpointy
+
+**Poznámka:** Většina mutačních endpointů (`POST`, `PATCH`, `DELETE`) je dostupná pouze v DEV módu (`dev === true`).
+
+| Endpoint                               | Metody                    | Účel                                                   |
+| -------------------------------------- | ------------------------- | ------------------------------------------------------ |
+| `/api/collage-sources`                 | `GET`                     | Metadata zdrojových obrázků kolážií (collage-sources/) |
+| `/api/files/[...filepath]`             | `GET`                     | Proxy pro originální soubory z content/                |
+| `/api/geocode`                         | `GET`                     | Reverse geocoding (Nominatim API proxy, pouze DEV)     |
+| `/api/images`                          | `DELETE`, `POST`, `PATCH` | Smazání, duplikace, hromadná editace metadat obrázků   |
+| `/api/images/clap-preview`             | `GET`                     | Preview CLAP videa podle query parametrů               |
+| `/api/images/collage`                  | `POST`                    | Vytvoření koláže z vybraných obrázků                   |
+| `/api/images/reorder`                  | `PATCH`                   | Změna pořadí obrázků v rámci dne                       |
+| `/api/images/redistribute`             | `POST`                    | Přesun obrázků mezi dny (změna wallclock času)         |
+| `/api/images/swap-time`                | `POST`                    | Prohození časů dvou obrázků                            |
+| `/api/log`                             | `POST`                    | Frontend logging (relay FE → BE Pino)                  |
+| `/api/people`                          | `PATCH`                   | Hromadná editace osob (name, hidden, junk, category)   |
+| `/api/people/avatars`                  | `GET`                     | Seznam avatarů všech osob                              |
+| `/api/people/invalid-detections`       | `GET`                     | Seznam invalidovaných detekcí obličejů                 |
+| `/api/people/invalid-detections/clear` | `DELETE`                  | Vymazání všech invalidovaných detekcí                  |
+| `/api/people/invalidate-detection`     | `POST`                    | Označení detekce obličeje jako neplatné                |
+| `/api/people/merge`                    | `POST`                    | Sloučení více osob do jedné                            |
+| `/api/people/reassign`                 | `POST`                    | Přeřazení obrázků osobě (změna přiřazení)              |
+| `/api/people/set-avatar`               | `POST`                    | Nastavení avataru osoby                                |
+| `/api/people/unmatch`                  | `POST`                    | Odpárování obrázku od osoby                            |
+
 ## 4. Scripts Layer
 
 ```
@@ -127,10 +162,12 @@ shared/
 
 ## Související dokumenty
 
+- [INDEX.md](./INDEX.md) — Rozcestník dokumentace
 - [ARCHITECTURE.md](./ARCHITECTURE.md) — Hlavní přehled
 - [ARCH-BUILD.md](./ARCH-BUILD.md) — Build proces a skripty
+- [ARCH-DATA-FLOW.md](./ARCH-DATA-FLOW.md) — Toky manifestů a cache
 - [SCRIPTS.md](./SCRIPTS.md) — Reference CLI příkazů
 
 ---
 
-_Poslední aktualizace: 2026-01-03_
+_Poslední aktualizace: 2026-01-05_

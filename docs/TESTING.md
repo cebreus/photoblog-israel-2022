@@ -2,6 +2,8 @@
 
 > Strategie a průvodce testováním v projektu.
 
+**Navigace:** [← INDEX](./INDEX.md) | [ARCH-DEV →](./ARCH-DEV.md) | [CODE-QUALITY →](./CODE-QUALITY.md)
+
 ## Obsah
 
 1. [Přehled](#1-přehled)
@@ -40,21 +42,45 @@ flowchart TB
 ### Základní příkazy
 
 ```bash
-pnpm test          # Všechny testy
-pnpm test:unit     # Unit testy
-pnpm test:e2e      # E2E testy (Playwright)
-pnpm test:images   # Image pipeline testy
+bun run test              # Všechny testy
+bun run test:unit         # Unit testy (unit-core + unit-dom)
+bun run test:integration  # Integration testy (API + build + data, s SHARP_NUM_THREADS=1)
+bun run test:coverage     # S code coverage reportem
+bun run test:e2e          # E2E testy (Playwright)
 ```
 
 ### Projekty Vitest
 
-```bash
-pnpm vitest run --project unit-core      # Doménová logika
-pnpm vitest run --project unit-dom       # DOM utility
-pnpm vitest run --project client         # Svelte komponenty
+Vite.config.ts definuje **6 projektů**:
 
-# Component testy vyžadují CONTENT_DIR
-CONTENT_DIR=egypt-2025 pnpm vitest run --project client
+| Projekt                   | Environment | Účel                            |
+| ------------------------- | ----------- | ------------------------------- |
+| **`client`**              | Browser     | Svelte komponenty (playwright)  |
+| **`unit-core`**           | Node.js     | Doménová logika, utilities      |
+| **`unit-dom`**            | jsdom       | Stores, features (DOM simulace) |
+| **`integration-api`**     | Node.js     | API routes testing              |
+| **`integration-build`**   | Node.js     | Build & CLI scripts             |
+| **`integration-data`**    | Node.js     | Data integrity & manifests      |
+| **`browser-integration`** | Browser     | Complex browser interactions    |
+
+```bash
+# Unit testy
+bun run test:unit                                   # unit-core + unit-dom
+bun vitest run --project unit-core                  # Pouze core logika
+bun vitest run --project unit-dom                   # Stores, features
+
+# Integration testy
+bun run test:integration                            # API + build + data
+bun vitest run --project integration-api            # API routes
+bun vitest run --project integration-build          # Build scripts
+bun vitest run --project integration-data           # Data processing
+
+# Component testy
+bun vitest run --project client                     # Svelte komponenty
+bun vitest run --project browser-integration        # Browser interactions
+
+# Všechny
+bun run test                                        # Spustí všechny projekty
 ```
 
 ## 4. Psaní testů
@@ -203,10 +229,11 @@ await new Promise((resolve) => setTimeout(resolve, 200));
 
 ## Související dokumenty
 
+- [INDEX.md](./INDEX.md) — Rozcestník dokumentace
 - [ARCH-DEV.md](./ARCH-DEV.md) — Development workflow
 - [CODE-QUALITY.md](./CODE-QUALITY.md) — QA nástroje
 - [SCRIPTS.md](./SCRIPTS.md) — CLI reference
 
 ---
 
-_Poslední aktualizace: 2026-01-03_
+_Poslední aktualizace: 2026-01-05_

@@ -2,6 +2,8 @@
 
 > Podpora panoramat, sekvencí a 360° fotografií.
 
+**Navigace:** [← INDEX](./INDEX.md) | [ARCH-BUILD →](./ARCH-BUILD.md) | [CLAP-EDITOR →](./CLAP-EDITOR.md)
+
 ## Obsah
 
 1. [Podporované typy](#1-podporované-typy)
@@ -110,4 +112,4 @@ flowchart LR
 
 ---
 
-_Poslední aktualizace: 2026-01-03_
+_Poslední aktualizace: 2026-01-05_

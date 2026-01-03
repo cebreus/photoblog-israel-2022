@@ -2,6 +2,8 @@
 
 > Nasazení a CI/CD pipeline.
 
+**Navigace:** [← INDEX](./INDEX.md) | [ARCHITECTURE →](./ARCHITECTURE.md) | [ARCH-BUILD →](./ARCH-BUILD.md)
+
 ## Obsah
 
 1. [Strategie](#1-strategie)
@@ -123,4 +125,4 @@ jobs:
 
 ---
 
-_Poslední aktualizace: 2026-01-03_
+_Poslední aktualizace: 2026-01-05_

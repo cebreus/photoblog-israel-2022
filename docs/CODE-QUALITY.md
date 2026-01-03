@@ -2,6 +2,8 @@
 
 > QA nástroje a workflow pro projekt.
 
+**Navigace:** [← INDEX](./INDEX.md) | [ARCH-DEV →](./ARCH-DEV.md) | [TESTING →](./TESTING.md)
+
 ## Obsah
 
 1. [Nástroje](#1-nástroje)
@@ -111,4 +113,4 @@ pnpm check
 
 ---
 
-_Poslední aktualizace: 2026-01-03_
+_Poslední aktualizace: 2026-01-05_
