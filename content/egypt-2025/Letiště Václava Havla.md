@@ -1,5 +1,5 @@
 ---
 location: Letiště Václava Havla
 visits:
-  - { endDate: 2025-11-22T00:45:00 }
+  - { startDate: 2025-11-21T21:54:00, endDate: 2025-11-22T00:45:00 }
 ---
