@@ -26,7 +26,7 @@ export function toPureWallClockISO(val: string | Date | undefined): string | und
 
     if (val instanceof Date) {
         const pad = (n: number) => n.toString().padStart(2, "0");
-        return `${val.getFullYear()}-${pad(val.getMonth() + 1)}-${pad(val.getDate())}T${pad(val.getHours())}:${pad(val.getMinutes())}:${pad(val.getSeconds())}`;
+        return `${val.getUTCFullYear()}-${pad(val.getUTCMonth() + 1)}-${pad(val.getUTCDate())}T${pad(val.getUTCHours())}:${pad(val.getUTCMinutes())}:${pad(val.getUTCSeconds())}`;
     }
 
     // If it's a string, strip any trailing offsets or 'Z'

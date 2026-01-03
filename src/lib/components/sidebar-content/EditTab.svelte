@@ -1,11 +1,11 @@
 <script lang="ts">
   import Info from "@lucide/svelte/icons/info";
   import LayoutGrid from "@lucide/svelte/icons/layout-grid";
-  import { fade } from "svelte/transition";
   import { toast } from "svelte-sonner";
-  import { invalidateAll } from "$app/navigation";
-  import CollageDialog from "$lib/components/admin/CollageDialog.svelte";
+  import { fade } from "svelte/transition";
+
   import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
+  import CollageDialog from "$lib/components/admin/CollageDialog.svelte";
   import { Button } from "$lib/components/ui/button";
   import { Label } from "$lib/components/ui/label";
   import { Spinner } from "$lib/components/ui/spinner";
@@ -13,6 +13,7 @@
   import { createLogger } from "$lib/logger";
   import { applyMetadataUpdates } from "$lib/shared/metadata-utils";
   import { editor } from "$lib/stores/editor.svelte";
+  import { filters } from "$lib/stores/filters.svelte";
   import { metadataClipboard } from "$lib/stores/metadata-clipboard.svelte";
   import type { CollageRequest } from "$lib/types/collage";
   import type { ImageEntry, Separator } from "$lib/types/manifest";
@@ -23,6 +24,8 @@
   } from "$lib/utils/collage-config";
   import { COLLAGE_MESSAGES, IMAGE_MESSAGES } from "$lib/utils/messages";
   import { smartToast } from "$lib/utils/toasts";
+
+  import { invalidateAll } from "$app/navigation";
 
   import GeoDataSection from "./GeoDataSection.svelte";
   import MetadataInputField from "./MetadataInputField.svelte";
@@ -272,6 +275,12 @@
       }
 
       toast.success(IMAGE_MESSAGES.imageSaved(imageIds.length));
+
+      // If server returned fresh photoDays (e.g. after releaseDate change),
+      // update the filters store for smooth re-render without full page reload.
+      if (responseData.photoDays && Array.isArray(responseData.photoDays)) {
+        filters.setSourceData(responseData.photoDays);
+      }
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       toast.error(msg);

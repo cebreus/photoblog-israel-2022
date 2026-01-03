@@ -83,7 +83,7 @@ export const METADATA_STANDARDS: Record<MetadataKey, MetadataFieldConfig> = {
   releaseDate: {
     label: "Datum řazení",
     read: ["ReleaseDate", "XMP:ReleaseDate"],
-    write: ["XMP:ReleaseDate"],
+    write: ["DateTimeOriginal", "CreateDate", "XMP:ReleaseDate", "XMP:DateTimeOriginal"],
   },
 };
 

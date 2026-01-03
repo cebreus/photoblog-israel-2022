@@ -1,8 +1,3 @@
-import fs from "node:fs/promises";
-import path from "node:path";
-import process from "node:process";
-import { json, type RequestEvent } from "@sveltejs/kit";
-import { exiftool } from "exiftool-vendored";
 import { dev } from "$app/environment";
 import { createLogger } from "$lib/logger";
 import { applyMetadataUpdates } from "$lib/shared/metadata-utils";
@@ -27,10 +22,15 @@ import {
   saveFacesManifest,
   saveImagesManifest,
 } from "$scripts/lib/manifests/repository";
+import { json, type RequestEvent } from "@sveltejs/kit";
+import { exiftool } from "exiftool-vendored";
+import fs from "node:fs/promises";
+import path from "node:path";
+import process from "node:process";
 
 const logger = createLogger("api:images");
 
-type BatchItem = { id: string; src: string; [key: string]: unknown };
+type BatchItem = { id: string; src: string;[key: string]: unknown };
 type GroupedItems = Record<string, BatchItem[]>;
 
 // --- Helpers ---
@@ -90,7 +90,7 @@ async function resolvePhysicalPath(contentRoot: string, fileName: string): Promi
       if (candidates.length > 0) {
         return path.join(dir, candidates[0]);
       }
-    } catch {}
+    } catch { }
   }
 
   return null;
@@ -153,10 +153,24 @@ async function processBatch(
       }
 
       if (manifestModified && manifest) {
-        // Filter out deleted items if the processor didn't already remove them
-        // (Processor might modify manifest in place, or we handle removal here if needed)
-        // But logic specific to DELETE vs UPDATE differs (DELETE removes item, UPDATE modifies).
-        // So processor should handle manifest modification deeply.
+        // Re-sort items within each day by releaseDate/date to ensure correct order
+        for (const day of manifest.photoDays) {
+          day.items.sort((a, b) => {
+            const getTimestamp = (item: typeof a) => {
+              if (item.type === "separator") {
+                return item.startDate || item.endDate || "";
+              }
+              return item.exif?.releaseDate ?? item.exif?.date ?? "";
+            };
+            const tsA = getTimestamp(a);
+            const tsB = getTimestamp(b);
+            if (!tsA && !tsB) return 0;
+            if (!tsA) return 1;
+            if (!tsB) return -1;
+            return tsA.localeCompare(tsB);
+          });
+        }
+
         logger.info(
           `processBatch: Saving manifest for ${contentDir}, modified=${manifestModified}, processedIds=${processedIds.length}`,
         );
@@ -180,7 +194,7 @@ async function processBatch(
               }
             }
             if (changed) await saveAnalysisManifest(dataPath, analysisManifest);
-          } catch (_e: unknown) {}
+          } catch (_e: unknown) { }
 
           // Embeddings
           try {
@@ -197,7 +211,7 @@ async function processBatch(
                 dataPath,
                 embeddingsManifest as Record<string, number[]>,
               );
-          } catch (_e: unknown) {}
+          } catch (_e: unknown) { }
 
           // Faces
           try {
@@ -210,8 +224,8 @@ async function processBatch(
               }
             }
             if (changed) await saveFacesManifest(dataPath, facesManifest);
-          } catch (_e: unknown) {}
-        } catch (_e: unknown) {}
+          } catch (_e: unknown) { }
+        } catch (_e: unknown) { }
       }
     });
   } catch (err) {
@@ -505,9 +519,12 @@ export async function PATCH({ request }: RequestEvent) {
   }
 
   // Return both IDs and the full updated objects
-  // Return both IDs and the full updated objects
   // Force reload of in-memory manifest cache
   await reloadManifests();
 
-  return json({ success: true, updated: updatedIds, updatedImages, errors });
+  // Import getPhotoDays to return fresh data for client-side update
+  const { getPhotoDays } = await import("$lib/utils/images");
+  const photoDays = getPhotoDays();
+
+  return json({ success: true, updated: updatedIds, updatedImages, photoDays, errors });
 }

@@ -14,7 +14,8 @@ export type MetadataKey =
     | "state"
     | "country"
     | "countryCode"
-    | "flags";
+    | "flags"
+    | "releaseDate";
 
 /**
  * Metadata Field Configuration
@@ -78,6 +79,11 @@ export const METADATA_STANDARDS: Record<MetadataKey, MetadataFieldConfig> = {
         label: "Příznaky",
         read: ["Label", "SupplementalCategories"],
         write: ["XMP:Label", "IPTC:SupplementalCategories"],
+    },
+    releaseDate: {
+        label: "Datum řazení",
+        read: ["ReleaseDate", "XMP:ReleaseDate"],
+        write: ["DateTimeOriginal", "CreateDate", "XMP:ReleaseDate", "XMP:DateTimeOriginal"],
     },
 };
 

@@ -246,8 +246,28 @@ function getIsoDate(exif: Partial<RawExifData>): string | undefined {
 function getReleaseDate(exif: Partial<RawExifData>): string | undefined {
   try {
     // Priority: ReleaseDate > DateTimeOriginal > CreateDate
-    const d = exif.ReleaseDate || exif.DateTimeOriginal || exif.CreateDate;
-    if (d) return toPureWallClockISO(d);
+    // BUT: If ReleaseDate is just a date (T00:00:00), prefer DateTimeOriginal if it has time.
+
+    const releaseRaw = exif.ReleaseDate;
+    const originRaw = exif.DateTimeOriginal || exif.CreateDate;
+
+    if (releaseRaw) {
+      const releaseISO = toPureWallClockISO(releaseRaw);
+      if (releaseISO && !releaseISO.endsWith("T00:00:00")) {
+        return releaseISO;
+      }
+      // ReleaseDate is midnight. Do we have a better origin?
+      if (originRaw) {
+        const originISO = toPureWallClockISO(originRaw);
+        if (originISO && !originISO.endsWith("T00:00:00")) {
+          return originISO;
+        }
+      }
+      // Both are midnight or origin is missing, use release
+      return releaseISO;
+    }
+
+    if (originRaw) return toPureWallClockISO(originRaw);
   } catch {}
   return undefined;
 }

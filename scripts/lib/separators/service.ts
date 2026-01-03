@@ -124,22 +124,25 @@ export function assignPhotos(separator: Separator, allPhotos: ImageEntry[]): Sep
     const photoLocation = photo.exif?.location || "Unknown";
     const photoTimestamp = photo.exif?.releaseDate ?? photo.exif?.date;
 
-    // Location must match
-    if (photoLocation !== separator.location) continue;
-
     let matches = false;
-    // If separator has time range, photo must be within it
+
+    // Logic:
+    // 1. If Separator has exact time range -> Match by Time (Location is ignored/overridden)
+    // 2. If Separator has NO time range -> Match by Location (Exact match required)
+
     if (separator.startDate || separator.endDate) {
-      if (photoTimestamp) {
-        const start = separator.startDate || "1970-01-01T00:00:00";
-        const end = separator.endDate || "9999-12-31T23:59:59";
-        if (photoTimestamp >= start && photoTimestamp <= end) {
-          matches = true;
-        }
+      if (!photoTimestamp) continue;
+      const start = separator.startDate || "1970-01-01T00:00:00";
+      const end = separator.endDate || "9999-12-31T23:59:59";
+
+      if (photoTimestamp >= start && photoTimestamp <= end) {
+        matches = true;
       }
     } else {
-      // No time range - just count all photos with this location
-      matches = true;
+      // No time range - strict location match
+      if (photoLocation === separator.location) {
+        matches = true;
+      }
     }
 
     if (matches) {
