@@ -7,14 +7,15 @@ import {
   backupManifests,
   migrateAnalysisManifest,
   migrateCache,
+  migrateClusteringConstraintsManifest,
   migrateCurationManifest,
   migrateEmbeddingsManifest,
   migrateFacesManifest,
   migrateGeneratedAssets,
   migrateImagesManifest,
   migrateMarkdownFiles,
+  migrateMenuManifest,
   migratePeopleManifest,
-  migrateSortOrderManifest,
   restoreManifests,
 } from "./lib/gallery/migration";
 import { analyzeRenameCandidates, type RenameMap, safeRename } from "./lib/gallery/renaming";
@@ -52,7 +53,41 @@ async function getGalleryOrPrompt(galleries: string[]): Promise<string> {
   return selected;
 }
 
-async function executeRenameAndMigration(gallery: string, renameMap: RenameMap): Promise<void> {
+/**
+ * Core function to apply renames on disk.
+ */
+async function applyRenames(renameMap: RenameMap, sProgress: { message: (msg: string) => void }) {
+  sProgress.message("Renaming files...");
+  for (const item of renameMap.values()) {
+    const result = await safeRename(item.oldPath, item.newPath);
+    if (!result.success && !result.skipped) {
+      throw new Error(`Failed to rename ${item.oldName}: ${result.error}`);
+    }
+  }
+}
+
+/**
+ * Mode 1: Simple Rename
+ * Just renames files in place. No backups, no manifest updates.
+ */
+async function runSimpleRename(renameMap: RenameMap): Promise<void> {
+  const s = spinner();
+  s.start("Renaming files...");
+
+  try {
+    await applyRenames(renameMap, s);
+    s.stop(`Successfully renamed ${renameMap.size} files.`);
+  } catch (err) {
+    s.stop("Renaming failed!", 1);
+    throw err;
+  }
+}
+
+/**
+ * Mode 2: Full Migration
+ * Backs up manifests, renames files, updates all manifests/cache/assets, and restores on failure.
+ */
+async function runFullMigration(gallery: string, renameMap: RenameMap): Promise<void> {
   const sRun = spinner();
   sRun.start("Creating backup and starting migration...");
 
@@ -61,15 +96,9 @@ async function executeRenameAndMigration(gallery: string, renameMap: RenameMap):
   try {
     // 1. Transactional Backup
     backupDir = await backupManifests(gallery);
-    sRun.message("Renaming files...");
 
     // 2. Rename Files
-    for (const item of renameMap.values()) {
-      const result = await safeRename(item.oldPath, item.newPath);
-      if (!result.success && !result.skipped) {
-        throw new Error(`Failed to rename ${item.oldName}: ${result.error}`);
-      }
-    }
+    await applyRenames(renameMap, sRun);
 
     sRun.message("Migrating assets and manifests...");
 
@@ -80,10 +109,11 @@ async function executeRenameAndMigration(gallery: string, renameMap: RenameMap):
     await migratePeopleManifest(gallery, renameMap);
     await migrateFacesManifest(gallery, renameMap);
     await migrateCurationManifest(gallery, renameMap);
+    await migrateClusteringConstraintsManifest(gallery, renameMap);
+    await migrateMenuManifest(gallery, renameMap);
     await migrateMarkdownFiles(gallery, renameMap);
     await migrateAnalysisManifest(gallery, renameMap);
     await migrateEmbeddingsManifest(gallery, renameMap);
-    await migrateSortOrderManifest(gallery, renameMap);
 
     sRun.stop(`Successfully processed ${renameMap.size} files.`);
   } catch (err) {
@@ -137,16 +167,25 @@ async function main() {
   const s = spinner();
   s.start("Analyzing images...");
 
-  const picsDir = path.resolve(`content/${gallery}/pics`);
+  // Determine mode based on sourceFolder usage
+  const isSimpleMode = !!values.sourceFolder;
+  const picsDir = values.sourceFolder
+    ? path.resolve(values.sourceFolder)
+    : path.resolve(`content/${gallery}/pics`);
+
   try {
-    await (await import("node:fs/promises")).access(picsDir);
+    const stats = await (await import("node:fs/promises")).stat(picsDir);
+    if (!stats.isDirectory()) {
+      throw new Error("Not a directory");
+    }
   } catch {
-    s.stop("No pics folder found!");
-    outro(`Directory not found: ${picsDir}`);
+    s.stop("Directory error!");
+    outro(`Directory not found or invalid: ${picsDir}`);
     process.exit(1);
   }
 
   // Load existing manifest to find authors not in EXIF
+  // Only useful if we are in standard mode OR if filenames match manifest IDs
   const imagesManifest = await loadImagesManifest(`src/data/${gallery}`);
 
   const renameMap = await analyzeRenameCandidates(picsDir, defaultAuthor, imagesManifest);
@@ -176,8 +215,12 @@ async function main() {
     return;
   }
 
+  const modeMessage = isSimpleMode
+    ? `Ready to rename ${renameMap.size} files in '${values.sourceFolder}'. (Simple Mode: No migrations)`
+    : `Ready to rename ${renameMap.size} files. This involves migrating cache, manifests, and content. Continue?`;
+
   const shouldContinue = await confirm({
-    message: `Ready to rename ${renameMap.size} files. This involves migrating cache, manifests, and content. Continue?`,
+    message: modeMessage,
   });
 
   if (!shouldContinue) {
@@ -185,11 +228,18 @@ async function main() {
     process.exit(0);
   }
 
-  await executeRenameAndMigration(gallery, renameMap);
+  if (isSimpleMode) {
+    await runSimpleRename(renameMap);
+  } else {
+    await runFullMigration(gallery, renameMap);
+  }
 
   outro(`
     ✅ Done!
-    - Source files renamed.
+    ${
+      isSimpleMode
+        ? "- Files renamed."
+        : `- Source files renamed.
     - Generated assets renamed.
     - Cache updated.
     - Manifests logging updated.
@@ -198,7 +248,8 @@ async function main() {
     
     Now run:
     1. bun run build (to verify integrity)
-    2. bun run dev (to preview)
+    2. bun run dev (to preview)`
+    }
     `);
 }
 
@@ -209,7 +260,7 @@ if (import.meta.main) {
       await main();
       outro(`Total time: ${formatDuration(performance.now() - startTime)}`);
     } catch (error) {
-      logger.error(error);
+      logger.error(`Error: ${error}`);
     }
   })();
 }

@@ -103,6 +103,10 @@ export interface ClusteringConstraints {
     imageId: string;
     box: { x: number; y: number; width: number; height: number };
   }>;
+  ignoredCrops?: Array<{
+    imageId: string;
+    box: { x: number; y: number; width: number; height: number };
+  }>;
 }
 
 function isValidConstraintEntry(value: unknown): boolean {
@@ -120,21 +124,24 @@ export function isValidClusteringConstraints(value: unknown): value is Clusterin
   const hasConnects =
     !value.connects || (isArray(value.connects) && value.connects.every(isValidConstraintEntry));
 
+  const validatorBoxEntry = (c: unknown) =>
+    isObject(c) &&
+    isString(c.imageId) &&
+    isObject(c.box) &&
+    isNumber(c.box.x) &&
+    isNumber(c.box.y) &&
+    isNumber(c.box.width) &&
+    isNumber(c.box.height);
+
   const hasInvalidDetections =
     !value.invalidDetections ||
-    (isArray(value.invalidDetections) &&
-      value.invalidDetections.every(
-        (c) =>
-          isObject(c) &&
-          isString(c.imageId) &&
-          isObject(c.box) &&
-          isNumber(c.box.x) &&
-          isNumber(c.box.y) &&
-          isNumber(c.box.width) &&
-          isNumber(c.box.height),
-      ));
+    (isArray(value.invalidDetections) && value.invalidDetections.every(validatorBoxEntry));
 
-  return hasDisconnects && hasConnects && hasInvalidDetections;
+  const hasIgnoredCrops =
+    !value.ignoredCrops ||
+    (isArray(value.ignoredCrops) && value.ignoredCrops.every(validatorBoxEntry));
+
+  return hasDisconnects && hasConnects && hasInvalidDetections && hasIgnoredCrops;
 }
 
 export function isValidImageEntry(value: unknown): value is ImageEntry {

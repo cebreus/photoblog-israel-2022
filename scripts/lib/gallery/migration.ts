@@ -7,16 +7,20 @@ import { config } from "../../build.config";
 import { createLogger } from "../core/cli-logger";
 import {
   loadAnalysisManifest,
+  loadClusteringConstraints,
   loadCurationManifest,
   loadEmbeddingsManifest,
   loadFacesManifest,
   loadImagesManifest,
+  loadMenuManifest,
   loadPeopleManifest,
   saveAnalysisManifest,
+  saveClusteringConstraints,
   saveCurationManifest,
   saveEmbeddingsManifest,
   saveFacesManifest,
   saveImagesManifest,
+  saveMenuManifest,
   savePeopleManifest,
 } from "../manifests/repository";
 import { getOutputFolders } from "./cleanup";
@@ -381,6 +385,80 @@ export async function migrateCurationManifest(
 
     if (curChanged) {
       await saveCurationManifest(`src/data/${gallery}`, curationManifest);
+    }
+  }
+}
+
+/**
+ * Migrates menu.manifest.json
+ */
+export async function migrateMenuManifest(gallery: string, renameMap: RenameMap): Promise<void> {
+  const menuManifest = await loadMenuManifest(`src/data/${gallery}`);
+  if (menuManifest) {
+    const lookup = new Map<string, typeof renameMap extends Map<any, infer V> ? V : never>();
+    for (const v of renameMap.values()) {
+      lookup.set(toSlug(v.oldBase), v);
+    }
+
+    let menuChanged = false;
+    for (const day of menuManifest) {
+      if (day.locations) {
+        for (const loc of day.locations) {
+          if (loc.href?.startsWith("#")) {
+            // Check if href points to an image ID (e.g. #slug)
+            const id = loc.href.substring(1);
+            const match = lookup.get(id);
+            if (match) {
+              loc.href = `#${toSlug(match.newBase)}`;
+              menuChanged = true;
+            }
+          }
+        }
+      }
+    }
+
+    if (menuChanged) {
+      await saveMenuManifest(`src/data/${gallery}`, menuManifest);
+    }
+  }
+}
+
+/**
+ * Migrates clustering-constraints.json
+ */
+export async function migrateClusteringConstraintsManifest(
+  gallery: string,
+  renameMap: RenameMap,
+): Promise<void> {
+  const constraints = await loadClusteringConstraints(`src/data/${gallery}`);
+  if (constraints) {
+    const lookup = new Map<string, typeof renameMap extends Map<any, infer V> ? V : never>();
+    for (const v of renameMap.values()) {
+      lookup.set(toSlug(v.oldBase), v);
+    }
+
+    let changed = false;
+
+    // Helper to update imageId in a list of items
+    const updateList = (list: any[] | undefined) => {
+      if (!list) return;
+      for (const item of list) {
+        if (item.imageId) {
+          const match = lookup.get(item.imageId);
+          if (match) {
+            item.imageId = toSlug(match.newBase);
+            changed = true;
+          }
+        }
+      }
+    };
+
+    updateList(constraints.disconnects);
+    updateList(constraints.connects);
+    updateList(constraints.ignoredCrops);
+
+    if (changed) {
+      await saveClusteringConstraints(`src/data/${gallery}`, constraints);
     }
   }
 }

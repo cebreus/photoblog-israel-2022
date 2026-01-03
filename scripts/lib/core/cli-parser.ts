@@ -54,6 +54,7 @@ export type CliOptions = {
   minConfidence: number;
   minFaceSize: number;
   dryRun: boolean;
+  sourceFolder?: string;
 };
 
 const QUALITY_FORMATS: readonly QualityFormat[] = [
@@ -182,6 +183,7 @@ export const DEFAULT_CLI_OPTIONS: CliOptions = {
   minConfidence: 0.5,
   minFaceSize: 0,
   dryRun: false,
+  sourceFolder: undefined,
 };
 
 type ArgHandler = (value: string, args: CliOptions) => void;
@@ -189,6 +191,12 @@ type ArgHandler = (value: string, args: CliOptions) => void;
 const CLI_FLAG_HANDLERS: Record<string, ArgHandler> = {
   src: function handleSrc(v, a) {
     a.src = path.resolve(process.cwd(), v);
+  },
+  "source-folder": function handleSourceFolder(v, a) {
+    a.sourceFolder = path.resolve(process.cwd(), v);
+  },
+  sourceFolder: function handleSourceFolderAlias(v, a) {
+    a.sourceFolder = path.resolve(process.cwd(), v);
   },
   out: function handleOut(v, a) {
     a.out = path.resolve(process.cwd(), v);
