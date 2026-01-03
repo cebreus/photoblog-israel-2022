@@ -455,6 +455,40 @@
     }
   }
 
+  async function handleSwapTimes() {
+    if (editor.selection.size < 2) {
+      toast.error(
+        "Pro prohození časů musí být vybrány alespoň 2 fotky (reprezentující 2 skupiny).",
+      );
+      return;
+    }
+    const ids = Array.from(editor.selection);
+
+    const promise = fetch("/api/images/swap-time", {
+      method: "POST",
+      body: JSON.stringify({ dayId, imageIds: ids }),
+    }).then(async (r) => {
+      if (!r.ok) {
+        const err = await r.json();
+        throw new Error(err.message || err.error || "Chyba serveru");
+      }
+      return r.json();
+    });
+
+    smartToast(promise, {
+      loading: "Prohazuji časy...",
+      success: "Časy úspěšně prohozeny",
+      error: (e) => (e instanceof Error ? e.message : "Chyba při prohození"),
+    });
+
+    try {
+      await promise;
+      await invalidateAll();
+    } catch (e) {
+      logger.error(e);
+    }
+  }
+
   $effect(debugLog);
 
   function debugLog() {
@@ -618,8 +652,6 @@
       onDelete={openDeleteDialog}
       onArchive={handleArchive}
       onCopyMetadata={handleCopyMetadata}
-      onPasteMetadata={handlePasteMetadata}
-      onResetReleaseDate={handleResetReleaseDate}
       onSelect={handleSelect}
     />
   {:else}
@@ -671,8 +703,10 @@
             onArchive={handleArchive}
             onCopyMetadata={handleCopyMetadata}
             onPasteMetadata={handlePasteMetadata}
-            onSelect={handleSelect}
+            onResetReleaseDate={handleResetReleaseDate}
+            onSwapTimes={handleSwapTimes}
             onOpenCurationDialog={handleOpenCurationDialog}
+            onSelect={handleSelect}
           />
         </div>
       {:else}
@@ -684,14 +718,12 @@
           onDelete={openDeleteDialog}
           onArchive={handleArchive}
           onCopyMetadata={handleCopyMetadata}
-          onPasteMetadata={handlePasteMetadata}
-          onResetReleaseDate={handleResetReleaseDate}
           onSelect={handleSelect}
           onOpenCurationDialog={handleOpenCurationDialog}
         />
       {/if}
     {:else if item.type === "separator" && item.location}
-      <PhotoGridSeparator {item} showMetadataOverlay={showMetadata} />
+      <PhotoGridSeparator {item} showMetadataOverlay={showMetadata} {dayId} />
     {/if}
   {/if}
 {/each}
@@ -724,7 +756,6 @@
   onDelete={openDeleteDialog}
   onArchive={handleArchive}
   onCopyMetadata={handleCopyMetadata}
-  onPasteMetadata={handlePasteMetadata}
-  onResetReleaseDate={handleResetReleaseDate}
   onSelect={handleSelect}
 />
+```
