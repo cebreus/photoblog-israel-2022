@@ -30,8 +30,11 @@ export function toPureWallClockISO(val: string | Date | undefined): string | und
     }
 
     // If it's a string, strip any trailing offsets or 'Z'
-    // First, convert EXIF YYYY:MM:DD to ISO YYYY-MM-DD if needed
+    // First, convert EXIF YYYY:MM:DD to ISO YYYY-MM-DD
     let sanitized = val.replace(/^(\d{4}):(\d{2}):(\d{2})/, "$1-$2-$3");
+
+    // Replace space between date and time with T (common in EXIF)
+    sanitized = sanitized.replace(" ", "T");
 
     // Match up to seconds, discard the rest (offsets, milliseconds)
     const match = sanitized.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/);
