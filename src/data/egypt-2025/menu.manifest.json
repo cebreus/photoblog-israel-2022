@@ -90,7 +90,7 @@
         "id": "loc-diamond-red-seadiving-in-hurghada-1549",
         "label": "Diamond Red Sea—Diving in Hurghada",
         "href": "#loc-diamond-red-seadiving-in-hurghada-1549",
-        "isDimmed": false,
+        "isDimmed": true,
         "firstPhotoExifDate": "2025-11-23T16:34:13",
         "startDate": "2025-11-23T15:49:00",
         "endDate": "2025-11-23T16:46:00"
@@ -207,7 +207,7 @@
         "id": "loc-pevnost-qaitbay-1200",
         "label": "Pevnost Qaitbay",
         "href": "#loc-pevnost-qaitbay-1200",
-        "isDimmed": false,
+        "isDimmed": true,
         "startDate": "2025-11-25T12:00:00",
         "endDate": "2025-11-25T12:50:00"
       },

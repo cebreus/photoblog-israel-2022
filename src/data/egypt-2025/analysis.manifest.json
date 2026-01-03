@@ -1756,5 +1756,11 @@
     "sharpness": 100,
     "qualityBucket": "poor",
     "phash": "4527a61713535a5c"
+  },
+  "2025-11-25-082944-cebreus--collage": {
+    "aestheticScore": 72.94404160827362,
+    "sharpness": 88,
+    "qualityBucket": "excellent",
+    "phash": "f6c5f9cacaa2f6f6"
   }
 }

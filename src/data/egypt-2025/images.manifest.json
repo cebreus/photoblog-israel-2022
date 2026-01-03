@@ -1328,8 +1328,8 @@
           "id": "loc-diamond-red-seadiving-in-hurghada-1549",
           "type": "separator",
           "location": "Diamond Red Sea—Diving in Hurghada",
-          "city": "Hurgáda",
-          "hasPhotos": true,
+          "city": "Hurgháda",
+          "hasPhotos": false,
           "startDate": "2025-11-23T15:49:00",
           "endDate": "2025-11-23T16:46:00"
         },
@@ -1836,7 +1836,7 @@
           "id": "loc-blend-club-aqua-resort-1733",
           "type": "separator",
           "location": "Blend Club Aqua Resort",
-          "city": "Hurgháda",
+          "city": "",
           "hasPhotos": false,
           "startDate": "2025-11-23T17:33:00",
           "endDate": "2025-11-23T23:59:00"
@@ -3686,759 +3686,19 @@
         "Alexandrie"
       ],
       "locations": [
-        "Katakomby Kom el Shoqafa",
         "Hrobka z ulice Tigran",
+        "Katakomby Kom el Shoqafa",
         "Serapeum",
         "Kom El Deka",
         "Římský amfiteátr",
+        "Pevnost Qaitbay",
         "Alexandrijská opera",
         "Alexandrijská knihovna",
-        "Pevnost Qaitbay",
         "Královská vlaková garáž",
-        "Královský skleník"
+        "Královský skleník",
+        "Pyramid Front Hotel"
       ],
       "items": [
-        {
-          "id": "loc-katakomby-kom-el-shoqafa-0838",
-          "type": "separator",
-          "location": "Katakomby Kom el Shoqafa",
-          "city": "Alexandrie",
-          "hasPhotos": true,
-          "startDate": "2025-11-25T08:38:12"
-        },
-        {
-          "id": "2025-11-25-084249-cebreus--collage",
-          "type": "image",
-          "src": "2025-11-25-084249-cebreus--collage.jpg",
-          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
-          "title": "",
-          "width": 8000,
-          "height": 3428,
-          "sizeMB": 12.75,
-          "aspectRatio": "collage",
-          "placeholder": "blurs/2025-11-25-084249-cebreus--collage.png",
-          "placeholderColor": "",
-          "analysis": {
-            "aestheticScore": 43.91218707787307,
-            "sharpness": 95,
-            "qualityBucket": "poor",
-            "phash": "a3292d2029a9746a",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T09:42:49",
-            "releaseDate": "2025-11-25T08:38:12",
-            "location": "Katakomby Kom el Shoqafa",
-            "city": "Alexandrie",
-            "latitude": 31.178297,
-            "longitude": 29.893289,
-            "orientation": 1,
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Katakomby Kom el Shoqafa",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178297,29.893289",
-          "date": "2025-11-25T09:42:49",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-084249-cebreus--collage.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-084249-cebreus--collage.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-084249-cebreus--collage.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-084249-cebreus--collage.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-084249-cebreus--collage.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-084249-cebreus--collage.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-084249-cebreus--collage.jpeg",
-              "width": 2987,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-084249-cebreus--collage.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-084249-cebreus--collage.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-25-083812-cebreus--zoom2from2",
-          "type": "sequence",
-          "src": "2025-11-25-083812-cebreus--zoom2from2.heic",
-          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
-          "title": "",
-          "width": 3024,
-          "height": 4032,
-          "sizeMB": 1.6,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-25-083812-cebreus--zoom2from2.png",
-          "placeholderColor": "",
-          "analysis": {
-            "aestheticScore": 58.84014834380919,
-            "sharpness": 100,
-            "qualityBucket": "good",
-            "phash": "c6c74b6a742c5d1f",
-            "facesDetected": true,
-            "faces": [
-              {
-                "x": 1634.7178688049312,
-                "y": 509.68358802795404,
-                "width": 71.65053176879904,
-                "height": 109.31176757812499
-              },
-              {
-                "x": 1378.7721977233884,
-                "y": 488.968334197998,
-                "width": 69.03915023803717,
-                "height": 98.9182720184326
-              },
-              {
-                "x": 1124.527914047241,
-                "y": 492.9920511245727,
-                "width": 73.0598030090333,
-                "height": 103.77069282531737
-              }
-            ]
-          },
-          "exif": {
-            "date": "2025-11-25T09:38:12",
-            "releaseDate": "2025-11-25T08:42:49",
-            "location": "Katakomby Kom el Shoqafa",
-            "city": "Alexandrie",
-            "latitude": 31.178297,
-            "longitude": 29.893286,
-            "orientation": 6,
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Katakomby Kom el Shoqafa",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178297,29.893286",
-          "date": "2025-11-25T09:38:12",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-083812-cebreus--zoom2from2.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-083812-cebreus--zoom2from2.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-083812-cebreus--zoom2from2.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-083812-cebreus--zoom2from2.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-083812-cebreus--zoom2from2.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-083812-cebreus--zoom2from2.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-083812-cebreus--zoom2from2.jpeg",
-              "width": 960,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-083812-cebreus--zoom2from2.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-083812-cebreus--zoom2from2.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "sequenceInfo": {
-            "type": "zoom",
-            "index": 2,
-            "total": 2,
-            "baseId": "2025-11-25-083807-cebreus",
-            "members": [
-              "2025-11-25-083807-cebreus--zoom1from2",
-              "2025-11-25-083812-cebreus--zoom2from2"
-            ]
-          },
-          "people": [
-            "person-a4e0e8c2",
-            "person-183e8294",
-            "person-f4999137"
-          ]
-        },
-        {
-          "id": "2025-11-25-084606-cebreus",
-          "type": "image",
-          "src": "2025-11-25-084606-cebreus.heic",
-          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
-          "title": "",
-          "width": 4032,
-          "height": 3024,
-          "sizeMB": 1.73,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-25-084606-cebreus.png",
-          "placeholderColor": "",
-          "analysis": {
-            "aestheticScore": 38.83432574808596,
-            "sharpness": 100,
-            "qualityBucket": "poor",
-            "phash": "3245c4f8ececf4e2",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T09:46:06",
-            "releaseDate": "2025-11-25T08:43:30",
-            "location": "Katakomby Kom el Shoqafa",
-            "city": "Alexandrie",
-            "latitude": 31.178297,
-            "longitude": 29.893289,
-            "orientation": 1,
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Katakomby Kom el Shoqafa",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178297,29.893289",
-          "date": "2025-11-25T09:46:06",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-084606-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-084606-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-084606-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-084606-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-084606-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-084606-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-084606-cebreus.jpeg",
-              "width": 1707,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-084606-cebreus.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-084606-cebreus.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-25-084614-cebreus",
-          "type": "image",
-          "src": "2025-11-25-084614-cebreus.heic",
-          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
-          "title": "",
-          "width": 4032,
-          "height": 3024,
-          "sizeMB": 2.08,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-25-084614-cebreus.png",
-          "placeholderColor": "",
-          "analysis": {
-            "aestheticScore": 44.42214071487803,
-            "sharpness": 99,
-            "qualityBucket": "poor",
-            "phash": "6152cce8e8e4d0af",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T09:46:14",
-            "releaseDate": "2025-11-25T08:46:06",
-            "location": "Katakomby Kom el Shoqafa",
-            "city": "Alexandrie",
-            "latitude": 31.178297,
-            "longitude": 29.893289,
-            "orientation": 1,
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Katakomby Kom el Shoqafa",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178297,29.893289",
-          "date": "2025-11-25T09:46:14",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-084614-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-084614-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-084614-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-084614-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-084614-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-084614-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-084614-cebreus.jpeg",
-              "width": 1707,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-084614-cebreus.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-084614-cebreus.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-25-084943-cebreus",
-          "type": "image",
-          "src": "2025-11-25-084943-cebreus.heic",
-          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
-          "title": "",
-          "width": 3024,
-          "height": 4032,
-          "sizeMB": 1.47,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-25-084943-cebreus.png",
-          "placeholderColor": "",
-          "analysis": {
-            "aestheticScore": 23.033734670279316,
-            "sharpness": 100,
-            "qualityBucket": "poor",
-            "phash": "1949c6d2189c9c8c",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T09:49:43",
-            "releaseDate": "2025-11-25T08:46:14",
-            "location": "Katakomby Kom el Shoqafa",
-            "city": "Alexandrie",
-            "latitude": 31.175489,
-            "longitude": 29.893022,
-            "orientation": 6,
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Katakomby Kom el Shoqafa",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.175489,29.893022",
-          "date": "2025-11-25T09:49:43",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-084943-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-084943-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-084943-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-084943-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-084943-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-084943-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-084943-cebreus.jpeg",
-              "width": 960,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-084943-cebreus.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-084943-cebreus.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-25-085235-cebreus",
-          "type": "image",
-          "src": "2025-11-25-085235-cebreus.heic",
-          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
-          "title": "",
-          "width": 6048,
-          "height": 8064,
-          "sizeMB": 6.32,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-25-085235-cebreus.png",
-          "placeholderColor": "",
-          "analysis": {
-            "aestheticScore": 40.961678398249795,
-            "sharpness": 95,
-            "qualityBucket": "poor",
-            "phash": "9c0e0eacec32664f",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T09:52:35",
-            "releaseDate": "2025-11-25T08:49:43",
-            "location": "Katakomby Kom el Shoqafa",
-            "city": "Alexandrie",
-            "latitude": 31.177739,
-            "longitude": 29.893325,
-            "orientation": 6,
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Katakomby Kom el Shoqafa",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.177739,29.893325",
-          "date": "2025-11-25T09:52:35",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-085235-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-085235-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-085235-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-085235-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-085235-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-085235-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-085235-cebreus.jpeg",
-              "width": 960,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-085235-cebreus.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-085235-cebreus.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-25-084330-cebreus--collage",
-          "type": "image",
-          "src": "2025-11-25-084330-cebreus--collage.jpg",
-          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
-          "title": "",
-          "width": 3288,
-          "height": 2466,
-          "sizeMB": 3.48,
-          "aspectRatio": "collage",
-          "placeholder": "blurs/2025-11-25-084330-cebreus--collage.png",
-          "placeholderColor": "",
-          "analysis": {
-            "aestheticScore": 40.71132902003039,
-            "sharpness": 100,
-            "qualityBucket": "poor",
-            "phash": "898d0e0a8b87b6ae",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T09:43:30",
-            "releaseDate": "2025-11-25T08:52:35",
-            "location": "Katakomby Kom el Shoqafa",
-            "city": "Alexandrie",
-            "latitude": 31.178297,
-            "longitude": 29.893289,
-            "orientation": 1,
-            "author": "Cebreus",
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Katakomby Kom el Shoqafa",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178297,29.893289",
-          "date": "2025-11-25T09:43:30",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-084330-cebreus--collage.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-084330-cebreus--collage.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-084330-cebreus--collage.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-084330-cebreus--collage.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-084330-cebreus--collage.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-084330-cebreus--collage.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-084330-cebreus--collage.jpeg",
-              "width": 1707,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-084330-cebreus--collage.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-084330-cebreus--collage.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "people": []
-        },
         {
           "id": "2025-11-25-075730-cebreus",
           "type": "image",
@@ -4535,12 +3795,15 @@
           "people": []
         },
         {
-          "id": "loc-hrobka-z-ulice-tigran-0927",
+          "id": "loc-hrobka-z-ulice-tigran-0916",
           "type": "separator",
           "location": "Hrobka z ulice Tigran",
           "city": "Alexandrie",
           "hasPhotos": true,
-          "startDate": "2025-11-25T09:27:36"
+          "startDate": "2025-11-25T09:16:00",
+          "endDate": "2025-11-25T09:29:00",
+          "storyTitle": "",
+          "story": "<p>Tato hrobka byla objevena v obvodu východní nekropole města a nacházela se v ulici Tigran Paši (nyní Port Said) na východě města. Odtud také pochází její název, protože ve skutečnosti neznáme jméno ani jména jejích původních majitelů.</p>\n<p>K objevu došlo náhodou v roce 1952 při kopání základů moderní budovy. Tehdejší egyptský úřad pro památky a Achille Adriani, poslední zahraniční ředitel Řecko-římského muzea v Alexandrii, se proto rozhodli znovu využít komoru ležící přímo na západ od současné administrativní budovy. Tu postavil Alan Rowe – rovněž bývalý ředitel Řecko-římského muzea – v polovině čtyřicátých let jako sklad archeologických nálezů v zahradě katakomb Kom el-Šukáfa. Vnitřní část byla upravena tak, aby přesně simulovala původní architektonický návrh pohřební komory hrobky, protože původní stěny hrobky byly ve velmi špatném stavu a hrozilo jejich zřícení, pokud by se je pokusili vyříznout a přemístit – což se úspěšně podařilo u jiných příkladů. Důvodem pro tuto myšlenku bylo, že velká část maleb u vchodu a v pohřební komoře hrobky byla naopak ve velmi dobrém a zachovalém stavu, jak můžeme vidět. Po dokončení úprav v komoře tedy – velmi složitým procesem – odstranili freskové malby z jejich původního umístění v ulici Tigran a znovu je připevnili na stěny nové komory poté, co je rozmístili v původním pořadí, v jakém byly v původní hrobce.</p>\n<p><strong>Hrobka:</strong></p>\n<p>Datována do období mezi koncem 2. století n. l. a začátkem 3. století n. l., jedná se o římskou hrobku vytesanou pod zemí. Vstup do ní tvořilo schodiště vedoucí do malé vstupní síně se dvěma sochami z vápence, představujícími dva téměř nahé stojící muže, z nichž jeden je zpodobněn jako Herkules. Ty zdobí vchod do pohřební komory, kde se začínají objevovat krásné barevné malby se dvěma býky Apis v horní části vchodu, pod nimiž jsou vlevo a vpravo dvě kresby dvou egyptských kněží, kteří v obou rukou drží rituální nádoby na pálení esencí. Přímo nad vchodem, když se podíváme nahoru, můžeme vidět kolo bohyně Nemesis – bohyně pomsty a sportu – namalované krásnými žlutými a hnědými barvami.</p>\n<p>Při vstupu do komory nacházíme tři sarkofágy zdobené freskovými malbami – nikoli reliéfy. Nad centrálním sarkofágem nacházíme malbu připomínající tělo zesnulého, zcela mumifikované a dobře zachované podle osirovské tradice, ležící na luxusně vybaveném pohřebním lůžku. Kolem těla stojí dvě egyptské bohyně, Eset (Isis) a Nebthet (Neftis), které hledí na zesnulého a podávají mu palmové ratolesti – při neobvyklé a nevysvětlené absenci kanop pod lůžkem a naprosté absenci boha Anupa (Anubise) stojícího přímo u těla, jak je obvyklé!! Za každou bohyní stojí pták – pravděpodobně sokol Horus – s korunou sjednoceného Horního a Dolního Egypta; oba jsou nad oltářem zdobeným malbou imitující alabastr. Nad hlavní scénou je okřídlený sluneční disk s egyptskými dvojitými kobrami, vybarvený zeleně a červeně. Vedle centrálního sarkofágu vidíme vpravo a vlevo dva pohřební otvory (loculi).</p>\n<p>Pravý sarkofág je zdoben girlandami a kulatými dutými malovanými kruhy, což je slavná římská výzdoba rakví a sarkofágů. Scéna nad levým sarkofágem připomíná vzkříšení Usira (Osirida) z mrtvých, neboť vidíme boha Usira – boha posmrtného života – stojícího uprostřed scény, kde se již zbavil některých částí uzlů svého rubáše, a v rukou drží pár palmových ratolestí. Přímo po jeho levici stojí jeho syn Horus, který vztahuje svá okřídlená ramena k otci, a jeho manželka Eset (Isis) stojí po jeho pravici a rovněž k němu vztahuje svá okřídlená ramena. Sedí zde dva psi připomínající boha Anupa (Anubise), boha pohřebiště a mumifikace. Vpravo a vlevo od scény nacházíme dva podstavce ve tvaru malých sloupů, nad každým z nich je velké vejce obklopené ozdobnou látkou. Vpravo a vlevo vidíme malby korunovaného sokola Hora. Na stropě tohoto levého sarkofágu vidíme krásné barevné tvary růží, rostlin a geometrických dekorací po celé ploše. Poté, když se podíváme nahoru do středu stropu komory, vidíme uprostřed krásnou malbu bohyně Medúsy – ochranné bohyně mrtvých a hřbitovů – nakreslenou ve středu růžice ve tvaru kříže, jak na nás shlíží dolů, obklopena kresbami rostlin a zvířat, jako jsou gazely, pumy, letící jestřábi atd.</p>\n<p>Vracíme-li se k levému sarkofágu zdobenému dvěma kulatými malovanými kruhy, uvidíme vlevo a vpravo nahoře kresbu Sfingy ve žluté barvě. V hlavní scéně pak vidíme uprostřed klečící postavu jednoho ze zesnulých s palmovými ratolestmi v rukou, jak klečí před dalším podstavcem ve tvaru malého sloupu s ozdobeným velkým vejcem na vrcholu. Vlevo a vpravo opět nacházíme kresbu sokola Hora.</p>\n<p>Ve čtyřech rozích pohřební komory vidíme malby korintských sloupů s krásnými, dobře vyvedenými barvami. Nakonec, když se otáčíme, abychom vyšli z pohřební komory, uvidíme vlevo a vpravo na vnitřní straně vchodu dvojici hadů připomínajících Agathodaimóna – ochranného boha města Alexandrie v řeckém i římském období. Všímáme si, že kresba pravého hada je mnohem propracovanější než toho levého, který svým provedením působí poněkud dětským dojmem.</p>\n<p>Zpracoval: Archeolog Mahmoud M. El Dafrawy</p>\n"
         },
         {
           "id": "2025-11-25-082736-cebreus",
@@ -4949,6 +4212,17 @@
           "people": []
         },
         {
+          "id": "loc-katakomby-kom-el-shoqafa-0929",
+          "type": "separator",
+          "location": "Katakomby Kom el Shoqafa",
+          "city": "Alexandrie",
+          "hasPhotos": true,
+          "startDate": "2025-11-25T09:29:00",
+          "endDate": "2025-11-25T10:06:00",
+          "storyTitle": "",
+          "story": "<p>Katakomby Kom el-Šukafa, poprvé objevené v roce 1900, se skládají ze dvou samostatných komplexů, známých jako „Hlavní katakomby“ a „Caracallova síň“. Tyto podzemní stavby byly vytesány a používány v době, kdy byl Egypt součástí Římské říše. Předpokládá se, že jejich výstavba a užívání započaly na konci 1. století n. l. a následně byly rozšiřovány a zvětšovány až do 4. století n. l.</p>\n<p>K oběma komplexům se lze dostat po točitém schodišti (A), které se vine kolem hrobové šachty Hlavních katakomb. Právě touto šachtou byli zesnulí spouštěni na lanech na místo svého pohřbení. Po dosažení horního patra projdete přes zbytky alabastrové podlahy (B) a stanete před kruhovou halou, Rotundou (C). Po levé straně najdete velkou čtvercovou komoru s lavicemi vytesanými do skály. Jedná se o Triclinium (D), kde se pravděpodobně scházely rodiny zesnulých během pohřebních slavností. Zpět v Rotundě (C) najdete další chodby vedoucí do komor. Uvidíte mnoho lokulů (ve skále vytesaných výklenků pro uložení zesnulých), sarkofágy a další hrobky vytesané do podloží. Do Caracallovy síně vede proražený vchod a schodiště (E), které klesá k velkolepé hlavní hrobce (G). Jakmile budete na této prostřední úrovni, nezapomeňte prozkoumat labyrint komor a lokulů, které ji obklopují (H).</p>\n"
+        },
+        {
           "id": "2025-11-25-090256-cebreus--collage",
           "type": "image",
           "src": "2025-11-25-090256-cebreus--collage.jpg",
@@ -5163,8 +4437,10 @@
           "placeholder": "blurs/2025-11-25-082944-cebreus--collage.png",
           "placeholderColor": "",
           "analysis": {
-            "sharpness": 0,
-            "phash": "",
+            "aestheticScore": 72.94404160827362,
+            "sharpness": 88,
+            "qualityBucket": "excellent",
+            "phash": "f6c5f9cacaa2f6f6",
             "facesDetected": false,
             "faces": []
           },
@@ -5369,6 +4645,739 @@
           ]
         },
         {
+          "id": "2025-11-25-083812-cebreus--zoom2from2",
+          "type": "sequence",
+          "src": "2025-11-25-083812-cebreus--zoom2from2.heic",
+          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
+          "title": "",
+          "width": 3024,
+          "height": 4032,
+          "sizeMB": 1.6,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/2025-11-25-083812-cebreus--zoom2from2.png",
+          "placeholderColor": "",
+          "analysis": {
+            "aestheticScore": 58.84014834380919,
+            "sharpness": 100,
+            "qualityBucket": "good",
+            "phash": "c6c74b6a742c5d1f",
+            "facesDetected": true,
+            "faces": [
+              {
+                "x": 1634.7178688049312,
+                "y": 509.68358802795404,
+                "width": 71.65053176879904,
+                "height": 109.31176757812499
+              },
+              {
+                "x": 1378.7721977233884,
+                "y": 488.968334197998,
+                "width": 69.03915023803717,
+                "height": 98.9182720184326
+              },
+              {
+                "x": 1124.527914047241,
+                "y": 492.9920511245727,
+                "width": 73.0598030090333,
+                "height": 103.77069282531737
+              }
+            ]
+          },
+          "exif": {
+            "date": "2025-11-25T09:38:12",
+            "releaseDate": "2025-11-25T09:38:12",
+            "location": "Katakomby Kom el Shoqafa",
+            "city": "Alexandrie",
+            "latitude": 31.178297,
+            "longitude": 29.893286,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Katakomby Kom el Shoqafa",
+          "city": "Alexandrie",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178297,29.893286",
+          "date": "2025-11-25T09:38:12",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-25-083812-cebreus--zoom2from2.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-25-083812-cebreus--zoom2from2.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-25-083812-cebreus--zoom2from2.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-083812-cebreus--zoom2from2.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-25-083812-cebreus--zoom2from2.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-083812-cebreus--zoom2from2.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-25-083812-cebreus--zoom2from2.jpeg",
+              "width": 960,
+              "height": 1280
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-25-083812-cebreus--zoom2from2.jpeg",
+              "width": 190,
+              "height": 127
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-083812-cebreus--zoom2from2.jpeg",
+              "width": 534,
+              "height": 534
+            }
+          ],
+          "sequenceInfo": {
+            "type": "zoom",
+            "index": 2,
+            "total": 2,
+            "baseId": "2025-11-25-083807-cebreus",
+            "members": [
+              "2025-11-25-083807-cebreus--zoom1from2",
+              "2025-11-25-083812-cebreus--zoom2from2"
+            ]
+          },
+          "people": [
+            "person-a4e0e8c2",
+            "person-183e8294",
+            "person-f4999137"
+          ]
+        },
+        {
+          "id": "2025-11-25-084249-cebreus--collage",
+          "type": "image",
+          "src": "2025-11-25-084249-cebreus--collage.jpg",
+          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
+          "title": "",
+          "width": 8000,
+          "height": 3428,
+          "sizeMB": 12.75,
+          "aspectRatio": "collage",
+          "placeholder": "blurs/2025-11-25-084249-cebreus--collage.png",
+          "placeholderColor": "",
+          "analysis": {
+            "aestheticScore": 43.91218707787307,
+            "sharpness": 95,
+            "qualityBucket": "poor",
+            "phash": "a3292d2029a9746a",
+            "facesDetected": false,
+            "faces": []
+          },
+          "exif": {
+            "date": "2025-11-25T09:42:49",
+            "releaseDate": "2025-11-25T09:42:49",
+            "location": "Katakomby Kom el Shoqafa",
+            "city": "Alexandrie",
+            "latitude": 31.178297,
+            "longitude": 29.893289,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Katakomby Kom el Shoqafa",
+          "city": "Alexandrie",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178297,29.893289",
+          "date": "2025-11-25T09:42:49",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-25-084249-cebreus--collage.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-25-084249-cebreus--collage.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-25-084249-cebreus--collage.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-084249-cebreus--collage.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-25-084249-cebreus--collage.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-084249-cebreus--collage.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-25-084249-cebreus--collage.jpeg",
+              "width": 2987,
+              "height": 1280
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-25-084249-cebreus--collage.jpeg",
+              "width": 190,
+              "height": 127
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-084249-cebreus--collage.jpeg",
+              "width": 534,
+              "height": 534
+            }
+          ],
+          "people": []
+        },
+        {
+          "id": "2025-11-25-084330-cebreus--collage",
+          "type": "image",
+          "src": "2025-11-25-084330-cebreus--collage.jpg",
+          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
+          "title": "",
+          "width": 3288,
+          "height": 2466,
+          "sizeMB": 3.48,
+          "aspectRatio": "collage",
+          "placeholder": "blurs/2025-11-25-084330-cebreus--collage.png",
+          "placeholderColor": "",
+          "analysis": {
+            "aestheticScore": 40.71132902003039,
+            "sharpness": 100,
+            "qualityBucket": "poor",
+            "phash": "898d0e0a8b87b6ae",
+            "facesDetected": false,
+            "faces": []
+          },
+          "exif": {
+            "date": "2025-11-25T09:43:30",
+            "releaseDate": "2025-11-25T09:43:30",
+            "location": "Katakomby Kom el Shoqafa",
+            "city": "Alexandrie",
+            "latitude": 31.178297,
+            "longitude": 29.893289,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Katakomby Kom el Shoqafa",
+          "city": "Alexandrie",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178297,29.893289",
+          "date": "2025-11-25T09:43:30",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-25-084330-cebreus--collage.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-25-084330-cebreus--collage.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-25-084330-cebreus--collage.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-084330-cebreus--collage.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-25-084330-cebreus--collage.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-084330-cebreus--collage.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-25-084330-cebreus--collage.jpeg",
+              "width": 1707,
+              "height": 1280
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-25-084330-cebreus--collage.jpeg",
+              "width": 190,
+              "height": 127
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-084330-cebreus--collage.jpeg",
+              "width": 534,
+              "height": 534
+            }
+          ],
+          "people": []
+        },
+        {
+          "id": "2025-11-25-084606-cebreus",
+          "type": "image",
+          "src": "2025-11-25-084606-cebreus.heic",
+          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
+          "title": "",
+          "width": 4032,
+          "height": 3024,
+          "sizeMB": 1.73,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/2025-11-25-084606-cebreus.png",
+          "placeholderColor": "",
+          "analysis": {
+            "aestheticScore": 38.83432574808596,
+            "sharpness": 100,
+            "qualityBucket": "poor",
+            "phash": "3245c4f8ececf4e2",
+            "facesDetected": false,
+            "faces": []
+          },
+          "exif": {
+            "date": "2025-11-25T09:46:06",
+            "releaseDate": "2025-11-25T09:46:06",
+            "location": "Katakomby Kom el Shoqafa",
+            "city": "Alexandrie",
+            "latitude": 31.178297,
+            "longitude": 29.893289,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Katakomby Kom el Shoqafa",
+          "city": "Alexandrie",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178297,29.893289",
+          "date": "2025-11-25T09:46:06",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-25-084606-cebreus.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-25-084606-cebreus.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-25-084606-cebreus.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-084606-cebreus.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-25-084606-cebreus.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-084606-cebreus.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-25-084606-cebreus.jpeg",
+              "width": 1707,
+              "height": 1280
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-25-084606-cebreus.jpeg",
+              "width": 190,
+              "height": 127
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-084606-cebreus.jpeg",
+              "width": 534,
+              "height": 534
+            }
+          ],
+          "people": []
+        },
+        {
+          "id": "2025-11-25-084614-cebreus",
+          "type": "image",
+          "src": "2025-11-25-084614-cebreus.heic",
+          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
+          "title": "",
+          "width": 4032,
+          "height": 3024,
+          "sizeMB": 2.08,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/2025-11-25-084614-cebreus.png",
+          "placeholderColor": "",
+          "analysis": {
+            "aestheticScore": 44.42214071487803,
+            "sharpness": 99,
+            "qualityBucket": "poor",
+            "phash": "6152cce8e8e4d0af",
+            "facesDetected": false,
+            "faces": []
+          },
+          "exif": {
+            "date": "2025-11-25T09:46:14",
+            "releaseDate": "2025-11-25T09:46:14",
+            "location": "Katakomby Kom el Shoqafa",
+            "city": "Alexandrie",
+            "latitude": 31.178297,
+            "longitude": 29.893289,
+            "orientation": 1,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Katakomby Kom el Shoqafa",
+          "city": "Alexandrie",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178297,29.893289",
+          "date": "2025-11-25T09:46:14",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-25-084614-cebreus.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-25-084614-cebreus.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-25-084614-cebreus.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-084614-cebreus.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-25-084614-cebreus.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-084614-cebreus.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-25-084614-cebreus.jpeg",
+              "width": 1707,
+              "height": 1280
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-25-084614-cebreus.jpeg",
+              "width": 190,
+              "height": 127
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-084614-cebreus.jpeg",
+              "width": 534,
+              "height": 534
+            }
+          ],
+          "people": []
+        },
+        {
+          "id": "2025-11-25-084943-cebreus",
+          "type": "image",
+          "src": "2025-11-25-084943-cebreus.heic",
+          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
+          "title": "",
+          "width": 3024,
+          "height": 4032,
+          "sizeMB": 1.47,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/2025-11-25-084943-cebreus.png",
+          "placeholderColor": "",
+          "analysis": {
+            "aestheticScore": 23.033734670279316,
+            "sharpness": 100,
+            "qualityBucket": "poor",
+            "phash": "1949c6d2189c9c8c",
+            "facesDetected": false,
+            "faces": []
+          },
+          "exif": {
+            "date": "2025-11-25T09:49:43",
+            "releaseDate": "2025-11-25T09:49:43",
+            "location": "Katakomby Kom el Shoqafa",
+            "city": "Alexandrie",
+            "latitude": 31.175489,
+            "longitude": 29.893022,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Katakomby Kom el Shoqafa",
+          "city": "Alexandrie",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.175489,29.893022",
+          "date": "2025-11-25T09:49:43",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-25-084943-cebreus.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-25-084943-cebreus.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-25-084943-cebreus.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-084943-cebreus.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-25-084943-cebreus.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-084943-cebreus.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-25-084943-cebreus.jpeg",
+              "width": 960,
+              "height": 1280
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-25-084943-cebreus.jpeg",
+              "width": 190,
+              "height": 127
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-084943-cebreus.jpeg",
+              "width": 534,
+              "height": 534
+            }
+          ],
+          "people": []
+        },
+        {
+          "id": "2025-11-25-085235-cebreus",
+          "type": "image",
+          "src": "2025-11-25-085235-cebreus.heic",
+          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
+          "title": "",
+          "width": 6048,
+          "height": 8064,
+          "sizeMB": 6.32,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/2025-11-25-085235-cebreus.png",
+          "placeholderColor": "",
+          "analysis": {
+            "aestheticScore": 40.961678398249795,
+            "sharpness": 95,
+            "qualityBucket": "poor",
+            "phash": "9c0e0eacec32664f",
+            "facesDetected": false,
+            "faces": []
+          },
+          "exif": {
+            "date": "2025-11-25T09:52:35",
+            "releaseDate": "2025-11-25T09:52:35",
+            "location": "Katakomby Kom el Shoqafa",
+            "city": "Alexandrie",
+            "latitude": 31.177739,
+            "longitude": 29.893325,
+            "orientation": 6,
+            "author": "Cebreus",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Katakomby Kom el Shoqafa",
+          "city": "Alexandrie",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.177739,29.893325",
+          "date": "2025-11-25T09:52:35",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-25-085235-cebreus.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-25-085235-cebreus.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-25-085235-cebreus.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-085235-cebreus.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-25-085235-cebreus.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-085235-cebreus.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-25-085235-cebreus.jpeg",
+              "width": 960,
+              "height": 1280
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-25-085235-cebreus.jpeg",
+              "width": 190,
+              "height": 127
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-085235-cebreus.jpeg",
+              "width": 534,
+              "height": 534
+            }
+          ],
+          "people": []
+        },
+        {
           "id": "2025-11-25-085626-cebreus",
           "type": "image",
           "src": "2025-11-25-085626-cebreus.heic",
@@ -5567,12 +5576,15 @@
           "people": []
         },
         {
-          "id": "loc-serapeum-1024",
+          "id": "loc-serapeum-1017",
           "type": "separator",
           "location": "Serapeum",
           "city": "Alexandrie",
           "hasPhotos": true,
-          "startDate": "2025-11-25T10:24:09"
+          "startDate": "2025-11-25T10:17:00",
+          "endDate": "2025-11-25T10:59:00",
+          "storyTitle": "Serapeum",
+          "story": "<p>Alexandrijské Serapeum bylo ve starověku jedním z nejvýznamnějších náboženských center Středomoří, vybudovaným převážně za vlády Ptolemaia III. Euergeta (3. stol. př. n. l.) a zasvěceným bohu Serapisovi, ochránci Alexandrie. Tento chrámový komplex nesloužil pouze rituálům, ale fungoval i jako významná kulturní instituce, která hostila „dceřinou“ pobočku slavné Alexandrijské knihovny s tisíci svitky. Osudovým se pro chrám stal rok 391 n. l., kdy byl na příkaz císaře Theodosia I. a pod vedením patriarchy Theofila zničen davem křesťanů jako symbol pohanství, což znamenalo nenávratnou ztrátu mnoha uměleckých a literárních děl. Dnes místu dominuje římský Diokleciánův sloup (mylně zvaný Pompeiův) a podzemní galerie, kde byla nalezena socha býka Apise, svědčící o unikátním propojení egyptské a helénistické kultury na tomto místě.</p>\n<h2>Původ a charakteristika božstva Serapis</h2>\n<ul>\n<li><strong>Vznik kultu:</strong> Kult boha Serapida byl zaveden za vlády Ptolemaia I. Sótéra (305–282 př. n. l.). Jednalo se o teologický konstrukt určený ke sjednocení egyptského a řeckého obyvatelstva v Alexandrii.</li>\n<li><strong>Synkretismus:</strong> Božstvo v sobě spojovalo prvky egyptské (kult Osirida a býka Apise) a řecké mytologie (vlastnosti Dia, Háda a Asklépia).</li>\n<li><strong>Ikonografie:</strong> Na rozdíl od tradičních egyptských bohů se zvířecími atributy byl Serapis zobrazován antropomorfně (v lidské podobě) jako vousatý muž, což odpovídalo helénistickým estetickým normám.</li>\n</ul>\n<h2>Dceřiná knihovna a zánik komplexu</h2>\n<ul>\n<li><strong>Knihovní fond:</strong> Serapeum sloužilo jako sídlo tzv. „dceřiné knihovny“, která byla pobočkou hlavní Alexandrijské knihovny (Mouseion). Dle byzantských pramenů (např. Tzetzes) zde bylo uloženo přibližně 42 000 svitků, určených i pro veřejné studium.</li>\n<li><strong>Datum zničení:</strong> Destrukce chrámu proběhla v roce 391 n. l. na základě dekretu císaře Theodosia I., který zakazoval pohanské kulty.</li>\n<li><strong>Průběh zániku:</strong> Demolici vedl alexandrijský patriarcha Theofilos. Během této události došlo ke zboření hlavních budov a zničení knihovních fondů.</li>\n</ul>\n<h2>Původní architektura a výzdoba chrámu</h2>\n<ul>\n<li><strong>Umístění:</strong> Komplex byl situován na skalnaté vyvýšenině (akropoli) v čtvrti Rhakotis. Přístup zajišťovalo schodiště o sto stupních.</li>\n<li><strong>Hlavní socha:</strong> V cele chrámu stála kolosální socha Serapida od sochaře Bryaxise. Byla zhotovena chryselefantinovou technikou (kombinace zlata a slonoviny na dřevěném jádru) a osazena drahokamy. Socha byla zničena v roce 391 n. l.</li>\n<li><strong>Měření Nilu:</strong> Součástí areálu byl pravděpodobně nilometr, zařízení spojené podzemním přivaděčem s vodou, které sloužilo k měření výšky hladiny Nilu pro účely stanovení daní.</li>\n</ul>\n<h2>Technické parametry Diokleciánova (Pompeiova) sloupu</h2>\n<ul>\n<li><strong>Datace a dedikace:</strong> Sloup byl vztyčen v roce 297 n. l. prefektem Publiem na počest císaře Diokleciána po potlačení vzpoury uzurpátora Domitia Domitiana.</li>\n<li><strong>Materiál a rozměry:</strong> Dřík sloupu je monolit z červené asuánské žuly o výšce 20,46 metru a průměru 2,7 metru u paty. Celková výška včetně patice a hlavice činí 26,85 metru. Hmotnost monolitu je odhadována na 285 tun.</li>\n<li><strong>Původní zakončení:</strong> Na vrcholu korintské hlavice stála původně porfyrová socha císaře Diokleciána v brnění.</li>\n</ul>\n<h2>Podzemní prostory (Hypogeum)</h2>\n<ul>\n<li><strong>Funkce:</strong> Systém tunelů vytesaných do vápencového podloží sloužil jako nekropole pro posvátné býky Apise.</li>\n<li><strong>Pohřbívání:</strong> Mumifikovaná těla býků byla ukládána do masivních sarkofágů v postranních komorách.</li>\n<li><strong>Nálezy:</strong> V těchto prostorách byla nalezena socha býka Apise z černého dioritu (dnes v Řecko-římském muzeu, na místě je replika/původní umístění), pocházející z doby císaře Hadriána.</li>\n</ul>\n<h2>Zajímavosti</h2>\n<ul>\n<li><strong>Etymologie chybného názvu:</strong> Označení „Pompeiův sloup“ vzniklo mylnou interpretací středověkých křižáků, kteří se domnívali, že sloup označuje hrob římského vojevůdce Pompeia Velikého.</li>\n<li><strong>Řecký nápis:</strong> Na západní straně podstavce sloupu je dodnes čitelný (byť erodovaný) řecký dedikační nápis: <em>„Spravedlivému císaři, božskému ochránci Alexandrie, Diokleciánovi, neporazitelnému, [věnuje] Postumus, prefekt Egypta.“</em></li>\n<li><strong>Stavební recyklace:</strong> Archeologický průzkum odhalil, že základy sloupu a okolní zdivo obsahují kamenné bloky (spolia) ze starších egyptských staveb, včetně fragmentů s hieroglyfy z období Nové říše (Seti I., Ramses II.), které byly druhotně použity jako stavební materiál.</li>\n</ul>\n"
         },
         {
           "id": "2025-11-25-092409-cebreus--collage",
@@ -6984,7 +6996,10 @@
           "location": "Kom El Deka",
           "city": "Alexandrie",
           "hasPhotos": true,
-          "startDate": "2025-11-25T11:19:52"
+          "startDate": "2025-11-25T11:19:00",
+          "endDate": "2025-11-25T12:02:00",
+          "storyTitle": "Archeologické naleziště Kom El Deka",
+          "story": "<p>Kom El Deka (v překladu „Pahorek trosek“) je unikátní městská archeologická zóna v srdci moderní Alexandrie. Systematické vykopávky zde od 60. let 20. století provádí polsko-egyptská mise. Areál představuje soubor veřejných, vzdělávacích i soukromých budov z římského a byzantského období (převážně 2.–7. století n. l.).</p>\n<h2>1. Římské divadlo (Odeon)</h2>\n<p>Dominantou areálu je jediné zachovalé římské divadlo v Egyptě ze 4. století n. l. Má tvar podkovy s 13 řadami mramorových sedadel pro přibližně 600 diváků. Na sedadlech jsou dodnes patrné byzantské nápisy a graffiti, které dokumentují i pozdější využití stavby jako místa pro akademické diskuse.</p>\n<h2>2. Auditoria (Starověká univerzita)</h2>\n<p>V blízkosti divadla se nachází komplex více než 20 přednáškových sálů (auditorií). Jde o ojedinělý doklad pozdně antického školství (5.–7. stol.). Sály mají charakteristické kamenné lavice po obvodu a vyvýšené křeslo pro učitele (cathedra), což z Kom El Deka činí jediné dochované archeologické pozůstatky starověké univerzity ve Středomoří.</p>\n<h2>3. Lázeňský komplex a cisterny</h2>\n<p>Na severní straně leží rozsáhlé císařské lázně s dochovaným vytápěcím systémem (<em>hypocaustum</em>) a masivními zdmi z pálených cihel. K lázním přiléhá unikátní systém podzemních cisteren, které zajišťovaly zásobování vodou z Nilu.</p>\n<h2>4. Villa of the Birds (Vila ptáků)</h2>\n<p>Luxusní rezidence z 2. století n. l. (období císaře Hadriána). Jméno nese podle mozaik s motivy ptáků (páv, holub, křepelka), které zdobily podlahy vily. Na fotografiích je vidět i řecký nápis <strong>ΚΑΛΩϹ ΗΚΕΙϹ</strong> („Vítej“), vítající hosty u vstupu.</p>\n<h2>5. Open-Air Museum (Skanzen potopených památek)</h2>\n<p>V areálu je umístěna expozice artefaktů vyzdvižených z vod alexandrijského zálivu (podmořská archeologie):</p>\n<ul>\n<li><strong>Obelisk krále Sethiho I. (19. dynastie):</strong> Křemencový monolit s královskými tituly, původně z Heliopole, v antice převezen do Alexandrie.</li>\n<li><strong>Sfingy:</strong> Např. sfinga krále Psamtika II. (26. dynastie) nebo Senusreta III., u nichž jsou patrné stopy eroze způsobené staletým pobytem v mořské vodě.</li>\n<li><strong>Architektonické fragmenty:</strong> Části kolosálních soch a hlavice sloupů (např. korintské s akantovými listy), pravděpodobně pocházející z alexandrijského majáku Pharos.</li>\n</ul>\n"
         },
         {
           "id": "2025-11-25-101952-cebreus",
@@ -8045,6 +8060,17 @@
           "people": []
         },
         {
+          "id": "loc-pevnost-qaitbay-1200",
+          "type": "separator",
+          "location": "Pevnost Qaitbay",
+          "city": "",
+          "hasPhotos": false,
+          "startDate": "2025-11-25T12:00:00",
+          "endDate": "2025-11-25T12:50:00",
+          "storyTitle": "",
+          "story": "<p><strong>Pevnost Qaitbay</strong> (nebo také Citadela Qaitbay; arabsky: قلعة قايتباي) je obranná pevnost z 15. století, která se nachází na pobřeží Středozemního moře v Alexandrii v Egyptě. Byla vybudována v letech 1477 až 1479 n. l. (882–884 hidžry) sultánem Al-Ašraf Sajf ad-Dín Káitbájem. Pevnost je situována na východní straně severního cípu ostrova Faros u ústí Východního přístavu.</p>\n<h2>Historie</h2>\n<p>Pevnost Qaitbay v Alexandrii je považována za jednu z nejdůležitějších obranných bašt nejen v Egyptě, ale i podél celého pobřeží Středozemního moře. V 15. století n. l. tvořila významnou součást opevňovacího systému Alexandrie.</p>\n<h3>Alexandrijský maják</h3>\n<p>Pevnost se nachází u vstupu do východního přístavu na východním cípu ostrova Faros. Byla postavena na místě bývalého Alexandrijského majáku, který byl jedním ze sedmi divů starověkého světa. Po arabském dobytí Egypta bylo na majáku provedeno mnoho stavebních úprav, ale maják fungoval ještě po mnoho staletí. Obnova začala v období Ahmada ibn Túlúna (kolem roku 880 n. l.). V 11. století došlo k zemětřesení, které poškodilo osmibokou část. Spodní část přežila, ale mohla sloužit pouze jako strážní věž a na jejím vrcholu byla postavena malá mešita. Dvě velmi ničivá zemětřesení v letech 1303 a 1323 měla za následek úplnou zkázu majáku.</p>\n<h3>Opevnění z 15. století</h3>\n<p>Kolem roku 1480 n. l. opevnil čerkeský mamlúcký sultán Al-Ašraf Káitbáj toto místo jako součást svých pobřežních obranných staveb proti Turkům (Osmanské říši), kteří v té době ohrožovali Egypt. Postavil pevnost a uvnitř ní umístil mešitu. Citadela plnila svou funkci po většinu mamlúckého období, osmanského období i v moderní době, ale po britském bombardování Alexandrie v roce 1882 se ocitla mimo zájem. Chátrala až do 20. století, kdy byla několikrát restaurována egyptskou Nejvyšší radou pro památky.</p>\n<p>Zakladatelem pevnosti Qaitbay je čerkeský sultán jménem Al-Ašraf Abú an-Nasr Sajf ad-Dín Káitbáj al-Jarkasí az-Záhirí (1468–1496 n. l.), který se narodil kolem roku 1423 n. l. (826 hidžry). Byl to mamlúk, který přišel do Egypta jako mladý muž, mladší 20 let. Byl zakoupen sultánem Al-Ašraf Barsbájem a zůstal v jeho službách až do Barsbájovy smrti. Poté Káitbáje koupil sultán Džakmak a později mu udělil svobodu. Káitbáj poté zastával různé úřady. Za vlády sultána Timurbughy se stal vrchním velitelem armády (Atabeg al-Askar). Když byl sultán sesazen, byl Káitbáj jmenován sultánem s titulem Al-Malik al-Ašraf v pondělí 26. radžabu 872 hidžry (1468 n. l.).</p>\n<h3>Stavitel budovy</h3>\n<p>Káitbáj měl takovou zálibu v umění a architektuře, že vytvořil důležitou funkci v administrativním systému státu; byl jí „Stavitel budov“ (Šádí al-Amá&#39;ir). Postavil mnoho prospěšných staveb v Mekce, Medíně a Jeruzalémě. V Egyptě se mu připisuje asi 70 renovovaných staveb, mezi nimiž jsou mešity, medresy, agentury, fontány (sebily), kuttáby (školy koránu), domy a vojenské stavby jako citadely v Alexandrii a Rosettě (dnešní město Rašíd). Tyto citadely byly postaveny na ochranu severu Egypta, hlavně proti Osmanům, jejichž moc ve Středomoří rostla.</p>\n<p>Architektem citadely byl Kagmas al-Ishaqí, „Stavitel budov“. Před svým příchodem do Egypta byl mamlúkem Džakmaka v Sýrii. Za vlády Káitbáje se stal stavitelem budov a poté místokrálem Alexandrie. Byl jmenován guvernérem Sýrie (Damašku), postavil mešitu u brány Rašíd (Báb Rašíd) a také kenotaf a chán. Renovoval také mešitu El-Sawary u brány Sadrah (Báb Sadrah).</p>\n<p>Kagmas byl inteligentní a skromný a také dohlížel na mnoho staveb v době Káitbáje. V roce 882 hidžry (1477 n. l.) navštívil sultán Káitbáj místo starého majáku v Alexandrii a nařídil postavit na jeho základech pevnost. Stavba trvala asi 2 roky a říká se, že Káitbáj na práce na citadele vynaložil více než sto tisíc zlatých dinárů.</p>\n<h3>Výstavba</h3>\n<p>Ibn Ijás uvedl, že stavba této pevnosti začala v měsíci rabí al-awwal roku 882 hidžry. Řekl, že sultán Káitbáj odcestoval do Alexandrie v doprovodu několika dalších mamlúckých princů, aby navštívil místo starého majáku, a během této návštěvy nařídil stavbu citadely.</p>\n<p>V měsíci ša&#39;bán roku 884 hidžry cestoval sultán Káitbáj do Alexandrie znovu, když byla stavba dokončena. Vybavil pevnost statečnou legií vojáků a různými zbraněmi. Jak uvedl Ibn Ijás, věnoval také několik <em>vakufů</em> (náboženských nadací), z nichž financoval stavební práce i platy vojáků.</p>\n<p>Po celé mamlúcké období a díky její strategické poloze byla citadela dobře udržována všemi vládci, kteří přišli po Káitbájovi.</p>\n<h3>Posílení posádky</h3>\n<p>Sultán Kánsúh al-Gaurí věnoval citadele zvláštní pozornost. Několikrát ji navštívil a zvýšil sílu posádky, kterou vybavil různými zbraněmi a vybavením. Součástí bylo i velké vězení určené pro prince a státní úředníky, které sultán z nějakého důvodu zbavil své přízně. V událostech roku 960 hidžry cestoval Kánsúh al-Gaurí do Alexandrie s dalšími princi.</p>\n<h3>Hrozba osmanského útoku</h3>\n<p>Al-Gaurí se vydal do pevnosti Qaitbay, kde sledoval manévry a vojenský výcvik s obrannými zbraněmi citadely té doby. Když vycítil blížící se osmanskou hrozbu, vydal vojenský dekret zakazující vynášení zbraní z citadely; dokonce oznámil, že trest smrti bude trestem pro ty, kteří se pokusí z citadely cokoli ukrást, a nařídil vytesání tohoto dekretu na mramorovou desku upevněnou nad dveřmi vedoucími na nádvoří. Stojí na ní: <em>Bismilláhi r-rahmáni r-rahím</em> (Ve jménu Boha, Milosrdného, Slitovného).</p>\n<p>„Dekret na příkaz našeho pána, vznešené hodnosti, krále Al-Ašrafa Abú an-Nasr Kánsúha al-Gaurího, nechť Bůh zvěční jeho vládu, že nikdo nesmí brát zbraně <em>makahel</em>, střelný prach, nástroje ani žádnou jinou věc z vznešené věže v Alexandrii: a kdokoli ze strany věže, ať už mamlúk, otrok nebo Zarad Kashia, kdo toto (nařízení) poruší a opustí věž s něčím, bude oběšen u brány věže, zasluhujíc si prokletí Boží.“ Datováno rabí al-awwal 907 H.</p>\n<p>Poté, co Osmanští Turci dobyli Egypt, i oni o tuto jedinečnou citadelu pečovali. Používali ji jako úkryt, stejně jako to dělali s Citadelou Saladína v Káhiře a citadelami v Damiettě, Rosettě, Al Borollos a El-Arish. Udržovali ji v dobrém stavu a umístili do ní pěchotu, dělostřelectvo, rotu bubeníků a trubačů, zedníky a tesaře.</p>\n<h3>Osmanská hrozba ustupuje</h3>\n<p>Jak osmanská armáda slábla, citadela začala ztrácet svůj vojenský význam. V roce 1798 n. l., během francouzské expedice do Egypta, padla do rukou francouzských vojsk, především kvůli slabosti posádky citadely a síle moderních francouzských zbraní té doby. Uvnitř Francouzi našli některé křižácké zbraně, které pocházely z výpravy Ludvíka IX. Mohlo jít o kořist z bitvy u Al-Mansúry.</p>\n<h3>Renovace v 19. století</h3>\n<p>Když se v roce 1805 stal vládcem Egypta Muhammad Alí Paša, renovoval starou citadelu, obnovil a opravil její vnější hradby a vybavil pevnost nejmodernějšími zbraněmi té doby, zejména pobřežními děly. Vládu Muhammada Alího můžeme považovat za další zlatou éru citadely.</p>\n<h3>Urábího povstání</h3>\n<p>Citadela si udržela zájem nástupců Muhammada Alího až do roku 1882, kdy došlo k Urábího povstání. Britská flotila bombardovala Alexandrii 11. července 1882 a poškodila velkou část města, zejména v oblasti citadely. Tento útok pevnost poškodil a způsobil velké škody. Severní a západní fasády byly v důsledku výbuchů děl, mířených přímo na stavbu, vážně poškozeny. Západní fasáda byla zcela zničena a zůstaly v ní velké díry.</p>\n<h3>Renovace ve 20. století</h3>\n<p>Citadela poté zůstala zanedbána až do roku 1904, kdy ministerstvo obrany obnovilo horní patra. Král Farúk chtěl citadelu proměnit v královské odpočinkové sídlo, a tak nařídil její rychlou renovaci.</p>\n<p>Po revoluci v roce 1952 proměnilo egyptské námořnictvo budovu na Námořní muzeum. Největší restaurátorské práce se datují do roku 1984, kdy Egyptská organizace pro památky vytvořila ambiciózní plány na obnovu pevnosti.</p>\n"
+        },
+        {
           "id": "2025-11-25-110638-cebreus",
           "type": "image",
           "src": "2025-11-25-110638-cebreus.heic",
@@ -8147,12 +8173,15 @@
           "people": []
         },
         {
-          "id": "loc-alexandrijska-knihovna-1221",
+          "id": "loc-alexandrijska-knihovna-1217",
           "type": "separator",
           "location": "Alexandrijská knihovna",
           "city": "Alexandrie",
           "hasPhotos": true,
-          "startDate": "2025-11-25T12:21:18"
+          "startDate": "2025-11-25T12:17:00",
+          "endDate": "2025-11-25T12:34:00",
+          "storyTitle": "",
+          "story": "<p><strong>Historický kontext</strong></p>\n<ul>\n<li><strong>Myšlenka obnovy:</strong> Projekt vznikl z iniciativy Alexandrijské univerzity v roce 1974 s cílem obnovit odkaz starověké Alexandrijské knihovny.</li>\n<li><strong>Patronace:</strong> V roce 1988 projekt podpořilo UNESCO a byla vyhlášena mezinárodní architektonická soutěž.</li>\n<li><strong>Otevření:</strong> Oficiální inaugurace proběhla 16. října 2002.</li>\n<li><strong>Účel:</strong> Slouží jako veřejná knihovna, kulturní centrum a vědecko-výzkumná instituce.</li>\n</ul>\n<p><strong>Architektura a technické parametry</strong></p>\n<ul>\n<li><strong>Autoři:</strong> Norský architektonický ateliér Snøhetta (vítěz soutěže z více než 1400 návrhů).</li>\n<li><strong>Tvar:</strong> Budova má tvar seříznutého válce (disku) nakloněného směrem k moři, což symbolizuje vycházející slunce poznání.</li>\n<li><strong>Výška a rozměry:</strong> Nejvyšší bod dosahuje výšky 32 metrů, průměr disku je 160 metrů.</li>\n<li><strong>Kapacita:</strong> Hlavní čítárna má rozlohu 20 000 m² a je rozčleněna do 11 kaskádovitých úrovní. Celková kapacita regálů je dimenzována až na 8 milionů knih.</li>\n</ul>\n<p><strong>Významné součásti komplexu</strong></p>\n<ul>\n<li><strong>Knihovny:</strong> Kromě hlavní knihovny obsahuje specializované sekce (Knihovna pro nevidomé, Dětská knihovna, Knihovna map).</li>\n<li><strong>Muzea:</strong> Součástí je Muzeum starožitností (s artefakty nalezenými přímo na staveništi), Muzeum rukopisů a Muzeum Sádátovy historie.</li>\n<li><strong>Vědecká centra:</strong> Planetárium (samostatná kulová stavba v areálu) a centrum CULTNAT.</li>\n</ul>\n<p><strong>Specifické detaily</strong></p>\n<ul>\n<li><strong>Podzemí:</strong> Budova má čtyři podzemní podlaží, která slouží především jako depozitáře knih a prostory pro muzea.</li>\n<li><strong>Základy:</strong> Kvůli blízkosti moře a nestabilnímu podloží byla stavba založena na největší kruhové diafragmatické stěně na světě (v době stavby) o průměru 160 metrů a hloubce 35 metrů, aby se zabránilo průsakům slané vody.</li>\n</ul>\n<h2>Zajímavosti</h2>\n<ul>\n<li><strong>Internetový archiv:</strong> Knihovna obsahuje záložní kopii Internet Archive (Wayback Machine), což ji činí jednou z mála institucí na světě s kompletní zálohou webových stránek od roku 1996.</li>\n<li><strong>Symbolika znaků:</strong> Písmena na fasádě (Snímek 1) netvoří žádná konkrétní slova ani věty. Jsou řazena náhodně nebo esteticky, aby reprezentovala rozmanitost jazyků bez upřednostnění konkrétního sdělení.</li>\n<li><strong>Poloha vůči staré knihovně:</strong> Ačkoliv nová knihovna stojí v blízkosti královské čtvrti (Bruchion), kde se pravděpodobně nacházela původní Velká knihovna, přesné místo původní antické stavby není archeologicky potvrzeno.</li>\n<li><strong>Čištění střechy:</strong> Skleněné panely na střeše jsou vybaveny automatickým systémem čištění, který využívá mořskou vodu (odsolenou pro tento účel) k odstraňování písku a prachu.</li>\n</ul>\n<hr>\n"
         },
         {
           "id": "2025-11-25-112118-dasa",
@@ -8570,14 +8599,6 @@
             }
           ],
           "people": []
-        },
-        {
-          "id": "loc-pevnost-qaitbay-1411",
-          "type": "separator",
-          "location": "Pevnost Qaitbay",
-          "city": "Alexandrie",
-          "hasPhotos": true,
-          "startDate": "2025-11-25T14:11:42"
         },
         {
           "id": "2025-11-25-131142-dasa",
@@ -10524,6 +10545,15 @@
             "person-0730dd64",
             "person-e70459da"
           ]
+        },
+        {
+          "id": "loc-pyramid-front-hotel-2048",
+          "type": "separator",
+          "location": "Pyramid Front Hotel",
+          "city": "",
+          "hasPhotos": false,
+          "startDate": "2025-11-25T20:48:00",
+          "endDate": "2025-11-25T23:59:00"
         }
       ],
       "id": "day-2025-11-25"
