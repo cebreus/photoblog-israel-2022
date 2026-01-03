@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { formatWallClock } from "$shared/utils/dates";
+  import { page } from "$app/state";
 
   import { useScrollspy } from "$lib/actions/scrollspy";
   import { buttonVariants } from "$lib/components/ui/button";
@@ -7,8 +7,7 @@
   import { editor } from "$lib/stores/editor.svelte";
   import type { Separator } from "$lib/types/manifest";
   import { cn } from "$lib/utils";
-
-  import { page } from "$app/state";
+  import { formatWallClock } from "$shared/utils/dates";
 
   let { item, showMetadataOverlay = false } = $props<{
     item: Separator;

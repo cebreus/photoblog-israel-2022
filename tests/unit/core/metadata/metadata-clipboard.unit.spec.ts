@@ -28,6 +28,7 @@ describe("metadataClipboard Store", () => {
     keywords: ["tag1", "tag2"],
     exif: {
       date: "2025-01-01",
+      releaseDate: "2025-01-01",
       title: "Exif Title",
       state: "Test State",
       country: "Test Country",

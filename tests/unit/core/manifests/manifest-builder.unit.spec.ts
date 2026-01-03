@@ -33,6 +33,7 @@ describe("manifest-builder: updateManifest", () => {
         sources: [],
         exif: {
           date: "2022-10-20T10:00:00.000Z",
+          releaseDate: "2022-10-20T10:00:00.000Z",
           city: "Haifa",
           location: "Baha’istické zahrady",
         },
@@ -54,6 +55,7 @@ describe("manifest-builder: updateManifest", () => {
         sources: [],
         exif: {
           date: "2022-10-20T12:00:00.000Z", // Same day
+          releaseDate: "2022-10-20T12:00:00.000Z",
           city: "Akko",
           location: "Citadela",
         },
@@ -76,6 +78,7 @@ describe("manifest-builder: updateManifest", () => {
         sources: [],
         exif: {
           date: "2022-10-21T10:00:00.000Z",
+          releaseDate: "2022-10-21T10:00:00.000Z",
           city: "Nazareth",
           location: "Bazilika Zvěstování",
         },
@@ -98,6 +101,7 @@ describe("manifest-builder: updateManifest", () => {
         sources: [],
         exif: {
           date: "2022-10-20T10:05:00.000Z",
+          releaseDate: "2022-10-20T10:05:00.000Z",
           city: "Haifa",
           location: "Baha’istické zahrady",
         },
@@ -119,6 +123,7 @@ describe("manifest-builder: updateManifest", () => {
         sources: [],
         exif: {
           date: "2022-10-20T10:10:00.000Z",
+          releaseDate: "2022-10-20T10:10:00.000Z",
           city: "Haifa",
           location: "Baha’istické zahrady",
         },

@@ -112,8 +112,9 @@ export async function PATCH({ request }: RequestEvent) {
         const imageItem = item as ImageEntry;
 
         if (newDates[imageItem.id]) {
-          if (!imageItem.exif) imageItem.exif = {};
-          imageItem.exif.releaseDate = newDates[imageItem.id];
+          if (!imageItem.exif) imageItem.exif = {} as ImageEntry["exif"];
+          const exif = imageItem.exif;
+          if (exif) exif.releaseDate = newDates[imageItem.id];
         }
       }
 
@@ -180,8 +181,9 @@ async function ensureReleaseDatesExist(
       "XMP:ReleaseDate": initialDate,
     } as WriteTags);
 
-    if (!item.exif) item.exif = {};
-    item.exif.releaseDate = initialDate;
+    if (!item.exif) item.exif = {} as ImageEntry["exif"];
+    const exif = item.exif;
+    if (exif) exif.releaseDate = initialDate;
   }
 
   logger.info(`Initialized ReleaseDate for ${needsInit.length} images`);
@@ -287,8 +289,9 @@ export async function DELETE({ request }: RequestEvent) {
         } as WriteTags);
 
         // Update manifest - releaseDate now equals original date
-        if (!imageItem.exif) imageItem.exif = {};
-        imageItem.exif.releaseDate = originalDate;
+        if (!imageItem.exif) imageItem.exif = {} as ImageEntry["exif"];
+        const exif = imageItem.exif;
+        if (exif) exif.releaseDate = originalDate;
         resetCount++;
       }
 

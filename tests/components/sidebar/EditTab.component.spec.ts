@@ -73,6 +73,7 @@ describe("EditTab - Browser Mode", () => {
       caption: "A test caption",
       exif: {
         date: "2025-01-01T12:00:00",
+        releaseDate: "2025-01-01T12:00:00",
         city: "Prague",
         location: "Old Town",
         latitude: 50.0875,

@@ -357,8 +357,8 @@ export function buildImageEntry(
       faces: analysis?.faces,
     },
     exif: {
-      date,
-      releaseDate,
+      date: date || "",
+      releaseDate: releaseDate || "",
       location: exif.Location,
       city: exif.City,
       title: exif.Title,
