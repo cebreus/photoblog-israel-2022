@@ -1,7 +1,7 @@
 ---
 location: Katakomby Kom el Shoqafa
 startDate: 2025-11-25T09:29:00
-endDate: 2025-11-25T10:05:00
+endDate: 2025-11-25T10:06:00
 content: |-
     Katakomby Kom el-Šukafa, poprvé objevené v roce 1900, se skládají ze dvou samostatných komplexů, známých jako „Hlavní katakomby“ a „Caracallova síň“. Tyto podzemní stavby byly vytesány a používány v době, kdy byl Egypt součástí Římské říše. Předpokládá se, že jejich výstavba a užívání započaly na konci 1. století n. l. a následně byly rozšiřovány a zvětšovány až do 4. století n. l.
 
