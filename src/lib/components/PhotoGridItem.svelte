@@ -34,7 +34,7 @@
     onCopyMetadata,
     onPasteMetadata,
     onResetReleaseDate,
-
+    onSwapTimes,
     onOpenCurationDialog,
     onSelect,
     mode = "grid",
@@ -48,6 +48,7 @@
     onCopyMetadata?: (item: ImageEntry) => void;
     onPasteMetadata?: (item: ImageEntry, onlyThis?: boolean) => void;
     onResetReleaseDate?: (item: ImageEntry, onlyThis?: boolean) => void;
+    onSwapTimes?: () => void;
     onOpenCurationDialog?: (group: CurationGroup) => void;
     onSelect?: (item: ImageEntry, shiftKey: boolean) => void;
     mode?: "grid" | "curation";
@@ -575,6 +576,19 @@
           >
             <RotateCcw class="h-4 w-4" />
             <span>Resetovat datum řazení</span>
+          </ContextMenu.Item>
+        {/if}
+
+        <!-- Swap Times (Only if exactly 2 images selected and this is one of them) -->
+        {#if editor.selection.size >= 2 && editor.selection.has(item.id)}
+          <ContextMenu.Separator />
+          <ContextMenu.Item
+            class="flex items-center gap-2"
+            onclick={() => onSwapTimes?.()}
+            data-testid="photo-grid-item-contextmenu-swap-times"
+          >
+            <ArrowRightLeft class="h-4 w-4" />
+            <span>Prohodit časy (Swap)</span>
           </ContextMenu.Item>
         {/if}
 

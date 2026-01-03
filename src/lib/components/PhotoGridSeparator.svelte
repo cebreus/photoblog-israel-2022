@@ -1,6 +1,7 @@
 <script lang="ts">
+  import { toast } from "svelte-sonner";
+  import { invalidateAll } from "$app/navigation";
   import { page } from "$app/state";
-
   import { useScrollspy } from "$lib/actions/scrollspy";
   import { buttonVariants } from "$lib/components/ui/button";
   import * as Dialog from "$lib/components/ui/dialog";
@@ -9,9 +10,14 @@
   import { cn } from "$lib/utils";
   import { formatWallClock } from "$shared/utils/dates";
 
-  let { item, showMetadataOverlay = false } = $props<{
+  let {
+    item,
+    showMetadataOverlay = false,
+    dayId,
+  } = $props<{
     item: Separator;
     showMetadataOverlay?: boolean;
+    dayId?: string;
   }>();
 
   // Combine store state with URL param to prevent layout shift during SSR/hydration
@@ -22,7 +28,81 @@
   );
 
   let separatorId = $derived(item.id);
+
+  async function handleRedistribute(e: MouseEvent) {
+    e.stopPropagation();
+    if (!confirm(`Opravdu chcete rovnoměrně přerozdělit fotky v lokalitě "${item.location}"?`)) {
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/images/redistribute", {
+        method: "POST",
+        body: JSON.stringify({ dayId, location: item.location }),
+      });
+      const result = await res.json();
+      if (result.success) {
+        toast.success(`Přerozděleno ${result.redistributed} fotek`, { duration: 4000 });
+        invalidateAll();
+      } else {
+        toast.error(result.error || "Chyba při přerozdělování");
+      }
+    } catch (err) {
+      toast.error("Chyba při komunikaci se serverem");
+    }
+  }
+
+  async function handleResetLocation(e: MouseEvent) {
+    e.stopPropagation();
+    if (
+      !confirm(`Opravdu chcete vrátit fotky v lokalitě "${item.location}" do původního pořadí?`)
+    ) {
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/images/reorder", {
+        method: "DELETE",
+        body: JSON.stringify({ dayId, location: item.location }),
+      });
+      const result = await res.json();
+      if (result.success) {
+        toast.success("Lokace resetována");
+        invalidateAll();
+      } else {
+        toast.error("Chyba při resetování");
+      }
+    } catch (err) {
+      toast.error("Chyba při komunikaci se serverem");
+    }
+  }
 </script>
+
+{#snippet ActionButtons()}
+  {#if editor.reorderMode && dayId}
+    <div class="mt-4 flex flex-wrap justify-center gap-2">
+      <button
+        class={cn(
+          buttonVariants({ variant: "outline", size: "sm" }),
+          "bg-background/50 backdrop-blur-sm",
+        )}
+        onclick={handleRedistribute}
+      >
+        Rovnoměrně rozprostřít
+      </button>
+
+      <button
+        class={cn(
+          buttonVariants({ variant: "ghost", size: "sm" }),
+          "text-muted-foreground hover:text-destructive",
+        )}
+        onclick={handleResetLocation}
+      >
+        Resetovat lokaci
+      </button>
+    </div>
+  {/if}
+{/snippet}
 
 {#snippet SeparatorMetadata()}
   {@const metadataRows = [
@@ -112,6 +192,7 @@
             >
               Zobrazit příběh
             </span>
+            {@render ActionButtons()}
           </Dialog.Trigger>
           <Dialog.Content>
             <Dialog.Header>
@@ -149,6 +230,7 @@
         {#if item.city}
           <p class="text-muted-foreground mt-1 text-sm">{item.city}</p>
         {/if}
+        {@render ActionButtons()}
       </div>
       {@render SeparatorMetadata()}
     {/if}
