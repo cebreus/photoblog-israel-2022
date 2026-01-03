@@ -8,10 +8,9 @@ node_modules/
 .vercel/
 build/
 build-*/
-content/*/archive/
-content/*/collage-sources/
 content/*/pics/
-static/*/archive/
+content/*/pics/archive/
+content/*/pics/collage-sources/
 static/*/assets/favicons/
 static/*/faces/
 static/*/favicon.ico
