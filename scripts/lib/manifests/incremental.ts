@@ -144,6 +144,7 @@ export async function loadStoryData(contentRoot: string): Promise<StoryDataMap> 
         title: data.title || "",
         content: storyBody,
         location: data.location || undefined,
+        city: data.city || undefined,
         date: data.date ? toISO(data.date)?.substring(0, 10) : undefined,
         startDate: startDate || undefined,
         endDate: endDate || undefined,

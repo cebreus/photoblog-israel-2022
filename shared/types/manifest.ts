@@ -254,6 +254,7 @@ export type StoryData = {
     title: string;
     content: string;
     location?: string;
+    city?: string;
     date?: string;
     startDate?: string;
     endDate?: string;

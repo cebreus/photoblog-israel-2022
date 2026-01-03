@@ -133,6 +133,7 @@ describe("manifest-builder: updateManifest", () => {
         title: "Gardens Title",
         content: "Gardens Content",
         location: "Baha’istické zahrady",
+        startDate: "2022-10-20T10:00:00",
       },
       // Story for a day
       "2022-10-20": {

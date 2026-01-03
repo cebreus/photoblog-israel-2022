@@ -1,22 +1,16 @@
 import path from "node:path";
-import { marked } from "marked";
 import { config } from "$scripts/build.config";
 import { detectSequences } from "$scripts/lib/image/sequence-detector";
+import * as SeparatorService from "$scripts/lib/separators/service";
 import type {
   ImageEntry,
   Manifest,
   MenuManifest,
   PhotoDay,
   Separator,
-  StoryData,
   StoryDataMap,
 } from "$shared/types/manifest";
 import { toSlug } from "$shared/utils/strings";
-
-function parseMarkdown(content: string): string {
-  const parsed = marked.parse(content);
-  return typeof parsed === "string" ? parsed : "";
-}
 
 type GeneratorVariant = {
   path: string;
@@ -195,140 +189,45 @@ function accumulateGeoMetadata(geo: GeoMetadata, image: ImageEntry): void {
   }
 }
 
-function groupImagesByLocation(images: ImageEntry[]): Record<string, ImageEntry[]> {
-  const groups: Record<string, ImageEntry[]> = {};
-
-  for (const image of images) {
-    const location = image.exif?.location || "Unknown";
-    if (!groups[location]) groups[location] = [];
-    groups[location].push(image);
-  }
-
-  return groups;
-}
-
-function createSeparatorFromVisit(
-  location: string,
-  story: StoryData | undefined,
-  startDate?: string,
-  endDate?: string,
-  city: string = "",
-): Separator {
-  const storyContent = story?.content?.trim();
-  // Unique ID for each visit to avoid duplicates in menu/grid
-  // We use the time part (preferring start, falling back to end) to differentiate visits
-  const bestTimestamp = startDate || endDate;
-  const timeSuffix = bestTimestamp?.includes("T")
-    ? `-${bestTimestamp.split("T")[1].substring(0, 5).replace(":", "")}`
-    : "";
-
-  return {
-    id: `loc-${toSlug(location)}${timeSuffix}`,
-    type: "separator",
-    location,
-    city,
-    startDate,
-    endDate,
-    ...(story && storyContent
-      ? {
-          storyTitle: story.title,
-          story: parseMarkdown(storyContent),
-        }
-      : {}),
-  };
-}
-
-function getMarkdownSeparatorsForDay(
-  dayDate: string,
-  storyData: StoryDataMap,
-  _imagesByLocation: Record<string, ImageEntry[]>,
-): Separator[] {
-  const separators: Separator[] = [];
-
-  for (const [locationKey, story] of Object.entries(storyData)) {
-    // Only process location-specific stories (not day stories)
-    if (story.location !== locationKey) continue;
-
-    const addVisit = (start?: string, end?: string) => {
-      // Require at least startDate or endDate
-      const bestDate = start || end;
-      if (!bestDate) return;
-
-      // We only compare the YYYY-MM-DD part
-      // Note: All dates are already normalized to strings in loadStoryData
-      if (bestDate.substring(0, 10) === dayDate) {
-        separators.push(createSeparatorFromVisit(locationKey, story, start, end));
-      }
-    };
-
-    addVisit(story.startDate, story.endDate);
-
-    if (story.visits) {
-      for (const visit of story.visits) {
-        addVisit(visit.startDate, visit.endDate);
-      }
-    }
-  }
-
-  return separators;
-}
-
 export function organizeDayItems(day: PhotoDay, storyData: StoryDataMap): PhotoDay {
   const images = (day.items || []).filter(isImage);
-  const imagesByLocation = groupImagesByLocation(images);
-  const geo = createGeoMetadata();
+  const imagesByLocation = SeparatorService.groupImagesByLocation(images);
   const seenLocationsWithMarkdown = new Set<string>();
   const allItems: (ImageEntry | Separator)[] = [];
 
   // 1. Add all markdown-defined separators for this day (including multiple visits)
-  const markdownSeparators = getMarkdownSeparatorsForDay(day.date, storyData, imagesByLocation);
+  const markdownSeparators = SeparatorService.getMarkdownSeparatorsForDay(day.date, storyData);
   for (const sep of markdownSeparators) {
     allItems.push(sep);
     seenLocationsWithMarkdown.add(sep.location);
-    if (sep.location && !geo.seenLocations.has(sep.location)) {
-      geo.locations.push(sep.location);
-      geo.seenLocations.add(sep.location);
-    }
   }
 
-  // 2. Process images and add they, plus auto-separators for locations WITHOUT markdown separators
+  // 2. Process images and add them, plus auto-separators for locations WITHOUT markdown separators
   const seenLocationsAuto = new Set<string>();
   for (const image of images) {
-    accumulateGeoMetadata(geo, image);
-
     const location = image.exif?.location || "Unknown";
     const group = imagesByLocation[location] || [];
 
     // Create auto-separator only if not defined in markdown AND not already seen auto-separator
-    // Uses config.separator.minPhotosForAutoSeparator (default: 3)
-    const isAutoSepEligible =
-      location !== "Unknown" &&
-      group.length >= config.separator.minPhotosForAutoSeparator &&
-      !seenLocationsAuto.has(location);
+    if (!seenLocationsWithMarkdown.has(location) && !seenLocationsAuto.has(location)) {
+      const autoSeparator = SeparatorService.createAutoSeparator(location, group);
 
-    if (!seenLocationsWithMarkdown.has(location) && isAutoSepEligible) {
-      const ts = image.exif?.releaseDate ?? image.exif?.date;
-      const separator = createSeparatorFromVisit(
-        location,
-        storyData[location],
-        ts,
-        undefined,
-        image.exif?.city,
-      );
-      allItems.push(separator);
-      seenLocationsAuto.add(location);
+      if (autoSeparator) {
+        allItems.push(autoSeparator);
+        seenLocationsAuto.add(location);
 
-      // WARN: This shouldn't happen if markdown separators exist
-      console.warn(
-        `⚠️  Auto-separator created for "${location}" on ${day.date} at ${ts}` +
-          `\n   Markdown separators for this day: ${
-            markdownSeparators
-              .filter((s) => s.location === location)
-              .map((s) => s.startDate)
-              .join(", ") || "none"
-          }` +
-          `\n   This indicates markdown separators might not be covering all photos.`,
-      );
+        // WARN: This shouldn't happen if markdown separators exist
+        console.warn(
+          `⚠️  Auto-separator created for "${location}" on ${day.date}` +
+            `\n   Markdown separators for this day: ${
+              markdownSeparators
+                .filter((s: Separator) => s.location === location)
+                .map((s: Separator) => s.startDate)
+                .join(", ") || "none"
+            }` +
+            `\n   This indicates markdown separators might not be covering all photos.`,
+        );
+      }
     }
 
     allItems.push(image);
@@ -337,38 +236,59 @@ export function organizeDayItems(day: PhotoDay, storyData: StoryDataMap): PhotoD
   // 3. Sort all items by timestamp (unified sorting)
   allItems.sort(compareItemsByTimestamp);
 
-  // 4. Calculate hasPhotos for separators
-  // A separator has photos if it has > 2 images FROM THE SAME LOCATION
+  // 4. Collect geo metadata in CHRONOLOGICAL order from sorted items
+  const geo = createGeoMetadata();
+
+  // 5. Assign photos to separators using explicit time-based matching
   for (let i = 0; i < allItems.length; i++) {
     const item = allItems[i];
     if (item.type === "separator") {
-      item.hasPhotos = false; // Default to false
-      const separatorLocation = item.location;
-      let photoCount = 0;
-
-      // Look ahead and count photos from the same location
-      for (let j = i + 1; j < allItems.length; j++) {
-        const next = allItems[j];
-        if (next.type === "separator") break; // Stop at next separator
-        // At this point, next is an image (not a separator)
-        // Check if this image belongs to the SAME location as the separator
-        const imageLocation = next.exif?.location || "Unknown";
-        if (imageLocation === separatorLocation) {
-          photoCount++;
-        }
-      }
-
-      // Only display separator if it meets the minimum photo threshold
-      // Uses config.separator.minPhotosForDisplay (default: 3)
-      item.hasPhotos = photoCount >= config.separator.minPhotosForDisplay;
+      const updatedSeparator = SeparatorService.assignPhotos(item, images);
+      allItems[i] = updatedSeparator;
 
       // VALIDATION: Warn about separators with explicit dates but no photos
-      if (!item.hasPhotos && (item.startDate || item.endDate)) {
+      if (!updatedSeparator.hasPhotos && (updatedSeparator.startDate || updatedSeparator.endDate)) {
+        // Count photos manually for warning message
+        let photoCount = 0;
+        for (const photo of images) {
+          const photoLocation = photo.exif?.location || "Unknown";
+          const photoTimestamp = photo.exif?.releaseDate ?? photo.exif?.date;
+
+          if (photoLocation !== updatedSeparator.location) continue;
+
+          if (updatedSeparator.startDate || updatedSeparator.endDate) {
+            if (!photoTimestamp) continue;
+            const start = updatedSeparator.startDate || "1970-01-01T00:00:00";
+            const end = updatedSeparator.endDate || "9999-12-31T23:59:59";
+            if (photoTimestamp >= start && photoTimestamp <= end) {
+              photoCount++;
+            }
+          } else {
+            photoCount++;
+          }
+        }
+
         console.warn(
-          `⚠️  Separator "${separatorLocation}" on ${day.date} has explicit start/end dates but ${photoCount} photo(s) (need >2).` +
+          `⚠️  Separator "${updatedSeparator.location}" on ${day.date} has explicit start/end dates but ${photoCount} photo(s) (need >=${config.separator.minPhotosForDisplay}).` +
             `\n   This might indicate a timezone issue or incorrect photo location metadata.` +
-            `\n   Start: ${item.startDate || "N/A"} | End: ${item.endDate || "N/A"}`,
+            `\n   Start: ${updatedSeparator.startDate || "N/A"} | End: ${updatedSeparator.endDate || "N/A"}`,
         );
+      }
+    }
+  }
+
+  // 5. Collect geo metadata in CHRONOLOGICAL order from sorted and matched items
+  for (const item of allItems) {
+    if (isImage(item)) {
+      accumulateGeoMetadata(geo, item);
+    } else if (item.type === "separator") {
+      if (item.location && !geo.seenLocations.has(item.location)) {
+        geo.locations.push(item.location);
+        geo.seenLocations.add(item.location);
+      }
+      if (item.city && !geo.seenCities.has(item.city)) {
+        geo.seenCities.add(item.city);
+        geo.cities.push(item.city);
       }
     }
   }
@@ -532,80 +452,78 @@ export function generateMenuManifest(manifest: Manifest, storyData: StoryDataMap
   return manifest.photoDays.map((day) => mapDayToMenu(day, storyData));
 }
 
-function mapLocationToMenuItem(
-  locationName: string,
-  day: PhotoDay,
-  storyData: StoryDataMap,
-  separatorId?: string,
-): MenuManifest[number]["locations"][number] {
-  const group = day.items.filter(
-    (item): item is ImageEntry => item.type === "image" && item.exif?.location === locationName,
-  );
-
-  const separator = separatorId
-    ? day.items.find(
-        (item): item is Separator => item.type === "separator" && item.id === separatorId,
-      )
-    : day.items.find(
-        (item): item is Separator => item.type === "separator" && item.location === locationName,
-      );
-
-  const locId = separator?.id || `loc-${toSlug(locationName)}`;
-  const isDimmed = group.length <= 2;
-
-  let href = `#${locId}`;
-  if (isDimmed && group.length > 0) {
-    // Fallback to first photo if separator doesn't exist (legacy/auto-separator case)
-    if (!separator && group[0]) {
-      href = `#${group[0].id}`;
-    }
-  }
-
-  const firstPhotoExifDate = group[0]?.exif?.date;
-  const startDate = separator?.startDate ?? storyData[locationName]?.startDate;
-  const endDate = separator?.endDate ?? storyData[locationName]?.endDate;
-
-  return {
-    id: locId,
-    label: locationName,
-    href,
-    isDimmed,
-    firstPhotoExifDate,
-    startDate,
-    endDate,
-  };
-}
-
 function mapDayToMenu(d: PhotoDay, storyData: StoryDataMap): MenuManifest[number] {
   const dayId = String(d.id || d.date).startsWith("day-")
     ? String(d.id || d.date)
     : `day-${String(d.id || d.date)}`;
 
-  const menuEntries: { name: string; id: string }[] = [];
+  const locations: MenuManifest[number]["locations"] = [];
   const seenIds = new Set<string>();
-  const locationsWithSeparators = new Set<string>(
+
+  // Identify locations covered by separators (to avoid creating duplicates for images)
+  const separatorLocations = new Set(
     d.items.filter((i): i is Separator => i.type === "separator").map((s) => s.location),
   );
 
+  // Helper to find photos for an item
+  const getPhotosForContext = (location: string, separator?: Separator) => {
+    return d.items.filter((item): item is ImageEntry => {
+      if (!isImage(item)) return false;
+      const itemLoc = item.exif?.location;
+      if (itemLoc !== location) return false;
+
+      // If we are checking against a specific separator with time constraints
+      if (separator && (separator.startDate || separator.endDate)) {
+        const ts = item.exif?.releaseDate ?? item.exif?.date;
+        if (!ts) return false;
+        const start = separator.startDate || "1970-01-01T00:00:00";
+        const end = separator.endDate || "9999-12-31T23:59:59";
+        return ts >= start && ts <= end;
+      }
+      return true;
+    });
+  };
+
   for (const item of d.items) {
-    const location = item.type === "image" ? item.exif?.location : item.location;
-    if (!location || location === "Unknown") continue;
+    if (item.type === "separator") {
+      if (seenIds.has(item.id)) continue;
 
-    if (item.type === "image") {
-      // If this location already has a separator (defined in markdown or auto-generated),
-      // the image belongs to it and shouldn't create a new menu entry.
-      if (locationsWithSeparators.has(location)) continue;
+      const matchingPhotos = getPhotosForContext(item.location, item);
+      const firstPhoto = matchingPhotos[0];
 
-      const id = `loc-${toSlug(location)}`;
-      if (!seenIds.has(id)) {
-        menuEntries.push({ name: location, id });
-        seenIds.add(id);
-      }
-    } else if (item.type === "separator") {
-      if (!seenIds.has(item.id)) {
-        menuEntries.push({ name: location, id: item.id });
-        seenIds.add(item.id);
-      }
+      locations.push({
+        id: item.id,
+        label: item.location,
+        href: `#${item.id}`,
+        isDimmed: !item.hasPhotos,
+        firstPhotoExifDate: firstPhoto?.exif?.releaseDate ?? firstPhoto?.exif?.date,
+        startDate: item.startDate ?? storyData[item.location]?.startDate,
+        endDate: item.endDate ?? storyData[item.location]?.endDate,
+      });
+      seenIds.add(item.id);
+    } else if (isImage(item)) {
+      const loc = item.exif?.location;
+      if (!loc || loc === "Unknown") continue;
+
+      // Skip if this location is handled by a separator
+      if (separatorLocations.has(loc)) continue;
+
+      const locId = `loc-${toSlug(loc)}`;
+      if (seenIds.has(locId)) continue;
+
+      // This location has no separator (uncommon, usually dimmed)
+      const matchingPhotos = getPhotosForContext(loc);
+      const isDimmed = matchingPhotos.length <= 2;
+
+      locations.push({
+        id: locId,
+        label: loc,
+        href: `#${item.id}`, // Link to the first image we found
+        isDimmed,
+        firstPhotoExifDate: item.exif?.releaseDate ?? item.exif?.date,
+        // No explicit start/end dates for pure image groups
+      });
+      seenIds.add(locId);
     }
   }
 
@@ -619,6 +537,6 @@ function mapDayToMenu(d: PhotoDay, storyData: StoryDataMap): MenuManifest[number
       day: "numeric",
     }),
     href: `#${dayId}`,
-    locations: menuEntries.map((e) => mapLocationToMenuItem(e.name, d, storyData, e.id)),
+    locations,
   };
 }
