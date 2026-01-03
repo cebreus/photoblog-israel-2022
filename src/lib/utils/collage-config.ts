@@ -121,7 +121,7 @@ export async function createSourceImagePlaceholders(
     const meta = sourcesMetadata[id] || { width: 1000, height: 1000 };
 
     // Use development file API to serve original images from collage-sources
-    const sourceUrl = `/api/files/collage-sources/${filename}`;
+    const sourceUrl = `/api/files/pics/collage-sources/${filename}`;
     log.info(
       `[CollageConfig] Item ${id}: filename=${filename}, url=${sourceUrl}, meta=${meta.width}x${meta.height}`,
     );

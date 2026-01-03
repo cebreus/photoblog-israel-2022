@@ -71,8 +71,8 @@ async function resolvePhysicalPath(contentRoot: string, fileName: string): Promi
   const dirsToCheck = [
     contentRoot,
     path.join(contentRoot, "pics"),
-    // also check for moved collage sources (content/<dir>/collage-sources)
-    path.join(contentRoot, "collage-sources"),
+    // also check for moved collage sources (content/<dir>/pics/collage-sources)
+    path.join(contentRoot, "pics", "collage-sources"),
   ];
 
   for (const dir of dirsToCheck) {
@@ -339,7 +339,7 @@ export async function POST({ request }: RequestEvent) {
   const dataRoot = path.resolve(process.cwd(), "src/data");
 
   for (const [contentDir, items] of Object.entries(groups)) {
-    const archiveDir = path.resolve(process.cwd(), "content", contentDir, "archive");
+    const archiveDir = path.resolve(process.cwd(), "content", contentDir, "pics", "archive");
     await fs.mkdir(archiveDir, { recursive: true });
 
     const result = await processBatch(

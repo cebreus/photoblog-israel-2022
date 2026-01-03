@@ -48,7 +48,7 @@ function mapConfigItem(item: CollageItemConfig, idx: number, imageIds: string[])
   return {
     ...item,
     originalPath: imageIds[idx],
-    movedPath: path.join("collage-sources", imageIds[idx]),
+    movedPath: path.join("pics", "collage-sources", imageIds[idx]),
   };
 }
 
@@ -322,7 +322,7 @@ async function resolveSourcePaths(imageIds: string[], contentDirRoot: string): P
           resolved.push(picsPath);
           continue;
         } catch {
-          const sourcesPath = path.join(contentDirRoot, "collage-sources", id);
+          const sourcesPath = path.join(contentDirRoot, "pics", "collage-sources", id);
           try {
             attemptedPaths.push(sourcesPath);
             await fs.access(sourcesPath);
@@ -362,7 +362,7 @@ async function resolveSourcePaths(imageIds: string[], contentDirRoot: string): P
     const searchPaths = [
       fullPath,
       path.join(contentDirRoot, "pics", id),
-      path.join(contentDirRoot, "collage-sources", id),
+      path.join(contentDirRoot, "pics", "collage-sources", id),
       path.join(contentDirRoot, "pics", "collage-sources", id),
     ];
 
@@ -659,7 +659,7 @@ async function copyMetadataFromSource(
  * Move original source images into collage-sources preserving relative paths.
  */
 async function moveSourceImages(sourcePaths: string[], contentDirRoot: string, imageIds: string[]) {
-  const sourcesDir = path.join(contentDirRoot, "collage-sources");
+  const sourcesDir = path.join(contentDirRoot, "pics", "collage-sources");
 
   for (let i = 0; i < sourcePaths.length; i++) {
     const src = sourcePaths[i];

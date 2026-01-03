@@ -29,7 +29,7 @@ export async function GET({ url }: RequestEvent): Promise<Response> {
   try {
     const contentDir = getContentDir();
     const contentRoot = path.join(process.cwd(), "content", contentDir);
-    const sourcesDir = path.join(contentRoot, "collage-sources");
+    const sourcesDir = path.join(contentRoot, "pics", "collage-sources");
 
     const results = await Promise.all(
       ids.map(async (id) => {

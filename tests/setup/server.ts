@@ -54,6 +54,7 @@ if (typeof globalThis.Bun === "undefined") {
 vi.mock("$app/environment", () => ({
   dev: true,
   browser: false,
+  building: false,
 }));
 
 // Mock SvelteKit navigation

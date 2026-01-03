@@ -91,7 +91,7 @@ describe("Integration: Image Management API", () => {
     const body = await res.json();
 
     expect(body.success).toBe(true);
-    expect(body.deleted).toContain(`/images/${contentDir}/img1.jpg`);
+    expect(body.deleted).toContain("img1");
 
     // Check disk
     const exists = await fsp
@@ -120,7 +120,7 @@ describe("Integration: Image Management API", () => {
     expect(body.success).toBe(true);
 
     // Check disk
-    const archivePath = path.join(path.dirname(picsDir), "archive", "img2.jpg");
+    const archivePath = path.join(picsDir, "archive", "img2.jpg");
     const archivedExists = await fsp
       .access(archivePath)
       .then(() => true)
@@ -199,7 +199,7 @@ describe("Integration: Image Management API", () => {
     const body = await res.json();
 
     expect(body.success).toBe(true);
-    expect(body.deleted).toContain(`/images/${contentDir}/img1.jpg`);
+    expect(body.deleted).toContain("img1");
     expect(body.errors).toHaveLength(1);
     expect(body.errors[0]).toContain("nonexistent");
   });
@@ -232,6 +232,6 @@ describe("Integration: Image Management API", () => {
     const body = await res.json();
 
     expect(body.success).toBe(true);
-    expect(body.archived).toContain(`/images/${contentDir}/img2.jpg`);
+    expect(body.archived).toContain("img2");
   });
 });

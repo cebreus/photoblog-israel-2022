@@ -174,7 +174,7 @@ async function resolveImagePath(imageId: string, contentDirRoot: string): Promis
   const extensions = [".jpg", ".jpeg", ".JPG", ".JPEG", ".png", ".PNG", ".heic", ".HEIC"];
   const searchPaths = [
     path.join(contentDirRoot, "pics"),
-    path.join(contentDirRoot, "collage-sources"),
+    path.join(contentDirRoot, "pics", "collage-sources"),
   ];
 
   const { fileExists } = await import("$scripts/lib/utils/runtime");

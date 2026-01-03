@@ -277,8 +277,15 @@ async function findSourceFiles(srcRoot: string, limit: number | 0) {
     absolute: true,
     dot: false,
   });
-  if (limit > 0) sourceFiles.splice(limit);
-  return sourceFiles;
+  // Filter out special directories (archive, collage-sources) to prevent them being processed as gallery images
+  const filteredFiles = sourceFiles.filter((file) => {
+    const relPath = path.relative(srcRoot, file);
+    const topDir = relPath.split(path.sep)[0];
+    return topDir !== "archive" && topDir !== "collage-sources";
+  });
+
+  if (limit > 0) filteredFiles.splice(limit);
+  return filteredFiles;
 }
 
 function buildOutputFilePath(outRoot: string, relativePath: string) {
