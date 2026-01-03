@@ -1,10 +1,4 @@
 <script lang="ts">
-  import Pause from "@lucide/svelte/icons/pause";
-  import Play from "@lucide/svelte/icons/play";
-  import { untrack } from "svelte";
-  import { Button } from "$lib/components/ui/button";
-  import type { ImageEntry, SequenceInfo } from "$lib/types/manifest";
-  import { SEQUENCE_MESSAGES } from "$lib/utils/messages";
   import {
     DEFAULT_FRAME_DELAY_MS,
     PANO_PROGRESS_MAX,
@@ -14,6 +8,13 @@
     PANO_UPDATE_INTERVAL_MS,
     SEQUENCE_PLAYBACK_CONFIG,
   } from "$shared/constants/sequences";
+  import Pause from "@lucide/svelte/icons/pause";
+  import Play from "@lucide/svelte/icons/play";
+  import { untrack } from "svelte";
+
+  import { Button } from "$lib/components/ui/button";
+  import type { ImageEntry, SequenceInfo } from "$lib/types/manifest";
+  import { SEQUENCE_MESSAGES } from "$lib/utils/messages";
 
   let {
     images,

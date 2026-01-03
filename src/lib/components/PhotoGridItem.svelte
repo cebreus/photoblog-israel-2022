@@ -5,7 +5,7 @@
   import Trash2 from "@lucide/svelte/icons/trash-2";
   import { toast } from "svelte-sonner";
   import { dev } from "$app/environment";
-
+  import { page } from "$app/state";
   import { useScrollspy } from "$lib/actions/scrollspy";
   import AspectRatioIcon from "$lib/components/AspectRatioIcon.svelte";
   import JsonViewer from "$lib/components/debug/JsonViewer.svelte";
@@ -127,6 +127,11 @@
       toast.error(IMAGE_MESSAGES.UNKNOWN_ERROR);
     }
   }
+  // Combine store state with URL param to prevent layout shift during SSR/hydration
+  let showMetadata = $derived(
+    editor.showMetadataOverlay ||
+      (page.url.searchParams.has("overlay") && page.url.searchParams.get("overlay") !== "false"),
+  );
 </script>
 
 {#snippet MetadataBlock({ item }: { item: ImageEntry })}
@@ -232,7 +237,7 @@
     },
   ]}
 
-  {#if editor.showMetadataOverlay}
+  {#if showMetadata}
     <div data-testid="photo-grid-item-metadata-container">
       <table
         class="mt-2 w-full rounded-md bg-slate-50 text-xs dark:bg-slate-950"
