@@ -32,7 +32,7 @@ export const config = {
     },
     detail: {
       kind: "other",
-      resize: { width: 1280 },
+      resize: { height: 1280 },
       format: ImageFormat.JPEG,
       folderName: "details",
     },
