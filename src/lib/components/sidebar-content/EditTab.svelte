@@ -1,11 +1,11 @@
 <script lang="ts">
   import Info from "@lucide/svelte/icons/info";
   import LayoutGrid from "@lucide/svelte/icons/layout-grid";
-  import { toast } from "svelte-sonner";
   import { fade } from "svelte/transition";
-
-  import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
+  import { toast } from "svelte-sonner";
+  import { invalidateAll } from "$app/navigation";
   import CollageDialog from "$lib/components/admin/CollageDialog.svelte";
+  import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
   import { Button } from "$lib/components/ui/button";
   import { Label } from "$lib/components/ui/label";
   import { Spinner } from "$lib/components/ui/spinner";
@@ -24,8 +24,6 @@
   } from "$lib/utils/collage-config";
   import { COLLAGE_MESSAGES, IMAGE_MESSAGES } from "$lib/utils/messages";
   import { smartToast } from "$lib/utils/toasts";
-
-  import { invalidateAll } from "$app/navigation";
 
   import GeoDataSection from "./GeoDataSection.svelte";
   import MetadataInputField from "./MetadataInputField.svelte";

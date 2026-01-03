@@ -9,6 +9,7 @@ import { reloadManifests } from "$lib/utils/images";
 import { organizeDayItems } from "$scripts/lib/manifests/builder";
 import { withManifestLock } from "$scripts/lib/manifests/lock";
 import { loadImagesManifest, saveImagesManifest } from "$scripts/lib/manifests/repository";
+import { toPureWallClockISO } from "$shared/utils/dates";
 import { calculateReleaseDates } from "$shared/utils/sorting";
 import { loadStoryData } from "./loader";
 
@@ -173,7 +174,7 @@ async function ensureReleaseDatesExist(
     const imagePath = await resolveImagePath(item.id, contentDirRoot);
     if (!imagePath) continue;
 
-    const initialDate = item.exif?.date ?? new Date().toISOString();
+    const initialDate = item.exif?.date ?? toPureWallClockISO(new Date()) ?? "";
 
     await exiftool.write(imagePath, {
       "XMP:ReleaseDate": initialDate,
@@ -278,7 +279,7 @@ export async function DELETE({ request }: RequestEvent) {
         }
 
         // Get the original EXIF date
-        const originalDate = imageItem.exif?.date ?? new Date().toISOString();
+        const originalDate = imageItem.exif?.date ?? toPureWallClockISO(new Date()) ?? "";
 
         // Reset ReleaseDate to match DateTimeOriginal
         await exiftool.write(imagePath, {

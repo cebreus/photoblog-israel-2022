@@ -45,17 +45,32 @@ export function calculateReleaseDates(
 
     // 3. Assign sorted timestamps to the new image order
     imageIds.forEach((id, index) => {
+        const item = relevantItemsMap.get(id);
+        if (!item) return;
+
         // Safety check: ensure we have a slot for this image
         if (index < timestamps.length) {
-            const newTimeMs = timestamps[index];
-            const newTimeStr = toPureWallClockISO(new Date(newTimeMs))!;
+            let newTimeMs = timestamps[index];
 
-            const item = relevantItemsMap.get(id);
-            const oldTimeStr = item?.exif?.releaseDate || item?.exif?.date;
+            // NUDGE LOGIC: If we are at the very beginning or end, and the order changed,
+            // we might need to nudge the time by 1s to allow moving "past" a separator 
+            // that shares the same boundary timestamp.
+            if (index === 0 && imageIds[0] !== currentItems[0]?.id) {
+                // Moving something to the very start -> nudge 1s earlier
+                newTimeMs -= 1000;
+            } else if (index === imageIds.length - 1 && imageIds[imageIds.length - 1] !== currentItems[currentItems.length - 1]?.id) {
+                // Moving something to the very end -> nudge 1s later
+                newTimeMs += 1000;
+            }
+
+            // USE UTC components to create a Date that toPureWallClockISO can format without shifting
+            const d = new Date(newTimeMs);
+            const newTimeStr = toPureWallClockISO(d)!;
+
+            const oldTimeStr = item.exif?.releaseDate || item.exif?.date;
 
             // Only update if time actually changed (avoids unnecessary writes)
-            // We compare ISO strings to handle potential millisecond differences cleanly
-            if (item && new Date(oldTimeStr || "").getTime() !== newTimeMs) {
+            if (oldTimeStr !== newTimeStr) {
                 result[id] = newTimeStr;
             }
         }

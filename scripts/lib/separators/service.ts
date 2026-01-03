@@ -127,20 +127,25 @@ export function assignPhotos(separator: Separator, allPhotos: ImageEntry[]): Sep
     let matches = false;
 
     // Logic:
-    // 1. If Separator has exact time range -> Match by Time (Location is ignored/overridden)
-    // 2. If Separator has NO time range -> Match by Location (Exact match required)
+    // 1. Photo location MUST match separator location (slugified).
+    // 2. We never "suck in" Unknown locations to named separators.
+    // 3. If Separator has time range, photo MUST also be in that range.
+
+    if (photoLocation === "Unknown") continue;
+
+    const locMatch = toSlug(photoLocation) === toSlug(separator.location);
 
     if (separator.startDate || separator.endDate) {
       if (!photoTimestamp) continue;
       const start = separator.startDate || "1970-01-01T00:00:00";
       const end = separator.endDate || "9999-12-31T23:59:59";
 
-      if (photoTimestamp >= start && photoTimestamp <= end) {
+      if (locMatch && photoTimestamp >= start && photoTimestamp <= end) {
         matches = true;
       }
     } else {
       // No time range - strict location match
-      if (photoLocation === separator.location) {
+      if (locMatch) {
         matches = true;
       }
     }

@@ -1,3 +1,8 @@
+import fs from "node:fs/promises";
+import path from "node:path";
+import process from "node:process";
+import { json, type RequestEvent } from "@sveltejs/kit";
+import { exiftool } from "exiftool-vendored";
 import { dev } from "$app/environment";
 import { createLogger } from "$lib/logger";
 import { applyMetadataUpdates } from "$lib/shared/metadata-utils";
@@ -22,15 +27,10 @@ import {
   saveFacesManifest,
   saveImagesManifest,
 } from "$scripts/lib/manifests/repository";
-import { json, type RequestEvent } from "@sveltejs/kit";
-import { exiftool } from "exiftool-vendored";
-import fs from "node:fs/promises";
-import path from "node:path";
-import process from "node:process";
 
 const logger = createLogger("api:images");
 
-type BatchItem = { id: string; src: string;[key: string]: unknown };
+type BatchItem = { id: string; src: string; [key: string]: unknown };
 type GroupedItems = Record<string, BatchItem[]>;
 
 // --- Helpers ---
@@ -90,7 +90,7 @@ async function resolvePhysicalPath(contentRoot: string, fileName: string): Promi
       if (candidates.length > 0) {
         return path.join(dir, candidates[0]);
       }
-    } catch { }
+    } catch {}
   }
 
   return null;
@@ -194,7 +194,7 @@ async function processBatch(
               }
             }
             if (changed) await saveAnalysisManifest(dataPath, analysisManifest);
-          } catch (_e: unknown) { }
+          } catch (_e: unknown) {}
 
           // Embeddings
           try {
@@ -211,7 +211,7 @@ async function processBatch(
                 dataPath,
                 embeddingsManifest as Record<string, number[]>,
               );
-          } catch (_e: unknown) { }
+          } catch (_e: unknown) {}
 
           // Faces
           try {
@@ -224,8 +224,8 @@ async function processBatch(
               }
             }
             if (changed) await saveFacesManifest(dataPath, facesManifest);
-          } catch (_e: unknown) { }
-        } catch (_e: unknown) { }
+          } catch (_e: unknown) {}
+        } catch (_e: unknown) {}
       }
     });
   } catch (err) {
