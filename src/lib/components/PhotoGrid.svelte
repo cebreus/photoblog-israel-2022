@@ -609,20 +609,18 @@
           />
         </div>
       {:else}
-        <div class="relative">
-          <PhotoGridItem
-            {item}
-            scrollspyId={imageLocationMap.get(item.id)}
-            isAnchor={imageAnchorsMap.get(item.id)}
-            curationGroup={curationMap.get(item.id)}
-            onDelete={openDeleteDialog}
-            onArchive={handleArchive}
-            onCopyMetadata={handleCopyMetadata}
-            onPasteMetadata={handlePasteMetadata}
-            onSelect={handleSelect}
-            onOpenCurationDialog={handleOpenCurationDialog}
-          />
-        </div>
+        <PhotoGridItem
+          {item}
+          scrollspyId={imageLocationMap.get(item.id)}
+          isAnchor={imageAnchorsMap.get(item.id)}
+          curationGroup={curationMap.get(item.id)}
+          onDelete={openDeleteDialog}
+          onArchive={handleArchive}
+          onCopyMetadata={handleCopyMetadata}
+          onPasteMetadata={handlePasteMetadata}
+          onSelect={handleSelect}
+          onOpenCurationDialog={handleOpenCurationDialog}
+        />
       {/if}
     {:else if item.type === "separator" && item.location}
       <PhotoGridSeparator {item} showMetadataOverlay={showMetadata} />
