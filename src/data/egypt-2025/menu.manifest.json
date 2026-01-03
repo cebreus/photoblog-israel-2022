@@ -6,11 +6,29 @@
     "href": "#day-2025-11-21",
     "locations": [
       {
-        "id": "loc-hlavni-nadrazi",
-        "label": "Hlavní nádraží",
-        "href": "#2025-11-21-175802-cebreus",
+        "id": "loc-brno-hln-1735",
+        "label": "Brno hl.n.",
+        "href": "#loc-brno-hln-1735",
         "isDimmed": true,
-        "firstPhotoExifDate": "2025-11-21T17:58:02.299+01:00"
+        "firstPhotoExifDate": "2025-11-21T17:58:02",
+        "startDate": "2025-11-21T17:35:00",
+        "endDate": "2025-11-21T18:37:00"
+      },
+      {
+        "id": "loc-praha-hln-2103",
+        "label": "Praha hl.n.",
+        "href": "#loc-praha-hln-2103",
+        "isDimmed": true,
+        "startDate": "2025-11-21T21:03:00",
+        "endDate": "2025-11-21T21:24:00"
+      },
+      {
+        "id": "loc-letiste-vaclava-havla-2154",
+        "label": "Letiště Václava Havla",
+        "href": "#loc-letiste-vaclava-havla-2154",
+        "isDimmed": true,
+        "startDate": "2025-11-21T21:54:00",
+        "endDate": "2025-11-22T00:45:00"
       }
     ]
   },
@@ -21,18 +39,19 @@
     "href": "#day-2025-11-22",
     "locations": [
       {
-        "id": "loc-letiste-vaclava-havla-0045",
-        "label": "Letiště Václava Havla",
-        "href": "#loc-letiste-vaclava-havla-0045",
+        "id": "loc-mezinarodni-letiste-hurghada-0806",
+        "label": "Mezinárodní letiště Hurghada",
+        "href": "#loc-mezinarodni-letiste-hurghada-0806",
         "isDimmed": true,
-        "endDate": "2025-11-22T00:45:00"
+        "endDate": "2025-11-22T08:06:00"
       },
       {
-        "id": "loc-blend-club-aqua-resort-2142",
+        "id": "loc-blend-club-aqua-resort-1142",
         "label": "Blend Club Aqua Resort",
-        "href": "#loc-blend-club-aqua-resort-2142",
+        "href": "#loc-blend-club-aqua-resort-1142",
         "isDimmed": true,
-        "startDate": "2025-11-22T21:42:00",
+        "firstPhotoExifDate": "2025-11-22T17:16:54",
+        "startDate": "2025-11-22T11:42:00",
         "endDate": "2025-11-22T23:59:00"
       }
     ]
@@ -44,19 +63,37 @@
     "href": "#day-2025-11-23",
     "locations": [
       {
-        "id": "loc-mezinarodni-letiste-hurghada-0806",
-        "label": "Mezinárodní letiště Hurghada",
-        "href": "#loc-mezinarodni-letiste-hurghada-0806",
+        "id": "loc-blend-club-aqua-resort-0800",
+        "label": "Blend Club Aqua Resort",
+        "href": "#loc-blend-club-aqua-resort-0800",
         "isDimmed": true,
-        "endDate": "2025-11-23T08:06:00"
+        "endDate": "2025-11-23T08:00:00"
+      },
+      {
+        "id": "loc-diamond-red-seadiving-in-hurghada-0856",
+        "label": "Diamond Red Sea—Diving in Hurghada",
+        "href": "#loc-diamond-red-seadiving-in-hurghada-0856",
+        "isDimmed": true,
+        "startDate": "2025-11-23T08:56:00",
+        "endDate": "2025-11-23T09:14:00"
       },
       {
         "id": "loc-paradise-plaz-1149",
         "label": "Paradise pláž",
         "href": "#loc-paradise-plaz-1149",
         "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-23T11:49:51.745+02:00",
-        "startDate": "2025-11-23T11:49:51.745+02:00"
+        "firstPhotoExifDate": "2025-11-23T11:49:51",
+        "startDate": "2025-11-23T11:49:00",
+        "endDate": "2025-11-23T14:39:00"
+      },
+      {
+        "id": "loc-diamond-red-seadiving-in-hurghada-1549",
+        "label": "Diamond Red Sea—Diving in Hurghada",
+        "href": "#loc-diamond-red-seadiving-in-hurghada-1549",
+        "isDimmed": false,
+        "firstPhotoExifDate": "2025-11-23T16:34:13",
+        "startDate": "2025-11-23T15:49:00",
+        "endDate": "2025-11-23T16:46:00"
       },
       {
         "id": "loc-blend-club-aqua-resort-1733",
@@ -75,11 +112,19 @@
     "href": "#day-2025-11-24",
     "locations": [
       {
+        "id": "loc-zafarana-rest-house-1138",
+        "label": "Zafarana Rest house",
+        "href": "#loc-zafarana-rest-house-1138",
+        "isDimmed": true,
+        "startDate": "2025-11-24T11:38:00",
+        "endDate": "2025-11-24T12:04:00"
+      },
+      {
         "id": "loc-pyramid-front-hotel-1434",
         "label": "Pyramid Front Hotel",
         "href": "#loc-pyramid-front-hotel-1434",
         "isDimmed": true,
-        "firstPhotoExifDate": "2025-11-24T16:22:41.300410",
+        "firstPhotoExifDate": "2025-11-24T16:22:41",
         "startDate": "2025-11-24T14:34:00",
         "endDate": "2025-11-24T20:13:00"
       },
@@ -88,15 +133,16 @@
         "label": "Cairo Tower",
         "href": "#loc-cairo-tower-2049",
         "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-24T20:49:27.570+02:00",
-        "startDate": "2025-11-24T20:49:27.570+02:00"
+        "firstPhotoExifDate": "2025-11-24T20:49:27",
+        "startDate": "2025-11-24T20:49:00",
+        "endDate": "2025-11-24T22:00:00"
       },
       {
         "id": "loc-al-ahly-sporting-club",
         "label": "Al-Ahly Sporting Club ",
         "href": "#2025-11-24-211848-dasa",
         "isDimmed": true,
-        "firstPhotoExifDate": "2025-11-24T22:18:48.341+02:00"
+        "firstPhotoExifDate": "2025-11-24T22:18:48"
       },
       {
         "id": "loc-pyramid-front-hotel-2314",
@@ -119,25 +165,25 @@
         "label": "Hrobka z ulice Tigran",
         "href": "#loc-hrobka-z-ulice-tigran-0916",
         "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-25T09:27:36.058+02:00",
+        "firstPhotoExifDate": "2025-11-25T09:27:36",
         "startDate": "2025-11-25T09:16:00",
-        "endDate": "2025-11-25T09:35:00"
+        "endDate": "2025-11-25T09:29:00"
       },
       {
         "id": "loc-katakomby-kom-el-shoqafa-0929",
         "label": "Katakomby Kom el Shoqafa",
         "href": "#loc-katakomby-kom-el-shoqafa-0929",
         "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-25T09:29:44.983+02:00",
+        "firstPhotoExifDate": "2025-11-25T09:30:00",
         "startDate": "2025-11-25T09:29:00",
-        "endDate": "2025-11-25T10:05:00"
+        "endDate": "2025-11-25T10:06:00"
       },
       {
         "id": "loc-serapeum-1017",
         "label": "Serapeum",
         "href": "#loc-serapeum-1017",
         "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-25T10:24:09.133+02:00",
+        "firstPhotoExifDate": "2025-11-25T10:24:09",
         "startDate": "2025-11-25T10:17:00",
         "endDate": "2025-11-25T10:59:00"
       },
@@ -146,7 +192,7 @@
         "label": "Kom El Deka",
         "href": "#loc-kom-el-deka-1119",
         "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-25T11:19:52.720+02:00",
+        "firstPhotoExifDate": "2025-11-25T11:19:52",
         "startDate": "2025-11-25T11:19:00",
         "endDate": "2025-11-25T12:02:00"
       },
@@ -155,46 +201,46 @@
         "label": "Římský amfiteátr",
         "href": "#2025-11-25-104322-cebreus--zoom1from2",
         "isDimmed": true,
-        "firstPhotoExifDate": "2025-11-25T11:43:22.008+02:00"
+        "firstPhotoExifDate": "2025-11-25T11:43:22"
+      },
+      {
+        "id": "loc-pevnost-qaitbay-1200",
+        "label": "Pevnost Qaitbay",
+        "href": "#loc-pevnost-qaitbay-1200",
+        "isDimmed": false,
+        "startDate": "2025-11-25T12:00:00",
+        "endDate": "2025-11-25T12:50:00"
       },
       {
         "id": "loc-alexandrijska-opera",
         "label": "Alexandrijská opera",
         "href": "#2025-11-25-110638-cebreus",
         "isDimmed": true,
-        "firstPhotoExifDate": "2025-11-25T12:06:38.624+02:00"
+        "firstPhotoExifDate": "2025-11-25T12:06:38"
       },
       {
         "id": "loc-alexandrijska-knihovna-1217",
         "label": "Alexandrijská knihovna",
         "href": "#loc-alexandrijska-knihovna-1217",
         "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-25T12:21:18.095+02:00",
+        "firstPhotoExifDate": "2025-11-25T12:21:18",
         "startDate": "2025-11-25T12:17:00",
         "endDate": "2025-11-25T12:34:00"
-      },
-      {
-        "id": "loc-pevnost-qaitbay-1411",
-        "label": "Pevnost Qaitbay",
-        "href": "#loc-pevnost-qaitbay-1411",
-        "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-25T14:11:42.981+02:00",
-        "startDate": "2025-11-25T14:11:42.981+02:00"
       },
       {
         "id": "loc-kralovska-vlakova-garaz",
         "label": "Královská vlaková garáž",
         "href": "#2025-11-25-150152-dasa--collage",
         "isDimmed": true,
-        "firstPhotoExifDate": "2025-11-25T15:51:52.220+02:00"
+        "firstPhotoExifDate": "2025-11-25T15:51:52"
       },
       {
         "id": "loc-kralovsky-sklenik-1605",
         "label": "Královský skleník",
         "href": "#loc-kralovsky-sklenik-1605",
         "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-25T16:05:25.923+02:00",
-        "startDate": "2025-11-25T16:05:25.923+02:00"
+        "firstPhotoExifDate": "2025-11-25T16:05:25",
+        "startDate": "2025-11-25T16:05:25"
       },
       {
         "id": "loc-pyramid-front-hotel-2048",
@@ -217,16 +263,16 @@
         "label": "Egyptský papyrusový institut",
         "href": "#loc-egyptsky-papyrusovy-institut-1234",
         "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-26T12:34:57.604+02:00",
-        "startDate": "2025-11-26T12:34:57.604+02:00"
+        "firstPhotoExifDate": "2025-11-26T12:34:57",
+        "startDate": "2025-11-26T12:34:57"
       },
       {
         "id": "loc-velke-egyptske-muzeum-1313",
         "label": "Velké egyptské muzeum",
         "href": "#loc-velke-egyptske-muzeum-1313",
         "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-26T13:13:46.755+02:00",
-        "startDate": "2025-11-26T13:13:46.755+02:00"
+        "firstPhotoExifDate": "2025-11-26T13:13:46",
+        "startDate": "2025-11-26T13:13:46"
       }
     ]
   },
@@ -241,15 +287,15 @@
         "label": "Železniční stanice Luxor",
         "href": "#2025-11-27-051203-cebreus",
         "isDimmed": true,
-        "firstPhotoExifDate": "2025-11-27T06:12:03.048+02:00"
+        "firstPhotoExifDate": "2025-11-27T06:12:03"
       },
       {
         "id": "loc-karnak-visitor-center-1339",
         "label": "Karnak Visitor Center",
         "href": "#loc-karnak-visitor-center-1339",
         "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-27T13:39:35.840+02:00",
-        "startDate": "2025-11-27T13:39:35.840+02:00"
+        "firstPhotoExifDate": "2025-11-27T13:39:35",
+        "startDate": "2025-11-27T13:39:35"
       }
     ]
   },
@@ -278,16 +324,16 @@
         "label": "Aswan Botanical Garden",
         "href": "#loc-aswan-botanical-garden-1506",
         "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-30T15:06:50.617+02:00",
-        "startDate": "2025-11-30T15:06:50.617+02:00"
+        "firstPhotoExifDate": "2025-11-30T15:06:50",
+        "startDate": "2025-11-30T15:06:50"
       },
       {
         "id": "loc-nubijska-vesnice-1642",
         "label": "Núbijská vesnice",
         "href": "#loc-nubijska-vesnice-1642",
         "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-30T16:42:57.981+02:00",
-        "startDate": "2025-11-30T16:42:57.981+02:00"
+        "firstPhotoExifDate": "2025-11-30T16:42:57",
+        "startDate": "2025-11-30T16:42:57"
       }
     ]
   },
@@ -302,7 +348,7 @@
         "label": "Chrám Philae",
         "href": "#2025-12-01-073611-dasa",
         "isDimmed": true,
-        "firstPhotoExifDate": "2025-12-01T08:36:11.748+02:00"
+        "firstPhotoExifDate": "2025-12-01T08:36:11"
       }
     ]
   },
@@ -317,7 +363,7 @@
         "label": "Blend Aqua beach",
         "href": "#2025-12-02-111144-dasa",
         "isDimmed": true,
-        "firstPhotoExifDate": "2025-12-02T12:11:44.912+02:00"
+        "firstPhotoExifDate": "2025-12-02T12:11:44"
       }
     ]
   }
