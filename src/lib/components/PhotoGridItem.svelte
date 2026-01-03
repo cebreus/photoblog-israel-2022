@@ -306,7 +306,7 @@
         data-testid="photo-grid-item-figure-{item.id}"
         class={cn(
           "outline-background relative overflow-hidden rounded-lg border-2 border-transparent bg-cover bg-center transition-[outline-color,border-color] duration-300 ease-in-out",
-          editor.editMode ? "aspect-square" : "aspect-video",
+          editor.editMode ? "aspect-square" : "aspect-[3/2]",
           isSelected
             ? "ring-2 ring-blue-300 outline-4 outline-blue-500"
             : "outline-4 outline-offset-2 hover:outline-orange-100",
@@ -402,7 +402,7 @@
         <div
           class={cn(
             "absolute inset-0 cursor-pointer transition-colors",
-            editor.editMode ? "aspect-square" : "aspect-video",
+            editor.editMode ? "aspect-square" : "aspect-[3/2]",
             isSelected ? "bg-blue-500/20" : "hover:bg-black/20",
             showCurationVisuals && "bg-amber-500/10 hover:bg-amber-500/20",
             !editor.editMode && ui.curationMode && !!curationGroup ? "" : "bg-black/10",

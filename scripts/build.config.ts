@@ -21,13 +21,13 @@ export const config = {
     default: {
       kind: "variant",
       media: "(max-width: 575px), (min-width: 1400px)",
-      resize: { width: 370, height: 208, crop: true },
+      resize: { width: 370, height: 247, crop: true },
       folderName: "previews",
     },
     xl: {
       kind: "variant",
       media: "(min-width: 576px) and (max-width: 1399px)",
-      resize: { width: 534, height: 300, crop: true },
+      resize: { width: 534, height: 356, crop: true },
       folderName: "previews-xl",
     },
     detail: {
@@ -38,7 +38,7 @@ export const config = {
     },
     fallback: {
       kind: "other",
-      resize: { width: 190, height: 107, crop: true },
+      resize: { width: 190, height: 127, crop: true },
       folderName: "previews-xxs",
     },
     placeholder: {

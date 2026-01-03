@@ -23,6 +23,7 @@
     PhotoDay,
     Separator,
   } from "$lib/types/manifest";
+  import { cn } from "$lib/utils";
   import { performImageAction } from "$lib/utils/api-actions";
   import { IMAGE_MESSAGES } from "$lib/utils/messages";
   import { reorderArray, saveImageOrder } from "$lib/utils/reorder";
@@ -632,7 +633,10 @@
           >
             <Dialog.Root>
               <Dialog.Trigger
-                class={`outline-background relative flex flex-col items-center justify-center overflow-hidden rounded-lg bg-linear-to-br from-slate-100 to-slate-300 p-4 outline-4 outline-offset-2 transition-[outline-color] duration-500 ease-in-out hover:outline-orange-100 dark:from-slate-700 dark:to-slate-800 ${editor.editMode ? "col-span-full py-12" : "aspect-video"}`}
+                class={cn(
+                  "outline-background relative flex flex-col items-center justify-center overflow-hidden rounded-lg bg-linear-to-br from-slate-100 to-slate-300 p-4 outline-4 outline-offset-2 transition-[outline-color] duration-500 ease-in-out hover:outline-orange-100 dark:from-slate-700 dark:to-slate-800",
+                  editor.editMode ? "col-span-full py-12" : "aspect-[3/2]",
+                )}
                 data-testid="photo-grid-separator-trigger-{separatorId}"
               >
                 <h3 class="text-lg" data-testid="photo-grid-separator-location">
@@ -672,10 +676,10 @@
           </div>
         {:else}
           <div
-            class="flex flex-col items-center justify-center overflow-hidden rounded-lg bg-linear-to-br from-slate-100 to-slate-300 p-4 text-center dark:from-slate-700 dark:to-slate-800"
-            class:col-span-full={editor.editMode}
-            class:aspect-video={!editor.editMode}
-            class:py-12={editor.editMode}
+            class={cn(
+              "flex flex-col items-center justify-center overflow-hidden rounded-lg bg-linear-to-br from-slate-100 to-slate-300 p-4 text-center dark:from-slate-700 dark:to-slate-800",
+              editor.editMode ? "col-span-full py-12" : "aspect-[3/2]",
+            )}
             id={separatorId}
             use:useScrollspy={{ id: separatorId }}
             data-testid="photo-grid-separator-simple-{separatorId}"
