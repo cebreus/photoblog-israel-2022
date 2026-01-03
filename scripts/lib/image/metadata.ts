@@ -1,5 +1,6 @@
 import path from "node:path";
 import { exiftool } from "exiftool-vendored";
+import { toPureWallClockISO } from "../../../shared/utils/dates";
 import { METADATA_STANDARDS } from "../../../shared/utils/metadata-standards";
 import { isCollage, toSlug } from "../../../shared/utils/strings";
 import type { ImageEntry, ExifData as ManifestExifData } from "../../../src/lib/types/manifest";
@@ -232,32 +233,12 @@ function getCanonicalAuthor(exif: Partial<RawExifData>): string | undefined {
   return normalizeText(authorRaw);
 }
 
-function toWallClockISO(d: Date | string): string {
-  if (typeof d === "string") {
-    // Handle EXIF format "YYYY:MM:DD HH:MM:SS"
-    if (d.match(/^\d{4}:\d{2}:\d{2} \d{2}:\d{2}:\d{2}/)) {
-      const [datePart, timePart] = d.split(" ");
-      const isoDate = datePart.replace(/:/g, "-");
-      // preserve time exactly as is
-      return `${isoDate}T${timePart}`;
-    }
-    // Try to parse standard string but keep wall clock logic if it parses to Date
-    const dateObj = new Date(d);
-    if (!Number.isNaN(dateObj.getTime())) {
-      return toWallClockISO(dateObj);
-    }
-    return d; // Return as is if we can't parse
-  }
-
-  const pad = (n: number) => n.toString().padStart(2, "0");
-  const pad3 = (n: number) => n.toString().padStart(3, "0");
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}.${pad3(d.getMilliseconds())}`;
-}
+// toPureWallClockISO is imported from shared utils
 
 function getIsoDate(exif: Partial<RawExifData>): string | undefined {
   try {
     const d = exif.DateTimeOriginal || exif.CreateDate;
-    if (d) return toWallClockISO(d);
+    if (d) return toPureWallClockISO(d);
   } catch {}
   return undefined;
 }
@@ -266,7 +247,7 @@ function getReleaseDate(exif: Partial<RawExifData>): string | undefined {
   try {
     // Priority: ReleaseDate > DateTimeOriginal > CreateDate
     const d = exif.ReleaseDate || exif.DateTimeOriginal || exif.CreateDate;
-    if (d) return toWallClockISO(d);
+    if (d) return toPureWallClockISO(d);
   } catch {}
   return undefined;
 }

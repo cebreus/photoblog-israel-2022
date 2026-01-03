@@ -174,4 +174,4 @@ flowchart LR
 
 ---
 
-_Poslední aktualizace: 2025-12-31_
+_Poslední aktualizace: 2026-01-03_

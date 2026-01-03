@@ -463,7 +463,7 @@ content/egypt-2025/
   },
   "metadata": {
     "name": "DSC_1234--collage.jpg",
-    "created": "2025-12-26T12:00:00.000Z",
+    "created": "2025-12-26T12:00:00.000",
     "canvasWidth": 4500,
     "canvasHeight": 3000
   }
@@ -619,4 +619,4 @@ Všechny texty jsou centralizovány v `src/lib/utils/messages.ts` pod `COLLAGE_M
 
 ---
 
-_Poslední aktualizace: 2025-12-30_
+_Poslední aktualizace: 2026-01-03_

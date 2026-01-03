@@ -1,18 +1,7 @@
 import type { ImageEntry } from "$shared/types/manifest";
+import { formatWallClock } from "$shared/utils/dates";
 
-/**
- * Formats a Date object to ISO-like timestamp format (YYYY-MM-DD HH:mm).
- * Used for unambiguous date representation in copied metadata.
- */
-function formatDateTimeForClipboard(date: Date): string {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  const hours = String(date.getHours()).padStart(2, "0");
-  const minutes = String(date.getMinutes()).padStart(2, "0");
-
-  return `${year}-${month}-${day} ${hours}:${minutes}`;
-}
+// formatDateTimeForClipboard removed in favor of shared formatWallClock
 
 /**
  * Extracts filename from image source path.
@@ -50,8 +39,7 @@ export function formatMetadataForClipboard(item: ImageEntry): string {
   }
 
   if (item.date) {
-    const dateStr = formatDateTimeForClipboard(new Date(item.date));
-    lines.push(`Date: ${dateStr}`);
+    lines.push(`Date: ${formatWallClock(item.date)}`);
   }
 
   const location = buildLocationString(item);

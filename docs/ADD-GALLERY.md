@@ -229,7 +229,7 @@ Tyto příběhy budou automaticky zparsovány a zobrazeny v galerii jako separá
 
 Generátor automaticky extrahuje metadata z fotografií:
 
-- Datum a čas pořízení
+- Datum a čas pořízení (Wall Clock)
 - GPS souřadnice
 - Název místa (z IPTC/XMP)
 - Autora (z IPTC)
@@ -293,4 +293,4 @@ Nainstalujte systémovou knihovnu Sharp:
 
 ---
 
-_Poslední aktualizace: 2025-12-30_
+_Poslední aktualizace: 2026-01-03_

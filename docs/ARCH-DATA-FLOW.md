@@ -119,6 +119,8 @@ Metadata rozdělena pro optimalizaci:
 | `menu.manifest.json`       | Navigační struktura              | Build               |
 | `site.manifest.json`       | Konfigurace galerie              | Build               |
 
+> ⚠️ **Date & Time Policy:** Všechny časové údaje v manifestech jsou ukládány jako "Pure Wall Clock" ISO řetězce (bez offsetu). Viz [ARCHITECTURE.md > Zpracování času](./ARCHITECTURE.md#4-zpracování-času-date--time-policy).
+
 ### Merge při runtime
 
 ```typescript
@@ -193,4 +195,4 @@ V development módu (`bun run dev`) běží server v dlouhodobém procesu s in-m
 
 ---
 
-_Poslední aktualizace: 2025-12-30_
+_Poslední aktualizace: 2026-01-03_

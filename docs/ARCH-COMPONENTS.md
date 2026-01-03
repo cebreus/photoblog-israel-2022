@@ -152,4 +152,4 @@ src/lib/components/ui/
 
 ---
 
-_Poslední aktualizace: 2025-12-30_
+_Poslední aktualizace: 2026-01-03_

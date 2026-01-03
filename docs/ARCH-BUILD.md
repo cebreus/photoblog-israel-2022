@@ -74,7 +74,7 @@ Výstup: static/<gallery>/images/
 1. Resize → varianty
 2. Encode → AVIF/WebP/JPEG
 3. LQIP → 24px blur
-4. EXIF → metadata extraction
+4. EXIF → metadata extraction (Pure Wall Clock, bez offsetu)
 5. Face detection → bounding boxy (pro smart crop)
 
 ### Step 3: AI Analysis
@@ -152,4 +152,4 @@ flowchart TB
 
 ---
 
-_Poslední aktualizace: 2025-12-30_
+_Poslední aktualizace: 2026-01-03_

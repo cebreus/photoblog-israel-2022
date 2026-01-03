@@ -209,4 +209,4 @@ await new Promise((resolve) => setTimeout(resolve, 200));
 
 ---
 
-_Poslední aktualizace: 2025-12-30_
+_Poslední aktualizace: 2026-01-03_

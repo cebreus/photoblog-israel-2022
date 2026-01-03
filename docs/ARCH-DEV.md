@@ -133,4 +133,4 @@ CONTENT_DIR=egypt-2025 pnpm vitest run --project client
 
 ---
 
-_Poslední aktualizace: 2025-12-30_
+_Poslední aktualizace: 2026-01-03_

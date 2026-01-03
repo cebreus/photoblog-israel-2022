@@ -3,6 +3,7 @@ import path from "node:path";
 import matter from "gray-matter";
 import pc from "picocolors";
 import type { Cache, ImageEntry, Manifest, StoryDataMap } from "$shared/types/manifest";
+import { toPureWallClockISO } from "../../../shared/utils/dates";
 import { config } from "../../build.config";
 import { EMBEDDING_DIM } from "../ai/models";
 import { createLogger } from "../core/cli-logger";
@@ -113,28 +114,15 @@ export async function loadStoryData(contentRoot: string): Promise<StoryDataMap> 
       const storyBody = (data.content || content).trim();
       const filename = path.basename(file, ".md");
 
-      // Normalize date fields to ISO strings if they are Date objects (gray-matter might parse them)
-      function toISO(val: any): string | undefined {
-        if (!val) return undefined;
-        if (val instanceof Date) {
-          // Preserve "wall clock" time by using UTC getters.
-          // YAML parsers (js-yaml) usually treat untagged ISO dates as UTC.
-          const pad = (n: number) => n.toString().padStart(2, "0");
-          return `${val.getUTCFullYear()}-${pad(val.getUTCMonth() + 1)}-${pad(val.getUTCDate())}T${pad(val.getUTCHours())}:${pad(val.getUTCMinutes())}:${pad(val.getUTCSeconds())}`;
-        }
-        if (typeof val === "string") return val;
-        return String(val);
-      }
-
       // Determine startDate: priority is data.startDate > data.date
       const startDateRaw = data.startDate || data.date;
-      const startDate = toISO(startDateRaw);
-      const endDate = toISO(data.endDate);
+      const startDate = toPureWallClockISO(startDateRaw);
+      const endDate = toPureWallClockISO(data.endDate);
 
       const visits = Array.isArray(data.visits)
         ? data.visits.map((v: any) => ({
-            startDate: toISO(v.startDate),
-            endDate: toISO(v.endDate),
+            startDate: toPureWallClockISO(v.startDate),
+            endDate: toPureWallClockISO(v.endDate),
           }))
         : undefined;
 
@@ -146,7 +134,7 @@ export async function loadStoryData(contentRoot: string): Promise<StoryDataMap> 
         content: storyBody,
         location: data.location || undefined,
         city: data.city || undefined,
-        date: data.date ? toISO(data.date)?.substring(0, 10) : undefined,
+        date: data.date ? toPureWallClockISO(data.date)?.substring(0, 10) : undefined,
         startDate: startDate || undefined,
         endDate: endDate || undefined,
         visits,

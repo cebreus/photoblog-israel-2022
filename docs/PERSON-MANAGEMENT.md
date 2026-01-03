@@ -321,4 +321,4 @@ Systém znovu provede detekci tváří, vytvoří nové klastry a následně apl
 
 ---
 
-_Poslední aktualizace: 2025-12-30_
+_Poslední aktualizace: 2026-01-03_

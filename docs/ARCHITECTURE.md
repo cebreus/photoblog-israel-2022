@@ -7,7 +7,8 @@
 1. [Přehled](#1-přehled)
 2. [Technologický stack](#2-technologický-stack)
 3. [Architektura systému](#3-architektura-systému)
-4. [Související dokumenty](#4-související-dokumenty)
+4. [Zpracování času](#4-zpracování-času-date--time-policy)
+5. [Související dokumenty](#5-související-dokumenty)
 
 ## 1. Přehled
 
@@ -96,9 +97,20 @@ Metadata jsou rozdělena pro optimalizaci:
 | `embeddings.manifest.json` | CLIP vektory (768D)              |
 | `people.manifest.json`     | Shlukované osoby                 |
 
-## 4. Související dokumenty
+## 4. Zpracování času (Date & Time Policy)
 
-### Struktura & Konfigurace
+**Breaking Change (Jan 2026):** Projekt přešel na striktní **"True Wall Clock"** princip.
+
+- **Koncept**: Čas pořízení fotky je považován za neměnný řetězec, nezávislý na časovém pásmu diváka nebo serveru.
+- **Implementace**:
+  - ❌ **Zákaz `Date` objektů**: Pro parsování a formátování časů zobrazení se nesmí používat `new Date()`, protože vnáší offset prohlížeče.
+  - ✅ **String-only**: Všechny časy jsou v celém systému (build, manifest, frontend) předávány jako ISO řetězce bez offsetu (např. `2025-11-25T08:30:00`).
+  - **Důvod**: Eliminace posunů času (např. fotka vyfocená v 09:00 v Egyptě se nesmí v ČR zobrazit jako 08:00).
+- **Nástroje**:
+  - `shared/utils/dates.ts` → `toPureWallClockISO`, `formatWallClock`
+  - Manifesty obsahují pouze "ořezané" časy bez `Z` nebo offsetu `+XX:XX`.
+
+## 5. Související dokumenty
 
 - [ARCH-STRUCTURE.md](./ARCH-STRUCTURE.md) — Adresářová struktura projektu
 - [ARCH-CONFIG.md](./ARCH-CONFIG.md) — Konfigurační soubory (Vite, TS, Tailwind…)
@@ -130,4 +142,4 @@ Metadata jsou rozdělena pro optimalizaci:
 
 ---
 
-_Poslední aktualizace: 2025-12-30_
+_Poslední aktualizace: 2026-01-03_

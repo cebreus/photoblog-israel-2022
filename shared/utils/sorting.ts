@@ -1,4 +1,5 @@
 import type { ImageEntry } from "../types/manifest";
+import { toPureWallClockISO } from "./dates";
 
 /**
  * Calculates ReleaseDates for a list of images based on their desired order.
@@ -47,7 +48,7 @@ export function calculateReleaseDates(
         // Safety check: ensure we have a slot for this image
         if (index < timestamps.length) {
             const newTimeMs = timestamps[index];
-            const newTimeStr = new Date(newTimeMs).toISOString();
+            const newTimeStr = toPureWallClockISO(new Date(newTimeMs))!;
 
             const item = relevantItemsMap.get(id);
             const oldTimeStr = item?.exif?.releaseDate || item?.exif?.date;

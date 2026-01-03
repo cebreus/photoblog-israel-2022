@@ -74,7 +74,7 @@ Většinu argumentů lze předat skrze `manage.ts` pomocí syntaxe `bun scripts/
 
 > **Poznámka k `--manifest-only`:** V tomto režimu se načítají pouze:
 >
-> - EXIF metadata z obrázků (dimenze, GPS, datum, autor)
+> - EXIF metadata z obrázků (dimenze, GPS, datum [Wall Clock], autor)
 > - Story obsah z `.md` souborů
 >
 > Přeskakuje se: dominantní barva (placeholder), sharpness, pHash, detekce obličejů.
@@ -484,4 +484,4 @@ Step 2 a Step 4 používají **různé modely** z důvodu optimalizace:
 
 ---
 
-_Poslední aktualizace: 2025-12-30_
+_Poslední aktualizace: 2026-01-03_

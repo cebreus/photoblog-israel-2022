@@ -5,6 +5,7 @@
   import Trash2 from "@lucide/svelte/icons/trash-2";
   import { toast } from "svelte-sonner";
   import { dev } from "$app/environment";
+
   import { useScrollspy } from "$lib/actions/scrollspy";
   import AspectRatioIcon from "$lib/components/AspectRatioIcon.svelte";
   import JsonViewer from "$lib/components/debug/JsonViewer.svelte";
@@ -21,6 +22,7 @@
   import { getSources } from "$lib/utils/images";
   import { IMAGE_MESSAGES } from "$lib/utils/messages";
   import { formatMetadataForClipboard } from "$lib/utils/metadata";
+  import { formatWallClock } from "$shared/utils/dates";
 
   let {
     item,
@@ -137,10 +139,7 @@
       {#if item.date}
         <div class="flex items-center gap-1">
           <span>
-            {new Date(item.date).toLocaleString([], {
-              dateStyle: "short",
-              timeStyle: "short",
-            })}
+            {formatWallClock(item.date)}
           </span>
         </div>
       {/if}
@@ -190,12 +189,7 @@
     { label: "Soubor", value: fileName, isTechnical: true },
     {
       label: "Datum pořízení",
-      value: item.date
-        ? new Date(item.date).toLocaleString([], {
-            dateStyle: "short",
-            timeStyle: "short",
-          })
-        : undefined,
+      value: formatWallClock(item.date),
     },
     {
       label: "Lidé",
