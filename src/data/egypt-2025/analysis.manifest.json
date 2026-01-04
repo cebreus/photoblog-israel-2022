@@ -287,156 +287,6 @@
     "qualityBucket": "good",
     "phash": "7c1870503153dbbb"
   },
-  "2025-11-25-152350-cebreus": {
-    "aestheticScore": 67.92813257103936,
-    "sharpness": 56,
-    "qualityBucket": "good",
-    "phash": "45616939383a9f2d"
-  },
-  "2025-11-25-152518-cebreus": {
-    "aestheticScore": 78.51831960748251,
-    "sharpness": 100,
-    "qualityBucket": "excellent",
-    "phash": "98c022130b2090ff"
-  },
-  "2025-11-25-154350-cebreus": {
-    "aestheticScore": 69.8156629378139,
-    "sharpness": 83,
-    "qualityBucket": "excellent",
-    "phash": "f0f3f3ef65fdbfac"
-  },
-  "2025-11-26-075932-cebreus": {
-    "aestheticScore": 68.24805312135753,
-    "sharpness": 67,
-    "qualityBucket": "good",
-    "phash": "bbffff3400000000"
-  },
-  "2025-11-26-080112-cebreus": {
-    "aestheticScore": 65.70277724667781,
-    "sharpness": 57,
-    "qualityBucket": "good",
-    "phash": "0f31403f23000000"
-  },
-  "2025-11-26-080216-cebreus": {
-    "aestheticScore": 54.47205717605883,
-    "sharpness": 64,
-    "qualityBucket": "good",
-    "phash": "479ef97302000000"
-  },
-  "2025-11-26-080508-cebreus": {
-    "aestheticScore": 64.26988761455024,
-    "sharpness": 23,
-    "qualityBucket": "poor",
-    "phash": "fc5efd8b13120000"
-  },
-  "2025-11-26-080521-dasa": {
-    "aestheticScore": 75.77531596062262,
-    "sharpness": 50,
-    "qualityBucket": "good",
-    "phash": "cfee8b8fa7c88400"
-  },
-  "2025-11-26-080529-cebreus": {
-    "aestheticScore": 61.38055733043854,
-    "sharpness": 91,
-    "qualityBucket": "good",
-    "phash": "68c6d63ef2e3e363"
-  },
-  "2025-11-26-080555-cebreus": {
-    "aestheticScore": 58.44068701140927,
-    "sharpness": 61,
-    "qualityBucket": "good",
-    "phash": "58deba7a06070303"
-  },
-  "2025-11-26-081043-cebreus": {
-    "aestheticScore": 52.06778043981277,
-    "sharpness": 65,
-    "qualityBucket": "good",
-    "phash": "fded7ebda3030101"
-  },
-  "2025-11-26-081049-dasa": {
-    "aestheticScore": 64.05599777983946,
-    "sharpness": 100,
-    "qualityBucket": "good",
-    "phash": "0f0b876545a3b3db"
-  },
-  "2025-11-26-081120-cebreus": {
-    "aestheticScore": 49.09076904115149,
-    "sharpness": 31,
-    "qualityBucket": "poor",
-    "phash": "d25e6a09311b0200"
-  },
-  "2025-11-26-081923-cebreus": {
-    "aestheticScore": 79.07375767900855,
-    "sharpness": 58,
-    "qualityBucket": "good",
-    "phash": "3571e9b6e2000000"
-  },
-  "2025-11-26-082550-cebreus": {
-    "aestheticScore": 77.85137034771111,
-    "sharpness": 71,
-    "qualityBucket": "good",
-    "phash": "6b1bcfce71e0e0e0"
-  },
-  "2025-11-26-082610-cebreus": {
-    "aestheticScore": 59.3054757988887,
-    "sharpness": 62,
-    "qualityBucket": "good",
-    "phash": "7d7c668b02800000"
-  },
-  "2025-11-26-084453-cebreus": {
-    "aestheticScore": 53.01225321131735,
-    "sharpness": 97,
-    "qualityBucket": "good",
-    "phash": "b23216dd7b190100"
-  },
-  "2025-11-26-085933-cebreus": {
-    "aestheticScore": 57.54990360013954,
-    "sharpness": 60,
-    "qualityBucket": "good",
-    "phash": "dad3f2ba5679b8b2"
-  },
-  "2025-11-26-085943-cebreus": {
-    "aestheticScore": 44.79209147731134,
-    "sharpness": 75,
-    "qualityBucket": "poor",
-    "phash": "07273f3d0c193959"
-  },
-  "2025-11-26-091556-cebreus": {
-    "aestheticScore": 55.51122778161556,
-    "sharpness": 100,
-    "qualityBucket": "good",
-    "phash": "fbfffd7f3e0d4900"
-  },
-  "2025-11-26-092110-cebreus": {
-    "aestheticScore": 60.2607574496013,
-    "sharpness": 100,
-    "qualityBucket": "good",
-    "phash": "caccc8dbb1b32f9f"
-  },
-  "2025-11-26-093233-cebreus": {
-    "aestheticScore": 77.45287531326397,
-    "sharpness": 63,
-    "qualityBucket": "good",
-    "phash": "3f8e6f3b9ecdcfff"
-  },
-  "2025-11-26-095124-dasa": {
-    "aestheticScore": 78.83414506283879,
-    "sharpness": 87,
-    "qualityBucket": "excellent",
-    "phash": "eba5383894946058"
-  },
-  "2025-11-26-100151-cebreus": {
-    "aestheticScore": 78.8294916574172,
-    "sharpness": 100,
-    "qualityBucket": "excellent",
-    "phash": "dc6c3cbe3e0d0f0f"
-  },
-  "2025-11-26-100538-cebreus": {
-    "aestheticScore": 60.071071727997435,
-    "sharpness": 100,
-    "qualityBucket": "good",
-    "phash": "2762e8b435274f05"
-  },
   "2025-11-26-113457-cebreus": {
     "aestheticScore": 77.21877946829194,
     "sharpness": 100,
@@ -491,185 +341,11 @@
     "qualityBucket": "poor",
     "phash": "1154ad6c5249090e"
   },
-  "2025-11-26-123437-cebreus": {
-    "aestheticScore": 43.696880694405976,
-    "sharpness": 100,
-    "qualityBucket": "poor",
-    "phash": "6b7177e77747e9f4"
-  },
-  "2025-11-26-123858-cebreus": {
-    "aestheticScore": 60.844987896248725,
-    "sharpness": 89,
-    "qualityBucket": "good",
-    "phash": "c8e8a9c999113253"
-  },
-  "2025-11-26-123940-cebreus": {
-    "aestheticScore": 54.82606928468564,
-    "sharpness": 100,
-    "qualityBucket": "good",
-    "phash": "faf0b7b632749016"
-  },
-  "2025-11-26-124004-cebreus": {
-    "aestheticScore": 39.70075600643126,
-    "sharpness": 100,
-    "qualityBucket": "poor",
-    "phash": "c0f0634ca88c6ee9"
-  },
-  "2025-11-26-125147-cebreus": {
-    "aestheticScore": 74.99653819789468,
-    "sharpness": 100,
-    "qualityBucket": "excellent",
-    "phash": "f3f1f0e8e9cc5e3e"
-  },
-  "2025-11-26-125240-cebreus": {
-    "aestheticScore": 92.60193484130936,
-    "sharpness": 95,
-    "qualityBucket": "excellent",
-    "phash": "d8f9b2b292d0c3e4"
-  },
-  "2025-11-26-125315-cebreus": {
-    "aestheticScore": 45.38147919049676,
-    "sharpness": 100,
-    "qualityBucket": "good",
-    "phash": "9998998d0d0d0d4d"
-  },
-  "2025-11-26-125323-cebreus": {
-    "aestheticScore": 41.355649711034,
-    "sharpness": 90,
-    "qualityBucket": "poor",
-    "phash": "e76e66e67666ff3d"
-  },
-  "2025-11-26-125334-cebreus": {
-    "aestheticScore": 78.73865893650614,
-    "sharpness": 94,
-    "qualityBucket": "excellent",
-    "phash": "c37698e95c7cfefe"
-  },
-  "2025-11-26-125341-cebreus": {
-    "aestheticScore": 52.23916570684368,
-    "sharpness": 98,
-    "qualityBucket": "good",
-    "phash": "fffc999cbd9daeea"
-  },
-  "2025-11-26-125352-cebreus": {
-    "aestheticScore": 48.508612302301756,
-    "sharpness": 95,
-    "qualityBucket": "good",
-    "phash": "cb0f1fbe1c9fa74e"
-  },
-  "2025-11-26-125359-cebreus": {
-    "aestheticScore": 61.29621696980787,
-    "sharpness": 83,
-    "qualityBucket": "good",
-    "phash": "3fbf3b33fbffffff"
-  },
-  "2025-11-26-125411-cebreus": {
-    "aestheticScore": 39.44219599489409,
-    "sharpness": 79,
-    "qualityBucket": "poor",
-    "phash": "6c2c3e7fff9bbec7"
-  },
-  "2025-11-26-125421-cebreus": {
-    "aestheticScore": 51.948520011160696,
-    "sharpness": 72,
-    "qualityBucket": "good",
-    "phash": "f6fe32775797373f"
-  },
-  "2025-11-26-125706-cebreus": {
-    "aestheticScore": 78.69690958660317,
-    "sharpness": 81,
-    "qualityBucket": "excellent",
-    "phash": "61e063b1b3b091c3"
-  },
-  "2025-11-26-125717-cebreus": {
-    "aestheticScore": 44.74479029114438,
-    "sharpness": 77,
-    "qualityBucket": "poor",
-    "phash": "f5e5fee4e4f07d5e"
-  },
-  "2025-11-26-125755-cebreus": {
-    "aestheticScore": 46.4727004180027,
-    "sharpness": 100,
-    "qualityBucket": "good",
-    "phash": "cec6c6f37b4bc738"
-  },
-  "2025-11-26-125848-cebreus": {
-    "aestheticScore": 48.77241350819253,
-    "sharpness": 100,
-    "qualityBucket": "good",
-    "phash": "d3f3c386cece7eca"
-  },
-  "2025-11-26-125913-cebreus": {
-    "aestheticScore": 50.58650662808066,
-    "sharpness": 100,
-    "qualityBucket": "good",
-    "phash": "6472786e2828cec5"
-  },
   "2025-11-26-125931-dasa": {
     "aestheticScore": 51.532531141574395,
     "sharpness": 100,
     "qualityBucket": "good",
     "phash": "cc924d4cccccb1b7"
-  },
-  "2025-11-26-130017-cebreus": {
-    "aestheticScore": 41.946608269691126,
-    "sharpness": 94,
-    "qualityBucket": "poor",
-    "phash": "1eb34949caf37399"
-  },
-  "2025-11-26-130021-cebreus": {
-    "aestheticScore": 38.51690354036594,
-    "sharpness": 84,
-    "qualityBucket": "poor",
-    "phash": "cececffc7cfcf0fc"
-  },
-  "2025-11-26-130159-cebreus": {
-    "aestheticScore": 29.25811537315828,
-    "sharpness": 54,
-    "qualityBucket": "poor",
-    "phash": "f7039e9a9e9b9b1b"
-  },
-  "2025-11-26-130323-cebreus": {
-    "aestheticScore": 65.79033872586041,
-    "sharpness": 92,
-    "qualityBucket": "excellent",
-    "phash": "01c6e0a0b01272dc"
-  },
-  "2025-11-26-130404-cebreus": {
-    "aestheticScore": 37.588364230876344,
-    "sharpness": 56,
-    "qualityBucket": "poor",
-    "phash": "0005058808050b0c"
-  },
-  "2025-11-26-130440-cebreus": {
-    "aestheticScore": 41.97910252275047,
-    "sharpness": 56,
-    "qualityBucket": "poor",
-    "phash": "fe7c3b333303c3b3"
-  },
-  "2025-11-26-130501-cebreus": {
-    "aestheticScore": 51.386767679672325,
-    "sharpness": 91,
-    "qualityBucket": "good",
-    "phash": "915160333b725658"
-  },
-  "2025-11-26-130515-cebreus": {
-    "aestheticScore": 45.86717981325164,
-    "sharpness": 61,
-    "qualityBucket": "good",
-    "phash": "cec3c9494a33370f"
-  },
-  "2025-11-26-130543-cebreus": {
-    "aestheticScore": 48.32974561543717,
-    "sharpness": 74,
-    "qualityBucket": "good",
-    "phash": "2db0f06470c69879"
-  },
-  "2025-11-26-130603-cebreus": {
-    "aestheticScore": 62.38972001976634,
-    "sharpness": 100,
-    "qualityBucket": "good",
-    "phash": "89a0b333b3b33336"
   },
   "2025-11-26-130753-cebreus": {
     "aestheticScore": 54.855714554900594,
@@ -677,77 +353,11 @@
     "qualityBucket": "good",
     "phash": "0821b59e1f3d2c66"
   },
-  "2025-11-26-130842-cebreus": {
-    "aestheticScore": 35.26901800026276,
-    "sharpness": 100,
-    "qualityBucket": "poor",
-    "phash": "e1e4f4e4d0eefee3"
-  },
-  "2025-11-26-130849-cebreus": {
-    "aestheticScore": 39.878532663558,
-    "sharpness": 100,
-    "qualityBucket": "poor",
-    "phash": "f1d9f9f9f9fefefe"
-  },
-  "2025-11-26-130858-cebreus": {
-    "aestheticScore": 43.56240898598082,
-    "sharpness": 100,
-    "qualityBucket": "poor",
-    "phash": "671703c0fbf8594d"
-  },
-  "2025-11-26-130905-cebreus": {
-    "aestheticScore": 41.71128862020269,
-    "sharpness": 39,
-    "qualityBucket": "poor",
-    "phash": "012fafaf6f7dfdf9"
-  },
-  "2025-11-26-131110-cebreus": {
-    "aestheticScore": 28.36618946215916,
-    "sharpness": 95,
-    "qualityBucket": "poor",
-    "phash": "b1be38f0f1ecec70"
-  },
-  "2025-11-26-131113-cebreus": {
-    "aestheticScore": 49.292755790282186,
-    "sharpness": 68,
-    "qualityBucket": "good",
-    "phash": "1d3f1fe2e2f163e2"
-  },
-  "2025-11-26-131135-cebreus": {
-    "aestheticScore": 47.760909643243586,
-    "sharpness": 100,
-    "qualityBucket": "good",
-    "phash": "23164cb33cde9e2c"
-  },
-  "2025-11-26-131140-cebreus": {
-    "aestheticScore": 40.587015309091285,
-    "sharpness": 97,
-    "qualityBucket": "poor",
-    "phash": "8289191b9a824f71"
-  },
-  "2025-11-26-131155-cebreus": {
-    "aestheticScore": 39.424731053423976,
-    "sharpness": 100,
-    "qualityBucket": "poor",
-    "phash": "626464e4f3f0f870"
-  },
   "2025-11-26-131935-dasa": {
     "aestheticScore": 58.06525329607811,
     "sharpness": 100,
     "qualityBucket": "good",
     "phash": "faf4f0e0c8c888ba"
-  },
-  "2025-11-26-132422-cebreus": {
-    "aestheticScore": 65.01565245065191,
-    "sharpness": 96,
-    "qualityBucket": "excellent",
-    "phash": "9f9c899898d85818"
-  },
-  "2025-11-26-132432-cebreus": {
-    "aestheticScore": 39.73729288307439,
-    "sharpness": 100,
-    "qualityBucket": "poor",
-    "phash": "6c473f0d051f0f1f"
   },
   "2025-11-26-132537-cebreus": {
     "aestheticScore": 32.082923323842174,
@@ -767,47 +377,11 @@
     "qualityBucket": "good",
     "phash": "01077c6a28387027"
   },
-  "2025-11-26-133422-cebreus": {
-    "aestheticScore": 45.79562917002728,
-    "sharpness": 99,
-    "qualityBucket": "good",
-    "phash": "f048f8d4186feef5"
-  },
-  "2025-11-26-133428-cebreus": {
-    "aestheticScore": 23.507050095775067,
-    "sharpness": 100,
-    "qualityBucket": "poor",
-    "phash": "fcffef33373fe0f0"
-  },
-  "2025-11-26-133714-cebreus": {
-    "aestheticScore": 39.53444234501552,
-    "sharpness": 80,
-    "qualityBucket": "poor",
-    "phash": "8e67f7b36c6c93b3"
-  },
-  "2025-11-26-133722-cebreus": {
-    "aestheticScore": 63.48921227743952,
-    "sharpness": 100,
-    "qualityBucket": "good",
-    "phash": "3071716949797d41"
-  },
   "2025-11-26-135353-dasa": {
     "aestheticScore": 44.56373705725049,
     "sharpness": 100,
     "qualityBucket": "poor",
     "phash": "4c260ea8b32a69e0"
-  },
-  "2025-11-26-135413-cebreus": {
-    "aestheticScore": 46.295166234392575,
-    "sharpness": 100,
-    "qualityBucket": "good",
-    "phash": "bf570081c3d3d4d3"
-  },
-  "2025-11-26-135431-cebreus": {
-    "aestheticScore": 69.42255334439503,
-    "sharpness": 100,
-    "qualityBucket": "excellent",
-    "phash": "330bc9f35a53d1e8"
   },
   "2025-11-26-140121-dasa": {
     "aestheticScore": 77.13623185840679,
@@ -863,59 +437,11 @@
     "qualityBucket": "good",
     "phash": "969696f070d0e8da"
   },
-  "2025-11-26-142739-cebreus": {
-    "aestheticScore": 70.64192831034028,
-    "sharpness": 100,
-    "qualityBucket": "excellent",
-    "phash": "185a5978787c7052"
-  },
-  "2025-11-26-153058-cebreus": {
-    "aestheticScore": 75.1077652109181,
-    "sharpness": 100,
-    "qualityBucket": "excellent",
-    "phash": "635d55423286bcf2"
-  },
-  "2025-11-26-153129-cebreus": {
-    "aestheticScore": 58.75110188881432,
-    "sharpness": 90,
-    "qualityBucket": "good",
-    "phash": "1322b3b7adebcb6b"
-  },
-  "2025-11-26-153302-cebreus": {
-    "aestheticScore": 38.10348467232067,
-    "sharpness": 84,
-    "qualityBucket": "poor",
-    "phash": "3f8fb3a9c6167b8a"
-  },
-  "2025-11-26-153319-cebreus": {
-    "aestheticScore": 49.45526860650891,
-    "sharpness": 100,
-    "qualityBucket": "good",
-    "phash": "8d1f3c73b33f4729"
-  },
-  "2025-11-26-155237-cebreus": {
-    "aestheticScore": 75.14603616998798,
-    "sharpness": 100,
-    "qualityBucket": "excellent",
-    "phash": "cce4c4f4f8dcf9b3"
-  },
-  "2025-11-26-155305-cebreus": {
-    "aestheticScore": 65.15247518675008,
-    "sharpness": 100,
-    "qualityBucket": "excellent",
-    "phash": "4accaba3e5e5e1b3"
-  },
   "2025-11-26-155357-cebreus": {
     "aestheticScore": 60.26331752454775,
     "sharpness": 100,
     "qualityBucket": "good",
     "phash": "d0e2696961e9f1b5"
-  },
-  "2025-11-26-155425-cebreus": {
-    "aestheticScore": 64.40497813359092,
-    "sharpness": 100,
-    "qualityBucket": "good",
-    "phash": "cc69687474e93134"
   },
   "2025-11-26-161403-dasa": {
     "aestheticScore": 42.5050255345214,
@@ -1241,29 +767,11 @@
     "qualityBucket": "poor",
     "phash": "7b67a68431090800"
   },
-  "2025-11-26-100545-cebreus": {
-    "aestheticScore": 77.04041801377059,
-    "sharpness": 100,
-    "qualityBucket": "excellent",
-    "phash": "61121ac9e15e070f"
-  },
   "2025-11-26-130813-cebreus": {
     "aestheticScore": 41.665515381773645,
     "sharpness": 100,
     "qualityBucket": "poor",
     "phash": "da5bb69e9e3d6c6c"
-  },
-  "2025-11-26-134543-cebreus--zoom1from2": {
-    "aestheticScore": 40.311078440143774,
-    "sharpness": 100,
-    "qualityBucket": "poor",
-    "phash": "c46c69d8f143cec4"
-  },
-  "2025-11-26-134549-cebreus--zoom2from2": {
-    "aestheticScore": 79.01495734469269,
-    "sharpness": 100,
-    "qualityBucket": "excellent",
-    "phash": "d9492bb290044486"
   },
   "2025-11-27-124045-dasa": {
     "aestheticScore": 38.539941539860735,
@@ -1397,78 +905,6 @@
     "qualityBucket": "good",
     "phash": "b2b3311555d58880"
   },
-  "2025-11-26-080834-cebreus": {
-    "aestheticScore": 62.7724678198566,
-    "sharpness": 55,
-    "qualityBucket": "good",
-    "phash": "8c30bbb937200103"
-  },
-  "2025-11-26-080907-cebreus": {
-    "aestheticScore": 78.06175262627774,
-    "sharpness": 60,
-    "qualityBucket": "good",
-    "phash": "283b3f3d23200001"
-  },
-  "2025-11-26-081434-cebreus": {
-    "aestheticScore": 89.7318508269595,
-    "sharpness": 65,
-    "qualityBucket": "good",
-    "phash": "2b1b8d6e1c84c0c0"
-  },
-  "2025-11-26-081544-cebreus": {
-    "aestheticScore": 56.83221472929544,
-    "sharpness": 100,
-    "qualityBucket": "good",
-    "phash": "8f078e8e06422000"
-  },
-  "2025-11-26-090727-cebreus": {
-    "aestheticScore": 49.11649845989462,
-    "sharpness": 85,
-    "qualityBucket": "good",
-    "phash": "0987e6c2b7bf9fff"
-  },
-  "2025-11-26-091502-cebreus": {
-    "aestheticScore": 61.63346204147481,
-    "sharpness": 95,
-    "qualityBucket": "good",
-    "phash": "9696723409071f1f"
-  },
-  "2025-11-26-095057-cebreus": {
-    "aestheticScore": 79.1468850669322,
-    "sharpness": 100,
-    "qualityBucket": "excellent",
-    "phash": "1313032602d23f1b"
-  },
-  "2025-11-26-095210-cebreus": {
-    "aestheticScore": 54.36972913248317,
-    "sharpness": 98,
-    "qualityBucket": "good",
-    "phash": "0a124202d2de1f0f"
-  },
-  "2025-11-26-095523-cebreus": {
-    "aestheticScore": 54.630174727912205,
-    "sharpness": 100,
-    "qualityBucket": "good",
-    "phash": "c2d2af8a9ac8e4d4"
-  },
-  "2025-11-26-095535-cebreus": {
-    "aestheticScore": 77.88086295392675,
-    "sharpness": 100,
-    "qualityBucket": "excellent",
-    "phash": "8c8cb99d646c6c6d"
-  },
-  "2025-11-26-095929-cebreus": {
-    "aestheticScore": 70.52324058251533,
-    "sharpness": 100,
-    "qualityBucket": "excellent",
-    "phash": "9edc4c298808110c"
-  },
-  "2025-11-26-100007-cebreus": {
-    "aestheticScore": 52.06822106965381,
-    "sharpness": 100,
-    "qualityBucket": "good",
-    "phash": "3a3b713a3a342e16"
-  },
   "2025-11-26-121346-cebreus": {
     "aestheticScore": 38.5235013976739,
     "sharpness": 100,
@@ -1547,7 +983,7 @@
     "qualityBucket": "good",
     "phash": "26263e9e8e9c4d08"
   },
-  "2025-11-26-182606": {
+  "2025-11-26-192606-bobo": {
     "aestheticScore": 64.09950916176122,
     "sharpness": 100,
     "qualityBucket": "good",
@@ -1564,12 +1000,6 @@
     "sharpness": 74,
     "qualityBucket": "poor",
     "phash": "c4d6faeb76e09298"
-  },
-  "2025-11-27-064240-81ea6390-30a6-4303-8b6f-bb014f58e62d": {
-    "aestheticScore": 36.94390889929941,
-    "sharpness": 100,
-    "qualityBucket": "poor",
-    "phash": "cc7c7d756ccd2d68"
   },
   "2025-11-27-064240-9625dee9-e875-4c32-a88b-4cd781fc1614": {
     "aestheticScore": 45.629413573749474,
@@ -1661,13 +1091,7 @@
     "qualityBucket": "poor",
     "phash": "0d0d4dc9cc8d4dcc"
   },
-  "2025-11-25-174738-bobo": {
-    "aestheticScore": 68.54812529438628,
-    "sharpness": 87,
-    "qualityBucket": "excellent",
-    "phash": "574696f2e2e6ca49"
-  },
-  "img9378": {
+  "2025-11-25-135255-bobina": {
     "aestheticScore": 58.41215179468871,
     "sharpness": 100,
     "qualityBucket": "good",
@@ -1709,37 +1133,19 @@
     "qualityBucket": "good",
     "phash": "e460096c3c6be2b4"
   },
-  "img9344": {
+  "2025-11-25-112544-bobina": {
     "aestheticScore": 47.936122164917656,
     "sharpness": 100,
     "qualityBucket": "good",
     "phash": "783ad36bb25796a6"
   },
-  "img9347": {
+  "2025-11-25-113601-bobina": {
     "aestheticScore": 51.347589084197274,
     "sharpness": 84,
     "qualityBucket": "good",
     "phash": "2604b7964646c6d6"
   },
-  "img9351": {
-    "aestheticScore": 54.67170613837598,
-    "sharpness": 69,
-    "qualityBucket": "good",
-    "phash": "c32134333d0991b4"
-  },
-  "img9429": {
-    "aestheticScore": 62.491377151505574,
-    "sharpness": 100,
-    "qualityBucket": "good",
-    "phash": "0c0991084a1d9540"
-  },
-  "img9465": {
-    "aestheticScore": 68.55609436966054,
-    "sharpness": 100,
-    "qualityBucket": "excellent",
-    "phash": "e3e566c64e07a688"
-  },
-  "img9541": {
+  "2025-11-26-202837-bobina": {
     "aestheticScore": 66.95547330064484,
     "sharpness": 100,
     "qualityBucket": "excellent",
@@ -1762,5 +1168,473 @@
     "sharpness": 88,
     "qualityBucket": "excellent",
     "phash": "f6c5f9cacaa2f6f6"
+  },
+  "2025-11-26-224838": {
+    "aestheticScore": 41.76348491995689,
+    "sharpness": 100,
+    "qualityBucket": "poor",
+    "phash": "034b4b843064e687"
+  },
+  "2025-11-25-152350-cebreus": {
+    "aestheticScore": 73.1164839625415,
+    "sharpness": 56,
+    "qualityBucket": "good",
+    "phash": "45616939383a9f2d"
+  },
+  "2025-11-25-152518-cebreus": {
+    "aestheticScore": 79.75970534064435,
+    "sharpness": 100,
+    "qualityBucket": "excellent",
+    "phash": "98c022130b2090ff"
+  },
+  "2025-11-25-154350-cebreus": {
+    "aestheticScore": 67.76270212743984,
+    "sharpness": 83,
+    "qualityBucket": "excellent",
+    "phash": "f0f3f3ef65fdbfac"
+  },
+  "2025-11-25-174738-bobo": {
+    "aestheticScore": 68.99092732596681,
+    "sharpness": 87,
+    "qualityBucket": "excellent",
+    "phash": "574696f2e2e6ca49"
+  },
+  "2025-11-26-085808-bobina": {
+    "aestheticScore": 57.391244158058974,
+    "sharpness": 100,
+    "qualityBucket": "good",
+    "phash": "0c0991084a1d9540"
+  },
+  "2025-11-26-075932-cebreus": {
+    "aestheticScore": 64.68373738429732,
+    "sharpness": 67,
+    "qualityBucket": "good",
+    "phash": "bbffff3400000000"
+  },
+  "2025-11-26-080112-cebreus": {
+    "aestheticScore": 59.7880243395227,
+    "sharpness": 57,
+    "qualityBucket": "good",
+    "phash": "0f31403f23000000"
+  },
+  "2025-11-26-080216-cebreus": {
+    "aestheticScore": 56.289927454492044,
+    "sharpness": 64,
+    "qualityBucket": "good",
+    "phash": "479ef97302000000"
+  },
+  "2025-11-26-080508-cebreus": {
+    "aestheticScore": 67.73892699454376,
+    "sharpness": 23,
+    "qualityBucket": "poor",
+    "phash": "fc5efd8b13120000"
+  },
+  "2025-11-26-080521-dasa": {
+    "aestheticScore": 71.65117163474507,
+    "sharpness": 50,
+    "qualityBucket": "good",
+    "phash": "cfee8b8fa7c88400"
+  },
+  "2025-11-26-080529-cebreus": {
+    "aestheticScore": 63.07151866273949,
+    "sharpness": 91,
+    "qualityBucket": "good",
+    "phash": "68c6d63ef2e3e363"
+  },
+  "2025-11-26-080555-cebreus": {
+    "aestheticScore": 55.960236418508494,
+    "sharpness": 61,
+    "qualityBucket": "good",
+    "phash": "58deba7a06070303"
+  },
+  "2025-11-26-080834-cebreus": {
+    "aestheticScore": 68.4767364866712,
+    "sharpness": 55,
+    "qualityBucket": "good",
+    "phash": "8c30bbb937200103"
+  },
+  "2025-11-26-080907-cebreus": {
+    "aestheticScore": 65.67419841619507,
+    "sharpness": 60,
+    "qualityBucket": "good",
+    "phash": "283b3f3d23200001"
+  },
+  "2025-11-26-081043-cebreus": {
+    "aestheticScore": 57.8639377226029,
+    "sharpness": 65,
+    "qualityBucket": "good",
+    "phash": "fded7ebda3030101"
+  },
+  "2025-11-26-081049-dasa": {
+    "aestheticScore": 60.55931838970129,
+    "sharpness": 100,
+    "qualityBucket": "good",
+    "phash": "0f0b876545a3b3db"
+  },
+  "2025-11-26-081120-cebreus": {
+    "aestheticScore": 46.474129273261944,
+    "sharpness": 31,
+    "qualityBucket": "poor",
+    "phash": "d25e6a09311b0200"
+  },
+  "2025-11-26-081434-cebreus": {
+    "aestheticScore": 68.5139198320287,
+    "sharpness": 65,
+    "qualityBucket": "good",
+    "phash": "2b1b8d6e1c84c0c0"
+  },
+  "2025-11-26-091503-bobina": {
+    "aestheticScore": 68.51513437538928,
+    "sharpness": 100,
+    "qualityBucket": "excellent",
+    "phash": "e3e566c64e07a688"
+  },
+  "2025-11-26-081544-cebreus": {
+    "aestheticScore": 64.31504168802424,
+    "sharpness": 100,
+    "qualityBucket": "good",
+    "phash": "8f078e8e06422000"
+  },
+  "2025-11-26-081923-cebreus": {
+    "aestheticScore": 78.02546554948778,
+    "sharpness": 58,
+    "qualityBucket": "good",
+    "phash": "3571e9b6e2000000"
+  },
+  "2025-11-26-082550-cebreus": {
+    "aestheticScore": 77.73819279654509,
+    "sharpness": 71,
+    "qualityBucket": "good",
+    "phash": "6b1bcfce71e0e0e0"
+  },
+  "2025-11-26-082610-cebreus": {
+    "aestheticScore": 57.775148075249845,
+    "sharpness": 62,
+    "qualityBucket": "good",
+    "phash": "7d7c668b02800000"
+  },
+  "2025-11-26-084453-cebreus": {
+    "aestheticScore": 52.57986511596155,
+    "sharpness": 97,
+    "qualityBucket": "good",
+    "phash": "b23216dd7b190100"
+  },
+  "2025-11-26-085933-cebreus": {
+    "aestheticScore": 57.54990360013954,
+    "sharpness": 60,
+    "qualityBucket": "good",
+    "phash": "dad3f2ba5679b8b2"
+  },
+  "2025-11-26-085943-cebreus": {
+    "aestheticScore": 44.79209147731134,
+    "sharpness": 75,
+    "qualityBucket": "poor",
+    "phash": "07273f3d0c193959"
+  },
+  "2025-11-26-090727-cebreus": {
+    "aestheticScore": 49.95591747582613,
+    "sharpness": 85,
+    "qualityBucket": "good",
+    "phash": "0987e6c2b7bf9fff"
+  },
+  "2025-11-26-091502-cebreus": {
+    "aestheticScore": 57.98560786028409,
+    "sharpness": 95,
+    "qualityBucket": "good",
+    "phash": "9696723409071f1f"
+  },
+  "2025-11-26-091556-cebreus": {
+    "aestheticScore": 55.51122778161556,
+    "sharpness": 100,
+    "qualityBucket": "good",
+    "phash": "fbfffd7f3e0d4900"
+  },
+  "2025-11-26-092110-cebreus": {
+    "aestheticScore": 60.2607574496013,
+    "sharpness": 100,
+    "qualityBucket": "good",
+    "phash": "caccc8dbb1b32f9f"
+  },
+  "2025-11-26-093233-cebreus": {
+    "aestheticScore": 77.45287531326397,
+    "sharpness": 63,
+    "qualityBucket": "good",
+    "phash": "3f8e6f3b9ecdcfff"
+  },
+  "2025-11-26-095057-cebreus": {
+    "aestheticScore": 80.10558013635176,
+    "sharpness": 100,
+    "qualityBucket": "excellent",
+    "phash": "1313032602d23f1b"
+  },
+  "2025-11-26-095124-dasa": {
+    "aestheticScore": 78.83414506283879,
+    "sharpness": 87,
+    "qualityBucket": "excellent",
+    "phash": "eba5383894946058"
+  },
+  "2025-11-26-095210-cebreus": {
+    "aestheticScore": 53.92991551403775,
+    "sharpness": 98,
+    "qualityBucket": "good",
+    "phash": "0a124202d2de1f0f"
+  },
+  "2025-11-26-095523-cebreus": {
+    "aestheticScore": 54.406948357032356,
+    "sharpness": 100,
+    "qualityBucket": "good",
+    "phash": "c2d2af8a9ac8e4d4"
+  },
+  "2025-11-26-095535-cebreus": {
+    "aestheticScore": 77.8895369121609,
+    "sharpness": 100,
+    "qualityBucket": "excellent",
+    "phash": "8c8cb99d646c6c6d"
+  },
+  "2025-11-26-095929-cebreus": {
+    "aestheticScore": 60.247437084583865,
+    "sharpness": 100,
+    "qualityBucket": "good",
+    "phash": "9edc4c298808110c"
+  },
+  "2025-11-26-100007-cebreus": {
+    "aestheticScore": 54.03191162654289,
+    "sharpness": 100,
+    "qualityBucket": "good",
+    "phash": "3a3b713a3a342e16"
+  },
+  "2025-11-26-100151-cebreus": {
+    "aestheticScore": 78.8294916574172,
+    "sharpness": 100,
+    "qualityBucket": "excellent",
+    "phash": "dc6c3cbe3e0d0f0f"
+  },
+  "2025-11-26-100538-cebreus": {
+    "aestheticScore": 60.071071727997435,
+    "sharpness": 100,
+    "qualityBucket": "good",
+    "phash": "2762e8b435274f05"
+  },
+  "2025-11-26-100545-cebreus": {
+    "aestheticScore": 78.74061679112475,
+    "sharpness": 100,
+    "qualityBucket": "excellent",
+    "phash": "61121ac9e15e070f"
+  },
+  "2025-11-26-123437-cebreus": {
+    "aestheticScore": 43.0689879929933,
+    "sharpness": 100,
+    "qualityBucket": "poor",
+    "phash": "6b7177e77747e9f4"
+  },
+  "2025-11-26-123858-cebreus--collage": {
+    "aestheticScore": 67.52365472601569,
+    "sharpness": 100,
+    "qualityBucket": "excellent",
+    "phash": "969615759616daca"
+  },
+  "2025-11-26-125147-cebreus--collage": {
+    "aestheticScore": 70.003571585046,
+    "sharpness": 100,
+    "qualityBucket": "excellent",
+    "phash": "c8ccccc6dc868687"
+  },
+  "2025-11-26-125359-cebreus": {
+    "aestheticScore": 50.06864386515095,
+    "sharpness": 83,
+    "qualityBucket": "good",
+    "phash": "3fbf3b33fbffffff"
+  },
+  "2025-11-26-125421-cebreus": {
+    "aestheticScore": 55.943559898813916,
+    "sharpness": 72,
+    "qualityBucket": "good",
+    "phash": "f6fe32775797373f"
+  },
+  "2025-11-26-125706-cebreus": {
+    "aestheticScore": 80.62086706391378,
+    "sharpness": 81,
+    "qualityBucket": "excellent",
+    "phash": "61e063b1b3b091c3"
+  },
+  "2025-11-26-155237-cebreus--collage": {
+    "aestheticScore": 66.26421651677161,
+    "sharpness": 100,
+    "qualityBucket": "excellent",
+    "phash": "a696869696b6b2b3"
+  },
+  "2025-11-26-153129-cebreus--collage": {
+    "aestheticScore": 63.50563360339429,
+    "sharpness": 100,
+    "qualityBucket": "good",
+    "phash": "b1a98f3c30b6ba8e"
+  },
+  "2025-11-26-125334-cebreus": {
+    "aestheticScore": 79.32722512328189,
+    "sharpness": 94,
+    "qualityBucket": "excellent",
+    "phash": "c37698e95c7cfefe"
+  },
+  "2025-11-26-125755-cebreus": {
+    "aestheticScore": 41.63875352897355,
+    "sharpness": 100,
+    "qualityBucket": "poor",
+    "phash": "cec6c6f37b4bc738"
+  },
+  "2025-11-26-125848-cebreus": {
+    "aestheticScore": 51.92665818544993,
+    "sharpness": 100,
+    "qualityBucket": "good",
+    "phash": "d3f3c386cece7eca"
+  },
+  "2025-11-26-130017-cebreus": {
+    "aestheticScore": 39.59950850823056,
+    "sharpness": 94,
+    "qualityBucket": "poor",
+    "phash": "1eb34949caf37399"
+  },
+  "2025-11-26-130323-cebreus": {
+    "aestheticScore": 60.7415764721921,
+    "sharpness": 92,
+    "qualityBucket": "good",
+    "phash": "01c6e0a0b01272dc"
+  },
+  "2025-11-26-130440-cebreus": {
+    "aestheticScore": 41.23475133424946,
+    "sharpness": 56,
+    "qualityBucket": "poor",
+    "phash": "fe7c3b333303c3b3"
+  },
+  "2025-11-26-130515-cebreus": {
+    "aestheticScore": 45.808755759280004,
+    "sharpness": 61,
+    "qualityBucket": "good",
+    "phash": "cec3c9494a33370f"
+  },
+  "2025-11-26-130603-cebreus": {
+    "aestheticScore": 51.16932176706881,
+    "sharpness": 100,
+    "qualityBucket": "good",
+    "phash": "89a0b333b3b33336"
+  },
+  "2025-11-26-131110-cebreus": {
+    "aestheticScore": 29.399549609886922,
+    "sharpness": 95,
+    "qualityBucket": "poor",
+    "phash": "b1be38f0f1ecec70"
+  },
+  "2025-11-26-131135-cebreus": {
+    "aestheticScore": 47.34348034222267,
+    "sharpness": 100,
+    "qualityBucket": "good",
+    "phash": "23164cb33cde9e2c"
+  },
+  "2025-11-26-131155-cebreus": {
+    "aestheticScore": 39.3692976991677,
+    "sharpness": 100,
+    "qualityBucket": "poor",
+    "phash": "626464e4f3f0f870"
+  },
+  "2025-11-26-132422-cebreus": {
+    "aestheticScore": 61.68363709079498,
+    "sharpness": 96,
+    "qualityBucket": "good",
+    "phash": "9f9c899898d85818"
+  },
+  "2025-11-26-133422-cebreus": {
+    "aestheticScore": 45.511627589592365,
+    "sharpness": 99,
+    "qualityBucket": "good",
+    "phash": "f048f8d4186feef5"
+  },
+  "2025-11-26-133722-cebreus": {
+    "aestheticScore": 64.59875269771909,
+    "sharpness": 100,
+    "qualityBucket": "good",
+    "phash": "3071716949797d41"
+  },
+  "2025-11-26-134543-cebreus--zoom1from2": {
+    "aestheticScore": 40.78455892904778,
+    "sharpness": 100,
+    "qualityBucket": "poor",
+    "phash": "c46c69d8f143cec4"
+  },
+  "2025-11-26-134549-cebreus--zoom2from2": {
+    "aestheticScore": 66.29606403739794,
+    "sharpness": 100,
+    "qualityBucket": "excellent",
+    "phash": "d9492bb290044486"
+  },
+  "2025-11-26-135431-cebreus": {
+    "aestheticScore": 79.79206467030357,
+    "sharpness": 100,
+    "qualityBucket": "excellent",
+    "phash": "330bc9f35a53d1e8"
+  },
+  "2025-11-26-153058-cebreus": {
+    "aestheticScore": 70.77912600231339,
+    "sharpness": 100,
+    "qualityBucket": "excellent",
+    "phash": "635d55423286bcf2"
+  },
+  "2025-11-26-123642-dasa": {
+    "aestheticScore": 79.27991714657013,
+    "sharpness": 100,
+    "qualityBucket": "excellent",
+    "phash": "459484aaaab894d8"
+  },
+  "2025-11-26-123745-dasa": {
+    "aestheticScore": 48.4070213730407,
+    "sharpness": 100,
+    "qualityBucket": "good",
+    "phash": "caca8a9696aaa688"
+  },
+  "2025-11-26-123817-dasa": {
+    "aestheticScore": 82.21048140141987,
+    "sharpness": 100,
+    "qualityBucket": "excellent",
+    "phash": "a888ac9498b280a0"
+  },
+  "2025-11-26-124357-bobina": {
+    "aestheticScore": 39.27329478466307,
+    "sharpness": 100,
+    "qualityBucket": "poor",
+    "phash": "3179795312923327"
+  },
+  "2025-11-26-131747-bobina": {
+    "aestheticScore": 36.96103920333193,
+    "sharpness": 100,
+    "qualityBucket": "poor",
+    "phash": "35b53c040e4d59fc"
+  },
+  "2025-11-26-164839-bobina": {
+    "aestheticScore": 55.95831874110585,
+    "sharpness": 92,
+    "qualityBucket": "good",
+    "phash": "4b96aae2b33b0f36"
+  },
+  "2025-11-26-164901-bobo": {
+    "aestheticScore": 40.517854259506564,
+    "sharpness": 84,
+    "qualityBucket": "poor",
+    "phash": "731b3e14f6303306"
+  },
+  "2025-11-26-164905-bobina": {
+    "aestheticScore": 77.6518083322981,
+    "sharpness": 100,
+    "qualityBucket": "excellent",
+    "phash": "a4ada2ece9c9b8c1"
+  },
+  "2025-11-27-113851-bobina": {
+    "aestheticScore": 29.370146999834276,
+    "sharpness": 100,
+    "qualityBucket": "poor",
+    "phash": "c8e838c2e9686882"
+  },
+  "2025-11-27-113855-bobina": {
+    "aestheticScore": 29.330356672408882,
+    "sharpness": 100,
+    "qualityBucket": "poor",
+    "phash": "3e2f33393dcca8cd"
   }
 }

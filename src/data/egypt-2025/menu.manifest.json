@@ -217,7 +217,7 @@
         "label": "Pevnost Qaitbay",
         "href": "#loc-pevnost-qaitbay-1350",
         "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-25T14:11:42",
+        "firstPhotoExifDate": "2025-11-25T13:52:55",
         "startDate": "2025-11-25T13:50:00",
         "endDate": "2025-11-25T14:40:00"
       },
@@ -236,7 +236,15 @@
         "href": "#loc-kralovsky-sklenik-1605",
         "isDimmed": false,
         "firstPhotoExifDate": "2025-11-25T16:05:25",
-        "startDate": "2025-11-25T16:05:25"
+        "startDate": "2025-11-25T16:05:00",
+        "endDate": "2025-11-25T16:20:00"
+      },
+      {
+        "id": "loc-athineos-cafe-and-restaurant",
+        "label": "Athineos Café & Restaurant",
+        "href": "#2025-11-25-174738-bobo",
+        "isDimmed": true,
+        "firstPhotoExifDate": "2025-11-25T18:47:38"
       },
       {
         "id": "loc-pyramid-front-hotel-2048",
@@ -254,6 +262,14 @@
     "label": "středa 26. listopadu 2025",
     "href": "#day-2025-11-26",
     "locations": [
+      {
+        "id": "loc-gizska-nekropole-0858",
+        "label": "Gízská nekropole",
+        "href": "#loc-gizska-nekropole-0858",
+        "isDimmed": false,
+        "firstPhotoExifDate": "2025-11-26T08:58:08",
+        "startDate": "2025-11-26T08:58:08"
+      },
       {
         "id": "loc-egyptsky-papyrusovy-institut-1234",
         "label": "Egyptský papyrusový institut",
