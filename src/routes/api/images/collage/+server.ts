@@ -651,7 +651,7 @@ async function copyMetadataFromSource(
       Software: COLLAGE_MESSAGES.SOFTWARE_LABEL,
       Orientation: 1, // Force normal orientation (1 = Horizontal/Normal) because collage is already rendered correctly
     },
-    ["-TagsFromFile", sourcePath, "-all:all", "-unsafe", "-icc_profile"],
+    ["-TagsFromFile", sourcePath, "-all:all", "--Orientation", "-unsafe", "-icc_profile"],
   );
 }
 
