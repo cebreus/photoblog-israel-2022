@@ -1,7 +1,7 @@
 ---
 location: Pevnost Qaitbay
-startDate: 2025-11-25T12:00:00
-endDate: 2025-11-25T12:50:00
+startDate: 2025-11-25T13:50:00
+endDate: 2025-11-25T14:40:00
 content: |-
   **Pevnost Qaitbay** (nebo také Citadela Qaitbay; arabsky: قلعة قايتباي) je obranná pevnost z 15. století, která se nachází na pobřeží Středozemního moře v Alexandrii v Egyptě. Byla vybudována v letech 1477 až 1479 n. l. (882–884 hidžry) sultánem Al-Ašraf Sajf ad-Dín Káitbájem. Pevnost je situována na východní straně severního cípu ostrova Faros u ústí Východního přístavu.
 

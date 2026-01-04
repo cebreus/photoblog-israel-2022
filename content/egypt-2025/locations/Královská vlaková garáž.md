@@ -1,5 +1,8 @@
 ---
-location: "Královský vlak „Royal Diesel“: Zapomenutý klenot krále Farúka"
+location: Královská vlaková garáž
+title: "Královský vlak „Royal Diesel“: Zapomenutý klenot krále Farúka"
+startDate: 2025-11-25T15:50:00
+endDate: 2025-11-25T16:00:00
 content: |-
   Tento unikátní vlak, známý jako „Royal Diesel“ nebo „Fast Royal“, představuje vrchol italského designu a techniky 50. let 20. století. Byl vyroben na zakázku společností **Fiat** a doručen do Egypta v roce **1951** jako osobní expresní vlak pro krále Farúka I.
 

@@ -197,21 +197,6 @@
         "endDate": "2025-11-25T12:02:00"
       },
       {
-        "id": "loc-rimsky-amfiteatr",
-        "label": "Římský amfiteátr",
-        "href": "#2025-11-25-104322-cebreus--zoom1from2",
-        "isDimmed": true,
-        "firstPhotoExifDate": "2025-11-25T11:43:22"
-      },
-      {
-        "id": "loc-pevnost-qaitbay-1200",
-        "label": "Pevnost Qaitbay",
-        "href": "#loc-pevnost-qaitbay-1200",
-        "isDimmed": true,
-        "startDate": "2025-11-25T12:00:00",
-        "endDate": "2025-11-25T12:50:00"
-      },
-      {
         "id": "loc-alexandrijska-opera",
         "label": "Alexandrijská opera",
         "href": "#2025-11-25-110638-cebreus",
@@ -228,11 +213,22 @@
         "endDate": "2025-11-25T12:34:00"
       },
       {
-        "id": "loc-kralovska-vlakova-garaz",
+        "id": "loc-pevnost-qaitbay-1350",
+        "label": "Pevnost Qaitbay",
+        "href": "#loc-pevnost-qaitbay-1350",
+        "isDimmed": false,
+        "firstPhotoExifDate": "2025-11-25T14:11:42",
+        "startDate": "2025-11-25T13:50:00",
+        "endDate": "2025-11-25T14:40:00"
+      },
+      {
+        "id": "loc-kralovska-vlakova-garaz-1550",
         "label": "Královská vlaková garáž",
-        "href": "#2025-11-25-150152-dasa--collage",
-        "isDimmed": true,
-        "firstPhotoExifDate": "2025-11-25T15:51:52"
+        "href": "#loc-kralovska-vlakova-garaz-1550",
+        "isDimmed": false,
+        "firstPhotoExifDate": "2025-11-25T15:51:52",
+        "startDate": "2025-11-25T15:50:00",
+        "endDate": "2025-11-25T16:00:00"
       },
       {
         "id": "loc-kralovsky-sklenik-1605",
