@@ -763,4 +763,3 @@
   onCopyMetadata={handleCopyMetadata}
   onSelect={handleSelect}
 />
-```

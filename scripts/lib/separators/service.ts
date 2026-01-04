@@ -161,7 +161,7 @@ export function assignPhotos(separator: Separator, allPhotos: ImageEntry[]): Sep
   return {
     ...separator,
     city: separator.city || inferredCity,
-    hasPhotos: photoCount >= config.separator.minPhotosForDisplay,
+    hasPhotos: photoCount >= config.separator.minPhotosForDisplay || !!separator.story,
   };
 }
 

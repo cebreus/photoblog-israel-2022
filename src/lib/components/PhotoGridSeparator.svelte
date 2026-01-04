@@ -1,14 +1,16 @@
 <script lang="ts">
+  import { formatWallClock } from "$shared/utils/dates";
   import { toast } from "svelte-sonner";
-  import { invalidateAll } from "$app/navigation";
-  import { page } from "$app/state";
+
   import { useScrollspy } from "$lib/actions/scrollspy";
   import { buttonVariants } from "$lib/components/ui/button";
   import * as Dialog from "$lib/components/ui/dialog";
   import { editor } from "$lib/stores/editor.svelte";
   import type { Separator } from "$lib/types/manifest";
   import { cn } from "$lib/utils";
-  import { formatWallClock } from "$shared/utils/dates";
+
+  import { invalidateAll } from "$app/navigation";
+  import { page } from "$app/state";
 
   let {
     item,
@@ -175,7 +177,7 @@
             data-testid="photo-grid-separator-trigger-{separatorId}"
           >
             <h3 class="text-lg" data-testid="photo-grid-separator-location">
-              {item.storyTitle || item.location}
+              {item.location}
             </h3>
             {#if item.city}
               <p class="text-muted-foreground text-sm" data-testid="photo-grid-separator-city">
