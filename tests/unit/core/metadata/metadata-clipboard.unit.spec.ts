@@ -29,7 +29,7 @@ describe("metadataClipboard Store", () => {
     exif: {
       date: "2025-01-01",
       releaseDate: "2025-01-01",
-      title: "Exif Title",
+      // title removed
       state: "Test State",
       country: "Test Country",
       countryCode: "TC",
@@ -54,7 +54,7 @@ describe("metadataClipboard Store", () => {
 
     expect(metadataClipboard.sourceImage).toEqual(mockImage);
     expect(metadataClipboard.data).toEqual({
-      title: "Exif Title", // Comes from image.exif?.title
+      title: "Test Title", // Comes from image.title
       author: "Test Author",
       location: "Test Location",
       city: "Test City",
