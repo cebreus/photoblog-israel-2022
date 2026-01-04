@@ -23,7 +23,7 @@ export async function renderCollage(
   log.debug(`[Collage] Zpracování ${layout.placements.length} obrázků`);
 
   async function processPlacement(p: (typeof layout.placements)[0], _idx: number) {
-    const pipeline = sharp(p.item.path); // Use item.path
+    const pipeline = sharp(p.item.path).rotate(); // Use item.path and auto-rotate
 
     if (p.crop) {
       const meta = await pipeline.metadata();
@@ -114,6 +114,7 @@ export async function renderCollage(
 
         try {
           const b = await sharp(p.item.path)
+            .rotate()
             .resize(rect.width, rect.height, { fit: "cover" })
             .removeAlpha()
             .png()
