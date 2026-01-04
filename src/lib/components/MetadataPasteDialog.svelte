@@ -120,7 +120,7 @@
   ): string | string[] | undefined {
     switch (key) {
       case "title":
-        return image.exif?.title;
+        return image.title;
       case "author":
         return image.author;
       case "location":

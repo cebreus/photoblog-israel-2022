@@ -19,7 +19,7 @@ export class MetadataClipboardState {
 
   copy(image: ImageEntry) {
     const metadata: MetadataClipboardData = {
-      title: image.exif?.title,
+      title: image.title,
       author: image.author,
       location: image.location,
       city: image.city,

@@ -1,11 +1,11 @@
 <script lang="ts">
   import Info from "@lucide/svelte/icons/info";
   import LayoutGrid from "@lucide/svelte/icons/layout-grid";
-  import { fade } from "svelte/transition";
   import { toast } from "svelte-sonner";
-  import { invalidateAll } from "$app/navigation";
-  import CollageDialog from "$lib/components/admin/CollageDialog.svelte";
+  import { fade } from "svelte/transition";
+
   import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
+  import CollageDialog from "$lib/components/admin/CollageDialog.svelte";
   import { Button } from "$lib/components/ui/button";
   import { Label } from "$lib/components/ui/label";
   import { Spinner } from "$lib/components/ui/spinner";
@@ -24,6 +24,8 @@
   } from "$lib/utils/collage-config";
   import { COLLAGE_MESSAGES, IMAGE_MESSAGES } from "$lib/utils/messages";
   import { smartToast } from "$lib/utils/toasts";
+
+  import { invalidateAll } from "$app/navigation";
 
   import GeoDataSection from "./GeoDataSection.svelte";
   import MetadataInputField from "./MetadataInputField.svelte";
@@ -156,7 +158,7 @@
       return first;
     };
 
-    formData.title = getCommon((i) => i.exif?.title) ?? "";
+    formData.title = getCommon((i) => i.title) ?? "";
     formData.author = getCommon((i) => i.author) ?? "";
     formData.location = getCommon((i) => i.location) ?? "";
     formData.city = getCommon((i) => i.city) ?? "";
