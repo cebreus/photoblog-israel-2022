@@ -10,23 +10,17 @@ export type ImageSource = {
 
 export type ExifData = {
     date: string;
+    releaseDate: string;
     location?: string;
     city?: string;
     latitude?: number;
     longitude?: number;
-    orientation?: string;
-    title?: string;
-    caption?: string;
-    description?: string;
-    keywords?: string[];
-    author?: string;
-    authorSlug?: string;
+    orientation?: number; // Changed to number to match runtime usage
     copyright?: string;
     category?: string;
     country?: string;
     countryCode?: string;
     state?: string;
-    sublocation?: string;
 };
 
 export type QualityBucket = "excellent" | "good" | "poor";
@@ -143,15 +137,9 @@ export type ImageEntry = {
         releaseDate: string;
         location?: string;
         city?: string;
-        sublocation?: string;
         latitude?: number;
         longitude?: number;
         orientation?: number;
-        title?: string;
-        caption?: string;
-        description?: string;
-        keywords?: string[];
-        author?: string;
         copyright?: string;
         category?: string;
         country?: string;
