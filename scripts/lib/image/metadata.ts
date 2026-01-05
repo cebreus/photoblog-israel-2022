@@ -363,7 +363,13 @@ export function buildImageEntry(
       city: exif.City,
       latitude: exif.latitude,
       longitude: exif.longitude,
-      orientation: typeof exif.Orientation === "number" ? exif.Orientation : undefined,
+      // Collages are always correctly oriented (Sharp applies rotation during rendering)
+      // so we ignore EXIF Orientation to prevent double-rotation in preview generation
+      orientation: isCollage(baseName)
+        ? undefined
+        : typeof exif.Orientation === "number"
+          ? exif.Orientation
+          : undefined,
       copyright: normalizeText(exif.Copyright || exif.CopyrightNotice),
       category: normalizeText(exif.Category || exif.CategoryCode),
       country: exif.Country,

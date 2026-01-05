@@ -645,14 +645,20 @@ async function copyMetadataFromSource(
   targetPath: string,
   _sourceNames: string,
 ) {
+  // Step 1: Copy all metadata EXCEPT Orientation from source
   await exiftool.write(
     targetPath,
     {
       Software: COLLAGE_MESSAGES.SOFTWARE_LABEL,
-      Orientation: 0, // 0 = Undefined (No rotation), requested by user to prevent preview rotation issues
     },
     ["-TagsFromFile", sourcePath, "-all:all", "--Orientation", "-unsafe", "-icc_profile"],
   );
+
+  // Step 2: Explicitly set Orientation to 1 (Horizontal/normal)
+  // This prevents Sharp from applying any rotation when generating previews
+  await exiftool.write(targetPath, { Orientation: 1 } as import("exiftool-vendored").WriteTags, [
+    "-overwrite_original",
+  ]);
 }
 
 /**
