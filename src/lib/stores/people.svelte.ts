@@ -1,11 +1,12 @@
 import { invalidateAll } from "$app/navigation";
 import type { Person, PhotoDay } from "$lib/types/manifest";
-import { getManifest, getPeopleManifest } from "$lib/utils/images";
 import { enrichPeopleWithStats, getVisiblePeople } from "$lib/utils/people";
+import { manifest } from "./manifest.svelte";
 
 export class PeopleState {
-  people = $state<Person[]>(getPeopleManifest().people || []);
-  photoDays = $state(getManifest().photoDays || []);
+  // Directly derived from the central manifest store
+  people = $derived<Person[]>(manifest.people);
+  photoDays = $derived<PhotoDay[]>(manifest.photoDays);
 
   peopleWithStats = $derived(enrichPeopleWithStats(this.people, this.photoDays));
 
@@ -14,7 +15,7 @@ export class PeopleState {
     getVisiblePeople(this.peopleWithStats.filter((p) => !p.category || p.category === "person")),
   );
 
-  // Hidden list shows only"person" category (statue/painting stay in their accordions even if ignored)
+  // Hidden list shows only "person" category (statue/painting stay in their accordions even if ignored)
   hiddenPeople = $derived(
     this.peopleWithStats
       .filter(
@@ -49,14 +50,6 @@ export class PeopleState {
 
   async refresh() {
     await invalidateAll();
-  }
-
-  setPeople(people: Person[]) {
-    this.people = people;
-  }
-
-  setPhotoDays(photoDays: PhotoDay[]) {
-    this.photoDays = photoDays;
   }
 }
 

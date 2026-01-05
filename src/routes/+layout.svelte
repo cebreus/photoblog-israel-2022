@@ -6,7 +6,7 @@
   import Header from "$lib/components/Header.svelte";
   import * as Sidebar from "$lib/components/ui/sidebar";
   import { Toaster } from "$lib/components/ui/sonner";
-  import { people } from "$lib/stores/people.svelte";
+  import { manifest } from "$lib/stores/manifest.svelte";
   import { ui } from "$lib/stores/ui.svelte";
   import { initUrlSync } from "$lib/stores/urlSync.svelte";
   import type {
@@ -52,8 +52,7 @@
   });
 
   $effect(() => {
-    if (data.peopleManifest) people.setPeople(data.peopleManifest.people);
-    if (data.photoDays) people.setPhotoDays(data.photoDays);
+    manifest.update(data);
   });
 
   $effect(() => {

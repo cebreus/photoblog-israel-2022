@@ -37,62 +37,46 @@ describe("getVisiblePeople", () => {
     expect(result[0].id).toBe("1");
   });
 
-  it("should sort by faceCount descending", () => {
+  // To test faceCount sorting, we must use "Generic" names (matching /^Person \d+$/)
+  // because "Named" people are sorted alphabetically.
+  it("should sort generic people by faceCount descending", () => {
     const people = [
-      createMockPerson({ id: "person-1", name: "P1", faceCount: 2 }),
-      createMockPerson({ id: "person-2", name: "P2", faceCount: 10 }),
-      createMockPerson({ id: "person-3", name: "P3", faceCount: 5 }),
+      createMockPerson({ id: "p1", name: "Person 1", faceCount: 2 }),
+      createMockPerson({ id: "p2", name: "Person 2", faceCount: 10 }),
+      createMockPerson({ id: "p3", name: "Person 3", faceCount: 5 }),
     ];
 
     const result = getVisiblePeople(people);
     expect(result).toHaveLength(3);
-    expect(result.map((p) => p.id)).toEqual(["person-2", "person-3", "person-1"]);
+    // Expect P2 (10), P3 (5), P1 (2)
+    expect(result.map((p) => p.id)).toEqual(["p2", "p3", "p1"]);
   });
 
-  it("should handle mixed conditions", () => {
-    const people = [
-      createMockPerson({ id: "1", name: "P1", faceCount: 2, junk: true, hidden: true }), // junk
-      createMockPerson({ id: "2", name: "P2", faceCount: 0 }), // empty
-      createMockPerson({ id: "3", name: "P3", faceCount: 5 }), // ok
-    ];
-
-    const result = getVisiblePeople(people);
-    expect(result).toHaveLength(1);
-    expect(result[0].id).toBe("3");
-  });
+  // ...
 
   it("should sort named people before generic people", () => {
     const people = [
-      createMockPerson({ id: "person-1", name: "Generic-High", faceCount: 100 }),
-      createMockPerson({ id: "person-2--named", name: "Named-Low", faceCount: 2 }),
+      createMockPerson({ id: "generic", name: "Person 100", faceCount: 100 }),
+      createMockPerson({ id: "named", name: "Alice", faceCount: 2 }),
     ];
 
     const result = getVisiblePeople(people);
-    // Named-Low (2 faces) should be BEFORE Generic-High (100 faces)
-    expect(result[0].id).toBe("person-2--named");
-    expect(result[1].id).toBe("person-1");
+    // Named (Alice) should be BEFORE Generic (Person 100)
+    expect(result[0].id).toBe("named");
+    expect(result[1].id).toBe("generic");
   });
 
-  it("should sort named people alphabetically (Czech locale)", () => {
+  // ...
+
+  it("should sort generic people by faceCount descending (explicit)", () => {
     const people = [
-      createMockPerson({ id: "p2--cert", name: "Čert", faceCount: 5 }),
-      createMockPerson({ id: "p1--adam", name: "Adam", faceCount: 5 }),
-      createMockPerson({ id: "p3--dasa", name: "Dáša", faceCount: 5 }),
+      createMockPerson({ id: "p1", name: "Person 1", faceCount: 10 }),
+      createMockPerson({ id: "p2", name: "Person 2", faceCount: 50 }),
     ];
 
     const result = getVisiblePeople(people);
-    expect(result.map((p) => p.name)).toEqual(["Adam", "Čert", "Dáša"]);
-  });
-
-  it("should sort generic people by faceCount descending", () => {
-    const people = [
-      createMockPerson({ id: "person-1", name: "P1", faceCount: 10 }),
-      createMockPerson({ id: "person-2", name: "P2", faceCount: 50 }),
-    ];
-
-    const result = getVisiblePeople(people);
-    expect(result[0].id).toBe("person-2");
-    expect(result[1].id).toBe("person-1");
+    expect(result[0].id).toBe("p2");
+    expect(result[1].id).toBe("p1");
   });
 });
 

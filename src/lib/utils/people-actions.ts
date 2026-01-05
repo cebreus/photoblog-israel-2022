@@ -63,6 +63,20 @@ export async function updatePeopleOrThrow(updates: PersonUpdate[]): Promise<unkn
     const err = await res.json();
     throw new Error(err.error || "Update failed");
   }
+
+  // Let PeopleState handle invalidation logic centrally
+  await people.refresh();
+
+  // Re-verify visible state post-refresh
+  for (const update of updates) {
+    if (update.hidden !== undefined && update.hidden) {
+      // If we hid someone, ensure they are deselected
+      if (filters.selectedPeople.includes(update.id)) {
+        filters.selectedPeople = filters.selectedPeople.filter((id) => id !== update.id);
+      }
+    }
+  }
+
   return res.json();
 }
 
@@ -118,11 +132,6 @@ export async function bulkHidePeople(personIds: string[]): Promise<number> {
     return { id, hidden: true };
   });
   await updatePeopleOrThrow(updates);
-
-  // Remove from filter selection
-  filters.selectedPeople = filters.selectedPeople.filter(function (id) {
-    return !personIds.includes(id);
-  });
 
   return personIds.length;
 }

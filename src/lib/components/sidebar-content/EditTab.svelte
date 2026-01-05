@@ -13,7 +13,7 @@
   import { createLogger } from "$lib/logger";
   import { applyMetadataUpdates } from "$lib/shared/metadata-utils";
   import { editor } from "$lib/stores/editor.svelte";
-  import { filters } from "$lib/stores/filters.svelte";
+  import { manifest } from "$lib/stores/manifest.svelte";
   import { metadataClipboard } from "$lib/stores/metadata-clipboard.svelte";
   import type { CollageRequest } from "$lib/types/collage";
   import type { ImageEntry, Separator } from "$lib/types/manifest";
@@ -275,9 +275,9 @@
       toast.success(IMAGE_MESSAGES.imageSaved(imageIds.length));
 
       // If server returned fresh photoDays (e.g. after releaseDate change),
-      // update the filters store for smooth re-render without full page reload.
+      // update the manifest store for smooth re-render without full page reload.
       if (responseData.photoDays && Array.isArray(responseData.photoDays)) {
-        filters.setSourceData(responseData.photoDays);
+        manifest.update({ photoDays: responseData.photoDays });
       }
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);

@@ -34,12 +34,6 @@
 
   let { data } = $props<{ data: PageData }>();
 
-  $effect(() => {
-    if (data.photoDays) {
-      filters.setSourceData(data.photoDays);
-    }
-  });
-
   /**
    * Compute page-specific filtered days.
    * Preserves page metadata like cities/locations.

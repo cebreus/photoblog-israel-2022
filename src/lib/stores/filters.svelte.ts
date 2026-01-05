@@ -1,6 +1,6 @@
 import type { MediaItemType, PhotoDay, QualityBucket } from "$lib/types/manifest";
 import { computeTotals, filterGalleryItems } from "$lib/utils/gallery";
-import { getPhotoDays } from "$lib/utils/images";
+import { manifest } from "./manifest.svelte";
 
 /** All available media types for filtering */
 export const MEDIA_TYPES: { id: MediaItemType; label: string }[] = [
@@ -25,8 +25,8 @@ let showAuthorSnapshots = $state(true);
 let onlySnapshots = $state(false);
 let filtersSyncing = $state(false);
 
-/** Source data for filtering - injected from page load */
-let sourceData = $state(getPhotoDays());
+/** Source data for filtering - derived from centralized manifest store */
+const sourceData = $derived(manifest.photoDays);
 
 function reset() {
   selectedAuthors = [];
@@ -140,8 +140,9 @@ export const filters = {
   get sourceData() {
     return sourceData;
   },
-  setSourceData(data: PhotoDay[]) {
-    sourceData = data;
+  // Deprecated: No-op, data is driven by manifest store
+  setSourceData(_data: PhotoDay[]) {
+    // No-op
   },
 
   get filteredPhotoDays() {
