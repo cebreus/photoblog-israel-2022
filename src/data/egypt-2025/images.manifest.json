@@ -4177,7 +4177,7 @@
         },
         {
           "id": "2025-11-25-090256-cebreus--collage",
-          "type": "image",
+          "type": "collage",
           "src": "2025-11-25-090256-cebreus--collage.jpg",
           "alt": "Katakomby Kom el Shoqafa, Alexandrie",
           "title": "",
@@ -4186,7 +4186,7 @@
           "sizeMB": 3.88,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-090256-cebreus--collage.png",
-          "placeholderColor": "rgb(56,56,56)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 56.82829954845965,
             "sharpness": 100,
@@ -4202,7 +4202,6 @@
             "city": "Alexandrie",
             "latitude": 31.178525,
             "longitude": 29.893164,
-            "orientation": 1,
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Alexandrie (guvernorát)"
@@ -4269,7 +4268,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-090256-cebreus--collage.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -4376,7 +4375,7 @@
         },
         {
           "id": "2025-11-25-082944-cebreus--collage",
-          "type": "image",
+          "type": "collage",
           "src": "2025-11-25-082944-cebreus--collage.jpg",
           "alt": "Katakomby Kom el Shoqafa, Alexandrie",
           "title": "",
@@ -4385,7 +4384,7 @@
           "sizeMB": 3.88,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-082944-cebreus--collage.png",
-          "placeholderColor": "rgb(104,88,72)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 72.94404160827362,
             "sharpness": 88,
@@ -4401,7 +4400,6 @@
             "city": "Alexandrie",
             "latitude": 31.178306,
             "longitude": 29.893253,
-            "orientation": 1,
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Alexandrie (guvernorát)"
@@ -4468,7 +4466,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-082944-cebreus--collage.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -4484,7 +4482,7 @@
           "sizeMB": 4.83,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-083807-cebreus--zoom1from2.png",
-          "placeholderColor": "rgb(104,88,72)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 50.103696067361334,
             "sharpness": 87,
@@ -4573,7 +4571,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-083807-cebreus--zoom1from2.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -4602,7 +4600,7 @@
           "sizeMB": 1.6,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-083812-cebreus--zoom2from2.png",
-          "placeholderColor": "rgb(24,24,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 58.84014834380919,
             "sharpness": 100,
@@ -4703,7 +4701,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-083812-cebreus--zoom2from2.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -4725,7 +4723,7 @@
         },
         {
           "id": "2025-11-25-084249-cebreus--collage",
-          "type": "image",
+          "type": "collage",
           "src": "2025-11-25-084249-cebreus--collage.jpg",
           "alt": "Katakomby Kom el Shoqafa, Alexandrie",
           "title": "",
@@ -4734,7 +4732,7 @@
           "sizeMB": 12.75,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-084249-cebreus--collage.png",
-          "placeholderColor": "rgb(104,88,72)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 43.91218707787307,
             "sharpness": 95,
@@ -4750,7 +4748,6 @@
             "city": "Alexandrie",
             "latitude": 31.178297,
             "longitude": 29.893289,
-            "orientation": 1,
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Alexandrie (guvernorát)"
@@ -4817,14 +4814,14 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-084249-cebreus--collage.jpeg",
               "width": 534,
-              "height": 229
+              "height": 534
             }
           ],
           "people": []
         },
         {
           "id": "2025-11-25-084330-cebreus--collage",
-          "type": "image",
+          "type": "collage",
           "src": "2025-11-25-084330-cebreus--collage.jpg",
           "alt": "Katakomby Kom el Shoqafa, Alexandrie",
           "title": "",
@@ -4833,7 +4830,7 @@
           "sizeMB": 3.48,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-084330-cebreus--collage.png",
-          "placeholderColor": "rgb(72,56,40)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 40.71132902003039,
             "sharpness": 100,
@@ -4849,7 +4846,6 @@
             "city": "Alexandrie",
             "latitude": 31.178297,
             "longitude": 29.893289,
-            "orientation": 1,
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Alexandrie (guvernorát)"
@@ -4916,7 +4912,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-084330-cebreus--collage.jpeg",
               "width": 534,
-              "height": 400
+              "height": 534
             }
           ],
           "people": []
@@ -5526,7 +5522,7 @@
         },
         {
           "id": "2025-11-25-092409-cebreus--collage",
-          "type": "image",
+          "type": "collage",
           "src": "2025-11-25-092409-cebreus--collage.jpg",
           "alt": "Pohled na areál odhaluje základy kdysi monumentálního Serapea, které stálo na akropoli města. Kromě dominantního sloupu jsou v terénu patrné fragmenty architektonických prvků a zbytky zdí, které zbyly po zničení chrámu na konci 4. století n. l., Serapeum, Alexandrie",
           "title": "",
@@ -5536,7 +5532,7 @@
           "sizeMB": 4.08,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-092409-cebreus--collage.png",
-          "placeholderColor": "rgb(40,40,40)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 58.61264862211656,
             "sharpness": 100,
@@ -5552,7 +5548,6 @@
             "city": "Alexandrie",
             "latitude": 31.181322,
             "longitude": 29.896389,
-            "orientation": 1,
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Alexandrie (guvernorát)"
@@ -5619,7 +5614,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-092409-cebreus--collage.jpeg",
               "width": 534,
-              "height": 400
+              "height": 534
             }
           ],
           "people": []
@@ -6585,7 +6580,7 @@
           "sizeMB": 3.09,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-095052-cebreus--zoom1from3.png",
-          "placeholderColor": "rgb(56,104,168)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 66.70130966327628,
             "sharpness": 62,
@@ -6668,7 +6663,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-095052-cebreus--zoom1from3.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "sequenceInfo": {
@@ -6696,7 +6691,7 @@
           "sizeMB": 0.96,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-095053-cebreus--zoom2from3.png",
-          "placeholderColor": "rgb(72,120,184)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 80.07461521310458,
             "sharpness": 69,
@@ -6779,7 +6774,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-095053-cebreus--zoom2from3.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "sequenceInfo": {
@@ -6807,7 +6802,7 @@
           "sizeMB": 0.79,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-095055-cebreus--zoom3from3.png",
-          "placeholderColor": "rgb(72,120,184)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 81.2120558336701,
             "sharpness": 68,
@@ -6890,7 +6885,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-095055-cebreus--zoom3from3.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "sequenceInfo": {
@@ -7019,7 +7014,7 @@
         },
         {
           "id": "2025-11-25-102006-cebreus--collage",
-          "type": "image",
+          "type": "collage",
           "src": "2025-11-25-102006-cebreus--collage.jpg",
           "alt": "Open-Air Museum (Skanzen potopených památek)\n  \nV areálu je umístěna expozice artefaktů vyzdvižených z vod alexandrijského zálivu (podmořská archeologie):\n  *   **Obelisk krále Sethiho I. (19. dynastie):** Křemencový monolit s královskými tituly, původně z Heliopole, v antice převezen do Alexandrie.\n  *   **Sfingy:** Např. sfinga krále Psamtika II. (26. dynastie) nebo Senusreta III., u nichž jsou patrné stopy eroze způsobené staletým pobytem v mořské vodě.\n  *   **Architektonické fragmenty:** Části kolosálních soch a hlavice sloupů (např. korintské s akantovými listy), pravděpodobně pocházející z alexandrijského majáku Pharos., Kom El Deka, Alexandrie",
           "title": "",
@@ -7029,7 +7024,7 @@
           "sizeMB": 2.53,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-102006-cebreus--collage.png",
-          "placeholderColor": "rgb(24,24,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 58.30074788664029,
             "sharpness": 100,
@@ -7045,7 +7040,6 @@
             "city": "Alexandrie",
             "latitude": 31.194278,
             "longitude": 29.903789,
-            "orientation": 1,
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Alexandrie (guvernorát)"
@@ -7112,7 +7106,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-102006-cebreus--collage.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -7218,7 +7212,7 @@
         },
         {
           "id": "2025-11-25-102804-cebreus--collage",
-          "type": "image",
+          "type": "collage",
           "src": "2025-11-25-102804-cebreus--collage.jpg",
           "alt": "Villa of the Birds (Vila ptáků)\n\n— Precizní mozaikové práce s geometrickými tvary, jako jsou kříže, kosočtverce a propletené vzory (tzv. guilloche).\n\n— Na největší fotografii vlevo je pod mozaikovým vzorem vidět řecký nápis \"ΚΑΛΩϹ ΗΚΕΙϹ\" (Kalōs hēkeis), což v překladu znamená \"Vítej\" nebo \"Dobře jsi přišel\". Jednalo se o běžný pozdrav u vchodů do římských domů.\n\n— Horní pravý snímek ukazuje hlavici sloupu, pravděpodobně v korintském stylu, což dokládá luxusní charakter této antické rezidence., Kom El Deka, Alexandrie",
           "title": "",
@@ -7228,7 +7222,7 @@
           "sizeMB": 5.27,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-102804-cebreus--collage.png",
-          "placeholderColor": "rgb(168,152,136)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 66.28582596760964,
             "sharpness": 91,
@@ -7244,7 +7238,6 @@
             "city": "Alexandrie",
             "latitude": 31.195428,
             "longitude": 29.905267,
-            "orientation": 1,
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Alexandrie (guvernorát)"
@@ -7311,7 +7304,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-102804-cebreus--collage.jpeg",
               "width": 534,
-              "height": 300
+              "height": 534
             }
           ],
           "people": []
@@ -7538,7 +7531,7 @@
           "sizeMB": 7.18,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-104318-cebreus--zoom2from2.png",
-          "placeholderColor": "rgb(184,200,200)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 53.82495312803505,
             "sharpness": 100,
@@ -7621,7 +7614,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-104318-cebreus--zoom2from2.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "sequenceInfo": {
@@ -7647,7 +7640,7 @@
           "sizeMB": 2.71,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-104322-cebreus--zoom1from2.png",
-          "placeholderColor": "rgb(216,216,200)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 64.66268296181788,
             "sharpness": 80,
@@ -7749,7 +7742,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-104322-cebreus--zoom1from2.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "sequenceInfo": {
@@ -9213,7 +9206,7 @@
         },
         {
           "id": "2025-11-25-150152-dasa--collage",
-          "type": "image",
+          "type": "collage",
           "src": "2025-11-25-150152-dasa--collage.jpg",
           "alt": "Vlak krále Farúka, Královská vlaková garáž, Alexandrie",
           "title": "",
@@ -9223,7 +9216,7 @@
           "sizeMB": 1.55,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-150152-dasa--collage.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 50.83095340691223,
             "sharpness": 100,
@@ -9239,7 +9232,6 @@
             "city": "Alexandrie",
             "latitude": 31.283475,
             "longitude": 30.025228,
-            "orientation": 1,
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Alexandrie (guvernorát)"
@@ -9306,7 +9298,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-150152-dasa--collage.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -11443,7 +11435,7 @@
           "sizeMB": 2.14,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-081030-cebreus--zoom1from4.png",
-          "placeholderColor": "rgb(72,88,120)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 72.24887820420146,
             "sharpness": 75,
@@ -11524,7 +11516,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-081030-cebreus--zoom1from4.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "sequenceInfo": {
@@ -11552,7 +11544,7 @@
           "sizeMB": 8.74,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-081032-cebreus--zoom2from4.png",
-          "placeholderColor": "rgb(104,120,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 71.34179605039219,
             "sharpness": 60,
@@ -11633,7 +11625,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-081032-cebreus--zoom2from4.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "sequenceInfo": {
@@ -11661,7 +11653,7 @@
           "sizeMB": 1.86,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-081034-cebreus--zoom3from4.png",
-          "placeholderColor": "rgb(152,152,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 61.735216965137845,
             "sharpness": 30,
@@ -11742,7 +11734,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-081034-cebreus--zoom3from4.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "sequenceInfo": {
@@ -11770,7 +11762,7 @@
           "sizeMB": 1.86,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-081035-cebreus--zoom4from4.png",
-          "placeholderColor": "rgb(168,168,152)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 60.37677255608229,
             "sharpness": 30,
@@ -11851,7 +11843,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-081035-cebreus--zoom4from4.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "sequenceInfo": {
@@ -14983,22 +14975,20 @@
           ]
         },
         {
-          "id": "2025-11-26-113557-dasa",
-          "type": "image",
-          "src": "2025-11-26-113557-dasa.heic",
+          "id": "2025-11-26-113557-dasa--collage",
+          "type": "collage",
+          "src": "2025-11-26-113557-dasa--collage.jpg",
           "alt": "Egyptský papyrusový institut, Gíza",
           "title": "",
-          "width": 4032,
-          "height": 3024,
-          "sizeMB": 2.86,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-26-113557-dasa.png",
-          "placeholderColor": "rgb(56,24,24)",
+          "width": 8000,
+          "height": 6000,
+          "sizeMB": 29.25,
+          "aspectRatio": "collage",
+          "placeholder": "blurs/2025-11-26-113557-dasa--collage.png",
+          "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 57.62734676924469,
-            "sharpness": 100,
-            "qualityBucket": "good",
-            "phash": "8ede76debe9e8f7f",
+            "sharpness": 6202.813278654397,
+            "phash": "929296a2b296798e",
             "facesDetected": false,
             "faces": []
           },
@@ -15009,7 +14999,6 @@
             "city": "Gíza",
             "latitude": 29.985403,
             "longitude": 31.1419,
-            "orientation": 3,
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Gíza (guvernorát)"
@@ -15024,866 +15013,77 @@
             {
               "variant": "default",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-26-113557-dasa.webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-26-113557-dasa--collage.webp",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-26-113557-dasa.jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-26-113557-dasa--collage.jpeg",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-26-113557-dasa.avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-26-113557-dasa--collage.avif",
               "width": 370
             },
             {
               "variant": "xl",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-113557-dasa.webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-113557-dasa--collage.webp",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-26-113557-dasa.jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-26-113557-dasa--collage.jpeg",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-113557-dasa.avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-113557-dasa--collage.avif",
               "width": 534
             },
             {
               "variant": "detail",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-113557-dasa.jpeg",
+              "path": "/egypt-2025/images/details/2025-11-26-113557-dasa--collage.jpeg",
               "width": 1707,
               "height": 1280
             },
             {
               "variant": "fallback",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-26-113557-dasa.jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-26-113557-dasa--collage.jpeg",
               "width": 190,
               "height": 127
             },
             {
               "variant": "admin_thumb",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-113557-dasa.jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-113557-dasa--collage.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
         },
         {
-          "id": "2025-11-26-113612-dasa",
+          "id": "2025-11-26-114357-bobina",
           "type": "image",
-          "src": "2025-11-26-113612-dasa.heic",
+          "src": "2025-11-26-114357-bobina.heic",
           "alt": "Egyptský papyrusový institut, Gíza",
-          "title": "",
-          "width": 3024,
-          "height": 4032,
-          "sizeMB": 2.02,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-26-113612-dasa.png",
-          "placeholderColor": "rgb(216,200,184)",
-          "analysis": {
-            "aestheticScore": 74.90497913722193,
-            "sharpness": 100,
-            "qualityBucket": "excellent",
-            "phash": "16290d85252c6c6c",
-            "facesDetected": true,
-            "faces": [
-              {
-                "x": 1412.0394344329832,
-                "y": 1638.1741161346433,
-                "width": 122.90820693969737,
-                "height": 190.2513771057129
-              }
-            ]
-          },
-          "exif": {
-            "date": "2025-11-26T12:36:12",
-            "releaseDate": "2025-11-26T12:36:12",
-            "location": "Egyptský papyrusový institut",
-            "city": "Gíza",
-            "latitude": 29.985292,
-            "longitude": 31.141822,
-            "orientation": 6,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Gíza (guvernorát)"
-          },
-          "author": "Dáša",
-          "authorSlug": "dasa",
-          "location": "Egyptský papyrusový institut",
-          "city": "Gíza",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.985292,31.141822",
-          "date": "2025-11-26T12:36:12",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-26-113612-dasa.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-26-113612-dasa.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-26-113612-dasa.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-113612-dasa.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-26-113612-dasa.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-113612-dasa.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-113612-dasa.jpeg",
-              "width": 960,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-26-113612-dasa.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-113612-dasa.jpeg",
-              "width": 401,
-              "height": 534
-            }
-          ],
-          "people": [
-            "person-c1502128--odpojeno-od-person-15"
-          ]
-        },
-        {
-          "id": "2025-11-26-113642-dasa",
-          "type": "image",
-          "src": "2025-11-26-113642-dasa.heic",
-          "alt": "Egyptský papyrusový institut, Gíza",
-          "title": "",
-          "width": 4021,
-          "height": 2573,
-          "sizeMB": 2.03,
-          "aspectRatio": "landscape-4021-2573",
-          "placeholder": "blurs/2025-11-26-113642-dasa.png",
-          "placeholderColor": "rgb(8,24,56)",
-          "analysis": {
-            "aestheticScore": 85.17689189848865,
-            "sharpness": 100,
-            "qualityBucket": "excellent",
-            "phash": "459484aaaab894d8",
-            "facesDetected": true,
-            "faces": [
-              {
-                "x": 1764.540655463934,
-                "y": 829.4395615880081,
-                "width": 90.30656188726425,
-                "height": 111.58224896686843
-              }
-            ]
-          },
-          "exif": {
-            "date": "2025-11-26T12:36:42",
-            "releaseDate": "2025-11-26T12:36:42",
-            "location": "Egyptský papyrusový institut",
-            "city": "Gíza",
-            "latitude": 29.985269,
-            "longitude": 31.141717,
-            "orientation": 1,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Gíza (guvernorát)"
-          },
-          "author": "Dáša",
-          "authorSlug": "dasa",
-          "location": "Egyptský papyrusový institut",
-          "city": "Gíza",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.985269,31.141717",
-          "date": "2025-11-26T12:36:42",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-26-113642-dasa.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-26-113642-dasa.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-26-113642-dasa.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-113642-dasa.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-26-113642-dasa.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-113642-dasa.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-113642-dasa.jpeg",
-              "width": 2000,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-26-113642-dasa.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-113642-dasa.jpeg",
-              "width": 534,
-              "height": 342
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-26-123642-dasa",
-          "type": "image",
-          "src": "2025-11-26-123642-dasa.heic",
-          "alt": "Photoblog image",
-          "title": "",
-          "width": 4021,
-          "height": 2573,
-          "sizeMB": 2.03,
-          "aspectRatio": "landscape-4021-2573",
-          "placeholder": "blurs/2025-11-26-123642-dasa.png",
-          "placeholderColor": "rgb(8,24,56)",
-          "analysis": {
-            "aestheticScore": 79.27991714657013,
-            "sharpness": 100,
-            "qualityBucket": "excellent",
-            "phash": "459484aaaab894d8",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-26T12:36:42",
-            "releaseDate": "2025-11-26T12:36:42",
-            "latitude": 29.985269,
-            "longitude": 31.141717,
-            "orientation": 1
-          },
-          "author": "Dáša",
-          "authorSlug": "dasa",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.985269,31.141717",
-          "date": "2025-11-26T12:36:42",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-26-123642-dasa.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-26-123642-dasa.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-26-123642-dasa.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-123642-dasa.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-26-123642-dasa.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-123642-dasa.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-123642-dasa.jpeg",
-              "width": 2000,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-26-123642-dasa.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-123642-dasa.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-26-113745-dasa",
-          "type": "image",
-          "src": "2025-11-26-113745-dasa.heic",
-          "alt": "Egyptský papyrusový institut, Gíza",
-          "title": "",
-          "width": 2345,
-          "height": 3487,
-          "sizeMB": 2.06,
-          "aspectRatio": "portrait-2-3",
-          "placeholder": "blurs/2025-11-26-113745-dasa.png",
-          "placeholderColor": "rgb(200,184,152)",
-          "analysis": {
-            "aestheticScore": 41.50126117021059,
-            "sharpness": 100,
-            "qualityBucket": "poor",
-            "phash": "caca8a9696aaa688",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-26T12:37:45",
-            "releaseDate": "2025-11-26T12:37:45",
-            "location": "Egyptský papyrusový institut",
-            "city": "Gíza",
-            "latitude": 29.985419,
-            "longitude": 31.141778,
-            "orientation": 1,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Gíza (guvernorát)"
-          },
-          "author": "Dáša",
-          "authorSlug": "dasa",
-          "location": "Egyptský papyrusový institut",
-          "city": "Gíza",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.985419,31.141778",
-          "date": "2025-11-26T12:37:45",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-26-113745-dasa.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-26-113745-dasa.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-26-113745-dasa.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-113745-dasa.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-26-113745-dasa.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-113745-dasa.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-113745-dasa.jpeg",
-              "width": 861,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-26-113745-dasa.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-113745-dasa.jpeg",
-              "width": 359,
-              "height": 534
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-26-123745-dasa",
-          "type": "image",
-          "src": "2025-11-26-123745-dasa.heic",
-          "alt": "Photoblog image",
-          "title": "",
-          "width": 2345,
-          "height": 3487,
-          "sizeMB": 2.06,
-          "aspectRatio": "portrait-2-3",
-          "placeholder": "blurs/2025-11-26-123745-dasa.png",
-          "placeholderColor": "rgb(200,184,152)",
-          "analysis": {
-            "aestheticScore": 48.4070213730407,
-            "sharpness": 100,
-            "qualityBucket": "good",
-            "phash": "caca8a9696aaa688",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-26T12:37:45",
-            "releaseDate": "2025-11-26T12:37:45",
-            "latitude": 29.985419,
-            "longitude": 31.141778,
-            "orientation": 1
-          },
-          "author": "Dáša",
-          "authorSlug": "dasa",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.985419,31.141778",
-          "date": "2025-11-26T12:37:45",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-26-123745-dasa.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-26-123745-dasa.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-26-123745-dasa.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-123745-dasa.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-26-123745-dasa.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-123745-dasa.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-123745-dasa.jpeg",
-              "width": 861,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-26-123745-dasa.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-123745-dasa.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-26-113757-dasa",
-          "type": "image",
-          "src": "2025-11-26-113757-dasa.heic",
-          "alt": "Egyptský papyrusový institut, Gíza",
-          "title": "",
-          "width": 3024,
-          "height": 4032,
-          "sizeMB": 3.36,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-26-113757-dasa.png",
-          "placeholderColor": "rgb(8,8,40)",
-          "analysis": {
-            "aestheticScore": 66.12704824223654,
-            "sharpness": 100,
-            "qualityBucket": "excellent",
-            "phash": "a4c88c8484a4e084",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-26T12:37:57",
-            "releaseDate": "2025-11-26T12:37:57",
-            "location": "Egyptský papyrusový institut",
-            "city": "Gíza",
-            "latitude": 29.985306,
-            "longitude": 31.141656,
-            "orientation": 6,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Gíza (guvernorát)"
-          },
-          "author": "Dáša",
-          "authorSlug": "dasa",
-          "location": "Egyptský papyrusový institut",
-          "city": "Gíza",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.985306,31.141656",
-          "date": "2025-11-26T12:37:57",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-26-113757-dasa.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-26-113757-dasa.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-26-113757-dasa.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-113757-dasa.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-26-113757-dasa.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-113757-dasa.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-113757-dasa.jpeg",
-              "width": 960,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-26-113757-dasa.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-113757-dasa.jpeg",
-              "width": 401,
-              "height": 534
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-26-113817-dasa",
-          "type": "image",
-          "src": "2025-11-26-113817-dasa.heic",
-          "alt": "Egyptský papyrusový institut, Gíza",
-          "title": "",
-          "width": 3931,
-          "height": 2224,
-          "sizeMB": 2.9,
-          "aspectRatio": "landscape-16-9",
-          "placeholder": "blurs/2025-11-26-113817-dasa.png",
-          "placeholderColor": "rgb(8,24,56)",
-          "analysis": {
-            "aestheticScore": 80.69319256591484,
-            "sharpness": 100,
-            "qualityBucket": "excellent",
-            "phash": "a888ac9498b280a0",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-26T12:38:17",
-            "releaseDate": "2025-11-26T12:38:17",
-            "location": "Egyptský papyrusový institut",
-            "city": "Gíza",
-            "latitude": 29.985278,
-            "longitude": 31.141556,
-            "orientation": 1,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Gíza (guvernorát)"
-          },
-          "author": "Dáša",
-          "authorSlug": "dasa",
-          "location": "Egyptský papyrusový institut",
-          "city": "Gíza",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.985278,31.141556",
-          "date": "2025-11-26T12:38:17",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-26-113817-dasa.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-26-113817-dasa.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-26-113817-dasa.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-113817-dasa.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-26-113817-dasa.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-113817-dasa.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-113817-dasa.jpeg",
-              "width": 2262,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-26-113817-dasa.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-113817-dasa.jpeg",
-              "width": 534,
-              "height": 302
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-26-123817-dasa",
-          "type": "image",
-          "src": "2025-11-26-123817-dasa.heic",
-          "alt": "Photoblog image",
-          "title": "",
-          "width": 3931,
-          "height": 2224,
-          "sizeMB": 2.9,
-          "aspectRatio": "landscape-16-9",
-          "placeholder": "blurs/2025-11-26-123817-dasa.png",
-          "placeholderColor": "rgb(8,24,56)",
-          "analysis": {
-            "aestheticScore": 82.21048140141987,
-            "sharpness": 100,
-            "qualityBucket": "excellent",
-            "phash": "a888ac9498b280a0",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-26T12:38:17",
-            "releaseDate": "2025-11-26T12:38:17",
-            "latitude": 29.985278,
-            "longitude": 31.141556,
-            "orientation": 1
-          },
-          "author": "Dáša",
-          "authorSlug": "dasa",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.985278,31.141556",
-          "date": "2025-11-26T12:38:17",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-26-123817-dasa.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-26-123817-dasa.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-26-123817-dasa.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-123817-dasa.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-26-123817-dasa.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-123817-dasa.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-123817-dasa.jpeg",
-              "width": 2262,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-26-123817-dasa.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-123817-dasa.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-26-124357-bobina",
-          "type": "image",
-          "src": "2025-11-26-124357-bobina.heic",
-          "alt": "Photoblog image",
           "title": "",
           "width": 2885,
           "height": 3006,
           "sizeMB": 1.35,
           "aspectRatio": "square",
-          "placeholder": "blurs/2025-11-26-124357-bobina.png",
+          "placeholder": "blurs/2025-11-26-114357-bobina.png",
           "placeholderColor": "rgb(200,184,152)",
           "analysis": {
-            "aestheticScore": 39.27329478466307,
-            "sharpness": 100,
-            "qualityBucket": "poor",
+            "sharpness": 4153.861088519227,
             "phash": "3179795312923327",
             "facesDetected": false,
             "faces": []
@@ -15891,170 +15091,78 @@
           "exif": {
             "date": "2025-11-26T12:43:57",
             "releaseDate": "2025-11-26T12:43:57",
+            "location": "Egyptský papyrusový institut",
+            "city": "Gíza",
             "latitude": 29.985475,
             "longitude": 31.141736,
-            "orientation": 1
+            "orientation": 1,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
           "author": "Bobina",
           "authorSlug": "bobina",
+          "location": "Egyptský papyrusový institut",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.985475,31.141736",
           "date": "2025-11-26T12:43:57",
           "sources": [
             {
               "variant": "default",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-26-124357-bobina.webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-26-114357-bobina.webp",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-26-124357-bobina.jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-26-114357-bobina.jpeg",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-26-124357-bobina.avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-26-114357-bobina.avif",
               "width": 370
             },
             {
               "variant": "xl",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-124357-bobina.webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-114357-bobina.webp",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-26-124357-bobina.jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-26-114357-bobina.jpeg",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-124357-bobina.avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-114357-bobina.avif",
               "width": 534
             },
             {
               "variant": "detail",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-124357-bobina.jpeg",
+              "path": "/egypt-2025/images/details/2025-11-26-114357-bobina.jpeg",
               "width": 1228,
               "height": 1280
             },
             {
               "variant": "fallback",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-26-124357-bobina.jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-26-114357-bobina.jpeg",
               "width": 190,
               "height": 127
             },
             {
               "variant": "admin_thumb",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-124357-bobina.jpeg",
-              "width": 534,
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-114357-bobina.jpeg",
+              "width": 513,
               "height": 534
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-26-114502-cebreus",
-          "type": "image",
-          "src": "2025-11-26-114502-cebreus.heic",
-          "alt": "Egyptský papyrusový institut, Gíza",
-          "title": "",
-          "width": 8064,
-          "height": 6048,
-          "sizeMB": 4.34,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-26-114502-cebreus.png",
-          "placeholderColor": "rgb(216,200,168)",
-          "analysis": {
-            "aestheticScore": 67.59756899737387,
-            "sharpness": 100,
-            "qualityBucket": "excellent",
-            "phash": "9b9bdb98995be496",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-26T12:45:02",
-            "releaseDate": "2025-11-26T12:45:02",
-            "location": "Egyptský papyrusový institut",
-            "city": "Gíza",
-            "latitude": 29.985686,
-            "longitude": 31.141144,
-            "orientation": 1,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Gíza (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Egyptský papyrusový institut",
-          "city": "Gíza",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.985686,31.141144",
-          "date": "2025-11-26T12:45:02",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-26-114502-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-26-114502-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-26-114502-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-114502-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-26-114502-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-114502-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-114502-cebreus.jpeg",
-              "width": 1707,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-26-114502-cebreus.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-114502-cebreus.jpeg",
-              "width": 534,
-              "height": 401
             }
           ],
           "people": []
@@ -16898,7 +16006,7 @@
         },
         {
           "id": "2025-11-26-123858-cebreus--collage",
-          "type": "image",
+          "type": "collage",
           "src": "2025-11-26-123858-cebreus--collage.jpg",
           "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
@@ -16907,7 +16015,7 @@
           "sizeMB": 25.51,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-26-123858-cebreus--collage.png",
-          "placeholderColor": "rgb(72,72,56)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 67.52365472601569,
             "sharpness": 100,
@@ -16989,106 +16097,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-123858-cebreus--collage.jpeg",
               "width": 534,
-              "height": 401
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-26-125147-cebreus--collage",
-          "type": "image",
-          "src": "2025-11-26-125147-cebreus--collage.jpg",
-          "alt": "Velké egyptské muzeum, Gíza",
-          "title": "",
-          "width": 8000,
-          "height": 6000,
-          "sizeMB": 18.23,
-          "aspectRatio": "collage",
-          "placeholder": "blurs/2025-11-26-125147-cebreus--collage.png",
-          "placeholderColor": "rgb(88,88,88)",
-          "analysis": {
-            "aestheticScore": 70.003571585046,
-            "sharpness": 100,
-            "qualityBucket": "excellent",
-            "phash": "c8ccccc6dc868687",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-26T13:51:47",
-            "releaseDate": "2025-11-26T13:51:47",
-            "location": "Velké egyptské muzeum",
-            "city": "Gíza",
-            "latitude": 29.994342,
-            "longitude": 31.119136,
-            "orientation": 3,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Gíza (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Velké egyptské muzeum",
-          "city": "Gíza",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994342,31.119136",
-          "date": "2025-11-26T13:51:47",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-26-125147-cebreus--collage.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-26-125147-cebreus--collage.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-26-125147-cebreus--collage.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-125147-cebreus--collage.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-26-125147-cebreus--collage.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-125147-cebreus--collage.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-125147-cebreus--collage.jpeg",
-              "width": 1707,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-26-125147-cebreus--collage.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-125147-cebreus--collage.jpeg",
-              "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -19600,7 +18609,7 @@
           "sizeMB": 4.92,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-134543-cebreus--zoom1from2.png",
-          "placeholderColor": "rgb(56,56,56)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 40.78455892904778,
             "sharpness": 100,
@@ -19732,7 +18741,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-134543-cebreus--zoom1from2.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "sequenceInfo": {
@@ -19765,7 +18774,7 @@
           "sizeMB": 1.86,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-134549-cebreus--zoom2from2.png",
-          "placeholderColor": "rgb(56,56,56)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 66.29606403739794,
             "sharpness": 100,
@@ -19909,7 +18918,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-134549-cebreus--zoom2from2.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "sequenceInfo": {
@@ -21202,7 +20211,7 @@
         },
         {
           "id": "2025-11-26-153129-cebreus--collage",
-          "type": "image",
+          "type": "collage",
           "src": "2025-11-26-153129-cebreus--collage.jpg",
           "alt": "První sluneční loď krále Chufua (4. dynastie, cca 2566 př. n. l.). Plavidlo o délce 43 metrů z libanonského cedru bylo nalezeno v roce 1954 v jámě u Velké pyramidy v Gíze. Konstrukce využívá systém čepů a lan z trávy halfah bez použití kovových hřebíků., Velké egyptské muzeum, Gíza",
           "title": "",
@@ -21212,7 +20221,7 @@
           "sizeMB": 7,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-26-153129-cebreus--collage.png",
-          "placeholderColor": "rgb(40,24,24)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 63.50563360339429,
             "sharpness": 100,
@@ -21294,7 +20303,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-153129-cebreus--collage.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -21576,7 +20585,7 @@
         },
         {
           "id": "2025-11-26-155237-cebreus--collage",
-          "type": "image",
+          "type": "collage",
           "src": "2025-11-26-155237-cebreus--collage.jpg",
           "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
@@ -21585,7 +20594,7 @@
           "sizeMB": 15.61,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-26-155237-cebreus--collage.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 66.26421651677161,
             "sharpness": 100,
@@ -21667,7 +20676,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-155237-cebreus--collage.jpeg",
               "width": 534,
-              "height": 300
+              "height": 534
             }
           ],
           "people": [
@@ -22087,103 +21096,6 @@
           ]
         },
         {
-          "id": "2025-11-26-164824-bobo",
-          "type": "image",
-          "src": "2025-11-26-164824-bobo.jpg",
-          "alt": "Photoblog image",
-          "title": "",
-          "width": 900,
-          "height": 1600,
-          "sizeMB": 0.22,
-          "aspectRatio": "portrait-9-16",
-          "placeholder": "blurs/2025-11-26-164824-bobo.png",
-          "placeholderColor": "rgb(24,24,24)",
-          "analysis": {
-            "aestheticScore": 37.703332995778844,
-            "sharpness": 100,
-            "qualityBucket": "poor",
-            "phash": "7fc7c1e5a1e93131",
-            "facesDetected": true,
-            "faces": [
-              {
-                "x": 279.1255474090576,
-                "y": 157.86887407302856,
-                "width": 198.8354682922363,
-                "height": 295.2699065208435
-              }
-            ]
-          },
-          "exif": {
-            "date": "2025-11-26T17:48:24",
-            "releaseDate": "2025-11-26T17:48:24"
-          },
-          "author": "Bobo",
-          "authorSlug": "bobo",
-          "date": "2025-11-26T17:48:24",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-26-164824-bobo.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-26-164824-bobo.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-26-164824-bobo.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-164824-bobo.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-26-164824-bobo.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-164824-bobo.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-164824-bobo.jpeg",
-              "width": 720,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-26-164824-bobo.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-164824-bobo.jpeg",
-              "width": 300,
-              "height": 534
-            }
-          ],
-          "people": [
-            "person-e106e434"
-          ]
-        },
-        {
           "id": "2025-11-26-170618-bobo",
           "type": "image",
           "src": "2025-11-26-170618-bobo.jpg",
@@ -22517,22 +21429,22 @@
           ]
         },
         {
-          "id": "2025-11-26-191950-dasa",
-          "type": "image",
-          "src": "2025-11-26-191950-dasa.heic",
+          "id": "2025-11-26-191950-dasa--collage",
+          "type": "collage",
+          "src": "2025-11-26-191950-dasa--collage.jpg",
           "alt": "Photoblog image",
           "title": "",
-          "width": 3024,
-          "height": 4032,
-          "sizeMB": 1.38,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-26-191950-dasa.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "width": 2760,
+          "height": 2070,
+          "sizeMB": 2.36,
+          "aspectRatio": "collage",
+          "placeholder": "blurs/2025-11-26-191950-dasa--collage.png",
+          "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 40.709948108038446,
+            "aestheticScore": 59.191926393608526,
             "sharpness": 100,
-            "qualityBucket": "poor",
-            "phash": "9999193c256e47c3",
+            "qualityBucket": "good",
+            "phash": "263238f232b7fb6d",
             "facesDetected": false,
             "faces": []
           },
@@ -22540,8 +21452,7 @@
             "date": "2025-11-26T20:19:50",
             "releaseDate": "2025-11-26T20:19:50",
             "latitude": 29.992078,
-            "longitude": 31.209153,
-            "orientation": 6
+            "longitude": 31.209153
           },
           "author": "Dáša",
           "authorSlug": "dasa",
@@ -22551,62 +21462,66 @@
             {
               "variant": "default",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-26-191950-dasa.webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-26-191950-dasa--collage.webp",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-26-191950-dasa.jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-26-191950-dasa--collage.jpeg",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-26-191950-dasa.avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-26-191950-dasa--collage.avif",
               "width": 370
             },
             {
               "variant": "xl",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-191950-dasa.webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-191950-dasa--collage.webp",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-26-191950-dasa.jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-26-191950-dasa--collage.jpeg",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-191950-dasa.avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-191950-dasa--collage.avif",
               "width": 534
             },
             {
               "variant": "detail",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-191950-dasa.jpeg",
-              "width": 960,
+              "path": "/egypt-2025/images/details/2025-11-26-191950-dasa--collage.jpeg",
+              "width": 1707,
               "height": 1280
             },
             {
               "variant": "fallback",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-26-191950-dasa.jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-26-191950-dasa--collage.jpeg",
               "width": 190,
               "height": 127
             },
             {
               "variant": "admin_thumb",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-191950-dasa.jpeg",
-              "width": 401,
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-191950-dasa--collage.jpeg",
+              "width": 534,
               "height": 534
             }
           ],
-          "people": []
+          "people": [
+            "person-f4999137",
+            "person-02cab6df",
+            "person-183e8294"
+          ]
         },
         {
           "id": "2025-11-26-192016-cebreus",
@@ -22714,307 +21629,6 @@
           "people": [
             "person-9b0bc40f"
           ]
-        },
-        {
-          "id": "2025-11-26-202837-bobina",
-          "type": "image",
-          "src": "2025-11-26-202837-bobina.heic",
-          "alt": "Photoblog image",
-          "title": "",
-          "width": 3024,
-          "height": 4032,
-          "sizeMB": 1.47,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-26-202837-bobina.png",
-          "placeholderColor": "rgb(8,8,8)",
-          "analysis": {
-            "aestheticScore": 66.95547330064484,
-            "sharpness": 100,
-            "qualityBucket": "excellent",
-            "phash": "1c88644e06b696b2",
-            "facesDetected": true,
-            "faces": [
-              {
-                "x": 197.20085191726682,
-                "y": 1487.681900024414,
-                "width": 426.53228902816767,
-                "height": 559.9771957397461
-              }
-            ]
-          },
-          "exif": {
-            "date": "2025-11-26T20:28:37",
-            "releaseDate": "2025-11-26T20:28:37",
-            "latitude": 29.940447,
-            "longitude": 31.249603,
-            "orientation": 1
-          },
-          "author": "Bobina",
-          "authorSlug": "bobina",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.940447,31.249603",
-          "date": "2025-11-26T20:28:37",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-26-202837-bobina.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-26-202837-bobina.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-26-202837-bobina.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-202837-bobina.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-26-202837-bobina.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-202837-bobina.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-202837-bobina.jpeg",
-              "width": 960,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-26-202837-bobina.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-202837-bobina.jpeg",
-              "width": 401,
-              "height": 534
-            }
-          ],
-          "people": [
-            "person-f4999137"
-          ]
-        },
-        {
-          "id": "2025-11-26-202254-cebreus",
-          "type": "image",
-          "src": "2025-11-26-202254-cebreus.heic",
-          "alt": "Photoblog image",
-          "title": "",
-          "width": 3024,
-          "height": 4032,
-          "sizeMB": 0.98,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-26-202254-cebreus.png",
-          "placeholderColor": "rgb(88,88,72)",
-          "analysis": {
-            "aestheticScore": 64.53696592184511,
-            "sharpness": 100,
-            "qualityBucket": "good",
-            "phash": "e3c9cc191b282c68",
-            "facesDetected": true,
-            "faces": [
-              {
-                "x": 1621.3418083190916,
-                "y": 1746.2300605773924,
-                "width": 298.7438735961915,
-                "height": 372.17882537841797
-              },
-              {
-                "x": 683.5659456253051,
-                "y": 1961.3077068328855,
-                "width": 281.7060871124267,
-                "height": 464.11707115173334
-              }
-            ]
-          },
-          "exif": {
-            "date": "2025-11-26T21:22:54",
-            "releaseDate": "2025-11-26T21:22:54",
-            "latitude": 29.519908,
-            "longitude": 31.247125,
-            "orientation": 6,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Gíza (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.519908,31.247125",
-          "date": "2025-11-26T21:22:54",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-26-202254-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-26-202254-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-26-202254-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-202254-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-26-202254-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-202254-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-202254-cebreus.jpeg",
-              "width": 960,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-26-202254-cebreus.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-202254-cebreus.jpeg",
-              "width": 401,
-              "height": 534
-            }
-          ],
-          "people": [
-            "person-02cab6df"
-          ]
-        },
-        {
-          "id": "2025-11-26-224838",
-          "type": "image",
-          "src": "2025-11-26-224838.heic",
-          "alt": "Photoblog image",
-          "title": "",
-          "width": 3024,
-          "height": 4032,
-          "sizeMB": 2.33,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-26-224838.png",
-          "placeholderColor": "rgb(8,8,8)",
-          "analysis": {
-            "aestheticScore": 41.76348491995689,
-            "sharpness": 100,
-            "qualityBucket": "poor",
-            "phash": "034b4b843064e687",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-26T22:48:38",
-            "releaseDate": "2025-11-26T22:48:38",
-            "latitude": 28.518147,
-            "longitude": 30.800092,
-            "orientation": 6
-          },
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=28.518147,30.800092",
-          "date": "2025-11-26T22:48:38",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-26-224838.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-26-224838.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-26-224838.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-224838.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-26-224838.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-224838.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-224838.jpeg",
-              "width": 960,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-26-224838.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-224838.jpeg",
-              "width": 401,
-              "height": 534
-            }
-          ],
-          "people": []
         }
       ],
       "id": "day-2025-11-26"
@@ -23130,117 +21744,20 @@
           "people": []
         },
         {
-          "id": "2025-11-27-064232-bobo",
+          "id": "2025-11-27-064239-bobo--collage",
           "type": "image",
-          "src": "2025-11-27-064232-bobo.jpg",
+          "src": "2025-11-27-064239-bobo--collage.jpg",
           "alt": "Photoblog image",
           "title": "",
-          "width": 1600,
-          "height": 900,
-          "sizeMB": 0.31,
-          "aspectRatio": "landscape-16-9",
-          "placeholder": "blurs/2025-11-27-064232-bobo.png",
-          "placeholderColor": "rgb(24,24,24)",
+          "width": 3610,
+          "height": 2708,
+          "sizeMB": 4.64,
+          "aspectRatio": "collage",
+          "placeholder": "blurs/2025-11-27-064239-bobo--collage.png",
+          "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 41.27204192734763,
-            "sharpness": 71,
-            "qualityBucket": "poor",
-            "phash": "392547d68c9d8d2f",
-            "facesDetected": true,
-            "faces": [
-              {
-                "x": 113.880455493927,
-                "y": 532.0885181427001,
-                "width": 23.111987113952637,
-                "height": 43.936157226562536
-              }
-            ]
-          },
-          "exif": {
-            "date": "2025-11-27T07:42:32",
-            "releaseDate": "2025-11-27T07:42:32"
-          },
-          "author": "Bobo",
-          "authorSlug": "bobo",
-          "date": "2025-11-27T07:42:32",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-27-064232-bobo.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-27-064232-bobo.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-27-064232-bobo.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-27-064232-bobo.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-27-064232-bobo.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-27-064232-bobo.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-27-064232-bobo.jpeg",
-              "width": 1600,
-              "height": 900
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-27-064232-bobo.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-27-064232-bobo.jpeg",
-              "width": 534,
-              "height": 300
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-27-064239-bobo",
-          "type": "image",
-          "src": "2025-11-27-064239-bobo.jpg",
-          "alt": "Photoblog image",
-          "title": "",
-          "width": 1600,
-          "height": 900,
-          "sizeMB": 0.24,
-          "aspectRatio": "landscape-16-9",
-          "placeholder": "blurs/2025-11-27-064239-bobo.png",
-          "placeholderColor": "rgb(104,104,104)",
-          "analysis": {
-            "aestheticScore": 31.25870413289082,
-            "sharpness": 74,
-            "qualityBucket": "poor",
-            "phash": "c4d6faeb76e09298",
+            "sharpness": 3706.3373951193043,
+            "phash": "1a1a189087c6ccce",
             "facesDetected": false,
             "faces": []
           },
@@ -23255,355 +21772,81 @@
             {
               "variant": "default",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-27-064239-bobo.webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-27-064239-bobo--collage.webp",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-27-064239-bobo.jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-27-064239-bobo--collage.jpeg",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-27-064239-bobo.avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-27-064239-bobo--collage.avif",
               "width": 370
             },
             {
               "variant": "xl",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-27-064239-bobo.webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-27-064239-bobo--collage.webp",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-27-064239-bobo.jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-27-064239-bobo--collage.jpeg",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-27-064239-bobo.avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-27-064239-bobo--collage.avif",
               "width": 534
             },
             {
               "variant": "detail",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-27-064239-bobo.jpeg",
-              "width": 1600,
-              "height": 900
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-27-064239-bobo.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-27-064239-bobo.jpeg",
-              "width": 534,
-              "height": 300
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-27-064240-9625dee9-e875-4c32-a88b-4cd781fc1614",
-          "type": "image",
-          "src": "2025-11-27-064240-9625dee9-e875-4c32-a88b-4cd781fc1614.jpg",
-          "alt": "Photoblog image",
-          "title": "",
-          "width": 1600,
-          "height": 900,
-          "sizeMB": 0.32,
-          "aspectRatio": "landscape-16-9",
-          "placeholder": "blurs/2025-11-27-064240-9625dee9-e875-4c32-a88b-4cd781fc1614.png",
-          "placeholderColor": "rgb(8,8,8)",
-          "analysis": {
-            "aestheticScore": 45.629413573749474,
-            "sharpness": 100,
-            "qualityBucket": "good",
-            "phash": "ec780ee0a6e2f8e6",
-            "facesDetected": true,
-            "faces": [
-              {
-                "x": 559.4400405883789,
-                "y": 745.2511787414551,
-                "width": 26.19009017944336,
-                "height": 32.295227050781214
-              }
-            ]
-          },
-          "exif": {
-            "date": "2025-11-27T07:42:40",
-            "releaseDate": "2025-11-27T07:42:40"
-          },
-          "author": "Bobo",
-          "authorSlug": "bobo",
-          "date": "2025-11-27T07:42:40",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-27-064240-9625dee9-e875-4c32-a88b-4cd781fc1614.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-27-064240-9625dee9-e875-4c32-a88b-4cd781fc1614.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-27-064240-9625dee9-e875-4c32-a88b-4cd781fc1614.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-27-064240-9625dee9-e875-4c32-a88b-4cd781fc1614.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-27-064240-9625dee9-e875-4c32-a88b-4cd781fc1614.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-27-064240-9625dee9-e875-4c32-a88b-4cd781fc1614.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-27-064240-9625dee9-e875-4c32-a88b-4cd781fc1614.jpeg",
-              "width": 1600,
-              "height": 900
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-27-064240-9625dee9-e875-4c32-a88b-4cd781fc1614.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-27-064240-9625dee9-e875-4c32-a88b-4cd781fc1614.jpeg",
-              "width": 534,
-              "height": 300
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-27-064240-bobo",
-          "type": "image",
-          "src": "2025-11-27-064240-bobo.jpg",
-          "alt": "Photoblog image",
-          "title": "",
-          "width": 1600,
-          "height": 900,
-          "sizeMB": 0.22,
-          "aspectRatio": "landscape-16-9",
-          "placeholder": "blurs/2025-11-27-064240-bobo.png",
-          "placeholderColor": "rgb(8,8,8)",
-          "analysis": {
-            "aestheticScore": 36.94390889929941,
-            "sharpness": 100,
-            "qualityBucket": "poor",
-            "phash": "cc7c7d756ccd2d68",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-27T07:42:40",
-            "releaseDate": "2025-11-27T07:42:40"
-          },
-          "author": "Bobo",
-          "authorSlug": "bobo",
-          "date": "2025-11-27T07:42:40",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-27-064240-bobo.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-27-064240-bobo.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-27-064240-bobo.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-27-064240-bobo.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-27-064240-bobo.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-27-064240-bobo.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-27-064240-bobo.jpeg",
-              "width": 1600,
-              "height": 900
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-27-064240-bobo.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-27-064240-bobo.jpeg",
-              "width": 534,
-              "height": 300
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-27-113851-bobina",
-          "type": "image",
-          "src": "2025-11-27-113851-bobina.heic",
-          "alt": "Photoblog image",
-          "title": "",
-          "width": 3024,
-          "height": 4032,
-          "sizeMB": 1.82,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-27-113851-bobina.png",
-          "placeholderColor": "rgb(248,248,248)",
-          "analysis": {
-            "aestheticScore": 29.370146999834276,
-            "sharpness": 100,
-            "qualityBucket": "poor",
-            "phash": "c8e838c2e9686882",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-27T11:38:51",
-            "releaseDate": "2025-11-27T11:38:51",
-            "latitude": 25.637814,
-            "longitude": 32.596456,
-            "orientation": 6
-          },
-          "author": "Bobina",
-          "authorSlug": "bobina",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.637814,32.596456",
-          "date": "2025-11-27T11:38:51",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-27-113851-bobina.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-27-113851-bobina.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-27-113851-bobina.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-27-113851-bobina.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-27-113851-bobina.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-27-113851-bobina.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-27-113851-bobina.jpeg",
-              "width": 960,
+              "path": "/egypt-2025/images/details/2025-11-27-064239-bobo--collage.jpeg",
+              "width": 1706,
               "height": 1280
             },
             {
               "variant": "fallback",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-27-113851-bobina.jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-27-064239-bobo--collage.jpeg",
               "width": 190,
               "height": 127
             },
             {
               "variant": "admin_thumb",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-27-113851-bobina.jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-27-064239-bobo--collage.jpeg",
               "width": 534,
               "height": 534
             }
           ],
-          "people": []
+          "people": [
+            "person-6abf63c9",
+            "person-27636fc8--odpojeno-od-person-43-2"
+          ]
         },
         {
-          "id": "2025-11-27-113855-bobina",
+          "id": "2025-11-27-113855-bobina--collage",
           "type": "image",
-          "src": "2025-11-27-113855-bobina.heic",
+          "src": "2025-11-27-113855-bobina--collage.jpg",
           "alt": "Photoblog image",
           "title": "",
-          "width": 3024,
-          "height": 4032,
-          "sizeMB": 1.42,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-27-113855-bobina.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "width": 2915,
+          "height": 2186,
+          "sizeMB": 2.19,
+          "aspectRatio": "collage",
+          "placeholder": "blurs/2025-11-27-113855-bobina--collage.png",
+          "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 29.330356672408882,
-            "sharpness": 100,
-            "qualityBucket": "poor",
-            "phash": "3e2f33393dcca8cd",
+            "sharpness": 4523.631144945683,
+            "phash": "f470cb4be3a1a4a7",
             "facesDetected": false,
             "faces": []
           },
@@ -23611,8 +21854,7 @@
             "date": "2025-11-27T11:38:55",
             "releaseDate": "2025-11-27T11:38:55",
             "latitude": 25.637814,
-            "longitude": 32.596456,
-            "orientation": 6
+            "longitude": 32.596456
           },
           "author": "Bobina",
           "authorSlug": "bobina",
@@ -23622,57 +21864,57 @@
             {
               "variant": "default",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-27-113855-bobina.webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-27-113855-bobina--collage.webp",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-27-113855-bobina.jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-27-113855-bobina--collage.jpeg",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-27-113855-bobina.avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-27-113855-bobina--collage.avif",
               "width": 370
             },
             {
               "variant": "xl",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-27-113855-bobina.webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-27-113855-bobina--collage.webp",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-27-113855-bobina.jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-27-113855-bobina--collage.jpeg",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-27-113855-bobina.avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-27-113855-bobina--collage.avif",
               "width": 534
             },
             {
               "variant": "detail",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-27-113855-bobina.jpeg",
-              "width": 960,
+              "path": "/egypt-2025/images/details/2025-11-27-113855-bobina--collage.jpeg",
+              "width": 1707,
               "height": 1280
             },
             {
               "variant": "fallback",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-27-113855-bobina.jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-27-113855-bobina--collage.jpeg",
               "width": 190,
               "height": 127
             },
             {
               "variant": "admin_thumb",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-27-113855-bobina.jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-27-113855-bobina--collage.jpeg",
               "width": 534,
               "height": 534
             }
@@ -24941,6 +23183,221 @@
             }
           ],
           "people": []
+        },
+        {
+          "id": "2025-11-27-203001-bobina",
+          "type": "image",
+          "src": "2025-11-27-203001-bobina.heic",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4024,
+          "height": 2165,
+          "sizeMB": 1.24,
+          "aspectRatio": "landscape-4024-2165",
+          "placeholder": "blurs/2025-11-27-203001-bobina.png",
+          "placeholderColor": "rgb(8,8,8)",
+          "analysis": {
+            "aestheticScore": 45.34133522561351,
+            "sharpness": 100,
+            "qualityBucket": "good",
+            "phash": "417524a0b041e0e4",
+            "facesDetected": true,
+            "faces": [
+              {
+                "x": 1009.9523532390594,
+                "y": 975.1154642278498,
+                "width": 108.4086709022522,
+                "height": 142.28600699684827
+              },
+              {
+                "x": 1539.2203857898712,
+                "y": 1019.8713589754972,
+                "width": 87.92292022705078,
+                "height": 115.18788896040492
+              },
+              {
+                "x": 1517.4874198436737,
+                "y": 1027.0295632102273,
+                "width": 86.84599781036377,
+                "height": 146.27732932350852
+              }
+            ]
+          },
+          "exif": {
+            "date": "2025-11-27T20:30:01",
+            "releaseDate": "2025-11-27T20:30:01",
+            "latitude": 25.637914,
+            "longitude": 32.596367,
+            "orientation": 1
+          },
+          "author": "Bobina",
+          "authorSlug": "bobina",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.637914,32.596367",
+          "date": "2025-11-27T20:30:01",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-27-203001-bobina.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-27-203001-bobina.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-27-203001-bobina.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-27-203001-bobina.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-27-203001-bobina.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-27-203001-bobina.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-27-203001-bobina.jpeg",
+              "width": 2379,
+              "height": 1280
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-27-203001-bobina.jpeg",
+              "width": 190,
+              "height": 127
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-27-203001-bobina.jpeg",
+              "width": 534,
+              "height": 534
+            }
+          ],
+          "people": [
+            "person-c112704e",
+            "person-f4999137"
+          ]
+        },
+        {
+          "id": "2025-11-27-203021-bobina",
+          "type": "image",
+          "src": "2025-11-27-203021-bobina.heic",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4025,
+          "height": 2871,
+          "sizeMB": 1.82,
+          "aspectRatio": "landscape-4025-2871",
+          "placeholder": "blurs/2025-11-27-203021-bobina.png",
+          "placeholderColor": "rgb(8,8,24)",
+          "analysis": {
+            "aestheticScore": 42.82298657767318,
+            "sharpness": 100,
+            "qualityBucket": "poor",
+            "phash": "80c0f0f97c6733e8",
+            "facesDetected": true,
+            "faces": [
+              {
+                "x": 1094.5185266435146,
+                "y": 1077.996850000669,
+                "width": 2930.4814733564854,
+                "height": 1745.3393439305974
+              }
+            ]
+          },
+          "exif": {
+            "date": "2025-11-27T20:30:21",
+            "releaseDate": "2025-11-27T20:30:21",
+            "latitude": 25.637864,
+            "longitude": 32.596325,
+            "orientation": 1
+          },
+          "author": "Bobina",
+          "authorSlug": "bobina",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.637864,32.596325",
+          "date": "2025-11-27T20:30:21",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-27-203021-bobina.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-27-203021-bobina.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-27-203021-bobina.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-27-203021-bobina.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-27-203021-bobina.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-27-203021-bobina.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-27-203021-bobina.jpeg",
+              "width": 1794,
+              "height": 1280
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-27-203021-bobina.jpeg",
+              "width": 190,
+              "height": 127
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-27-203021-bobina.jpeg",
+              "width": 534,
+              "height": 534
+            }
+          ],
+          "people": [
+            "person-4b808b59"
+          ]
         }
       ],
       "id": "day-2025-11-27"
@@ -24950,6 +23407,98 @@
       "cities": [],
       "locations": [],
       "items": [
+        {
+          "id": "2025-11-28-140424-bobina",
+          "type": "image",
+          "src": "2025-11-28-140424-bobina.heic",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 3751,
+          "height": 2575,
+          "sizeMB": 1.66,
+          "aspectRatio": "landscape-3-2",
+          "placeholder": "blurs/2025-11-28-140424-bobina.png",
+          "placeholderColor": "rgb(216,232,232)",
+          "analysis": {
+            "aestheticScore": 65.87589790410408,
+            "sharpness": 100,
+            "qualityBucket": "excellent",
+            "phash": "ec8eba914ef62202",
+            "facesDetected": false,
+            "faces": []
+          },
+          "exif": {
+            "date": "2025-11-28T14:04:24",
+            "releaseDate": "2025-11-28T14:04:24",
+            "latitude": 25.638819,
+            "longitude": 32.5966,
+            "orientation": 1
+          },
+          "author": "Bobina",
+          "authorSlug": "bobina",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.638819,32.5966",
+          "date": "2025-11-28T14:04:24",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-28-140424-bobina.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-28-140424-bobina.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-28-140424-bobina.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-28-140424-bobina.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-28-140424-bobina.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-28-140424-bobina.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-28-140424-bobina.jpeg",
+              "width": 1865,
+              "height": 1280
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-28-140424-bobina.jpeg",
+              "width": 190,
+              "height": 127
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-28-140424-bobina.jpeg",
+              "width": 534,
+              "height": 534
+            }
+          ],
+          "people": []
+        },
         {
           "id": "2025-11-28-132857-dasa",
           "type": "image",
@@ -25135,35 +23684,35 @@
           "people": []
         },
         {
-          "id": "2025-11-28-133626-dasa",
+          "id": "2025-11-28-143626-dasa",
           "type": "image",
-          "src": "2025-11-28-133626-dasa.heic",
+          "src": "2025-11-28-143626-dasa.heic",
           "alt": "Photoblog image",
           "title": "",
           "width": 4032,
           "height": 3024,
           "sizeMB": 2,
           "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-28-133626-dasa.png",
+          "placeholder": "blurs/2025-11-28-143626-dasa.png",
           "placeholderColor": "rgb(8,8,8)",
           "analysis": {
-            "aestheticScore": 57.63897257726787,
+            "aestheticScore": 61.55213455632955,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "1749496d7db31c0a",
             "facesDetected": true,
             "faces": [
               {
-                "x": 699.8560180664062,
-                "y": 1319.0915794372559,
-                "width": 110.80599403381348,
-                "height": 132.2321319580077
+                "x": 701.5434064865112,
+                "y": 1318.4847564697263,
+                "width": 110.00042152404784,
+                "height": 132.83270645141607
               },
               {
-                "x": 3860.2277641296387,
-                "y": 1580.4055309295652,
-                "width": 71.84735870361328,
-                "height": 114.19470977783226
+                "x": 3884.524234771728,
+                "y": 1584.1660308837888,
+                "width": 68.97209930419922,
+                "height": 113.84815979003905
               }
             ]
           },
@@ -25182,63 +23731,64 @@
             {
               "variant": "default",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-28-133626-dasa.webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-28-143626-dasa.webp",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-28-133626-dasa.jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-28-143626-dasa.jpeg",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-28-133626-dasa.avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-28-143626-dasa.avif",
               "width": 370
             },
             {
               "variant": "xl",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-28-133626-dasa.webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-28-143626-dasa.webp",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-28-133626-dasa.jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-28-143626-dasa.jpeg",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-28-133626-dasa.avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-28-143626-dasa.avif",
               "width": 534
             },
             {
               "variant": "detail",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-28-133626-dasa.jpeg",
+              "path": "/egypt-2025/images/details/2025-11-28-143626-dasa.jpeg",
               "width": 1707,
               "height": 1280
             },
             {
               "variant": "fallback",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-28-133626-dasa.jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-28-143626-dasa.jpeg",
               "width": 190,
               "height": 127
             },
             {
               "variant": "admin_thumb",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-28-133626-dasa.jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-28-143626-dasa.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": [
-            "person-cd15cc55"
+            "person-cd15cc55",
+            "person-79c593b4"
           ]
         },
         {
@@ -25359,6 +23909,113 @@
           "people": [
             "person-7cac6dc6",
             "person-4b808b59",
+            "person-183e8294"
+          ]
+        },
+        {
+          "id": "2025-11-28-160444-bobina",
+          "type": "image",
+          "src": "2025-11-28-160444-bobina.heic",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 2713,
+          "height": 2732,
+          "sizeMB": 1.09,
+          "aspectRatio": "square",
+          "placeholder": "blurs/2025-11-28-160444-bobina.png",
+          "placeholderColor": "rgb(184,200,216)",
+          "analysis": {
+            "aestheticScore": 64.12213311069283,
+            "sharpness": 100,
+            "qualityBucket": "good",
+            "phash": "1a09656488cf63d3",
+            "facesDetected": true,
+            "faces": [
+              {
+                "x": 259.8630502505565,
+                "y": 1038.4965770244598,
+                "width": 60.36323886781228,
+                "height": 64.18985605239868
+              },
+              {
+                "x": 1219.2680605490377,
+                "y": 787.4012126922607,
+                "width": 41.68051814282038,
+                "height": 58.31475567817688
+              }
+            ]
+          },
+          "exif": {
+            "date": "2025-11-28T16:04:44",
+            "releaseDate": "2025-11-28T16:04:44",
+            "latitude": 25.543486,
+            "longitude": 32.474144,
+            "orientation": 1
+          },
+          "author": "Bobina",
+          "authorSlug": "bobina",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.543486,32.474144",
+          "date": "2025-11-28T16:04:44",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-28-160444-bobina.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-28-160444-bobina.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-28-160444-bobina.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-28-160444-bobina.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-28-160444-bobina.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-28-160444-bobina.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-28-160444-bobina.jpeg",
+              "width": 1271,
+              "height": 1280
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-28-160444-bobina.jpeg",
+              "width": 190,
+              "height": 127
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-28-160444-bobina.jpeg",
+              "width": 534,
+              "height": 534
+            }
+          ],
+          "people": [
             "person-183e8294"
           ]
         },
@@ -25676,21 +24333,21 @@
           ]
         },
         {
-          "id": "2025-11-28-170307-bobo",
+          "id": "2025-11-28-180307-dasa",
           "type": "image",
-          "src": "2025-11-28-170307-bobo.jpg",
+          "src": "2025-11-28-180307-dasa.jpg",
           "alt": "Photoblog image",
           "title": "",
           "width": 1600,
           "height": 900,
           "sizeMB": 0.21,
           "aspectRatio": "landscape-16-9",
-          "placeholder": "blurs/2025-11-28-170307-bobo.png",
+          "placeholder": "blurs/2025-11-28-180307-dasa.png",
           "placeholderColor": "rgb(184,200,200)",
           "analysis": {
-            "aestheticScore": 48.85440260692862,
+            "aestheticScore": 42.445825881517294,
             "sharpness": 100,
-            "qualityBucket": "good",
+            "qualityBucket": "poor",
             "phash": "b0b81c91d1800000",
             "facesDetected": false,
             "faces": []
@@ -25699,66 +24356,66 @@
             "date": "2025-11-28T18:03:07",
             "releaseDate": "2025-11-28T18:03:07"
           },
-          "author": "Bobo",
-          "authorSlug": "bobo",
+          "author": "Dáša",
+          "authorSlug": "dasa",
           "date": "2025-11-28T18:03:07",
           "sources": [
             {
               "variant": "default",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-28-170307-bobo.webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-28-180307-dasa.webp",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-28-170307-bobo.jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-28-180307-dasa.jpeg",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-28-170307-bobo.avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-28-180307-dasa.avif",
               "width": 370
             },
             {
               "variant": "xl",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-28-170307-bobo.webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-28-180307-dasa.webp",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-28-170307-bobo.jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-28-180307-dasa.jpeg",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-28-170307-bobo.avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-28-180307-dasa.avif",
               "width": 534
             },
             {
               "variant": "detail",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-28-170307-bobo.jpeg",
+              "path": "/egypt-2025/images/details/2025-11-28-180307-dasa.jpeg",
               "width": 1600,
               "height": 900
             },
             {
               "variant": "fallback",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-28-170307-bobo.jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-28-180307-dasa.jpeg",
               "width": 190,
               "height": 127
             },
             {
               "variant": "admin_thumb",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-28-170307-bobo.jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-28-180307-dasa.jpeg",
               "width": 534,
-              "height": 300
+              "height": 534
             }
           ],
           "people": []
@@ -26208,6 +24865,113 @@
           "people": [
             "person-0f3e0c7f",
             "person-79c593b4"
+          ]
+        },
+        {
+          "id": "2025-11-30-150413-bobina",
+          "type": "image",
+          "src": "2025-11-30-150413-bobina.heic",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4032,
+          "height": 3024,
+          "sizeMB": 2.18,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/2025-11-30-150413-bobina.png",
+          "placeholderColor": "rgb(8,8,8)",
+          "analysis": {
+            "aestheticScore": 69.02887895773794,
+            "sharpness": 100,
+            "qualityBucket": "excellent",
+            "phash": "d6e63773a0bef1d1",
+            "facesDetected": true,
+            "faces": [
+              {
+                "x": 1494.051378250122,
+                "y": 1674.059703826904,
+                "width": 69.28764724731445,
+                "height": 87.29719161987293
+              },
+              {
+                "x": 1477.1210174560547,
+                "y": 1708.6113624572752,
+                "width": 67.73538208007812,
+                "height": 92.80714416503906
+              }
+            ]
+          },
+          "exif": {
+            "date": "2025-11-30T15:04:13",
+            "releaseDate": "2025-11-30T15:04:13",
+            "latitude": 24.095842,
+            "longitude": 32.889039,
+            "orientation": 1
+          },
+          "author": "Bobina",
+          "authorSlug": "bobina",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=24.095842,32.889039",
+          "date": "2025-11-30T15:04:13",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-30-150413-bobina.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-30-150413-bobina.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-30-150413-bobina.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-30-150413-bobina.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-30-150413-bobina.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-30-150413-bobina.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-30-150413-bobina.jpeg",
+              "width": 1707,
+              "height": 1280
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-30-150413-bobina.jpeg",
+              "width": 190,
+              "height": 127
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-30-150413-bobina.jpeg",
+              "width": 534,
+              "height": 534
+            }
+          ],
+          "people": [
+            "person-183e8294"
           ]
         },
         {
@@ -28186,6 +26950,127 @@
           "people": []
         },
         {
+          "id": "2025-11-30-165552-bobina",
+          "type": "image",
+          "src": "2025-11-30-165552-bobina.heic",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 4024,
+          "height": 2385,
+          "sizeMB": 1.22,
+          "aspectRatio": "landscape-4024-2385",
+          "placeholder": "blurs/2025-11-30-165552-bobina.png",
+          "placeholderColor": "rgb(8,8,8)",
+          "analysis": {
+            "aestheticScore": 80.80654169274165,
+            "sharpness": 100,
+            "qualityBucket": "excellent",
+            "phash": "513c0cdc4b595949",
+            "facesDetected": true,
+            "faces": [
+              {
+                "x": 1009.6940357685089,
+                "y": 969.3564084496829,
+                "width": 239.49195528030396,
+                "height": 302.41687887966043
+              },
+              {
+                "x": 2430.550814151764,
+                "y": 706.455346286887,
+                "width": 268.6492099761963,
+                "height": 325.57866011515705
+              },
+              {
+                "x": 184.30492812395096,
+                "y": 946.8266266171295,
+                "width": 226.05081224441528,
+                "height": 294.99839253944924
+              },
+              {
+                "x": 1732.3052597045898,
+                "y": 858.066021758731,
+                "width": 159.19000005722046,
+                "height": 260.3847148630879
+              }
+            ]
+          },
+          "exif": {
+            "date": "2025-11-30T16:55:52",
+            "releaseDate": "2025-11-30T16:55:52",
+            "latitude": 24.061103,
+            "longitude": 32.863514,
+            "orientation": 1
+          },
+          "author": "Bobina",
+          "authorSlug": "bobina",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=24.061103,32.863514",
+          "date": "2025-11-30T16:55:52",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-30-165552-bobina.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-30-165552-bobina.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-30-165552-bobina.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-30-165552-bobina.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-30-165552-bobina.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-30-165552-bobina.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-30-165552-bobina.jpeg",
+              "width": 2160,
+              "height": 1280
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-30-165552-bobina.jpeg",
+              "width": 190,
+              "height": 127
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-30-165552-bobina.jpeg",
+              "width": 534,
+              "height": 534
+            }
+          ],
+          "people": [
+            "person-183e8294",
+            "person-86077f36",
+            "person-f4999137"
+          ]
+        },
+        {
           "id": "2025-11-30-161336-dasa",
           "type": "image",
           "src": "2025-11-30-161336-dasa.heic",
@@ -28593,6 +27478,199 @@
           ],
           "people": [
             "person-4d28f02d"
+          ]
+        },
+        {
+          "id": "2025-11-30-201946-bobina",
+          "type": "image",
+          "src": "2025-11-30-201946-bobina.heic",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 3024,
+          "height": 4032,
+          "sizeMB": 2.34,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/2025-11-30-201946-bobina.png",
+          "placeholderColor": "rgb(88,56,40)",
+          "analysis": {
+            "aestheticScore": 74.48513800813717,
+            "sharpness": 100,
+            "qualityBucket": "excellent",
+            "phash": "4ec68e8e95717761",
+            "facesDetected": false,
+            "faces": []
+          },
+          "exif": {
+            "date": "2025-11-30T20:19:46",
+            "releaseDate": "2025-11-30T20:19:46",
+            "latitude": 24.095006,
+            "longitude": 32.899422,
+            "orientation": 6
+          },
+          "author": "Bobina",
+          "authorSlug": "bobina",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=24.095006,32.899422",
+          "date": "2025-11-30T20:19:46",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-30-201946-bobina.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-30-201946-bobina.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-30-201946-bobina.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-30-201946-bobina.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-30-201946-bobina.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-30-201946-bobina.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-30-201946-bobina.jpeg",
+              "width": 960,
+              "height": 1280
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-30-201946-bobina.jpeg",
+              "width": 190,
+              "height": 127
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-30-201946-bobina.jpeg",
+              "width": 534,
+              "height": 534
+            }
+          ],
+          "people": []
+        },
+        {
+          "id": "2025-11-30-212329-bobina",
+          "type": "image",
+          "src": "2025-11-30-212329-bobina.heic",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 3024,
+          "height": 4032,
+          "sizeMB": 1.01,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/2025-11-30-212329-bobina.png",
+          "placeholderColor": "rgb(8,8,8)",
+          "analysis": {
+            "aestheticScore": 47.27637977382727,
+            "sharpness": 100,
+            "qualityBucket": "good",
+            "phash": "3e9c9e5987071ecf",
+            "facesDetected": true,
+            "faces": [
+              {
+                "x": 1555.4342250823975,
+                "y": 1502.4590606689453,
+                "width": 140.22417068481434,
+                "height": 152.8794937133789
+              }
+            ]
+          },
+          "exif": {
+            "date": "2025-11-30T21:23:29",
+            "releaseDate": "2025-11-30T21:23:29",
+            "latitude": 24.110286,
+            "longitude": 32.899281,
+            "orientation": 6
+          },
+          "author": "Bobina",
+          "authorSlug": "bobina",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=24.110286,32.899281",
+          "date": "2025-11-30T21:23:29",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-30-212329-bobina.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-30-212329-bobina.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-30-212329-bobina.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-30-212329-bobina.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-30-212329-bobina.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-30-212329-bobina.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-30-212329-bobina.jpeg",
+              "width": 960,
+              "height": 1280
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-30-212329-bobina.jpeg",
+              "width": 190,
+              "height": 127
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-30-212329-bobina.jpeg",
+              "width": 534,
+              "height": 534
+            }
+          ],
+          "people": [
+            "person-fa59e028--odpojeno-od-person-15-3"
           ]
         }
       ],

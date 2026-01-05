@@ -203,47 +203,18 @@
       "id": "group-2025-11-26-113642-dasa",
       "items": [
         "2025-11-26-113642-dasa",
-        "2025-11-26-123642-dasa",
-        "2025-11-26-113817-dasa",
-        "2025-11-26-123817-dasa"
+        "2025-11-26-113817-dasa"
       ],
       "bestCandidateId": "2025-11-26-113642-dasa",
-      "similarity": 0.9247079841311883,
+      "similarity": 0.8950667408269254,
       "recommendations": {
         "2025-11-26-113642-dasa": {
           "action": "keep",
           "reason": "Best candidate"
         },
-        "2025-11-26-123642-dasa": {
-          "action": "delete",
-          "reason": "Lower aesthetics (79 vs 85)"
-        },
         "2025-11-26-113817-dasa": {
           "action": "delete",
           "reason": "Lower resolution"
-        },
-        "2025-11-26-123817-dasa": {
-          "action": "delete",
-          "reason": "Lower resolution"
-        }
-      }
-    },
-    {
-      "id": "group-2025-11-26-113745-dasa",
-      "items": [
-        "2025-11-26-113745-dasa",
-        "2025-11-26-123745-dasa"
-      ],
-      "bestCandidateId": "2025-11-26-123745-dasa",
-      "similarity": 0.985202868389502,
-      "recommendations": {
-        "2025-11-26-113745-dasa": {
-          "action": "delete",
-          "reason": "Lower aesthetics (42 vs 48)"
-        },
-        "2025-11-26-123745-dasa": {
-          "action": "keep",
-          "reason": "Best candidate"
         }
       }
     },
@@ -381,57 +352,57 @@
       }
     },
     {
-      "id": "group-2025-11-27-064240-81ea6390-30a6-4303-8b6f-bb014f58e62d",
+      "id": "group-2025-11-28-133626-dasa",
       "items": [
-        "2025-11-27-064240-81ea6390-30a6-4303-8b6f-bb014f58e62d",
-        "2025-11-27-064240-bobo"
+        "2025-11-28-133626-dasa",
+        "2025-11-28-143626-dasa"
       ],
-      "bestCandidateId": "2025-11-27-064240-81ea6390-30a6-4303-8b6f-bb014f58e62d",
-      "similarity": 1.0000000000000002,
+      "bestCandidateId": "2025-11-28-133626-dasa",
+      "similarity": 0.9864842070380662,
       "recommendations": {
-        "2025-11-27-064240-81ea6390-30a6-4303-8b6f-bb014f58e62d": {
+        "2025-11-28-133626-dasa": {
           "action": "keep",
           "reason": "Best candidate"
         },
-        "2025-11-27-064240-bobo": {
+        "2025-11-28-143626-dasa": {
           "action": "delete",
           "reason": "Semantic duplicate"
         }
       }
     },
     {
-      "id": "group-2025-11-27-113851",
+      "id": "group-2025-11-28-170307-bobo",
       "items": [
-        "2025-11-27-113851",
-        "2025-11-27-113851-bobina"
+        "2025-11-28-170307-bobo",
+        "2025-11-28-180307-dasa"
       ],
-      "bestCandidateId": "2025-11-27-113851",
-      "similarity": 0.988287794925302,
+      "bestCandidateId": "2025-11-28-170307-bobo",
+      "similarity": 0.9874496221272825,
       "recommendations": {
-        "2025-11-27-113851": {
+        "2025-11-28-170307-bobo": {
           "action": "keep",
           "reason": "Best candidate"
         },
-        "2025-11-27-113851-bobina": {
+        "2025-11-28-180307-dasa": {
           "action": "delete",
-          "reason": "Semantic duplicate"
+          "reason": "Lower aesthetics (42 vs 49)"
         }
       }
     },
     {
-      "id": "group-2025-11-27-113855",
+      "id": "group-2025-11-30-144520-dasa",
       "items": [
-        "2025-11-27-113855",
-        "2025-11-27-113855-bobina"
+        "2025-11-30-144520-dasa",
+        "2025-11-30-154520-dasa"
       ],
-      "bestCandidateId": "2025-11-27-113855",
-      "similarity": 0.9909699156475709,
+      "bestCandidateId": "2025-11-30-144520-dasa",
+      "similarity": 0.9901439063716262,
       "recommendations": {
-        "2025-11-27-113855": {
+        "2025-11-30-144520-dasa": {
           "action": "keep",
           "reason": "Best candidate"
         },
-        "2025-11-27-113855-bobina": {
+        "2025-11-30-154520-dasa": {
           "action": "delete",
           "reason": "Semantic duplicate"
         }
@@ -439,8 +410,8 @@
     }
   ],
   "stats": {
-    "totalPhotos": 276,
-    "totalGroups": 18,
-    "duplicatesFound": 37
+    "totalPhotos": 279,
+    "totalGroups": 17,
+    "duplicatesFound": 34
   }
 }
