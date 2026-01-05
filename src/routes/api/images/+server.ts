@@ -400,6 +400,10 @@ export async function POST({ request }: RequestEvent) {
   return json({ success: true, archived, errors });
 }
 
+import { removeClapFromFile, writeClapToFile } from "$scripts/lib/image/clap-parser";
+import { run } from "$scripts/lib/utils/shell";
+import { canApplyClap } from "$shared/utils/strings";
+
 export async function PATCH({ request }: RequestEvent) {
   if (!dev) return json({ message: "Forbidden" }, { status: 403 });
 
@@ -411,10 +415,13 @@ export async function PATCH({ request }: RequestEvent) {
   const updatedIds: string[] = [];
   const updatedImages: ImageEntry[] = []; // Track full objects
   const errors: string[] = [];
+  const regenerationQueue: Array<{ contentDir: string; id: string }> = [];
 
-  // Filter valid updates
+  // Filter valid updates, excluding clap which is handled separately
   const filteredUpdates = Object.fromEntries(
-    Object.entries(updates).filter(([, v]) => v !== undefined),
+    Object.entries(updates)
+      .filter(([, v]) => v !== undefined)
+      .filter(([k]) => k !== "clap"),
   ) as Record<string, string | string[] | null>;
 
   for (const [contentDir, items] of Object.entries(groups)) {
@@ -472,6 +479,31 @@ export async function PATCH({ request }: RequestEvent) {
 
           if (!targetPath) continue;
 
+          // [CLAP HANDLING] - Attempt to write to file, but ALWAYS update manifest as fallback
+          if (updates.clap !== undefined) {
+            if (!canApplyClap(target)) {
+              logger.warn(`Skipping clap for ${target.id}: Not supported type`);
+            } else {
+              try {
+                if (updates.clap === null) {
+                  await removeClapFromFile(targetPath);
+                } else {
+                  await writeClapToFile(targetPath, updates.clap);
+                }
+              } catch (e) {
+                // EXTREMELY IMPORTANT: We do not fail the whole request if the file doesn't support the tag.
+                // We will rely on target.clap in the manifest.
+                logger.warn(`Failed to write CleanAperture to file ${targetPath}: ${e}`);
+              }
+
+              // Always update manifest
+              target.clap = updates.clap;
+
+              // Queue for regeneration (must be done outside lock)
+              regenerationQueue.push({ contentDir, id: target.id });
+            }
+          }
+
           // 1. Prepare metadata for EXIF write
           // biome-ignore lint/suspicious/noExplicitAny: Dynamic metadata merging requires any
           const fullExifUpdates: any = { ...filteredUpdates };
@@ -489,6 +521,8 @@ export async function PATCH({ request }: RequestEvent) {
           // Write EXIF (only if there are tags to write)
           if (Object.keys(writeTags).length > 0) {
             try {
+              // Ensure we include necessary encoding flags
+              logger.info(`Writing standard tags to ${targetPath}:`, Object.keys(writeTags));
               await exiftool.write(targetPath, writeTags, {
                 writeArgs: ["-overwrite_original", "-coding=utf8", "-m", "-charset", "iptc=UTF8"],
               });
@@ -514,7 +548,39 @@ export async function PATCH({ request }: RequestEvent) {
     updatedIds.push(...result);
   }
 
+  // Execute Regeneration Queue (outside manifest locks)
+  if (regenerationQueue.length > 0) {
+    const manageScript = path.resolve(process.cwd(), "scripts/manage.ts");
+    // Deduplicate queue
+    const uniqueQueue = Array.from(new Set(regenerationQueue.map((i) => JSON.stringify(i)))).map(
+      (s) => JSON.parse(s),
+    );
+
+    for (const { contentDir, id } of uniqueQueue) {
+      try {
+        logger.info(`Regenerating variants for ${id}...`);
+        await run("bun", [
+          "run",
+          manageScript,
+          "process",
+          "--content-dir",
+          contentDir,
+          "--filter",
+          id,
+          "--force",
+          "--manifestOnly",
+          "false",
+        ]);
+      } catch (e: unknown) {
+        const msg = e instanceof Error ? e.message : String(e);
+        logger.error(`Regeneration failed for ${id}: ${msg}`);
+        errors.push(`Regeneration failed for ${id}`);
+      }
+    }
+  }
+
   if (updatedIds.length === 0 && errors.length > 0) {
+    logger.error("PATCH failed:", errors);
     return json({ message: "Failed to update metadata", errors }, { status: 500 });
   }
 
@@ -526,5 +592,6 @@ export async function PATCH({ request }: RequestEvent) {
   const { getPhotoDays } = await import("$lib/utils/images");
   const photoDays = getPhotoDays();
 
+  logger.info(`PATCH success: Updated ${updatedIds.length} items.`);
   return json({ success: true, updated: updatedIds, updatedImages, photoDays, errors });
 }

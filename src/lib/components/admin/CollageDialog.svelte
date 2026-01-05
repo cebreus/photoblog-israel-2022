@@ -5,7 +5,6 @@
 
   import CollageTemplateIcon from "$lib/components/icons/CollageTemplateIcon.svelte";
   import { Button } from "$lib/components/ui/button";
-  import * as ButtonGroup from "$lib/components/ui/button-group";
   import * as Dialog from "$lib/components/ui/dialog";
   import { Input } from "$lib/components/ui/input";
   import { Label } from "$lib/components/ui/label";
@@ -41,6 +40,8 @@
 
   import Separator from "../ui/separator/separator.svelte";
 
+  import AspectRatioPicker from "./AspectRatioPicker.svelte";
+
   // Props
   let {
     open = $bindable(false),
@@ -72,16 +73,7 @@
     { id: "density-7", capacity: 7 },
   ];
 
-  const ratioPresets = [
-    { id: "auto", label: COLLAGE_MESSAGES.RATIO_AUTO },
-    { id: "3:2", label: "3:2" },
-    { id: "4:3", label: "4:3" },
-    { id: "1:1", label: "1:1" },
-    { id: "16:9", label: "16:9" },
-    { id: "21:9", label: "21:9" },
-  ] as const;
-
-  type RatioPresetId = (typeof ratioPresets)[number]["id"];
+  type RatioPresetId = string;
 
   interface CollageItem {
     uniqueId: string;
@@ -204,7 +196,7 @@
           const configs: Record<string, CollageCrop> = {};
           // Load aspect ratio if present
           if (existingConfig.aspectRatio) {
-            selectedRatioPreset = existingConfig.aspectRatio as any;
+            selectedRatioPreset = existingConfig.aspectRatio as string;
             log.info(`[CollageDialog] Set aspect ratio: ${selectedRatioPreset}`);
           }
 
@@ -808,20 +800,12 @@
     <span class="text-muted-foreground tracking-[0.3em] uppercase"
       >{COLLAGE_MESSAGES.RATIO_LABEL}</span
     >
-    <ButtonGroup.Root aria-label={COLLAGE_MESSAGES.RATIO_GROUP_LABEL}>
-      {#each ratioPresets as preset}
-        <Button
-          variant={selectedRatioPreset === preset.id ? "secondary" : "outline"}
-          size="sm"
-          onclick={function selectRatio() {
-            handleRatioSelect(preset.id);
-          }}
-          data-testid={`collage-ratio-${preset.id.replace(":", "-")}`}
-        >
-          {preset.label}
-        </Button>
-      {/each}
-    </ButtonGroup.Root>
+    <AspectRatioPicker
+      bind:value={selectedRatioPreset}
+      onSelect={handleRatioSelect}
+      includeAuto
+      layout="group"
+    />
   </div>
 {/snippet}
 

@@ -444,6 +444,14 @@ async function generateAllOutputs(
   return { outputs, sources };
 }
 
+import { isCollage } from "$shared/utils/strings";
+import { readClapFromFile } from "./clap-parser";
+import { applyClapExtract } from "./clap-utils";
+
+// ... existing imports ...
+
+// ... (keep existing helper functions)
+
 export async function processImage(
   absPath: string,
   options: ImageProcessOptions & { skipFaces?: boolean; skipEmbeddings?: boolean },
@@ -453,13 +461,36 @@ export async function processImage(
   const sharpModule = requireSharp();
 
   let tempCleanupPath: string | null = null;
+  let clapTempPath: string | null = null;
   let key: string | undefined;
 
   try {
     const context = await prepareImageContext(absPath, options, sharpModule);
     key = context.key;
-    const { baseName, stats, fileHash, processingPath, sharpInstance, tempFilePath } = context;
+    const { baseName, stats, fileHash, processingPath, tempFilePath } = context;
+    let { sharpInstance } = context;
     tempCleanupPath = tempFilePath;
+
+    // --- Clean Aperture Application ---
+    let effectiveInput = processingPath;
+
+    // Skip for collages (they shouldn't have clap, but just in case)
+    if (!isCollage(baseName)) {
+      const clap = await readClapFromFile(absPath);
+      if (clap) {
+        try {
+          const croppedPath = await applyClapExtract(sharpModule, processingPath, clap);
+          clapTempPath = croppedPath;
+          effectiveInput = croppedPath;
+
+          // Re-create sharp instance for the cropped image so subsequent ops (stats, metadata) use the crop
+          sharpInstance = sharpModule(effectiveInput);
+        } catch (e: any) {
+          logger.warn(`Failed to apply clap to ${key}, using original: ${e.message}`);
+        }
+      }
+    }
+    // ----------------------------------
 
     // 1. Reusability Check
     const analysisDecision = determineAnalysisNeeds(fileHash, key, options);
@@ -468,7 +499,7 @@ export async function processImage(
     // 2. Gather Image Data (metadata, analysis, faces)
     const imageData = await gatherImageData(
       absPath,
-      processingPath,
+      effectiveInput, // Use effectiveInput (potentially cropped)
       key,
       sharpModule,
       sharpInstance,
@@ -502,7 +533,7 @@ export async function processImage(
     // 4. Output Generation
     const { outputs, sources } = await generateAllOutputs(
       sharpModule,
-      processingPath,
+      effectiveInput, // Use effectiveInput (potentially cropped)
       baseName,
       imageData,
       options,
@@ -526,6 +557,11 @@ export async function processImage(
     if (tempCleanupPath) {
       try {
         await fsp.unlink(tempCleanupPath);
+      } catch (_) {}
+    }
+    if (clapTempPath) {
+      try {
+        await fsp.unlink(clapTempPath);
       } catch (_) {}
     }
   }

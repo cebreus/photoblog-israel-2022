@@ -1,9 +1,11 @@
 <script lang="ts">
+  import Crop from "@lucide/svelte/icons/crop";
   import Info from "@lucide/svelte/icons/info";
   import LayoutGrid from "@lucide/svelte/icons/layout-grid";
   import { fade } from "svelte/transition";
   import { toast } from "svelte-sonner";
   import { invalidateAll } from "$app/navigation";
+  import ClapEditor from "$lib/components/admin/ClapEditor.svelte";
   import CollageDialog from "$lib/components/admin/CollageDialog.svelte";
   import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
   import { Button } from "$lib/components/ui/button";
@@ -24,6 +26,7 @@
   } from "$lib/utils/collage-config";
   import { COLLAGE_MESSAGES, IMAGE_MESSAGES } from "$lib/utils/messages";
   import { smartToast } from "$lib/utils/toasts";
+  import { canApplyClap } from "$shared/utils/strings";
 
   import GeoDataSection from "./GeoDataSection.svelte";
   import MetadataInputField from "./MetadataInputField.svelte";
@@ -107,7 +110,7 @@
         editor.selection.has(item.id),
     ) as ImageEntry[],
   );
-  let activeImage = $derived(selectedImages.length === 1 ? selectedImages[0] : null);
+  let activeImage = $derived(selectedImages.length === 1 ? selectedImages[0] : undefined);
 
   let affectedItemsCount = $derived.by(() => {
     let count = 0;
@@ -370,6 +373,7 @@
   let isPasteDialogOpen = $state(false);
   let isApplyingPaste = $state(false);
 
+  let isClapEditorOpen = $state(false);
   // Collage handler
   let isCollageDialogOpen = $state(false);
   let collageSourceImages = $state<ImageEntry[]>([]);
@@ -524,6 +528,8 @@
     onConfirm={confirmPaste}
   />
 
+  <ClapEditor bind:open={isClapEditorOpen} image={activeImage} />
+
   <CollageDialog
     bind:open={isCollageDialogOpen}
     images={collageSourceImages}
@@ -540,6 +546,15 @@
         {:else}
           {COLLAGE_MESSAGES.CREATE_TRIGGER_BUTTON(selectedImages.length)}
         {/if}
+      </Button>
+    </div>
+  {/if}
+
+  {#if import.meta.env.DEV && selectedImages.length === 1 && canApplyClap(selectedImages[0])}
+    <div class="px-4 pt-2">
+      <Button variant="outline" class="w-full gap-2" onclick={() => (isClapEditorOpen = true)}>
+        <Crop class="h-4 w-4" />
+        Upravit výřez
       </Button>
     </div>
   {/if}

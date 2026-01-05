@@ -34,3 +34,22 @@ export function toSlug(name: string): string {
 export function isCollage(imageId: string): boolean {
     return /--collage(\.jpe?g)?$/i.test(imageId) || /-collage(\.jpe?g)?$/i.test(imageId);
 }
+
+/**
+ * Check if Clean Aperture (clap) can be applied to this image.
+ * Excludes collages and panoramas.
+ * 
+ * Note: Use 'any' for image to avoid circular dependency with ImageEntry if needed,
+ * or import type ImageEntry safely.
+ */
+export function canApplyClap(image: { id: string; type: string; specialMedia?: { isPanorama?: boolean } }): boolean {
+    // 1. Collages - composite images, cannot crop
+    if (isCollage(image.id)) return false;
+
+    // 2. Panoramas - projection metadata depends on full dimensions
+    if (image.type === "panorama") return false;
+    if (image.specialMedia?.isPanorama) return false;
+
+    // 3. Supported types
+    return image.type === "image" || image.type === "sequence-member";
+}

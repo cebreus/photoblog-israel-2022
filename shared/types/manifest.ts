@@ -105,6 +105,7 @@ export type ImageEntry = {
     width?: number;
     height?: number;
     aspectRatio?: AspectRatio;
+    clap?: import("./clap").CleanApertureData;
     placeholderColor?: string;
     placeholder?: string;
     adminThumbUrl?: string;
