@@ -46,6 +46,27 @@ let currentCurationManifest: CurationManifest = isValidCurationManifest(curation
   : { groups: [], stats: { totalPhotos: 0, totalGroups: 0, duplicatesFound: 0 } };
 
 /**
+ * Helper to atomic update manifest and clear caches
+ */
+function updateManifests(
+  newManifest: Manifest | null,
+  newPeople: PeopleManifest | null,
+  newCuration: CurationManifest | null,
+) {
+  // 1. Update Manifests
+  if (newManifest) currentManifest = newManifest;
+  if (newPeople) currentPeopleManifest = newPeople;
+  if (newCuration) currentCurationManifest = newCuration;
+
+  // 2. Clear Caches (Force rebuild on next access)
+  // We clear caches AFTER updating manifest to ensure next read gets fresh data derived from new manifest
+  if (newManifest) {
+    allImagesMap = null;
+    imagePeopleMap = null;
+  }
+}
+
+/**
  * In DEV mode on the server, reload manifests from disk to bypass Vite caching.
  * This ensures that API updates are immediately reflected in the UI.
  */
@@ -58,14 +79,16 @@ export async function reloadManifests() {
 
       const fsp = await import("node:fs/promises");
 
+      let nextManifest: Manifest | null = null;
+      let nextPeople: PeopleManifest | null = null;
+      let nextCuration: CurationManifest | null = null;
+
       // Reload Images Manifest
       try {
         const raw = await fsp.readFile(path.join(dataDir, "images.manifest.json"), "utf-8");
         const json = JSON.parse(raw);
         if (isValidManifest(json)) {
-          currentManifest = reclassifyCollages(json);
-          allImagesMap = null; // Clear cache
-          imagePeopleMap = null; // Clear cache
+          nextManifest = reclassifyCollages(json);
         }
       } catch (_e) {
         logger.error(`Failed to reload images manifest: ${_e}`);
@@ -76,7 +99,7 @@ export async function reloadManifests() {
         const raw = await fsp.readFile(path.join(dataDir, "people.manifest.json"), "utf-8");
         const json = JSON.parse(raw);
         if (isValidPeopleManifest(json)) {
-          currentPeopleManifest = json;
+          nextPeople = json;
         }
       } catch (_e) {}
 
@@ -85,11 +108,14 @@ export async function reloadManifests() {
         const raw = await fsp.readFile(path.join(dataDir, "curation.manifest.json"), "utf-8");
         const json = JSON.parse(raw);
         if (isValidCurationManifest(json)) {
-          currentCurationManifest = json;
+          nextCuration = json;
         }
       } catch (_e) {
         // Curation manifest might not exist
       }
+
+      // Atomic Update
+      updateManifests(nextManifest, nextPeople, nextCuration);
     } catch (_e) {
       logger.error(`Outer error: ${_e}`);
     }
