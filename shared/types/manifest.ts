@@ -50,7 +50,7 @@ export type SequenceInfo = {
     members?: string[];
 };
 
-export type MediaItemType = "image" | "sequence" | "sequence-member" | "panorama" | "video" | "youtube";
+export type MediaItemType = "image" | "sequence" | "sequence-member" | "panorama" | "collage" | "video" | "youtube";
 
 /**
  * Image projection type used for rendering.

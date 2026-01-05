@@ -1,6 +1,7 @@
 <script lang="ts">
   import { toast } from "svelte-sonner";
-
+  import { invalidateAll } from "$app/navigation";
+  import { page } from "$app/state";
   import ArchiveImageDialog from "$lib/components/ArchiveImageDialog.svelte";
   import CurationGroupView from "$lib/components/CurationGroup.svelte";
   import CurationGroupDialog from "$lib/components/CurationGroupDialog.svelte";
@@ -26,9 +27,6 @@
   import { findIndexById, getRange } from "$lib/utils/selection";
   import { toSlug } from "$lib/utils/strings";
   import { smartToast } from "$lib/utils/toasts";
-
-  import { invalidateAll } from "$app/navigation";
-  import { page } from "$app/state";
 
   const logger = createLogger("PhotoGrid");
 
@@ -104,7 +102,10 @@
   let imageItems = $derived(
     items.filter(
       (i: DisplayItem): i is ImageEntry =>
-        i.type === "image" || i.type === "sequence" || i.type === "panorama",
+        i.type === "image" ||
+        i.type === "sequence" ||
+        i.type === "panorama" ||
+        i.type === "collage",
     ),
   );
 
@@ -522,7 +523,13 @@
     // Create a map for fast lookup of ALL images in this chunk/day
     const itemMap = new Map<string, ImageEntry>();
     items.forEach((i: DisplayItem) => {
-      if (i.type === "image") itemMap.set(i.id, i);
+      if (
+        i.type === "image" ||
+        i.type === "collage" ||
+        i.type === "panorama" ||
+        i.type === "sequence"
+      )
+        itemMap.set(i.id, i);
     });
 
     // Pre-calculate valid groups:
@@ -584,7 +591,13 @@
     for (const entry of processedItems) {
       if (entry.type === "group") {
         list.push(...entry.items);
-      } else if (entry.type === "item" && entry.data.type === "image") {
+      } else if (
+        entry.type === "item" &&
+        (entry.data.type === "image" ||
+          entry.data.type === "collage" ||
+          entry.data.type === "panorama" ||
+          entry.data.type === "sequence")
+      ) {
         list.push(entry.data);
       }
     }
@@ -659,7 +672,7 @@
   {:else}
     <!-- Standard Item Rendering -->
     {@const item = entry.data}
-    {#if item.type === "image" || item.type === "sequence" || item.type === "panorama"}
+    {#if item.type === "image" || item.type === "sequence" || item.type === "panorama" || item.type === "collage"}
       <!-- Draggable wrapper when reorderMode is active -->
       {#if editor.reorderMode && dayId}
         <div

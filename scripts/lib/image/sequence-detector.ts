@@ -23,11 +23,15 @@ import { diffIsoStringsInSeconds } from "../../../shared/utils/dates";
  * - Returns "sequence" for the representative (last) item in a sequence.
  * - Returns "sequence-member" for other items in a sequence.
  * - Returns "panorama" for single-file panoramas.
+ * - Returns "collage" for collages.
  * - Returns "image" otherwise.
  */
 export function classifyMediaType(
   filename: string,
-): "image" | "sequence" | "sequence-member" | "panorama" {
+): "image" | "sequence" | "sequence-member" | "panorama" | "collage" {
+  if (filename.includes("--collage")) {
+    return "collage";
+  }
   const info = parseSequenceSuffix(filename);
   if (!info) return "image";
   if (info.type === "pano") return "panorama";
@@ -147,7 +151,7 @@ export function detectSequences(
  * Filter predicate for grid visibility.
  */
 function isVisibleInGrid(image: ImageEntry): boolean {
-  if (image.type === "image" || image.type === "panorama") return true;
+  if (image.type === "image" || image.type === "panorama" || image.type === "collage") return true;
   if (image.type === "sequence") return true;
   if (image.type === "sequence-member") return false;
   return true;

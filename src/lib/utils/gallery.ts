@@ -79,7 +79,24 @@ function shouldIncludeItem(
     if ((criteria.selectedMediaTypes as string[]).includes("none")) {
       return false;
     }
-    if (!criteria.selectedMediaTypes.includes(item.type)) {
+
+    // Determine effective type for filtering
+    let effectiveType = item.type;
+
+    // Panoramas can be identified by aspectRatio even if type is "image"
+    if (effectiveType === "image" && item.aspectRatio === "panorama") {
+      effectiveType = "panorama";
+    }
+
+    // Collages can be identified by aspectRatio or ID pattern even if type is "image"
+    if (
+      effectiveType === "image" &&
+      (item.aspectRatio === "collage" || item.id.includes("--collage"))
+    ) {
+      effectiveType = "collage";
+    }
+
+    if (!criteria.selectedMediaTypes.includes(effectiveType)) {
       return false;
     }
   }
@@ -213,7 +230,13 @@ function createMergedDay(days: PhotoDay[]): PhotoDay {
 }
 
 function isImageItem(item: PhotoDayItem): boolean {
-  return item.type === "image";
+  return (
+    item.type === "image" ||
+    item.type === "collage" ||
+    item.type === "panorama" ||
+    item.type === "sequence" ||
+    item.type === "sequence-member"
+  );
 }
 
 function countImageItems(day: PhotoDay): number {

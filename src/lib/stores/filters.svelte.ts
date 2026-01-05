@@ -7,6 +7,7 @@ export const MEDIA_TYPES: { id: MediaItemType; label: string }[] = [
   { id: "image", label: "Fotografie" },
   { id: "panorama", label: "Panoramata" },
   { id: "sequence", label: "Sekvence" },
+  { id: "collage", label: "Koláže" },
 ];
 
 // Module-level state
@@ -139,7 +140,6 @@ export const filters = {
   get sourceData() {
     return sourceData;
   },
-  // Custom setter for sourceData to match previous API
   setSourceData(data: PhotoDay[]) {
     sourceData = data;
   },

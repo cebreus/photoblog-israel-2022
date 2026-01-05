@@ -3,6 +3,8 @@ import { building, dev } from "$app/environment";
 import curationManifest from "$manifests/curation.manifest.json" with { type: "json" };
 import manifest from "$manifests/images.manifest.json" with { type: "json" };
 import peopleManifestImport from "$manifests/people.manifest.json" with { type: "json" };
+import { isCollage } from "$shared/utils/strings";
+import { createLogger } from "../logger";
 import type {
   CurationManifest,
   ImageEntry,
@@ -16,8 +18,26 @@ import {
   isValidPeopleManifest,
 } from "./manifest-validators";
 
+const logger = createLogger("ManifestLoader");
+
+/** Re-classify collages that were incorrectly typed as "image" */
+function reclassifyCollages(m: Manifest): Manifest {
+  // Clone to avoid mutating frozen/immutable imported JSON
+  const cloned = structuredClone(m);
+  for (const day of cloned.photoDays) {
+    for (const item of day.items) {
+      if (item.type === "image" && isCollage(item.id)) {
+        item.type = "collage";
+      }
+    }
+  }
+  return cloned;
+}
+
 // Mutable manifests for dev-mode reloading
-let currentManifest: Manifest = isValidManifest(manifest) ? manifest : { photoDays: [] };
+let currentManifest: Manifest = reclassifyCollages(
+  isValidManifest(manifest) ? manifest : { photoDays: [] },
+);
 let currentPeopleManifest: PeopleManifest = isValidPeopleManifest(peopleManifestImport)
   ? peopleManifestImport
   : { people: [] };
@@ -43,11 +63,13 @@ export async function reloadManifests() {
         const raw = await fsp.readFile(path.join(dataDir, "images.manifest.json"), "utf-8");
         const json = JSON.parse(raw);
         if (isValidManifest(json)) {
-          currentManifest = json;
+          currentManifest = reclassifyCollages(json);
           allImagesMap = null; // Clear cache
           imagePeopleMap = null; // Clear cache
         }
-      } catch (_e) {}
+      } catch (_e) {
+        logger.error(`Failed to reload images manifest: ${_e}`);
+      }
 
       // Reload People Manifest
       try {
@@ -68,7 +90,13 @@ export async function reloadManifests() {
       } catch (_e) {
         // Curation manifest might not exist
       }
-    } catch (_e) {}
+    } catch (_e) {
+      logger.error(`Outer error: ${_e}`);
+    }
+  } else {
+    logger.debug(
+      `Skipped: dev=${dev}, building=${building}, hasProcess=${typeof process !== "undefined"}`,
+    );
   }
 }
 

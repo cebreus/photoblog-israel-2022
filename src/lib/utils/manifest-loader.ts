@@ -1,3 +1,4 @@
+import { isCollage } from "$shared/utils/strings";
 import type { AnalysisManifest, FacesManifest, Manifest, PeopleManifest } from "../types/manifest";
 
 /**
@@ -16,7 +17,12 @@ export function mergeManifests(
 
   merged.photoDays.forEach((day) => {
     day.items.forEach((item) => {
-      if (item.type !== "image") return;
+      // Re-classify item type if it's a collage but marked as "image"
+      if (item.type === "image" && isCollage(item.id)) {
+        item.type = "collage";
+      }
+
+      if (item.type !== "image" && item.type !== "collage") return;
 
       // 1. Merge Faces (Critical for smart cropping)
       if (faces?.[item.id]) {

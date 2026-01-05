@@ -37,6 +37,11 @@ describe("sequence-detector", () => {
       expect(classifyMediaType("2025-01-15-cebreus--pano")).toBe("panorama");
     });
 
+    it("returns 'collage' for collage suffix", () => {
+      expect(classifyMediaType("2025-11-26-155237-cebreus--collage.jpg")).toBe("collage");
+      expect(classifyMediaType("test-collage")).toBe("collage");
+    });
+
     it("handles all sequence types", () => {
       // All representative members
       expect(classifyMediaType("test--zoom3from3")).toBe("sequence");

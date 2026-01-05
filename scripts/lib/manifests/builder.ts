@@ -133,7 +133,8 @@ function isImage(item: ImageEntry | Separator): item is ImageEntry {
     item.type === "image" ||
     item.type === "sequence" ||
     item.type === "sequence-member" ||
-    item.type === "panorama"
+    item.type === "panorama" ||
+    item.type === "collage"
   );
 }
 
@@ -346,6 +347,13 @@ export function updateManifest(
     if (!day) {
       day = { date, items: [], id: `day-${date}` };
       manifest.photoDays.push(day);
+    }
+
+    // Re-classify existing items in this day
+    for (const item of day.items) {
+      if (item.type === "image" && item.id.includes("--collage")) {
+        item.type = "collage";
+      }
     }
 
     for (const result of dayResults) {
