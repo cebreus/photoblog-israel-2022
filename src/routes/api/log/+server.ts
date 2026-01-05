@@ -1,16 +1,7 @@
 import { json, type RequestHandler } from "@sveltejs/kit";
-import { dev } from "$app/environment";
 import { createLogger } from "$lib/logger";
 
-const _logger = createLogger("fe-bridge");
-
 export const POST: RequestHandler = async ({ request }) => {
-  // We only want to log from bridge in production (or if specifically enabled)
-  // In development, the browser already logs to console.
-  if (dev) {
-    return json({ message: "Skipped in dev" }, { status: 200 });
-  }
-
   try {
     const { level, msg, label, ...rest } = await request.json();
 

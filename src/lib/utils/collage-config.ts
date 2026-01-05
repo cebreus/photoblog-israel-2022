@@ -1,7 +1,6 @@
 import { log } from "$lib/logger";
 import type { CollageRequest } from "$lib/types/collage";
 import type { ImageEntry } from "$lib/types/manifest";
-import { COLLAGE_MESSAGES } from "./messages";
 
 /**
  * Load collage configuration from a sidecar JSON file.
@@ -35,14 +34,14 @@ export async function loadCollageConfig(collageImageId: string): Promise<Collage
         if (isValidCollageConfig(rawConfig)) {
           return rawConfig;
         }
-        log.warn(`${COLLAGE_MESSAGES.LOAD_CONFIG_FAILED} (${path})`);
+        log.warn({ path }, "Invalid collage config format");
       }
     } catch (_e) {
       // Silently try next path
     }
   }
 
-  log.error(`${COLLAGE_MESSAGES.LOAD_CONFIG_FAILED} (${candidatePaths.join(", ")})`);
+  log.error({ paths: candidatePaths }, "Collage config not found");
   return null;
 }
 
@@ -108,13 +107,13 @@ export async function createSourceImagePlaceholders(
         ]),
       );
     } else {
-      log.warn("Failed to fetch collage source metadata, using fallback dimensions");
+      log.warn({}, "Failed to fetch collage source metadata, using fallback dimensions");
     }
   } catch (error) {
-    log.error("Error fetching collage source metadata:", error);
+    log.error({ err: error }, "Error fetching collage source metadata");
   }
 
-  log.info(`[CollageConfig] Creating ${config.items.length} placeholders`);
+  log.info({ count: config.items.length }, "[CollageConfig] Creating placeholders");
   return config.items.map((item) => {
     const id = item.id || "unknown";
     const filename = item.imageId || `${id}.jpg`;

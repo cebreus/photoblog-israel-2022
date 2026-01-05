@@ -87,7 +87,7 @@ export async function handlePropertyUpdate<
       });
     });
   } catch (err) {
-    logger.error(`[API/PEOPLE/${propertyName.toString().toUpperCase()}] Error:`, err);
+    logger.error({ err }, `[API/PEOPLE/${propertyName.toString().toUpperCase()}] Error`);
     return json({ success: false, error: (err as Error).message }, { status: 500 });
   }
 }

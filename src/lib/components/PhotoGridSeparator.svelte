@@ -8,6 +8,7 @@
   import { editor } from "$lib/stores/editor.svelte";
   import type { Separator } from "$lib/types/manifest";
   import { cn } from "$lib/utils";
+  import { tracedFetch } from "$lib/utils/api";
   import { formatWallClock } from "$shared/utils/dates";
 
   let {
@@ -36,7 +37,7 @@
     }
 
     try {
-      const res = await fetch("/api/images/redistribute", {
+      const res = await tracedFetch("/api/images/redistribute", {
         method: "POST",
         body: JSON.stringify({ dayId, location: item.location }),
       });
@@ -61,7 +62,7 @@
     }
 
     try {
-      const res = await fetch("/api/images/reorder", {
+      const res = await tracedFetch("/api/images/reorder", {
         method: "DELETE",
         body: JSON.stringify({ dayId, location: item.location }),
       });

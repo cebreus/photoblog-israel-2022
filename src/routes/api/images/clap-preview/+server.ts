@@ -1,7 +1,7 @@
 import path from "node:path";
 import { error } from "@sveltejs/kit";
 import sharp from "sharp";
-import { createLogger } from "$scripts/lib/core/cli-logger";
+import { createLogger } from "$lib/logger";
 import { readClapFromFile } from "$scripts/lib/image/clap-parser";
 import { fileExists, scanGlob } from "$scripts/lib/utils/runtime";
 import type { RequestHandler } from "./$types";
@@ -64,7 +64,7 @@ export const GET: RequestHandler = async ({ url }) => {
         }
       }
     } catch (e) {
-      logger.warn(`Failed to check manifest for clap: ${e}`);
+      logger.warn({ err: e }, "Failed to check manifest for clap");
     }
 
     // Priority 2: Physical file
@@ -106,7 +106,7 @@ export const GET: RequestHandler = async ({ url }) => {
     });
   } catch (e) {
     const message = e instanceof Error ? e.message : String(e);
-    logger.error(`Preview failed for ${id}: ${message}`);
+    logger.error({ err: e, imageId: id }, "Preview generation failed");
     throw error(500, message);
   }
 };

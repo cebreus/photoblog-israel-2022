@@ -15,6 +15,7 @@
   import { filters } from "$lib/stores/filters.svelte";
   import { people } from "$lib/stores/people.svelte";
   import type { ImageEntry, Person } from "$lib/types/manifest";
+  import { tracedFetch } from "$lib/utils/api";
   import { GENERIC_MESSAGES, PERSON_MESSAGES } from "$lib/utils/messages";
   import { type MergeResponse, updatePeopleOrThrow } from "$lib/utils/people-actions";
 
@@ -99,13 +100,13 @@
   async function loadConstraints() {
     if (!dev) return;
     try {
-      const res = await fetch("/api/people/invalid-detections");
+      const res = await tracedFetch("/api/people/invalid-detections");
       const data = await res.json();
       if (data.success) {
         invalidDetections = data.invalidDetections;
       }
     } catch (e) {
-      logger.error("Failed to load constraints", e);
+      logger.error({ err: e }, "Failed to load constraints");
     }
   }
 
@@ -238,31 +239,31 @@
       return;
     }
 
-    logger.debug("Starting rename, setting isSaving to true");
+    logger.debug({}, "Starting rename, setting isSaving to true");
     isSaving = true;
-    logger.debug("isSaving is now:", isSaving);
+    logger.debug({ isSaving }, "isSaving is now");
 
     try {
-      logger.debug("Calling API...");
+      logger.debug({}, "Calling API...");
       // Add minimum delay to keep overlay visible
       await Promise.all([
         renamePerson(editingPersonId, editingName.trim()),
         new Promise((resolve) => setTimeout(resolve, 500)), // Min 500ms delay
       ]);
-      logger.debug("API call successful, triggering reload");
+      logger.debug({}, "API call successful, triggering reload");
       // Trigger reload to show updated name
       await people.refresh();
       lastUpdateTimestamp = Date.now();
       toast.success(PERSON_MESSAGES.PERSON_RENAMED);
       cancelEditing();
     } catch (error) {
-      logger.error("Failed to rename person:", error);
+      logger.error({ err: error }, "Failed to rename person");
       toast.error(PERSON_MESSAGES.RENAME_FAILED);
     } finally {
-      logger.debug("Setting isSaving to false");
+      logger.debug({}, "Setting isSaving to false");
       isSaving = false;
       setProcessing(editingPersonId, false);
-      logger.debug("isSaving is now:", isSaving);
+      logger.debug({ isSaving }, "isSaving is now");
     }
   }
 
@@ -313,7 +314,7 @@
   }
 
   async function toggleHide(personId: string) {
-    logger.debug("Toggling hide for person:", personId);
+    logger.debug({ personId }, "Toggling hide for person");
     isSaving = true;
     setProcessing(personId, true);
 
@@ -327,7 +328,7 @@
       await apiUpdate([{ id: personId, hidden: newHiddenState }]);
 
       const isHidden = newHiddenState;
-      logger.debug("Person hidden state:", isHidden);
+      logger.debug({ isHidden }, "Person hidden state");
 
       // Also remove from selection if being hidden
       filters.selectedPeople = filters.selectedPeople.filter((id) => id !== personId);
@@ -339,7 +340,7 @@
       await people.refresh();
       toast.success(isHidden ? PERSON_MESSAGES.PERSON_HIDDEN : PERSON_MESSAGES.PERSON_RESTORED);
     } catch (error) {
-      logger.error("Failed to toggle hide:", error);
+      logger.error({ err: error }, "Failed to toggle hide");
       toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR);
     } finally {
       isSaving = false;
@@ -417,7 +418,7 @@
 
     isSaving = true;
     try {
-      logger.debug("Hiding:", selectedForMerge);
+      logger.debug({ selectedForMerge }, "Hiding");
 
       // Execute single bulk request
       const updates = selectedForMerge.map((id) => ({ id, hidden: true }));
@@ -437,7 +438,7 @@
       await people.refresh();
       toast.success(PERSON_MESSAGES.bulkHidden(hiddenIds.length));
     } catch (error) {
-      logger.error("Bulk hide failed:", error);
+      logger.error({ err: error }, "Bulk hide failed");
       toast.error(PERSON_MESSAGES.BULK_HIDE_FAILED);
     } finally {
       isSaving = false;
@@ -470,7 +471,7 @@
       await people.refresh();
       toast.success(PERSON_MESSAGES.bulkRestored(hiddenIds.length));
     } catch (e) {
-      logger.error("Bulk restore failed:", e);
+      logger.error({ err: e }, "Bulk restore failed");
       toast.error(PERSON_MESSAGES.BULK_RESTORE_FAILED);
     } finally {
       isSaving = false;
@@ -501,7 +502,7 @@
       await people.refresh();
       toast.success(PERSON_MESSAGES.bulkIgnored);
     } catch (e) {
-      logger.error("Bulk mark-as-junk failed:", e);
+      logger.error({ err: e }, "Bulk mark-as-junk failed");
       toast.error(PERSON_MESSAGES.BULK_IGNORE_FAILED);
     } finally {
       isSaving = false;
@@ -523,7 +524,7 @@
       await people.refresh();
       toast.success(PERSON_MESSAGES.bulkRestoredFromJunk(junkIds.length));
     } catch (e) {
-      logger.error("Bulk restore from junk failed:", e);
+      logger.error({ err: e }, "Bulk restore from junk failed");
       toast.error(PERSON_MESSAGES.BULK_RESTORE_FAILED);
     } finally {
       isSaving = false;
@@ -610,15 +611,16 @@
     const sourcePersons = selectedPeopleData.slice(1);
 
     logger.info(
-      "Merging",
-      sourcePersons.map((p) => p.name),
-      "into",
-      targetPerson.name,
+      {
+        sources: sourcePersons.map((p) => p.name),
+        target: targetPerson.name,
+      },
+      "Merging people into target",
     );
     isSaving = true;
 
     try {
-      const response = await fetch("/api/people/merge", {
+      const response = await tracedFetch("/api/people/merge", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -634,7 +636,7 @@
         throw new Error(error.error || "Sloučení selhalo");
       }
 
-      logger.debug("All merges successful");
+      logger.debug({}, "All merges successful");
 
       // Add delay for loading state
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -647,7 +649,7 @@
       await people.refresh();
       toast.success(PERSON_MESSAGES.MERGE_SUCCESS);
     } catch (error) {
-      logger.error("Failed to merge people:", error);
+      logger.error({ err: error }, "Failed to merge people");
       toast.error("Sloučení se nezdařilo.", {
         description: error instanceof Error ? error.message : String(error),
       });
@@ -669,7 +671,7 @@
     isSaving = true;
     try {
       for (const sourcePersonId of sourceIds) {
-        const response = await fetch("/api/people/merge", {
+        const response = await tracedFetch("/api/people/merge", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ sourcePersonId, targetPersonId }),
@@ -686,7 +688,7 @@
       await people.refresh();
       toast.success(PERSON_MESSAGES.bulkMerged(sourceIds.length));
     } catch (e) {
-      logger.error("Merge into failed:", e);
+      logger.error({ err: e }, "Merge into failed");
       toast.error(PERSON_MESSAGES.MERGE_FAILED);
     } finally {
       isSaving = false;
@@ -722,7 +724,7 @@
       await people.refresh();
       toast.success(PERSON_MESSAGES.bulkCategoryChanged(selectedForMerge.length));
     } catch (e) {
-      logger.error("Bulk update category failed", e);
+      logger.error({ err: e }, "Bulk update category failed");
       toast.error(PERSON_MESSAGES.BULK_CATEGORY_FAILED);
     } finally {
       isSaving = false;
@@ -744,7 +746,7 @@
       toast.success(PERSON_MESSAGES.PERSON_IGNORED);
       await people.refresh();
     } catch (error) {
-      logger.error("Failed to mark as junk:", error);
+      logger.error({ err: error }, "Failed to mark as junk");
       toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR);
     } finally {
       isSaving = false;

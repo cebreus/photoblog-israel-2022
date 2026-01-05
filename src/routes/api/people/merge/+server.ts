@@ -2,7 +2,6 @@ import fsp from "node:fs/promises";
 import path from "node:path";
 import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
-import { createLogger } from "$lib/logger";
 import {
   type FacesManifest,
   type ImageEntry,
@@ -26,8 +25,6 @@ import {
   saveImagesManifest,
   savePeopleManifest,
 } from "$scripts/lib/manifests/repository";
-
-const logger = createLogger("api:people:merge");
 
 async function safeRename(
   oldPath: string,
@@ -206,7 +203,8 @@ async function mergeAssignments(
   }
 }
 
-export async function POST({ request }: { request: Request }) {
+export async function POST({ request, locals }: { request: Request; locals: App.Locals }) {
+  const { log, logContext } = locals;
   if (!dev) throw error(403, "Dev mode only.");
 
   const body = await request.json();
@@ -289,16 +287,25 @@ export async function POST({ request }: { request: Request }) {
         // Force reload of in-memory manifest cache
         await reloadManifests();
 
+        logContext.targetPersonId = targetPersonId;
+        logContext.sourcePersonIds = sources;
+        logContext.mergedFaceCount = targetPerson.faceCount;
         return json({ success: true, count: targetPerson.faceCount });
       } catch (err) {
         // Rollback
         if (transactionLog.length > 0) {
-          logger.warn(`[MERGE] Error. Rolling back ${transactionLog.length} file moves...`);
-          for (const log of transactionLog.reverse()) {
+          log.warn(
+            { rollbackCount: transactionLog.length },
+            "MERGE: Error, rolling back file moves",
+          );
+          for (const logEntry of transactionLog.reverse()) {
             try {
-              await fsp.rename(log.to, log.from);
+              await fsp.rename(logEntry.to, logEntry.from);
             } catch (rollbackErr) {
-              logger.error(`[MERGE] Rollback failed for ${log.to} -> ${log.from}`, rollbackErr);
+              log.error(
+                { err: rollbackErr, from: logEntry.to, to: logEntry.from },
+                "MERGE: Rollback failed",
+              );
             }
           }
         }
@@ -306,7 +313,7 @@ export async function POST({ request }: { request: Request }) {
       }
     });
   } catch (err) {
-    logger.error("[API/PEOPLE/MERGE] Error:", err);
+    log.error({ err }, "[API/PEOPLE/MERGE] Error");
     return json(
       { success: false, error: err instanceof Error ? err.message : String(err) },
       { status: 500 },

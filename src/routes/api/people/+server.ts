@@ -2,12 +2,9 @@ import path from "node:path";
 import process from "node:process";
 import { json, type RequestHandler } from "@sveltejs/kit";
 import { dev } from "$app/environment";
-import { createLogger } from "$lib/logger";
 import { reloadManifests } from "$lib/utils/images";
 import { withManifestLock } from "$scripts/lib/manifests/lock";
 import { loadPeopleManifest, savePeopleManifest } from "$scripts/lib/manifests/repository";
-
-const logger = createLogger("api:people");
 
 interface PersonUpdate {
   id: string;
@@ -17,7 +14,9 @@ interface PersonUpdate {
   category?: "person" | "statue" | "painting";
 }
 
-export const PATCH: RequestHandler = async ({ request }) => {
+export const PATCH: RequestHandler = async ({ request, locals }) => {
+  const { log, logContext } = locals;
+
   if (!dev) {
     return json({ error: "Read-only mode in production" }, { status: 403 });
   }
@@ -78,13 +77,14 @@ export const PATCH: RequestHandler = async ({ request }) => {
     // Force reload of in-memory manifest cache
     await reloadManifests();
 
+    logContext.updatedPeopleCount = updatedCount;
     return json({
       success: true,
       updated: updatedCount,
       results,
     });
   } catch (err) {
-    logger.error("Error processing people updates:", err);
+    log.error({ err }, "Error processing people updates");
     return json(
       { success: false, error: err instanceof Error ? err.message : "Unknown error" },
       { status: 500 },

@@ -3,7 +3,6 @@ import fsp from "node:fs/promises";
 import path from "node:path";
 import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
-import { createLogger } from "$lib/logger";
 import { type PeopleManifest, type Person } from "$lib/types/manifest";
 import { validateUnmatchInput } from "$lib/utils/api-validators";
 import { reloadManifests } from "$lib/utils/images";
@@ -20,8 +19,6 @@ import {
   saveImagesManifest,
   savePeopleManifest,
 } from "$scripts/lib/manifests/repository";
-
-const logger = createLogger("api:people:unmatch");
 
 function createNewPerson(
   peopleManifest: PeopleManifest,
@@ -83,7 +80,8 @@ function createNewPerson(
  * Useful when a face cluster contains multiple distinct people.
  * Handles creating new person entries, moving face crops, and updating references.
  */
-export async function POST({ request }: { request: Request }) {
+export async function POST({ request, locals }: { request: Request; locals: App.Locals }) {
+  const { log, logContext } = locals;
   if (!dev) {
     throw error(403, "Manifest modifications are not permitted on the production server.");
   }
@@ -174,6 +172,8 @@ export async function POST({ request }: { request: Request }) {
         // Force reload of in-memory manifest cache
         await reloadManifests();
 
+        logContext.personId = personId;
+        logContext.newPeopleCount = processedNewPeople.length;
         return json({
           success: true,
           count: imageIds.length,
@@ -182,14 +182,18 @@ export async function POST({ request }: { request: Request }) {
       } catch (err) {
         // Rollback
         if (transactionLog.length > 0) {
-          logger.warn(
-            `[UNMATCH] Error occurred. Rolling back ${transactionLog.length} file moves...`,
+          log.warn(
+            { rollbackCount: transactionLog.length },
+            "UNMATCH: Error occurred, rolling back file moves",
           );
-          for (const log of transactionLog.reverse()) {
+          for (const logEntry of transactionLog.reverse()) {
             try {
-              await fsp.rename(log.to, log.from);
+              await fsp.rename(logEntry.to, logEntry.from);
             } catch (rollbackErr) {
-              logger.error(`[UNMATCH] Rollback failed for ${log.to} -> ${log.from}`, rollbackErr);
+              log.error(
+                { err: rollbackErr, from: logEntry.to, to: logEntry.from },
+                "UNMATCH: Rollback failed",
+              );
             }
           }
         }
@@ -197,7 +201,7 @@ export async function POST({ request }: { request: Request }) {
       }
     });
   } catch (err) {
-    logger.error("[UNMATCH] Error:", err);
+    log.error({ err }, "UNMATCH: Error");
     return json({ success: false, error: (err as Error).message }, { status: 500 });
   }
 }

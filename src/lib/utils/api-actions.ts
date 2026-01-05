@@ -1,5 +1,6 @@
 import { toast } from "svelte-sonner";
 import { invalidateAll } from "$app/navigation";
+import { tracedFetch } from "$lib/utils/api";
 import { IMAGE_MESSAGES } from "$lib/utils/messages";
 
 export type ImageAction = "delete" | "archive";
@@ -30,7 +31,7 @@ export async function performImageAction(options: ActionOptions): Promise<void> 
     const method = isDelete ? "DELETE" : "POST";
     const body = isDelete ? { ids: images } : { action, ids: images };
 
-    const res = await fetch("/api/images", {
+    const res = await tracedFetch("/api/images", {
       method,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),

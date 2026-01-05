@@ -57,11 +57,7 @@
   function toggleAuthor(slug: string, displayName?: string) {
     const previous = filters.selectedAuthors;
     if (ui.debugMode) {
-      logger.debug("filters: toggleAuthor start", {
-        slug,
-        name: displayName,
-        previous,
-      });
+      logger.debug({ slug, name: displayName, previous }, "filters: toggleAuthor start");
     }
 
     let effectiveCurrent = filters.selectedAuthors;

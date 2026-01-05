@@ -3,7 +3,6 @@ import process from "node:process";
 import { json, type RequestEvent } from "@sveltejs/kit";
 import { exiftool, type WriteTags } from "exiftool-vendored";
 import { dev } from "$app/environment";
-import { createLogger } from "$lib/logger";
 import type { ImageEntry } from "$lib/types/manifest";
 import { reloadManifests } from "$lib/utils/images";
 import { organizeDayItems } from "$scripts/lib/manifests/builder";
@@ -11,8 +10,6 @@ import { withManifestLock } from "$scripts/lib/manifests/lock";
 import { loadImagesManifest, saveImagesManifest } from "$scripts/lib/manifests/repository";
 import { distributeTimesInRange } from "$shared/utils/sorting";
 import { loadStoryData } from "../reorder/loader";
-
-const logger = createLogger("api:images:redistribute");
 
 type RedistributePayload = {
   dayId: string;
@@ -24,7 +21,8 @@ type RedistributePayload = {
  * POST /api/images/redistribute
  * Redistributes images in a location evenly across the location's time bounds.
  */
-export async function POST({ request }: RequestEvent) {
+export async function POST({ request, locals }: RequestEvent) {
+  const { log, logContext } = locals;
   if (!dev) {
     return json({ message: "Forbidden" }, { status: 403 });
   }
@@ -108,8 +106,9 @@ export async function POST({ request }: RequestEvent) {
         return;
       }
 
-      logger.info(
-        `Redistributing ${sortedImages.length} images in ${location} between ${minTime} and ${maxTime}`,
+      log.info(
+        { count: sortedImages.length, location, minTime, maxTime },
+        "Redistributing images in location",
       );
 
       // Calculate new evenly distributed times
@@ -125,7 +124,7 @@ export async function POST({ request }: RequestEvent) {
             "XMP:ReleaseDate": releaseDate,
           } as WriteTags);
         } else {
-          logger.warn(`Could not resolve path for image ${id}, skipping XMP write`);
+          log.warn({ imageId: id }, "Could not resolve path for image, skipping XMP write");
         }
 
         // Update manifest object in memory
@@ -150,8 +149,10 @@ export async function POST({ request }: RequestEvent) {
     });
 
     await reloadManifests();
+    logContext.location = location;
+    logContext.redistributedCount = redistributedCount;
   } catch (error) {
-    logger.error("Redistribute failed:", error);
+    log.error({ err: error }, "Redistribute failed");
     return json(
       {
         success: false,

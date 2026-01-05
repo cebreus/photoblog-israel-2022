@@ -3,7 +3,6 @@ import process from "node:process";
 import { json, type RequestEvent } from "@sveltejs/kit";
 import { exiftool, type WriteTags } from "exiftool-vendored";
 import { dev } from "$app/environment";
-import { createLogger } from "$lib/logger";
 import type { ImageEntry } from "$lib/types/manifest";
 import { reloadManifests } from "$lib/utils/images";
 import { organizeDayItems } from "$scripts/lib/manifests/builder";
@@ -11,8 +10,6 @@ import { withManifestLock } from "$scripts/lib/manifests/lock";
 import { loadImagesManifest, saveImagesManifest } from "$scripts/lib/manifests/repository";
 import { addSecondsToIsoString, diffIsoStringsInSeconds } from "$shared/utils/dates";
 import { loadStoryData } from "../reorder/loader";
-
-const logger = createLogger("api:images:swap-time");
 
 type SwapTimePayload = {
   dayId: string;
@@ -25,7 +22,8 @@ type SwapTimePayload = {
  * Swaps release dates between two logical entities (single images or sequences).
  * Uses pure string-based date manipulation to avoid timezone issues.
  */
-export async function POST({ request }: RequestEvent) {
+export async function POST({ request, locals }: RequestEvent) {
+  const { log, logContext } = locals;
   if (!dev) {
     return json({ message: "Forbidden" }, { status: 403 });
   }
@@ -114,8 +112,15 @@ export async function POST({ request }: RequestEvent) {
       // Shift for B is the opposite
       const shiftBSeconds = -shiftASeconds;
 
-      logger.info(
-        `Swapping: EntityA (${entityA.length} items, base=${baseTimeA}) <-> EntityB (${entityB.length} items, base=${baseTimeB}). Shift: ${shiftASeconds}s`,
+      log.info(
+        {
+          entityACount: entityA.length,
+          baseTimeA,
+          entityBCount: entityB.length,
+          baseTimeB,
+          shiftSeconds: shiftASeconds,
+        },
+        "Swapping entities",
       );
 
       // 5. Apply Shifts (string-based arithmetic)
@@ -161,9 +166,10 @@ export async function POST({ request }: RequestEvent) {
 
     await reloadManifests();
 
+    logContext.imageIdsCount = imageIds.length;
     return json({ success: true, swapped: true });
   } catch (error) {
-    logger.error("Swap failed:", error);
+    log.error({ err: error }, "Swap failed");
     return json(
       { success: false, error: error instanceof Error ? error.message : "Unknown error" },
       { status: 500 },

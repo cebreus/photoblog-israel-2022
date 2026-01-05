@@ -4,13 +4,13 @@ import type { RequestEvent } from "@sveltejs/kit";
 import { json } from "@sveltejs/kit";
 import sharp from "sharp";
 import { getContentDir } from "$lib/config";
-import { log } from "$lib/logger";
 
 /**
  * GET /api/collage-sources?ids=id1,id2,id3
  * Returns metadata for collage source images that have been moved to collage-sources/
  */
-export async function GET({ url }: RequestEvent): Promise<Response> {
+export async function GET({ url, locals }: RequestEvent): Promise<Response> {
+  const { log, logContext } = locals;
   const idsParam = url.searchParams.get("ids");
 
   if (!idsParam) {
@@ -57,7 +57,7 @@ export async function GET({ url }: RequestEvent): Promise<Response> {
           }
 
           // Not found with any extension
-          log.warn(`[CollageSource] Image not found: ${id}`);
+          log.warn({ id }, "CollageSource: Image not found");
           return {
             id,
             width: 1000,
@@ -66,7 +66,7 @@ export async function GET({ url }: RequestEvent): Promise<Response> {
             error: "not_found",
           };
         } catch (error) {
-          log.error(`[CollageSource] Error loading ${id}:`, error);
+          log.error({ err: error, id }, "CollageSource: Error loading image");
           return {
             id,
             width: 1000,
@@ -78,9 +78,10 @@ export async function GET({ url }: RequestEvent): Promise<Response> {
       }),
     );
 
+    logContext.collageSourcesCount = results.length;
     return json({ sources: results });
   } catch (error) {
-    log.error("[CollageSource] API error:", error);
+    log.error({ err: error }, "CollageSource: API error");
     return json({ error: error instanceof Error ? error.message : String(error) }, { status: 500 });
   }
 }

@@ -2,14 +2,12 @@ import path from "node:path";
 import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
 import { getContentDir } from "$lib/config";
-import { createLogger } from "$lib/logger";
 import { reloadManifests } from "$lib/utils/images";
 import { withManifestLock } from "$scripts/lib/manifests/lock";
 import { loadPeopleManifest, savePeopleManifest } from "$scripts/lib/manifests/repository";
 
-const logger = createLogger("api:people:set-avatar");
-
-export async function POST({ request }: { request: Request }) {
+export async function POST({ request, locals }: { request: Request; locals: App.Locals }) {
+  const { log, logContext } = locals;
   if (!dev) {
     throw error(403, "Manifest modifications are not permitted on the production server.");
   }
@@ -23,7 +21,7 @@ export async function POST({ request }: { request: Request }) {
   const contentDir = getContentDir();
   const dataDir = path.resolve(process.cwd(), "src/data", contentDir);
 
-  logger.info(`Setting avatar for ${personId} to ${avatar}`);
+  log.info({ personId, avatar }, "Setting avatar");
 
   try {
     return await withManifestLock(dataDir, async function () {
@@ -39,10 +37,12 @@ export async function POST({ request }: { request: Request }) {
 
       await reloadManifests();
 
+      logContext.personId = personId;
+      logContext.avatar = avatar;
       return json({ success: true, avatar });
     });
   } catch (err) {
-    logger.error("[SET-AVATAR] Failure:", err);
+    log.error({ err }, "SET-AVATAR: Failure");
     return json(
       { success: false, error: err instanceof Error ? err.message : String(err) },
       { status: 500 },

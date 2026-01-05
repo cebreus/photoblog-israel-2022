@@ -9,6 +9,7 @@ import { toast } from "svelte-sonner";
 import { createLogger } from "$lib/logger";
 import { filters } from "$lib/stores/filters.svelte";
 import { people } from "$lib/stores/people.svelte";
+import { tracedFetch } from "$lib/utils/api";
 import { GENERIC_MESSAGES, PERSON_MESSAGES } from "$lib/utils/messages";
 
 const logger = createLogger("people-actions");
@@ -210,7 +211,7 @@ export async function mergePeopleIntoTarget(
     throw new Error("No source people to merge");
   }
 
-  const response = await fetch("/api/people/merge", {
+  const response = await tracedFetch("/api/people/merge", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -232,7 +233,7 @@ export async function mergePersonIntoTarget(
   sourcePersonId: string,
   targetPersonId: string,
 ): Promise<void> {
-  const response = await fetch("/api/people/merge", {
+  const response = await tracedFetch("/api/people/merge", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -274,7 +275,7 @@ export async function handleToggleHide(
     await people.refresh();
     toast.success(isHidden ? PERSON_MESSAGES.PERSON_HIDDEN : PERSON_MESSAGES.PERSON_RESTORED);
   } catch (error) {
-    logger.error("Failed to toggle hide:", error);
+    logger.error({ err: error }, "Failed to toggle hide");
     toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR);
   } finally {
     callbacks.onFinish?.();
@@ -310,7 +311,7 @@ export async function handleRename(
     toast.success(PERSON_MESSAGES.PERSON_RENAMED);
     callbacks.onSuccess?.();
   } catch (error) {
-    logger.error("Failed to rename person:", error);
+    logger.error({ err: error }, "Failed to rename person");
     toast.error(PERSON_MESSAGES.RENAME_FAILED);
   } finally {
     callbacks.onFinish?.();
@@ -334,7 +335,7 @@ export async function handleMarkAsJunk(
     toast.success(PERSON_MESSAGES.PERSON_IGNORED);
     await people.refresh();
   } catch (error) {
-    logger.error("Failed to mark as junk:", error);
+    logger.error({ err: error }, "Failed to mark as junk");
     toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR);
   } finally {
     callbacks.onFinish?.();

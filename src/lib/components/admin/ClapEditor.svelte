@@ -11,6 +11,7 @@
   import * as Dialog from "$lib/components/ui/dialog";
   import { getContentDir } from "$lib/config";
   import type { ImageEntry } from "$lib/types/manifest";
+  import { tracedFetch } from "$lib/utils/api";
 
   let {
     open = $bindable(false),
@@ -96,6 +97,8 @@
       // 2. Set Preview URL directly (no blobs)
       // Add timestamp to prevent caching old versions if we re-open same ID
       previewUrl = `${baseUrl}&t=${Date.now()}`;
+
+      if (!metadata) throw new Error("Metadata not loaded");
 
       const isSwapped = metadata.orientation >= 5;
       const visualW = isSwapped ? metadata.nativeHeight : metadata.nativeWidth;
@@ -224,7 +227,7 @@
       }
 
       const contentDir = getContentDir();
-      const res = await fetch("/api/images", {
+      const res = await tracedFetch("/api/images", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

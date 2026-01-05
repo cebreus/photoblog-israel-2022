@@ -20,6 +20,7 @@
   import { createLogger } from "$lib/logger";
   import { people } from "$lib/stores/people.svelte";
   import type { ImageEntry, Person } from "$lib/types/manifest";
+  import { tracedFetch } from "$lib/utils/api";
   import { DETECTION_MESSAGES, GENERIC_MESSAGES } from "$lib/utils/messages";
 
   const logger = createLogger("PersonDetailDialog");
@@ -120,7 +121,7 @@
     const isRemovingAll = imageIds.length >= crops.length;
 
     try {
-      const res = await fetch("/api/people/unmatch", {
+      const res = await tracedFetch("/api/people/unmatch", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ personId: person.id, imageIds, ignore: shouldHide }),
@@ -149,7 +150,7 @@
         });
       }
     } catch (e) {
-      logger.error(e as Error);
+      logger.error({ err: e }, "Failed to unmatch faces");
       toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR, {
         description: GENERIC_MESSAGES.COMMUNICATION_ERROR_DESCRIPTION,
         duration: 10000,
@@ -168,7 +169,7 @@
     if (isWorking) return;
     isWorking = true;
     try {
-      const res = await fetch("/api/people/invalidate-detection", {
+      const res = await tracedFetch("/api/people/invalidate-detection", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -188,7 +189,7 @@
         });
       }
     } catch (e) {
-      logger.error(e);
+      logger.error({ err: e }, "Failed to invalidate detection");
       toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR);
     } finally {
       isWorking = false;
@@ -199,7 +200,7 @@
     if (isWorking) return;
     isWorking = true;
     try {
-      const res = await fetch("/api/people/update-category", {
+      const res = await tracedFetch("/api/people/update-category", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ personId: person.id, category }),
@@ -212,7 +213,7 @@
         toast.error(DETECTION_MESSAGES.CATEGORY_CHANGE_FAILED);
       }
     } catch (e) {
-      logger.error(e);
+      logger.error({ err: e }, "Failed to update category");
       toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR);
     } finally {
       isWorking = false;
@@ -247,7 +248,7 @@
     const isRemovingAll = ids.length >= crops.length;
 
     try {
-      const res = await fetch("/api/people/reassign", {
+      const res = await tracedFetch("/api/people/reassign", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -276,7 +277,7 @@
         toast.error(DETECTION_MESSAGES.ASSIGNMENT_ERROR, { description: data.error });
       }
     } catch (e) {
-      logger.error(e);
+      logger.error({ err: e }, "Failed to reassign faces");
       toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR);
     } finally {
       isWorking = false;
@@ -299,7 +300,7 @@
       const results = await Promise.allSettled(
         selectedCrops.map(async (crop) => {
           if (!crop.box) return;
-          const res = await fetch("/api/people/invalidate-detection", {
+          const res = await tracedFetch("/api/people/invalidate-detection", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -317,7 +318,7 @@
         const successCount = selectedCrops.length - failed.length;
         if (successCount === 0) throw new Error("Všechny operace selhaly");
         toast.warning(GENERIC_MESSAGES.partialSuccess(successCount, failed.length));
-        logger.error("Some bulk ignore operations failed", failed);
+        logger.error({ failed }, "Some bulk ignore operations failed");
       } else {
         toast.success(DETECTION_MESSAGES.BULK_DETECTION_INVALIDATED);
       }
@@ -325,7 +326,7 @@
       onUpdate?.();
       selectedIds = new Set();
     } catch (e) {
-      logger.error("Bulk mark-as-junk failed:", e);
+      logger.error({ err: e }, "Bulk mark-as-junk failed");
       toast.error(DETECTION_MESSAGES.BULK_DETECTION_FAILED);
     } finally {
       isWorking = false;
@@ -334,13 +335,13 @@
 
   async function loadAvatars() {
     try {
-      const res = await fetch("/api/people/avatars");
+      const res = await tracedFetch("/api/people/avatars");
       if (res.ok) {
         const data = await res.json();
         availableAvatars = data.avatars;
       }
     } catch (e) {
-      logger.error("Failed to load avatars", e);
+      logger.error({ err: e }, "Failed to load avatars");
     }
   }
 
@@ -348,7 +349,7 @@
     if (isWorking) return;
     isWorking = true;
     try {
-      const res = await fetch("/api/people/set-avatar", {
+      const res = await tracedFetch("/api/people/set-avatar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ personId: person.id, avatar }),
@@ -362,7 +363,7 @@
         toast.error("Změna avatara selhala");
       }
     } catch (e) {
-      logger.error(e);
+      logger.error({ err: e }, "Failed to set avatar");
       toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR);
     } finally {
       isWorking = false;

@@ -19,6 +19,7 @@
   import { metadataClipboard } from "$lib/stores/metadata-clipboard.svelte";
   import type { CollageRequest } from "$lib/types/collage";
   import type { ImageEntry, Separator } from "$lib/types/manifest";
+  import { tracedFetch } from "$lib/utils/api";
   import {
     createSourceImagePlaceholders,
     isCollage,
@@ -250,7 +251,7 @@
         updates,
       };
 
-      const res = await fetch("/api/images", {
+      const res = await tracedFetch("/api/images", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -362,7 +363,7 @@
         toast.info(IMAGE_MESSAGES.GEO_DATA_SAME);
       }
     } catch (e) {
-      logger.error(e);
+      logger.error({ err: e }, "Failed to fetch geo data");
       toast.error(IMAGE_MESSAGES.GEO_FETCH_FAILED);
     } finally {
       isFetchingGeo = false;
@@ -467,7 +468,7 @@
         updates,
       };
 
-      const res = await fetch("/api/images", {
+      const res = await tracedFetch("/api/images", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -498,7 +499,7 @@
     try {
       await promise;
     } catch (e) {
-      logger.error(e);
+      logger.error({ err: e }, "Failed to paste metadata");
       invalidateAll();
     } finally {
       isApplyingPaste = false;

@@ -21,6 +21,7 @@
     PhotoDay,
     Separator,
   } from "$lib/types/manifest";
+  import { tracedFetch } from "$lib/utils/api";
   import { performImageAction } from "$lib/utils/api-actions";
   import { IMAGE_MESSAGES } from "$lib/utils/messages";
   import { reorderArray, saveImageOrder } from "$lib/utils/reorder";
@@ -255,22 +256,22 @@
           (i.type === "image" || i.type === "sequence" || i.type === "sequence-member") &&
           editor.selection.has(i.id),
       );
-      logger.debug("Paste Logic", {
-        itemId: item.id,
-        selectionSize: editor.selection.size,
-        sourceId: clipboard.sourceImage?.id,
-        selectedIds: selected.map((i: ImageEntry) => i.id),
-      });
+      logger.debug(
+        {
+          itemId: item.id,
+          selectionSize: editor.selection.size,
+          sourceId: clipboard.sourceImage?.id,
+          selectedIds: selected.map((i: ImageEntry) => i.id),
+        },
+        "Paste Logic",
+      );
 
       // Filter out usage of source image as target
       pasteTargets = selected.filter((i: ImageEntry) => i.id !== clipboard.sourceImage?.id);
 
-      logger.debug(
-        "pasteTargets",
-        pasteTargets.map((i: ImageEntry) => i.id),
-      );
+      logger.debug({ pasteTargetIds: pasteTargets.map((i: ImageEntry) => i.id) }, "pasteTargets");
     } else {
-      logger.debug("Single Paste", item.id);
+      logger.debug({ itemId: item.id }, "Single Paste");
       // Prevent pasting to the same image that was copied
       if (clipboard.sourceImage?.id === item.id) {
         toast.error(IMAGE_MESSAGES.PASTE_TO_SELF);
@@ -287,8 +288,8 @@
         );
         pasteTargets = allMembers.filter((i: ImageEntry) => i.id !== clipboard.sourceImage?.id);
         logger.debug(
+          { expandedIds: pasteTargets.map((i) => i.id) },
           "Expanded sequence paste targets",
-          pasteTargets.map((i) => i.id),
         );
       } else {
         pasteTargets = [item];
@@ -346,7 +347,7 @@
         },
       };
 
-      const res = await fetch("/api/images", {
+      const res = await tracedFetch("/api/images", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatePayload),
@@ -358,10 +359,10 @@
           const err = await res.json();
           errorMessage = err.message || errorMessage;
           if (err.errors && Array.isArray(err.errors)) {
-            logger.error("Batch processing errors:", err.errors);
+            logger.error({ errors: err.errors }, "Batch processing errors");
           }
         } catch (e) {
-          logger.error("Failed to parse error response:", e);
+          logger.error({ err: e }, "Failed to parse error response");
         }
         throw new Error(errorMessage);
       }
@@ -384,7 +385,7 @@
       // Refresh data
       await invalidateAll();
     } catch (e) {
-      logger.error(e);
+      logger.error({ err: e }, "Failed to paste metadata");
     } finally {
       isApplyingPaste = false;
     }
@@ -429,7 +430,7 @@
         },
       };
 
-      const res = await fetch("/api/images", {
+      const res = await tracedFetch("/api/images", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatePayload),
@@ -454,7 +455,7 @@
       await promise;
       await invalidateAll();
     } catch (e) {
-      logger.error(e);
+      logger.error({ err: e }, "Failed to reset release date");
     }
   }
 
@@ -488,7 +489,7 @@
       await promise;
       await invalidateAll();
     } catch (e) {
-      logger.error(e);
+      logger.error({ err: e }, "Failed to swap times");
     }
   }
 
@@ -496,12 +497,15 @@
 
   function debugLog() {
     if (ui.debugMode) {
-      logger.debug("PhotoGrid debug store value:", ui.debugMode);
-      logger.debug("PhotoGrid render", {
-        items: items.length,
-        selectedAuthors: filters.selectedAuthors,
-        imageLocations: imageLocationMap,
-      });
+      logger.debug({ debugMode: ui.debugMode }, "PhotoGrid debug store value");
+      logger.debug(
+        {
+          items: items.length,
+          selectedAuthors: filters.selectedAuthors,
+          imageLocations: imageLocationMap,
+        },
+        "PhotoGrid render",
+      );
     }
   }
 

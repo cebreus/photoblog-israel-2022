@@ -19,6 +19,30 @@ const pinoToWinstonLevel: Record<string, string> = {
 };
 
 export function createLogger(label: string) {
+  // Pokud je požadován JSON formát, použijte standardní výstup
+  if (process.env.LOG_FORMAT === "json") {
+    const logger = pino({ level: process.env.LOG_LEVEL || "info" });
+    // Přidat label jako kontext
+    const child = logger.child({ label });
+
+    return {
+      error: (msg: string, ...args: any[]) => child.error(msg, ...args), // hook-ignore: wrapper
+      warn: (msg: string, ...args: any[]) => child.warn(msg, ...args), // hook-ignore: wrapper
+      info: (msg: string, ...args: any[]) => child.info(msg, ...args), // hook-ignore: wrapper
+      verbose: (msg: string, ...args: any[]) => child.debug(msg, ...args), // hook-ignore: wrapper
+      debug: (msg: string, ...args: any[]) => child.trace(msg, ...args), // hook-ignore: wrapper
+      raw: (msg: string) => console.log(msg),
+      silent: false,
+      set level(val: string) {
+        child.level = val === "verbose" ? "debug" : val;
+      },
+      get level() {
+        return child.level;
+      },
+    };
+  }
+
+  // Původní logika pro hezký formátovaný výstup
   function identity(str: string) {
     return str;
   }
@@ -83,11 +107,11 @@ export function createLogger(label: string) {
 
   // Map winston-like methods to pino if they differ or to provide a better API
   return {
-    error: (msg: string, ...args: any[]) => logger.error(msg, ...args),
-    warn: (msg: string, ...args: any[]) => logger.warn(msg, ...args),
-    info: (msg: string, ...args: any[]) => logger.info(msg, ...args),
-    verbose: (msg: string, ...args: any[]) => (logger as any).verbose(msg, ...args),
-    debug: (msg: string, ...args: any[]) => logger.debug(msg, ...args),
+    error: (msg: string, ...args: any[]) => logger.error(msg, ...args), // hook-ignore: wrapper
+    warn: (msg: string, ...args: any[]) => logger.warn(msg, ...args), // hook-ignore: wrapper
+    info: (msg: string, ...args: any[]) => logger.info(msg, ...args), // hook-ignore: wrapper
+    verbose: (msg: string, ...args: any[]) => (logger as any).verbose(msg, ...args), // hook-ignore: wrapper
+    debug: (msg: string, ...args: any[]) => logger.debug(msg, ...args), // hook-ignore: wrapper
     raw: (msg: string) => logProgress(msg),
     silent: false, // Compatibility for some scripts
     set level(val: string) {

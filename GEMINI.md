@@ -154,13 +154,122 @@ This project runs on **Bun** and prioritizes performance.
 
 ### 4. Advanced Performance Patterns (Bun)
 
-| Node.js / Libs (❌ AVOID)         | Bun (✅ USE)                     | Why?                                             |
-| --------------------------------- | -------------------------------- | ------------------------------------------------ |
-| `import fg from 'fast-glob'`      | `new Bun.Glob('**/*.ts').scan()` | Native C++ implementation, no V8 overhead.       |
-| `JSON.parse(fs.readFileSync(..))` | `await Bun.file(..).json()`      | Direct buffer parsing, avoids string allocation. |
-| `zlib.gzipSync(data)`             | `Bun.gzipSync(data)`             | Optimized native compression.                    |
-| `crypto.createHash('md5')`        | `Bun.hash(data)`                 | **For non-crypto only**: 5-10x faster (Wyhash).  |
-| `setTimeout(..., ms)`             | `Bun.sleep(ms)`                  | Cleaner syntax, native implementation.           |
+| Node.js / Libs (❌ AVOID)                  | Bun (✅ USE)                     | Why?                                              |
+| ------------------------------------------ | -------------------------------- | ------------------------------------------------- |
+| `import fg from 'fast-glob'`               | `new Bun.Glob('**/*.ts').scan()` | Native C++ implementation, no V8 overhead.        |
+| `JSON.parse(fs.readFileSync(..))`          | `await Bun.file(..).json()`      | Direct buffer parsing, avoids string allocation.  |
+| `zlib.gzipSync(data)`                      | `Bun.gzipSync(data)`             | Optimized native compression.                     |
+| `crypto.createHash('md5')`                 | `Bun.hash(data)`                 | **For non-crypto only**: 5-10x faster (Wyhash).   |
+| `setTimeout(..., ms)`                      | `Bun.sleep(ms)`                  | Cleaner syntax, native implementation.            |
+| `import { randomUUID } from 'node:crypto'` | `crypto.randomUUID()`            | Use Web Crypto API (global), consistent with Bun. |
+
+### 5. Logging Conventions
+
+This project uses **Pino** for structured logging with end-to-end request tracing.
+
+#### Logger Types
+
+- **Runtime Logger** (`src/lib/logger.ts`): For API routes and client-side code
+- **CLI Logger** (`scripts/lib/core/cli-logger.ts`): For build scripts and CLI tools
+
+#### Structured Logging Pattern
+
+**✅ CORRECT:**
+
+```typescript
+// Always use object-first pattern for context
+logger.error({ err: error, userId: "123" }, "Failed to process user");
+logger.warn({ status: 404, path: "/api/foo" }, "Resource not found");
+logger.info({ duration: 123, count: 5 }, "Operation completed");
+```
+
+**❌ INCORRECT:**
+
+```typescript
+logger.error(error); // Missing context object and message
+logger.error(`Failed: ${error.message}`); // String interpolation loses structure
+logger.warn("Something failed"); // No context data
+```
+
+#### Request Tracing
+
+All API requests are automatically traced via `hooks.server.ts`:
+
+- **Request ID**: Auto-generated or propagated from `X-Request-ID` header
+- **Request Logger**: Available in API routes via `locals.log`
+- **Log Context**: Accumulate business metrics via `locals.logContext`
+
+**Example API Endpoint:**
+
+```typescript
+export async function POST({ request, locals }) {
+  const { log, logContext } = locals;
+
+  // Set context early for tracing
+  logContext.userId = body.userId;
+  logContext.action = "create";
+
+  try {
+    // ... operation
+    logContext.itemsCreated = 5;
+    return json({ success: true });
+  } catch (err) {
+    log.error({ err }, "Operation failed");
+    return json({ error: "Failed" }, { status: 500 });
+  }
+}
+```
+
+#### Frontend API Calls
+
+Use `tracedFetch` for automatic E2E tracing:
+
+```typescript
+import { tracedFetch } from "$lib/utils/api";
+
+// Automatically adds X-Request-ID header and logs on FE
+const response = await tracedFetch("/api/images/123", { method: "DELETE" });
+```
+
+#### Crypto API
+
+Always use **Web Crypto API** (global `crypto` object):
+
+```typescript
+// ✅ Correct
+const id = crypto.randomUUID();
+
+// ❌ Wrong
+import { randomUUID } from "node:crypto";
+const id = randomUUID();
+```
+
+#### Production Log Levels
+
+Log levels are automatically adjusted based on environment:
+
+- **Development:**
+  - Frontend: `debug` (all logs visible in browser console)
+  - Backend: `info` (detailed server logs)
+- **Production:**
+  - Frontend: `warn` (only warnings and errors)
+  - Backend: `error` (only errors, minimize log volume)
+
+Override with environment variable:
+
+```bash
+LOG_LEVEL=info bun run build  # Force info level in production
+LOG_LEVEL=debug bun run dev   # Force debug in dev
+```
+
+#### Enforcement
+
+Structured logging is **enforced via pre-commit hook**. Commits will be rejected if:
+
+- `logger.error(e)` - Missing context object and message
+- `logger.warn("text")` - No context data
+
+The hook provides detailed error messages and suggestions for fixes.
 
 ## Architectural Principles
 
@@ -207,8 +316,7 @@ export class EditorState {
   toggleSelection(id: string) { ... }
 }
 export const editor = new EditorState();
-```
-
 ---
 
-**Last Updated**: 2024-12-25 (Runtime utility extraction & store standardization)
+**Last Updated**: 2026-01-05 (Logging conventions & structured logging documentation)
+```

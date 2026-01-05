@@ -2,7 +2,6 @@ import fsp from "node:fs/promises";
 import path from "node:path";
 import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
-import { createLogger } from "$lib/logger";
 import { validateReassignInput } from "$lib/utils/api-validators";
 import { reloadManifests } from "$lib/utils/images";
 import { addReassignmentConstraints } from "$scripts/lib/faces/constraints";
@@ -18,18 +17,23 @@ import {
   savePeopleManifest,
 } from "$scripts/lib/manifests/repository";
 
-const logger = createLogger("api:people:reassign");
-
 /**
  * Reassigns selected images from one person to another.
  * Moves face crops, updates manifests, and records reassignment constraints.
  */
-export async function POST({ request }: { request: Request }) {
+export async function POST({ request, locals }: { request: Request; locals: App.Locals }) {
+  const { log, logContext } = locals;
   if (!dev) {
     throw error(403, "Manifest modifications are not permitted on the production server.");
   }
 
   const body = await request.json();
+
+  // Set logContext early for request tracing
+  logContext.sourcePersonId = body.sourcePersonId;
+  logContext.targetPersonId = body.targetPersonId;
+  logContext.imageCount = body.imageIds?.length;
+
   const validation = validateReassignInput(body);
 
   if (!validation.valid) {
@@ -111,14 +115,18 @@ export async function POST({ request }: { request: Request }) {
       } catch (err) {
         // Rollback transaction
         if (transactionLog.length > 0) {
-          logger.warn(
-            `[REASSIGN] Error occurred. Rolling back ${transactionLog.length} file moves...`,
+          log.warn(
+            { rollbackCount: transactionLog.length },
+            "REASSIGN: Error occurred, rolling back file moves",
           );
-          for (const log of transactionLog.reverse()) {
+          for (const logEntry of transactionLog.reverse()) {
             try {
-              await fsp.rename(log.to, log.from);
+              await fsp.rename(logEntry.to, logEntry.from);
             } catch (rollbackErr) {
-              logger.error(`[REASSIGN] Rollback failed for ${log.to} -> ${log.from}`, rollbackErr);
+              log.error(
+                { err: rollbackErr, from: logEntry.to, to: logEntry.from },
+                "REASSIGN: Rollback failed",
+              );
             }
           }
         }
@@ -126,7 +134,7 @@ export async function POST({ request }: { request: Request }) {
       }
     });
   } catch (err) {
-    logger.error("[REASSIGN] Failure:", err);
+    log.error({ err }, "REASSIGN: Failure");
     return json(
       { success: false, error: err instanceof Error ? err.message : String(err) },
       { status: 500 },

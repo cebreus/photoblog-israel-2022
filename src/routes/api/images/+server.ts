@@ -4,7 +4,6 @@ import process from "node:process";
 import { json, type RequestEvent } from "@sveltejs/kit";
 import { exiftool } from "exiftool-vendored";
 import { dev } from "$app/environment";
-import { createLogger } from "$lib/logger";
 import { applyMetadataUpdates } from "$lib/shared/metadata-utils";
 import { type ImageEntry, isImageEntry, type Manifest } from "$lib/types/manifest";
 import { reloadManifests } from "$lib/utils/images";
@@ -27,8 +26,6 @@ import {
   saveFacesManifest,
   saveImagesManifest,
 } from "$scripts/lib/manifests/repository";
-
-const logger = createLogger("api:images");
 
 type BatchItem = { id: string; src: string; [key: string]: unknown };
 type GroupedItems = Record<string, BatchItem[]>;
@@ -54,8 +51,6 @@ function groupItemsByContentDir(items: BatchItem[]): GroupedItems {
     if (key) {
       if (!groups[key]) groups[key] = [];
       groups[key].push(item);
-    } else {
-      logger.warn(`Could not determine content directory for item ${item.src}`);
     }
   }
   return groups;
@@ -171,11 +166,7 @@ async function processBatch(
           });
         }
 
-        logger.info(
-          `processBatch: Saving manifest for ${contentDir}, modified=${manifestModified}, processedIds=${processedIds.length}`,
-        );
         await saveImagesManifest(dataPath, manifest);
-        logger.info(`processBatch: Manifest saved successfully to ${dataPath}`);
 
         // Also remove any stale entries from auxiliary manifests (analysis/embeddings/faces)
         // for the items processed in this batch. We do this here under the same lock so
@@ -239,7 +230,9 @@ async function processBatch(
 
 // --- API Handlers ---
 
-export async function DELETE({ request }: RequestEvent) {
+export async function DELETE({ request, locals }: RequestEvent) {
+  const { log, logContext } = locals;
+
   if (!dev) return json({ message: "Forbidden" }, { status: 403 });
 
   const { ids } = await request.json();
@@ -300,7 +293,7 @@ export async function DELETE({ request }: RequestEvent) {
             // If unlink fails, we have a problem: Manifest updated, file remains.
             // This is an "Orphaned File" state, which is safer than "Ghost Record" (File gone, Manifest entry remains).
             // We count this as success effectively, because the app logic is consistent (item gone from UI).
-            logger.warn(`Failed to delete file ${physicalPath}: ${(e as Error).message}`);
+            log.warn({ err: e, physicalPath }, "Failed to delete file");
           }
         } else {
           // errors.push(`Physical file not found for ${item.src}`);
@@ -320,10 +313,13 @@ export async function DELETE({ request }: RequestEvent) {
   // Force reload of in-memory manifest cache
   await reloadManifests();
 
+  logContext.deletedCount = deleted.length;
+  logContext.errorsCount = errors.length;
   return json({ success: true, deleted, errors });
 }
 
-export async function POST({ request }: RequestEvent) {
+export async function POST({ request, locals }: RequestEvent) {
+  const { log: _log, logContext } = locals;
   if (!dev) return json({ message: "Forbidden" }, { status: 403 });
 
   const { ids, action } = await request.json();
@@ -397,6 +393,8 @@ export async function POST({ request }: RequestEvent) {
   // Force reload of in-memory manifest cache
   await reloadManifests();
 
+  logContext.archivedCount = archived.length;
+  logContext.errorsCount = errors.length;
   return json({ success: true, archived, errors });
 }
 
@@ -404,7 +402,9 @@ import { removeClapFromFile, writeClapToFile } from "$scripts/lib/image/clap-par
 import { run } from "$scripts/lib/utils/shell";
 import { canApplyClap } from "$shared/utils/strings";
 
-export async function PATCH({ request }: RequestEvent) {
+export async function PATCH({ request, locals }: RequestEvent) {
+  const { log, logContext } = locals;
+
   if (!dev) return json({ message: "Forbidden" }, { status: 403 });
 
   const { images, updates } = await request.json();
@@ -482,7 +482,7 @@ export async function PATCH({ request }: RequestEvent) {
           // [CLAP HANDLING] - Attempt to write to file, but ALWAYS update manifest as fallback
           if (updates.clap !== undefined) {
             if (!canApplyClap(target)) {
-              logger.warn(`Skipping clap for ${target.id}: Not supported type`);
+              log.warn({ targetId: target.id }, "Skipping clap: Not supported type");
             } else {
               try {
                 if (updates.clap === null) {
@@ -493,7 +493,7 @@ export async function PATCH({ request }: RequestEvent) {
               } catch (e) {
                 // EXTREMELY IMPORTANT: We do not fail the whole request if the file doesn't support the tag.
                 // We will rely on target.clap in the manifest.
-                logger.warn(`Failed to write CleanAperture to file ${targetPath}: ${e}`);
+                log.warn({ err: e, targetPath }, "Failed to write CleanAperture to file");
               }
 
               // Always update manifest
@@ -522,13 +522,13 @@ export async function PATCH({ request }: RequestEvent) {
           if (Object.keys(writeTags).length > 0) {
             try {
               // Ensure we include necessary encoding flags
-              logger.info(`Writing standard tags to ${targetPath}:`, Object.keys(writeTags));
+              log.info({ targetPath, tags: Object.keys(writeTags) }, "Writing standard tags");
               await exiftool.write(targetPath, writeTags, {
                 writeArgs: ["-overwrite_original", "-coding=utf8", "-m", "-charset", "iptc=UTF8"],
               });
             } catch (exifError) {
               const msg = `ExifTool failed for ${targetPath}: ${exifError}`;
-              logger.error(msg);
+              log.error({ err: exifError, targetPath }, "ExifTool failed");
               throw new Error(msg);
             }
           }
@@ -539,8 +539,12 @@ export async function PATCH({ request }: RequestEvent) {
           processedIds.push(target.id);
         }
 
-        logger.info(
-          `PATCH: Processed ${processedIds.length} items for baseId ${mainEntry.sequenceInfo?.baseId || item.id}`,
+        log.info(
+          {
+            processedCount: processedIds.length,
+            baseId: mainEntry.sequenceInfo?.baseId || item.id,
+          },
+          "PATCH: Processed items",
         );
         return processedIds.length > 0 ? processedIds : null;
       },
@@ -558,7 +562,7 @@ export async function PATCH({ request }: RequestEvent) {
 
     for (const { contentDir, id } of uniqueQueue) {
       try {
-        logger.info(`Regenerating variants for ${id}...`);
+        log.info({ id, contentDir }, "Regenerating variants");
         await run("bun", [
           "run",
           manageScript,
@@ -572,15 +576,14 @@ export async function PATCH({ request }: RequestEvent) {
           "false",
         ]);
       } catch (e: unknown) {
-        const msg = e instanceof Error ? e.message : String(e);
-        logger.error(`Regeneration failed for ${id}: ${msg}`);
+        log.error({ err: e, id }, "Regeneration failed");
         errors.push(`Regeneration failed for ${id}`);
       }
     }
   }
 
   if (updatedIds.length === 0 && errors.length > 0) {
-    logger.error("PATCH failed:", errors);
+    log.error({ errors }, "PATCH failed");
     return json({ message: "Failed to update metadata", errors }, { status: 500 });
   }
 
@@ -592,6 +595,8 @@ export async function PATCH({ request }: RequestEvent) {
   const { getPhotoDays } = await import("$lib/utils/images");
   const photoDays = getPhotoDays();
 
-  logger.info(`PATCH success: Updated ${updatedIds.length} items.`);
+  logContext.updatedCount = updatedIds.length;
+  logContext.errorsCount = errors.length;
+  log.info({ updatedCount: updatedIds.length }, "PATCH success");
   return json({ success: true, updated: updatedIds, updatedImages, photoDays, errors });
 }

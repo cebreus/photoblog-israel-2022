@@ -1,7 +1,6 @@
 import path from "node:path";
 import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
-import { createLogger } from "$lib/logger";
 import { type FacesManifest, isImageEntry } from "$lib/types/manifest";
 import { validateIgnoreFaceInput } from "$lib/utils/api-validators";
 import { reloadManifests } from "$lib/utils/images";
@@ -17,13 +16,12 @@ import {
   savePeopleManifest,
 } from "$scripts/lib/manifests/repository";
 
-const logger = createLogger("api:people:invalidate-detection");
-
 /**
  * Endpoint to mark a specific detection as invalid (e.g. not a face).
  * This is a destructive operation that removes the assignment and records a constraint.
  */
-export async function POST({ request }: { request: Request }) {
+export async function POST({ request, locals }: { request: Request; locals: App.Locals }) {
+  const { log, logContext } = locals;
   if (!dev) {
     throw error(403, "Manifest modifications are not permitted on the production server.");
   }
@@ -100,10 +98,12 @@ export async function POST({ request }: { request: Request }) {
       // Force reload of in-memory manifest cache
       await reloadManifests();
 
+      logContext.personId = personId;
+      logContext.imageId = imageId;
       return json({ success: true });
     });
   } catch (err) {
-    logger.error("[INVALIDATE-DETECTION] Failure:", err);
+    log.error({ err }, "INVALIDATE-DETECTION: Failure");
     return json(
       { success: false, error: err instanceof Error ? err.message : String(err) },
       { status: 500 },

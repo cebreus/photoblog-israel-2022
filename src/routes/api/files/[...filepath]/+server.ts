@@ -8,8 +8,11 @@ import { getContentDir } from "$lib/config";
 
 const IS_DEV = import.meta.env.DEV;
 
-export async function GET({ params }: RequestEvent): Promise<Response> {
+export async function GET({ params, locals }: RequestEvent): Promise<Response> {
+  const { log } = locals;
+
   if (!IS_DEV) {
+    // No need to log this, it's a hard security constraint
     return json({ error: "File access only available in dev mode" }, { status: 403 });
   }
 
@@ -21,12 +24,16 @@ export async function GET({ params }: RequestEvent): Promise<Response> {
 
     // Security: Ensure path is within content directory
     if (!fullPath.startsWith(contentDirRoot)) {
+      log.warn({ filepath, fullPath, contentDirRoot }, "Path traversal attempt blocked");
       return json({ error: "Invalid path" }, { status: 403 });
     }
 
     try {
       await fs.access(fullPath);
     } catch {
+      // Common event in dev (broken image links), debug level sufficient usually,
+      // but warn if we want to track missing assets
+      log.debug({ filepath }, "File not found");
       return json({ error: "File not found" }, { status: 404 });
     }
 
@@ -60,8 +67,7 @@ export async function GET({ params }: RequestEvent): Promise<Response> {
       },
     });
   } catch (err) {
-    // biome-ignore lint/suspicious/noConsole: Error logging
-    console.error("File read error:", err);
+    log.error({ err, params }, "File read error");
     return json({ error: String(err) }, { status: 500 });
   }
 }

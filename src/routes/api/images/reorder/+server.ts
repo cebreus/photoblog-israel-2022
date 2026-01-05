@@ -3,7 +3,6 @@ import process from "node:process";
 import { json, type RequestEvent } from "@sveltejs/kit";
 import { exiftool, type WriteTags } from "exiftool-vendored";
 import { dev } from "$app/environment";
-import { createLogger } from "$lib/logger";
 import type { ImageEntry } from "$lib/types/manifest";
 import { reloadManifests } from "$lib/utils/images";
 import { organizeDayItems } from "$scripts/lib/manifests/builder";
@@ -12,8 +11,6 @@ import { loadImagesManifest, saveImagesManifest } from "$scripts/lib/manifests/r
 import { getLocalNowIsoString } from "$shared/utils/dates";
 import { calculateReleaseDates } from "$shared/utils/sorting";
 import { loadStoryData } from "./loader";
-
-const logger = createLogger("api:images:reorder");
 
 /**
  * Payload for reordering images within a day.
@@ -33,7 +30,8 @@ type ReorderPayload = {
  * Reorders images by modifying their XMP:ReleaseDate values.
  * This persists the order directly in the image files.
  */
-export async function PATCH({ request }: RequestEvent) {
+export async function PATCH({ request, locals }: RequestEvent) {
+  const { log, logContext } = locals;
   if (!dev) {
     return json({ message: "Forbidden" }, { status: 403 });
   }
@@ -90,13 +88,13 @@ export async function PATCH({ request }: RequestEvent) {
       const newDates = calculateReleaseDates(imageIds, imageItems);
 
       // 5. Ensure all images have ReleaseDate initialized
-      await ensureReleaseDatesExist(imageItems, contentDirRoot);
+      await ensureReleaseDatesExist(imageItems, contentDirRoot, log);
 
       // 6. Write to files using exiftool (only changed images)
       for (const [id, releaseDate] of Object.entries(newDates)) {
         const imagePath = await resolveImagePath(id, contentDirRoot);
         if (!imagePath) {
-          logger.warn(`Could not resolve path for image ${id}`);
+          log.warn({ imageId: id }, "Could not resolve path for image");
           continue;
         }
 
@@ -129,16 +127,20 @@ export async function PATCH({ request }: RequestEvent) {
       }
 
       await saveImagesManifest(dataPath, manifest);
-      logger.info(`Updated ReleaseDate for ${updatedCount} images in ${normalizedDayId} `);
+      log.info({ updatedCount, dayId: normalizedDayId }, "Updated ReleaseDate for images");
     });
 
     // Reload in-memory manifests so the UI gets fresh data immediately
     await reloadManifests();
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    logger.error(`Failed to reorder images: ${message} `);
+    log.error({ err, message }, "Failed to reorder images");
     errors.push(message);
   }
+
+  logContext.dayId = dayId;
+  logContext.imageIdsCount = imageIds.length;
+  logContext.updatedCount = updatedCount;
 
   if (errors.length > 0 && updatedCount === 0) {
     return json({ success: false, message: errors.join("; "), errors }, { status: 500 });
@@ -159,6 +161,7 @@ export async function PATCH({ request }: RequestEvent) {
 async function ensureReleaseDatesExist(
   dayItems: ImageEntry[],
   contentDirRoot: string,
+  log: App.Locals["log"],
 ): Promise<void> {
   const needsInit: ImageEntry[] = [];
 
@@ -186,7 +189,7 @@ async function ensureReleaseDatesExist(
     if (exif) exif.releaseDate = initialDate;
   }
 
-  logger.info(`Initialized ReleaseDate for ${needsInit.length} images`);
+  log.info({ count: needsInit.length }, "Initialized ReleaseDate for images");
 }
 
 /**
@@ -221,7 +224,9 @@ async function resolveImagePath(imageId: string, contentDirRoot: string): Promis
  *
  * NOTE: We do NOT delete ReleaseDate - we reset it. ReleaseDate must always exist.
  */
-export async function DELETE({ request }: RequestEvent) {
+export async function DELETE({ request, locals }: RequestEvent) {
+  const { log } = locals;
+
   if (!dev) {
     return json({ message: "Forbidden" }, { status: 403 });
   }
@@ -276,7 +281,7 @@ export async function DELETE({ request }: RequestEvent) {
         const imageItem = item as ImageEntry;
         const imagePath = await resolveImagePath(imageItem.id, contentDirRoot);
         if (!imagePath) {
-          logger.warn(`Could not resolve path for image ${imageItem.id}`);
+          log.warn({ imageId: imageItem.id }, "Could not resolve path for image");
           continue;
         }
 
@@ -305,14 +310,14 @@ export async function DELETE({ request }: RequestEvent) {
       }
 
       await saveImagesManifest(dataPath, manifest);
-      logger.info(`Reset ReleaseDate for ${resetCount} images in ${normalizedDayId} `);
+      log.info({ resetCount, dayId: normalizedDayId }, `Reset ReleaseDate for images in day`);
     });
 
     // Reload in-memory manifests so the UI gets fresh data immediately
     await reloadManifests();
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    logger.error(`Failed to reset order: ${message} `);
+    log.error({ err }, "Failed to reset order");
     errors.push(message);
   }
 

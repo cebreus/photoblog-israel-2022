@@ -2,11 +2,9 @@ import fsp from "node:fs/promises";
 import path from "node:path";
 import { json } from "@sveltejs/kit";
 import { getContentDir } from "$lib/config";
-import { createLogger } from "$lib/logger";
 
-const logger = createLogger("api:people:avatars");
-
-export async function GET() {
+export async function GET({ locals }: { locals: App.Locals }) {
+  const { log } = locals;
   const contentDir = getContentDir();
   const avatarsDir = path.resolve(process.cwd(), "static", contentDir, "assets", "avatars");
 
@@ -25,7 +23,7 @@ export async function GET() {
 
     return json({ avatars });
   } catch (e) {
-    logger.warn(`Failed to list avatars in ${avatarsDir}:`, e);
+    log.warn({ err: e, avatarsDir }, "Failed to list avatars");
     return json({ avatars: [] });
   }
 }

@@ -91,7 +91,7 @@ export async function reloadManifests() {
           nextManifest = reclassifyCollages(json);
         }
       } catch (_e) {
-        logger.error(`Failed to reload images manifest: ${_e}`);
+        logger.error({ err: _e }, "Failed to reload images manifest");
       }
 
       // Reload People Manifest
@@ -117,7 +117,7 @@ export async function reloadManifests() {
       // Atomic Update
       updateManifests(nextManifest, nextPeople, nextCuration);
     } catch (_e) {
-      logger.error(`Outer error: ${_e}`);
+      logger.error({ err: _e }, "Manifest reload outer error");
     }
   } else {
     logger.debug(

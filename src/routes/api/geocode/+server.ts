@@ -2,15 +2,21 @@ import { error, json, type RequestEvent } from "@sveltejs/kit";
 import lookup from "country-code-lookup";
 import { dev } from "$app/environment";
 
-export async function GET({ url, fetch }: RequestEvent) {
+export async function GET({ url, fetch, locals }: RequestEvent) {
+  // We don't really need logging for this check in dev, but let's be consistent
   if (!dev) {
-    throw error(403, "Geocoding proxy is restricted to DEV mode.");
+    // Only log if something unexpected happens. Here it's expected.
+    return json({ error: "Geocoding proxy is restricted to DEV mode." }, { status: 403 });
   }
+
+  const { log } = locals;
   const lat = url.searchParams.get("lat");
   const lng = url.searchParams.get("lng");
 
   if (!lat || !lng) {
-    throw error(400, "Missing 'lat' or 'lng' parameters");
+    log.warn({ lat, lng }, "Missing coordinates parameters");
+    // Returning error JSON better for API clients than throwing HTML error page
+    return json({ error: "Missing 'lat' or 'lng' parameters" }, { status: 400 });
   }
 
   try {
@@ -23,6 +29,9 @@ export async function GET({ url, fetch }: RequestEvent) {
     nominatimUrl.searchParams.set("namedetails", "1");
     nominatimUrl.searchParams.set("accept-language", "cs");
 
+    // Log external call start
+    log.debug({ lat, lng }, "Calling Nominatim API");
+
     const res = await fetch(nominatimUrl, {
       headers: {
         "User-Agent": "PhotoblogIsrael2022/1.0 (internal dev tool)",
@@ -30,6 +39,8 @@ export async function GET({ url, fetch }: RequestEvent) {
     });
 
     if (!res.ok) {
+      log.error({ status: res.status, statusText: res.statusText }, "Nominatim API error");
+      // Use standard SvelteKit error for upstream failure
       throw error(502, `Nominatim API error: ${res.statusText}`);
     }
 
@@ -68,12 +79,17 @@ export async function GET({ url, fetch }: RequestEvent) {
       location: locationName,
     };
 
+    log.info({ query: { lat, lng }, result: mapped }, "Geocoding successful");
     return json(mapped);
   } catch (err: unknown) {
     const typedError = err as { status?: number; body?: unknown };
+    // If it's already a SvelteKit error, rethrow it
     if (typedError?.status && typedError?.body) {
       throw typedError;
     }
+
+    // Log unexpected error
+    log.error({ err }, "Geocoding failed");
     throw error(500, "Failed to fetch geocoding data");
   }
 }

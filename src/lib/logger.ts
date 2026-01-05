@@ -13,11 +13,16 @@ const _levels = {
 
 function getLogLevel(): string {
   if (browser) {
+    // Frontend: debug in dev, warn in production
     return dev ? "debug" : "warn";
   }
 
-  // Use process.env which is available in both Bun and Node environments
-  return process.env.LOG_LEVEL || "info";
+  // Backend: Use LOG_LEVEL env var, default to info in dev, error in production
+  if (process.env.LOG_LEVEL) {
+    return process.env.LOG_LEVEL;
+  }
+
+  return dev ? "info" : "error";
 }
 
 const logger = pino({
@@ -68,22 +73,7 @@ const logger = pino({
 export function createLogger(label = "app") {
   const child = logger.child({ label });
 
-  return {
-    // biome-ignore lint/suspicious/noExplicitAny: wrapper for pino
-    trace: (msg: unknown, ...args: unknown[]) => child.trace(msg as any, ...(args as any[])),
-    // biome-ignore lint/suspicious/noExplicitAny: wrapper for pino
-    debug: (msg: unknown, ...args: unknown[]) => child.debug(msg as any, ...(args as any[])),
-    // biome-ignore lint/suspicious/noExplicitAny: wrapper for pino
-    info: (msg: unknown, ...args: unknown[]) => child.info(msg as any, ...(args as any[])),
-    // biome-ignore lint/suspicious/noExplicitAny: wrapper for pino
-    warn: (msg: unknown, ...args: unknown[]) => child.warn(msg as any, ...(args as any[])),
-    // biome-ignore lint/suspicious/noExplicitAny: wrapper for pino
-    error: (msg: unknown, ...args: unknown[]) => child.error(msg as any, ...(args as any[])),
-    // biome-ignore lint/suspicious/noExplicitAny: wrapper for pino
-    fatal: (msg: unknown, ...args: unknown[]) => child.fatal(msg as any, ...(args as any[])),
-    // biome-ignore lint/suspicious/noExplicitAny: wrapper for pino
-    verbose: (msg: unknown, ...args: unknown[]) => child.debug(msg as any, ...(args as any[])),
-  };
+  return child;
 }
 export type Logger = ReturnType<typeof createLogger>;
 

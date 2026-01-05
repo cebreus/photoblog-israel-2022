@@ -31,7 +31,7 @@
       await onConfirm();
       open = false;
     } catch (error) {
-      logger.error("Merge failed:", error);
+      logger.error({ err: error }, "Merge failed");
     } finally {
       isLoading = false;
     }

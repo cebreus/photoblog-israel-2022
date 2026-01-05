@@ -57,4 +57,42 @@ if [ -n "$STAGED_FILES" ]; then
     
     exit 1
   fi
+
+  # 3. Structured Logging Pattern Check
+  # Check for unstructured logger calls
+  # We exclude 'tests/' because tests often need to mock or intentionally use varying patterns
+  UNSTRUCTURED_LOGS=$(echo "$STAGED_FILES" | grep -v "^tests/" | xargs grep -nE "(logger|log|child)\.(error|warn|info|debug|trace)\s*\(\s*[^{]" /dev/null 2>/dev/null | grep -v "{ " | grep -v "//" || true)
+  
+  if [ -n "$UNSTRUCTURED_LOGS" ]; then
+    echo ""
+    echo "❌ \033[0;31mCOMMIT REJECTED: Unstructured logging detected!\033[0m"
+    echo ""
+    echo "Found logger calls that don't use structured logging pattern."
+    echo ""
+    
+    IFS='
+'
+    for line in $UNSTRUCTURED_LOGS; do
+      FILE=$(echo "$line" | cut -d: -f1)
+      LINE_NUM=$(echo "$line" | cut -d: -f2)
+      CODE_CONTENT=$(echo "$line" | cut -d: -f3- | xargs)
+      
+      echo "Path: $FILE"
+      echo "Line: $LINE_NUM"
+      echo ""
+      echo "Code:"
+      echo "  $CODE_CONTENT"
+      echo ""
+      echo "How can I resolve this?"
+      echo "Use structured logging pattern with context object as first argument:"
+      echo "  ✅ logger.error({ err: error }, \"Operation failed\")"
+      echo "  ✅ logger.warn({ userId, status }, \"Validation warning\")"
+      echo "  ❌ logger.error(error)  // Missing context and message"
+      echo "  ❌ logger.warn(\"Something failed\")  // No context data"
+      echo "--------------------------------------------------"
+    done
+    unset IFS
+    
+    exit 1
+  fi
 fi

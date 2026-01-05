@@ -20,6 +20,7 @@
   } from "$lib/types/collage";
   import type { ImageEntry } from "$lib/types/manifest";
   import { cn } from "$lib/utils";
+  import { tracedFetch } from "$lib/utils/api";
   import {
     calculateAmbientCanvasSize,
     calculateCollageLayout,
@@ -129,25 +130,22 @@
   // Init effects
   $effect(function initCollageItems() {
     if (open && !initialized) {
-      log.info(`[CollageDialog] Initializing. open=${open}, init=${initialized}`);
+      log.info({ open, initialized }, "[CollageDialog] Initializing");
       initialized = true;
       // If existingConfig provided, load it for re-editing
       if (existingConfig) {
-        log.info(
-          `[CollageDialog] Loading existing config:`,
-          JSON.parse(JSON.stringify(existingConfig)),
-        );
+        log.info({ config: existingConfig }, "[CollageDialog] Loading existing config");
         // Use untrack to prevent triggering this effect again
         untrack(() => {
           selectedTemplate = existingConfig.template;
           userPickedTemplate = true; // Prevent determineAutoTemplate from overwriting
-          log.info(`[CollageDialog] Set template: ${selectedTemplate}`);
+          log.info({ selectedTemplate }, "[CollageDialog] Set template");
           if (existingConfig.border) {
             borderEnabled = true;
 
             if (existingConfig.border.userSetting !== undefined) {
               borderWidth = existingConfig.border.userSetting;
-              log.info(`[CollageDialog] Set border from userSetting: ${borderWidth}`);
+              log.info({ borderWidth }, "[CollageDialog] Set border from userSetting");
             } else {
               // Fallback: try to guess original setting from pixel value
               // We need the images to calculate scale
@@ -162,12 +160,13 @@
                 originalImages,
               );
               log.info(
-                `[CollageDialog] Denormalized border: ${existingConfig.border.width}px -> ${borderWidth}`,
+                { normalized: existingConfig.border.width, denormalized: borderWidth },
+                "[CollageDialog] Denormalized border",
               );
             }
           } else {
             borderEnabled = false;
-            log.info(`[CollageDialog] Border disabled`);
+            log.info({}, "[CollageDialog] Border disabled");
           }
 
           // Backward compatibility: migrate old format to new
@@ -176,20 +175,16 @@
             backgroundEnabled = true;
             backgroundStyle = (existingConfig.border as any).backgroundStyle || "ambient";
             backgroundColor = (existingConfig.border as any).color || "#ffffff";
-            log.info(
-              `[CollageDialog] Migrated old format: background=${backgroundStyle}, color=${backgroundColor}`,
-            );
+            log.info({ backgroundStyle, backgroundColor }, "[CollageDialog] Migrated old format");
           } else if (existingConfig.background) {
             // New format: separate background object
             backgroundEnabled = true;
             backgroundStyle = existingConfig.background.style;
             backgroundColor = existingConfig.background.color || "#ffffff";
-            log.info(
-              `[CollageDialog] Loaded new format: background=${backgroundStyle}, color=${backgroundColor}`,
-            );
+            log.info({ backgroundStyle, backgroundColor }, "[CollageDialog] Loaded new format");
           } else {
             backgroundEnabled = false;
-            log.info(`[CollageDialog] Background disabled`);
+            log.info({}, "[CollageDialog] Background disabled");
           }
 
           // Load image configs (crop data) & Items
@@ -197,7 +192,7 @@
           // Load aspect ratio if present
           if (existingConfig.aspectRatio) {
             selectedRatioPreset = existingConfig.aspectRatio as string;
-            log.info(`[CollageDialog] Set aspect ratio: ${selectedRatioPreset}`);
+            log.info({ selectedRatioPreset }, "[CollageDialog] Set aspect ratio");
           }
 
           const items: CollageItem[] = [];
@@ -208,23 +203,27 @@
               (img) => img.src === itemConf.imageId || img.id === itemConf.id,
             );
             if (originalImg) {
-              log.info(`[CollageDialog] Found image for ${itemConf.id}`);
+              log.info({ id: itemConf.id }, "[CollageDialog] Found image");
               const uniqueId = crypto.randomUUID();
               // Preserve original imageId (with correct extension like .heic) for re-save
               items.push({ uniqueId, data: originalImg, originalImageId: itemConf.imageId });
               const crop = itemConf.crop || { x: 50, y: 50, scale: 1 };
               configs[uniqueId] = crop;
-              log.info(`[CollageDialog] Initialized item ${itemConf.id} with crop:`, crop);
+              log.info({ itemId: itemConf.id, crop }, `[CollageDialog] Initialized item with crop`);
             } else {
               notFound.push(itemConf.id || "unknown");
               log.warn(
-                `[Collage] Source image not found: ${itemConf.id || "unknown"} (imageId: ${itemConf.imageId})`,
+                { id: itemConf.id || "unknown", imageId: itemConf.imageId },
+                "[Collage] Source image not found",
               );
             }
           }
 
           if (notFound.length > 0) {
-            log.error(`[Collage] Missing ${notFound.length} images: ${notFound.join(", ")}`);
+            log.error(
+              { count: notFound.length, missing: notFound.join(", ") },
+              "[Collage] Missing images",
+            );
             toast.error(COLLAGE_MESSAGES.SOURCE_IMAGES_NOT_FOUND, {
               description: `Chybějící: ${notFound.join(", ")}`,
             });
@@ -232,17 +231,17 @@
 
           collageItems = items;
           imageConfigs = configs;
-          log.info(`[CollageDialog] Loaded ${collageItems.length} items`);
+          log.info({ count: collageItems.length }, "[CollageDialog] Loaded items");
         });
       } else if (images.length > 0) {
-        log.info(`[CollageDialog] Creating fresh items from ${images.length} images`);
+        log.info({ count: images.length }, "[CollageDialog] Creating fresh items");
         // Always initialize fresh from selection
         untrack(() => {
           collageItems = images.map((img) => ({ uniqueId: crypto.randomUUID(), data: img }));
         });
       }
     } else if (!open && initialized) {
-      log.info(`[CollageDialog] UI Closed - resetting state`);
+      log.info({}, "[CollageDialog] UI Closed - resetting state");
       // Reset initialization flag when dialog closes
       initialized = false;
     }
@@ -341,7 +340,7 @@
     try {
       localStorage.setItem("collage-draft", JSON.stringify(draft));
     } catch (e) {
-      log.warn(`${COLLAGE_MESSAGES.LOAD_CONFIG_FAILED}: ${String(e)}`);
+      log.warn({ err: e }, COLLAGE_MESSAGES.LOAD_CONFIG_FAILED);
     }
   });
 
@@ -611,7 +610,7 @@
 
           ctx.drawImage(imageEl, rect.left, rect.top, rect.width, rect.height);
         } catch (error) {
-          log.warn(`[CollageDialog] Ambient render failed for ${source}: ${error}`);
+          log.warn({ err: error, source }, "[CollageDialog] Ambient render failed");
         }
       }
     })();
@@ -669,7 +668,7 @@
       };
 
       const startAPI = Date.now();
-      const res = await fetch("/api/images/collage", {
+      const res = await tracedFetch("/api/images/collage", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -683,7 +682,7 @@
       }
 
       const data = (await res.json()) as CollageResponse;
-      log.debug(`[Collage] Doba volání API: ${Date.now() - startAPI}ms`);
+      log.debug({ durationMs: Date.now() - startAPI }, "[Collage] API call duration");
 
       if (!data.success) {
         throw new Error(data.error || COLLAGE_MESSAGES.OPERATION_FAILED);
@@ -701,7 +700,7 @@
       try {
         localStorage.removeItem("collage-draft");
       } catch (e) {
-        log.warn(`${COLLAGE_MESSAGES.OPERATION_FAILED}: ${String(e)}`);
+        log.warn({ err: e }, COLLAGE_MESSAGES.OPERATION_FAILED);
       }
 
       // Only invalidate (reload page) when creating NEW collage
@@ -710,7 +709,7 @@
         await invalidateAll();
       }
 
-      log.info(`[Collage] Celkový čas na frontendu: ${Date.now() - startTotal}ms`);
+      log.info({ durationMs: Date.now() - startTotal }, "[Collage] Total frontend duration");
 
       // Only close dialog when creating NEW collage, keep open when editing
       if (!isEditMode) {

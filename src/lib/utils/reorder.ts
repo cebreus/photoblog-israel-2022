@@ -1,5 +1,6 @@
 import { invalidateAll } from "$app/navigation";
 import { createLogger } from "$lib/logger";
+import { tracedFetch } from "$lib/utils/api";
 
 const logger = createLogger("reorder-utils");
 
@@ -20,7 +21,7 @@ export async function saveImageOrder(
   payload: ReorderPayload,
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const response = await fetch("/api/images/reorder", {
+    const response = await tracedFetch("/api/images/reorder", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -29,12 +30,12 @@ export async function saveImageOrder(
     if (!response.ok) {
       const data = await response.json();
       const errorMsg = data.message || "Failed to save order";
-      logger.error(`Reorder API error: ${errorMsg}`);
+      logger.error({ status: response.status, error: errorMsg }, "Reorder API error");
       return { success: false, error: errorMsg };
     }
 
     const result = await response.json();
-    logger.info(`Saved order for ${result.updated} images in ${payload.dayId}`);
+    logger.info({ updatedCount: result.updated, dayId: payload.dayId }, "Saved order for images");
 
     // Refresh page data to reflect new order
     await invalidateAll();
@@ -42,7 +43,7 @@ export async function saveImageOrder(
     return { success: true };
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    logger.error(`Failed to save image order: ${message}`);
+    logger.error({ err }, "Failed to save image order");
     return { success: false, error: message };
   }
 }
@@ -55,7 +56,7 @@ export async function clearImageOrder(
   contentDir?: string,
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const response = await fetch("/api/images/reorder", {
+    const response = await tracedFetch("/api/images/reorder", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ dayId, contentDir }),
@@ -64,19 +65,19 @@ export async function clearImageOrder(
     if (!response.ok) {
       const data = await response.json();
       const errorMsg = data.message || "Failed to clear order";
-      logger.error(`Clear order API error: ${errorMsg}`);
+      logger.error({ status: response.status, error: errorMsg }, "Clear order API error");
       return { success: false, error: errorMsg };
     }
 
     const result = await response.json();
-    logger.info(`Cleared order for ${result.cleared} images in ${dayId}`);
+    logger.info({ clearedCount: result.cleared, dayId }, "Cleared order for images");
 
     await invalidateAll();
 
     return { success: true };
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    logger.error(`Failed to clear image order: ${message}`);
+    logger.error({ err }, "Failed to clear image order");
     return { success: false, error: message };
   }
 }
