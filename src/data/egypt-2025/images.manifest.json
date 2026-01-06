@@ -552,14 +552,14 @@
             "facesDetected": true,
             "faces": [
               {
-                "x": 1008.007329940796,
+                "x": 1008.0073299407959,
                 "y": 387.1128587722778,
                 "width": 745.3691825866699,
                 "height": 910.1763525009155
               },
               {
                 "x": 2631.5109901428223,
-                "y": 954.2396907806398,
+                "y": 954.2396907806396,
                 "width": 654.4103851318359,
                 "height": 690.9629974365232
               }
@@ -980,7 +980,7 @@
             "facesDetected": true,
             "faces": [
               {
-                "x": 1832.1063251495361,
+                "x": 1832.106325149536,
                 "y": 774.3340444564819,
                 "width": 298.17826652526867,
                 "height": 359.87624073028564
@@ -993,7 +993,7 @@
               },
               {
                 "x": 1182.0282955169678,
-                "y": 860.1844139099121,
+                "y": 860.184413909912,
                 "width": 279.973217010498,
                 "height": 339.20971298217773
               }
@@ -1106,13 +1106,13 @@
               {
                 "x": 2454.5349769592285,
                 "y": 680.5744285583495,
-                "width": 244.38599395751956,
+                "width": 244.38599395751953,
                 "height": 316.87754631042475
               },
               {
                 "x": 1460.404546737671,
                 "y": 624.2455158233641,
-                "width": 217.27194213867185,
+                "width": 217.27194213867188,
                 "height": 318.8918380737305
               }
             ]
@@ -1222,7 +1222,7 @@
               {
                 "x": 2334.9341354370117,
                 "y": 2249.037803649902,
-                "width": 424.5924682617187,
+                "width": 424.59246826171875,
                 "height": 534.4002685546875
               }
             ]
@@ -1723,10 +1723,10 @@
             "facesDetected": true,
             "faces": [
               {
-                "x": 2009.7329006195068,
+                "x": 2009.7329006195066,
                 "y": 739.3652400970459,
                 "width": 266.28893852233875,
-                "height": 469.5431499481201
+                "height": 469.54314994812006
               }
             ]
           },
@@ -2412,7 +2412,7 @@
                 "x": 2896.961311340332,
                 "y": 1337.7200832366943,
                 "width": 84.34286499023438,
-                "height": 103.08828735351561
+                "height": 103.08828735351562
               }
             ]
           },
@@ -2539,7 +2539,7 @@
               },
               {
                 "x": 760.7091865539551,
-                "y": 1855.1951580047605,
+                "y": 1855.1951580047607,
                 "width": 203.35815238952637,
                 "height": 285.0675258636475
               }
@@ -2840,60 +2840,21 @@
         },
         {
           "id": "2025-11-24-205551-cebreus--collage",
-          "type": "image",
+          "type": "collage",
           "src": "2025-11-24-205551-cebreus--collage.jpg",
           "alt": "Cairo Tower, Káhira",
           "title": "",
-          "width": 2741,
-          "height": 2056,
-          "sizeMB": 2.38,
+          "width": 2784,
+          "height": 2088,
+          "sizeMB": 2.37,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-24-205551-cebreus--collage.png",
           "placeholderColor": "rgb(8,8,8)",
           "analysis": {
-            "aestheticScore": 56.68296614637518,
-            "sharpness": 100,
-            "qualityBucket": "good",
-            "phash": "b2b6e2db9e9293da",
-            "facesDetected": true,
-            "faces": [
-              {
-                "x": 1108.3389051258564,
-                "y": 1068.7461102803547,
-                "width": 281.495866805315,
-                "height": 364.1122544606527
-              },
-              {
-                "x": 2201.9054857492447,
-                "y": 354.7800439198811,
-                "width": 480.83614826202404,
-                "height": 589.9516188303629
-              },
-              {
-                "x": 1724.685019075871,
-                "y": 1207.3470182418823,
-                "width": 242.66123116016394,
-                "height": 430.4477618535358
-              },
-              {
-                "x": 1457.5477262139323,
-                "y": 1160.3943033218384,
-                "width": 168.3478730916977,
-                "height": 277.13604895273835
-              },
-              {
-                "x": 1341.6485567688942,
-                "y": 1561.1153945922852,
-                "width": 372.81694602966314,
-                "height": 493.80324935913086
-              },
-              {
-                "x": 531.1428656727076,
-                "y": 974.1589097976685,
-                "width": 44.27670124173165,
-                "height": 76.31877009073885
-              }
-            ]
+            "sharpness": 5626.386531568852,
+            "phash": "b4b6b6c3de9a9392",
+            "facesDetected": false,
+            "faces": []
           },
           "exif": {
             "date": "2025-11-24T21:55:51",
@@ -2902,7 +2863,6 @@
             "city": "Káhira",
             "latitude": 30.046494,
             "longitude": 31.224275,
-            "orientation": 1,
             "country": "Egypt",
             "countryCode": "EGY"
           },
@@ -2953,7 +2913,7 @@
               "variant": "detail",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/details/2025-11-24-205551-cebreus--collage.jpeg",
-              "width": 1706,
+              "width": 1707,
               "height": 1280
             },
             {
@@ -2971,9 +2931,7 @@
               "height": 401
             }
           ],
-          "people": [
-            "person-f4999137"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-24-210138-cebreus",
@@ -3109,19 +3067,19 @@
                 "x": 2824.0420989990234,
                 "y": 1087.761531829834,
                 "width": 144.28447723388672,
-                "height": 218.47020721435538
+                "height": 218.4702072143554
               },
               {
-                "x": 1845.5597705841062,
+                "x": 1845.5597705841064,
                 "y": 1215.7120170593262,
-                "width": 125.23600387573244,
+                "width": 125.23600387573242,
                 "height": 183.05097198486317
               },
               {
-                "x": 3170.475048065185,
+                "x": 3170.4750480651855,
                 "y": 1077.1086044311523,
-                "width": 123.24730682373048,
-                "height": 216.68410491943357
+                "width": 123.24730682373047,
+                "height": 216.6841049194336
               }
             ]
           },
@@ -3326,13 +3284,13 @@
               {
                 "x": 1345.0523614883423,
                 "y": 2226.1085510253906,
-                "width": 201.81417465209947,
+                "width": 201.8141746520995,
                 "height": 271.939754486084
               },
               {
                 "x": 1780.5203199386592,
                 "y": 1836.247205734253,
-                "width": 212.47553825378432,
+                "width": 212.4755382537843,
                 "height": 299.87311363220215
               }
             ]
@@ -4160,32 +4118,30 @@
           "story": "<p>Katakomby Kom el-Šukafa, poprvé objevené v roce 1900, se skládají ze dvou samostatných komplexů, známých jako „Hlavní katakomby“ a „Caracallova síň“. Tyto podzemní stavby byly vytesány a používány v době, kdy byl Egypt součástí Římské říše. Předpokládá se, že jejich výstavba a užívání započaly na konci 1. století n. l. a následně byly rozšiřovány a zvětšovány až do 4. století n. l.</p>\n<p>K oběma komplexům se lze dostat po točitém schodišti (A), které se vine kolem hrobové šachty Hlavních katakomb. Právě touto šachtou byli zesnulí spouštěni na lanech na místo svého pohřbení. Po dosažení horního patra projdete přes zbytky alabastrové podlahy (B) a stanete před kruhovou halou, Rotundou (C). Po levé straně najdete velkou čtvercovou komoru s lavicemi vytesanými do skály. Jedná se o Triclinium (D), kde se pravděpodobně scházely rodiny zesnulých během pohřebních slavností. Zpět v Rotundě (C) najdete další chodby vedoucí do komor. Uvidíte mnoho lokulů (ve skále vytesaných výklenků pro uložení zesnulých), sarkofágy a další hrobky vytesané do podloží. Do Caracallovy síně vede proražený vchod a schodiště (E), které klesá k velkolepé hlavní hrobce (G). Jakmile budete na této prostřední úrovni, nezapomeňte prozkoumat labyrint komor a lokulů, které ji obklopují (H).</p>\n"
         },
         {
-          "id": "2025-11-25-090256-cebreus--collage",
+          "id": "2025-11-25-082944-cebreus--collage",
           "type": "collage",
-          "src": "2025-11-25-090256-cebreus--collage.jpg",
+          "src": "2025-11-25-082944-cebreus--collage.jpg",
           "alt": "Katakomby Kom el Shoqafa, Alexandrie",
           "title": "",
-          "width": 2971,
-          "height": 2228,
-          "sizeMB": 3.88,
+          "width": 3794,
+          "height": 2846,
+          "sizeMB": 3.82,
           "aspectRatio": "collage",
-          "placeholder": "blurs/2025-11-25-090256-cebreus--collage.png",
-          "placeholderColor": "",
+          "placeholder": "blurs/2025-11-25-082944-cebreus--collage.png",
+          "placeholderColor": "rgb(104,88,72)",
           "analysis": {
-            "aestheticScore": 56.82829954845965,
-            "sharpness": 100,
-            "qualityBucket": "good",
-            "phash": "9bcecb9b83ea7e5a",
+            "sharpness": 2980.034622441641,
+            "phash": "f6c5f9cacaa2b6b6",
             "facesDetected": false,
             "faces": []
           },
           "exif": {
-            "date": "2025-11-25T09:30:00",
-            "releaseDate": "2025-11-25T09:30:00",
+            "date": "2025-11-25T09:29:44",
+            "releaseDate": "2025-11-25T09:29:44",
             "location": "Katakomby Kom el Shoqafa",
             "city": "Alexandrie",
-            "latitude": 31.178525,
-            "longitude": 29.893164,
+            "latitude": 31.178306,
+            "longitude": 29.893253,
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Alexandrie (guvernorát)"
@@ -4194,65 +4150,65 @@
           "authorSlug": "cebreus",
           "location": "Katakomby Kom el Shoqafa",
           "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178525,29.893164",
-          "date": "2025-11-25T09:30:00",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178306,29.893253",
+          "date": "2025-11-25T09:29:44",
           "sources": [
             {
               "variant": "default",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-090256-cebreus--collage.webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-25-082944-cebreus--collage.webp",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-090256-cebreus--collage.jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-25-082944-cebreus--collage.jpeg",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-090256-cebreus--collage.avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-25-082944-cebreus--collage.avif",
               "width": 370
             },
             {
               "variant": "xl",
               "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-090256-cebreus--collage.webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-082944-cebreus--collage.webp",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-090256-cebreus--collage.jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-25-082944-cebreus--collage.jpeg",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-090256-cebreus--collage.avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-082944-cebreus--collage.avif",
               "width": 534
             },
             {
               "variant": "detail",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-090256-cebreus--collage.jpeg",
-              "width": 1707,
+              "path": "/egypt-2025/images/details/2025-11-25-082944-cebreus--collage.jpeg",
+              "width": 1706,
               "height": 1280
             },
             {
               "variant": "fallback",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-090256-cebreus--collage.jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-25-082944-cebreus--collage.jpeg",
               "width": 190,
               "height": 127
             },
             {
               "variant": "admin_thumb",
               "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-090256-cebreus--collage.jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-082944-cebreus--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -4353,104 +4309,6 @@
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-083005-cebreus.jpeg",
               "width": 534,
               "height": 401
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-25-082944-cebreus--collage",
-          "type": "collage",
-          "src": "2025-11-25-082944-cebreus--collage.jpg",
-          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
-          "title": "",
-          "width": 3776,
-          "height": 2832,
-          "sizeMB": 3.88,
-          "aspectRatio": "collage",
-          "placeholder": "blurs/2025-11-25-082944-cebreus--collage.png",
-          "placeholderColor": "",
-          "analysis": {
-            "aestheticScore": 72.94404160827362,
-            "sharpness": 88,
-            "qualityBucket": "excellent",
-            "phash": "f6c5f9cacaa2f6f6",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-25T09:31:00",
-            "releaseDate": "2025-11-25T09:31:00",
-            "location": "Katakomby Kom el Shoqafa",
-            "city": "Alexandrie",
-            "latitude": 31.178306,
-            "longitude": 29.893253,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Alexandrie (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Katakomby Kom el Shoqafa",
-          "city": "Alexandrie",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178306,29.893253",
-          "date": "2025-11-25T09:31:00",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-25-082944-cebreus--collage.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-25-082944-cebreus--collage.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-25-082944-cebreus--collage.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-082944-cebreus--collage.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-25-082944-cebreus--collage.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-082944-cebreus--collage.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-25-082944-cebreus--collage.jpeg",
-              "width": 1707,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-25-082944-cebreus--collage.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-082944-cebreus--collage.jpeg",
-              "width": 534,
-              "height": 534
             }
           ],
           "people": []
@@ -4594,21 +4452,21 @@
             "faces": [
               {
                 "x": 1634.7178688049312,
-                "y": 509.6835880279541,
+                "y": 509.68358802795404,
                 "width": 71.65053176879904,
-                "height": 109.311767578125
+                "height": 109.31176757812499
               },
               {
                 "x": 1378.7721977233884,
-                "y": 488.96833419799805,
+                "y": 488.968334197998,
                 "width": 69.03915023803717,
                 "height": 98.9182720184326
               },
               {
                 "x": 1124.527914047241,
-                "y": 492.99205112457275,
+                "y": 492.9920511245727,
                 "width": 73.0598030090333,
-                "height": 103.77069282531735
+                "height": 103.77069282531737
               }
             ]
           },
@@ -4701,8 +4559,7 @@
           },
           "people": [
             "person-a4e0e8c2",
-            "person-f4999137",
-            "person-183e8294"
+            "person-f4999137"
           ]
         },
         {
@@ -4711,17 +4568,15 @@
           "src": "2025-11-25-084249-cebreus--collage.jpg",
           "alt": "Katakomby Kom el Shoqafa, Alexandrie",
           "title": "",
-          "width": 8000,
-          "height": 3428,
-          "sizeMB": 12.75,
+          "width": 8246,
+          "height": 3577,
+          "sizeMB": 13.81,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-084249-cebreus--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(104,88,72)",
           "analysis": {
-            "aestheticScore": 43.91218707787307,
-            "sharpness": 95,
-            "qualityBucket": "poor",
-            "phash": "a3292d2029a9746a",
+            "sharpness": 3278.190894566016,
+            "phash": "a3a92d60a9b9706a",
             "facesDetected": false,
             "faces": []
           },
@@ -4783,7 +4638,7 @@
               "variant": "detail",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/details/2025-11-25-084249-cebreus--collage.jpeg",
-              "width": 2987,
+              "width": 2951,
               "height": 1280
             },
             {
@@ -4798,7 +4653,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-084249-cebreus--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 232
             }
           ],
           "people": []
@@ -4809,16 +4664,14 @@
           "src": "2025-11-25-084330-cebreus--collage.jpg",
           "alt": "Katakomby Kom el Shoqafa, Alexandrie",
           "title": "",
-          "width": 3288,
-          "height": 2466,
-          "sizeMB": 3.48,
+          "width": 3303,
+          "height": 2477,
+          "sizeMB": 3.49,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-084330-cebreus--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(72,56,40)",
           "analysis": {
-            "aestheticScore": 40.71132902003039,
-            "sharpness": 100,
-            "qualityBucket": "poor",
+            "sharpness": 4097.440987323188,
             "phash": "898d0e0a8b87b6ae",
             "facesDetected": false,
             "faces": []
@@ -4896,7 +4749,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-084330-cebreus--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -5397,6 +5250,102 @@
           "people": []
         },
         {
+          "id": "2025-11-25-090256-cebreus--collage",
+          "type": "collage",
+          "src": "2025-11-25-090256-cebreus--collage.jpg",
+          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
+          "title": "",
+          "width": 2991,
+          "height": 2243,
+          "sizeMB": 3.87,
+          "aspectRatio": "collage",
+          "placeholder": "blurs/2025-11-25-090256-cebreus--collage.png",
+          "placeholderColor": "rgb(56,56,56)",
+          "analysis": {
+            "sharpness": 3651.759038747827,
+            "phash": "9bcecb9b83e2feda",
+            "facesDetected": false,
+            "faces": []
+          },
+          "exif": {
+            "date": "2025-11-25T10:02:56",
+            "releaseDate": "2025-11-25T10:02:56",
+            "location": "Katakomby Kom el Shoqafa",
+            "city": "Alexandrie",
+            "latitude": 31.178525,
+            "longitude": 29.893164,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Alexandrie (guvernorát)"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Katakomby Kom el Shoqafa",
+          "city": "Alexandrie",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=31.178525,29.893164",
+          "date": "2025-11-25T10:02:56",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-25-090256-cebreus--collage.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-25-090256-cebreus--collage.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-25-090256-cebreus--collage.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-25-090256-cebreus--collage.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-25-090256-cebreus--collage.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-25-090256-cebreus--collage.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-25-090256-cebreus--collage.jpeg",
+              "width": 1707,
+              "height": 1280
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-25-090256-cebreus--collage.jpeg",
+              "width": 190,
+              "height": 127
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-25-090256-cebreus--collage.jpeg",
+              "width": 534,
+              "height": 400
+            }
+          ],
+          "people": []
+        },
+        {
           "id": "2025-11-25-090636-cebreus",
           "type": "image",
           "src": "2025-11-25-090636-cebreus.heic",
@@ -5508,20 +5457,17 @@
           "id": "2025-11-25-092409-cebreus--collage",
           "type": "collage",
           "src": "2025-11-25-092409-cebreus--collage.jpg",
-          "alt": "Pohled na areál odhaluje základy kdysi monumentálního Serapea, které stálo na akropoli města. Kromě dominantního sloupu jsou v terénu patrné fragmenty architektonických prvků a zbytky zdí, které zbyly po zničení chrámu na konci 4. století n. l., Serapeum, Alexandrie",
+          "alt": "Serapeum, Alexandrie",
           "title": "",
-          "caption": "Pohled na areál odhaluje základy kdysi monumentálního Serapea, které stálo na akropoli města. Kromě dominantního sloupu jsou v terénu patrné fragmenty architektonických prvků a zbytky zdí, které zbyly po zničení chrámu na konci 4. století n. l.",
-          "width": 2879,
-          "height": 2159,
-          "sizeMB": 4.08,
+          "width": 2895,
+          "height": 2171,
+          "sizeMB": 3.96,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-092409-cebreus--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(24,24,24)",
           "analysis": {
-            "aestheticScore": 58.61264862211656,
-            "sharpness": 100,
-            "qualityBucket": "good",
-            "phash": "afb8bae98f9ba292",
+            "sharpness": 3910.548200178621,
+            "phash": "afb8bae987939292",
             "facesDetected": false,
             "faces": []
           },
@@ -5598,7 +5544,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-092409-cebreus--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 400
             }
           ],
           "people": []
@@ -6024,12 +5970,12 @@
             "faces": [
               {
                 "x": 2159.6050758361816,
-                "y": 1575.2690448760984,
-                "width": 468.9970092773438,
+                "y": 1575.2690448760986,
+                "width": 468.99700927734375,
                 "height": 583.7191143035889
               },
               {
-                "x": 3174.6257171630855,
+                "x": 3174.625717163086,
                 "y": 2302.040725708008,
                 "width": 328.20542907714844,
                 "height": 582.0275802612306
@@ -6237,15 +6183,15 @@
             "facesDetected": true,
             "faces": [
               {
-                "x": 1650.4825286865232,
+                "x": 1650.4825286865234,
                 "y": 1238.164587020874,
-                "width": 103.15702056884764,
+                "width": 103.15702056884766,
                 "height": 150.7268943786621
               },
               {
-                "x": 1966.8581542968752,
+                "x": 1966.858154296875,
                 "y": 1263.2560558319092,
-                "width": 102.63455200195311,
+                "width": 102.63455200195312,
                 "height": 155.16018676757812
               }
             ]
@@ -6454,13 +6400,13 @@
             "facesDetected": true,
             "faces": [
               {
-                "x": 3283.7387351989737,
-                "y": 3725.1566619873047,
+                "x": 3283.738735198974,
+                "y": 3725.1566619873042,
                 "width": 518.1023254394527,
                 "height": 702.5447845458984
               },
               {
-                "x": 1659.3783130645747,
+                "x": 1659.378313064575,
                 "y": 3148.0771522521973,
                 "width": 293.24713897705055,
                 "height": 379.73851776123047
@@ -7000,20 +6946,17 @@
           "id": "2025-11-25-102006-cebreus--collage",
           "type": "collage",
           "src": "2025-11-25-102006-cebreus--collage.jpg",
-          "alt": "Open-Air Museum (Skanzen potopených památek)\n  \nV areálu je umístěna expozice artefaktů vyzdvižených z vod alexandrijského zálivu (podmořská archeologie):\n  *   **Obelisk krále Sethiho I. (19. dynastie):** Křemencový monolit s královskými tituly, původně z Heliopole, v antice převezen do Alexandrie.\n  *   **Sfingy:** Např. sfinga krále Psamtika II. (26. dynastie) nebo Senusreta III., u nichž jsou patrné stopy eroze způsobené staletým pobytem v mořské vodě.\n  *   **Architektonické fragmenty:** Části kolosálních soch a hlavice sloupů (např. korintské s akantovými listy), pravděpodobně pocházející z alexandrijského majáku Pharos., Kom El Deka, Alexandrie",
+          "alt": "Kom El Deka, Alexandrie",
           "title": "",
-          "caption": "Open-Air Museum (Skanzen potopených památek)\n  \nV areálu je umístěna expozice artefaktů vyzdvižených z vod alexandrijského zálivu (podmořská archeologie):\n  *   **Obelisk krále Sethiho I. (19. dynastie):** Křemencový monolit s královskými tituly, původně z Heliopole, v antice převezen do Alexandrie.\n  *   **Sfingy:** Např. sfinga krále Psamtika II. (26. dynastie) nebo Senusreta III., u nichž jsou patrné stopy eroze způsobené staletým pobytem v mořské vodě.\n  *   **Architektonické fragmenty:** Části kolosálních soch a hlavice sloupů (např. korintské s akantovými listy), pravděpodobně pocházející z alexandrijského majáku Pharos.",
-          "width": 2197,
-          "height": 1648,
-          "sizeMB": 2.53,
+          "width": 2219,
+          "height": 1664,
+          "sizeMB": 2.5,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-102006-cebreus--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(24,24,24)",
           "analysis": {
-            "aestheticScore": 58.30074788664029,
-            "sharpness": 100,
-            "qualityBucket": "good",
-            "phash": "a69aab0ed2c30536",
+            "sharpness": 4452.322058571119,
+            "phash": "a69aaa0ed2c38536",
             "facesDetected": false,
             "faces": []
           },
@@ -7075,7 +7018,7 @@
               "variant": "detail",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/details/2025-11-25-102006-cebreus--collage.jpeg",
-              "width": 1706,
+              "width": 1707,
               "height": 1280
             },
             {
@@ -7090,7 +7033,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-102006-cebreus--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -7198,20 +7141,17 @@
           "id": "2025-11-25-102804-cebreus--collage",
           "type": "collage",
           "src": "2025-11-25-102804-cebreus--collage.jpg",
-          "alt": "Villa of the Birds (Vila ptáků)\n\n— Precizní mozaikové práce s geometrickými tvary, jako jsou kříže, kosočtverce a propletené vzory (tzv. guilloche).\n\n— Na největší fotografii vlevo je pod mozaikovým vzorem vidět řecký nápis \"ΚΑΛΩϹ ΗΚΕΙϹ\" (Kalōs hēkeis), což v překladu znamená \"Vítej\" nebo \"Dobře jsi přišel\". Jednalo se o běžný pozdrav u vchodů do římských domů.\n\n— Horní pravý snímek ukazuje hlavici sloupu, pravděpodobně v korintském stylu, což dokládá luxusní charakter této antické rezidence., Kom El Deka, Alexandrie",
+          "alt": "Kom El Deka, Alexandrie",
           "title": "",
-          "caption": "Villa of the Birds (Vila ptáků)\n\n— Precizní mozaikové práce s geometrickými tvary, jako jsou kříže, kosočtverce a propletené vzory (tzv. guilloche).\n\n— Na největší fotografii vlevo je pod mozaikovým vzorem vidět řecký nápis \"ΚΑΛΩϹ ΗΚΕΙϹ\" (Kalōs hēkeis), což v překladu znamená \"Vítej\" nebo \"Dobře jsi přišel\". Jednalo se o běžný pozdrav u vchodů do římských domů.\n\n— Horní pravý snímek ukazuje hlavici sloupu, pravděpodobně v korintském stylu, což dokládá luxusní charakter této antické rezidence.",
-          "width": 3673,
-          "height": 2066,
-          "sizeMB": 5.27,
+          "width": 3744,
+          "height": 2106,
+          "sizeMB": 5.4,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-102804-cebreus--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(168,152,136)",
           "analysis": {
-            "aestheticScore": 66.28582596760964,
-            "sharpness": 91,
-            "qualityBucket": "excellent",
-            "phash": "a69e94ecb0b0980a",
+            "sharpness": 3255.412374653256,
+            "phash": "a61694acb0b0984a",
             "facesDetected": false,
             "faces": []
           },
@@ -7288,7 +7228,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-102804-cebreus--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 300
             }
           ],
           "people": []
@@ -7414,7 +7354,7 @@
               {
                 "x": 1481.52787399292,
                 "y": 1447.8481178283691,
-                "width": 411.2721633911132,
+                "width": 411.2721633911133,
                 "height": 566.9730834960936
               }
             ]
@@ -7635,19 +7575,19 @@
               {
                 "x": 2252.6357231140137,
                 "y": 1185.879518508911,
-                "width": 119.86159515380861,
-                "height": 171.01544952392587
+                "width": 119.8615951538086,
+                "height": 171.0154495239259
               },
               {
-                "x": 1954.3384952545168,
+                "x": 1954.3384952545166,
                 "y": 1156.1413478851316,
-                "width": 116.90859031677248,
-                "height": 172.46749877929696
+                "width": 116.90859031677246,
+                "height": 172.467498779297
               },
               {
                 "x": 2550.519229888916,
                 "y": 1161.9382495880127,
-                "width": 117.6131057739258,
+                "width": 117.61310577392578,
                 "height": 154.52981185913075
               }
             ]
@@ -8396,7 +8336,7 @@
               {
                 "x": 2584.268440246582,
                 "y": 1329.844482421875,
-                "width": 982.7811584472657,
+                "width": 982.7811584472656,
                 "height": 1416.954460144043
               }
             ]
@@ -9714,7 +9654,7 @@
             "facesDetected": true,
             "faces": [
               {
-                "x": 3483.4767379760738,
+                "x": 3483.476737976074,
                 "y": 2751.623245239258,
                 "width": 563.192756652832,
                 "height": 845.7780761718747
@@ -10356,13 +10296,12 @@
       ],
       "items": [
         {
-          "id": "loc-gizska-nekropole-0840",
+          "id": "loc-gizska-nekropole-0901",
           "type": "separator",
           "location": "Gízská nekropole",
           "city": "Gíza",
           "hasPhotos": true,
-          "startDate": "2025-11-26T08:40:00",
-          "endDate": "2025-11-26T12:00:00"
+          "startDate": "2025-11-26T09:01:12"
         },
         {
           "id": "2025-11-26-080112-cebreus",
@@ -10568,32 +10507,42 @@
           "src": "2025-11-26-091503-bobina.heic",
           "alt": "Gízská nekropole",
           "title": "",
-          "width": 4032,
-          "height": 3024,
+          "width": 1562,
+          "height": 1172,
           "sizeMB": 2.42,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-091503-bobina.png",
           "placeholderColor": "rgb(216,216,200)",
           "analysis": {
-            "aestheticScore": 64.82491602137246,
-            "sharpness": 100,
-            "qualityBucket": "good",
-            "phash": "e3e566c64e07a688",
+            "sharpness": 7056.778815297715,
+            "phash": "072f2f2626876411",
             "facesDetected": true,
             "faces": [
               {
-                "x": 1606.7933177947996,
-                "y": 698.8273029327391,
-                "width": 104.83353424072264,
-                "height": 136.35528373718253
+                "x": 621.0629233121872,
+                "y": 262.9319004416466,
+                "width": 107.32860338687897,
+                "height": 126.45789933204651
               },
               {
-                "x": 1821.0142021179197,
-                "y": 744.3776578903198,
-                "width": 95.10393905639648,
-                "height": 120.14890480041491
+                "x": 1063.874306678772,
+                "y": 433.2391009926796,
+                "width": 105.75992012023926,
+                "height": 144.1366590261459
+              },
+              {
+                "x": 842.3873831033707,
+                "y": 315.2449363768101,
+                "width": 96.05212712287903,
+                "height": 117.97694066166875
               }
             ]
+          },
+          "clap": {
+            "width": 1562,
+            "height": 1172,
+            "horizOffset": -247,
+            "vertOffset": -491
           },
           "exif": {
             "date": "2025-11-26T09:02:16",
@@ -10649,8 +10598,8 @@
               "variant": "detail",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/details/2025-11-26-091503-bobina.jpeg",
-              "width": 1707,
-              "height": 1280
+              "width": 1562,
+              "height": 1172
             },
             {
               "variant": "fallback",
@@ -11830,26 +11779,36 @@
           "src": "2025-11-26-081434-cebreus.heic",
           "alt": "Gízská nekropole, Gíza",
           "title": "",
-          "width": 4032,
-          "height": 3024,
+          "width": 2006,
+          "height": 1505,
           "sizeMB": 1.58,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-081434-cebreus.png",
-          "placeholderColor": "rgb(152,152,152)",
+          "placeholderColor": "rgb(200,168,120)",
           "analysis": {
-            "aestheticScore": 71.0727220247908,
-            "sharpness": 65,
-            "qualityBucket": "good",
-            "phash": "2b1b8d6e1c84c0c0",
+            "sharpness": 3771.566379714205,
+            "phash": "17374b62d2de5d5d",
             "facesDetected": true,
             "faces": [
               {
-                "x": 2002.157827377319,
-                "y": 1377.905822753906,
-                "width": 117.76463127136229,
-                "height": 131.76710128784185
+                "x": 1375.4312192201614,
+                "y": 442.6300923228264,
+                "width": 121.81692767143248,
+                "height": 168.04974806308738
+              },
+              {
+                "x": 688.0575709939003,
+                "y": 365.521417170763,
+                "width": 125.49038207530974,
+                "height": 164.944445759058
               }
             ]
+          },
+          "clap": {
+            "width": 2006,
+            "height": 1505,
+            "horizOffset": 299,
+            "vertOffset": 225
           },
           "exif": {
             "date": "2025-11-26T09:14:34",
@@ -11910,7 +11869,7 @@
               "variant": "detail",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/details/2025-11-26-081434-cebreus.jpeg",
-              "width": 1707,
+              "width": 1706,
               "height": 1280
             },
             {
@@ -11925,7 +11884,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-081434-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 400
             }
           ],
           "flags": [
@@ -11941,32 +11900,42 @@
           "src": "2025-11-26-081544-cebreus.heic",
           "alt": "Gízská nekropole, Gíza",
           "title": "",
-          "width": 4032,
-          "height": 3024,
-          "sizeMB": 2.06,
+          "width": 2143,
+          "height": 1607,
+          "sizeMB": 2.07,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-081544-cebreus.png",
-          "placeholderColor": "rgb(232,232,216)",
+          "placeholderColor": "rgb(232,232,200)",
           "analysis": {
-            "aestheticScore": 63.58158216318402,
-            "sharpness": 100,
-            "qualityBucket": "good",
-            "phash": "8f078e8e06422000",
+            "sharpness": 6759.16905330613,
+            "phash": "9f9b23633353db24",
             "facesDetected": true,
             "faces": [
               {
-                "x": 1148.4140281677246,
-                "y": 944.9819755554198,
-                "width": 204.32462310791013,
-                "height": 257.88846588134754
+                "x": 448.7294749170542,
+                "y": 428.6989034712314,
+                "width": 210.80493168532848,
+                "height": 235.92290711402893
               },
               {
-                "x": 2285.452949523926,
-                "y": 1079.8894157409666,
-                "width": 199.43158721923825,
-                "height": 259.42270660400396
+                "x": 1595.912440776825,
+                "y": 578.7072914838791,
+                "width": 208.75210666656494,
+                "height": 259.3367040753364
+              },
+              {
+                "x": 1168.2979245185852,
+                "y": 416.01066617667675,
+                "width": 185.13891887664795,
+                "height": 195.39544387161723
               }
             ]
+          },
+          "clap": {
+            "width": 2143,
+            "height": 1607,
+            "horizOffset": -282,
+            "vertOffset": -212
           },
           "exif": {
             "date": "2025-11-26T09:15:44",
@@ -12042,7 +12011,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-081544-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 400
             }
           ],
           "flags": [
@@ -14288,13 +14257,12 @@
           "people": []
         },
         {
-          "id": "loc-egyptsky-papyrusovy-institut-1230",
+          "id": "loc-egyptsky-papyrusovy-institut-1234",
           "type": "separator",
           "location": "Egyptský papyrusový institut",
           "city": "Gíza",
           "hasPhotos": true,
-          "startDate": "2025-11-26T12:30:00",
-          "endDate": "2025-11-26T12:50:00"
+          "startDate": "2025-11-26T12:34:57"
         },
         {
           "id": "2025-11-26-113457-cebreus",
@@ -14309,7 +14277,9 @@
           "placeholder": "blurs/2025-11-26-113457-cebreus.png",
           "placeholderColor": "rgb(8,8,24)",
           "analysis": {
+            "aestheticScore": 78.92452122074786,
             "sharpness": 100,
+            "qualityBucket": "excellent",
             "phash": "6090063e29cc5210",
             "facesDetected": true,
             "faces": [
@@ -14325,9 +14295,7 @@
                 "width": 356.7470169067383,
                 "height": 494.28001785278315
               }
-            ],
-            "aestheticScore": 78.92452122074786,
-            "qualityBucket": "excellent"
+            ]
           },
           "exif": {
             "date": "",
@@ -14416,17 +14384,15 @@
           "src": "2025-11-26-113557-dasa--collage.jpg",
           "alt": "Egyptský papyrusový institut, Gíza",
           "title": "",
-          "width": 8000,
-          "height": 6000,
-          "sizeMB": 29.25,
+          "width": 8068,
+          "height": 6040,
+          "sizeMB": 28.42,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-26-113557-dasa--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(216,200,168)",
           "analysis": {
-            "aestheticScore": 100,
-            "sharpness": 100,
-            "qualityBucket": "excellent",
-            "phash": "929296a2b296798e",
+            "sharpness": 6566.494208055678,
+            "phash": "92b296a2b2967a8e",
             "facesDetected": false,
             "faces": []
           },
@@ -14488,7 +14454,7 @@
               "variant": "detail",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/details/2025-11-26-113557-dasa--collage.jpeg",
-              "width": 1707,
+              "width": 1710,
               "height": 1280
             },
             {
@@ -14503,7 +14469,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-113557-dasa--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 400
             }
           ],
           "people": []
@@ -14608,13 +14574,12 @@
           "people": []
         },
         {
-          "id": "loc-velke-egyptske-muzeum-1310",
+          "id": "loc-velke-egyptske-muzeum-1313",
           "type": "separator",
           "location": "Velké egyptské muzeum",
           "city": "Gíza",
           "hasPhotos": true,
-          "startDate": "2025-11-26T13:10:00",
-          "endDate": "2025-11-26T17:20:00"
+          "startDate": "2025-11-26T13:13:46"
         },
         {
           "id": "2025-11-26-121346-cebreus",
@@ -14749,7 +14714,7 @@
               {
                 "x": 4406.515274047852,
                 "y": 2555.6357688903804,
-                "width": 412.6703796386718,
+                "width": 412.6703796386719,
                 "height": 555.1668319702146
               }
             ]
@@ -14858,7 +14823,7 @@
             "facesDetected": true,
             "faces": [
               {
-                "x": 3461.5039787292476,
+                "x": 3461.503978729248,
                 "y": 2572.923854827881,
                 "width": 348.1904525756836,
                 "height": 539.3038787841795
@@ -14970,7 +14935,7 @@
             "faces": [
               {
                 "x": 4991.409942626953,
-                "y": 3066.5477828979488,
+                "y": 3066.547782897949,
                 "width": 368.8541564941406,
                 "height": 555.1427993774414
               }
@@ -15449,17 +15414,15 @@
           "src": "2025-11-26-123858-cebreus--collage.jpg",
           "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
-          "width": 8000,
-          "height": 6000,
-          "sizeMB": 25.51,
+          "width": 8214,
+          "height": 6128,
+          "sizeMB": 25.25,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-26-123858-cebreus--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(24,24,24)",
           "analysis": {
-            "aestheticScore": 67.52365472601569,
-            "sharpness": 100,
-            "qualityBucket": "excellent",
-            "phash": "969615759616daca",
+            "sharpness": 4038.0301391320086,
+            "phash": "969617749616daca",
             "facesDetected": false,
             "faces": []
           },
@@ -15521,7 +15484,7 @@
               "variant": "detail",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/details/2025-11-26-123858-cebreus--collage.jpeg",
-              "width": 1707,
+              "width": 1716,
               "height": 1280
             },
             {
@@ -15536,7 +15499,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-123858-cebreus--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 399
             }
           ],
           "people": []
@@ -16872,127 +16835,6 @@
           "people": []
         },
         {
-          "id": "2025-11-26-130813-cebreus",
-          "type": "image",
-          "src": "2025-11-26-130813-cebreus.heic",
-          "alt": "Velké egyptské muzeum, Gíza",
-          "title": "",
-          "width": 8064,
-          "height": 6048,
-          "sizeMB": 5.7,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-26-130813-cebreus.png",
-          "placeholderColor": "rgb(88,72,56)",
-          "analysis": {
-            "aestheticScore": 41.665515381773645,
-            "sharpness": 100,
-            "qualityBucket": "poor",
-            "phash": "da5bb69e9e3d6c6c",
-            "facesDetected": true,
-            "faces": [
-              {
-                "x": 5844.249755859375,
-                "y": 4170.434463500976,
-                "width": 374.93824768066406,
-                "height": 494.69169616699224
-              },
-              {
-                "x": 4418.995399475098,
-                "y": 1429.2556629180906,
-                "width": 250.89353942871097,
-                "height": 336.29431915283203
-              },
-              {
-                "x": 4247.251281738281,
-                "y": 3788.797130584716,
-                "width": 180.9913787841797,
-                "height": 225.6405715942385
-              }
-            ]
-          },
-          "exif": {
-            "date": "2025-11-26T14:08:13",
-            "releaseDate": "2025-11-26T14:08:13",
-            "location": "Velké egyptské muzeum",
-            "city": "Gíza",
-            "latitude": 29.994286,
-            "longitude": 31.119428,
-            "orientation": 1,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Gíza (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Velké egyptské muzeum",
-          "city": "Gíza",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994286,31.119428",
-          "date": "2025-11-26T14:08:13",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-26-130813-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-26-130813-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-26-130813-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-130813-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-26-130813-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-130813-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-130813-cebreus.jpeg",
-              "width": 1707,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-26-130813-cebreus.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-130813-cebreus.jpeg",
-              "width": 534,
-              "height": 401
-            }
-          ],
-          "people": [
-            "person-0db741fb",
-            "person-0a61c713"
-          ]
-        },
-        {
           "id": "2025-11-26-131110-cebreus",
           "type": "image",
           "src": "2025-11-26-131110-cebreus.heic",
@@ -17619,7 +17461,7 @@
             "faces": [
               {
                 "x": 146.8830313682556,
-                "y": 414.698610305786,
+                "y": 414.6986103057861,
                 "width": 174.8927779197693,
                 "height": 335.6774024963379
               },
@@ -17627,7 +17469,7 @@
                 "x": 515.7725458145142,
                 "y": 700.2589845657349,
                 "width": 65.60152816772458,
-                "height": 111.05184745788574
+                "height": 111.05184745788573
               }
             ]
           },
@@ -17732,8 +17574,8 @@
                 "height": 188.1701545715332
               },
               {
-                "x": 1978.1948089599612,
-                "y": 782.2046585083007,
+                "x": 1978.194808959961,
+                "y": 782.2046585083008,
                 "width": 93.76075744628906,
                 "height": 186.7215900421142
               },
@@ -17741,17 +17583,17 @@
                 "x": 2275.1643562316895,
                 "y": 894.5737924575806,
                 "width": 83.75550842285156,
-                "height": 116.6922369003296
+                "height": 116.69223690032959
               },
               {
                 "x": 3034.5616035461426,
-                "y": 957.2721233367921,
+                "y": 957.272123336792,
                 "width": 179.36293029785156,
                 "height": 279.4380111694336
               },
               {
-                "x": 844.9118213653563,
-                "y": 784.6662569046019,
+                "x": 844.9118213653564,
+                "y": 784.666256904602,
                 "width": 91.51767539978027,
                 "height": 170.141143798828
               }
@@ -18191,8 +18033,7 @@
           "people": [
             "person-ba30172f",
             "person-0a61c713",
-            "person-e106e434",
-            "person-183e8294"
+            "person-e106e434"
           ]
         },
         {
@@ -18366,9 +18207,7 @@
           },
           "people": [
             "person-ba30172f",
-            "person-e106e434",
-            "person-183e8294",
-            "person-0a61c713"
+            "person-e106e434"
           ]
         },
         {
@@ -18914,7 +18753,7 @@
                 "height": 515.3949337005615
               },
               {
-                "x": 1689.3785591125484,
+                "x": 1689.3785591125486,
                 "y": 2334.792583465576,
                 "width": 236.11854171752915,
                 "height": 309.4369354248047
@@ -19017,7 +18856,7 @@
             "faces": [
               {
                 "x": 261.26319551956124,
-                "y": 464.0204378664494,
+                "y": 464.02043786644936,
                 "width": 334.39011812698305,
                 "height": 449.3572475016117
               },
@@ -19034,13 +18873,13 @@
                 "height": 309.1451427638531
               },
               {
-                "x": 1468.161541727216,
+                "x": 1468.1615417272158,
                 "y": 557.501522809267,
                 "width": 369.012131830938,
                 "height": 446.32892817258835
               },
               {
-                "x": 838.9355366677553,
+                "x": 838.9355366677554,
                 "y": 1154.9262174367905,
                 "width": 303.76122130306106,
                 "height": 401.19988226890564
@@ -19233,10 +19072,10 @@
             "facesDetected": true,
             "faces": [
               {
-                "x": 3902.112487792969,
+                "x": 3902.1124877929688,
                 "y": 1512.8227558135984,
                 "width": 64.29247283935547,
-                "height": 99.2399482727052
+                "height": 99.23994827270519
               }
             ]
           },
@@ -19519,17 +19358,15 @@
           "alt": "První sluneční loď krále Chufua (4. dynastie, cca 2566 př. n. l.). Plavidlo o délce 43 metrů z libanonského cedru bylo nalezeno v roce 1954 v jámě u Velké pyramidy v Gíze. Konstrukce využívá systém čepů a lan z trávy halfah bez použití kovových hřebíků., Velké egyptské muzeum, Gíza",
           "title": "",
           "caption": "První sluneční loď krále Chufua (4. dynastie, cca 2566 př. n. l.). Plavidlo o délce 43 metrů z libanonského cedru bylo nalezeno v roce 1954 v jámě u Velké pyramidy v Gíze. Konstrukce využívá systém čepů a lan z trávy halfah bez použití kovových hřebíků.",
-          "width": 4295,
-          "height": 3221,
-          "sizeMB": 7,
+          "width": 4299,
+          "height": 3224,
+          "sizeMB": 6.82,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-26-153129-cebreus--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(40,24,24)",
           "analysis": {
-            "aestheticScore": 63.50563360339429,
-            "sharpness": 100,
-            "qualityBucket": "good",
-            "phash": "b1a98f3c30b6ba8e",
+            "sharpness": 3666.914265473133,
+            "phash": "b1a98e3c32b6ba8e",
             "facesDetected": false,
             "faces": []
           },
@@ -19606,7 +19443,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-153129-cebreus--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -19892,17 +19729,15 @@
           "src": "2025-11-26-155237-cebreus--collage.jpg",
           "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
-          "width": 8000,
-          "height": 4500,
-          "sizeMB": 15.61,
+          "width": 8006,
+          "height": 4504,
+          "sizeMB": 15.29,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-26-155237-cebreus--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(8,8,8)",
           "analysis": {
-            "aestheticScore": 66.26421651677161,
-            "sharpness": 100,
-            "qualityBucket": "excellent",
-            "phash": "a696869696b6b2b3",
+            "sharpness": 7675.523032473452,
+            "phash": "a686869696b6b2b3",
             "facesDetected": false,
             "faces": []
           },
@@ -19964,7 +19799,7 @@
               "variant": "detail",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/details/2025-11-26-155237-cebreus--collage.jpeg",
-              "width": 2276,
+              "width": 2275,
               "height": 1280
             },
             {
@@ -19979,7 +19814,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-155237-cebreus--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 301
             }
           ],
           "people": []
@@ -20103,21 +19938,21 @@
             "facesDetected": true,
             "faces": [
               {
-                "x": 216.75396466255185,
+                "x": 216.75396466255188,
                 "y": 2020.3474960327148,
-                "width": 119.00070261955263,
+                "width": 119.00070261955261,
                 "height": 180.01998138427723
               },
               {
-                "x": 493.82132577896124,
-                "y": 1967.346857070923,
-                "width": 105.84299325942992,
+                "x": 493.8213257789612,
+                "y": 1967.3468570709229,
+                "width": 105.84299325942993,
                 "height": 162.93364906311012
               },
               {
                 "x": 276.7902202606201,
                 "y": 1847.5601234436035,
-                "width": 127.71827030181886,
+                "width": 127.71827030181885,
                 "height": 208.3757972717286
               }
             ]
@@ -20404,12 +20239,12 @@
           "placeholder": "blurs/2025-11-26-170618-bobo.png",
           "placeholderColor": "rgb(40,24,24)",
           "analysis": {
+            "aestheticScore": 81.48006191177292,
             "sharpness": 100,
+            "qualityBucket": "excellent",
             "phash": "95939bc9b3acccf1",
             "facesDetected": false,
-            "faces": [],
-            "aestheticScore": 81.48006191177292,
-            "qualityBucket": "excellent"
+            "faces": []
           },
           "exif": {
             "date": "",
@@ -20735,106 +20570,6 @@
           ]
         },
         {
-          "id": "2025-11-26-191950-dasa--collage",
-          "type": "collage",
-          "src": "2025-11-26-191950-dasa--collage.jpg",
-          "alt": "Photoblog image",
-          "title": "",
-          "width": 2760,
-          "height": 2070,
-          "sizeMB": 2.36,
-          "aspectRatio": "collage",
-          "placeholder": "blurs/2025-11-26-191950-dasa--collage.png",
-          "placeholderColor": "",
-          "analysis": {
-            "aestheticScore": 59.191926393608526,
-            "sharpness": 100,
-            "qualityBucket": "good",
-            "phash": "263238f232b7fb6d",
-            "facesDetected": true,
-            "faces": [
-              {
-                "x": 2407.078242301941,
-                "y": 1008.6448645591735,
-                "width": 223.23155879974365,
-                "height": 289.3211674690246
-              }
-            ]
-          },
-          "exif": {
-            "date": "2025-11-26T20:19:50",
-            "releaseDate": "2025-11-26T20:19:50",
-            "latitude": 29.992078,
-            "longitude": 31.209153
-          },
-          "author": "Dáša",
-          "authorSlug": "dasa",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.992078,31.209153",
-          "date": "2025-11-26T20:19:50",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-26-191950-dasa--collage.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-26-191950-dasa--collage.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-26-191950-dasa--collage.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-191950-dasa--collage.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-26-191950-dasa--collage.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-191950-dasa--collage.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-191950-dasa--collage.jpeg",
-              "width": 1707,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-26-191950-dasa--collage.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-191950-dasa--collage.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "people": [
-            "person-183e8294"
-          ]
-        },
-        {
           "id": "2025-11-26-192016-cebreus",
           "type": "image",
           "src": "2025-11-26-192016-cebreus.heic",
@@ -20854,7 +20589,7 @@
             "facesDetected": true,
             "faces": [
               {
-                "x": 1705.6821498870845,
+                "x": 1705.6821498870847,
                 "y": 1449.4734420776367,
                 "width": 176.2855567932129,
                 "height": 264.19389724731445
@@ -20863,7 +20598,7 @@
           },
           "exif": {
             "date": "2025-11-26T20:20:16",
-            "releaseDate": "2025-11-26T20:20:16",
+            "releaseDate": "2025-11-26T20:19:50",
             "latitude": 29.989361,
             "longitude": 31.211206,
             "orientation": 1,
@@ -20940,6 +20675,95 @@
           "people": [
             "person-9b0bc40f"
           ]
+        },
+        {
+          "id": "2025-11-26-191950-dasa--collage",
+          "type": "collage",
+          "src": "2025-11-26-191950-dasa--collage.jpg",
+          "alt": "Photoblog image",
+          "title": "",
+          "width": 2816,
+          "height": 2112,
+          "sizeMB": 2.25,
+          "aspectRatio": "collage",
+          "placeholder": "blurs/2025-11-26-191950-dasa--collage.png",
+          "placeholderColor": "rgb(8,8,8)",
+          "analysis": {
+            "sharpness": 5225.975464797107,
+            "phash": "2632b8b2b2b6ebe5",
+            "facesDetected": false,
+            "faces": []
+          },
+          "exif": {
+            "date": "2025-11-26T20:19:50",
+            "releaseDate": "2025-11-26T20:20:16",
+            "latitude": 29.992078,
+            "longitude": 31.209153
+          },
+          "author": "Dáša",
+          "authorSlug": "dasa",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.992078,31.209153",
+          "date": "2025-11-26T20:19:50",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-26-191950-dasa--collage.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-26-191950-dasa--collage.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-26-191950-dasa--collage.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-191950-dasa--collage.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-26-191950-dasa--collage.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-191950-dasa--collage.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-26-191950-dasa--collage.jpeg",
+              "width": 1707,
+              "height": 1280
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-26-191950-dasa--collage.jpeg",
+              "width": 190,
+              "height": 127
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-191950-dasa--collage.jpeg",
+              "width": 534,
+              "height": 401
+            }
+          ],
+          "people": []
         }
       ],
       "id": "day-2025-11-26"
@@ -21060,17 +20884,15 @@
           "src": "2025-11-27-064239-bobo--collage.jpg",
           "alt": "Photoblog image",
           "title": "",
-          "width": 3610,
-          "height": 2708,
-          "sizeMB": 4.64,
+          "width": 3711,
+          "height": 2783,
+          "sizeMB": 4.69,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-27-064239-bobo--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(8,8,8)",
           "analysis": {
-            "aestheticScore": 62.18126646829345,
-            "sharpness": 100,
-            "qualityBucket": "good",
-            "phash": "1a1a189087c6ccce",
+            "sharpness": 3856.5054884184515,
+            "phash": "9c9a989087c6ccce",
             "facesDetected": false,
             "faces": []
           },
@@ -21122,7 +20944,7 @@
               "variant": "detail",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/details/2025-11-27-064239-bobo--collage.jpeg",
-              "width": 1706,
+              "width": 1707,
               "height": 1280
             },
             {
@@ -21137,7 +20959,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-27-064239-bobo--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 400
             }
           ],
           "people": []
@@ -21148,17 +20970,15 @@
           "src": "2025-11-27-113855-bobina--collage.jpg",
           "alt": "Photoblog image",
           "title": "",
-          "width": 2915,
-          "height": 2186,
-          "sizeMB": 2.19,
+          "width": 2958,
+          "height": 2219,
+          "sizeMB": 2.1,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-27-113855-bobina--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(8,8,8)",
           "analysis": {
-            "aestheticScore": 45.27248103274053,
-            "sharpness": 100,
-            "qualityBucket": "good",
-            "phash": "f470cb4be3a1a4a7",
+            "sharpness": 4671.952817480703,
+            "phash": "f474cb4be3a5a4a6",
             "facesDetected": false,
             "faces": []
           },
@@ -21213,7 +21033,7 @@
               "variant": "detail",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/details/2025-11-27-113855-bobina--collage.jpeg",
-              "width": 1707,
+              "width": 1706,
               "height": 1280
             },
             {
@@ -21228,7 +21048,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-27-113855-bobina--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 400
             }
           ],
           "people": []
@@ -21467,20 +21287,20 @@
               {
                 "x": 60.792493700981126,
                 "y": 1179.668535232544,
-                "width": 107.54623568058014,
+                "width": 107.54623568058012,
                 "height": 146.14940643310547
               },
               {
                 "x": 793.1370849609374,
                 "y": 1197.0617637634277,
                 "width": 100.8879833221436,
-                "height": 120.7236442565918
+                "height": 120.72364425659178
               },
               {
                 "x": 2434.8445930480952,
                 "y": 1231.6045303344727,
                 "width": 74.49911499023459,
-                "height": 102.7890815734863
+                "height": 102.78908157348631
               }
             ]
           },
@@ -23345,7 +23165,7 @@
               {
                 "x": 1560.0692710876465,
                 "y": 1096.3502998352049,
-                "width": 105.33821868896483,
+                "width": 105.33821868896484,
                 "height": 145.27317810058597
               }
             ]
@@ -23444,7 +23264,7 @@
             "facesDetected": true,
             "faces": [
               {
-                "x": 3302.361591339111,
+                "x": 3302.3615913391113,
                 "y": 1290.3285312652588,
                 "width": 184.20069122314453,
                 "height": 285.7001838684081
@@ -23452,7 +23272,7 @@
               {
                 "x": 1110.6198921203613,
                 "y": 336.1656246185303,
-                "width": 212.643985748291,
+                "width": 212.64398574829102,
                 "height": 298.60244178771967
               }
             ]
@@ -23552,7 +23372,7 @@
             "facesDetected": true,
             "faces": [
               {
-                "x": 1644.513072967529,
+                "x": 1644.5130729675293,
                 "y": 996.697772026062,
                 "width": 364.90343856811523,
                 "height": 503.53875446319586
@@ -23860,7 +23680,7 @@
                 "x": 543.1341333389281,
                 "y": 2487.1623458862305,
                 "width": 686.2918424606322,
-                "height": 858.8407516479492
+                "height": 858.8407516479491
               }
             ]
           },
@@ -23958,15 +23778,15 @@
             "facesDetected": true,
             "faces": [
               {
-                "x": 3169.7045631408687,
+                "x": 3169.704563140869,
                 "y": 1516.3148117065427,
                 "width": 196.428955078125,
                 "height": 232.12937164306632
               },
               {
                 "x": 2830.9173431396484,
-                "y": 1612.6571502685545,
-                "width": 120.16344451904298,
+                "y": 1612.6571502685547,
+                "width": 120.16344451904297,
                 "height": 197.79496765136707
               },
               {
@@ -23979,7 +23799,7 @@
                 "x": 2597.874011993408,
                 "y": 1543.2786598205564,
                 "width": 82.2967300415039,
-                "height": 120.2915382385254
+                "height": 120.29153823852539
               }
             ]
           },
@@ -24077,7 +23897,7 @@
             "facesDetected": true,
             "faces": [
               {
-                "x": 1627.945123672485,
+                "x": 1627.9451236724851,
                 "y": 779.3124561309814,
                 "width": 388.01942825317377,
                 "height": 600.6206359863281
@@ -24086,7 +23906,7 @@
                 "x": 164.6041395664215,
                 "y": 1559.6240673065186,
                 "width": 282.25050044059753,
-                "height": 491.5300884246826
+                "height": 491.53008842468256
               }
             ]
           },
@@ -26580,15 +26400,15 @@
             "faces": [
               {
                 "x": 509.461887359619,
-                "y": 1972.4597911834717,
+                "y": 1972.4597911834715,
                 "width": 105.01750373840333,
                 "height": 142.5927028656006
               },
               {
                 "x": 2445.386970520019,
-                "y": 1865.3479671478271,
+                "y": 1865.347967147827,
                 "width": 139.35106658935536,
-                "height": 214.3850269317627
+                "height": 214.38502693176267
               }
             ]
           },
