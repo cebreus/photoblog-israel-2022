@@ -447,19 +447,29 @@ async function copyMetadataFromSource(
   targetPath: string,
   _sourceNames: string,
 ) {
-  // Step 1: Copy all metadata EXCEPT Orientation from source
+  // Step 1: Copy metadata but exclude and clear orientation tags to prevent "upside down" previews
   await exiftool.write(
     targetPath,
     {
       Software: COLLAGE_MESSAGES.SOFTWARE_LABEL,
     },
-    ["-TagsFromFile", sourcePath, "-all:all", "--Orientation", "-unsafe", "-icc_profile"],
+    [
+      "-TagsFromFile",
+      sourcePath,
+      "-all:all", // Copy all tags
+      "-Orientation=", // Delete orientation from all groups in the target
+      "-n", // Use numeric values to be safe
+      "-unsafe",
+      "-icc_profile",
+      "-overwrite_original",
+    ],
   );
 
   // Step 2: Explicitly set Orientation to 1 (Horizontal/normal)
-  // This prevents Sharp from applying any rotation when generating previews
+  // This ensures the image is marked as "ready to view" and prevents Sharp from auto-rotating
   await exiftool.write(targetPath, { Orientation: 1 } as import("exiftool-vendored").WriteTags, [
     "-overwrite_original",
+    "-n",
   ]);
 }
 
