@@ -19,23 +19,26 @@ export const handle: Handle = async ({ event, resolve }) => {
   event.locals.log = requestLogger;
   event.locals.logContext = {};
 
-  // Log začátku požadavku
-  const startTime = performance.now();
-  requestLogger.info({ stage: "start" }, "Request received");
-
   // Zpracování požadavku
+  const startTime = performance.now();
   const response = await resolve(event);
 
-  // 4. Log konce požadavku s nasbíraným byznys kontextem
-  requestLogger.info(
-    {
-      stage: "end",
-      status: response.status,
-      durationMs: Math.round(performance.now() - startTime),
-      ...event.locals.logContext,
-    },
-    "Request finished",
-  );
+  // Log podle typu požadavku a verbose režimu
+  const isApiRoute = event.url.pathname.startsWith("/api");
+  const isError = response.status >= 400;
+  const isVerbose = process.env.VERBOSE === "true" || process.env.LOG_LEVEL === "debug";
+
+  if (isApiRoute || isError || isVerbose) {
+    const duration = Math.round(performance.now() - startTime);
+    requestLogger.info(
+      {
+        status: response.status,
+        durationMs: duration,
+        ...event.locals.logContext,
+      },
+      `${event.request.method} ${event.url.pathname} → ${response.status} (${duration}ms)`,
+    );
+  }
 
   return response;
 };

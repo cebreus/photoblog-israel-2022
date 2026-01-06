@@ -47,9 +47,9 @@ const logger = pino({
   browser: {
     asObject: true,
     transmit: {
-      level: "warn", // Only transmit warn and above to the server
+      level: "info", // Transmit info and above to the server
       send: (level, logEvent) => {
-        if (browser && !dev) {
+        if (browser && dev) {
           const msg = logEvent.messages[0];
           const bindings = logEvent.bindings;
           fetch("/api/log", {
