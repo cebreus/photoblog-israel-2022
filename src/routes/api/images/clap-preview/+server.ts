@@ -2,7 +2,9 @@ import path from "node:path";
 import { error } from "@sveltejs/kit";
 import sharp from "sharp";
 import { createLogger } from "$lib/logger";
+import { isImageEntry } from "$lib/types/manifest";
 import { readClapFromFile } from "$scripts/lib/image/clap-parser";
+import { loadImagesManifest } from "$scripts/lib/manifests/repository";
 import { fileExists, scanGlob } from "$scripts/lib/utils/runtime";
 import type { RequestHandler } from "./$types";
 
@@ -47,27 +49,23 @@ export const GET: RequestHandler = async ({ url }) => {
     }
 
     // 2. Read existing clap data
-    // Priority 1: Manifest (allows persistence even if file is read-only)
+    // Priority: Manifest (Application state) > Physical file (EXIF)
     let clap = null;
-    try {
-      const dataPath = path.resolve(process.cwd(), "src/data", contentDir);
-      const { loadImagesManifest } = await import("$scripts/lib/manifests/repository");
-      const { isImageEntry } = await import("$lib/types/manifest");
-      const manifest = await loadImagesManifest(dataPath);
-      if (manifest) {
-        for (const day of manifest.photoDays) {
-          const item = day.items.find((i) => i.id === id);
-          if (item && isImageEntry(item) && item.clap) {
-            clap = item.clap;
-            break;
-          }
+
+    // Load manifest to find if we already have clap data there
+    const dataPath = path.resolve(process.cwd(), "src/data", contentDir);
+    const manifest = await loadImagesManifest(dataPath);
+    if (manifest) {
+      for (const day of manifest.photoDays) {
+        const item = day.items.find((i) => i.id === id);
+        if (item && isImageEntry(item) && item.clap) {
+          clap = item.clap;
+          break;
         }
       }
-    } catch (e) {
-      logger.warn({ err: e }, "Failed to check manifest for clap");
     }
 
-    // Priority 2: Physical file
+    // Fallback to physical file if manifest doesn't have it
     if (!clap) {
       clap = await readClapFromFile(absPath);
     }

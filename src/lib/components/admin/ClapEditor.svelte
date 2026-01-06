@@ -243,8 +243,23 @@
         throw new Error(errorData.message || "Failed to save crop");
       }
 
+      // Parse response to get updated image data
+      const data = await res.json();
+      if (data.updatedImages && Array.isArray(data.updatedImages)) {
+        // Import store dynamically or assume it's available.
+        // Since we are inside a component, we can import it at top level, but let's add the import if missing.
+        // Actually, let's use the module level import which we will add in a separate step if needed.
+        // For now, assume we will add `import { manifest } from "$lib/stores/manifest.svelte";`
+
+        // Update local store with cache busting
+        const { manifest } = await import("$lib/stores/manifest.svelte");
+        for (const updatedImg of data.updatedImages) {
+          manifest.refreshItem(updatedImg);
+        }
+      }
+
       toast.success("Ořez uložen");
-      onClose?.();
+      onClose?.(); // Still call this to close dialog
       open = false;
     } catch (e: any) {
       toast.error(e.message);
