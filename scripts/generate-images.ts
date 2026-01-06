@@ -249,6 +249,18 @@ export async function main() {
 
 export async function executeMain(): Promise<void> {
   const startTime = performance.now();
+
+  // Determine gallery and data directory
+  const gallery = ARGS.__raw.gallery || process.env.CONTENT_DIR || "egypt-2025";
+  const dataDir = path.resolve(process.cwd(), `src/data/${gallery}`);
+
+  const { saveTaskStatus, clearTaskStatus } = await import("../src/lib/server/task-status");
+
+  await saveTaskStatus(dataDir, {
+    id: "image-processing",
+    label: "Generování variant obrázků...",
+  });
+
   try {
     await main();
   } catch (e) {
@@ -259,6 +271,7 @@ export async function executeMain(): Promise<void> {
     );
     process.exit(1);
   } finally {
+    await clearTaskStatus(dataDir);
     await cleanup();
     if (!ARGS.quiet) {
       logger.info(
