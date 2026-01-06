@@ -208,21 +208,7 @@ Pokud chcete znovu přeskupit tváře od nuly (např. po úpravě parametrů clu
 
 ## 6. Řešení problémů a údržba
 
-### 6.1 Audit a Watchdog
-
-**Watchdog (Real-time monitoring):**
-
-Během práce v GUI doporučujeme mít v terminálu spuštěný watchdog:
-
-```bash
-bun scripts/watchdog.ts
-```
-
-Tento nástroj v reálném čase hlídá:
-
-- "Zombie" profily (osoby s 0 fotkami, které v GUI straší).
-- Zanořené názvy ("Odpojeno od Odpojeno od...").
-- Konzistenci manifestů.
+### 6.1 Audit a úklid
 
 **Jednorázový úklid:**
 

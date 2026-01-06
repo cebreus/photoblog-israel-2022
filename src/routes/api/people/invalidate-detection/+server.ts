@@ -1,9 +1,11 @@
+import fsp from "node:fs/promises";
 import path from "node:path";
 import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
 import { type FacesManifest, isImageEntry } from "$lib/types/manifest";
 import { validateIgnoreFaceInput } from "$lib/utils/api-validators";
 import { reloadManifests } from "$lib/utils/images";
+import { refreshPersonThumbnail } from "$scripts/lib/faces/people";
 import { withManifestLock } from "$scripts/lib/manifests/lock";
 import {
   loadClusteringConstraints,
@@ -36,6 +38,7 @@ export async function POST({ request, locals }: { request: Request; locals: App.
   const { personId, imageId, box } = validation.data;
   const contentDir = process.env.CONTENT_DIR || "egypt-2025";
   const dataDir = path.resolve(process.cwd(), "src/data", contentDir);
+  const facesDir = path.resolve(process.cwd(), "static", contentDir, "faces");
 
   try {
     return await withManifestLock(dataDir, async function () {
@@ -68,6 +71,20 @@ export async function POST({ request, locals }: { request: Request; locals: App.
       const targetPerson = peopleManifest.people.find((person) => person.id === personId);
       if (targetPerson) {
         targetPerson.faceCount = Math.max(0, targetPerson.faceCount - 1);
+
+        // 3.5 Delete the physical face crop file
+        const facePath = path.resolve(facesDir, personId, `${imageId}.jpg`);
+        try {
+          await fsp.unlink(facePath);
+        } catch (e) {
+          // Ignore if file already gone
+          if ((e as NodeJS.ErrnoException).code !== "ENOENT") {
+            log.warn({ err: e, path: facePath }, "Failed to delete invalid face crop");
+          }
+        }
+
+        // Ensure thumbnail is still valid (especially if we just deleted the cover photo)
+        await refreshPersonThumbnail(targetPerson, facesDir);
       }
 
       // 4. Update constraints
