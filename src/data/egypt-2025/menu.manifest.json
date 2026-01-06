@@ -263,28 +263,28 @@
     "href": "#day-2025-11-26",
     "locations": [
       {
-        "id": "loc-gizska-nekropole-0858",
+        "id": "loc-gizska-nekropole-0850",
         "label": "Gízská nekropole",
-        "href": "#loc-gizska-nekropole-0858",
-        "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-26T08:58:08",
-        "startDate": "2025-11-26T08:58:08"
+        "href": "#loc-gizska-nekropole-0850",
+        "isDimmed": true,
+        "firstPhotoExifDate": "2025-11-26T19:25:07",
+        "startDate": "2025-11-26T08:50:00"
       },
       {
-        "id": "loc-egyptsky-papyrusovy-institut-1234",
+        "id": "loc-egyptsky-papyrusovy-institut-1243",
         "label": "Egyptský papyrusový institut",
-        "href": "#loc-egyptsky-papyrusovy-institut-1234",
-        "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-26T12:34:57",
-        "startDate": "2025-11-26T12:34:57"
+        "href": "#loc-egyptsky-papyrusovy-institut-1243",
+        "isDimmed": true,
+        "firstPhotoExifDate": "2025-11-26T12:43:57",
+        "startDate": "2025-11-26T12:43:57"
       },
       {
-        "id": "loc-velke-egyptske-muzeum-1313",
+        "id": "loc-velke-egyptske-muzeum-1314",
         "label": "Velké egyptské muzeum",
-        "href": "#loc-velke-egyptske-muzeum-1313",
+        "href": "#loc-velke-egyptske-muzeum-1314",
         "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-26T13:13:46",
-        "startDate": "2025-11-26T13:13:46"
+        "firstPhotoExifDate": "2025-11-26T13:14:11",
+        "startDate": "2025-11-26T13:14:11"
       }
     ]
   },
