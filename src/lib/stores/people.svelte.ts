@@ -43,13 +43,15 @@ export class PeopleState {
       .sort((a, b) => b.faceCount - a.faceCount),
   );
 
-  // Junk list shows all junk entities regardless of category
   junkPeople = $derived(
     this.peopleWithStats.filter((p) => p.junk === true).sort((a, b) => b.faceCount - a.faceCount),
   );
 
+  lastUpdateTimestamp = $state(Date.now());
+
   async refresh() {
     await invalidateAll();
+    this.lastUpdateTimestamp = Date.now();
   }
 }
 

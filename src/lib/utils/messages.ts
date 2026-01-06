@@ -46,7 +46,7 @@ export const PERSON_MESSAGES = {
   PERSON_HIDDEN: "Osoba byla skryta.",
   PERSON_RESTORED: "Osoba byla obnovena.",
   PERSON_RENAMED: "Osoba byla úspěšně přejmenována.",
-  PERSON_IGNORED: "Osoba byla přesunuta do odpadu.",
+  PERSON_IGNORED: "Osoba byla přesunuta do koše.",
 
   // Bulk operations
   bulkHidden: (count: number) =>
@@ -57,11 +57,11 @@ export const PERSON_MESSAGES = {
     count === 1
       ? `Obnovena ${count} ${PLURALS.osoba(count)}.`
       : `Obnoveno ${count} ${PLURALS.osoba(count)}.`,
-  bulkIgnored: "Vybrané profily byly přesunuty do odpadu.",
+  bulkIgnored: "Vybrané profily byly přesunuty do koše.",
   bulkRestoredFromJunk: (count: number) =>
     count === 1
-      ? `Obnoven ${count} ${PLURALS.profil(count)} z odpadu.`
-      : `Obnoveno ${count} ${PLURALS.profil(count)} z odpadu.`,
+      ? `Obnoven ${count} ${PLURALS.profil(count)} z koše.`
+      : `Obnoveno ${count} ${PLURALS.profil(count)} z koše.`,
   bulkCategoryChanged: (count: number) => `Kategorie změněna pro ${count} ${PLURALS.osoba(count)}.`,
 
   // Merge operations
