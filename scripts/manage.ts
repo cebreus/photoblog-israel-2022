@@ -68,6 +68,12 @@ const { values, positionals } = parseArgs({
     watch: {
       type: "boolean",
     },
+    filter: {
+      type: "string",
+    },
+    force: {
+      type: "boolean",
+    },
   },
   strict: false,
   allowPositionals: true,
@@ -98,7 +104,7 @@ async function resolveGalleryAndContinue() {
       process.env.CONTENT_DIR = gallery;
       return;
     }
-    logger.warn(`Gallery "${gallery}" not found in content/.`);
+    logger.warn({ gallery }, "Gallery not found in content directory");
   }
 
   // 2. Fallback to interactive if TTY
@@ -143,6 +149,8 @@ function getCommonFlags() {
   if (values["min-confidence"]) flags.push(`--minConfidence=${values["min-confidence"]}`);
   if (values["min-face-size"]) flags.push(`--minFaceSize=${values["min-face-size"]}`);
   if (values.watch) flags.push("--watch");
+  if (values.filter) flags.push(`--filter=${values.filter}`);
+  if (values.force) flags.push("--force");
   return flags;
 }
 
@@ -159,9 +167,7 @@ async function checkManifest(isCuration = false) {
     `--title=[MANAGE] Verifying manifest state${isCuration ? " (with curation analysis)" : ""}...`,
   );
 
-  logger.info(
-    `Verifying manifest state${isCuration ? " (with curation analysis - this may take a few minutes)" : ""}...`,
-  );
+  logger.info({ gallery, curation: isCuration }, "Verifying manifest state...");
   await run("bun", flags, {
     env: {
       ...process.env,
@@ -173,12 +179,12 @@ async function checkManifest(isCuration = false) {
 }
 
 async function cmdFavicons() {
-  logger.info("┌ Generating Favicons (Brand Assets)");
+  logger.info({ gallery }, "┌ Generating Favicons (Brand Assets)");
   await run("bun", ["scripts/generate-favicons.ts", ...getCommonFlags()]);
 }
 
 async function cmdImages() {
-  logger.info("┌ Generating Image Variants (Resizing, Metadata & Blurs)");
+  logger.info({ gallery }, "┌ Generating Image Variants (Resizing, Metadata & Blurs)");
   await run("bun", [
     "scripts/generate-images.ts",
     "--title=Image Variants & Metadata",
@@ -188,7 +194,7 @@ async function cmdImages() {
 }
 
 async function cmdBlur() {
-  logger.info("┌ Generating Blur Placeholders (Manual Override)");
+  logger.info({ gallery }, "┌ Generating Blur Placeholders (Manual Override)");
   await run("bun", [
     "scripts/generate-images.ts",
     "--blur.enable=true",
@@ -199,28 +205,34 @@ async function cmdBlur() {
 }
 
 async function cmdFaces() {
-  logger.info("┌ Face Clustering & Recognition");
+  logger.info({ gallery }, "┌ Face Clustering & Recognition");
   // ⚠️ Do not switch this back to piped output: face-clustering needs a TTY for cli-progress to render live.
   // Piping/stdout filtering hides carriage returns and causes the "silent progress" regression we fixed.
   await run("bun", ["scripts/face-clustering.ts", ...getCommonFlags()], { stdio: "inherit" });
 }
 
 async function cmdCleanup() {
-  logger.info("┌ Running Manifest Integrity Cleanup");
+  logger.info({ gallery }, "┌ Running Manifest Integrity Cleanup");
   const dataDir = path.resolve(PROJECT_ROOT, `src/data/${gallery}`);
 
   // 1. Standard manifest validation
   const validationResult = await validateAndCleanManifests(dataDir);
   if (validationResult.totalCleaned > 0) {
-    logger.info(`Cleaned ${validationResult.totalCleaned} orphaned manifest entries.`);
+    logger.info(
+      { gallery, cleaned: validationResult.totalCleaned },
+      "Cleaned orphaned manifest entries.",
+    );
   }
 
   // 2. Phantom assignment cleanup
   const phantomResult = await cleanPhantomAssignments(gallery);
   if (phantomResult.totalRemoved > 0) {
-    logger.info(`Cleaned ${phantomResult.totalRemoved} phantom assignments (missing face crops).`);
+    logger.info(
+      { gallery, removed: phantomResult.totalRemoved },
+      "Cleaned phantom assignments (missing face crops).",
+    );
   } else {
-    logger.info("No phantom assignments found.");
+    logger.info({ gallery }, "No phantom assignments found.");
   }
 }
 
@@ -247,7 +259,7 @@ async function cmdAnalyze() {
 async function cmdPreview() {
   const outputDir = `build-${gallery}`;
 
-  logger.info(`Starting preview for ${outputDir}...`);
+  logger.info({ outputDir }, "Starting preview server");
 
   await run("bun", ["run", "vite", "preview", "--outDir", outputDir]);
 }
@@ -281,55 +293,58 @@ async function cmdProcess() {
   const isManifestOnly = values["manifest-only"];
   const totalSteps = isManifestOnly ? 2 : 5;
 
-  logger.info(`┌ Step 1/${totalSteps}: Favicons`);
+  logger.info({ step: 1, total: totalSteps }, "┌ Step 1: Favicons");
   const t1 = performance.now();
   await cmdFavicons();
-  logger.info(`Step 1 complete in ${formatDuration(performance.now() - t1)}`);
+  logger.info({ step: 1, duration: formatDuration(performance.now() - t1) }, "Step 1 complete");
 
-  logger.info(`┌ Step 2/${totalSteps}: Image Variants (including Blurs)`);
+  logger.info({ step: 2, total: totalSteps }, "┌ Step 2: Image Variants (including Blurs)");
   const t2 = performance.now();
   await cmdImages();
-  logger.info(`Step 2 complete in ${formatDuration(performance.now() - t2)}`);
+  logger.info({ step: 2, duration: formatDuration(performance.now() - t2) }, "Step 2 complete");
 
   if (!isManifestOnly) {
-    logger.info(`┌ Step 3/5: Similarity & Aesthetic Analysis`);
+    logger.info({ step: 3, total: 5 }, "┌ Step 3: Similarity & Aesthetic Analysis");
     const t4 = performance.now();
     await cmdAnalyze();
-    logger.info(`Step 3 complete in ${formatDuration(performance.now() - t4)}`);
+    logger.info({ step: 3, duration: formatDuration(performance.now() - t4) }, "Step 3 complete");
 
-    logger.info("┌ Step 4/5: Face Clustering");
+    logger.info({ step: 4, total: 5 }, "┌ Step 4: Face Clustering");
     const t5 = performance.now();
     await cmdFaces();
-    logger.info(`Step 4 complete in ${formatDuration(performance.now() - t5)}`);
+    logger.info({ step: 4, duration: formatDuration(performance.now() - t5) }, "Step 4 complete");
 
     // Step 5: Manifest Validation & Cleanup
-    logger.info("┌ Step 5/5: Manifest Validation & Integrity");
+    logger.info({ step: 5, total: 5 }, "┌ Step 5: Manifest Validation & Integrity");
     const t6 = performance.now();
     const dataDir = path.resolve(PROJECT_ROOT, `src/data/${gallery}`);
 
     // 1. Standard manifest validation
     const validationResult = await validateAndCleanManifests(dataDir);
     if (validationResult.totalCleaned > 0) {
-      logger.info(`Cleaned ${validationResult.totalCleaned} orphaned manifest entries.`);
+      logger.info(
+        { gallery, cleaned: validationResult.totalCleaned },
+        "Cleaned orphaned manifest entries",
+      );
     }
 
     // 2. Phantom assignment cleanup (missing crops on disk)
     const phantomResult = await cleanPhantomAssignments(gallery);
     if (phantomResult.totalRemoved > 0) {
-      logger.info(
-        `Cleaned ${phantomResult.totalRemoved} phantom assignments (missing face crops).`,
-      );
+      logger.info({ gallery, removed: phantomResult.totalRemoved }, "Cleaned phantom assignments");
     }
 
-    logger.info(`Step 5 complete in ${formatDuration(performance.now() - t6)}`);
+    logger.info({ step: 5, duration: formatDuration(performance.now() - t6) }, "Step 5 complete");
   } else {
     logger.info(
-      "Skipping AI analysis steps (Similarity, Faces, Validation) in manifest-only mode.",
+      { manifestOnly: true },
+      "Skipping AI analysis steps (Similarity, Faces, Validation)",
     );
   }
 
   logger.info(
-    `Data processing pipeline complete in ${formatDuration(performance.now() - startTime)}!`,
+    { duration: formatDuration(performance.now() - startTime) },
+    "Data processing pipeline complete",
   );
 }
 
@@ -412,7 +427,7 @@ async function main() {
         await cmdFaces();
         break;
       default:
-        logger.error(`Unknown command: ${command}`);
+        logger.error({ command }, "Unknown command");
         process.exit(1);
     }
 
@@ -421,7 +436,7 @@ async function main() {
       outro(`✅ Execution completed in ${formatDuration(duration)}`);
     }
   } catch (error) {
-    logger.error((error as Error).message);
+    logger.error({ command, error: (error as Error).message }, "Command execution failed");
     process.exit(1);
   }
 }

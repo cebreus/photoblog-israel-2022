@@ -145,17 +145,17 @@ export async function loadStoryData(contentRoot: string): Promise<StoryDataMap> 
 
       storyDataMap[locationKey] = storyData;
     } catch (e: any) {
-      logger.warn(`Could not parse story file ${file}: ${e.message}`);
+      logger.warn({ file, error: e.message }, "Could not parse story file");
     }
   }
-  logger.verbose(`Loaded ${Object.keys(storyDataMap).length} story entries from Markdown.`);
+  logger.verbose({ count: Object.keys(storyDataMap).length }, "Loaded story entries from Markdown");
   return storyDataMap;
 }
 
 async function generateSiteManifest(): Promise<any> {
   const siteMdPath = path.resolve(process.cwd(), config.paths.siteSource, "site.md");
   if (!(await fileExists(siteMdPath))) {
-    logger.warn(`site.md not found at ${siteMdPath}`);
+    logger.warn({ path: siteMdPath }, "site.md not found");
     return {};
   }
   try {
@@ -163,7 +163,7 @@ async function generateSiteManifest(): Promise<any> {
     const { data } = matter(content);
     return data;
   } catch (e: any) {
-    logger.error(`Failed to parse site.md: ${e.message}`);
+    logger.error({ path: siteMdPath, error: e.message }, "Failed to parse site.md");
     return {};
   }
 }
@@ -176,6 +176,7 @@ async function detectChanges(
   previousEntries: Map<string, ImageEntry>,
   isCuration: boolean,
   embeddingsManifest?: Record<string, number[]>,
+  force = false,
 ) {
   const toProcess: string[] = [];
   const knownKeys = new Set(Object.keys(cache.files));
@@ -187,12 +188,15 @@ async function detectChanges(
     const cached = cache.files[key];
     const baseName = path.basename(file);
 
-    if (!cached || cached.mtimeMs !== stats.mtimeMs || !previousEntries.has(baseName)) {
-      if (!cached || cached.mtimeMs !== stats.mtimeMs) {
+    if (force || !cached || cached.mtimeMs !== stats.mtimeMs || !previousEntries.has(baseName)) {
+      if (force) {
+        logger.verbose({ key, force: true }, "Force processing enabled");
+      } else if (!cached || cached.mtimeMs !== stats.mtimeMs) {
         // Changed or new
       } else {
         logger.verbose(
-          `Image ${key} is in cache but missing from manifest. Forcing re-process to restore metadata.`,
+          { key, reason: "missing_from_manifest" },
+          "Image is in cache but missing from manifest, forcing re-process to restore metadata",
         );
       }
       toProcess.push(file);
@@ -204,7 +208,10 @@ async function detectChanges(
       if (prev) {
         const embedding = embeddingsManifest?.[prev.id];
         if (!embedding || !Array.isArray(embedding) || embedding.length !== EMBEDDING_DIM) {
-          logger.verbose(`Stale or missing embedding for ${key}, forcing re-process.`);
+          logger.verbose(
+            { key, reason: "missing_embedding" },
+            "Stale or missing embedding, forcing re-process",
+          );
           toProcess.push(file);
           continue;
         }
@@ -231,7 +238,7 @@ async function detectChanges(
       const outputsExist = await Promise.all(cached.outputs.map(checkOutputExists));
 
       if (outputsExist.some(isMissing)) {
-        logger.verbose(`Output file missing for ${key}, reprocessing.`);
+        logger.verbose({ key, file }, "Output file missing, reprocessing");
         toProcess.push(file);
       }
     }
@@ -254,12 +261,23 @@ async function loadCache(
 
   const wasReset = false;
   if (cache.configHash !== configHash || cache.version !== cacheVersion) {
-    logger.warn("Config, cache version, or script change detected. Forcing full rebuild.");
+    logger.warn(
+      {
+        currentHash: configHash,
+        cacheHash: cache.configHash,
+        currentVer: cacheVersion,
+        cacheVer: cache.version,
+      },
+      "Config, cache version, or script change detected. Forcing full rebuild.",
+    );
     try {
       if (!manifestOnly) {
         await fsp.rm(outRoot, { recursive: true, force: true });
       } else {
-        logger.info("Skipping output cleanup in manifest-only mode.");
+        logger.info(
+          { manifestOnly: true, outRoot },
+          "Skipping output cleanup in manifest-only mode.",
+        );
       }
     } catch {}
     return {
@@ -333,7 +351,7 @@ async function processImages(
   if (toProcess.length === 0) return [];
 
   const resolvedConcurrency = getConcurrency(concurrency);
-  logger.info(`Using concurrency: ${resolvedConcurrency}`);
+  logger.info({ threads: resolvedConcurrency }, "Using concurrency");
 
   const bar = quiet ? null : createBar(toProcess.length, "[images]", { suffix: "| Processing" });
 
@@ -648,7 +666,13 @@ function detectGhostManifestEntries(
 
 async function planBuildWork(
   CTX: { srcRoot: string; outRoot: string },
-  ARGS: { limit: number; manifestOnly: boolean; curation: boolean },
+  ARGS: {
+    limit: number;
+    manifestOnly: boolean;
+    curation: boolean;
+    filter?: string;
+    force: boolean;
+  },
   cache: Cache,
   previousEntries: Map<string, ImageEntry>,
   embeddingsManifest: Record<string, number[]>,
@@ -663,6 +687,7 @@ async function planBuildWork(
     previousEntries,
     ARGS.curation,
     embeddingsManifest,
+    ARGS.force,
   );
 
   // Also detect ghost manifest entries (files deleted but manifest not updated)
@@ -671,7 +696,21 @@ async function planBuildWork(
   // Merge ghost entries with toDelete (deduplicated)
   const allToDelete = [...new Set([...audit.toDelete, ...ghostEntries])];
 
-  return { sourceFiles, toProcess: audit.toProcess, toDelete: allToDelete };
+  // Apply filter if present
+  let finalToProcess = audit.toProcess;
+  if (ARGS.filter) {
+    logger.info({ filter: ARGS.filter }, "Applying filter");
+    const filterValue = ARGS.filter; // capture for use in closure
+    finalToProcess = audit.toProcess.filter((f) => {
+      const base = path.basename(f);
+      return base.includes(filterValue) || f.includes(filterValue);
+    });
+    if (finalToProcess.length === 0) {
+      logger.warn({ filter: ARGS.filter }, "Filter matched no files in the toProcess queue.");
+    }
+  }
+
+  return { sourceFiles, toProcess: finalToProcess, toDelete: allToDelete };
 }
 
 async function _processBuildQueue(
@@ -736,6 +775,8 @@ export async function runIncrementalBuild(
     skipFaces?: boolean;
     skipEmbeddings?: boolean;
     detectRenames?: boolean;
+    filter?: string;
+    force: boolean;
   },
   opts: {
     allowUpscale?: boolean;
@@ -746,7 +787,8 @@ export async function runIncrementalBuild(
   dependencies = { storyLoader: loadStoryData, processImageFn: processImage },
 ) {
   const startTime = performance.now();
-  logger.info("Starting incremental build...");
+  const gallery = path.basename(path.dirname(CTX.manifestPath));
+  logger.info({ gallery }, "Starting incremental build...");
 
   const {
     cache,
@@ -773,7 +815,8 @@ export async function runIncrementalBuild(
 
   const cachedCount = Math.max(0, sourceFiles.length - toProcess.length);
   logger.info(
-    `Found: ${toProcess.length} new/modified, ${toDelete.length} deleted, ${cachedCount} cached.`,
+    { new: toProcess.length, deleted: toDelete.length, cached: cachedCount },
+    "Audit results",
   );
 
   // Rename detection (opt-in)
@@ -783,7 +826,7 @@ export async function runIncrementalBuild(
     const renames = await detectRenames(toProcess, contentTracker, CTX.srcRoot);
 
     if (renames.length > 0) {
-      logger.info(`Detected ${renames.length} file rename(s), migrating references...`);
+      logger.info({ count: renames.length }, "Detected file renames, migrating references...");
 
       // Load manifests for migration
       const previousManifest = (await loadManifest<Manifest>(CTX.manifestPath)) || {
@@ -804,7 +847,7 @@ export async function runIncrementalBuild(
         const idx = toProcess.indexOf(path.join(CTX.srcRoot, rename.newPath));
         if (idx !== -1) {
           toProcess.splice(idx, 1);
-          logger.verbose(`Skipping re-processing of renamed file: ${rename.newPath}`);
+          logger.verbose({ path: rename.newPath }, "Skipping re-processing of renamed file");
         }
       }
 
@@ -931,9 +974,9 @@ export async function runIncrementalBuild(
   rows.push(widths.map((w) => "-".repeat(w)).join("-+-"));
   rows.push(formatRow(totalRow));
 
-  logger.info(`\n${rows.join("\n")}`);
+  logger.info({ summary: rows }, "Build statistics table");
 
-  logger.info(`Build finished in ${formatDuration(performance.now() - startTime)}.`);
+  logger.info({ duration: formatDuration(performance.now() - startTime) }, "Build finished");
 }
 
 async function getDirectorySize(dir: string): Promise<number> {

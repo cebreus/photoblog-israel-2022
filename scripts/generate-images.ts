@@ -38,6 +38,8 @@ let ARGS: ExtendedScriptArgs = {
   curation: parsed.curation ?? false,
   skipFaces: parsed.skipFaces ?? false,
   skipEmbeddings: parsed.skipEmbeddings ?? false,
+  filter: parsed.filter,
+  force: parsed.force ?? false,
   __raw: parsed,
 };
 
@@ -65,6 +67,8 @@ export function resetCliState() {
     curation: parsed.curation ?? false,
     skipFaces: parsed.skipFaces ?? false,
     skipEmbeddings: parsed.skipEmbeddings ?? false,
+    filter: parsed.filter,
+    force: parsed.force ?? false,
     __raw: parsed,
   };
   RUNTIME_RAW = {};
@@ -138,8 +142,8 @@ let CTX = initializeContext();
 function logOutputPlan() {
   const relSrc = path.posix.normalize(path.relative(process.cwd(), CTX.srcRoot));
   const relOut = path.posix.normalize(path.relative(process.cwd(), CTX.outRoot));
-  logger.info(`Source: ${relSrc}`);
-  logger.info(`Output root: ${relOut}`);
+  logger.info({ path: relSrc }, "Source directory");
+  logger.info({ path: relOut }, "Output root directory");
 
   const outputs = config.outputs as Record<
     keyof typeof config.outputs,
@@ -152,7 +156,17 @@ function logOutputPlan() {
     const crop = resize.crop ? " crop" : "";
     const format = (cfg as any).format ? ` ${String((cfg as any).format)}` : "";
     const target = path.posix.join(config.paths.output, (cfg as any).folderName);
-    logger.info(`${key}: ${width}x${height}${crop}${format} -> ${target}`);
+    logger.info(
+      {
+        key,
+        width,
+        height,
+        crop: (cfg as any).resize?.crop || false,
+        format: (cfg as any).format || "original",
+        target,
+      },
+      "Plan entry",
+    );
   });
 }
 async function cleanAllOutputs() {
@@ -180,7 +194,7 @@ export async function main() {
       process.exit(1);
     }
   }
-  logger.verbose(`Processing content for: ${contentDir}`);
+  logger.verbose({ gallery: contentDir }, "Processing content");
 
   RUNTIME_RAW = ARGS.__raw || {};
   RUNTIME_FORMATS = RUNTIME_RAW.formats?.length
@@ -214,7 +228,11 @@ export async function main() {
 
   if (ARGS.watch) {
     logger.info(
-      `Watch mode enabled. Watching ${path.posix.normalize(CTX.srcRoot)} and ${path.posix.normalize(CTX.contentRoot)}.`,
+      {
+        srcRoot: path.posix.normalize(CTX.srcRoot),
+        contentRoot: path.posix.normalize(CTX.contentRoot),
+      },
+      "Watch mode enabled",
     );
     await incrementalRun(CTX, ARGS, {
       allowUpscale: RUNTIME_ALLOW_UPSCALE,
@@ -239,13 +257,14 @@ export async function executeMain(): Promise<void> {
   } catch (e) {
     const errAny: any = e;
     logger.error(
-      `An unexpected error occurred in the main process. ${errAny?.stack ?? String(errAny)}`,
+      { err: errAny?.stack ?? String(errAny) },
+      "An unexpected error occurred in the main process",
     );
     process.exit(1);
   } finally {
     await cleanup();
     if (!ARGS.quiet) {
-      logger.info(`Total time: ${formatDuration(performance.now() - startTime)}`);
+      logger.info({ duration: formatDuration(performance.now() - startTime) }, "Job completed");
     }
   }
 }

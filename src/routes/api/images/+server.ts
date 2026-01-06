@@ -411,6 +411,18 @@ export async function PATCH({ request, locals }: RequestEvent) {
   if (!images || !Array.isArray(images) || images.length === 0 || !updates)
     return json({ message: "Invalid request" }, { status: 400 });
 
+  // Log PATCH details
+  log.info(
+    {
+      imageIds: images.map((i) => i.id),
+      imageCount: images.length,
+      updateFields: Object.keys(updates),
+      hasClap: updates.clap !== undefined,
+      clapValue: updates.clap,
+    },
+    "PATCH: Request details",
+  );
+
   const groups = groupItemsByContentDir(images);
   const updatedIds: string[] = [];
   const updatedImages: ImageEntry[] = []; // Track full objects
@@ -484,6 +496,8 @@ export async function PATCH({ request, locals }: RequestEvent) {
             if (!canApplyClap(target)) {
               log.warn({ targetId: target.id }, "Skipping clap: Not supported type");
             } else {
+              // Attempt file write, but it's non-fatal because some formats (HEIC)
+              // might not support CleanAperture write via ExifTool.
               try {
                 if (updates.clap === null) {
                   await removeClapFromFile(targetPath);
@@ -491,9 +505,10 @@ export async function PATCH({ request, locals }: RequestEvent) {
                   await writeClapToFile(targetPath, updates.clap);
                 }
               } catch (e) {
-                // EXTREMELY IMPORTANT: We do not fail the whole request if the file doesn't support the tag.
-                // We will rely on target.clap in the manifest.
-                log.warn({ err: e, targetPath }, "Failed to write CleanAperture to file");
+                log.warn(
+                  { err: e, targetPath },
+                  "Could not write clap to file (format unsupported?), using manifest fallback",
+                );
               }
 
               // Always update manifest
@@ -567,13 +582,13 @@ export async function PATCH({ request, locals }: RequestEvent) {
           "run",
           manageScript,
           "process",
-          "--content-dir",
+          "images", // Target only image step for better performance
+          "--gallery",
           contentDir,
           "--filter",
           id,
           "--force",
-          "--manifestOnly",
-          "false",
+          "--manifest-only=false",
         ]);
       } catch (e: unknown) {
         log.error({ err: e, id }, "Regeneration failed");

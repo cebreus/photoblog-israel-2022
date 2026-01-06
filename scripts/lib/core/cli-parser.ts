@@ -55,6 +55,8 @@ export type CliOptions = {
   minFaceSize: number;
   dryRun: boolean;
   sourceFolder?: string;
+  filter?: string;
+  force: boolean;
 };
 
 const QUALITY_FORMATS: readonly QualityFormat[] = [
@@ -184,6 +186,8 @@ export const DEFAULT_CLI_OPTIONS: CliOptions = {
   minFaceSize: 0,
   dryRun: false,
   sourceFolder: undefined,
+  filter: undefined,
+  force: false,
 };
 
 type ArgHandler = (value: string, args: CliOptions) => void;
@@ -343,6 +347,12 @@ const CLI_FLAG_HANDLERS: Record<string, ArgHandler> = {
   },
   "dry-run": function handleDryRunAlias(v, a) {
     a.dryRun = parseBooleanValue(v);
+  },
+  filter: function handleFilter(v, a) {
+    a.filter = v;
+  },
+  force: function handleForce(v, a) {
+    a.force = v === "true";
   },
 };
 

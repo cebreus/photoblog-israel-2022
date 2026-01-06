@@ -94,6 +94,8 @@ export type ScriptArgs = {
   curation: boolean;
   skipFaces?: boolean;
   skipEmbeddings?: boolean;
+  filter?: string;
+  force: boolean;
 };
 
 export type CacheFileEntry = {
