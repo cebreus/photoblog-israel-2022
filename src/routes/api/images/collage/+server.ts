@@ -8,11 +8,7 @@ import { getContentDir } from "$lib/config";
 import type { Logger } from "$lib/logger";
 import { clearTaskStatus, saveTaskStatus } from "$lib/server/task-status";
 import type { CollageItemConfig, CollageRequest, CollageResponse } from "$lib/types/collage";
-import {
-  calculateLayout,
-  type LayoutItem,
-  type SharedLayout,
-} from "$lib/utils/collage-layout-engine";
+import { calculateLayout } from "$lib/utils/collage-layout-engine";
 import { renderCollage } from "$lib/utils/collage-renderer";
 import { reloadManifests } from "$lib/utils/manifest-loader";
 import { COLLAGE_MESSAGES } from "$lib/utils/messages";
@@ -111,22 +107,13 @@ export async function POST({ request, locals }: RequestEvent): Promise<Response>
     const imageMetas = await Promise.all(sourcePaths.map(resolveMetadata));
     log.debug({ metaDuration: Date.now() - startMeta }, "Collage: Načtení metadat");
 
-    // Layout calculation (border width only, background handled separately).
-    const layout = calculateLayout(imageMetas, body.template, {
+    // Layout calculation with quality scaling, aspect ratio and max dimension limit handled by engine.
+    const finalLayout = calculateLayout(imageMetas, body.template, {
       border: body.border ?? { width: 0 },
       cropStrategy: "simple",
+      aspectRatio: body.aspectRatio,
+      maxDimension: 8000,
     });
-
-    // Prevent upscaling by reducing overall layout scale if necessary.
-    let finalLayout = applyQualityScale(layout, log);
-
-    // Enforce Aspect Ratio if specified (e.g., "1:1")
-    if (body.aspectRatio && body.aspectRatio !== "auto") {
-      finalLayout = applyAspectRatio(finalLayout, body.aspectRatio, log);
-    }
-
-    // Enforce an upper bound for resulting canvas (8K).
-    finalLayout = applyMaxDimensionLimit(finalLayout, log);
 
     // Render collage to a JPEG buffer.
     const startRender = Date.now();
@@ -434,217 +421,6 @@ async function sortByDateTimeOriginal(paths: string[]): Promise<string[]> {
 
   withDates.sort(compareDates);
   return withDates.map(getPath);
-}
-
-/**
- * Scale the entire layout down if any placement would cause an upscaling of its source.
- * This preserves source-image quality by avoiding upscaling.
- */
-function applyQualityScale(
-  layout: SharedLayout<LayoutItem>,
-  log: Logger,
-): SharedLayout<LayoutItem> {
-  let minScaleFactor = 1.0;
-
-  for (const p of layout.placements) {
-    if (!p.crop?.scale) continue;
-
-    const userZoom = p.crop.scale;
-    if (userZoom <= 1.0) continue;
-
-    const scaleW = p.width / (p.item.width || 1);
-    const scaleH = p.height / (p.item.height || 1);
-    const baseScale = Math.max(scaleW, scaleH);
-    const finalScale = baseScale * userZoom;
-
-    if (finalScale > 1.0) {
-      const requiredShrink = 1.0 / finalScale;
-      minScaleFactor = Math.min(minScaleFactor, requiredShrink);
-    }
-  }
-
-  if (minScaleFactor >= 1.0) return layout;
-
-  log.debug({ scaleFactor: minScaleFactor }, "Škálování pro zachování kvality");
-
-  layout.width = Math.round(layout.width * minScaleFactor);
-  layout.height = Math.round(layout.height * minScaleFactor);
-
-  for (const p of layout.placements) {
-    p.x = Math.round(p.x * minScaleFactor);
-    p.y = Math.round(p.y * minScaleFactor);
-    p.width = Math.round(p.width * minScaleFactor);
-    p.height = Math.round(p.height * minScaleFactor);
-  }
-
-  return layout;
-}
-
-/**
- * Reduce layout to fit within a maximum dimension (8K), scaling placements accordingly.
- */
-function applyMaxDimensionLimit(
-  layout: SharedLayout<LayoutItem>,
-  log: Logger,
-): SharedLayout<LayoutItem> {
-  const MAX_DIMENSION = 8000;
-
-  if (layout.width <= MAX_DIMENSION && layout.height <= MAX_DIMENSION) {
-    return layout;
-  }
-
-  const scale = MAX_DIMENSION / Math.max(layout.width, layout.height);
-
-  log.warn(
-    { oldWidth: layout.width, oldHeight: layout.height, scale },
-    "Collage: Zmenšování na 8K limit",
-  );
-
-  layout.width = Math.round(layout.width * scale);
-  layout.height = Math.round(layout.height * scale);
-
-  for (const p of layout.placements) {
-    p.x = Math.round(p.x * scale);
-    p.y = Math.round(p.y * scale);
-    p.width = Math.round(p.width * scale);
-    p.height = Math.round(p.height * scale);
-  }
-
-  return layout;
-}
-
-/**
- * Adjust layout dimensions to match a target aspect ratio by expanding the canvas.
- * The content is centered within the new bounds.
- */
-/**
- * Adjust layout dimensions to match a target aspect ratio by stretching images.
- * Unlike simple scaling, this logic preserves fixed borders and gutters (no dynamics).
- */
-function applyAspectRatio(
-  layout: SharedLayout<LayoutItem>,
-  ratioId: string,
-  log: Logger,
-): SharedLayout<LayoutItem> {
-  const [wRatio, hRatio] = ratioId.split(":").map(Number);
-  if (!wRatio || !hRatio) return layout;
-
-  const targetRatio = wRatio / hRatio;
-  const currentRatio = layout.width / layout.height;
-
-  if (Math.abs(currentRatio - targetRatio) < 0.01) return layout;
-
-  // Clone layout and placements to avoid side-effects
-  const newLayout: SharedLayout<LayoutItem> = {
-    ...layout,
-    placements: layout.placements.map((p) => ({ ...p })),
-  };
-
-  if (currentRatio > targetRatio) {
-    // Current is wider than target -> Increase Height (Stretch Y)
-    const newTotalHeight = Math.round(layout.width / targetRatio);
-    stretchDimension(newLayout, "y", newTotalHeight);
-    log.info(
-      { ratioId, newHeight: newTotalHeight },
-      "Collage: Enforcing aspect ratio - stretched height",
-    );
-  } else {
-    // Current is taller than target -> Increase Width (Stretch X)
-    const newTotalWidth = Math.round(layout.height * targetRatio);
-    stretchDimension(newLayout, "x", newTotalWidth);
-    log.info(
-      { ratioId, newWidth: newTotalWidth },
-      "Collage: Enforcing aspect ratio - stretched width",
-    );
-  }
-
-  return newLayout;
-}
-
-/**
- * Stretches a layout along one axis while keepings gaps (gutters/margins) fixed.
- * Only segments of the axis occupied by image content are scaled.
- */
-function stretchDimension(layout: SharedLayout<LayoutItem>, axis: "x" | "y", targetTotal: number) {
-  const posKey = axis === "x" ? "x" : "y";
-  const dimKey = axis === "x" ? "width" : "height";
-  const oldTotal = layout[dimKey];
-  if (oldTotal === targetTotal) return;
-
-  // 1. Identify Content Intervals along the axis
-  const rawIntervals = layout.placements.map((p) => [p[posKey], p[posKey] + p[dimKey]]);
-  rawIntervals.sort((a, b) => a[0] - b[0]);
-
-  const merged: [number, number][] = [];
-  if (rawIntervals.length > 0) {
-    let curr = rawIntervals[0];
-    for (let i = 1; i < rawIntervals.length; i++) {
-      // Tiny epsilon to bridge sub-pixel rounding gaps if any
-      if (rawIntervals[i][0] <= curr[1] + 0.1) {
-        curr[1] = Math.max(curr[1], rawIntervals[i][1]);
-      } else {
-        merged.push([curr[0], curr[1]]);
-        curr = rawIntervals[i];
-      }
-    }
-    merged.push([curr[0], curr[1]]);
-  }
-
-  const oldContentSum = merged.reduce((sum, [s, e]) => sum + (e - s), 0);
-  const totalChange = targetTotal - oldTotal;
-
-  if (oldContentSum <= 0) {
-    layout[dimKey] = targetTotal;
-    return;
-  }
-
-  const scale = (oldContentSum + totalChange) / oldContentSum;
-
-  /**
-   * Transforms a coordinate by scaling only the parts that fall within content intervals.
-   */
-  const transform = (v: number) => {
-    let newV = 0;
-    let lastE = 0;
-    let contentProcessed = 0;
-
-    for (const [s, e] of merged) {
-      // Add the gap before this interval (unscaled)
-      newV += s - lastE;
-      if (v <= s) return newV - (s - v);
-
-      const segmentLen = e - s;
-      const progressInSegment = Math.min(v - s, segmentLen);
-
-      // Add scaled progress
-      const scaledSegmentStart = contentProcessed * scale;
-      const scaledProgress = (contentProcessed + progressInSegment) * scale - scaledSegmentStart;
-
-      if (v <= e) {
-        return newV + scaledProgress;
-      }
-
-      newV += segmentLen * scale;
-      contentProcessed += segmentLen;
-      lastE = e;
-    }
-
-    // Add final gap (unscaled)
-    newV += oldTotal - lastE;
-    return newV - (oldTotal - v);
-  };
-
-  for (const p of layout.placements) {
-    const s = p[posKey];
-    const e = p[posKey] + p[dimKey];
-    const newS = transform(s);
-    const newE = transform(e);
-
-    p[posKey] = Math.round(newS);
-    p[dimKey] = Math.round(newE - newS);
-  }
-
-  layout[dimKey] = targetTotal;
 }
 
 /**

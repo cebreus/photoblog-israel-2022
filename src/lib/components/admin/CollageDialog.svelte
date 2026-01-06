@@ -89,7 +89,7 @@
   let selectedTemplate = $state<CollageTemplateId>("row");
   let imageConfigs = $state<Record<string, CollageCrop>>({});
   let borderEnabled = $state(true);
-  let borderWidth = $state(10);
+  let borderWidth = $state(12);
   let backgroundEnabled = $state(true);
   let backgroundStyle = $state<"ambient" | "color">("ambient");
   let backgroundColor = $state("#ffffff");
@@ -308,6 +308,11 @@
       itemsToProcess,
       selectedTemplate,
       borderEnabled ? getNormalizedBorderWidth() : 0,
+      {
+        aspectRatio: selectedRatioPreset,
+        imageConfigs,
+        maxDimension: 7680,
+      },
     );
   });
 
@@ -739,7 +744,7 @@
         imageConfigs = {};
         selectedTemplate = "row";
         borderEnabled = true;
-        borderWidth = 10;
+        borderWidth = 12;
         backgroundEnabled = true;
         backgroundStyle = "ambient";
         backgroundColor = "#ffffff";
@@ -995,7 +1000,7 @@
         type="number"
         bind:value={borderWidth}
         min="0"
-        step="2"
+        step="4"
         class="h-7 w-20 flex-none"
         data-testid="collage-border-width-input"
       />
@@ -1003,7 +1008,7 @@
         type="range"
         min="0"
         max="100"
-        step="2"
+        step="4"
         bind:value={borderWidth}
         data-testid="collage-border-width-range"
         class="flex-1"

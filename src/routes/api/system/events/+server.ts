@@ -11,14 +11,21 @@ export async function GET({ locals }: RequestEvent) {
   const { log } = locals;
   log.info({}, "SSE client connected to system events");
 
+  let sendEvent: ((event: SystemEvent) => void) | undefined;
+
   const stream = new ReadableStream({
     start(controller) {
       const encoder = new TextEncoder();
 
-      function sendEvent(event: SystemEvent) {
-        const data = JSON.stringify(event);
-        controller.enqueue(encoder.encode(`data: ${data}\n\n`));
-      }
+      sendEvent = (event: SystemEvent) => {
+        try {
+          const data = JSON.stringify(event);
+          controller.enqueue(encoder.encode(`data: ${data}\n\n`));
+        } catch (err) {
+          log.warn({ err }, "Failed to enqueue SSE event");
+          if (sendEvent) systemEvents.off("system:event", sendEvent);
+        }
+      };
 
       // Send initial heartbeat
       sendEvent({
@@ -30,12 +37,12 @@ export async function GET({ locals }: RequestEvent) {
 
       // Listen to system events
       systemEvents.on("system:event", sendEvent);
-
-      // Cleanup on close
-      return () => {
+    },
+    cancel() {
+      if (sendEvent) {
         systemEvents.off("system:event", sendEvent);
-        log.info({}, "SSE client disconnected from system events");
-      };
+      }
+      log.info({}, "SSE client disconnected from system events");
     },
   });
 

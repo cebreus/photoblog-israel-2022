@@ -1,5 +1,5 @@
 import { log } from "$lib/logger";
-import type { CollageTemplateId } from "$lib/types/collage";
+import type { CollageCrop, CollageTemplateId } from "$lib/types/collage";
 import type { ImageEntry } from "$lib/types/manifest";
 import { calculateLayout } from "./collage-layout-engine";
 import { COLLAGE_MESSAGES } from "./messages";
@@ -16,7 +16,8 @@ export function calculateNormalizedBorderWidth(setting: number, images: ImageEnt
   const avgDimension = total / (images.length * 2);
   const scale = avgDimension / 1000;
   log.info(
-    `[CollageUtil] Normalizing border: setting=${setting}, avgDim=${avgDimension.toFixed(0)}, scale=${scale.toFixed(2)}, res=${Math.max(1, Math.round(setting * scale))}`,
+    { setting, avgDimension, scale, result: Math.max(1, Math.round(setting * scale)) },
+    "[CollageUtil] Normalizing border",
   );
   return Math.max(1, Math.round(Math.max(setting, 0) * Math.max(scale, 0.1)));
 }
@@ -68,33 +69,42 @@ function convertToPercentagePlacement(
 }
 
 /**
- * Calculate refined collage layout with optical margin weighting (Gallery Style).
- * - Inner Gutter (Mezera): u = borderW
- * - Outer Margin (Okraj): 2u
- * - Bottom Margin (Podstava): 3u
+ * Calculate refined collage layout with uniform margins and 2/3 width inner gutters.
  */
 export function calculateCollageLayout(
   imgs: ImageEntry[],
   template: CollageTemplateId,
   borderW: number,
+  options: {
+    aspectRatio?: string;
+    imageConfigs?: Record<string, CollageCrop>;
+    maxDimension?: number;
+  } = {},
 ) {
   if (imgs.length === 0) return { width: 100, height: 100, placements: [] };
 
   log.info(
-    `[CollageUtil] Calculating preview layout: template=${template}, borderW=${borderW}, imgs=${imgs.length}`,
+    { template, borderW, aspectRatio: options.aspectRatio, imagesCount: imgs.length },
+    "[CollageUtil] Calculating preview layout",
   );
-  const validImages = imgs.map(validateImageDimensions);
+  const validImages = imgs.map(validateImageDimensions).map((img) => ({
+    ...img,
+    crop: options.imageConfigs?.[img.id],
+  }));
 
   // Use shared layout engine
   const layout = calculateLayout(validImages, template, {
     border: { width: borderW },
     cropStrategy: "simple",
+    aspectRatio: options.aspectRatio,
+    maxDimension: options.maxDimension,
   });
 
   const safeW = layout.width || 1000;
   const safeH = layout.height || 1000;
   log.info(
-    `[CollageUtil] Layout calculated: ${safeW}x${safeH}, placements=${layout.placements.length}`,
+    { width: safeW, height: safeH, placementsCount: layout.placements.length },
+    "[CollageUtil] Layout calculated",
   );
 
   function toPercentage(p: {
@@ -169,14 +179,14 @@ export function determineOrientation(images: ImageEntry[]): "portrait" | "landsc
     else if (img.width > img.height) landscape++;
   }
   const result = portrait > landscape ? "portrait" : "landscape";
-  log.info(`[CollageUtil] Determined orientation: ${result} (P:${portrait}, L:${landscape})`);
+  log.info({ result, portrait, landscape }, "[CollageUtil] Determined orientation");
   return result;
 }
 
 export function determineAutoTemplate(images: ImageEntry[]): CollageTemplateId {
   const orientation = determineOrientation(images);
   const result = orientation === "portrait" ? "column" : "row";
-  log.info(`[CollageUtil] Auto-template for ${images.length} images: ${result}`);
+  log.info({ imagesCount: images.length, result }, "[CollageUtil] Auto-template determined");
   return result;
 }
 

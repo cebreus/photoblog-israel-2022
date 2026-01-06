@@ -15,29 +15,29 @@ describe("Collage Layout Engine", () => {
   it("calculates row layout correctly", () => {
     const layout = calculateLayout(mockItems.slice(0, 2), "row", { border });
 
-    // Height should be max height of items (1000) + top margin (10) + bottom margin (10)
-    expect(layout.height).toBe(1020);
+    // Height should be max height of items (1000) + top margin (20) + bottom margin (30)
+    expect(layout.height).toBe(1050);
 
-    // Width should be item1 (1000) + gutter (10) + item2 (1000) + margins (2*10)
-    expect(layout.width).toBe(2030);
+    // Width should be item1 (1000) + gutter (10) + item2 (1000) + margins (2*20)
+    expect(layout.width).toBe(2050);
 
     expect(layout.placements).toHaveLength(2);
-    expect(layout.placements[0].y).toBe(10);
-    expect(layout.placements[1].x).toBe(1020); // 10 + 1000 + 10
+    expect(layout.placements[0].y).toBe(20);
+    expect(layout.placements[1].x).toBe(1030); // 20 + 1000 + 10
   });
 
   it("calculates column layout correctly", () => {
     const layout = calculateLayout(mockItems.slice(0, 2), "column", { border });
 
-    // Width should be max width (1000) + margins (2*10)
-    expect(layout.width).toBe(1020);
+    // Width should be max width (1000) + margins (2*20)
+    expect(layout.width).toBe(1040);
 
-    // Height should be item1 (1000) + gutter (10) + item2 (1000) + margins (2*10)
-    expect(layout.height).toBe(2030);
+    // Height should be item1 (1000) + gutter (10) + item2 (1000) + margins (20+30)
+    expect(layout.height).toBe(2060);
 
     expect(layout.placements).toHaveLength(2);
-    expect(layout.placements[0].x).toBe(10);
-    expect(layout.placements[1].y).toBe(1020); // 10 + 1000 + 10
+    expect(layout.placements[0].x).toBe(20);
+    expect(layout.placements[1].y).toBe(1030); // 20 + 1000 + 10
   });
 
   it("calculates grid-2x2 layout correctly", () => {
@@ -46,18 +46,18 @@ describe("Collage Layout Engine", () => {
     // 2x2 grid of 1000x1000 items
     // Row 1 width: 2010 (1000+10+1000)
     // Row 2 width: 2010
-    // Total width: 2030 (10 + 2010 + 10)
-    expect(layout.width).toBe(2030);
+    // Total width: 2050 (20 + 2010 + 20)
+    expect(layout.width).toBe(2050);
 
     // Row 1 height: 1000
     // Row 2 height: 1000
-    // Total height: 2030 (10 + 1000 + 10 + 1000 + 10)
-    expect(layout.height).toBe(2030);
+    // Total height: 2060 (20 + 1000 + 10 + 1000 + 30)
+    expect(layout.height).toBe(2060);
 
     expect(layout.placements).toHaveLength(4);
     // Item 3 (start of row 2)
-    expect(layout.placements[2].x).toBe(10);
-    expect(layout.placements[2].y).toBe(1020); // 10 + 1000 + 10
+    expect(layout.placements[2].x).toBe(20);
+    expect(layout.placements[2].y).toBe(1030); // 20 + 1000 + 10
   });
 
   it("handles empty items gracefully", () => {
@@ -136,8 +136,8 @@ describe("Collage Layout Engine", () => {
       expect(layout.placements).toHaveLength(3);
       // Item 0 is full width (hero)
       // Items 1, 2 are in row 2
-      expect(layout.placements[0].y).toBe(10);
-      expect(layout.placements[1].y).toBeGreaterThan(10);
+      expect(layout.placements[0].y).toBe(20);
+      expect(layout.placements[1].y).toBeGreaterThan(20);
       expect(layout.placements[1].y).toBe(layout.placements[2].y);
     });
 
@@ -147,7 +147,7 @@ describe("Collage Layout Engine", () => {
 
       expect(layout.placements).toHaveLength(3);
       // Item 0 is left column (full height target)
-      expect(layout.placements[0].x).toBe(10);
+      expect(layout.placements[0].x).toBe(20);
 
       // Items 1, 2 are right column stack
       expect(layout.placements[1].x).toBeGreaterThan(layout.placements[0].width);
@@ -163,10 +163,10 @@ describe("Collage Layout Engine", () => {
       // Implementation generates Left-to-Right: Stack (items 1, 2) then Hero (item 0)
 
       // placements[0] is Stack 1 (Left)
-      expect(layout.placements[0].x).toBe(10);
+      expect(layout.placements[0].x).toBe(20);
 
       // placements[1] is Stack 2 (Left)
-      expect(layout.placements[1].x).toBe(10);
+      expect(layout.placements[1].x).toBe(20);
 
       // placements[2] is Hero (Right)
       expect(layout.placements[2].x).toBeGreaterThan(layout.placements[0].width);
@@ -179,12 +179,12 @@ describe("Collage Layout Engine", () => {
 
       expect(layout.placements).toHaveLength(7);
       // R1: 2 items
-      expect(layout.placements[0].y).toBe(10);
-      expect(layout.placements[1].y).toBe(10);
+      expect(layout.placements[0].y).toBe(20);
+      expect(layout.placements[1].y).toBe(20);
 
       // R2: 3 items
       const r2y = layout.placements[2].y;
-      expect(r2y).toBeGreaterThan(10);
+      expect(r2y).toBeGreaterThan(20);
       expect(layout.placements[3].y).toBe(r2y);
       expect(layout.placements[4].y).toBe(r2y);
 
@@ -201,7 +201,7 @@ describe("Collage Layout Engine", () => {
       expect(layout.placements).toHaveLength(6);
       // 3 rows of 2
       // R1
-      expect(layout.placements[0].y).toBe(10);
+      expect(layout.placements[0].y).toBe(20);
       // R2
       expect(layout.placements[2].y).toBeGreaterThan(layout.placements[0].y);
       // R3
@@ -214,8 +214,8 @@ describe("Collage Layout Engine", () => {
 
       expect(layout.placements).toHaveLength(6);
       // Col 1: 0, 1
-      expect(layout.placements[0].x).toBe(10);
-      expect(layout.placements[1].x).toBe(10);
+      expect(layout.placements[0].x).toBe(20);
+      expect(layout.placements[1].x).toBe(20);
 
       // Col 2: 2, 3, 4
       expect(layout.placements[2].x).toBeGreaterThan(layout.placements[0].width);
@@ -231,15 +231,15 @@ describe("Collage Layout Engine", () => {
 
       expect(layout.placements).toHaveLength(4);
       // Left: 0
-      expect(layout.placements[0].x).toBe(10);
+      expect(layout.placements[0].x).toBe(20);
 
       // Right Top: 1, 2
       expect(layout.placements[1].x).toBeGreaterThan(layout.placements[0].width);
-      expect(layout.placements[1].y).toBe(10);
-      expect(layout.placements[2].y).toBe(10);
+      expect(layout.placements[1].y).toBe(20);
+      expect(layout.placements[2].y).toBe(20);
 
       // Right Bottom: 3
-      expect(layout.placements[3].y).toBeGreaterThan(10);
+      expect(layout.placements[3].y).toBeGreaterThan(20);
       expect(layout.placements[3].x).toBe(layout.placements[1].x); // Starts same x as block
     });
   });

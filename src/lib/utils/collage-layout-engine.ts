@@ -27,7 +27,12 @@ export interface SharedLayout<T> {
 export function calculateLayout<T extends LayoutItem>(
   items: T[],
   template: CollageTemplateId,
-  options: { border: CollageBorder; cropStrategy?: "smart" | "simple" },
+  options: {
+    border: CollageBorder;
+    cropStrategy?: "smart" | "simple";
+    aspectRatio?: string;
+    maxDimension?: number;
+  },
 ): SharedLayout<T> {
   const borderW = options.border.width || 0;
   const cropStrategy = options.cropStrategy || "smart"; // Default to smart (dynamic)
@@ -36,67 +41,63 @@ export function calculateLayout<T extends LayoutItem>(
     return { width: 1000, height: 1000, placements: [] };
   }
 
+  let layout: SharedLayout<T>;
+
   if (template === "row") {
-    return calculateRowLayout(items, borderW);
+    layout = calculateRowLayout(items, borderW);
+  } else if (template === "column") {
+    layout = calculateColumnLayout(items, borderW);
+  } else if (template === "grid-2x2") {
+    layout = calculateGrid2x2Layout(items, borderW);
+  } else if (template === "hero-top") {
+    layout = calculateHeroTopLayout(items, borderW);
+  } else if (template === "hero-left") {
+    layout = calculateHeroLeftLayout(items, borderW);
+  } else if (template === "hero-right") {
+    layout = calculateHeroRightLayout(items, borderW);
+  } else if (template === "sidebar-hero") {
+    layout = calculateSidebarHeroLayout(items, borderW);
+  } else if (template === "grid-2-3") {
+    layout = calculateGrid23Layout(items, borderW, cropStrategy);
+  } else if (template === "grid-3-2") {
+    layout = calculateGrid32Layout(items, borderW, cropStrategy);
+  } else if (template === "sidebar-grid") {
+    layout = calculateSidebarGridLayout(items, borderW);
+  } else if (template === "density-7") {
+    layout = calculateDensity7Layout(items, borderW, cropStrategy);
+  } else if (template === "grid-3x2") {
+    layout = calculateGrid3x2Layout(items, borderW, cropStrategy);
+  } else if (template === "mosaic-6") {
+    layout = calculateMosaic6Layout(items, borderW, cropStrategy);
+  } else {
+    layout = { width: 1000, height: 1000, placements: [] };
   }
 
-  if (template === "column") {
-    return calculateColumnLayout(items, borderW);
+  // Chain improvements
+  layout = applyQualityScale(layout as SharedLayout<LayoutItem>) as SharedLayout<T>;
+
+  if (options.aspectRatio && options.aspectRatio !== "auto") {
+    layout = applyAspectRatio(
+      layout as SharedLayout<LayoutItem>,
+      options.aspectRatio,
+    ) as SharedLayout<T>;
   }
 
-  if (template === "grid-2x2") {
-    return calculateGrid2x2Layout(items, borderW);
+  if (options.maxDimension) {
+    layout = applyMaxDimensionLimit(
+      layout as SharedLayout<LayoutItem>,
+      options.maxDimension,
+    ) as SharedLayout<T>;
   }
 
-  if (template === "hero-top") {
-    return calculateHeroTopLayout(items, borderW);
-  }
-
-  if (template === "hero-left") {
-    return calculateHeroLeftLayout(items, borderW);
-  }
-
-  if (template === "hero-right") {
-    return calculateHeroRightLayout(items, borderW);
-  }
-
-  if (template === "sidebar-hero") {
-    return calculateSidebarHeroLayout(items, borderW);
-  }
-
-  if (template === "grid-2-3") {
-    return calculateGrid23Layout(items, borderW, cropStrategy);
-  }
-
-  if (template === "grid-3-2") {
-    return calculateGrid32Layout(items, borderW, cropStrategy);
-  }
-
-  if (template === "sidebar-grid") {
-    return calculateSidebarGridLayout(items, borderW);
-  }
-
-  if (template === "density-7") {
-    return calculateDensity7Layout(items, borderW, cropStrategy);
-  }
-
-  if (template === "grid-3x2") {
-    return calculateGrid3x2Layout(items, borderW, cropStrategy);
-  }
-
-  if (template === "mosaic-6") {
-    return calculateMosaic6Layout(items, borderW, cropStrategy);
-  }
-
-  // Fallback for empty or unknown
-  return { width: 1000, height: 1000, placements: [] };
+  return layout;
 }
 
 function calculateRowLayout<T extends LayoutItem>(items: T[], borderW: number): SharedLayout<T> {
   const marginX = borderW;
   const marginTop = borderW;
   const marginBottom = borderW;
-  const gutter = borderW;
+  const gutter = Math.round((2 / 3) * borderW);
 
   const heights = items.map(function getHeight(i) {
     return i.height;
@@ -133,7 +134,7 @@ function calculateColumnLayout<T extends LayoutItem>(items: T[], borderW: number
   const marginX = borderW;
   const marginTop = borderW;
   const marginBottom = borderW;
-  const gutter = borderW;
+  const gutter = Math.round((2 / 3) * borderW);
 
   const widths = items.map(function getWidth(i) {
     return i.width;
@@ -236,7 +237,7 @@ function calculateGrid2x2Layout<T extends LayoutItem>(
   const marginX = borderW;
   const marginTop = borderW;
   const marginBottom = borderW;
-  const gutter = borderW;
+  const gutter = Math.round((2 / 3) * borderW);
 
   const row1 = calculateRowForItems([items[0], items[1]], gutter);
   const row2 = calculateRowForItems([items[2], items[3]], gutter);
@@ -308,10 +309,10 @@ function calculateHeroTopLayout<T extends LayoutItem>(
   items: T[],
   borderW: number,
 ): SharedLayout<T> {
-  const gutter = borderW;
   const marginX = borderW;
   const marginTop = borderW;
   const marginBottom = borderW;
+  const gutter = Math.round((2 / 3) * borderW);
 
   if (items.length < 3) return { width: 1000, height: 1000, placements: [] };
 
@@ -332,12 +333,12 @@ function calculateHeroTopLayout<T extends LayoutItem>(
   // Placement Row 1
   const r1Item = row1.items[0];
   const r1H = Math.round(r1Item.height * scale1);
-  const r1W = Math.round(r1Item.width * scale1); // Should match row1TargetContentW exactly as it's 1 item
+  const r1W = referenceWidth; // Ensure perfect alignment with Row 2
 
   placements.push({
     x,
     y,
-    width: r1W, // or row1TargetContentW to be safe
+    width: r1W,
     height: r1H,
     item: r1Item.item,
     crop: r1Item.crop,
@@ -372,10 +373,10 @@ function calculateHeroLeftLayout<T extends LayoutItem>(
 ): SharedLayout<T> {
   if (items.length < 3) return { width: 1000, height: 1000, placements: [] };
 
-  const gutter = borderW;
   const marginX = borderW;
   const marginTop = borderW;
   const marginBottom = borderW;
+  const gutter = Math.round((2 / 3) * borderW);
 
   const leftItem = items[0];
   const rightStack = calculateColumnForItems([items[1], items[2]], gutter);
@@ -441,10 +442,10 @@ function calculateHeroRightLayout<T extends LayoutItem>(
 ): SharedLayout<T> {
   if (items.length < 3) return { width: 1000, height: 1000, placements: [] };
 
-  const gutter = borderW;
   const marginX = borderW;
   const marginTop = borderW;
   const marginBottom = borderW;
+  const gutter = Math.round((2 / 3) * borderW);
 
   // Hero is items[0] (Right)
   // Stack is items[1], items[2] (Left)
@@ -510,10 +511,10 @@ function calculateSidebarHeroLayout<T extends LayoutItem>(
   // 1 Left (Hero), Right: [2][3] (Top), [4] (Bottom)
   if (items.length < 4) return { width: 1000, height: 1000, placements: [] };
 
-  const gutter = borderW;
   const marginX = borderW;
   const marginTop = borderW;
   const marginBottom = borderW;
+  const gutter = Math.round((2 / 3) * borderW);
 
   const leftItem = items[0];
 
@@ -635,10 +636,10 @@ function calculateGrid3x2Layout<T extends LayoutItem>(
   cropStrategy: "smart" | "simple" = "smart",
 ): SharedLayout<T> {
   // 3 Rows x 2 items
-  const gutter = borderW;
   const marginX = borderW;
   const marginTop = borderW;
   const marginBottom = borderW;
+  const gutter = Math.round((2 / 3) * borderW);
 
   if (items.length < 6) return { width: 1000, height: 1000, placements: [] };
 
@@ -746,10 +747,10 @@ function calculateDensity7Layout<T extends LayoutItem>(
   // 3 Rows: 2, 3, 2
   if (items.length < 7) return { width: 1000, height: 1000, placements: [] };
 
-  const gutter = borderW;
   const marginX = borderW;
   const marginTop = borderW;
   const marginBottom = borderW;
+  const gutter = Math.round((2 / 3) * borderW);
 
   if (cropStrategy === "smart") {
     const r1 = calculateRowForItems([items[0], items[1]], gutter);
@@ -857,10 +858,10 @@ function calculateMosaic6Layout<T extends LayoutItem>(
   borderW: number,
   cropStrategy: "smart" | "simple" = "smart",
 ): SharedLayout<T> {
-  const gutter = borderW;
   const marginX = borderW;
   const marginTop = borderW;
   const marginBottom = borderW;
+  const gutter = Math.round((2 / 3) * borderW);
 
   if (items.length < 6) return { width: 1000, height: 1000, placements: [] };
 
@@ -988,10 +989,10 @@ export function calculateGrid23Layout<T extends LayoutItem>(
   // 2 Rows: 2 items (top), 3 items (bottom)
   if (items.length < 5) return { width: 1000, height: 1000, placements: [] };
 
-  const gutter = borderW;
   const marginX = borderW;
   const marginTop = borderW;
   const marginBottom = borderW;
+  const gutter = Math.round((2 / 3) * borderW);
 
   const r1 = calculateRowForItems([items[0], items[1]], gutter);
   const r2 = calculateRowForItems([items[2], items[3], items[4]], gutter);
@@ -1039,10 +1040,10 @@ export function calculateGrid32Layout<T extends LayoutItem>(
   // 2 Rows: 3 items (top), 2 items (bottom)
   if (items.length < 5) return { width: 1000, height: 1000, placements: [] };
 
-  const gutter = borderW;
   const marginX = borderW;
   const marginTop = borderW;
   const marginBottom = borderW;
+  const gutter = Math.round((2 / 3) * borderW);
 
   const r1 = calculateRowForItems([items[0], items[1], items[2]], gutter);
   const r2 = calculateRowForItems([items[3], items[4]], gutter);
@@ -1089,10 +1090,10 @@ export function calculateSidebarGridLayout<T extends LayoutItem>(
   // 1 Left (Hero), Right: [1][2] (Top), [3][4] (Bottom)
   if (items.length < 5) return { width: 1000, height: 1000, placements: [] };
 
-  const gutter = borderW;
   const marginX = borderW;
   const marginTop = borderW;
   const marginBottom = borderW;
+  const gutter = Math.round((2 / 3) * borderW);
 
   const leftItem = items[0];
 
@@ -1167,4 +1168,206 @@ export function calculateSidebarGridLayout<T extends LayoutItem>(
     height: marginTop + rightBlockTotalHeight + marginBottom,
     placements,
   };
+}
+
+/**
+ * Scale the entire layout down if any placement would cause an upscaling of its source.
+ * This preserves source-image quality by avoiding upscaling.
+ */
+function applyQualityScale(layout: SharedLayout<LayoutItem>): SharedLayout<LayoutItem> {
+  let minScaleFactor = 1.0;
+
+  for (const p of layout.placements) {
+    if (!p.crop?.scale) continue;
+
+    const userZoom = p.crop.scale;
+    if (userZoom <= 1.0) continue;
+
+    const scaleW = p.width / (p.item.width || 1);
+    const scaleH = p.height / (p.item.height || 1);
+    const baseScale = Math.max(scaleW, scaleH);
+    const finalScale = baseScale * userZoom;
+
+    if (finalScale > 1.0) {
+      const requiredShrink = 1.0 / finalScale;
+      minScaleFactor = Math.min(minScaleFactor, requiredShrink);
+    }
+  }
+
+  if (minScaleFactor >= 1.0) return layout;
+
+  const targetW = getTargetDimension(layout, "x", minScaleFactor);
+  const targetH = getTargetDimension(layout, "y", minScaleFactor);
+
+  stretchDimension(layout, "x", targetW);
+  stretchDimension(layout, "y", targetH);
+
+  return layout;
+}
+
+function getTargetDimension(layout: SharedLayout<LayoutItem>, axis: "x" | "y", scale: number) {
+  const posKey = axis === "x" ? "x" : "y";
+  const dimKey = axis === "x" ? "width" : "height";
+
+  const rawIntervals = layout.placements.map((p) => [p[posKey], p[posKey] + p[dimKey]]);
+  rawIntervals.sort((a, b) => a[0] - b[0]);
+  const merged: [number, number][] = [];
+  if (rawIntervals.length > 0) {
+    let curr = rawIntervals[0];
+    for (let i = 1; i < rawIntervals.length; i++) {
+      if (rawIntervals[i][0] <= curr[1] + 0.1) {
+        curr[1] = Math.max(curr[1], rawIntervals[i][1]);
+      } else {
+        merged.push([curr[0], curr[1]]);
+        curr = rawIntervals[i];
+      }
+    }
+    merged.push([curr[0], curr[1]]);
+  }
+  const contentSum = merged.reduce((sum, [s, e]) => sum + (e - s), 0);
+  const gapsSum = layout[dimKey] - contentSum;
+  return Math.round(contentSum * scale + gapsSum);
+}
+
+/**
+ * Reduce layout to fit within a maximum dimension (8K), scaling placements accordingly.
+ */
+function applyMaxDimensionLimit(
+  layout: SharedLayout<LayoutItem>,
+  maxDimension: number,
+): SharedLayout<LayoutItem> {
+  if (layout.width <= maxDimension && layout.height <= maxDimension) {
+    return layout;
+  }
+
+  const scale = maxDimension / Math.max(layout.width, layout.height);
+
+  const targetW = getTargetDimension(layout, "x", scale);
+  const targetH = getTargetDimension(layout, "y", scale);
+
+  stretchDimension(layout, "x", targetW);
+  stretchDimension(layout, "y", targetH);
+
+  return layout;
+}
+
+/**
+ * Adjust layout dimensions to match a target aspect ratio by stretching images.
+ * Unlike simple scaling, this logic preserves fixed borders and gutters (no dynamics).
+ */
+function applyAspectRatio(
+  layout: SharedLayout<LayoutItem>,
+  ratioId: string,
+): SharedLayout<LayoutItem> {
+  const [wRatio, hRatio] = ratioId.split(":").map(Number);
+  if (!wRatio || !hRatio) return layout;
+
+  const targetRatio = wRatio / hRatio;
+  const currentRatio = layout.width / layout.height;
+
+  if (Math.abs(currentRatio - targetRatio) < 0.01) return layout;
+
+  // Clone layout and placements to avoid side-effects
+  const newLayout: SharedLayout<LayoutItem> = {
+    ...layout,
+    placements: layout.placements.map((p) => ({ ...p })),
+  };
+
+  if (currentRatio > targetRatio) {
+    // Current is wider than target -> Increase Height (Stretch Y)
+    const newTotalHeight = Math.round(layout.width / targetRatio);
+    stretchDimension(newLayout, "y", newTotalHeight);
+  } else {
+    // Current is taller than target -> Increase Width (Stretch X)
+    const newTotalWidth = Math.round(layout.height * targetRatio);
+    stretchDimension(newLayout, "x", newTotalWidth);
+  }
+
+  return newLayout;
+}
+
+/**
+ * Stretches a layout along one axis while keepings gaps (gutters/margins) fixed.
+ * Only segments of the axis occupied by image content are scaled.
+ */
+function stretchDimension(layout: SharedLayout<LayoutItem>, axis: "x" | "y", targetTotal: number) {
+  const posKey = axis === "x" ? "x" : "y";
+  const dimKey = axis === "x" ? "width" : "height";
+  const oldTotal = layout[dimKey];
+  if (oldTotal === targetTotal) return;
+
+  // 1. Identify Content Intervals along the axis
+  const rawIntervals = layout.placements.map((p) => [p[posKey], p[posKey] + p[dimKey]]);
+  rawIntervals.sort((a, b) => a[0] - b[0]);
+
+  const merged: [number, number][] = [];
+  if (rawIntervals.length > 0) {
+    let curr = rawIntervals[0];
+    for (let i = 1; i < rawIntervals.length; i++) {
+      // Tiny epsilon to bridge sub-pixel rounding gaps if any
+      if (rawIntervals[i][0] <= curr[1] + 0.1) {
+        curr[1] = Math.max(curr[1], rawIntervals[i][1]);
+      } else {
+        merged.push([curr[0], curr[1]]);
+        curr = rawIntervals[i];
+      }
+    }
+    merged.push([curr[0], curr[1]]);
+  }
+
+  const oldContentSum = merged.reduce((sum, [s, e]) => sum + (e - s), 0);
+  const totalChange = targetTotal - oldTotal;
+
+  if (oldContentSum <= 0) {
+    layout[dimKey] = targetTotal;
+    return;
+  }
+
+  const scale = (oldContentSum + totalChange) / oldContentSum;
+
+  /**
+   * Transforms a coordinate by scaling only the parts that fall within content intervals.
+   */
+  const transform = (v: number) => {
+    let newV = 0;
+    let lastE = 0;
+    let contentProcessed = 0;
+
+    for (const [s, e] of merged) {
+      // Add the gap before this interval (unscaled)
+      newV += s - lastE;
+      if (v <= s) return newV - (s - v);
+
+      const segmentLen = e - s;
+      const progressInSegment = Math.min(v - s, segmentLen);
+
+      // Add scaled progress
+      const scaledSegmentStart = contentProcessed * scale;
+      const scaledProgress = (contentProcessed + progressInSegment) * scale - scaledSegmentStart;
+
+      if (v <= e) {
+        return newV + scaledProgress;
+      }
+
+      newV += segmentLen * scale;
+      contentProcessed += segmentLen;
+      lastE = e;
+    }
+
+    // Add final gap (unscaled)
+    newV += oldTotal - lastE;
+    return newV - (oldTotal - v);
+  };
+
+  for (const p of layout.placements) {
+    const s = p[posKey];
+    const e = p[posKey] + p[dimKey];
+    const newS = transform(s);
+    const newE = transform(e);
+
+    p[posKey] = Math.round(newS);
+    p[dimKey] = Math.round(newE - newS);
+  }
+
+  layout[dimKey] = targetTotal;
 }
