@@ -14,7 +14,7 @@ import {
   type SharedLayout,
 } from "$lib/utils/collage-layout-engine";
 import { renderCollage } from "$lib/utils/collage-renderer";
-import { reloadManifests } from "$lib/utils/images";
+import { reloadManifests } from "$lib/utils/manifest-loader";
 import { COLLAGE_MESSAGES } from "$lib/utils/messages";
 
 import { config as buildConfig } from "$scripts/build.config";

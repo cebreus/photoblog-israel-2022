@@ -11,7 +11,7 @@ import {
   type Person,
 } from "$lib/types/manifest";
 import { validateMergeInput } from "$lib/utils/api-validators";
-import { reloadManifests } from "$lib/utils/images";
+import { reloadManifests } from "$lib/utils/manifest-loader";
 import { toSlug } from "$lib/utils/strings";
 import { config } from "$scripts/build.config";
 import { mergeClusters } from "$scripts/lib/faces/clustering";

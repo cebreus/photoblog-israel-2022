@@ -65,7 +65,7 @@ function gatherQualityStats(photoDays: PhotoDay[]): Map<string, number> {
 
 export const load = async () => {
   if (import.meta.env.DEV) {
-    const { reloadManifests } = await import("$lib/utils/images");
+    const { reloadManifests } = await import("$lib/utils/manifest-loader");
     await reloadManifests();
   }
 
@@ -73,6 +73,8 @@ export const load = async () => {
   const menuItems: MenuManifest = getMenuItems();
   const authors: Author[] = gatherAuthors(photoDays);
   const qualityStats = gatherQualityStats(photoDays);
+  const mediaStats = gatherMediaStats(photoDays);
+  const snapshotStats = gatherSnapshotStats(photoDays);
   const siteManifest: SiteManifest = getSiteManifest();
   const curationManifest = getCurationManifest();
   const peopleManifest: PeopleManifest = getPeopleManifest();
@@ -82,8 +84,52 @@ export const load = async () => {
     menuItems,
     authors,
     qualityStats,
+    mediaStats,
+    snapshotStats,
     siteManifest,
     curationManifest,
     peopleManifest,
   };
 };
+
+function gatherMediaStats(photoDays: PhotoDay[]): Map<string, number> {
+  const counts = new Map<string, number>();
+
+  for (const day of photoDays) {
+    for (const item of day.items) {
+      if (item.type === "separator") continue;
+      // Items are already reclassified by the manifest loader (in images.ts)
+      // so item.type will correctly be "panorama" or "collage" where applicable.
+      const type = item.type;
+      counts.set(type, (counts.get(type) ?? 0) + 1);
+    }
+  }
+
+  return counts;
+}
+
+function gatherSnapshotStats(photoDays: PhotoDay[]): {
+  total: number;
+  author: number;
+  others: number;
+} {
+  let total = 0;
+  let author = 0;
+  let others = 0;
+
+  for (const day of photoDays) {
+    for (const item of day.items) {
+      if (item.type === "separator") continue;
+      if (!item.flags) continue;
+
+      const isAuthor = item.flags.includes("snapshot-author");
+      const isOthers = item.flags.includes("snapshot-others");
+
+      if (isAuthor) author++;
+      if (isOthers) others++;
+      if (isAuthor || isOthers) total++;
+    }
+  }
+
+  return { total, author, others };
+}

@@ -4,7 +4,7 @@ import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
 import { type FacesManifest, isImageEntry } from "$lib/types/manifest";
 import { validateIgnoreFaceInput } from "$lib/utils/api-validators";
-import { reloadManifests } from "$lib/utils/images";
+import { reloadManifests } from "$lib/utils/manifest-loader";
 import { refreshPersonThumbnail } from "$scripts/lib/faces/people";
 import { withManifestLock } from "$scripts/lib/manifests/lock";
 import {

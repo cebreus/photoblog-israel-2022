@@ -2,7 +2,7 @@ import path from "node:path";
 import process from "node:process";
 import { json, type RequestHandler } from "@sveltejs/kit";
 import { dev } from "$app/environment";
-import { reloadManifests } from "$lib/utils/images";
+import { reloadManifests } from "$lib/utils/manifest-loader";
 import { withManifestLock } from "$scripts/lib/manifests/lock";
 import { loadPeopleManifest, savePeopleManifest } from "$scripts/lib/manifests/repository";
 

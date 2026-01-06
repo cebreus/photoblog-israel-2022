@@ -1,70 +1,78 @@
-import { isCollage } from "$shared/utils/strings";
-import type { AnalysisManifest, FacesManifest, Manifest, PeopleManifest } from "../types/manifest";
+import path from "node:path";
+import { building, dev } from "$app/environment";
+import { createLogger } from "$lib/logger";
+import type { CurationManifest, Manifest, PeopleManifest } from "$lib/types/manifest";
+import {
+  normalizePeople,
+  reclassifyCollages,
+  reclassifyPanoramas,
+  reclassifySequences,
+  updateManifests,
+} from "./images";
+import {
+  isValidCurationManifest,
+  isValidManifest,
+  isValidPeopleManifest,
+} from "./manifest-validators";
+
+const logger = createLogger("ManifestLoader");
 
 /**
- * Merges split manifests into a unified structure.
- * This is the runtime equivalent of the "Link" step in "Split & Link".
+ * In DEV mode on the server, reload manifests from disk to bypass Vite caching.
+ * This ensures that API updates are immediately reflected in the UI.
  */
-export function mergeManifests(
-  manifest: Manifest,
-  faces: FacesManifest | null,
-  analysis: AnalysisManifest | null,
-  _people: PeopleManifest | null,
-): Manifest {
-  // Deep clone to avoid mutating the original manifest if it's imported JSON
-  // In a real app we might optimize this, but for safety clone first
-  const merged = structuredClone(manifest);
+export async function reloadManifests() {
+  if (dev && !building && typeof process !== "undefined") {
+    try {
+      // Use process.cwd() to find project root
+      const contentDir = process.env.CONTENT_DIR || "egypt-2025"; // Fallback to egypt if not set
+      const dataDir = path.resolve(process.cwd(), "src/data", contentDir);
 
-  merged.photoDays.forEach((day) => {
-    day.items.forEach((item) => {
-      // Re-classify item type if it's a collage but marked as "image"
-      if (item.type === "image" && isCollage(item.id)) {
-        item.type = "collage";
+      const fsp = await import("node:fs/promises");
+
+      let nextManifest: Manifest | null = null;
+      let nextPeople: PeopleManifest | null = null;
+      let nextCuration: CurationManifest | null = null;
+
+      // Reload Images Manifest
+      try {
+        const raw = await fsp.readFile(path.join(dataDir, "images.manifest.json"), "utf-8");
+        const json = JSON.parse(raw);
+        if (isValidManifest(json)) {
+          nextManifest = reclassifySequences(reclassifyPanoramas(reclassifyCollages(json)));
+        }
+      } catch (_e) {
+        logger.error({ err: _e }, "Failed to reload images manifest");
       }
 
-      if (item.type !== "image" && item.type !== "collage") return;
-
-      // 1. Merge Faces (Critical for smart cropping)
-      if (faces?.[item.id]) {
-        const faceData = faces[item.id];
-        item.analysis = item.analysis || {
-          sharpness: 0,
-          phash: "",
-        };
-
-        item.analysis.facesDetected = faceData.facesDetected;
-        item.analysis.faces = faceData.faces;
-
-        // Link people IDs if available (legacy support on image object)
-        if (faceData.peopleIds && faceData.peopleIds.length > 0) {
-          item.people = Array.from(new Set([...(item.people || []), ...faceData.peopleIds]));
+      // Reload People Manifest
+      try {
+        const raw = await fsp.readFile(path.join(dataDir, "people.manifest.json"), "utf-8");
+        const json = JSON.parse(raw);
+        if (isValidPeopleManifest(json)) {
+          nextPeople = normalizePeople(json);
         }
+      } catch (_e) {}
+
+      // Reload Curation Manifest
+      try {
+        const raw = await fsp.readFile(path.join(dataDir, "curation.manifest.json"), "utf-8");
+        const json = JSON.parse(raw);
+        if (isValidCurationManifest(json)) {
+          nextCuration = json;
+        }
+      } catch (_e) {
+        // Curation manifest might not exist
       }
 
-      // 2. Merge Analysis (AI scores)
-      if (analysis?.[item.id]) {
-        const analysisData = analysis[item.id];
-        item.analysis = item.analysis || {
-          sharpness: 0,
-          phash: "",
-        };
-
-        // Only overwrite if value exists in source
-        if (analysisData.aestheticScore !== undefined) {
-          item.analysis.aestheticScore = analysisData.aestheticScore;
-        }
-        if (analysisData.sharpness !== undefined) {
-          item.analysis.sharpness = analysisData.sharpness;
-        }
-        if (analysisData.phash) {
-          item.analysis.phash = analysisData.phash;
-        }
-        if (analysisData.qualityBucket) {
-          item.analysis.qualityBucket = analysisData.qualityBucket;
-        }
-      }
-    });
-  });
-
-  return merged;
+      // Atomic Update
+      updateManifests(nextManifest, nextPeople, nextCuration);
+    } catch (_e) {
+      logger.error({ err: _e }, "Manifest reload outer error");
+    }
+  } else {
+    logger.debug(
+      `Skipped: dev=${dev}, building=${building}, hasProcess=${typeof process !== "undefined"}`,
+    );
+  }
 }

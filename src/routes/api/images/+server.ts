@@ -6,7 +6,7 @@ import { exiftool } from "exiftool-vendored";
 import { dev } from "$app/environment";
 import { applyMetadataUpdates } from "$lib/shared/metadata-utils";
 import { type ImageEntry, isImageEntry, type Manifest } from "$lib/types/manifest";
-import { reloadManifests } from "$lib/utils/images";
+import { reloadManifests } from "$lib/utils/manifest-loader";
 import { getExifToolWriteTags } from "$lib/utils/metadata-standards";
 import { config } from "$scripts/build.config";
 import {

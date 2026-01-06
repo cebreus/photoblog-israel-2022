@@ -1,10 +1,8 @@
-import path from "node:path";
-import { building, dev } from "$app/environment";
+import { dev } from "$app/environment";
 import curationManifest from "$manifests/curation.manifest.json" with { type: "json" };
 import manifest from "$manifests/images.manifest.json" with { type: "json" };
 import peopleManifestImport from "$manifests/people.manifest.json" with { type: "json" };
 import { isCollage } from "$shared/utils/strings";
-import { createLogger } from "../logger";
 import type {
   CurationManifest,
   ImageEntry,
@@ -18,10 +16,8 @@ import {
   isValidPeopleManifest,
 } from "./manifest-validators";
 
-const logger = createLogger("ManifestLoader");
-
 /** Re-classify collages that were incorrectly typed as "image" */
-function reclassifyCollages(m: Manifest): Manifest {
+export function reclassifyCollages(m: Manifest): Manifest {
   // Clone to avoid mutating frozen/immutable imported JSON
   const cloned = structuredClone(m);
   for (const day of cloned.photoDays) {
@@ -34,8 +30,42 @@ function reclassifyCollages(m: Manifest): Manifest {
   return cloned;
 }
 
+/** Re-classify panoramas that were incorrectly typed as "image" */
+export function reclassifyPanoramas(m: Manifest): Manifest {
+  const cloned = structuredClone(m);
+  for (const day of cloned.photoDays) {
+    for (const item of day.items) {
+      if (item.type === "image" && item.aspectRatio === "panorama") {
+        item.type = "panorama";
+      }
+    }
+  }
+  return cloned;
+}
+
+/** Re-classify sequences/panoramas that were incorrectly typed as "image" */
+export function reclassifySequences(m: Manifest): Manifest {
+  const cloned = structuredClone(m);
+  for (const day of cloned.photoDays) {
+    for (const item of day.items) {
+      if (item.type === "image" && item.sequenceInfo) {
+        if (item.sequenceInfo.type === "pano") {
+          item.type = "panorama";
+        } else if (item.sequenceInfo.index === item.sequenceInfo.total) {
+          // Representative item (last in sequence) becomes the playable "sequence"
+          item.type = "sequence";
+        } else {
+          // Other items are just members
+          item.type = "sequence-member";
+        }
+      }
+    }
+  }
+  return cloned;
+}
+
 /** Normalizes people manifest data by ensuring isUserNamed is set */
-function normalizePeople(m: PeopleManifest): PeopleManifest {
+export function normalizePeople(m: PeopleManifest): PeopleManifest {
   const cloned = structuredClone(m);
   if (cloned?.people) {
     for (const person of cloned.people) {
@@ -48,8 +78,8 @@ function normalizePeople(m: PeopleManifest): PeopleManifest {
 }
 
 // Mutable manifests for dev-mode reloading
-let currentManifest: Manifest = reclassifyCollages(
-  isValidManifest(manifest) ? manifest : { photoDays: [] },
+let currentManifest: Manifest = reclassifySequences(
+  reclassifyPanoramas(reclassifyCollages(isValidManifest(manifest) ? manifest : { photoDays: [] })),
 );
 let currentPeopleManifest: PeopleManifest = isValidPeopleManifest(peopleManifestImport)
   ? normalizePeople(peopleManifestImport)
@@ -61,7 +91,7 @@ let currentCurationManifest: CurationManifest = isValidCurationManifest(curation
 /**
  * Helper to atomic update manifest and clear caches
  */
-function updateManifests(
+export function updateManifests(
   newManifest: Manifest | null,
   newPeople: PeopleManifest | null,
   newCuration: CurationManifest | null,
@@ -76,66 +106,6 @@ function updateManifests(
   if (newManifest) {
     allImagesMap = null;
     imagePeopleMap = null;
-  }
-}
-
-/**
- * In DEV mode on the server, reload manifests from disk to bypass Vite caching.
- * This ensures that API updates are immediately reflected in the UI.
- */
-export async function reloadManifests() {
-  if (dev && !building && typeof process !== "undefined") {
-    try {
-      // Use process.cwd() to find project root
-      const contentDir = process.env.CONTENT_DIR || "egypt-2025"; // Fallback to egypt if not set
-      const dataDir = path.resolve(process.cwd(), "src/data", contentDir);
-
-      const fsp = await import("node:fs/promises");
-
-      let nextManifest: Manifest | null = null;
-      let nextPeople: PeopleManifest | null = null;
-      let nextCuration: CurationManifest | null = null;
-
-      // Reload Images Manifest
-      try {
-        const raw = await fsp.readFile(path.join(dataDir, "images.manifest.json"), "utf-8");
-        const json = JSON.parse(raw);
-        if (isValidManifest(json)) {
-          nextManifest = reclassifyCollages(json);
-        }
-      } catch (_e) {
-        logger.error({ err: _e }, "Failed to reload images manifest");
-      }
-
-      // Reload People Manifest
-      try {
-        const raw = await fsp.readFile(path.join(dataDir, "people.manifest.json"), "utf-8");
-        const json = JSON.parse(raw);
-        if (isValidPeopleManifest(json)) {
-          nextPeople = normalizePeople(json);
-        }
-      } catch (_e) {}
-
-      // Reload Curation Manifest
-      try {
-        const raw = await fsp.readFile(path.join(dataDir, "curation.manifest.json"), "utf-8");
-        const json = JSON.parse(raw);
-        if (isValidCurationManifest(json)) {
-          nextCuration = json;
-        }
-      } catch (_e) {
-        // Curation manifest might not exist
-      }
-
-      // Atomic Update
-      updateManifests(nextManifest, nextPeople, nextCuration);
-    } catch (_e) {
-      logger.error({ err: _e }, "Manifest reload outer error");
-    }
-  } else {
-    logger.debug(
-      `Skipped: dev=${dev}, building=${building}, hasProcess=${typeof process !== "undefined"}`,
-    );
   }
 }
 

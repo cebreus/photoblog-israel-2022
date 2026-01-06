@@ -4,7 +4,7 @@ import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
 import { clearTaskStatus, saveTaskStatus } from "$lib/server/task-status";
 import { validateReassignInput } from "$lib/utils/api-validators";
-import { reloadManifests } from "$lib/utils/images";
+import { reloadManifests } from "$lib/utils/manifest-loader";
 import { addReassignmentConstraints } from "$scripts/lib/faces/constraints";
 import {
   recalculateFaceCount,

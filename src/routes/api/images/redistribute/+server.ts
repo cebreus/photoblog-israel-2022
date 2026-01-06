@@ -4,7 +4,7 @@ import { json, type RequestEvent } from "@sveltejs/kit";
 import { exiftool, type WriteTags } from "exiftool-vendored";
 import { dev } from "$app/environment";
 import type { ImageEntry } from "$lib/types/manifest";
-import { reloadManifests } from "$lib/utils/images";
+import { reloadManifests } from "$lib/utils/manifest-loader";
 import { organizeDayItems } from "$scripts/lib/manifests/builder";
 import { withManifestLock } from "$scripts/lib/manifests/lock";
 import { loadImagesManifest, saveImagesManifest } from "$scripts/lib/manifests/repository";

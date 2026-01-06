@@ -6,7 +6,7 @@ import { dev } from "$app/environment";
 import { clearTaskStatus, saveTaskStatus } from "$lib/server/task-status";
 import { type PeopleManifest, type Person } from "$lib/types/manifest";
 import { validateUnmatchInput } from "$lib/utils/api-validators";
-import { reloadManifests } from "$lib/utils/images";
+import { reloadManifests } from "$lib/utils/manifest-loader";
 import { toSlug } from "$lib/utils/strings";
 import { addReassignmentConstraints } from "$scripts/lib/faces/constraints";
 import {
