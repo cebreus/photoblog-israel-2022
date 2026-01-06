@@ -256,32 +256,13 @@
       }
     },
     {
-      "id": "group-2025-11-26-130753-cebreus",
-      "items": [
-        "2025-11-26-130753-cebreus",
-        "2025-11-26-130813-cebreus"
-      ],
-      "bestCandidateId": "2025-11-26-130753-cebreus",
-      "similarity": 0.8964995342618931,
-      "recommendations": {
-        "2025-11-26-130753-cebreus": {
-          "action": "keep",
-          "reason": "Best candidate"
-        },
-        "2025-11-26-130813-cebreus": {
-          "action": "delete",
-          "reason": "Lower aesthetics (42 vs 55)"
-        }
-      }
-    },
-    {
       "id": "group-2025-11-26-140121-dasa",
       "items": [
         "2025-11-26-140121-dasa",
         "2025-11-26-140159-dasa"
       ],
       "bestCandidateId": "2025-11-26-140121-dasa",
-      "similarity": 0.9131969215724329,
+      "similarity": 0.8992483247155746,
       "recommendations": {
         "2025-11-26-140121-dasa": {
           "action": "keep",
@@ -314,8 +295,8 @@
     }
   ],
   "stats": {
-    "totalPhotos": 257,
-    "totalGroups": 13,
-    "duplicatesFound": 26
+    "totalPhotos": 256,
+    "totalGroups": 12,
+    "duplicatesFound": 25
   }
 }

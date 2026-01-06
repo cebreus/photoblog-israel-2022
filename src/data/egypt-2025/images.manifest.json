@@ -2849,9 +2849,11 @@
           "sizeMB": 2.37,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-24-205551-cebreus--collage.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
-            "sharpness": 5626.386531568852,
+            "aestheticScore": 56.68296614637518,
+            "sharpness": 100,
+            "qualityBucket": "good",
             "phash": "b4b6b6c3de9a9392",
             "facesDetected": false,
             "faces": []
@@ -2928,10 +2930,12 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-24-205551-cebreus--collage.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
-          "people": []
+          "people": [
+            "person-f4999137"
+          ]
         },
         {
           "id": "2025-11-24-210138-cebreus",
@@ -4128,9 +4132,11 @@
           "sizeMB": 3.82,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-082944-cebreus--collage.png",
-          "placeholderColor": "rgb(104,88,72)",
+          "placeholderColor": "",
           "analysis": {
-            "sharpness": 2980.034622441641,
+            "aestheticScore": 72.94404160827362,
+            "sharpness": 89,
+            "qualityBucket": "excellent",
             "phash": "f6c5f9cacaa2b6b6",
             "facesDetected": false,
             "faces": []
@@ -4208,7 +4214,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-082944-cebreus--collage.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -4573,9 +4579,11 @@
           "sizeMB": 13.81,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-084249-cebreus--collage.png",
-          "placeholderColor": "rgb(104,88,72)",
+          "placeholderColor": "",
           "analysis": {
-            "sharpness": 3278.190894566016,
+            "aestheticScore": 43.91218707787307,
+            "sharpness": 98,
+            "qualityBucket": "poor",
             "phash": "a3a92d60a9b9706a",
             "facesDetected": false,
             "faces": []
@@ -4653,7 +4661,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-084249-cebreus--collage.jpeg",
               "width": 534,
-              "height": 232
+              "height": 534
             }
           ],
           "people": []
@@ -4669,9 +4677,11 @@
           "sizeMB": 3.49,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-084330-cebreus--collage.png",
-          "placeholderColor": "rgb(72,56,40)",
+          "placeholderColor": "",
           "analysis": {
-            "sharpness": 4097.440987323188,
+            "aestheticScore": 40.71132902003039,
+            "sharpness": 100,
+            "qualityBucket": "poor",
             "phash": "898d0e0a8b87b6ae",
             "facesDetected": false,
             "faces": []
@@ -4749,7 +4759,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-084330-cebreus--collage.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -5260,9 +5270,11 @@
           "sizeMB": 3.87,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-090256-cebreus--collage.png",
-          "placeholderColor": "rgb(56,56,56)",
+          "placeholderColor": "",
           "analysis": {
-            "sharpness": 3651.759038747827,
+            "aestheticScore": 56.82829954845965,
+            "sharpness": 100,
+            "qualityBucket": "good",
             "phash": "9bcecb9b83e2feda",
             "facesDetected": false,
             "faces": []
@@ -5340,7 +5352,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-090256-cebreus--collage.jpeg",
               "width": 534,
-              "height": 400
+              "height": 534
             }
           ],
           "people": []
@@ -5464,9 +5476,11 @@
           "sizeMB": 3.96,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-092409-cebreus--collage.png",
-          "placeholderColor": "rgb(24,24,24)",
+          "placeholderColor": "",
           "analysis": {
-            "sharpness": 3910.548200178621,
+            "aestheticScore": 58.61264862211656,
+            "sharpness": 100,
+            "qualityBucket": "good",
             "phash": "afb8bae987939292",
             "facesDetected": false,
             "faces": []
@@ -5544,7 +5558,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-092409-cebreus--collage.jpeg",
               "width": 534,
-              "height": 400
+              "height": 534
             }
           ],
           "people": []
@@ -6953,9 +6967,11 @@
           "sizeMB": 2.5,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-102006-cebreus--collage.png",
-          "placeholderColor": "rgb(24,24,24)",
+          "placeholderColor": "",
           "analysis": {
-            "sharpness": 4452.322058571119,
+            "aestheticScore": 58.30074788664029,
+            "sharpness": 100,
+            "qualityBucket": "good",
             "phash": "a69aaa0ed2c38536",
             "facesDetected": false,
             "faces": []
@@ -7033,7 +7049,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-102006-cebreus--collage.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -7148,9 +7164,11 @@
           "sizeMB": 5.4,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-102804-cebreus--collage.png",
-          "placeholderColor": "rgb(168,152,136)",
+          "placeholderColor": "",
           "analysis": {
-            "sharpness": 3255.412374653256,
+            "aestheticScore": 66.28582596760964,
+            "sharpness": 98,
+            "qualityBucket": "excellent",
             "phash": "a61694acb0b0984a",
             "facesDetected": false,
             "faces": []
@@ -7228,7 +7246,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-25-102804-cebreus--collage.jpeg",
               "width": 534,
-              "height": 300
+              "height": 534
             }
           ],
           "people": []
@@ -10296,12 +10314,13 @@
       ],
       "items": [
         {
-          "id": "loc-gizska-nekropole-0901",
+          "id": "loc-gizska-nekropole-0840",
           "type": "separator",
           "location": "Gízská nekropole",
           "city": "Gíza",
           "hasPhotos": true,
-          "startDate": "2025-11-26T09:01:12"
+          "startDate": "2025-11-26T08:40:00",
+          "endDate": "2025-11-26T12:00:00"
         },
         {
           "id": "2025-11-26-080112-cebreus",
@@ -10514,27 +10533,29 @@
           "placeholder": "blurs/2025-11-26-091503-bobina.png",
           "placeholderColor": "rgb(216,216,200)",
           "analysis": {
-            "sharpness": 7056.778815297715,
+            "aestheticScore": 65.53574693284021,
+            "sharpness": 100,
+            "qualityBucket": "excellent",
             "phash": "072f2f2626876411",
             "facesDetected": true,
             "faces": [
               {
-                "x": 621.0629233121872,
-                "y": 262.9319004416466,
-                "width": 107.32860338687897,
-                "height": 126.45789933204651
+                "x": 620.6089557409286,
+                "y": 262.0835452079773,
+                "width": 107.79588460922241,
+                "height": 126.3834754625956
               },
               {
-                "x": 1063.874306678772,
-                "y": 433.2391009926796,
-                "width": 105.75992012023926,
-                "height": 144.1366590261459
+                "x": 1065.500061750412,
+                "y": 435.7338420550028,
+                "width": 104.51458168029785,
+                "height": 141.59438705444336
               },
               {
-                "x": 842.3873831033707,
-                "y": 315.2449363768101,
-                "width": 96.05212712287903,
-                "height": 117.97694066166875
+                "x": 841.3316012620926,
+                "y": 315.92187420527137,
+                "width": 96.31970357894897,
+                "height": 117.50404405593872
               }
             ]
           },
@@ -10613,7 +10634,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-091503-bobina.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "flags": [
@@ -11786,21 +11807,23 @@
           "placeholder": "blurs/2025-11-26-081434-cebreus.png",
           "placeholderColor": "rgb(200,168,120)",
           "analysis": {
-            "sharpness": 3771.566379714205,
+            "aestheticScore": 69.41438705770098,
+            "sharpness": 100,
+            "qualityBucket": "excellent",
             "phash": "17374b62d2de5d5d",
             "facesDetected": true,
             "faces": [
               {
-                "x": 1375.4312192201614,
-                "y": 442.6300923228264,
-                "width": 121.81692767143248,
-                "height": 168.04974806308738
+                "x": 1375.8161051273348,
+                "y": 443.87913048267365,
+                "width": 122.49989390373231,
+                "height": 170.64604242642716
               },
               {
-                "x": 688.0575709939003,
-                "y": 365.521417170763,
-                "width": 125.49038207530974,
-                "height": 164.944445759058
+                "x": 688.0980443954469,
+                "y": 365.5037607749303,
+                "width": 124.97337472438814,
+                "height": 163.35452179114026
               }
             ]
           },
@@ -11884,7 +11907,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-081434-cebreus.jpeg",
               "width": 534,
-              "height": 400
+              "height": 534
             }
           ],
           "flags": [
@@ -11907,27 +11930,29 @@
           "placeholder": "blurs/2025-11-26-081544-cebreus.png",
           "placeholderColor": "rgb(232,232,200)",
           "analysis": {
-            "sharpness": 6759.16905330613,
+            "aestheticScore": 60.057934160942494,
+            "sharpness": 100,
+            "qualityBucket": "good",
             "phash": "9f9b23633353db24",
             "facesDetected": true,
             "faces": [
               {
-                "x": 448.7294749170542,
-                "y": 428.6989034712314,
-                "width": 210.80493168532848,
-                "height": 235.92290711402893
+                "x": 451.5510275810957,
+                "y": 429.24153959751123,
+                "width": 211.10957430303097,
+                "height": 235.27740311622617
               },
               {
-                "x": 1595.912440776825,
-                "y": 578.7072914838791,
-                "width": 208.75210666656494,
-                "height": 259.3367040753364
+                "x": 1598.79485809803,
+                "y": 579.3300419648486,
+                "width": 207.89680814743042,
+                "height": 256.7538573741913
               },
               {
-                "x": 1168.2979245185852,
-                "y": 416.01066617667675,
-                "width": 185.13891887664795,
-                "height": 195.39544387161723
+                "x": 1167.4307468533516,
+                "y": 415.3335105776786,
+                "width": 185.17698323726654,
+                "height": 195.59218841791153
               }
             ]
           },
@@ -12011,7 +12036,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-081544-cebreus.jpeg",
               "width": 534,
-              "height": 400
+              "height": 534
             }
           ],
           "flags": [
@@ -12019,7 +12044,8 @@
           ],
           "people": [
             "person-6abf63c9",
-            "person-e9ed35a6"
+            "person-e9ed35a6",
+            "person-9b0bc40f"
           ]
         },
         {
@@ -14257,12 +14283,13 @@
           "people": []
         },
         {
-          "id": "loc-egyptsky-papyrusovy-institut-1234",
+          "id": "loc-egyptsky-papyrusovy-institut-1230",
           "type": "separator",
           "location": "Egyptský papyrusový institut",
           "city": "Gíza",
           "hasPhotos": true,
-          "startDate": "2025-11-26T12:34:57"
+          "startDate": "2025-11-26T12:30:00",
+          "endDate": "2025-11-26T12:50:00"
         },
         {
           "id": "2025-11-26-113457-cebreus",
@@ -14375,7 +14402,7 @@
           ],
           "people": [
             "person-8aeea50b",
-            "person-421decab"
+            "person-1fa94930"
           ]
         },
         {
@@ -14389,9 +14416,11 @@
           "sizeMB": 28.42,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-26-113557-dasa--collage.png",
-          "placeholderColor": "rgb(216,200,168)",
+          "placeholderColor": "",
           "analysis": {
-            "sharpness": 6566.494208055678,
+            "aestheticScore": 100,
+            "sharpness": 100,
+            "qualityBucket": "excellent",
             "phash": "92b296a2b2967a8e",
             "facesDetected": false,
             "faces": []
@@ -14469,7 +14498,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-113557-dasa--collage.jpeg",
               "width": 534,
-              "height": 400
+              "height": 534
             }
           ],
           "people": []
@@ -14574,12 +14603,13 @@
           "people": []
         },
         {
-          "id": "loc-velke-egyptske-muzeum-1313",
+          "id": "loc-velke-egyptske-muzeum-1310",
           "type": "separator",
           "location": "Velké egyptské muzeum",
           "city": "Gíza",
           "hasPhotos": true,
-          "startDate": "2025-11-26T13:13:46"
+          "startDate": "2025-11-26T13:10:00",
+          "endDate": "2025-11-26T17:20:00"
         },
         {
           "id": "2025-11-26-121346-cebreus",
@@ -15029,16 +15059,16 @@
           "id": "2025-11-26-121518-dasa",
           "type": "image",
           "src": "2025-11-26-121518-dasa.heic",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 3024,
           "height": 4032,
-          "sizeMB": 1.63,
+          "sizeMB": 1.64,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-121518-dasa.png",
-          "placeholderColor": "rgb(152,152,152)",
+          "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 43.10122196033864,
+            "aestheticScore": 43.340744327683105,
             "sharpness": 70,
             "qualityBucket": "poor",
             "phash": "99f1322ee273fcc0",
@@ -15048,12 +15078,19 @@
           "exif": {
             "date": "2025-11-26T13:15:18",
             "releaseDate": "2025-11-26T13:15:18",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.995503,
             "longitude": 31.118456,
-            "orientation": 6
+            "orientation": 6,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.995503,31.118456",
           "date": "2025-11-26T13:15:18",
           "sources": [
@@ -15111,7 +15148,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-121518-dasa.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -15121,16 +15158,16 @@
           "id": "2025-11-26-131747-bobina",
           "type": "image",
           "src": "2025-11-26-131747-bobina.heic",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 3024,
           "height": 4032,
           "sizeMB": 2.01,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-131747-bobina.png",
-          "placeholderColor": "rgb(136,120,104)",
+          "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 36.96103920333193,
+            "aestheticScore": 44.399830005523945,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "35b53c040e4d59fc",
@@ -15147,12 +15184,19 @@
           "exif": {
             "date": "2025-11-26T13:17:47",
             "releaseDate": "2025-11-26T13:17:47",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994514,
             "longitude": 31.118878,
-            "orientation": 6
+            "orientation": 6,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
           "author": "Bobina",
           "authorSlug": "bobina",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994514,31.118878",
           "date": "2025-11-26T13:17:47",
           "sources": [
@@ -15210,7 +15254,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-131747-bobina.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -15220,16 +15264,16 @@
           "id": "2025-11-26-122029-dasa",
           "type": "image",
           "src": "2025-11-26-122029-dasa.heic",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 4032,
           "height": 3024,
           "sizeMB": 1.14,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-122029-dasa.png",
-          "placeholderColor": "rgb(120,104,88)",
+          "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 21.60953613061401,
+            "aestheticScore": 23.66759934827936,
             "sharpness": 63,
             "qualityBucket": "poor",
             "phash": "1154ad6c5249090e",
@@ -15239,12 +15283,19 @@
           "exif": {
             "date": "2025-11-26T13:20:29",
             "releaseDate": "2025-11-26T13:20:29",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994444,
             "longitude": 31.119906,
-            "orientation": 3
+            "orientation": 3,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994444,31.119906",
           "date": "2025-11-26T13:20:29",
           "sources": [
@@ -15303,7 +15354,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-122029-dasa.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -15419,9 +15470,11 @@
           "sizeMB": 25.25,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-26-123858-cebreus--collage.png",
-          "placeholderColor": "rgb(24,24,24)",
+          "placeholderColor": "",
           "analysis": {
-            "sharpness": 4038.0301391320086,
+            "aestheticScore": 67.52365472601569,
+            "sharpness": 100,
+            "qualityBucket": "excellent",
             "phash": "969617749616daca",
             "facesDetected": false,
             "faces": []
@@ -15499,7 +15552,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-123858-cebreus--collage.jpeg",
               "width": 534,
-              "height": 399
+              "height": 534
             }
           ],
           "people": []
@@ -16132,18 +16185,18 @@
           "id": "2025-11-26-125931-dasa",
           "type": "image",
           "src": "2025-11-26-125931-dasa.heic",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 3024,
           "height": 4032,
           "sizeMB": 1.45,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-125931-dasa.png",
-          "placeholderColor": "rgb(40,40,40)",
+          "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 51.532531141574395,
+            "aestheticScore": 41.64889048840963,
             "sharpness": 100,
-            "qualityBucket": "good",
+            "qualityBucket": "poor",
             "phash": "cc924d4cccccb1b7",
             "facesDetected": false,
             "faces": []
@@ -16151,12 +16204,19 @@
           "exif": {
             "date": "2025-11-26T13:59:31",
             "releaseDate": "2025-11-26T13:59:31",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994394,
             "longitude": 31.119336,
-            "orientation": 6
+            "orientation": 6,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994394,31.119336",
           "date": "2025-11-26T13:59:31",
           "sources": [
@@ -16214,7 +16274,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-125931-dasa.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -17138,16 +17198,16 @@
           "id": "2025-11-26-131935-dasa",
           "type": "image",
           "src": "2025-11-26-131935-dasa.heic",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 4032,
           "height": 3024,
           "sizeMB": 3.47,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-131935-dasa.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 58.06525329607811,
+            "aestheticScore": 55.6700312667293,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "faf4f0e0c8c888ba",
@@ -17157,12 +17217,19 @@
           "exif": {
             "date": "2025-11-26T14:19:35",
             "releaseDate": "2025-11-26T14:19:35",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993233,
             "longitude": 31.120167,
-            "orientation": 3
+            "orientation": 3,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993233,31.120167",
           "date": "2025-11-26T14:19:35",
           "sources": [
@@ -17221,7 +17288,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-131935-dasa.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -17444,44 +17511,63 @@
           "id": "2025-11-26-133202-dasa",
           "type": "image",
           "src": "2025-11-26-133202-dasa.heic",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 3024,
           "height": 4032,
           "sizeMB": 1.37,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-133202-dasa.png",
-          "placeholderColor": "rgb(168,152,120)",
+          "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 57.33640314409407,
+            "aestheticScore": 52.14225920253589,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "c96bb6ec70718e8e",
             "facesDetected": true,
             "faces": [
               {
-                "x": 146.8830313682556,
-                "y": 414.6986103057861,
-                "width": 174.8927779197693,
-                "height": 335.6774024963379
+                "x": 145.0973196029663,
+                "y": 412.7782859802246,
+                "width": 176.1613082885742,
+                "height": 337.21741104125977
               },
               {
-                "x": 515.7725458145142,
-                "y": 700.2589845657349,
-                "width": 65.60152816772458,
-                "height": 111.05184745788573
+                "x": 513.2847518920898,
+                "y": 698.2274494171143,
+                "width": 67.58782196044919,
+                "height": 112.74542427062988
+              },
+              {
+                "x": 2727.409446716308,
+                "y": 539.4840030670166,
+                "width": 142.51375579833996,
+                "height": 263.13742446899414
+              },
+              {
+                "x": 2603.5012435913086,
+                "y": 609.5984916687012,
+                "width": 107.08106231689453,
+                "height": 195.18767166137695
               }
             ]
           },
           "exif": {
             "date": "2025-11-26T14:32:02",
             "releaseDate": "2025-11-26T14:32:02",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993286,
             "longitude": 31.120531,
-            "orientation": 6
+            "orientation": 6,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993286,31.120531",
           "date": "2025-11-26T14:32:02",
           "sources": [
@@ -17539,75 +17625,78 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-133202-dasa.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
           "people": [
             "person-d2793d77",
-            "person-4bfa9341"
+            "person-4bfa9341",
+            "person-70767217--odpojeno-od-person-15-5",
+            "person-0a61c713"
           ]
         },
         {
           "id": "2025-11-26-133231-dasa",
           "type": "image",
           "src": "2025-11-26-133231-dasa.heic",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 4032,
           "height": 3024,
           "sizeMB": 1.88,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-133231-dasa.png",
-          "placeholderColor": "rgb(168,152,120)",
+          "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 55.60082331785067,
+            "aestheticScore": 46.83058334254518,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "01077c6a28387027",
             "facesDetected": true,
             "faces": [
               {
-                "x": 2576.0122833251953,
-                "y": 997.456661224365,
-                "width": 128.5791778564453,
-                "height": 188.1701545715332
+                "x": 2573.7748489379883,
+                "y": 995.480761528015,
+                "width": 127.53279876708983,
+                "height": 189.56686878204343
               },
               {
-                "x": 1978.194808959961,
-                "y": 782.2046585083008,
-                "width": 93.76075744628906,
-                "height": 186.7215900421142
+                "x": 1975.2456493377683,
+                "y": 779.2081546783446,
+                "width": 94.77385139465332,
+                "height": 190.500114440918
               },
               {
-                "x": 2275.1643562316895,
-                "y": 894.5737924575806,
-                "width": 83.75550842285156,
-                "height": 116.69223690032959
+                "x": 2276.2472648620605,
+                "y": 894.1581487655639,
+                "width": 82.85861206054688,
+                "height": 116.39819812774662
               },
               {
-                "x": 3034.5616035461426,
-                "y": 957.272123336792,
-                "width": 179.36293029785156,
-                "height": 279.4380111694336
-              },
-              {
-                "x": 844.9118213653564,
-                "y": 784.666256904602,
-                "width": 91.51767539978027,
-                "height": 170.141143798828
+                "x": 3040.6461753845215,
+                "y": 963.5505180358884,
+                "width": 173.7897720336914,
+                "height": 269.28616333007824
               }
             ]
           },
           "exif": {
             "date": "2025-11-26T14:32:31",
             "releaseDate": "2025-11-26T14:32:31",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993308,
             "longitude": 31.120317,
-            "orientation": 3
+            "orientation": 3,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993308,31.120317",
           "date": "2025-11-26T14:32:31",
           "sources": [
@@ -17666,7 +17755,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-133231-dasa.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": [
@@ -18341,16 +18430,16 @@
           "id": "2025-11-26-140121-dasa",
           "type": "image",
           "src": "2025-11-26-140121-dasa.heic",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 3024,
           "height": 4032,
-          "sizeMB": 0.88,
+          "sizeMB": 0.89,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-140121-dasa.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 77.13623185840679,
+            "aestheticScore": 72.41777864508404,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "dce6f2f8c2d2d3c7",
@@ -18360,12 +18449,19 @@
           "exif": {
             "date": "2025-11-26T15:01:21",
             "releaseDate": "2025-11-26T15:01:21",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993928,
             "longitude": 31.120286,
-            "orientation": 6
+            "orientation": 6,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993928,31.120286",
           "date": "2025-11-26T15:01:21",
           "sources": [
@@ -18423,7 +18519,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-140121-dasa.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -18433,38 +18529,45 @@
           "id": "2025-11-26-140159-dasa",
           "type": "image",
           "src": "2025-11-26-140159-dasa.heic",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 2302,
           "height": 3965,
           "sizeMB": 1.08,
           "aspectRatio": "portrait-9-16",
           "placeholder": "blurs/2025-11-26-140159-dasa.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 76.34895195990313,
+            "aestheticScore": 68.11577328326305,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "f6a9edccdceacac4",
             "facesDetected": true,
             "faces": [
               {
-                "x": 1482.7896262017964,
-                "y": 427.2922882065177,
-                "width": 311.09524772464226,
-                "height": 383.3524790778756
+                "x": 1479.3186834572941,
+                "y": 424.4739945977926,
+                "width": 316.4431109187581,
+                "height": 385.45793503522873
               }
             ]
           },
           "exif": {
             "date": "2025-11-26T15:01:59",
             "releaseDate": "2025-11-26T15:01:59",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993944,
             "longitude": 31.120286,
-            "orientation": 1
+            "orientation": 1,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993944,31.120286",
           "date": "2025-11-26T15:01:59",
           "sources": [
@@ -18522,7 +18625,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-140159-dasa.jpeg",
-              "width": 310,
+              "width": 534,
               "height": 534
             }
           ],
@@ -18633,16 +18736,16 @@
           "id": "2025-11-26-140324-dasa",
           "type": "image",
           "src": "2025-11-26-140324-dasa.heic",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 3024,
           "height": 4032,
           "sizeMB": 2.28,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-140324-dasa.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 49.859081359671436,
+            "aestheticScore": 51.437944108575465,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "f891b18fd2d0ecec",
@@ -18652,12 +18755,19 @@
           "exif": {
             "date": "2025-11-26T15:03:24",
             "releaseDate": "2025-11-26T15:03:24",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993942,
             "longitude": 31.120289,
-            "orientation": 6
+            "orientation": 6,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993942,31.120289",
           "date": "2025-11-26T15:03:24",
           "sources": [
@@ -18715,7 +18825,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-140324-dasa.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -18725,50 +18835,57 @@
           "id": "2025-11-26-140433-dasa",
           "type": "image",
           "src": "2025-11-26-140433-dasa.heic",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 3024,
           "height": 4032,
           "sizeMB": 1.93,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-140433-dasa.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 39.25627510394217,
+            "aestheticScore": 40.75865147400152,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "f87969353339313d",
             "facesDetected": true,
             "faces": [
               {
-                "x": 733.2303199768065,
-                "y": 2307.8018188476562,
-                "width": 230.78270530700675,
-                "height": 317.26915740966797
+                "x": 732.3899002075195,
+                "y": 2304.531223297119,
+                "width": 232.6225204467773,
+                "height": 320.90240478515625
               },
               {
-                "x": 1181.849733352661,
-                "y": 1507.1020374298096,
-                "width": 360.40453720092756,
-                "height": 515.3949337005615
+                "x": 1181.4340896606445,
+                "y": 1505.9807968139648,
+                "width": 358.9813270568846,
+                "height": 516.4916610717773
               },
               {
-                "x": 1689.3785591125486,
-                "y": 2334.792583465576,
-                "width": 236.11854171752915,
-                "height": 309.4369354248047
+                "x": 1688.6485691070557,
+                "y": 2333.3338050842285,
+                "width": 234.8652420043943,
+                "height": 310.7870864868164
               }
             ]
           },
           "exif": {
             "date": "2025-11-26T15:04:33",
             "releaseDate": "2025-11-26T15:04:33",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993967,
             "longitude": 31.120272,
-            "orientation": 6
+            "orientation": 6,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993967,31.120272",
           "date": "2025-11-26T15:04:33",
           "sources": [
@@ -18826,7 +18943,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-140433-dasa.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -18839,62 +18956,69 @@
           "id": "2025-11-26-140614-dasa",
           "type": "image",
           "src": "2025-11-26-140614-dasa.heic",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 2076,
           "height": 3631,
           "sizeMB": 1.32,
           "aspectRatio": "portrait-9-16",
           "placeholder": "blurs/2025-11-26-140614-dasa.png",
-          "placeholderColor": "rgb(56,56,40)",
+          "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 39.27141967978277,
+            "aestheticScore": 43.31567236982364,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "62c9c98692b7b677",
             "facesDetected": true,
             "faces": [
               {
-                "x": 261.26319551956124,
-                "y": 464.02043786644936,
-                "width": 334.39011812698305,
-                "height": 449.3572475016117
+                "x": 879.1941811623427,
+                "y": 364.5396609529853,
+                "width": 333.09305382425873,
+                "height": 432.2536278143525
               },
               {
-                "x": 880.2641801541167,
-                "y": 362.95992467552423,
-                "width": 332.66081617960754,
-                "height": 436.8473994061351
+                "x": 261.14991963357244,
+                "y": 464.7070444822312,
+                "width": 335.9290863141264,
+                "height": 449.30292496085167
               },
               {
-                "x": 242.1528156788276,
-                "y": 1510.4915944635868,
-                "width": 242.4996977405743,
-                "height": 309.1451427638531
+                "x": 242.09473171820005,
+                "y": 1511.7964175641537,
+                "width": 241.77433745608798,
+                "height": 309.40225502848625
               },
               {
-                "x": 1468.1615417272158,
-                "y": 557.501522809267,
-                "width": 369.012131830938,
-                "height": 446.32892817258835
+                "x": 841.164457978649,
+                "y": 1155.2073528170586,
+                "width": 305.1544255071126,
+                "height": 399.8654090166092
               },
               {
-                "x": 838.9355366677554,
-                "y": 1154.9262174367905,
-                "width": 303.76122130306106,
-                "height": 401.19988226890564
+                "x": 1468.0246700768582,
+                "y": 559.409142151475,
+                "width": 370.360090548675,
+                "height": 439.73626022040844
               }
             ]
           },
           "exif": {
             "date": "2025-11-26T15:06:14",
             "releaseDate": "2025-11-26T15:06:14",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993647,
             "longitude": 31.119978,
-            "orientation": 1
+            "orientation": 1,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993647,31.119978",
           "date": "2025-11-26T15:06:14",
           "sources": [
@@ -18952,7 +19076,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-140614-dasa.jpeg",
-              "width": 306,
+              "width": 534,
               "height": 534
             }
           ],
@@ -18964,16 +19088,16 @@
           "id": "2025-11-26-142032-dasa",
           "type": "image",
           "src": "2025-11-26-142032-dasa.heic",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 4032,
           "height": 3024,
           "sizeMB": 1.97,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-142032-dasa.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 51.62430770258814,
+            "aestheticScore": 46.61764213662631,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "80f4f0e8e88cc781",
@@ -18983,12 +19107,19 @@
           "exif": {
             "date": "2025-11-26T15:20:32",
             "releaseDate": "2025-11-26T15:20:32",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993825,
             "longitude": 31.119097,
-            "orientation": 3
+            "orientation": 3,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993825,31.119097",
           "date": "2025-11-26T15:20:32",
           "sources": [
@@ -19047,7 +19178,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-142032-dasa.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -19056,38 +19187,45 @@
           "id": "2025-11-26-142128-dasa",
           "type": "image",
           "src": "2025-11-26-142128-dasa.heic",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 4032,
           "height": 3024,
           "sizeMB": 1.84,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-142128-dasa.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 32.498776344326494,
+            "aestheticScore": 33.825318289889665,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "a860e8c8d0b82b61",
             "facesDetected": true,
             "faces": [
               {
-                "x": 3902.1124877929688,
-                "y": 1512.8227558135984,
-                "width": 64.29247283935547,
-                "height": 99.23994827270519
+                "x": 3904.5974578857417,
+                "y": 1511.8734683990479,
+                "width": 62.8091812133789,
+                "height": 98.61389923095702
               }
             ]
           },
           "exif": {
             "date": "2025-11-26T15:21:28",
             "releaseDate": "2025-11-26T15:21:28",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993642,
             "longitude": 31.119139,
-            "orientation": 3
+            "orientation": 3,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993642,31.119139",
           "date": "2025-11-26T15:21:28",
           "sources": [
@@ -19146,24 +19284,25 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-142128-dasa.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
-          ]
+          ],
+          "people": []
         },
         {
           "id": "2025-11-26-142225-dasa",
           "type": "image",
           "src": "2025-11-26-142225-dasa.heic",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 4032,
           "height": 3024,
           "sizeMB": 0.95,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-142225-dasa.png",
-          "placeholderColor": "rgb(24,24,24)",
+          "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 45.19150015277504,
+            "aestheticScore": 51.18920173568331,
             "sharpness": 94,
             "qualityBucket": "good",
             "phash": "969696f070d0e8da",
@@ -19173,12 +19312,19 @@
           "exif": {
             "date": "2025-11-26T15:22:25",
             "releaseDate": "2025-11-26T15:22:25",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993503,
             "longitude": 31.11915,
-            "orientation": 3
+            "orientation": 3,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993503,31.11915",
           "date": "2025-11-26T15:22:25",
           "sources": [
@@ -19237,7 +19383,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-142225-dasa.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -19363,9 +19509,11 @@
           "sizeMB": 6.82,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-26-153129-cebreus--collage.png",
-          "placeholderColor": "rgb(40,24,24)",
+          "placeholderColor": "",
           "analysis": {
-            "sharpness": 3666.914265473133,
+            "aestheticScore": 63.50563360339429,
+            "sharpness": 100,
+            "qualityBucket": "good",
             "phash": "b1a98e3c32b6ba8e",
             "facesDetected": false,
             "faces": []
@@ -19443,7 +19591,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-153129-cebreus--collage.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -19452,16 +19600,16 @@
           "id": "2025-11-26-164839-bobina",
           "type": "image",
           "src": "2025-11-26-164839-bobina.heic",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 2395,
           "height": 3476,
           "sizeMB": 1.9,
           "aspectRatio": "portrait-2-3",
           "placeholder": "blurs/2025-11-26-164839-bobina.png",
-          "placeholderColor": "rgb(40,40,40)",
+          "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 55.95831874110585,
+            "aestheticScore": 46.205911969605815,
             "sharpness": 92,
             "qualityBucket": "good",
             "phash": "4b96aae2b33b0f36",
@@ -19471,12 +19619,19 @@
           "exif": {
             "date": "2025-11-26T16:48:39",
             "releaseDate": "2025-11-26T16:48:39",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.993139,
             "longitude": 31.119339,
-            "orientation": 1
+            "orientation": 1,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
           "author": "Bobina",
           "authorSlug": "bobina",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.993139,31.119339",
           "date": "2025-11-26T16:48:39",
           "sources": [
@@ -19534,7 +19689,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-164839-bobina.jpeg",
-              "width": 367,
+              "width": 534,
               "height": 534
             }
           ],
@@ -19544,16 +19699,16 @@
           "id": "2025-11-26-164901-bobo",
           "type": "image",
           "src": "2025-11-26-164901-bobo.jpg",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 4000,
           "height": 3000,
           "sizeMB": 2.96,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-164901-bobo.png",
-          "placeholderColor": "rgb(40,40,40)",
+          "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 40.517854259506564,
+            "aestheticScore": 41.77171333104773,
             "sharpness": 84,
             "qualityBucket": "poor",
             "phash": "731b3e14f6303306",
@@ -19563,11 +19718,18 @@
           "exif": {
             "date": "2025-11-26T16:49:01",
             "releaseDate": "2025-11-26T16:49:01",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.994212,
-            "longitude": 31.118658
+            "longitude": 31.118658,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
           "author": "Bobo",
           "authorSlug": "bobo",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.994212,31.118658",
           "date": "2025-11-26T16:49:01",
           "sources": [
@@ -19626,7 +19788,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-164901-bobo.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -19734,9 +19896,11 @@
           "sizeMB": 15.29,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-26-155237-cebreus--collage.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
-            "sharpness": 7675.523032473452,
+            "aestheticScore": 66.26421651677161,
+            "sharpness": 100,
+            "qualityBucket": "excellent",
             "phash": "a686869696b6b2b3",
             "facesDetected": false,
             "faces": []
@@ -19814,7 +19978,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-155237-cebreus--collage.jpeg",
               "width": 534,
-              "height": 301
+              "height": 534
             }
           ],
           "people": []
@@ -19922,50 +20086,57 @@
           "id": "2025-11-26-161403-dasa",
           "type": "image",
           "src": "2025-11-26-161403-dasa.heic",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 4032,
           "height": 3024,
           "sizeMB": 1.52,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-161403-dasa.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 42.5050255345214,
+            "aestheticScore": 43.45661607298903,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "18b1f1f4f4f671da",
             "facesDetected": true,
             "faces": [
               {
-                "x": 216.75396466255188,
-                "y": 2020.3474960327148,
-                "width": 119.00070261955261,
-                "height": 180.01998138427723
+                "x": 219.48498344421384,
+                "y": 2023.9290733337398,
+                "width": 118.17324542999266,
+                "height": 179.99450683593759
               },
               {
-                "x": 493.8213257789612,
-                "y": 1967.3468570709229,
-                "width": 105.84299325942993,
-                "height": 162.93364906311012
+                "x": 275.43261909484863,
+                "y": 1846.9857444763181,
+                "width": 129.42338275909424,
+                "height": 210.56781005859364
               },
               {
-                "x": 276.7902202606201,
-                "y": 1847.5601234436035,
-                "width": 127.71827030181885,
-                "height": 208.3757972717286
+                "x": 495.6967391967773,
+                "y": 1965.6472721099851,
+                "width": 104.5388946533203,
+                "height": 162.9752254486084
               }
             ]
           },
           "exif": {
             "date": "2025-11-26T17:14:03",
             "releaseDate": "2025-11-26T17:14:03",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
             "latitude": 29.996031,
             "longitude": 31.118122,
-            "orientation": 3
+            "orientation": 3,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.996031,31.118122",
           "date": "2025-11-26T17:14:03",
           "sources": [
@@ -20024,7 +20195,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-161403-dasa.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": [
@@ -20035,36 +20206,43 @@
           "id": "2025-11-26-164807-dasa",
           "type": "image",
           "src": "2025-11-26-164807-dasa.jpg",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 1500,
           "height": 900,
           "sizeMB": 0.19,
           "aspectRatio": "landscape-5-3",
           "placeholder": "blurs/2025-11-26-164807-dasa.png",
-          "placeholderColor": "rgb(56,40,40)",
+          "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 55.94415557931794,
+            "aestheticScore": 50.14691545393322,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "d252d2d3d2525224",
             "facesDetected": true,
             "faces": [
               {
-                "x": 582.8212201595306,
-                "y": 164.96988228167305,
-                "width": 141.95242524147034,
-                "height": 145.88397768499019
+                "x": 583.8225781917572,
+                "y": 166.78651815905246,
+                "width": 138.83095979690552,
+                "height": 143.33345866746933
               }
             ]
           },
           "exif": {
             "date": "2025-11-26T17:48:07",
             "releaseDate": "2025-11-26T17:48:07",
-            "orientation": 1
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
+            "orientation": 1,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
           "author": "Dáša",
           "authorSlug": "dasa",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "date": "2025-11-26T17:48:07",
           "sources": [
             {
@@ -20122,7 +20300,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-164807-dasa.jpeg",
               "width": 534,
-              "height": 320
+              "height": 534
             }
           ],
           "people": [
@@ -20133,35 +20311,42 @@
           "id": "2025-11-26-164810-bobo",
           "type": "image",
           "src": "2025-11-26-164810-bobo.jpg",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 900,
           "height": 1600,
           "sizeMB": 0.27,
           "aspectRatio": "portrait-9-16",
           "placeholder": "blurs/2025-11-26-164810-bobo.png",
-          "placeholderColor": "rgb(104,88,72)",
+          "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 50.619363935941195,
+            "aestheticScore": 53.38646513396553,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "9dc8e0e0f27343e1",
             "facesDetected": true,
             "faces": [
               {
-                "x": 424.9828338623047,
-                "y": 117.0812726020813,
-                "width": 131.7367553710937,
-                "height": 214.54437971115112
+                "x": 424.651288986206,
+                "y": 118.40300559997559,
+                "width": 131.72445297241208,
+                "height": 211.99207305908203
               }
             ]
           },
           "exif": {
             "date": "2025-11-26T17:48:10",
-            "releaseDate": "2025-11-26T17:48:10"
+            "releaseDate": "2025-11-26T17:48:10",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
           "author": "Bobo",
           "authorSlug": "bobo",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "date": "2025-11-26T17:48:10",
           "sources": [
             {
@@ -20218,7 +20403,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-164810-bobo.jpeg",
-              "width": 300,
+              "width": 534,
               "height": 534
             }
           ],
@@ -20230,16 +20415,16 @@
           "id": "2025-11-26-170618-bobo",
           "type": "image",
           "src": "2025-11-26-170618-bobo.jpg",
-          "alt": "Photoblog image",
+          "alt": "Velké egyptské muzeum, Gíza",
           "title": "",
           "width": 900,
           "height": 1600,
           "sizeMB": 0.15,
           "aspectRatio": "portrait-9-16",
           "placeholder": "blurs/2025-11-26-170618-bobo.png",
-          "placeholderColor": "rgb(40,24,24)",
+          "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 81.48006191177292,
+            "aestheticScore": 79.9817609250336,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "95939bc9b3acccf1",
@@ -20248,10 +20433,17 @@
           },
           "exif": {
             "date": "",
-            "releaseDate": "2025-11-26T18:06:18"
+            "releaseDate": "2025-11-26T18:06:18",
+            "location": "Velké egyptské muzeum",
+            "city": "Gíza",
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
           },
           "author": "Bobo",
           "authorSlug": "bobo",
+          "location": "Velké egyptské muzeum",
+          "city": "Gíza",
           "sources": [
             {
               "variant": "default",
@@ -20580,7 +20772,7 @@
           "sizeMB": 1.49,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-192016-cebreus.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
             "aestheticScore": 47.678865862697265,
             "sharpness": 100,
@@ -20665,7 +20857,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-192016-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -20687,9 +20879,11 @@
           "sizeMB": 2.25,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-26-191950-dasa--collage.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
-            "sharpness": 5225.975464797107,
+            "aestheticScore": 59.191926393608526,
+            "sharpness": 100,
+            "qualityBucket": "good",
             "phash": "2632b8b2b2b6ebe5",
             "facesDetected": false,
             "faces": []
@@ -20760,10 +20954,12 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-26-191950-dasa--collage.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
-          "people": []
+          "people": [
+            "person-f4999137"
+          ]
         }
       ],
       "id": "day-2025-11-26"
@@ -20889,9 +21085,11 @@
           "sizeMB": 4.69,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-27-064239-bobo--collage.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
-            "sharpness": 3856.5054884184515,
+            "aestheticScore": 62.18126646829345,
+            "sharpness": 100,
+            "qualityBucket": "good",
             "phash": "9c9a989087c6ccce",
             "facesDetected": false,
             "faces": []
@@ -20959,7 +21157,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-27-064239-bobo--collage.jpeg",
               "width": 534,
-              "height": 400
+              "height": 534
             }
           ],
           "people": []
@@ -20975,9 +21173,11 @@
           "sizeMB": 2.1,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-27-113855-bobina--collage.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "",
           "analysis": {
-            "sharpness": 4671.952817480703,
+            "aestheticScore": 45.27248103274053,
+            "sharpness": 100,
+            "qualityBucket": "good",
             "phash": "f474cb4be3a5a4a6",
             "facesDetected": false,
             "faces": []
@@ -21048,7 +21248,7 @@
               "type": "image/jpeg",
               "path": "/egypt-2025/images/admin-thumbs/2025-11-27-113855-bobina--collage.jpeg",
               "width": 534,
-              "height": 400
+              "height": 534
             }
           ],
           "people": []
