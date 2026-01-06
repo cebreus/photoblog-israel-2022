@@ -53,6 +53,9 @@ function gatherQualityStats(photoDays: PhotoDay[]): Map<string, number> {
       const bucket = item.analysis?.qualityBucket;
       if (bucket) {
         counts.set(bucket, (counts.get(bucket) ?? 0) + 1);
+      } else {
+        // Count images without bucket as "unrated"
+        counts.set("unrated", (counts.get("unrated") ?? 0) + 1);
       }
     }
   }

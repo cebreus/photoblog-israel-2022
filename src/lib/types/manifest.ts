@@ -164,6 +164,8 @@ export type PeopleManifest = {
   people: Person[];
 };
 
+export type QualityFilterBucket = QualityBucket | "unrated";
+
 export type AnalysisEntry = {
   aestheticScore?: number;
   sharpness: number;

@@ -6,7 +6,7 @@
  */
 
 import { MEDIA_TYPES } from "$lib/stores/filters.svelte";
-import type { Author, MediaItemType, QualityBucket } from "$lib/types/manifest";
+import type { Author, MediaItemType, QualityFilterBucket } from "$lib/types/manifest";
 import { QUALITY_BUCKETS } from "$lib/utils/gallery";
 import { toSlug } from "$lib/utils/strings";
 
@@ -128,14 +128,16 @@ export function buildAuthorsParam(
 // Quality Parameter Parsing
 // ---------------------------------------------------------------------------
 
-export function parseQualityFromUrl(url: URL): QualityBucket[] | undefined {
+export function parseQualityFromUrl(url: URL): QualityFilterBucket[] | undefined {
   if (!url.searchParams.has("quality")) return undefined;
   const qualityParam = url.searchParams.get("quality");
   if (!qualityParam || qualityParam === "none") return [];
-  return qualityParam.split(",").filter(Boolean) as QualityBucket[];
+  return qualityParam.split(",").filter(Boolean) as QualityFilterBucket[];
 }
 
-export function buildQualityParam(selectedQualityBuckets: QualityBucket[]): string | undefined {
+export function buildQualityParam(
+  selectedQualityBuckets: QualityFilterBucket[],
+): string | undefined {
   const isAllQualitySelected = QUALITY_BUCKETS.every((b) => selectedQualityBuckets.includes(b.id));
 
   if (selectedQualityBuckets.length === 0 || isAllQualitySelected) return undefined;

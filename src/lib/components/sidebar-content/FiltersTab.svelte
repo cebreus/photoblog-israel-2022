@@ -12,7 +12,7 @@
   import { createLogger } from "$lib/logger";
   import { filters, MEDIA_TYPES } from "$lib/stores/filters.svelte";
   import { ui } from "$lib/stores/ui.svelte";
-  import type { MediaItemType, QualityBucket } from "$lib/types/manifest";
+  import type { MediaItemType, QualityFilterBucket } from "$lib/types/manifest";
   import { QUALITY_BUCKETS } from "$lib/utils/gallery";
   import { getMenuItems } from "$lib/utils/menu";
   import { toSlug } from "$lib/utils/strings";
@@ -92,21 +92,21 @@
     filters.selectedAuthors = next;
   }
 
-  function isQualityActive(bucketId: QualityBucket): boolean {
+  function isQualityActive(bucketId: QualityFilterBucket): boolean {
     if (filters.selectedQualityBuckets.length === 0) return true;
     // We check for "none" explicitly, though strictly typed array shouldn't have it mixed ideally.
     // However, our logic uses "none" as a special marker in the same array sometimes (legacy/URL param logic).
     // Safe check:
     return (
       filters.selectedQualityBuckets.includes(bucketId) &&
-      !filters.selectedQualityBuckets.includes("none" as QualityBucket)
+      !filters.selectedQualityBuckets.includes("none" as QualityFilterBucket)
     );
   }
 
-  function toggleQualityBucket(id: QualityBucket) {
+  function toggleQualityBucket(id: QualityFilterBucket) {
     let current = filters.selectedQualityBuckets;
 
-    if (current.includes("none" as QualityBucket)) {
+    if (current.includes("none" as QualityFilterBucket)) {
       current = [];
     } else if (current.length === 0) {
       current = QUALITY_BUCKETS.map((b) => b.id);
@@ -119,7 +119,7 @@
     }
 
     if (current.length === 0) {
-      filters.selectedQualityBuckets = ["none" as QualityBucket];
+      filters.selectedQualityBuckets = ["none" as QualityFilterBucket];
     } else if (current.length === QUALITY_BUCKETS.length) {
       filters.selectedQualityBuckets = [];
     } else {
@@ -174,7 +174,7 @@
     };
   }
 
-  function createQualityToggleHandler(id: QualityBucket) {
+  function createQualityToggleHandler(id: QualityFilterBucket) {
     return function handleToggle() {
       toggleQualityBucket(id);
     };

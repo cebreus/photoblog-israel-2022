@@ -4,14 +4,16 @@ import {
   type PhotoDay,
   type PhotoDayItem,
   type QualityBucket,
+  type QualityFilterBucket,
 } from "$lib/types/manifest";
 import { getImagePeopleMap, getPhotoDays } from "$lib/utils/images";
 import { isRepresentative, isSequenceMember } from "$lib/utils/sequences";
 
-export const QUALITY_BUCKETS: { id: QualityBucket; label: string }[] = [
+export const QUALITY_BUCKETS: { id: QualityFilterBucket; label: string }[] = [
   { id: "excellent", label: "Excelentní" },
   { id: "good", label: "Dobré" },
   { id: "poor", label: "Podprůměrné" },
+  { id: "unrated", label: "Bez hodnocení" },
 ];
 
 /** Check if item has a specific flag */
@@ -42,7 +44,7 @@ function isAuthorSnapshot(item: PhotoDayItem): boolean {
 export type FilterCriteria = {
   selectedAuthors: string[];
   showSeparators: boolean;
-  selectedQualityBuckets: QualityBucket[];
+  selectedQualityBuckets: QualityFilterBucket[];
   selectedPeople: string[];
   selectedMediaTypes: MediaItemType[];
   showOthersSnapshots: boolean;
@@ -116,17 +118,29 @@ function shouldIncludeItem(
       return false;
     }
     const authorMatches = criteria.selectedAuthors.includes(item.authorSlug || "neuvedeno");
-    if (!authorMatches) return false;
+    if (!authorMatches) {
+      return false;
+    }
   }
 
   if (!isDefaultQualityView) {
     if ((criteria.selectedQualityBuckets as string[]).includes("none")) {
       return false;
     }
+
     const bucket = item.analysis?.qualityBucket;
-    if (!bucket || !criteria.selectedQualityBuckets.includes(bucket)) {
-      return false;
+    const selectedBuckets = criteria.selectedQualityBuckets as Array<QualityBucket | "unrated">;
+    const wantsUnrated = selectedBuckets.includes("unrated");
+    const wantsRatedBuckets = selectedBuckets.filter((b) => b !== "unrated") as QualityBucket[];
+
+    // If image has no bucket
+    if (!bucket) {
+      // Only show if "unrated" is selected
+      return wantsUnrated;
     }
+
+    // If image has bucket, only show if that bucket is selected
+    return wantsRatedBuckets.includes(bucket);
   }
 
   if (criteria.selectedPeople.length > 0) {
@@ -137,12 +151,16 @@ function shouldIncludeItem(
     const hasUnknown = criteria.selectedPeople.includes("unknown");
 
     if (itemPeople.length === 0) {
-      if (!hasUnknown) return false;
+      if (!hasUnknown) {
+        return false;
+      }
     } else {
       const personMatches = itemPeople.some(function checkPerson(p: string) {
         return criteria.selectedPeople.includes(p);
       });
-      if (!personMatches) return false;
+      if (!personMatches) {
+        return false;
+      }
     }
   }
 

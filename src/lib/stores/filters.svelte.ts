@@ -1,4 +1,4 @@
-import type { MediaItemType, PhotoDay, QualityBucket } from "$lib/types/manifest";
+import type { MediaItemType, PhotoDay, QualityFilterBucket } from "$lib/types/manifest";
 import { computeTotals, filterGalleryItems } from "$lib/utils/gallery";
 import { manifest } from "./manifest.svelte";
 
@@ -14,7 +14,7 @@ export const MEDIA_TYPES: { id: MediaItemType; label: string }[] = [
 let selectedAuthors = $state<string[]>([]);
 let selectedPeople = $state<string[]>([]);
 let showSeparators = $state(true);
-let selectedQualityBuckets = $state<QualityBucket[]>([]);
+let selectedQualityBuckets = $state<QualityFilterBucket[]>([]);
 /** Media types to show (photo, panorama, sequence). Empty = all. */
 let selectedMediaTypes = $state<MediaItemType[]>([]);
 /** Show snapshots made by others (default: visible) */
