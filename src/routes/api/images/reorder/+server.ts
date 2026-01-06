@@ -8,6 +8,7 @@ import { reloadManifests } from "$lib/utils/manifest-loader";
 import { organizeDayItems } from "$scripts/lib/manifests/builder";
 import { withManifestLock } from "$scripts/lib/manifests/lock";
 import { loadImagesManifest, saveImagesManifest } from "$scripts/lib/manifests/repository";
+import { fileExists } from "$scripts/lib/utils/runtime";
 import { getLocalNowIsoString } from "$shared/utils/dates";
 import { calculateReleaseDates } from "$shared/utils/sorting";
 import { loadStoryData } from "./loader";
@@ -201,8 +202,6 @@ async function resolveImagePath(imageId: string, contentDirRoot: string): Promis
     path.join(contentDirRoot, "pics"),
     path.join(contentDirRoot, "pics", "collage-sources"),
   ];
-
-  const { fileExists } = await import("$scripts/lib/utils/runtime");
 
   for (const basePath of searchPaths) {
     for (const ext of extensions) {

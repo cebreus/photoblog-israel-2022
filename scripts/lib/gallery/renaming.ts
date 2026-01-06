@@ -4,6 +4,7 @@ import { exiftool } from "exiftool-vendored";
 import { toPureWallClockISO } from "../../../shared/utils/dates";
 import { toSlug } from "../../../shared/utils/strings";
 import { toSafeFilename } from "../utils/path";
+import { fileExists, scanGlob } from "../utils/runtime";
 
 export type RenameMap = Map<string, RenameItem>;
 
@@ -121,12 +122,10 @@ export async function analyzeRenameCandidates(
   defaultAuthor: string,
   imagesManifest?: any,
 ): Promise<RenameMap> {
-  const glob = new Bun.Glob("*.{jpg,jpeg,png,webp,avif,heic,JPG,JPEG,PNG,WEBP,AVIF,HEIC}");
-  const files: string[] = [];
-
-  for await (const file of glob.scan({ cwd: picsDir, absolute: true })) {
-    files.push(file);
-  }
+  const files = await scanGlob("*.{jpg,jpeg,png,webp,avif,heic,JPG,JPEG,PNG,WEBP,AVIF,HEIC}", {
+    cwd: picsDir,
+    absolute: true,
+  });
 
   // Optimize lookup from manifest
   const manifestAuthors = new Map<string, string>();
@@ -184,7 +183,7 @@ export async function analyzeRenameCandidates(
     let counter = 1;
     while (
       usedNames.has(candidateName) ||
-      (candidateName !== oldName && (await Bun.file(path.join(picsDir, candidateName)).exists()))
+      (candidateName !== oldName && (await fileExists(path.join(picsDir, candidateName))))
     ) {
       candidateName = `${baseNewName}-${counter}${ext.toLowerCase()}`;
       counter++;

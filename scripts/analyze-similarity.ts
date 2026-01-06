@@ -2,6 +2,7 @@ import path from "node:path";
 import { intro } from "@clack/prompts";
 import { AutoTokenizer, CLIPTextModelWithProjection } from "@xenova/transformers";
 import { type ImageEntry, isImageEntry } from "../shared/types/manifest";
+import { clearTaskStatus, saveTaskStatus } from "../src/lib/server/task-status";
 import {
   type CurationGroup,
   type CurationManifest,
@@ -27,6 +28,7 @@ import {
   saveEmbeddingsManifest,
   saveImagesManifest,
 } from "./lib/manifests/repository";
+import { fileExists } from "./lib/utils/runtime";
 import { formatDuration } from "./lib/utils/time";
 
 const logger = createLogger("analyze-similarity");
@@ -262,7 +264,7 @@ async function computeAestheticScores(
 
           let bestPath = path.join(srcRoot, filename);
           for (const p of webVariants) {
-            if (await Bun.file(p).exists()) {
+            if (await fileExists(p)) {
               bestPath = p;
               break;
             }
@@ -569,8 +571,6 @@ async function main() {
   const startTime = performance.now();
   const contentDir = await resolveGalleryDirectory();
   const dataDir = path.resolve(process.cwd(), `src/data/${contentDir}`);
-
-  const { saveTaskStatus, clearTaskStatus } = await import("../src/lib/server/task-status");
 
   await saveTaskStatus(dataDir, {
     id: "similarity-analysis",

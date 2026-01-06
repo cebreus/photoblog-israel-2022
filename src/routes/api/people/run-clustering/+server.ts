@@ -3,6 +3,7 @@ import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
 import { saveTaskStatus } from "$lib/server/task-status";
 import { config } from "$scripts/build.config";
+import { spawn } from "$scripts/lib/utils/runtime";
 
 export async function POST({ locals }: { locals: App.Locals }) {
   if (!dev) {
@@ -23,8 +24,9 @@ export async function POST({ locals }: { locals: App.Locals }) {
     });
 
     // Run the clustering script in background
-    const proc = Bun.spawn(
-      ["bun", "scripts/face-clustering.ts", `--gallery=${gallery}`, "--verbose"],
+    const proc = await spawn(
+      "bun",
+      ["scripts/face-clustering.ts", `--gallery=${gallery}`, "--verbose"],
       {
         stdout: "inherit",
         stderr: "inherit",

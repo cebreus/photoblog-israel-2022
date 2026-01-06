@@ -3,21 +3,24 @@
  * Wrapper around the cleaner library.
  */
 
-import { createLogger } from "$scripts/lib/core/cli-logger";
+import { createLogger } from "./lib/core/cli-logger";
 import { cleanPhantomAssignments } from "./lib/manifests/cleaner";
 
 const logger = createLogger("standalone-clean-phantom");
 
-const contentDir = Bun.env.CONTENT_DIR || "egypt-2025";
+const contentDir = process.env.CONTENT_DIR || "egypt-2025";
 
-logger.info(`Starting standalone cleanup for: ${contentDir}`);
+logger.info({ contentDir }, "Starting standalone cleanup");
 
 cleanPhantomAssignments(contentDir)
   .then((result) => {
-    logger.info(`Done! Checked: ${result.totalChecked}, Removed: ${result.totalRemoved}`);
+    logger.info(
+      { totalChecked: result.totalChecked, totalRemoved: result.totalRemoved },
+      "Cleanup complete",
+    );
     process.exit(0);
   })
   .catch((err) => {
-    logger.error("Failed:", err);
+    logger.error({ err }, "Cleanup failed");
     process.exit(1);
   });

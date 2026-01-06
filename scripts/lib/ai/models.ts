@@ -2,6 +2,7 @@ import fsp from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { createLogger } from "../core/cli-logger";
+import { spawnSync } from "../utils/runtime";
 
 const logger = createLogger("ai-models");
 
@@ -36,7 +37,7 @@ export async function init(): Promise<void> {
       model = await CLIPVisionModelWithProjection.from_pretrained(MODEL_ID, {
         quantized: true,
       });
-      logger.info("AI Model loaded successfully.");
+      logger.info({ modelId: MODEL_ID }, "AI Model loaded successfully");
     } catch (e) {
       logger.error({ modelId: MODEL_ID, err: e }, "Failed to load AI model");
       throw e;
@@ -60,7 +61,6 @@ async function prepareTensor(
     if (ext === ".heic" || ext === ".heif") {
       const tempDirPath = await fsp.mkdtemp(path.join(os.tmpdir(), "ai-embed-"));
       tempFile = path.join(tempDirPath, `converted.jpg`);
-      const { spawnSync } = await import("../utils/runtime");
       spawnSync("vips", ["copy", imagePath, tempFile]);
       processingPath = tempFile;
     }

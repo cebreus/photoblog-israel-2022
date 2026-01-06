@@ -20,6 +20,7 @@ import {
 } from "./lib/gallery/migration";
 import { analyzeRenameCandidates, type RenameMap, safeRename } from "./lib/gallery/renaming";
 import { loadImagesManifest } from "./lib/manifests/repository";
+import { writeFile } from "./lib/utils/runtime";
 import { formatDuration } from "./lib/utils/time";
 
 const logger = createLogger("rename-images");
@@ -118,7 +119,7 @@ async function runFullMigration(gallery: string, renameMap: RenameMap): Promise<
     sRun.stop(`Successfully processed ${renameMap.size} files.`);
   } catch (err) {
     sRun.stop("Migration failed!", 1);
-    logger.error(`Error during migration: ${err}`);
+    logger.error({ err }, "Error during migration");
 
     if (backupDir) {
       const sRestore = spinner();
@@ -131,7 +132,7 @@ async function runFullMigration(gallery: string, renameMap: RenameMap): Promise<
         );
       } catch (restoreErr) {
         sRestore.stop("Restoration FAILED!", 1);
-        logger.error(`CRITICAL: Failed to restore backup! Error: ${restoreErr}`);
+        logger.error({ err: restoreErr }, "CRITICAL: Failed to restore backup");
       }
     }
     process.exit(1);
@@ -203,7 +204,7 @@ async function main() {
     const jsonPath = path.join(process.cwd(), `rename-plan-${gallery}-${Date.now()}.json`);
     const plan = Array.from(renameMap.values());
 
-    await Bun.write(jsonPath, JSON.stringify(plan, null, 2));
+    await writeFile(jsonPath, JSON.stringify(plan, null, 2));
 
     outro(`
       🔍 Dry-run complete!
@@ -260,7 +261,7 @@ if (import.meta.main) {
       await main();
       outro(`Total time: ${formatDuration(performance.now() - startTime)}`);
     } catch (error) {
-      logger.error(`Error: ${error}`);
+      logger.error({ err: error }, "Rename script failed");
     }
   })();
 }

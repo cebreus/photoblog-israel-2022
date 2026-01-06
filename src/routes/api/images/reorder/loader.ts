@@ -6,6 +6,7 @@ import { ensureIsoDateString } from "$shared/utils/dates";
 // ... existing imports
 
 import { createLogger } from "$lib/logger";
+import { scanGlob } from "$scripts/lib/utils/runtime";
 import type { StoryDataMap } from "$shared/types/manifest";
 
 const logger = createLogger("api:reorder:loader");
@@ -22,10 +23,8 @@ export async function loadStoryData(contentRoot: string): Promise<StoryDataMap> 
     // Since we don't want to use fast-glob (heavy?), we can do a simple recursive crawl
     // or just assume a flat structure if that's how it is.
     // But the original loader uses `scanGlob("**/*.md")`.
-    // Let's use `bun.Glob` which is native and fast.
-
-    const glob = new Bun.Glob("**/*.md");
-    for await (const file of glob.scan({ cwd: contentRoot, absolute: true })) {
+    const files = await scanGlob("**/*.md", { cwd: contentRoot, absolute: true });
+    for (const file of files) {
       try {
         const fileContent = await fsp.readFile(file, "utf8");
         const { data, content } = matter(fileContent);

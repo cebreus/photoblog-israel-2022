@@ -23,6 +23,11 @@ export async function fileExists(filePath: string): Promise<boolean> {
 }
 
 /**
+ * Check if a file exists (multi-runtime).
+ */
+export const exists = fileExists;
+
+/**
  * Write file securely (multi-runtime).
  */
 export async function writeFile(
@@ -102,4 +107,46 @@ export async function readFileJson<T>(filePath: string): Promise<T> {
     const content = await fsp.readFile(filePath, "utf-8");
     return JSON.parse(content);
   }
+}
+/**
+ * Run a command asynchronously (multi-runtime).
+ * Returns an object with an `exited` promise that resolves to the exit code.
+ */
+export async function spawn(
+  cmd: string,
+  args: string[],
+  options: any = {},
+): Promise<{ exited: Promise<number>; stdout?: any; stderr?: any }> {
+  if (IS_BUN) {
+    const proc = Bun.spawn([cmd, ...args], options);
+    return {
+      exited: proc.exited,
+      stdout: proc.stdout,
+      stderr: proc.stderr,
+    };
+  } else {
+    const { spawn: nodeSpawn } = await import("node:child_process");
+    const proc = nodeSpawn(cmd, args, {
+      ...options,
+      stdio: options.stdout === "inherit" ? "inherit" : options.stdio || "pipe",
+    });
+
+    const exited = new Promise<number>((resolve) => {
+      proc.on("close", (code) => resolve(code ?? 0));
+      proc.on("error", () => resolve(1));
+    });
+
+    return {
+      exited,
+      stdout: proc.stdout ? (await import("node:stream")).Readable.toWeb(proc.stdout) : undefined,
+      stderr: proc.stderr ? (await import("node:stream")).Readable.toWeb(proc.stderr) : undefined,
+    };
+  }
+}
+
+/**
+ * Remove file or directory (multi-runtime).
+ */
+export async function rm(filePath: string, options: { recursive?: boolean } = {}): Promise<void> {
+  await fsp.rm(filePath, { recursive: options.recursive ?? true, force: true });
 }

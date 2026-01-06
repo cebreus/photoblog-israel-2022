@@ -18,8 +18,10 @@ import type {
   PeopleManifest,
   Person,
 } from "$shared/types/manifest";
+import { config } from "../../build.config";
 import { createLogger } from "../core/cli-logger";
 import { cleanOrphanedAssets, findOrphanAssets, getOutputFolders } from "../gallery/cleanup";
+import { fileExists } from "../utils/runtime";
 import {
   loadAnalysisManifest,
   loadEmbeddingsManifest,
@@ -203,7 +205,7 @@ async function cleanPhantomAssignments(
 
       for (const personId of item.people) {
         const cropPath = path.join(facesDir, personId, `${item.id}.jpg`);
-        const exists = await Bun.file(cropPath).exists();
+        const exists = await fileExists(cropPath);
 
         if (exists) {
           validPeople.push(personId);
@@ -257,7 +259,7 @@ async function cleanPhantomPeopleThumbnails(
         thumbPath = path.join(staticDir, person.thumbnail);
       }
 
-      const exists = await Bun.file(thumbPath).exists();
+      const exists = await fileExists(thumbPath);
       if (!exists) {
         logger.warn(
           { personId: person.id, thumbnail: person.thumbnail },
@@ -491,8 +493,6 @@ export async function validateAndCleanManifests(
     const projectRoot = process.cwd();
     const outputRoot = `${projectRoot}/static/${gallery}/images`;
 
-    // Import config dynamically to avoid circular imports
-    const { config } = await import("../../build.config");
     const outputFolders = getOutputFolders(config as any);
 
     // Get valid base names from images

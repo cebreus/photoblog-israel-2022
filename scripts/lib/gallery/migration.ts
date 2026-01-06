@@ -23,6 +23,7 @@ import {
   saveMenuManifest,
   savePeopleManifest,
 } from "../manifests/repository";
+import { fileExists, readFileText, writeFile } from "../utils/runtime";
 import { getOutputFolders } from "./cleanup";
 import { type RenameMap, safeRename } from "./renaming";
 
@@ -57,7 +58,7 @@ export async function backupManifests(gallery: string): Promise<string> {
     await fsp.copyFile(manifestPath, dest);
   }
 
-  logger.info(`Backed up ${manifests.length} manifests to ${backupDir}`);
+  logger.info({ count: manifests.length, backupDir }, "Backed up manifests");
   return backupDir;
 }
 
@@ -68,7 +69,7 @@ export async function restoreManifests(gallery: string, backupDir: string): Prom
   const dataDir = path.resolve(`src/data/${gallery}`);
 
   if (!(await directoryExists(backupDir))) {
-    logger.error(`Backup directory not found: ${backupDir}`);
+    logger.error({ backupDir }, "Backup directory not found");
     return;
   }
 
@@ -79,7 +80,7 @@ export async function restoreManifests(gallery: string, backupDir: string): Prom
     await fsp.copyFile(backupPath, dest);
   }
 
-  logger.info(`Restored ${backups.length} manifests from ${backupDir}`);
+  logger.info({ count: backups.length, backupDir }, "Restored manifests from backup");
 }
 
 /**
@@ -102,7 +103,7 @@ export async function migrateGeneratedAssets(gallery: string, renameMap: RenameM
       const dir = path.join(staticParams.outRoot, folder);
 
       // Bun check for dir existence
-      if (!(await Bun.file(dir).exists()) && !(await Bun.file(path.join(dir, ".keep")).exists())) {
+      if (!(await fileExists(dir)) && !(await fileExists(path.join(dir, ".keep")))) {
         if (!(await directoryExists(dir))) continue;
       }
 
@@ -110,7 +111,7 @@ export async function migrateGeneratedAssets(gallery: string, renameMap: RenameM
         const oldVariant = path.join(dir, `${item.oldBase}.${format}`);
         const newVariant = path.join(dir, `${item.newBase}.${format}`);
 
-        if (await Bun.file(oldVariant).exists()) {
+        if (await fileExists(oldVariant)) {
           await safeRename(oldVariant, newVariant);
         }
       }
@@ -123,7 +124,7 @@ export async function migrateGeneratedAssets(gallery: string, renameMap: RenameM
       for (const personDir of personDirs) {
         const oldCrop = path.join(facesRootDir, personDir, `${item.oldBase}.jpg`);
         const newCrop = path.join(facesRootDir, personDir, `${item.newBase}.jpg`);
-        if (await Bun.file(oldCrop).exists()) {
+        if (await fileExists(oldCrop)) {
           await safeRename(oldCrop, newCrop);
         }
       }
@@ -469,8 +470,7 @@ export async function migrateClusteringConstraintsManifest(
 export async function migrateMarkdownFiles(gallery: string, renameMap: RenameMap): Promise<void> {
   const mdFiles = await fg("**/*.md", { cwd: path.resolve(`content/${gallery}`), absolute: true });
   for (const mdFile of mdFiles) {
-    const file = Bun.file(mdFile);
-    let content = await file.text();
+    let content = await readFileText(mdFile);
     let changed = false;
 
     for (const item of renameMap.values()) {
@@ -481,7 +481,7 @@ export async function migrateMarkdownFiles(gallery: string, renameMap: RenameMap
     }
 
     if (changed) {
-      await Bun.write(mdFile, content);
+      await writeFile(mdFile, content);
     }
   }
 }

@@ -13,10 +13,10 @@ import {
   migrateImagesManifest,
   migrateMarkdownFiles,
   migratePeopleManifest,
-  migrateSortOrderManifest,
   restoreManifests,
 } from "./lib/gallery/migration";
 import { type RenameItem, type RenameMap, safeRename } from "./lib/gallery/renaming";
+import { readFileText } from "./lib/utils/runtime";
 import { formatDuration } from "./lib/utils/time";
 
 const logger = createLogger("revert-rename");
@@ -49,7 +49,7 @@ async function getGalleryOrPrompt(galleries: string[]): Promise<string> {
 }
 
 async function loadRenameMapFromJson(jsonPath: string): Promise<RenameMap> {
-  const content = await Bun.file(jsonPath).text();
+  const content = await readFileText(jsonPath);
   const data = JSON.parse(content) as RenameItem[];
 
   const renameMap: RenameMap = new Map();
@@ -112,12 +112,11 @@ async function executeRevert(gallery: string, renameMap: RenameMap): Promise<voi
     await migrateMarkdownFiles(gallery, renameMap);
     await migrateAnalysisManifest(gallery, renameMap);
     await migrateEmbeddingsManifest(gallery, renameMap);
-    await migrateSortOrderManifest(gallery, renameMap);
 
     sRun.stop(`Successfully reverted ${renameMap.size} files.`);
   } catch (err) {
     sRun.stop("Revert failed!", 1);
-    logger.error(`Error during revert: ${err}`);
+    logger.error({ err }, "Error during revert");
 
     if (backupDir) {
       const sRestore = spinner();
@@ -125,10 +124,10 @@ async function executeRevert(gallery: string, renameMap: RenameMap): Promise<voi
       try {
         await restoreManifests(gallery, backupDir);
         sRestore.stop("Restoration complete.");
-        logger.warn("NOTE: Files might be in mixed state. Check filenames manually.");
+        logger.warn({}, "NOTE: Files might be in mixed state. Check filenames manually");
       } catch (restoreErr) {
         sRestore.stop("Restoration FAILED!", 1);
-        logger.error(`CRITICAL: Failed to restore backup! Error: ${restoreErr}`);
+        logger.error({ err: restoreErr }, "CRITICAL: Failed to restore backup");
       }
     }
     process.exit(1);
@@ -159,7 +158,7 @@ async function main() {
   const jsonPath = path.resolve(jsonPathInput);
 
   try {
-    await Bun.file(jsonPath).text();
+    await readFileText(jsonPath);
   } catch {
     outro(`JSON file not found: ${jsonPath}`);
     process.exit(1);
@@ -200,8 +199,8 @@ if (import.meta.main) {
     try {
       await main();
       outro(`Total time: ${formatDuration(performance.now() - startTime)}`);
-    } catch (error) {
-      logger.error(error);
+    } catch (error: any) {
+      logger.error({ err: error, message: error.message }, "Revert script failed");
     }
   })();
 }
