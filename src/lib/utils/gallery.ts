@@ -74,7 +74,7 @@ function shouldIncludeItem(
   imagePeopleMap: Record<string, string[]>,
 ): boolean {
   if (!isImageEntry(item)) {
-    return criteria.showSeparators;
+    return true; // Always include separators as they might be needed for menu anchors
   }
 
   // Filter ONLY snapshots mode

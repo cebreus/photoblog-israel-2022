@@ -6,6 +6,7 @@
   import { buttonVariants } from "$lib/components/ui/button";
   import * as Dialog from "$lib/components/ui/dialog";
   import { editor } from "$lib/stores/editor.svelte";
+  import { filters } from "$lib/stores/filters.svelte";
   import type { Separator } from "$lib/types/manifest";
   import { cn } from "$lib/utils";
   import { tracedFetch } from "$lib/utils/api";
@@ -161,9 +162,19 @@
   <div
     id={separatorId}
     use:useScrollspy={{ id: separatorId }}
-    class={cn("contents flex flex-col", editor.editMode ? "col-span-full py-12" : "aspect-[3/2]")}
+    class={cn(
+      !filters.showSeparators && "h-0 overflow-hidden",
+      filters.showSeparators && "flex flex-col",
+      filters.showSeparators && (editor.editMode ? "col-span-full py-12" : "aspect-[3/2]"),
+    )}
   >
-    {#if item.story}
+    {#if !filters.showSeparators}
+      <!-- Hidden anchor for navigation and A11Y -->
+      <h3 class="sr-only">{item.location}</h3>
+      {#if item.city}
+        <p class="sr-only">{item.city}</p>
+      {/if}
+    {:else if item.story}
       <!-- Separator with story (dialog) -->
 
       <div>
@@ -221,8 +232,6 @@
           "flex w-full flex-col  items-center justify-center overflow-hidden rounded-lg bg-linear-to-br from-slate-100 to-slate-300 p-4 text-center dark:from-slate-700 dark:to-slate-800",
           editor.editMode ? "dark:from-pink-700 dark:to-pink-800" : "aspect-[3/2]",
         )}
-        id={separatorId}
-        use:useScrollspy={{ id: separatorId }}
         data-testid="photo-grid-separator-simple-{separatorId}"
       >
         <h3 class="text-lg" data-testid="photo-grid-separator-location">

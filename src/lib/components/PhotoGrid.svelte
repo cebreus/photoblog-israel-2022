@@ -48,32 +48,52 @@
 
   // Derived edit mode state
 
-  // Maps image ID -> scrollspy ID ("loc-{slug}") for ALL images in a location
+  // Maps image ID -> scrollspy ID ("loc-{slug}" or separator ID) for ALL images in a location
   // This ensures the location stays highlighted in the menu as long as ANY photo from it is visible
   let imageLocationMap = $derived.by(() => {
     const map = new Map<string, string>();
+    let currentSeparatorId = "";
     for (const item of items) {
-      if (item.type === "image" && item.location && item.location !== "Unknown") {
-        map.set(item.id, `loc-${toSlug(item.location)}`);
+      if (item.type === "separator") {
+        currentSeparatorId = item.id;
+      } else if (
+        (item.type === "image" ||
+          item.type === "collage" ||
+          item.type === "panorama" ||
+          item.type === "sequence") &&
+        item.location &&
+        item.location !== "Unknown"
+      ) {
+        map.set(item.id, currentSeparatorId || `loc-${toSlug(item.location)}`);
       }
     }
     return map;
   });
 
   // Identify images that start a new location block (for anchor IDs)
+  // Only used as fallback if there is no separator for this location block
   let imageAnchorsMap = $derived.by(() => {
     const map = new Map<string, boolean>();
     let currentLoc = "";
+    let hasSeparatorForCurrentLoc = false;
 
     for (const item of items) {
       if (item.type === "separator") {
         currentLoc = item.location;
-      } else if (item.type === "image") {
-        const itemLoc = item.location;
-        if (itemLoc && itemLoc !== "Unknown" && itemLoc !== currentLoc) {
+        hasSeparatorForCurrentLoc = true;
+      } else if (
+        item.type === "image" ||
+        item.type === "collage" ||
+        item.type === "panorama" ||
+        item.type === "sequence"
+      ) {
+        if (item.location && item.location !== "Unknown" && item.location !== currentLoc) {
           // This image starts a new implicit location block
-          map.set(item.id, true);
-          currentLoc = itemLoc;
+          if (!hasSeparatorForCurrentLoc) {
+            map.set(item.id, true);
+          }
+          currentLoc = item.location;
+          hasSeparatorForCurrentLoc = false;
         }
       }
     }
