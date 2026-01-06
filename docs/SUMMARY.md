@@ -1,4 +1,47 @@
-# Documentation Updates Summary (2026-01-05)
+# Docs Audit Summary — 2026-01-06
+
+## Phase 1: Analysis
+
+- LAST_DATE: 2026-01-06
+- Commits since LAST_DATE: 0
+- Flags: Red (méně než 5 commitů, LAST_DATE < 1 týden)
+
+## Phase 2: Discovery
+
+- Types: src/lib/types/ → `collage.ts`, `manifest.ts`, `images.ts`; shared/types/ → `clap.ts`, `manifest.ts`, `images.ts`
+- APIs: 20 endpointů v `src/routes/api/**/+server.ts` (images, people, collage, geocode, files, log, system events SSE)
+- Components: 181 Svelte komponent (src/lib/components/\*\*)
+- Stores: `filters.svelte.ts`, `manifest.svelte.ts`, `people.svelte.ts`, `ui.svelte.ts`, `curation.svelte.ts`, `editor.svelte.ts`, `metadata-clipboard.svelte.ts`, `system.svelte.ts`, `urlSync.svelte.ts`
+- Build: `vite.config.ts` (alias `$manifests`, `noExternal`, `devtoolsJson`, Playwright/Vitest projects), `scripts/build.config.ts` (variants, formats, separator config)
+
+## Phase 3: Gaps
+
+- STORES.md: vzor s `export let ...` neodpovídá aktuálnímu objekt/třída vzoru s getters/setters.
+- ARCH-FEATURES.md: ukázka patternu neodpovídá (`export let`).
+- API-REFERENCE.md: chybí dokumentace `GET /api/system/events` (SSE stream).
+- INDEX.md: neuvádí System Events, datum 2026-01-05.
+
+## Phase 4: Updates
+
+- Updated: ARCH-FEATURES.md (pattern, last update)
+- Updated: STORES.md (2026 pattern update, last update)
+- Updated: API-REFERENCE.md (System Events SSE, last update)
+- Updated: INDEX.md (endpoint count, Utilities section, last update)
+- Created: SUMMARY.md (tento soubor)
+
+## Phase 5: Validation
+
+- `bun run format` → pending
+- `bun run check` → pending
+
+## Notes
+
+- Stores používají Svelte 5 `$state`/`$derived` na úrovni modulu, veřejné rozhraní přes exportované objekty/třídy.
+- API mutace jsou omezené na DEV režim.
+
+---
+
+_Poslední aktualizace: 2026-01-06_# Documentation Updates Summary (2026-01-05)
 
 > Přehled kompletní dokumentační auditu a aktualizace pro projekt photoblog.
 

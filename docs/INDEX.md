@@ -9,7 +9,7 @@
 
 ## Architektura a struktura
 
-- [ARCH-STRUCTURE.md](./ARCH-STRUCTURE.md) — mapa adresářů, 19 API endpointů.
+- [ARCH-STRUCTURE.md](./ARCH-STRUCTURE.md) — mapa adresářů, 20 API endpointů.
 - [ARCH-DATA-FLOW.md](./ARCH-DATA-FLOW.md) — datové struktury (ImageEntry, Separator, PhotoDay, SequenceInfo).
 - [ARCH-BUILD.md](./ARCH-BUILD.md) — build pipeline, image processing, Sharp config.
 - [ARCH-DEV.md](./ARCH-DEV.md) — dev workflow, lokální setup, debugging.
@@ -24,9 +24,9 @@
 - [**API-REFERENCE.md**](./API-REFERENCE.md) — Kompletní API dokumentace:
   - Image management (DELETE, POST, PATCH)
   - Sorting & reordering (reorder, swap-time, redistribute)
-  - People management (6 endpoints)
+  - People management (9 endpointů)
   - Collage management
-  - Utilities (geocode, logging, file proxy)
+  - Utilities (geocode, logging, file proxy, system events SSE)
 
 - [**COMPONENT-REFERENCE.md**](./COMPONENT-REFERENCE.md) — Svelte komponenty:
   - PhotoGrid, PhotoGridSeparator, SequencePlayer
@@ -72,4 +72,4 @@
 
 ---
 
-Poslední aktualizace: 2026-01-05
+Poslední aktualizace: 2026-01-06

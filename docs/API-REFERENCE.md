@@ -12,6 +12,7 @@
 4. [Collage Management](#4-collage-management)
 5. [Utilities](#5-utilities)
 6. [Error Handling](#6-error-handling)
+7. [System Events (SSE)](#7-system-events-sse)
 
 ---
 
@@ -191,13 +192,55 @@ GET /api/images/clap-preview?imageId=IMG_001&variant=detail&width=2500&height=18
 
 ---
 
+### GET `/api/system/events`
+
+SSE stream pro systémové události (pouze DEV mód).
+
+**Method:** `GET`
+
+**Auth:** Dev mode only (`dev === true`)
+
+**Description:**
+
+- Odesílá heartbeat event po připojení.
+- Streamuje systémové události (např. dokončení úloh) přes Server-Sent Events.
+- Automaticky odpojuje listener při ukončení spojení.
+
+**Response:**
+
+Content-Type: `text/event-stream`
+
+Event payload (příklad):
+
+```json
+{
+  "type": "task:completed",
+  "gallery": "egypt-2025",
+  "task": { "id": "heartbeat", "label": "" },
+  "timestamp": 1736140800000
+}
+```
+
+---
+
+#### Příklady (SSE)
+
+```bash
+# Připojit se k SSE streamu (curl drží spojení)
+curl -N "/api/system/events"
+```
+
+Poznámka: Pouze v DEV módu.
+
+---
+
 ## 2. Sorting & Reordering
 
-### POST `/api/images/reorder`
+### PATCH `/api/images/reorder`
 
 Změnit pořadí fotek v rámci jednoho dne (změní `releaseDate`).
 
-**Method:** `POST`
+**Method:** `PATCH`
 
 **Auth:** Dev mode only
 
@@ -205,17 +248,8 @@ Změnit pořadí fotek v rámci jednoho dne (změní `releaseDate`).
 
 ```json
 {
-  "dayId": "d1",
-  "moves": [
-    {
-      "imageId": "IMG_001",
-      "targetIndex": 0
-    },
-    {
-      "imageId": "IMG_002",
-      "targetIndex": 1
-    }
-  ],
+  "dayId": "day-2022-10-20",
+  "imageIds": ["IMG_001", "IMG_002", "IMG_003"],
   "contentDir": "egypt-2025"
 }
 ```
@@ -225,17 +259,8 @@ Změnit pořadí fotek v rámci jednoho dne (změní `releaseDate`).
 ```json
 {
   "success": true,
-  "relocated": 2,
-  "relocations": {
-    "IMG_001": {
-      "oldReleaseDate": "2022-10-20T10:00:00",
-      "newReleaseDate": "2022-10-20T09:58:00"
-    },
-    "IMG_002": {
-      "oldReleaseDate": "2022-10-20T10:01:00",
-      "newReleaseDate": "2022-10-20T09:59:00"
-    }
-  }
+  "updated": 3,
+  "dayId": "day-2022-10-20"
 }
 ```
 
@@ -247,6 +272,36 @@ Změnit pořadí fotek v rámci jednoho dne (změní `releaseDate`).
 4. Manifest aktualizován
 
 **Sequences:** Pokud jsou všichni členové v jedné sekvenci, všichni dědí nový `releaseDate` reprezentanta.
+
+---
+
+### DELETE `/api/images/reorder`
+
+Resetuje pořadí v daném dni zpět na původní EXIF čas (`DateTimeOriginal`) tím, že nastaví `XMP:ReleaseDate` u všech fotek na jejich původní datum.
+
+**Method:** `DELETE`
+
+**Auth:** Dev mode only
+
+**Request:**
+
+```json
+{
+  "dayId": "day-2022-10-20",
+  "contentDir": "egypt-2025"
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "reset": 42,
+  "dayId": "day-2022-10-20",
+  "message": "Order reset to EXIF dates"
+}
+```
 
 ---
 
@@ -385,6 +440,67 @@ Hromadná editace dat osob (jméno, kategorie, skrytí, trash).
 - `"person"` — Normální osoba
 - `"statue"` — Socha/umělecké dílo
 - `"painting"` — Obraz
+
+---
+
+### GET `/api/people/constraints`
+
+Načtení constraintů používaných při shlukování obličejů.
+
+**Method:** `GET`
+
+**Auth:** Dev mode only
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "invalidDetections": ["img123#face-1", "img124#face-3"],
+  "disconnects": [["personA", "personB"]],
+  "connects": [["personA", "personC"]]
+}
+```
+
+---
+
+### DELETE `/api/people/constraints`
+
+Smazání vybraného typu constraintů z manifestu.
+
+**Method:** `DELETE`
+
+**Auth:** Dev mode only
+
+**Query params:**
+
+| Param  | Values                                              | Desc                      |
+| ------ | --------------------------------------------------- | ------------------------- |
+| `type` | `invalid-detections` \| `disconnects` \| `connects` | Vybere kolekci k vymazání |
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "message": "invalid-detections cleared."
+}
+```
+
+---
+
+#### Příklady
+
+```bash
+# Vymazat neplatné detekce
+curl -X DELETE "/api/people/constraints?type=invalid-detections"
+
+# Vymazat ruční odpojení (disconnects)
+curl -X DELETE "/api/people/constraints?type=disconnects"
+
+# Vymazat ruční propojení (connects)
+curl -X DELETE "/api/people/constraints?type=connects"
+```
 
 ---
 
@@ -532,24 +648,7 @@ Seznam všech avatarů osob (pro cache).
 
 ---
 
-### GET `/api/people/invalid-detections`
-
-Seznam neplatných face detections (user-marked).
-
-**Method:** `GET`
-
-**Response:**
-
-```json
-{
-  "invalidDetections": [
-    {
-      "imageId": "IMG_001",
-      "faceIndex": 0
-    }
-  ]
-}
-```
+### GET `/api/people/invalid-detections` (REMOVED)
 
 ---
 
@@ -573,13 +672,45 @@ Označit face detection jako neplatné (false positive).
 
 ---
 
-### DELETE `/api/people/invalid-detections/clear`
+### POST `/api/people/run-clustering`
 
-Vymazat všechny neplatné detections.
+Spuštění re-analýzy shlukování obličejů na pozadí.
 
-**Method:** `DELETE`
+**Method:** `POST`
 
 **Auth:** Dev mode only
+
+**Description:**
+
+- Uloží stav úlohy a spustí skript `scripts/face-clustering.ts` přes Bun.
+- Běží na pozadí; výstup je streamován do konzole.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "message": "Clustering started in background."
+}
+```
+
+---
+
+#### Příklady
+
+```bash
+# Spustit re-analýzu shlukování obličejů
+curl -X POST "/api/people/run-clustering"
+```
+
+Poznámka: Pouze v DEV módu.
+
+---
+
+### DELETE `/api/people/invalid-detections/clear` (REMOVED)
+
+Endpoint pro hromadné mazání legacy invalidovaných detekcí byl odstraněn (commit d2e4f88c, 2026-01-06).
+Mazání/neplatné označení probíhá přes `POST /api/people/invalidate-detection` a údržbu provádějí interní CLI skripty.
 
 ---
 
@@ -744,6 +875,10 @@ GET /api/files/egypt-2025/pics/IMG_001.heic
 ---
 
 ## 6. Error Handling
+
+---
+
+_Poslední aktualizace: 2026-01-06_
 
 ### Error Response Format
 

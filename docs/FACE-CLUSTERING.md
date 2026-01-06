@@ -56,6 +56,14 @@ Pro kontrolu správnosti detekce a shlukování systém ukládá **faceCrops** (
 
 Tuto strukturu můžete procházet a ověřit, zda ve složce jedné osoby nejsou faceCrops někoho jiného.
 
+### API v GUI
+
+Operace spouštěné z uživatelského rozhraní využívají následující endpointy:
+
+- Spuštění re-clusteringu: viz [API-REFERENCE.md › POST `/api/people/run-clustering`](./API-REFERENCE.md#post-apipeoplerun-clustering)
+- Zneplatnění detekce: viz [API-REFERENCE.md › POST `/api/people/invalidate-detection`](./API-REFERENCE.md#post-apipeopleinvalidate-detection)
+- Čtení/mazání constraintů: viz [API-REFERENCE.md › GET `/api/people/constraints`](./API-REFERENCE.md#get-apipeopleconstraints) a [DELETE `/api/people/constraints`](./API-REFERENCE.md#delete-apipeopleconstraints)
+
 ## Správa Osob v UI
 
 - **Sloučení (Merge):** Pokud systém vytvořil více profilů pro jednu osobu, můžete je v záložce "Lidé" vybrat a sloučit.
@@ -99,3 +107,4 @@ Pro detailní analýzu konkrétní fotografie můžete použít debug skript (po
 ---
 
 _Poslední aktualizace: 2026-01-05_
+_Poslední aktualizace: 2026-01-06_

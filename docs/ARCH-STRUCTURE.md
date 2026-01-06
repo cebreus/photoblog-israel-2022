@@ -112,14 +112,18 @@ src/
 | `/api/images/clap-preview`             | `GET`                     | Preview CLAP videa podle query parametrů               |
 | `/api/images/collage`                  | `POST`                    | Vytvoření koláže z vybraných obrázků                   |
 | `/api/images/reorder`                  | `PATCH`                   | Změna pořadí obrázků v rámci dne                       |
+| `/api/images/reorder`                  | `DELETE`                  | Reset pořadí dne na EXIF časy (ReleaseDate = DateTime) |
 | `/api/images/redistribute`             | `POST`                    | Přesun obrázků mezi dny (změna wallclock času)         |
 | `/api/images/swap-time`                | `POST`                    | Prohození časů dvou obrázků                            |
 | `/api/log`                             | `POST`                    | Frontend logging (relay FE → BE Pino)                  |
 | `/api/people`                          | `PATCH`                   | Hromadná editace osob (name, hidden, junk, category)   |
 | `/api/people/avatars`                  | `GET`                     | Seznam avatarů všech osob                              |
-| `/api/people/invalid-detections`       | `GET`                     | Seznam invalidovaných detekcí obličejů                 |
-| `/api/people/invalid-detections/clear` | `DELETE`                  | Vymazání všech invalidovaných detekcí                  |
+| `/api/people/invalid-detections`       | `GET`                     | REMOVED (legacy) — odstraněno 2026-01-06               |
+| `/api/people/invalid-detections/clear` | `DELETE`                  | REMOVED (legacy) — odstraněno 2026-01-06               |
 | `/api/people/invalidate-detection`     | `POST`                    | Označení detekce obličeje jako neplatné                |
+| `/api/people/constraints`              | `GET`, `DELETE`           | Čtení a mazání constraintů pro clustering              |
+| `/api/people/run-clustering`           | `POST`                    | Spuštění re-analýzy shlukování obličejů (DEV)          |
+| `/api/system/events`                   | `GET`                     | Server-Sent Events stream systémových událostí (DEV)   |
 | `/api/people/merge`                    | `POST`                    | Sloučení více osob do jedné                            |
 | `/api/people/reassign`                 | `POST`                    | Přeřazení obrázků osobě (změna přiřazení)              |
 | `/api/people/set-avatar`               | `POST`                    | Nastavení avataru osoby                                |
@@ -170,4 +174,4 @@ shared/
 
 ---
 
-_Poslední aktualizace: 2026-01-05_
+_Poslední aktualizace: 2026-01-06_

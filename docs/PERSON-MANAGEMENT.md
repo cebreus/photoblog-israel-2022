@@ -199,6 +199,14 @@ Pokud chcete znovu přeskupit tváře od nuly (např. po úpravě parametrů clu
 
 3.  Pro úplné přegenerování všeho (včetně náhledů): `pnpm process --clean`.
 
+## 6. API odkazy
+
+Pro související operace existují API endpointy používané v GUI i skriptech:
+
+- Čtení/mazání constraintů: viz [API-REFERENCE.md › GET `/api/people/constraints`](./API-REFERENCE.md#get-apipeopleconstraints) a [DELETE `/api/people/constraints`](./API-REFERENCE.md#delete-apipeopleconstraints)
+- Zneplatnění detekce: viz [API-REFERENCE.md › POST `/api/people/invalidate-detection`](./API-REFERENCE.md#post-apipeopleinvalidate-detection)
+- Spuštění re-clusteringu: viz [API-REFERENCE.md › POST `/api/people/run-clustering`](./API-REFERENCE.md#post-apipeoplerun-clustering)
+
 ### 5.3 Co se stane při opakovaném spuštění bez změn?
 
 - Fotky, které se nezměnily, se **nepřegenerují**.

@@ -52,24 +52,57 @@ Svelte 5 runes-based stores: **Detailní dokumentace viz [STORES.md](./STORES.md
 | `selectedImages.svelte.ts` | Multi-výběr fotek                         |
 | `editingMode.svelte.ts`    | Editační stav a aktuální editor           |
 
-### Pattern
+### Pattern (aktualizováno 2026)
 
 ```typescript
-// Module-level state (2026 pattern)
-export let selectedAuthors = $state<Set<string>>(new Set());
-export let selectedPeople = $state<Set<string>>(new Set());
-export let showSeparators = $state(true);
+// Module-level state (Svelte 5 runes)
+let selectedAuthors = $state<string[]>([]);
+let selectedPeople = $state<string[]>([]);
+let showSeparators = $state(true);
 
-// Functions for mutations
-export function addAuthor(id: string) {
-  selectedAuthors.add(id);
-}
+// Derived examples
+const filterCount = $derived(selectedAuthors.length + selectedPeople.length);
 
-// Derived state
-export let filterCount = $derived(selectedAuthors.size + selectedPeople.size);
+// Public API via exported singleton object (getters/setters)
+export const filters = {
+  get selectedAuthors() {
+    return selectedAuthors;
+  },
+  set selectedAuthors(v: string[]) {
+    selectedAuthors = v;
+  },
+
+  get selectedPeople() {
+    return selectedPeople;
+  },
+  set selectedPeople(v: string[]) {
+    selectedPeople = v;
+  },
+
+  get showSeparators() {
+    return showSeparators;
+  },
+  set showSeparators(v: boolean) {
+    showSeparators = v;
+  },
+
+  get filterCount() {
+    return filterCount;
+  },
+
+  reset() {
+    selectedAuthors = [];
+    selectedPeople = [];
+    showSeparators = true;
+  },
+};
 ```
 
-**Key:** Module-level `$state` s funkcemi pro mutace (instead of writable stores).
+**Key:** Runes na úrovni modulu + exportovaný objekt s getters/setters (namísto `writable` store).
+
+---
+
+_Poslední aktualizace: 2026-01-06_
 
 ## 3. Filtrace
 

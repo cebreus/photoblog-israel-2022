@@ -68,63 +68,51 @@ export function resetFilters() {
 
 **Key:** `$state` at module level = shared, reactive singleton
 
+#### 2026 Pattern Update
+
+Aktuální implementace používá kombinaci:
+
+- Modulové proměnné s `$state` a `$derived`
+- Exportované singletony (objekty s getters/setters) nebo třídy (`ManifestStore`, `PeopleState`)
+
+Příklad (zjednodušený):
+
+```ts
+// stores/filters.svelte.ts
+let selectedAuthors = $state<string[]>([]);
+let selectedPeople = $state<string[]>([]);
+const filteredPhotoDays = $derived.by(() => compute(...));
+
+export const filters = {
+  get selectedAuthors() { return selectedAuthors; },
+  set selectedAuthors(v: string[]) { selectedAuthors = v; },
+  get selectedPeople() { return selectedPeople; },
+  set selectedPeople(v: string[]) { selectedPeople = v; },
+  get filteredPhotoDays() { return filteredPhotoDays; },
+  reset() { selectedAuthors = []; selectedPeople = []; },
+};
+
+// stores/manifest.svelte.ts
+export class ManifestStore {
+  people = $state<Person[]>(getPeopleManifest().people || []);
+  photoDays = $state<PhotoDay[]>(getManifest().photoDays || []);
+  update(data?: { photoDays?: PhotoDay[]; peopleManifest?: PeopleManifest } | null) { /* ... */ }
+  refreshItem(updatedItem: ImageEntry) { /* ... */ }
+}
+export const manifest = new ManifestStore();
+```
+
+Tento vzor nahrazuje dřívější `export let ...` přístup a je plně v souladu se Svelte 5.
+
 ---
 
 ## 2. Core Stores
 
-### filters.svelte.ts
+### filters.svelte.ts (aktualizováno)
 
 **Location:** `src/lib/stores/filters.svelte.ts`
 
-**State:**
-
-```ts
-export let selectedAuthors = $state<Set<string>>(new Set());
-export let selectedMedia = $state<Set<string>>(new Set());
-export let selectedPeople = $state<Set<string>>(new Set());
-export let selectedLabels = $state<Set<string>>(new Set());
-export let selectedSeparators = $state<Set<string>>(new Set());
-export let selectedQuality = $state<Set<"excellent" | "good" | "poor">>(new Set());
-export let snapshotFilters = $state<SnapshotFilters>({
-  authors: new Set(),
-  others: new Set(),
-});
-```
-
-**Functions:**
-
-```ts
-export function addAuthor(id: string) {
-  selectedAuthors.add(id);
-}
-
-export function removeAuthor(id: string) {
-  selectedAuthors.delete(id);
-}
-
-export function clearAll() {
-  selectedAuthors.clear();
-  selectedMedia.clear();
-  selectedPeople.clear();
-  selectedLabels.clear();
-  selectedSeparators.clear();
-  selectedQuality.clear();
-  snapshotFilters.authors.clear();
-  snapshotFilters.others.clear();
-}
-
-export function getFilterCriteria(): FilterCriteria {
-  return {
-    authors: selectedAuthors,
-    media: selectedMedia,
-    people: selectedPeople,
-    labels: selectedLabels,
-    separators: selectedSeparators,
-    quality: selectedQuality,
-    snapshots: snapshotFilters,
-  };
-}
-```
+**Public API:** Exportovaný objekt s getters/setters a odvozeným stavem. Viz ukázka v sekci výše.
 
 **Type:**
 
@@ -147,52 +135,21 @@ interface SnapshotFilters {
 
 ---
 
-### selectedImages.svelte.ts
+### selectedImages.svelte.ts (aktualizováno)
 
 **Location:** `src/lib/stores/selectedImages.svelte.ts`
 
-**State:**
-
-```ts
-export let selectedImageIds = $state<Set<string>>(new Set());
-```
-
-**Functions:**
-
-```ts
-export function addImage(id: string) {
-  selectedImageIds.add(id);
-}
-
-export function removeImage(id: string) {
-  selectedImageIds.delete(id);
-}
-
-export function toggleImage(id: string) {
-  if (selectedImageIds.has(id)) {
-    selectedImageIds.delete(id);
-  } else {
-    selectedImageIds.add(id);
-  }
-}
-
-export function selectAll(imageIds: string[]) {
-  selectedImageIds.clear();
-  imageIds.forEach((id) => selectedImageIds.add(id));
-}
-
-export function clearSelection() {
-  selectedImageIds.clear();
-}
-
-export function getSelectedCount(): number {
-  return selectedImageIds.size;
-}
-```
+**Poznámka:** Implementace multi-výběru je součástí UI komponent a/nebo centralizovaná v `PhotoGrid` logice.
 
 ---
 
-### editingMode.svelte.ts
+### editingMode.svelte.ts (aktualizováno)
+
+Aktuální stav editace je součástí UI logiky a globálních stores (`ui.svelte.ts`).
+
+---
+
+_Poslední aktualizace: 2026-01-06_
 
 **Location:** `src/lib/stores/editingMode.svelte.ts`
 
