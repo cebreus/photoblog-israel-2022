@@ -19,17 +19,26 @@ export async function init(): Promise<void> {
   if (loadingPromise) return loadingPromise;
 
   loadingPromise = (async () => {
-    logger.info(`Loading AI Model (Vision): ${MODEL_ID}...`);
+    logger.info({ modelId: MODEL_ID }, "Loading AI Model (Vision)");
     try {
       const { CLIPVisionModelWithProjection, env } = await import("@xenova/transformers");
+
+      // Configure environment for local execution to avoid blob: URL issues in Bun/Node
       env.allowLocalModels = true;
+      env.allowRemoteModels = false;
+      env.useBrowserCache = false;
+
+      // Disable worker/proxy for ONNX which is the common source of blob: URLs
+      if ((env as any).backends?.onnx) {
+        (env as any).backends.onnx.wasm.proxy = false;
+      }
 
       model = await CLIPVisionModelWithProjection.from_pretrained(MODEL_ID, {
         quantized: true,
       });
       logger.info("AI Model loaded successfully.");
     } catch (e) {
-      logger.error(`Failed to load AI model ${MODEL_ID}:`, e);
+      logger.error({ modelId: MODEL_ID, err: e }, "Failed to load AI model");
       throw e;
     }
   })();
@@ -71,7 +80,7 @@ async function prepareTensor(
 
     return { tensor: new Tensor("float32", floatData, [1, 3, 224, 224]), tempFile };
   } catch (e) {
-    logger.error(`Failed to prepare tensor for ${imagePath}:`, e);
+    logger.error({ path: imagePath, err: e }, "Failed to prepare tensor");
     // Use async check for directory existence using node:fs/promises access equivalent or try/catch
     if (tempFile) {
       try {
@@ -122,7 +131,7 @@ export async function generateEmbeddingsBatch(imagePaths: string[]): Promise<num
       return [];
     });
   } catch (e) {
-    logger.error(`Failed to generate embeddings batch:`, e);
+    logger.error({ err: e }, "Failed to generate embeddings batch");
     return imagePaths.map(() => []);
   } finally {
     for (const p of valid) {

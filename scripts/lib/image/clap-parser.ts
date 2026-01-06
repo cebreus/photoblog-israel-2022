@@ -47,33 +47,57 @@ export function pixelsToClapString(clap: CleanApertureData): string {
   return `${toRational(clap.width)} ${toRational(clap.height)} ${toRational(clap.horizOffset)} ${toRational(clap.vertOffset)}`;
 }
 
+const FALLBACK_PREFIX = "photoblog:clap:";
+
 export async function readClapFromFile(filePath: string): Promise<CleanApertureData | null> {
-  // -n for numeric output (rationals as "N D")
-  // -s3 for very short output (value only)
   try {
-    const stdout = await execCapture("exiftool", ["-CleanAperture", "-n", "-s3", filePath]);
-    if (!stdout) return null;
+    // 1. Try native CleanAperture atom (Apple HEIC native or JPEG with metadata)
+    const nativeStdout = await execCapture("exiftool", ["-CleanAperture", "-n", "-s3", filePath]);
+    if (nativeStdout && !nativeStdout.includes("Binary data")) {
+      const rational = parseClapString(nativeStdout);
+      const nativeClap = rational ? clapRationalToPixels(rational) : null;
+      if (nativeClap) return nativeClap;
+    }
 
-    // Check if output is just binary data literal
-    if (stdout.includes("Binary data")) return null;
+    // 2. Try XPComment fallback (for HEIC files we've edited)
+    // XPComment is used because it's writable to HEIC and NOT mapped to 'caption' in metadata-standards.ts
+    const commentStdout = await execCapture("exiftool", ["-XPComment", "-s3", filePath]);
+    if (commentStdout?.startsWith(FALLBACK_PREFIX)) {
+      const rawClap = commentStdout.substring(FALLBACK_PREFIX.length);
+      const rational = parseClapString(rawClap);
+      if (rational) return clapRationalToPixels(rational);
+    }
 
-    const rational = parseClapString(stdout);
-    if (!rational) return null;
-
-    return clapRationalToPixels(rational);
+    return null;
   } catch (_error) {
-    // If tag doesn't exist or file error, start clean
     return null;
   }
 }
 
 export async function writeClapToFile(filePath: string, clap: CleanApertureData): Promise<void> {
   const clapString = pixelsToClapString(clap);
-  // Using the combined tag is more reliable across different file formats (HEIC/JPEG)
-  // as it avoids individual "not writable" errors for sub-tags.
-  await run("exiftool", ["-overwrite_original", `-CleanAperture=${clapString}`, filePath]);
+  try {
+    // Attempt native write first
+    await run("exiftool", ["-overwrite_original", `-CleanAperture=${clapString}`, filePath]);
+    // If successful, ensure we don't have a stale fallback
+    await run("exiftool", ["-overwrite_original", "-XPComment=", filePath]).catch(() => {});
+  } catch (_error) {
+    // If native write fails (common for HEIC), fallback to XPComment
+    await run("exiftool", [
+      "-overwrite_original",
+      `-XPComment=${FALLBACK_PREFIX}${clapString}`,
+      filePath,
+    ]);
+  }
 }
 
 export async function removeClapFromFile(filePath: string): Promise<void> {
-  await run("exiftool", ["-overwrite_original", "-CleanAperture=", filePath]);
+  // Clear both possible locations
+  await run("exiftool", ["-overwrite_original", "-CleanAperture=", "-XPComment=", filePath]).catch(
+    async () => {
+      // Individual fallbacks if combined fails
+      await run("exiftool", ["-overwrite_original", "-CleanAperture=", filePath]).catch(() => {});
+      await run("exiftool", ["-overwrite_original", "-XPComment=", filePath]).catch(() => {});
+    },
+  );
 }

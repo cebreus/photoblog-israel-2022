@@ -85,9 +85,7 @@ export async function loadSharpOrExplain(): Promise<void> {
     const mod: any = await import("sharp");
     sharp = mod.default ?? mod;
   } catch (err: unknown) {
-    logger.error("Failed to load sharp. Did you run bun install?", {
-      error: err instanceof Error ? err.message : String(err),
-    });
+    logger.error({ err }, "Failed to load sharp. Did you run bun install?");
     process.exit(1);
   }
 }
@@ -148,7 +146,7 @@ async function convertHeicIfNeeded(
       await run("vips", ["copy", absPath, tempFilePath]);
       return { processingPath: tempFilePath, tempFilePath };
     } catch (convErr) {
-      logger.warn(`Failed to convert HEIC via vips for ${absPath}: ${convErr}`);
+      logger.warn({ path: absPath, err: convErr }, "Failed to convert HEIC via vips");
       return { processingPath: absPath, tempFilePath: null };
     }
   }
@@ -209,7 +207,10 @@ function determineAnalysisNeeds(fileHash: string, key: string, options: ImagePro
       isEmbeddingValid;
 
     if (shouldAnalyze && !isAnalysisValid) {
-      logger.verbose(`Hash match for ${key}, but re-analyzing due to missing/invalid data.`);
+      logger.verbose(
+        { key, reason: "invalid_cache" },
+        "Hash match but re-analyzing due to missing/invalid data",
+      );
     } else {
       shouldAnalyze = false;
     }
@@ -263,11 +264,11 @@ async function _extractFaces(
     }));
 
     if (faces.length > 0) {
-      logger.verbose(`Detected ${faces.length} faces in ${key}`);
+      logger.verbose({ key, count: faces.length }, "Face detection completed");
     }
     return faces;
   } catch (e) {
-    logger.warn(`Face detection failed for ${key}: ${e}`);
+    logger.warn({ key, err: e }, "Face detection failed");
     return [];
   }
 }
@@ -473,20 +474,25 @@ export async function processImage(
 
     // --- Clean Aperture Application ---
     let effectiveInput = processingPath;
+    let finalClapUsed: ImageEntry["clap"];
 
     // Skip for collages (they shouldn't have clap, but just in case)
     if (!isCollage(baseName)) {
-      const clap = await readClapFromFile(absPath);
-      if (clap) {
+      // FILE-BASED TRUTH: Only use clap if it exists in the file (native or XMP)
+      finalClapUsed = (await readClapFromFile(absPath)) || undefined;
+
+      if (finalClapUsed) {
+        logger.verbose({ key }, "Found ořez in file");
+
         try {
-          const croppedPath = await applyClapExtract(sharpModule, processingPath, clap);
+          const croppedPath = await applyClapExtract(sharpModule, processingPath, finalClapUsed);
           clapTempPath = croppedPath;
           effectiveInput = croppedPath;
 
           // Re-create sharp instance for the cropped image so subsequent ops (stats, metadata) use the crop
           sharpInstance = sharpModule(effectiveInput);
         } catch (e: any) {
-          logger.warn(`Failed to apply clap to ${key}, using original: ${e.message}`);
+          logger.warn({ key, err: (e as Error).message }, "Failed to apply clap, using original");
         }
       }
     }
@@ -527,13 +533,14 @@ export async function processImage(
         facesDetected: imageData.facesDetected,
         faces: imageData.faces,
       },
+      finalClapUsed,
     );
     imageEntry.people = imageData.peopleIds;
 
     // 4. Output Generation
     const { outputs, sources } = await generateAllOutputs(
       sharpModule,
-      effectiveInput, // Use effectiveInput (potentially cropped)
+      effectiveInput,
       baseName,
       imageData,
       options,
@@ -551,7 +558,7 @@ export async function processImage(
     };
   } catch (e: unknown) {
     const msg = e instanceof Error ? e.stack || e.message : String(e);
-    logger.error(`Failed to process ${key ?? absPath}: ${msg}`);
+    logger.error({ id: key ?? absPath, err: msg }, "Failed to process image");
     return null;
   } finally {
     if (tempCleanupPath) {

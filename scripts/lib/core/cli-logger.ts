@@ -18,7 +18,18 @@ const pinoToWinstonLevel: Record<string, string> = {
   "10": "debug",
 };
 
-export function createLogger(label: string) {
+export interface Logger {
+  error: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) => void;
+  warn: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) => void;
+  info: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) => void;
+  verbose: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) => void;
+  debug: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) => void;
+  raw: (msg: string) => void;
+  silent: boolean;
+  level: string;
+}
+
+export function createLogger(label: string): Logger {
   // Pokud je požadován JSON formát, použijte standardní výstup
   if (process.env.LOG_FORMAT === "json") {
     const logger = pino({ level: process.env.LOG_LEVEL || "info" });
@@ -26,11 +37,26 @@ export function createLogger(label: string) {
     const child = logger.child({ label });
 
     return {
-      error: (msg: string, ...args: any[]) => child.error(msg, ...args), // hook-ignore: wrapper
-      warn: (msg: string, ...args: any[]) => child.warn(msg, ...args), // hook-ignore: wrapper
-      info: (msg: string, ...args: any[]) => child.info(msg, ...args), // hook-ignore: wrapper
-      verbose: (msg: string, ...args: any[]) => child.debug(msg, ...args), // hook-ignore: wrapper
-      debug: (msg: string, ...args: any[]) => child.trace(msg, ...args), // hook-ignore: wrapper
+      error: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) =>
+        typeof objOrMsg === "string"
+          ? child.error(objOrMsg, msgOrArgs, ...args)
+          : child.error(objOrMsg, msgOrArgs, ...args),
+      warn: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) =>
+        typeof objOrMsg === "string"
+          ? child.warn(objOrMsg, msgOrArgs, ...args)
+          : child.warn(objOrMsg, msgOrArgs, ...args),
+      info: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) =>
+        typeof objOrMsg === "string"
+          ? child.info(objOrMsg, msgOrArgs, ...args)
+          : child.info(objOrMsg, msgOrArgs, ...args),
+      verbose: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) =>
+        typeof objOrMsg === "string"
+          ? child.debug(objOrMsg, msgOrArgs, ...args)
+          : child.debug(objOrMsg, msgOrArgs, ...args),
+      debug: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) =>
+        typeof objOrMsg === "string"
+          ? child.trace(objOrMsg, msgOrArgs, ...args)
+          : child.trace(objOrMsg, msgOrArgs, ...args),
       raw: (msg: string) => console.log(msg),
       silent: false,
       set level(val: string) {
@@ -105,15 +131,29 @@ export function createLogger(label: string) {
     stream,
   );
 
-  // Map winston-like methods to pino if they differ or to provide a better API
   return {
-    error: (msg: string, ...args: any[]) => logger.error(msg, ...args), // hook-ignore: wrapper
-    warn: (msg: string, ...args: any[]) => logger.warn(msg, ...args), // hook-ignore: wrapper
-    info: (msg: string, ...args: any[]) => logger.info(msg, ...args), // hook-ignore: wrapper
-    verbose: (msg: string, ...args: any[]) => (logger as any).verbose(msg, ...args), // hook-ignore: wrapper
-    debug: (msg: string, ...args: any[]) => logger.debug(msg, ...args), // hook-ignore: wrapper
+    error: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) =>
+      typeof objOrMsg === "string"
+        ? logger.error(objOrMsg, msgOrArgs, ...args)
+        : logger.error(objOrMsg, msgOrArgs, ...args),
+    warn: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) =>
+      typeof objOrMsg === "string"
+        ? logger.warn(objOrMsg, msgOrArgs, ...args)
+        : logger.warn(objOrMsg, msgOrArgs, ...args),
+    info: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) =>
+      typeof objOrMsg === "string"
+        ? logger.info(objOrMsg, msgOrArgs, ...args)
+        : logger.info(objOrMsg, msgOrArgs, ...args),
+    verbose: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) =>
+      typeof objOrMsg === "string"
+        ? (logger as any).verbose(objOrMsg, msgOrArgs, ...args)
+        : (logger as any).verbose(objOrMsg, msgOrArgs, ...args),
+    debug: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) =>
+      typeof objOrMsg === "string"
+        ? logger.debug(objOrMsg, msgOrArgs, ...args)
+        : logger.debug(objOrMsg, msgOrArgs, ...args),
     raw: (msg: string) => logProgress(msg),
-    silent: false, // Compatibility for some scripts
+    silent: false,
     set level(val: string) {
       logger.level = val === "verbose" ? "verbose" : val;
     },

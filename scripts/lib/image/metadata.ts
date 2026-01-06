@@ -320,6 +320,7 @@ export function buildImageEntry(
   placeholderColor: string,
   sizeMB: number,
   analysis?: ImageEntry["analysis"],
+  clap?: ImageEntry["clap"],
 ): ImageEntry {
   const title = getCanonicalTitle(exif) || "";
   const caption = getCanonicalCaption(exif);
@@ -356,6 +357,7 @@ export function buildImageEntry(
       facesDetected: analysis?.facesDetected,
       faces: analysis?.faces,
     },
+    clap,
     exif: {
       date: date || "",
       releaseDate: releaseDate || "",
