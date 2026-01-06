@@ -3,6 +3,7 @@
   import ArrowRightLeft from "@lucide/svelte/icons/arrow-right-left";
   import Copy from "@lucide/svelte/icons/copy";
   import RotateCcw from "@lucide/svelte/icons/rotate-ccw";
+  import StretchHorizontal from "@lucide/svelte/icons/stretch-horizontal";
   import Trash2 from "@lucide/svelte/icons/trash-2";
   import { toast } from "svelte-sonner";
   import { dev } from "$app/environment";
@@ -35,6 +36,7 @@
     onPasteMetadata,
     onResetReleaseDate,
     onSwapTimes,
+    onRedistributeTimes,
     onOpenCurationDialog,
     onSelect,
     mode = "grid",
@@ -49,6 +51,7 @@
     onPasteMetadata?: (item: ImageEntry, onlyThis?: boolean) => void;
     onResetReleaseDate?: (item: ImageEntry, onlyThis?: boolean) => void;
     onSwapTimes?: () => void;
+    onRedistributeTimes?: () => void;
     onOpenCurationDialog?: (group: CurationGroup) => void;
     onSelect?: (item: ImageEntry, shiftKey: boolean) => void;
     mode?: "grid" | "curation";
@@ -589,6 +592,15 @@
           >
             <ArrowRightLeft class="h-4 w-4" />
             <span>Prohodit časy (Swap)</span>
+          </ContextMenu.Item>
+
+          <ContextMenu.Item
+            class="flex items-center gap-2"
+            onclick={() => onRedistributeTimes?.()}
+            data-testid="photo-grid-item-contextmenu-redistribute-times"
+          >
+            <StretchHorizontal class="h-4 w-4" />
+            <span>Rozprostřít časy</span>
           </ContextMenu.Item>
         {/if}
 

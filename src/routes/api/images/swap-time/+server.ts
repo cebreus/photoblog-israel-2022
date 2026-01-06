@@ -108,10 +108,13 @@ export async function POST({ request, locals }: RequestEvent) {
       if (!baseTimeA || !baseTimeB) throw new Error("Could not determine base times for swapping");
 
       // 4. Calculate the shift (in seconds, as pure number from string diff)
-      // Shift for A = how many seconds to move A's items so A starts at B's time
+      // Special case: if times are equal, use micro-adjustments to swap order
       const shiftASeconds = diffIsoStringsInSeconds(baseTimeA, baseTimeB);
-      // Shift for B is the opposite
       const shiftBSeconds = -shiftASeconds;
+
+      // If shift is 0 (same time), use micro-adjustments to force swap
+      const effectiveShiftA = shiftASeconds === 0 ? 1 : shiftASeconds;
+      const effectiveShiftB = shiftBSeconds === 0 ? -1 : shiftBSeconds;
 
       log.info(
         {
@@ -120,12 +123,14 @@ export async function POST({ request, locals }: RequestEvent) {
           entityBCount: entityB.length,
           baseTimeB,
           shiftSeconds: shiftASeconds,
+          effectiveShiftA,
+          effectiveShiftB,
         },
         "Swapping entities",
       );
 
       // 5. Apply Shifts (string-based arithmetic)
-      const updates: { item: ImageEntry; newDate: string }[] = [];
+      const updates: { item: ImageEntry; newDate: string; oldDate: string }[] = [];
 
       const processEntity = (items: ImageEntry[], shiftSeconds: number) => {
         for (const item of items) {
@@ -134,22 +139,31 @@ export async function POST({ request, locals }: RequestEvent) {
 
           const newTime = addSecondsToIsoString(currentTime, shiftSeconds);
           if (newTime) {
-            updates.push({ item, newDate: newTime });
+            updates.push({ item, newDate: newTime, oldDate: currentTime });
           }
         }
       };
 
-      processEntity(entityA, shiftASeconds);
-      processEntity(entityB, shiftBSeconds);
+      processEntity(entityA, effectiveShiftA);
+      processEntity(entityB, effectiveShiftB);
 
       // 6. Execute Writes to files and update manifest
       for (const update of updates) {
-        const { item, newDate } = update;
+        const { item, newDate, oldDate } = update;
         const filePath = await resolveImagePath(item.id, contentDirRoot);
 
         if (filePath) {
           await exiftool.write(filePath, { "XMP:ReleaseDate": newDate } as WriteTags);
         }
+
+        log.info(
+          {
+            imageId: item.id,
+            oldReleaseDate: oldDate,
+            newReleaseDate: newDate,
+          },
+          "Swapped ReleaseDate for image",
+        );
 
         // Update manifest in memory
         if (!item.exif) item.exif = {} as ImageEntry["exif"];

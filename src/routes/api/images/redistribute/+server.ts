@@ -14,13 +14,17 @@ import { loadStoryData } from "../reorder/loader";
 
 type RedistributePayload = {
   dayId: string;
-  location: string;
+  location?: string; // Optional: redistribute all images in this location
+  imageIds?: string[]; // Optional: redistribute only these specific images
   contentDir?: string;
 };
 
 /**
  * POST /api/images/redistribute
- * Redistributes images in a location evenly across the location's time bounds.
+ * Redistributes images evenly across their time bounds.
+ * Supports two modes:
+ * 1. Location mode: redistribute all images in a location (requires 'location')
+ * 2. Selection mode: redistribute specific selected images (requires 'imageIds')
  */
 export async function POST({ request, locals }: RequestEvent) {
   const { log, logContext } = locals;
@@ -35,10 +39,18 @@ export async function POST({ request, locals }: RequestEvent) {
     return json({ message: "Invalid JSON" }, { status: 400 });
   }
 
-  const { dayId, location, contentDir } = payload;
+  const { dayId, location, imageIds, contentDir } = payload;
 
-  if (!dayId || !location) {
-    return json({ message: "Missing dayId or location" }, { status: 400 });
+  if (!dayId) {
+    return json({ message: "Missing dayId" }, { status: 400 });
+  }
+
+  // Must have either location OR imageIds
+  if (!location && (!imageIds || imageIds.length < 2)) {
+    return json(
+      { message: "Must provide either 'location' or 'imageIds' (minimum 2 images)" },
+      { status: 400 },
+    );
   }
 
   const resolvedContentDir = contentDir || process.env.CONTENT_DIR;
@@ -70,20 +82,40 @@ export async function POST({ request, locals }: RequestEvent) {
         return;
       }
 
-      // Get images from this location
-      const locationImages = targetDay.items.filter(
-        (item) => item.type !== "separator" && (item as ImageEntry).exif?.location === location,
-      ) as ImageEntry[];
+      // Get images based on mode
+      let targetImages: ImageEntry[];
 
-      if (locationImages.length < 2) {
-        errors.push(
-          `Not enough images found for location "${location}" on day ${dayId} to redistribute`,
-        );
+      if (imageIds && imageIds.length > 0) {
+        // Selection mode: use specific image IDs
+        targetImages = targetDay.items.filter(
+          (item) => item.type !== "separator" && imageIds.includes(item.id),
+        ) as ImageEntry[];
+
+        if (targetImages.length < 2) {
+          errors.push(
+            `Not enough images found from selection (found ${targetImages.length}, need at least 2)`,
+          );
+          return;
+        }
+      } else if (location) {
+        // Location mode: use all images in location
+        targetImages = targetDay.items.filter(
+          (item) => item.type !== "separator" && (item as ImageEntry).exif?.location === location,
+        ) as ImageEntry[];
+
+        if (targetImages.length < 2) {
+          errors.push(
+            `Not enough images found for location "${location}" on day ${dayId} to redistribute`,
+          );
+          return;
+        }
+      } else {
+        errors.push("Invalid payload: must provide either location or imageIds");
         return;
       }
 
       // Sort images by current releaseDate/date to respect current visual order
-      const sortedImages = [...locationImages].sort((a, b) => {
+      const sortedImages = [...targetImages].sort((a, b) => {
         const timeA = a.exif?.releaseDate || a.exif?.date || "";
         const timeB = b.exif?.releaseDate || b.exif?.date || "";
         return timeA.localeCompare(timeB);
@@ -98,7 +130,7 @@ export async function POST({ request, locals }: RequestEvent) {
         "";
 
       if (!minTime || !maxTime) {
-        errors.push(`Unable to determine time bounds for location "${location}"`);
+        errors.push(`Unable to determine time bounds for images`);
         return;
       }
 
@@ -108,8 +140,15 @@ export async function POST({ request, locals }: RequestEvent) {
       }
 
       log.info(
-        { count: sortedImages.length, location, minTime, maxTime },
-        "Redistributing images in location",
+        {
+          count: sortedImages.length,
+          mode: imageIds ? "selection" : "location",
+          location: location || undefined,
+          imageIds: imageIds || undefined,
+          minTime,
+          maxTime,
+        },
+        "Redistributing images",
       );
 
       // Calculate new evenly distributed times

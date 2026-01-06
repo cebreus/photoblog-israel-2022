@@ -1,43 +1,57 @@
 import fsp from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
-import { ensureIsoDateString } from "$shared/utils/dates";
-
-// ... existing imports
-
 import { createLogger } from "$lib/logger";
 import { scanGlob } from "$scripts/lib/utils/runtime";
 import type { StoryDataMap } from "$shared/types/manifest";
+import { toPureWallClockISO } from "$shared/utils/dates";
 
 const logger = createLogger("api:reorder:loader");
 
 /**
- * Lightweight story loader for the API endpoint.
- * Avoids importing the heavy build script infrastructure.
+ * Story loader for the API endpoint.
+ * Loads all required fields from markdown files including startDate, endDate, city, and visits.
+ * Uses string-based date handling with toPureWallClockISO for consistency.
  */
 export async function loadStoryData(contentRoot: string): Promise<StoryDataMap> {
   const storyDataMap: StoryDataMap = {};
 
   try {
-    // We need to scan for MD files.
-    // Since we don't want to use fast-glob (heavy?), we can do a simple recursive crawl
-    // or just assume a flat structure if that's how it is.
-    // But the original loader uses `scanGlob("**/*.md")`.
     const files = await scanGlob("**/*.md", { cwd: contentRoot, absolute: true });
     for (const file of files) {
       try {
         const fileContent = await fsp.readFile(file, "utf8");
         const { data, content } = matter(fileContent);
+        if (data.type === "settings") continue;
+
         const storyBody = (data.content || content).trim();
         const filename = path.basename(file, ".md");
-        const locationKey =
-          data.location || (data.date ? ensureIsoDateString(data.date) : filename);
+
+        // Determine startDate: priority is data.startDate > data.date
+        const startDateRaw = data.startDate || data.date;
+        const startDate = toPureWallClockISO(startDateRaw);
+        const endDate = toPureWallClockISO(data.endDate);
+
+        // Parse visits array if present
+        const visits = Array.isArray(data.visits)
+          ? data.visits.map((v: { startDate?: string | Date; endDate?: string | Date }) => ({
+              startDate: toPureWallClockISO(v.startDate),
+              endDate: toPureWallClockISO(v.endDate),
+            }))
+          : undefined;
+
+        // Location key: use location field, or derive from date if present
+        const locationKey = data.location || (startDate ? startDate.substring(0, 10) : filename);
 
         storyDataMap[locationKey] = {
           title: data.title || "",
           content: storyBody,
           location: data.location || undefined,
-          date: data.date ? ensureIsoDateString(data.date) : undefined,
+          city: data.city || undefined,
+          date: data.date ? toPureWallClockISO(data.date)?.substring(0, 10) : undefined,
+          startDate: startDate || undefined,
+          endDate: endDate || undefined,
+          visits,
         };
       } catch (e: unknown) {
         logger.warn({ err: e, file }, "Could not parse story file");

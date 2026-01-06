@@ -99,9 +99,23 @@ export async function PATCH({ request, locals }: RequestEvent) {
           continue;
         }
 
+        // Get original value for logging
+        const imageItem = imageItems.find((item) => item.id === id);
+        const originalReleaseDate = imageItem?.exif?.releaseDate;
+
         await exiftool.write(imagePath, {
           "XMP:ReleaseDate": releaseDate,
         } as WriteTags);
+
+        log.info(
+          {
+            imageId: id,
+            originalReleaseDate,
+            newReleaseDate: releaseDate,
+          },
+          "Updated ReleaseDate for image",
+        );
+
         updatedCount++;
       }
 
@@ -128,7 +142,14 @@ export async function PATCH({ request, locals }: RequestEvent) {
       }
 
       await saveImagesManifest(dataPath, manifest);
-      log.info({ updatedCount, dayId: normalizedDayId }, "Updated ReleaseDate for images");
+      log.info(
+        {
+          updatedCount,
+          totalImages: imageItems.length,
+          dayId: normalizedDayId,
+        },
+        "Completed ReleaseDate updates for day",
+      );
     });
 
     // Reload in-memory manifests so the UI gets fresh data immediately

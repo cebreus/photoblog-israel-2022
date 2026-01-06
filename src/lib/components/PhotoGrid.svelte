@@ -534,6 +534,38 @@
     }
   }
 
+  async function handleRedistributeTimes() {
+    if (editor.selection.size < 2) {
+      toast.error("Pro rozprostření časů musí být vybrány alespoň 2 fotky.");
+      return;
+    }
+    const ids = Array.from(editor.selection);
+
+    const promise = fetch("/api/images/redistribute", {
+      method: "POST",
+      body: JSON.stringify({ dayId, imageIds: ids }),
+    }).then(async (r) => {
+      if (!r.ok) {
+        const err = await r.json();
+        throw new Error(err.message || err.error || "Chyba serveru");
+      }
+      return r.json();
+    });
+
+    smartToast(promise, {
+      loading: `Rozprostírám časy (${ids.length}×)...`,
+      success: (result) => `Časy rozprostřeny (${result.redistributed}×)`,
+      error: (e) => (e instanceof Error ? e.message : "Chyba při rozprostření"),
+    });
+
+    try {
+      await promise;
+      await invalidateAll();
+    } catch (e) {
+      logger.error({ err: e }, "Failed to redistribute times");
+    }
+  }
+
   $effect(debugLog);
 
   function debugLog() {
@@ -769,6 +801,7 @@
             onPasteMetadata={handlePasteMetadata}
             onResetReleaseDate={handleResetReleaseDate}
             onSwapTimes={handleSwapTimes}
+            onRedistributeTimes={handleRedistributeTimes}
             onOpenCurationDialog={handleOpenCurationDialog}
             onSelect={handleSelect}
           />
@@ -785,6 +818,7 @@
           onPasteMetadata={handlePasteMetadata}
           onResetReleaseDate={handleResetReleaseDate}
           onSwapTimes={handleSwapTimes}
+          onRedistributeTimes={handleRedistributeTimes}
           onSelect={handleSelect}
           onOpenCurationDialog={handleOpenCurationDialog}
         />
