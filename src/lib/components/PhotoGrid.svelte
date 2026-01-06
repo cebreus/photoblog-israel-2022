@@ -541,6 +541,20 @@
     }
     const ids = Array.from(editor.selection);
 
+    // Capture state for Undo: Map of ID -> original releaseDate
+    const originalDates = new Map<string, string | null>();
+    // We need to find the items to get their current releaseDate
+    // Search in 'items' prop first, but fall back to 'allPhotoDayItems' to be safe
+    const allItems = (page.data.photoDays || []).flatMap((day: PhotoDay) => day.items);
+
+    for (const id of ids) {
+      const item = allItems.find((i: DisplayItem) => i.id === id) as ImageEntry | undefined;
+      if (item) {
+        // Prefer existing releaseDate, fallback to date (EXIF), or null if neither (shouldn't happen for valid images)
+        originalDates.set(id, item.exif?.releaseDate || item.exif?.date || null);
+      }
+    }
+
     const promise = fetch("/api/images/redistribute", {
       method: "POST",
       body: JSON.stringify({ dayId, imageIds: ids }),
@@ -552,10 +566,45 @@
       return r.json();
     });
 
-    smartToast(promise, {
+    toast.promise(promise, {
       loading: `Rozprostírám časy (${ids.length}×)...`,
       success: (result) => `Časy rozprostřeny (${result.redistributed}×)`,
       error: (e) => (e instanceof Error ? e.message : "Chyba při rozprostření"),
+      action: {
+        label: "Vrátit zpět",
+        onClick: async () => {
+          let successCount = 0;
+          const total = ids.length;
+
+          const undoToastId = toast.loading(`Vracím změny (0/${total})...`);
+
+          try {
+            // To prevent flooding, we can do parallel limits or sequential. Sequential is safer.
+            for (const [id, originalDate] of originalDates) {
+              if (!originalDate) continue;
+
+              await fetch("/api/images", {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  images: [{ id, src: "" }],
+                  updates: { releaseDate: originalDate },
+                }),
+              });
+              successCount++;
+              // Update toast occasionally
+              if (successCount % 5 === 0)
+                toast.loading(`Vracím změny (${successCount}/${total})...`, { id: undoToastId });
+            }
+
+            toast.success("Změny vráceny", { id: undoToastId });
+            await invalidateAll();
+          } catch (e) {
+            logger.error({ err: e }, "Failed to undo redistribution");
+            toast.error("Nepodařilo se vrátit všechny změny", { id: undoToastId });
+          }
+        },
+      },
     });
 
     try {
