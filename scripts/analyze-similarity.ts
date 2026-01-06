@@ -297,7 +297,8 @@ async function computeAestheticScores(
         }
         generatedEmbeddings += batch.length;
       } catch (e) {
-        logger.error(`Failed batch at offset ${i}:`, e);
+        const batchCount = batch.length;
+        logger.error({ err: e, offset: i, batchCount }, "Failed batch processing");
         failedEmbeddings += batch.length;
       }
       if (embedBar) embedBar.update(Math.min(i + batch.length, imagesToEmbed.length));
@@ -463,11 +464,11 @@ async function main() {
   const contentDir = await resolveGalleryDirectory();
 
   if (values.verbose) {
-    logger.info(`Analyzing content for: ${contentDir}`);
+    logger.info({ contentDir }, "Analyzing content");
   }
 
   if (values.manifestOnly) {
-    logger.info("Manifest-only mode: Skipping analysis.");
+    logger.info({}, "Manifest-only mode: Skipping analysis");
     return;
   }
 
@@ -480,12 +481,12 @@ async function main() {
   const embeddingsManifest = (await loadEmbeddingsManifest(dataDir)) || {};
 
   if (!manifest) {
-    logger.error(`Manifest not found in ${dataDir}`);
+    logger.error({ dataDir }, "Manifest not found");
     process.exit(1);
   }
 
   if (values.verbose) {
-    logger.info("Loading CLIP text model for aesthetic scoring...");
+    logger.info({}, "Loading CLIP text model for aesthetic scoring...");
   }
 
   const tokenizer = await AutoTokenizer.from_pretrained("Xenova/clip-vit-large-patch14");
@@ -493,7 +494,7 @@ async function main() {
     "Xenova/clip-vit-large-patch14",
   );
 
-  logger.info("Computing scores...");
+  logger.info({}, "Computing scores...");
   const { allImages, missingAestheticCount } = await computeAestheticScores(
     manifest,
     tokenizer,
@@ -503,11 +504,11 @@ async function main() {
   );
 
   if (missingAestheticCount > 0) {
-    logger.warn(`${missingAestheticCount} images had missing/zero aestheticScore. Recalculated.`);
+    logger.warn({ missingAestheticCount }, "Images had missing/zero aestheticScore. Recalculated.");
   }
 
   if (values.verbose) {
-    logger.info(`Loaded ${allImages.length} images with embeddings. Clustering...`);
+    logger.info({ count: allImages.length }, "Loaded images with embeddings. Clustering...");
   }
 
   const groups = clusterImagesBySimilarity(allImages, embeddingsManifest);
@@ -526,9 +527,12 @@ async function main() {
     const topAesthetic = [...allImages]
       .sort((a, b) => (b.analysis?.aestheticScore || 0) - (a.analysis?.aestheticScore || 0))
       .slice(0, 10);
-    logger.info("Top 10 Aesthetic Photos:");
+    logger.info({}, "Top 10 Aesthetic Photos:");
     topAesthetic.forEach((p) => {
-      logger.info(`  ${p.id}: ${(p.analysis?.aestheticScore || 0).toFixed(4)}`);
+      logger.info(
+        { imageId: p.id, score: p.analysis?.aestheticScore || 0 },
+        "Top aesthetic photo score",
+      );
     });
   }
 
@@ -558,10 +562,28 @@ async function main() {
 
   await saveCurationManifest(dataDir, result);
 
-  logger.info(`Analysis complete. Found ${result.stats.totalGroups} groups.`);
+  logger.info({ groupCount: result.stats.totalGroups }, "Analysis complete");
 }
 
-const startTime = performance.now();
-main().then(() => {
-  logger.info(`Total time: ${formatDuration(performance.now() - startTime)}`);
-});
+(async () => {
+  const startTime = performance.now();
+  const contentDir = await resolveGalleryDirectory();
+  const dataDir = path.resolve(process.cwd(), `src/data/${contentDir}`);
+
+  const { saveTaskStatus, clearTaskStatus } = await import("../src/lib/server/task-status");
+
+  await saveTaskStatus(dataDir, {
+    id: "similarity-analysis",
+    label: "Analýza podobnosti...",
+  });
+
+  try {
+    await main();
+    logger.info({ duration: formatDuration(performance.now() - startTime) }, "Total time");
+  } catch (error) {
+    logger.error({ err: error }, "Script execution failed");
+    process.exit(1);
+  } finally {
+    await clearTaskStatus(dataDir);
+  }
+})();
