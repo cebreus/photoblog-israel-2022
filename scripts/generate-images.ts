@@ -3,7 +3,6 @@ process.env.GLIB_LOG_LEVEL = "critical";
 import fsp from "node:fs/promises";
 import path from "node:path";
 import { intro, select } from "@clack/prompts";
-import pc from "picocolors";
 import "sharp";
 import type { QualityTypes, ScriptArgs } from "../src/lib/types/manifest";
 import { config } from "./build.config";
@@ -153,8 +152,6 @@ function logOutputPlan() {
     const resize = (cfg as any).resize || {};
     const width = resize.width ? `${resize.width}` : "auto";
     const height = resize.height ? `${resize.height}` : "auto";
-    const crop = resize.crop ? " crop" : "";
-    const format = (cfg as any).format ? ` ${String((cfg as any).format)}` : "";
     const target = path.posix.join(config.paths.output, (cfg as any).folderName);
     logger.info(
       {
@@ -177,7 +174,7 @@ export async function main() {
   const title = ARGS.__raw.title || "🏭 Image Generator";
   if (!ARGS.quiet) {
     if (process.env.LOG_STYLE === "boxed") {
-      logger.info(pc.bold(title));
+      logger.info({ op: title }, "Starting generator");
     } else {
       intro(title);
     }
@@ -190,7 +187,7 @@ export async function main() {
       process.env.CONTENT_DIR = contentDir;
       CTX = initializeContext();
     } catch (e: any) {
-      logger.error(e.message);
+      logger.error({ err: e.message }, "Initialization failed");
       process.exit(1);
     }
   }
@@ -218,7 +215,7 @@ export async function main() {
   if (ARGS.clean && !ARGS.manifestOnly) await cleanAllOutputs();
 
   if (ARGS.manifestOnly) {
-    logger.info("Manifest-only mode: Processing metadata and updating manifest...");
+    logger.info({ mode: "manifest-only" }, "Updating manifest metadata only");
   }
 
   if (RUNTIME_RAW.blurEnable && RUNTIME_RAW.blurOnly) {
@@ -264,7 +261,14 @@ export async function executeMain(): Promise<void> {
   } finally {
     await cleanup();
     if (!ARGS.quiet) {
-      logger.info({ duration: formatDuration(performance.now() - startTime) }, "Job completed");
+      logger.info(
+        {
+          duration: formatDuration(performance.now() - startTime),
+          gallery: ARGS.__raw.gallery || process.env.CONTENT_DIR,
+          filter: ARGS.filter,
+        },
+        "Job completed",
+      );
     }
   }
 }

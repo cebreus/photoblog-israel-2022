@@ -408,6 +408,12 @@ export async function PATCH({ request, locals }: RequestEvent) {
   if (!dev) return json({ message: "Forbidden" }, { status: 403 });
 
   const { images, updates } = await request.json();
+
+  logContext.patchDetails = {
+    imageCount: images.length,
+    ids: images.map((i: BatchItem) => i.id),
+    updateFields: Object.keys(updates),
+  };
   if (!images || !Array.isArray(images) || images.length === 0 || !updates)
     return json({ message: "Invalid request" }, { status: 400 });
 
@@ -568,30 +574,44 @@ export async function PATCH({ request, locals }: RequestEvent) {
   }
 
   // Execute Regeneration Queue (outside manifest locks)
+  logContext.regeneration = {
+    queueSize: regenerationQueue.length,
+    ids: regenerationQueue.map((i) => i.id),
+  };
+
   if (regenerationQueue.length > 0) {
-    const manageScript = path.resolve(process.cwd(), "scripts/manage.ts");
     // Deduplicate queue
     const uniqueQueue = Array.from(new Set(regenerationQueue.map((i) => JSON.stringify(i)))).map(
-      (s) => JSON.parse(s),
+      (s) => JSON.parse(s) as { contentDir: string; id: string },
     );
+
+    const requestId = (log as { bindings?: () => Record<string, unknown> }).bindings?.().requestId;
 
     for (const { contentDir, id } of uniqueQueue) {
       try {
-        log.info({ id, contentDir }, "Regenerating variants");
-        await run("bun", [
-          "run",
-          manageScript,
-          "process",
-          "images", // Target only image step for better performance
-          "--gallery",
-          contentDir,
-          "--filter",
-          id,
-          "--force",
-          "--manifest-only=false",
-        ]);
+        log.info({ id, contentDir, requestId }, "Regenerating variants");
+        // Call generate-images.ts directly to ensure --manifest-only=false takes effect
+        const generateScript = path.resolve(process.cwd(), "scripts/generate-images.ts");
+        await run(
+          "bun",
+          [
+            "run",
+            generateScript,
+            `--gallery=${contentDir}`,
+            `--filter=${id}`,
+            "--force",
+            "--manifest-only=false",
+            "--skipEmbeddings",
+          ],
+          {
+            env: {
+              ...process.env,
+              TRACE_ID: requestId as string,
+            },
+          },
+        );
       } catch (e: unknown) {
-        log.error({ err: e, id }, "Regeneration failed");
+        log.error({ err: e, id, requestId }, "Regeneration failed");
         errors.push(`Regeneration failed for ${id}`);
       }
     }

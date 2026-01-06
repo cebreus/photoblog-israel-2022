@@ -61,7 +61,7 @@ if [ -n "$STAGED_FILES" ]; then
   # 3. Structured Logging Pattern Check
   # Check for unstructured logger calls
   # We exclude 'tests/' because tests often need to mock or intentionally use varying patterns
-  UNSTRUCTURED_LOGS=$(echo "$STAGED_FILES" | grep -v "^tests/" | xargs grep -nE "(logger|log|child)\.(error|warn|info|debug|trace)\s*\(\s*[^{]" /dev/null 2>/dev/null | grep -v "{ " | grep -v "//" || true)
+  UNSTRUCTURED_LOGS=$(echo "$STAGED_FILES" | grep -v "^tests/" | grep -v "scripts/lib/core/cli-logger.ts" | xargs grep -nE "(logger|log|child)\.(error|warn|info|debug|trace)\s*\(\s*[^{]" /dev/null 2>/dev/null | grep -v "{ " | grep -v "//" || true)
   
   if [ -n "$UNSTRUCTURED_LOGS" ]; then
     echo ""

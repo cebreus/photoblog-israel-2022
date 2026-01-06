@@ -14,49 +14,51 @@ const pinoToWinstonLevel: Record<string, string> = {
   "50": "error",
   "40": "warn",
   "30": "info",
-  "20": "verbose",
-  "10": "debug",
+  "25": "verbose",
+  "20": "debug",
+  "10": "trace",
 };
 
+const TRACE_ID = process.env.TRACE_ID || process.env.X_REQUEST_ID;
+
 export interface Logger {
-  error: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) => void;
-  warn: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) => void;
-  info: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) => void;
-  verbose: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) => void;
-  debug: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) => void;
-  raw: (msg: string) => void;
+  error(obj: object, msg?: string, ...args: any[]): void;
+  error(msg: string, ...args: any[]): void;
+  warn(obj: object, msg?: string, ...args: any[]): void;
+  warn(msg: string, ...args: any[]): void;
+  info(obj: object, msg?: string, ...args: any[]): void;
+  info(msg: string, ...args: any[]): void;
+  verbose(obj: object, msg?: string, ...args: any[]): void;
+  verbose(msg: string, ...args: any[]): void;
+  debug(obj: object, msg?: string, ...args: any[]): void;
+  debug(msg: string, ...args: any[]): void;
+  raw(msg: string): void;
   silent: boolean;
   level: string;
 }
 
 export function createLogger(label: string): Logger {
+  const baseContext: Record<string, string> = { label };
+  if (TRACE_ID) {
+    baseContext.traceId = TRACE_ID;
+  }
+
   // Pokud je požadován JSON formát, použijte standardní výstup
   if (process.env.LOG_FORMAT === "json") {
     const logger = pino({ level: process.env.LOG_LEVEL || "info" });
-    // Přidat label jako kontext
-    const child = logger.child({ label });
+    const child = logger.child(baseContext);
 
     return {
       error: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) =>
-        typeof objOrMsg === "string"
-          ? child.error(objOrMsg, msgOrArgs, ...args)
-          : child.error(objOrMsg, msgOrArgs, ...args),
+        child.error(objOrMsg, msgOrArgs, ...args),
       warn: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) =>
-        typeof objOrMsg === "string"
-          ? child.warn(objOrMsg, msgOrArgs, ...args)
-          : child.warn(objOrMsg, msgOrArgs, ...args),
+        child.warn(objOrMsg, msgOrArgs, ...args),
       info: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) =>
-        typeof objOrMsg === "string"
-          ? child.info(objOrMsg, msgOrArgs, ...args)
-          : child.info(objOrMsg, msgOrArgs, ...args),
+        child.info(objOrMsg, msgOrArgs, ...args),
       verbose: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) =>
-        typeof objOrMsg === "string"
-          ? child.debug(objOrMsg, msgOrArgs, ...args)
-          : child.debug(objOrMsg, msgOrArgs, ...args),
+        (child as any).verbose(objOrMsg, msgOrArgs, ...args),
       debug: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) =>
-        typeof objOrMsg === "string"
-          ? child.trace(objOrMsg, msgOrArgs, ...args)
-          : child.trace(objOrMsg, msgOrArgs, ...args),
+        child.debug(objOrMsg, msgOrArgs, ...args),
       raw: (msg: string) => console.log(msg),
       silent: false,
       set level(val: string) {
@@ -65,10 +67,10 @@ export function createLogger(label: string): Logger {
       get level() {
         return child.level;
       },
-    };
+    } as unknown as Logger;
   }
 
-  // Původní logika pro hezký formátovaný výstup
+  // Hezký formátovaný výstup pro terminál
   function identity(str: string) {
     return str;
   }
@@ -101,7 +103,8 @@ export function createLogger(label: string): Logger {
     write(msg: string) {
       const obj = JSON.parse(msg);
       const level = pinoToWinstonLevel[obj.level] || "info";
-      const formatted = formatMessage(level, obj.msg);
+      const traceId = obj.traceId ? pc.dim(`(${obj.traceId.slice(0, 8)}) `) : "";
+      const formatted = formatMessage(level, `${traceId}${obj.msg}`);
       logProgress(formatted);
     },
   };
@@ -110,48 +113,24 @@ export function createLogger(label: string): Logger {
     {
       level: process.env.LOG_LEVEL || "info",
       customLevels: {
-        verbose: 25, // between info (30) and debug (20)
+        verbose: 25,
       },
-      hooks: {
-        logMethod(inputArgs, method) {
-          if (inputArgs.length >= 2 && typeof inputArgs[0] === "string") {
-            const [msg, ...args] = inputArgs;
-            const formattedMsg =
-              args.length > 0
-                ? msg +
-                  " " +
-                  args.map((a) => (typeof a === "object" ? JSON.stringify(a) : a)).join(" ")
-                : msg;
-            return method.apply(this, [formattedMsg]);
-          }
-          return method.apply(this, inputArgs);
-        },
-      },
+      // IMPORTANT: No hooks needed here, we manually handle args in the wrapper below
     },
     stream,
-  );
+  ).child(baseContext);
 
   return {
     error: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) =>
-      typeof objOrMsg === "string"
-        ? logger.error(objOrMsg, msgOrArgs, ...args)
-        : logger.error(objOrMsg, msgOrArgs, ...args),
+      logger.error(objOrMsg, msgOrArgs, ...args),
     warn: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) =>
-      typeof objOrMsg === "string"
-        ? logger.warn(objOrMsg, msgOrArgs, ...args)
-        : logger.warn(objOrMsg, msgOrArgs, ...args),
+      logger.warn(objOrMsg, msgOrArgs, ...args),
     info: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) =>
-      typeof objOrMsg === "string"
-        ? logger.info(objOrMsg, msgOrArgs, ...args)
-        : logger.info(objOrMsg, msgOrArgs, ...args),
+      logger.info(objOrMsg, msgOrArgs, ...args),
     verbose: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) =>
-      typeof objOrMsg === "string"
-        ? (logger as any).verbose(objOrMsg, msgOrArgs, ...args)
-        : (logger as any).verbose(objOrMsg, msgOrArgs, ...args),
+      (logger as any).verbose(objOrMsg, msgOrArgs, ...args),
     debug: (objOrMsg: any, msgOrArgs?: any, ...args: any[]) =>
-      typeof objOrMsg === "string"
-        ? logger.debug(objOrMsg, msgOrArgs, ...args)
-        : logger.debug(objOrMsg, msgOrArgs, ...args),
+      logger.debug(objOrMsg, msgOrArgs, ...args),
     raw: (msg: string) => logProgress(msg),
     silent: false,
     set level(val: string) {
@@ -160,5 +139,5 @@ export function createLogger(label: string): Logger {
     get level() {
       return logger.level;
     },
-  };
+  } as unknown as Logger;
 }
