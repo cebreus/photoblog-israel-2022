@@ -27,10 +27,14 @@ describe("gallery filters - collage filtering", () => {
       } as ImageEntry,
     ];
 
-    const result = filterGalleryItems(items, {
-      ...defaultCriteria,
-      selectedMediaTypes: ["collage"],
-    });
+    const result = filterGalleryItems(
+      items,
+      {
+        ...defaultCriteria,
+        selectedMediaTypes: ["collage"],
+      },
+      {},
+    );
 
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe("2025-11-26-155237-cebreus--collage");
@@ -49,10 +53,14 @@ describe("gallery filters - collage filtering", () => {
       } as ImageEntry,
     ];
 
-    const result = filterGalleryItems(items, {
-      ...defaultCriteria,
-      selectedMediaTypes: ["collage"],
-    });
+    const result = filterGalleryItems(
+      items,
+      {
+        ...defaultCriteria,
+        selectedMediaTypes: ["collage"],
+      },
+      {},
+    );
 
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe("2025-11-24-205551-cebreus--collage");
@@ -71,10 +79,14 @@ describe("gallery filters - collage filtering", () => {
       } as ImageEntry,
     ];
 
-    const result = filterGalleryItems(items, {
-      ...defaultCriteria,
-      selectedMediaTypes: ["collage"],
-    });
+    const result = filterGalleryItems(
+      items,
+      {
+        ...defaultCriteria,
+        selectedMediaTypes: ["collage"],
+      },
+      {},
+    );
 
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe("test--collage");
@@ -93,10 +105,14 @@ describe("gallery filters - collage filtering", () => {
       } as ImageEntry,
     ];
 
-    const result = filterGalleryItems(items, {
-      ...defaultCriteria,
-      selectedMediaTypes: ["collage"],
-    });
+    const result = filterGalleryItems(
+      items,
+      {
+        ...defaultCriteria,
+        selectedMediaTypes: ["collage"],
+      },
+      {},
+    );
 
     expect(result).toHaveLength(0);
   });
@@ -123,10 +139,14 @@ describe("gallery filters - collage filtering", () => {
       } as ImageEntry,
     ];
 
-    const result = filterGalleryItems(items, {
-      ...defaultCriteria,
-      selectedMediaTypes: ["collage", "image"],
-    });
+    const result = filterGalleryItems(
+      items,
+      {
+        ...defaultCriteria,
+        selectedMediaTypes: ["collage", "image"],
+      },
+      {},
+    );
 
     expect(result).toHaveLength(2);
   });
@@ -144,10 +164,14 @@ describe("gallery filters - collage filtering", () => {
       } as ImageEntry,
     ];
 
-    const result = filterGalleryItems(items, {
-      ...defaultCriteria,
-      selectedMediaTypes: ["panorama"],
-    });
+    const result = filterGalleryItems(
+      items,
+      {
+        ...defaultCriteria,
+        selectedMediaTypes: ["panorama"],
+      },
+      {},
+    );
 
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe("pano-test");

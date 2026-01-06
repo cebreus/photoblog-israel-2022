@@ -6,7 +6,6 @@ import {
   type QualityBucket,
   type QualityFilterBucket,
 } from "$lib/types/manifest";
-import { getImagePeopleMap, getPhotoDays } from "$lib/utils/images";
 import { isRepresentative, isSequenceMember } from "$lib/utils/sequences";
 
 export const QUALITY_BUCKETS: { id: QualityFilterBucket; label: string }[] = [
@@ -52,6 +51,22 @@ export type FilterCriteria = {
   onlySnapshots: boolean;
 };
 
+/**
+ * Builds a map of image IDs to people IDs from the photo days data.
+ * This replaces the dependency on images.ts
+ */
+export function buildImagePeopleMap(photoDays: PhotoDay[]): Record<string, string[]> {
+  const map: Record<string, string[]> = {};
+  for (const day of photoDays) {
+    for (const item of day.items) {
+      if (item.type === "image" && item.people && item.people.length > 0) {
+        map[item.id] = item.people;
+      }
+    }
+  }
+  return map;
+}
+
 function shouldIncludeItem(
   item: PhotoDayItem,
   criteria: FilterCriteria,
@@ -77,25 +92,25 @@ function shouldIncludeItem(
     return false;
   }
 
+  // Determine effective type for filtering
+  let effectiveType = item.type;
+
+  // Panoramas can be identified by aspectRatio even if type is "image"
+  if (effectiveType === "image" && item.aspectRatio === "panorama") {
+    effectiveType = "panorama";
+  }
+
+  // Collages can be identified by aspectRatio or ID pattern even if type is "image"
+  if (
+    effectiveType === "image" &&
+    (item.aspectRatio === "collage" || item.id.includes("--collage"))
+  ) {
+    effectiveType = "collage";
+  }
+
   if (criteria.selectedMediaTypes.length > 0) {
     if ((criteria.selectedMediaTypes as string[]).includes("none")) {
       return false;
-    }
-
-    // Determine effective type for filtering
-    let effectiveType = item.type;
-
-    // Panoramas can be identified by aspectRatio even if type is "image"
-    if (effectiveType === "image" && item.aspectRatio === "panorama") {
-      effectiveType = "panorama";
-    }
-
-    // Collages can be identified by aspectRatio or ID pattern even if type is "image"
-    if (
-      effectiveType === "image" &&
-      (item.aspectRatio === "collage" || item.id.includes("--collage"))
-    ) {
-      effectiveType = "collage";
     }
 
     if (!criteria.selectedMediaTypes.includes(effectiveType)) {
@@ -170,9 +185,9 @@ function shouldIncludeItem(
 export function filterGalleryItems(
   items: PhotoDayItem[],
   criteria: FilterCriteria,
+  imagePeopleMap: Record<string, string[]>,
 ): PhotoDayItem[] {
   const isDefaultQualityView = criteria.selectedQualityBuckets.length === 0;
-  const imagePeopleMap = getImagePeopleMap();
 
   return items.filter(function filterItem(item) {
     return shouldIncludeItem(item, criteria, isDefaultQualityView, imagePeopleMap);
@@ -181,15 +196,16 @@ export function filterGalleryItems(
 
 export function computeTotals(
   criteria: FilterCriteria,
-  photoDaysData: PhotoDay[] = getPhotoDays(),
+  photoDaysData: PhotoDay[],
 ): { visiblePhotos: number; totalLocations: number } {
   let visiblePhotos = 0;
   const uniqueLocations = new Set<string>();
 
+  const imagePeopleMap = buildImagePeopleMap(photoDaysData);
   const allPhotoDays = photoDaysData;
 
   for (const day of allPhotoDays) {
-    const filteredItems = filterGalleryItems(day.items, criteria);
+    const filteredItems = filterGalleryItems(day.items, criteria, imagePeopleMap);
 
     for (const item of filteredItems) {
       if (item.type !== "separator") {

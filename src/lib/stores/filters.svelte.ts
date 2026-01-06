@@ -1,5 +1,5 @@
 import type { MediaItemType, PhotoDay, QualityFilterBucket } from "$lib/types/manifest";
-import { computeTotals, filterGalleryItems } from "$lib/utils/gallery";
+import { buildImagePeopleMap, computeTotals, filterGalleryItems } from "$lib/utils/gallery";
 import { manifest } from "./manifest.svelte";
 
 /** All available media types for filtering */
@@ -49,10 +49,12 @@ const filteredPhotoDays = $derived.by(() => {
     onlySnapshots,
   };
 
+  const imagePeopleMap = buildImagePeopleMap(sourceData);
+
   return sourceData
     .map((day) => ({
       ...day,
-      items: filterGalleryItems(day.items, criteria),
+      items: filterGalleryItems(day.items, criteria, imagePeopleMap),
     }))
     .filter((day) => day.items && day.items.length > 0);
 });

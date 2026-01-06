@@ -131,38 +131,56 @@ describe("People Filter Logic", () => {
     onlySnapshots: false,
   };
 
+  // Build map from mock data for all tests
+  const mockMap: Record<string, string[]> = {};
+  for (const img of mockImages) {
+    if (img.people) mockMap[img.id] = img.people;
+  }
+
   describe("Default Behavior (Empty Selection)", () => {
     it("should show all photos when selectedPeople is empty array (default)", () => {
       // Empty array [] = ALL selected (same as authors)
-      const result = filterGalleryItems(mockImages, defaultCriteria);
+      const result = filterGalleryItems(mockImages, defaultCriteria, mockMap);
       expect(result).toHaveLength(5);
     });
 
     it("should hide all photos when selectedPeople is ['none']", () => {
       // ["none"] = NONE selected (hide photos with detected people) -> Actually hides EVERYTHING
-      const result = filterGalleryItems(mockImages, {
-        ...defaultCriteria,
-        selectedPeople: ["none"],
-      });
+      const result = filterGalleryItems(
+        mockImages,
+        {
+          ...defaultCriteria,
+          selectedPeople: ["none"],
+        },
+        mockMap,
+      );
       expect(result).toHaveLength(0);
     });
   });
 
   describe("People Selection", () => {
     it("should filter to show only photos with selected person", () => {
-      const result = filterGalleryItems(mockImages, {
-        ...defaultCriteria,
-        selectedPeople: ["person-1"],
-      });
+      const result = filterGalleryItems(
+        mockImages,
+        {
+          ...defaultCriteria,
+          selectedPeople: ["person-1"],
+        },
+        mockMap,
+      );
       // Should show img1, img2, img3 (Alice's photos)
       expect(result.map((i) => i.id).sort()).toEqual(["img1", "img2", "img3"]);
     });
 
     it("should show photos containing ANY of the selected people", () => {
-      const result = filterGalleryItems(mockImages, {
-        ...defaultCriteria,
-        selectedPeople: ["person-1", "person-2"],
-      });
+      const result = filterGalleryItems(
+        mockImages,
+        {
+          ...defaultCriteria,
+          selectedPeople: ["person-1", "person-2"],
+        },
+        mockMap,
+      );
       // Should show img1, img2, img3, img4 (Alice OR Bob)
       // img1: [p1], img2: [p1, p2], img3: [p1], img4: [p2]
       expect(result.map((i) => i.id).sort()).toEqual(["img1", "img2", "img3", "img4"]);
