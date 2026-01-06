@@ -343,31 +343,14 @@ export function updateManifest(
 
   // 1b. Remove images from ALL days before merging (fixes stale entries when releaseDate changes)
   // This ensures that if an image moves from one day to another, the old entry is removed
-  console.log(`[DEBUG-BUILDER] updateManifest called with ${results.length} results`);
 
   for (const result of results) {
     if (!result) continue;
     const baseNameWithoutExt = path.basename(result.key, path.extname(result.key));
 
-    // DEBUG: Track all processed images
-    console.log(
-      `[DEBUG-BUILDER] Processing: id=${result.image.id}, releaseDate=${result.image.exif?.releaseDate}`,
-    );
-
-    let totalRemoved = 0;
     for (const day of manifest.photoDays) {
-      const beforeCount = day.items.length;
       removeImagesStartingWith(day, baseNameWithoutExt);
-      const afterCount = day.items.length;
-
-      if (beforeCount !== afterCount) {
-        console.log(
-          `[DEBUG-BUILDER] Removed from day ${day.date}: ${beforeCount} -> ${afterCount}`,
-        );
-        totalRemoved += beforeCount - afterCount;
-      }
     }
-    console.log(`[DEBUG-BUILDER] Total removed for ${baseNameWithoutExt}: ${totalRemoved}`);
   }
 
   // 2. Merge new results into the manifest

@@ -9,7 +9,7 @@ import { parseArgs } from "node:util";
 import { cancel, intro, isCancel, outro, select } from "@clack/prompts";
 import pc from "picocolors";
 import { createLogger } from "./lib/core/cli-logger";
-import { cleanPhantomAssignments } from "./lib/manifests/cleaner";
+// cleaner.ts consolidated into validator.ts
 import { validateAndCleanManifests } from "./lib/manifests/validator";
 import { run } from "./lib/utils/shell";
 import { formatDuration } from "./lib/utils/time";
@@ -215,24 +215,23 @@ async function cmdCleanup() {
   logger.info({ gallery }, "┌ Running Manifest Integrity Cleanup");
   const dataDir = path.resolve(PROJECT_ROOT, `src/data/${gallery}`);
 
-  // 1. Standard manifest validation
-  const validationResult = await validateAndCleanManifests(dataDir);
-  if (validationResult.totalCleaned > 0) {
-    logger.info(
-      { gallery, cleaned: validationResult.totalCleaned },
-      "Cleaned orphaned manifest entries.",
-    );
-  }
+  // 1. Consolidated Manifest Validation & Cleanup
+  // (Includes Phantoms, Stats, and Orphans)
+  const result = await validateAndCleanManifests(dataDir);
 
-  // 2. Phantom assignment cleanup
-  const phantomResult = await cleanPhantomAssignments(gallery);
-  if (phantomResult.totalRemoved > 0) {
-    logger.info(
-      { gallery, removed: phantomResult.totalRemoved },
-      "Cleaned phantom assignments (missing face crops).",
-    );
+  if (result.totalCleaned > 0) {
+    logger.info({ gallery, cleaned: result.totalCleaned }, "Cleanup completed successfully.");
+    if (result.phantomAssignmentsRemoved > 0) {
+      logger.info(
+        { removed: result.phantomAssignmentsRemoved },
+        "Removed phantom image assignments.",
+      );
+    }
+    if (result.peopleStatsUpdated > 0) {
+      logger.info({ updated: result.peopleStatsUpdated }, "Recalculated people statistics.");
+    }
   } else {
-    logger.info({ gallery }, "No phantom assignments found.");
+    logger.info({ gallery }, "Manifests are consistent and clean.");
   }
 }
 
@@ -283,7 +282,7 @@ async function cmdProcess() {
       case "cleanup":
         return await cmdCleanup();
       default:
-        logger.error(`Unknown step: ${subcommand}`);
+        logger.error({ subcommand }, "Unknown step");
         process.exit(1);
     }
   }
@@ -314,24 +313,15 @@ async function cmdProcess() {
     await cmdFaces();
     logger.info({ step: 4, duration: formatDuration(performance.now() - t5) }, "Step 4 complete");
 
-    // Step 5: Manifest Validation & Cleanup
+    // Step 5: Manifest Validation & Integrity (Consolidated)
     logger.info({ step: 5, total: 5 }, "┌ Step 5: Manifest Validation & Integrity");
     const t6 = performance.now();
     const dataDir = path.resolve(PROJECT_ROOT, `src/data/${gallery}`);
 
-    // 1. Standard manifest validation
-    const validationResult = await validateAndCleanManifests(dataDir);
-    if (validationResult.totalCleaned > 0) {
-      logger.info(
-        { gallery, cleaned: validationResult.totalCleaned },
-        "Cleaned orphaned manifest entries",
-      );
-    }
+    const result = await validateAndCleanManifests(dataDir);
 
-    // 2. Phantom assignment cleanup (missing crops on disk)
-    const phantomResult = await cleanPhantomAssignments(gallery);
-    if (phantomResult.totalRemoved > 0) {
-      logger.info({ gallery, removed: phantomResult.totalRemoved }, "Cleaned phantom assignments");
+    if (result.totalCleaned > 0) {
+      logger.info({ gallery, cleaned: result.totalCleaned }, "Cleaned orphaned/phantom entries");
     }
 
     logger.info({ step: 5, duration: formatDuration(performance.now() - t6) }, "Step 5 complete");
