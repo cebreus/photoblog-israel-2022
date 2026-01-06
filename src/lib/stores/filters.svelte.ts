@@ -185,7 +185,7 @@ function initPersistence() {
         accordionValue = parsed;
       }
     }
-  } catch (e) {
-    console.error("Failed to load accordion state", e);
+  } catch (_e) {
+    // Silent fail for local storage
   }
 }
