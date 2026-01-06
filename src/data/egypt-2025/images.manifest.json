@@ -10323,204 +10323,6 @@
           "endDate": "2025-11-26T12:00:00"
         },
         {
-          "id": "2025-11-26-080112-cebreus",
-          "type": "image",
-          "src": "2025-11-26-080112-cebreus.heic",
-          "alt": "Gízská nekropole, Gíza",
-          "title": "",
-          "width": 8064,
-          "height": 6048,
-          "sizeMB": 7.51,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-26-080112-cebreus.png",
-          "placeholderColor": "rgb(168,152,120)",
-          "analysis": {
-            "aestheticScore": 70.70937083663314,
-            "sharpness": 57,
-            "qualityBucket": "good",
-            "phash": "0f31403f23000000",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-26T09:01:12",
-            "releaseDate": "2025-11-26T09:01:12",
-            "location": "Gízská nekropole",
-            "city": "Gíza",
-            "latitude": 29.969386,
-            "longitude": 31.121711,
-            "orientation": 1,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Gíza (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Gízská nekropole",
-          "city": "Gíza",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.969386,31.121711",
-          "date": "2025-11-26T09:01:12",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-26-080112-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-26-080112-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-26-080112-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-080112-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-26-080112-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-080112-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-080112-cebreus.jpeg",
-              "width": 1707,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-26-080112-cebreus.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-080112-cebreus.jpeg",
-              "width": 534,
-              "height": 401
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-26-080216-cebreus",
-          "type": "image",
-          "src": "2025-11-26-080216-cebreus.heic",
-          "alt": "Gízská nekropole, Gíza",
-          "title": "",
-          "width": 8064,
-          "height": 6048,
-          "sizeMB": 8.63,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-26-080216-cebreus.png",
-          "placeholderColor": "rgb(104,120,152)",
-          "analysis": {
-            "aestheticScore": 51.88655017976288,
-            "sharpness": 64,
-            "qualityBucket": "good",
-            "phash": "479ef97302000000",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-26T09:02:16",
-            "releaseDate": "2025-11-26T09:02:16",
-            "location": "Gízská nekropole",
-            "city": "Gíza",
-            "latitude": 29.968853,
-            "longitude": 31.123181,
-            "orientation": 1,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Gíza (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Gízská nekropole",
-          "city": "Gíza",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.968853,31.123181",
-          "date": "2025-11-26T09:02:16",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-26-080216-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-26-080216-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-26-080216-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-080216-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-26-080216-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-080216-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-080216-cebreus.jpeg",
-              "width": 1707,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-26-080216-cebreus.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-080216-cebreus.jpeg",
-              "width": 534,
-              "height": 401
-            }
-          ],
-          "people": []
-        },
-        {
           "id": "2025-11-26-091503-bobina",
           "type": "image",
           "src": "2025-11-26-091503-bobina.heic",
@@ -10533,31 +10335,10 @@
           "placeholder": "blurs/2025-11-26-091503-bobina.png",
           "placeholderColor": "rgb(216,216,200)",
           "analysis": {
-            "aestheticScore": 65.53574693284021,
             "sharpness": 100,
-            "qualityBucket": "excellent",
             "phash": "072f2f2626876411",
-            "facesDetected": true,
-            "faces": [
-              {
-                "x": 620.6089557409286,
-                "y": 262.0835452079773,
-                "width": 107.79588460922241,
-                "height": 126.3834754625956
-              },
-              {
-                "x": 1065.500061750412,
-                "y": 435.7338420550028,
-                "width": 104.51458168029785,
-                "height": 141.59438705444336
-              },
-              {
-                "x": 841.3316012620926,
-                "y": 315.92187420527137,
-                "width": 96.31970357894897,
-                "height": 117.50404405593872
-              }
-            ]
+            "facesDetected": false,
+            "faces": []
           },
           "clap": {
             "width": 1562,
@@ -10567,7 +10348,7 @@
           },
           "exif": {
             "date": "2025-11-26T09:02:16",
-            "releaseDate": "2025-11-26T09:02:16",
+            "releaseDate": "2025-11-26T09:02:15",
             "location": "Gízská nekropole",
             "latitude": 29.968192,
             "longitude": 31.124367,
@@ -10645,6 +10426,458 @@
           ]
         },
         {
+          "id": "2025-11-26-081544-cebreus",
+          "type": "image",
+          "src": "2025-11-26-081544-cebreus.heic",
+          "alt": "Gízská nekropole, Gíza",
+          "title": "",
+          "width": 2143,
+          "height": 1607,
+          "sizeMB": 2.07,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/2025-11-26-081544-cebreus.png",
+          "placeholderColor": "rgb(232,232,200)",
+          "analysis": {
+            "aestheticScore": 60.057934160942494,
+            "sharpness": 100,
+            "qualityBucket": "good",
+            "phash": "9f9b23633353db24",
+            "facesDetected": true,
+            "faces": [
+              {
+                "x": 451.5510275810957,
+                "y": 429.24153959751123,
+                "width": 211.10957430303097,
+                "height": 235.27740311622617
+              },
+              {
+                "x": 1598.79485809803,
+                "y": 579.3300419648486,
+                "width": 207.89680814743042,
+                "height": 256.7538573741913
+              },
+              {
+                "x": 1167.4307468533516,
+                "y": 415.3335105776786,
+                "width": 185.17698323726654,
+                "height": 195.59218841791153
+              }
+            ]
+          },
+          "clap": {
+            "width": 2143,
+            "height": 1607,
+            "horizOffset": -282,
+            "vertOffset": -212
+          },
+          "exif": {
+            "date": "2025-11-26T09:15:44",
+            "releaseDate": "2025-11-26T09:02:15",
+            "location": "Gízská nekropole",
+            "city": "Gíza",
+            "latitude": 29.96845,
+            "longitude": 31.123806,
+            "orientation": 1,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Gízská nekropole",
+          "city": "Gíza",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.96845,31.123806",
+          "date": "2025-11-26T09:15:44",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-26-081544-cebreus.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-26-081544-cebreus.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-26-081544-cebreus.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-081544-cebreus.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-26-081544-cebreus.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-081544-cebreus.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-26-081544-cebreus.jpeg",
+              "width": 1707,
+              "height": 1280
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-26-081544-cebreus.jpeg",
+              "width": 190,
+              "height": 127
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-081544-cebreus.jpeg",
+              "width": 534,
+              "height": 534
+            }
+          ],
+          "flags": [
+            "snapshot-others"
+          ],
+          "people": [
+            "person-6abf63c9",
+            "person-e9ed35a6",
+            "person-9b0bc40f"
+          ]
+        },
+        {
+          "id": "2025-11-26-081434-cebreus",
+          "type": "image",
+          "src": "2025-11-26-081434-cebreus.heic",
+          "alt": "Gízská nekropole, Gíza",
+          "title": "",
+          "width": 2006,
+          "height": 1505,
+          "sizeMB": 1.58,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/2025-11-26-081434-cebreus.png",
+          "placeholderColor": "rgb(200,168,120)",
+          "analysis": {
+            "aestheticScore": 69.41438705770098,
+            "sharpness": 100,
+            "qualityBucket": "excellent",
+            "phash": "17374b62d2de5d5d",
+            "facesDetected": true,
+            "faces": [
+              {
+                "x": 1375.8161051273348,
+                "y": 443.87913048267365,
+                "width": 122.49989390373231,
+                "height": 170.64604242642716
+              },
+              {
+                "x": 688.0980443954469,
+                "y": 365.5037607749303,
+                "width": 124.97337472438814,
+                "height": 163.35452179114026
+              }
+            ]
+          },
+          "clap": {
+            "width": 2006,
+            "height": 1505,
+            "horizOffset": 299,
+            "vertOffset": 225
+          },
+          "exif": {
+            "date": "2025-11-26T09:14:34",
+            "releaseDate": "2025-11-26T09:02:17",
+            "location": "Gízská nekropole",
+            "city": "Gíza",
+            "latitude": 29.967858,
+            "longitude": 31.124908,
+            "orientation": 1,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Gízská nekropole",
+          "city": "Gíza",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.967858,31.124908",
+          "date": "2025-11-26T09:14:34",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-26-081434-cebreus.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-26-081434-cebreus.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-26-081434-cebreus.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-081434-cebreus.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-26-081434-cebreus.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-081434-cebreus.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-26-081434-cebreus.jpeg",
+              "width": 1706,
+              "height": 1280
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-26-081434-cebreus.jpeg",
+              "width": 190,
+              "height": 127
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-081434-cebreus.jpeg",
+              "width": 534,
+              "height": 534
+            }
+          ],
+          "flags": [
+            "snapshot-others"
+          ],
+          "people": [
+            "person-0db741fb"
+          ]
+        },
+        {
+          "id": "2025-11-26-080216-cebreus",
+          "type": "image",
+          "src": "2025-11-26-080216-cebreus.heic",
+          "alt": "Gízská nekropole, Gíza",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "sizeMB": 8.63,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/2025-11-26-080216-cebreus.png",
+          "placeholderColor": "rgb(104,120,152)",
+          "analysis": {
+            "aestheticScore": 51.88655017976288,
+            "sharpness": 64,
+            "qualityBucket": "good",
+            "phash": "479ef97302000000",
+            "facesDetected": false,
+            "faces": []
+          },
+          "exif": {
+            "date": "2025-11-26T09:02:16",
+            "releaseDate": "2025-11-26T09:05:08",
+            "location": "Gízská nekropole",
+            "city": "Gíza",
+            "latitude": 29.968853,
+            "longitude": 31.123181,
+            "orientation": 1,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Gízská nekropole",
+          "city": "Gíza",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.968853,31.123181",
+          "date": "2025-11-26T09:02:16",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-26-080216-cebreus.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-26-080216-cebreus.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-26-080216-cebreus.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-080216-cebreus.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-26-080216-cebreus.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-080216-cebreus.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-26-080216-cebreus.jpeg",
+              "width": 1707,
+              "height": 1280
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-26-080216-cebreus.jpeg",
+              "width": 190,
+              "height": 127
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-080216-cebreus.jpeg",
+              "width": 534,
+              "height": 401
+            }
+          ],
+          "people": []
+        },
+        {
+          "id": "2025-11-26-080112-cebreus",
+          "type": "image",
+          "src": "2025-11-26-080112-cebreus.heic",
+          "alt": "Gízská nekropole, Gíza",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "sizeMB": 7.51,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/2025-11-26-080112-cebreus.png",
+          "placeholderColor": "",
+          "analysis": {
+            "aestheticScore": 70.70937083663314,
+            "sharpness": 57,
+            "qualityBucket": "good",
+            "phash": "0f31403f23000000",
+            "facesDetected": false,
+            "faces": []
+          },
+          "exif": {
+            "date": "2025-11-26T09:01:12",
+            "releaseDate": "2025-11-26T09:05:21",
+            "location": "Gízská nekropole",
+            "city": "Gíza",
+            "latitude": 29.969386,
+            "longitude": 31.121711,
+            "orientation": 1,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Gízská nekropole",
+          "city": "Gíza",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.969386,31.121711",
+          "date": "2025-11-26T09:01:12",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-26-080112-cebreus.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-26-080112-cebreus.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-26-080112-cebreus.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-080112-cebreus.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-26-080112-cebreus.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-080112-cebreus.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-26-080112-cebreus.jpeg",
+              "width": 1707,
+              "height": 1280
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-26-080112-cebreus.jpeg",
+              "width": 190,
+              "height": 127
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-080112-cebreus.jpeg",
+              "width": 534,
+              "height": 534
+            }
+          ],
+          "people": []
+        },
+        {
           "id": "2025-11-26-080508-cebreus",
           "type": "image",
           "src": "2025-11-26-080508-cebreus.heic",
@@ -10666,7 +10899,7 @@
           },
           "exif": {
             "date": "2025-11-26T09:05:08",
-            "releaseDate": "2025-11-26T09:05:08",
+            "releaseDate": "2025-11-26T09:05:55",
             "location": "Gízská nekropole",
             "city": "Gíza",
             "latitude": 29.967919,
@@ -10772,7 +11005,7 @@
           },
           "exif": {
             "date": "2025-11-26T09:05:21",
-            "releaseDate": "2025-11-26T09:05:21",
+            "releaseDate": "2025-11-26T09:08:34",
             "location": "Gízská nekropole",
             "latitude": 29.967933,
             "longitude": 31.125078,
@@ -10844,221 +11077,6 @@
           ],
           "people": [
             "person-79c593b4"
-          ]
-        },
-        {
-          "id": "2025-11-26-080555-cebreus",
-          "type": "image",
-          "src": "2025-11-26-080555-cebreus.heic",
-          "alt": "Gízská nekropole, Gíza",
-          "title": "",
-          "width": 16052,
-          "height": 3854,
-          "sizeMB": 10.33,
-          "aspectRatio": "panorama",
-          "placeholder": "blurs/2025-11-26-080555-cebreus.png",
-          "placeholderColor": "rgb(200,168,120)",
-          "specialMedia": {
-            "isPanorama": true,
-            "is360": false,
-            "projection": "cylindrical"
-          },
-          "analysis": {
-            "aestheticScore": 54.84760064731215,
-            "sharpness": 61,
-            "qualityBucket": "good",
-            "phash": "58deba7a06070303",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-26T09:05:55",
-            "releaseDate": "2025-11-26T09:05:55",
-            "location": "Gízská nekropole",
-            "city": "Gíza",
-            "latitude": 29.967914,
-            "longitude": 31.125108,
-            "orientation": 1,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Gíza (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Gízská nekropole",
-          "city": "Gíza",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.967914,31.125108",
-          "date": "2025-11-26T09:05:55",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-26-080555-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-26-080555-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-26-080555-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-080555-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-26-080555-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-080555-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-26-080555-cebreus.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-080555-cebreus.jpeg",
-              "width": 534,
-              "height": 128
-            },
-            {
-              "variant": "pano_detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details-pano/2025-11-26-080555-cebreus.jpeg",
-              "width": 5331,
-              "height": 1280
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-26-080834-cebreus",
-          "type": "image",
-          "src": "2025-11-26-080834-cebreus.heic",
-          "alt": "Gízská nekropole, Gíza",
-          "title": "",
-          "width": 8064,
-          "height": 6048,
-          "sizeMB": 3.8,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-26-080834-cebreus.png",
-          "placeholderColor": "rgb(152,168,200)",
-          "analysis": {
-            "aestheticScore": 67.11518604219482,
-            "sharpness": 55,
-            "qualityBucket": "good",
-            "phash": "8c30bbb937200103",
-            "facesDetected": true,
-            "faces": [
-              {
-                "x": 5612.237663269043,
-                "y": 2245.869346618652,
-                "width": 840.0612030029296,
-                "height": 1073.1066970825193
-              }
-            ]
-          },
-          "exif": {
-            "date": "2025-11-26T09:08:34",
-            "releaseDate": "2025-11-26T09:08:34",
-            "location": "Gízská nekropole",
-            "city": "Gíza",
-            "latitude": 29.967922,
-            "longitude": 31.125086,
-            "orientation": 1,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Gíza (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Gízská nekropole",
-          "city": "Gíza",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.967922,31.125086",
-          "date": "2025-11-26T09:08:34",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-26-080834-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-26-080834-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-26-080834-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-080834-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-26-080834-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-080834-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-080834-cebreus.jpeg",
-              "width": 1707,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-26-080834-cebreus.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-080834-cebreus.jpeg",
-              "width": 534,
-              "height": 401
-            }
-          ],
-          "flags": [
-            "snapshot-author"
-          ],
-          "people": [
-            "person-9b0bc40f"
           ]
         },
         {
@@ -11389,6 +11407,221 @@
           "people": []
         },
         {
+          "id": "2025-11-26-080555-cebreus",
+          "type": "image",
+          "src": "2025-11-26-080555-cebreus.heic",
+          "alt": "Gízská nekropole, Gíza",
+          "title": "",
+          "width": 16052,
+          "height": 3854,
+          "sizeMB": 10.33,
+          "aspectRatio": "panorama",
+          "placeholder": "blurs/2025-11-26-080555-cebreus.png",
+          "placeholderColor": "rgb(200,168,120)",
+          "specialMedia": {
+            "isPanorama": true,
+            "is360": false,
+            "projection": "cylindrical"
+          },
+          "analysis": {
+            "aestheticScore": 54.84760064731215,
+            "sharpness": 61,
+            "qualityBucket": "good",
+            "phash": "58deba7a06070303",
+            "facesDetected": false,
+            "faces": []
+          },
+          "exif": {
+            "date": "2025-11-26T09:05:55",
+            "releaseDate": "2025-11-26T09:10:35",
+            "location": "Gízská nekropole",
+            "city": "Gíza",
+            "latitude": 29.967914,
+            "longitude": 31.125108,
+            "orientation": 1,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Gízská nekropole",
+          "city": "Gíza",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.967914,31.125108",
+          "date": "2025-11-26T09:05:55",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-26-080555-cebreus.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-26-080555-cebreus.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-26-080555-cebreus.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-080555-cebreus.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-26-080555-cebreus.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-080555-cebreus.avif",
+              "width": 534
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-26-080555-cebreus.jpeg",
+              "width": 190,
+              "height": 127
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-080555-cebreus.jpeg",
+              "width": 534,
+              "height": 128
+            },
+            {
+              "variant": "pano_detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details-pano/2025-11-26-080555-cebreus.jpeg",
+              "width": 5331,
+              "height": 1280
+            }
+          ],
+          "people": []
+        },
+        {
+          "id": "2025-11-26-080834-cebreus",
+          "type": "image",
+          "src": "2025-11-26-080834-cebreus.heic",
+          "alt": "Gízská nekropole, Gíza",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "sizeMB": 3.8,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/2025-11-26-080834-cebreus.png",
+          "placeholderColor": "rgb(152,168,200)",
+          "analysis": {
+            "aestheticScore": 67.11518604219482,
+            "sharpness": 55,
+            "qualityBucket": "good",
+            "phash": "8c30bbb937200103",
+            "facesDetected": true,
+            "faces": [
+              {
+                "x": 5612.237663269043,
+                "y": 2245.869346618652,
+                "width": 840.0612030029296,
+                "height": 1073.1066970825193
+              }
+            ]
+          },
+          "exif": {
+            "date": "2025-11-26T09:08:34",
+            "releaseDate": "2025-11-26T09:10:43",
+            "location": "Gízská nekropole",
+            "city": "Gíza",
+            "latitude": 29.967922,
+            "longitude": 31.125086,
+            "orientation": 1,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Gízská nekropole",
+          "city": "Gíza",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.967922,31.125086",
+          "date": "2025-11-26T09:08:34",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-26-080834-cebreus.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-26-080834-cebreus.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-26-080834-cebreus.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-080834-cebreus.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-26-080834-cebreus.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-080834-cebreus.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-26-080834-cebreus.jpeg",
+              "width": 1707,
+              "height": 1280
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-26-080834-cebreus.jpeg",
+              "width": 190,
+              "height": 127
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-080834-cebreus.jpeg",
+              "width": 534,
+              "height": 401
+            }
+          ],
+          "flags": [
+            "snapshot-author"
+          ],
+          "people": [
+            "person-9b0bc40f"
+          ]
+        },
+        {
           "id": "2025-11-26-081035-cebreus--zoom4from4",
           "type": "sequence",
           "src": "2025-11-26-081035-cebreus--zoom4from4.heic",
@@ -11410,7 +11643,7 @@
           },
           "exif": {
             "date": "2025-11-26T09:10:35",
-            "releaseDate": "2025-11-26T09:10:35",
+            "releaseDate": "2025-11-26T09:10:49",
             "city": "Gíza",
             "latitude": 29.967678,
             "longitude": 31.125297,
@@ -11524,7 +11757,7 @@
           },
           "exif": {
             "date": "2025-11-26T09:10:43",
-            "releaseDate": "2025-11-26T09:10:43",
+            "releaseDate": "2025-11-26T09:11:20",
             "location": "Gízská nekropole",
             "city": "Gíza",
             "latitude": 29.967675,
@@ -11602,100 +11835,6 @@
           "people": []
         },
         {
-          "id": "2025-11-26-081049-dasa",
-          "type": "image",
-          "src": "2025-11-26-081049-dasa.heic",
-          "alt": "Gízská nekropole",
-          "title": "",
-          "width": 3024,
-          "height": 4032,
-          "sizeMB": 1.64,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-26-081049-dasa.png",
-          "placeholderColor": "rgb(232,232,216)",
-          "analysis": {
-            "aestheticScore": 57.83340739139779,
-            "sharpness": 100,
-            "qualityBucket": "good",
-            "phash": "0f0b876545a3b3db",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-26T09:10:49",
-            "releaseDate": "2025-11-26T09:10:49",
-            "location": "Gízská nekropole",
-            "latitude": 29.967944,
-            "longitude": 31.125117,
-            "orientation": 6
-          },
-          "author": "Dáša",
-          "authorSlug": "dasa",
-          "location": "Gízská nekropole",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.967944,31.125117",
-          "date": "2025-11-26T09:10:49",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-26-081049-dasa.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-26-081049-dasa.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-26-081049-dasa.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-081049-dasa.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-26-081049-dasa.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-081049-dasa.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-081049-dasa.jpeg",
-              "width": 960,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-26-081049-dasa.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-081049-dasa.jpeg",
-              "width": 401,
-              "height": 534
-            }
-          ],
-          "people": []
-        },
-        {
           "id": "2025-11-26-081120-cebreus",
           "type": "image",
           "src": "2025-11-26-081120-cebreus.heic",
@@ -11717,7 +11856,7 @@
           },
           "exif": {
             "date": "2025-11-26T09:11:20",
-            "releaseDate": "2025-11-26T09:11:20",
+            "releaseDate": "2025-11-26T09:14:34",
             "location": "Gízská nekropole",
             "city": "Gíza",
             "latitude": 29.967667,
@@ -11795,260 +11934,6 @@
           "people": []
         },
         {
-          "id": "2025-11-26-081434-cebreus",
-          "type": "image",
-          "src": "2025-11-26-081434-cebreus.heic",
-          "alt": "Gízská nekropole, Gíza",
-          "title": "",
-          "width": 2006,
-          "height": 1505,
-          "sizeMB": 1.58,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-26-081434-cebreus.png",
-          "placeholderColor": "rgb(200,168,120)",
-          "analysis": {
-            "aestheticScore": 69.41438705770098,
-            "sharpness": 100,
-            "qualityBucket": "excellent",
-            "phash": "17374b62d2de5d5d",
-            "facesDetected": true,
-            "faces": [
-              {
-                "x": 1375.8161051273348,
-                "y": 443.87913048267365,
-                "width": 122.49989390373231,
-                "height": 170.64604242642716
-              },
-              {
-                "x": 688.0980443954469,
-                "y": 365.5037607749303,
-                "width": 124.97337472438814,
-                "height": 163.35452179114026
-              }
-            ]
-          },
-          "clap": {
-            "width": 2006,
-            "height": 1505,
-            "horizOffset": 299,
-            "vertOffset": 225
-          },
-          "exif": {
-            "date": "2025-11-26T09:14:34",
-            "releaseDate": "2025-11-26T09:14:34",
-            "location": "Gízská nekropole",
-            "city": "Gíza",
-            "latitude": 29.967858,
-            "longitude": 31.124908,
-            "orientation": 1,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Gíza (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Gízská nekropole",
-          "city": "Gíza",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.967858,31.124908",
-          "date": "2025-11-26T09:14:34",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-26-081434-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-26-081434-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-26-081434-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-081434-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-26-081434-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-081434-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-081434-cebreus.jpeg",
-              "width": 1706,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-26-081434-cebreus.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-081434-cebreus.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "flags": [
-            "snapshot-others"
-          ],
-          "people": [
-            "person-0db741fb"
-          ]
-        },
-        {
-          "id": "2025-11-26-081544-cebreus",
-          "type": "image",
-          "src": "2025-11-26-081544-cebreus.heic",
-          "alt": "Gízská nekropole, Gíza",
-          "title": "",
-          "width": 2143,
-          "height": 1607,
-          "sizeMB": 2.07,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-26-081544-cebreus.png",
-          "placeholderColor": "rgb(232,232,200)",
-          "analysis": {
-            "aestheticScore": 60.057934160942494,
-            "sharpness": 100,
-            "qualityBucket": "good",
-            "phash": "9f9b23633353db24",
-            "facesDetected": true,
-            "faces": [
-              {
-                "x": 451.5510275810957,
-                "y": 429.24153959751123,
-                "width": 211.10957430303097,
-                "height": 235.27740311622617
-              },
-              {
-                "x": 1598.79485809803,
-                "y": 579.3300419648486,
-                "width": 207.89680814743042,
-                "height": 256.7538573741913
-              },
-              {
-                "x": 1167.4307468533516,
-                "y": 415.3335105776786,
-                "width": 185.17698323726654,
-                "height": 195.59218841791153
-              }
-            ]
-          },
-          "clap": {
-            "width": 2143,
-            "height": 1607,
-            "horizOffset": -282,
-            "vertOffset": -212
-          },
-          "exif": {
-            "date": "2025-11-26T09:15:44",
-            "releaseDate": "2025-11-26T09:15:44",
-            "location": "Gízská nekropole",
-            "city": "Gíza",
-            "latitude": 29.96845,
-            "longitude": 31.123806,
-            "orientation": 1,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Gíza (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Gízská nekropole",
-          "city": "Gíza",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.96845,31.123806",
-          "date": "2025-11-26T09:15:44",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-webp/2025-11-26-081544-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews/2025-11-26-081544-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-avif/2025-11-26-081544-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-081544-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xl/2025-11-26-081544-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-081544-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/details/2025-11-26-081544-cebreus.jpeg",
-              "width": 1707,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/previews-xxs/2025-11-26-081544-cebreus.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-081544-cebreus.jpeg",
-              "width": 534,
-              "height": 534
-            }
-          ],
-          "flags": [
-            "snapshot-others"
-          ],
-          "people": [
-            "person-6abf63c9",
-            "person-e9ed35a6",
-            "person-9b0bc40f"
-          ]
-        },
-        {
           "id": "2025-11-26-082550-cebreus",
           "type": "image",
           "src": "2025-11-26-082550-cebreus.heic",
@@ -12075,7 +11960,7 @@
           },
           "exif": {
             "date": "2025-11-26T09:25:50",
-            "releaseDate": "2025-11-26T09:25:50",
+            "releaseDate": "2025-11-26T09:15:44",
             "location": "Gízská nekropole",
             "city": "Gíza",
             "latitude": 29.972194,
@@ -12179,7 +12064,7 @@
           },
           "exif": {
             "date": "2025-11-26T09:26:10",
-            "releaseDate": "2025-11-26T09:26:10",
+            "releaseDate": "2025-11-26T09:25:50",
             "location": "Gízská nekropole",
             "city": "Gíza",
             "latitude": 29.9722,
@@ -12252,6 +12137,100 @@
               "path": "/egypt-2025/images/details-pano/2025-11-26-082610-cebreus.jpeg",
               "width": 5285,
               "height": 1280
+            }
+          ],
+          "people": []
+        },
+        {
+          "id": "2025-11-26-081049-dasa",
+          "type": "image",
+          "src": "2025-11-26-081049-dasa.heic",
+          "alt": "Gízská nekropole",
+          "title": "",
+          "width": 3024,
+          "height": 4032,
+          "sizeMB": 1.64,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/2025-11-26-081049-dasa.png",
+          "placeholderColor": "rgb(232,232,216)",
+          "analysis": {
+            "aestheticScore": 57.83340739139779,
+            "sharpness": 100,
+            "qualityBucket": "good",
+            "phash": "0f0b876545a3b3db",
+            "facesDetected": false,
+            "faces": []
+          },
+          "exif": {
+            "date": "2025-11-26T09:10:49",
+            "releaseDate": "2025-11-26T09:26:10",
+            "location": "Gízská nekropole",
+            "latitude": 29.967944,
+            "longitude": 31.125117,
+            "orientation": 6
+          },
+          "author": "Dáša",
+          "authorSlug": "dasa",
+          "location": "Gízská nekropole",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.967944,31.125117",
+          "date": "2025-11-26T09:10:49",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-webp/2025-11-26-081049-dasa.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews/2025-11-26-081049-dasa.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-avif/2025-11-26-081049-dasa.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/egypt-2025/images/previews-xl-webp/2025-11-26-081049-dasa.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xl/2025-11-26-081049-dasa.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/egypt-2025/images/previews-xl-avif/2025-11-26-081049-dasa.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/details/2025-11-26-081049-dasa.jpeg",
+              "width": 960,
+              "height": 1280
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/previews-xxs/2025-11-26-081049-dasa.jpeg",
+              "width": 190,
+              "height": 127
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/egypt-2025/images/admin-thumbs/2025-11-26-081049-dasa.jpeg",
+              "width": 401,
+              "height": 534
             }
           ],
           "people": []
