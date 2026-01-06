@@ -190,6 +190,10 @@
   const qualityCount = $derived(
     (Array.from(qualityStats.values()) as number[]).reduce((sum, val) => sum + val, 0),
   );
+
+  $effect(() => {
+    filters.initPersistence();
+  });
 </script>
 
 <div class="contents" data-testid="filters-tab">
@@ -297,157 +301,157 @@
       </div>
     {/if}
 
-    <!-- Media Types Section -->
-    <div class="space-y-3 border-b px-6 py-4">
-      <div class="flex items-center justify-between">
-        <p class="text-sm font-semibold">Typ média</p>
-      </div>
-      <div class="grid gap-2">
-        {#each MEDIA_TYPES as type}
-          {@const isChecked = isMediaTypeActive(type.id)}
-          {@const count = mediaStats.get(type.id) ?? 0}
-          <label
-            class={`flex cursor-pointer items-center justify-between text-sm ${
-              isChecked ? "text-primary" : "text-slate-100"
-            } ${count === 0 ? "opacity-50" : ""}`}
-          >
-            <span class="flex items-center gap-2">
-              <span>{type.label}</span>
-              <Badge variant="outline">{count}</Badge>
-            </span>
-            <Switch
-              checked={isChecked}
-              disabled={count === 0}
-              onCheckedChange={(c) => handleMediaTypeToggle(type.id, c)}
-              aria-label={`Filtr ${type.label}`}
-            />
-          </label>
-        {/each}
-      </div>
-      <p class="pt-1 text-xs text-slate-400">Pokud není vybrán žádný typ, nezobrazí se nic.</p>
-    </div>
+    <Accordion.Root type="multiple" class="w-full" bind:value={filters.accordionValue}>
+      <Accordion.Item value="media-types" class="border-b-0 px-6">
+        <Accordion.Trigger class="py-3 hover:no-underline">
+          <span class="text-sm font-semibold">Typ média</span>
+        </Accordion.Trigger>
+        <Accordion.Content>
+          <div class="grid gap-2 pb-4">
+            {#each MEDIA_TYPES as type}
+              {@const isChecked = isMediaTypeActive(type.id)}
+              {@const count = mediaStats.get(type.id) ?? 0}
+              <label
+                class={`flex cursor-pointer items-center justify-between text-sm ${
+                  isChecked ? "text-primary" : "text-slate-100"
+                } ${count === 0 ? "opacity-50" : ""}`}
+              >
+                <span class="flex items-center gap-2">
+                  <span>{type.label}</span>
+                  <Badge variant="outline">{count}</Badge>
+                </span>
+                <Switch
+                  checked={isChecked}
+                  disabled={count === 0}
+                  onCheckedChange={(c) => handleMediaTypeToggle(type.id, c)}
+                  aria-label={`Filtr ${type.label}`}
+                />
+              </label>
+            {/each}
+            <p class="pt-1 text-xs text-slate-400">
+              Pokud není vybrán žádný typ, nezobrazí se nic.
+            </p>
+          </div>
+        </Accordion.Content>
+      </Accordion.Item>
 
-    <!-- Collapsible Sections (Snapshots & Quality) -->
-    <div class="px-6 pb-2">
-      <Accordion.Root type="multiple" class="w-full">
-        <!-- Snapshots Section -->
-        <Accordion.Item value="snapshots" class="border-b-0">
+      <!-- Snapshots Section -->
+      <Accordion.Item value="snapshots" class="border-t border-b-0 px-6">
+        <Accordion.Trigger class="py-3 hover:no-underline">
+          <span class="text-sm font-semibold">Momentky</span>
+        </Accordion.Trigger>
+        <Accordion.Content>
+          <div class="flex flex-col gap-3 pb-4">
+            <label
+              class={`flex cursor-pointer items-center justify-between text-sm ${
+                filters.onlySnapshots ? "text-primary" : "text-slate-100"
+              } ${snapshotStats.total === 0 ? "opacity-50" : ""}`}
+              data-testid="filters-tab-only-snapshots-control"
+            >
+              <span class="flex items-center gap-2">
+                <span><b>Pouze momentky</b></span>
+                <Badge variant="outline">{snapshotStats.total}</Badge>
+              </span>
+              <Switch
+                bind:checked={filters.onlySnapshots}
+                disabled={snapshotStats.total === 0}
+                aria-label={filters.onlySnapshots
+                  ? "Zobrazit všechny fotky"
+                  : "Zobrazit pouze momentky"}
+                data-testid="filters-tab-only-snapshots-switch"
+              />
+            </label>
+
+            <label
+              class={`flex cursor-pointer items-center justify-between text-sm ${
+                filters.showAuthorSnapshots ? "text-primary" : "text-slate-100"
+              } ${snapshotStats.author === 0 ? "opacity-50" : ""}`}
+              data-testid="filters-tab-author-snapshots-control"
+            >
+              <span class="flex items-center gap-2">
+                <span>Zobrazit momentky autora</span>
+                <Badge variant="outline">{snapshotStats.author}</Badge>
+              </span>
+              <Switch
+                bind:checked={filters.showAuthorSnapshots}
+                disabled={snapshotStats.author === 0}
+                aria-label={filters.showAuthorSnapshots
+                  ? "Skrýt momentky autora"
+                  : "Zobrazit momentky autora"}
+                data-testid="filters-tab-author-snapshots-switch"
+              />
+            </label>
+
+            <label
+              class={`flex cursor-pointer items-center justify-between text-sm ${
+                filters.showOthersSnapshots ? "text-primary" : "text-slate-100"
+              } ${snapshotStats.others === 0 ? "opacity-50" : ""}`}
+              data-testid="filters-tab-others-snapshots-control"
+            >
+              <span class="flex items-center gap-2">
+                <span>Zobrazit další momentky</span>
+                <Badge variant="outline">{snapshotStats.others}</Badge>
+              </span>
+              <Switch
+                bind:checked={filters.showOthersSnapshots}
+                disabled={snapshotStats.others === 0}
+                aria-label={filters.showOthersSnapshots
+                  ? "Skrýt další momentky"
+                  : "Zobrazit další momentky"}
+                data-testid="filters-tab-others-snapshots-switch"
+              />
+            </label>
+
+            <p class="pt-1 text-xs text-slate-400">
+              Momentky jsou soukromé snímky a nemají obecnou dokumentární hodnotu.
+            </p>
+          </div>
+        </Accordion.Content>
+      </Accordion.Item>
+
+      <!-- Quality Section -->
+      {#if qualityStats.size > 0 && qualityCount > 0}
+        <Accordion.Item value="quality" class="border-t border-b-0 px-6">
           <Accordion.Trigger class="py-3 hover:no-underline">
-            <span class="text-sm font-semibold">Momentky</span>
+            <span class="text-sm font-semibold">Kvalita fotek</span>
           </Accordion.Trigger>
           <Accordion.Content>
             <div class="flex flex-col gap-3 pb-4">
-              <label
-                class={`flex cursor-pointer items-center justify-between text-sm ${
-                  filters.onlySnapshots ? "text-primary" : "text-slate-100"
-                } ${snapshotStats.total === 0 ? "opacity-50" : ""}`}
-                data-testid="filters-tab-only-snapshots-control"
-              >
-                <span class="flex items-center gap-2">
-                  <span><b>Pouze momentky</b></span>
-                  <Badge variant="outline">{snapshotStats.total}</Badge>
-                </span>
-                <Switch
-                  bind:checked={filters.onlySnapshots}
-                  disabled={snapshotStats.total === 0}
-                  aria-label={filters.onlySnapshots
-                    ? "Zobrazit všechny fotky"
-                    : "Zobrazit pouze momentky"}
-                  data-testid="filters-tab-only-snapshots-switch"
-                />
-              </label>
-
-              <label
-                class={`flex cursor-pointer items-center justify-between text-sm ${
-                  filters.showAuthorSnapshots ? "text-primary" : "text-slate-100"
-                } ${snapshotStats.author === 0 ? "opacity-50" : ""}`}
-                data-testid="filters-tab-author-snapshots-control"
-              >
-                <span class="flex items-center gap-2">
-                  <span>Zobrazit momentky autora</span>
-                  <Badge variant="outline">{snapshotStats.author}</Badge>
-                </span>
-                <Switch
-                  bind:checked={filters.showAuthorSnapshots}
-                  disabled={snapshotStats.author === 0}
-                  aria-label={filters.showAuthorSnapshots
-                    ? "Skrýt momentky autora"
-                    : "Zobrazit momentky autora"}
-                  data-testid="filters-tab-author-snapshots-switch"
-                />
-              </label>
-
-              <label
-                class={`flex cursor-pointer items-center justify-between text-sm ${
-                  filters.showOthersSnapshots ? "text-primary" : "text-slate-100"
-                } ${snapshotStats.others === 0 ? "opacity-50" : ""}`}
-                data-testid="filters-tab-others-snapshots-control"
-              >
-                <span class="flex items-center gap-2">
-                  <span>Zobrazit další momentky</span>
-                  <Badge variant="outline">{snapshotStats.others}</Badge>
-                </span>
-                <Switch
-                  bind:checked={filters.showOthersSnapshots}
-                  disabled={snapshotStats.others === 0}
-                  aria-label={filters.showOthersSnapshots
-                    ? "Skrýt další momentky"
-                    : "Zobrazit další momentky"}
-                  data-testid="filters-tab-others-snapshots-switch"
-                />
-              </label>
-
+              {#each QUALITY_BUCKETS as bucket (bucket.id)}
+                {@const count = qualityStats.get(bucket.id) ?? 0}
+                {@const isActive = isQualityActive(bucket.id)}
+                <label
+                  class={`flex cursor-pointer items-center justify-between text-sm ${
+                    isActive ? "text-primary" : "text-slate-100"
+                  } ${count === 0 ? "opacity-50" : ""}`}
+                  data-testid={`filters-tab-quality-${bucket.id}`}
+                >
+                  <span class="flex items-center gap-2">
+                    <span>{bucket.label}</span>
+                    <Badge variant="outline">{count}</Badge>
+                  </span>
+                  <Switch
+                    checked={isActive}
+                    disabled={count === 0}
+                    aria-label={isActive
+                      ? `Vypnout filtr ${bucket.label}`
+                      : `Zapnout filtr ${bucket.label}`}
+                    onCheckedChange={createQualityToggleHandler(bucket.id)}
+                  />
+                </label>
+              {/each}
               <p class="pt-1 text-xs text-slate-400">
-                Momentky jsou soukromé snímky a nemají obecnou dokumentární hodnotu.
+                Pokud není vybrána žádná kvalita, nezobrazí se nic.
+                <br />
+
+                Kvalita je určena automaticky pomocí AI (estetika) a technické analýzy (ostrost).
+                Pomáhá skrýt slabší snímky, které jsou ale ponechány pro dokumentární účely.
               </p>
             </div>
           </Accordion.Content>
         </Accordion.Item>
-
-        <!-- Quality Section -->
-        {#if qualityStats.size > 0 && qualityCount > 0}
-          <Accordion.Item value="quality" class="border-t border-b-0">
-            <Accordion.Trigger class="py-3 hover:no-underline">
-              <span class="text-sm font-semibold">Kvalita fotek</span>
-            </Accordion.Trigger>
-            <Accordion.Content>
-              <div class="flex flex-col gap-3 pb-4">
-                {#each QUALITY_BUCKETS as bucket (bucket.id)}
-                  {@const count = qualityStats.get(bucket.id) ?? 0}
-                  {@const isActive = isQualityActive(bucket.id)}
-                  <label
-                    class={`flex cursor-pointer items-center justify-between text-sm ${
-                      isActive ? "text-primary" : "text-slate-100"
-                    } ${count === 0 ? "opacity-50" : ""}`}
-                    data-testid={`filters-tab-quality-${bucket.id}`}
-                  >
-                    <span class="flex items-center gap-2">
-                      <span>{bucket.label}</span>
-                      <Badge variant="outline">{count}</Badge>
-                    </span>
-                    <Switch
-                      checked={isActive}
-                      disabled={count === 0}
-                      aria-label={isActive
-                        ? `Vypnout filtr ${bucket.label}`
-                        : `Zapnout filtr ${bucket.label}`}
-                      onCheckedChange={createQualityToggleHandler(bucket.id)}
-                    />
-                  </label>
-                {/each}
-                <p class="pt-1 text-xs text-slate-400">
-                  Pokud není vybrána žádná kvalita, nezobrazí se nic.
-                  <br />
-
-                  Kvalita je určena automaticky pomocí AI (estetika) a technické analýzy (ostrost).
-                  Pomáhá skrýt slabší snímky, které jsou ale ponechány pro dokumentární účely.
-                </p>
-              </div>
-            </Accordion.Content>
-          </Accordion.Item>
-        {/if}
-      </Accordion.Root>
-    </div>
+      {/if}
+    </Accordion.Root>
   </Sidebar.Content>
 
   <Sidebar.Footer class="border-sidebar-border bg-sidebar border-t p-4 px-6">

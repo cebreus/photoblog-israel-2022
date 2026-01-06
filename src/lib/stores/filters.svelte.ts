@@ -24,6 +24,8 @@ let showAuthorSnapshots = $state(true);
 /** Show ONLY snapshots (hide all regular photos) */
 let onlySnapshots = $state(false);
 let filtersSyncing = $state(false);
+/** Default expanded sections: none */
+let accordionValue = $state<string[]>([]);
 
 /** Source data for filtering - derived from centralized manifest store */
 const sourceData = $derived(manifest.photoDays);
@@ -132,6 +134,17 @@ export const filters = {
     onlySnapshots = v;
   },
 
+  // Accordion Persistence
+  get accordionValue() {
+    return accordionValue;
+  },
+  set accordionValue(v) {
+    accordionValue = v;
+    if (typeof localStorage !== "undefined") {
+      localStorage.setItem("filters-accordion-state", JSON.stringify(v));
+    }
+  },
+
   get filtersSyncing() {
     return filtersSyncing;
   },
@@ -158,4 +171,21 @@ export const filters = {
   },
 
   reset,
+  initPersistence,
 };
+
+function initPersistence() {
+  if (typeof localStorage === "undefined") return;
+
+  try {
+    const raw = localStorage.getItem("filters-accordion-state");
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) {
+        accordionValue = parsed;
+      }
+    }
+  } catch (e) {
+    console.error("Failed to load accordion state", e);
+  }
+}
