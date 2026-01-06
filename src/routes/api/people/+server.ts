@@ -12,6 +12,7 @@ interface PersonUpdate {
   hidden?: boolean;
   junk?: boolean;
   category?: "person" | "statue" | "painting";
+  isUserNamed?: boolean;
 }
 
 export const PATCH: RequestHandler = async ({ request, locals }) => {
@@ -54,9 +55,12 @@ export const PATCH: RequestHandler = async ({ request, locals }) => {
           const newName = update.name.trim();
           if (newName.length > 0) {
             person.name = newName;
+            // Explicitly mark as user-named if name is being changed
+            person.isUserNamed = true;
           }
         }
 
+        if (update.isUserNamed !== undefined) person.isUserNamed = update.isUserNamed;
         if (update.hidden !== undefined) person.hidden = update.hidden;
         if (update.junk !== undefined) person.junk = update.junk;
         if (update.category !== undefined) {

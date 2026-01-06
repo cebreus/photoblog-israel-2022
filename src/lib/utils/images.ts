@@ -34,12 +34,25 @@ function reclassifyCollages(m: Manifest): Manifest {
   return cloned;
 }
 
+/** Normalizes people manifest data by ensuring isUserNamed is set */
+function normalizePeople(m: PeopleManifest): PeopleManifest {
+  const cloned = structuredClone(m);
+  if (cloned?.people) {
+    for (const person of cloned.people) {
+      if (person.isUserNamed === undefined) {
+        person.isUserNamed = !person.id.startsWith("person-") || person.id.includes("--");
+      }
+    }
+  }
+  return cloned;
+}
+
 // Mutable manifests for dev-mode reloading
 let currentManifest: Manifest = reclassifyCollages(
   isValidManifest(manifest) ? manifest : { photoDays: [] },
 );
 let currentPeopleManifest: PeopleManifest = isValidPeopleManifest(peopleManifestImport)
-  ? peopleManifestImport
+  ? normalizePeople(peopleManifestImport)
   : { people: [] };
 let currentCurationManifest: CurationManifest = isValidCurationManifest(curationManifest)
   ? curationManifest
@@ -99,7 +112,7 @@ export async function reloadManifests() {
         const raw = await fsp.readFile(path.join(dataDir, "people.manifest.json"), "utf-8");
         const json = JSON.parse(raw);
         if (isValidPeopleManifest(json)) {
-          nextPeople = json;
+          nextPeople = normalizePeople(json);
         }
       } catch (_e) {}
 

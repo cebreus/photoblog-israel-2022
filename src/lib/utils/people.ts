@@ -16,8 +16,10 @@ function compareByNameThenFaceCount(a: Person, b: Person): number {
   // This distinction is crucial for separating "unknown" people from "identified" people
   // in the UI, ensuring that users see their identified friends/family first.
 
-  const isGeneric = (p: Person) =>
-    p.name.match(/^Person \d+$/) || p.name.toLowerCase().includes("odpojeno od");
+  const isGeneric = (p: Person) => {
+    if (p.isUserNamed !== undefined) return !p.isUserNamed;
+    return p.name.match(/^Person \d+$/) || p.name.toLowerCase().includes("odpojeno od");
+  };
 
   const aIsGeneric = isGeneric(a);
   const bIsGeneric = isGeneric(b);

@@ -272,6 +272,12 @@ export type Person = {
     category?: "person" | "statue" | "painting";
     createdAt: string;
     lastSeenAt: string;
+    /**
+     * Indicates whether this person was explicitly named by the user.
+     * If undefined, inferred from ID pattern (contains "--" in slug).
+     * @since 2026-01-06
+     */
+    isUserNamed?: boolean;
 };
 
 export type PeopleManifest = {

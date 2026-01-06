@@ -2,10 +2,15 @@ import fsp from "node:fs/promises";
 import path from "node:path";
 import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
+import { clearTaskStatus, saveTaskStatus } from "$lib/server/task-status";
 import { validateReassignInput } from "$lib/utils/api-validators";
 import { reloadManifests } from "$lib/utils/images";
 import { addReassignmentConstraints } from "$scripts/lib/faces/constraints";
-import { refreshPersonThumbnail, updateImagePersonReference } from "$scripts/lib/faces/people";
+import {
+  recalculateFaceCount,
+  refreshPersonThumbnail,
+  updateImagePersonReference,
+} from "$scripts/lib/faces/people";
 import { removeEmptyPersonFolder } from "$scripts/lib/gallery/cleanup";
 import { withManifestLock } from "$scripts/lib/manifests/lock";
 import {
@@ -44,6 +49,12 @@ export async function POST({ request, locals }: { request: Request; locals: App.
   const contentDir = process.env.CONTENT_DIR || "egypt-2025";
   const dataDir = path.resolve(process.cwd(), "src/data", contentDir);
   const facesDir = path.resolve(process.cwd(), "static", contentDir, "faces");
+
+  // Set task status before starting
+  await saveTaskStatus(dataDir, {
+    id: "face-reassignment",
+    label: "Přeřazování obličejů...",
+  });
 
   try {
     return await withManifestLock(dataDir, async function () {
@@ -88,8 +99,11 @@ export async function POST({ request, locals }: { request: Request; locals: App.
           }
         }
 
-        sourcePerson.faceCount = Math.max(0, sourcePerson.faceCount - movedCount);
-        targetPerson.faceCount += movedCount;
+        sourcePerson.faceCount = recalculateFaceCount(sourcePersonId, imagesManifest);
+        targetPerson.faceCount = recalculateFaceCount(targetPersonId, imagesManifest);
+
+        // Ensure target person has a valid thumbnail (especially if it was empty or changed)
+        await refreshPersonThumbnail(targetPerson, facesDir);
 
         await addReassignmentConstraints(dataDir, imageIds, sourcePersonId, targetPersonId);
 
@@ -139,5 +153,7 @@ export async function POST({ request, locals }: { request: Request; locals: App.
       { success: false, error: err instanceof Error ? err.message : String(err) },
       { status: 500 },
     );
+  } finally {
+    await clearTaskStatus(dataDir);
   }
 }

@@ -1,8 +1,8 @@
 // Re-export shared manifest types used across build and runtime
-export * from "$shared/types/manifest";
+export * from "../../../shared/types/manifest";
 
 // Import types for use in local types
-import type { QualityBucket } from "$shared/types/manifest";
+import type { QualityBucket } from "../../../shared/types/manifest";
 
 // ==========================================
 // UI & App-Specific Types Below
@@ -160,6 +160,12 @@ export type Person = {
   category?: "person" | "statue" | "painting";
   createdAt: string;
   lastSeenAt: string;
+  /**
+   * Indicates whether this person was explicitly named by the user.
+   * If undefined, inferred from ID pattern (contains "--" in slug).
+   * @since 2026-01-06
+   */
+  isUserNamed?: boolean;
 };
 
 export type PeopleManifest = {

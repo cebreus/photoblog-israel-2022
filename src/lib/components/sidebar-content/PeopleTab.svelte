@@ -11,9 +11,11 @@
   import * as Dialog from "$lib/components/ui/dialog";
   import { Separator } from "$lib/components/ui/separator";
   import * as Sidebar from "$lib/components/ui/sidebar";
+  import TaskOverlay from "$lib/components/ui/TaskOverlay.svelte";
   import { createLogger } from "$lib/logger";
   import { filters } from "$lib/stores/filters.svelte";
   import { people } from "$lib/stores/people.svelte";
+  import { system } from "$lib/stores/system.svelte";
   import type { ImageEntry, Person } from "$lib/types/manifest";
   import { tracedFetch } from "$lib/utils/api";
   import { GENERIC_MESSAGES, PERSON_MESSAGES } from "$lib/utils/messages";
@@ -29,8 +31,10 @@
 
   // Helper to split people into Named (A-Z) and Generic (Face Count) groups
   function splitAndSortPeople(list: Person[]) {
-    const isGeneric = (p: Person) =>
-      p.name.match(/^Person \d+$/) || p.name.toLowerCase().includes("odpojeno od");
+    const isGeneric = (p: Person) => {
+      if (p.isUserNamed !== undefined) return !p.isUserNamed;
+      return p.name.match(/^Person \d+$/) || p.name.toLowerCase().includes("odpojeno od");
+    };
 
     const sortByName = (a: Person, b: Person) =>
       a.name.localeCompare(b.name, "cs", { sensitivity: "base" });
@@ -56,6 +60,9 @@
   // Local alias for backward compatibility with existing code
   const apiUpdate = updatePeopleOrThrow;
 
+  // Derive processing state from system store
+  const isProcessing = $derived(system.activeTask !== null);
+
   // Subscribe to derived store with optimized stats
   let peopleList = $derived(people.peopleWithStats);
 
@@ -63,7 +70,7 @@
   const namedPeople = $derived(
     peopleList.filter(
       (p) =>
-        (!p.id.startsWith("person-") || p.id.includes("--")) &&
+        (p.isUserNamed ?? (!p.id.startsWith("person-") || p.id.includes("--"))) &&
         !p.junk &&
         !p.hidden &&
         !p.name.toLowerCase().includes("odpojeno od"),
@@ -90,7 +97,6 @@
   let processingIds = $state(new Set<string>());
   // Initialize to 0 to avoid hydration mismatch - will be set to actual timestamp on client
   let lastUpdateTimestamp = $state(0);
-
   function setProcessing(id: string, busy: boolean) {
     if (busy) processingIds.add(id);
     else processingIds.delete(id);
@@ -600,8 +606,8 @@
     // 1. Prefer custom names (not starting with 'person-')
     // 2. Prefer higher face count
     selectedPeopleData.sort((a, b) => {
-      const aIsCustom = !a.id.startsWith("person-");
-      const bIsCustom = !b.id.startsWith("person-");
+      const aIsCustom = a.isUserNamed ?? !a.id.startsWith("person-");
+      const bIsCustom = b.isUserNamed ?? !b.id.startsWith("person-");
       if (aIsCustom && !bIsCustom) return -1; // a comes first (target)
       if (!aIsCustom && bIsCustom) return 1;
       return b.faceCount - a.faceCount; // higher count comes first
@@ -960,10 +966,11 @@
   <!-- Merge Confirm Dialog -->
   {#if selectedForMerge.length >= 2}
     {@const selectedPeopleData = [...peopleList]
+      // 1. Prefer custom names
       .filter((p) => selectedForMerge.includes(p.id))
       .sort((a, b) => {
-        const aIsCustom = !a.id.startsWith("person-");
-        const bIsCustom = !b.id.startsWith("person-");
+        const aIsCustom = a.isUserNamed ?? !a.id.startsWith("person-");
+        const bIsCustom = b.isUserNamed ?? !b.id.startsWith("person-");
         if (aIsCustom && !bIsCustom) return -1;
         if (!aIsCustom && bIsCustom) return 1;
         return b.faceCount - a.faceCount;
@@ -997,4 +1004,6 @@
       }}
     />
   {/if}
+
+  <TaskOverlay />
 </div>
