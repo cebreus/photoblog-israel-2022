@@ -107,7 +107,11 @@
   let selectedImages = $derived(
     items.filter(
       (item: DisplayItem) =>
-        (item.type === "image" || item.type === "sequence" || item.type === "sequence-member") &&
+        (item.type === "image" ||
+          item.type === "sequence" ||
+          item.type === "sequence-member" ||
+          item.type === "panorama" ||
+          item.type === "collage") &&
         editor.selection.has(item.id),
     ) as ImageEntry[],
   );

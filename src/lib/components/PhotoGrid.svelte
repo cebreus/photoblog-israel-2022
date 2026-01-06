@@ -227,7 +227,12 @@
   function handleArchive(item: ImageEntry) {
     if (editor.selection.has(item.id) && editor.selection.size > 1) {
       imagesToArchive = items.filter(
-        (i: DisplayItem): i is ImageEntry => i.type === "image" && editor.selection.has(i.id),
+        (i: DisplayItem): i is ImageEntry =>
+          (i.type === "image" ||
+            i.type === "sequence" ||
+            i.type === "panorama" ||
+            i.type === "collage") &&
+          editor.selection.has(i.id),
       );
     } else {
       imagesToArchive = [item];
@@ -273,7 +278,11 @@
       // Paste to all selected - search allPhotoDayItems to include hidden sequence members
       const selected = allPhotoDayItems.filter(
         (i: DisplayItem): i is ImageEntry =>
-          (i.type === "image" || i.type === "sequence" || i.type === "sequence-member") &&
+          (i.type === "image" ||
+            i.type === "sequence" ||
+            i.type === "sequence-member" ||
+            i.type === "panorama" ||
+            i.type === "collage") &&
           editor.selection.has(i.id),
       );
       logger.debug(
@@ -303,7 +312,11 @@
         const baseId = item.sequenceInfo.baseId;
         const allMembers = allPhotoDayItems.filter(
           (i: DisplayItem): i is ImageEntry =>
-            (i.type === "image" || i.type === "sequence" || i.type === "sequence-member") &&
+            (i.type === "image" ||
+              i.type === "sequence" ||
+              i.type === "sequence-member" ||
+              i.type === "panorama" ||
+              i.type === "collage") &&
             i.sequenceInfo?.baseId === baseId,
         );
         pasteTargets = allMembers.filter((i: ImageEntry) => i.id !== clipboard.sourceImage?.id);
@@ -418,7 +431,11 @@
       // Reset for all selected - include hidden sequence members
       targetImages = allPhotoDayItems.filter(
         (i: DisplayItem): i is ImageEntry =>
-          (i.type === "image" || i.type === "sequence" || i.type === "sequence-member") &&
+          (i.type === "image" ||
+            i.type === "sequence" ||
+            i.type === "sequence-member" ||
+            i.type === "panorama" ||
+            i.type === "collage") &&
           editor.selection.has(i.id),
       );
     } else if (item.sequenceInfo && !onlyThis) {
@@ -426,7 +443,11 @@
       const baseId = item.sequenceInfo.baseId;
       targetImages = allPhotoDayItems.filter(
         (i: DisplayItem): i is ImageEntry =>
-          (i.type === "image" || i.type === "sequence" || i.type === "sequence-member") &&
+          (i.type === "image" ||
+            i.type === "sequence" ||
+            i.type === "sequence-member" ||
+            i.type === "panorama" ||
+            i.type === "collage") &&
           i.sequenceInfo?.baseId === baseId,
       );
     } else {
@@ -649,7 +670,11 @@
       // Include: "sequence" (representative), "sequence-member" (hidden members), "image" with sequenceInfo
       const allMembers = allPhotoDayItems.filter(
         (i: DisplayItem): i is ImageEntry =>
-          (i.type === "image" || i.type === "sequence" || i.type === "sequence-member") &&
+          (i.type === "image" ||
+            i.type === "sequence" ||
+            i.type === "sequence-member" ||
+            i.type === "panorama" ||
+            i.type === "collage") &&
           i.sequenceInfo?.baseId === baseId,
       );
       const memberIds = allMembers.map((m: ImageEntry) => m.id);
