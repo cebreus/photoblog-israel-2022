@@ -29,6 +29,8 @@
       siteManifest: SiteManifest;
       curationManifest?: CurationManifest;
       qualityStats: Map<string, number>;
+      mediaStats: Map<string, number>;
+      snapshotStats: { total: number; author: number; others: number };
       photoDays: PhotoDay[];
       peopleManifest: PeopleManifest;
     };
@@ -104,6 +106,8 @@
     menuItems={data.menuItems}
     authors={data.authors}
     qualityStats={data.qualityStats}
+    mediaStats={data.mediaStats}
+    snapshotStats={data.snapshotStats}
     side="right"
   />
 </Sidebar.Provider>

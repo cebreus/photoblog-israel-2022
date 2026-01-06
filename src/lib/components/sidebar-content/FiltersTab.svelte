@@ -25,9 +25,16 @@
     slug?: string;
   };
 
-  let { authors = [], qualityStats = new Map() } = $props<{
+  let {
+    authors = [],
+    qualityStats = new Map(),
+    mediaStats = new Map(),
+    snapshotStats = { total: 0, author: 0, others: 0 },
+  } = $props<{
     authors?: AuthorStats[];
     qualityStats?: Map<string, number>;
+    mediaStats?: Map<string, number>;
+    snapshotStats?: { total: number; author: number; others: number };
   }>();
 
   let totalPhotos = $state(0);
@@ -298,14 +305,19 @@
       <div class="grid gap-2">
         {#each MEDIA_TYPES as type}
           {@const isChecked = isMediaTypeActive(type.id)}
+          {@const count = mediaStats.get(type.id) ?? 0}
           <label
             class={`flex cursor-pointer items-center justify-between text-sm ${
               isChecked ? "text-primary" : "text-slate-100"
-            }`}
+            } ${count === 0 ? "opacity-50" : ""}`}
           >
-            <span>{type.label}</span>
+            <span class="flex items-center gap-2">
+              <span>{type.label}</span>
+              <Badge variant="outline">{count}</Badge>
+            </span>
             <Switch
               checked={isChecked}
+              disabled={count === 0}
               onCheckedChange={(c) => handleMediaTypeToggle(type.id, c)}
               aria-label={`Filtr ${type.label}`}
             />
@@ -328,12 +340,16 @@
               <label
                 class={`flex cursor-pointer items-center justify-between text-sm ${
                   filters.onlySnapshots ? "text-primary" : "text-slate-100"
-                }`}
+                } ${snapshotStats.total === 0 ? "opacity-50" : ""}`}
                 data-testid="filters-tab-only-snapshots-control"
               >
-                <span><b>Pouze momentky</b></span>
+                <span class="flex items-center gap-2">
+                  <span><b>Pouze momentky</b></span>
+                  <Badge variant="outline">{snapshotStats.total}</Badge>
+                </span>
                 <Switch
                   bind:checked={filters.onlySnapshots}
+                  disabled={snapshotStats.total === 0}
                   aria-label={filters.onlySnapshots
                     ? "Zobrazit všechny fotky"
                     : "Zobrazit pouze momentky"}
@@ -344,12 +360,16 @@
               <label
                 class={`flex cursor-pointer items-center justify-between text-sm ${
                   filters.showAuthorSnapshots ? "text-primary" : "text-slate-100"
-                }`}
+                } ${snapshotStats.author === 0 ? "opacity-50" : ""}`}
                 data-testid="filters-tab-author-snapshots-control"
               >
-                <span>Zobrazit momentky autora</span>
+                <span class="flex items-center gap-2">
+                  <span>Zobrazit momentky autora</span>
+                  <Badge variant="outline">{snapshotStats.author}</Badge>
+                </span>
                 <Switch
                   bind:checked={filters.showAuthorSnapshots}
+                  disabled={snapshotStats.author === 0}
                   aria-label={filters.showAuthorSnapshots
                     ? "Skrýt momentky autora"
                     : "Zobrazit momentky autora"}
@@ -360,12 +380,16 @@
               <label
                 class={`flex cursor-pointer items-center justify-between text-sm ${
                   filters.showOthersSnapshots ? "text-primary" : "text-slate-100"
-                }`}
+                } ${snapshotStats.others === 0 ? "opacity-50" : ""}`}
                 data-testid="filters-tab-others-snapshots-control"
               >
-                <span>Zobrazit další momentky</span>
+                <span class="flex items-center gap-2">
+                  <span>Zobrazit další momentky</span>
+                  <Badge variant="outline">{snapshotStats.others}</Badge>
+                </span>
                 <Switch
                   bind:checked={filters.showOthersSnapshots}
+                  disabled={snapshotStats.others === 0}
                   aria-label={filters.showOthersSnapshots
                     ? "Skrýt další momentky"
                     : "Zobrazit další momentky"}
@@ -394,7 +418,7 @@
                   <label
                     class={`flex cursor-pointer items-center justify-between text-sm ${
                       isActive ? "text-primary" : "text-slate-100"
-                    }`}
+                    } ${count === 0 ? "opacity-50" : ""}`}
                     data-testid={`filters-tab-quality-${bucket.id}`}
                   >
                     <span class="flex items-center gap-2">
@@ -403,6 +427,7 @@
                     </span>
                     <Switch
                       checked={isActive}
+                      disabled={count === 0}
                       aria-label={isActive
                         ? `Vypnout filtr ${bucket.label}`
                         : `Zapnout filtr ${bucket.label}`}

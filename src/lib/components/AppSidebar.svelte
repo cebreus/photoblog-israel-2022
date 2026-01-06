@@ -28,6 +28,8 @@
     menuItems = [],
     authors = [],
     qualityStats = new Map(),
+    mediaStats = new Map(),
+    snapshotStats = { total: 0, author: 0, others: 0 },
     ref = $bindable(null),
     collapsible = "offcanvas",
     side = "right",
@@ -36,6 +38,8 @@
     menuItems: MenuManifest;
     authors: AuthorStats[];
     qualityStats?: Map<string, number>;
+    mediaStats?: Map<string, number>;
+    snapshotStats?: { total: number; author: number; others: number };
   } = $props();
 
   // Derive items for EditTab
@@ -133,7 +137,7 @@
     </Tabs.Content>
     <Tabs.Content value="filters" class="mt-0 flex h-full flex-col overflow-hidden">
       <Sidebar.Content>
-        <FiltersTab {authors} {qualityStats} />
+        <FiltersTab {authors} {qualityStats} {mediaStats} {snapshotStats} />
       </Sidebar.Content>
     </Tabs.Content>
     <Tabs.Content value="people" class="mt-0 flex h-full flex-col overflow-hidden">
