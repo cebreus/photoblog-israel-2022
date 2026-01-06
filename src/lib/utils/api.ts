@@ -11,11 +11,21 @@ export async function tracedFetch(url: string, options: RequestInit = {}): Promi
   const traceId = crypto.randomUUID();
 
   // Logujeme záměr provést akci na frontendu
+  let parsedBody: unknown;
+  if (options.body && typeof options.body === "string") {
+    try {
+      parsedBody = JSON.parse(options.body);
+    } catch {
+      parsedBody = options.body;
+    }
+  }
+
   log.info(
     {
       traceId,
       url,
       method: options.method || "GET",
+      body: parsedBody,
     },
     "FE Trace: Initiating API call",
   );
