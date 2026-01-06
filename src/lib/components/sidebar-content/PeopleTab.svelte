@@ -897,7 +897,7 @@
       {#if people.junkPeople.length > 0 && dev}
         <Accordion.Item value="junk" data-testid="people-tab-junk-section">
           <Accordion.Trigger class="text-destructive px-4 py-3 text-sm font-medium">
-            Odpad ({people.junkPeople.length})
+            Koš ({people.junkPeople.length})
           </Accordion.Trigger>
           <Accordion.Content class="mb-2 grid grid-cols-3 gap-2 px-4 pt-2 pb-1">
             {@render personGrid(people.junkPeople, "junk")}

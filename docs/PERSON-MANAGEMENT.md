@@ -14,7 +14,7 @@ Tento dokument definuje principy správy osob, automatické detekce a manuální
 | **Odepnutí (Disconnect)**    | Akce rozbití vztahu mezi konkrétní tváří a skupinou. Tvář se oddělí do nové vlastní entity.                                            |
 | **Sloučení (Merge)**         | Spojení dvou nebo více entit do jedné. Cílová entita absorbuje všechna vizuální data a pravidla.                                       |
 | **Skrytí (Hidden)**          | Příznak (`hidden: true`), který entitu přesouvá do sekce "Skryté". Entita je stále v hlavní kategorii, ale vizuálně potlačena.         |
-| **Odpad (Junk Person)**      | "Nezajímavá" osoba (např. turista v pozadí). Má příznak `junk: true`. Clustering ji ignoruje. Lze kdykoliv vrátit.                     |
+| **Koš (Junk Person)**        | "Nezajímavá" osoba (např. turista v pozadí). Má příznak `junk: true`. Clustering ji ignoruje. Lze kdykoliv vrátit.                     |
 | **Zneplatnění (Invalidate)** | Oznaceni detekce jako "není tvář" (stín, kámen). Odstraní se z manifestu a souřadnice se zapíšou do `invalidDetections` v constraints. |
 | **Přejmenování (Rename)**    | Změna jména a technického ID. Vyžaduje unikátnost.                                                                                     |
 
@@ -29,7 +29,7 @@ Systém poskytuje dva hlavní prvky pro správu entit:
 - **Editace:** Kliknutím na jméno entity můžete přímo přejmenovat (v dev módu).
 - **Skrytí:** Ikona oka (`EyeOff`) přepíná příznak `hidden`.
 - **Sekce "Skryté":** Expandovatelný accordion pro entity s příznakem `hidden: true`.
-- **Sekce "Odpad":** Expandovatelný accordion pro nezajímavé osoby (`junk: true`).
+- **Sekce "Koš":** Expandovatelný accordion pro nezajímavé osoby (`junk: true`).
 - **Sekce "Zneplatněné detekce":** Seznam smazaných detekcí, u kterých AI v budoucnu nemá nic hledat.
 - **Kategorie:** Accordiony pro "Osoby", "Sochy", "Malby".
 
@@ -76,9 +76,9 @@ Při **Odepnutí** nově vzniklá entita **dědí kategorii** původní entity.
   - Entita se přesunuje do sekce "Skryté".
   - Používá se pro lidi, které znáte, ale nechcete je mít v hlavním seznamu.
 
-- **Odpad (Junk Person):**
+- **Koš (Junk Person):**
   - Příznak `junk: true`.
-  - Entita se přesune do sekce "Odpad".
+  - Entita se přesune do sekce "Koš".
   - **Clustering tuto osobu ignoruje** (nehledá ji na nových fotkách).
   - Používá se pro náhodné kolemjdoucí, které nechcete mazat, ale ani identifikovat.
 
