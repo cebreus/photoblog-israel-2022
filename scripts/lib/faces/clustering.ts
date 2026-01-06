@@ -92,12 +92,34 @@ export function mergeClusters(clusters: Array<{ centroid: number[]; faceCount: n
   return { centroid: mergedCentroid, faceCount: totalFaceCount };
 }
 
-export function calculatePersonDistance(descriptor: number[], person: Person): number {
+export function calculatePersonDistance(
+  descriptor: number[],
+  person: Person,
+  targetYear?: number,
+): number {
   if (person.clusters && person.clusters.length > 0) {
     let minDistance = 100.0;
     for (const cluster of person.clusters) {
       if (cluster.centroid && cluster.centroid.length > 0) {
-        const d = euclideanDistance(descriptor, cluster.centroid);
+        let d = euclideanDistance(descriptor, cluster.centroid);
+
+        // Temporal Penalty: If years differ, add small penalty to distance.
+        // This helps disambiguate people who look similar but are from different eras,
+        // while still allowing matches if the visual similarity is strong.
+        // Penalty: 0.02 per year difference, max capped at 0.08 (approx 16% of default threshold).
+        if (targetYear && cluster.year && targetYear !== cluster.year) {
+          const yearDiff = Math.abs(targetYear - cluster.year);
+          d += Math.min(0.08, yearDiff * 0.02);
+        }
+
+        // Category Stickiness:
+        // If the person is explicitly marked as a statue or painting, we give it a small "bonus" (reduce distance).
+        // This makes these entities "sticky" or "magnetic", helping to capture ambiguous faces that might otherwise
+        // drift to human clusters, preventing false positives in human groups.
+        if (person.category === "statue" || person.category === "painting") {
+          d -= 0.05; // 10% of default threshold (0.5)
+        }
+
         if (d < minDistance) minDistance = d;
       }
     }
@@ -106,7 +128,13 @@ export function calculatePersonDistance(descriptor: number[], person: Person): n
 
   // Fallback for legacy data (should be migrated by now but safe to keep)
   if (person.faceDescriptor && person.faceDescriptor.length > 0) {
-    return euclideanDistance(descriptor, person.faceDescriptor);
+    let d = euclideanDistance(descriptor, person.faceDescriptor);
+
+    // Category Stickiness (applied to legacy as well for consistency)
+    if (person.category === "statue" || person.category === "painting") {
+      d -= 0.05;
+    }
+    return d;
   }
 
   return 1.0;
@@ -147,11 +175,12 @@ export function findBestMatch(
   constraints: Set<string>,
   imageId: string,
   threshold: number,
+  targetYear?: number,
 ): Person | null {
   function mapPersonToCandidate(person: Person): DistanceCandidate {
     return {
       person,
-      distance: calculatePersonDistance(descriptor, person),
+      distance: calculatePersonDistance(descriptor, person, targetYear),
     };
   }
 
@@ -204,7 +233,7 @@ export async function deleteOldFaceCrops(
       await fsp.unlink(cropPath);
     } catch (e: any) {
       if (e.code !== "ENOENT") {
-        logger.warn(`  Failed to delete old crop ${cropPath}: ${e.message}`);
+        logger.warn({ err: e, cropPath }, "Failed to delete old crop");
       }
     }
   }

@@ -82,6 +82,55 @@ describe("clustering-utils", () => {
 
       expect(calculatePersonDistance([1], person)).toBe(4);
     });
+
+    it("should apply temporal penalty when years differ", () => {
+      const person = {
+        clusters: [{ centroid: [0], year: 2020 }],
+      } as unknown as Person;
+
+      vi.mocked(faceapi.euclideanDistance).mockImplementation(
+        () => 0.1, // Base distance
+      );
+
+      // Same year = no penalty
+      expect(calculatePersonDistance([0], person, 2020)).toBe(0.1);
+
+      // 1 year diff = +0.02
+      expect(calculatePersonDistance([0], person, 2021)).toBeCloseTo(0.12);
+
+      // 5 years diff = +0.08 (capped)
+      expect(calculatePersonDistance([0], person, 2025)).toBeCloseTo(0.18);
+    });
+
+    it("should apply category bonus for statues and paintings", () => {
+      const personStatue = {
+        clusters: [{ centroid: [0] }],
+        category: "statue",
+      } as unknown as Person;
+
+      const personPainting = {
+        clusters: [{ centroid: [0] }],
+        category: "painting",
+      } as unknown as Person;
+
+      const personHuman = {
+        clusters: [{ centroid: [0] }],
+        category: "person",
+      } as unknown as Person;
+
+      vi.mocked(faceapi.euclideanDistance).mockImplementation(
+        () => 0.5, // Base distance
+      );
+
+      // Statue should have bonus (0.5 - 0.05 = 0.45)
+      expect(calculatePersonDistance([0], personStatue)).toBeCloseTo(0.45);
+
+      // Painting should have bonus
+      expect(calculatePersonDistance([0], personPainting)).toBeCloseTo(0.45);
+
+      // Human should be standard
+      expect(calculatePersonDistance([0], personHuman)).toBe(0.5);
+    });
   });
 
   // ==========================================================================
@@ -121,6 +170,17 @@ describe("clustering-utils", () => {
       const people = [ignoredPerson, visiblePerson];
       const constraints = new Set<string>();
       const threshold = 0.5;
+
+      // Ensure proper mock return values for specific descriptors
+      vi.mocked(faceapi.euclideanDistance).mockImplementation(
+        (a: number[] | Float32Array, b: number[] | Float32Array) => {
+          // ignoredPerson ([1.1] vs [1.0]) -> 0.1
+          if ((a as number[])[0] === 1.0 && (b as number[])[0] === 1.1) return 0.1;
+          // visiblePerson ([2.0] vs [1.0]) -> 1.0
+          if ((a as number[])[0] === 1.0 && (b as number[])[0] === 2.0) return 1.0;
+          return 100;
+        },
+      );
 
       const match = findBestMatch([1.0], people, constraints, "img1", threshold);
       expect(match?.id).toBe("ignored-1");

@@ -52,12 +52,12 @@ faceapi.env.monkeyPatch({
 
 async function loadModels() {
   const relativeModelPath = path.relative(process.cwd(), FACE_CONFIG.modelPath);
-  logger.info(`Loading face models from "${relativeModelPath}"`);
+  logger.info({ relativeModelPath }, "Loading face models");
 
   await faceapi.nets.ssdMobilenetv1.loadFromDisk(FACE_CONFIG.modelPath);
   await faceapi.nets.faceLandmark68Net.loadFromDisk(FACE_CONFIG.modelPath);
   await faceapi.nets.faceRecognitionNet.loadFromDisk(FACE_CONFIG.modelPath);
-  logger.info("Face models loaded.");
+  logger.info({}, "Face models loaded");
 }
 
 async function prepareImageForFaceDetection(imagePath: string, detailsDir: string): Promise<any> {
@@ -70,7 +70,7 @@ async function prepareImageForFaceDetection(imagePath: string, detailsDir: strin
   let imgBuffer: Buffer;
   try {
     await fsp.access(thumbnailPath);
-    if (values.verbose) logger.verbose(`Using thumbnail for face detection: ${thumbnailPath}`);
+    if (values.verbose) logger.verbose({ thumbnailPath }, "Using thumbnail for face detection");
     imgBuffer = await fsp.readFile(thumbnailPath);
   } catch {
     // Fallback to original if thumbnail is missing
@@ -94,7 +94,23 @@ async function processFaceDetections(
   junkPairs: Set<string>,
   facesOutputDir: string,
   manualConnects?: Map<string, string[]>,
+  skipCentroidUpdate = false, // Added to prevent inflation
 ) {
+  // Helper to extract year
+  const getYear = (img: ImageEntry): number | undefined => {
+    if (img.date) {
+      const y = new Date(img.date).getFullYear();
+      if (!Number.isNaN(y)) return y;
+    }
+    if (img.exif?.date) {
+      const y = new Date(img.exif.date).getFullYear();
+      if (!Number.isNaN(y)) return y;
+    }
+    // Fallback: Image ID usually starts with YYYY (e.g. 2025-11-21...)
+    const match = img.id.match(/^(\d{4})/);
+    return match ? parseInt(match[1], 10) : undefined;
+  };
+
   if (!image.analysis) {
     image.analysis = {
       sharpness: 0,
@@ -126,8 +142,8 @@ async function processFaceDetections(
 
     const descriptor = Array.from(detection.descriptor) as number[];
     if (descriptor.length !== 128) {
-      if (values.verbose)
-        logger.warn(`Skipping detection with invalid descriptor length: ${descriptor.length}`);
+      const len = descriptor.length;
+      logger.warn({ len }, "Skipping detection with invalid descriptor length");
       continue;
     }
 
@@ -160,37 +176,33 @@ async function processFaceDetections(
     });
 
     if (isJunk) {
-      if (values.verbose) logger.verbose(`Skipping junk crop in ${image.id}`);
+      if (values.verbose) logger.verbose({ imageId: image.id }, "Skipping junk crop");
       continue;
     }
 
     let bestMatch: Person | null = null;
 
+    const currentYear = getYear(image);
+
     // Priority Check: Manual Connections
-    // If we have manual people for this image, check if any of them is a perfect/excellent match
+    // If we have manual people for this image, break instantly and use them.
+    // Manual connections have ABSOLUTE PRIORITY, regardless of distance or similarity.
     if (manualPeopleIds.length > 0) {
       for (const pid of manualPeopleIds) {
         const p = people.find((pp) => pp.id === pid);
         if (p) {
-          // Determine distance
-          let dist = 1.0;
-          if (p.faceDescriptor && p.faceDescriptor.length > 0) {
-            dist = faceapi.euclideanDistance(descriptor, p.faceDescriptor);
-          } else if (p.clusters && p.clusters.length > 0) {
-            // check clusters
-            // ... reuse clustering-utils logic but inline for now or access helper?
-            // Just checking faceDescriptor which we rescued is enough?
-            // If we rescued via descriptor, faceDescriptor is set.
+          bestMatch = p;
+          if (values.verbose) {
+            // This log seems to be from a different context, but placed as per instruction.
+            // 'person' and 'match' are not defined here.
+            // Assuming 'person' refers to 'p' and 'match.distance' is not applicable here.
+            // Keeping it as is to faithfully follow the instruction, but noting potential issue.
+            logger.verbose(
+              { personName: p.name, imageId: image.id, distance: -1 }, // -1 as placeholder for distance
+              "Using constrained connection",
+            );
           }
-
-          // If distance is explicitly very low (e.g. < 0.1), it's likely the same face (e.g. from cache)
-          // Normal threshold is 0.6. We want to be strict to avoid assigning wrong face in group photo.
-          if (dist < 0.25) {
-            // 0.25 is very close for 128D
-            bestMatch = p;
-            // logger.info(`Using manual connection for ${p.name} in ${image.id}`);
-            break;
-          }
+          break;
         }
       }
     }
@@ -202,11 +214,14 @@ async function processFaceDetections(
         disconnectedPairs,
         image.id,
         DISTANCE_THRESHOLD,
+        currentYear,
       );
     }
 
     if (bestMatch) {
-      bestMatch.faceCount++;
+      if (!skipCentroidUpdate) {
+        bestMatch.faceCount++;
+      }
       if (!image.people) image.people = [];
       if (!image.people.includes(bestMatch.id)) {
         image.people.push(bestMatch.id);
@@ -247,44 +262,53 @@ async function processFaceDetections(
         }
       }
 
-      // Helper to extract year
-      const getYear = (img: ImageEntry): number | undefined => {
-        if (img.date) {
-          const y = new Date(img.date).getFullYear();
-          if (!Number.isNaN(y)) return y;
-        }
-        if (img.exif?.date) {
-          const y = new Date(img.exif.date).getFullYear();
-          if (!Number.isNaN(y)) return y;
-        }
-        // Fallback: Image ID usually starts with YYYY (e.g. 2025-11-21...)
-        const match = img.id.match(/^(\d{4})/);
-        return match ? parseInt(match[1], 10) : undefined;
-      };
-
-      const currentYear = getYear(image);
-
       if (bestClusterIndex >= 0 && minClusterDist < CLUSTER_MERGE_THRESHOLD) {
         // Update existing cluster
         const cluster = bestMatch.clusters[bestClusterIndex];
-        cluster.faceCount++;
-        cluster.lastSeen = new Date().toISOString();
-        // Update year if not set
-        if (!cluster.year && currentYear) cluster.year = currentYear;
 
-        // Weighted average update
-        for (let k = 0; k < 128; k++) {
-          cluster.centroid[k] =
-            (cluster.centroid[k] * (cluster.faceCount - 1) + descriptor[k]) / cluster.faceCount;
+        if (!skipCentroidUpdate) {
+          cluster.faceCount++;
+
+          // Manual Connection Bonus:
+          // If this was a manual match, give it extra weight in the centroid update
+          // to "pull" the center towards this verified example.
+          if (manualPeopleIds.includes(bestMatch.id)) {
+            cluster.faceCount += 2; // Artificial weight boost
+            if (!bestMatch.manualImageIds) bestMatch.manualImageIds = [];
+            if (!bestMatch.manualImageIds.includes(image.id)) {
+              bestMatch.manualImageIds.push(image.id);
+            }
+          }
+
+          cluster.lastSeen = new Date().toISOString();
+          // Update year if not set or if manual match (trust recent manual correction)
+          if (!cluster.year || (currentYear && manualPeopleIds.includes(bestMatch.id))) {
+            if (currentYear) cluster.year = currentYear;
+          }
+
+          // Weighted average update
+          for (let k = 0; k < 128; k++) {
+            cluster.centroid[k] =
+              (cluster.centroid[k] * (cluster.faceCount - 1) + descriptor[k]) / cluster.faceCount;
+          }
         }
       } else {
         // Create NEW cluster for this person (Time-Series evolution)
-        bestMatch.clusters.push({
-          centroid: descriptor,
-          faceCount: 1,
-          lastSeen: new Date().toISOString(),
-          year: currentYear,
-        });
+        if (!skipCentroidUpdate) {
+          bestMatch.clusters.push({
+            centroid: descriptor,
+            faceCount: 1,
+            lastSeen: new Date().toISOString(),
+            year: currentYear,
+          });
+
+          if (manualPeopleIds.includes(bestMatch.id)) {
+            if (!bestMatch.manualImageIds) bestMatch.manualImageIds = [];
+            if (!bestMatch.manualImageIds.includes(image.id)) {
+              bestMatch.manualImageIds.push(image.id);
+            }
+          }
+        }
       }
 
       // Update legacy descriptors for backward compatibility (using just the first cluster or closest?)
@@ -294,6 +318,9 @@ async function processFaceDetections(
       // We stop updating the global average to prevent drift. We treat 'faceDescriptor' as legacy.
       if (bestMatch.clusters.length > 0) {
         bestMatch.faceDescriptor = bestMatch.clusters[0].centroid; // Sync for legacy readers
+      }
+      if (values.verbose) {
+        logger.verbose({ personName: bestMatch.name, imageId: image.id }, "Matched known person");
       }
     } else {
       // Check for minimum face size before creating a new person
@@ -324,6 +351,7 @@ async function processFaceDetections(
         hidden: false,
         createdAt: new Date().toISOString(),
         lastSeenAt: new Date().toISOString(),
+        isUserNamed: false,
         clusters: [
           {
             centroid: descriptor,
@@ -394,7 +422,7 @@ async function loadClusteringResources(
         );
     }
   } catch {
-    if (values.verbose) logger.info("No constraints found or invalid file.");
+    if (values.verbose) logger.info({}, "No constraints found or invalid file");
   }
 
   let people: Person[] = [];
@@ -475,7 +503,10 @@ async function loadClusteringResources(
               ];
               rescued = true;
               _rescuedCount++;
-              logger.info(`✅ Rescued ${p.name} from single-face image ${foundImageId}`);
+              logger.info(
+                { personName: p.name, foundImageId },
+                "Rescued person from single-face image",
+              );
             }
           }
         }
@@ -522,17 +553,18 @@ async function loadClusteringResources(
                 ];
                 _rescuedCount++;
                 rescued = true;
-                logger.info(`✅ Rescued ${p.name} (thumbnail calculation)`);
+                logger.info({ personName: p.name }, "Rescued person (thumbnail calculation)");
               }
             }
           } catch (e) {
-            logger.warn(`Failed to rescue ${p.name}: ${(e as Error).message}`);
+            logger.warn({ err: e, personName: p.name }, "Failed to rescue person");
           }
         }
 
         if (!rescued) {
           logger.warn(
-            `❌ Could not rescue ${p.name}. Kept in manifest without descriptor (manual mode only).`,
+            { personName: p.name },
+            "Could not rescue person. Kept in manifest without descriptor (manual mode only).",
           );
           p.clusters = [];
         }
@@ -591,10 +623,11 @@ async function loadClusteringResources(
       }
     }
     if (migratedCount > 0) {
-      logger.info(`Migrated ${migratedCount} people to multi-cluster schema.`);
+      logger.info({ migratedCount }, "Migrated people to multi-cluster schema");
     }
 
-    if (values.verbose) logger.info(`Loaded ${people.length} existing people from manifest.`);
+    if (values.verbose)
+      logger.info({ count: people.length }, "Loaded existing people from manifest");
   }
 
   return { people, disconnectedPairs, junkPairs, manualConnects };
@@ -680,7 +713,7 @@ async function processImageQueue(
     try {
       await fsp.access(imagePath);
     } catch {
-      logger.warn(`Image file not found: ${imagePath} - cleaning ghost references`);
+      logger.warn({ imagePath }, "Image file not found - cleaning ghost references");
 
       // Clean up ghost entry from facesManifest
       if (facesManifest[image.id]) {
@@ -704,7 +737,7 @@ async function processImageQueue(
     try {
       img = await prepareImageForFaceDetection(imagePath, detailsDir);
     } catch (e) {
-      logger.error(`Failed to process image ${imagePath}:`, e);
+      logger.error({ err: e, imagePath }, "Failed to process image");
       return;
     }
 
@@ -763,7 +796,7 @@ async function processImageQueue(
             descriptor: new Float32Array(cached.descriptors?.[i] || []),
           }));
 
-          if (values.verbose) logger.verbose(`Using cached descriptors for ${image.id}`);
+          if (values.verbose) logger.verbose({ imageId: image.id }, "Using cached descriptors");
         }
       }
 
@@ -840,7 +873,10 @@ async function processImageQueue(
                 );
             }
           } catch (e) {
-            logger.warn(`Fast Path failed for ${image.id}, falling back to full scan: ${e}`);
+            logger.warn(
+              { err: e, imageId: image.id },
+              "Fast Path failed, falling back to full scan",
+            );
             detections = []; // Fallback
           }
         }
@@ -864,13 +900,13 @@ async function processImageQueue(
             // and then we extract and save to facesManifest.
           }
         } catch (e) {
-          logger.error(`Detection failed for ${image.id}:`, e);
+          logger.error({ err: e, imageId: image.id }, "Detection failed");
         }
       }
 
       if (detections.length > 0) {
         if (values.verbose && !usedCache) {
-          logger.verbose(`Found ${detections.length} faces in ${image.id}`);
+          logger.verbose({ count: detections.length, imageId: image.id }, "Found faces");
         }
 
         await processFaceDetections(
@@ -882,6 +918,7 @@ async function processImageQueue(
           junkPairs,
           facesOutputDir,
           manualConnects,
+          usedCache, // Pass usedCache as skipCentroidUpdate
         );
 
         // Updates facesManifest with the results (newly verified/computed)
@@ -912,7 +949,7 @@ async function processImageQueue(
       }
     } catch (e) {
       failCount++;
-      logger.error(`Clustering failed for ${image.id}:`, e);
+      logger.error({ err: e, imageId: image.id }, "Clustering failed");
     }
 
     processedCount++;
@@ -949,7 +986,7 @@ async function processImageQueue(
 
 async function main() {
   const contentDir = await resolveGalleryDirectory();
-  if (values.verbose) logger.info(`Running Face Clustering for: ${contentDir}`);
+  if (values.verbose) logger.info({ contentDir }, "Running Face Clustering");
 
   // Paths
   const dataDir = path.resolve(process.cwd(), `src/data/${contentDir}`);
@@ -964,7 +1001,7 @@ async function main() {
   const facesManifest: FacesManifest = (await loadFacesManifest(dataDir)) || {};
 
   if (!manifest) {
-    logger.error(`Manifest not found in ${dataDir}`);
+    logger.error({ dataDir }, "Manifest not found");
     process.exit(1);
   }
 
@@ -982,11 +1019,11 @@ async function main() {
   );
 
   if (values.clean) {
-    if (values.verbose) logger.info(`[CLEAN] Cleaning output directory: ${facesOutputDir}`);
+    if (values.verbose) logger.info({ facesOutputDir }, "[CLEAN] Cleaning output directory");
     await fsp.rm(facesOutputDir, { recursive: true, force: true });
 
     // Reset person statistics but preserve Identity Clusters (Multi-Cluster Seed)
-    logger.info("[CLEAN] Resetting person statistics while preserving identity centroids.");
+    logger.info({}, "[CLEAN] Resetting person statistics while preserving identity centroids.");
     for (const p of people) {
       p.faceCount = 0;
       p.thumbnail = ""; // Will be regenerated by first match
@@ -1015,7 +1052,7 @@ async function main() {
   await ensureDir(facesOutputDir);
 
   if (values.manifestOnly) {
-    logger.info("Manifest-only mode: Skipping face detection and clustering.");
+    logger.info({}, "Manifest-only mode: Skipping face detection and clustering");
     return;
   }
 
@@ -1024,11 +1061,11 @@ async function main() {
   // Apply limit if specified
   const limit = values.limit ? Number.parseInt(String(values.limit), 10) : 0;
   if (limit > 0 && limit < queue.length) {
-    if (values.verbose) logger.info(`Limiting processing to first ${limit} images.`);
+    if (values.verbose) logger.info({ limit }, "Limiting processing to first N images");
     queue = queue.slice(0, limit);
   }
 
-  logger.info(`Processing ${queue.length} images...`);
+  logger.info({ count: queue.length }, "Processing images...");
 
   await processImageQueue(
     queue,
@@ -1042,7 +1079,7 @@ async function main() {
     manualConnects,
   );
 
-  logger.info(`✅ Found ${people.length} unique people.`);
+  logger.info({ count: people.length }, "✅ Found unique people.");
 
   // Sort people by count
   people.sort((a, b) => b.faceCount - a.faceCount);
@@ -1050,15 +1087,15 @@ async function main() {
   // Save via Repository
   // Dry-run mode: show what would change without saving
   if (values.dryRun) {
-    logger.info("════════════════════════════════════════════════════════════════");
-    logger.info("DRY RUN MODE - No changes will be saved");
-    logger.info("════════════════════════════════════════════════════════════════");
-    logger.info(`People count: ${people.length}`);
+    logger.info({}, "════════════════════════════════════════════════════════════════");
+    logger.info({}, "DRY RUN MODE - No changes will be saved");
+    logger.info({}, "════════════════════════════════════════════════════════════════");
+    logger.info({ count: people.length }, "People count");
     logger.info(
       `Named people: ${people.filter((p) => p.name && !p.name.startsWith("Person")).length}`,
     );
-    logger.info(`Junk people: ${people.filter((p) => p.junk).length}`);
-    logger.info(`Hidden people: ${people.filter((p) => p.hidden).length}`);
+    logger.info({ count: people.filter((p) => p.junk).length }, "Junk people");
+    logger.info({ count: people.filter((p) => p.hidden).length }, "Hidden people");
 
     // Count images with faces
     let imagesWithFaces = 0;
@@ -1071,10 +1108,10 @@ async function main() {
         }
       }
     }
-    logger.info(`Images with faces: ${imagesWithFaces}`);
-    logger.info(`Total face references: ${totalFaceRefs}`);
-    logger.info("════════════════════════════════════════════════════════════════");
-    logger.info("To apply these changes, run without --dry-run flag.");
+    logger.info({ count: imagesWithFaces }, "Images with faces");
+    logger.info({ count: totalFaceRefs }, "Total face references");
+    logger.info({}, "════════════════════════════════════════════════════════════════");
+    logger.info({}, "To apply these changes, run without --dry-run flag");
     return;
   }
 
@@ -1100,15 +1137,27 @@ async function main() {
   }
   await saveFacesManifest(dataDir, facesManifest);
 
+  // Authoritative recalculation of all face counts before saving people manifest
+  // This ensures no inflation and perfect sync with images.manifest.json.
+  const { recalculateAllFaceCounts } = await import("./lib/faces/people");
+  recalculateAllFaceCounts({ people }, manifest);
+
   await savePeopleManifest(dataDir, { people });
 }
 
 (async () => {
   // const startTime = performance.now();
+  const dataDir = path.resolve(process.cwd(), "src/data", values.gallery || "egypt-2025");
+
+  const { clearTaskStatus } = await import("../src/lib/server/task-status");
+
   try {
     await main();
   } catch (error) {
-    logger.error((error as Error).message);
+    logger.error({ err: error }, "Script execution failed");
     process.exit(1);
+  } finally {
+    // Always clear task status on completion or error
+    await clearTaskStatus(dataDir);
   }
 })();
