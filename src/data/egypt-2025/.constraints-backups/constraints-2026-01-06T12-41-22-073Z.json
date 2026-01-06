@@ -49,10 +49,6 @@
       "personId": "person-d0efee91"
     },
     {
-      "imageId": "2025-11-26-080529-cebreus",
-      "personId": "person-183e8294"
-    },
-    {
       "imageId": "2025-11-23-131151-cebreus",
       "personId": "person-183e8294"
     },
@@ -161,15 +157,7 @@
       "personId": "person-6abf63c9"
     },
     {
-      "imageId": "2025-11-26-085808-bobina",
-      "personId": "person-6abf63c9"
-    },
-    {
       "imageId": "2025-11-23-131151-cebreus",
-      "personId": "person-f4999137"
-    },
-    {
-      "imageId": "2025-11-26-080529-cebreus",
       "personId": "person-f4999137"
     },
     {
@@ -195,6 +183,34 @@
     {
       "imageId": "2025-11-30-133909-dasa",
       "personId": "person-c1502128--odpojeno-od-person-15"
+    },
+    {
+      "imageId": "2025-11-24-210138-cebreus",
+      "personId": "person-6abf63c9"
+    },
+    {
+      "imageId": "2025-11-26-090727-cebreus",
+      "personId": "person-6abf63c9"
+    },
+    {
+      "imageId": "2025-11-26-192606-bobo",
+      "personId": "person-86077f36"
+    },
+    {
+      "imageId": "2025-11-30-165552-bobina",
+      "personId": "person-183e8294"
+    },
+    {
+      "imageId": "2025-11-26-095124-dasa",
+      "personId": "person-183e8294"
+    },
+    {
+      "imageId": "2025-11-26-100007-cebreus",
+      "personId": "person-183e8294"
+    },
+    {
+      "imageId": "2025-11-26-132422-cebreus",
+      "personId": "person-183e8294"
     }
   ],
   "invalidDetections": [
@@ -530,6 +546,60 @@
         "width": 380.18936920166016,
         "height": 471.1965923309327
       }
+    },
+    {
+      "imageId": "2025-11-28-143626-dasa",
+      "box": {
+        "x": 3884.524234771728,
+        "y": 1584.1660308837888,
+        "width": 68.97209930419922,
+        "height": 113.84815979003905
+      }
+    },
+    {
+      "imageId": "2025-11-24-201212-cebreus",
+      "box": {
+        "x": 3657.287178039551,
+        "y": 1543.9628677368162,
+        "width": 481.53385162353516,
+        "height": 593.5252532958986
+      }
+    },
+    {
+      "imageId": "2025-11-26-095523-cebreus",
+      "box": {
+        "x": 1619.9636592864988,
+        "y": 1504.5323524475095,
+        "width": 64.19610214233398,
+        "height": 97.15295791625981
+      }
+    },
+    {
+      "imageId": "2025-11-27-203021-bobina",
+      "box": {
+        "x": 1094.5185266435146,
+        "y": 1077.996850000669,
+        "width": 2930.4814733564854,
+        "height": 1745.3393439305974
+      }
+    },
+    {
+      "imageId": "2025-11-30-150413-bobina",
+      "box": {
+        "x": 1494.051378250122,
+        "y": 1674.059703826904,
+        "width": 69.28764724731445,
+        "height": 87.29719161987293
+      }
+    },
+    {
+      "imageId": "2025-11-28-160444-bobina",
+      "box": {
+        "x": 259.8630502505565,
+        "y": 1038.4965770244598,
+        "width": 60.36323886781228,
+        "height": 64.18985605239868
+      }
     }
   ],
   "connects": [
@@ -580,10 +650,6 @@
     {
       "imageId": "2025-11-24-210138-cebreus",
       "personId": "person-6abf63c9"
-    },
-    {
-      "imageId": "2025-11-26-080529-cebreus",
-      "personId": "person-9b0bc40f"
     },
     {
       "imageId": "2025-11-23-131151-cebreus",
@@ -682,10 +748,6 @@
       "personId": "person-9b0bc40f"
     },
     {
-      "imageId": "2025-11-26-085808-bobina",
-      "personId": "person-86077f36"
-    },
-    {
       "imageId": "2025-11-30-133909-dasa",
       "personId": "person-0db741fb"
     },
@@ -696,6 +758,26 @@
     {
       "imageId": "2025-11-30-133909-dasa",
       "personId": "person-f81afe06--odpojeno-od-person-15-2"
+    },
+    {
+      "imageId": "2025-11-24-210138-cebreus",
+      "personId": "person-9b0bc40f"
+    },
+    {
+      "imageId": "2025-11-30-165552-bobina",
+      "personId": "person-8d82ad6a--odpojeno-od-person-15-2"
+    },
+    {
+      "imageId": "2025-11-26-095124-dasa",
+      "personId": "person-540d94f5--odpojeno-od-person-15-4"
+    },
+    {
+      "imageId": "2025-11-26-100007-cebreus",
+      "personId": "person-70767217--odpojeno-od-person-15-5"
+    },
+    {
+      "imageId": "2025-11-26-132422-cebreus",
+      "personId": "person-b09a974a--odpojeno-od-person-15-6"
     }
   ]
 }
