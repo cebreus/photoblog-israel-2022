@@ -1,6 +1,13 @@
+import path from "node:path";
 import type { Handle } from "@sveltejs/kit";
 
 import { log as rootLogger } from "$lib/logger";
+import { startTaskWatcher } from "$lib/server/task-watcher";
+
+// Initialize task watchers for all galleries on server start
+const contentDir = process.env.CONTENT_DIR || "egypt-2025";
+const dataDir = path.resolve(process.cwd(), `src/data/${contentDir}`);
+await startTaskWatcher(contentDir, dataDir);
 
 export const handle: Handle = async ({ event, resolve }) => {
   // 1. Získáme traceId z FE, pokud existuje. Jinak vygenerujeme nové.

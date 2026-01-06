@@ -3,12 +3,17 @@ import fsp from "node:fs/promises";
 import path from "node:path";
 import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
+import { clearTaskStatus, saveTaskStatus } from "$lib/server/task-status";
 import { type PeopleManifest, type Person } from "$lib/types/manifest";
 import { validateUnmatchInput } from "$lib/utils/api-validators";
 import { reloadManifests } from "$lib/utils/images";
 import { toSlug } from "$lib/utils/strings";
 import { addReassignmentConstraints } from "$scripts/lib/faces/constraints";
-import { refreshPersonThumbnail, updateImagePersonReference } from "$scripts/lib/faces/people";
+import {
+  recalculateFaceCount,
+  refreshPersonThumbnail,
+  updateImagePersonReference,
+} from "$scripts/lib/faces/people";
 import { removeEmptyPersonFolder } from "$scripts/lib/gallery/cleanup";
 import { withManifestLock } from "$scripts/lib/manifests/lock";
 import {
@@ -69,6 +74,7 @@ function createNewPerson(
     createdAt: new Date().toISOString(),
     lastSeenAt: new Date().toISOString(),
     category: sourcePerson.category || "person",
+    isUserNamed: false,
   };
 
   peopleManifest.people.push(newPerson);
@@ -97,6 +103,12 @@ export async function POST({ request, locals }: { request: Request; locals: App.
   const contentDir = process.env.CONTENT_DIR || "egypt-2025";
   const dataDir = path.resolve(process.cwd(), "src/data", contentDir);
   const facesDir = path.resolve(process.cwd(), "static", contentDir, "faces");
+
+  // Set task status before starting
+  await saveTaskStatus(dataDir, {
+    id: "face-unmatch",
+    label: "Odpojování obličejů...",
+  });
 
   try {
     return await withManifestLock(dataDir, async function () {
@@ -155,8 +167,9 @@ export async function POST({ request, locals }: { request: Request; locals: App.
           }
         }
 
-        // Finalize source person
-        sourcePerson.faceCount = Math.max(0, sourcePerson.faceCount - imageIds.length);
+        // Finalize source person with authoritative recalculation
+        sourcePerson.faceCount = recalculateFaceCount(personId, imagesManifest);
+
         if (sourcePerson.faceCount <= 0) {
           peopleManifest.people = peopleManifest.people.filter((person) => person.id !== personId);
           await removeEmptyPersonFolder(facesDir, personId);
@@ -203,5 +216,7 @@ export async function POST({ request, locals }: { request: Request; locals: App.
   } catch (err) {
     log.error({ err }, "UNMATCH: Error");
     return json({ success: false, error: (err as Error).message }, { status: 500 });
+  } finally {
+    await clearTaskStatus(dataDir);
   }
 }

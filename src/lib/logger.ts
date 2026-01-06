@@ -50,16 +50,24 @@ const logger = pino({
       level: "info", // Transmit info and above to the server
       send: (level, logEvent) => {
         if (browser && dev) {
-          const msg = logEvent.messages[0];
-          const bindings = logEvent.bindings;
+          const { messages, bindings, ts } = logEvent;
+
+          // Find the first string to use as the message
+          const msgIndex = messages.findIndex((m) => typeof m === "string");
+          const msg = msgIndex !== -1 ? (messages[msgIndex] as string) : "";
+
+          // All other arguments (including objects) are passed as 'args'
+          const args = messages.filter((_, i) => i !== msgIndex);
+
           fetch("/api/log", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               level,
-              msg,
+              msg: msg || undefined,
+              args: args.length > 0 ? args : undefined,
               ...bindings,
-              ts: logEvent.ts,
+              ts,
             }),
           }).catch(() => {
             /* Silently fail if bridge is down */

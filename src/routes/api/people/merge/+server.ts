@@ -2,6 +2,7 @@ import fsp from "node:fs/promises";
 import path from "node:path";
 import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
+import { clearTaskStatus, saveTaskStatus } from "$lib/server/task-status";
 import {
   type FacesManifest,
   type ImageEntry,
@@ -15,6 +16,7 @@ import { toSlug } from "$lib/utils/strings";
 import { config } from "$scripts/build.config";
 import { mergeClusters } from "$scripts/lib/faces/clustering";
 import { migratePersonInConstraints } from "$scripts/lib/faces/constraints";
+import { recalculateFaceCount, refreshPersonThumbnail } from "$scripts/lib/faces/people";
 import { removeEmptyPersonFolder } from "$scripts/lib/gallery/cleanup";
 import { withManifestLock } from "$scripts/lib/manifests/lock";
 import {
@@ -219,6 +221,12 @@ export async function POST({ request, locals }: { request: Request; locals: App.
   const imagesDir = path.resolve(process.cwd(), "static", contentDir, "images");
   const picsDir = path.resolve(process.cwd(), `content/${contentDir}/pics`);
 
+  // Set task status before starting
+  await saveTaskStatus(dataDir, {
+    id: "person-merge",
+    label: "Slučování osob...",
+  });
+
   try {
     return await withManifestLock(dataDir, async () => {
       const peopleManifest = await loadPeopleManifest(dataDir);
@@ -266,19 +274,18 @@ export async function POST({ request, locals }: { request: Request; locals: App.
           }
 
           // Cleanup source
+          if (sourcePerson.isUserNamed) {
+            targetPerson.isUserNamed = true;
+          }
           peopleManifest.people = peopleManifest.people.filter((person) => person.id !== sourceId);
           await removeEmptyPersonFolder(facesDir, sourceId);
         }
 
-        // Recalculate faceCount
-        targetPerson.faceCount = 0;
-        for (const day of imagesManifest.photoDays) {
-          for (const item of day.items) {
-            if (isImageEntry(item) && item.people?.includes(targetPersonId)) {
-              targetPerson.faceCount++;
-            }
-          }
-        }
+        // Recalculate faceCount authoritatively
+        targetPerson.faceCount = recalculateFaceCount(targetPersonId, imagesManifest);
+
+        // Ensure target person has a valid thumbnail (especially if it was empty or changed)
+        await refreshPersonThumbnail(targetPerson, facesDir);
 
         await savePeopleManifest(dataDir, peopleManifest);
         await saveImagesManifest(dataDir, imagesManifest);
@@ -318,5 +325,7 @@ export async function POST({ request, locals }: { request: Request; locals: App.
       { success: false, error: err instanceof Error ? err.message : String(err) },
       { status: 500 },
     );
+  } finally {
+    await clearTaskStatus(dataDir);
   }
 }

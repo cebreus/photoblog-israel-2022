@@ -20,8 +20,16 @@ export const POST: RequestHandler = async ({ request }) => {
     };
 
     const methodName = levelMap[level as number] || "info";
+
+    // Flatten args if it's a single object to keep logs flat and readable
+    let logObj = rest;
+    if (Array.isArray(rest.args) && rest.args.length === 1 && typeof rest.args[0] === "object") {
+      const { args, ...others } = rest;
+      logObj = { ...others, ...args[0] };
+    }
+
     // biome-ignore lint/suspicious/noExplicitAny: dynamic method access
-    (child as any)[methodName](msg, rest);
+    (child as any)[methodName](logObj, msg);
 
     return json({ success: true });
   } catch (_err) {

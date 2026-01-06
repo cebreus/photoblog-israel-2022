@@ -6,6 +6,7 @@ import { exiftool } from "exiftool-vendored";
 import sharp from "sharp";
 import { getContentDir } from "$lib/config";
 import type { Logger } from "$lib/logger";
+import { clearTaskStatus, saveTaskStatus } from "$lib/server/task-status";
 import type { CollageItemConfig, CollageRequest, CollageResponse } from "$lib/types/collage";
 import {
   calculateLayout,
@@ -64,6 +65,15 @@ export async function POST({ request, locals }: RequestEvent): Promise<Response>
     return json({ success: false, error: COLLAGE_MESSAGES.DEV_ONLY }, { status: 403 });
   }
 
+  const contentDirName = getContentDir();
+  const dataPath = path.join(process.cwd(), "src/data", contentDirName);
+
+  // Set task status before starting
+  await saveTaskStatus(dataPath, {
+    id: "collage-generation",
+    label: "Vytváření koláže...",
+  });
+
   try {
     const startTotal = Date.now();
 
@@ -71,7 +81,6 @@ export async function POST({ request, locals }: RequestEvent): Promise<Response>
     log.info({ requestBody: body }, "Collage API: Received request");
     validateCollageRequest(body);
 
-    const contentDirName = getContentDir();
     const contentDirRoot = path.join(process.cwd(), "content", contentDirName);
 
     // Resolve source paths for requested image IDs.
@@ -274,6 +283,8 @@ export async function POST({ request, locals }: RequestEvent): Promise<Response>
       { success: false, error: err instanceof Error ? err.message : String(err) },
       { status: 500 },
     );
+  } finally {
+    await clearTaskStatus(dataPath);
   }
 }
 
