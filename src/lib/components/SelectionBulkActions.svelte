@@ -7,10 +7,12 @@
   import Palette from "@lucide/svelte/icons/palette";
   import User from "@lucide/svelte/icons/user";
   import UserMinus from "@lucide/svelte/icons/user-minus";
+  import { mergeProps } from "bits-ui";
 
   import { Button, buttonVariants } from "$lib/components/ui/button";
   import * as ButtonGroup from "$lib/components/ui/button-group";
   import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
+  import * as Tooltip from "$lib/components/ui/tooltip";
   import type { Person } from "$lib/types/manifest";
 
   interface Props {
@@ -103,54 +105,84 @@
 
   <ButtonGroup.Separator />
 
-  <!-- Primary Merge Action -->
-  <Button
-    variant="outline"
-    size="sm"
-    onclick={onMerge}
-    class="flex-1"
-    data-testid="{testId}-merge"
-    disabled={mergeBtnDisabled}
-  >
-    <Merge class="mr-2 h-4 w-4" />
-    Sloučit
-  </Button>
+  <Tooltip.Root>
+    <Tooltip.Trigger>
+      {#snippet child({ props })}
+        <Button
+          {...mergeProps(props)}
+          variant="outline"
+          size="sm"
+          onclick={onMerge}
+          class="flex-1"
+          data-testid="{testId}-merge"
+          disabled={mergeBtnDisabled}
+        >
+          <Merge class="mr-2 h-4 w-4" />
+          Sloučit
+        </Button>
+      {/snippet}
+    </Tooltip.Trigger>
+    <Tooltip.Content>Sloučit vybrané osoby do jedné</Tooltip.Content>
+  </Tooltip.Root>
 
   <!-- Primary Hide Action -->
-  <Button
-    variant="outline"
-    size="sm"
-    onclick={onHide}
-    class="flex-1"
-    data-testid="{testId}-hide"
-    disabled={hideBtnDisabled}
-  >
-    <EyeOff class="mr-2 h-4 w-4" />
-    Skrýt
-  </Button>
+  <Tooltip.Root>
+    <Tooltip.Trigger>
+      {#snippet child({ props })}
+        <Button
+          {...mergeProps(props)}
+          variant="outline"
+          size="sm"
+          onclick={onHide}
+          class="flex-1"
+          data-testid="{testId}-hide"
+          disabled={hideBtnDisabled}
+        >
+          <EyeOff class="mr-2 h-4 w-4" />
+          Skrýt
+        </Button>
+      {/snippet}
+    </Tooltip.Trigger>
+    <Tooltip.Content>Skrýt vybrané osoby z hlavního přehledu</Tooltip.Content>
+  </Tooltip.Root>
 
-  <Button
-    variant="outline"
-    size="sm"
-    onclick={onClear}
-    disabled={isGlobalDisabled}
-    data-testid="{testId}-clear"
-  >
-    Zrušit
-  </Button>
+  <Tooltip.Root>
+    <Tooltip.Trigger>
+      {#snippet child({ props })}
+        <Button
+          {...mergeProps(props)}
+          variant="outline"
+          size="sm"
+          onclick={onClear}
+          disabled={isGlobalDisabled}
+          data-testid="{testId}-clear"
+        >
+          Zrušit
+        </Button>
+      {/snippet}
+    </Tooltip.Trigger>
+    <Tooltip.Content>Zrušit výběr</Tooltip.Content>
+  </Tooltip.Root>
 
-  <!-- More Actions Dropdown (Always visible but trigger can be disabled if globally disabled) -->
   <DropdownMenu.Root>
-    <DropdownMenu.Trigger
-      class={buttonVariants({
-        variant: "outline",
-        size: "sm",
-      })}
-      disabled={isGlobalDisabled}
-      data-testid="{testId}-more-trigger"
-    >
-      <MoreHorizontal class="size-4" />
-    </DropdownMenu.Trigger>
+    <Tooltip.Root>
+      <Tooltip.Trigger>
+        {#snippet child({ props })}
+          <DropdownMenu.Trigger
+            {...mergeProps(props)}
+            class={buttonVariants({
+              variant: "outline",
+              size: "sm",
+            })}
+            disabled={isGlobalDisabled}
+            data-testid="{testId}-more-trigger"
+          >
+            <MoreHorizontal class="size-4" />
+          </DropdownMenu.Trigger>
+        {/snippet}
+      </Tooltip.Trigger>
+      <Tooltip.Content>Další akce</Tooltip.Content>
+    </Tooltip.Root>
 
     <DropdownMenu.Content align="end" class="w-56">
       <DropdownMenu.Item
@@ -211,7 +243,7 @@
         disabled={junkBtnDisabled}
       >
         <UserMinus class="mr-1 size-3.5" />
-        Přesunout do odpadu
+        Přesunout do koše
       </DropdownMenu.Item>
 
       <DropdownMenu.Item
@@ -220,7 +252,7 @@
         disabled={restoreJunkDisabled}
       >
         <Eye class="mr-1 size-3.5" />
-        Obnovit z odpadu {#if junkCount > 0}({junkCount}){/if}
+        Obnovit z koše {#if junkCount > 0}({junkCount}){/if}
       </DropdownMenu.Item>
 
       <DropdownMenu.Separator />

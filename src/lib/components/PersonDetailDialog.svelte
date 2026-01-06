@@ -61,7 +61,7 @@
 
       return {
         id: img.id,
-        src: `${urlPrefix}/faces/${person.id}/${img.id}.jpg`,
+        src: `${urlPrefix}/faces/${person.id}/${img.id}.jpg?v=${people.lastUpdateTimestamp}`,
         original: img,
         box,
       };
@@ -391,7 +391,7 @@
             >
               <div class="relative h-8 w-8 overflow-hidden rounded-full">
                 <img
-                  src={`${urlPrefix}/${person.thumbnail}`}
+                  src={`${urlPrefix}/${person.thumbnail}?v=${people.lastUpdateTimestamp}`}
                   class="h-full w-full object-cover"
                   alt={person.name}
                   data-testid="person-detail-header-thumbnail"
@@ -720,7 +720,7 @@
         >
           {#if p.thumbnail}
             <img
-              src={`${urlPrefix}/${p.thumbnail}`}
+              src={`${urlPrefix}/${p.thumbnail}?v=${people.lastUpdateTimestamp}`}
               class="h-8 w-8 shrink-0 rounded-full object-cover"
               alt={p.name}
             />
