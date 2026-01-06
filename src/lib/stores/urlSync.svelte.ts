@@ -266,12 +266,18 @@ export function syncUrlFromFilters() {
         /* ignore */
       }
       await goto(next, { replaceState: true, noScroll: true, keepFocus: true });
+
+      // Wait for SvelteKit page store and DOM to update using double RAF
+      // This is more reliable than arbitrary setTimeout and works across all devices
+      await new Promise<void>((resolve) => {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            resolve();
+          });
+        });
+      });
     } finally {
-      // Delay clearing filtersSyncing just enough to let the SvelteKit 'page' store catch up
-      // and for our own effect observers to see the change
-      setTimeout(() => {
-        filters.filtersSyncing = false;
-      }, 100);
+      filters.filtersSyncing = false;
     }
   }, 50);
 }
