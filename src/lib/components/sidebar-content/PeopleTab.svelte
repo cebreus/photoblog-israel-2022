@@ -1,7 +1,7 @@
 <script lang="ts">
   import { untrack } from "svelte";
   import { toast } from "svelte-sonner";
-  import { dev } from "$app/environment";
+  import { browser, dev } from "$app/environment";
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
   import PersonDetailDialog from "$lib/components/PersonDetailDialog.svelte";
@@ -186,7 +186,7 @@
 
   // Sync URL state for person detail (survives HMR/reload)
   $effect(() => {
-    const personId = page.url.searchParams.get("person");
+    const personId = browser ? page.url.searchParams.get("person") : null;
     const currentPeople = peopleList;
 
     untrack(() => {
@@ -210,7 +210,7 @@
 
   // When dialog is closed via UI (e.g. Escape or Click Outside), update URL
   $effect(() => {
-    if (!showPersonDetail) {
+    if (!showPersonDetail && browser) {
       const hasPersonParam = untrack(() => page.url.searchParams.has("person"));
       if (hasPersonParam) {
         const url = new URL(page.url);

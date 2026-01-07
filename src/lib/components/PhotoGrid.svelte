@@ -1,5 +1,6 @@
 <script lang="ts">
   import { toast } from "svelte-sonner";
+  import { browser } from "$app/environment";
   import { invalidateAll } from "$app/navigation";
   import { page } from "$app/state";
   import ArchiveImageDialog from "$lib/components/ArchiveImageDialog.svelte";
@@ -784,7 +785,9 @@
   // Combine store state with URL param to prevent layout shift during SSR/hydration
   let showMetadata = $derived(
     editor.showMetadataOverlay ||
-      (page.url.searchParams.has("overlay") && page.url.searchParams.get("overlay") !== "false"),
+      (browser &&
+        page.url.searchParams.has("overlay") &&
+        page.url.searchParams.get("overlay") !== "false"),
   );
 </script>
 

@@ -6,7 +6,7 @@
   import StretchHorizontal from "@lucide/svelte/icons/stretch-horizontal";
   import Trash2 from "@lucide/svelte/icons/trash-2";
   import { toast } from "svelte-sonner";
-  import { dev } from "$app/environment";
+  import { browser, dev } from "$app/environment";
   import { page } from "$app/state";
   import { useScrollspy } from "$lib/actions/scrollspy";
   import AspectRatioIcon from "$lib/components/AspectRatioIcon.svelte";
@@ -137,7 +137,9 @@
   // Combine store state with URL param to prevent layout shift during SSR/hydration
   let showMetadata = $derived(
     editor.showMetadataOverlay ||
-      (page.url.searchParams.has("overlay") && page.url.searchParams.get("overlay") !== "false"),
+      (browser &&
+        page.url.searchParams.has("overlay") &&
+        page.url.searchParams.get("overlay") !== "false"),
   );
 </script>
 
