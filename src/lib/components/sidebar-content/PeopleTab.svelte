@@ -1,17 +1,15 @@
 <script lang="ts">
   import { untrack } from "svelte";
   import { toast } from "svelte-sonner";
-  import { browser, dev } from "$app/environment";
-  import { goto } from "$app/navigation";
-  import { page } from "$app/state";
+
   import PersonDetailDialog from "$lib/components/PersonDetailDialog.svelte";
   import PersonMergeDialog from "$lib/components/PersonMergeDialog.svelte";
+  import TaskOverlay from "$lib/components/ui/TaskOverlay.svelte";
   import * as Accordion from "$lib/components/ui/accordion";
   import { Button } from "$lib/components/ui/button";
   import * as Dialog from "$lib/components/ui/dialog";
   import { Separator } from "$lib/components/ui/separator";
   import * as Sidebar from "$lib/components/ui/sidebar";
-  import TaskOverlay from "$lib/components/ui/TaskOverlay.svelte";
   import { createLogger } from "$lib/logger";
   import { filters } from "$lib/stores/filters.svelte";
   import { people } from "$lib/stores/people.svelte";
@@ -20,6 +18,10 @@
   import { tracedFetch } from "$lib/utils/api";
   import { GENERIC_MESSAGES, PERSON_MESSAGES } from "$lib/utils/messages";
   import { type MergeResponse, updatePeopleOrThrow } from "$lib/utils/people-actions";
+
+  import { browser, dev } from "$app/environment";
+  import { goto } from "$app/navigation";
+  import { page } from "$app/state";
 
   import SelectionBulkActions from "../SelectionBulkActions.svelte";
 
@@ -191,6 +193,9 @@
 
   // Sync URL state for person detail (survives HMR/reload)
   $effect(() => {
+    // Only allow handling person detail URL in dev mode
+    if (!dev) return;
+
     const personId = browser ? page.url.searchParams.get("person") : null;
     const currentPeople = peopleList;
 
@@ -227,6 +232,8 @@
 
   function openPersonDetail(person: Person, e?: MouseEvent) {
     e?.stopPropagation();
+
+    if (!dev) return;
 
     // Set URL - valid even if effect handles the rest, provides immediate feedback
     const url = new URL(page.url);
@@ -774,7 +781,7 @@
       {person}
       {getThumbnailSrc}
       onToggle={toggleMergeSelection}
-      onOpenDetail={openPersonDetail}
+      onOpenDetail={dev ? openPersonDetail : undefined}
       selected={selectedForMerge.includes(person.id)}
       testId={`people-tab-${testIdSuffix}-item`}
     />
@@ -791,7 +798,7 @@
       {person}
       {getThumbnailSrc}
       onToggle={toggleMergeSelection}
-      onOpenDetail={openPersonDetail}
+      onOpenDetail={dev ? openPersonDetail : undefined}
       selected={selectedForMerge.includes(person.id)}
       testId={`people-tab-${testIdSuffix}-item`}
     />
