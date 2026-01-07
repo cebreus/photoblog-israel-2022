@@ -305,12 +305,22 @@
         "firstPhotoExifDate": "2025-11-27T06:12:03"
       },
       {
-        "id": "loc-karnak-visitor-center-1339",
-        "label": "Karnak Visitor Center",
-        "href": "#loc-karnak-visitor-center-1339",
+        "id": "loc-karnak-1330",
+        "label": "Karnak",
+        "href": "#loc-karnak-1330",
         "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-27T13:39:35",
-        "startDate": "2025-11-27T13:39:35"
+        "firstPhotoExifDate": "2025-11-27T13:49:15",
+        "startDate": "2025-11-27T13:30:00",
+        "endDate": "2025-11-27T15:20:00"
+      },
+      {
+        "id": "loc-luxorsky-chram-1550",
+        "label": "Luxorský chrám",
+        "href": "#loc-luxorsky-chram-1550",
+        "isDimmed": false,
+        "firstPhotoExifDate": "2025-11-27T15:54:21",
+        "startDate": "2025-11-27T15:50:00",
+        "endDate": "2025-11-27T17:15:00"
       }
     ]
   },
@@ -320,66 +330,5 @@
     "label": "pátek 28. listopadu 2025",
     "href": "#day-2025-11-28",
     "locations": []
-  },
-  {
-    "id": "day-2025-11-29",
-    "date": "2025-11-29",
-    "label": "sobota 29. listopadu 2025",
-    "href": "#day-2025-11-29",
-    "locations": []
-  },
-  {
-    "id": "day-2025-11-30",
-    "date": "2025-11-30",
-    "label": "neděle 30. listopadu 2025",
-    "href": "#day-2025-11-30",
-    "locations": [
-      {
-        "id": "loc-aswan-botanical-garden-1506",
-        "label": "Aswan Botanical Garden",
-        "href": "#loc-aswan-botanical-garden-1506",
-        "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-30T15:06:50",
-        "startDate": "2025-11-30T15:06:50"
-      },
-      {
-        "id": "loc-nubijska-vesnice-1642",
-        "label": "Núbijská vesnice",
-        "href": "#loc-nubijska-vesnice-1642",
-        "isDimmed": false,
-        "firstPhotoExifDate": "2025-11-30T16:42:57",
-        "startDate": "2025-11-30T16:42:57"
-      }
-    ]
-  },
-  {
-    "id": "day-2025-12-01",
-    "date": "2025-12-01",
-    "label": "pondělí 1. prosince 2025",
-    "href": "#day-2025-12-01",
-    "locations": [
-      {
-        "id": "loc-chram-philae",
-        "label": "Chrám Philae",
-        "href": "#2025-12-01-073611-dasa",
-        "isDimmed": true,
-        "firstPhotoExifDate": "2025-12-01T08:36:11"
-      }
-    ]
-  },
-  {
-    "id": "day-2025-12-02",
-    "date": "2025-12-02",
-    "label": "úterý 2. prosince 2025",
-    "href": "#day-2025-12-02",
-    "locations": [
-      {
-        "id": "loc-blend-aqua-beach",
-        "label": "Blend Aqua beach",
-        "href": "#2025-12-02-111144-dasa",
-        "isDimmed": true,
-        "firstPhotoExifDate": "2025-12-02T12:11:44"
-      }
-    ]
   }
 ]

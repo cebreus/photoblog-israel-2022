@@ -1,6 +1,64 @@
 {
   "groups": [
     {
+      "id": "group-2025-11-26-092606-bobo",
+      "items": [
+        "2025-11-26-092606-bobo",
+        "2025-11-26-090727-cebreus"
+      ],
+      "bestCandidateId": "2025-11-26-090727-cebreus",
+      "similarity": 0.9281957349863708,
+      "recommendations": {
+        "2025-11-26-092606-bobo": {
+          "action": "delete",
+          "reason": "Lower resolution"
+        },
+        "2025-11-26-090727-cebreus": {
+          "action": "keep",
+          "reason": "Best candidate"
+        }
+      }
+    },
+    {
+      "id": "group-2025-11-27-160752-cebreus",
+      "items": [
+        "2025-11-27-160752-cebreus",
+        "2025-11-27-135919-cebreus",
+        "2025-11-27-143113-bobina",
+        "2025-11-27-151409-cebreus",
+        "2025-11-27-160318-bobina",
+        "2025-11-27-160445-cebreus"
+      ],
+      "bestCandidateId": "2025-11-27-160752-cebreus",
+      "similarity": 0.8987756074902377,
+      "recommendations": {
+        "2025-11-27-160752-cebreus": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "2025-11-27-135919-cebreus": {
+          "action": "delete",
+          "reason": "Lower aesthetics (53 vs 66)"
+        },
+        "2025-11-27-143113-bobina": {
+          "action": "delete",
+          "reason": "Lower resolution, Less sharp"
+        },
+        "2025-11-27-151409-cebreus": {
+          "action": "delete",
+          "reason": "Lower aesthetics (50 vs 66)"
+        },
+        "2025-11-27-160318-bobina": {
+          "action": "delete",
+          "reason": "Lower resolution, Lower aesthetics (58 vs 66), Less sharp"
+        },
+        "2025-11-27-160445-cebreus": {
+          "action": "delete",
+          "reason": "Lower aesthetics (52 vs 66)"
+        }
+      }
+    },
+    {
       "id": "group-2025-11-23-151444-cebreus-fixed",
       "items": [
         "2025-11-23-151444-cebreus-fixed",
@@ -89,11 +147,10 @@
         "2025-11-26-081030-cebreus--zoom1from4",
         "2025-11-26-081032-cebreus--zoom2from4",
         "2025-11-26-081034-cebreus--zoom3from4",
-        "2025-11-26-100538-cebreus",
-        "2025-11-26-100545-cebreus"
+        "2025-11-26-100538-cebreus"
       ],
       "bestCandidateId": "2025-11-26-080555-cebreus",
-      "similarity": 0.9255780749052107,
+      "similarity": 0.9316983766437013,
       "recommendations": {
         "2025-11-26-080112-cebreus": {
           "action": "delete",
@@ -118,8 +175,28 @@
         "2025-11-26-100538-cebreus": {
           "action": "delete",
           "reason": "Lower resolution"
+        }
+      }
+    },
+    {
+      "id": "group-2025-11-26-080508-cebreus",
+      "items": [
+        "2025-11-26-080508-cebreus",
+        "2025-11-26-093233-cebreus",
+        "2025-11-26-095124-dasa"
+      ],
+      "bestCandidateId": "2025-11-26-093233-cebreus",
+      "similarity": 0.9006343392097103,
+      "recommendations": {
+        "2025-11-26-080508-cebreus": {
+          "action": "delete",
+          "reason": "Lower resolution, Less sharp"
         },
-        "2025-11-26-100545-cebreus": {
+        "2025-11-26-093233-cebreus": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "2025-11-26-095124-dasa": {
           "action": "delete",
           "reason": "Lower resolution"
         }
@@ -133,15 +210,15 @@
         "2025-11-26-095057-cebreus"
       ],
       "bestCandidateId": "2025-11-26-095057-cebreus",
-      "similarity": 0.9082214315179503,
+      "similarity": 0.9119245997684362,
       "recommendations": {
         "2025-11-26-080834-cebreus": {
           "action": "delete",
-          "reason": "Lower aesthetics (67 vs 80), Less sharp"
+          "reason": "Lower aesthetics (67 vs 79), Less sharp"
         },
         "2025-11-26-091502-cebreus": {
           "action": "delete",
-          "reason": "Lower aesthetics (61 vs 80), Less sharp"
+          "reason": "Lower aesthetics (61 vs 79), Less sharp"
         },
         "2025-11-26-095057-cebreus": {
           "action": "keep",
@@ -150,21 +227,40 @@
       }
     },
     {
-      "id": "group-2025-11-26-092606-bobo",
+      "id": "group-2025-11-26-091433",
       "items": [
-        "2025-11-26-092606-bobo",
-        "2025-11-26-090727-cebreus"
+        "2025-11-26-091433",
+        "2025-11-26-081434-cebreus"
       ],
-      "bestCandidateId": "2025-11-26-090727-cebreus",
-      "similarity": 0.9344809376825515,
+      "bestCandidateId": "2025-11-26-091433",
+      "similarity": 0.9256029329593536,
       "recommendations": {
-        "2025-11-26-092606-bobo": {
-          "action": "delete",
-          "reason": "Lower resolution"
-        },
-        "2025-11-26-090727-cebreus": {
+        "2025-11-26-091433": {
           "action": "keep",
           "reason": "Best candidate"
+        },
+        "2025-11-26-081434-cebreus": {
+          "action": "delete",
+          "reason": "Lower resolution"
+        }
+      }
+    },
+    {
+      "id": "group-2025-11-26-123642-dasa",
+      "items": [
+        "2025-11-26-123642-dasa",
+        "2025-11-26-123817-dasa"
+      ],
+      "bestCandidateId": "2025-11-26-123642-dasa",
+      "similarity": 0.9170215383780801,
+      "recommendations": {
+        "2025-11-26-123642-dasa": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "2025-11-26-123817-dasa": {
+          "action": "delete",
+          "reason": "Lower resolution"
         }
       }
     },
@@ -188,25 +284,6 @@
       }
     },
     {
-      "id": "group-2025-11-26-125334-cebreus",
-      "items": [
-        "2025-11-26-125334-cebreus",
-        "2025-11-26-135431-cebreus"
-      ],
-      "bestCandidateId": "2025-11-26-125334-cebreus",
-      "similarity": 0.8942726415930634,
-      "recommendations": {
-        "2025-11-26-125334-cebreus": {
-          "action": "keep",
-          "reason": "Best candidate"
-        },
-        "2025-11-26-135431-cebreus": {
-          "action": "delete",
-          "reason": "Lower resolution"
-        }
-      }
-    },
-    {
       "id": "group-2025-11-26-125359-cebreus",
       "items": [
         "2025-11-26-125359-cebreus",
@@ -222,25 +299,6 @@
         "2025-11-26-125421-cebreus": {
           "action": "keep",
           "reason": "Best candidate"
-        }
-      }
-    },
-    {
-      "id": "group-2025-11-26-140121-dasa",
-      "items": [
-        "2025-11-26-140121-dasa",
-        "2025-11-26-140159-dasa"
-      ],
-      "bestCandidateId": "2025-11-26-140121-dasa",
-      "similarity": 0.8992483247155746,
-      "recommendations": {
-        "2025-11-26-140121-dasa": {
-          "action": "keep",
-          "reason": "Best candidate"
-        },
-        "2025-11-26-140159-dasa": {
-          "action": "delete",
-          "reason": "Lower resolution"
         }
       }
     },
@@ -262,11 +320,247 @@
           "reason": "Lower resolution, Lower aesthetics (60 vs 66)"
         }
       }
+    },
+    {
+      "id": "group-2025-11-27-135051-cebreus",
+      "items": [
+        "2025-11-27-135051-cebreus",
+        "2025-11-27-135056-cebreus",
+        "2025-11-27-135335-bobina",
+        "2025-11-27-140844-cebreus",
+        "2025-11-27-142139-cebreus",
+        "2025-11-27-155553-cebreus"
+      ],
+      "bestCandidateId": "2025-11-27-135051-cebreus",
+      "similarity": 0.9090315430058983,
+      "recommendations": {
+        "2025-11-27-135051-cebreus": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "2025-11-27-135056-cebreus": {
+          "action": "delete",
+          "reason": "Lower resolution"
+        },
+        "2025-11-27-135335-bobina": {
+          "action": "delete",
+          "reason": "Lower resolution"
+        },
+        "2025-11-27-140844-cebreus": {
+          "action": "delete",
+          "reason": "Semantic duplicate"
+        },
+        "2025-11-27-142139-cebreus": {
+          "action": "delete",
+          "reason": "Less sharp"
+        },
+        "2025-11-27-155553-cebreus": {
+          "action": "delete",
+          "reason": "Lower resolution, Less sharp"
+        }
+      }
+    },
+    {
+      "id": "group-2025-11-27-135303-cebreus",
+      "items": [
+        "2025-11-27-135303-cebreus",
+        "2025-11-27-140006-cebreus",
+        "2025-11-27-140840-cebreus"
+      ],
+      "bestCandidateId": "2025-11-27-135303-cebreus",
+      "similarity": 0.9244378327424352,
+      "recommendations": {
+        "2025-11-27-135303-cebreus": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "2025-11-27-140006-cebreus": {
+          "action": "delete",
+          "reason": "Lower aesthetics (40 vs 55)"
+        },
+        "2025-11-27-140840-cebreus": {
+          "action": "delete",
+          "reason": "Semantic duplicate"
+        }
+      }
+    },
+    {
+      "id": "group-2025-11-27-142130-bobina",
+      "items": [
+        "2025-11-27-142130-bobina",
+        "2025-11-27-142312-cebreus",
+        "2025-11-27-151219-cebreus",
+        "2025-11-27-155516-cebreus",
+        "2025-11-27-161031-cebreus",
+        "2025-11-27-161608-cebreus"
+      ],
+      "bestCandidateId": "2025-11-27-142312-cebreus",
+      "similarity": 0.9217132342020065,
+      "recommendations": {
+        "2025-11-27-142130-bobina": {
+          "action": "delete",
+          "reason": "Lower resolution"
+        },
+        "2025-11-27-142312-cebreus": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "2025-11-27-151219-cebreus": {
+          "action": "delete",
+          "reason": "Lower aesthetics (81 vs 91)"
+        },
+        "2025-11-27-155516-cebreus": {
+          "action": "delete",
+          "reason": "Lower resolution, Lower aesthetics (83 vs 91)"
+        },
+        "2025-11-27-161031-cebreus": {
+          "action": "delete",
+          "reason": "Lower aesthetics (62 vs 91)"
+        },
+        "2025-11-27-161608-cebreus": {
+          "action": "delete",
+          "reason": "Lower resolution"
+        }
+      }
+    },
+    {
+      "id": "group-2025-11-27-143100-bobina",
+      "items": [
+        "2025-11-27-143100-bobina",
+        "2025-11-27-143115-cebreus",
+        "2025-11-27-144202-cebreus",
+        "2025-11-27-150623-bobina"
+      ],
+      "bestCandidateId": "2025-11-27-144202-cebreus",
+      "similarity": 0.9004388385586802,
+      "recommendations": {
+        "2025-11-27-143100-bobina": {
+          "action": "delete",
+          "reason": "Lower resolution"
+        },
+        "2025-11-27-143115-cebreus": {
+          "action": "delete",
+          "reason": "Lower resolution, Lower aesthetics (62 vs 67), Less sharp"
+        },
+        "2025-11-27-144202-cebreus": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "2025-11-27-150623-bobina": {
+          "action": "delete",
+          "reason": "Lower resolution, Lower aesthetics (58 vs 67)"
+        }
+      }
+    },
+    {
+      "id": "group-2025-11-27-143516-bobina",
+      "items": [
+        "2025-11-27-143516-bobina",
+        "2025-11-27-143612-cebreus"
+      ],
+      "bestCandidateId": "2025-11-27-143612-cebreus",
+      "similarity": 0.9108545272680716,
+      "recommendations": {
+        "2025-11-27-143516-bobina": {
+          "action": "delete",
+          "reason": "Lower resolution, Less sharp"
+        },
+        "2025-11-27-143612-cebreus": {
+          "action": "keep",
+          "reason": "Best candidate"
+        }
+      }
+    },
+    {
+      "id": "group-2025-11-27-151010-cebreus",
+      "items": [
+        "2025-11-27-151010-cebreus",
+        "2025-11-27-151028-cebreus"
+      ],
+      "bestCandidateId": "2025-11-27-151028-cebreus",
+      "similarity": 0.9000615772873178,
+      "recommendations": {
+        "2025-11-27-151010-cebreus": {
+          "action": "delete",
+          "reason": "Lower resolution"
+        },
+        "2025-11-27-151028-cebreus": {
+          "action": "keep",
+          "reason": "Best candidate"
+        }
+      }
+    },
+    {
+      "id": "group-2025-11-27-155421-cebreus",
+      "items": [
+        "2025-11-27-155421-cebreus",
+        "2025-11-27-160841-cebreus",
+        "2025-11-27-170359-cebreus",
+        "2025-11-27-161227-dasa"
+      ],
+      "bestCandidateId": "2025-11-27-155421-cebreus",
+      "similarity": 0.9060124975223239,
+      "recommendations": {
+        "2025-11-27-155421-cebreus": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "2025-11-27-160841-cebreus": {
+          "action": "delete",
+          "reason": "Lower resolution, Less sharp"
+        },
+        "2025-11-27-170359-cebreus": {
+          "action": "delete",
+          "reason": "Lower resolution, Lower aesthetics (44 vs 68)"
+        },
+        "2025-11-27-161227-dasa": {
+          "action": "delete",
+          "reason": "Lower resolution, Lower aesthetics (57 vs 68), Less sharp"
+        }
+      }
+    },
+    {
+      "id": "group-2025-11-27-160500-dasa--zoom1from3",
+      "items": [
+        "2025-11-27-160500-dasa--zoom1from3",
+        "2025-11-27-160501-dasa--zoom2from3"
+      ],
+      "bestCandidateId": "2025-11-27-160500-dasa--zoom1from3",
+      "similarity": 0.8900934740939004,
+      "recommendations": {
+        "2025-11-27-160500-dasa--zoom1from3": {
+          "action": "keep",
+          "reason": "Best candidate"
+        },
+        "2025-11-27-160501-dasa--zoom2from3": {
+          "action": "delete",
+          "reason": "Lower resolution, Less sharp"
+        }
+      }
+    },
+    {
+      "id": "group-2025-11-27-164753-cebreus",
+      "items": [
+        "2025-11-27-164753-cebreus",
+        "2025-11-27-164805-cebreus"
+      ],
+      "bestCandidateId": "2025-11-27-164805-cebreus",
+      "similarity": 0.9044765863223075,
+      "recommendations": {
+        "2025-11-27-164753-cebreus": {
+          "action": "delete",
+          "reason": "Lower resolution, Less sharp"
+        },
+        "2025-11-27-164805-cebreus": {
+          "action": "keep",
+          "reason": "Best candidate"
+        }
+      }
     }
   ],
   "stats": {
-    "totalPhotos": 250,
-    "totalGroups": 12,
-    "duplicatesFound": 19
+    "totalPhotos": 267,
+    "totalGroups": 23,
+    "duplicatesFound": 47
   }
 }
