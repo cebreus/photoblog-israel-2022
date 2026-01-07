@@ -19,10 +19,12 @@
     item,
     showMetadataOverlay = false,
     dayId,
+    isEmpty = false,
   } = $props<{
     item: Separator;
     showMetadataOverlay?: boolean;
     dayId?: string;
+    isEmpty?: boolean;
   }>();
 
   // Combine store state with URL param to prevent layout shift during SSR/hydration
@@ -163,30 +165,23 @@
   {/if}
 {/snippet}
 
-{#if item.hasPhotos}
+{#if isEmpty || !filters.showSeparators}
+  <!-- Invisible anchor that doesn't take grid space -->
+  <div id={separatorId} class="pointer-events-none absolute h-0 w-0" aria-hidden="true"></div>
+{:else}
   <div
     id={separatorId}
     use:useScrollspy={{ id: separatorId }}
-    class={cn(
-      !filters.showSeparators && "h-0 overflow-hidden",
-      filters.showSeparators && "flex flex-col",
-      filters.showSeparators && (editor.editMode ? "col-span-full py-12" : "aspect-[3/2]"),
-    )}
+    class={cn("flex flex-col", editor.editMode ? "col-span-full py-12" : "aspect-[3/2]")}
   >
-    {#if !filters.showSeparators}
-      <!-- Hidden anchor for navigation and A11Y -->
-      <h3 class="sr-only">{item.location}</h3>
-      {#if item.city}
-        <p class="sr-only">{item.city}</p>
-      {/if}
-    {:else if item.story}
+    {#if item.story}
       <!-- Separator with story (dialog) -->
 
       <div>
         <Dialog.Root>
           <Dialog.Trigger
             class={cn(
-              "flex  w-full flex-col items-center justify-center overflow-hidden rounded-lg bg-linear-to-br from-slate-100 to-slate-300 p-4 text-center dark:from-slate-700 dark:to-slate-800",
+              "flex w-full flex-col items-center justify-center overflow-hidden rounded-lg bg-linear-to-br from-slate-100 to-slate-300 p-4 text-center dark:from-slate-700 dark:to-slate-800",
               editor.editMode ? "dark:from-pink-700 dark:to-pink-800" : "aspect-[3/2]",
             )}
             data-testid="photo-grid-separator-trigger-{separatorId}"
@@ -234,7 +229,7 @@
 
       <div
         class={cn(
-          "flex w-full flex-col  items-center justify-center overflow-hidden rounded-lg bg-linear-to-br from-slate-100 to-slate-300 p-4 text-center dark:from-slate-700 dark:to-slate-800",
+          "flex w-full flex-col items-center justify-center overflow-hidden rounded-lg bg-linear-to-br from-slate-100 to-slate-300 p-4 text-center dark:from-slate-700 dark:to-slate-800",
           editor.editMode ? "dark:from-pink-700 dark:to-pink-800" : "aspect-[3/2]",
         )}
         data-testid="photo-grid-separator-simple-{separatorId}"

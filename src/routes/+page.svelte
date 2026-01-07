@@ -188,6 +188,11 @@
           use:useScrollspy={{ id: daySectionId }}
         >
           <div data-cy="day-head" class="group relative mx-auto my-12 max-w-xl text-center">
+            {#if day.mergedDates}
+              {#each day.mergedDates as date}
+                <div id="day-{date}" class="pointer-events-none absolute" aria-hidden="true"></div>
+              {/each}
+            {/if}
             <h2 class="mb-1 text-3xl leading-snug">
               {#if day.mergedDates}
                 <span

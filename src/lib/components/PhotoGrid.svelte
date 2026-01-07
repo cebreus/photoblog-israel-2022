@@ -71,6 +71,36 @@
     return map;
   });
 
+  // Identify which separators should be visually displayed
+  // Rule:
+  // 1. Must have at least one photo (count > 0)
+  // 2. AND (Count > 2 OR Has Story)
+  let visibleSeparators = $derived.by(() => {
+    const set = new Set<DisplayItem>();
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      if (item.type === "separator") {
+        let photoCount = 0;
+        // Look ahead to count photos in this section that belong to this location
+        for (let j = i + 1; j < items.length; j++) {
+          const nextItem = items[j];
+          if (nextItem.type === "separator") break;
+          // Only count photos that actually match the separator's location
+          if (nextItem.location === item.location) {
+            photoCount++;
+          }
+        }
+
+        const hasStory = !!item.story;
+        // The separator is visible if it's not empty AND (has enough photos OR has a story to tell)
+        if (photoCount > 0 && (photoCount > 2 || hasStory)) {
+          set.add(item);
+        }
+      }
+    }
+    return set;
+  });
+
   // Identify images that start a new location block (for anchor IDs)
   // Only used as fallback if there is no separator for this location block
   let imageAnchorsMap = $derived.by(() => {
@@ -623,7 +653,10 @@
       logger.debug({ debugMode: ui.debugMode }, "PhotoGrid debug store value");
       logger.debug(
         {
-          items: items.length,
+          itemsCount: items.length,
+          itemTypes: items.map((i: DisplayItem) => i.type),
+          visibleSeparatorsCount: visibleSeparators.size,
+          visibleSeparators: Array.from(visibleSeparators),
           selectedAuthors: filters.selectedAuthors,
           imageLocations: imageLocationMap,
         },
@@ -876,7 +909,12 @@
         />
       {/if}
     {:else if item.type === "separator" && item.location}
-      <PhotoGridSeparator {item} showMetadataOverlay={showMetadata} {dayId} />
+      <PhotoGridSeparator
+        {item}
+        showMetadataOverlay={showMetadata}
+        {dayId}
+        isEmpty={!visibleSeparators.has(item)}
+      />
     {/if}
   {/if}
 {/each}

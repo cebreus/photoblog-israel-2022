@@ -190,6 +190,9 @@ export function filterGalleryItems(
   const isDefaultQualityView = criteria.selectedQualityBuckets.length === 0;
 
   return items.filter(function filterItem(item) {
+    if (!isImageEntry(item)) {
+      return true; // Always include separators as they might be needed for menu anchors
+    }
     return shouldIncludeItem(item, criteria, isDefaultQualityView, imagePeopleMap);
   });
 }
