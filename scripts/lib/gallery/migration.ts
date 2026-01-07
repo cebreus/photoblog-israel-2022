@@ -485,3 +485,121 @@ export async function migrateMarkdownFiles(gallery: string, renameMap: RenameMap
     }
   }
 }
+
+/**
+ * Migrates collage JSON files in pics/ directory.
+ * Updates references inside the JSON and renames the JSON file if the corresponding collage image was renamed.
+ */
+export async function migrateCollageFiles(gallery: string, renameMap: RenameMap): Promise<void> {
+  const picsDir = path.resolve(`content/${gallery}/pics`);
+  if (!(await directoryExists(picsDir))) return;
+
+  // 1. Get all collage JSON files
+  const collageFiles = await fg("*.json", { cwd: picsDir, absolute: true });
+
+  for (const jsonFile of collageFiles) {
+    let contentChanged = false;
+    let jsonContent: any;
+
+    try {
+      const text = await readFileText(jsonFile);
+      jsonContent = JSON.parse(text);
+    } catch (e) {
+      logger.warn({ err: e, jsonFile }, "Failed to parse collage JSON");
+      continue;
+    }
+
+    // 2. Update content (items references)
+    if (jsonContent.items && Array.isArray(jsonContent.items)) {
+      for (const item of jsonContent.items) {
+        // A. Update imageId / id (slugs)
+        // Try to find if the imageId (without extension usually, but could be filename) was renamed
+        // The renaming map works on filenames or paths.
+        // We need to match the item's source image to a renamed item.
+
+        // We can try to construct the absolute path of the original image to check against renameMap.
+        // The item.originalPath is usually just the filename (e.g. "image.heic").
+        // But the file might be in pics/ or pics/collage-sources/.
+        // item.movedPath gives a hint: "pics/collage-sources/image.heic"
+
+        let sourceAbsPath: string | undefined;
+
+        if (item.movedPath) {
+          // movedPath is relative to content dir root usually? Or gallery root?
+          // Looking at the example: "movedPath": "pics/collage-sources/2025-11-24-205551-cebreus.heic"
+          // This seems relative to content/<gallery>/ root.
+          sourceAbsPath = path.resolve(`content/${gallery}/${item.movedPath}`);
+        } else if (item.originalPath) {
+          // Fallback, assume it was in pics/
+          sourceAbsPath = path.resolve(picsDir, item.originalPath);
+        }
+
+        if (sourceAbsPath && renameMap.has(sourceAbsPath)) {
+          const renameItem = renameMap.get(sourceAbsPath);
+          if (renameItem) {
+            // Update Fields
+            item.imageId = renameItem.newName; // Assuming imageId corresponds to filename in this context, or we need slug?
+            // The example JSON has "imageId": "2025-11-24-205551-cebreus.heic" (filename)
+            // AND "id": "2025-11-24-205551-cebreus" (slug)
+
+            // If imageId was filename, use new filename
+            if (item.imageId === renameItem.oldName) {
+              item.imageId = renameItem.newName;
+            } else if (item.imageId === toSlug(renameItem.oldBase)) {
+              // If imageId was slug
+              item.imageId = toSlug(renameItem.newBase);
+            }
+
+            // Update ID
+            if (item.id === toSlug(renameItem.oldBase) || item.id === renameItem.oldBase) {
+              item.id = toSlug(renameItem.newBase);
+            }
+
+            // Update originalPath
+            if (item.originalPath === renameItem.oldName) {
+              item.originalPath = renameItem.newName;
+            }
+
+            // Update movedPath
+            if (item.movedPath) {
+              const dir = path.dirname(item.movedPath);
+              item.movedPath = path.join(dir, renameItem.newName);
+            }
+
+            contentChanged = true;
+          }
+        }
+      }
+    }
+
+    // 3. Save content updates if needed
+    // We save to the OLD filename first, rename later if needed.
+    // Or if we are going to rename the file, we can write to the new path directly and delete old?
+    // Safer to write to current, then rename.
+    if (contentChanged) {
+      await writeFile(jsonFile, JSON.stringify(jsonContent, null, 2));
+    }
+
+    // 4. Rename the JSON file itself if the corresponding collage JPG was renamed
+    // Collage JSONs are named like "foo--collage.json".
+    // We look for "foo--collage.jpg" in the rename map.
+    const jsonExt = path.extname(jsonFile);
+    const jsonBase = path.basename(jsonFile, jsonExt); // "foo--collage"
+
+    const jpgName = `${jsonBase}.jpg`;
+    const jpgAbsPath = path.join(picsDir, jpgName);
+
+    if (renameMap.has(jpgAbsPath)) {
+      const renameItem = renameMap.get(jpgAbsPath);
+      if (renameItem) {
+        // renameItem.newBase should be the new base name (e.g. "bar--collage")
+        const newJsonName = `${renameItem.newBase}${jsonExt}`;
+        const newJsonPath = path.join(picsDir, newJsonName);
+
+        if (jsonFile !== newJsonPath) {
+          await safeRename(jsonFile, newJsonPath);
+        }
+      }
+    }
+  }
+}

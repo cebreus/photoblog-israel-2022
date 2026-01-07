@@ -8,6 +8,7 @@ import {
   migrateAnalysisManifest,
   migrateCache,
   migrateClusteringConstraintsManifest,
+  migrateCollageFiles,
   migrateCurationManifest,
   migrateEmbeddingsManifest,
   migrateFacesManifest,
@@ -113,6 +114,7 @@ async function runFullMigration(gallery: string, renameMap: RenameMap): Promise<
     await migrateClusteringConstraintsManifest(gallery, renameMap);
     await migrateMenuManifest(gallery, renameMap);
     await migrateMarkdownFiles(gallery, renameMap);
+    await migrateCollageFiles(gallery, renameMap);
     await migrateAnalysisManifest(gallery, renameMap);
     await migrateEmbeddingsManifest(gallery, renameMap);
 

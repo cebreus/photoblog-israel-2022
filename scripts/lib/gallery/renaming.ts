@@ -122,7 +122,7 @@ export async function analyzeRenameCandidates(
   defaultAuthor: string,
   imagesManifest?: any,
 ): Promise<RenameMap> {
-  const files = await scanGlob("*.{jpg,jpeg,png,webp,avif,heic,JPG,JPEG,PNG,WEBP,AVIF,HEIC}", {
+  const files = await scanGlob("**/*.{jpg,jpeg,png,webp,avif,heic,JPG,JPEG,PNG,WEBP,AVIF,HEIC}", {
     cwd: picsDir,
     absolute: true,
   });
