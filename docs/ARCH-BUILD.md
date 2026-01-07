@@ -123,14 +123,14 @@ Výstup: Separators zahrnuty v pics.manifest.json
 
 ```
 Vstup:  content/<gallery>/favicons-source.png
-Výstup: static/<gallery>/assets/favicons/
+Výstup: static-<gallery>/assets/favicons/
 ```
 
 ### Step 2: Image Variants
 
 ```
 Vstup:  content/<gallery>/pics/*.{jpg,heic,png}
-Výstup: static/<gallery>/images/
+Výstup: static-<gallery>/images/
 ```
 
 **Zpracování:**
@@ -181,7 +181,7 @@ Výstup: people.manifest.json, faces.manifest.json
 1. Face detection (face-api.js)
 2. 128D face embeddings
 3. Euclidean distance clustering
-4. Face crops → `static/<gallery>/faces/`
+4. Face crops → `static-<gallery>/faces/`
 
 ### Step 5: Sequences Detection
 

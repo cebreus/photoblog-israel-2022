@@ -8,9 +8,9 @@ Tento návod popisuje krok za krokem, jak přidat novou galerii do projektu.
 
 Díky multi-gallery architektuře s proměnnou `CONTENT_DIR` můžete snadno přidat novou galerii bez úpravy kódu aplikace. Každá galerie má:
 
-- Vlastní obsah v `content/<název-galerie>/`
-- Vlastní vygenerované assety ve `static/<název-galerie>/`
-- Vlastní manifesty v `src/data/<název-galerie>/`
+- Vlastní obsah v `content/<gallery>/`
+- Vlastní vygenerované assety ve `static-<gallery>/`
+- Vlastní manifesty v `src/data/<gallery>/`
 - Vlastní skripty v `package.json`
 
 ## Krok 1: Vytvoření adresářové struktury
@@ -18,7 +18,7 @@ Díky multi-gallery architektuře s proměnnou `CONTENT_DIR` můžete snadno př
 Vytvořte nový adresář pro vaši galerii v `content/`:
 
 ```bash
-mkdir -p content/nova-galerie/pics
+mkdir -p content/new-gallery/pics
 ```
 
 **Výsledná struktura:**
@@ -168,8 +168,8 @@ Tento proces může trvat několik minut v závislosti na počtu fotografií.
 
 **Co se vytvoří:**
 
-- `static/nova-galerie/images/` - Optimalizované obrázky (AVIF, WebP, JPEG)
-- `static/nova-galerie/assets/favicons/` - Favicon v různých velikostech
+- `static-nova-galerie/images/` - Optimalizované obrázky (AVIF, WebP, JPEG)
+- `static-nova-galerie/assets/favicons/` - Favicon v různých velikostech
 - `src/data/nova-galerie/images.manifest.json` - Hlavní manifest fotografií
 - `src/data/nova-galerie/menu.manifest.json` - Navigační menu
 - `src/data/nova-galerie/site.manifest.json` - Konfigurace galerie

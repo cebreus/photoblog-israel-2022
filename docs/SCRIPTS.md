@@ -196,7 +196,7 @@ Pro optimalizaci velikosti a nezávislé aktualizace jsou metadata rozdělena do
 ```
 Step 1: Favicons
 ├── Vstup: content/<gallery>/favicons-source.png
-└── Výstup: static/<gallery>/assets/favicons/
+└── Výstup: static-<gallery>/assets/favicons/
 
 Step 2: Image Variants (--skipEmbeddings)
 ├── Vstup: content/<gallery>/pics/*.{jpg,heic,png}
@@ -209,7 +209,7 @@ Step 2: Image Variants (--skipEmbeddings)
 │   ├── pHash (perceptual hash)
 │   ├── Dominant color (CSS rgb())
 │   └── Face detection (SSD MobileNet) - pro smart cropping
-└── Výstup: static/<gallery>/images/*, manifesty
+└── Výstup: static-<gallery>/images/*, manifesty
 
 Step 3: Similarity & Aesthetic Analysis
 ├── checkManifest(true) - s curation flag
@@ -225,7 +225,7 @@ Step 4: Face Clustering
 │   ├── Face detection (face-api.js)
 │   ├── 128D face embeddings
 │   ├── Euclidean distance clustering
-│   └── Face crops do static/<gallery>/faces/
+│   └── Face crops do static-<gallery>/faces/
 └── Výstup: people.manifest.json, faces.manifest.json
 
 Step 5: Manifest Validation

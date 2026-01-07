@@ -215,7 +215,7 @@ SvelteKit + Vite build:
 ```bash
 bun run build
 # → .svelte-kit/ (SvelteKit artifacts)
-# → static/[gallery]/ (processed images)
+# → static-<gallery>/ (processed images)
 
 # Output:
 # ✓ Images (AVIF, WebP, JPEG variants)

@@ -140,7 +140,7 @@ export default {
 **Excludes:**
 
 - `node_modules`, `build`, `.svelte-kit`
-- `static/images/**` (generované obrázky)
+- `static-<gallery>/images/**` (generované obrázky)
 - `*.css` (Stylelint)
 
 ### Nástroje

@@ -47,7 +47,7 @@ Smazat obrázek(y) z galerie.
 
 **Side effects:**
 
-- Fyzické soubory odstraněny ze `static/<gallery>/images/`
+- Fyzické soubory odstraněny ze `static-<gallery>/images/`
 - Manifest aktualizován (imageId odstraněn)
 - Sekvence updated (pokud byly členy)
 - Cache invalidován
@@ -177,7 +177,7 @@ GET /api/images/clap-preview?imageId=IMG_001&variant=detail&width=2500&height=18
 
 ```json
 {
-  "src": "/static/egypt-2025/images/IMG_001.avif",
+  "src": "/static-egypt-2025/images/IMG_001.avif",
   "width": 2500,
   "height": 1800,
   "format": "avif",

@@ -10,7 +10,7 @@ Tento dokument definuje principy správy osob, automatické detekce a manuální
 | :--------------------------- | :------------------------------------------------------------------------------------------------------------------------------------- |
 | **Osoba (Person)**           | Logická entita reprezentující konkrétního člověka, sochu nebo malbu. Sdružuje detekované tváře.                                        |
 | **Tvář (Face)**              | Abstraktní pojem – detekovaná tvář na fotografii.                                                                                      |
-| **FaceCrop**                 | Fyzický výřez tváře – `.jpg` soubor uložený ve `static/<galerie>/faces/<personId>/`.                                                   |
+| **FaceCrop**                 | Fyzický výřez tváře – `.jpg` soubor uložený ve `static-<gallery>/faces/<personId>/`.                                                   |
 | **Odepnutí (Disconnect)**    | Akce rozbití vztahu mezi konkrétní tváří a skupinou. Tvář se oddělí do nové vlastní entity.                                            |
 | **Sloučení (Merge)**         | Spojení dvou nebo více entit do jedné. Cílová entita absorbuje všechna vizuální data a pravidla.                                       |
 | **Skrytí (Hidden)**          | Příznak (`hidden: true`), který entitu přesouvá do sekce "Skryté". Entita je stále v hlavní kategorii, ale vizuálně potlačena.         |
@@ -172,7 +172,7 @@ Při **Odepnutí** nově vzniklá entita **dědí kategorii** původní entity.
 **Co se stane:**
 
 - Změní se slug ID (např. `person-uuid--jaruska`).
-- Přejmenuje se fyzická složka `static/<galerie>/faces/<old-id>` → `<new-id>`.
+- Přejmenuje se fyzická složka `static-<gallery>/faces/<old-id>` → `<new-id>`.
 - Aktualizují se všechny odkazy v manifestech.
 
 **Konflikt:** Pokud již existuje entita s daným slugem, operace selže (409). V takovém případě použijte Sloučení.
@@ -241,7 +241,7 @@ bun scripts/audit-people.ts --fix
 Skript kontroluje:
 
 - **faceCount** – zda hodnota odpovídá skutečnému počtu fotek s danou osobou.
-- **Osiřelé složky** – složky ve `static/<galerie>/faces/` bez odpovídajících záznamů v manifestu.
+- **Osiřelé složky** – složky ve `static-<gallery>/faces/` bez odpovídajících záznamů v manifestu.
 - **Zastaralá omezení** – odkazy na smazané osoby v `clustering-constraints.json`.
 
 ### 6.2 Známá omezení a pravidla

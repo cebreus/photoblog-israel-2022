@@ -28,7 +28,7 @@ flowchart LR
     end
 
     subgraph Output
-        STATIC[static/images/]
+        STATIC[static-<gallery>/images/]
         MANIFEST[manifesty JSON]
     end
 

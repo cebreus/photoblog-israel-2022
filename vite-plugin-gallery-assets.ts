@@ -7,7 +7,7 @@ import type { Plugin } from "vite";
  * 
  * During development, this plugin intercepts requests for assets like
  * /favicon.ico and /assets/share/open-graph.png and serves them from
- * the gallery-specific static folder (static/<gallery>/).
+ * the gallery-specific static folder (static-<gallery>/).
  * 
  * This allows each gallery to have its own favicons and share assets
  * without needing to copy them to static root.

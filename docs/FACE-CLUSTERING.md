@@ -36,7 +36,7 @@ Tento skript:
 - Načte manifest `people.manifest.json`, `images.manifest.json` a `embeddings.manifest.json` (pokud existují).
 - Projde všechny fotografie.
 - Aktualizuje manifesty o nové osoby a přiřazení.
-- Vygeneruje náhledy (thumbnails) do `static/<GALLERY>/faces/`.
+- Vygeneruje náhledy (thumbnails) do `static-<gallery>/faces/`.
 
 ## Konfigurace
 
@@ -51,7 +51,7 @@ Nastavení se nachází přímo v souboru `scripts/face-clustering.ts` v objektu
 
 Pro kontrolu správnosti detekce a shlukování systém ukládá **faceCrops** (výřezy tváří) jako `.jpg` soubory:
 
-- Cesta: `static/<GALLERY>/faces/<personId>/`
+- Cesta: `static-<gallery>/faces/<personId>/`
 - Obsah: FaceCrops všech tváří přiřazených k dané osobě.
 
 Tuto strukturu můžete procházet a ověřit, zda ve složce jedné osoby nejsou faceCrops někoho jiného.
@@ -90,7 +90,7 @@ Pokud skript selže na chybějící `tfjs_binding.node` nebo `canvas.node`, viz 
 
 Pokud se zdá, že na fotce chybí osoby, je pravděpodobné, že byly detekovány, ale chybně přiřazeny k již existující osobě (sloučeny).
 
-- Zkontrolujte složky ve `static/<GALLERY>/faces/`.
+- Zkontrolujte složky ve `static-<gallery>/faces/`.
 - Zkuste snížit `distanceThreshold`.
 
 ### Ladění (Debugging)

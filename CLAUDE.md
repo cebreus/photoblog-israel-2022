@@ -4,7 +4,7 @@ Instructions for Claude Code (claude.ai/code) when working with this repository.
 
 ## Project summary
 
-Multi-gallery SvelteKit photoblog on Bun runtime. Each gallery has content in `content/<gallery>/`, generated assets in `static/<gallery>/`, manifests in `src/data/<gallery>/`. System controlled by `CONTENT_DIR` environment variable.
+Multi-gallery SvelteKit photoblog on Bun runtime. Each gallery has content in `content/<gallery>/`, generated assets in `static-<gallery>/`, manifests in `src/data/<gallery>/`. System controlled by `CONTENT_DIR` environment variable.
 
 **Full documentation:** [README.md](./README.md), [docs/INDEX.md](./docs/INDEX.md)
 

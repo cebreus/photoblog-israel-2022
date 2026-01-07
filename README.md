@@ -16,7 +16,7 @@ CONTENT_DIR=egypt-2025 bun run images:build
 CONTENT_DIR=israel-2022 bun run dev
 ```
 
-Každá galerie má vlastní obsah v `content/<galerie>/`, generované assety ve `static/<galerie>/` a manifesty v `src/data/<galerie>/`.
+Každá galerie má vlastní obsah v `content/<galerie>/`, generované assety ve `static-<gallery>/` a manifesty v `src/data/<galerie>/`.
 
 ## Požadavky
 

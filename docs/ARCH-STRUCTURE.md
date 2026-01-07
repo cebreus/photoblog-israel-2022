@@ -26,7 +26,7 @@ photoblog/
 ├── shared/               # Typy a utility sdílené mezi build + runtime
 ├── scripts/              # Build-time skripty (image processing)
 ├── src/                  # SvelteKit aplikace
-├── static/               # Generované assety (obrázky, favicons)
+├── static-<gallery>/     # Generované assety (obrázky, favicons)
 ├── tests/                # Testovací soubory
 └── docs/                 # Dokumentace
 ```

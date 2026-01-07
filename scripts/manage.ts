@@ -245,7 +245,7 @@ async function cmdDev() {
 async function cmdBuild() {
   const outputDir = `build-${gallery}`;
 
-  // Acquire lock for the ENTIRE build duration to protect static/ assets
+  // Acquire lock for the ENTIRE build duration to protect static-<gallery>/assets
   // from being overwritten by parallel builds
   await acquireLock(gallery);
 

@@ -165,7 +165,7 @@ export async function POST({ request, locals }: RequestEvent): Promise<Response>
     // Post-processing: generate variants and update manifests under lock.
     const startPost = Date.now();
     const dataPath = path.join(process.cwd(), "src/data", contentDirName);
-    const staticRoot = path.join(process.cwd(), "static", contentDirName, "images");
+    const staticRoot = path.join(process.cwd(), `static-${contentDirName}`, "images");
 
     await loadSharpOrExplain();
 
