@@ -810,30 +810,32 @@
       <PeopleSelectionControls {selectionMode} onPreset={handleSelectionPreset} />
     </div>
 
-    <div
-      class="sticky top-0 z-20 px-4 pt-2 pb-2 backdrop-blur-lg"
-      data-testid="people-tab-bulk-actions"
-    >
-      <SelectionBulkActions
-        count={selectedForMerge.length}
-        onClear={() => (selectedForMerge = [])}
-        isWorking={isSaving}
-        disabled={!dev}
-        class="w-full"
-        testId="people-tab-bulk-actions"
-        onMerge={openMergeDialog}
-        onMergeInto={handleMergeInto}
-        {namedPeople}
-        onHide={handleBulkHideAction}
-        onRestore={handleBulkRestore}
-        onMarkAsJunk={handleBulkMarkAsJunk}
-        onRestoreFromJunk={handleBulkRestoreFromJunk}
-        onUpdateCategory={bulkUpdateCategory}
-        hiddenCount={selectedHiddenCount}
-        junkCount={selectedJunkCount}
-        canHide={!selectedForMerge.some((id) => people.hiddenPeople.some((p) => p.id === id))}
-      />
-    </div>
+    {#if dev}
+      <div
+        class="sticky top-0 z-20 px-4 pt-2 pb-2 backdrop-blur-lg"
+        data-testid="people-tab-bulk-actions"
+      >
+        <SelectionBulkActions
+          count={selectedForMerge.length}
+          onClear={() => (selectedForMerge = [])}
+          isWorking={isSaving}
+          disabled={!dev}
+          class="w-full"
+          testId="people-tab-bulk-actions"
+          onMerge={openMergeDialog}
+          onMergeInto={handleMergeInto}
+          {namedPeople}
+          onHide={handleBulkHideAction}
+          onRestore={handleBulkRestore}
+          onMarkAsJunk={handleBulkMarkAsJunk}
+          onRestoreFromJunk={handleBulkRestoreFromJunk}
+          onUpdateCategory={bulkUpdateCategory}
+          hiddenCount={selectedHiddenCount}
+          junkCount={selectedJunkCount}
+          canHide={!selectedForMerge.some((id) => people.hiddenPeople.some((p) => p.id === id))}
+        />
+      </div>
+    {/if}
 
     <VisiblePeopleList
       visiblePeople={people.visiblePeople}
