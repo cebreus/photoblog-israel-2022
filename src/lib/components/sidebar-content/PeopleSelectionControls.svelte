@@ -1,48 +1,46 @@
 <script lang="ts">
-  import Ban from "@lucide/svelte/icons/ban";
-  import RotateCcw from "@lucide/svelte/icons/rotate-ccw";
-  import Users from "@lucide/svelte/icons/users";
+  import { Switch } from "$lib/components/ui/switch";
 
-  import { Button } from "$lib/components/ui/button";
-  import * as ButtonGroup from "$lib/components/ui/button-group";
-
-  type SelectionPreset = "all" | "none" | "reset";
+  type SelectionPreset = "all" | "unknown" | "reset";
 
   export let selectionMode: SelectionPreset | null = null;
   export let onPreset: (mode: SelectionPreset) => void = () => {};
+
+  function handleAllToggle(checked: boolean) {
+    onPreset(checked ? "all" : "reset");
+  }
+
+  function handleUnknownToggle(checked: boolean) {
+    onPreset(checked ? "unknown" : "reset");
+  }
 </script>
 
-<ButtonGroup.Root class="mb-2 w-full">
-  <Button
-    variant={selectionMode === "all" ? "default" : "outline"}
-    size="sm"
-    class="flex-1"
-    onclick={() => onPreset("all")}
-    data-testid="people-tab-select-all"
+<div class="flex flex-col gap-3 pb-2">
+  <label
+    class={`flex cursor-pointer items-center justify-between text-sm ${
+      selectionMode === "all" ? "text-primary" : "text-muted-foreground"
+    }`}
+    data-testid="people-tab-select-all-control"
   >
-    <Users class="mr-1 size-3.5" /> Vše
-  </Button>
-  <Button
-    variant={selectionMode === "none" ? "default" : "outline"}
-    size="sm"
-    class="flex-1"
-    onclick={() => onPreset("none")}
-    data-testid="people-tab-select-none"
-  >
-    <Ban class="mr-1 size-3.5" /> Žádné
-  </Button>
-  <Button
-    variant="outline"
-    size="sm"
-    class="flex-1"
-    onclick={() => onPreset("reset")}
-    data-testid="people-tab-reset"
-  >
-    <RotateCcw class="mr-1 size-3.5" /> Reset
-  </Button>
-</ButtonGroup.Root>
+    <span>Pouze fotky s lidmi</span>
+    <Switch
+      checked={selectionMode === "all"}
+      onCheckedChange={handleAllToggle}
+      data-testid="people-tab-select-all-switch"
+    />
+  </label>
 
-<p class="text-muted-foreground text-center text-xs">
-  <strong>Vše:</strong> Jen fotky s lidmi. <strong>Žádné:</strong> Nezobrazit nic.
-  <br /><strong>Reset:</strong> Všechny fotky.
-</p>
+  <label
+    class={`flex cursor-pointer items-center justify-between text-sm ${
+      selectionMode === "unknown" ? "text-primary" : "text-muted-foreground"
+    }`}
+    data-testid="people-tab-select-unknown-control"
+  >
+    <span>Pouze fotky bez lidí</span>
+    <Switch
+      checked={selectionMode === "unknown"}
+      onCheckedChange={handleUnknownToggle}
+      data-testid="people-tab-select-unknown-switch"
+    />
+  </label>
+</div>

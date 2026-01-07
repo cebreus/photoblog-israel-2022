@@ -14,8 +14,14 @@
   import { filters } from "$lib/stores/filters.svelte";
   import { people } from "$lib/stores/people.svelte";
   import { system } from "$lib/stores/system.svelte";
-  import type { ImageEntry, Person } from "$lib/types/manifest";
+  import {
+    type ImageEntry,
+    type Person,
+    type PhotoDayItem,
+    isImageEntry,
+  } from "$lib/types/manifest";
   import { tracedFetch } from "$lib/utils/api";
+  import { buildImagePeopleMap } from "$lib/utils/gallery";
   import { GENERIC_MESSAGES, PERSON_MESSAGES, PLURALS } from "$lib/utils/messages";
   import { type MergeResponse, updatePeopleOrThrow } from "$lib/utils/people-actions";
 
@@ -71,17 +77,31 @@
   const stats = $derived.by(() => {
     const list = people.visiblePeople;
     const { named } = splitAndSortPeople(list);
-    const totalFaces = list.reduce((acc, p) => acc + p.faceCount, 0);
+    const totalFaces = list.reduce((acc, p: Person) => acc + p.faceCount, 0);
+    const personIds = new Set(list.map((p) => p.id));
+
+    // Replicate gallery visibility rules to make stats match the grid
+    const isGloballyVisible = (item: PhotoDayItem) => {
+      if (item.type !== "image") return false;
+      if (isImageEntry(item) && item.category === "collage-source") return false;
+      // Sequence check (simplified version of isSequenceMember + isRepresentative)
+      if (item.id.includes("--frame-") && !item.id.includes("--frame-0")) {
+        // Only frame-0 is representative in the grid by default
+        return false;
+      }
+      return true;
+    };
 
     let totalWithFaces = 0;
+    const imagePeopleMap = buildImagePeopleMap(people.photoDays);
+
     for (const day of people.photoDays) {
       for (const item of day.items) {
-        if (
-          item.type === "image" &&
-          // @ts-expect-error - item.people checked above
-          item.people?.length > 0
-        ) {
-          totalWithFaces++;
+        if (isGloballyVisible(item) && isImageEntry(item)) {
+          const itemPeople = item.people || imagePeopleMap[item.id] || [];
+          if (itemPeople.some((id: string) => personIds.has(id))) {
+            totalWithFaces++;
+          }
         }
       }
     }
@@ -89,12 +109,11 @@
     let visibleWithFaces = 0;
     for (const day of filters.filteredPhotoDays) {
       for (const item of day.items) {
-        if (
-          item.type === "image" &&
-          // @ts-expect-error - item.people checked above
-          item.people?.length > 0
-        ) {
-          visibleWithFaces++;
+        if (isGloballyVisible(item) && isImageEntry(item)) {
+          const itemPeople = item.people || imagePeopleMap[item.id] || [];
+          if (itemPeople.some((id: string) => personIds.has(id))) {
+            visibleWithFaces++;
+          }
         }
       }
     }
@@ -432,14 +451,14 @@
   }
 
   function selectAll() {
-    // Select all people = show ONLY photos with people (hide photos without people)
+    // Select all people = show ONLY photos with at least one "real" person (category === person)
     const allPeopleIds = people.visiblePeople.map((p) => p.id);
     filters.selectedPeople = allPeopleIds;
   }
 
-  function selectNone() {
-    // none = hide everything in this category
-    filters.selectedPeople = ["none"];
+  function selectUnknown() {
+    // unknown = show only photos with no people detections
+    filters.selectedPeople = ["unknown"];
   }
 
   // Count of selected that are hidden (for restore action state)
@@ -456,15 +475,15 @@
     const selected = filters.selectedPeople;
     const visibleIds = people.visiblePeople.map((p) => p.id);
 
-    if (selected.includes("none")) return "none";
+    if (selected.includes("unknown")) return "unknown";
     if (selected.length === 0) return "reset";
     if (selected.length === visibleIds.length && visibleIds.length > 0) return "all";
     return null;
   });
 
-  function handleSelectionPreset(mode: "all" | "none" | "reset" | null) {
+  function handleSelectionPreset(mode: "all" | "unknown" | "reset" | null) {
     if (mode === "all") return selectAll();
-    if (mode === "none") return selectNone();
+    if (mode === "unknown") return selectUnknown();
     if (mode === "reset") return clearSelection();
   }
 
