@@ -2643,104 +2643,6 @@
           ]
         },
         {
-          "id": "2025-11-24-201534-cebreus",
-          "type": "image",
-          "src": "2025-11-24-201534-cebreus.heic",
-          "alt": "Cairo Tower, Káhira",
-          "title": "",
-          "width": 3024,
-          "height": 4032,
-          "sizeMB": 1.51,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-24-201534-cebreus.png",
-          "placeholderColor": "rgb(24,24,24)",
-          "analysis": {
-            "aestheticScore": 55.5660589659987,
-            "sharpness": 56,
-            "qualityBucket": "good",
-            "phash": "45658454f4fcf0e8",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-24T21:15:34",
-            "releaseDate": "2025-11-24T21:15:34",
-            "location": "Cairo Tower",
-            "city": "Káhira",
-            "latitude": 30.046167,
-            "longitude": 31.224408,
-            "orientation": 6,
-            "country": "Egypt",
-            "countryCode": "EGY"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Cairo Tower",
-          "city": "Káhira",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=30.046167,31.224408",
-          "date": "2025-11-24T21:15:34",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/images/previews-webp/2025-11-24-201534-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/images/previews/2025-11-24-201534-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/images/previews-avif/2025-11-24-201534-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/images/previews-xl-webp/2025-11-24-201534-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/images/previews-xl/2025-11-24-201534-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/images/previews-xl-avif/2025-11-24-201534-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/images/details/2025-11-24-201534-cebreus.jpeg",
-              "width": 960,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/images/previews-xxs/2025-11-24-201534-cebreus.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/images/previews-admin/2025-11-24-201534-cebreus.jpeg",
-              "width": 401,
-              "height": 534
-            }
-          ],
-          "people": []
-        },
-        {
           "id": "2025-11-24-201550-cebreus",
           "type": "image",
           "src": "2025-11-24-201550-cebreus.heic",
@@ -3183,102 +3085,6 @@
             "person-0db741fb",
             "person-9b0bc40f"
           ]
-        },
-        {
-          "id": "2025-11-24-210212-cebreus",
-          "type": "image",
-          "src": "2025-11-24-210212-cebreus.heic",
-          "alt": "Káhira",
-          "title": "",
-          "width": 3024,
-          "height": 4032,
-          "sizeMB": 1.2,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-24-210212-cebreus.png",
-          "placeholderColor": "rgb(8,8,8)",
-          "analysis": {
-            "aestheticScore": 76.92955240751287,
-            "sharpness": 100,
-            "qualityBucket": "excellent",
-            "phash": "d6c6e4e9682e8789",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-24T22:02:12",
-            "releaseDate": "2025-11-24T22:02:12",
-            "city": "Káhira",
-            "latitude": 30.046525,
-            "longitude": 31.22505,
-            "orientation": 6,
-            "country": "Egypt",
-            "countryCode": "EGY"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "city": "Káhira",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=30.046525,31.22505",
-          "date": "2025-11-24T22:02:12",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/images/previews-webp/2025-11-24-210212-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/images/previews/2025-11-24-210212-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/images/previews-avif/2025-11-24-210212-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/images/previews-xl-webp/2025-11-24-210212-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/images/previews-xl/2025-11-24-210212-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/images/previews-xl-avif/2025-11-24-210212-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/images/details/2025-11-24-210212-cebreus.jpeg",
-              "width": 960,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/images/previews-xxs/2025-11-24-210212-cebreus.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/images/previews-admin/2025-11-24-210212-cebreus.jpeg",
-              "width": 401,
-              "height": 534
-            }
-          ],
-          "people": []
         },
         {
           "id": "2025-11-24-210259-cebreus",
@@ -10476,32 +10282,51 @@
           ]
         },
         {
-          "id": "2025-11-26-080508-cebreus",
+          "id": "2025-11-26-081434-cebreus",
           "type": "image",
-          "src": "2025-11-26-080508-cebreus.heic",
+          "src": "2025-11-26-081434-cebreus.heic",
           "alt": "Gízská nekropole, Gíza",
           "title": "",
-          "width": 4032,
-          "height": 3024,
-          "sizeMB": 1.44,
+          "width": 2006,
+          "height": 1505,
+          "sizeMB": 1.58,
           "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-26-080508-cebreus.png",
-          "placeholderColor": "rgb(152,152,152)",
+          "placeholder": "blurs/2025-11-26-081434-cebreus.png",
+          "placeholderColor": "rgb(200,168,120)",
           "analysis": {
-            "aestheticScore": 78.92539129399361,
-            "sharpness": 23,
-            "qualityBucket": "poor",
-            "phash": "fc5efd8b13120000",
-            "facesDetected": false,
-            "faces": []
+            "aestheticScore": 69.41438705770098,
+            "sharpness": 100,
+            "qualityBucket": "excellent",
+            "phash": "17374b62d2de5d5d",
+            "facesDetected": true,
+            "faces": [
+              {
+                "x": 1375.8161051273348,
+                "y": 443.87913048267365,
+                "width": 122.49989390373231,
+                "height": 170.64604242642716
+              },
+              {
+                "x": 688.0980443954469,
+                "y": 365.5037607749303,
+                "width": 124.97337472438814,
+                "height": 163.35452179114026
+              }
+            ]
+          },
+          "clap": {
+            "width": 2006,
+            "height": 1505,
+            "horizOffset": 299,
+            "vertOffset": 225
           },
           "exif": {
-            "date": "2025-11-26T09:05:08",
+            "date": "2025-11-26T09:14:34",
             "releaseDate": "2025-11-26T09:05:55",
             "location": "Gízská nekropole",
             "city": "Gíza",
-            "latitude": 29.967919,
-            "longitude": 31.125108,
+            "latitude": 29.967858,
+            "longitude": 31.124908,
             "orientation": 1,
             "country": "Egypt",
             "countryCode": "EGY",
@@ -10511,68 +10336,73 @@
           "authorSlug": "cebreus",
           "location": "Gízská nekropole",
           "city": "Gíza",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.967919,31.125108",
-          "date": "2025-11-26T09:05:08",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.967858,31.124908",
+          "date": "2025-11-26T09:14:34",
           "sources": [
             {
               "variant": "default",
               "type": "image/webp",
-              "path": "/images/previews-webp/2025-11-26-080508-cebreus.webp",
+              "path": "/images/previews-webp/2025-11-26-081434-cebreus.webp",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/jpeg",
-              "path": "/images/previews/2025-11-26-080508-cebreus.jpeg",
+              "path": "/images/previews/2025-11-26-081434-cebreus.jpeg",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/avif",
-              "path": "/images/previews-avif/2025-11-26-080508-cebreus.avif",
+              "path": "/images/previews-avif/2025-11-26-081434-cebreus.avif",
               "width": 370
             },
             {
               "variant": "xl",
               "type": "image/webp",
-              "path": "/images/previews-xl-webp/2025-11-26-080508-cebreus.webp",
+              "path": "/images/previews-xl-webp/2025-11-26-081434-cebreus.webp",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/jpeg",
-              "path": "/images/previews-xl/2025-11-26-080508-cebreus.jpeg",
+              "path": "/images/previews-xl/2025-11-26-081434-cebreus.jpeg",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/avif",
-              "path": "/images/previews-xl-avif/2025-11-26-080508-cebreus.avif",
+              "path": "/images/previews-xl-avif/2025-11-26-081434-cebreus.avif",
               "width": 534
             },
             {
               "variant": "detail",
               "type": "image/jpeg",
-              "path": "/images/details/2025-11-26-080508-cebreus.jpeg",
-              "width": 1707,
+              "path": "/images/details/2025-11-26-081434-cebreus.jpeg",
+              "width": 1706,
               "height": 1280
             },
             {
               "variant": "fallback",
               "type": "image/jpeg",
-              "path": "/images/previews-xxs/2025-11-26-080508-cebreus.jpeg",
+              "path": "/images/previews-xxs/2025-11-26-081434-cebreus.jpeg",
               "width": 190,
               "height": 127
             },
             {
               "variant": "admin_thumb",
               "type": "image/jpeg",
-              "path": "/images/previews-admin/2025-11-26-080508-cebreus.jpeg",
+              "path": "/images/previews-admin/2025-11-26-081434-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 400
             }
           ],
-          "people": []
+          "flags": [
+            "snapshot-others"
+          ],
+          "people": [
+            "person-0db741fb"
+          ]
         },
         {
           "id": "2025-11-26-091503-bobina",
@@ -10699,51 +10529,32 @@
           ]
         },
         {
-          "id": "2025-11-26-081434-cebreus",
+          "id": "2025-11-26-080112-cebreus",
           "type": "image",
-          "src": "2025-11-26-081434-cebreus.heic",
+          "src": "2025-11-26-080112-cebreus.heic",
           "alt": "Gízská nekropole, Gíza",
           "title": "",
-          "width": 2006,
-          "height": 1505,
-          "sizeMB": 1.58,
+          "width": 8064,
+          "height": 6048,
+          "sizeMB": 7.51,
           "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-26-081434-cebreus.png",
-          "placeholderColor": "rgb(200,168,120)",
+          "placeholder": "blurs/2025-11-26-080112-cebreus.png",
+          "placeholderColor": "rgb(168,152,120)",
           "analysis": {
-            "aestheticScore": 69.41438705770098,
-            "sharpness": 100,
-            "qualityBucket": "excellent",
-            "phash": "17374b62d2de5d5d",
-            "facesDetected": true,
-            "faces": [
-              {
-                "x": 1375.8161051273348,
-                "y": 443.87913048267365,
-                "width": 122.49989390373231,
-                "height": 170.64604242642716
-              },
-              {
-                "x": 688.0980443954469,
-                "y": 365.5037607749303,
-                "width": 124.97337472438814,
-                "height": 163.35452179114026
-              }
-            ]
-          },
-          "clap": {
-            "width": 2006,
-            "height": 1505,
-            "horizOffset": 299,
-            "vertOffset": 225
+            "aestheticScore": 70.70937083663314,
+            "sharpness": 57,
+            "qualityBucket": "good",
+            "phash": "0f31403f23000000",
+            "facesDetected": false,
+            "faces": []
           },
           "exif": {
-            "date": "2025-11-26T09:14:34",
+            "date": "2025-11-26T09:01:12",
             "releaseDate": "2025-11-26T09:09:06",
             "location": "Gízská nekropole",
             "city": "Gíza",
-            "latitude": 29.967858,
-            "longitude": 31.124908,
+            "latitude": 29.969386,
+            "longitude": 31.121711,
             "orientation": 1,
             "country": "Egypt",
             "countryCode": "EGY",
@@ -10753,73 +10564,68 @@
           "authorSlug": "cebreus",
           "location": "Gízská nekropole",
           "city": "Gíza",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.967858,31.124908",
-          "date": "2025-11-26T09:14:34",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.969386,31.121711",
+          "date": "2025-11-26T09:01:12",
           "sources": [
             {
               "variant": "default",
               "type": "image/webp",
-              "path": "/images/previews-webp/2025-11-26-081434-cebreus.webp",
+              "path": "/images/previews-webp/2025-11-26-080112-cebreus.webp",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/jpeg",
-              "path": "/images/previews/2025-11-26-081434-cebreus.jpeg",
+              "path": "/images/previews/2025-11-26-080112-cebreus.jpeg",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/avif",
-              "path": "/images/previews-avif/2025-11-26-081434-cebreus.avif",
+              "path": "/images/previews-avif/2025-11-26-080112-cebreus.avif",
               "width": 370
             },
             {
               "variant": "xl",
               "type": "image/webp",
-              "path": "/images/previews-xl-webp/2025-11-26-081434-cebreus.webp",
+              "path": "/images/previews-xl-webp/2025-11-26-080112-cebreus.webp",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/jpeg",
-              "path": "/images/previews-xl/2025-11-26-081434-cebreus.jpeg",
+              "path": "/images/previews-xl/2025-11-26-080112-cebreus.jpeg",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/avif",
-              "path": "/images/previews-xl-avif/2025-11-26-081434-cebreus.avif",
+              "path": "/images/previews-xl-avif/2025-11-26-080112-cebreus.avif",
               "width": 534
             },
             {
               "variant": "detail",
               "type": "image/jpeg",
-              "path": "/images/details/2025-11-26-081434-cebreus.jpeg",
-              "width": 1706,
+              "path": "/images/details/2025-11-26-080112-cebreus.jpeg",
+              "width": 1707,
               "height": 1280
             },
             {
               "variant": "fallback",
               "type": "image/jpeg",
-              "path": "/images/previews-xxs/2025-11-26-081434-cebreus.jpeg",
+              "path": "/images/previews-xxs/2025-11-26-080112-cebreus.jpeg",
               "width": 190,
               "height": 127
             },
             {
               "variant": "admin_thumb",
               "type": "image/jpeg",
-              "path": "/images/previews-admin/2025-11-26-081434-cebreus.jpeg",
+              "path": "/images/previews-admin/2025-11-26-080112-cebreus.jpeg",
               "width": 534,
-              "height": 400
+              "height": 401
             }
           ],
-          "flags": [
-            "snapshot-others"
-          ],
-          "people": [
-            "person-0db741fb"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-26-081030-cebreus--zoom1from4",
@@ -11149,32 +10955,32 @@
           "people": []
         },
         {
-          "id": "2025-11-26-080112-cebreus",
+          "id": "2025-11-26-080508-cebreus",
           "type": "image",
-          "src": "2025-11-26-080112-cebreus.heic",
+          "src": "2025-11-26-080508-cebreus.heic",
           "alt": "Gízská nekropole, Gíza",
           "title": "",
-          "width": 8064,
-          "height": 6048,
-          "sizeMB": 7.51,
+          "width": 4032,
+          "height": 3024,
+          "sizeMB": 1.44,
           "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-26-080112-cebreus.png",
-          "placeholderColor": "rgb(168,152,120)",
+          "placeholder": "blurs/2025-11-26-080508-cebreus.png",
+          "placeholderColor": "rgb(152,152,152)",
           "analysis": {
-            "aestheticScore": 70.70937083663314,
-            "sharpness": 57,
-            "qualityBucket": "good",
-            "phash": "0f31403f23000000",
+            "aestheticScore": 78.92539129399361,
+            "sharpness": 23,
+            "qualityBucket": "poor",
+            "phash": "fc5efd8b13120000",
             "facesDetected": false,
             "faces": []
           },
           "exif": {
-            "date": "2025-11-26T09:01:12",
+            "date": "2025-11-26T09:05:08",
             "releaseDate": "2025-11-26T09:11:23",
             "location": "Gízská nekropole",
             "city": "Gíza",
-            "latitude": 29.969386,
-            "longitude": 31.121711,
+            "latitude": 29.967919,
+            "longitude": 31.125108,
             "orientation": 1,
             "country": "Egypt",
             "countryCode": "EGY",
@@ -11184,63 +10990,63 @@
           "authorSlug": "cebreus",
           "location": "Gízská nekropole",
           "city": "Gíza",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.969386,31.121711",
-          "date": "2025-11-26T09:01:12",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.967919,31.125108",
+          "date": "2025-11-26T09:05:08",
           "sources": [
             {
               "variant": "default",
               "type": "image/webp",
-              "path": "/images/previews-webp/2025-11-26-080112-cebreus.webp",
+              "path": "/images/previews-webp/2025-11-26-080508-cebreus.webp",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/jpeg",
-              "path": "/images/previews/2025-11-26-080112-cebreus.jpeg",
+              "path": "/images/previews/2025-11-26-080508-cebreus.jpeg",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/avif",
-              "path": "/images/previews-avif/2025-11-26-080112-cebreus.avif",
+              "path": "/images/previews-avif/2025-11-26-080508-cebreus.avif",
               "width": 370
             },
             {
               "variant": "xl",
               "type": "image/webp",
-              "path": "/images/previews-xl-webp/2025-11-26-080112-cebreus.webp",
+              "path": "/images/previews-xl-webp/2025-11-26-080508-cebreus.webp",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/jpeg",
-              "path": "/images/previews-xl/2025-11-26-080112-cebreus.jpeg",
+              "path": "/images/previews-xl/2025-11-26-080508-cebreus.jpeg",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/avif",
-              "path": "/images/previews-xl-avif/2025-11-26-080112-cebreus.avif",
+              "path": "/images/previews-xl-avif/2025-11-26-080508-cebreus.avif",
               "width": 534
             },
             {
               "variant": "detail",
               "type": "image/jpeg",
-              "path": "/images/details/2025-11-26-080112-cebreus.jpeg",
+              "path": "/images/details/2025-11-26-080508-cebreus.jpeg",
               "width": 1707,
               "height": 1280
             },
             {
               "variant": "fallback",
               "type": "image/jpeg",
-              "path": "/images/previews-xxs/2025-11-26-080112-cebreus.jpeg",
+              "path": "/images/previews-xxs/2025-11-26-080508-cebreus.jpeg",
               "width": 190,
               "height": 127
             },
             {
               "variant": "admin_thumb",
               "type": "image/jpeg",
-              "path": "/images/previews-admin/2025-11-26-080112-cebreus.jpeg",
+              "path": "/images/previews-admin/2025-11-26-080508-cebreus.jpeg",
               "width": 534,
               "height": 401
             }
@@ -13619,110 +13425,6 @@
           ]
         },
         {
-          "id": "2025-11-26-100151-cebreus",
-          "type": "image",
-          "src": "2025-11-26-100151-cebreus.heic",
-          "alt": "Gízská nekropole, Gíza",
-          "title": "",
-          "width": 8946,
-          "height": 3834,
-          "sizeMB": 5.99,
-          "aspectRatio": "panorama",
-          "placeholder": "blurs/2025-11-26-100151-cebreus.png",
-          "placeholderColor": "rgb(216,200,152)",
-          "specialMedia": {
-            "isPanorama": true,
-            "is360": false,
-            "projection": "cylindrical"
-          },
-          "analysis": {
-            "aestheticScore": 68.11474305499071,
-            "sharpness": 100,
-            "qualityBucket": "excellent",
-            "phash": "dc6c3cbe3e0d0f0f",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-26T11:01:51",
-            "releaseDate": "2025-11-26T11:01:51",
-            "location": "Gízská nekropole",
-            "city": "Gíza",
-            "latitude": 29.974967,
-            "longitude": 31.137931,
-            "orientation": 1,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Gíza (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Gízská nekropole",
-          "city": "Gíza",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.974967,31.137931",
-          "date": "2025-11-26T11:01:51",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/images/previews-webp/2025-11-26-100151-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/images/previews/2025-11-26-100151-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/images/previews-avif/2025-11-26-100151-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/images/previews-xl-webp/2025-11-26-100151-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/images/previews-xl/2025-11-26-100151-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/images/previews-xl-avif/2025-11-26-100151-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/images/previews-xxs/2025-11-26-100151-cebreus.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/images/previews-admin/2025-11-26-100151-cebreus.jpeg",
-              "width": 534,
-              "height": 229
-            },
-            {
-              "variant": "pano_detail",
-              "type": "image/jpeg",
-              "path": "/images/details-pano/2025-11-26-100151-cebreus.jpeg",
-              "width": 2987,
-              "height": 1280
-            }
-          ],
-          "people": []
-        },
-        {
           "id": "2025-11-26-100538-cebreus",
           "type": "image",
           "src": "2025-11-26-100538-cebreus.heic",
@@ -13751,7 +13453,7 @@
           },
           "exif": {
             "date": "2025-11-26T11:05:38",
-            "releaseDate": "2025-11-26T11:05:38",
+            "releaseDate": "2025-11-26T11:01:51",
             "location": "Gízská nekropole",
             "city": "Gíza",
             "latitude": 29.974903,
@@ -13824,6 +13526,110 @@
               "path": "/images/previews-admin/2025-11-26-100538-cebreus.jpeg",
               "width": 534,
               "height": 401
+            }
+          ],
+          "people": []
+        },
+        {
+          "id": "2025-11-26-100151-cebreus",
+          "type": "image",
+          "src": "2025-11-26-100151-cebreus.heic",
+          "alt": "Gízská nekropole, Gíza",
+          "title": "",
+          "width": 8946,
+          "height": 3834,
+          "sizeMB": 5.99,
+          "aspectRatio": "panorama",
+          "placeholder": "blurs/2025-11-26-100151-cebreus.png",
+          "placeholderColor": "rgb(216,200,152)",
+          "specialMedia": {
+            "isPanorama": true,
+            "is360": false,
+            "projection": "cylindrical"
+          },
+          "analysis": {
+            "aestheticScore": 68.11474305499071,
+            "sharpness": 100,
+            "qualityBucket": "excellent",
+            "phash": "dc6c3cbe3e0d0f0f",
+            "facesDetected": false,
+            "faces": []
+          },
+          "exif": {
+            "date": "2025-11-26T11:01:51",
+            "releaseDate": "2025-11-26T11:05:38",
+            "location": "Gízská nekropole",
+            "city": "Gíza",
+            "latitude": 29.974967,
+            "longitude": 31.137931,
+            "orientation": 1,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Gíza (guvernorát)"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Gízská nekropole",
+          "city": "Gíza",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.974967,31.137931",
+          "date": "2025-11-26T11:01:51",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/images/previews-webp/2025-11-26-100151-cebreus.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/images/previews/2025-11-26-100151-cebreus.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/images/previews-avif/2025-11-26-100151-cebreus.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/images/previews-xl-webp/2025-11-26-100151-cebreus.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/images/previews-xl/2025-11-26-100151-cebreus.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/images/previews-xl-avif/2025-11-26-100151-cebreus.avif",
+              "width": 534
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/images/previews-xxs/2025-11-26-100151-cebreus.jpeg",
+              "width": 190,
+              "height": 127
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/images/previews-admin/2025-11-26-100151-cebreus.jpeg",
+              "width": 534,
+              "height": 229
+            },
+            {
+              "variant": "pano_detail",
+              "type": "image/jpeg",
+              "path": "/images/details-pano/2025-11-26-100151-cebreus.jpeg",
+              "width": 2987,
+              "height": 1280
             }
           ],
           "people": []
@@ -14046,390 +13852,6 @@
               "path": "/images/previews-admin/2025-11-26-113557-dasa--collage.jpeg",
               "width": 534,
               "height": 534
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-26-113612-dasa",
-          "type": "image",
-          "src": "2025-11-26-113612-dasa.heic",
-          "alt": "Egyptský papyrusový institut, Gíza",
-          "title": "",
-          "width": 3024,
-          "height": 4032,
-          "sizeMB": 2.02,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-26-113612-dasa.png",
-          "placeholderColor": "rgb(216,200,184)",
-          "analysis": {
-            "aestheticScore": 73.75703052899054,
-            "sharpness": 100,
-            "qualityBucket": "excellent",
-            "phash": "16290d85252c6c6c",
-            "facesDetected": true,
-            "faces": [
-              {
-                "x": 1412.5061473846436,
-                "y": 1640.8711738586426,
-                "width": 122.47105407714844,
-                "height": 187.90195083618164
-              }
-            ]
-          },
-          "exif": {
-            "date": "2025-11-26T12:36:12",
-            "releaseDate": "2025-11-26T12:36:12",
-            "location": "Egyptský papyrusový institut",
-            "city": "Gíza",
-            "latitude": 29.985292,
-            "longitude": 31.141822,
-            "orientation": 6,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Gíza (guvernorát)"
-          },
-          "author": "Dáša",
-          "authorSlug": "dasa",
-          "location": "Egyptský papyrusový institut",
-          "city": "Gíza",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.985292,31.141822",
-          "date": "2025-11-26T12:36:12",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/images/previews-webp/2025-11-26-113612-dasa.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/images/previews/2025-11-26-113612-dasa.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/images/previews-avif/2025-11-26-113612-dasa.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/images/previews-xl-webp/2025-11-26-113612-dasa.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/images/previews-xl/2025-11-26-113612-dasa.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/images/previews-xl-avif/2025-11-26-113612-dasa.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/images/details/2025-11-26-113612-dasa.jpeg",
-              "width": 960,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/images/previews-xxs/2025-11-26-113612-dasa.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/images/previews-admin/2025-11-26-113612-dasa.jpeg",
-              "width": 401,
-              "height": 534
-            }
-          ],
-          "people": [
-            "person-e106e434"
-          ]
-        },
-        {
-          "id": "2025-11-26-123642-dasa",
-          "type": "image",
-          "src": "2025-11-26-123642-dasa.heic",
-          "alt": "Photoblog image",
-          "title": "",
-          "width": 4021,
-          "height": 2573,
-          "sizeMB": 2.03,
-          "aspectRatio": "landscape-4021-2573",
-          "placeholder": "blurs/2025-11-26-123642-dasa.png",
-          "placeholderColor": "rgb(8,24,56)",
-          "analysis": {
-            "aestheticScore": 80.35598175107559,
-            "sharpness": 100,
-            "qualityBucket": "excellent",
-            "phash": "459484aaaab894d8",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-26T12:36:42",
-            "releaseDate": "2025-11-26T12:36:42",
-            "latitude": 29.985269,
-            "longitude": 31.141717,
-            "orientation": 1
-          },
-          "author": "Dáša",
-          "authorSlug": "dasa",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.985269,31.141717",
-          "date": "2025-11-26T12:36:42",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/images/previews-webp/2025-11-26-123642-dasa.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/images/previews/2025-11-26-123642-dasa.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/images/previews-avif/2025-11-26-123642-dasa.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/images/previews-xl-webp/2025-11-26-123642-dasa.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/images/previews-xl/2025-11-26-123642-dasa.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/images/previews-xl-avif/2025-11-26-123642-dasa.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/images/details/2025-11-26-123642-dasa.jpeg",
-              "width": 2000,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/images/previews-xxs/2025-11-26-123642-dasa.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/images/previews-admin/2025-11-26-123642-dasa.jpeg",
-              "width": 534,
-              "height": 342
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-26-123745-dasa",
-          "type": "image",
-          "src": "2025-11-26-123745-dasa.heic",
-          "alt": "Photoblog image",
-          "title": "",
-          "width": 2345,
-          "height": 3487,
-          "sizeMB": 2.06,
-          "aspectRatio": "portrait-2-3",
-          "placeholder": "blurs/2025-11-26-123745-dasa.png",
-          "placeholderColor": "rgb(200,184,152)",
-          "analysis": {
-            "aestheticScore": 47.915866819100785,
-            "sharpness": 100,
-            "qualityBucket": "good",
-            "phash": "caca8a9696aaa688",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-26T12:37:45",
-            "releaseDate": "2025-11-26T12:37:45",
-            "latitude": 29.985419,
-            "longitude": 31.141778,
-            "orientation": 1
-          },
-          "author": "Dáša",
-          "authorSlug": "dasa",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.985419,31.141778",
-          "date": "2025-11-26T12:37:45",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/images/previews-webp/2025-11-26-123745-dasa.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/images/previews/2025-11-26-123745-dasa.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/images/previews-avif/2025-11-26-123745-dasa.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/images/previews-xl-webp/2025-11-26-123745-dasa.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/images/previews-xl/2025-11-26-123745-dasa.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/images/previews-xl-avif/2025-11-26-123745-dasa.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/images/details/2025-11-26-123745-dasa.jpeg",
-              "width": 861,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/images/previews-xxs/2025-11-26-123745-dasa.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/images/previews-admin/2025-11-26-123745-dasa.jpeg",
-              "width": 359,
-              "height": 534
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-26-123817-dasa",
-          "type": "image",
-          "src": "2025-11-26-123817-dasa.heic",
-          "alt": "Photoblog image",
-          "title": "",
-          "width": 3931,
-          "height": 2224,
-          "sizeMB": 2.9,
-          "aspectRatio": "landscape-16-9",
-          "placeholder": "blurs/2025-11-26-123817-dasa.png",
-          "placeholderColor": "rgb(8,24,56)",
-          "analysis": {
-            "aestheticScore": 78.45685929790497,
-            "sharpness": 100,
-            "qualityBucket": "excellent",
-            "phash": "a888ac9498b280a0",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-26T12:38:17",
-            "releaseDate": "2025-11-26T12:38:17",
-            "latitude": 29.985278,
-            "longitude": 31.141556,
-            "orientation": 1
-          },
-          "author": "Dáša",
-          "authorSlug": "dasa",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=29.985278,31.141556",
-          "date": "2025-11-26T12:38:17",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/images/previews-webp/2025-11-26-123817-dasa.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/images/previews/2025-11-26-123817-dasa.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/images/previews-avif/2025-11-26-123817-dasa.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/images/previews-xl-webp/2025-11-26-123817-dasa.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/images/previews-xl/2025-11-26-123817-dasa.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/images/previews-xl-avif/2025-11-26-123817-dasa.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/images/details/2025-11-26-123817-dasa.jpeg",
-              "width": 2262,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/images/previews-xxs/2025-11-26-123817-dasa.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/images/previews-admin/2025-11-26-123817-dasa.jpeg",
-              "width": 534,
-              "height": 302
             }
           ],
           "people": []
