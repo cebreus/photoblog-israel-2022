@@ -5,7 +5,7 @@
       "personId": "person-6abf63c9"
     },
     {
-      "imageId": "2025-11-24-201212-cebreus",
+      "imageId": "2025-11-24-201212-cebreus-1",
       "personId": "person-9b0bc40f"
     },
     {
@@ -93,10 +93,6 @@
       "personId": "person-79c593b4"
     },
     {
-      "imageId": "2025-11-26-095523-cebreus",
-      "personId": "person-79c593b4"
-    },
-    {
       "imageId": "2025-11-27-124045-dasa",
       "personId": "person-86077f36"
     },
@@ -113,7 +109,7 @@
       "personId": "person-79c593b4"
     },
     {
-      "imageId": "2025-11-24-201212-cebreus",
+      "imageId": "2025-11-24-201212-cebreus-1",
       "personId": "person-6abf63c9"
     },
     {
@@ -121,19 +117,11 @@
       "personId": "person-f4999137"
     },
     {
-      "imageId": "2025-11-26-095523-cebreus",
-      "personId": "person-27636fc8--odpojeno-od-person-43-2"
-    },
-    {
       "imageId": "2025-11-26-161403-dasa",
       "personId": "person-9b0bc40f"
     },
     {
       "imageId": "2025-11-24-205551-cebreus--collage",
-      "personId": "person-9b0bc40f"
-    },
-    {
-      "imageId": "2025-11-26-095523-cebreus",
       "personId": "person-9b0bc40f"
     },
     {
@@ -243,6 +231,10 @@
     {
       "imageId": "2025-11-26-142128-dasa",
       "personId": "person-70767217--odpojeno-od-person-15-5"
+    },
+    {
+      "imageId": "2025-11-26-081544-cebreus",
+      "personId": "person-9b0bc40f"
     }
   ],
   "invalidDetections": [
@@ -362,6 +354,24 @@
         "width": 64.29247283935547,
         "height": 99.23994827270519
       }
+    },
+    {
+      "imageId": "2025-11-26-095929-cebreus",
+      "box": {
+        "x": 1831.167011260986,
+        "y": 2592.950214385986,
+        "width": 306.54845809936523,
+        "height": 374.7056121826171
+      }
+    },
+    {
+      "imageId": "2025-11-24-201212-cebreus",
+      "box": {
+        "x": 3062.803985595703,
+        "y": 1807.5047607421875,
+        "width": 379.37610626220703,
+        "height": 465.88046264648443
+      }
     }
   ],
   "connects": [
@@ -370,7 +380,7 @@
       "personId": "person-86077f36"
     },
     {
-      "imageId": "2025-11-24-201212-cebreus",
+      "imageId": "2025-11-24-201212-cebreus-1",
       "personId": "person-6abf63c9"
     },
     {
@@ -466,10 +476,6 @@
       "personId": "person-27636fc8--odpojeno-od-person-43-2"
     },
     {
-      "imageId": "2025-11-26-095523-cebreus",
-      "personId": "person-9b0bc40f"
-    },
-    {
       "imageId": "2025-11-27-124045-dasa",
       "personId": "person-13ccd78d--odpojeno-od-person-38"
     },
@@ -482,16 +488,8 @@
       "personId": "person-0db741fb"
     },
     {
-      "imageId": "2025-11-24-201212-cebreus",
+      "imageId": "2025-11-24-201212-cebreus-1",
       "personId": "person-9b0bc40f"
-    },
-    {
-      "imageId": "2025-11-26-095523-cebreus",
-      "personId": "person-673bff6b--odpojeno-od-person-43-2-2"
-    },
-    {
-      "imageId": "2025-11-26-095523-cebreus",
-      "personId": "person-6af04704--odpojeno-od-person-56-3"
     },
     {
       "imageId": "2025-11-26-090727-cebreus",
@@ -572,6 +570,10 @@
     {
       "imageId": "2025-11-26-142128-dasa",
       "personId": "person-a3780d3a--odpojeno-od-person-15-5-3"
+    },
+    {
+      "imageId": "2025-11-26-081544-cebreus",
+      "personId": "person-86077f36"
     }
   ]
 }
