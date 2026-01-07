@@ -35,6 +35,7 @@ export const PLURALS = {
   obrazek: (n: number) => czechPlural(n, "obrázek", "obrázky", "obrázků"),
   fotka: (n: number) => czechPlural(n, "fotka", "fotky", "fotek"),
   detekce: (n: number) => czechPlural(n, "detekce", "detekce", "detekcí"),
+  tvar: (n: number) => czechPlural(n, "tvář", "tváře", "tváří"),
 } as const;
 
 // ============================================================================

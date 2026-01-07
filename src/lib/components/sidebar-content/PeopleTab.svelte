@@ -16,7 +16,7 @@
   import { system } from "$lib/stores/system.svelte";
   import type { ImageEntry, Person } from "$lib/types/manifest";
   import { tracedFetch } from "$lib/utils/api";
-  import { GENERIC_MESSAGES, PERSON_MESSAGES } from "$lib/utils/messages";
+  import { GENERIC_MESSAGES, PERSON_MESSAGES, PLURALS } from "$lib/utils/messages";
   import { type MergeResponse, updatePeopleOrThrow } from "$lib/utils/people-actions";
 
   import { browser, dev } from "$app/environment";
@@ -67,6 +67,59 @@
 
   // Subscribe to derived store with optimized stats
   let peopleList = $derived(people.peopleWithStats);
+
+  const stats = $derived.by(() => {
+    const list = people.visiblePeople;
+    const { named } = splitAndSortPeople(list);
+    const totalFaces = list.reduce((acc, p) => acc + p.faceCount, 0);
+
+    let totalWithFaces = 0;
+    for (const day of people.photoDays) {
+      for (const item of day.items) {
+        if (
+          item.type === "image" &&
+          // @ts-expect-error - item.people checked above
+          item.people?.length > 0
+        ) {
+          totalWithFaces++;
+        }
+      }
+    }
+
+    let visibleWithFaces = 0;
+    for (const day of filters.filteredPhotoDays) {
+      for (const item of day.items) {
+        if (
+          item.type === "image" &&
+          // @ts-expect-error - item.people checked above
+          item.people?.length > 0
+        ) {
+          visibleWithFaces++;
+        }
+      }
+    }
+
+    return {
+      total: list.length,
+      named: named.length,
+      faces: totalFaces,
+      totalWithFaces,
+      visibleWithFaces,
+    };
+  });
+
+  // Detect if any filters are reducing the visible count
+  const hasActiveFilters = $derived.by(() => {
+    return (
+      filters.selectedAuthors.length > 0 ||
+      filters.selectedPeople.length > 0 ||
+      filters.selectedQualityBuckets.length > 0 ||
+      filters.selectedMediaTypes.length > 0 ||
+      !filters.showOthersSnapshots ||
+      !filters.showAuthorSnapshots ||
+      filters.onlySnapshots
+    );
+  });
 
   // Named people for merge target selection (only people with custom names, not auto-generated or detached)
   const namedPeople = $derived(
@@ -807,13 +860,47 @@
 
 <div class="contents" data-testid="people-tab">
   <Sidebar.Content>
-    <div class="space-y-2 border-b p-4">
-      <div class="flex items-center justify-between">
-        <h3 class="text-sm font-semibold" data-testid="people-tab-title">
-          Lidé ({peopleList.length})
-        </h3>
+    <div
+      class="relative grid grid-cols-3 gap-4 border-b bg-slate-100 px-6 py-4 text-center text-sm text-slate-400 dark:bg-slate-950"
+      data-testid="people-tab-stats"
+    >
+      <div>
+        <div
+          class="text-foreground text-lg font-semibold tracking-tight"
+          data-testid="people-tab-stats-identified"
+        >
+          {stats.totalWithFaces}
+          <span class="text-slate-300">/</span>
+          {stats.visibleWithFaces}
+        </div>
+        <div class="text-xs text-slate-500">
+          Fotky{#if stats.totalWithFaces > 0}
+            / zobrazeno{/if}
+        </div>
       </div>
 
+      <div>
+        <div
+          class="text-foreground text-lg font-semibold tracking-tight"
+          data-testid="people-tab-stats-people"
+        >
+          {stats.total}
+        </div>
+        <div class="text-xs text-slate-500 capitalize">{PLURALS.osoba(stats.total)}</div>
+      </div>
+
+      <div>
+        <div
+          class="text-foreground text-lg font-semibold tracking-tight"
+          data-testid="people-tab-stats-faces"
+        >
+          {stats.faces}
+        </div>
+        <div class="text-xs text-slate-500 capitalize">{PLURALS.tvar(stats.faces)}</div>
+      </div>
+    </div>
+
+    <div class="space-y-2 border-b p-4">
       <PeopleSelectionControls {selectionMode} onPreset={handleSelectionPreset} />
     </div>
 
@@ -841,6 +928,18 @@
           junkCount={selectedJunkCount}
           canHide={!selectedForMerge.some((id) => people.hiddenPeople.some((p) => p.id === id))}
         />
+      </div>
+    {/if}
+
+    {#if hasActiveFilters && stats.visibleWithFaces < stats.totalWithFaces}
+      <div
+        class="border-b bg-amber-50 px-4 py-2 text-center text-xs text-amber-700 dark:bg-amber-950/30 dark:text-amber-400"
+        data-testid="people-tab-filter-hint"
+      >
+        Vidíte málo fotek? Zkuste si
+        <button type="button" class="underline hover:no-underline" onclick={() => filters.reset()}>
+          vypnout filtry
+        </button>.
       </div>
     {/if}
 
