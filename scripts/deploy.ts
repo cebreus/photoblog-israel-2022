@@ -1,5 +1,5 @@
 #!/usr/bin/env bun
-import { cp, readFile, rm, stat } from "node:fs/promises";
+import { cp, readFile, rm, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { parseArgs } from "node:util";
 import { cancel, confirm, intro, isCancel, note, outro, select, text } from "@clack/prompts";
@@ -75,7 +75,7 @@ async function directoryExists(dirPath: string): Promise<boolean> {
 async function cleanDirectoryExceptGit(targetDir: string): Promise<void> {
   const { readdir } = await import("node:fs/promises");
   const entries = await readdir(targetDir);
-  const exempt = [".git", "CNAME", "README.md", "readme.md"];
+  const exempt = [".git", "CNAME", ".nojekyll", "README.md", "readme.md"];
 
   for (const entry of entries) {
     if (exempt.includes(entry)) continue;
@@ -250,6 +250,9 @@ async function syncBuildToTarget(
 
   // Save manifest for future diffs
   await cp(manifestPath, path.join(targetDir, "manifest-dump.json"));
+
+  // Create .nojekyll to bypass Jekyll processing on GitHub Pages (it blocks _app/ directory)
+  await writeFile(path.join(targetDir, ".nojekyll"), "");
 }
 
 async function commitChanges(
