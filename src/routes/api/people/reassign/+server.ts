@@ -48,7 +48,7 @@ export async function POST({ request, locals }: { request: Request; locals: App.
   const { sourcePersonId, targetPersonId, imageIds } = validation.data;
   const contentDir = process.env.CONTENT_DIR || "egypt-2025";
   const dataDir = path.resolve(process.cwd(), "src/data", contentDir);
-  const facesDir = path.resolve(process.cwd(), "static", contentDir, "faces");
+  const facesDir = path.resolve(process.cwd(), `static-${contentDir}`, "faces");
 
   // Set task status before starting
   await saveTaskStatus(dataDir, {

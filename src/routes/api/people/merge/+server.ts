@@ -217,8 +217,8 @@ export async function POST({ request, locals }: { request: Request; locals: App.
   const sources = sourcePersonIds || (sourcePersonId ? [sourcePersonId] : []);
   const contentDir = process.env.CONTENT_DIR || "egypt-2025";
   const dataDir = path.resolve(process.cwd(), "src/data", contentDir);
-  const facesDir = path.resolve(process.cwd(), "static", contentDir, "faces");
-  const imagesDir = path.resolve(process.cwd(), "static", contentDir, "images");
+  const facesDir = path.resolve(process.cwd(), `static-${contentDir}`, "faces");
+  const imagesDir = path.resolve(process.cwd(), `static-${contentDir}`, "images");
   const picsDir = path.resolve(process.cwd(), `content/${contentDir}/pics`);
 
   // Set task status before starting

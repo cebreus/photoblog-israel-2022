@@ -6,7 +6,7 @@ import { getContentDir } from "$lib/config";
 export async function GET({ locals }: { locals: App.Locals }) {
   const { log } = locals;
   const contentDir = getContentDir();
-  const avatarsDir = path.resolve(process.cwd(), "static", contentDir, "assets", "avatars");
+  const avatarsDir = path.resolve(process.cwd(), `static-${contentDir}`, "assets", "avatars");
 
   try {
     // Check if directory exists first
