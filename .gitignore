@@ -12,6 +12,8 @@ build-*/
 content/*/pics/
 content/*/pics/archive/
 content/*/pics/collage-sources/
+# pre-copied assets `static/assets/`
+static/assets/
 static/*/assets/favicons/
 static/*/faces/
 static/*/favicon.ico

@@ -20,7 +20,7 @@ open_graph:
   app_id: 408506896213559
   site_name: Izrael 2022
   image:
-    - /assets/images/open-graph.png
+    - /assets/share/open-graph.png
   image_text: Trip to Israel and Jordan, October 2022
 twitter_cards:
   use: false

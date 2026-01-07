@@ -18,7 +18,7 @@ open_graph:
   app_id: 408506896213559
   site_name: Egypt 2025
   image:
-    - /assets/images/egypt-2025/open-graph.png
+    - /assets/share/open-graph.png
   image_text: Výlet do Egypta, podzim 2025
 twitter_cards:
   use: false
