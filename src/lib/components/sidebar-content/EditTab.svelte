@@ -619,6 +619,7 @@
               class="hover:text-foreground cursor-pointer underline"
               onclick={handleResetReleaseDate}
               title="Použít původní čas"
+              aria-label="Použít původní čas"
             >
               {new Date(activeImage.exif.date).toLocaleString()}
             </button>

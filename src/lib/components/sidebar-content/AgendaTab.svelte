@@ -35,7 +35,7 @@
                     <Calendar class="size-4" />
                     {menuDay.label}
                   </a>
-                  <Collapsible.Trigger class="ml-auto">
+                  <Collapsible.Trigger class="ml-auto" aria-label="Rozbalit den {menuDay.label}">
                     <ChevronRight
                       class="size-4 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
                     />

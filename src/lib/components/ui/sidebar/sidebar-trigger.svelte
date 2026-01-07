@@ -33,5 +33,5 @@
   {...restProps}
 >
   <PanelLeft />
-  <span class="sr-only">Toggle Sidebar</span>
+  <span class="sr-only">Přepnout postranní panel</span>
 </Button>

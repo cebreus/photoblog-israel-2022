@@ -80,6 +80,7 @@
             e.stopPropagation();
             openPersonDetail(person, e);
           }}
+          aria-label="Otevřít detail osoby"
           data-testid="people-tab-person-thumbnail-button"
         >
           {#if person.thumbnail}
@@ -116,7 +117,7 @@
                 variant="ghost"
                 size="icon"
                 class="h-7 w-7 hover:bg-green-100 dark:hover:bg-green-900"
-                title="Potvrdit"
+                aria-label="Potvrdit"
                 data-testid="people-tab-person-confirm"
                 onclick={(event) => {
                   event.stopPropagation();
@@ -129,7 +130,7 @@
                 variant="ghost"
                 size="icon"
                 class="h-7 w-7 hover:bg-red-100 dark:hover:bg-red-900"
-                title="Zrušit"
+                aria-label="Zrušit"
                 data-testid="people-tab-person-cancel"
                 onclick={(event) => {
                   event.stopPropagation();
@@ -207,7 +208,7 @@
             variant="ghost"
             size="icon"
             class="h-8 w-8 text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-200"
-            title="Skrýt osobu"
+            aria-label="Skrýt osobu"
             disabled={processingIds.has(person.id)}
             data-testid="people-tab-person-ignore-button"
             onclick={(event) => {

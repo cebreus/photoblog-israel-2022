@@ -176,6 +176,7 @@
             })}
             disabled={isGlobalDisabled}
             data-testid="{testId}-more-trigger"
+            aria-label="Další akce"
           >
             <MoreHorizontal class="size-4" />
           </DropdownMenu.Trigger>

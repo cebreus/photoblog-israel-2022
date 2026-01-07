@@ -468,7 +468,7 @@
         </div>
       {:else}
         <!-- Ensure clickable link visually implies action if hovered? -->
-        <span class="sr-only">Open detail</span>
+        <span class="sr-only">Otevřít detail fotky</span>
       {/if}
     </svelte:element>
 
