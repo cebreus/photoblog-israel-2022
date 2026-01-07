@@ -151,9 +151,14 @@
         const firstPath = (firstImage as ImageEntry).sources[0].path;
         if (firstPath?.startsWith("/")) {
           // Path format: "/egypt-2025/images/previews/..." -> extract "/egypt-2025"
+          // OR: "/images/previews/..." -> extract "" (root)
           const parts = firstPath.split("/");
           if (parts.length > 2) {
-            prefix = `/${parts[1]}`;
+            const candidate = parts[1];
+            // If the candidate is NOT one of the standard folders, it's likely a gallery prefix
+            if (candidate !== "images" && candidate !== "faces" && candidate !== "assets") {
+              prefix = `/${candidate}`;
+            }
           }
         }
       }
