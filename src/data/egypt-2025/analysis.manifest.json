@@ -1163,12 +1163,6 @@
     "qualityBucket": "excellent",
     "phash": "bae9c89cddcda99a"
   },
-  "2025-11-27-124915-dasa": {
-    "aestheticScore": 48.03296196492265,
-    "sharpness": 75,
-    "qualityBucket": "good",
-    "phash": "9f8e9ee44c081404"
-  },
   "2025-11-27-135051-cebreus": {
     "aestheticScore": 59.320758038581005,
     "sharpness": 95,
@@ -1186,18 +1180,6 @@
     "sharpness": 100,
     "qualityBucket": "good",
     "phash": "3e62252e6a686840"
-  },
-  "2025-11-27-135126-bobina": {
-    "aestheticScore": 54.723124633990665,
-    "sharpness": 100,
-    "qualityBucket": "good",
-    "phash": "cc9b93d379bbb9f9"
-  },
-  "2025-11-27-135202-cebreus": {
-    "aestheticScore": 63.16923646543526,
-    "sharpness": 100,
-    "qualityBucket": "good",
-    "phash": "2723e1e2aaa87253"
   },
   "2025-11-27-135303-cebreus": {
     "aestheticScore": 55.0396684520269,
@@ -1229,23 +1211,11 @@
     "qualityBucket": "poor",
     "phash": "3487a7b505040000"
   },
-  "2025-11-27-140840-cebreus": {
-    "aestheticScore": 58.983742593715355,
-    "sharpness": 100,
-    "qualityBucket": "good",
-    "phash": "951c1e1e3c340000"
-  },
   "2025-11-27-140844-cebreus": {
     "aestheticScore": 59.09860928412196,
     "sharpness": 100,
     "qualityBucket": "good",
     "phash": "488c9c9c1c1d1d04"
-  },
-  "2025-11-27-142130-bobina": {
-    "aestheticScore": 90.51742280460428,
-    "sharpness": 82,
-    "qualityBucket": "excellent",
-    "phash": "c6d6776d2b3b3236"
   },
   "2025-11-27-142139-cebreus": {
     "aestheticScore": 63.67918923308691,
@@ -1270,12 +1240,6 @@
     "sharpness": 100,
     "qualityBucket": "excellent",
     "phash": "25ad351491496124"
-  },
-  "2025-11-27-143113-bobina": {
-    "aestheticScore": 63.78154911416209,
-    "sharpness": 46,
-    "qualityBucket": "good",
-    "phash": "2d2938285adbdb7f"
   },
   "2025-11-27-143115-cebreus": {
     "aestheticScore": 61.83963855614974,
@@ -1354,18 +1318,6 @@
     "sharpness": 94,
     "qualityBucket": "excellent",
     "phash": "caf5fbcb9bce3105"
-  },
-  "2025-11-27-151016-cebreus": {
-    "aestheticScore": 65.12256225041904,
-    "sharpness": 89,
-    "qualityBucket": "excellent",
-    "phash": "d9cbcfec6430529e"
-  },
-  "2025-11-27-151028-cebreus": {
-    "aestheticScore": 58.03833665151348,
-    "sharpness": 60,
-    "qualityBucket": "good",
-    "phash": "139f635d2635fd7f"
   },
   "2025-11-27-151031-cebreus": {
     "aestheticScore": 58.427607735954574,
@@ -1499,12 +1451,6 @@
     "qualityBucket": "good",
     "phash": "1a1b8bcba4262767"
   },
-  "2025-11-27-170359-cebreus": {
-    "aestheticScore": 44.00510300843609,
-    "sharpness": 100,
-    "qualityBucket": "poor",
-    "phash": "e0c0f0d036362600"
-  },
   "2025-11-27-161227-dasa": {
     "aestheticScore": 56.92751346824097,
     "sharpness": 94,
@@ -1558,5 +1504,11 @@
     "sharpness": 100,
     "qualityBucket": "poor",
     "phash": "80c0f0f97c6733e8"
+  },
+  "2025-11-27-135126-bobina--collage": {
+    "aestheticScore": 58.38374586987784,
+    "sharpness": 100,
+    "qualityBucket": "good",
+    "phash": "989ad8cccce4c4cc"
   }
 }

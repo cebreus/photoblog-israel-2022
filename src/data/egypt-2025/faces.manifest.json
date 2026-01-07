@@ -232,7 +232,7 @@
       }
     ],
     "peopleIds": [
-      "person-6abf63c9"
+      "person-9b0bc40f"
     ],
     "descriptors": [
       [
@@ -14014,7 +14014,7 @@
       }
     ],
     "peopleIds": [
-      "person-6abf63c9"
+      "person-f4999137"
     ],
     "descriptors": [
       [
@@ -16697,7 +16697,7 @@
     "peopleIds": [
       "person-d2793d77",
       "person-4bfa9341",
-      "person-70767217--odpojeno-od-person-15-5",
+      "person-9b0bc40f",
       "person-0a61c713"
     ],
     "descriptors": [
@@ -17566,7 +17566,7 @@
       }
     ],
     "peopleIds": [
-      "person-4d28f02d"
+      "person-0db741fb"
     ],
     "descriptors": [
       [
@@ -17996,8 +17996,7 @@
       }
     ],
     "peopleIds": [
-      "person-6abf63c9",
-      "person-183e8294"
+      "person-6abf63c9"
     ],
     "descriptors": [
       [
@@ -20927,7 +20926,7 @@
       }
     ],
     "peopleIds": [
-      "person-86077f36",
+      "person-6abf63c9",
       "person-9b0bc40f",
       "person-0db741fb"
     ],
@@ -21907,7 +21906,7 @@
       }
     ],
     "peopleIds": [
-      "person-0db741fb"
+      "person-6abf63c9"
     ],
     "descriptors": [
       [
@@ -24372,7 +24371,7 @@
       }
     ],
     "peopleIds": [
-      "person-44540c09--odpojeno-od-person-56-6"
+      "person-ebcec9a1--odpojeno-od-person-56-6-2"
     ],
     "descriptors": [
       [
@@ -25676,12 +25675,6 @@
     "peopleIds": [],
     "descriptors": []
   },
-  "2025-11-27-124915-dasa": {
-    "facesDetected": false,
-    "faces": [],
-    "peopleIds": [],
-    "descriptors": []
-  },
   "2025-11-27-135056-cebreus": {
     "facesDetected": false,
     "faces": [],
@@ -25699,7 +25692,7 @@
       }
     ],
     "peopleIds": [
-      "person-4d28f02d"
+      "person-45f0083b--odpojeno-od-jarek"
     ],
     "descriptors": [
       [
@@ -25834,19 +25827,7 @@
       ]
     ]
   },
-  "2025-11-27-135126-bobina": {
-    "facesDetected": false,
-    "faces": [],
-    "peopleIds": [],
-    "descriptors": []
-  },
   "2025-11-27-135303-cebreus": {
-    "facesDetected": false,
-    "faces": [],
-    "peopleIds": [],
-    "descriptors": []
-  },
-  "2025-11-27-135202-cebreus": {
     "facesDetected": false,
     "faces": [],
     "peopleIds": [],
@@ -25859,12 +25840,6 @@
     "descriptors": []
   },
   "2025-11-27-135335-bobina": {
-    "facesDetected": false,
-    "faces": [],
-    "peopleIds": [],
-    "descriptors": []
-  },
-  "2025-11-27-140840-cebreus": {
     "facesDetected": false,
     "faces": [],
     "peopleIds": [],
@@ -25889,12 +25864,6 @@
     "descriptors": []
   },
   "2025-11-27-140844-cebreus": {
-    "facesDetected": false,
-    "faces": [],
-    "peopleIds": [],
-    "descriptors": []
-  },
-  "2025-11-27-142130-bobina": {
     "facesDetected": false,
     "faces": [],
     "peopleIds": [],
@@ -25931,12 +25900,6 @@
     "descriptors": []
   },
   "2025-11-27-143100-bobina": {
-    "facesDetected": false,
-    "faces": [],
-    "peopleIds": [],
-    "descriptors": []
-  },
-  "2025-11-27-143113-bobina": {
     "facesDetected": false,
     "faces": [],
     "peopleIds": [],
@@ -26130,12 +26093,6 @@
       ]
     ]
   },
-  "2025-11-27-151028-cebreus": {
-    "facesDetected": false,
-    "faces": [],
-    "peopleIds": [],
-    "descriptors": []
-  },
   "2025-11-27-151010-cebreus": {
     "facesDetected": false,
     "faces": [],
@@ -26143,12 +26100,6 @@
     "descriptors": []
   },
   "2025-11-27-151219-cebreus": {
-    "facesDetected": false,
-    "faces": [],
-    "peopleIds": [],
-    "descriptors": []
-  },
-  "2025-11-27-151016-cebreus": {
     "facesDetected": false,
     "faces": [],
     "peopleIds": [],
@@ -26420,12 +26371,6 @@
     "peopleIds": [],
     "descriptors": []
   },
-  "2025-11-27-170359-cebreus": {
-    "facesDetected": false,
-    "faces": [],
-    "peopleIds": [],
-    "descriptors": []
-  },
   "2025-11-27-162535-dasa": {
     "facesDetected": false,
     "faces": [],
@@ -26461,9 +26406,7 @@
       }
     ],
     "peopleIds": [
-      "person-119ea5df",
-      "person-f4999137",
-      "person-183e8294"
+      "person-119ea5df"
     ],
     "descriptors": [
       [
@@ -27032,7 +26975,7 @@
       "person-9b0bc40f",
       "person-86077f36",
       "person-6abf63c9",
-      "person-e106e434",
+      "person-f4999137",
       "person-0db741fb"
     ],
     "descriptors": [
@@ -28997,7 +28940,7 @@
       }
     ],
     "peopleIds": [
-      "person-70767217--odpojeno-od-person-15-5",
+      "person-73a8dfb7--odpojeno-od-person-15-5-2",
       "person-0db741fb",
       "person-44540c09--odpojeno-od-person-56-6"
     ],
@@ -29653,5 +29596,11 @@
         0.012632224708795547
       ]
     ]
+  },
+  "2025-11-27-135126-bobina--collage": {
+    "facesDetected": false,
+    "faces": [],
+    "peopleIds": [],
+    "descriptors": []
   }
 }

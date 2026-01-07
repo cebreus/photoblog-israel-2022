@@ -227,44 +227,6 @@
       }
     },
     {
-      "id": "group-2025-11-26-091433",
-      "items": [
-        "2025-11-26-091433",
-        "2025-11-26-081434-cebreus"
-      ],
-      "bestCandidateId": "2025-11-26-091433",
-      "similarity": 0.9256029329593536,
-      "recommendations": {
-        "2025-11-26-091433": {
-          "action": "keep",
-          "reason": "Best candidate"
-        },
-        "2025-11-26-081434-cebreus": {
-          "action": "delete",
-          "reason": "Lower resolution"
-        }
-      }
-    },
-    {
-      "id": "group-2025-11-26-123642-dasa",
-      "items": [
-        "2025-11-26-123642-dasa",
-        "2025-11-26-123817-dasa"
-      ],
-      "bestCandidateId": "2025-11-26-123642-dasa",
-      "similarity": 0.9170215383780801,
-      "recommendations": {
-        "2025-11-26-123642-dasa": {
-          "action": "keep",
-          "reason": "Best candidate"
-        },
-        "2025-11-26-123817-dasa": {
-          "action": "delete",
-          "reason": "Lower resolution"
-        }
-      }
-    },
-    {
       "id": "group-2025-11-26-121346-cebreus",
       "items": [
         "2025-11-26-121346-cebreus",
@@ -559,8 +521,8 @@
     }
   ],
   "stats": {
-    "totalPhotos": 267,
-    "totalGroups": 23,
-    "duplicatesFound": 47
+    "totalPhotos": 258,
+    "totalGroups": 21,
+    "duplicatesFound": 45
   }
 }

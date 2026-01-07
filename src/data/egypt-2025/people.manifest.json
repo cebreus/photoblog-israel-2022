@@ -133,8 +133,8 @@
         -0.0040154368802098744,
         0.034202981764426495
       ],
-      "faceCount": 25,
-      "thumbnail": "",
+      "faceCount": 27,
+      "thumbnail": "assets/avatars/avatar-jaruska.png",
       "hidden": false,
       "createdAt": "2025-12-31T07:33:39.947Z",
       "lastSeenAt": "2025-12-31T07:33:39.947Z",
@@ -6218,7 +6218,7 @@
         -0.009128876093230891,
         -0.002669258276000619
       ],
-      "faceCount": 14,
+      "faceCount": 13,
       "thumbnail": "faces/person-0db741fb/2025-11-27-172835-cebreus.jpg",
       "hidden": false,
       "createdAt": "2025-12-31T07:33:40.237Z",
@@ -15823,8 +15823,8 @@
         0.005476766267580025,
         0.02580245178970056
       ],
-      "faceCount": 10,
-      "thumbnail": "",
+      "faceCount": 11,
+      "thumbnail": "assets/avatars/avatar-finda.png",
       "hidden": false,
       "createdAt": "2025-12-31T07:33:39.942Z",
       "lastSeenAt": "2025-12-31T07:33:39.942Z",
@@ -17857,7 +17857,7 @@
         0.008889218978583814,
         0.0010764827020466334
       ],
-      "faceCount": 10,
+      "faceCount": 9,
       "thumbnail": "faces/person-86077f36/2025-11-28-155801-dasa.jpg",
       "hidden": false,
       "createdAt": "2025-12-31T07:33:39.947Z",
@@ -20968,7 +20968,7 @@
         0.026795290410518646,
         0.07911783481637635
       ],
-      "faceCount": 9,
+      "faceCount": 7,
       "thumbnail": "faces/person-4d28f02d/2025-11-28-143626-dasa--collage.jpg",
       "hidden": false,
       "createdAt": "2025-12-31T07:33:39.946Z",
@@ -24351,8 +24351,8 @@
         0.07952221872201606,
         0.023419822135300777
       ],
-      "faceCount": 5,
-      "thumbnail": "faces/person-e106e434/2025-11-27-164753-cebreus.jpg",
+      "faceCount": 3,
+      "thumbnail": "faces/person-e106e434/2025-11-25-083812-cebreus--zoom2from2.jpg",
       "hidden": false,
       "createdAt": "2025-12-31T07:33:54.773Z",
       "lastSeenAt": "2025-12-31T07:33:54.773Z",
@@ -28141,8 +28141,8 @@
           "year": 2025
         }
       ],
-      "faceCount": 4,
-      "thumbnail": "faces/person-70767217--odpojeno-od-person-15-5/2025-11-27-172835-cebreus.jpg",
+      "faceCount": 2,
+      "thumbnail": "faces/person-70767217--odpojeno-od-person-15-5/2025-11-26-100007-cebreus.jpg",
       "hidden": true,
       "createdAt": "2026-01-06T12:24:58.133Z",
       "lastSeenAt": "2026-01-06T12:24:58.133Z",
@@ -28285,7 +28285,7 @@
         -0.026411487913084404,
         0.005657504301606895
       ],
-      "faceCount": 3,
+      "faceCount": 1,
       "thumbnail": "faces/person-183e8294/2025-11-28-143626-dasa--collage.jpg",
       "hidden": true,
       "createdAt": "2025-12-31T07:33:41.476Z",
@@ -34502,13 +34502,13 @@
           "year": 2025
         }
       ],
-      "faceCount": 2,
+      "faceCount": 1,
       "thumbnail": "faces/person-44540c09--odpojeno-od-person-56-6/2025-11-27-172835-cebreus.jpg",
       "hidden": false,
-      "junk": false,
+      "junk": true,
       "createdAt": "2026-01-02T08:47:03.327Z",
       "lastSeenAt": "2026-01-02T08:47:03.327Z",
-      "category": "statue",
+      "category": "person",
       "manualImageIds": [
         "2025-11-26-135431-cebreus"
       ],
@@ -34648,7 +34648,7 @@
         0.0376977025350528
       ],
       "faceCount": 2,
-      "thumbnail": "faces/person-ba30172f/2025-11-26-134543-cebreus--zoom1from2.jpg",
+      "thumbnail": "faces/person-ba30172f/2025-11-26-134549-cebreus--zoom2from2.jpg",
       "hidden": false,
       "createdAt": "2025-12-31T07:33:55.162Z",
       "lastSeenAt": "2025-12-31T07:33:55.162Z",
@@ -35880,7 +35880,7 @@
       ],
       "faceCount": 1,
       "thumbnail": "faces/person-119ea5df/2025-11-27-160841-cebreus.jpg",
-      "hidden": false,
+      "hidden": true,
       "createdAt": "2026-01-07T01:16:02.010Z",
       "lastSeenAt": "2026-01-07T01:16:02.010Z",
       "isUserNamed": false,
@@ -36020,7 +36020,8 @@
           "lastSeen": "2026-01-07T09:39:26.071Z",
           "year": 2025
         }
-      ]
+      ],
+      "junk": true
     },
     {
       "id": "person-5df88ba9",
@@ -44878,7 +44879,8 @@
           "lastSeen": "2026-01-06T22:56:40.527Z",
           "year": 2025
         }
-      ]
+      ],
+      "junk": true
     },
     {
       "id": "person-1446a947",
@@ -45156,6 +45158,59 @@
           "year": 2025
         }
       ]
+    },
+    {
+      "id": "person-45f0083b--odpojeno-od-jarek",
+      "name": "Odpojeno od Jarek",
+      "faceDescriptor": [],
+      "clusters": [],
+      "faceCount": 1,
+      "thumbnail": "faces/person-45f0083b--odpojeno-od-jarek/2025-11-27-135051-cebreus.jpg",
+      "hidden": true,
+      "createdAt": "2026-01-07T22:32:03.349Z",
+      "lastSeenAt": "2026-01-07T22:32:03.349Z",
+      "category": "person",
+      "isUserNamed": false
+    },
+    {
+      "id": "person-60058bd8--odpojeno-od-person-15-2",
+      "name": "Odpojeno od Person 15 2",
+      "faceDescriptor": [],
+      "clusters": [],
+      "faceCount": 0,
+      "thumbnail": "",
+      "hidden": true,
+      "createdAt": "2026-01-07T22:32:33.677Z",
+      "lastSeenAt": "2026-01-07T22:32:33.677Z",
+      "category": "person",
+      "isUserNamed": false
+    },
+    {
+      "id": "person-ebcec9a1--odpojeno-od-person-56-6-2",
+      "name": "Odpojeno od Person 56 6 2",
+      "faceDescriptor": [],
+      "clusters": [],
+      "faceCount": 1,
+      "thumbnail": "faces/person-ebcec9a1--odpojeno-od-person-56-6-2/2025-11-26-135431-cebreus.jpg",
+      "hidden": false,
+      "junk": false,
+      "createdAt": "2026-01-07T22:34:01.006Z",
+      "lastSeenAt": "2026-01-07T22:34:01.006Z",
+      "category": "statue",
+      "isUserNamed": false
+    },
+    {
+      "id": "person-73a8dfb7--odpojeno-od-person-15-5-2",
+      "name": "Odpojeno od Person 15 5 2",
+      "faceDescriptor": [],
+      "clusters": [],
+      "faceCount": 1,
+      "thumbnail": "faces/person-73a8dfb7--odpojeno-od-person-15-5-2/2025-11-27-172835-cebreus.jpg",
+      "hidden": true,
+      "createdAt": "2026-01-07T22:35:07.851Z",
+      "lastSeenAt": "2026-01-07T22:35:07.851Z",
+      "category": "person",
+      "isUserNamed": false
     }
   ]
 }

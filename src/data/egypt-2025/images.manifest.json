@@ -2638,8 +2638,7 @@
             "snapshot-others"
           ],
           "people": [
-            "person-6abf63c9",
-            "person-183e8294"
+            "person-6abf63c9"
           ]
         },
         {
@@ -2961,7 +2960,7 @@
             }
           ],
           "people": [
-            "person-6abf63c9"
+            "person-9b0bc40f"
           ]
         },
         {
@@ -11415,7 +11414,7 @@
             "snapshot-others"
           ],
           "people": [
-            "person-86077f36",
+            "person-6abf63c9",
             "person-9b0bc40f",
             "person-0db741fb"
           ]
@@ -12164,7 +12163,7 @@
             }
           ],
           "people": [
-            "person-6abf63c9"
+            "person-f4999137"
           ]
         },
         {
@@ -13134,7 +13133,7 @@
             "snapshot-others"
           ],
           "people": [
-            "person-0db741fb"
+            "person-6abf63c9"
           ]
         },
         {
@@ -17212,7 +17211,7 @@
           "people": [
             "person-d2793d77",
             "person-4bfa9341",
-            "person-70767217--odpojeno-od-person-15-5",
+            "person-9b0bc40f",
             "person-0a61c713"
           ]
         },
@@ -17777,7 +17776,7 @@
             }
           ],
           "people": [
-            "person-44540c09--odpojeno-od-person-56-6"
+            "person-ebcec9a1--odpojeno-od-person-56-6-2"
           ]
         },
         {
@@ -19399,7 +19398,7 @@
             }
           ],
           "people": [
-            "person-4d28f02d"
+            "person-0db741fb"
           ]
         },
         {
@@ -19915,105 +19914,6 @@
           "source": "main"
         },
         {
-          "id": "2025-11-27-124915-dasa",
-          "type": "image",
-          "src": "2025-11-27-124915-dasa.heic",
-          "alt": "Karnak, Luxor",
-          "title": "",
-          "width": 4032,
-          "height": 3024,
-          "sizeMB": 1.59,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-27-124915-dasa.png",
-          "placeholderColor": "rgb(120,152,184)",
-          "analysis": {
-            "aestheticScore": 48.03296196492265,
-            "sharpness": 75,
-            "qualityBucket": "good",
-            "phash": "9f8e9ee44c081404",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-27T13:49:15",
-            "releaseDate": "2025-11-27T13:49:15",
-            "location": "Karnak",
-            "city": "Luxor",
-            "latitude": 25.719153,
-            "longitude": 32.655339,
-            "orientation": 3,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Luxor (guvernorát)"
-          },
-          "author": "Dáša",
-          "authorSlug": "dasa",
-          "location": "Karnak",
-          "city": "Luxor",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.719153,32.655339",
-          "date": "2025-11-27T13:49:15",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/images/previews-webp/2025-11-27-124915-dasa.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/images/previews/2025-11-27-124915-dasa.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/images/previews-avif/2025-11-27-124915-dasa.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/images/previews-xl-webp/2025-11-27-124915-dasa.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/images/previews-xl/2025-11-27-124915-dasa.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/images/previews-xl-avif/2025-11-27-124915-dasa.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/images/details/2025-11-27-124915-dasa.jpeg",
-              "width": 1707,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/images/previews-xxs/2025-11-27-124915-dasa.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/images/previews-admin/2025-11-27-124915-dasa.jpeg",
-              "width": 534,
-              "height": 401
-            }
-          ],
-          "people": []
-        },
-        {
           "id": "2025-11-27-135051-cebreus",
           "type": "image",
           "src": "2025-11-27-135051-cebreus.heic",
@@ -20042,7 +19942,7 @@
           },
           "exif": {
             "date": "2025-11-27T13:50:51",
-            "releaseDate": "2025-11-27T13:50:51",
+            "releaseDate": "2025-11-27T13:49:15",
             "location": "Karnak",
             "city": "Luxor",
             "latitude": 25.719436,
@@ -20118,7 +20018,7 @@
             }
           ],
           "people": [
-            "person-4d28f02d"
+            "person-45f0083b--odpojeno-od-jarek"
           ]
         },
         {
@@ -20143,7 +20043,7 @@
           },
           "exif": {
             "date": "2025-11-27T13:50:56",
-            "releaseDate": "2025-11-27T13:50:56",
+            "releaseDate": "2025-11-27T13:50:51",
             "location": "Karnak",
             "city": "Luxor",
             "latitude": 25.719444,
@@ -20242,7 +20142,7 @@
           },
           "exif": {
             "date": "2025-11-27T13:51:20",
-            "releaseDate": "2025-11-27T13:51:20",
+            "releaseDate": "2025-11-27T13:50:56",
             "location": "Karnak",
             "city": "Luxor",
             "latitude": 25.719367,
@@ -20320,33 +20220,32 @@
           "people": []
         },
         {
-          "id": "2025-11-27-135126-bobina",
-          "type": "image",
-          "src": "2025-11-27-135126-bobina.heic",
+          "id": "2025-11-27-135126-bobina--collage",
+          "type": "collage",
+          "src": "2025-11-27-135126-bobina--collage.jpg",
           "alt": "Karnak, Luxor",
           "title": "",
-          "width": 3024,
-          "height": 3894,
-          "sizeMB": 1.19,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-27-135126-bobina.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "width": 5285,
+          "height": 3964,
+          "sizeMB": 7.09,
+          "aspectRatio": "collage",
+          "placeholder": "blurs/2025-11-27-135126-bobina--collage.png",
+          "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 54.723124633990665,
+            "aestheticScore": 58.38374586987784,
             "sharpness": 100,
             "qualityBucket": "good",
-            "phash": "cc9b93d379bbb9f9",
+            "phash": "989ad8cccce4c4cc",
             "facesDetected": false,
             "faces": []
           },
           "exif": {
             "date": "2025-11-27T13:51:26",
-            "releaseDate": "2025-11-27T13:51:26",
+            "releaseDate": "2025-11-27T13:51:20",
             "location": "Karnak",
             "city": "Luxor",
             "latitude": 25.719389,
             "longitude": 32.6564,
-            "orientation": 1,
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Luxor (guvernorát)"
@@ -20361,355 +20260,58 @@
             {
               "variant": "default",
               "type": "image/webp",
-              "path": "/images/previews-webp/2025-11-27-135126-bobina.webp",
+              "path": "/images/previews-webp/2025-11-27-135126-bobina--collage.webp",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/jpeg",
-              "path": "/images/previews/2025-11-27-135126-bobina.jpeg",
+              "path": "/images/previews/2025-11-27-135126-bobina--collage.jpeg",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/avif",
-              "path": "/images/previews-avif/2025-11-27-135126-bobina.avif",
+              "path": "/images/previews-avif/2025-11-27-135126-bobina--collage.avif",
               "width": 370
             },
             {
               "variant": "xl",
               "type": "image/webp",
-              "path": "/images/previews-xl-webp/2025-11-27-135126-bobina.webp",
+              "path": "/images/previews-xl-webp/2025-11-27-135126-bobina--collage.webp",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/jpeg",
-              "path": "/images/previews-xl/2025-11-27-135126-bobina.jpeg",
+              "path": "/images/previews-xl/2025-11-27-135126-bobina--collage.jpeg",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/avif",
-              "path": "/images/previews-xl-avif/2025-11-27-135126-bobina.avif",
+              "path": "/images/previews-xl-avif/2025-11-27-135126-bobina--collage.avif",
               "width": 534
             },
             {
               "variant": "detail",
               "type": "image/jpeg",
-              "path": "/images/details/2025-11-27-135126-bobina.jpeg",
-              "width": 994,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/images/previews-xxs/2025-11-27-135126-bobina.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/images/previews-admin/2025-11-27-135126-bobina.jpeg",
-              "width": 415,
-              "height": 534
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-27-135202-cebreus",
-          "type": "image",
-          "src": "2025-11-27-135202-cebreus.heic",
-          "alt": "Karnak, Luxor",
-          "title": "",
-          "width": 3228,
-          "height": 4302,
-          "sizeMB": 2,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-27-135202-cebreus.png",
-          "placeholderColor": "rgb(232,200,152)",
-          "analysis": {
-            "aestheticScore": 63.16923646543526,
-            "sharpness": 100,
-            "qualityBucket": "good",
-            "phash": "2723e1e2aaa87253",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-27T13:52:02",
-            "releaseDate": "2025-11-27T13:52:02",
-            "location": "Karnak",
-            "city": "Luxor",
-            "latitude": 25.719264,
-            "longitude": 32.656514,
-            "orientation": 6,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Luxor (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Karnak",
-          "city": "Luxor",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.719264,32.656514",
-          "date": "2025-11-27T13:52:02",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/images/previews-webp/2025-11-27-135202-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/images/previews/2025-11-27-135202-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/images/previews-avif/2025-11-27-135202-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/images/previews-xl-webp/2025-11-27-135202-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/images/previews-xl/2025-11-27-135202-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/images/previews-xl-avif/2025-11-27-135202-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/images/details/2025-11-27-135202-cebreus.jpeg",
-              "width": 960,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/images/previews-xxs/2025-11-27-135202-cebreus.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/images/previews-admin/2025-11-27-135202-cebreus.jpeg",
-              "width": 401,
-              "height": 534
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-27-135303-cebreus",
-          "type": "image",
-          "src": "2025-11-27-135303-cebreus.heic",
-          "alt": "Karnak, Luxor",
-          "title": "",
-          "width": 8064,
-          "height": 6048,
-          "sizeMB": 5.78,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-27-135303-cebreus.png",
-          "placeholderColor": "rgb(200,184,152)",
-          "analysis": {
-            "aestheticScore": 55.0396684520269,
-            "sharpness": 95,
-            "qualityBucket": "good",
-            "phash": "df6371d595150503",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-27T13:53:03",
-            "releaseDate": "2025-11-27T13:53:03",
-            "location": "Karnak",
-            "city": "Luxor",
-            "latitude": 25.719047,
-            "longitude": 32.656978,
-            "orientation": 3,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Luxor (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Karnak",
-          "city": "Luxor",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.719047,32.656978",
-          "date": "2025-11-27T13:53:03",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/images/previews-webp/2025-11-27-135303-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/images/previews/2025-11-27-135303-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/images/previews-avif/2025-11-27-135303-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/images/previews-xl-webp/2025-11-27-135303-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/images/previews-xl/2025-11-27-135303-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/images/previews-xl-avif/2025-11-27-135303-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/images/details/2025-11-27-135303-cebreus.jpeg",
+              "path": "/images/details/2025-11-27-135126-bobina--collage.jpeg",
               "width": 1707,
               "height": 1280
             },
             {
               "variant": "fallback",
               "type": "image/jpeg",
-              "path": "/images/previews-xxs/2025-11-27-135303-cebreus.jpeg",
+              "path": "/images/previews-xxs/2025-11-27-135126-bobina--collage.jpeg",
               "width": 190,
               "height": 127
             },
             {
               "variant": "admin_thumb",
               "type": "image/jpeg",
-              "path": "/images/previews-admin/2025-11-27-135303-cebreus.jpeg",
+              "path": "/images/previews-admin/2025-11-27-135126-bobina--collage.jpeg",
               "width": 534,
-              "height": 401
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-27-135335-bobina",
-          "type": "image",
-          "src": "2025-11-27-135335-bobina.heic",
-          "alt": "Karnak, Luxor",
-          "title": "",
-          "width": 3024,
-          "height": 3047,
-          "sizeMB": 0.98,
-          "aspectRatio": "square",
-          "placeholder": "blurs/2025-11-27-135335-bobina.png",
-          "placeholderColor": "rgb(104,152,216)",
-          "analysis": {
-            "aestheticScore": 62.0511151478244,
-            "sharpness": 100,
-            "qualityBucket": "good",
-            "phash": "89d5b43432746442",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-27T13:53:35",
-            "releaseDate": "2025-11-27T13:53:35",
-            "location": "Karnak",
-            "city": "Luxor",
-            "latitude": 25.719142,
-            "longitude": 32.656844,
-            "orientation": 1,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Luxor (guvernorát)"
-          },
-          "author": "Bobina",
-          "authorSlug": "bobina",
-          "location": "Karnak",
-          "city": "Luxor",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.719142,32.656844",
-          "date": "2025-11-27T13:53:35",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/images/previews-webp/2025-11-27-135335-bobina.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/images/previews/2025-11-27-135335-bobina.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/images/previews-avif/2025-11-27-135335-bobina.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/images/previews-xl-webp/2025-11-27-135335-bobina.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/images/previews-xl/2025-11-27-135335-bobina.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/images/previews-xl-avif/2025-11-27-135335-bobina.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/images/details/2025-11-27-135335-bobina.jpeg",
-              "width": 1270,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/images/previews-xxs/2025-11-27-135335-bobina.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/images/previews-admin/2025-11-27-135335-bobina.jpeg",
-              "width": 530,
               "height": 534
             }
           ],
@@ -20737,7 +20339,7 @@
           },
           "exif": {
             "date": "2025-11-27T13:59:09",
-            "releaseDate": "2025-11-27T13:59:09",
+            "releaseDate": "2025-11-27T13:53:03",
             "location": "Karnak",
             "city": "Luxor",
             "latitude": 25.719172,
@@ -20815,105 +20417,6 @@
           "people": []
         },
         {
-          "id": "2025-11-27-135919-cebreus",
-          "type": "image",
-          "src": "2025-11-27-135919-cebreus.heic",
-          "alt": "Karnak, Luxor",
-          "title": "",
-          "width": 8064,
-          "height": 6048,
-          "sizeMB": 5.13,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-27-135919-cebreus.png",
-          "placeholderColor": "rgb(72,72,72)",
-          "analysis": {
-            "aestheticScore": 53.051119575467226,
-            "sharpness": 100,
-            "qualityBucket": "good",
-            "phash": "c6e0195bd2d07c0e",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-27T13:59:19",
-            "releaseDate": "2025-11-27T13:59:19",
-            "location": "Karnak",
-            "city": "Luxor",
-            "latitude": 25.719164,
-            "longitude": 32.656983,
-            "orientation": 1,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Luxor (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Karnak",
-          "city": "Luxor",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.719164,32.656983",
-          "date": "2025-11-27T13:59:19",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/images/previews-webp/2025-11-27-135919-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/images/previews/2025-11-27-135919-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/images/previews-avif/2025-11-27-135919-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/images/previews-xl-webp/2025-11-27-135919-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/images/previews-xl/2025-11-27-135919-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/images/previews-xl-avif/2025-11-27-135919-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/images/details/2025-11-27-135919-cebreus.jpeg",
-              "width": 1707,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/images/previews-xxs/2025-11-27-135919-cebreus.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/images/previews-admin/2025-11-27-135919-cebreus.jpeg",
-              "width": 534,
-              "height": 401
-            }
-          ],
-          "people": []
-        },
-        {
           "id": "2025-11-27-140006-cebreus",
           "type": "image",
           "src": "2025-11-27-140006-cebreus.heic",
@@ -20935,7 +20438,7 @@
           },
           "exif": {
             "date": "2025-11-27T14:00:06",
-            "releaseDate": "2025-11-27T14:00:06",
+            "releaseDate": "2025-11-27T13:53:35",
             "location": "Karnak",
             "city": "Luxor",
             "latitude": 25.719167,
@@ -21013,33 +20516,33 @@
           "people": []
         },
         {
-          "id": "2025-11-27-140840-cebreus",
+          "id": "2025-11-27-135303-cebreus",
           "type": "image",
-          "src": "2025-11-27-140840-cebreus.heic",
+          "src": "2025-11-27-135303-cebreus.heic",
           "alt": "Karnak, Luxor",
           "title": "",
-          "width": 6048,
-          "height": 8064,
-          "sizeMB": 5.96,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-27-140840-cebreus.png",
-          "placeholderColor": "rgb(72,104,152)",
+          "width": 8064,
+          "height": 6048,
+          "sizeMB": 5.78,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/2025-11-27-135303-cebreus.png",
+          "placeholderColor": "rgb(200,184,152)",
           "analysis": {
-            "aestheticScore": 58.983742593715355,
-            "sharpness": 100,
+            "aestheticScore": 55.0396684520269,
+            "sharpness": 95,
             "qualityBucket": "good",
-            "phash": "951c1e1e3c340000",
+            "phash": "df6371d595150503",
             "facesDetected": false,
             "faces": []
           },
           "exif": {
-            "date": "2025-11-27T14:08:40",
-            "releaseDate": "2025-11-27T14:08:40",
+            "date": "2025-11-27T13:53:03",
+            "releaseDate": "2025-11-27T13:59:09",
             "location": "Karnak",
             "city": "Luxor",
-            "latitude": 25.718906,
-            "longitude": 32.657294,
-            "orientation": 6,
+            "latitude": 25.719047,
+            "longitude": 32.656978,
+            "orientation": 3,
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Luxor (guvernorát)"
@@ -21048,65 +20551,65 @@
           "authorSlug": "cebreus",
           "location": "Karnak",
           "city": "Luxor",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.718906,32.657294",
-          "date": "2025-11-27T14:08:40",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.719047,32.656978",
+          "date": "2025-11-27T13:53:03",
           "sources": [
             {
               "variant": "default",
               "type": "image/webp",
-              "path": "/images/previews-webp/2025-11-27-140840-cebreus.webp",
+              "path": "/images/previews-webp/2025-11-27-135303-cebreus.webp",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/jpeg",
-              "path": "/images/previews/2025-11-27-140840-cebreus.jpeg",
+              "path": "/images/previews/2025-11-27-135303-cebreus.jpeg",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/avif",
-              "path": "/images/previews-avif/2025-11-27-140840-cebreus.avif",
+              "path": "/images/previews-avif/2025-11-27-135303-cebreus.avif",
               "width": 370
             },
             {
               "variant": "xl",
               "type": "image/webp",
-              "path": "/images/previews-xl-webp/2025-11-27-140840-cebreus.webp",
+              "path": "/images/previews-xl-webp/2025-11-27-135303-cebreus.webp",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/jpeg",
-              "path": "/images/previews-xl/2025-11-27-140840-cebreus.jpeg",
+              "path": "/images/previews-xl/2025-11-27-135303-cebreus.jpeg",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/avif",
-              "path": "/images/previews-xl-avif/2025-11-27-140840-cebreus.avif",
+              "path": "/images/previews-xl-avif/2025-11-27-135303-cebreus.avif",
               "width": 534
             },
             {
               "variant": "detail",
               "type": "image/jpeg",
-              "path": "/images/details/2025-11-27-140840-cebreus.jpeg",
-              "width": 960,
+              "path": "/images/details/2025-11-27-135303-cebreus.jpeg",
+              "width": 1707,
               "height": 1280
             },
             {
               "variant": "fallback",
               "type": "image/jpeg",
-              "path": "/images/previews-xxs/2025-11-27-140840-cebreus.jpeg",
+              "path": "/images/previews-xxs/2025-11-27-135303-cebreus.jpeg",
               "width": 190,
               "height": 127
             },
             {
               "variant": "admin_thumb",
               "type": "image/jpeg",
-              "path": "/images/previews-admin/2025-11-27-140840-cebreus.jpeg",
-              "width": 401,
-              "height": 534
+              "path": "/images/previews-admin/2025-11-27-135303-cebreus.jpeg",
+              "width": 534,
+              "height": 401
             }
           ],
           "people": []
@@ -21133,7 +20636,7 @@
           },
           "exif": {
             "date": "2025-11-27T14:08:44",
-            "releaseDate": "2025-11-27T14:08:44",
+            "releaseDate": "2025-11-27T13:59:19",
             "location": "Karnak",
             "city": "Luxor",
             "latitude": 25.7189,
@@ -21211,33 +20714,33 @@
           "people": []
         },
         {
-          "id": "2025-11-27-142130-bobina",
+          "id": "2025-11-27-135335-bobina",
           "type": "image",
-          "src": "2025-11-27-142130-bobina.heic",
+          "src": "2025-11-27-135335-bobina.heic",
           "alt": "Karnak, Luxor",
           "title": "",
           "width": 3024,
-          "height": 4032,
-          "sizeMB": 2.06,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-27-142130-bobina.png",
-          "placeholderColor": "rgb(120,168,232)",
+          "height": 3047,
+          "sizeMB": 0.98,
+          "aspectRatio": "square",
+          "placeholder": "blurs/2025-11-27-135335-bobina.png",
+          "placeholderColor": "rgb(104,152,216)",
           "analysis": {
-            "aestheticScore": 90.51742280460428,
-            "sharpness": 82,
-            "qualityBucket": "excellent",
-            "phash": "c6d6776d2b3b3236",
+            "aestheticScore": 62.0511151478244,
+            "sharpness": 100,
+            "qualityBucket": "good",
+            "phash": "89d5b43432746442",
             "facesDetected": false,
             "faces": []
           },
           "exif": {
-            "date": "2025-11-27T14:21:30",
-            "releaseDate": "2025-11-27T14:21:30",
+            "date": "2025-11-27T13:53:35",
+            "releaseDate": "2025-11-27T14:00:06",
             "location": "Karnak",
             "city": "Luxor",
-            "latitude": 25.718867,
-            "longitude": 32.657425,
-            "orientation": 6,
+            "latitude": 25.719142,
+            "longitude": 32.656844,
+            "orientation": 1,
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Luxor (guvernorát)"
@@ -21246,97 +20749,97 @@
           "authorSlug": "bobina",
           "location": "Karnak",
           "city": "Luxor",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.718867,32.657425",
-          "date": "2025-11-27T14:21:30",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.719142,32.656844",
+          "date": "2025-11-27T13:53:35",
           "sources": [
             {
               "variant": "default",
               "type": "image/webp",
-              "path": "/images/previews-webp/2025-11-27-142130-bobina.webp",
+              "path": "/images/previews-webp/2025-11-27-135335-bobina.webp",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/jpeg",
-              "path": "/images/previews/2025-11-27-142130-bobina.jpeg",
+              "path": "/images/previews/2025-11-27-135335-bobina.jpeg",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/avif",
-              "path": "/images/previews-avif/2025-11-27-142130-bobina.avif",
+              "path": "/images/previews-avif/2025-11-27-135335-bobina.avif",
               "width": 370
             },
             {
               "variant": "xl",
               "type": "image/webp",
-              "path": "/images/previews-xl-webp/2025-11-27-142130-bobina.webp",
+              "path": "/images/previews-xl-webp/2025-11-27-135335-bobina.webp",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/jpeg",
-              "path": "/images/previews-xl/2025-11-27-142130-bobina.jpeg",
+              "path": "/images/previews-xl/2025-11-27-135335-bobina.jpeg",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/avif",
-              "path": "/images/previews-xl-avif/2025-11-27-142130-bobina.avif",
+              "path": "/images/previews-xl-avif/2025-11-27-135335-bobina.avif",
               "width": 534
             },
             {
               "variant": "detail",
               "type": "image/jpeg",
-              "path": "/images/details/2025-11-27-142130-bobina.jpeg",
-              "width": 960,
+              "path": "/images/details/2025-11-27-135335-bobina.jpeg",
+              "width": 1270,
               "height": 1280
             },
             {
               "variant": "fallback",
               "type": "image/jpeg",
-              "path": "/images/previews-xxs/2025-11-27-142130-bobina.jpeg",
+              "path": "/images/previews-xxs/2025-11-27-135335-bobina.jpeg",
               "width": 190,
               "height": 127
             },
             {
               "variant": "admin_thumb",
               "type": "image/jpeg",
-              "path": "/images/previews-admin/2025-11-27-142130-bobina.jpeg",
-              "width": 401,
+              "path": "/images/previews-admin/2025-11-27-135335-bobina.jpeg",
+              "width": 530,
               "height": 534
             }
           ],
           "people": []
         },
         {
-          "id": "2025-11-27-142139-cebreus",
+          "id": "2025-11-27-135919-cebreus",
           "type": "image",
-          "src": "2025-11-27-142139-cebreus.heic",
+          "src": "2025-11-27-135919-cebreus.heic",
           "alt": "Karnak, Luxor",
           "title": "",
-          "width": 6048,
-          "height": 8064,
-          "sizeMB": 4.92,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-27-142139-cebreus.png",
-          "placeholderColor": "rgb(136,120,104)",
+          "width": 8064,
+          "height": 6048,
+          "sizeMB": 5.13,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/2025-11-27-135919-cebreus.png",
+          "placeholderColor": "rgb(72,72,72)",
           "analysis": {
-            "aestheticScore": 63.67918923308691,
-            "sharpness": 58,
+            "aestheticScore": 53.051119575467226,
+            "sharpness": 100,
             "qualityBucket": "good",
-            "phash": "145af17979797069",
+            "phash": "c6e0195bd2d07c0e",
             "facesDetected": false,
             "faces": []
           },
           "exif": {
-            "date": "2025-11-27T14:21:39",
-            "releaseDate": "2025-11-27T14:21:39",
+            "date": "2025-11-27T13:59:19",
+            "releaseDate": "2025-11-27T14:08:44",
             "location": "Karnak",
             "city": "Luxor",
-            "latitude": 25.718783,
-            "longitude": 32.657506,
-            "orientation": 6,
+            "latitude": 25.719164,
+            "longitude": 32.656983,
+            "orientation": 1,
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Luxor (guvernorát)"
@@ -21345,65 +20848,65 @@
           "authorSlug": "cebreus",
           "location": "Karnak",
           "city": "Luxor",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.718783,32.657506",
-          "date": "2025-11-27T14:21:39",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.719164,32.656983",
+          "date": "2025-11-27T13:59:19",
           "sources": [
             {
               "variant": "default",
               "type": "image/webp",
-              "path": "/images/previews-webp/2025-11-27-142139-cebreus.webp",
+              "path": "/images/previews-webp/2025-11-27-135919-cebreus.webp",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/jpeg",
-              "path": "/images/previews/2025-11-27-142139-cebreus.jpeg",
+              "path": "/images/previews/2025-11-27-135919-cebreus.jpeg",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/avif",
-              "path": "/images/previews-avif/2025-11-27-142139-cebreus.avif",
+              "path": "/images/previews-avif/2025-11-27-135919-cebreus.avif",
               "width": 370
             },
             {
               "variant": "xl",
               "type": "image/webp",
-              "path": "/images/previews-xl-webp/2025-11-27-142139-cebreus.webp",
+              "path": "/images/previews-xl-webp/2025-11-27-135919-cebreus.webp",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/jpeg",
-              "path": "/images/previews-xl/2025-11-27-142139-cebreus.jpeg",
+              "path": "/images/previews-xl/2025-11-27-135919-cebreus.jpeg",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/avif",
-              "path": "/images/previews-xl-avif/2025-11-27-142139-cebreus.avif",
+              "path": "/images/previews-xl-avif/2025-11-27-135919-cebreus.avif",
               "width": 534
             },
             {
               "variant": "detail",
               "type": "image/jpeg",
-              "path": "/images/details/2025-11-27-142139-cebreus.jpeg",
-              "width": 960,
+              "path": "/images/details/2025-11-27-135919-cebreus.jpeg",
+              "width": 1707,
               "height": 1280
             },
             {
               "variant": "fallback",
               "type": "image/jpeg",
-              "path": "/images/previews-xxs/2025-11-27-142139-cebreus.jpeg",
+              "path": "/images/previews-xxs/2025-11-27-135919-cebreus.jpeg",
               "width": 190,
               "height": 127
             },
             {
               "variant": "admin_thumb",
               "type": "image/jpeg",
-              "path": "/images/previews-admin/2025-11-27-142139-cebreus.jpeg",
-              "width": 401,
-              "height": 534
+              "path": "/images/previews-admin/2025-11-27-135919-cebreus.jpeg",
+              "width": 534,
+              "height": 401
             }
           ],
           "people": []
@@ -21430,7 +20933,7 @@
           },
           "exif": {
             "date": "2025-11-27T14:21:58",
-            "releaseDate": "2025-11-27T14:21:58",
+            "releaseDate": "2025-11-27T14:21:39",
             "location": "Karnak",
             "city": "Luxor",
             "latitude": 25.718689,
@@ -21503,6 +21006,105 @@
               "path": "/images/previews-admin/2025-11-27-142158-cebreus.jpeg",
               "width": 534,
               "height": 401
+            }
+          ],
+          "people": []
+        },
+        {
+          "id": "2025-11-27-142139-cebreus",
+          "type": "image",
+          "src": "2025-11-27-142139-cebreus.heic",
+          "alt": "Karnak, Luxor",
+          "title": "",
+          "width": 6048,
+          "height": 8064,
+          "sizeMB": 4.92,
+          "aspectRatio": "portrait-3-4",
+          "placeholder": "blurs/2025-11-27-142139-cebreus.png",
+          "placeholderColor": "rgb(136,120,104)",
+          "analysis": {
+            "aestheticScore": 63.67918923308691,
+            "sharpness": 58,
+            "qualityBucket": "good",
+            "phash": "145af17979797069",
+            "facesDetected": false,
+            "faces": []
+          },
+          "exif": {
+            "date": "2025-11-27T14:21:39",
+            "releaseDate": "2025-11-27T14:21:58",
+            "location": "Karnak",
+            "city": "Luxor",
+            "latitude": 25.718783,
+            "longitude": 32.657506,
+            "orientation": 6,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Luxor (guvernorát)"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Karnak",
+          "city": "Luxor",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.718783,32.657506",
+          "date": "2025-11-27T14:21:39",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/images/previews-webp/2025-11-27-142139-cebreus.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/images/previews/2025-11-27-142139-cebreus.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/images/previews-avif/2025-11-27-142139-cebreus.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/images/previews-xl-webp/2025-11-27-142139-cebreus.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/images/previews-xl/2025-11-27-142139-cebreus.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/images/previews-xl-avif/2025-11-27-142139-cebreus.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/images/details/2025-11-27-142139-cebreus.jpeg",
+              "width": 960,
+              "height": 1280
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/images/previews-xxs/2025-11-27-142139-cebreus.jpeg",
+              "width": 190,
+              "height": 127
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/images/previews-admin/2025-11-27-142139-cebreus.jpeg",
+              "width": 401,
+              "height": 534
             }
           ],
           "people": []
@@ -21701,105 +21303,6 @@
               "path": "/images/previews-admin/2025-11-27-143100-bobina.jpeg",
               "width": 401,
               "height": 534
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-27-143113-bobina",
-          "type": "image",
-          "src": "2025-11-27-143113-bobina.heic",
-          "alt": "Karnak, Luxor",
-          "title": "",
-          "width": 2986,
-          "height": 2815,
-          "sizeMB": 1.07,
-          "aspectRatio": "landscape-2986-2815",
-          "placeholder": "blurs/2025-11-27-143113-bobina.png",
-          "placeholderColor": "rgb(120,168,232)",
-          "analysis": {
-            "aestheticScore": 63.78154911416209,
-            "sharpness": 46,
-            "qualityBucket": "good",
-            "phash": "2d2938285adbdb7f",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-27T14:31:13",
-            "releaseDate": "2025-11-27T14:31:13",
-            "location": "Karnak",
-            "city": "Luxor",
-            "latitude": 25.718472,
-            "longitude": 32.658261,
-            "orientation": 1,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Luxor (guvernorát)"
-          },
-          "author": "Bobina",
-          "authorSlug": "bobina",
-          "location": "Karnak",
-          "city": "Luxor",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.718472,32.658261",
-          "date": "2025-11-27T14:31:13",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/images/previews-webp/2025-11-27-143113-bobina.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/images/previews/2025-11-27-143113-bobina.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/images/previews-avif/2025-11-27-143113-bobina.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/images/previews-xl-webp/2025-11-27-143113-bobina.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/images/previews-xl/2025-11-27-143113-bobina.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/images/previews-xl-avif/2025-11-27-143113-bobina.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/images/details/2025-11-27-143113-bobina.jpeg",
-              "width": 1358,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/images/previews-xxs/2025-11-27-143113-bobina.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/images/previews-admin/2025-11-27-143113-bobina.jpeg",
-              "width": 534,
-              "height": 503
             }
           ],
           "people": []
@@ -23101,204 +22604,6 @@
           "people": []
         },
         {
-          "id": "2025-11-27-151016-cebreus",
-          "type": "image",
-          "src": "2025-11-27-151016-cebreus.heic",
-          "alt": "Karnak, Luxor",
-          "title": "",
-          "width": 3024,
-          "height": 4032,
-          "sizeMB": 1.45,
-          "aspectRatio": "portrait-3-4",
-          "placeholder": "blurs/2025-11-27-151016-cebreus.png",
-          "placeholderColor": "rgb(104,104,104)",
-          "analysis": {
-            "aestheticScore": 65.12256225041904,
-            "sharpness": 89,
-            "qualityBucket": "excellent",
-            "phash": "d9cbcfec6430529e",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-27T15:10:16",
-            "releaseDate": "2025-11-27T15:10:16",
-            "location": "Karnak",
-            "city": "Luxor",
-            "latitude": 25.717603,
-            "longitude": 32.660089,
-            "orientation": 6,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Luxor (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Karnak",
-          "city": "Luxor",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.717603,32.660089",
-          "date": "2025-11-27T15:10:16",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/images/previews-webp/2025-11-27-151016-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/images/previews/2025-11-27-151016-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/images/previews-avif/2025-11-27-151016-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/images/previews-xl-webp/2025-11-27-151016-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/images/previews-xl/2025-11-27-151016-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/images/previews-xl-avif/2025-11-27-151016-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/images/details/2025-11-27-151016-cebreus.jpeg",
-              "width": 960,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/images/previews-xxs/2025-11-27-151016-cebreus.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/images/previews-admin/2025-11-27-151016-cebreus.jpeg",
-              "width": 401,
-              "height": 534
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-27-151028-cebreus",
-          "type": "image",
-          "src": "2025-11-27-151028-cebreus.heic",
-          "alt": "Karnak, Luxor",
-          "title": "",
-          "width": 8064,
-          "height": 6048,
-          "sizeMB": 5.89,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-27-151028-cebreus.png",
-          "placeholderColor": "rgb(120,104,88)",
-          "analysis": {
-            "aestheticScore": 58.03833665151348,
-            "sharpness": 60,
-            "qualityBucket": "good",
-            "phash": "139f635d2635fd7f",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-27T15:10:28",
-            "releaseDate": "2025-11-27T15:10:28",
-            "location": "Karnak",
-            "city": "Luxor",
-            "latitude": 25.717622,
-            "longitude": 32.660039,
-            "orientation": 1,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Luxor (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Karnak",
-          "city": "Luxor",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.717622,32.660039",
-          "date": "2025-11-27T15:10:28",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/images/previews-webp/2025-11-27-151028-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/images/previews/2025-11-27-151028-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/images/previews-avif/2025-11-27-151028-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/images/previews-xl-webp/2025-11-27-151028-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/images/previews-xl/2025-11-27-151028-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/images/previews-xl-avif/2025-11-27-151028-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/images/details/2025-11-27-151028-cebreus.jpeg",
-              "width": 1707,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/images/previews-xxs/2025-11-27-151028-cebreus.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/images/previews-admin/2025-11-27-151028-cebreus.jpeg",
-              "width": 534,
-              "height": 401
-            }
-          ],
-          "people": []
-        },
-        {
           "id": "2025-11-27-151031-cebreus",
           "type": "image",
           "src": "2025-11-27-151031-cebreus.heic",
@@ -24308,131 +23613,32 @@
           "people": []
         },
         {
-          "id": "2025-11-27-160318-bobina",
+          "id": "2025-11-27-160718-cebreus",
           "type": "image",
-          "src": "2025-11-27-160318-bobina.heic",
+          "src": "2025-11-27-160718-cebreus.heic",
           "alt": "Luxorský chrám, Luxor",
           "title": "",
-          "width": 4025,
-          "height": 2860,
-          "sizeMB": 1.69,
-          "aspectRatio": "landscape-805-572",
-          "placeholder": "blurs/2025-11-27-160318-bobina.png",
-          "placeholderColor": "rgb(184,168,152)",
+          "width": 4032,
+          "height": 3024,
+          "sizeMB": 1.87,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/2025-11-27-160718-cebreus.png",
+          "placeholderColor": "rgb(200,184,168)",
           "analysis": {
-            "aestheticScore": 57.97915792590571,
-            "sharpness": 76,
-            "qualityBucket": "good",
-            "phash": "fba6aea7a7b1b643",
+            "aestheticScore": 85.07223300975602,
+            "sharpness": 100,
+            "qualityBucket": "excellent",
+            "phash": "8a968aea8aecbaa2",
             "facesDetected": false,
             "faces": []
           },
           "exif": {
-            "date": "2025-11-27T16:03:18",
+            "date": "2025-11-27T16:07:18",
             "releaseDate": "2025-11-27T16:03:18",
             "location": "Luxorský chrám",
             "city": "Luxor",
-            "latitude": 25.700069,
-            "longitude": 32.639436,
-            "orientation": 1,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Luxor (guvernorát)"
-          },
-          "author": "Bobina",
-          "authorSlug": "bobina",
-          "location": "Luxorský chrám",
-          "city": "Luxor",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.700069,32.639436",
-          "date": "2025-11-27T16:03:18",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/images/previews-webp/2025-11-27-160318-bobina.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/images/previews/2025-11-27-160318-bobina.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/images/previews-avif/2025-11-27-160318-bobina.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/images/previews-xl-webp/2025-11-27-160318-bobina.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/images/previews-xl/2025-11-27-160318-bobina.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/images/previews-xl-avif/2025-11-27-160318-bobina.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/images/details/2025-11-27-160318-bobina.jpeg",
-              "width": 1801,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/images/previews-xxs/2025-11-27-160318-bobina.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/images/previews-admin/2025-11-27-160318-bobina.jpeg",
-              "width": 534,
-              "height": 380
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-27-160445-cebreus",
-          "type": "image",
-          "src": "2025-11-27-160445-cebreus.heic",
-          "alt": "Luxorský chrám, Luxor",
-          "title": "",
-          "width": 8064,
-          "height": 6048,
-          "sizeMB": 5.78,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-27-160445-cebreus.png",
-          "placeholderColor": "rgb(248,216,136)",
-          "analysis": {
-            "aestheticScore": 52.24011355812332,
-            "sharpness": 100,
-            "qualityBucket": "good",
-            "phash": "90aa8a92b3747406",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-27T16:04:45",
-            "releaseDate": "2025-11-27T16:04:45",
-            "location": "Luxorský chrám",
-            "city": "Luxor",
-            "latitude": 25.700139,
-            "longitude": 32.639442,
+            "latitude": 25.700167,
+            "longitude": 32.6395,
             "orientation": 1,
             "country": "Egypt",
             "countryCode": "EGY",
@@ -24442,63 +23648,161 @@
           "authorSlug": "cebreus",
           "location": "Luxorský chrám",
           "city": "Luxor",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.700139,32.639442",
-          "date": "2025-11-27T16:04:45",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.700167,32.6395",
+          "date": "2025-11-27T16:07:18",
           "sources": [
             {
               "variant": "default",
               "type": "image/webp",
-              "path": "/images/previews-webp/2025-11-27-160445-cebreus.webp",
+              "path": "/images/previews-webp/2025-11-27-160718-cebreus.webp",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/jpeg",
-              "path": "/images/previews/2025-11-27-160445-cebreus.jpeg",
+              "path": "/images/previews/2025-11-27-160718-cebreus.jpeg",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/avif",
-              "path": "/images/previews-avif/2025-11-27-160445-cebreus.avif",
+              "path": "/images/previews-avif/2025-11-27-160718-cebreus.avif",
               "width": 370
             },
             {
               "variant": "xl",
               "type": "image/webp",
-              "path": "/images/previews-xl-webp/2025-11-27-160445-cebreus.webp",
+              "path": "/images/previews-xl-webp/2025-11-27-160718-cebreus.webp",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/jpeg",
-              "path": "/images/previews-xl/2025-11-27-160445-cebreus.jpeg",
+              "path": "/images/previews-xl/2025-11-27-160718-cebreus.jpeg",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/avif",
-              "path": "/images/previews-xl-avif/2025-11-27-160445-cebreus.avif",
+              "path": "/images/previews-xl-avif/2025-11-27-160718-cebreus.avif",
               "width": 534
             },
             {
               "variant": "detail",
               "type": "image/jpeg",
-              "path": "/images/details/2025-11-27-160445-cebreus.jpeg",
+              "path": "/images/details/2025-11-27-160718-cebreus.jpeg",
               "width": 1707,
               "height": 1280
             },
             {
               "variant": "fallback",
               "type": "image/jpeg",
-              "path": "/images/previews-xxs/2025-11-27-160445-cebreus.jpeg",
+              "path": "/images/previews-xxs/2025-11-27-160718-cebreus.jpeg",
               "width": 190,
               "height": 127
             },
             {
               "variant": "admin_thumb",
               "type": "image/jpeg",
-              "path": "/images/previews-admin/2025-11-27-160445-cebreus.jpeg",
+              "path": "/images/previews-admin/2025-11-27-160718-cebreus.jpeg",
+              "width": 534,
+              "height": 401
+            }
+          ],
+          "people": []
+        },
+        {
+          "id": "2025-11-27-160752-cebreus",
+          "type": "image",
+          "src": "2025-11-27-160752-cebreus.heic",
+          "alt": "Luxorský chrám, Luxor",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "sizeMB": 5.03,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/2025-11-27-160752-cebreus.png",
+          "placeholderColor": "rgb(184,168,152)",
+          "analysis": {
+            "aestheticScore": 66.24643840252017,
+            "sharpness": 84,
+            "qualityBucket": "excellent",
+            "phash": "36001d294b83113e",
+            "facesDetected": false,
+            "faces": []
+          },
+          "exif": {
+            "date": "",
+            "releaseDate": "2025-11-27T16:04:45",
+            "location": "Luxorský chrám",
+            "city": "Luxor",
+            "latitude": 25.700064,
+            "longitude": 32.639447,
+            "orientation": 1,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Luxor (guvernorát)"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Luxorský chrám",
+          "city": "Luxor",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.700064,32.639447",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/images/previews-webp/2025-11-27-160752-cebreus.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/images/previews/2025-11-27-160752-cebreus.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/images/previews-avif/2025-11-27-160752-cebreus.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/images/previews-xl-webp/2025-11-27-160752-cebreus.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/images/previews-xl/2025-11-27-160752-cebreus.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/images/previews-xl-avif/2025-11-27-160752-cebreus.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/images/details/2025-11-27-160752-cebreus.jpeg",
+              "width": 1707,
+              "height": 1280
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/images/previews-xxs/2025-11-27-160752-cebreus.jpeg",
+              "width": 190,
+              "height": 127
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/images/previews-admin/2025-11-27-160752-cebreus.jpeg",
               "width": 534,
               "height": 401
             }
@@ -24722,6 +24026,105 @@
           "people": []
         },
         {
+          "id": "2025-11-27-160445-cebreus",
+          "type": "image",
+          "src": "2025-11-27-160445-cebreus.heic",
+          "alt": "Luxorský chrám, Luxor",
+          "title": "",
+          "width": 8064,
+          "height": 6048,
+          "sizeMB": 5.78,
+          "aspectRatio": "landscape-4-3",
+          "placeholder": "blurs/2025-11-27-160445-cebreus.png",
+          "placeholderColor": "rgb(248,216,136)",
+          "analysis": {
+            "aestheticScore": 52.24011355812332,
+            "sharpness": 100,
+            "qualityBucket": "good",
+            "phash": "90aa8a92b3747406",
+            "facesDetected": false,
+            "faces": []
+          },
+          "exif": {
+            "date": "2025-11-27T16:04:45",
+            "releaseDate": "2025-11-27T16:05:02",
+            "location": "Luxorský chrám",
+            "city": "Luxor",
+            "latitude": 25.700139,
+            "longitude": 32.639442,
+            "orientation": 1,
+            "country": "Egypt",
+            "countryCode": "EGY",
+            "state": "Luxor (guvernorát)"
+          },
+          "author": "Cebreus",
+          "authorSlug": "cebreus",
+          "location": "Luxorský chrám",
+          "city": "Luxor",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.700139,32.639442",
+          "date": "2025-11-27T16:04:45",
+          "sources": [
+            {
+              "variant": "default",
+              "type": "image/webp",
+              "path": "/images/previews-webp/2025-11-27-160445-cebreus.webp",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/jpeg",
+              "path": "/images/previews/2025-11-27-160445-cebreus.jpeg",
+              "width": 370
+            },
+            {
+              "variant": "default",
+              "type": "image/avif",
+              "path": "/images/previews-avif/2025-11-27-160445-cebreus.avif",
+              "width": 370
+            },
+            {
+              "variant": "xl",
+              "type": "image/webp",
+              "path": "/images/previews-xl-webp/2025-11-27-160445-cebreus.webp",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/jpeg",
+              "path": "/images/previews-xl/2025-11-27-160445-cebreus.jpeg",
+              "width": 534
+            },
+            {
+              "variant": "xl",
+              "type": "image/avif",
+              "path": "/images/previews-xl-avif/2025-11-27-160445-cebreus.avif",
+              "width": 534
+            },
+            {
+              "variant": "detail",
+              "type": "image/jpeg",
+              "path": "/images/details/2025-11-27-160445-cebreus.jpeg",
+              "width": 1707,
+              "height": 1280
+            },
+            {
+              "variant": "fallback",
+              "type": "image/jpeg",
+              "path": "/images/previews-xxs/2025-11-27-160445-cebreus.jpeg",
+              "width": 190,
+              "height": 127
+            },
+            {
+              "variant": "admin_thumb",
+              "type": "image/jpeg",
+              "path": "/images/previews-admin/2025-11-27-160445-cebreus.jpeg",
+              "width": 534,
+              "height": 401
+            }
+          ],
+          "people": []
+        },
+        {
           "id": "2025-11-27-160502-dasa--zoom3from3",
           "type": "sequence",
           "src": "2025-11-27-160502-dasa--zoom3from3.heic",
@@ -24743,7 +24146,7 @@
           },
           "exif": {
             "date": "2025-11-27T16:05:02",
-            "releaseDate": "2025-11-27T16:05:02",
+            "releaseDate": "2025-11-27T16:07:18",
             "location": "Luxorský chrám",
             "latitude": 25.700281,
             "longitude": 32.639483,
@@ -24830,198 +24233,100 @@
           "people": []
         },
         {
-          "id": "2025-11-27-160718-cebreus",
+          "id": "2025-11-27-160318-bobina",
           "type": "image",
-          "src": "2025-11-27-160718-cebreus.heic",
+          "src": "2025-11-27-160318-bobina.heic",
           "alt": "Luxorský chrám, Luxor",
           "title": "",
-          "width": 4032,
-          "height": 3024,
-          "sizeMB": 1.87,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-27-160718-cebreus.png",
-          "placeholderColor": "rgb(200,184,168)",
-          "analysis": {
-            "aestheticScore": 85.07223300975602,
-            "sharpness": 100,
-            "qualityBucket": "excellent",
-            "phash": "8a968aea8aecbaa2",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-27T16:07:18",
-            "releaseDate": "2025-11-27T16:07:18",
-            "location": "Luxorský chrám",
-            "city": "Luxor",
-            "latitude": 25.700167,
-            "longitude": 32.6395,
-            "orientation": 1,
-            "country": "Egypt",
-            "countryCode": "EGY",
-            "state": "Luxor (guvernorát)"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "location": "Luxorský chrám",
-          "city": "Luxor",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.700167,32.6395",
-          "date": "2025-11-27T16:07:18",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/images/previews-webp/2025-11-27-160718-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/images/previews/2025-11-27-160718-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/images/previews-avif/2025-11-27-160718-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/images/previews-xl-webp/2025-11-27-160718-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/images/previews-xl/2025-11-27-160718-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/images/previews-xl-avif/2025-11-27-160718-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/images/details/2025-11-27-160718-cebreus.jpeg",
-              "width": 1707,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/images/previews-xxs/2025-11-27-160718-cebreus.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/images/previews-admin/2025-11-27-160718-cebreus.jpeg",
-              "width": 534,
-              "height": 401
-            }
-          ],
-          "people": []
-        },
-        {
-          "id": "2025-11-27-160752-cebreus",
-          "type": "image",
-          "src": "2025-11-27-160752-cebreus.heic",
-          "alt": "Luxorský chrám, Luxor",
-          "title": "",
-          "width": 8064,
-          "height": 6048,
-          "sizeMB": 5.03,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-27-160752-cebreus.png",
+          "width": 4025,
+          "height": 2860,
+          "sizeMB": 1.69,
+          "aspectRatio": "landscape-805-572",
+          "placeholder": "blurs/2025-11-27-160318-bobina.png",
           "placeholderColor": "rgb(184,168,152)",
           "analysis": {
-            "aestheticScore": 66.24643840252017,
-            "sharpness": 84,
-            "qualityBucket": "excellent",
-            "phash": "36001d294b83113e",
+            "aestheticScore": 57.97915792590571,
+            "sharpness": 76,
+            "qualityBucket": "good",
+            "phash": "fba6aea7a7b1b643",
             "facesDetected": false,
             "faces": []
           },
           "exif": {
-            "date": "",
+            "date": "2025-11-27T16:03:18",
             "releaseDate": "2025-11-27T16:07:52",
             "location": "Luxorský chrám",
             "city": "Luxor",
-            "latitude": 25.700064,
-            "longitude": 32.639447,
+            "latitude": 25.700069,
+            "longitude": 32.639436,
             "orientation": 1,
             "country": "Egypt",
             "countryCode": "EGY",
             "state": "Luxor (guvernorát)"
           },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
+          "author": "Bobina",
+          "authorSlug": "bobina",
           "location": "Luxorský chrám",
           "city": "Luxor",
-          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.700064,32.639447",
+          "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=25.700069,32.639436",
+          "date": "2025-11-27T16:03:18",
           "sources": [
             {
               "variant": "default",
               "type": "image/webp",
-              "path": "/images/previews-webp/2025-11-27-160752-cebreus.webp",
+              "path": "/images/previews-webp/2025-11-27-160318-bobina.webp",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/jpeg",
-              "path": "/images/previews/2025-11-27-160752-cebreus.jpeg",
+              "path": "/images/previews/2025-11-27-160318-bobina.jpeg",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/avif",
-              "path": "/images/previews-avif/2025-11-27-160752-cebreus.avif",
+              "path": "/images/previews-avif/2025-11-27-160318-bobina.avif",
               "width": 370
             },
             {
               "variant": "xl",
               "type": "image/webp",
-              "path": "/images/previews-xl-webp/2025-11-27-160752-cebreus.webp",
+              "path": "/images/previews-xl-webp/2025-11-27-160318-bobina.webp",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/jpeg",
-              "path": "/images/previews-xl/2025-11-27-160752-cebreus.jpeg",
+              "path": "/images/previews-xl/2025-11-27-160318-bobina.jpeg",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/avif",
-              "path": "/images/previews-xl-avif/2025-11-27-160752-cebreus.avif",
+              "path": "/images/previews-xl-avif/2025-11-27-160318-bobina.avif",
               "width": 534
             },
             {
               "variant": "detail",
               "type": "image/jpeg",
-              "path": "/images/details/2025-11-27-160752-cebreus.jpeg",
-              "width": 1707,
+              "path": "/images/details/2025-11-27-160318-bobina.jpeg",
+              "width": 1801,
               "height": 1280
             },
             {
               "variant": "fallback",
               "type": "image/jpeg",
-              "path": "/images/previews-xxs/2025-11-27-160752-cebreus.jpeg",
+              "path": "/images/previews-xxs/2025-11-27-160318-bobina.jpeg",
               "width": 190,
               "height": 127
             },
             {
               "variant": "admin_thumb",
               "type": "image/jpeg",
-              "path": "/images/previews-admin/2025-11-27-160752-cebreus.jpeg",
+              "path": "/images/previews-admin/2025-11-27-160318-bobina.jpeg",
               "width": 534,
-              "height": 401
+              "height": 380
             }
           ],
           "people": []
@@ -25149,9 +24454,7 @@
             }
           ],
           "people": [
-            "person-119ea5df",
-            "person-f4999137",
-            "person-183e8294"
+            "person-119ea5df"
           ]
         },
         {
@@ -25877,7 +25180,7 @@
             "person-9b0bc40f",
             "person-86077f36",
             "person-6abf63c9",
-            "person-e106e434",
+            "person-f4999137",
             "person-0db741fb"
           ]
         },
@@ -26121,19 +25424,23 @@
           "src": "2025-11-27-170359-cebreus.heic",
           "alt": "Luxorský chrám, Luxor",
           "title": "",
-          "width": 4032,
-          "height": 3024,
+          "width": 3629,
+          "height": 2722,
           "sizeMB": 1.14,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-27-170359-cebreus.png",
-          "placeholderColor": "rgb(136,136,136)",
+          "placeholderColor": "rgb(200,200,200)",
           "analysis": {
-            "aestheticScore": 44.00510300843609,
-            "sharpness": 100,
-            "qualityBucket": "poor",
-            "phash": "e0c0f0d036362600",
+            "sharpness": 3729.4420078513504,
+            "phash": "c0f0f00833330400",
             "facesDetected": false,
             "faces": []
+          },
+          "clap": {
+            "width": 3629,
+            "height": 2722,
+            "horizOffset": 108,
+            "vertOffset": -151
           },
           "exif": {
             "date": "2025-11-27T17:03:59",
@@ -26209,7 +25516,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-170359-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 400
             }
           ],
           "people": []
@@ -26537,7 +25844,7 @@
             }
           ],
           "people": [
-            "person-70767217--odpojeno-od-person-15-5",
+            "person-73a8dfb7--odpojeno-od-person-15-5-2",
             "person-0db741fb",
             "person-44540c09--odpojeno-od-person-56-6"
           ]
