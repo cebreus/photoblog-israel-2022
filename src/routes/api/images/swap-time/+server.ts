@@ -74,21 +74,32 @@ export async function POST({ request, locals }: RequestEvent) {
         throw new Error("Some images not found in day");
       }
 
-      // 2. Group into Entities (Logical Blocks by baseId)
-      const entities = new Map<string, ImageEntry[]>();
-
+      // 2. Identify unique entity keys (logical blocks)
+      const entityKeys = new Set<string>();
       for (const item of selectedItems) {
-        const key = item.sequenceInfo?.baseId || item.id;
-        if (!entities.has(key)) {
-          entities.set(key, []);
-        }
-        entities.get(key)?.push(item);
+        entityKeys.add(item.sequenceInfo?.baseId || item.id);
       }
 
-      if (entities.size !== 2) {
+      if (entityKeys.size !== 2) {
         throw new Error(
-          `Swap requires exactly 2 logical entities (photos or sequences). Selected: ${entities.size}`,
+          `Swap requires exactly 2 logical entities (photos or sequences). Selected: ${entityKeys.size}`,
         );
+      }
+
+      // 3. Populate entities with ALL items from the day that belong to these keys
+      // This ensures that if only one photo from a sequence is selected, the whole sequence is swapped.
+      const entities = new Map<string, ImageEntry[]>();
+      for (const key of entityKeys) {
+        entities.set(key, []);
+      }
+
+      const allDayImages = targetDay.items.filter((i): i is ImageEntry => i.type === "image");
+
+      for (const img of allDayImages) {
+        const key = img.sequenceInfo?.baseId || img.id;
+        if (entities.has(key)) {
+          entities.get(key)?.push(img);
+        }
       }
 
       const [entityA, entityB] = Array.from(entities.values());

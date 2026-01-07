@@ -121,12 +121,38 @@ export async function POST({ request, locals }: RequestEvent) {
         return timeA.localeCompare(timeB);
       });
 
-      // Calculate effective bounds from minimum and maximum times in the set
-      // Since we sort above, first is min, last is max
-      const minTime = sortedImages[0].exif?.releaseDate || sortedImages[0].exif?.date || "";
+      // Group items by sequence (or individual image if not in sequence)
+      // This is crucial: we want to distribute *logical items*, not every single file individually if they are part of a sequence.
+      // If a sequence has 5 photos, it should take up only 1 "slot" in the time distribution.
+      const groupedEntities = new Map<string, ImageEntry[]>();
+      for (const item of sortedImages) {
+        const key = item.sequenceInfo?.baseId || item.id;
+        if (!groupedEntities.has(key)) {
+          groupedEntities.set(key, []);
+        }
+        groupedEntities.get(key)?.push(item);
+      }
+
+      // We need to pass representative items to distributeTimesInRange
+      // The representative item is the one with the earliest time (usually the first one in the sorted array)
+      const representativeItems: ImageEntry[] = [];
+      for (const group of groupedEntities.values()) {
+        // Sort group internally by time just to be safe
+        group.sort((a, b) => {
+          const tA = a.exif?.releaseDate || a.exif?.date || "";
+          const tB = b.exif?.releaseDate || b.exif?.date || "";
+          return tA.localeCompare(tB);
+        });
+        representativeItems.push(group[0]);
+      }
+
+      // Calculate effective bounds on the *representative* items
+      // (This should be roughly the same as total bounds, but logically cleaner)
+      const minTime =
+        representativeItems[0].exif?.releaseDate || representativeItems[0].exif?.date || "";
       const maxTime =
-        sortedImages[sortedImages.length - 1].exif?.releaseDate ||
-        sortedImages[sortedImages.length - 1].exif?.date ||
+        representativeItems[representativeItems.length - 1].exif?.releaseDate ||
+        representativeItems[representativeItems.length - 1].exif?.date ||
         "";
 
       if (!minTime || !maxTime) {
@@ -141,21 +167,45 @@ export async function POST({ request, locals }: RequestEvent) {
 
       log.info(
         {
-          count: sortedImages.length,
+          count: representativeItems.length,
+          totalImages: sortedImages.length,
           mode: imageIds ? "selection" : "location",
           location: location || undefined,
           imageIds: imageIds || undefined,
           minTime,
           maxTime,
         },
-        "Redistributing images",
+        "Redistributing entities",
       );
 
-      // Calculate new evenly distributed times
-      const newDates = distributeTimesInRange(sortedImages, minTime, maxTime);
+      // Distribute times for representative items
+      const newRepresentativeDates = distributeTimesInRange(representativeItems, minTime, maxTime);
+
+      // Now map these dates back to ALL items in the groups
+      const allNewDates: Record<string, string> = {};
+
+      for (const [repId, newDate] of Object.entries(newRepresentativeDates)) {
+        // Find the group this repId belongs to
+        // (We can use the repId as key if it equals the baseId for single items, but for sequences repId != baseId necessarily)
+        // Actually, we can just look up which group contains the item with repId.
+        const groupKey =
+          representativeItems.find((i) => i.id === repId)?.sequenceInfo?.baseId || repId;
+        const group = groupedEntities.get(groupKey);
+
+        if (group) {
+          // Assign the SAME new releaseDate to ALL items in the sequence group
+          // This keeps they grouped together at the same timestamp.
+          // The sort order within the sequence is determined by their original capture time (date), which isn't changing.
+          // releaseDate overrides sorting in PhotoGrid, but if they are equal, it might fall back to ID or date?
+          // Ideally, for sequences, we want them to have the same releaseDate.
+          for (const item of group) {
+            allNewDates[item.id] = newDate;
+          }
+        }
+      }
 
       // Write to files (XMP) and update manifest objects
-      for (const [id, releaseDate] of Object.entries(newDates)) {
+      for (const [id, releaseDate] of Object.entries(allNewDates)) {
         const imagePath = await resolveImagePath(id, contentDirRoot);
 
         // Write XMP
