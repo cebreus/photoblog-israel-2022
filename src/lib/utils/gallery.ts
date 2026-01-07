@@ -148,14 +148,16 @@ function shouldIncludeItem(
     const wantsUnrated = selectedBuckets.includes("unrated");
     const wantsRatedBuckets = selectedBuckets.filter((b) => b !== "unrated") as QualityBucket[];
 
-    // If image has no bucket
-    if (!bucket) {
-      // Only show if "unrated" is selected
-      return wantsUnrated;
+    // If image has no bucket, exclude unless "unrated" is selected
+    if (!bucket && !wantsUnrated) {
+      return false;
     }
 
-    // If image has bucket, only show if that bucket is selected
-    return wantsRatedBuckets.includes(bucket);
+    // If image has bucket, exclude unless that bucket is selected
+    if (bucket && !wantsRatedBuckets.includes(bucket)) {
+      return false;
+    }
+    // Fall through to check other filters (people, etc.)
   }
 
   if (criteria.selectedPeople.length > 0) {
