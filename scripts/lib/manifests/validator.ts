@@ -174,7 +174,7 @@ function cleanPeopleManifest(
       result.people.push(person);
     } else {
       cleaned++;
-      logger.verbose(`Removing orphaned person: ${person.name} (${person.id})`);
+      logger.verbose({ personName: person.name, personId: person.id }, "Removing orphaned person");
     }
   }
 
@@ -189,7 +189,7 @@ async function cleanPhantomAssignments(
   imagesManifest: Manifest,
   facesManifest: FacesManifest | null,
 ): Promise<{ totalRemoved: number; facesRemoved: number }> {
-  const facesDir = path.resolve(process.cwd(), "static", gallery, "faces");
+  const facesDir = path.resolve(process.cwd(), `static-${gallery}/faces`);
 
   let totalRemoved = 0;
   let facesRemoved = 0;
@@ -246,7 +246,7 @@ async function cleanPhantomPeopleThumbnails(
   gallery: string,
   peopleManifest: PeopleManifest,
 ): Promise<{ cleanedThumbnails: number }> {
-  const staticDir = path.resolve(process.cwd(), "static", gallery);
+  const staticDir = path.resolve(process.cwd(), `static-${gallery}`);
   let cleanedThumbnails = 0;
 
   for (const person of peopleManifest.people) {
@@ -491,7 +491,7 @@ export async function validateAndCleanManifests(
   let orphanOutputsCleanedCount = 0;
   if (cleanOutputs && gallery) {
     const projectRoot = process.cwd();
-    const outputRoot = `${projectRoot}/static/${gallery}/images`;
+    const outputRoot = `${projectRoot}/static-${gallery}/images`;
 
     const outputFolders = getOutputFolders(config as any);
 
@@ -515,7 +515,7 @@ export async function validateAndCleanManifests(
           try {
             await fsp.unlink(path.join(outputRoot, orphan));
             orphanOutputsCleanedCount++;
-            logger.verbose(`Removed orphan output: ${orphan}`);
+            logger.verbose({ orphan }, "Removed orphan output");
           } catch {
             // Ignore errors
           }

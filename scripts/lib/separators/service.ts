@@ -26,6 +26,7 @@ export function createSeparator(
   startDate?: string,
   endDate?: string,
   city: string = "",
+  source: "main" | "visit" = "main",
 ): Separator {
   const storyContent = story?.content || "";
 
@@ -50,6 +51,7 @@ export function createSeparator(
           story: parseMarkdown(storyContent),
         }
       : {}),
+    source,
   };
 }
 
@@ -63,7 +65,7 @@ export function getMarkdownSeparatorsForDay(dayDate: string, storyData: StoryDat
     // Only process location-specific stories (not day stories)
     if (story.location !== locationKey) continue;
 
-    const addVisit = (start?: string, end?: string) => {
+    const addVisit = (start?: string, end?: string, source: "main" | "visit" = "main") => {
       // Require at least startDate or endDate
       const bestDate = start || end;
       if (!bestDate) return;
@@ -71,15 +73,15 @@ export function getMarkdownSeparatorsForDay(dayDate: string, storyData: StoryDat
       // We only compare the YYYY-MM-DD part
       // Note: All dates are already normalized to strings in loadStoryData
       if (bestDate.substring(0, 10) === dayDate) {
-        separators.push(createSeparator(locationKey, story, start, end));
+        separators.push(createSeparator(locationKey, story, start, end, undefined, source));
       }
     };
 
-    addVisit(story.startDate, story.endDate);
+    addVisit(story.startDate, story.endDate, "main");
 
     if (story.visits) {
       for (const visit of story.visits) {
-        addVisit(visit.startDate, visit.endDate);
+        addVisit(visit.startDate, visit.endDate, "visit");
       }
     }
   }

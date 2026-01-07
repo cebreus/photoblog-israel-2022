@@ -88,7 +88,7 @@ export async function restoreManifests(gallery: string, backupDir: string): Prom
  */
 export async function migrateGeneratedAssets(gallery: string, renameMap: RenameMap): Promise<void> {
   const staticParams = {
-    outRoot: `static/${gallery}/images`,
+    outRoot: `static-${gallery}/images`,
   };
 
   const outputFolders = getOutputFolders({
@@ -118,7 +118,7 @@ export async function migrateGeneratedAssets(gallery: string, renameMap: RenameM
     }
 
     // Rename face crops
-    const facesRootDir = path.resolve(`static/${gallery}/faces`);
+    const facesRootDir = path.resolve(`static-${gallery}/faces`);
     if (await directoryExists(facesRootDir)) {
       const personDirs = await fsp.readdir(facesRootDir);
       for (const personDir of personDirs) {

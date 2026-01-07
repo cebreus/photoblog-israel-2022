@@ -4,11 +4,12 @@ import { playwright } from "@vitest/browser-playwright";
 import path from "path";
 import devtoolsJson from "vite-plugin-devtools-json";
 import { defineConfig } from "vitest/config";
+import { galleryAssetsPlugin } from "./vite-plugin-gallery-assets";
 
 const contentDir = process.env.CONTENT_DIR || "egypt-2025";
 
 export default defineConfig({
-  plugins: [tailwindcss(), sveltekit(), devtoolsJson()],
+  plugins: [tailwindcss(), sveltekit(), devtoolsJson(), galleryAssetsPlugin()],
   server: {
     fs: {
       // Allow serving files from shared/ directory (added in Dec 2024 refactoring)

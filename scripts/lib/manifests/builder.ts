@@ -248,7 +248,11 @@ export function organizeDayItems(day: PhotoDay, storyData: StoryDataMap): PhotoD
       allItems[i] = updatedSeparator;
 
       // VALIDATION: Warn about separators with explicit dates but no photos
-      if (!updatedSeparator.hasPhotos && (updatedSeparator.startDate || updatedSeparator.endDate)) {
+      if (
+        !updatedSeparator.hasPhotos &&
+        (updatedSeparator.startDate || updatedSeparator.endDate) &&
+        updatedSeparator.source !== "visit"
+      ) {
         // Count photos manually for warning message
         let photoCount = 0;
         for (const photo of images) {
@@ -512,7 +516,7 @@ function mapDayToMenu(d: PhotoDay, storyData: StoryDataMap): MenuManifest[number
       locations.push({
         id: item.id,
         label: item.location,
-        href: `#${item.id}`,
+        href: `/#${item.id}`,
         isDimmed: !item.hasPhotos,
         firstPhotoExifDate: firstPhoto?.exif?.releaseDate ?? firstPhoto?.exif?.date,
         startDate: item.startDate ?? storyData[item.location]?.startDate,
@@ -536,7 +540,7 @@ function mapDayToMenu(d: PhotoDay, storyData: StoryDataMap): MenuManifest[number
       locations.push({
         id: locId,
         label: loc,
-        href: `#${item.id}`, // Link to the first image we found
+        href: `/#${item.id}`, // Link to the first image we found
         isDimmed,
         firstPhotoExifDate: item.exif?.releaseDate ?? item.exif?.date,
         // No explicit start/end dates for pure image groups
@@ -554,7 +558,7 @@ function mapDayToMenu(d: PhotoDay, storyData: StoryDataMap): MenuManifest[number
       month: "long",
       day: "numeric",
     }),
-    href: `#${dayId}`,
+    href: `/#${dayId}`,
     locations,
   };
 }

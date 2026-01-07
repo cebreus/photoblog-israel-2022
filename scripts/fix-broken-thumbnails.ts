@@ -19,7 +19,7 @@ async function main() {
   intro(pc.cyan("🛠️ Repairing Broken People Thumbnails"));
 
   const contentDir = await resolveGalleryDirectory();
-  const staticDir = path.resolve(process.cwd(), `static/${contentDir}`);
+  const staticDir = path.resolve(process.cwd(), `static-${contentDir}`);
   const dataDir = path.resolve(process.cwd(), `src/data/${contentDir}`);
 
   const s = spinner();
@@ -29,7 +29,7 @@ async function main() {
   s.stop("Manifests loaded");
 
   if (!peopleManifest || !imagesManifest) {
-    logger.error("Required manifests not found.");
+    logger.error({}, "Required manifests not found.");
     process.exit(1);
   }
 
@@ -65,7 +65,10 @@ async function main() {
     }
 
     if (!isValid) {
-      logger.debug(`Thumbnail missing for ${person.name} (${person.id}), attempting repair...`);
+      logger.debug(
+        { personName: person.name, personId: person.id },
+        "Thumbnail missing, attempting repair",
+      );
       const imageIds = personToImages.get(person.id) || [];
       let foundNew = false;
 
@@ -110,6 +113,6 @@ async function main() {
 }
 
 main().catch((err) => {
-  logger.error(err);
+  logger.error({ err }, "Repair process failed");
   process.exit(1);
 });

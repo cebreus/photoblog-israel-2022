@@ -170,6 +170,7 @@ export type Separator = {
     startDate?: string;
     endDate?: string;
     hasPhotos?: boolean;
+    source?: "main" | "visit";
 };
 
 export type PhotoDayItem = ImageEntry | Separator;

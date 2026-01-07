@@ -78,7 +78,7 @@ export async function processBlurImage(
     const finalStat = await fsp.stat(outPath);
     return { status: "success", size: finalStat.size };
   } catch (err: any) {
-    logger.error(`Blur processing failed for ${file}: ${err?.message ?? err}`);
+    logger.error({ err, file }, "Blur processing failed");
     return { status: "fail", size: 0 };
   } finally {
     if (tempPath) {
@@ -104,7 +104,7 @@ export async function runBlurBuild(raw: Partial<CliOptions>, concurrency: number
       const fallbackSrc = config.paths.source;
 
       if (process.stdout.isTTY) {
-        logger.warn(`Source dir not found: "${blurSrc}"`);
+        logger.warn({ blurSrc }, "Source directory not found");
         const useFallback = await confirm({
           message: `Use original images from "${fallbackSrc}" instead?`,
           initialValue: true,
@@ -112,6 +112,7 @@ export async function runBlurBuild(raw: Partial<CliOptions>, concurrency: number
 
         if (isCancel(useFallback) || !useFallback) {
           logger.info(
+            {},
             "Operation cancelled by user. Tip: Run 'pnpm process images' first to generate optimized previews.",
           );
           return;
@@ -119,7 +120,8 @@ export async function runBlurBuild(raw: Partial<CliOptions>, concurrency: number
       } else {
         // Non-interactive (CI/Automatic) - keep automatic fallback for robustness
         logger.warn(
-          `Optimized previews not found in ${blurSrc}. Falling back to original images in ${fallbackSrc} for blur generation.`,
+          { blurSrc, fallbackSrc },
+          "Optimized previews not found. Falling back to original images for blur generation.",
         );
       }
 
@@ -129,7 +131,7 @@ export async function runBlurBuild(raw: Partial<CliOptions>, concurrency: number
         await fsp.access(blurSrc);
       } catch (_e2) {
         throw new Error(
-          `Blur generation failed: Source directory not found. Tried optimized previews (${config.blur.src}) and originals (${config.paths.source}). Please ensure that either 'static/<gallery>/images/previews-xl' exists or 'content/<gallery>/pics' contains source images.`,
+          `Blur generation failed: Source directory not found. Tried optimized previews (${config.blur.src}) and originals (${config.paths.source}). Please ensure that either 'static-<gallery>/images/previews-xl' exists or 'content/<gallery>/pics' contains source images.`,
         );
       }
     } else {
@@ -139,10 +141,7 @@ export async function runBlurBuild(raw: Partial<CliOptions>, concurrency: number
     }
   }
 
-  logger.debug(`Blur build config:
-• src: ${blurSrc}
-• out: ${blurOut}
-• format: png`);
+  logger.debug({ blurSrc, blurOut, format: "png" }, "Blur build config");
 
   const _sharpModule = await loadSharp();
 
@@ -160,7 +159,7 @@ export async function runBlurBuild(raw: Partial<CliOptions>, concurrency: number
   }
 
   if (srcFiles.length === 0) {
-    logger.warn(`No images found for blur generation in ${blurSrc}.`);
+    logger.warn({ blurSrc }, "No images found for blur generation");
     return;
   }
 
@@ -211,7 +210,11 @@ export async function runBlurBuild(raw: Partial<CliOptions>, concurrency: number
   const newSizeStr = formatBytes(successSize);
 
   logger.info(
-    `Complete with total size ${totalSizeStr}${successSize > 0 && skipSize > 0 ? ` (newly generated: ${newSizeStr})` : ""}`,
+    {
+      totalSize: totalSizeStr,
+      newlyGenerated: successSize > 0 && skipSize > 0 ? newSizeStr : undefined,
+    },
+    "Blur generation complete",
   );
 
   if (raw.blurClean) {

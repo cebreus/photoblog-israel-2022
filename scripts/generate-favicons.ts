@@ -75,7 +75,7 @@ async function loadSiteConfig(contentDir: string): Promise<SiteConfig> {
 
 async function run() {
   if (values.manifestOnly) {
-    logger.info("Manifest-only mode: Skipping favicon generation.");
+    logger.info({ manifestOnly: true }, "Manifest-only mode: Skipping favicon generation.");
     return;
   }
 
@@ -101,17 +101,17 @@ async function run() {
     }
   }
 
-  logger.info(`Using content directory: ${contentDir}`);
+  logger.info({ contentDir }, "Using content directory");
 
   const config = await loadSiteConfig(contentDir);
-  logger.info(`Using source file: ${path.relative(process.cwd(), config.sourceFile)}`);
+  logger.info({ sourceFile: path.relative(process.cwd(), config.sourceFile) }, "Using source file");
 
-  const staticDir = `static/${contentDir}`;
+  const staticDir = `static-${contentDir}`;
   const assetsOutDir = path.resolve(staticDir, "assets", "favicons");
   const tempDir = ".temp";
 
   if (values.clean) {
-    if (values.verbose) logger.info(`Cleaning output directory: ${assetsOutDir}`);
+    if (values.verbose) logger.info({ assetsOutDir }, "Cleaning output directory");
     await fs.rm(assetsOutDir, { recursive: true, force: true });
   }
 
@@ -120,7 +120,7 @@ async function run() {
 
   const configuration: Partial<FaviconOptions> = {
     ...config.manifestConfig,
-    path: `/${contentDir}/assets/favicons/`,
+    path: `/assets/favicons/`, // Absolute path for the website
     lang: config.lang,
   };
 
@@ -135,7 +135,7 @@ async function run() {
   if (faviconIco) {
     const faviconIcoPath = path.resolve(staticDir, "favicon.ico");
     await fs.writeFile(faviconIcoPath, faviconIco.contents);
-    logger.info(`Wrote ${path.relative(process.cwd(), faviconIcoPath)}`);
+    logger.info({ path: path.relative(process.cwd(), faviconIcoPath) }, "Wrote favicon.ico");
 
     function isNotFavicon(image: { name: string }) {
       return image.name !== "favicon.ico";
@@ -147,14 +147,14 @@ async function run() {
     return fs.writeFile(path.join(assetsOutDir, image.name), image.contents);
   }
   await Promise.all(imagesToWrite.map(writeImage));
-  logger.info(`Wrote images to ${path.relative(process.cwd(), assetsOutDir)}`);
+  logger.info({ path: path.relative(process.cwd(), assetsOutDir) }, "Wrote images");
 
   function writeFile(file: { name: string; contents: any }) {
     return fs.writeFile(path.join(assetsOutDir, file.name), file.contents);
   }
 
   await Promise.all(response.files.map(writeFile));
-  logger.info(`Wrote manifest files to ${path.relative(process.cwd(), assetsOutDir)}`);
+  logger.info({ path: path.relative(process.cwd(), assetsOutDir) }, "Wrote manifest files");
 
   const tempFaviconHtmlPath = path.join(tempDir, "favicons.html");
   function filterOutIco(htmlLine: string) {
@@ -171,20 +171,20 @@ async function run() {
     })
     .join("\n");
   await fs.writeFile(tempFaviconHtmlPath, finalHtml);
-  logger.info(`Wrote temporary favicons.html to ${tempFaviconHtmlPath}`);
+  logger.info({ path: tempFaviconHtmlPath }, "Wrote temporary favicons.html");
 
-  logger.info("Favicons generated successfully.");
+  logger.info({ success: true }, "Favicons generated successfully.");
 }
 
 async function executeRun(): Promise<void> {
   const startTime = performance.now();
   try {
     await run();
-    logger.info(`Total time: ${formatDuration(performance.now() - startTime)}`);
+    logger.info({ duration: formatDuration(performance.now() - startTime) }, "Total time");
   } catch (e: any) {
-    logger.error(`An error occurred during favicon generation: ${e?.message ?? e}`);
+    logger.error({ err: e }, "An error occurred during favicon generation");
     if (e?.stack) {
-      logger.error(e.stack);
+      logger.error({ stack: e.stack }, "Stack trace");
     }
     process.exit(1);
   }

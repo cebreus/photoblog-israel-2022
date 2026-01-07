@@ -19,11 +19,17 @@ const config = {
       fallback: "404.html",
       precompress: false,
     }),
+    files: {
+        assets: `static-${contentDir}`
+    },
     alias: {
       $manifests: path.resolve(__dirname, "src/data", contentDir),
       $scripts: path.resolve(__dirname, "scripts"),
       $shared: path.resolve(__dirname, "shared"),
     },
+    version: {
+        name: process.env.PUBLIC_VERSION || Date.now().toString(),
+    }
   },
 };
 export default config;

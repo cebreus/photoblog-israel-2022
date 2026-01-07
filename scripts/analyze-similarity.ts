@@ -258,8 +258,8 @@ async function computeAestheticScores(
 
           // Heuristic: Try to use a thumbnail if it exists (MUCH faster than high-res decoding)
           const webVariants = [
-            path.resolve(process.cwd(), `static/${galleryDir}/xl/${filename}`),
-            path.resolve(process.cwd(), `static/${galleryDir}/lg/${filename}`),
+            path.resolve(process.cwd(), `static-${galleryDir}/xl/${filename}`),
+            path.resolve(process.cwd(), `static-${galleryDir}/lg/${filename}`),
           ];
 
           let bestPath = path.join(srcRoot, filename);
@@ -284,9 +284,7 @@ async function computeAestheticScores(
   }
 
   if (imagesToEmbed.length > 0) {
-    logger.info(
-      `Generating embeddings for ${imagesToEmbed.length} images in batches of ${BATCH_SIZE}...`,
-    );
+    logger.info({ count: imagesToEmbed.length, batchSize: BATCH_SIZE }, "Generating embeddings");
     const embedBar = createBar(imagesToEmbed.length, "generate-embeddings");
     for (let i = 0; i < imagesToEmbed.length; i += BATCH_SIZE) {
       const batch = imagesToEmbed.slice(i, i + BATCH_SIZE);

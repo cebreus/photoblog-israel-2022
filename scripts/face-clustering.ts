@@ -4,6 +4,7 @@ import path from "node:path";
 import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
 import * as canvas from "canvas";
 import sharp from "sharp";
+import { clearTaskStatus } from "../src/lib/server/task-status";
 import {
   type FacesManifest,
   type ImageEntry,
@@ -17,7 +18,11 @@ import { getConcurrency } from "./lib/core/concurrency-utils";
 import { createBar, stopAllBars } from "./lib/core/progress-manager";
 import { deleteOldFaceCrops, findBestMatch, saveFaceCrop } from "./lib/faces/clustering";
 import { backupConstraints } from "./lib/faces/constraints-backup";
-import { filterPeopleWithValidDescriptors, hasValidFaceDescriptor } from "./lib/faces/people";
+import {
+  filterPeopleWithValidDescriptors,
+  hasValidFaceDescriptor,
+  recalculateAllFaceCounts,
+} from "./lib/faces/people";
 import { runPreBuildChecks } from "./lib/faces/pre-build-check";
 import { resolveGalleryDirectory } from "./lib/gallery/resolver";
 import { convertHeicToPng, ensureDir } from "./lib/image/utils";
@@ -330,7 +335,12 @@ async function processFaceDetections(
         if (box.width < minSize || box.height < minSize) {
           if (values.verbose) {
             logger.verbose(
-              `Skipping new person creation for small face (${Math.round(box.width)}x${Math.round(box.height)}) in ${image.id}`,
+              {
+                boxWidth: Math.round(box.width),
+                boxHeight: Math.round(box.height),
+                imageId: image.id,
+              },
+              "Skipping new person creation for small face",
             );
           }
           return; // Skip creation
@@ -416,10 +426,14 @@ async function loadClusteringResources(
           junkPairs.add(`${c.imageId}:${c.box.x}:${c.box.y}:${c.box.width}:${c.box.height}`);
         }
       }
-      if (values.verbose)
-        logger.info(
-          `Loaded ${disconnectedPairs.size} disconnects, ${manualConnects.size} connects, and ${junkPairs.size} junk crops.`, // Renamed from ignoredPairs.size and "ignored crops"
-        );
+      logger.info(
+        {
+          disconnectCount: disconnectedPairs.size,
+          connectCount: manualConnects.size,
+          junkCount: junkPairs.size,
+        },
+        "Loaded constraints",
+      );
     }
   } catch {
     if (values.verbose) logger.info({}, "No constraints found or invalid file");
@@ -478,7 +492,8 @@ async function loadClusteringResources(
                 rescued = true;
                 _rescuedCount++;
                 logger.info(
-                  `✅ Rescued ${p.name} using cached descriptor from image ${foundImageId}`,
+                  { personName: p.name, imageId: foundImageId },
+                  "Rescued person using cached descriptor",
                 );
               }
             }
@@ -513,13 +528,14 @@ async function loadClusteringResources(
 
         // Strategy 2: Rescue from Thumbnail File (Fallback)
         if (!rescued && p.thumbnail && p.thumbnail !== "") {
-          const thumbPath = path.resolve(process.cwd(), `static/${gallery}`, p.thumbnail);
+          const thumbPath = path.resolve(process.cwd(), `static-${gallery}`, p.thumbnail);
           try {
             await fsp.stat(thumbPath);
             const exists = true;
             if (exists) {
               logger.warn(
-                `Rescuing person without descriptor: ${p.name} (${p.id}). Calculating from thumbnail...`,
+                { personName: p.name, personId: p.id },
+                "Rescuing person without descriptor: Calculating from thumbnail",
               );
               const imgBuffer = await fsp.readFile(thumbPath);
               const img = await canvas.loadImage(imgBuffer);
@@ -869,7 +885,8 @@ async function processImageQueue(
               detections = fastDetections;
               if (values.verbose)
                 logger.info(
-                  `⚡️ Fast Path: Computed ${detections.length} descriptors from manifest crops for ${image.id}`,
+                  { count: detections.length, imageId: image.id },
+                  "Fast Path: Computed descriptors from manifest crops",
                 );
             }
           } catch (e) {
@@ -990,9 +1007,9 @@ async function main() {
 
   // Paths
   const dataDir = path.resolve(process.cwd(), `src/data/${contentDir}`);
-  const facesOutputDir = path.resolve(process.cwd(), `static/${contentDir}/faces`);
+  const facesOutputDir = path.resolve(process.cwd(), `static-${contentDir}/faces`);
   const sourceDir = path.resolve(process.cwd(), `content/${contentDir}/pics`);
-  const detailsDir = path.resolve(process.cwd(), `static/${contentDir}/images/details`);
+  const detailsDir = path.resolve(process.cwd(), `static-${contentDir}/images/details`);
 
   await ensureDir(facesOutputDir);
 
@@ -1139,7 +1156,6 @@ async function main() {
 
   // Authoritative recalculation of all face counts before saving people manifest
   // This ensures no inflation and perfect sync with images.manifest.json.
-  const { recalculateAllFaceCounts } = await import("./lib/faces/people");
   recalculateAllFaceCounts({ people }, manifest);
 
   await savePeopleManifest(dataDir, { people });
@@ -1149,9 +1165,8 @@ async function main() {
   // const startTime = performance.now();
   const dataDir = path.resolve(process.cwd(), "src/data", values.gallery || "egypt-2025");
 
-  const { clearTaskStatus } = await import("../src/lib/server/task-status");
-
   try {
+    await clearTaskStatus(dataDir);
     await main();
   } catch (error) {
     logger.error({ err: error }, "Script execution failed");

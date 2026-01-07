@@ -67,7 +67,7 @@ async function main() {
   note(`Auditing gallery: ${pc.bold(contentDir)}`, "Selected Gallery");
 
   const dataDir = path.resolve(process.cwd(), `src/data/${contentDir}`);
-  const staticDir = path.resolve(process.cwd(), `static/${contentDir}`);
+  const staticDir = path.resolve(process.cwd(), `static-${contentDir}`);
   const facesDir = path.join(staticDir, "faces");
   const outputRoot = path.join(staticDir, "images");
   const cachePath = path.resolve(process.cwd(), `.temp/${contentDir}/images.cache.json`);
@@ -84,7 +84,7 @@ async function main() {
   const facesManifest = await loadFacesManifest(dataDir);
 
   if (!imagesManifest) {
-    logger.error("No images manifest found!");
+    logger.error({}, "No images manifest found!");
     process.exit(1);
   }
 
@@ -401,6 +401,6 @@ async function main() {
 const logger = createLogger("audit-orphans");
 
 main().catch((err) => {
-  logger.error(pc.red("\nFatal Error:"), err);
+  logger.error({ err }, "Fatal Error");
   process.exit(1);
 });

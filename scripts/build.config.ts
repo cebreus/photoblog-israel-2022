@@ -8,9 +8,9 @@ export const config = {
   paths: {
     source: `content/${contentDir}/${IMAGE_SUBDIR}`,
     siteSource: `content/${contentDir}`,
-    output: `static/${contentDir}/images`,
-    facesRoot: `static/${contentDir}/faces`,
-    urlPrefix: `/${contentDir}`,
+    output: `static-${contentDir}/images`,
+    facesRoot: `static-${contentDir}/faces`,
+    urlPrefix: "", // Images are now at root /images
     dataRoot: `src/data/${contentDir}`,
     manifest: `src/data/${contentDir}/images.manifest.json`,
     siteManifest: `src/data/${contentDir}/site.manifest.json`,
@@ -52,7 +52,7 @@ export const config = {
     admin_thumb: {
       kind: "other",
       resize: { width: 534, height: 534, crop: false, fit: "inside" },
-      folderName: "admin-thumbs",
+      folderName: "previews-admin",
     },
     // Panorama-specific: height-limited, full width preserved
     pano_detail: {
@@ -139,8 +139,8 @@ export const config = {
   blur: {
     enable: false,
     only: false,
-    src: `static/${contentDir}/images/previews-xl`,
-    out: `static/${contentDir}/images/blurs`,
+    src: `static-${contentDir}/images/previews-xl`,
+    out: `static-${contentDir}/images/blurs`,
     width: 24,
     colors: 32,
     formats: [ImageFormat.PNG],

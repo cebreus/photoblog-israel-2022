@@ -15,7 +15,7 @@ async function main() {
   intro(pc.cyan("🔗 Checking for Broken Links in Manifests"));
 
   const contentDir = await resolveGalleryDirectory();
-  const staticDir = path.resolve(process.cwd(), `static/${contentDir}`);
+  const staticDir = path.resolve(process.cwd(), `static-${contentDir}`);
   const dataDir = path.resolve(process.cwd(), `src/data/${contentDir}`);
 
   const s = spinner();
@@ -79,6 +79,6 @@ async function main() {
 }
 
 main().catch((err) => {
-  logger.error(err);
+  logger.error({ err }, "Fatal Error");
   process.exit(1);
 });

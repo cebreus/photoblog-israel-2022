@@ -31,7 +31,7 @@ const { values } = parseArgs({
 async function main() {
   const contentDir = values.contentDir as string;
   const dataDir = path.resolve(process.cwd(), `src/data/${contentDir}`);
-  const facesDir = path.resolve(process.cwd(), `static/${contentDir}/faces`);
+  const facesDir = path.resolve(process.cwd(), `static-${contentDir}/faces`);
 
   logger.info({ contentDir }, "Auditing people data for gallery");
 

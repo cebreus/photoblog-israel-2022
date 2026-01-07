@@ -8,14 +8,15 @@ export async function run(
     cwd?: string;
     stdio?: "inherit" | "pipe" | "ignore";
     filter?: (line: string) => boolean;
+    captureOutput?: boolean;
   } = {},
-): Promise<void> {
+): Promise<{ stdout: string; stderr: string } | undefined> {
   const mergedEnv = {
     ...process.env,
     ...Object.fromEntries(Object.entries(options.env || {}).map(([k, v]) => [k, String(v)])),
   };
 
-  const shouldPipe = options.stdio === "pipe" || !!options.filter;
+  const shouldPipe = options.stdio === "pipe" || !!options.filter || options.captureOutput;
   const stdioMode = shouldPipe ? "pipe" : options.stdio || "inherit";
 
   const { exited, stdout, stderr } = await spawn(cmd, args, {
@@ -26,18 +27,38 @@ export async function run(
     env: mergedEnv,
   });
 
+  let capturedStdout = "";
+  let capturedStderr = "";
+
   const pipes: Promise<void>[] = [];
   if (stdioMode === "pipe" && stdout && stderr) {
-    // Use identity filter if none provided
     const filter = options.filter || (() => true);
-    pipes.push(pipeWithFilter(stdout, process.stdout, filter));
-    pipes.push(pipeWithFilter(stderr, process.stderr, filter));
+
+    if (options.captureOutput) {
+      pipes.push(
+        (async () => {
+          capturedStdout = await new Response(stdout).text();
+        })(),
+      );
+      pipes.push(
+        (async () => {
+          capturedStderr = await new Response(stderr).text();
+        })(),
+      );
+    } else {
+      pipes.push(pipeWithFilter(stdout, process.stdout, filter));
+      pipes.push(pipeWithFilter(stderr, process.stderr, filter));
+    }
   }
 
   const [exitCode] = await Promise.all([exited, ...pipes]);
 
   if (exitCode !== 0) {
     throw new Error(`Command '${cmd} ${args.join(" ")}' failed with code ${exitCode}`);
+  }
+
+  if (options.captureOutput) {
+    return { stdout: capturedStdout, stderr: capturedStderr };
   }
 }
 

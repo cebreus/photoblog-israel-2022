@@ -11,6 +11,7 @@ import pc from "picocolors";
 import { createLogger } from "./lib/core/cli-logger";
 // cleaner.ts consolidated into validator.ts
 import { validateAndCleanManifests } from "./lib/manifests/validator";
+import { acquireLock, releaseLock } from "./lib/utils/build-lock";
 import { run } from "./lib/utils/shell";
 import { formatDuration } from "./lib/utils/time";
 
@@ -244,9 +245,19 @@ async function cmdDev() {
 async function cmdBuild() {
   const outputDir = `build-${gallery}`;
 
-  await run("bun", ["scripts/generate-images.ts", ...getCommonFlags()]);
-  await cmdFavicons();
-  await run("bun", ["run", "vite", "build"], { env: { OUTPUT_DIR: outputDir } });
+  // Acquire lock for the ENTIRE build duration to protect static/ assets
+  // from being overwritten by parallel builds
+  await acquireLock(gallery);
+
+  try {
+    await run("bun", ["scripts/generate-images.ts", ...getCommonFlags()]);
+    await cmdFavicons();
+
+    await run("bun", ["run", "vite", "build"], { env: { OUTPUT_DIR: outputDir } });
+  } finally {
+    // Release lock only after build is complete
+    await releaseLock();
+  }
 }
 
 async function cmdAnalyze() {

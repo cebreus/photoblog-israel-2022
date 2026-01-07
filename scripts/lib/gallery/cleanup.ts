@@ -9,7 +9,7 @@ export async function removeEmptyDirectory(dirPath: string): Promise<boolean> {
     const entries = await fsp.readdir(dirPath);
     if (entries.length === 0) {
       await fsp.rmdir(dirPath);
-      logger.verbose(`Removed empty directory: ${dirPath}`);
+      logger.verbose({ dirPath }, "Removed empty directory");
       return true;
     }
     return false;
@@ -17,7 +17,7 @@ export async function removeEmptyDirectory(dirPath: string): Promise<boolean> {
     if (e.code === "ENOENT") {
       return false;
     }
-    logger.warn(`Failed to check/remove directory ${dirPath}: ${e.message}`);
+    logger.warn({ dirPath, err: e }, "Failed to check/remove directory");
     return false;
   }
 }
@@ -101,13 +101,13 @@ export async function removeFromCache(cachePath: string, imageKey: string): Prom
     if (cache.files?.[imageKey]) {
       delete cache.files[imageKey];
       await fsp.writeFile(cachePath, JSON.stringify(cache, null, 2));
-      logger.verbose(`Removed ${imageKey} from cache`);
+      logger.verbose({ imageKey }, "Removed from cache");
       return true;
     }
     return false;
   } catch (e: any) {
     if (e.code !== "ENOENT") {
-      logger.warn(`Failed to update cache: ${e.message}`);
+      logger.warn({ err: e }, "Failed to update cache");
     }
     return false;
   }
@@ -144,14 +144,15 @@ export async function removeImageFromConstraints(
     if (disconnectsRemoved > 0 || connectsRemoved > 0) {
       await fsp.writeFile(constraintsPath, JSON.stringify(constraints, null, 2));
       logger.verbose(
-        `Removed ${disconnectsRemoved} disconnects, ${connectsRemoved} connects for ${imageId}`,
+        { disconnectsRemoved, connectsRemoved, imageId },
+        "Removed constraints for image",
       );
     }
 
     return { disconnectsRemoved, connectsRemoved };
   } catch (e: any) {
     if (e.code !== "ENOENT") {
-      logger.warn(`Failed to clean constraints: ${e.message}`);
+      logger.warn({ err: e }, "Failed to clean constraints");
     }
     return { disconnectsRemoved: 0, connectsRemoved: 0 };
   }
@@ -193,7 +194,7 @@ export async function findOrphanFaceCrops(
     }
   } catch (e: any) {
     if (e.code !== "ENOENT") {
-      logger.warn(`Failed to scan faces directory: ${e.message}`);
+      logger.warn({ err: e }, "Failed to scan faces directory");
     }
   }
 
@@ -221,7 +222,7 @@ export async function findOrphanAssets(
       }
     } catch (e: any) {
       if (e.code !== "ENOENT") {
-        logger.warn(`Failed to scan ${dir}: ${e.message}`);
+        logger.warn({ dir, err: e }, "Failed to scan directory");
       }
     }
   }
@@ -279,7 +280,7 @@ export async function cleanOrphanedAssets(
   dryRun = false,
 ): Promise<OrphanCleanupResult> {
   const projectRoot = process.cwd();
-  const facesDir = path.resolve(projectRoot, `static/${gallery}/faces`);
+  const facesDir = path.resolve(projectRoot, `static-${gallery}/faces`);
 
   const result: OrphanCleanupResult = {
     faceCropsRemoved: 0,
@@ -307,7 +308,8 @@ export async function cleanOrphanedAssets(
   }
 
   logger.info(
-    `Found ${orphanFolders.length} orphan person folders, ${orphanFiles.length} orphan face crops`,
+    { folderCount: orphanFolders.length, cropCount: orphanFiles.length },
+    "Found orphan assets",
   );
 
   if (dryRun) {
@@ -328,7 +330,7 @@ export async function cleanOrphanedAssets(
       result.bytesFreed += await getFileSize(path.join(facesDir, file));
       result.faceCropsRemoved++;
     }
-    logger.info(`[DRY RUN] Would free ${formatBytes(result.bytesFreed)}`);
+    logger.info({ freedBytes: formatBytes(result.bytesFreed) }, "[DRY RUN] Would free space");
     return result;
   }
 
@@ -345,9 +347,9 @@ export async function cleanOrphanedAssets(
 
       await fsp.rm(folderPath, { recursive: true, force: true });
       result.foldersRemoved++;
-      logger.verbose(`Removed orphan person folder: ${folder}`);
+      logger.verbose({ folder }, "Removed orphan person folder");
     } catch (e: any) {
-      logger.warn(`Failed to remove ${folderPath}: ${e.message}`);
+      logger.warn({ folderPath, err: e }, "Failed to remove folder");
     }
   }
 
@@ -358,10 +360,10 @@ export async function cleanOrphanedAssets(
       result.bytesFreed += await getFileSize(filePath);
       await fsp.unlink(filePath);
       result.faceCropsRemoved++;
-      logger.verbose(`Removed orphan face crop: ${file}`);
+      logger.verbose({ file }, "Removed orphan face crop");
     } catch (e: any) {
       if (e.code !== "ENOENT") {
-        logger.warn(`Failed to remove ${filePath}: ${e.message}`);
+        logger.warn({ filePath, err: e }, "Failed to remove orphan face crop");
       }
     }
   }
@@ -385,8 +387,12 @@ export async function cleanOrphanedAssets(
 
   if (result.faceCropsRemoved > 0 || result.foldersRemoved > 0) {
     logger.info(
-      `Cleaned: ${result.faceCropsRemoved} face crops, ${result.foldersRemoved} folders ` +
-        `(freed ${formatBytes(result.bytesFreed)})`,
+      {
+        faceCropsRemoved: result.faceCropsRemoved,
+        foldersRemoved: result.foldersRemoved,
+        freed: formatBytes(result.bytesFreed),
+      },
+      "Cleaned orphaned assets",
     );
   }
 
