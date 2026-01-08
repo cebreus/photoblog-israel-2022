@@ -58,6 +58,73 @@ export async function saveManifest<T>(
     throw e;
   }
 }
+
+/**
+ * Manifest entry for atomic save operation
+ */
+interface ManifestEntry {
+  name: string;
+  filePath: string;
+  data: unknown;
+  sortKeys?: boolean;
+}
+
+/**
+ * Atomically saves multiple manifests.
+ *
+ * Pattern:
+ * 1. Write all manifests to .tmp files
+ * 2. Rename all .tmp files to final names (atomic on POSIX)
+ * 3. On any failure, cleanup all .tmp files
+ *
+ * This ensures either ALL manifests are saved, or NONE are.
+ */
+export async function saveManifestsAtomically(
+  manifests: ManifestEntry[],
+  log: Logger = logger,
+): Promise<void> {
+  const tmpPaths: string[] = [];
+
+  try {
+    // Phase 1: Write all to temp files
+    for (const manifest of manifests) {
+      const dir = path.dirname(manifest.filePath);
+      await fsp.mkdir(dir, { recursive: true });
+
+      const content = manifest.sortKeys
+        ? JSON.stringify(sortObjectKeys(manifest.data), null, 2)
+        : JSON.stringify(manifest.data, null, 2);
+
+      const tmpPath = `${manifest.filePath}.tmp`;
+      tmpPaths.push(tmpPath);
+
+      await fsp.writeFile(tmpPath, content, "utf-8");
+      log.debug({ manifest: manifest.name }, "Written to temp file");
+    }
+
+    // Phase 2: Atomic rename all temp files to final
+    // Note: rename() is atomic on POSIX for single file operations
+    for (let i = 0; i < manifests.length; i++) {
+      await fsp.rename(tmpPaths[i], manifests[i].filePath);
+      log.debug({ manifest: manifests[i].name }, "Renamed to final");
+    }
+
+    log.info({ count: manifests.length }, "All manifests saved atomically");
+  } catch (e) {
+    // Rollback: cleanup any temp files that were created
+    log.error({ err: e }, "Atomic save failed, cleaning up temp files");
+
+    for (const tmpPath of tmpPaths) {
+      try {
+        await fsp.unlink(tmpPath);
+      } catch {
+        // Ignore cleanup errors (file may not exist)
+      }
+    }
+
+    throw e;
+  }
+}
 const MAX_MANIFEST_SIZE_BYTES = 30 * 1024 * 1024; // 30MB limit
 
 export async function loadManifest<T>(filePath: string, log: Logger = logger): Promise<T | null> {
@@ -261,4 +328,50 @@ export async function saveClusteringConstraints(
   log: Logger = logger,
 ): Promise<void> {
   return saveManifest(path.join(outRoot, "clustering-constraints.json"), data, false, log);
+}
+
+/**
+ * Manifests bundle for people-related operations
+ */
+interface PeopleManifestsBundle {
+  people: PeopleManifest;
+  images: Manifest;
+  faces: FacesManifest;
+  constraints: ClusteringConstraints;
+}
+
+/**
+ * Atomically saves all people-related manifests.
+ * Use this instead of individual save calls during merge/rename/unmatch operations.
+ */
+export async function savePeopleRelatedManifests(
+  outRoot: string,
+  manifests: PeopleManifestsBundle,
+  log: Logger = logger,
+): Promise<void> {
+  return saveManifestsAtomically(
+    [
+      {
+        name: "people",
+        filePath: path.join(outRoot, "people.manifest.json"),
+        data: manifests.people,
+      },
+      {
+        name: "images",
+        filePath: path.join(outRoot, "images.manifest.json"),
+        data: manifests.images,
+      },
+      {
+        name: "faces",
+        filePath: path.join(outRoot, "faces.manifest.json"),
+        data: manifests.faces,
+      },
+      {
+        name: "constraints",
+        filePath: path.join(outRoot, "clustering-constraints.json"),
+        data: manifests.constraints,
+      },
+    ],
+    log,
+  );
 }

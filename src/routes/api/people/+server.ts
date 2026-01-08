@@ -9,10 +9,7 @@ import {
   loadFacesManifest,
   loadImagesManifest,
   loadPeopleManifest,
-  saveClusteringConstraints,
-  saveFacesManifest,
-  saveImagesManifest,
-  savePeopleManifest,
+  savePeopleRelatedManifests,
 } from "$scripts/lib/manifests/repository";
 import { renamePerson } from "$scripts/lib/people/normalization";
 import { toSlug } from "../../../../shared/utils/strings";
@@ -141,10 +138,8 @@ export const PATCH: RequestHandler = async ({ request, locals }) => {
       }
 
       if (updatedCount > 0) {
-        await savePeopleManifest(dataDir, manifests.people);
-        await saveImagesManifest(dataDir, manifests.images);
-        await saveFacesManifest(dataDir, manifests.faces);
-        await saveClusteringConstraints(dataDir, manifests.constraints);
+        // Atomically save all manifests - either all succeed or none
+        await savePeopleRelatedManifests(dataDir, manifests);
       }
     });
 

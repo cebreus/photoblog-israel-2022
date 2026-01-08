@@ -21,12 +21,11 @@ import { recalculateFaceCount, refreshPersonThumbnail } from "$scripts/lib/faces
 import { removeEmptyPersonFolder } from "$scripts/lib/gallery/cleanup";
 import { withManifestLock } from "$scripts/lib/manifests/lock";
 import {
+  loadClusteringConstraints,
   loadFacesManifest,
   loadImagesManifest,
   loadPeopleManifest,
-  saveFacesManifest,
-  saveImagesManifest,
-  savePeopleManifest,
+  savePeopleRelatedManifests,
 } from "$scripts/lib/manifests/repository";
 
 async function safeRename(
@@ -300,9 +299,23 @@ export async function POST({ request, locals }: { request: Request; locals: App.
         // Ensure target person has a valid thumbnail (especially if it was empty or changed)
         await refreshPersonThumbnail(targetPerson, facesDir);
 
-        await savePeopleManifest(dataDir, peopleManifest, scriptLog);
-        await saveImagesManifest(dataDir, imagesManifest, scriptLog);
-        await saveFacesManifest(dataDir, facesManifest, scriptLog);
+        // Load constraints for atomic save (migratePersonInConstraints modifies it on disk)
+        const updatedConstraints = (await loadClusteringConstraints(dataDir, scriptLog)) || {
+          disconnects: [],
+          connects: [],
+        };
+
+        // Atomically save all manifests - either all succeed or none
+        await savePeopleRelatedManifests(
+          dataDir,
+          {
+            people: peopleManifest,
+            images: imagesManifest,
+            faces: facesManifest,
+            constraints: updatedConstraints,
+          },
+          scriptLog,
+        );
 
         // Force reload of in-memory manifest cache
         await reloadManifests();

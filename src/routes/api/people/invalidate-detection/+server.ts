@@ -12,10 +12,7 @@ import {
   loadFacesManifest,
   loadImagesManifest,
   loadPeopleManifest,
-  saveClusteringConstraints,
-  saveFacesManifest,
-  saveImagesManifest,
-  savePeopleManifest,
+  savePeopleRelatedManifests,
 } from "$scripts/lib/manifests/repository";
 
 /**
@@ -107,10 +104,13 @@ export async function POST({ request, locals }: { request: Request; locals: App.
         constraints.invalidDetections.push({ imageId, box });
       }
 
-      await saveClusteringConstraints(dataDir, constraints);
-      await savePeopleManifest(dataDir, peopleManifest);
-      await saveImagesManifest(dataDir, imagesManifest);
-      await saveFacesManifest(dataDir, facesManifest);
+      // Atomically save all manifests - either all succeed or none
+      await savePeopleRelatedManifests(dataDir, {
+        people: peopleManifest,
+        images: imagesManifest,
+        faces: facesManifest,
+        constraints,
+      });
 
       // Force reload of in-memory manifest cache
       await reloadManifests();
