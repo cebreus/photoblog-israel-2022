@@ -131,7 +131,8 @@ export function buildAuthorsParam(
 export function parseQualityFromUrl(url: URL): QualityFilterBucket[] | undefined {
   if (!url.searchParams.has("quality")) return undefined;
   const qualityParam = url.searchParams.get("quality");
-  if (!qualityParam || qualityParam === "none") return [];
+  if (!qualityParam) return [];
+  if (qualityParam === "none") return ["none" as QualityFilterBucket];
   return qualityParam.split(",").filter(Boolean) as QualityFilterBucket[];
 }
 

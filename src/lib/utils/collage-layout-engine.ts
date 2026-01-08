@@ -94,10 +94,8 @@ export function calculateLayout<T extends LayoutItem>(
 }
 
 function calculateRowLayout<T extends LayoutItem>(items: T[], borderW: number): SharedLayout<T> {
-  const marginX = 2 * borderW;
-  const marginTop = 2 * borderW;
-  const marginBottom = 3 * borderW;
-  const gutter = Math.round((2 / 3) * borderW);
+  const margin = 2 * borderW;
+  const gutter = Math.round((2 / 3) * margin);
 
   const heights = items.map(function getHeight(i) {
     return i.height;
@@ -105,7 +103,7 @@ function calculateRowLayout<T extends LayoutItem>(items: T[], borderW: number): 
   const maxHeight = Math.max(...heights);
 
   const placements: LayoutPlacement<T>[] = [];
-  let currentX = marginX;
+  let currentX = margin;
 
   for (const item of items) {
     const scale = maxHeight / item.height;
@@ -114,7 +112,7 @@ function calculateRowLayout<T extends LayoutItem>(items: T[], borderW: number): 
 
     placements.push({
       x: currentX,
-      y: marginTop,
+      y: margin,
       width: w,
       height: h,
       item,
@@ -124,17 +122,15 @@ function calculateRowLayout<T extends LayoutItem>(items: T[], borderW: number): 
     currentX += w + gutter;
   }
 
-  const canvasWidth = currentX - gutter + marginX;
-  const canvasHeight = marginTop + maxHeight + marginBottom;
+  const canvasWidth = currentX - gutter + margin;
+  const canvasHeight = margin + maxHeight + margin;
 
   return { width: canvasWidth, height: canvasHeight, placements };
 }
 
 function calculateColumnLayout<T extends LayoutItem>(items: T[], borderW: number): SharedLayout<T> {
-  const marginX = 2 * borderW;
-  const marginTop = 2 * borderW;
-  const marginBottom = 3 * borderW;
-  const gutter = Math.round((2 / 3) * borderW);
+  const margin = 2 * borderW;
+  const gutter = Math.round((2 / 3) * margin);
 
   const widths = items.map(function getWidth(i) {
     return i.width;
@@ -142,7 +138,7 @@ function calculateColumnLayout<T extends LayoutItem>(items: T[], borderW: number
   const maxWidth = Math.max(...widths);
 
   const placements: LayoutPlacement<T>[] = [];
-  let currentY = marginTop;
+  let currentY = margin;
 
   for (const item of items) {
     const scale = maxWidth / item.width;
@@ -150,7 +146,7 @@ function calculateColumnLayout<T extends LayoutItem>(items: T[], borderW: number
     const h = Math.round(item.height * scale);
 
     placements.push({
-      x: marginX,
+      x: margin,
       y: currentY,
       width: w,
       height: h,
@@ -161,8 +157,8 @@ function calculateColumnLayout<T extends LayoutItem>(items: T[], borderW: number
     currentY += h + gutter;
   }
 
-  const canvasWidth = marginX + maxWidth + marginX;
-  const canvasHeight = currentY - gutter + marginBottom;
+  const canvasWidth = margin + maxWidth + margin;
+  const canvasHeight = currentY - gutter + margin;
 
   return { width: canvasWidth, height: canvasHeight, placements };
 }
@@ -234,10 +230,8 @@ function calculateGrid2x2Layout<T extends LayoutItem>(
     return { width: 1000, height: 1000, placements: [] };
   }
 
-  const marginX = 2 * borderW;
-  const marginTop = 2 * borderW;
-  const marginBottom = 3 * borderW;
-  const gutter = Math.round((2 / 3) * borderW);
+  const margin = 2 * borderW;
+  const gutter = Math.round((2 / 3) * margin);
 
   const row1 = calculateRowForItems([items[0], items[1]], gutter);
   const row2 = calculateRowForItems([items[2], items[3]], gutter);
@@ -253,8 +247,8 @@ function calculateGrid2x2Layout<T extends LayoutItem>(
   const placements: LayoutPlacement<T>[] = [];
 
   // Row 1 (Reference)
-  let x = marginX;
-  let y = marginTop;
+  let x = margin;
+  let y = margin;
   for (const p of row1.items) {
     placements.push({
       x,
@@ -268,8 +262,8 @@ function calculateGrid2x2Layout<T extends LayoutItem>(
   }
 
   // Row 2
-  x = marginX;
-  y = marginTop + row1.height + gutter;
+  x = margin;
+  y = margin + row1.height + gutter;
 
   let remainingW = row2TargetContentW;
 
@@ -299,8 +293,8 @@ function calculateGrid2x2Layout<T extends LayoutItem>(
   // But due to rounding, let's take the first one or average? They are all `h * scale`.
   const row2Height = Math.round(row2.height * scaleFactor);
 
-  const canvasWidth = marginX + referenceWidth + marginX;
-  const canvasHeight = marginTop + row1.height + gutter + row2Height + marginBottom;
+  const canvasWidth = margin + referenceWidth + margin;
+  const canvasHeight = margin + row1.height + gutter + row2Height + margin;
 
   return { width: canvasWidth, height: canvasHeight, placements };
 }
@@ -309,10 +303,8 @@ function calculateHeroTopLayout<T extends LayoutItem>(
   items: T[],
   borderW: number,
 ): SharedLayout<T> {
-  const marginX = 2 * borderW;
-  const marginTop = 2 * borderW;
-  const marginBottom = 3 * borderW;
-  const gutter = Math.round((2 / 3) * borderW);
+  const margin = 2 * borderW;
+  const gutter = Math.round((2 / 3) * margin);
 
   if (items.length < 3) return { width: 1000, height: 1000, placements: [] };
 
@@ -327,8 +319,8 @@ function calculateHeroTopLayout<T extends LayoutItem>(
   const scale1 = row1TargetContentW / row1.contentWidth;
 
   const placements: LayoutPlacement<T>[] = [];
-  let y = marginTop;
-  let x = marginX;
+  let y = margin;
+  let x = margin;
 
   // Placement Row 1
   const r1Item = row1.items[0];
@@ -347,7 +339,7 @@ function calculateHeroTopLayout<T extends LayoutItem>(
   y += r1H + gutter;
 
   // Placement Row 2
-  x = marginX;
+  x = margin;
   for (const p of row2.items) {
     placements.push({
       x,
@@ -361,8 +353,8 @@ function calculateHeroTopLayout<T extends LayoutItem>(
   }
 
   return {
-    width: marginX + referenceWidth + marginX,
-    height: marginTop + r1H + gutter + row2.height + marginBottom,
+    width: margin + referenceWidth + margin,
+    height: margin + r1H + gutter + row2.height + margin,
     placements,
   };
 }
@@ -373,10 +365,8 @@ function calculateHeroLeftLayout<T extends LayoutItem>(
 ): SharedLayout<T> {
   if (items.length < 3) return { width: 1000, height: 1000, placements: [] };
 
-  const marginX = 2 * borderW;
-  const marginTop = 2 * borderW;
-  const marginBottom = 3 * borderW;
-  const gutter = Math.round((2 / 3) * borderW);
+  const margin = 2 * borderW;
+  const gutter = Math.round((2 / 3) * margin);
 
   const leftItem = items[0];
   const rightStack = calculateColumnForItems([items[1], items[2]], gutter);
@@ -396,8 +386,8 @@ function calculateHeroLeftLayout<T extends LayoutItem>(
 
   // Left
   placements.push({
-    x: marginX,
-    y: marginTop,
+    x: margin,
+    y: margin,
     width: leftW,
     height: targetHeight,
     item: leftItem,
@@ -405,8 +395,8 @@ function calculateHeroLeftLayout<T extends LayoutItem>(
   });
 
   // Right
-  let curY = marginTop;
-  const startX = marginX + leftW + gutter;
+  let curY = margin;
+  const startX = margin + leftW + gutter;
 
   let remainingH = rightTargetContentH;
 
@@ -430,8 +420,8 @@ function calculateHeroLeftLayout<T extends LayoutItem>(
   });
 
   return {
-    width: marginX + leftW + gutter + rightW + marginX,
-    height: marginTop + targetHeight + marginBottom,
+    width: margin + leftW + gutter + rightW + margin,
+    height: margin + targetHeight + margin,
     placements,
   };
 }
@@ -442,10 +432,8 @@ function calculateHeroRightLayout<T extends LayoutItem>(
 ): SharedLayout<T> {
   if (items.length < 3) return { width: 1000, height: 1000, placements: [] };
 
-  const marginX = 2 * borderW;
-  const marginTop = 2 * borderW;
-  const marginBottom = 3 * borderW;
-  const gutter = Math.round((2 / 3) * borderW);
+  const margin = 2 * borderW;
+  const gutter = Math.round((2 / 3) * margin);
 
   // Hero is items[0] (Right)
   // Stack is items[1], items[2] (Left)
@@ -464,8 +452,8 @@ function calculateHeroRightLayout<T extends LayoutItem>(
   const placements: LayoutPlacement<T>[] = [];
 
   // Stack (Left)
-  let curY = marginTop;
-  let x = marginX;
+  let curY = margin;
+  let x = margin;
   let remainingH = leftTargetContentH;
 
   leftStack.items.forEach((p, idx) => {
@@ -489,8 +477,8 @@ function calculateHeroRightLayout<T extends LayoutItem>(
 
   // Hero (Right)
   placements.push({
-    x: marginX + leftW + gutter,
-    y: marginTop,
+    x: margin + leftW + gutter,
+    y: margin,
     width: rightW,
     height: targetHeight,
     item: rightItem,
@@ -498,8 +486,8 @@ function calculateHeroRightLayout<T extends LayoutItem>(
   });
 
   return {
-    width: marginX + leftW + gutter + rightW + marginX,
-    height: marginTop + targetHeight + marginBottom,
+    width: margin + leftW + gutter + rightW + margin,
+    height: margin + targetHeight + margin,
     placements,
   };
 }
@@ -511,10 +499,8 @@ function calculateSidebarHeroLayout<T extends LayoutItem>(
   // 1 Left (Hero), Right: [2][3] (Top), [4] (Bottom)
   if (items.length < 4) return { width: 1000, height: 1000, placements: [] };
 
-  const marginX = 2 * borderW;
-  const marginTop = 2 * borderW;
-  const marginBottom = 3 * borderW;
-  const gutter = Math.round((2 / 3) * borderW);
+  const margin = 2 * borderW;
+  const gutter = Math.round((2 / 3) * margin);
 
   const leftItem = items[0];
 
@@ -555,8 +541,8 @@ function calculateSidebarHeroLayout<T extends LayoutItem>(
 
   // Left
   placements.push({
-    x: marginX,
-    y: marginTop,
+    x: margin,
+    y: margin,
     width: leftW,
     height: rightBlockTotalHeight,
     item: leftItem,
@@ -564,8 +550,8 @@ function calculateSidebarHeroLayout<T extends LayoutItem>(
   });
 
   // Right
-  let startX = marginX + leftW + gutter;
-  let curY = marginTop;
+  let startX = margin + leftW + gutter;
+  let curY = margin;
 
   // Right Row 1
   // Scale row1 items to finalRightW
@@ -624,8 +610,8 @@ function calculateSidebarHeroLayout<T extends LayoutItem>(
   });
 
   return {
-    width: marginX + leftW + gutter + finalRightW + marginX,
-    height: marginTop + rightBlockTotalHeight + marginBottom,
+    width: margin + leftW + gutter + finalRightW + margin,
+    height: margin + rightBlockTotalHeight + margin,
     placements,
   };
 }
@@ -636,10 +622,8 @@ function calculateGrid3x2Layout<T extends LayoutItem>(
   cropStrategy: "smart" | "simple" = "smart",
 ): SharedLayout<T> {
   // 3 Rows x 2 items
-  const marginX = 2 * borderW;
-  const marginTop = 2 * borderW;
-  const marginBottom = 3 * borderW;
-  const gutter = Math.round((2 / 3) * borderW);
+  const margin = 2 * borderW;
+  const gutter = Math.round((2 / 3) * margin);
 
   if (items.length < 6) return { width: 1000, height: 1000, placements: [] };
 
@@ -659,8 +643,8 @@ function calculateGrid3x2Layout<T extends LayoutItem>(
     const s3 = r3TargetContentW / r3.contentWidth;
 
     const placements: LayoutPlacement<T>[] = [];
-    let y = marginTop;
-    let x = marginX;
+    let y = margin;
+    let x = margin;
 
     // R1
     for (const p of r1.items) {
@@ -670,7 +654,7 @@ function calculateGrid3x2Layout<T extends LayoutItem>(
     y += r1.height + gutter;
 
     // R2
-    x = marginX;
+    x = margin;
     let remainingW = r2TargetContentW;
 
     r2.items.forEach((p, idx) => {
@@ -690,7 +674,7 @@ function calculateGrid3x2Layout<T extends LayoutItem>(
     y += Math.round(r2.height * s2) + gutter;
 
     // R3
-    x = marginX;
+    x = margin;
     remainingW = r3TargetContentW;
     r3.items.forEach((p, idx) => {
       let w = Math.round(p.width * s3);
@@ -706,17 +690,17 @@ function calculateGrid3x2Layout<T extends LayoutItem>(
 
     y += Math.round(r3.height * s3);
 
-    return { width: marginX + refW + marginX, height: y + marginBottom, placements };
+    return { width: margin + refW + margin, height: y + margin, placements };
   }
 
   // SIMPLE uniform logic (Fixed)
   const avgW = items.reduce((sum, i) => sum + i.width, 0) / items.length;
   const totalW = avgW * 2;
-  const contentW = totalW - marginX * 2;
+  const contentW = totalW - margin * 2;
   const cellW = Math.round((contentW - gutter) / 2);
   const cellH = cellW;
   const contentH = cellH * 3 + gutter * 2;
-  const totalH = marginTop + contentH + marginBottom;
+  const totalH = margin + contentH + margin;
 
   const placements: LayoutPlacement<T>[] = [];
 
@@ -726,8 +710,8 @@ function calculateGrid3x2Layout<T extends LayoutItem>(
       if (idx >= items.length) break;
 
       placements.push({
-        x: marginX + col * (cellW + gutter),
-        y: marginTop + row * (cellH + gutter),
+        x: margin + col * (cellW + gutter),
+        y: margin + row * (cellH + gutter),
         width: cellW,
         height: cellH,
         item: items[idx],
@@ -747,10 +731,8 @@ function calculateDensity7Layout<T extends LayoutItem>(
   // 3 Rows: 2, 3, 2
   if (items.length < 7) return { width: 1000, height: 1000, placements: [] };
 
-  const marginX = 2 * borderW;
-  const marginTop = 2 * borderW;
-  const marginBottom = 3 * borderW;
-  const gutter = Math.round((2 / 3) * borderW);
+  const margin = 2 * borderW;
+  const gutter = Math.round((2 / 3) * margin);
 
   if (cropStrategy === "smart") {
     const r1 = calculateRowForItems([items[0], items[1]], gutter);
@@ -767,10 +749,10 @@ function calculateDensity7Layout<T extends LayoutItem>(
     const s3 = r3TargetContentW / r3.contentWidth;
 
     const placements: LayoutPlacement<T>[] = [];
-    let y = marginTop;
+    let y = margin;
 
     // R1
-    let x = marginX;
+    let x = margin;
     for (const p of r1.items) {
       placements.push({ x, y, width: p.width, height: p.height, item: p.item, crop: p.crop });
       x += p.width + gutter;
@@ -778,7 +760,7 @@ function calculateDensity7Layout<T extends LayoutItem>(
     y += r1.height + gutter;
 
     // R2
-    x = marginX;
+    x = margin;
     let remainingW = r2TargetContentW;
     r2.items.forEach((p, idx) => {
       let w = Math.round(p.width * s2);
@@ -795,7 +777,7 @@ function calculateDensity7Layout<T extends LayoutItem>(
     y += Math.round(r2.height * s2) + gutter;
 
     // R3
-    x = marginX;
+    x = margin;
     remainingW = r3TargetContentW;
     r3.items.forEach((p, idx) => {
       let w = Math.round(p.width * s3);
@@ -811,21 +793,21 @@ function calculateDensity7Layout<T extends LayoutItem>(
 
     y += Math.round(r3.height * s3);
 
-    return { width: marginX + refW + marginX, height: y + marginBottom, placements };
+    return { width: margin + refW + margin, height: y + margin, placements };
   }
 
   // SIMPLE uniform logic
   const avgW = items.reduce((sum, i) => sum + i.width, 0) / items.length;
   const totalW = avgW * 3;
-  const contentW = totalW - marginX * 2;
+  const contentW = totalW - margin * 2;
   const rowH = Math.round(contentW / 3);
 
   const placements: LayoutPlacement<T>[] = [];
-  let y = marginTop;
+  let y = margin;
 
   // Row 1 (2 items, 50-50)
   let cellW = Math.round((contentW - gutter) / 2);
-  let x = marginX;
+  let x = margin;
   for (let i = 0; i < 2; i++) {
     placements.push({ x, y, width: cellW, height: rowH, item: items[i], crop: items[i].crop });
     x += cellW + gutter;
@@ -834,7 +816,7 @@ function calculateDensity7Layout<T extends LayoutItem>(
 
   // Row 2 (3 items, 33-33-33)
   cellW = Math.round((contentW - 2 * gutter) / 3);
-  x = marginX;
+  x = margin;
   for (let i = 2; i < 5; i++) {
     placements.push({ x, y, width: cellW, height: rowH, item: items[i], crop: items[i].crop });
     x += cellW + gutter;
@@ -843,14 +825,14 @@ function calculateDensity7Layout<T extends LayoutItem>(
 
   // Row 3 (2 items, 50-50)
   cellW = Math.round((contentW - gutter) / 2);
-  x = marginX;
+  x = margin;
   for (let i = 5; i < 7; i++) {
     placements.push({ x, y, width: cellW, height: rowH, item: items[i], crop: items[i].crop });
     x += cellW + gutter;
   }
   y += rowH;
 
-  return { width: totalW, height: y + marginBottom, placements };
+  return { width: totalW, height: y + margin, placements };
 }
 
 function calculateMosaic6Layout<T extends LayoutItem>(
@@ -858,10 +840,8 @@ function calculateMosaic6Layout<T extends LayoutItem>(
   borderW: number,
   cropStrategy: "smart" | "simple" = "smart",
 ): SharedLayout<T> {
-  const marginX = 2 * borderW;
-  const marginTop = 2 * borderW;
-  const marginBottom = 3 * borderW;
-  const gutter = Math.round((2 / 3) * borderW);
+  const margin = 2 * borderW;
+  const gutter = Math.round((2 / 3) * margin);
 
   if (items.length < 6) return { width: 1000, height: 1000, placements: [] };
 
@@ -888,8 +868,8 @@ function calculateMosaic6Layout<T extends LayoutItem>(
     const placements: LayoutPlacement<T>[] = [];
 
     // C1
-    let x = marginX;
-    let y = marginTop;
+    let x = margin;
+    let y = margin;
     let remainingH = c1TargetContentH;
 
     c1.items.forEach((p, idx) => {
@@ -905,7 +885,7 @@ function calculateMosaic6Layout<T extends LayoutItem>(
 
     // C2
     x += w1 + gutter;
-    y = marginTop;
+    y = margin;
     remainingH = c2TargetContentH;
 
     c2.items.forEach((p, idx) => {
@@ -921,7 +901,7 @@ function calculateMosaic6Layout<T extends LayoutItem>(
 
     // C3
     x += w2 + gutter;
-    y = marginTop;
+    y = margin;
     remainingH = c3TargetContentH;
 
     c3.items.forEach((p, idx) => {
@@ -936,8 +916,8 @@ function calculateMosaic6Layout<T extends LayoutItem>(
     });
 
     return {
-      width: marginX + w1 + gutter + w2 + gutter + w3 + marginX,
-      height: marginTop + targetH + marginBottom,
+      width: margin + w1 + gutter + w2 + gutter + w3 + margin,
+      height: margin + targetH + margin,
       placements,
     };
   }
@@ -945,19 +925,19 @@ function calculateMosaic6Layout<T extends LayoutItem>(
   // SIMPLE logic
   const avgW = items.reduce((sum, i) => sum + i.width, 0) / items.length;
   const totalW = avgW * 3;
-  const contentW = totalW - marginX * 2 - gutter * 2;
+  const contentW = totalW - margin * 2 - gutter * 2;
   const w1 = Math.round(contentW * 0.3);
   const w2 = Math.round(contentW * 0.4);
   const w3 = contentW - w1 - w2;
-  const totalH = Math.round(totalW * 0.66) + marginTop + marginBottom;
-  const contentH = totalH - marginTop - marginBottom;
+  const totalH = Math.round(totalW * 0.66) + margin + margin;
+  const contentH = totalH - margin - margin;
 
   const placements: LayoutPlacement<T>[] = [];
-  let x = marginX;
+  let x = margin;
 
   // Col 1
   let cellH = Math.round((contentH - gutter) / 2);
-  let y = marginTop;
+  let y = margin;
   for (let i = 0; i < 2; i++) {
     placements.push({ x, y, width: w1, height: cellH, item: items[i], crop: items[i].crop });
     y += cellH + gutter;
@@ -966,7 +946,7 @@ function calculateMosaic6Layout<T extends LayoutItem>(
 
   // Col 2
   cellH = Math.round((contentH - 2 * gutter) / 3);
-  y = marginTop;
+  y = margin;
   for (let i = 2; i < 5; i++) {
     placements.push({ x, y, width: w2, height: cellH, item: items[i], crop: items[i].crop });
     y += cellH + gutter;
@@ -975,7 +955,7 @@ function calculateMosaic6Layout<T extends LayoutItem>(
 
   // Col 3
   cellH = contentH;
-  y = marginTop;
+  y = margin;
   placements.push({ x, y, width: w3, height: cellH, item: items[5], crop: items[5].crop });
 
   return { width: totalW, height: totalH, placements };
@@ -989,10 +969,8 @@ export function calculateGrid23Layout<T extends LayoutItem>(
   // 2 Rows: 2 items (top), 3 items (bottom)
   if (items.length < 5) return { width: 1000, height: 1000, placements: [] };
 
-  const marginX = borderW;
-  const marginTop = borderW;
-  const marginBottom = borderW;
-  const gutter = Math.round((2 / 3) * borderW);
+  const margin = 2 * borderW;
+  const gutter = Math.round((2 / 3) * margin);
 
   const r1 = calculateRowForItems([items[0], items[1]], gutter);
   const r2 = calculateRowForItems([items[2], items[3], items[4]], gutter);
@@ -1002,8 +980,8 @@ export function calculateGrid23Layout<T extends LayoutItem>(
   const s2 = r2TargetContentW / r2.contentWidth;
 
   const placements: LayoutPlacement<T>[] = [];
-  let y = marginTop;
-  let x = marginX;
+  let y = margin;
+  let x = margin;
 
   // R1
   for (const p of r1.items) {
@@ -1013,7 +991,7 @@ export function calculateGrid23Layout<T extends LayoutItem>(
   y += r1.height + gutter;
 
   // R2
-  x = marginX;
+  x = margin;
   let remainingW = r2TargetContentW;
   r2.items.forEach((p, idx) => {
     let w = Math.round(p.width * s2);
@@ -1028,8 +1006,8 @@ export function calculateGrid23Layout<T extends LayoutItem>(
     x += w + gutter;
   });
 
-  const totalH = y + Math.round(r2.height * s2) + marginBottom;
-  return { width: marginX + refW + marginX, height: totalH, placements };
+  const totalH = y + Math.round(r2.height * s2) + margin;
+  return { width: margin + refW + margin, height: totalH, placements };
 }
 
 export function calculateGrid32Layout<T extends LayoutItem>(
@@ -1040,10 +1018,8 @@ export function calculateGrid32Layout<T extends LayoutItem>(
   // 2 Rows: 3 items (top), 2 items (bottom)
   if (items.length < 5) return { width: 1000, height: 1000, placements: [] };
 
-  const marginX = borderW;
-  const marginTop = borderW;
-  const marginBottom = borderW;
-  const gutter = Math.round((2 / 3) * borderW);
+  const margin = 2 * borderW;
+  const gutter = Math.round((2 / 3) * margin);
 
   const r1 = calculateRowForItems([items[0], items[1], items[2]], gutter);
   const r2 = calculateRowForItems([items[3], items[4]], gutter);
@@ -1053,8 +1029,8 @@ export function calculateGrid32Layout<T extends LayoutItem>(
   const s2 = r2TargetContentW / r2.contentWidth;
 
   const placements: LayoutPlacement<T>[] = [];
-  let y = marginTop;
-  let x = marginX;
+  let y = margin;
+  let x = margin;
 
   // R1
   for (const p of r1.items) {
@@ -1064,7 +1040,7 @@ export function calculateGrid32Layout<T extends LayoutItem>(
   y += r1.height + gutter;
 
   // R2
-  x = marginX;
+  x = margin;
   let remainingW = r2TargetContentW;
   r2.items.forEach((p, idx) => {
     let w = Math.round(p.width * s2);
@@ -1079,8 +1055,8 @@ export function calculateGrid32Layout<T extends LayoutItem>(
     x += w + gutter;
   });
 
-  const totalH = y + Math.round(r2.height * s2) + marginBottom;
-  return { width: marginX + refW + marginX, height: totalH, placements };
+  const totalH = y + Math.round(r2.height * s2) + margin;
+  return { width: margin + refW + margin, height: totalH, placements };
 }
 
 export function calculateSidebarGridLayout<T extends LayoutItem>(
@@ -1090,10 +1066,8 @@ export function calculateSidebarGridLayout<T extends LayoutItem>(
   // 1 Left (Hero), Right: [1][2] (Top), [3][4] (Bottom)
   if (items.length < 5) return { width: 1000, height: 1000, placements: [] };
 
-  const marginX = borderW;
-  const marginTop = borderW;
-  const marginBottom = borderW;
-  const gutter = Math.round((2 / 3) * borderW);
+  const margin = 2 * borderW;
+  const gutter = Math.round((2 / 3) * margin);
 
   const leftItem = items[0];
 
@@ -1117,16 +1091,16 @@ export function calculateSidebarGridLayout<T extends LayoutItem>(
   const placements: LayoutPlacement<T>[] = [];
 
   placements.push({
-    x: marginX,
-    y: marginTop,
+    x: margin,
+    y: margin,
     width: leftW,
     height: rightBlockTotalHeight,
     item: leftItem,
     crop: leftItem.crop,
   });
 
-  let startX = marginX + leftW + gutter;
-  let curY = marginTop;
+  let startX = margin + leftW + gutter;
+  let curY = margin;
 
   const r1H = Math.round(rightRow1.height * rightScale);
   const r1TargetW = finalRightW - (rightRow1.items.length - 1) * gutter;
@@ -1164,8 +1138,8 @@ export function calculateSidebarGridLayout<T extends LayoutItem>(
   });
 
   return {
-    width: marginX + leftW + gutter + finalRightW + marginX,
-    height: marginTop + rightBlockTotalHeight + marginBottom,
+    width: margin + leftW + gutter + finalRightW + margin,
+    height: margin + rightBlockTotalHeight + margin,
     placements,
   };
 }

@@ -12,6 +12,7 @@ describe("Manifest Lock", () => {
   });
 
   afterEach(async () => {
+    vi.useRealTimers();
     await fsp.rm(testDir, { recursive: true, force: true });
   });
 
@@ -48,10 +49,6 @@ describe("Manifest Lock", () => {
   it.skip("should throw error on timeout", async () => {
     vi.useFakeTimers();
     vi.setSystemTime(1000);
-    // The original testDir from beforeEach is used here.
-    // The provided edit had `const testDir = path.join(_testDir, "timeout");`
-    // but `_testDir` is not defined in the context, so it's omitted to maintain correctness.
-    // If a separate test directory is needed for this skipped test, it should be defined properly.
     await fsp.mkdir(testDir, { recursive: true });
 
     const release = await acquireManifestLock(testDir);
@@ -59,15 +56,13 @@ describe("Manifest Lock", () => {
     // Try to take it again - it should wait
     const timeoutPromise = acquireManifestLock(testDir);
 
-    // Advance time by 30s
-    vi.setSystemTime(40000);
+    // Advance time by 35s to exceed 30s LOCK_TIMEOUT_MS
     await vi.advanceTimersByTimeAsync(35000);
 
     await expect(timeoutPromise).rejects.toThrow("Manifest lock timeout");
 
     await release();
-    vi.useRealTimers();
-  }, 10000);
+  }, 30000);
 
   it("should handle parallel withManifestLock calls", async () => {
     let counter = 0;

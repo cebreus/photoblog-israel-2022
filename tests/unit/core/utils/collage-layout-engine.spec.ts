@@ -15,13 +15,13 @@ describe("Collage Layout Engine", () => {
   it("calculates row layout correctly", () => {
     const layout = calculateLayout(mockItems.slice(0, 2), "row", { border });
 
-    // Height should be max height of items (1000) + top margin (20) + bottom margin (30)
-    expect(layout.height).toBe(1050);
-    expect(layout.width).toBe(2047);
+    // Height should be max height of items (1000) + top margin (20) + bottom margin (20)
+    expect(layout.height).toBe(1040);
+    expect(layout.width).toBe(2053);
 
     expect(layout.placements).toHaveLength(2);
     expect(layout.placements[0].y).toBe(20);
-    expect(layout.placements[1].x).toBe(1027); // 20 + 1000 + 7
+    expect(layout.placements[1].x).toBe(1033); // 20 + 1000 + 13
   });
 
   it("calculates column layout correctly", () => {
@@ -29,27 +29,27 @@ describe("Collage Layout Engine", () => {
 
     // Width should be max width (1000) + margins (2*20)
     expect(layout.width).toBe(1040);
-    expect(layout.height).toBe(2057);
+    expect(layout.height).toBe(2053);
 
     expect(layout.placements).toHaveLength(2);
     expect(layout.placements[0].x).toBe(20);
-    expect(layout.placements[1].y).toBe(1027); // 20 + 1000 + 7
+    expect(layout.placements[1].y).toBe(1033); // 20 + 1000 + 13
   });
 
   it("calculates grid-2x2 layout correctly", () => {
     const layout = calculateLayout(mockItems, "grid-2x2", { border });
 
     // 2x2 grid of 1000x1000 items
-    // Row 1 width: 2010 (1000+10+1000)
-    // Row 2 width: 2010
-    // Total width: 2050 (20 + 2010 + 20)
-    expect(layout.width).toBe(2047);
-    expect(layout.height).toBe(2057);
+    // Row 1 width: 2013 (1000+13+1000)
+    // Row 2 width: 2013
+    // Total width: 2053 (20 + 2013 + 20)
+    expect(layout.width).toBe(2053);
+    expect(layout.height).toBe(2053);
 
     expect(layout.placements).toHaveLength(4);
     // Item 3 (start of row 2)
     expect(layout.placements[2].x).toBe(20);
-    expect(layout.placements[2].y).toBe(1027); // 20 + 1000 + 7
+    expect(layout.placements[2].y).toBe(1033); // 20 + 1000 + 13
   });
 
   it("handles empty items gracefully", () => {

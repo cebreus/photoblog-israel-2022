@@ -73,6 +73,10 @@ describe("url-params utilities", () => {
       const url = new URL("https://example.com/?quality=");
       expect(parseQualityFromUrl(url)).toEqual([]);
     });
+    it("returns ['none'] for quality=none", () => {
+      const url = new URL("https://example.com/?quality=none");
+      expect(parseQualityFromUrl(url)).toEqual(["none"]);
+    });
   });
 
   describe("parsePeopleFromUrl", () => {
