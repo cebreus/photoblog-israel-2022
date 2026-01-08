@@ -115,6 +115,13 @@ bun run process:images -- --manifest-only  # Rychlá regenerace manifestu
 - **`bun run faces:cluster`** — Face clustering a people management
 - **`bun run faces:audit`** — Audit orphaned faces a consistency check
 
+**Person Normalization & Maintenance:**
+
+- **`bun run scripts/normalize-by-category.ts`** — Sjednotí ID podle kategorií (převede `osoba-`/`socha-` na `person-`/`statue-`).
+- **`bun run scripts/normalize-named-people.ts`** — Zajistí správný formát pro pojmenované osoby (`person-<slug>-<hash>`).
+- **`bun run scripts/normalize-person-names.ts`** — Sjednotí generická jména (`Person 001`).
+- **`bun run scripts/fix-person-format.ts`** — Opraví staré formáty a obnoví hashe ze záloh.
+
 **Cleanup:**
 
 - **`bun run clean`** — Vymaže build výstupy a manifesty

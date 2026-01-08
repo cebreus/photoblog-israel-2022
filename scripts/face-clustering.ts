@@ -348,13 +348,14 @@ async function processFaceDetections(
       }
 
       const uuid = crypto.randomUUID().slice(0, 8);
-      const personId = `person-${uuid}`;
+      const num = String(people.length + 1).padStart(3, "0");
+      const personId = `person-${num}-${uuid}`;
       await saveFaceCrop(img, detection.detection.box, personId, image.id, facesOutputDir);
 
       const thumbPath = `faces/${personId}/${image.id}.jpg`;
       const newPerson: Person = {
         id: personId,
-        name: `Person ${people.length + 1}`,
+        name: `Person ${num}`,
         faceDescriptor: descriptor,
         faceCount: 1,
         thumbnail: thumbPath,

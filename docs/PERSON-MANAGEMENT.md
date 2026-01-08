@@ -50,9 +50,11 @@ Otevírá se kliknutím na miniaturu osoby v sidebaru.
 
 Každá entita má přiřazenou kategorii:
 
-- **Osoba (person):** Výchozí kategorie pro lidské tváře.
-- **Socha (statue):** Pro tváře zachycené na sochách, pomnících.
-- **Malba (painting):** Pro tváře na obrazech, freskách, plakátech.
+- **Osoba (person):** Výchozí kategorie pro lidské tváře. ID: `person-NNN-<hash>` nebo `person-<name>-<hash>`.
+- **Socha (statue):** Pro tváře zachycené na sochách, pomnících. ID: `statue-NNN-<hash>` nebo `statue-<name>-<hash>`.
+- **Malba (painting):** Pro tváře na obrazech, freskách, plakátech. ID: `painting-NNN-<hash>` nebo `painting-<name>-<hash>`.
+
+**Poznámka:** Systém striktně vynucuje anglické prefixy (`person-`, `statue-`, `painting-`). Staré české prefixy (`osoba-`, `socha-`) jsou deprecated a automaticky se převádí.
 
 **Změna kategorie:**
 
@@ -171,7 +173,7 @@ Při **Odepnutí** nově vzniklá entita **dědí kategorii** původní entity.
 
 **Co se stane:**
 
-- Změní se slug ID (např. `person-uuid--jaruska`).
+- Změní se slug ID (např. `person-jaruska-<hash>`).
 - Přejmenuje se fyzická složka `static-<gallery>/faces/<old-id>` → `<new-id>`.
 - Aktualizují se všechny odkazy v manifestech.
 
