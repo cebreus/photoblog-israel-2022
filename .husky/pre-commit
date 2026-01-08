@@ -58,7 +58,42 @@ if [ -n "$STAGED_FILES" ]; then
     exit 1
   fi
 
-  # 3. Structured Logging Pattern Check
+  # 3. Console Usage Check
+  # Reject console.log/warn/error in scripts, enforcing logger usage
+  CONSOLE_LOGS=$(echo "$STAGED_FILES" | grep "^scripts/" | grep -v "scripts/lib/core/cli-logger.ts" | xargs grep -nE "console\.(log|warn|error)" /dev/null 2>/dev/null | grep -v "//" || true)
+
+  if [ -n "$CONSOLE_LOGS" ]; then
+    echo ""
+    echo "❌ \033[0;31mCOMMIT REJECTED: Console logging detected!\033[0m"
+    echo ""
+    echo "Please use the structured logger instead of console.log/warn/error."
+    echo ""
+    
+    IFS='
+'
+    for line in $CONSOLE_LOGS; do
+      FILE=$(echo "$line" | cut -d: -f1)
+      LINE_NUM=$(echo "$line" | cut -d: -f2)
+      CODE_CONTENT=$(echo "$line" | cut -d: -f3- | xargs)
+      
+      echo "Path: $FILE"
+      echo "Line: $LINE_NUM"
+      echo ""
+      echo "Code:"
+      echo "  $CODE_CONTENT"
+      echo ""
+      echo "How can I resolve this?"
+      echo "Import createLogger from 'scripts/lib/core/cli-logger' and use:"
+      echo "  ✅ logger.info({ ctx }, \"Message\")"
+      echo "  ✅ logger.raw(\"Message\") // For raw output"
+      echo "--------------------------------------------------"
+    done
+    unset IFS
+    
+    exit 1
+  fi
+
+  # 4. Structured Logging Pattern Check
   # Check for unstructured logger calls
   # We exclude 'tests/' because tests often need to mock or intentionally use varying patterns
   UNSTRUCTURED_LOGS=$(echo "$STAGED_FILES" | grep -v "^tests/" | grep -v "scripts/lib/core/cli-logger.ts" | xargs grep -nE "(logger|log|child)\.(error|warn|info|debug|trace)\s*\(\s*[^{]" /dev/null 2>/dev/null | grep -v "{ " | grep -v "//" || true)
@@ -96,7 +131,7 @@ if [ -n "$STAGED_FILES" ]; then
     exit 1
   fi
 
-  # 4. Dynamic Import Check
+  # 5. Dynamic Import Check
   # Reject dynamic imports (await import(...)) except for legitimate use cases:
   # - runtime.ts (Node.js fallback for fast-glob)
   # - Heavy dependencies (sharp, @fancyapps/ui, @vladmandic/face-api, @tensorflow, @xenova/transformers)
