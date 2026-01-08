@@ -268,9 +268,14 @@ describe("PhotoGrid Component", () => {
 
     // Check data-loading attributes
     expect(elements[0].getAttribute("data-loading")).toBe("eager");
+    expect(elements[0].getAttribute("data-fetchpriority")).toBe("high");
     expect(elements[1].getAttribute("data-loading")).toBe("eager");
+    expect(elements[1].getAttribute("data-fetchpriority")).toBe("high");
     expect(elements[2].getAttribute("data-loading")).toBe("eager");
+    expect(elements[2].getAttribute("data-fetchpriority")).toBe("high");
     expect(elements[3].getAttribute("data-loading")).toBe("lazy");
+    expect(elements[3].getAttribute("data-fetchpriority")).toBe(null);
     expect(elements[4].getAttribute("data-loading")).toBe("lazy");
+    expect(elements[4].getAttribute("data-fetchpriority")).toBe(null);
   });
 });

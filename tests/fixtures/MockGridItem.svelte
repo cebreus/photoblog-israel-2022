@@ -8,6 +8,7 @@
   data-testid="mock-item"
   data-id={item?.id}
   data-loading={loading}
+  data-fetchpriority={loading === "eager" ? "high" : undefined}
   onclick={() => onSelect?.(item, false)}
 >
   Mock Item

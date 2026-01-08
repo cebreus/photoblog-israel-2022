@@ -357,7 +357,7 @@
               src={fallback?.path ?? ""}
               alt={item.alt}
               {loading}
-              fetchpriority={loading === "eager" ? "high" : undefined}
+              fetchPriority={loading === "eager" ? "high" : undefined}
               class="h-full w-full cursor-zoom-in object-cover"
               width={fallback.width}
               height={fallback.height}
@@ -369,7 +369,7 @@
             src={adminThumb?.path ?? item.adminThumbUrl}
             alt={item.alt}
             {loading}
-            fetchpriority={loading === "eager" ? "high" : undefined}
+            fetchPriority={loading === "eager" ? "high" : undefined}
             class="h-full w-full object-contain"
             width={item.width}
             height={item.height}
