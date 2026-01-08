@@ -1,33 +1,31 @@
 <script lang="ts">
   import { untrack } from "svelte";
   import { toast } from "svelte-sonner";
-
+  import { browser, dev } from "$app/environment";
+  import { goto } from "$app/navigation";
+  import { page } from "$app/state";
   import PersonDetailDialog from "$lib/components/PersonDetailDialog.svelte";
   import PersonMergeDialog from "$lib/components/PersonMergeDialog.svelte";
-  import TaskOverlay from "$lib/components/ui/TaskOverlay.svelte";
   import * as Accordion from "$lib/components/ui/accordion";
   import { Button } from "$lib/components/ui/button";
   import * as Dialog from "$lib/components/ui/dialog";
   import { Separator } from "$lib/components/ui/separator";
   import * as Sidebar from "$lib/components/ui/sidebar";
+  import TaskOverlay from "$lib/components/ui/TaskOverlay.svelte";
   import { createLogger } from "$lib/logger";
   import { filters } from "$lib/stores/filters.svelte";
   import { people } from "$lib/stores/people.svelte";
   import { system } from "$lib/stores/system.svelte";
   import {
     type ImageEntry,
+    isImageEntry,
     type Person,
     type PhotoDayItem,
-    isImageEntry,
   } from "$lib/types/manifest";
   import { tracedFetch } from "$lib/utils/api";
   import { buildImagePeopleMap } from "$lib/utils/gallery";
   import { GENERIC_MESSAGES, PERSON_MESSAGES, PLURALS } from "$lib/utils/messages";
   import { type MergeResponse, updatePeopleOrThrow } from "$lib/utils/people-actions";
-
-  import { browser, dev } from "$app/environment";
-  import { goto } from "$app/navigation";
-  import { page } from "$app/state";
 
   import SelectionBulkActions from "../SelectionBulkActions.svelte";
 

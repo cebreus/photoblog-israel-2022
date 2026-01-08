@@ -193,7 +193,7 @@ export function filterGalleryItems(
 
   return items.filter(function filterItem(item) {
     if (!isImageEntry(item)) {
-      return true; // Always include separators as they might be needed for menu anchors
+      return criteria.showSeparators;
     }
     return shouldIncludeItem(item, criteria, isDefaultQualityView, imagePeopleMap);
   });

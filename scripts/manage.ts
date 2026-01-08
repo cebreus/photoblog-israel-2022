@@ -105,7 +105,7 @@ async function resolveGalleryAndContinue() {
       process.env.CONTENT_DIR = gallery;
       return;
     }
-    logger.warn({ gallery }, "Gallery not found in content directory");
+    logger.warn({ gallery }, `Gallery "${gallery}" not found in content directory`);
   }
 
   // 2. Fallback to interactive if TTY
@@ -168,7 +168,7 @@ async function checkManifest(isCuration = false) {
     `--title=[MANAGE] Verifying manifest state${isCuration ? " (with curation analysis)" : ""}...`,
   );
 
-  logger.info({ gallery, curation: isCuration }, "Verifying manifest state...");
+  logger.info({ gallery, curation: isCuration }, `Verifying manifest state [${gallery}]...`);
   await run("bun", flags, {
     env: {
       ...process.env,
@@ -185,7 +185,7 @@ async function cmdFavicons() {
 }
 
 async function cmdImages() {
-  logger.info({ gallery }, "┌ Generating Image Variants (Resizing, Metadata & Blurs)");
+  logger.info({ gallery }, `┌ Generating Image Variants [${gallery}] (Resizing, Metadata & Blurs)`);
   await run("bun", [
     "scripts/generate-images.ts",
     "--title=Image Variants & Metadata",
@@ -206,7 +206,7 @@ async function cmdBlur() {
 }
 
 async function cmdFaces() {
-  logger.info({ gallery }, "┌ Face Clustering & Recognition");
+  logger.info({ gallery }, `┌ Face Clustering & Recognition [${gallery}]`);
   // ⚠️ Do not switch this back to piped output: face-clustering needs a TTY for cli-progress to render live.
   // Piping/stdout filtering hides carriage returns and causes the "silent progress" regression we fixed.
   await run("bun", ["scripts/face-clustering.ts", ...getCommonFlags()], { stdio: "inherit" });
@@ -261,6 +261,7 @@ async function cmdBuild() {
 }
 
 async function cmdAnalyze() {
+  logger.info({ gallery }, `┌ Similarity & Aesthetic Analysis [${gallery}]`);
   await checkManifest(true);
 
   await run("bun", ["scripts/analyze-similarity.ts", ...getCommonFlags()]);
