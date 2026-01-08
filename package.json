@@ -22,7 +22,7 @@
     "faces:cluster": "bun scripts/face-clustering.ts",
     "faces:audit": "bun scripts/audit-orphans.ts",
     "lint": "prettier -c \"src/**/*.{svelte,md,html,css}\" && stylelint 'src/**/*.css' && biome check src scripts tests",
-    "format": "prettier -l -w \"**/*.{svelte,md,html,css}\" && stylelint --fix 'src/**/*.css' && biome check --write",
+    "format": "biome check --write && stylelint --fix 'src/**/*.css' && prettier -l -w \"**/*.{svelte,md,html,css}\"",
     "lint:ci": "biome check --reporter=summary --diagnostic-level=warn .",
     "lint-staged": "lint-staged",
     "test": "bunx vitest run",

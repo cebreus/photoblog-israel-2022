@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { formatWallClock } from "$shared/utils/dates";
   import Archive from "@lucide/svelte/icons/archive";
   import ArrowRightLeft from "@lucide/svelte/icons/arrow-right-left";
   import Copy from "@lucide/svelte/icons/copy";
@@ -6,12 +7,11 @@
   import StretchHorizontal from "@lucide/svelte/icons/stretch-horizontal";
   import Trash2 from "@lucide/svelte/icons/trash-2";
   import { toast } from "svelte-sonner";
-  import { browser, dev } from "$app/environment";
-  import { page } from "$app/state";
+
   import { useScrollspy } from "$lib/actions/scrollspy";
   import AspectRatioIcon from "$lib/components/AspectRatioIcon.svelte";
-  import JsonViewer from "$lib/components/debug/JsonViewer.svelte";
   import SequenceBadge from "$lib/components/SequenceBadge.svelte";
+  import JsonViewer from "$lib/components/debug/JsonViewer.svelte";
   import { Button } from "$lib/components/ui/button";
   import * as ContextMenu from "$lib/components/ui/context-menu";
   import { editor } from "$lib/stores/editor.svelte";
@@ -24,7 +24,9 @@
   import { getSources } from "$lib/utils/images";
   import { IMAGE_MESSAGES } from "$lib/utils/messages";
   import { formatMetadataForClipboard } from "$lib/utils/metadata";
-  import { formatWallClock } from "$shared/utils/dates";
+
+  import { browser, dev } from "$app/environment";
+  import { page } from "$app/state";
 
   let {
     item,

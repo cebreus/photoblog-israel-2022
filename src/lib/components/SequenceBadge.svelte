@@ -1,8 +1,7 @@
 <script lang="ts">
-  
+  import { DEFAULT_BADGE_ICON, SEQUENCE_BADGE_ICONS } from "$shared/constants/sequences";
 
   import type { SequenceInfo } from "$lib/types/manifest";
-import { DEFAULT_BADGE_ICON, SEQUENCE_BADGE_ICONS } from "$shared/constants/sequences";
 
   let { info }: { info: SequenceInfo } = $props();
 

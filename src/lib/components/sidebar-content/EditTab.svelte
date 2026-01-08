@@ -1,13 +1,14 @@
 <script lang="ts">
+  import { canApplyClap } from "$shared/utils/strings";
   import Crop from "@lucide/svelte/icons/crop";
   import Info from "@lucide/svelte/icons/info";
   import LayoutGrid from "@lucide/svelte/icons/layout-grid";
-  import { fade } from "svelte/transition";
   import { toast } from "svelte-sonner";
-  import { invalidateAll } from "$app/navigation";
+  import { fade } from "svelte/transition";
+
+  import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
   import ClapEditor from "$lib/components/admin/ClapEditor.svelte";
   import CollageDialog from "$lib/components/admin/CollageDialog.svelte";
-  import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
   import { Button } from "$lib/components/ui/button";
   import { Label } from "$lib/components/ui/label";
   import { Spinner } from "$lib/components/ui/spinner";
@@ -27,7 +28,8 @@
   } from "$lib/utils/collage-config";
   import { COLLAGE_MESSAGES, IMAGE_MESSAGES } from "$lib/utils/messages";
   import { smartToast } from "$lib/utils/toasts";
-  import { canApplyClap } from "$shared/utils/strings";
+
+  import { invalidateAll } from "$app/navigation";
 
   import GeoDataSection from "./GeoDataSection.svelte";
   import MetadataInputField from "./MetadataInputField.svelte";

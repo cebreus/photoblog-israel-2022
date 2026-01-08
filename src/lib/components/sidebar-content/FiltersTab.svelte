@@ -10,7 +10,7 @@
   import { Switch } from "$lib/components/ui/switch";
   import { ToggleGroup, ToggleGroupItem } from "$lib/components/ui/toggle-group";
   import { createLogger } from "$lib/logger";
-  import { filters, MEDIA_TYPES } from "$lib/stores/filters.svelte";
+  import { MEDIA_TYPES, filters } from "$lib/stores/filters.svelte";
   import { ui } from "$lib/stores/ui.svelte";
   import type { MediaItemType, QualityFilterBucket } from "$lib/types/manifest";
   import { QUALITY_BUCKETS } from "$lib/utils/gallery";

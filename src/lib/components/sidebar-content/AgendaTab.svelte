@@ -3,10 +3,12 @@
   import ChevronRight from "@lucide/svelte/icons/chevron-right";
   import { Collapsible } from "bits-ui";
   import type { HTMLAttributes } from "svelte/elements";
-  import { page } from "$app/state";
+
   import * as Sidebar from "$lib/components/ui/sidebar";
   import { ui } from "$lib/stores/ui.svelte";
   import type { MenuManifest } from "$lib/types/manifest";
+
+  import { page } from "$app/state";
 
   let { menuItems = [] }: { menuItems: MenuManifest } = $props();
 
