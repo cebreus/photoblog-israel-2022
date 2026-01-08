@@ -4,15 +4,15 @@
  * normalize-by-category, and fix-person-format scripts.
  */
 
-import fsp from "node:fs/promises";
-import path from "node:path";
 import type {
+  ClusteringConstraints,
   FacesManifest,
   Manifest,
   PeopleManifest,
   Person,
-} from "../../../shared/types/manifest";
-import type { ClusteringConstraints } from "../faces/constraints";
+} from "$shared/types/manifest";
+import fsp from "node:fs/promises";
+import path from "node:path";
 import { updatePersonReferences } from "../faces/people";
 import { backupManifests, restoreManifests } from "../gallery/migration";
 import {

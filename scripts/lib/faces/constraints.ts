@@ -5,24 +5,11 @@
  * Used by reassign, unmatch, invalidate-detection, and merge endpoints.
  */
 
+import type { Constraint } from "$shared/types/manifest";
 import { createLogger, type Logger } from "../core/cli-logger";
 import { loadClusteringConstraints, saveClusteringConstraints } from "../manifests/repository";
 
 const logger = createLogger("constraints");
-
-export type Constraint = {
-  imageId: string;
-  personId: string;
-};
-
-export type ClusteringConstraints = {
-  disconnects: Constraint[];
-  connects: Constraint[];
-  invalidDetections?: Array<{
-    imageId: string;
-    box: { x: number; y: number; width: number; height: number };
-  }>;
-};
 
 /**
  * Adds disconnect and connect constraints for a reassignment.

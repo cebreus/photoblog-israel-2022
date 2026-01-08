@@ -60,6 +60,13 @@
       }
     }
   ],
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "off"
+      }
+    }
+  },
   "formatter": {
     "enabled": true,
     "indentStyle": "space",

@@ -1,16 +1,17 @@
-import fsp from "node:fs/promises";
-import path from "node:path";
 import type {
   AnalysisManifest,
-  CurationManifest,
+  ClusteringConstraints,
   EmbeddingsManifest,
+  FaceEmbeddingsManifest,
   FacesManifest,
   Manifest,
   MenuManifest,
   PeopleManifest,
-} from "../../../src/lib/types/manifest";
+} from "$shared/types/manifest";
+import fsp from "node:fs/promises";
+import path from "node:path";
+import type { CurationManifest } from "../../../src/lib/types/manifest";
 import {
-  type ClusteringConstraints,
   isValidAnalysisManifest,
   isValidClusteringConstraints,
   isValidCurationManifest,
@@ -285,6 +286,30 @@ export async function saveEmbeddingsManifest(
   log: Logger = logger,
 ): Promise<void> {
   return saveManifest(path.join(outRoot, "embeddings.manifest.json"), data, false, log);
+}
+
+export async function loadFaceEmbeddingsManifest(
+  outRoot: string,
+  log: Logger = logger,
+): Promise<FaceEmbeddingsManifest | null> {
+  const data = await loadManifest<FaceEmbeddingsManifest>(
+    path.join(outRoot, "face-embeddings.manifest.json"),
+    log,
+  );
+  // No validator yet - just check if it's an object
+  if (data && typeof data !== "object") {
+    log.warn({ outRoot }, "Invalid face embeddings manifest structure");
+    return null;
+  }
+  return data;
+}
+
+export async function saveFaceEmbeddingsManifest(
+  outRoot: string,
+  data: FaceEmbeddingsManifest,
+  log: Logger = logger,
+): Promise<void> {
+  return saveManifest(path.join(outRoot, "face-embeddings.manifest.json"), data, false, log);
 }
 
 export async function loadFacesManifest(

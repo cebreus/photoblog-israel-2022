@@ -1,11 +1,12 @@
+import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
+import * as canvas from "canvas";
 import crypto from "node:crypto";
 import fsp from "node:fs/promises";
 import path from "node:path";
-import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
-import * as canvas from "canvas";
 import sharp from "sharp";
 import { clearTaskStatus } from "../src/lib/server/task-status";
 import {
+  type FaceEmbeddingsManifest,
   type FacesManifest,
   type ImageEntry,
   isImageEntry,
@@ -27,9 +28,11 @@ import { runPreBuildChecks } from "./lib/faces/pre-build-check";
 import { resolveGalleryDirectory } from "./lib/gallery/resolver";
 import { convertHeicToPng, ensureDir } from "./lib/image/utils";
 import {
+  loadFaceEmbeddingsManifest,
   loadFacesManifest,
   loadImagesManifest,
   loadPeopleManifest,
+  saveFaceEmbeddingsManifest,
   saveFacesManifest,
   saveImagesManifest,
   savePeopleManifest,
@@ -442,8 +445,18 @@ async function loadClusteringResources(
 
   let people: Person[] = [];
   const existingPeopleManifest = await loadPeopleManifest(dataDir);
+  const faceEmbeddings = (await loadFaceEmbeddingsManifest(dataDir)) || {};
+
   if (existingPeopleManifest?.people) {
     people = existingPeopleManifest.people;
+
+    // Hybridation: Attach embeddings from separate manifest to in-memory people
+    for (const p of people) {
+      if (faceEmbeddings[p.id]) {
+        p.faceDescriptor = faceEmbeddings[p.id].faceDescriptor;
+        p.clusters = faceEmbeddings[p.id].clusters;
+      }
+    }
 
     // Rescue/Repair: Check for people with missing descriptors but valid thumbnails OR manifest entries
     let _rescuedCount = 0;
@@ -1159,7 +1172,30 @@ async function main() {
   // This ensures no inflation and perfect sync with images.manifest.json.
   recalculateAllFaceCounts({ people }, manifest);
 
+  // Split embeddings for separate storage
+  const faceEmbeddings: FaceEmbeddingsManifest = {};
+  for (const p of people) {
+    // Check if person has any embeddings data
+    const hasDescriptor = p.faceDescriptor && p.faceDescriptor.length > 0;
+    const hasClusters = p.clusters && p.clusters.length > 0;
+
+    if (hasDescriptor || hasClusters) {
+      faceEmbeddings[p.id] = {
+        faceDescriptor: p.faceDescriptor,
+        clusters: p.clusters,
+      };
+
+      // Remove from main people manifest (keep typings happy by using delete)
+      delete p.faceDescriptor;
+      delete p.clusters;
+    }
+  }
+
+  await saveFaceEmbeddingsManifest(dataDir, faceEmbeddings);
   await savePeopleManifest(dataDir, { people });
+
+  // Clean up invalid constraints (referencing non-existent people or images)
+  await gcConstraints(dataDir, logger);
 }
 
 (async () => {

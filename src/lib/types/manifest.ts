@@ -150,8 +150,16 @@ export type FaceCluster = {
 export type Person = {
   id: string;
   name: string;
-  faceDescriptor: number[]; // Deprecated, kept for compat. Use clusters[0].centroid if unsure.
-  clusters: FaceCluster[];
+  /**
+   * @deprecated Moved to face-embeddings.manifest.json for lazy loading.
+   * This field is no longer populated in people.manifest.json after migration.
+   */
+  faceDescriptor?: number[];
+  /**
+   * @deprecated Moved to face-embeddings.manifest.json for lazy loading.
+   * This field is no longer populated in people.manifest.json after migration.
+   */
+  clusters?: FaceCluster[];
   faceCount: number;
   thumbnail: string;
   manualImageIds?: string[];
@@ -189,6 +197,29 @@ export type EmbeddingsManifest = {
   [imageId: string]: number[];
 };
 
+/**
+ * Face embeddings for people (person-level descriptors).
+ * Stores faceDescriptor and cluster centroids separately from people.manifest.json
+ * to reduce manifest size and enable lazy loading.
+ */
+export type FaceEmbeddingsManifest = {
+  [personId: string]: {
+    /**
+     * @deprecated Legacy single descriptor. Use clusters[0].centroid if available.
+     */
+    faceDescriptor?: number[];
+    /**
+     * Multiple cluster centroids for temporal/appearance variations.
+     */
+    clusters?: {
+      centroid: number[];
+      faceCount: number;
+      year?: number;
+      lastSeen?: string;
+    }[];
+  };
+};
+
 export type FaceDetail = {
   x: number;
   y: number;
@@ -209,4 +240,22 @@ export type ImageFaces = {
 
 export type FacesManifest = {
   [imageId: string]: ImageFaces;
+};
+
+export type Constraint = {
+  imageId: string;
+  personId: string;
+};
+
+export type ClusteringConstraints = {
+  disconnects: Constraint[];
+  connects: Constraint[];
+  invalidDetections?: Array<{
+    imageId: string;
+    box: { x: number; y: number; width: number; height: number };
+  }>;
+  ignoredCrops?: Array<{
+    imageId: string;
+    box: { x: number; y: number; width: number; height: number };
+  }>;
 };
