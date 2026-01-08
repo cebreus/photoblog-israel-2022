@@ -1,6 +1,8 @@
 <script lang="ts">
   import { toast } from "svelte-sonner";
-
+  import { browser } from "$app/environment";
+  import { invalidateAll } from "$app/navigation";
+  import { page } from "$app/state";
   import ArchiveImageDialog from "$lib/components/ArchiveImageDialog.svelte";
   import CurationGroupView from "$lib/components/CurationGroup.svelte";
   import CurationGroupDialog from "$lib/components/CurationGroupDialog.svelte";
@@ -27,10 +29,6 @@
   import { findIndexById, getRange } from "$lib/utils/selection";
   import { toSlug } from "$lib/utils/strings";
   import { smartToast } from "$lib/utils/toasts";
-
-  import { browser } from "$app/environment";
-  import { invalidateAll } from "$app/navigation";
-  import { page } from "$app/state";
 
   const logger = createLogger("PhotoGrid");
 
@@ -870,7 +868,6 @@
       onArchive={handleArchive}
       onCopyMetadata={handleCopyMetadata}
       onSelect={handleSelect}
-      {eagerLoadIds}
     />
   {:else}
     <!-- Standard Item Rendering -->

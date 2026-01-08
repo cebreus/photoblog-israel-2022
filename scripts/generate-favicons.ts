@@ -1,7 +1,7 @@
 process.env.GLIB_LOG_LEVEL = "critical";
 
-import { promises as fs } from "node:fs"; // Bun's native fs/promises
-import path from "node:path"; // Bun's native path module
+import { promises as fs } from "node:fs";
+import path from "node:path";
 import { select } from "@clack/prompts";
 import { type FaviconOptions, favicons } from "favicons";
 import matter from "gray-matter";
@@ -101,10 +101,13 @@ async function run() {
     }
   }
 
-  logger.info({ contentDir }, "Using content directory");
+  logger.debug({ contentDir }, "Using content directory");
 
   const config = await loadSiteConfig(contentDir);
-  logger.info({ sourceFile: path.relative(process.cwd(), config.sourceFile) }, "Using source file");
+  logger.debug(
+    { sourceFile: path.relative(process.cwd(), config.sourceFile) },
+    "Using source file",
+  );
 
   const staticDir = `static-${contentDir}`;
   const assetsOutDir = path.resolve(staticDir, "assets", "favicons");
@@ -135,7 +138,7 @@ async function run() {
   if (faviconIco) {
     const faviconIcoPath = path.resolve(staticDir, "favicon.ico");
     await fs.writeFile(faviconIcoPath, faviconIco.contents);
-    logger.info({ path: path.relative(process.cwd(), faviconIcoPath) }, "Wrote favicon.ico");
+    logger.debug({ path: path.relative(process.cwd(), faviconIcoPath) }, "Wrote favicon.ico");
 
     function isNotFavicon(image: { name: string }) {
       return image.name !== "favicon.ico";
@@ -147,14 +150,14 @@ async function run() {
     return fs.writeFile(path.join(assetsOutDir, image.name), image.contents);
   }
   await Promise.all(imagesToWrite.map(writeImage));
-  logger.info({ path: path.relative(process.cwd(), assetsOutDir) }, "Wrote images");
+  logger.debug({ path: path.relative(process.cwd(), assetsOutDir) }, "Wrote images");
 
   function writeFile(file: { name: string; contents: any }) {
     return fs.writeFile(path.join(assetsOutDir, file.name), file.contents);
   }
 
   await Promise.all(response.files.map(writeFile));
-  logger.info({ path: path.relative(process.cwd(), assetsOutDir) }, "Wrote manifest files");
+  logger.debug({ path: path.relative(process.cwd(), assetsOutDir) }, "Wrote manifest files");
 
   const tempFaviconHtmlPath = path.join(tempDir, "favicons.html");
   function filterOutIco(htmlLine: string) {
@@ -171,7 +174,7 @@ async function run() {
     })
     .join("\n");
   await fs.writeFile(tempFaviconHtmlPath, finalHtml);
-  logger.info({ path: tempFaviconHtmlPath }, "Wrote temporary favicons.html");
+  logger.debug({ path: tempFaviconHtmlPath }, "Wrote temporary favicons.html");
 
   logger.info({ success: true }, "Favicons generated successfully.");
 }
@@ -180,7 +183,8 @@ async function executeRun(): Promise<void> {
   const startTime = performance.now();
   try {
     await run();
-    logger.info({ duration: formatDuration(performance.now() - startTime) }, "Total time");
+    const duration = formatDuration(performance.now() - startTime);
+    logger.info({ duration }, `Total time: ${duration}`);
   } catch (e: any) {
     logger.error({ err: e }, "An error occurred during favicon generation");
     if (e?.stack) {

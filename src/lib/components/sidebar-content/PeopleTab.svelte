@@ -35,33 +35,6 @@
 
   const logger = createLogger("PeopleTab");
 
-  // Helper to split people into Named (A-Z) and Generic (Face Count) groups
-  function splitAndSortPeople(list: Person[]) {
-    const isGeneric = (p: Person) => {
-      if (p.isUserNamed !== undefined) return !p.isUserNamed;
-      return p.name.match(/^Person \d+$/) || p.name.toLowerCase().includes("odpojeno od");
-    };
-
-    const sortByName = (a: Person, b: Person) =>
-      a.name.localeCompare(b.name, "cs", { sensitivity: "base" });
-
-    const named: Person[] = [];
-    const generic: Person[] = [];
-
-    for (const p of list) {
-      if (isGeneric(p)) {
-        generic.push(p);
-      } else {
-        named.push(p);
-      }
-    }
-
-    named.sort(sortByName);
-    generic.sort((a, b) => b.faceCount - a.faceCount);
-
-    return { named, generic };
-  }
-
   // Types are now imported from people-actions.ts
   // Local alias for backward compatibility with existing code
   const apiUpdate = updatePeopleOrThrow;
@@ -74,7 +47,7 @@
 
   const stats = $derived.by(() => {
     const list = people.visiblePeople;
-    const { named } = splitAndSortPeople(list);
+    const namedCount = list.filter((p) => p.isUserNamed).length;
     const totalFaces = list.reduce((acc, p: Person) => acc + p.faceCount, 0);
     const personIds = new Set(list.map((p) => p.id));
 
@@ -118,7 +91,7 @@
 
     return {
       total: list.length,
-      named: named.length,
+      named: namedCount,
       faces: totalFaces,
       totalWithFaces,
       visibleWithFaces,
@@ -178,7 +151,7 @@
   async function loadConstraints() {
     if (!dev) return;
     try {
-      const res = await tracedFetch("/api/people/invalid-detections");
+      const res = await tracedFetch("/api/people/constraints");
       const data = await res.json();
       if (data.success) {
         invalidDetections = data.invalidDetections;
@@ -845,7 +818,10 @@
 </script>
 
 {#snippet personGrid(list: Person[], testIdSuffix: string)}
-  {@const { named, generic } = splitAndSortPeople(list)}
+  {@const named = list
+    .filter((p) => p.isUserNamed)
+    .sort((a, b) => a.name.localeCompare(b.name, "cs"))}
+  {@const generic = list.filter((p) => !p.isUserNamed).sort((a, b) => b.faceCount - a.faceCount)}
   {#each named as person (person.id)}
     <CategoryPersonCard
       {person}

@@ -93,9 +93,12 @@ function validateStoryData(
 
   // Log warnings
   if (warnings.length > 0) {
-    console.warn(`⚠️  Markdown validation issues in "${filename}":`);
+    logger.warn(
+      { filename, issues: warnings.length },
+      `Markdown validation issues in "${filename}":`,
+    );
     for (const w of warnings) {
-      console.warn(`   - ${w}`);
+      logger.warn({}, `  - ${w}`);
     }
   }
 }
@@ -351,7 +354,10 @@ async function processImages(
   if (toProcess.length === 0) return [];
 
   const resolvedConcurrency = getConcurrency(concurrency);
-  logger.info({ threads: resolvedConcurrency }, "Using concurrency");
+  logger.info(
+    { threads: resolvedConcurrency },
+    `Using concurrency: ${resolvedConcurrency} threads`,
+  );
 
   const bar = quiet ? null : createBar(toProcess.length, "[images]", { suffix: "| Processing" });
 
@@ -816,7 +822,7 @@ export async function runIncrementalBuild(
   const cachedCount = Math.max(0, sourceFiles.length - toProcess.length);
   logger.info(
     { new: toProcess.length, deleted: toDelete.length, cached: cachedCount },
-    "Audit results",
+    `Audit results: ${toProcess.length} new, ${toDelete.length} deleted, ${cachedCount} cached`,
   );
 
   // Rename detection (opt-in)
@@ -974,9 +980,13 @@ export async function runIncrementalBuild(
   rows.push(widths.map((w) => "-".repeat(w)).join("-+-"));
   rows.push(formatRow(totalRow));
 
-  logger.info({ summary: rows }, "Build statistics table");
+  logger.info({}, "Build statistics:");
+  for (const row of rows) {
+    logger.info({}, `  ${row}`);
+  }
 
-  logger.info({ duration: formatDuration(performance.now() - startTime) }, "Build finished");
+  const duration = formatDuration(performance.now() - startTime);
+  logger.info({ duration }, `Build finished in ${duration}`);
 }
 
 async function getDirectorySize(dir: string): Promise<number> {

@@ -4,6 +4,7 @@ import fsp from "node:fs/promises";
 import path from "node:path";
 import { intro, select } from "@clack/prompts";
 import "sharp";
+import { clearTaskStatus, saveTaskStatus } from "../src/lib/server/task-status";
 import type { QualityTypes, ScriptArgs } from "../src/lib/types/manifest";
 import { config } from "./build.config";
 import { createLogger } from "./lib/core/cli-logger";
@@ -141,8 +142,8 @@ let CTX = initializeContext();
 function logOutputPlan() {
   const relSrc = path.posix.normalize(path.relative(process.cwd(), CTX.srcRoot));
   const relOut = path.posix.normalize(path.relative(process.cwd(), CTX.outRoot));
-  logger.info({ path: relSrc }, "Source directory");
-  logger.info({ path: relOut }, "Output root directory");
+  logger.debug({ path: relSrc }, "Source directory");
+  logger.debug({ path: relOut }, "Output root directory");
 
   const outputs = config.outputs as Record<
     keyof typeof config.outputs,
@@ -153,7 +154,7 @@ function logOutputPlan() {
     const width = resize.width ? `${resize.width}` : "auto";
     const height = resize.height ? `${resize.height}` : "auto";
     const target = path.posix.join(config.paths.output, (cfg as any).folderName);
-    logger.info(
+    logger.debug(
       {
         key,
         width,
@@ -162,7 +163,7 @@ function logOutputPlan() {
         format: (cfg as any).format || "original",
         target,
       },
-      "Plan entry",
+      `Output variant: ${key}`,
     );
   });
 }
@@ -254,8 +255,6 @@ export async function executeMain(): Promise<void> {
   const gallery = ARGS.__raw.gallery || process.env.CONTENT_DIR || "egypt-2025";
   const dataDir = path.resolve(process.cwd(), `src/data/${gallery}`);
 
-  const { saveTaskStatus, clearTaskStatus } = await import("../src/lib/server/task-status");
-
   await saveTaskStatus(dataDir, {
     id: "image-processing",
     label: "Generování variant obrázků...",
@@ -274,14 +273,8 @@ export async function executeMain(): Promise<void> {
     await clearTaskStatus(dataDir);
     await cleanup();
     if (!ARGS.quiet) {
-      logger.info(
-        {
-          duration: formatDuration(performance.now() - startTime),
-          gallery: ARGS.__raw.gallery || process.env.CONTENT_DIR,
-          filter: ARGS.filter,
-        },
-        "Job completed",
-      );
+      const duration = formatDuration(performance.now() - startTime);
+      logger.info({ duration }, `Job completed in ${duration}`);
     }
   }
 }

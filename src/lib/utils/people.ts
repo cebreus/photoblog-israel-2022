@@ -1,4 +1,4 @@
-import type { Person, PhotoDay } from "$lib/types/manifest";
+import { isImageEntry, type Person, type PhotoDay } from "$lib/types/manifest";
 
 function isVisiblePerson(person: Person): boolean {
   return !person.hidden && !person.junk && person.faceCount > 0;
@@ -58,7 +58,7 @@ export function enrichPeopleWithStats(people: Person[], photoDays: PhotoDay[]): 
 
   for (const day of photoDays) {
     for (const item of day.items) {
-      if (item.type === "image" && item.people) {
+      if (isImageEntry(item) && item.people) {
         for (const personId of item.people) {
           const current = faceCounts.get(personId);
           if (current !== undefined) {

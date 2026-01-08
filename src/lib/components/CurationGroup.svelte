@@ -55,6 +55,7 @@
         {onArchive}
         {onCopyMetadata}
         {onSelect}
+        loading="eager"
       />
     {/each}
   </div>

@@ -1,5 +1,8 @@
+import fs from "node:fs";
+import path from "node:path";
 import pc from "picocolors";
 import pino from "pino";
+import { fileExists, writeFile } from "../utils/runtime";
 import { logProgress } from "./progress-manager";
 
 const levelColors: Record<string, (str: string) => string> = {
@@ -20,6 +23,35 @@ const pinoToWinstonLevel: Record<string, string> = {
 };
 
 const TRACE_ID = process.env.TRACE_ID || process.env.X_REQUEST_ID;
+
+// Lazy initialization of file stream
+let fileStream: fs.WriteStream | null = null;
+let fileStreamInitPromise: Promise<void> | null = null;
+
+async function ensureFileStream(): Promise<fs.WriteStream> {
+  if (fileStream) return fileStream;
+
+  if (!fileStreamInitPromise) {
+    fileStreamInitPromise = (async () => {
+      const logsDir = path.resolve(process.cwd(), "logs");
+      const cliLogPath = path.join(logsDir, "cli.log");
+
+      // Ensure logs directory exists using runtime utilities
+      const keepFile = path.join(logsDir, ".keep");
+      if (!(await fileExists(keepFile))) {
+        await writeFile(keepFile, "");
+      }
+
+      fileStream = fs.createWriteStream(cliLogPath, { flags: "a" });
+    })();
+  }
+
+  await fileStreamInitPromise;
+  if (!fileStream) {
+    throw new Error("CLI Logger: Failed to initialize file stream");
+  }
+  return fileStream;
+}
 
 export interface Logger {
   error(obj: object, msg?: string, ...args: any[]): void;
@@ -99,7 +131,8 @@ export function createLogger(label: string): Logger {
     return `[${pc.blue(label)}] ${colorizer(levelUpper)}: ${message}`;
   }
 
-  const stream = {
+  // Console stream - respects LOG_LEVEL for readability
+  const consoleStream = {
     write(msg: string) {
       const obj = JSON.parse(msg);
       const level = pinoToWinstonLevel[obj.level] || "info";
@@ -109,15 +142,28 @@ export function createLogger(label: string): Logger {
     },
   };
 
+  // Create multistream: console with LOG_LEVEL, file with trace (everything)
+  // File stream is lazy-initialized on first write
+  const lazyFileStream = {
+    write(msg: string) {
+      ensureFileStream().then((stream) => stream.write(msg));
+    },
+  };
+
+  const streams = [
+    { level: (process.env.LOG_LEVEL || "info") as pino.Level, stream: consoleStream },
+    { level: "trace" as pino.Level, stream: lazyFileStream },
+  ];
+
   const logger = pino(
     {
-      level: process.env.LOG_LEVEL || "info",
+      level: "trace", // Set to lowest level so multistream filters work
       customLevels: {
         verbose: 25,
       },
       // IMPORTANT: No hooks needed here, we manually handle args in the wrapper below
     },
-    stream,
+    pino.multistream(streams),
   ).child(baseContext);
 
   return {

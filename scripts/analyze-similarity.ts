@@ -577,7 +577,8 @@ async function main() {
 
   try {
     await main();
-    logger.info({ duration: formatDuration(performance.now() - startTime) }, "Total time");
+    const duration = formatDuration(performance.now() - startTime);
+    logger.info({ duration }, `Total time: ${duration}`);
   } catch (error) {
     logger.error({ err: error }, "Script execution failed");
     process.exit(1);
