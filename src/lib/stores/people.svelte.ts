@@ -8,7 +8,29 @@ export class PeopleState {
   people = $derived<Person[]>(manifest.people);
   photoDays = $derived<PhotoDay[]>(manifest.photoDays);
 
-  peopleWithStats = $derived(enrichPeopleWithStats(this.people, this.photoDays));
+  peopleWithStats = $derived.by(() => {
+    if (typeof performance !== "undefined") {
+      performance.mark("people-enrich-start");
+    }
+
+    const result = enrichPeopleWithStats(this.people, this.photoDays);
+
+    if (typeof performance !== "undefined") {
+      performance.mark("people-enrich-end");
+      performance.measure("people-enrich", "people-enrich-start", "people-enrich-end");
+
+      const measure = performance.getEntriesByName("people-enrich", "measure")[0];
+      if (measure && measure.duration > 100) {
+        console.warn(`[PERF] peopleWithStats: ${measure.duration.toFixed(2)}ms`);
+      }
+
+      performance.clearMarks("people-enrich-start");
+      performance.clearMarks("people-enrich-end");
+      performance.clearMeasures("people-enrich");
+    }
+
+    return result;
+  });
 
   // Filter people by ignored flag from manifest, hide empty profiles, and show ONLY persons (no statues/paintings)
   visiblePeople = $derived(
