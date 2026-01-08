@@ -99,11 +99,6 @@
       performance.mark("people-stats-end");
       performance.measure("people-stats", "people-stats-start", "people-stats-end");
 
-      const measure = performance.getEntriesByName("people-stats", "measure")[0];
-      if (measure && measure.duration > 50) {
-        console.warn(`[PERF] PeopleTab stats: ${measure.duration.toFixed(2)}ms`);
-      }
-
       performance.clearMarks("people-stats-start");
       performance.clearMarks("people-stats-end");
       performance.clearMeasures("people-stats");

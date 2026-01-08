@@ -4,7 +4,7 @@
  * Usage:
  * perfLogger.time('operation-name');
  * // ... do work ...
- * perfLogger.timeEnd('operation-name', 50); // warn if > 50ms
+ * perfLogger.timeEnd('operation-name');
  */
 
 interface PerfEntry {
@@ -22,7 +22,7 @@ class PerfLogger {
     performance.mark(`${label}-start`);
   }
 
-  timeEnd(label: string, threshold = 50): number {
+  timeEnd(label: string): number {
     if (typeof performance === "undefined") return 0;
 
     try {
@@ -48,21 +48,13 @@ class PerfLogger {
         this.entries.shift();
       }
 
-      // Log based on threshold
-      if (duration > threshold) {
-        console.warn(`[PERF] ${label}: ${duration.toFixed(2)}ms (threshold: ${threshold}ms)`);
-      } else if (duration > threshold * 0.7) {
-        console.log(`[PERF] ${label}: ${duration.toFixed(2)}ms`);
-      }
-
       // Clean up marks
       performance.clearMarks(`${label}-start`);
       performance.clearMarks(`${label}-end`);
       performance.clearMeasures(label);
 
       return duration;
-    } catch (e) {
-      console.error(`[PERF] Error measuring ${label}:`, e);
+    } catch {
       return 0;
     }
   }
@@ -107,26 +99,6 @@ class PerfLogger {
   }
 
   /**
-   * Print performance report to console
-   */
-  printReport(labelFilter?: string) {
-    const report = this.getReport(labelFilter);
-
-    console.group("[PERF] Performance Report");
-    console.table(
-      report.map((r) => ({
-        name: r.name,
-        calls: r.count,
-        "avg (ms)": r.avg.toFixed(2),
-        "min (ms)": r.min.toFixed(2),
-        "max (ms)": r.max.toFixed(2),
-        "total (ms)": r.total.toFixed(2),
-      })),
-    );
-    console.groupEnd();
-  }
-
-  /**
    * Clear all stored entries
    */
   clear() {
@@ -142,5 +114,5 @@ export const perfLogger = new PerfLogger();
 
 // Expose to window for debugging
 if (typeof window !== "undefined") {
-  (window as any).perfLogger = perfLogger;
+  (window as unknown as { perfLogger: PerfLogger }).perfLogger = perfLogger;
 }

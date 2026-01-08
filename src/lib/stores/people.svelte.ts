@@ -19,11 +19,6 @@ export class PeopleState {
       performance.mark("people-enrich-end");
       performance.measure("people-enrich", "people-enrich-start", "people-enrich-end");
 
-      const measure = performance.getEntriesByName("people-enrich", "measure")[0];
-      if (measure && measure.duration > 100) {
-        console.warn(`[PERF] peopleWithStats: ${measure.duration.toFixed(2)}ms`);
-      }
-
       performance.clearMarks("people-enrich-start");
       performance.clearMarks("people-enrich-end");
       performance.clearMeasures("people-enrich");
