@@ -17,11 +17,11 @@ const logger = createLogger("migrate-manifests");
 
 async function migrate(outRoot: string) {
   const manifestPath = path.join(outRoot, "images.manifest.json");
-  logger.info(`Migrating manifest at ${manifestPath}...`);
+  logger.info({ manifestPath }, "Migrating manifest...");
 
   const manifest = await loadManifest<Manifest>(manifestPath);
   if (!manifest) {
-    logger.error(`Could not load manifest at ${manifestPath}`);
+    logger.error({ manifestPath }, "Could not load manifest");
     return;
   }
 
@@ -67,13 +67,13 @@ async function migrate(outRoot: string) {
     }
   }
 
-  logger.info(`Processed ${count} images. Saving new manifests...`);
+  logger.info({ imageCount: count }, "Processed images. Saving new manifests...");
 
   await saveAnalysisManifest(outRoot, analysisManifest);
   await saveEmbeddingsManifest(outRoot, embeddingsManifest);
   await saveFacesManifest(outRoot, facesManifest);
 
-  logger.info("Migration complete.");
+  logger.info({}, "Migration complete.");
 }
 
 const args = process.argv.slice(2);
@@ -81,11 +81,11 @@ const outRoot =
   args[0] || (process.env.CONTENT_DIR ? path.join("static", process.env.CONTENT_DIR) : null);
 
 if (!outRoot) {
-  logger.error("Usage: bun migrate-manifests.ts <outRoot>");
+  logger.error({}, "Usage: bun migrate-manifests.ts <outRoot>");
   process.exit(1);
 }
 
 migrate(outRoot).catch((err) => {
-  logger.error(err);
+  logger.error({ err }, "Migration failed");
   process.exit(1);
 });

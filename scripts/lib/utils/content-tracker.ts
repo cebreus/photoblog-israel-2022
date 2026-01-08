@@ -58,7 +58,10 @@ export async function loadContentTracker(cacheDir: string): Promise<ContentHashT
     const content = await fsp.readFile(trackerPath, "utf-8");
     const tracker = JSON.parse(content);
     if (tracker.version !== TRACKER_VERSION) {
-      logger.verbose("Content tracker version mismatch, resetting.");
+      logger.verbose(
+        { currentVersion: tracker.version, expectedVersion: TRACKER_VERSION },
+        "Content tracker version mismatch, resetting.",
+      );
       return { version: TRACKER_VERSION, entries: {} };
     }
     return tracker;
@@ -134,7 +137,10 @@ export async function detectRenames(
         hash,
       });
 
-      logger.info(`Detected rename: ${existingEntry.lastKnownPath} -> ${relativePath}`);
+      logger.info(
+        { oldPath: existingEntry.lastKnownPath, newPath: relativePath },
+        "Detected rename",
+      );
     }
   }
 
@@ -253,7 +259,7 @@ export function migrateReferences(
   }
 
   if (manifestUpdated || facesUpdated || peopleUpdated) {
-    logger.info(`Migrated references: ${oldId} -> ${newId}`);
+    logger.info({ oldId, newId }, "Migrated references");
   }
 
   return { manifestUpdated, facesUpdated, peopleUpdated };

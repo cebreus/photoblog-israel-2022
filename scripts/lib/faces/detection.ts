@@ -26,21 +26,26 @@ export async function initModels() {
       Image: Image as unknown as typeof globalThis.HTMLImageElement,
       ImageData: ImageData as unknown as typeof globalThis.ImageData,
     });
-    logger.info("Initializing TensorFlow/FaceAPI...");
+    logger.info({}, "Initializing TensorFlow/FaceAPI...");
     await tf.ready();
 
     try {
       await faceapi.nets.ssdMobilenetv1.loadFromDisk(MODELS_DIR);
-      logger.info("Face models loaded from disk.");
+      logger.info({ modelsDir: MODELS_DIR }, "Face models loaded from disk.");
     } catch (_error) {
-      logger.warn("Could not load models from disk. Attempting download...");
+      logger.warn({}, "Could not load models from disk. Attempting download...");
       await downloadModelFiles();
       await faceapi.nets.ssdMobilenetv1.loadFromDisk(MODELS_DIR);
-      logger.info("Face models downloaded and loaded.");
+      logger.info({}, "Face models downloaded and loaded.");
     }
 
-    logger.info(`SSD Model Loaded: ${faceapi.nets.ssdMobilenetv1.isLoaded}`);
-    logger.info(`TF Backend: ${tf.getBackend()}`);
+    logger.info(
+      {
+        ssdLoaded: faceapi.nets.ssdMobilenetv1.isLoaded,
+        backend: tf.getBackend(),
+      },
+      "FaceAPI Init Complete",
+    );
     modelsLoaded = true;
   })();
 
@@ -80,7 +85,7 @@ async function downloadFile(filename: string) {
   if (exists) return;
 
   const url = `${BASE_MODEL_URL}/${filename}`;
-  logger.info(`Downloading model file: ${filename}...`);
+  logger.info({ filename }, "Downloading model file...");
 
   const res = await fetch(url);
   if (!res.ok) {
@@ -105,7 +110,7 @@ export async function detectFaces(input: string | Buffer): Promise<FaceBox[]> {
     const { loadImage } = await import("canvas");
 
     const img = await loadImage(input);
-    logger.verbose(`Loaded image: ${img.width}x${img.height}`);
+    logger.debug({ width: img.width, height: img.height }, "Loaded image");
 
     const detections = await faceapi.detectAllFaces(
       img as any,
@@ -119,7 +124,7 @@ export async function detectFaces(input: string | Buffer): Promise<FaceBox[]> {
       height: d.box.height,
     }));
   } catch (err) {
-    logger.error(`Face detection failed: ${err}`);
+    logger.error({ err }, "Face detection failed");
     return [];
   }
 }

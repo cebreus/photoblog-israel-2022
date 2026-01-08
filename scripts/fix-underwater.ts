@@ -15,12 +15,14 @@ const positionals = process.argv.slice(2).filter((a) => !a.startsWith("--"));
 
 if (values.help || positionals.length < 3) {
   logger.info(
-    "Usage: bun scripts/fix-underwater.ts <path-to-image> [output-path-or-format] [--both]",
+    {},
+    `
+Examples:
+  bun scripts/fix-underwater.ts img.heic             # Saves as img-fixed.heic
+  bun scripts/fix-underwater.ts img.heic .jpg        # Saves as img-fixed.jpg
+  bun scripts/fix-underwater.ts img.heic --both      # Saves as HEIC and JPG
+`,
   );
-  logger.info("\nExamples:");
-  logger.info("  bun scripts/fix-underwater.ts img.heic             # Saves as img-fixed.heic");
-  logger.info("  bun scripts/fix-underwater.ts img.heic .jpg        # Saves as img-fixed.jpg");
-  logger.info("  bun scripts/fix-underwater.ts img.heic --both      # Saves as HEIC and JPG");
   process.exit(1);
 }
 
@@ -28,7 +30,7 @@ const inputPath = validatePathInsideRoot(positionals[2] || "", SAFE_INPUT_ROOT);
 const generateBoth = values.both ?? process.argv.includes("--both");
 
 if (!inputPath) {
-  logger.error("❌ Error: Missing or invalid input path.");
+  logger.error({}, "❌ Error: Missing or invalid input path.");
   process.exit(1);
 }
 
@@ -54,12 +56,12 @@ try {
   }
 
   const relOutputs = outputs.map((p) => path.relative(cwd, p));
-  logger.info(`🚀 Processing: ${relInput} -> ${relOutputs.join(", ")}`);
+  logger.info({ input: relInput, outputs: relOutputs }, "🚀 Processing underwater correction");
 
   const start = performance.now();
   await fixUnderwaterImage(inputPath, outputs);
-  logger.info(`✅ Finished in ${((performance.now() - start) / 1000).toFixed(2)}s`);
+  logger.info({ durationS: ((performance.now() - start) / 1000).toFixed(2) }, "✅ Finished");
 } catch (error) {
-  logger.error(`❌ Error: ${error instanceof Error ? error.message : error}`);
+  logger.error({ err: error }, `❌ Error: ${error instanceof Error ? error.message : error}`);
   process.exit(1);
 }

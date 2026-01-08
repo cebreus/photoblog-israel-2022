@@ -31,7 +31,7 @@ export interface ConsistencyCheckResult {
 export async function runPreBuildChecks(dataDir: string): Promise<ConsistencyCheckResult> {
   const issues: ConsistencyIssue[] = [];
 
-  logger.info("Running pre-build consistency checks...");
+  logger.info({}, "Running pre-build consistency checks...");
 
   // Load manifests
   const imagesManifest = await loadImagesManifest(dataDir);
@@ -130,21 +130,14 @@ export async function runPreBuildChecks(dataDir: string): Promise<ConsistencyChe
   const hasWarnings = issues.some((i) => i.type === "warning");
 
   if (issues.length === 0) {
-    logger.info("✅ All pre-build checks passed.");
+    logger.info({}, "✅ All pre-build checks passed.");
   } else {
     for (const issue of issues) {
       const prefix = issue.type === "error" ? "❌" : "⚠️";
-      logger.warn(`${prefix} [${issue.category}] ${issue.message}`);
-      if (issue.details) {
-        for (const detail of issue.details) {
-          logger.warn(`   - ${detail}`);
-        }
-        const match = issue.message.match(/\d+/);
-        const totalCount = match ? parseInt(match[0], 10) : 0;
-        if (issue.details.length < totalCount) {
-          logger.warn("   ... and more");
-        }
-      }
+      logger.warn(
+        { category: issue.category, type: issue.type, details: issue.details },
+        `${prefix} [${issue.category}] ${issue.message}`,
+      );
     }
   }
 

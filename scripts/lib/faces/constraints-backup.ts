@@ -40,7 +40,7 @@ export async function backupConstraints(dataDir: string): Promise<string | null>
 
   // Copy constraints to backup
   await fsp.copyFile(constraintsPath, backupPath);
-  logger.info(`Backed up constraints to ${backupFilename}`);
+  logger.info({ backupFilename }, "Backed up constraints");
 
   // Cleanup old backups (keep only MAX_BACKUPS)
   await cleanupOldBackups(backupDir);
@@ -63,7 +63,7 @@ async function cleanupOldBackups(backupDir: string): Promise<void> {
       const toDelete = backupFiles.slice(MAX_BACKUPS);
       for (const file of toDelete) {
         await fsp.unlink(path.join(backupDir, file));
-        logger.verbose(`Removed old backup: ${file}`);
+        logger.verbose({ file }, "Removed old backup");
       }
     }
   } catch {
@@ -101,10 +101,10 @@ export async function restoreConstraints(
   try {
     await fsp.access(backupPath);
     await fsp.copyFile(backupPath, constraintsPath);
-    logger.info(`Restored constraints from ${backupFilename}`);
+    logger.info({ backupFilename }, "Restored constraints");
     return true;
   } catch {
-    logger.error(`Failed to restore from ${backupFilename}`);
+    logger.error({ backupFilename }, "Failed to restore backup");
     return false;
   }
 }

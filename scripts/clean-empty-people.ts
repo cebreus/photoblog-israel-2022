@@ -18,10 +18,10 @@ const DATA_DIR = path.resolve(process.cwd(), "src/data", contentDir);
 async function run() {
   try {
     const peoplePath = path.join(DATA_DIR, "people.manifest.json");
-    logger.info(`🧹 Cleaning empty profiles in: ${contentDir}`);
+    logger.info({ contentDir }, "🧹 Cleaning empty profiles");
 
     if (!(await fs.stat(peoplePath).catch(() => false))) {
-      logger.error("Manifest not found!");
+      logger.error({ peoplePath }, "Manifest not found!");
       return;
     }
 
@@ -37,13 +37,12 @@ async function run() {
     if (removedCount > 0) {
       data.people = cleanPeople;
       await fs.writeFile(peoplePath, JSON.stringify(data, null, 2));
-      logger.info(`✅ Removed ${removedCount} empty profiles.`);
+      logger.info({ removedCount }, "✅ Removed empty profiles");
     } else {
-      logger.info("✨ No empty profiles found.");
+      logger.info({}, "✨ No empty profiles found.");
     }
   } catch (e: any) {
-    logger.error("Cleanup failed. See details below:");
-    console.error(e);
+    logger.error({ err: e }, "Cleanup failed");
     process.exit(1);
   }
 }

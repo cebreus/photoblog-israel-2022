@@ -28,7 +28,7 @@ async function convertHeicIfNeeded(
         await run("sips", ["-s", "format", "jpeg", absPath, "--out", tempFilePath]);
         return { processingPath: tempFilePath, tempFilePath };
       } catch (sipsErr) {
-        logger.warn(`Failed to convert HEIC for ${absPath}: ${vipsErr} | ${sipsErr}`);
+        logger.warn({ absPath, vipsErr, sipsErr }, "Failed to convert HEIC");
         return { processingPath: absPath, tempFilePath: null };
       }
     }
@@ -45,7 +45,7 @@ async function main() {
 
   const manifest = await loadImagesManifest(dataDir);
   if (!manifest) {
-    logger.error(`Manifest not found in ${dataDir}`);
+    logger.error({ dataDir }, "Manifest not found");
     process.exit(1);
   }
 
@@ -53,7 +53,7 @@ async function main() {
   let faceCount = 0;
   const changedImages: string[] = [];
 
-  logger.info("Scanning for images requiring face detection...");
+  logger.info({}, "Scanning for images requiring face detection...");
 
   for (const day of manifest.photoDays) {
     for (const item of day.items) {
@@ -112,7 +112,7 @@ async function main() {
             if (faces.length > 0) {
               faceCount += faces.length;
               image.analysis.faces = faces;
-              logger.verbose(`Detected ${faces.length} faces in ${image.id}`);
+              logger.verbose({ imageId: image.id, count: faces.length }, "Detected faces");
             }
 
             // Always mark as detected so we don't retry immediately?
@@ -129,7 +129,7 @@ async function main() {
             }
           }
         } catch (e) {
-          logger.error(`Failed to analyze ${image.id}:`, e);
+          logger.error({ imageId: image.id, err: e }, "Failed to analyze image");
         }
       }
     }
@@ -137,15 +137,15 @@ async function main() {
 
   if (changedImages.length > 0) {
     await saveImagesManifest(dataDir, manifest);
-    logger.info(`Analyzed ${processedCount} images. Found ${faceCount} faces.`);
+    logger.info({ processedCount, faceCount }, "Analysis complete");
   } else {
-    logger.info("No new images to analyze.");
+    logger.info({}, "No new images to analyze.");
   }
 
   outro("Done");
 }
 
 main().catch((err) => {
-  logger.error(err);
+  logger.error({ err }, "Fatal error");
   process.exit(1);
 });

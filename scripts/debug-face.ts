@@ -11,12 +11,12 @@ const logger = createLogger("debug-face");
 async function main() {
   const imagePathInput = process.argv[2];
   if (!imagePathInput) {
-    logger.error("Please provide an image path");
+    logger.error({}, "Please provide an image path");
     process.exit(1);
   }
 
   const MODELS_DIR = path.resolve(process.cwd(), "scripts/models");
-  logger.info(`Using models from ${MODELS_DIR}`);
+  logger.info({ modelsDir: MODELS_DIR }, "Using models from disk");
 
   faceapi.env.monkeyPatch({
     Canvas: canvas.Canvas as unknown as any,
@@ -33,12 +33,12 @@ async function main() {
   let imgBuffer: Buffer | undefined;
 
   if (imagePath.toLowerCase().endsWith(".heic")) {
-    logger.info("Converting HEIC to PNG...");
+    logger.info({}, "Converting HEIC to PNG...");
     imgBuffer = await convertHeicToPng(imagePath);
     // faceapi/canvas works with buffer
   }
 
-  logger.info(`Analyzing ${imagePath}...`);
+  logger.info({ imagePath }, "Analyzing image...");
 
   const input = imgBuffer || imagePath;
   const img = await canvas.loadImage(input);
@@ -48,16 +48,26 @@ async function main() {
     .withFaceLandmarks()
     .withFaceDescriptors();
 
-  logger.info(`Found ${detections.length} faces`);
+  logger.info({ count: detections.length }, "Faces detected");
 
   for (const [i, face] of detections.entries()) {
     logger.info(
-      `Face ${i + 1}: score=${face.detection.score.toFixed(4)} box=${Math.round(face.detection.box.x)},${Math.round(face.detection.box.y)},${Math.round(face.detection.box.width)},${Math.round(face.detection.box.height)}`,
+      {
+        index: i + 1,
+        score: face.detection.score,
+        box: {
+          x: Math.round(face.detection.box.x),
+          y: Math.round(face.detection.box.y),
+          width: Math.round(face.detection.box.width),
+          height: Math.round(face.detection.box.height),
+        },
+      },
+      "Face detection details",
     );
     if (face.descriptor) {
-      logger.info(`  Descriptor length: ${face.descriptor.length}`);
+      logger.info({ index: i + 1, length: face.descriptor.length }, "Descriptor extracted");
     }
   }
 }
 
-main().catch((e) => logger.error(e));
+main().catch((err) => logger.error({ err }, "Fatal error"));
