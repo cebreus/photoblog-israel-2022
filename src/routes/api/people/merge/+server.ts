@@ -14,6 +14,7 @@ import { validateMergeInput } from "$lib/utils/api-validators";
 import { reloadManifests } from "$lib/utils/manifest-loader";
 import { toSlug } from "$lib/utils/strings";
 import { config } from "$scripts/build.config";
+import type { Logger as ScriptLogger } from "$scripts/lib/core/cli-logger";
 import { mergeClusters } from "$scripts/lib/faces/clustering";
 import { migratePersonInConstraints } from "$scripts/lib/faces/constraints";
 import { recalculateFaceCount, refreshPersonThumbnail } from "$scripts/lib/faces/people";
@@ -221,6 +222,18 @@ export async function POST({ request, locals }: { request: Request; locals: App.
   const imagesDir = path.resolve(process.cwd(), `static-${contentDir}`, "images");
   const picsDir = path.resolve(process.cwd(), `content/${contentDir}/pics`);
 
+  // Adapt backend logger to script logger interface
+  const scriptLog = {
+    error: log.error.bind(log),
+    warn: log.warn.bind(log),
+    info: log.info.bind(log),
+    debug: log.debug.bind(log),
+    verbose: log.debug.bind(log), // Map verbose to debug
+    raw: (msg: string) => log.info({ raw: msg }, "SCRIPT_OUTPUT"),
+    silent: false,
+    level: log.level,
+  } as unknown as ScriptLogger;
+
   // Set task status before starting
   await saveTaskStatus(dataDir, {
     id: "person-merge",
@@ -229,9 +242,9 @@ export async function POST({ request, locals }: { request: Request; locals: App.
 
   try {
     return await withManifestLock(dataDir, async () => {
-      const peopleManifest = await loadPeopleManifest(dataDir);
-      const imagesManifest = await loadImagesManifest(dataDir);
-      const facesManifest = (await loadFacesManifest(dataDir)) || {};
+      const peopleManifest = await loadPeopleManifest(dataDir, scriptLog);
+      const imagesManifest = await loadImagesManifest(dataDir, scriptLog);
+      const facesManifest = (await loadFacesManifest(dataDir, scriptLog)) || {};
 
       if (!peopleManifest || !imagesManifest) throw new Error("Manifests missing.");
 
@@ -263,7 +276,7 @@ export async function POST({ request, locals }: { request: Request; locals: App.
             facesDir,
             transactionLog,
           );
-          await migratePersonInConstraints(dataDir, sourceId, targetPersonId);
+          await migratePersonInConstraints(dataDir, sourceId, targetPersonId, scriptLog);
 
           // Merge clusters with weighted centroids
           if (sourcePerson.clusters?.length) {
@@ -278,7 +291,7 @@ export async function POST({ request, locals }: { request: Request; locals: App.
             targetPerson.isUserNamed = true;
           }
           peopleManifest.people = peopleManifest.people.filter((person) => person.id !== sourceId);
-          await removeEmptyPersonFolder(facesDir, sourceId);
+          await removeEmptyPersonFolder(facesDir, sourceId, scriptLog);
         }
 
         // Recalculate faceCount authoritatively
@@ -287,9 +300,9 @@ export async function POST({ request, locals }: { request: Request; locals: App.
         // Ensure target person has a valid thumbnail (especially if it was empty or changed)
         await refreshPersonThumbnail(targetPerson, facesDir);
 
-        await savePeopleManifest(dataDir, peopleManifest);
-        await saveImagesManifest(dataDir, imagesManifest);
-        await saveFacesManifest(dataDir, facesManifest);
+        await savePeopleManifest(dataDir, peopleManifest, scriptLog);
+        await saveImagesManifest(dataDir, imagesManifest, scriptLog);
+        await saveFacesManifest(dataDir, facesManifest, scriptLog);
 
         // Force reload of in-memory manifest cache
         await reloadManifests();

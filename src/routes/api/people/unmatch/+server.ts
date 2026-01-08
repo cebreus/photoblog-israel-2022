@@ -8,6 +8,7 @@ import { type PeopleManifest, type Person } from "$lib/types/manifest";
 import { validateUnmatchInput } from "$lib/utils/api-validators";
 import { reloadManifests } from "$lib/utils/manifest-loader";
 import { toSlug } from "$lib/utils/strings";
+import type { Logger as ScriptLogger } from "$scripts/lib/core/cli-logger";
 import { addReassignmentConstraints } from "$scripts/lib/faces/constraints";
 import {
   recalculateFaceCount,
@@ -104,6 +105,18 @@ export async function POST({ request, locals }: { request: Request; locals: App.
   const dataDir = path.resolve(process.cwd(), "src/data", contentDir);
   const facesDir = path.resolve(process.cwd(), `static-${contentDir}`, "faces");
 
+  // Adapt backend logger to script logger interface
+  const scriptLog = {
+    error: log.error.bind(log),
+    warn: log.warn.bind(log),
+    info: log.info.bind(log),
+    debug: log.debug.bind(log),
+    verbose: log.debug.bind(log), // Map verbose to debug
+    raw: (msg: string) => log.info({ raw: msg }, "SCRIPT_OUTPUT"),
+    silent: false,
+    level: log.level,
+  } as unknown as ScriptLogger;
+
   // Set task status before starting
   await saveTaskStatus(dataDir, {
     id: "face-unmatch",
@@ -112,9 +125,9 @@ export async function POST({ request, locals }: { request: Request; locals: App.
 
   try {
     return await withManifestLock(dataDir, async function () {
-      const peopleManifest = await loadPeopleManifest(dataDir);
-      const imagesManifest = await loadImagesManifest(dataDir);
-      const facesManifest = (await loadFacesManifest(dataDir)) || {};
+      const peopleManifest = await loadPeopleManifest(dataDir, scriptLog);
+      const imagesManifest = await loadImagesManifest(dataDir, scriptLog);
+      const facesManifest = (await loadFacesManifest(dataDir, scriptLog)) || {};
 
       if (!peopleManifest || !imagesManifest) throw new Error("Manifests missing");
 
@@ -163,7 +176,7 @@ export async function POST({ request, locals }: { request: Request; locals: App.
               }
             }
 
-            await addReassignmentConstraints(dataDir, [imgId], personId, newPerson.id);
+            await addReassignmentConstraints(dataDir, [imgId], personId, newPerson.id, scriptLog);
           }
         }
 
@@ -172,15 +185,15 @@ export async function POST({ request, locals }: { request: Request; locals: App.
 
         if (sourcePerson.faceCount <= 0) {
           peopleManifest.people = peopleManifest.people.filter((person) => person.id !== personId);
-          await removeEmptyPersonFolder(facesDir, personId);
+          await removeEmptyPersonFolder(facesDir, personId, scriptLog);
         } else {
           // Person remains, ensure valid thumbnail
           await refreshPersonThumbnail(sourcePerson, facesDir);
         }
 
-        await savePeopleManifest(dataDir, peopleManifest);
-        await saveImagesManifest(dataDir, imagesManifest);
-        await saveFacesManifest(dataDir, facesManifest);
+        await savePeopleManifest(dataDir, peopleManifest, scriptLog);
+        await saveImagesManifest(dataDir, imagesManifest, scriptLog);
+        await saveFacesManifest(dataDir, facesManifest, scriptLog);
 
         // Force reload of in-memory manifest cache
         await reloadManifests();

@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import path from "node:path";
 import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
@@ -23,6 +24,14 @@ export async function POST({ locals }: { locals: App.Locals }) {
       label: "Analýza obličejů...",
     });
 
+    // Extract Trace ID from logger bindings if available, or generate a new one
+    const traceId =
+      // biome-ignore lint/suspicious/noExplicitAny: accessing internal pino bindings
+      (log as any).bindings?.()?.requestId ||
+      // biome-ignore lint/suspicious/noExplicitAny: accessing potentially untyped locals prop
+      (locals as any).requestId ||
+      crypto.randomUUID();
+
     // Run the clustering script in background
     const proc = await spawn(
       "bun",
@@ -30,6 +39,11 @@ export async function POST({ locals }: { locals: App.Locals }) {
       {
         stdout: "inherit",
         stderr: "inherit",
+        env: {
+          ...process.env,
+          TRACE_ID: traceId,
+          FORCE_COLOR: "1", // Ensure colored output is captured if possible
+        },
       },
     );
 

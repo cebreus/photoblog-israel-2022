@@ -5,6 +5,7 @@ import { dev } from "$app/environment";
 import { clearTaskStatus, saveTaskStatus } from "$lib/server/task-status";
 import { validateReassignInput } from "$lib/utils/api-validators";
 import { reloadManifests } from "$lib/utils/manifest-loader";
+import type { Logger as ScriptLogger } from "$scripts/lib/core/cli-logger";
 import { addReassignmentConstraints } from "$scripts/lib/faces/constraints";
 import {
   recalculateFaceCount,
@@ -50,6 +51,18 @@ export async function POST({ request, locals }: { request: Request; locals: App.
   const dataDir = path.resolve(process.cwd(), "src/data", contentDir);
   const facesDir = path.resolve(process.cwd(), `static-${contentDir}`, "faces");
 
+  // Adapt backend logger to script logger interface
+  const scriptLog = {
+    error: log.error.bind(log),
+    warn: log.warn.bind(log),
+    info: log.info.bind(log),
+    debug: log.debug.bind(log),
+    verbose: log.debug.bind(log), // Map verbose to debug
+    raw: (msg: string) => log.info({ raw: msg }, "SCRIPT_OUTPUT"),
+    silent: false,
+    level: log.level,
+  } as unknown as ScriptLogger;
+
   // Set task status before starting
   await saveTaskStatus(dataDir, {
     id: "face-reassignment",
@@ -58,9 +71,9 @@ export async function POST({ request, locals }: { request: Request; locals: App.
 
   try {
     return await withManifestLock(dataDir, async function () {
-      const peopleManifest = await loadPeopleManifest(dataDir);
-      const imagesManifest = await loadImagesManifest(dataDir);
-      const facesManifest = (await loadFacesManifest(dataDir)) || {};
+      const peopleManifest = await loadPeopleManifest(dataDir, scriptLog);
+      const imagesManifest = await loadImagesManifest(dataDir, scriptLog);
+      const facesManifest = (await loadFacesManifest(dataDir, scriptLog)) || {};
 
       if (!peopleManifest || !imagesManifest) throw new Error("Manifests missing");
 
@@ -105,22 +118,28 @@ export async function POST({ request, locals }: { request: Request; locals: App.
         // Ensure target person has a valid thumbnail (especially if it was empty or changed)
         await refreshPersonThumbnail(targetPerson, facesDir);
 
-        await addReassignmentConstraints(dataDir, imageIds, sourcePersonId, targetPersonId);
+        await addReassignmentConstraints(
+          dataDir,
+          imageIds,
+          sourcePersonId,
+          targetPersonId,
+          scriptLog,
+        );
 
         // Source cleanup
         if (sourcePerson.faceCount === 0) {
           peopleManifest.people = peopleManifest.people.filter(
             (person) => person.id !== sourcePersonId,
           );
-          await removeEmptyPersonFolder(facesDir, sourcePersonId);
+          await removeEmptyPersonFolder(facesDir, sourcePersonId, scriptLog);
         } else {
           // Person remains, ensure they have a valid thumbnail (in case we moved the cover photo)
           await refreshPersonThumbnail(sourcePerson, facesDir);
         }
 
-        await savePeopleManifest(dataDir, peopleManifest);
-        await saveImagesManifest(dataDir, imagesManifest);
-        await saveFacesManifest(dataDir, facesManifest);
+        await savePeopleManifest(dataDir, peopleManifest, scriptLog);
+        await saveImagesManifest(dataDir, imagesManifest, scriptLog);
+        await saveFacesManifest(dataDir, facesManifest, scriptLog);
 
         // Force reload of in-memory manifest cache
         await reloadManifests();
