@@ -1,7 +1,11 @@
 import { json, type RequestHandler } from "@sveltejs/kit";
 import { createLogger } from "$lib/logger";
 
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request, locals }) => {
+  // Suppress automatic request logging for this endpoint to avoid noise
+  // The frontend logs are already being re-logged through the logger
+  locals.skipRequestLog = true;
+
   try {
     const { level, msg, label, ...rest } = await request.json();
 

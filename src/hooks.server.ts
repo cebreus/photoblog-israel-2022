@@ -34,8 +34,9 @@ export const handle: Handle = async ({ event, resolve }) => {
   const isApiRoute = event.url.pathname.startsWith("/api");
   const isError = response.status >= 400;
   const isVerbose = process.env.VERBOSE === "true" || process.env.LOG_LEVEL === "debug";
+  const shouldSkip = event.locals.skipRequestLog === true;
 
-  if (isApiRoute || isError || isVerbose) {
+  if (!shouldSkip && (isApiRoute || isError || isVerbose)) {
     const duration = Math.round(performance.now() - startTime);
     requestLogger.info(
       {

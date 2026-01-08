@@ -9,6 +9,7 @@ declare global {
     interface Locals {
       log: Logger; // Logger s kontextem požadavku
       logContext: Record<string, unknown>; // Objekt pro sběr byznys kontextu
+      skipRequestLog?: boolean; // Potlačení automatického logování požadavku
     }
     // interface PageData {}
     // interface PageState {}
