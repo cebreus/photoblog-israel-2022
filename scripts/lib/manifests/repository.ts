@@ -20,7 +20,7 @@ import {
   isValidMenuManifest,
   isValidPeopleManifest,
 } from "../../../src/lib/utils/manifest-validators";
-import { createLogger } from "../core/cli-logger";
+import { createLogger, type Logger } from "../core/cli-logger";
 
 const logger = createLogger("manifest-repo");
 function sortObjectKeys(obj: any): any {
@@ -36,7 +36,12 @@ function sortObjectKeys(obj: any): any {
   }
   return obj;
 }
-export async function saveManifest<T>(filePath: string, data: T, sortKeys = false): Promise<void> {
+export async function saveManifest<T>(
+  filePath: string,
+  data: T,
+  sortKeys = false,
+  log: Logger = logger,
+): Promise<void> {
   try {
     const dir = path.dirname(filePath);
     await fsp.mkdir(dir, { recursive: true });
@@ -49,17 +54,17 @@ export async function saveManifest<T>(filePath: string, data: T, sortKeys = fals
     await fsp.writeFile(tmpPath, content, "utf-8");
     await fsp.rename(tmpPath, filePath);
   } catch (e) {
-    logger.error({ err: e, filePath }, "Failed to save manifest");
+    log.error({ err: e, filePath }, "Failed to save manifest");
     throw e;
   }
 }
 const MAX_MANIFEST_SIZE_BYTES = 30 * 1024 * 1024; // 30MB limit
 
-export async function loadManifest<T>(filePath: string): Promise<T | null> {
+export async function loadManifest<T>(filePath: string, log: Logger = logger): Promise<T | null> {
   try {
     const stats = await fsp.stat(filePath);
     if (stats.size > MAX_MANIFEST_SIZE_BYTES) {
-      logger.warn(
+      log.warn(
         { filePath, size: stats.size, limit: MAX_MANIFEST_SIZE_BYTES },
         "Manifest file exceeds size limit",
       );
@@ -71,54 +76,81 @@ export async function loadManifest<T>(filePath: string): Promise<T | null> {
     if (e.code === "ENOENT") {
       return null;
     }
-    logger.warn({ err: e, filePath }, "Failed to load manifest");
+    log.warn({ err: e, filePath }, "Failed to load manifest");
     return null;
   }
 }
 
-export async function loadImagesManifest(outRoot: string): Promise<Manifest | null> {
-  const data = await loadManifest<Manifest>(path.join(outRoot, "images.manifest.json"));
+export async function loadImagesManifest(
+  outRoot: string,
+  log: Logger = logger,
+): Promise<Manifest | null> {
+  const data = await loadManifest<Manifest>(path.join(outRoot, "images.manifest.json"), log);
   if (data && !isValidManifest(data)) {
-    logger.warn({ outRoot }, "Invalid images manifest structure");
+    log.warn({ outRoot }, "Invalid images manifest structure");
     return null;
   }
   return data;
 }
 
-export async function saveImagesManifest(outRoot: string, data: Manifest): Promise<void> {
-  return saveManifest(path.join(outRoot, "images.manifest.json"), data);
+export async function saveImagesManifest(
+  outRoot: string,
+  data: Manifest,
+  log: Logger = logger,
+): Promise<void> {
+  return saveManifest(path.join(outRoot, "images.manifest.json"), data, false, log);
 }
 
-export async function loadMenuManifest(outRoot: string): Promise<MenuManifest | null> {
-  const data = await loadManifest<MenuManifest>(path.join(outRoot, "menu.manifest.json"));
+export async function loadMenuManifest(
+  outRoot: string,
+  log: Logger = logger,
+): Promise<MenuManifest | null> {
+  const data = await loadManifest<MenuManifest>(path.join(outRoot, "menu.manifest.json"), log);
   if (data && !isValidMenuManifest(data)) {
-    logger.warn({ outRoot }, "Invalid menu manifest structure");
+    log.warn({ outRoot }, "Invalid menu manifest structure");
     return null;
   }
   return data;
 }
 
-export async function saveMenuManifest(outRoot: string, data: MenuManifest): Promise<void> {
-  return saveManifest(path.join(outRoot, "menu.manifest.json"), data);
+export async function saveMenuManifest(
+  outRoot: string,
+  data: MenuManifest,
+  log: Logger = logger,
+): Promise<void> {
+  return saveManifest(path.join(outRoot, "menu.manifest.json"), data, false, log);
 }
 
-export async function loadCurationManifest(outRoot: string): Promise<CurationManifest | null> {
-  const data = await loadManifest<CurationManifest>(path.join(outRoot, "curation.manifest.json"));
+export async function loadCurationManifest(
+  outRoot: string,
+  log: Logger = logger,
+): Promise<CurationManifest | null> {
+  const data = await loadManifest<CurationManifest>(
+    path.join(outRoot, "curation.manifest.json"),
+    log,
+  );
   if (data && !isValidCurationManifest(data)) {
-    logger.warn({ outRoot }, "Invalid curation manifest structure");
+    log.warn({ outRoot }, "Invalid curation manifest structure");
     return null;
   }
   return data;
 }
 
-export async function saveCurationManifest(outRoot: string, data: CurationManifest): Promise<void> {
-  return saveManifest(path.join(outRoot, "curation.manifest.json"), data);
+export async function saveCurationManifest(
+  outRoot: string,
+  data: CurationManifest,
+  log: Logger = logger,
+): Promise<void> {
+  return saveManifest(path.join(outRoot, "curation.manifest.json"), data, false, log);
 }
 
-export async function loadPeopleManifest(outRoot: string): Promise<PeopleManifest | null> {
-  const data = await loadManifest<PeopleManifest>(path.join(outRoot, "people.manifest.json"));
+export async function loadPeopleManifest(
+  outRoot: string,
+  log: Logger = logger,
+): Promise<PeopleManifest | null> {
+  const data = await loadManifest<PeopleManifest>(path.join(outRoot, "people.manifest.json"), log);
   if (data && !isValidPeopleManifest(data)) {
-    logger.warn({ outRoot }, "Invalid people manifest structure");
+    log.warn({ outRoot }, "Invalid people manifest structure");
     return null;
   }
 
@@ -134,29 +166,47 @@ export async function loadPeopleManifest(outRoot: string): Promise<PeopleManifes
   return data;
 }
 
-export async function savePeopleManifest(outRoot: string, data: PeopleManifest): Promise<void> {
-  return saveManifest(path.join(outRoot, "people.manifest.json"), data);
+export async function savePeopleManifest(
+  outRoot: string,
+  data: PeopleManifest,
+  log: Logger = logger,
+): Promise<void> {
+  return saveManifest(path.join(outRoot, "people.manifest.json"), data, false, log);
 }
 
-export async function loadAnalysisManifest(outRoot: string): Promise<AnalysisManifest | null> {
-  const data = await loadManifest<AnalysisManifest>(path.join(outRoot, "analysis.manifest.json"));
+export async function loadAnalysisManifest(
+  outRoot: string,
+  log: Logger = logger,
+): Promise<AnalysisManifest | null> {
+  const data = await loadManifest<AnalysisManifest>(
+    path.join(outRoot, "analysis.manifest.json"),
+    log,
+  );
   if (data && !isValidAnalysisManifest(data)) {
-    logger.warn({ outRoot }, "Invalid analysis manifest structure");
+    log.warn({ outRoot }, "Invalid analysis manifest structure");
     return null;
   }
   return data;
 }
 
-export async function saveAnalysisManifest(outRoot: string, data: AnalysisManifest): Promise<void> {
-  return saveManifest(path.join(outRoot, "analysis.manifest.json"), data);
+export async function saveAnalysisManifest(
+  outRoot: string,
+  data: AnalysisManifest,
+  log: Logger = logger,
+): Promise<void> {
+  return saveManifest(path.join(outRoot, "analysis.manifest.json"), data, false, log);
 }
 
-export async function loadEmbeddingsManifest(outRoot: string): Promise<EmbeddingsManifest | null> {
+export async function loadEmbeddingsManifest(
+  outRoot: string,
+  log: Logger = logger,
+): Promise<EmbeddingsManifest | null> {
   const data = await loadManifest<EmbeddingsManifest>(
     path.join(outRoot, "embeddings.manifest.json"),
+    log,
   );
   if (data && !isValidEmbeddingsManifest(data)) {
-    logger.warn({ outRoot }, "Invalid embeddings manifest structure");
+    log.warn({ outRoot }, "Invalid embeddings manifest structure");
     return null;
   }
   return data;
@@ -165,31 +215,41 @@ export async function loadEmbeddingsManifest(outRoot: string): Promise<Embedding
 export async function saveEmbeddingsManifest(
   outRoot: string,
   data: EmbeddingsManifest,
+  log: Logger = logger,
 ): Promise<void> {
-  return saveManifest(path.join(outRoot, "embeddings.manifest.json"), data);
+  return saveManifest(path.join(outRoot, "embeddings.manifest.json"), data, false, log);
 }
 
-export async function loadFacesManifest(outRoot: string): Promise<FacesManifest | null> {
-  const data = await loadManifest<FacesManifest>(path.join(outRoot, "faces.manifest.json"));
+export async function loadFacesManifest(
+  outRoot: string,
+  log: Logger = logger,
+): Promise<FacesManifest | null> {
+  const data = await loadManifest<FacesManifest>(path.join(outRoot, "faces.manifest.json"), log);
   if (data && !isValidFacesManifest(data)) {
-    logger.warn({ outRoot }, "Invalid faces manifest structure");
+    log.warn({ outRoot }, "Invalid faces manifest structure");
     return null;
   }
   return data;
 }
 
-export async function saveFacesManifest(outRoot: string, data: FacesManifest): Promise<void> {
-  return saveManifest(path.join(outRoot, "faces.manifest.json"), data);
+export async function saveFacesManifest(
+  outRoot: string,
+  data: FacesManifest,
+  log: Logger = logger,
+): Promise<void> {
+  return saveManifest(path.join(outRoot, "faces.manifest.json"), data, false, log);
 }
 
 export async function loadClusteringConstraints(
   outRoot: string,
+  log: Logger = logger,
 ): Promise<ClusteringConstraints | null> {
   const data = await loadManifest<ClusteringConstraints>(
     path.join(outRoot, "clustering-constraints.json"),
+    log,
   );
   if (data && !isValidClusteringConstraints(data)) {
-    logger.warn({ outRoot }, "Invalid clustering constraints structure");
+    log.warn({ outRoot }, "Invalid clustering constraints structure");
     return null;
   }
   return data;
@@ -198,6 +258,7 @@ export async function loadClusteringConstraints(
 export async function saveClusteringConstraints(
   outRoot: string,
   data: ClusteringConstraints,
+  log: Logger = logger,
 ): Promise<void> {
-  return saveManifest(path.join(outRoot, "clustering-constraints.json"), data);
+  return saveManifest(path.join(outRoot, "clustering-constraints.json"), data, false, log);
 }

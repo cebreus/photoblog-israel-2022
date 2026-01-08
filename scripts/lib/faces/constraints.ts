@@ -5,7 +5,10 @@
  * Used by reassign, unmatch, invalidate-detection, and merge endpoints.
  */
 
+import { createLogger, type Logger } from "../core/cli-logger";
 import { loadClusteringConstraints, saveClusteringConstraints } from "../manifests/repository";
+
+const logger = createLogger("constraints");
 
 export type Constraint = {
   imageId: string;
@@ -30,8 +33,9 @@ export async function addReassignmentConstraints(
   imageIds: string[],
   oldPersonId: string,
   newPersonId: string,
+  log: Logger = logger,
 ): Promise<void> {
-  let constraints = await loadClusteringConstraints(dataDir);
+  let constraints = await loadClusteringConstraints(dataDir, log);
   if (!constraints) {
     constraints = { disconnects: [], connects: [] };
   }
@@ -46,7 +50,7 @@ export async function addReassignmentConstraints(
   constraints.disconnects = deduplicateConstraints(constraints.disconnects);
   constraints.connects = deduplicateConstraints(constraints.connects);
 
-  await saveClusteringConstraints(dataDir, constraints);
+  await saveClusteringConstraints(dataDir, constraints, log);
 }
 
 /**
@@ -57,8 +61,9 @@ export async function migratePersonInConstraints(
   dataDir: string,
   oldPersonId: string,
   newPersonId: string,
+  log: Logger = logger,
 ): Promise<boolean> {
-  const constraints = await loadClusteringConstraints(dataDir);
+  const constraints = await loadClusteringConstraints(dataDir, log);
   if (!constraints) return false;
 
   let modified = false;
@@ -80,7 +85,7 @@ export async function migratePersonInConstraints(
     // Deduplicate after migration
     constraints.disconnects = deduplicateConstraints(constraints.disconnects);
     constraints.connects = deduplicateConstraints(constraints.connects);
-    await saveClusteringConstraints(dataDir, constraints);
+    await saveClusteringConstraints(dataDir, constraints, log);
   }
 
   return modified;

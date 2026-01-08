@@ -226,6 +226,7 @@ export async function deleteOldFaceCrops(
   imageId: string,
   oldPersonIds: string[],
   facesOutputDir: string,
+  log: typeof logger = logger,
 ): Promise<void> {
   for (const personId of oldPersonIds) {
     const cropPath = path.join(facesOutputDir, personId, `${imageId}.jpg`);
@@ -233,7 +234,7 @@ export async function deleteOldFaceCrops(
       await fsp.unlink(cropPath);
     } catch (e: any) {
       if (e.code !== "ENOENT") {
-        logger.warn({ err: e, cropPath }, "Failed to delete old crop");
+        log.warn({ err: e, cropPath }, "Failed to delete old crop");
       }
     }
   }

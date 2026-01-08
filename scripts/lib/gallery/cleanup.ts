@@ -4,12 +4,15 @@ import { createLogger } from "../core/cli-logger";
 
 const logger = createLogger("cleanup");
 
-export async function removeEmptyDirectory(dirPath: string): Promise<boolean> {
+export async function removeEmptyDirectory(
+  dirPath: string,
+  log: typeof logger = logger,
+): Promise<boolean> {
   try {
     const entries = await fsp.readdir(dirPath);
     if (entries.length === 0) {
       await fsp.rmdir(dirPath);
-      logger.verbose({ dirPath }, "Removed empty directory");
+      log.verbose({ dirPath }, "Removed empty directory");
       return true;
     }
     return false;
@@ -17,7 +20,7 @@ export async function removeEmptyDirectory(dirPath: string): Promise<boolean> {
     if (e.code === "ENOENT") {
       return false;
     }
-    logger.warn({ dirPath, err: e }, "Failed to check/remove directory");
+    log.warn({ dirPath, err: e }, "Failed to check/remove directory");
     return false;
   }
 }
@@ -25,9 +28,10 @@ export async function removeEmptyDirectory(dirPath: string): Promise<boolean> {
 export async function removeEmptyPersonFolder(
   facesDir: string,
   personId: string,
+  log: typeof logger = logger,
 ): Promise<boolean> {
   const folderPath = path.join(facesDir, personId);
-  return removeEmptyDirectory(folderPath);
+  return removeEmptyDirectory(folderPath, log);
 }
 
 export interface OutputFolderConfig {
@@ -93,7 +97,11 @@ export async function deleteGeneratedAssets(
   return { deleted, errors };
 }
 
-export async function removeFromCache(cachePath: string, imageKey: string): Promise<boolean> {
+export async function removeFromCache(
+  cachePath: string,
+  imageKey: string,
+  log: typeof logger = logger,
+): Promise<boolean> {
   try {
     const content = await fsp.readFile(cachePath, "utf-8");
     const cache = JSON.parse(content);
@@ -101,13 +109,13 @@ export async function removeFromCache(cachePath: string, imageKey: string): Prom
     if (cache.files?.[imageKey]) {
       delete cache.files[imageKey];
       await fsp.writeFile(cachePath, JSON.stringify(cache, null, 2));
-      logger.verbose({ imageKey }, "Removed from cache");
+      log.verbose({ imageKey }, "Removed from cache");
       return true;
     }
     return false;
   } catch (e: any) {
     if (e.code !== "ENOENT") {
-      logger.warn({ err: e }, "Failed to update cache");
+      log.warn({ err: e }, "Failed to update cache");
     }
     return false;
   }
@@ -116,6 +124,7 @@ export async function removeFromCache(cachePath: string, imageKey: string): Prom
 export async function removeImageFromConstraints(
   constraintsPath: string,
   imageId: string,
+  log: typeof logger = logger,
 ): Promise<{ disconnectsRemoved: number; connectsRemoved: number }> {
   let disconnectsRemoved = 0;
   let connectsRemoved = 0;
@@ -143,7 +152,7 @@ export async function removeImageFromConstraints(
 
     if (disconnectsRemoved > 0 || connectsRemoved > 0) {
       await fsp.writeFile(constraintsPath, JSON.stringify(constraints, null, 2));
-      logger.verbose(
+      log.verbose(
         { disconnectsRemoved, connectsRemoved, imageId },
         "Removed constraints for image",
       );
@@ -152,7 +161,7 @@ export async function removeImageFromConstraints(
     return { disconnectsRemoved, connectsRemoved };
   } catch (e: any) {
     if (e.code !== "ENOENT") {
-      logger.warn({ err: e }, "Failed to clean constraints");
+      log.warn({ err: e }, "Failed to clean constraints");
     }
     return { disconnectsRemoved: 0, connectsRemoved: 0 };
   }
@@ -162,6 +171,7 @@ export async function findOrphanFaceCrops(
   facesDir: string,
   validPersonIds: Set<string>,
   validImageIds: Set<string>,
+  log: typeof logger = logger,
 ): Promise<{ orphanFolders: string[]; orphanFiles: string[] }> {
   const orphanFolders: string[] = [];
   const orphanFiles: string[] = [];
@@ -194,7 +204,7 @@ export async function findOrphanFaceCrops(
     }
   } catch (e: any) {
     if (e.code !== "ENOENT") {
-      logger.warn({ err: e }, "Failed to scan faces directory");
+      log.warn({ err: e }, "Failed to scan faces directory");
     }
   }
 
@@ -205,6 +215,7 @@ export async function findOrphanAssets(
   outputRoot: string,
   outputFolders: string[],
   validImageBaseNames: Set<string>,
+  log: typeof logger = logger,
 ): Promise<string[]> {
   const orphans: string[] = [];
 
@@ -222,7 +233,7 @@ export async function findOrphanAssets(
       }
     } catch (e: any) {
       if (e.code !== "ENOENT") {
-        logger.warn({ dir, err: e }, "Failed to scan directory");
+        log.warn({ dir, err: e }, "Failed to scan directory");
       }
     }
   }
@@ -278,6 +289,7 @@ export async function cleanOrphanedAssets(
   validPersonIds: Set<string>,
   validImageIds: Set<string>,
   dryRun = false,
+  log: typeof logger = logger,
 ): Promise<OrphanCleanupResult> {
   const projectRoot = process.cwd();
   const facesDir = path.resolve(projectRoot, `static-${gallery}/faces`);
@@ -301,13 +313,14 @@ export async function cleanOrphanedAssets(
     facesDir,
     validPersonIds,
     validImageIds,
+    log,
   );
 
   if (orphanFolders.length === 0 && orphanFiles.length === 0) {
     return result;
   }
 
-  logger.info(
+  log.info(
     { folderCount: orphanFolders.length, cropCount: orphanFiles.length },
     "Found orphan assets",
   );
@@ -330,7 +343,7 @@ export async function cleanOrphanedAssets(
       result.bytesFreed += await getFileSize(path.join(facesDir, file));
       result.faceCropsRemoved++;
     }
-    logger.info({ freedBytes: formatBytes(result.bytesFreed) }, "[DRY RUN] Would free space");
+    log.info({ freedBytes: formatBytes(result.bytesFreed) }, "[DRY RUN] Would free space");
     return result;
   }
 
@@ -347,9 +360,9 @@ export async function cleanOrphanedAssets(
 
       await fsp.rm(folderPath, { recursive: true, force: true });
       result.foldersRemoved++;
-      logger.verbose({ folder }, "Removed orphan person folder");
+      log.verbose({ folder }, "Removed orphan person folder");
     } catch (e: any) {
-      logger.warn({ folderPath, err: e }, "Failed to remove folder");
+      log.warn({ folderPath, err: e }, "Failed to remove folder");
     }
   }
 
@@ -360,10 +373,10 @@ export async function cleanOrphanedAssets(
       result.bytesFreed += await getFileSize(filePath);
       await fsp.unlink(filePath);
       result.faceCropsRemoved++;
-      logger.verbose({ file }, "Removed orphan face crop");
+      log.verbose({ file }, "Removed orphan face crop");
     } catch (e: any) {
       if (e.code !== "ENOENT") {
-        logger.warn({ filePath, err: e }, "Failed to remove orphan face crop");
+        log.warn({ filePath, err: e }, "Failed to remove orphan face crop");
       }
     }
   }
@@ -375,7 +388,7 @@ export async function cleanOrphanedAssets(
       const folderPath = path.join(facesDir, folder);
       const stat = await fsp.stat(folderPath);
       if (stat.isDirectory()) {
-        const isEmpty = await removeEmptyDirectory(folderPath);
+        const isEmpty = await removeEmptyDirectory(folderPath, log);
         if (isEmpty) {
           result.foldersRemoved++;
         }
@@ -386,7 +399,7 @@ export async function cleanOrphanedAssets(
   }
 
   if (result.faceCropsRemoved > 0 || result.foldersRemoved > 0) {
-    logger.info(
+    log.info(
       {
         faceCropsRemoved: result.faceCropsRemoved,
         foldersRemoved: result.foldersRemoved,
