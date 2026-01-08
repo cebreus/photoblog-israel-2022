@@ -179,12 +179,13 @@
   </section>
 {:else}
   <div use:useFancybox>
-    {#each photoDays as day (day.id ?? `day-${day.date}`)}
+    {#each photoDays as day, dayIndex (day.id ?? `day-${day.date}`)}
       {@const daySectionId = day.id ?? `day-${day.date}`}
       {#if day.items.length > 0}
         <section
           id={daySectionId}
           class="container mx-auto px-6 py-8"
+          data-testid="day-section"
           use:useScrollspy={{ id: daySectionId }}
         >
           <div data-cy="day-head" class="group relative mx-auto my-12 max-w-xl text-center">
@@ -282,6 +283,7 @@
               items={day.items}
               dayId={daySectionId}
               curationManifest={data.curationManifest}
+              eagerLoadCount={dayIndex === 0 ? 4 : 0}
             />
           </div>
         </section>

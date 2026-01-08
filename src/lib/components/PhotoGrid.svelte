@@ -1,8 +1,6 @@
 <script lang="ts">
   import { toast } from "svelte-sonner";
-  import { browser } from "$app/environment";
-  import { invalidateAll } from "$app/navigation";
-  import { page } from "$app/state";
+
   import ArchiveImageDialog from "$lib/components/ArchiveImageDialog.svelte";
   import CurationGroupView from "$lib/components/CurationGroup.svelte";
   import CurationGroupDialog from "$lib/components/CurationGroupDialog.svelte";
@@ -30,12 +28,17 @@
   import { toSlug } from "$lib/utils/strings";
   import { smartToast } from "$lib/utils/toasts";
 
+  import { browser } from "$app/environment";
+  import { invalidateAll } from "$app/navigation";
+  import { page } from "$app/state";
+
   const logger = createLogger("PhotoGrid");
 
-  let { items, dayId, curationManifest } = $props<{
+  let { items, dayId, curationManifest, eagerLoadCount } = $props<{
     items: DisplayItem[];
     dayId?: string;
     curationManifest?: CurationManifest;
+    eagerLoadCount?: number;
   }>();
 
   // Flatten all items from all photoDays for sequence member lookup
@@ -142,6 +145,39 @@
       }
     }
     return map;
+  });
+
+  // Calculate which items should be eagerly loaded
+  // We need to find the first N *visual* items (excluding separators)
+  // and mark their IDs in a set for O(1) lookup during render
+  let eagerLoadIds = $derived.by(() => {
+    const set = new Set<string>();
+    if (!items || (eagerLoadCount ?? 0) <= 0) return set;
+
+    let count = 0;
+    const limit = eagerLoadCount ?? 0;
+
+    for (const item of items) {
+      if (item.type === "separator") continue;
+
+      // For curation groups, we might need to eagerly load the first visible item?
+      // Since curation layout isn't the primary grid layout, we focus on the standard grid items.
+      // But actually, `items` passed to PhotoGrid IS the list of items for the day.
+      // Curation groups are derived later in `processedItems`.
+      // It's safer to just count the raw items first.
+
+      if (
+        item.type === "image" ||
+        item.type === "collage" ||
+        item.type === "panorama" ||
+        item.type === "sequence"
+      ) {
+        set.add(item.id);
+        count++;
+        if (count >= limit) break;
+      }
+    }
+    return set;
   });
 
   type DisplayItem = ImageEntry | Separator;
@@ -834,6 +870,7 @@
       onArchive={handleArchive}
       onCopyMetadata={handleCopyMetadata}
       onSelect={handleSelect}
+      {eagerLoadIds}
     />
   {:else}
     <!-- Standard Item Rendering -->
@@ -889,6 +926,7 @@
             onRedistributeTimes={handleRedistributeTimes}
             onOpenCurationDialog={handleOpenCurationDialog}
             onSelect={handleSelect}
+            loading={eagerLoadIds.has(item.id) ? "eager" : "lazy"}
           />
         </div>
       {:else}
@@ -906,6 +944,7 @@
           onRedistributeTimes={handleRedistributeTimes}
           onSelect={handleSelect}
           onOpenCurationDialog={handleOpenCurationDialog}
+          loading={eagerLoadIds.has(item.id) ? "eager" : "lazy"}
         />
       {/if}
     {:else if item.type === "separator" && item.location}

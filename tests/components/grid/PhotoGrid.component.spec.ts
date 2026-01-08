@@ -249,4 +249,28 @@ describe("PhotoGrid Component", () => {
 
     expect(editor.toggleSelection).toHaveBeenCalledWith("img-1");
   });
+
+  it("applies eager loading to first N items", async () => {
+    const images = [
+      createMockImage({ id: "img-1" }),
+      createMockImage({ id: "img-2" }),
+      createMockImage({ id: "img-3" }),
+      createMockImage({ id: "img-4" }),
+      createMockImage({ id: "img-5" }),
+    ];
+
+    // Case 1: Eager load 3 items
+    renderComponent(PhotoGrid, { items: images, eagerLoadCount: 3 });
+
+    const itemsRendered = page.getByTestId("mock-item");
+    const elements = await itemsRendered.elements();
+    expect(elements.length).toBe(5);
+
+    // Check data-loading attributes
+    expect(elements[0].getAttribute("data-loading")).toBe("eager");
+    expect(elements[1].getAttribute("data-loading")).toBe("eager");
+    expect(elements[2].getAttribute("data-loading")).toBe("eager");
+    expect(elements[3].getAttribute("data-loading")).toBe("lazy");
+    expect(elements[4].getAttribute("data-loading")).toBe("lazy");
+  });
 });
