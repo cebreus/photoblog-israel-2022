@@ -15,14 +15,18 @@ vi.mock("svelte-sonner", () => ({
   },
 }));
 
-vi.mock("$lib/logger", () => ({
-  createLogger: () => ({
+vi.mock("$lib/logger", () => {
+  const mockLog = {
     debug: vi.fn(),
     info: vi.fn(),
     warn: vi.fn(),
     error: vi.fn(),
-  }),
-}));
+  };
+  return {
+    createLogger: () => mockLog,
+    log: mockLog,
+  };
+});
 
 vi.mock("$lib/stores/filters.svelte", () => ({
   filters: {
@@ -219,7 +223,7 @@ describe("people-actions", () => {
 
         expect(mockFetch).toHaveBeenCalledWith("/api/people/merge", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: expect.any(Headers),
           body: JSON.stringify({
             sourcePersonIds: ["source-1", "source-2"],
             targetPersonId: "target-1",
@@ -246,7 +250,7 @@ describe("people-actions", () => {
 
         expect(mockFetch).toHaveBeenCalledWith("/api/people/merge", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: expect.any(Headers),
           body: JSON.stringify({
             sourcePersonId: "source-1",
             targetPersonId: "target-1",

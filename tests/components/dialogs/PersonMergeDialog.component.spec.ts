@@ -14,14 +14,18 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createMockPerson } from "../../utils/gallery-test-utils";
 import { renderComponent } from "../../utils/render-helpers";
 
-vi.mock("$lib/logger", () => ({
-  createLogger: () => ({
+vi.mock("$lib/logger", () => {
+  const mockLog = {
     info: vi.fn(),
     error: vi.fn(),
     warn: vi.fn(),
     debug: vi.fn(),
-  }),
-}));
+  };
+  return {
+    createLogger: () => mockLog,
+    log: mockLog,
+  };
+});
 
 // Import component after mocks
 import PersonMergeDialog from "../../../src/lib/components/PersonMergeDialog.svelte";

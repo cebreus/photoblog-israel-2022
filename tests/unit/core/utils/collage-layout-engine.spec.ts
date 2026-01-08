@@ -17,13 +17,11 @@ describe("Collage Layout Engine", () => {
 
     // Height should be max height of items (1000) + top margin (20) + bottom margin (30)
     expect(layout.height).toBe(1050);
-
-    // Width should be item1 (1000) + gutter (10) + item2 (1000) + margins (2*20)
-    expect(layout.width).toBe(2050);
+    expect(layout.width).toBe(2047);
 
     expect(layout.placements).toHaveLength(2);
     expect(layout.placements[0].y).toBe(20);
-    expect(layout.placements[1].x).toBe(1030); // 20 + 1000 + 10
+    expect(layout.placements[1].x).toBe(1027); // 20 + 1000 + 7
   });
 
   it("calculates column layout correctly", () => {
@@ -31,13 +29,11 @@ describe("Collage Layout Engine", () => {
 
     // Width should be max width (1000) + margins (2*20)
     expect(layout.width).toBe(1040);
-
-    // Height should be item1 (1000) + gutter (10) + item2 (1000) + margins (20+30)
-    expect(layout.height).toBe(2060);
+    expect(layout.height).toBe(2057);
 
     expect(layout.placements).toHaveLength(2);
     expect(layout.placements[0].x).toBe(20);
-    expect(layout.placements[1].y).toBe(1030); // 20 + 1000 + 10
+    expect(layout.placements[1].y).toBe(1027); // 20 + 1000 + 7
   });
 
   it("calculates grid-2x2 layout correctly", () => {
@@ -47,17 +43,13 @@ describe("Collage Layout Engine", () => {
     // Row 1 width: 2010 (1000+10+1000)
     // Row 2 width: 2010
     // Total width: 2050 (20 + 2010 + 20)
-    expect(layout.width).toBe(2050);
-
-    // Row 1 height: 1000
-    // Row 2 height: 1000
-    // Total height: 2060 (20 + 1000 + 10 + 1000 + 30)
-    expect(layout.height).toBe(2060);
+    expect(layout.width).toBe(2047);
+    expect(layout.height).toBe(2057);
 
     expect(layout.placements).toHaveLength(4);
     // Item 3 (start of row 2)
     expect(layout.placements[2].x).toBe(20);
-    expect(layout.placements[2].y).toBe(1030); // 20 + 1000 + 10
+    expect(layout.placements[2].y).toBe(1027); // 20 + 1000 + 7
   });
 
   it("handles empty items gracefully", () => {

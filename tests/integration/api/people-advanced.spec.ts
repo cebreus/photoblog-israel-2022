@@ -17,7 +17,7 @@ import { POST as reassignPost } from "../../../src/routes/api/people/reassign/+s
 const CWD = process.cwd();
 const TEST_DIR = `test-people-adv-${Date.now()}`;
 const DATA_DIR = path.resolve(CWD, "src/data", TEST_DIR);
-const STATIC_DIR = path.resolve(CWD, "static", TEST_DIR);
+const STATIC_DIR = path.resolve(CWD, `static-${TEST_DIR}`);
 
 const originalContentDir = process.env.CONTENT_DIR;
 
@@ -135,6 +135,16 @@ function createMockEvent(body: unknown) {
         return body;
       },
     },
+    locals: {
+      log: {
+        info: () => {},
+        warn: () => {},
+        error: () => {},
+        debug: () => {},
+        trace: () => {},
+      },
+      logContext: {},
+    },
   } as any;
 }
 
@@ -180,7 +190,12 @@ describe("Integration: People Advanced API", () => {
     });
     expect(img3.people).toContain("person-2");
 
-    expect(await Bun.file(path.join(STATIC_DIR, "faces/person-2/img3.jpg")).exists()).toBe(true);
+    const faceFile = path.resolve(STATIC_DIR, "faces", "person-2", "img3.jpg");
+    const exists = await fsp
+      .stat(faceFile)
+      .then(() => true)
+      .catch(() => false);
+    expect(exists).toBe(true);
   });
 
   it("JUNK should toggle junk flag INDEPENDENTLY of hidden flag", async () => {

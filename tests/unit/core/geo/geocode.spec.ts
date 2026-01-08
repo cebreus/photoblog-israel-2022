@@ -15,13 +15,14 @@ import { GET } from "../../../../src/routes/api/geocode/+server";
 describe("Geocode API", () => {
   it("should missing parameters error", async () => {
     const url = new URL("http://localhost/api/geocode");
-    try {
-      await GET({ url, fetch: vi.fn() } as any);
-      expect.fail("Should have thrown");
-    } catch (e: any) {
-      expect(e.status).toBe(400);
-      expect(e.body?.message).toBe("Missing 'lat' or 'lng' parameters");
-    }
+    const res = await GET({
+      url,
+      fetch: vi.fn(),
+      locals: { log: { warn: vi.fn(), info: vi.fn(), error: vi.fn(), debug: vi.fn() } },
+    } as any);
+    expect(res.status).toBe(400);
+    const body = await res.json();
+    expect(body.error).toBe("Missing 'lat' or 'lng' parameters");
   });
 
   it("should invoke nominatim and map data correctly with ISO3 country code conversion", async () => {
@@ -39,7 +40,13 @@ describe("Geocode API", () => {
       }),
     });
 
-    const response = await GET({ url, fetch: mockFetch } as any);
+    const response = await GET({
+      url,
+      fetch: mockFetch,
+      locals: {
+        log: { info: vi.fn(), warn: vi.fn(), error: vi.fn(), debug: vi.fn() },
+      },
+    } as any);
     const data = await response.json();
 
     expect(mockFetch).toHaveBeenCalledWith(
@@ -72,7 +79,11 @@ describe("Geocode API", () => {
     });
 
     try {
-      await GET({ url, fetch: mockFetch } as any);
+      await GET({
+        url,
+        fetch: mockFetch,
+        locals: { log: { warn: vi.fn(), info: vi.fn(), error: vi.fn(), debug: vi.fn() } },
+      } as any);
       expect.fail("Should have thrown");
     } catch (e: any) {
       expect(e.status).toBe(502);
@@ -100,7 +111,13 @@ describe("Geocode API", () => {
       }),
     });
 
-    const response = await GET({ url, fetch: mockFetch } as any);
+    const response = await GET({
+      url,
+      fetch: mockFetch,
+      locals: {
+        log: { info: vi.fn(), warn: vi.fn(), error: vi.fn(), debug: vi.fn() },
+      },
+    } as any);
     const data = await response.json();
 
     expect(data.location).toBe("Jaffa Gate");

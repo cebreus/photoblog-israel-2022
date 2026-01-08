@@ -27,14 +27,18 @@ vi.mock("$app/environment", () => ({
   version: "test",
 }));
 
-vi.mock("$lib/logger", () => ({
-  createLogger: () => ({
+vi.mock("$lib/logger", () => {
+  const mockLog = {
     info: vi.fn(),
     error: vi.fn(),
     warn: vi.fn(),
     debug: vi.fn(),
-  }),
-}));
+  };
+  return {
+    createLogger: () => mockLog,
+    log: mockLog,
+  };
+});
 
 // Mock filters store with internal state
 vi.mock("$lib/stores/filters.svelte", () => {
@@ -45,6 +49,7 @@ vi.mock("$lib/stores/filters.svelte", () => {
     selectedMediaTypes: [] as string[],
     showSeparators: true,
     filtersSyncing: false,
+    filteredPhotoDays: [],
   };
 
   return {
@@ -82,6 +87,7 @@ vi.mock("$lib/stores/filters.svelte", () => {
       get filtersSyncing() {
         return state.filtersSyncing;
       },
+      initPersistence: vi.fn(),
     },
     MEDIA_TYPES: [
       { id: "image", label: "Fotografie" },

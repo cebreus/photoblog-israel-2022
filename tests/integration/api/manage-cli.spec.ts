@@ -12,7 +12,7 @@ describe("Integration: manage.ts CLI", () => {
     );
 
     expect(res.code).toBe(0);
-    expect(res.stdout).toMatch(/Processing content for: .*israel-2022/);
+    expect(res.stdout).toMatch(/Generating Image Variants .*israel-2022/);
     // manage.ts passes a custom title for 'images'
     expect(res.stdout).toMatch(/Image Variants/);
   }, 40000);
@@ -27,7 +27,7 @@ describe("Integration: manage.ts CLI", () => {
     );
 
     expect(res.code).toBe(0);
-    expect(res.stdout).toMatch(/Processing content for: .*egypt-2025/);
+    expect(res.stdout).toMatch(/Generating Image Variants .*egypt-2025/);
   }, 40000);
 
   it("falls back to default gallery when invalid gallery is provided in non-TTY", async () => {
@@ -40,7 +40,7 @@ describe("Integration: manage.ts CLI", () => {
     );
 
     // The warning about invalid gallery
-    expect(res.stdout).toMatch(/Gallery .*non-existent-gallery.* not found/);
+    expect(res.stdout).toMatch(/Gallery "non-existent-gallery" not found/);
     // Should fallback to egypt-2025
     expect(res.stdout).toMatch(/egypt-2025/);
     expect(res.code).toBe(0);

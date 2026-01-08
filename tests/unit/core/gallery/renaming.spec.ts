@@ -5,7 +5,7 @@ describe("renaming utils", () => {
   describe("getNewBasename", () => {
     it("should generate name from EXIF date and author", () => {
       const tags = {
-        DateTimeOriginal: new Date("2025-11-23T21:52:55"),
+        DateTimeOriginal: new Date(Date.UTC(2025, 10, 23, 21, 52, 55)),
         Artist: "Bobo",
       };
       const name = getNewBasename(tags, "default");
@@ -14,7 +14,7 @@ describe("renaming utils", () => {
 
     it("should use default author if missing in EXIF", () => {
       const tags = {
-        DateTimeOriginal: new Date("2025-11-23T21:52:55"),
+        DateTimeOriginal: new Date(Date.UTC(2025, 10, 23, 21, 52, 55)),
       };
       const name = getNewBasename(tags, "cebreus");
       expect(name).toBe("2025-11-23-215255-cebreus");
@@ -22,7 +22,7 @@ describe("renaming utils", () => {
 
     it("should use manifest author fallback if missing in EXIF", () => {
       const tags = {
-        DateTimeOriginal: new Date("2025-11-23T21:52:55"),
+        DateTimeOriginal: new Date(Date.UTC(2025, 10, 23, 21, 52, 55)),
       };
       // fallback "Bobo" from manifest
       const name = getNewBasename(tags, "cebreus", "oldName", "Bobo");
@@ -38,7 +38,7 @@ describe("renaming utils", () => {
 
     it("should keep suffix", () => {
       const tags = {
-        DateTimeOriginal: new Date("2025-11-23T21:52:55"),
+        DateTimeOriginal: new Date(Date.UTC(2025, 10, 23, 21, 52, 55)),
         Artist: "Bobo",
       };
       const name = getNewBasename(tags, "default", "oldBase--collage");

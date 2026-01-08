@@ -4,7 +4,7 @@
 
 import fsp from "node:fs/promises";
 import path from "node:path";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { PATCH as updateImages } from "../../../src/routes/api/images/+server";
 
 describe("Integration: Images API (Metadata)", () => {
@@ -74,8 +74,12 @@ describe("Integration: Images API (Metadata)", () => {
     const request = {
       json: async () => ({ images: [], updates: {} }),
     };
+    const locals = {
+      log: { info: vi.fn(), warn: vi.fn(), error: vi.fn(), debug: vi.fn() },
+      logContext: {},
+    };
 
-    const res = await updateImages({ request } as any);
+    const res = await updateImages({ request, locals } as any);
     const body = await res.json();
 
     expect(res.status).toBe(400);
@@ -89,27 +93,40 @@ describe("Integration: Images API (Metadata)", () => {
         updates: {}, // empty updates
       }),
     };
+    const locals = {
+      log: { info: vi.fn(), warn: vi.fn(), error: vi.fn(), debug: vi.fn() },
+      logContext: {},
+    };
 
-    const res = await updateImages({ request } as any);
+    const res = await updateImages({ request, locals } as any);
     const body = await res.json();
 
     expect(res.status).toBe(500); // 500 because it returns "Failed to update metadata" error list
     expect(body.message).toContain("No metadata to update");
   });
 
-  it("PATCH /api/images should report error for missing physical file", async () => {
+  it("PATCH /api/images should report error for invalid image file", async () => {
     const request = {
       json: async () => ({
-        images: [{ id: "missing", src: "tititata.jpg" }],
+        images: [{ id: "img1", src: `/images/${contentDir}/img1.jpg` }],
         updates: { title: "New Title" },
       }),
     };
+    const locals = {
+      log: {
+        info: vi.fn(),
+        warn: vi.fn(),
+        error: vi.fn(),
+        debug: vi.fn(),
+      },
+      logContext: {},
+    };
 
-    const res = await updateImages({ request } as any);
+    const res = await updateImages({ request, locals } as any);
     const body = await res.json();
 
     expect(res.status).toBe(500);
     expect(body.errors.length).toBeGreaterThan(0);
-    expect(body.errors[0]).toContain("not found");
+    expect(body.errors[0]).toMatch(/ExifTool failed|Manifest not found/);
   });
 });

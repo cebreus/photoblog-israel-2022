@@ -221,7 +221,7 @@ describe("initializeFiltersFromUrl", () => {
 
     it("defaults to all quality buckets when param missing", () => {
       initializeFiltersFromUrl(new URL("https://example.com/"));
-      expect(filters.selectedQualityBuckets).toEqual(["excellent", "good", "poor"]);
+      expect(filters.selectedQualityBuckets).toEqual(["excellent", "good", "poor", "unrated"]);
     });
 
     it("handles mixed presence-only and valued params", () => {

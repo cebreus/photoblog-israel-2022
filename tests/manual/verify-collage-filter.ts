@@ -15,7 +15,8 @@ let aspectRatioCollage = 0;
 let idContainsCollage = 0;
 
 for (const day of manifest.photoDays) {
-  for (const item of day.items) {
+  for (const rawItem of day.items) {
+    const item = rawItem as any;
     if (item.type === "separator") continue;
 
     totalImages++;
@@ -76,7 +77,8 @@ function wouldBeFilteredAsCollage(item: any): boolean {
 
 let wouldBeShown = 0;
 for (const day of manifest.photoDays) {
-  for (const item of day.items) {
+  for (const rawItem of day.items) {
+    const item = rawItem as any;
     if (item.type === "separator") continue;
     if (wouldBeFilteredAsCollage(item)) {
       wouldBeShown++;

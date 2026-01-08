@@ -2,7 +2,13 @@
  * @fileoverview Unit tests for URL parameter utilities
  */
 
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+
+vi.mock("$app/environment", () => ({
+  dev: true,
+  browser: false,
+}));
+
 import {
   buildAuthorsParam,
   buildPeopleParam,
@@ -88,7 +94,7 @@ describe("url-params utilities", () => {
 
   describe("buildQualityParam", () => {
     it("returns undefined when all buckets selected", () => {
-      expect(buildQualityParam(["excellent", "good", "poor"])).toBe(undefined);
+      expect(buildQualityParam(["excellent", "good", "poor", "unrated"])).toBe(undefined);
     });
 
     it("returns CSV for partial selection", () => {

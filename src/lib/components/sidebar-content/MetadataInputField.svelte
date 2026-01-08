@@ -28,12 +28,26 @@
 </script>
 
 <div class="space-y-2">
-  <Label>{label}</Label>
+  <Label for={name}>{label}</Label>
   <div class="flex items-start gap-2">
     {#if type === "textarea"}
-      <Textarea {name} {value} {placeholder} oninput={(e) => onInput(e.currentTarget.value)} />
+      <Textarea
+        id={name}
+        {name}
+        {value}
+        {placeholder}
+        oninput={(e) => onInput(e.currentTarget.value)}
+        data-testid={`metadata-input-${name}`}
+      />
     {:else}
-      <Input {name} {value} {placeholder} oninput={(e) => onInput(e.currentTarget.value)} />
+      <Input
+        id={name}
+        {name}
+        {value}
+        {placeholder}
+        oninput={(e) => onInput(e.currentTarget.value)}
+        data-testid={`metadata-input-${name}`}
+      />
     {/if}
     <Button
       variant={isCleared ? "destructive" : "ghost"}

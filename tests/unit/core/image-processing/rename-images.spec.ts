@@ -16,7 +16,7 @@ import { getNewBasename } from "../../../../scripts/lib/gallery/renaming";
 describe("getNewBasename", () => {
   it("should format date and author from valid EXIF", () => {
     const mockDate = {
-      toDate: () => new Date("2023-10-25T14:30:00"),
+      toDate: () => new Date(Date.UTC(2023, 9, 25, 14, 30, 0)),
       getSeconds: () => 0,
     };
     const tags = {
@@ -30,7 +30,7 @@ describe("getNewBasename", () => {
 
   it("should use CreateDate if DateTimeOriginal is missing", () => {
     const mockDate = {
-      toDate: () => new Date("2022-01-01T09:00:00"),
+      toDate: () => new Date(Date.UTC(2022, 0, 1, 9, 0, 0)),
     };
     const tags = {
       CreateDate: mockDate,
@@ -42,7 +42,7 @@ describe("getNewBasename", () => {
 
   it("should fall back to default author if missing in EXIF", () => {
     const mockDate = {
-      toDate: () => new Date("2022-01-01T09:00:00"),
+      toDate: () => new Date(Date.UTC(2022, 0, 1, 9, 0, 0)),
     };
     const tags = {
       DateTimeOriginal: mockDate,
@@ -53,7 +53,7 @@ describe("getNewBasename", () => {
 
   it("should use original basename as author fallback if missing in EXIF", () => {
     const mockDate = {
-      toDate: () => new Date("2022-01-01T09:00:00"),
+      toDate: () => new Date(Date.UTC(2022, 0, 1, 9, 0, 0)),
       getSeconds: () => 0,
     };
     const tags = {
@@ -66,7 +66,7 @@ describe("getNewBasename", () => {
 
   it("should omit author if missing and no original basename provided", () => {
     const mockDate = {
-      toDate: () => new Date("2022-01-01T09:00:00"),
+      toDate: () => new Date(Date.UTC(2022, 0, 1, 9, 0, 0)),
       getSeconds: () => 0,
     };
     const tags = { DateTimeOriginal: mockDate };
@@ -84,7 +84,7 @@ describe("getNewBasename", () => {
   });
 
   it("should sanitize author names", () => {
-    const mockDate = { toDate: () => new Date("2023-01-01T12:00:00") };
+    const mockDate = { toDate: () => new Date(Date.UTC(2023, 0, 1, 12, 0, 0)) };
     const tags = {
       DateTimeOriginal: mockDate,
       Artist: "Héllo Wörld",
@@ -94,7 +94,7 @@ describe("getNewBasename", () => {
   });
 
   it("should handle array authors", () => {
-    const mockDate = { toDate: () => new Date("2023-01-01T12:00:00") };
+    const mockDate = { toDate: () => new Date(Date.UTC(2023, 0, 1, 12, 0, 0)) };
     const _tags = {
       DateTimeOriginal: mockDate,
       "dc:creator": ["First Guy", "Second Guy"],

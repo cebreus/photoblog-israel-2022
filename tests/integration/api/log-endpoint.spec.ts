@@ -60,7 +60,7 @@ describe("POST /api/log", () => {
     const response = await POST(createMockRequestEvent(request));
 
     expect(response.status).toBe(200);
-    expect(mockLogger.info).toHaveBeenCalledWith("Test info message", { userId: "123" });
+    expect(mockLogger.info).toHaveBeenCalledWith({ userId: "123" }, "Test info message");
   });
 
   it("should forward warn level logs to backend logger", async () => {
@@ -77,7 +77,7 @@ describe("POST /api/log", () => {
     const response = await POST(createMockRequestEvent(request));
 
     expect(response.status).toBe(200);
-    expect(mockLogger.warn).toHaveBeenCalledWith("Test warning", { status: 404 });
+    expect(mockLogger.warn).toHaveBeenCalledWith({ status: 404 }, "Test warning");
   });
 
   it("should forward error level logs to backend logger", async () => {
@@ -94,9 +94,10 @@ describe("POST /api/log", () => {
     const response = await POST(createMockRequestEvent(request));
 
     expect(response.status).toBe(200);
-    expect(mockLogger.error).toHaveBeenCalledWith("Test error", {
-      err: { message: "Something failed" },
-    });
+    expect(mockLogger.error).toHaveBeenCalledWith(
+      { err: { message: "Something failed" } },
+      "Test error",
+    );
   });
 
   it("should handle debug level logs", async () => {
@@ -112,7 +113,7 @@ describe("POST /api/log", () => {
     const response = await POST(createMockRequestEvent(request));
 
     expect(response.status).toBe(200);
-    expect(mockLogger.debug).toHaveBeenCalledWith("Debug info", {});
+    expect(mockLogger.debug).toHaveBeenCalledWith({}, "Debug info");
   });
 
   it("should handle trace level logs", async () => {
@@ -128,7 +129,7 @@ describe("POST /api/log", () => {
     const response = await POST(createMockRequestEvent(request));
 
     expect(response.status).toBe(200);
-    expect(mockLogger.trace).toHaveBeenCalledWith("Trace info", {});
+    expect(mockLogger.trace).toHaveBeenCalledWith({}, "Trace info");
   });
 
   it("should default to info level for unknown levels", async () => {
@@ -144,7 +145,7 @@ describe("POST /api/log", () => {
     const response = await POST(createMockRequestEvent(request));
 
     expect(response.status).toBe(200);
-    expect(mockLogger.info).toHaveBeenCalledWith("Unknown level message", {});
+    expect(mockLogger.info).toHaveBeenCalledWith({}, "Unknown level message");
   });
 
   it("should use label prefix for frontend logs", async () => {

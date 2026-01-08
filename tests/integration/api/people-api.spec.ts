@@ -112,6 +112,16 @@ function createMockEvent(body: unknown) {
         return body;
       },
     },
+    locals: {
+      log: {
+        info: () => {},
+        warn: () => {},
+        error: () => {},
+        debug: () => {},
+        trace: () => {},
+      },
+      logContext: {},
+    },
   } as any;
 }
 

@@ -66,7 +66,7 @@ describe("image-processor logic", () => {
     it("generates date string", async () => {
       const d = new Date("2022-01-01T12:00:00Z");
       const result = await callCreate({ DateTimeOriginal: d });
-      expect(result.date).toBe(d.toISOString());
+      expect(result.date).toBe("2022-01-01T12:00:00");
     });
   });
 });

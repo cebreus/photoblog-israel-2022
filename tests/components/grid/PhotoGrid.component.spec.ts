@@ -219,6 +219,8 @@ describe("PhotoGrid Component", () => {
     const items = [
       { type: "separator", id: "sep-1", location: "Haifa", city: "Israel" },
       createMockImage({ id: "img-1", location: "Haifa" }),
+      createMockImage({ id: "img-2", location: "Haifa" }),
+      createMockImage({ id: "img-3", location: "Haifa" }),
     ];
 
     renderComponent(PhotoGrid, { items });

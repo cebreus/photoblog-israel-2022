@@ -13,13 +13,15 @@ import { renderComponent } from "../../utils/render-helpers";
 
 // Mock dependencies before import
 vi.mock("$lib/logger", function () {
+  const mockLog = {
+    info: vi.fn(),
+    error: vi.fn(),
+    warn: vi.fn(),
+    debug: vi.fn(),
+  };
   return {
-    log: {
-      info: vi.fn(),
-      error: vi.fn(),
-      warn: vi.fn(),
-      debug: vi.fn(),
-    },
+    createLogger: () => mockLog,
+    log: mockLog,
   };
 });
 

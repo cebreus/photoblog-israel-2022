@@ -41,14 +41,18 @@ vi.mock("$app/state", () => ({
   },
 }));
 
-vi.mock("$lib/logger", () => ({
-  createLogger: () => ({
+vi.mock("$lib/logger", () => {
+  const mockLog = {
     info: vi.fn(),
     error: vi.fn(),
     warn: vi.fn(),
     debug: vi.fn(),
-  }),
-}));
+  };
+  return {
+    createLogger: () => mockLog,
+    log: mockLog,
+  };
+});
 
 // Mock people store with test data created inside factory
 vi.mock("$lib/stores/people.svelte", () => {
@@ -115,8 +119,11 @@ vi.mock("$lib/stores/filters.svelte", () => ({
     selectedPeople: [],
     selectedAuthors: [],
     selectedQualityBuckets: ["excellent", "good", "poor"],
+    selectedMediaTypes: [],
     showSeparators: true,
     filtersSyncing: false,
+    filteredPhotoDays: [],
+    showOthersSnapshots: true,
   },
 }));
 

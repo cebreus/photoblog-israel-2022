@@ -38,38 +38,29 @@ vi.mock("$app/navigation", () => ({
 }));
 
 // Mock logger to avoid console noise
-vi.mock("$lib/logger", () => ({
-  createLogger: () => ({
+vi.mock("$lib/logger", () => {
+  const mockLog = {
     info: vi.fn(),
     error: vi.fn(),
     warn: vi.fn(),
     debug: vi.fn(),
-  }),
-}));
-
-// Mock Editor Store
-vi.mock("$lib/stores/editor.svelte", () => {
-  const selection = new Set<string>(["optimistic-img-1"]);
+  };
   return {
-    editor: {
-      get selection() {
-        return selection;
-      },
-      set selection(_v) {
-        /* no-op */
-      },
-      toggleSelection: vi.fn(),
-      clearSelection: vi.fn(),
-    },
+    createLogger: () => mockLog,
+    log: mockLog,
   };
 });
 
+// editor store mock removed to use real store for reactivity
+
 // Mock metadata utils to verify call
 vi.mock("$lib/shared/metadata-utils", async (importOriginal) => {
-  const actual = await importOriginal();
+  const actual: any = await importOriginal();
+  const mockFn = vi.fn(actual.applyMetadataUpdates);
+  (mockFn as any).actualImplementation = actual.applyMetadataUpdates;
   return {
-    ...(actual as any),
-    applyMetadataUpdates: vi.fn(),
+    ...actual,
+    applyMetadataUpdates: mockFn,
   };
 });
 
@@ -79,16 +70,29 @@ vi.mock("$lib/stores/metadata-clipboard.svelte", () => ({
 }));
 
 // --- Imports ---
+import { invalidateAll } from "$app/navigation";
 import { applyMetadataUpdates } from "$lib/shared/metadata-utils";
+import { editor } from "$lib/stores/editor.svelte";
 import EditTab from "../../../src/lib/components/sidebar-content/EditTab.svelte";
 import { createMockImage } from "../../utils/gallery-test-utils";
 
 describe("Optimistic UI Updates", () => {
   const TEST_ID = "optimistic-img-1";
   let mockImage: any;
+  let lastImageTouched: any = null;
 
   beforeEach(() => {
     vi.clearAllMocks();
+    lastImageTouched = null;
+
+    // Set real editor selection
+    editor.setSelection(new Set([TEST_ID]));
+
+    // Update mock to track the actual object passed by Svelte (which might be a proxy)
+    vi.mocked(applyMetadataUpdates).mockImplementation((img, updates) => {
+      lastImageTouched = img;
+      return (applyMetadataUpdates as any).actualImplementation(img, updates);
+    });
 
     // Create a fresh mutable image object for each test
     mockImage = createMockImage({
@@ -106,41 +110,38 @@ describe("Optimistic UI Updates", () => {
     let captionAtFetchTime = "";
 
     vi.mocked(window.fetch).mockImplementation(async () => {
-      captionAtFetchTime = mockImage.caption;
+      // Use the object that the component is actually using
+      captionAtFetchTime = lastImageTouched?.caption || "";
       return new Response(JSON.stringify({}), { status: 200 });
     });
 
     // 2. Render Component
-    renderComponent(EditTab, { items: [mockImage] });
+    await renderComponent(EditTab, { items: [mockImage] });
+    await new Promise((r) => setTimeout(r, 100));
 
     // 3. User Interaction: Change Caption
-    const captionInput = page.getByRole("textbox", { name: "Popisek" });
+    const captionInput = page.getByTestId("metadata-input-caption");
     await expect.element(captionInput).toBeInTheDocument();
 
     await captionInput.clear();
     await captionInput.fill("Optimistic New Caption");
 
-    // 4. Submit Form (trigger click without awaiting completion to avoid deadlock if it waits for fetch)
+    // 4. Submit Form
     const submitBtn = page.getByTestId("edit-tab-submit-button");
-    const clickPromise = submitBtn.click();
-
-    // Give a tiny tick for event handlers to fire
-    await new Promise((r) => setTimeout(r, 50));
+    await submitBtn.click();
 
     // 5. Verify the state was updated
-    // Since fetch mock captures state, we can also check mockImage directly
-    expect(mockImage.caption).toBe("Optimistic New Caption");
+    expect(lastImageTouched).toBeTruthy();
+    expect(lastImageTouched.caption).toBe("Optimistic New Caption");
     expect(captionAtFetchTime).toBe("Optimistic New Caption");
-
-    // Cleanup
-    await clickPromise;
   });
 
   it("calls applyMetadataUpdates synchronously on submit", async () => {
-    renderComponent(EditTab, { items: [mockImage] });
+    await renderComponent(EditTab, { items: [mockImage] });
+    await new Promise((r) => setTimeout(r, 100));
 
     // User Interaction
-    const captionInput = page.getByRole("textbox", { name: "Popisek" });
+    const captionInput = page.getByTestId("metadata-input-caption");
     await expect.element(captionInput).toBeInTheDocument();
 
     await captionInput.clear();
@@ -165,20 +166,22 @@ describe("Optimistic UI Updates", () => {
     // So valid test is verifying invalidateAll is called.
 
     vi.mocked(window.fetch).mockRejectedValue(new Error("Network Error"));
+    await renderComponent(EditTab, { items: [mockImage] });
+    await new Promise((r) => setTimeout(r, 100));
 
-    renderComponent(EditTab, { items: [mockImage] });
-
-    const titleInput = page.getByRole("textbox", { name: "Titulek" });
+    const titleInput = page.getByTestId("metadata-input-title");
     await titleInput.clear();
     await titleInput.fill("Failed Update Title");
 
-    await page.getByTestId("edit-tab-submit-button").click();
+    // 4. Submit
+    const submitBtn = page.getByTestId("edit-tab-submit-button");
+    await submitBtn.click();
 
     // It still updates optimistically
-    expect(mockImage.title).toBe("Failed Update Title");
+    expect(lastImageTouched).toBeTruthy();
+    expect(lastImageTouched.title).toBe("Failed Update Title");
 
     // But verify we try to reload page/data to fix state
-    const { invalidateAll } = await import("$app/navigation");
     expect(invalidateAll).toHaveBeenCalled();
   });
 });

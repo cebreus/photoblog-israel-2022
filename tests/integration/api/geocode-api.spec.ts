@@ -18,6 +18,9 @@ describe("Integration: Geocode API", () => {
     ({
       url: new URL(`http://localhost/api/geocode?${new URLSearchParams(params)}`),
       fetch: mockFetch,
+      locals: {
+        log: { info: vi.fn(), error: vi.fn(), warn: vi.fn(), debug: vi.fn() },
+      },
     }) as any;
 
   it("should correctly parse and map Nominatim response", async () => {
@@ -62,24 +65,25 @@ describe("Integration: Geocode API", () => {
   it("should return 400 if lat/lng are missing", async () => {
     const event = createMockEvent({}, vi.fn());
 
-    try {
-      await geocodeGet(event);
-    } catch (e: any) {
-      expect(e.status).toBe(400);
-      expect(e.body.message).toContain("Missing 'lat' or 'lng'");
-    }
+    const res = await geocodeGet(event);
+    expect(res.status).toBe(400);
+    const body = await res.json();
+    expect(body.error).toContain("Missing 'lat' or 'lng'");
   });
 
   it("should return 502 if Nominatim fails", async () => {
     const mockFetch = vi.fn().mockResolvedValue({
       ok: false,
+      status: 502, // Add status to mock response
       statusText: "Bad Gateway",
     });
 
     const event = createMockEvent({ lat: "1", lng: "1" }, mockFetch);
 
+    const resPromise = geocodeGet(event);
+    await expect(resPromise).rejects.toThrow();
     try {
-      await geocodeGet(event);
+      await resPromise;
     } catch (e: any) {
       expect(e.status).toBe(502);
     }

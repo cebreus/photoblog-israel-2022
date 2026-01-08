@@ -36,18 +36,15 @@ vi.mock("$app/navigation", () => ({
 }));
 
 vi.mock("$lib/logger", () => {
-  const mockLogger = {
+  const mockLog = {
     info: vi.fn(),
     error: vi.fn(),
     warn: vi.fn(),
     debug: vi.fn(),
-    trace: vi.fn(),
-    fatal: vi.fn(),
-    verbose: vi.fn(),
   };
   return {
-    createLogger: () => mockLogger,
-    log: mockLogger,
+    createLogger: () => mockLog,
+    log: mockLog,
   };
 });
 

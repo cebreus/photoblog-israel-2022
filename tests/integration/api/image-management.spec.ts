@@ -5,7 +5,7 @@
 import fsp from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   POST as archiveImages,
   DELETE as deleteImages,
@@ -87,7 +87,13 @@ describe("Integration: Image Management API", () => {
       json: async () => ({ ids: [{ id: "img1", src: `/images/${contentDir}/img1.jpg` }] }),
     };
 
-    const res = await deleteImages({ request } as any);
+    const res = await deleteImages({
+      request,
+      locals: {
+        log: { info: vi.fn(), error: vi.fn(), warn: vi.fn(), debug: vi.fn() },
+        logContext: {},
+      },
+    } as any);
     const body = await res.json();
 
     expect(body.success).toBe(true);
@@ -114,7 +120,13 @@ describe("Integration: Image Management API", () => {
       }),
     };
 
-    const res = await archiveImages({ request } as any);
+    const res = await archiveImages({
+      request,
+      locals: {
+        log: { info: vi.fn(), error: vi.fn(), warn: vi.fn(), debug: vi.fn() },
+        logContext: {},
+      },
+    } as any);
     const body = await res.json();
 
     expect(body.success).toBe(true);
@@ -162,7 +174,13 @@ describe("Integration: Image Management API", () => {
     // We expect it might fail if img1.jpg is just "dummy data".
     // Error will be "Error: Command failed: exiftool ..."
 
-    const res = await patchImages({ request } as any);
+    const res = await patchImages({
+      request,
+      locals: {
+        log: { info: vi.fn(), error: vi.fn(), warn: vi.fn(), debug: vi.fn() },
+        logContext: {},
+      },
+    } as any);
     const body = await res.json();
 
     if (body.success) {
@@ -181,7 +199,13 @@ describe("Integration: Image Management API", () => {
     const request = {
       json: async () => ({}), // Missing ids
     };
-    const res = await deleteImages({ request } as any);
+    const res = await deleteImages({
+      request,
+      locals: {
+        log: { info: vi.fn(), error: vi.fn(), warn: vi.fn(), debug: vi.fn() },
+        logContext: {},
+      },
+    } as any);
     expect(res.status).toBe(400);
   });
 
@@ -195,7 +219,13 @@ describe("Integration: Image Management API", () => {
       }),
     };
 
-    const res = await deleteImages({ request } as any);
+    const res = await deleteImages({
+      request,
+      locals: {
+        log: { info: vi.fn(), error: vi.fn(), warn: vi.fn(), debug: vi.fn() },
+        logContext: {},
+      },
+    } as any);
     const body = await res.json();
 
     expect(body.success).toBe(true);
@@ -211,7 +241,13 @@ describe("Integration: Image Management API", () => {
         ids: [{ id: "img1", src: `/images/${contentDir}/img1.jpg` }],
       }),
     };
-    const res = await archiveImages({ request } as any);
+    const res = await archiveImages({
+      request,
+      locals: {
+        log: { info: vi.fn(), error: vi.fn(), warn: vi.fn(), debug: vi.fn() },
+        logContext: {},
+      },
+    } as any);
     expect(res.status).toBe(400);
   });
 
@@ -228,7 +264,13 @@ describe("Integration: Image Management API", () => {
 
     // Should still proceed with moving file even if manifest update fails or is skipped
     // Actually the code logs a warning and continues.
-    const res = await archiveImages({ request } as any);
+    const res = await archiveImages({
+      request,
+      locals: {
+        log: { info: vi.fn(), error: vi.fn(), warn: vi.fn(), debug: vi.fn() },
+        logContext: {},
+      },
+    } as any);
     const body = await res.json();
 
     expect(body.success).toBe(true);
