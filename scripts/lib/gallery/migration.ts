@@ -12,6 +12,7 @@ import {
   loadEmbeddingsManifest,
   loadFacesManifest,
   loadImagesManifest,
+  loadManifest,
   loadMenuManifest,
   loadPeopleManifest,
   saveAnalysisManifest,
@@ -20,6 +21,7 @@ import {
   saveEmbeddingsManifest,
   saveFacesManifest,
   saveImagesManifest,
+  saveManifest,
   saveMenuManifest,
   savePeopleManifest,
 } from "../manifests/repository";
@@ -137,15 +139,8 @@ export async function migrateGeneratedAssets(gallery: string, renameMap: RenameM
  */
 export async function migrateCache(gallery: string, renameMap: RenameMap): Promise<void> {
   const cachePath = path.resolve(`.temp/${gallery}/images.cache.json`);
-  // Using generic loadManifest here would require exporting it, forcing internal usage
-  const fs = await import("node:fs/promises");
-  let cache: Cache | null = null;
-  try {
-    const content = await fs.readFile(cachePath, "utf-8");
-    cache = JSON.parse(content);
-  } catch {
-    return;
-  }
+  const cache = await loadManifest<Cache>(cachePath);
+  if (!cache) return;
 
   if (cache?.files) {
     for (const item of renameMap.values()) {
@@ -168,7 +163,7 @@ export async function migrateCache(gallery: string, renameMap: RenameMap): Promi
         delete cache.files[oldKey];
       }
     }
-    await fs.writeFile(cachePath, JSON.stringify(cache, null, 2));
+    await saveManifest(cachePath, cache);
   }
 }
 

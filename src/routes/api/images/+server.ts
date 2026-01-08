@@ -6,6 +6,7 @@ import { exiftool } from "exiftool-vendored";
 import { dev } from "$app/environment";
 import { applyMetadataUpdates } from "$lib/shared/metadata-utils";
 import { type ImageEntry, isImageEntry, type Manifest } from "$lib/types/manifest";
+import { getPhotoDays } from "$lib/utils/images";
 import { reloadManifests } from "$lib/utils/manifest-loader";
 import { getExifToolWriteTags } from "$lib/utils/metadata-standards";
 import { config } from "$scripts/build.config";
@@ -142,7 +143,7 @@ async function processBatch(
           }
         } catch (err) {
           errors.push(
-            `Error processing ${item.src}: ${err instanceof Error ? err.message : String(err)}`,
+            `Error processing ${item.src}: ${err instanceof Error ? err.message : String(err)} `,
           );
         }
       }
@@ -221,7 +222,7 @@ async function processBatch(
     });
   } catch (err) {
     errors.push(
-      `Lock error for ${contentDir}: ${err instanceof Error ? err.message : String(err)}`,
+      `Lock error for ${contentDir}: ${err instanceof Error ? err.message : String(err)} `,
     );
   }
 
@@ -296,7 +297,7 @@ export async function DELETE({ request, locals }: RequestEvent) {
             log.warn({ err: e, physicalPath }, "Failed to delete file");
           }
         } else {
-          // errors.push(`Physical file not found for ${item.src}`);
+          // errors.push(`Physical file not found for ${ item.src }`);
         }
 
         // If item was removed from manifest OR physical file existed (and was deleted/attempted), count as success
@@ -361,7 +362,7 @@ export async function POST({ request, locals }: RequestEvent) {
         // 2. Clean cache
         const cachePath = path.join(tempRoot, contentDir, "images.cache.json");
         for (const ext of config.script.inputExtensions) {
-          await removeFromCache(cachePath, `${nameWithoutExt}.${ext}`);
+          await removeFromCache(cachePath, `${nameWithoutExt}.${ext} `);
         }
 
         // 3. Clean constraints
@@ -548,7 +549,7 @@ export async function PATCH({ request, locals }: RequestEvent) {
                 writeArgs: ["-overwrite_original", "-coding=utf8", "-m", "-charset", "iptc=UTF8"],
               });
             } catch (exifError) {
-              const msg = `ExifTool failed for ${targetPath}: ${exifError}`;
+              const msg = `ExifTool failed for ${targetPath}: ${exifError} `;
               log.error({ err: exifError, targetPath }, "ExifTool failed");
               throw new Error(msg);
             }
@@ -597,8 +598,8 @@ export async function PATCH({ request, locals }: RequestEvent) {
           [
             "run",
             generateScript,
-            `--gallery=${contentDir}`,
-            `--filter=${id}`,
+            `--gallery = ${contentDir} `,
+            `--filter = ${id} `,
             "--force",
             "--manifest-only=false",
             "--skipEmbeddings",
@@ -617,9 +618,10 @@ export async function PATCH({ request, locals }: RequestEvent) {
     }
   }
 
-  if (updatedIds.length === 0 && errors.length > 0) {
-    log.error({ errors }, "PATCH failed");
-    return json({ message: "Failed to update metadata", errors }, { status: 500 });
+  if (updatedIds.length === 0 || errors.length > 0) {
+    const message = updatedIds.length === 0 ? "No metadata to update" : "Failed to update metadata";
+    log.error({ errors, updatedCount: updatedIds.length }, "PATCH failed");
+    return json({ message, errors, updated: updatedIds }, { status: 500 });
   }
 
   // Return both IDs and the full updated objects
@@ -627,7 +629,6 @@ export async function PATCH({ request, locals }: RequestEvent) {
   await reloadManifests();
 
   // Import getPhotoDays to return fresh data for client-side update
-  const { getPhotoDays } = await import("$lib/utils/images");
   const photoDays = getPhotoDays();
 
   logContext.updatedCount = updatedIds.length;

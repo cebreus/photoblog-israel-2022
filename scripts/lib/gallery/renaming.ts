@@ -59,15 +59,19 @@ export function getNewBasename(
   }
 
   try {
-    // Use shared utility to ensure consistent date parsing logic
-    // Convert to string first because ExifDateTime objects from exiftool need to be stringified
-    const isoDate = toPureWallClockISO(dateObj.toString());
+    // Robustly handle Date objects vs strings vs ExifDateTime (which has .toDate())
+    let isoDate: string | undefined;
+    if (typeof dateObj.toDate === "function") {
+      isoDate = toPureWallClockISO(dateObj.toDate());
+    } else {
+      isoDate = toPureWallClockISO(dateObj);
+    }
 
     if (!isoDate) {
       throw new Error(`Invalid date format: ${dateObj}`);
     }
 
-    // toPureWallClockISO returns YYYY-MM-DDTHH:MM:SS
+    // toPureWallClockISO returns YYYY-MM-DDTHH:mm:ss
     // We convert it to the filename format: YYYY-MM-DD-HHMMSS
     dateStr = isoDate.replace("T", "-").replace(/:/g, "");
   } catch (e) {
@@ -80,8 +84,11 @@ export function getNewBasename(
   if (metaAuthor) {
     author = Array.isArray(metaAuthor) ? metaAuthor[0] : String(metaAuthor);
   } else if (manifestAuthor) {
-    // Fallback: If no EXIF author, try the one from manifest
+    // Fallback 1: If no EXIF author, try the one from manifest
     author = manifestAuthor;
+  } else if (!defaultAuthor && basePart && !basePart.match(/^\d{4}-\d{2}-\d{2}/)) {
+    // Fallback 2: Use original basename if no default and no EXIF (and it's not already a processed name)
+    author = basePart;
   }
 
   author = toSafeFilename(toSlug(author));
