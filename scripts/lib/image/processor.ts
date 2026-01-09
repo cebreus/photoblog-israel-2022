@@ -1,9 +1,10 @@
+import { ImageFormat } from "$shared/types/images";
+import type { ImageEntry, ImageSource, QualityTypes } from "$shared/types/manifest";
+import { createReadStream } from "node:fs";
 import fsp from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import xxhash from "xxhash-wasm";
-import { ImageFormat } from "$shared/types/images";
-import type { ImageEntry, ImageSource, QualityTypes } from "$shared/types/manifest";
 import { config } from "../../build.config";
 import { aiService, EMBEDDING_DIM } from "../ai/models";
 import { createLogger } from "../core/cli-logger";
@@ -125,8 +126,6 @@ async function calculateFileHash(absPath: string): Promise<string> {
   const { create64 } = await getXxhash();
   const hasher = create64();
 
-  // Fallback for Node-like environment (Vite dev)
-  const { createReadStream } = await import("node:fs");
   const stream = createReadStream(absPath);
   for await (const chunk of stream) {
     hasher.update(chunk);
@@ -268,7 +267,7 @@ async function _extractFaces(
     }
     return faces;
   } catch (e) {
-    logger.warn({ key, err: e }, "Face detection failed");
+    logger.error({ key, err: e }, "Face detection failed");
     return [];
   }
 }
@@ -557,8 +556,15 @@ export async function processImage(
       image: imageEntry,
     };
   } catch (e: unknown) {
-    const msg = e instanceof Error ? e.stack || e.message : String(e);
-    logger.error({ id: key ?? absPath, err: msg }, "Failed to process image");
+    const error = e instanceof Error ? e : new Error(String(e));
+    logger.error(
+      {
+        id: key ?? absPath,
+        message: error.message,
+        stack: error.stack,
+      },
+      "Failed to process image",
+    );
     return null;
   } finally {
     if (tempCleanupPath) {

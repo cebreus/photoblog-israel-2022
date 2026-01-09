@@ -24,9 +24,10 @@ export async function init(): Promise<void> {
     try {
       const { CLIPVisionModelWithProjection, env } = await import("@xenova/transformers");
 
-      // Configure environment for local execution to avoid blob: URL issues in Bun/Node
+      // Configure environment for local execution
       env.allowLocalModels = true;
-      env.allowRemoteModels = false;
+      env.allowRemoteModels = true;
+      env.cacheDir = path.resolve(process.cwd(), "scripts/models/ai");
       env.useBrowserCache = false;
 
       // Disable worker/proxy for ONNX which is the common source of blob: URLs
@@ -38,8 +39,11 @@ export async function init(): Promise<void> {
         quantized: true,
       });
       logger.info({ modelId: MODEL_ID }, "AI Model loaded successfully");
-    } catch (e) {
-      logger.error({ modelId: MODEL_ID, err: e }, "Failed to load AI model");
+    } catch (e: any) {
+      logger.error(
+        { modelId: MODEL_ID, err: e.message, stack: e.stack },
+        "Failed to load AI model (Vision)",
+      );
       throw e;
     }
   })();
@@ -79,8 +83,16 @@ async function prepareTensor(
     }
 
     return { tensor: new Tensor("float32", floatData, [1, 3, 224, 224]), tempFile };
-  } catch (e) {
-    logger.error({ path: imagePath, err: e }, "Failed to prepare tensor");
+  } catch (e: unknown) {
+    const error = e instanceof Error ? e : new Error(String(e));
+    logger.error(
+      {
+        path: imagePath,
+        message: error.message,
+        stack: error.stack,
+      },
+      "Failed to prepare tensor",
+    );
     // Use async check for directory existence using node:fs/promises access equivalent or try/catch
     if (tempFile) {
       try {
