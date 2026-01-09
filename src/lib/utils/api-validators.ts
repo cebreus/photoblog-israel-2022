@@ -125,52 +125,83 @@ export function validateReassignInput(body: unknown): ValidationResult<ReassignI
   return { valid: true, data: { sourcePersonId, targetPersonId, imageIds } };
 }
 
-export interface IgnoreFaceInput {
+export interface InvalidateDetectionsInput {
   personId: string;
-  imageId: string;
-  box: {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-  };
+  detections: Array<{
+    imageId: string;
+    box: {
+      x: number;
+      y: number;
+      width: number;
+      height: number;
+    };
+  }>;
 }
 
-export function validateIgnoreFaceInput(body: unknown): ValidationResult<IgnoreFaceInput> {
+export function validateInvalidateDetectionsInput(
+  body: unknown,
+): ValidationResult<InvalidateDetectionsInput> {
   if (!body || typeof body !== "object") {
     return { valid: false, error: "Neplatné tělo požadavku", status: 400 };
   }
 
-  const { personId, imageId, box } = body as Record<string, unknown>;
+  const { personId, imageId, box, detections } = body as Record<string, unknown>;
 
   if (!isNonEmptyString(personId)) {
     return { valid: false, error: "personId musí být neprázdný řetězec", status: 400 };
   }
 
-  if (!isNonEmptyString(imageId)) {
-    return { valid: false, error: "imageId musí být neprázdný řetězec", status: 400 };
+  const finalDetections: InvalidateDetectionsInput["detections"] = [];
+
+  // Support legacy single detection
+  if (isNonEmptyString(imageId) && box && typeof box === "object") {
+    const { x, y, width, height } = box as Record<string, unknown>;
+    if (
+      typeof x === "number" &&
+      typeof y === "number" &&
+      typeof width === "number" &&
+      typeof height === "number"
+    ) {
+      finalDetections.push({ imageId, box: { x, y, width, height } });
+    }
   }
 
-  if (!box || typeof box !== "object") {
-    return { valid: false, error: "box musí být objekt", status: 400 };
+  // Support bulk detections
+  if (Array.isArray(detections)) {
+    for (const d of detections) {
+      if (
+        d &&
+        typeof d === "object" &&
+        isNonEmptyString(d.imageId) &&
+        d.box &&
+        typeof d.box === "object"
+      ) {
+        const { x, y, width, height } = d.box;
+        if (
+          typeof x === "number" &&
+          typeof y === "number" &&
+          typeof width === "number" &&
+          typeof height === "number"
+        ) {
+          finalDetections.push({ imageId: d.imageId, box: { x, y, width, height } });
+        }
+      }
+    }
   }
 
-  const { x, y, width, height } = box as Record<string, unknown>;
-  if (
-    typeof x !== "number" ||
-    typeof y !== "number" ||
-    typeof width !== "number" ||
-    typeof height !== "number"
-  ) {
-    return { valid: false, error: "souřadnice boxu musí být čísla", status: 400 };
+  if (finalDetections.length === 0) {
+    return {
+      valid: false,
+      error: "Musí být zadána alespoň jedna platná detekce k zneplatnění",
+      status: 400,
+    };
   }
 
   return {
     valid: true,
     data: {
       personId,
-      imageId,
-      box: { x, y, width, height },
+      detections: finalDetections,
     },
   };
 }

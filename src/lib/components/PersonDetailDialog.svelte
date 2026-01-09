@@ -28,7 +28,7 @@
   import { createLogger } from "$lib/logger";
   import { people } from "$lib/stores/people.svelte";
   import type { ImageEntry, Person } from "$lib/types/manifest";
-  import { DETECTION_MESSAGES, GENERIC_MESSAGES } from "$lib/utils/messages";
+  import { DETECTION_MESSAGES } from "$lib/utils/messages";
 
   const logger = createLogger("PersonDetailDialog");
 
@@ -258,32 +258,26 @@
     if (isWorking) return;
     try {
       const selectedCrops = crops.filter((c) => selectedIds.has(c.id));
-      const results = await Promise.allSettled(
-        selectedCrops.map(async (crop) => {
-          if (!crop.box) return;
-          await invalidateDetectionMutation.mutateAsync({
-            personId: person.id,
-            imageId: crop.id,
-            box: crop.box,
-          });
-        }),
-      );
+      const detections = selectedCrops
+        .filter((c) => c.box !== undefined)
+        .map((c) => ({
+          imageId: c.id,
+          box: c.box as { x: number; y: number; width: number; height: number },
+        }));
 
-      const failed = results.filter((r) => r.status === "rejected");
-      if (failed.length > 0) {
-        const successCount = selectedCrops.length - failed.length;
-        if (successCount === 0) throw new Error("Všechny operace selhaly");
-        toast.warning(GENERIC_MESSAGES.partialSuccess(successCount, failed.length));
-        logger.error({ failed }, "Some bulk ignore operations failed");
-      } else {
-        toast.success(DETECTION_MESSAGES.BULK_DETECTION_INVALIDATED);
-      }
+      if (detections.length === 0) return;
 
+      await invalidateDetectionMutation.mutateAsync({
+        personId: person.id,
+        detections,
+      });
+
+      toast.success(DETECTION_MESSAGES.BULK_DETECTION_INVALIDATED);
       onUpdate?.();
       selectedIds = new Set();
     } catch (e) {
       logger.error({ err: e }, "Bulk ignore failed");
-      toast.error(DETECTION_MESSAGES.BULK_DETECTION_FAILED);
+      // Toast is already handled by mutation onError
     }
   }
 

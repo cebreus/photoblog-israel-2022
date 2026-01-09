@@ -1,7 +1,3 @@
-import crypto from "node:crypto";
-import fsp from "node:fs/promises";
-import path from "node:path";
-import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
 import { clearTaskStatus, saveTaskStatus } from "$lib/server/task-status";
 import { type PeopleManifest, type Person } from "$lib/types/manifest";
@@ -24,6 +20,10 @@ import {
   loadPeopleManifest,
   savePeopleRelatedManifests,
 } from "$scripts/lib/manifests/repository";
+import { error, json } from "@sveltejs/kit";
+import crypto from "node:crypto";
+import fsp from "node:fs/promises";
+import path from "node:path";
 
 function createNewPerson(
   peopleManifest: PeopleManifest,

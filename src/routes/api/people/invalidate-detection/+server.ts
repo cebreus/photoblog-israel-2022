@@ -1,11 +1,10 @@
-import fsp from "node:fs/promises";
-import path from "node:path";
-import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
 import { type FacesManifest, isImageEntry } from "$lib/types/manifest";
-import { validateIgnoreFaceInput } from "$lib/utils/api-validators";
+import { validateInvalidateDetectionsInput } from "$lib/utils/api-validators";
 import { reloadManifests } from "$lib/utils/manifest-loader";
+import type { Logger as ScriptLogger } from "$scripts/lib/core/cli-logger";
 import { refreshPersonThumbnail } from "$scripts/lib/faces/people";
+import { removeEmptyPersonFolder } from "$scripts/lib/gallery/cleanup";
 import { withManifestLock } from "$scripts/lib/manifests/lock";
 import {
   loadClusteringConstraints,
@@ -14,6 +13,9 @@ import {
   loadPeopleManifest,
   savePeopleRelatedManifests,
 } from "$scripts/lib/manifests/repository";
+import { error, json } from "@sveltejs/kit";
+import fsp from "node:fs/promises";
+import path from "node:path";
 
 /**
  * Endpoint to mark a specific detection as invalid (e.g. not a face).
@@ -26,16 +28,28 @@ export async function POST({ request, locals }: { request: Request; locals: App.
   }
 
   const body = await request.json();
-  const validation = validateIgnoreFaceInput(body);
+  const validation = validateInvalidateDetectionsInput(body);
 
   if (!validation.valid) {
     return json({ success: false, error: validation.error }, { status: validation.status });
   }
 
-  const { personId, imageId, box } = validation.data;
+  const { personId, detections } = validation.data;
   const contentDir = process.env.CONTENT_DIR || "egypt-2025";
   const dataDir = path.resolve(process.cwd(), "src/data", contentDir);
   const facesDir = path.resolve(process.cwd(), `static-${contentDir}`, "faces");
+
+  // Adapt backend logger to script logger interface for helper functions
+  const scriptLog = {
+    error: log.error.bind(log),
+    warn: log.warn.bind(log),
+    info: log.info.bind(log),
+    debug: log.debug.bind(log),
+    verbose: log.debug.bind(log),
+    raw: (msg: string) => log.info({ raw: msg }, "SCRIPT_OUTPUT"),
+    silent: false,
+    level: log.level,
+  } as unknown as ScriptLogger;
 
   try {
     return await withManifestLock(dataDir, async function () {
@@ -45,63 +59,75 @@ export async function POST({ request, locals }: { request: Request; locals: App.
 
       if (!peopleManifest || !imagesManifest) throw new Error("Manifests missing");
 
-      // 1. Remove from faces.manifest
-      if (facesManifest[imageId]) {
-        const faceDetail = facesManifest[imageId];
-        if (faceDetail.peopleIds) {
-          faceDetail.peopleIds = faceDetail.peopleIds.filter(
-            (currentPersonId) => currentPersonId !== personId,
-          );
-        }
-      }
-
-      // 2. Remove from images.manifest
-      for (const day of imagesManifest.photoDays) {
-        for (const item of day.items) {
-          if (isImageEntry(item) && item.id === imageId && item.people) {
-            item.people = item.people.filter((currentPersonId) => currentPersonId !== personId);
-          }
-        }
-      }
-
-      // 3. Update faceCount
-      const targetPerson = peopleManifest.people.find((person) => person.id === personId);
-      if (targetPerson) {
-        targetPerson.faceCount = Math.max(0, targetPerson.faceCount - 1);
-
-        // 3.5 Delete the physical face crop file
-        const facePath = path.resolve(facesDir, personId, `${imageId}.jpg`);
-        try {
-          await fsp.unlink(facePath);
-        } catch (e) {
-          // Ignore if file already gone
-          if ((e as NodeJS.ErrnoException).code !== "ENOENT") {
-            log.warn({ err: e, path: facePath }, "Failed to delete invalid face crop");
-          }
-        }
-
-        // Ensure thumbnail is still valid (especially if we just deleted the cover photo)
-        await refreshPersonThumbnail(targetPerson, facesDir);
-      }
-
-      // 4. Update constraints
-      let constraints = await loadClusteringConstraints(dataDir);
-      if (!constraints) {
-        constraints = { disconnects: [], connects: [], invalidDetections: [] };
-      }
+      let constraints = (await loadClusteringConstraints(dataDir)) || {
+        disconnects: [],
+        connects: [],
+        invalidDetections: [],
+      };
       if (!constraints.invalidDetections) constraints.invalidDetections = [];
 
-      // Prevent duplicates - boxes within threshold are considered the same
-      const BOX_MATCH_THRESHOLD = 0.1; // 10% tolerance for position matching
-      const exists = constraints.invalidDetections.some(
-        (detection) =>
-          detection.imageId === imageId &&
-          Math.abs(detection.box.x - box.x) < BOX_MATCH_THRESHOLD &&
-          Math.abs(detection.box.y - box.y) < BOX_MATCH_THRESHOLD,
-      );
+      const targetPerson = peopleManifest.people.find((person) => person.id === personId);
 
-      if (!exists) {
-        constraints.invalidDetections.push({ imageId, box });
+      for (const { imageId, box } of detections) {
+        // 1. Remove from faces.manifest
+        if (facesManifest[imageId]) {
+          const faceDetail = facesManifest[imageId];
+          if (faceDetail.peopleIds) {
+            faceDetail.peopleIds = faceDetail.peopleIds.filter(
+              (currentPersonId: string) => currentPersonId !== personId,
+            );
+          }
+        }
+
+        // 2. Remove from images.manifest
+        for (const day of imagesManifest.photoDays) {
+          for (const item of day.items) {
+            if (isImageEntry(item) && item.id === imageId && item.people) {
+              item.people = item.people.filter((currentId: string) => currentId !== personId);
+            }
+          }
+        }
+
+        // 3. Update faceCount and delete crop
+        if (targetPerson) {
+          targetPerson.faceCount = Math.max(0, targetPerson.faceCount - 1);
+
+          // 3.5 Delete the physical face crop file
+          const facePath = path.resolve(facesDir, personId, `${imageId}.jpg`);
+          try {
+            await fsp.unlink(facePath);
+          } catch (e) {
+            // Ignore if file already gone
+            if ((e as NodeJS.ErrnoException).code !== "ENOENT") {
+              log.warn({ err: e, path: facePath }, "Failed to delete invalid face crop");
+            }
+          }
+        }
+
+        // 4. Update constraints
+        // Prevent duplicates - boxes within threshold are considered the same
+        const BOX_MATCH_THRESHOLD = 0.1; // 10% tolerance for position matching
+        const exists = constraints.invalidDetections.some(
+          (detection) =>
+            detection.imageId === imageId &&
+            Math.abs(detection.box.x - box.x) < BOX_MATCH_THRESHOLD &&
+            Math.abs(detection.box.y - box.y) < BOX_MATCH_THRESHOLD,
+        );
+
+        if (!exists) {
+          constraints.invalidDetections.push({ imageId, box });
+        }
+      }
+
+      // Cleanup if person remains or not
+      if (targetPerson) {
+        if (targetPerson.faceCount <= 0) {
+          peopleManifest.people = peopleManifest.people.filter((p) => p.id !== personId);
+          await removeEmptyPersonFolder(facesDir, personId, scriptLog);
+        } else {
+          // Person remains, ensure thumbnail is still valid
+          await refreshPersonThumbnail(targetPerson, facesDir);
+        }
       }
 
       // Atomically save all manifests - either all succeed or none
@@ -116,8 +142,8 @@ export async function POST({ request, locals }: { request: Request; locals: App.
       await reloadManifests();
 
       logContext.personId = personId;
-      logContext.imageId = imageId;
-      return json({ success: true });
+      logContext.detectionsCount = detections.length;
+      return json({ success: true, count: detections.length });
     });
   } catch (err) {
     log.error({ err }, "INVALIDATE-DETECTION: Failure");

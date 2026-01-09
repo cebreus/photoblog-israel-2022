@@ -98,8 +98,12 @@ export interface ReassignFaceParams {
 
 export interface InvalidateDetectionParams {
   personId: string;
-  imageId: string;
-  box: { x: number; y: number; width: number; height: number };
+  imageId?: string;
+  box?: { x: number; y: number; width: number; height: number };
+  detections?: Array<{
+    imageId: string;
+    box: { x: number; y: number; width: number; height: number };
+  }>;
 }
 
 export interface UpdateCategoryParams {

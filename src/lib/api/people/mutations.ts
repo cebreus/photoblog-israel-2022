@@ -222,6 +222,7 @@ export function useInvalidateDetectionMutation() {
     onSuccess: async () => {
       toast.success(PERSON_MESSAGES.DETECTION_INVALIDATED);
       await queryClient.invalidateQueries({ queryKey: PEOPLE_QUERY_KEYS.constraints });
+      await people.refresh();
     },
     onError: (error: Error) => {
       toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR, { description: error.message });
