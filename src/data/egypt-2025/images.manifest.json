@@ -34,7 +34,7 @@
           "placeholder": "blurs/2025-11-21-175802-cebreus.png",
           "placeholderColor": "rgb(216,200,184)",
           "analysis": {
-            "aestheticScore": 32.82281662955531,
+            "aestheticScore": 42.121518917830265,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "4527a61713535a5c",
@@ -152,19 +152,19 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-21-175802-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-finda-f4999137",
-            "person-dasa-86077f36",
-            "person-bobina-0db741fb",
-            "person-bobo-6abf63c9",
-            "person-jaruska-9b0bc40f",
-            "person-jarek-4d28f02d"
+            "person-001-d5f38e2e",
+            "person-003-6cf69a7e",
+            "person-007-60ea47ee",
+            "person-001-be3cbb11",
+            "person-001-a7e2653d",
+            "person-005-01bc8966"
           ]
         },
         {
@@ -213,7 +213,7 @@
           "placeholder": "blurs/2025-11-22-055754-cebreus.png",
           "placeholderColor": "rgb(56,104,152)",
           "analysis": {
-            "aestheticScore": 62.131635435823966,
+            "aestheticScore": 59.731700153174984,
             "sharpness": 89,
             "qualityBucket": "good",
             "phash": "9313cd9ff742c301",
@@ -286,7 +286,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-22-055754-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -323,7 +323,7 @@
           "placeholder": "blurs/2025-11-22-161654-finda.png",
           "placeholderColor": "rgb(24,24,24)",
           "analysis": {
-            "aestheticScore": 43.682172964008004,
+            "aestheticScore": 41.44840680990375,
             "sharpness": 88,
             "qualityBucket": "poor",
             "phash": "f0b88ed6f2b236bf",
@@ -402,7 +402,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-22-161654-finda.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -456,7 +456,7 @@
           "placeholder": "blurs/2025-11-23-084720-cebreus.png",
           "placeholderColor": "rgb(168,184,200)",
           "analysis": {
-            "aestheticScore": 58.559298695489055,
+            "aestheticScore": 57.80021728111441,
             "sharpness": 81,
             "qualityBucket": "good",
             "phash": "9a0f43399bdffd4f",
@@ -534,7 +534,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-23-084720-cebreus.jpeg",
               "width": 534,
-              "height": 300
+              "height": 534
             }
           ],
           "people": []
@@ -552,23 +552,23 @@
           "placeholder": "blurs/2025-11-23-092139-cebreus.png",
           "placeholderColor": "rgb(120,200,232)",
           "analysis": {
-            "aestheticScore": 71.05170124686175,
+            "aestheticScore": 86.11561071725096,
             "sharpness": 78,
             "qualityBucket": "good",
             "phash": "cce62b39363666c6",
             "facesDetected": true,
             "faces": [
               {
-                "x": 1008.0073299407959,
-                "y": 387.1128587722778,
-                "width": 745.3691825866699,
-                "height": 910.1763525009155
+                "x": 1009.0887966156005,
+                "y": 388.15217828750605,
+                "width": 746.8385353088379,
+                "height": 900.9458842277526
               },
               {
-                "x": 2631.5109901428223,
-                "y": 954.2396907806396,
-                "width": 654.4103851318359,
-                "height": 690.9629974365232
+                "x": 2630.933246612549,
+                "y": 950.4004840850829,
+                "width": 658.6108016967773,
+                "height": 696.7459602355955
               }
             ]
           },
@@ -643,15 +643,15 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-23-092139-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "flags": [
             "snapshot-author"
           ],
           "people": [
-            "person-jarek-4d28f02d",
-            "person-jaruska-9b0bc40f"
+            "person-001-a7e2653d",
+            "person-005-01bc8966"
           ]
         },
         {
@@ -667,7 +667,7 @@
           "placeholder": "blurs/2025-11-23-101607-cebreus.png",
           "placeholderColor": "rgb(8,120,152)",
           "analysis": {
-            "aestheticScore": 78.10189045405613,
+            "aestheticScore": 80.9957119001553,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "f189c6dcc6d227bd",
@@ -759,7 +759,7 @@
             "snapshot-author"
           ],
           "people": [
-            "person-jarek-4d28f02d"
+            "person-001-33173e4f"
           ]
         },
         {
@@ -785,7 +785,7 @@
           "placeholder": "blurs/2025-11-23-104951-cebreus.png",
           "placeholderColor": "rgb(136,168,200)",
           "analysis": {
-            "aestheticScore": 79.35970516008162,
+            "aestheticScore": 75.75593702898858,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "08a9e579ce4e7b3a",
@@ -865,7 +865,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-23-104951-cebreus.jpeg",
               "width": 534,
-              "height": 300
+              "height": 534
             }
           ],
           "people": []
@@ -883,9 +883,9 @@
           "placeholder": "blurs/2025-11-23-121048-dasa.png",
           "placeholderColor": "rgb(88,88,88)",
           "analysis": {
-            "aestheticScore": 45.13198326170403,
+            "aestheticScore": 41.25198422741047,
             "sharpness": 100,
-            "qualityBucket": "good",
+            "qualityBucket": "poor",
             "phash": "0e1c53c9b4646131",
             "facesDetected": false,
             "faces": []
@@ -963,7 +963,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-23-121048-dasa.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -981,29 +981,29 @@
           "placeholder": "blurs/2025-11-23-125850-cebreus.png",
           "placeholderColor": "rgb(200,216,216)",
           "analysis": {
-            "aestheticScore": 82.14192741237764,
+            "aestheticScore": 83.14809864753386,
             "sharpness": 97,
             "qualityBucket": "excellent",
             "phash": "0b2b2b2b2b2392c8",
             "facesDetected": true,
             "faces": [
               {
-                "x": 1832.106325149536,
-                "y": 774.3340444564819,
-                "width": 298.17826652526867,
-                "height": 359.87624073028564
+                "x": 1831.4635734558105,
+                "y": 775.5867433547974,
+                "width": 300.2177925109862,
+                "height": 359.5896520614624
               },
               {
-                "x": 735.5535507202147,
-                "y": 764.328254699707,
-                "width": 265.2777671813964,
-                "height": 348.7792510986328
+                "x": 735.3026504516602,
+                "y": 765.6006603240967,
+                "width": 266.22873687744135,
+                "height": 348.50780296325684
               },
               {
-                "x": 1182.0282955169678,
-                "y": 860.184413909912,
-                "width": 279.973217010498,
-                "height": 339.20971298217773
+                "x": 1186.7468547821043,
+                "y": 860.7937002182007,
+                "width": 280.73697280883795,
+                "height": 340.9147653579712
               }
             ]
           },
@@ -1079,7 +1079,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-23-125850-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -1087,9 +1087,9 @@
             "snapshot-others"
           ],
           "people": [
-            "person-bobo-6abf63c9",
-            "person-finda-f4999137",
-            "person-bobina-0db741fb"
+            "person-001-be3cbb11",
+            "person-002-9e202ec1",
+            "person-006-ed325621"
           ]
         },
         {
@@ -1105,23 +1105,23 @@
           "placeholder": "blurs/2025-11-23-131151-cebreus.png",
           "placeholderColor": "rgb(216,232,216)",
           "analysis": {
-            "aestheticScore": 67.56798679150596,
+            "aestheticScore": 84.56776575083057,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "95c68696b6b6b6aa",
             "facesDetected": true,
             "faces": [
               {
-                "x": 2454.5349769592285,
-                "y": 680.5744285583495,
-                "width": 244.38599395751953,
-                "height": 316.87754631042475
+                "x": 2453.1713676452637,
+                "y": 676.2741565704345,
+                "width": 245.41458892822263,
+                "height": 321.9253520965577
               },
               {
-                "x": 1460.404546737671,
-                "y": 624.2455158233641,
-                "width": 217.27194213867188,
-                "height": 318.8918380737305
+                "x": 1459.1991920471191,
+                "y": 619.7558069229125,
+                "width": 219.02728271484372,
+                "height": 319.6727771759032
               }
             ]
           },
@@ -1198,14 +1198,15 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-23-131151-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-bobina-0db741fb"
+            "person-008-bd773b63",
+            "person-010-479cb89b"
           ]
         },
         {
@@ -1221,17 +1222,17 @@
           "placeholder": "blurs/2025-11-23-131411-cebreus.png",
           "placeholderColor": "rgb(200,216,216)",
           "analysis": {
-            "aestheticScore": 72.72799203227643,
+            "aestheticScore": 66.86640534681653,
             "sharpness": 90,
             "qualityBucket": "excellent",
             "phash": "8ebebfbb6220e068",
             "facesDetected": true,
             "faces": [
               {
-                "x": 2334.9341354370117,
-                "y": 2249.037803649902,
-                "width": 424.59246826171875,
-                "height": 534.4002685546875
+                "x": 2335.303756713867,
+                "y": 2247.8933715820312,
+                "width": 424.0988388061523,
+                "height": 531.9066467285154
               }
             ]
           },
@@ -1308,14 +1309,14 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-23-131411-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "flags": [
             "snapshot-author"
           ],
           "people": [
-            "person-jarek-4d28f02d"
+            "person-008-14551ea9"
           ]
         },
         {
@@ -1341,7 +1342,7 @@
           "placeholder": "blurs/2025-11-23-151444-cebreus-fixed.png",
           "placeholderColor": "rgb(8,216,232)",
           "analysis": {
-            "aestheticScore": 48.50571687592119,
+            "aestheticScore": 50.61543751247287,
             "sharpness": 12.052777483968608,
             "qualityBucket": "poor",
             "phash": "c7cf445193e9ecf6",
@@ -1419,7 +1420,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-23-151444-cebreus-fixed.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -1437,7 +1438,7 @@
           "placeholder": "blurs/2025-11-23-151450-cebreus-fixed.png",
           "placeholderColor": "rgb(8,184,216)",
           "analysis": {
-            "aestheticScore": 51.09417737647465,
+            "aestheticScore": 45.61405311967615,
             "sharpness": 2.555936437221313,
             "qualityBucket": "poor",
             "phash": "a3c33b391b3f38fd",
@@ -1515,7 +1516,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-23-151450-cebreus-fixed.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -1533,7 +1534,7 @@
           "placeholder": "blurs/2025-11-23-151514-cebreus-fixed.png",
           "placeholderColor": "rgb(8,56,56)",
           "analysis": {
-            "aestheticScore": 64.80047047118417,
+            "aestheticScore": 67.73787254618816,
             "sharpness": 69.18364492254095,
             "qualityBucket": "good",
             "phash": "ca692935f64cdcec",
@@ -1611,7 +1612,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-23-151514-cebreus-fixed.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -1629,7 +1630,7 @@
           "placeholder": "blurs/2025-11-23-152954-cebreus.png",
           "placeholderColor": "rgb(8,8,8)",
           "analysis": {
-            "aestheticScore": 60.74093233540914,
+            "aestheticScore": 59.92972697145654,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "d270c84947c4c0c0",
@@ -1707,7 +1708,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-23-152954-cebreus.jpeg",
               "width": 534,
-              "height": 300
+              "height": 534
             }
           ],
           "people": []
@@ -1725,17 +1726,17 @@
           "placeholder": "blurs/2025-11-23-153413-dasa.png",
           "placeholderColor": "rgb(248,248,248)",
           "analysis": {
-            "aestheticScore": 70.41345995147931,
+            "aestheticScore": 65.17404601420748,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "171533373f1c2f6f",
             "facesDetected": true,
             "faces": [
               {
-                "x": 2009.7329006195066,
-                "y": 739.3652400970459,
-                "width": 266.28893852233875,
-                "height": 469.54314994812006
+                "x": 2009.1926479339595,
+                "y": 738.7485036849976,
+                "width": 268.0471630096436,
+                "height": 470.5406827926636
               }
             ]
           },
@@ -1811,7 +1812,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-23-153413-dasa.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -1819,7 +1820,7 @@
             "snapshot-others"
           ],
           "people": [
-            "person-osoba-023-9cf6d040"
+            "person-013-fbc19aab"
           ]
         },
         {
@@ -1845,47 +1846,53 @@
           "placeholder": "blurs/2025-11-23-205255-bobo.png",
           "placeholderColor": "rgb(104,104,104)",
           "analysis": {
-            "aestheticScore": 36.86836921391077,
+            "aestheticScore": 35.28173810118514,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "0b9b1bdb8abaf4e0",
             "facesDetected": true,
             "faces": [
               {
-                "x": 836.6217613220215,
-                "y": 288.8865947723388,
-                "width": 52.59056091308594,
-                "height": 78.70812416076662
+                "x": 836.4579200744629,
+                "y": 288.7681007385254,
+                "width": 52.942848205566406,
+                "height": 79.244327545166
               },
               {
-                "x": 409.2862129211426,
-                "y": 304.3790578842163,
-                "width": 56.809139251708984,
-                "height": 80.15580177307127
+                "x": 409.4527244567871,
+                "y": 304.1567802429199,
+                "width": 57.631683349609375,
+                "height": 80.318546295166
               },
               {
-                "x": 1135.4033470153809,
-                "y": 345.64783573150635,
-                "width": 63.29803466796875,
-                "height": 86.1336946487427
+                "x": 1135.8085632324219,
+                "y": 346.11568450927734,
+                "width": 62.79754638671875,
+                "height": 86.30990982055663
               },
               {
-                "x": 562.367582321167,
-                "y": 362.22784519195557,
-                "width": 48.844051361083984,
-                "height": 65.79601764678956
+                "x": 562.1024131774902,
+                "y": 362.84160614013666,
+                "width": 48.449039459228516,
+                "height": 65.58909416198733
               },
               {
-                "x": 982.5480461120605,
-                "y": 376.5296936035156,
-                "width": 58.75263214111328,
-                "height": 69.27604675292967
+                "x": 982.55615234375,
+                "y": 376.47149562835693,
+                "width": 58.85429382324219,
+                "height": 69.32108402252199
               },
               {
-                "x": 921.2340354919434,
-                "y": 339.8499011993408,
-                "width": 51.760101318359375,
-                "height": 59.38982963562013
+                "x": 921.6779708862305,
+                "y": 339.50018882751465,
+                "width": 52.07233428955078,
+                "height": 59.78364944458008
+              },
+              {
+                "x": 696.5699672698975,
+                "y": 350.9709358215332,
+                "width": 38.178348541259766,
+                "height": 50.94881057739259
               }
             ]
           },
@@ -1958,19 +1965,20 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-23-205255-bobo.jpeg",
               "width": 534,
-              "height": 300
+              "height": 534
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-osoba-022-42e2992e",
-            "person-osoba-024-604b93f2",
-            "person-jaruska-9b0bc40f",
-            "person-finda-f4999137",
-            "person-bobo-6abf63c9",
-            "person-dasa-86077f36"
+            "person-013-7e572e40",
+            "person-014-173b0d62",
+            "person-005-01bc8966",
+            "person-008-bd773b63",
+            "person-001-be3cbb11",
+            "person-003-6cf69a7e",
+            "person-016-fd249c9a"
           ]
         }
       ],
@@ -2003,7 +2011,7 @@
           "placeholder": "blurs/2025-11-24-082240-cebreus.png",
           "placeholderColor": "rgb(152,184,200)",
           "analysis": {
-            "aestheticScore": 69.32073215903678,
+            "aestheticScore": 64.32829462567507,
             "sharpness": 63,
             "qualityBucket": "good",
             "phash": "fcfce72525272800",
@@ -2079,7 +2087,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-24-082240-cebreus.jpeg",
               "width": 534,
-              "height": 300
+              "height": 534
             }
           ],
           "people": []
@@ -2107,9 +2115,9 @@
           "placeholder": "blurs/2025-11-24-112843-cebreus.png",
           "placeholderColor": "rgb(56,56,40)",
           "analysis": {
-            "aestheticScore": 45.39728621468472,
+            "aestheticScore": 41.75805290030097,
             "sharpness": 64,
-            "qualityBucket": "good",
+            "qualityBucket": "poor",
             "phash": "88c0f8fce5600000",
             "facesDetected": false,
             "faces": []
@@ -2183,7 +2191,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-24-112843-cebreus.jpeg",
               "width": 534,
-              "height": 300
+              "height": 534
             }
           ],
           "people": []
@@ -2202,7 +2210,7 @@
           "placeholder": "blurs/2025-11-24-123506-cebreus.png",
           "placeholderColor": "rgb(184,200,184)",
           "analysis": {
-            "aestheticScore": 53.775920712649096,
+            "aestheticScore": 53.18103577619497,
             "sharpness": 56,
             "qualityBucket": "good",
             "phash": "c2c0c93272638264",
@@ -2280,7 +2288,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-24-123506-cebreus.jpeg",
               "width": 534,
-              "height": 300
+              "height": 534
             }
           ],
           "people": []
@@ -2308,7 +2316,7 @@
           "placeholder": "blurs/2025-11-24-152241-finda.png",
           "placeholderColor": "rgb(24,24,24)",
           "analysis": {
-            "aestheticScore": 65.29133479647476,
+            "aestheticScore": 65.9749162772215,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "f471caa699446060",
@@ -2387,7 +2395,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-24-152241-finda.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -2415,17 +2423,17 @@
           "placeholder": "blurs/2025-11-24-194927-dasa.png",
           "placeholderColor": "rgb(136,120,104)",
           "analysis": {
-            "aestheticScore": 32.51607528817655,
+            "aestheticScore": 32.36738373431417,
             "sharpness": 88,
             "qualityBucket": "poor",
             "phash": "0fcfc828e4b2b432",
             "facesDetected": true,
             "faces": [
               {
-                "x": 2896.961311340332,
-                "y": 1337.7200832366943,
-                "width": 84.34286499023438,
-                "height": 103.08828735351562
+                "x": 2897.2086067199707,
+                "y": 1334.3043308258054,
+                "width": 81.48731231689453,
+                "height": 102.42066192626952
               }
             ]
           },
@@ -2502,10 +2510,12 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-24-194927-dasa.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
-          "people": []
+          "people": [
+            "person-016-bcd264f0"
+          ]
         },
         {
           "id": "2025-11-24-201212-cebreus",
@@ -2520,7 +2530,7 @@
           "placeholder": "blurs/2025-11-24-201212-cebreus.png",
           "placeholderColor": "rgb(24,24,24)",
           "analysis": {
-            "aestheticScore": 39.57172349495831,
+            "aestheticScore": 37.87846643864162,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "6761696b7372efff",
@@ -2631,14 +2641,18 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-24-201212-cebreus.jpeg",
               "width": 534,
-              "height": 300
+              "height": 534
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-bobo-6abf63c9"
+            "person-003-6cf69a7e",
+            "person-005-01bc8966",
+            "person-001-d5f38e2e",
+            "person-001-be3cbb11",
+            "person-020-a34db2ef"
           ]
         },
         {
@@ -2659,7 +2673,7 @@
             "projection": "cylindrical"
           },
           "analysis": {
-            "aestheticScore": 32.28331507516999,
+            "aestheticScore": 36.26942442108197,
             "sharpness": 52,
             "qualityBucket": "poor",
             "phash": "4d8c0d46571f1f1f",
@@ -2739,7 +2753,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-24-201550-cebreus.jpeg",
               "width": 534,
-              "height": 213
+              "height": 534
             },
             {
               "variant": "pano_detail",
@@ -2750,7 +2764,7 @@
             }
           ],
           "people": [
-            "person-osoba-017-5b35fe23"
+            "person-028-4305b0af"
           ]
         },
         {
@@ -2766,7 +2780,7 @@
           "placeholder": "blurs/2025-11-24-205551-cebreus--collage.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 56.68296614637518,
+            "aestheticScore": 55.33587785668262,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "b4b6b6c3de9a9392",
@@ -2849,7 +2863,12 @@
             }
           ],
           "people": [
-            "person-finda-f4999137"
+            "person-001-be3cbb11",
+            "person-005-01bc8966",
+            "person-019-87c1fc90",
+            "person-007-60ea47ee",
+            "person-001-d5f38e2e",
+            "person-021-7e407b97"
           ]
         },
         {
@@ -2865,23 +2884,23 @@
           "placeholder": "blurs/2025-11-24-210138-cebreus.png",
           "placeholderColor": "rgb(24,24,24)",
           "analysis": {
-            "aestheticScore": 82.14594158417563,
+            "aestheticScore": 89.30465150818571,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "f898b4b49c94c4e4",
             "facesDetected": true,
             "faces": [
               {
-                "x": 4660.709666490555,
-                "y": 3405.2558770179744,
-                "width": 87.51167929172516,
-                "height": 136.93482335408493
+                "x": 4876.983460843563,
+                "y": 3392.21995083491,
+                "width": 86.99876809120178,
+                "height": 140.15644375483177
               },
               {
-                "x": 4881.056006908417,
-                "y": 3396.965205430984,
-                "width": 84.98448252677917,
-                "height": 134.42228635152145
+                "x": 4659.5923917889595,
+                "y": 3406.244001468022,
+                "width": 87.53814208507538,
+                "height": 137.48745695749955
               }
             ]
           },
@@ -2956,11 +2975,12 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-24-210138-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": [
-            "person-jaruska-9b0bc40f"
+            "person-016-ea8c6e63",
+            "person-001-be3cbb11"
           ]
         },
         {
@@ -2976,29 +2996,29 @@
           "placeholder": "blurs/2025-11-24-210141-cebreus.png",
           "placeholderColor": "rgb(8,8,8)",
           "analysis": {
-            "aestheticScore": 84.91073471373026,
+            "aestheticScore": 78.13954500138429,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "882b6f9d99391b1b",
             "facesDetected": true,
             "faces": [
               {
-                "x": 2824.0420989990234,
-                "y": 1087.761531829834,
-                "width": 144.28447723388672,
-                "height": 218.4702072143554
+                "x": 1846.6425590515134,
+                "y": 1214.5004138946533,
+                "width": 124.27518081665038,
+                "height": 183.3581085205077
               },
               {
-                "x": 1845.5597705841064,
-                "y": 1215.7120170593262,
-                "width": 125.23600387573242,
-                "height": 183.05097198486317
+                "x": 2824.2093658447266,
+                "y": 1087.9981327056882,
+                "width": 144.3368682861328,
+                "height": 219.04843139648446
               },
               {
-                "x": 3170.4750480651855,
-                "y": 1077.1086044311523,
-                "width": 123.24730682373047,
-                "height": 216.6841049194336
+                "x": 3170.6223678588863,
+                "y": 1077.5357837677,
+                "width": 122.6282272338867,
+                "height": 217.18133926391604
               }
             ]
           },
@@ -3073,16 +3093,16 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-24-210141-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-bobo-6abf63c9",
-            "person-bobina-0db741fb",
-            "person-jaruska-9b0bc40f"
+            "person-016-fd249c9a",
+            "person-001-be3cbb11",
+            "person-005-01bc8966"
           ]
         },
         {
@@ -3098,23 +3118,23 @@
           "placeholder": "blurs/2025-11-24-210259-cebreus.png",
           "placeholderColor": "rgb(8,8,8)",
           "analysis": {
-            "aestheticScore": 31.803411108781003,
+            "aestheticScore": 27.8741288851173,
             "sharpness": 89,
             "qualityBucket": "poor",
             "phash": "6df290696d3d3434",
             "facesDetected": true,
             "faces": [
               {
-                "x": 1345.0523614883423,
-                "y": 2226.1085510253906,
-                "width": 201.8141746520995,
-                "height": 271.939754486084
+                "x": 1344.8091745376587,
+                "y": 2224.696159362793,
+                "width": 202.81195640563956,
+                "height": 273.8175392150879
               },
               {
-                "x": 1780.5203199386592,
-                "y": 1836.247205734253,
-                "width": 212.4755382537843,
-                "height": 299.87311363220215
+                "x": 1779.718160629272,
+                "y": 1836.8796110153198,
+                "width": 213.1805419921875,
+                "height": 299.106240272522
               }
             ]
           },
@@ -3187,7 +3207,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-24-210259-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -3195,8 +3215,8 @@
             "snapshot-author"
           ],
           "people": [
-            "person-jaruska-9b0bc40f",
-            "person-jarek-4d28f02d"
+            "person-005-01bc8966",
+            "person-001-a7e2653d"
           ]
         },
         {
@@ -3212,7 +3232,7 @@
           "placeholder": "blurs/2025-11-24-211848-dasa.png",
           "placeholderColor": "rgb(8,8,24)",
           "analysis": {
-            "aestheticScore": 53.813270337062185,
+            "aestheticScore": 56.35134200526883,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "ff03b662697b720f",
@@ -3293,7 +3313,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-24-211848-dasa.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -3312,7 +3332,7 @@
           "placeholder": "blurs/2025-11-24-215717-cebreus.png",
           "placeholderColor": "rgb(184,152,120)",
           "analysis": {
-            "aestheticScore": 25.62182421167689,
+            "aestheticScore": 29.022445547535376,
             "sharpness": 80,
             "qualityBucket": "poor",
             "phash": "e1f7cc6868646060",
@@ -3390,7 +3410,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-24-215717-cebreus.jpeg",
               "width": 534,
-              "height": 301
+              "height": 534
             }
           ],
           "people": []
@@ -3441,9 +3461,9 @@
           "placeholder": "blurs/2025-11-25-075730-cebreus.png",
           "placeholderColor": "rgb(152,200,216)",
           "analysis": {
-            "aestheticScore": 62.82060590170996,
+            "aestheticScore": 69.55868801811094,
             "sharpness": 96,
-            "qualityBucket": "good",
+            "qualityBucket": "excellent",
             "phash": "f371bc6d6d6de5ff",
             "facesDetected": false,
             "faces": []
@@ -3515,7 +3535,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-075730-cebreus.jpeg",
               "width": 534,
-              "height": 400
+              "height": 534
             }
           ],
           "people": []
@@ -3546,9 +3566,9 @@
           "placeholder": "blurs/2025-11-25-082736-cebreus.png",
           "placeholderColor": "rgb(88,72,56)",
           "analysis": {
-            "aestheticScore": 64.41505421972346,
+            "aestheticScore": 65.44050063447482,
             "sharpness": 100,
-            "qualityBucket": "good",
+            "qualityBucket": "excellent",
             "phash": "d0f0bad48eccf83c",
             "facesDetected": false,
             "faces": []
@@ -3627,7 +3647,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-082736-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -3646,7 +3666,7 @@
           "placeholder": "blurs/2025-11-25-082811-cebreus.png",
           "placeholderColor": "rgb(72,56,40)",
           "analysis": {
-            "aestheticScore": 39.07886122517117,
+            "aestheticScore": 41.679756118148035,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "b1f071b1b0a8f869",
@@ -3727,7 +3747,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-082811-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -3746,7 +3766,7 @@
           "placeholder": "blurs/2025-11-25-082818-cebreus.png",
           "placeholderColor": "rgb(104,88,72)",
           "analysis": {
-            "aestheticScore": 50.249246639554045,
+            "aestheticScore": 59.678558762862416,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "05f0b2baaecce042",
@@ -3827,7 +3847,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-082818-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -3845,7 +3865,7 @@
           "placeholder": "blurs/2025-11-25-082852-cebreus.png",
           "placeholderColor": "rgb(120,104,88)",
           "analysis": {
-            "aestheticScore": 37.120945670278125,
+            "aestheticScore": 32.92580502520096,
             "sharpness": 62,
             "qualityBucket": "poor",
             "phash": "5c1cffdedefb1b9f",
@@ -3925,7 +3945,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-082852-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -3956,7 +3976,7 @@
           "placeholder": "blurs/2025-11-25-082944-cebreus--collage.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 72.94404160827362,
+            "aestheticScore": 73.05884981582379,
             "sharpness": 89,
             "qualityBucket": "excellent",
             "phash": "f6c5f9cacaa2b6b6",
@@ -4055,7 +4075,7 @@
           "placeholder": "blurs/2025-11-25-083005-cebreus.png",
           "placeholderColor": "rgb(168,168,168)",
           "analysis": {
-            "aestheticScore": 67.11601741730233,
+            "aestheticScore": 68.91297897440182,
             "sharpness": 43,
             "qualityBucket": "good",
             "phash": "c0a82d0a0671c406",
@@ -4136,7 +4156,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-083005-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -4154,17 +4174,17 @@
           "placeholder": "blurs/2025-11-25-083807-cebreus--zoom1from2.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 50.103696067361334,
+            "aestheticScore": 51.55770275541224,
             "sharpness": 87,
             "qualityBucket": "good",
             "phash": "032c6dc5d8d8f2a7",
             "facesDetected": true,
             "faces": [
               {
-                "x": 1741.290281295776,
-                "y": 4596.151657104492,
-                "width": 158.46875381469727,
-                "height": 336.45533752441406
+                "x": 1738.110048294067,
+                "y": 4588.645797729492,
+                "width": 164.63551712036144,
+                "height": 352.22552490234375
               }
             ]
           },
@@ -4256,7 +4276,7 @@
             ]
           },
           "people": [
-            "person-osoba-025-42561f61"
+            "person-022-8d699d16"
           ]
         },
         {
@@ -4272,29 +4292,35 @@
           "placeholder": "blurs/2025-11-25-083812-cebreus--zoom2from2.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 58.84014834380919,
+            "aestheticScore": 62.19927307145094,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "c6c74b6a742c5d1f",
             "facesDetected": true,
             "faces": [
               {
-                "x": 1634.7178688049312,
-                "y": 509.68358802795404,
-                "width": 71.65053176879904,
-                "height": 109.31176757812499
+                "x": 1635.983304977417,
+                "y": 507.9027729034424,
+                "width": 73.00981521606445,
+                "height": 111.59834861755371
               },
               {
-                "x": 1378.7721977233884,
-                "y": 488.968334197998,
-                "width": 69.03915023803717,
-                "height": 98.9182720184326
+                "x": 1379.3386459350586,
+                "y": 490.90650272369385,
+                "width": 69.55801391601557,
+                "height": 98.69849395751953
               },
               {
-                "x": 1124.527914047241,
-                "y": 492.9920511245727,
-                "width": 73.0598030090333,
-                "height": 103.77069282531737
+                "x": 1128.7564487457273,
+                "y": 495.5137310028076,
+                "width": 69.91009140014654,
+                "height": 98.41995620727539
+              },
+              {
+                "x": 1498.4879150390623,
+                "y": 495.2823271751404,
+                "width": 68.65270614624012,
+                "height": 104.24656820297241
               }
             ]
           },
@@ -4386,7 +4412,10 @@
             ]
           },
           "people": [
-            "person-osoba-021-a4e0e8c2"
+            "person-022-c9a4e420",
+            "person-023-37eb4741",
+            "person-022-8d699d16",
+            "person-021-7e407b97"
           ]
         },
         {
@@ -4402,9 +4431,9 @@
           "placeholder": "blurs/2025-11-25-084249-cebreus--collage.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 43.91218707787307,
+            "aestheticScore": 48.5303187795364,
             "sharpness": 98,
-            "qualityBucket": "poor",
+            "qualityBucket": "good",
             "phash": "a3a92d60a9b9706a",
             "facesDetected": false,
             "faces": []
@@ -4500,7 +4529,7 @@
           "placeholder": "blurs/2025-11-25-084330-cebreus--collage.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 40.71132902003039,
+            "aestheticScore": 34.83786217403185,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "898d0e0a8b87b6ae",
@@ -4598,7 +4627,7 @@
           "placeholder": "blurs/2025-11-25-084606-cebreus.png",
           "placeholderColor": "rgb(120,104,88)",
           "analysis": {
-            "aestheticScore": 38.83432574808596,
+            "aestheticScore": 41.57164042507637,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "3245c4f8ececf4e2",
@@ -4679,7 +4708,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-084606-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -4697,7 +4726,7 @@
           "placeholder": "blurs/2025-11-25-084614-cebreus.png",
           "placeholderColor": "rgb(88,72,56)",
           "analysis": {
-            "aestheticScore": 44.42214071487803,
+            "aestheticScore": 44.54842152457366,
             "sharpness": 99,
             "qualityBucket": "poor",
             "phash": "6152cce8e8e4d0af",
@@ -4778,7 +4807,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-084614-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -4796,7 +4825,7 @@
           "placeholder": "blurs/2025-11-25-084943-cebreus.png",
           "placeholderColor": "rgb(120,104,88)",
           "analysis": {
-            "aestheticScore": 18.956592617121217,
+            "aestheticScore": 20.862295166071906,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "1949c6d2189c9c8c",
@@ -4876,7 +4905,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-084943-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -4895,7 +4924,7 @@
           "placeholder": "blurs/2025-11-25-085235-cebreus.png",
           "placeholderColor": "rgb(88,72,56)",
           "analysis": {
-            "aestheticScore": 40.961678398249795,
+            "aestheticScore": 37.47843022845714,
             "sharpness": 95,
             "qualityBucket": "poor",
             "phash": "9c0e0eacec32664f",
@@ -4975,7 +5004,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-085235-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -4994,7 +5023,7 @@
           "placeholder": "blurs/2025-11-25-085626-cebreus.png",
           "placeholderColor": "rgb(88,72,56)",
           "analysis": {
-            "aestheticScore": 42.583431593621135,
+            "aestheticScore": 36.451364323128985,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "603030b0989a9ebe",
@@ -5075,7 +5104,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-085626-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -5093,7 +5122,7 @@
           "placeholder": "blurs/2025-11-25-090256-cebreus--collage.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 56.82829954845965,
+            "aestheticScore": 61.67623519497392,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "9bcecb9b83e2feda",
@@ -5191,7 +5220,7 @@
           "placeholder": "blurs/2025-11-25-090636-cebreus.png",
           "placeholderColor": "rgb(40,72,136)",
           "analysis": {
-            "aestheticScore": 55.80640980761183,
+            "aestheticScore": 54.547487054764254,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "238e8485c5c4cc75",
@@ -5269,7 +5298,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-090636-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -5300,7 +5329,7 @@
           "placeholder": "blurs/2025-11-25-092409-cebreus--collage.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 58.61264862211656,
+            "aestheticScore": 46.92203040564077,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "afb8bae987939292",
@@ -5399,7 +5428,7 @@
           "placeholder": "blurs/2025-11-25-092814-cebreus.png",
           "placeholderColor": "rgb(56,104,184)",
           "analysis": {
-            "aestheticScore": 76.1735056078221,
+            "aestheticScore": 79.81845690159068,
             "sharpness": 30,
             "qualityBucket": "poor",
             "phash": "9a4a492326262cc6",
@@ -5479,7 +5508,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-092814-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -5499,7 +5528,7 @@
           "placeholder": "blurs/2025-11-25-093002-cebreus.png",
           "placeholderColor": "rgb(200,184,152)",
           "analysis": {
-            "aestheticScore": 73.23092488797626,
+            "aestheticScore": 69.40530104961334,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "e670bab920918869",
@@ -5580,7 +5609,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-093002-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -5599,9 +5628,9 @@
           "placeholder": "blurs/2025-11-25-093034-cebreus.png",
           "placeholderColor": "rgb(24,56,104)",
           "analysis": {
-            "aestheticScore": 76.05858892980388,
+            "aestheticScore": 63.7686313737329,
             "sharpness": 100,
-            "qualityBucket": "excellent",
+            "qualityBucket": "good",
             "phash": "cdce8f8fcbd269b1",
             "facesDetected": false,
             "faces": []
@@ -5679,7 +5708,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-093034-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -5699,9 +5728,9 @@
           "placeholder": "blurs/2025-11-25-093351-dasa.png",
           "placeholderColor": "rgb(56,40,24)",
           "analysis": {
-            "aestheticScore": 36.06375977870414,
+            "aestheticScore": 47.23630956236378,
             "sharpness": 100,
-            "qualityBucket": "poor",
+            "qualityBucket": "good",
             "phash": "475367a527068624",
             "facesDetected": false,
             "faces": []
@@ -5779,7 +5808,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-093351-dasa.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -5798,23 +5827,23 @@
           "placeholder": "blurs/2025-11-25-093419-cebreus.png",
           "placeholderColor": "rgb(56,40,24)",
           "analysis": {
-            "aestheticScore": 35.344594215500976,
+            "aestheticScore": 42.441674218760554,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "60820223091b89ec",
             "facesDetected": true,
             "faces": [
               {
-                "x": 2159.6050758361816,
-                "y": 1575.2690448760986,
-                "width": 468.99700927734375,
-                "height": 583.7191143035889
+                "x": 2161.0761108398438,
+                "y": 1584.5262794494624,
+                "width": 466.03090667724604,
+                "height": 572.9867591857912
               },
               {
-                "x": 3174.625717163086,
-                "y": 2302.040725708008,
-                "width": 328.20542907714844,
-                "height": 582.0275802612306
+                "x": 3173.8802261352535,
+                "y": 2303.6151008605952,
+                "width": 329.71563720703125,
+                "height": 580.9119873046875
               }
             ]
           },
@@ -5892,12 +5921,12 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-093419-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": [
-            "person-jarek-4d28f02d",
-            "person-jaruska-9b0bc40f"
+            "person-001-a7e2653d",
+            "person-005-01bc8966"
           ]
         },
         {
@@ -5913,7 +5942,7 @@
           "placeholder": "blurs/2025-11-25-093710-cebreus.png",
           "placeholderColor": "rgb(72,56,40)",
           "analysis": {
-            "aestheticScore": 51.22898951432387,
+            "aestheticScore": 53.9559964040805,
             "sharpness": 74,
             "qualityBucket": "good",
             "phash": "fb2343db29211c11",
@@ -5993,7 +6022,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-093710-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -6012,23 +6041,23 @@
           "placeholder": "blurs/2025-11-25-094025-cebreus.png",
           "placeholderColor": "rgb(56,40,40)",
           "analysis": {
-            "aestheticScore": 45.59352551165793,
+            "aestheticScore": 41.36089649174595,
             "sharpness": 72,
-            "qualityBucket": "good",
+            "qualityBucket": "poor",
             "phash": "1099e5e4dcd84836",
             "facesDetected": true,
             "faces": [
               {
-                "x": 1650.4825286865234,
-                "y": 1238.164587020874,
-                "width": 103.15702056884766,
-                "height": 150.7268943786621
+                "x": 1652.6465435028074,
+                "y": 1243.310565948486,
+                "width": 102.26589202880858,
+                "height": 147.6302947998047
               },
               {
-                "x": 1966.858154296875,
-                "y": 1263.2560558319092,
-                "width": 102.63455200195312,
-                "height": 155.16018676757812
+                "x": 1963.7947196960447,
+                "y": 1264.7386264801023,
+                "width": 104.52255249023436,
+                "height": 153.22219848632812
               }
             ]
           },
@@ -6106,15 +6135,15 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-094025-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-jaruska-9b0bc40f",
-            "person-bobo-6abf63c9"
+            "person-025-a46db9c4",
+            "person-026-a5bfb6b7"
           ]
         },
         {
@@ -6130,9 +6159,9 @@
           "placeholder": "blurs/2025-11-25-094206-cebreus.png",
           "placeholderColor": "rgb(56,40,24)",
           "analysis": {
-            "aestheticScore": 28.06474721565251,
+            "aestheticScore": 45.400954066700415,
             "sharpness": 77,
-            "qualityBucket": "poor",
+            "qualityBucket": "good",
             "phash": "3f198787071353f8",
             "facesDetected": false,
             "faces": []
@@ -6211,7 +6240,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-094206-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -6229,23 +6258,23 @@
           "placeholder": "blurs/2025-11-25-094825-cebreus.png",
           "placeholderColor": "rgb(56,88,136)",
           "analysis": {
-            "aestheticScore": 68.24695839525158,
+            "aestheticScore": 64.77177319800336,
             "sharpness": 100,
-            "qualityBucket": "excellent",
+            "qualityBucket": "good",
             "phash": "8c9c9c3cf19a3a65",
             "facesDetected": true,
             "faces": [
               {
-                "x": 3283.738735198974,
-                "y": 3725.1566619873042,
-                "width": 518.1023254394527,
-                "height": 702.5447845458984
+                "x": 3284.956226348876,
+                "y": 3725.0429878234863,
+                "width": 515.8028869628911,
+                "height": 703.1482429504395
               },
               {
-                "x": 1659.378313064575,
-                "y": 3148.0771522521973,
-                "width": 293.24713897705055,
-                "height": 379.73851776123047
+                "x": 1656.304183959961,
+                "y": 3155.859386444092,
+                "width": 292.00489425659185,
+                "height": 375.7116165161133
               }
             ]
           },
@@ -6322,7 +6351,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-094825-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -6330,8 +6359,8 @@
             "snapshot-author"
           ],
           "people": [
-            "person-jaruska-9b0bc40f",
-            "statue-socha-012-df7fbd2c"
+            "person-005-01bc8966",
+            "person-027-b1b5119d"
           ]
         },
         {
@@ -6348,7 +6377,7 @@
           "placeholder": "blurs/2025-11-25-095052-cebreus--zoom1from3.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 66.70130966327628,
+            "aestheticScore": 59.467347865063275,
             "sharpness": 62,
             "qualityBucket": "good",
             "phash": "646caca08f63658e",
@@ -6459,7 +6488,7 @@
           "placeholder": "blurs/2025-11-25-095053-cebreus--zoom2from3.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 80.07461521310458,
+            "aestheticScore": 76.74961984209476,
             "sharpness": 69,
             "qualityBucket": "good",
             "phash": "cd4ec0ad2b0ca4e2",
@@ -6570,7 +6599,7 @@
           "placeholder": "blurs/2025-11-25-095055-cebreus--zoom3from3.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 81.2120558336701,
+            "aestheticScore": 77.82526187497753,
             "sharpness": 68,
             "qualityBucket": "good",
             "phash": "8b94a4652d252747",
@@ -6693,7 +6722,7 @@
           "placeholder": "blurs/2025-11-25-101952-cebreus.png",
           "placeholderColor": "rgb(152,136,120)",
           "analysis": {
-            "aestheticScore": 48.1791814421586,
+            "aestheticScore": 57.07933489527131,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "e9e8f6f4e53fb0c1",
@@ -6774,7 +6803,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-101952-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -6792,7 +6821,7 @@
           "placeholder": "blurs/2025-11-25-102006-cebreus--collage.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 58.30074788664029,
+            "aestheticScore": 58.30685268887186,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "a69aaa0ed2c38536",
@@ -6890,9 +6919,9 @@
           "placeholder": "blurs/2025-11-25-112544-bobina.png",
           "placeholderColor": "rgb(168,152,136)",
           "analysis": {
-            "aestheticScore": 47.936122164917656,
+            "aestheticScore": 43.80998963138851,
             "sharpness": 100,
-            "qualityBucket": "good",
+            "qualityBucket": "poor",
             "phash": "783ad36bb25796a6",
             "facesDetected": false,
             "faces": []
@@ -6971,7 +7000,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-112544-bobina.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -6989,9 +7018,9 @@
           "placeholder": "blurs/2025-11-25-102804-cebreus--collage.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 66.28582596760964,
+            "aestheticScore": 62.63085618865533,
             "sharpness": 98,
-            "qualityBucket": "excellent",
+            "qualityBucket": "good",
             "phash": "a61694acb0b0984a",
             "facesDetected": false,
             "faces": []
@@ -7087,7 +7116,7 @@
           "placeholder": "blurs/2025-11-25-113601-bobina.png",
           "placeholderColor": "rgb(168,184,200)",
           "analysis": {
-            "aestheticScore": 51.347589084197274,
+            "aestheticScore": 46.02150319780618,
             "sharpness": 84,
             "qualityBucket": "good",
             "phash": "2604b7964646c6d6",
@@ -7167,7 +7196,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-113601-bobina.jpeg",
-              "width": 372,
+              "width": 534,
               "height": 534
             }
           ],
@@ -7186,17 +7215,17 @@
           "placeholder": "blurs/2025-11-25-104058-cebreus.png",
           "placeholderColor": "rgb(200,184,168)",
           "analysis": {
-            "aestheticScore": 60.34697393522517,
+            "aestheticScore": 48.39808068160791,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "46c686a4d6dc6663",
             "facesDetected": true,
             "faces": [
               {
-                "x": 1481.52787399292,
-                "y": 1447.8481178283691,
-                "width": 411.2721633911133,
-                "height": 566.9730834960936
+                "x": 1479.613437652588,
+                "y": 1448.6435966491697,
+                "width": 413.26350402832026,
+                "height": 569.0312347412108
               }
             ]
           },
@@ -7274,14 +7303,14 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-104058-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "flags": [
             "snapshot-author"
           ],
           "people": [
-            "person-jaruska-9b0bc40f"
+            "person-005-01bc8966"
           ]
         },
         {
@@ -7298,7 +7327,7 @@
           "placeholder": "blurs/2025-11-25-104318-cebreus--zoom2from2.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 53.82495312803505,
+            "aestheticScore": 50.299884727895844,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "e460096c3c6be2b4",
@@ -7407,29 +7436,29 @@
           "placeholder": "blurs/2025-11-25-104322-cebreus--zoom1from2.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 64.66268296181788,
+            "aestheticScore": 70.87293917571175,
             "sharpness": 80,
-            "qualityBucket": "good",
+            "qualityBucket": "excellent",
             "phash": "3bd6948ccdd4ec6e",
             "facesDetected": true,
             "faces": [
               {
-                "x": 2252.6357231140137,
-                "y": 1185.879518508911,
-                "width": 119.8615951538086,
-                "height": 171.0154495239259
+                "x": 2252.1536293029785,
+                "y": 1183.9289131164549,
+                "width": 118.9214401245117,
+                "height": 171.03107070922852
               },
               {
-                "x": 1954.3384952545166,
-                "y": 1156.1413478851316,
-                "width": 116.90859031677246,
-                "height": 172.467498779297
+                "x": 1954.044696807861,
+                "y": 1156.1854476928709,
+                "width": 118.11682891845702,
+                "height": 173.41005706787115
               },
               {
-                "x": 2550.519229888916,
-                "y": 1161.9382495880127,
-                "width": 117.61310577392578,
-                "height": 154.52981185913075
+                "x": 2550.9313888549805,
+                "y": 1161.260049819946,
+                "width": 118.02646636962889,
+                "height": 155.24478149414057
               }
             ]
           },
@@ -7521,9 +7550,9 @@
             ]
           },
           "people": [
-            "person-bobo-6abf63c9",
-            "person-jaruska-9b0bc40f",
-            "person-bobina-0db741fb"
+            "person-001-be3cbb11",
+            "person-005-01bc8966",
+            "person-016-fd249c9a"
           ]
         },
         {
@@ -7540,7 +7569,7 @@
           "placeholder": "blurs/2025-11-25-110638-cebreus.png",
           "placeholderColor": "rgb(216,200,184)",
           "analysis": {
-            "aestheticScore": 60.433398772252026,
+            "aestheticScore": 59.26121108987749,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "6932969696cc4031",
@@ -7620,7 +7649,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-110638-cebreus.jpeg",
-              "width": 400,
+              "width": 534,
               "height": 534
             }
           ],
@@ -7652,9 +7681,9 @@
           "placeholder": "blurs/2025-11-25-112118-dasa.png",
           "placeholderColor": "rgb(8,8,8)",
           "analysis": {
-            "aestheticScore": 44.43666179444176,
+            "aestheticScore": 48.283716835933,
             "sharpness": 100,
-            "qualityBucket": "poor",
+            "qualityBucket": "good",
             "phash": "4bcb30f0507c1e06",
             "facesDetected": false,
             "faces": []
@@ -7732,7 +7761,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-112118-dasa.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -7752,7 +7781,7 @@
           "placeholder": "blurs/2025-11-25-112858-finda.png",
           "placeholderColor": "rgb(152,152,152)",
           "analysis": {
-            "aestheticScore": 58.906493498658385,
+            "aestheticScore": 55.467400066067825,
             "sharpness": 63,
             "qualityBucket": "good",
             "phash": "b2b390d2447ee1b0",
@@ -7832,7 +7861,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-112858-finda.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -7851,17 +7880,17 @@
           "placeholder": "blurs/2025-11-25-112457-dasa.png",
           "placeholderColor": "rgb(184,200,232)",
           "analysis": {
-            "aestheticScore": 38.40364289066735,
+            "aestheticScore": 36.806464009939454,
             "sharpness": 67,
             "qualityBucket": "poor",
             "phash": "0d0d4dc9cc8d4dcc",
             "facesDetected": true,
             "faces": [
               {
-                "x": 1342.8386650085447,
-                "y": 352.044349193573,
-                "width": 427.8935852050782,
-                "height": 584.1418175697327
+                "x": 1342.5886058807373,
+                "y": 362.99077463150024,
+                "width": 431.8647308349608,
+                "height": 562.7176623344421
               }
             ]
           },
@@ -7938,12 +7967,12 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-112457-dasa.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
           "people": [
-            "statue-socha-011-340b9d37"
+            "person-028-7e6a463f"
           ]
         },
         {
@@ -7960,9 +7989,9 @@
           "placeholder": "blurs/2025-11-25-112911-cebreus.png",
           "placeholderColor": "rgb(8,8,8)",
           "analysis": {
-            "aestheticScore": 63.47242593789533,
+            "aestheticScore": 65.37891302362812,
             "sharpness": 100,
-            "qualityBucket": "good",
+            "qualityBucket": "excellent",
             "phash": "21015d2565f578e2",
             "facesDetected": false,
             "faces": []
@@ -8041,7 +8070,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-112911-cebreus.jpeg",
               "width": 534,
-              "height": 300
+              "height": 534
             }
           ],
           "people": []
@@ -8071,7 +8100,7 @@
           "placeholder": "blurs/2025-11-25-135255-bobina.png",
           "placeholderColor": "rgb(8,72,152)",
           "analysis": {
-            "aestheticScore": 58.41215179468871,
+            "aestheticScore": 56.43236467157645,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "6cf8646424281a81",
@@ -8152,7 +8181,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-135255-bobina.jpeg",
               "width": 534,
-              "height": 355
+              "height": 534
             }
           ],
           "people": []
@@ -8170,17 +8199,17 @@
           "placeholder": "blurs/2025-11-25-133713-cebreus.png",
           "placeholderColor": "rgb(104,152,232)",
           "analysis": {
-            "aestheticScore": 70.34367305820844,
+            "aestheticScore": 70.73395720937964,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "1a8687a3662626a9",
             "facesDetected": true,
             "faces": [
               {
-                "x": 2584.268440246582,
-                "y": 1329.844482421875,
-                "width": 982.7811584472656,
-                "height": 1416.954460144043
+                "x": 2585.3873977661133,
+                "y": 1336.3892784118652,
+                "width": 982.8522949218749,
+                "height": 1401.8446884155273
               }
             ]
           },
@@ -8258,14 +8287,14 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-133713-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "flags": [
             "snapshot-author"
           ],
           "people": [
-            "person-jaruska-9b0bc40f"
+            "person-005-01bc8966"
           ]
         },
         {
@@ -8281,7 +8310,7 @@
           "placeholder": "blurs/2025-11-25-131320-cebreus.png",
           "placeholderColor": "rgb(104,88,72)",
           "analysis": {
-            "aestheticScore": 29.893672792421224,
+            "aestheticScore": 29.616082221795335,
             "sharpness": 31,
             "qualityBucket": "poor",
             "phash": "d8bcf8aeeae86464",
@@ -8362,7 +8391,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-131320-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -8380,7 +8409,7 @@
           "placeholder": "blurs/2025-11-25-131147-cebreus.png",
           "placeholderColor": "rgb(72,56,40)",
           "analysis": {
-            "aestheticScore": 37.62129894702914,
+            "aestheticScore": 36.35880215249482,
             "sharpness": 79,
             "qualityBucket": "poor",
             "phash": "38e9b9ededdbcf9f",
@@ -8460,7 +8489,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-131147-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -8479,7 +8508,7 @@
           "placeholder": "blurs/2025-11-25-131217-dasa.png",
           "placeholderColor": "rgb(120,104,88)",
           "analysis": {
-            "aestheticScore": 51.55239768195027,
+            "aestheticScore": 48.213923578448615,
             "sharpness": 44,
             "qualityBucket": "good",
             "phash": "e2f0e0f0c8e8f0f0",
@@ -8559,7 +8588,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-131217-dasa.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -8578,7 +8607,7 @@
           "placeholder": "blurs/2025-11-25-131142-dasa.png",
           "placeholderColor": "rgb(24,8,8)",
           "analysis": {
-            "aestheticScore": 55.22660692046005,
+            "aestheticScore": 51.528738295702745,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "7afadacadbdae86c",
@@ -8658,7 +8687,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-131142-dasa.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -8677,9 +8706,9 @@
           "placeholder": "blurs/2025-11-25-132137-dasa.png",
           "placeholderColor": "rgb(216,216,216)",
           "analysis": {
-            "aestheticScore": 64.21441973566867,
+            "aestheticScore": 65.02973054560488,
             "sharpness": 100,
-            "qualityBucket": "good",
+            "qualityBucket": "excellent",
             "phash": "6e13783332d84964",
             "facesDetected": false,
             "faces": []
@@ -8757,7 +8786,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-132137-dasa.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -8776,9 +8805,9 @@
           "placeholder": "blurs/2025-11-25-133004-dasa.png",
           "placeholderColor": "rgb(200,216,216)",
           "analysis": {
-            "aestheticScore": 63.749920612893305,
+            "aestheticScore": 70.31681902945827,
             "sharpness": 100,
-            "qualityBucket": "good",
+            "qualityBucket": "excellent",
             "phash": "58b99292695adba2",
             "facesDetected": false,
             "faces": []
@@ -8855,7 +8884,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-133004-dasa.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -8886,7 +8915,7 @@
           "placeholder": "blurs/2025-11-25-145714-cebreus.png",
           "placeholderColor": "rgb(168,168,152)",
           "analysis": {
-            "aestheticScore": 62.50550922612792,
+            "aestheticScore": 62.39914292565821,
             "sharpness": 84,
             "qualityBucket": "good",
             "phash": "d39393b3634636ac",
@@ -8967,7 +8996,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-145714-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -8986,7 +9015,7 @@
           "placeholder": "blurs/2025-11-25-150152-dasa--collage.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 50.83095340691223,
+            "aestheticScore": 55.81366609687397,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "b6b0a269469aba2c",
@@ -9096,7 +9125,7 @@
           "placeholder": "blurs/2025-11-25-150525-cebreus.png",
           "placeholderColor": "rgb(72,88,56)",
           "analysis": {
-            "aestheticScore": 59.91565434492063,
+            "aestheticScore": 62.78309788116092,
             "sharpness": 98,
             "qualityBucket": "good",
             "phash": "c5e29bb16d497327",
@@ -9177,7 +9206,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-150525-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -9195,7 +9224,7 @@
           "placeholder": "blurs/2025-11-25-150559-dasa.png",
           "placeholderColor": "rgb(56,72,40)",
           "analysis": {
-            "aestheticScore": 52.46208097474247,
+            "aestheticScore": 53.769020208274604,
             "sharpness": 73,
             "qualityBucket": "good",
             "phash": "e3fc752279791d1f",
@@ -9276,7 +9305,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-150559-dasa.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -9294,7 +9323,7 @@
           "placeholder": "blurs/2025-11-25-150836-cebreus.png",
           "placeholderColor": "rgb(24,24,24)",
           "analysis": {
-            "aestheticScore": 58.344067522297024,
+            "aestheticScore": 63.08464472019821,
             "sharpness": 93,
             "qualityBucket": "good",
             "phash": "f9c997d6c567736a",
@@ -9374,7 +9403,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-150836-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -9393,7 +9422,7 @@
           "placeholder": "blurs/2025-11-25-151216-cebreus.png",
           "placeholderColor": "rgb(40,56,40)",
           "analysis": {
-            "aestheticScore": 49.93790260520656,
+            "aestheticScore": 49.55621988220785,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "f8eee9e8c896d7cb",
@@ -9473,7 +9502,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-151216-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -9492,17 +9521,17 @@
           "placeholder": "blurs/2025-11-25-151454-cebreus.png",
           "placeholderColor": "rgb(40,40,24)",
           "analysis": {
-            "aestheticScore": 55.04186083398019,
+            "aestheticScore": 42.04668731051903,
             "sharpness": 100,
-            "qualityBucket": "good",
+            "qualityBucket": "poor",
             "phash": "b2b3311555d58880",
             "facesDetected": true,
             "faces": [
               {
-                "x": 3483.476737976074,
-                "y": 2751.623245239258,
-                "width": 563.192756652832,
-                "height": 845.7780761718747
+                "x": 3483.7158622741695,
+                "y": 2745.22985458374,
+                "width": 564.9949607849121,
+                "height": 853.3834304809567
               }
             ]
           },
@@ -9580,14 +9609,14 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-151454-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "flags": [
             "snapshot-author"
           ],
           "people": [
-            "person-jaruska-9b0bc40f"
+            "person-005-01bc8966"
           ]
         },
         {
@@ -9603,7 +9632,7 @@
           "placeholder": "blurs/2025-11-25-151616-cebreus.png",
           "placeholderColor": "rgb(24,40,40)",
           "analysis": {
-            "aestheticScore": 48.8629256804446,
+            "aestheticScore": 48.61930663618104,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "7c1870503153dbbb",
@@ -9684,7 +9713,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-151616-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -9702,7 +9731,7 @@
           "placeholder": "blurs/2025-11-25-152350-cebreus.png",
           "placeholderColor": "rgb(184,184,184)",
           "analysis": {
-            "aestheticScore": 73.1164839625415,
+            "aestheticScore": 78.03097825994855,
             "sharpness": 56,
             "qualityBucket": "good",
             "phash": "45616939383a9f2d",
@@ -9788,11 +9817,11 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-152350-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": [
-            "person-honza-d060cef5"
+            "person-030-1acc3ca0"
           ]
         },
         {
@@ -9809,7 +9838,7 @@
           "placeholder": "blurs/2025-11-25-152518-cebreus.png",
           "placeholderColor": "rgb(200,216,216)",
           "analysis": {
-            "aestheticScore": 79.75970534064435,
+            "aestheticScore": 72.86616645118212,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "98c022130b2090ff",
@@ -9888,7 +9917,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-152518-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -9907,9 +9936,9 @@
           "placeholder": "blurs/2025-11-25-154350-cebreus.png",
           "placeholderColor": "rgb(152,152,152)",
           "analysis": {
-            "aestheticScore": 67.76270212743984,
+            "aestheticScore": 58.98230171631094,
             "sharpness": 83,
-            "qualityBucket": "excellent",
+            "qualityBucket": "good",
             "phash": "f0f3f3ef65fdbfac",
             "facesDetected": false,
             "faces": []
@@ -9986,7 +10015,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-154350-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -10005,9 +10034,9 @@
           "placeholder": "blurs/2025-11-25-174738-bobo.png",
           "placeholderColor": "rgb(184,168,152)",
           "analysis": {
-            "aestheticScore": 68.99092732596681,
+            "aestheticScore": 61.54703078591199,
             "sharpness": 87,
-            "qualityBucket": "excellent",
+            "qualityBucket": "good",
             "phash": "574696f2e2e6ca49",
             "facesDetected": true,
             "faces": [
@@ -10107,14 +10136,17 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-174738-bobo.jpeg",
               "width": 534,
-              "height": 300
+              "height": 534
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-finda-f4999137"
+            "person-030-bc24ab1e",
+            "person-031-40134bb8",
+            "person-021-7e407b97",
+            "person-016-bcd264f0"
           ]
         },
         {
@@ -10164,7 +10196,7 @@
           "placeholder": "blurs/2025-11-26-081544-cebreus.png",
           "placeholderColor": "rgb(232,232,200)",
           "analysis": {
-            "aestheticScore": 60.057934160942494,
+            "aestheticScore": 61.48588999588319,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "9f9b23633353db24",
@@ -10270,14 +10302,16 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-081544-cebreus.jpeg",
               "width": 534,
-              "height": 400
+              "height": 534
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-dasa-86077f36"
+            "person-001-be3cbb11",
+            "person-033-ba9d8842",
+            "person-021-7e407b97"
           ]
         },
         {
@@ -10293,7 +10327,7 @@
           "placeholder": "blurs/2025-11-26-081434-cebreus.png",
           "placeholderColor": "rgb(200,168,120)",
           "analysis": {
-            "aestheticScore": 69.41438705770098,
+            "aestheticScore": 81.3481798149236,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "17374b62d2de5d5d",
@@ -10393,14 +10427,15 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-081434-cebreus.jpeg",
               "width": 534,
-              "height": 400
+              "height": 534
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-bobina-0db741fb"
+            "person-008-bd773b63",
+            "person-033-3f17e253"
           ]
         },
         {
@@ -10416,7 +10451,7 @@
           "placeholder": "blurs/2025-11-26-091503-bobina.png",
           "placeholderColor": "rgb(216,216,200)",
           "analysis": {
-            "aestheticScore": 65.70897610673082,
+            "aestheticScore": 66.00092669753909,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "072f2f2626876411",
@@ -10517,14 +10552,16 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-091503-bobina.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "flags": [
             "snapshot-author"
           ],
           "people": [
-            "person-jaruska-9b0bc40f"
+            "person-008-14551ea9",
+            "person-033-f1da74d5",
+            "person-005-01bc8966"
           ]
         },
         {
@@ -10540,7 +10577,7 @@
           "placeholder": "blurs/2025-11-26-080112-cebreus.png",
           "placeholderColor": "rgb(168,152,120)",
           "analysis": {
-            "aestheticScore": 70.70937083663314,
+            "aestheticScore": 64.90011994688223,
             "sharpness": 57,
             "qualityBucket": "good",
             "phash": "0f31403f23000000",
@@ -10621,7 +10658,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-080112-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -10639,7 +10676,7 @@
           "placeholder": "blurs/2025-11-26-081030-cebreus--zoom1from4.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 63.991566462369335,
+            "aestheticScore": 60.903924022077284,
             "sharpness": 75,
             "qualityBucket": "good",
             "phash": "f7eff9f800000703",
@@ -10748,7 +10785,7 @@
           "placeholder": "blurs/2025-11-26-081032-cebreus--zoom2from4.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 74.67020050266167,
+            "aestheticScore": 64.99787573166958,
             "sharpness": 60,
             "qualityBucket": "good",
             "phash": "7f3ffae705000303",
@@ -10857,7 +10894,7 @@
           "placeholder": "blurs/2025-11-26-081034-cebreus--zoom3from4.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 60.79114399755667,
+            "aestheticScore": 54.89806272149144,
             "sharpness": 30,
             "qualityBucket": "poor",
             "phash": "77fbece313100000",
@@ -10966,7 +11003,7 @@
           "placeholder": "blurs/2025-11-26-080508-cebreus.png",
           "placeholderColor": "rgb(152,152,152)",
           "analysis": {
-            "aestheticScore": 78.92539129399361,
+            "aestheticScore": 69.86523935547761,
             "sharpness": 23,
             "qualityBucket": "poor",
             "phash": "fc5efd8b13120000",
@@ -11047,7 +11084,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-080508-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -11065,7 +11102,7 @@
           "placeholder": "blurs/2025-11-26-080834-cebreus.png",
           "placeholderColor": "rgb(152,168,200)",
           "analysis": {
-            "aestheticScore": 67.11518604219482,
+            "aestheticScore": 64.93115907332691,
             "sharpness": 55,
             "qualityBucket": "good",
             "phash": "8c30bbb937200103",
@@ -11153,14 +11190,14 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-080834-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "flags": [
             "snapshot-author"
           ],
           "people": [
-            "person-jaruska-9b0bc40f"
+            "person-005-01bc8966"
           ]
         },
         {
@@ -11176,7 +11213,7 @@
           "placeholder": "blurs/2025-11-26-082507-bobo.png",
           "placeholderColor": "rgb(8,8,8)",
           "analysis": {
-            "aestheticScore": 49.87565877057411,
+            "aestheticScore": 45.98255328627965,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "26263e9e8e9c4d08",
@@ -11271,14 +11308,16 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-082507-bobo.jpeg",
               "width": 534,
-              "height": 442
+              "height": 534
             }
           ],
           "flags": [
             "snapshot-author"
           ],
           "people": [
-            "person-dasa-86077f36"
+            "person-001-a7e2653d",
+            "person-025-a46db9c4",
+            "person-001-be3cbb11"
           ]
         },
         {
@@ -11294,7 +11333,7 @@
           "placeholder": "blurs/2025-11-26-092606-bobo.png",
           "placeholderColor": "rgb(200,200,184)",
           "analysis": {
-            "aestheticScore": 64.1914983761068,
+            "aestheticScore": 63.3222783961532,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "d22e33361f386481",
@@ -11407,16 +11446,19 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-092606-bobo.jpeg",
               "width": 534,
-              "height": 445
+              "height": 534
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-bobo-6abf63c9",
-            "person-jaruska-9b0bc40f",
-            "person-bobina-0db741fb"
+            "person-008-bd773b63",
+            "person-020-a34db2ef",
+            "person-001-a7e2653d",
+            "person-001-be3cbb11",
+            "person-025-a46db9c4",
+            "person-021-7e407b97"
           ]
         },
         {
@@ -11437,7 +11479,7 @@
             "projection": "cylindrical"
           },
           "analysis": {
-            "aestheticScore": 54.84760064731215,
+            "aestheticScore": 60.693356893153805,
             "sharpness": 61,
             "qualityBucket": "good",
             "phash": "58deba7a06070303",
@@ -11511,7 +11553,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-080555-cebreus.jpeg",
               "width": 534,
-              "height": 128
+              "height": 534
             },
             {
               "variant": "pano_detail",
@@ -11536,7 +11578,7 @@
           "placeholder": "blurs/2025-11-26-081035-cebreus--zoom4from4.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 58.52326131049814,
+            "aestheticScore": 53.55543626229304,
             "sharpness": 30,
             "qualityBucket": "poor",
             "phash": "7b67a68431090800",
@@ -11650,7 +11692,7 @@
             "projection": "cylindrical"
           },
           "analysis": {
-            "aestheticScore": 85.53400686553114,
+            "aestheticScore": 74.80378652864697,
             "sharpness": 71,
             "qualityBucket": "good",
             "phash": "6b1bcfce71e0e0e0",
@@ -11724,7 +11766,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-082550-cebreus.jpeg",
               "width": 534,
-              "height": 135
+              "height": 534
             },
             {
               "variant": "pano_detail",
@@ -11749,7 +11791,7 @@
           "placeholder": "blurs/2025-11-26-081049-dasa.png",
           "placeholderColor": "rgb(232,232,216)",
           "analysis": {
-            "aestheticScore": 57.83340739139779,
+            "aestheticScore": 63.74790771709718,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "0f0b876545a3b3db",
@@ -11824,7 +11866,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-081049-dasa.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -11843,7 +11885,7 @@
           "placeholder": "blurs/2025-11-26-085933-cebreus.png",
           "placeholderColor": "rgb(104,88,72)",
           "analysis": {
-            "aestheticScore": 59.49896717051241,
+            "aestheticScore": 58.57534669537195,
             "sharpness": 60,
             "qualityBucket": "good",
             "phash": "dad3f2ba5679b8b2",
@@ -11924,7 +11966,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-085933-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -11942,7 +11984,7 @@
           "placeholder": "blurs/2025-11-26-085943-cebreus.png",
           "placeholderColor": "rgb(104,88,72)",
           "analysis": {
-            "aestheticScore": 42.88241511041804,
+            "aestheticScore": 39.27622226070613,
             "sharpness": 75,
             "qualityBucket": "poor",
             "phash": "07273f3d0c193959",
@@ -12023,7 +12065,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-085943-cebreus.jpeg",
               "width": 534,
-              "height": 250
+              "height": 534
             }
           ],
           "people": []
@@ -12041,7 +12083,7 @@
           "placeholder": "blurs/2025-11-26-090727-cebreus.png",
           "placeholderColor": "rgb(216,216,200)",
           "analysis": {
-            "aestheticScore": 51.381635227562214,
+            "aestheticScore": 50.25174027140102,
             "sharpness": 85,
             "qualityBucket": "good",
             "phash": "0987e6c2b7bf9fff",
@@ -12159,11 +12201,16 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-090727-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": [
-            "person-finda-f4999137"
+            "person-016-bcd264f0",
+            "person-036-75f14432",
+            "person-005-01bc8966",
+            "person-037-e0139a48",
+            "person-001-be3cbb11",
+            "person-021-7e407b97"
           ]
         },
         {
@@ -12179,7 +12226,7 @@
           "placeholder": "blurs/2025-11-26-091502-cebreus.png",
           "placeholderColor": "rgb(168,184,216)",
           "analysis": {
-            "aestheticScore": 61.28245908631447,
+            "aestheticScore": 60.167945572749915,
             "sharpness": 95,
             "qualityBucket": "good",
             "phash": "9696723409071f1f",
@@ -12267,11 +12314,11 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-091502-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": [
-            "person-jaruska-9b0bc40f"
+            "person-005-01bc8966"
           ]
         },
         {
@@ -12287,7 +12334,7 @@
           "placeholder": "blurs/2025-11-26-092110-cebreus.png",
           "placeholderColor": "rgb(72,56,40)",
           "analysis": {
-            "aestheticScore": 65.90700744969689,
+            "aestheticScore": 66.16967789102536,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "caccc8dbb1b32f9f",
@@ -12375,11 +12422,11 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-092110-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": [
-            "person-jaruska-9b0bc40f"
+            "person-005-01bc8966"
           ]
         },
         {
@@ -12395,7 +12442,7 @@
           "placeholder": "blurs/2025-11-26-084453-cebreus.png",
           "placeholderColor": "rgb(88,104,120)",
           "analysis": {
-            "aestheticScore": 50.56175341845543,
+            "aestheticScore": 54.425802791453116,
             "sharpness": 97,
             "qualityBucket": "good",
             "phash": "b23216dd7b190100",
@@ -12475,7 +12522,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-084453-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -12494,7 +12541,7 @@
           "placeholder": "blurs/2025-11-26-091556-cebreus.png",
           "placeholderColor": "rgb(216,184,136)",
           "analysis": {
-            "aestheticScore": 50.032117820718426,
+            "aestheticScore": 48.80660287263166,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "fbfffd7f3e0d4900",
@@ -12574,7 +12621,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-091556-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -12593,7 +12640,7 @@
           "placeholder": "blurs/2025-11-26-093233-cebreus.png",
           "placeholderColor": "rgb(152,168,184)",
           "analysis": {
-            "aestheticScore": 76.07545640775449,
+            "aestheticScore": 75.03465442630753,
             "sharpness": 63,
             "qualityBucket": "good",
             "phash": "3f8e6f3b9ecdcfff",
@@ -12674,7 +12721,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-093233-cebreus.jpeg",
               "width": 534,
-              "height": 356
+              "height": 534
             }
           ],
           "people": []
@@ -12692,7 +12739,7 @@
           "placeholder": "blurs/2025-11-26-095057-cebreus.png",
           "placeholderColor": "rgb(216,184,136)",
           "analysis": {
-            "aestheticScore": 79.35301553089407,
+            "aestheticScore": 76.74527909181326,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "1313032602d23f1b",
@@ -12780,14 +12827,14 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-095057-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "flags": [
             "snapshot-author"
           ],
           "people": [
-            "person-jaruska-9b0bc40f"
+            "person-005-01bc8966"
           ]
         },
         {
@@ -12803,7 +12850,7 @@
           "placeholder": "blurs/2025-11-26-095210-cebreus.png",
           "placeholderColor": "rgb(216,184,136)",
           "analysis": {
-            "aestheticScore": 56.95354481961504,
+            "aestheticScore": 50.5471480750039,
             "sharpness": 98,
             "qualityBucket": "good",
             "phash": "0a124202d2de1f0f",
@@ -12884,7 +12931,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-095210-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "flags": [
@@ -12905,7 +12952,7 @@
           "placeholder": "blurs/2025-11-26-095124-dasa.png",
           "placeholderColor": "rgb(152,152,152)",
           "analysis": {
-            "aestheticScore": 78.2479317165218,
+            "aestheticScore": 77.0756174684119,
             "sharpness": 87,
             "qualityBucket": "excellent",
             "phash": "eba5383894946058",
@@ -12987,12 +13034,12 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-095124-dasa.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
           "people": [
-            "statue-socha-008-540d94f5"
+            "person-038-2172f635"
           ]
         },
         {
@@ -13008,7 +13055,7 @@
           "placeholder": "blurs/2025-11-26-095535-cebreus.png",
           "placeholderColor": "rgb(8,8,8)",
           "analysis": {
-            "aestheticScore": 78.42005927772728,
+            "aestheticScore": 75.60213305458096,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "8c8cb99d646c6c6d",
@@ -13126,14 +13173,18 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-095535-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-bobo-6abf63c9"
+            "person-038-b554b8fc",
+            "person-008-bd773b63",
+            "person-001-be3cbb11",
+            "person-005-01bc8966",
+            "person-021-7e407b97"
           ]
         },
         {
@@ -13149,9 +13200,9 @@
           "placeholder": "blurs/2025-11-26-095929-cebreus.png",
           "placeholderColor": "rgb(120,136,152)",
           "analysis": {
-            "aestheticScore": 62.06842496235085,
+            "aestheticScore": 66.56764157841054,
             "sharpness": 100,
-            "qualityBucket": "good",
+            "qualityBucket": "excellent",
             "phash": "9edc4c298808110c",
             "facesDetected": true,
             "faces": [
@@ -13279,19 +13330,21 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-095929-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-osoba-016-e8450521",
-            "person-finda-f4999137",
-            "person-jaruska-9b0bc40f",
-            "person-dasa-86077f36",
-            "person-bobo-6abf63c9",
-            "person-bobina-0db741fb"
+            "person-040-dbb31cb8",
+            "person-001-d5f38e2e",
+            "person-005-01bc8966",
+            "person-038-b554b8fc",
+            "person-001-be3cbb11",
+            "person-016-fd249c9a",
+            "person-021-7e407b97",
+            "person-043-bd2a8c02"
           ]
         },
         {
@@ -13307,7 +13360,7 @@
           "placeholder": "blurs/2025-11-26-100007-cebreus.png",
           "placeholderColor": "rgb(104,136,184)",
           "analysis": {
-            "aestheticScore": 47.16731646180145,
+            "aestheticScore": 52.326257705322845,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "3a3b713a3a342e16",
@@ -13413,14 +13466,16 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-100007-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "flags": [
             "snapshot-author"
           ],
           "people": [
-            "statue-socha-002-70767217"
+            "person-008-14551ea9",
+            "person-021-7e407b97",
+            "person-005-01bc8966"
           ]
         },
         {
@@ -13436,7 +13491,7 @@
           "placeholder": "blurs/2025-11-26-100538-cebreus.png",
           "placeholderColor": "rgb(72,88,120)",
           "analysis": {
-            "aestheticScore": 60.921544606925835,
+            "aestheticScore": 57.94309911794141,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "2762e8b435274f05",
@@ -13524,10 +13579,12 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-100538-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
-          "people": []
+          "people": [
+            "person-021-7e407b97"
+          ]
         },
         {
           "id": "2025-11-26-100151-cebreus",
@@ -13547,7 +13604,7 @@
             "projection": "cylindrical"
           },
           "analysis": {
-            "aestheticScore": 68.11474305499071,
+            "aestheticScore": 72.42615360344051,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "dc6c3cbe3e0d0f0f",
@@ -13621,7 +13678,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-100151-cebreus.jpeg",
               "width": 534,
-              "height": 229
+              "height": 534
             },
             {
               "variant": "pano_detail",
@@ -13656,7 +13713,7 @@
           "placeholder": "blurs/2025-11-26-113457-cebreus.png",
           "placeholderColor": "rgb(8,8,24)",
           "analysis": {
-            "aestheticScore": 78.92452122074786,
+            "aestheticScore": 77.5126801847012,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "6090063e29cc5210",
@@ -13749,12 +13806,12 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-113457-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": [
-            "person-osoba-020-8aeea50b",
-            "person-osoba-028-1fa94930"
+            "person-041-a0de48b1",
+            "person-042-09c8ace0"
           ]
         },
         {
@@ -13868,7 +13925,7 @@
           "placeholder": "blurs/2025-11-26-114357-bobina.png",
           "placeholderColor": "rgb(200,184,152)",
           "analysis": {
-            "aestheticScore": 43.57793211688122,
+            "aestheticScore": 38.64397753737442,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "3179795312923327",
@@ -13948,7 +14005,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-114357-bobina.jpeg",
-              "width": 513,
+              "width": 534,
               "height": 534
             }
           ],
@@ -13977,17 +14034,17 @@
           "placeholder": "blurs/2025-11-26-121346-cebreus.png",
           "placeholderColor": "rgb(200,216,232)",
           "analysis": {
-            "aestheticScore": 38.5235013976739,
+            "aestheticScore": 43.05764544981858,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "1a581d9d111b1800",
             "facesDetected": true,
             "faces": [
               {
-                "x": 5064.3012771606445,
-                "y": 2844.656536102295,
-                "width": 313.4667205810547,
-                "height": 530.7953796386715
+                "x": 5060.146522521973,
+                "y": 2838.3847503662105,
+                "width": 316.8408966064453,
+                "height": 538.7886199951171
               }
             ]
           },
@@ -14065,14 +14122,14 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-121346-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-bobo-6abf63c9"
+            "person-001-be3cbb11"
           ]
         },
         {
@@ -14088,17 +14145,17 @@
           "placeholder": "blurs/2025-11-26-121358-cebreus.png",
           "placeholderColor": "rgb(200,216,232)",
           "analysis": {
-            "aestheticScore": 41.94156930404303,
+            "aestheticScore": 43.08667032638402,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "1b580c0cb30b1e00",
             "facesDetected": true,
             "faces": [
               {
-                "x": 4406.515274047852,
-                "y": 2555.6357688903804,
-                "width": 412.6703796386719,
-                "height": 555.1668319702146
+                "x": 4414.386909484863,
+                "y": 2557.6136512756343,
+                "width": 402.3257904052734,
+                "height": 556.2593536376952
               }
             ]
           },
@@ -14176,14 +14233,14 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-121358-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-dasa-86077f36"
+            "person-038-b554b8fc"
           ]
         },
         {
@@ -14199,17 +14256,17 @@
           "placeholder": "blurs/2025-11-26-121411-cebreus.png",
           "placeholderColor": "rgb(232,216,184)",
           "analysis": {
-            "aestheticScore": 50.06669465545964,
+            "aestheticScore": 59.365716687951995,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "c7167d2d111f1c00",
             "facesDetected": true,
             "faces": [
               {
-                "x": 3461.503978729248,
-                "y": 2572.923854827881,
-                "width": 348.1904525756836,
-                "height": 539.3038787841795
+                "x": 3459.7450332641597,
+                "y": 2564.8056449890137,
+                "width": 346.19478607177734,
+                "height": 544.2747802734375
               }
             ]
           },
@@ -14287,14 +14344,14 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-121411-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-bobina-0db741fb"
+            "person-016-fd249c9a"
           ]
         },
         {
@@ -14310,17 +14367,17 @@
           "placeholder": "blurs/2025-11-26-121422-cebreus.png",
           "placeholderColor": "rgb(184,200,216)",
           "analysis": {
-            "aestheticScore": 37.933537659436816,
+            "aestheticScore": 41.52243625470038,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "1b181999911b1c00",
             "facesDetected": true,
             "faces": [
               {
-                "x": 4991.409942626953,
-                "y": 3066.547782897949,
-                "width": 368.8541564941406,
-                "height": 555.1427993774414
+                "x": 4989.870895385742,
+                "y": 3062.506462097167,
+                "width": 371.7755584716797,
+                "height": 553.6330718994141
               }
             ]
           },
@@ -14398,14 +14455,14 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-121422-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "flags": [
             "snapshot-author"
           ],
           "people": [
-            "person-jaruska-9b0bc40f"
+            "person-005-01bc8966"
           ]
         },
         {
@@ -14421,7 +14478,7 @@
           "placeholder": "blurs/2025-11-26-121518-dasa.png",
           "placeholderColor": "rgb(152,152,152)",
           "analysis": {
-            "aestheticScore": 43.340744327683105,
+            "aestheticScore": 41.66692615453705,
             "sharpness": 70,
             "qualityBucket": "poor",
             "phash": "99f1322ee273fcc0",
@@ -14501,7 +14558,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-121518-dasa.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -14520,7 +14577,7 @@
           "placeholder": "blurs/2025-11-26-131747-bobina.png",
           "placeholderColor": "rgb(136,120,104)",
           "analysis": {
-            "aestheticScore": 44.399830005523945,
+            "aestheticScore": 39.457790450212244,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "35b53c040e4d59fc",
@@ -14607,11 +14664,13 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-131747-bobina.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
-          "people": []
+          "people": [
+            "person-044-b2a9600a"
+          ]
         },
         {
           "id": "2025-11-26-122029-dasa",
@@ -14626,7 +14685,7 @@
           "placeholder": "blurs/2025-11-26-122029-dasa.png",
           "placeholderColor": "rgb(120,104,88)",
           "analysis": {
-            "aestheticScore": 23.66759934827936,
+            "aestheticScore": 20.8214153560864,
             "sharpness": 63,
             "qualityBucket": "poor",
             "phash": "1154ad6c5249090e",
@@ -14707,7 +14766,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-122029-dasa.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -14726,7 +14785,7 @@
           "placeholder": "blurs/2025-11-26-123437-cebreus.png",
           "placeholderColor": "rgb(40,40,40)",
           "analysis": {
-            "aestheticScore": 43.0689879929933,
+            "aestheticScore": 42.57449667418472,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "6b7177e77747e9f4",
@@ -14806,7 +14865,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-123437-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -14825,7 +14884,7 @@
           "placeholder": "blurs/2025-11-26-123858-cebreus--collage.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 67.52365472601569,
+            "aestheticScore": 78.31961994675676,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "969617749616daca",
@@ -14924,7 +14983,7 @@
           "placeholder": "blurs/2025-11-26-125334-cebreus.png",
           "placeholderColor": "rgb(184,168,152)",
           "analysis": {
-            "aestheticScore": 79.32722512328189,
+            "aestheticScore": 77.40218058581279,
             "sharpness": 94,
             "qualityBucket": "excellent",
             "phash": "c37698e95c7cfefe",
@@ -15011,12 +15070,12 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-125334-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
           "people": [
-            "statue-socha-002-70767217"
+            "person-038-2172f635"
           ]
         },
         {
@@ -15033,7 +15092,7 @@
           "placeholder": "blurs/2025-11-26-125359-cebreus.png",
           "placeholderColor": "rgb(104,104,88)",
           "analysis": {
-            "aestheticScore": 50.06864386515095,
+            "aestheticScore": 55.40607370150089,
             "sharpness": 83,
             "qualityBucket": "good",
             "phash": "3fbf3b33fbffffff",
@@ -15113,7 +15172,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-125359-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -15133,7 +15192,7 @@
           "placeholder": "blurs/2025-11-26-125421-cebreus.png",
           "placeholderColor": "rgb(104,104,88)",
           "analysis": {
-            "aestheticScore": 55.943559898813916,
+            "aestheticScore": 50.77882465484783,
             "sharpness": 72,
             "qualityBucket": "good",
             "phash": "f6fe32775797373f",
@@ -15213,7 +15272,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-125421-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -15233,7 +15292,7 @@
           "placeholder": "blurs/2025-11-26-125706-cebreus.png",
           "placeholderColor": "rgb(136,120,104)",
           "analysis": {
-            "aestheticScore": 80.62086706391378,
+            "aestheticScore": 91.60840150584204,
             "sharpness": 81,
             "qualityBucket": "excellent",
             "phash": "61e063b1b3b091c3",
@@ -15313,7 +15372,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-125706-cebreus.jpeg",
-              "width": 400,
+              "width": 534,
               "height": 534
             }
           ],
@@ -15333,9 +15392,9 @@
           "placeholder": "blurs/2025-11-26-125755-cebreus.png",
           "placeholderColor": "rgb(104,88,72)",
           "analysis": {
-            "aestheticScore": 41.63875352897355,
+            "aestheticScore": 46.11652103003375,
             "sharpness": 100,
-            "qualityBucket": "poor",
+            "qualityBucket": "good",
             "phash": "cec6c6f37b4bc738",
             "facesDetected": true,
             "faces": [
@@ -15426,12 +15485,12 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-125755-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
           "people": [
-            "person-osoba-027-fbb59ec6"
+            "person-008-14551ea9"
           ]
         },
         {
@@ -15448,9 +15507,9 @@
           "placeholder": "blurs/2025-11-26-125848-cebreus.png",
           "placeholderColor": "rgb(8,8,8)",
           "analysis": {
-            "aestheticScore": 51.92665818544993,
+            "aestheticScore": 40.313538553878594,
             "sharpness": 100,
-            "qualityBucket": "good",
+            "qualityBucket": "poor",
             "phash": "d3f3c386cece7eca",
             "facesDetected": false,
             "faces": []
@@ -15529,7 +15588,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-125848-cebreus.jpeg",
               "width": 534,
-              "height": 400
+              "height": 534
             }
           ],
           "people": []
@@ -15547,9 +15606,9 @@
           "placeholder": "blurs/2025-11-26-125931-dasa.png",
           "placeholderColor": "rgb(40,40,40)",
           "analysis": {
-            "aestheticScore": 41.64889048840963,
+            "aestheticScore": 49.45285542358957,
             "sharpness": 100,
-            "qualityBucket": "poor",
+            "qualityBucket": "good",
             "phash": "cc924d4cccccb1b7",
             "facesDetected": false,
             "faces": []
@@ -15627,7 +15686,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-125931-dasa.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -15647,7 +15706,7 @@
           "placeholder": "blurs/2025-11-26-130017-cebreus.png",
           "placeholderColor": "rgb(88,72,72)",
           "analysis": {
-            "aestheticScore": 39.59950850823056,
+            "aestheticScore": 34.93687251256961,
             "sharpness": 94,
             "qualityBucket": "poor",
             "phash": "1eb34949caf37399",
@@ -15727,7 +15786,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-130017-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -15747,9 +15806,9 @@
           "placeholder": "blurs/2025-11-26-130323-cebreus.png",
           "placeholderColor": "rgb(56,56,40)",
           "analysis": {
-            "aestheticScore": 60.7415764721921,
+            "aestheticScore": 70.80891438493336,
             "sharpness": 92,
-            "qualityBucket": "good",
+            "qualityBucket": "excellent",
             "phash": "01c6e0a0b01272dc",
             "facesDetected": false,
             "faces": []
@@ -15827,7 +15886,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-130323-cebreus.jpeg",
-              "width": 400,
+              "width": 534,
               "height": 534
             }
           ],
@@ -15847,7 +15906,7 @@
           "placeholder": "blurs/2025-11-26-130440-cebreus.png",
           "placeholderColor": "rgb(104,88,56)",
           "analysis": {
-            "aestheticScore": 41.23475133424946,
+            "aestheticScore": 41.388676237759725,
             "sharpness": 56,
             "qualityBucket": "poor",
             "phash": "fe7c3b333303c3b3",
@@ -15928,7 +15987,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-130440-cebreus.jpeg",
               "width": 534,
-              "height": 400
+              "height": 534
             }
           ],
           "people": []
@@ -15947,7 +16006,7 @@
           "placeholder": "blurs/2025-11-26-130515-cebreus.png",
           "placeholderColor": "rgb(88,88,72)",
           "analysis": {
-            "aestheticScore": 45.808755759280004,
+            "aestheticScore": 48.05377408536774,
             "sharpness": 61,
             "qualityBucket": "good",
             "phash": "cec3c9494a33370f",
@@ -16027,7 +16086,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-130515-cebreus.jpeg",
-              "width": 400,
+              "width": 534,
               "height": 534
             }
           ],
@@ -16047,7 +16106,7 @@
           "placeholder": "blurs/2025-11-26-130603-cebreus.png",
           "placeholderColor": "rgb(56,56,56)",
           "analysis": {
-            "aestheticScore": 51.16932176706881,
+            "aestheticScore": 56.092742762695316,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "89a0b333b3b33336",
@@ -16140,12 +16199,13 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-130603-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
           "people": [
-            "person-bobina-0db741fb"
+            "person-016-bcd264f0",
+            "person-021-7e407b97"
           ]
         },
         {
@@ -16161,7 +16221,7 @@
           "placeholder": "blurs/2025-11-26-130753-cebreus.png",
           "placeholderColor": "rgb(8,8,8)",
           "analysis": {
-            "aestheticScore": 54.855714554900594,
+            "aestheticScore": 47.83600294003531,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "0821b59e1f3d2c66",
@@ -16242,7 +16302,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-130753-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -16261,7 +16321,7 @@
           "placeholder": "blurs/2025-11-26-131110-cebreus.png",
           "placeholderColor": "rgb(40,24,24)",
           "analysis": {
-            "aestheticScore": 29.399549609886922,
+            "aestheticScore": 29.245807773204657,
             "sharpness": 95,
             "qualityBucket": "poor",
             "phash": "b1be38f0f1ecec70",
@@ -16341,7 +16401,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-131110-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -16361,9 +16421,9 @@
           "placeholder": "blurs/2025-11-26-131135-cebreus.png",
           "placeholderColor": "rgb(24,24,24)",
           "analysis": {
-            "aestheticScore": 47.34348034222267,
+            "aestheticScore": 44.83301584370376,
             "sharpness": 100,
-            "qualityBucket": "good",
+            "qualityBucket": "poor",
             "phash": "23164cb33cde9e2c",
             "facesDetected": false,
             "faces": []
@@ -16441,7 +16501,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-131135-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -16461,7 +16521,7 @@
           "placeholder": "blurs/2025-11-26-131155-cebreus.png",
           "placeholderColor": "rgb(24,24,8)",
           "analysis": {
-            "aestheticScore": 39.3692976991677,
+            "aestheticScore": 32.68092819126588,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "626464e4f3f0f870",
@@ -16541,7 +16601,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-131155-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -16560,7 +16620,7 @@
           "placeholder": "blurs/2025-11-26-131935-dasa.png",
           "placeholderColor": "rgb(8,8,8)",
           "analysis": {
-            "aestheticScore": 55.6700312667293,
+            "aestheticScore": 57.298215568968786,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "faf4f0e0c8c888ba",
@@ -16641,7 +16701,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-131935-dasa.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -16660,7 +16720,7 @@
           "placeholder": "blurs/2025-11-26-132422-cebreus.png",
           "placeholderColor": "rgb(24,24,24)",
           "analysis": {
-            "aestheticScore": 61.68363709079498,
+            "aestheticScore": 61.63215095274777,
             "sharpness": 96,
             "qualityBucket": "good",
             "phash": "9f9c899898d85818",
@@ -16739,7 +16799,7 @@
               "variant": "detail",
               "type": "image/jpeg",
               "path": "/images/details/2025-11-26-132422-cebreus.jpeg",
-              "width": 1706,
+              "width": 1707,
               "height": 1280
             },
             {
@@ -16754,11 +16814,12 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-132422-cebreus.jpeg",
               "width": 534,
-              "height": 400
+              "height": 534
             }
           ],
           "people": [
-            "statue-socha-010-b09a974a"
+            "person-045-eddb1408",
+            "person-021-7e407b97"
           ]
         },
         {
@@ -16774,7 +16835,7 @@
           "placeholder": "blurs/2025-11-26-132537-cebreus.png",
           "placeholderColor": "rgb(200,200,184)",
           "analysis": {
-            "aestheticScore": 32.082923323842174,
+            "aestheticScore": 37.792675274237276,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "f8e0f0f0f0f0f0f0",
@@ -16854,7 +16915,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-132537-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -16874,9 +16935,9 @@
           "placeholder": "blurs/2025-11-26-133422-cebreus.png",
           "placeholderColor": "rgb(136,120,104)",
           "analysis": {
-            "aestheticScore": 45.511627589592365,
+            "aestheticScore": 41.40895652233778,
             "sharpness": 99,
-            "qualityBucket": "good",
+            "qualityBucket": "poor",
             "phash": "f048f8d4186feef5",
             "facesDetected": false,
             "faces": []
@@ -16955,7 +17016,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-133422-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -16973,7 +17034,7 @@
           "placeholder": "blurs/2025-11-26-133231-dasa.png",
           "placeholderColor": "rgb(168,152,120)",
           "analysis": {
-            "aestheticScore": 46.83058334254518,
+            "aestheticScore": 51.11990095288127,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "01077c6a28387027",
@@ -17079,11 +17140,13 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-133231-dasa.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": [
-            "person-osoba-005-6a67533e"
+            "person-045-3e4e7504",
+            "person-022-8d699d16",
+            "person-021-7e407b97"
           ]
         },
         {
@@ -17099,7 +17162,7 @@
           "placeholder": "blurs/2025-11-26-133202-dasa.png",
           "placeholderColor": "rgb(168,152,120)",
           "analysis": {
-            "aestheticScore": 52.14225920253589,
+            "aestheticScore": 54.41267642772412,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "c96bb6ec70718e8e",
@@ -17204,15 +17267,14 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-133202-dasa.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
           "people": [
-            "person-osoba-018-d2793d77",
-            "person-osoba-019-4bfa9341",
-            "person-jaruska-9b0bc40f",
-            "statue-socha-004-0a61c713"
+            "person-045-4176714f",
+            "person-046-277a7275",
+            "person-038-2172f635"
           ]
         },
         {
@@ -17229,7 +17291,7 @@
           "placeholder": "blurs/2025-11-26-133722-cebreus.png",
           "placeholderColor": "rgb(40,40,40)",
           "analysis": {
-            "aestheticScore": 64.59875269771909,
+            "aestheticScore": 63.47664901887565,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "3071716949797d41",
@@ -17309,7 +17371,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-133722-cebreus.jpeg",
-              "width": 400,
+              "width": 534,
               "height": 534
             }
           ],
@@ -17329,7 +17391,7 @@
           "placeholder": "blurs/2025-11-26-134543-cebreus--zoom1from2.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 40.78455892904778,
+            "aestheticScore": 38.981816837090534,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "c46c69d8f143cec4",
@@ -17473,9 +17535,11 @@
             ]
           },
           "people": [
-            "statue-socha-003-ba30172f",
-            "statue-socha-004-0a61c713",
-            "statue-socha-001-e106e434"
+            "person-049-57f2154f",
+            "person-021-7e407b97",
+            "person-022-8d699d16",
+            "person-036-75f14432",
+            "person-038-2172f635"
           ]
         },
         {
@@ -17492,7 +17556,7 @@
           "placeholder": "blurs/2025-11-26-134549-cebreus--zoom2from2.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 66.29606403739794,
+            "aestheticScore": 76.76290321743161,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "d9492bb290044486",
@@ -17648,8 +17712,10 @@
             ]
           },
           "people": [
-            "statue-socha-003-ba30172f",
-            "statue-socha-001-e106e434"
+            "person-049-ab66a895",
+            "person-049-57f2154f",
+            "person-038-2172f635",
+            "person-021-7e407b97"
           ]
         },
         {
@@ -17666,7 +17732,7 @@
           "placeholder": "blurs/2025-11-26-135431-cebreus.png",
           "placeholderColor": "rgb(248,248,248)",
           "analysis": {
-            "aestheticScore": 73.9145885241656,
+            "aestheticScore": 79.27365326001554,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "334ccc514973d9cc",
@@ -17771,12 +17837,14 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-135431-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
           "people": [
-            "statue-socha-013-ebcec9a1"
+            "person-051-2ad66686",
+            "person-052-c2eb4362",
+            "person-021-7e407b97"
           ]
         },
         {
@@ -17792,7 +17860,7 @@
           "placeholder": "blurs/2025-11-26-140121-dasa--collage.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 68.20848563237647,
+            "aestheticScore": 68.5399137453382,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "c6c88ccec988989b",
@@ -17876,7 +17944,7 @@
             }
           ],
           "people": [
-            "statue-socha-001-e106e434"
+            "person-049-57f2154f"
           ]
         },
         {
@@ -17892,7 +17960,7 @@
           "placeholder": "blurs/2025-11-26-164810-bobo.png",
           "placeholderColor": "rgb(104,88,72)",
           "analysis": {
-            "aestheticScore": 53.38646513396553,
+            "aestheticScore": 52.988017686691094,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "9dc8e0e0f27343e1",
@@ -17975,12 +18043,12 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-164810-bobo.jpeg",
-              "width": 300,
+              "width": 534,
               "height": 534
             }
           ],
           "people": [
-            "statue-socha-009-191caf24"
+            "person-021-7e407b97"
           ]
         },
         {
@@ -17996,7 +18064,7 @@
           "placeholder": "blurs/2025-11-26-140324-dasa.png",
           "placeholderColor": "rgb(8,8,8)",
           "analysis": {
-            "aestheticScore": 51.437944108575465,
+            "aestheticScore": 49.83437458026004,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "f891b18fd2d0ecec",
@@ -18076,7 +18144,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-140324-dasa.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -18095,7 +18163,7 @@
           "placeholder": "blurs/2025-11-26-140433-dasa--collage.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 47.328360418338484,
+            "aestheticScore": 46.041714086753,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "8cd41e2ca4e4e4e6",
@@ -18179,9 +18247,11 @@
             }
           ],
           "people": [
-            "statue-socha-006-592046e5",
-            "statue-socha-007-ecf332ec",
-            "statue-socha-005-065af7e2"
+            "person-038-2172f635",
+            "person-053-30741352",
+            "person-054-cf3131d7",
+            "person-055-56b96715",
+            "person-056-fde4f79e"
           ]
         },
         {
@@ -18197,7 +18267,7 @@
           "placeholder": "blurs/2025-11-26-142032-dasa.png",
           "placeholderColor": "rgb(8,8,8)",
           "analysis": {
-            "aestheticScore": 46.61764213662631,
+            "aestheticScore": 50.12962418332959,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "80f4f0e8e88cc781",
@@ -18278,7 +18348,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-142032-dasa.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -18296,7 +18366,7 @@
           "placeholder": "blurs/2025-11-26-142128-dasa.png",
           "placeholderColor": "rgb(8,8,8)",
           "analysis": {
-            "aestheticScore": 33.825318289889665,
+            "aestheticScore": 27.899987900276596,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "a860e8c8d0b82b61",
@@ -18384,10 +18454,12 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-142128-dasa.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
-          "people": []
+          "people": [
+            "person-021-7e407b97"
+          ]
         },
         {
           "id": "2025-11-26-142225-dasa",
@@ -18402,7 +18474,7 @@
           "placeholder": "blurs/2025-11-26-142225-dasa.png",
           "placeholderColor": "rgb(24,24,24)",
           "analysis": {
-            "aestheticScore": 51.18920173568331,
+            "aestheticScore": 50.40017189458291,
             "sharpness": 94,
             "qualityBucket": "good",
             "phash": "969696f070d0e8da",
@@ -18483,7 +18555,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-142225-dasa.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -18501,7 +18573,7 @@
           "placeholder": "blurs/2025-11-26-164839-bobina.png",
           "placeholderColor": "rgb(40,40,40)",
           "analysis": {
-            "aestheticScore": 46.205911969605815,
+            "aestheticScore": 48.74611083367582,
             "sharpness": 92,
             "qualityBucket": "good",
             "phash": "4b96aae2b33b0f36",
@@ -18581,7 +18653,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-164839-bobina.jpeg",
-              "width": 367,
+              "width": 534,
               "height": 534
             }
           ],
@@ -18600,7 +18672,7 @@
           "placeholder": "blurs/2025-11-26-164901-bobo.png",
           "placeholderColor": "rgb(40,40,40)",
           "analysis": {
-            "aestheticScore": 41.77171333104773,
+            "aestheticScore": 32.18166339891385,
             "sharpness": 84,
             "qualityBucket": "poor",
             "phash": "731b3e14f6303306",
@@ -18680,7 +18752,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-164901-bobo.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -18698,7 +18770,7 @@
           "placeholder": "blurs/2025-11-26-164905-bobina.png",
           "placeholderColor": "rgb(8,8,8)",
           "analysis": {
-            "aestheticScore": 77.6518083322981,
+            "aestheticScore": 75.70441863228845,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "a4ada2ece9c9b8c1",
@@ -18771,7 +18843,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-164905-bobina.jpeg",
-              "width": 407,
+              "width": 534,
               "height": 534
             }
           ],
@@ -18790,9 +18862,9 @@
           "placeholder": "blurs/2025-11-26-155237-cebreus--collage.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 66.26421651677161,
+            "aestheticScore": 59.83155758579465,
             "sharpness": 100,
-            "qualityBucket": "excellent",
+            "qualityBucket": "good",
             "phash": "a686869696b6b2b3",
             "facesDetected": false,
             "faces": []
@@ -18888,7 +18960,7 @@
           "placeholder": "blurs/2025-11-26-155357-cebreus.png",
           "placeholderColor": "rgb(8,8,8)",
           "analysis": {
-            "aestheticScore": 60.26331752454775,
+            "aestheticScore": 58.62973845965762,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "d0e2696961e9f1b5",
@@ -18968,7 +19040,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-155357-cebreus.jpeg",
-              "width": 400,
+              "width": 534,
               "height": 534
             }
           ],
@@ -18987,7 +19059,7 @@
           "placeholder": "blurs/2025-11-26-140307-cebreus.png",
           "placeholderColor": "rgb(72,72,72)",
           "analysis": {
-            "aestheticScore": 68.42249302972549,
+            "aestheticScore": 75.59801149177613,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "b634ac481810b4a5",
@@ -19068,7 +19140,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-140307-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -19087,9 +19159,9 @@
           "placeholder": "blurs/2025-11-26-153129-cebreus--collage.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 63.50563360339429,
+            "aestheticScore": 66.99400429140466,
             "sharpness": 100,
-            "qualityBucket": "good",
+            "qualityBucket": "excellent",
             "phash": "b1a98e3c32b6ba8e",
             "facesDetected": false,
             "faces": []
@@ -19186,7 +19258,7 @@
           "placeholder": "blurs/2025-11-26-153058-cebreus.png",
           "placeholderColor": "rgb(232,232,232)",
           "analysis": {
-            "aestheticScore": 70.77912600231339,
+            "aestheticScore": 78.10534185383476,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "635d55423286bcf2",
@@ -19274,11 +19346,11 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-153058-cebreus.jpeg",
               "width": 534,
-              "height": 400
+              "height": 534
             }
           ],
           "people": [
-            "person-osoba-026-1b1e0ede"
+            "person-057-1710380b"
           ]
         },
         {
@@ -19294,9 +19366,9 @@
           "placeholder": "blurs/2025-11-26-161403-dasa.png",
           "placeholderColor": "rgb(8,8,8)",
           "analysis": {
-            "aestheticScore": 43.45661607298903,
+            "aestheticScore": 45.30740551887485,
             "sharpness": 100,
-            "qualityBucket": "poor",
+            "qualityBucket": "good",
             "phash": "18b1f1f4f4f671da",
             "facesDetected": true,
             "faces": [
@@ -19394,11 +19466,11 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-161403-dasa.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": [
-            "person-bobina-0db741fb"
+            "person-021-7e407b97"
           ]
         },
         {
@@ -19414,17 +19486,17 @@
           "placeholder": "blurs/2025-11-26-192016-cebreus.png",
           "placeholderColor": "rgb(8,8,8)",
           "analysis": {
-            "aestheticScore": 47.678865862697265,
+            "aestheticScore": 47.425181143324515,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "61934565e2cec299",
             "facesDetected": true,
             "faces": [
               {
-                "x": 1705.6821498870847,
-                "y": 1449.4734420776367,
-                "width": 176.2855567932129,
-                "height": 264.19389724731445
+                "x": 1704.4312534332275,
+                "y": 1449.5227088928223,
+                "width": 177.4566650390626,
+                "height": 261.9850616455078
               }
             ]
           },
@@ -19497,7 +19569,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-192016-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -19505,7 +19577,7 @@
             "snapshot-author"
           ],
           "people": [
-            "person-jaruska-9b0bc40f"
+            "person-005-01bc8966"
           ]
         },
         {
@@ -19521,7 +19593,7 @@
           "placeholder": "blurs/2025-11-26-191950-dasa--collage.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 59.191926393608526,
+            "aestheticScore": 53.04596218318588,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "2632b8b2b2b6ebe5",
@@ -19598,7 +19670,7 @@
             }
           ],
           "people": [
-            "person-finda-f4999137"
+            "person-057-526e5ec3"
           ]
         }
       ],
@@ -19628,7 +19700,7 @@
           "placeholder": "blurs/2025-11-27-051203-cebreus.png",
           "placeholderColor": "rgb(184,184,168)",
           "analysis": {
-            "aestheticScore": 67.1420731887265,
+            "aestheticScore": 66.06590719545206,
             "sharpness": 96,
             "qualityBucket": "excellent",
             "phash": "345d4d4d4d43d0c0",
@@ -19709,7 +19781,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-051203-cebreus.jpeg",
               "width": 534,
-              "height": 400
+              "height": 534
             }
           ],
           "people": []
@@ -19727,7 +19799,7 @@
           "placeholder": "blurs/2025-11-27-064239-bobo--collage.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 67.79037064424283,
+            "aestheticScore": 65.9056457523528,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "9c9a989087c6ccce",
@@ -19820,7 +19892,7 @@
           "placeholder": "blurs/2025-11-27-113855-bobina--collage.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 48.51780487515343,
+            "aestheticScore": 46.53579367992941,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "f474cb4be3a5a4a6",
@@ -19926,7 +19998,7 @@
           "placeholder": "blurs/2025-11-27-135051-cebreus.png",
           "placeholderColor": "rgb(120,152,216)",
           "analysis": {
-            "aestheticScore": 59.320758038581005,
+            "aestheticScore": 59.685789679437065,
             "sharpness": 95,
             "qualityBucket": "good",
             "phash": "c363b239b1313007",
@@ -20014,11 +20086,11 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-135051-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": [
-            "person-osoba-008-45f0083b"
+            "person-059-7ca166cd"
           ]
         },
         {
@@ -20034,7 +20106,7 @@
           "placeholder": "blurs/2025-11-27-135056-cebreus.png",
           "placeholderColor": "rgb(168,152,120)",
           "analysis": {
-            "aestheticScore": 55.67740419439259,
+            "aestheticScore": 53.412154866173104,
             "sharpness": 98,
             "qualityBucket": "good",
             "phash": "6acfccd8d8d1b3b0",
@@ -20115,7 +20187,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-135056-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -20133,7 +20205,7 @@
           "placeholder": "blurs/2025-11-27-135120-cebreus.png",
           "placeholderColor": "rgb(88,72,56)",
           "analysis": {
-            "aestheticScore": 62.62637406185574,
+            "aestheticScore": 62.20085983573736,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "3e62252e6a686840",
@@ -20214,7 +20286,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-135120-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -20232,7 +20304,7 @@
           "placeholder": "blurs/2025-11-27-135126-bobina--collage.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 58.38374586987784,
+            "aestheticScore": 58.80639105814269,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "989ad8cccce4c4cc",
@@ -20330,7 +20402,7 @@
           "placeholder": "blurs/2025-11-27-135909-cebreus.png",
           "placeholderColor": "rgb(200,216,184)",
           "analysis": {
-            "aestheticScore": 78.20774647113865,
+            "aestheticScore": 75.56885044499244,
             "sharpness": 89,
             "qualityBucket": "excellent",
             "phash": "e263e234129aa692",
@@ -20411,7 +20483,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-135909-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -20429,7 +20501,7 @@
           "placeholder": "blurs/2025-11-27-140006-cebreus.png",
           "placeholderColor": "rgb(200,184,152)",
           "analysis": {
-            "aestheticScore": 39.634847693289004,
+            "aestheticScore": 36.56488307129036,
             "sharpness": 95,
             "qualityBucket": "poor",
             "phash": "3487a7b505040000",
@@ -20510,7 +20582,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-140006-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -20528,7 +20600,7 @@
           "placeholder": "blurs/2025-11-27-135303-cebreus.png",
           "placeholderColor": "rgb(200,184,152)",
           "analysis": {
-            "aestheticScore": 55.0396684520269,
+            "aestheticScore": 55.439410986831696,
             "sharpness": 95,
             "qualityBucket": "good",
             "phash": "df6371d595150503",
@@ -20609,7 +20681,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-135303-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -20627,7 +20699,7 @@
           "placeholder": "blurs/2025-11-27-140844-cebreus.png",
           "placeholderColor": "rgb(88,120,168)",
           "analysis": {
-            "aestheticScore": 59.09860928412196,
+            "aestheticScore": 58.43398951429964,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "488c9c9c1c1d1d04",
@@ -20708,7 +20780,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-140844-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -20726,7 +20798,7 @@
           "placeholder": "blurs/2025-11-27-135335-bobina.png",
           "placeholderColor": "rgb(104,152,216)",
           "analysis": {
-            "aestheticScore": 62.0511151478244,
+            "aestheticScore": 61.36230307084548,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "89d5b43432746442",
@@ -20806,7 +20878,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-135335-bobina.jpeg",
-              "width": 530,
+              "width": 534,
               "height": 534
             }
           ],
@@ -20825,7 +20897,7 @@
           "placeholder": "blurs/2025-11-27-135919-cebreus.png",
           "placeholderColor": "rgb(72,72,72)",
           "analysis": {
-            "aestheticScore": 53.051119575467226,
+            "aestheticScore": 50.008450328873565,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "c6e0195bd2d07c0e",
@@ -20906,7 +20978,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-135919-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -20924,7 +20996,7 @@
           "placeholder": "blurs/2025-11-27-142158-cebreus.png",
           "placeholderColor": "rgb(200,200,184)",
           "analysis": {
-            "aestheticScore": 84.07061854355315,
+            "aestheticScore": 89.86330915065949,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "676567345e8fa776",
@@ -21005,7 +21077,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-142158-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -21023,7 +21095,7 @@
           "placeholder": "blurs/2025-11-27-142139-cebreus.png",
           "placeholderColor": "rgb(136,120,104)",
           "analysis": {
-            "aestheticScore": 63.67918923308691,
+            "aestheticScore": 64.70648594059253,
             "sharpness": 58,
             "qualityBucket": "good",
             "phash": "145af17979797069",
@@ -21103,7 +21175,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-142139-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -21122,7 +21194,7 @@
           "placeholder": "blurs/2025-11-27-142312-cebreus.png",
           "placeholderColor": "rgb(120,88,72)",
           "analysis": {
-            "aestheticScore": 91.44552456190542,
+            "aestheticScore": 91.4975568540897,
             "sharpness": 40,
             "qualityBucket": "good",
             "phash": "19091bd3d393960c",
@@ -21203,7 +21275,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-142312-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -21221,7 +21293,7 @@
           "placeholder": "blurs/2025-11-27-143100-bobina.png",
           "placeholderColor": "rgb(72,104,168)",
           "analysis": {
-            "aestheticScore": 77.67566445800327,
+            "aestheticScore": 74.98154926608012,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "25ad351491496124",
@@ -21301,7 +21373,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-143100-bobina.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -21320,7 +21392,7 @@
           "placeholder": "blurs/2025-11-27-143115-cebreus.png",
           "placeholderColor": "rgb(72,104,152)",
           "analysis": {
-            "aestheticScore": 61.83963855614974,
+            "aestheticScore": 60.78142130720902,
             "sharpness": 93,
             "qualityBucket": "good",
             "phash": "3636b4b691919292",
@@ -21400,7 +21472,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-143115-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -21419,7 +21491,7 @@
           "placeholder": "blurs/2025-11-27-143516-bobina.png",
           "placeholderColor": "rgb(184,168,152)",
           "analysis": {
-            "aestheticScore": 80.78551757938108,
+            "aestheticScore": 83.52537202421084,
             "sharpness": 36,
             "qualityBucket": "poor",
             "phash": "b646596ae30337d7",
@@ -21499,7 +21571,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-143516-bobina.jpeg",
-              "width": 427,
+              "width": 534,
               "height": 534
             }
           ],
@@ -21518,7 +21590,7 @@
           "placeholder": "blurs/2025-11-27-143612-cebreus.png",
           "placeholderColor": "rgb(168,152,136)",
           "analysis": {
-            "aestheticScore": 71.08036468486064,
+            "aestheticScore": 71.92215393494192,
             "sharpness": 39,
             "qualityBucket": "poor",
             "phash": "0110c080c0303224",
@@ -21599,7 +21671,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-143612-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -21617,7 +21689,7 @@
           "placeholder": "blurs/2025-11-27-144008-cebreus.png",
           "placeholderColor": "rgb(216,200,120)",
           "analysis": {
-            "aestheticScore": 77.2767390246957,
+            "aestheticScore": 71.32225746322975,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "6d4d306a2d19d8f2",
@@ -21698,7 +21770,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-144008-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -21716,7 +21788,7 @@
           "placeholder": "blurs/2025-11-27-144030-cebreus.png",
           "placeholderColor": "rgb(168,152,120)",
           "analysis": {
-            "aestheticScore": 48.987946489904196,
+            "aestheticScore": 49.77870794034933,
             "sharpness": 38,
             "qualityBucket": "poor",
             "phash": "4ae0f3c7d6140000",
@@ -21797,7 +21869,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-144030-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -21815,7 +21887,7 @@
           "placeholder": "blurs/2025-11-27-144146-cebreus.png",
           "placeholderColor": "rgb(184,184,152)",
           "analysis": {
-            "aestheticScore": 68.97838413980502,
+            "aestheticScore": 67.38920532900723,
             "sharpness": 75,
             "qualityBucket": "good",
             "phash": "5d9919e1ad19d9e0",
@@ -21896,7 +21968,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-144146-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -21914,7 +21986,7 @@
           "placeholder": "blurs/2025-11-27-144202-cebreus.png",
           "placeholderColor": "rgb(88,120,168)",
           "analysis": {
-            "aestheticScore": 67.18622303865635,
+            "aestheticScore": 66.84446397538063,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "885818194b5b5b17",
@@ -21994,7 +22066,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-144202-cebreus.jpeg",
-              "width": 400,
+              "width": 534,
               "height": 534
             }
           ],
@@ -22013,7 +22085,7 @@
           "placeholder": "blurs/2025-11-27-144656-cebreus.png",
           "placeholderColor": "rgb(216,200,168)",
           "analysis": {
-            "aestheticScore": 65.82349362840215,
+            "aestheticScore": 71.61193335345997,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "991a193a32310697",
@@ -22094,7 +22166,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-144656-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -22112,7 +22184,7 @@
           "placeholder": "blurs/2025-11-27-150623-bobina.png",
           "placeholderColor": "rgb(88,152,216)",
           "analysis": {
-            "aestheticScore": 57.662911461582006,
+            "aestheticScore": 60.63122734846878,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "90999da48c54d45c",
@@ -22193,7 +22265,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-150623-bobina.jpeg",
               "width": 534,
-              "height": 448
+              "height": 534
             }
           ],
           "people": []
@@ -22211,7 +22283,7 @@
           "placeholder": "blurs/2025-11-27-150755-cebreus.png",
           "placeholderColor": "rgb(120,152,200)",
           "analysis": {
-            "aestheticScore": 57.34435666539604,
+            "aestheticScore": 58.25945723570122,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "07271b61621e3e3e",
@@ -22299,11 +22371,11 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-150755-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": [
-            "person-jaruska-9b0bc40f"
+            "person-005-01bc8966"
           ]
         },
         {
@@ -22319,7 +22391,7 @@
           "placeholder": "blurs/2025-11-27-150755-bobina.png",
           "placeholderColor": "rgb(136,184,232)",
           "analysis": {
-            "aestheticScore": 54.73521509991792,
+            "aestheticScore": 55.1409580914746,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "174fccdc7af3b706",
@@ -22400,7 +22472,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-150755-bobina.jpeg",
               "width": 534,
-              "height": 474
+              "height": 534
             }
           ],
           "people": []
@@ -22418,7 +22490,7 @@
           "placeholder": "blurs/2025-11-27-150836-cebreus.png",
           "placeholderColor": "rgb(136,152,184)",
           "analysis": {
-            "aestheticScore": 52.21381655395984,
+            "aestheticScore": 51.773621719199895,
             "sharpness": 86,
             "qualityBucket": "good",
             "phash": "0c1cb021adffffff",
@@ -22499,7 +22571,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-150836-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -22517,7 +22589,7 @@
           "placeholder": "blurs/2025-11-27-151010-cebreus.png",
           "placeholderColor": "rgb(104,136,184)",
           "analysis": {
-            "aestheticScore": 81.77771135222353,
+            "aestheticScore": 73.7137806226442,
             "sharpness": 94,
             "qualityBucket": "excellent",
             "phash": "caf5fbcb9bce3105",
@@ -22597,7 +22669,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-151010-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -22616,7 +22688,7 @@
           "placeholder": "blurs/2025-11-27-151031-cebreus.png",
           "placeholderColor": "rgb(136,168,216)",
           "analysis": {
-            "aestheticScore": 58.427607735954574,
+            "aestheticScore": 55.1871301735841,
             "sharpness": 59,
             "qualityBucket": "good",
             "phash": "139f716d2735fd7f",
@@ -22697,7 +22769,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-151031-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -22715,7 +22787,7 @@
           "placeholder": "blurs/2025-11-27-151219-cebreus.png",
           "placeholderColor": "rgb(88,72,56)",
           "analysis": {
-            "aestheticScore": 81.25643543344057,
+            "aestheticScore": 82.85621125916379,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "2f091a2baa090b08",
@@ -22795,7 +22867,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-151219-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -22814,7 +22886,7 @@
           "placeholder": "blurs/2025-11-27-151303-cebreus.png",
           "placeholderColor": "rgb(168,136,88)",
           "analysis": {
-            "aestheticScore": 86.72956716185858,
+            "aestheticScore": 91.87068248220953,
             "sharpness": 85,
             "qualityBucket": "excellent",
             "phash": "cde7cc0e936d733b",
@@ -22894,7 +22966,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-151303-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -22913,9 +22985,9 @@
           "placeholder": "blurs/2025-11-27-151336-cebreus.png",
           "placeholderColor": "rgb(200,184,120)",
           "analysis": {
-            "aestheticScore": 65.41407169196907,
+            "aestheticScore": 53.03785420516068,
             "sharpness": 100,
-            "qualityBucket": "excellent",
+            "qualityBucket": "good",
             "phash": "a894986192923e41",
             "facesDetected": false,
             "faces": []
@@ -22994,7 +23066,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-151336-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -23012,7 +23084,7 @@
           "placeholder": "blurs/2025-11-27-151354-bobina.png",
           "placeholderColor": "rgb(184,152,120)",
           "analysis": {
-            "aestheticScore": 54.562785523679295,
+            "aestheticScore": 50.552696826756296,
             "sharpness": 26,
             "qualityBucket": "poor",
             "phash": "edadece5b6776363",
@@ -23092,7 +23164,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-151354-bobina.jpeg",
-              "width": 474,
+              "width": 534,
               "height": 534
             }
           ],
@@ -23111,7 +23183,7 @@
           "placeholder": "blurs/2025-11-27-151409-cebreus.png",
           "placeholderColor": "rgb(88,120,168)",
           "analysis": {
-            "aestheticScore": 49.525994176121024,
+            "aestheticScore": 48.618300188480376,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "b77fffc7151f3f1f",
@@ -23192,7 +23264,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-151409-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -23210,9 +23282,9 @@
           "placeholder": "blurs/2025-11-27-151703-cebreus.png",
           "placeholderColor": "rgb(136,120,104)",
           "analysis": {
-            "aestheticScore": 65.84978164758756,
+            "aestheticScore": 62.489161778910116,
             "sharpness": 98,
-            "qualityBucket": "excellent",
+            "qualityBucket": "good",
             "phash": "6a3a3a181978cecf",
             "facesDetected": true,
             "faces": [
@@ -23297,12 +23369,12 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-151703-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
           "people": [
-            "person-jaruska-9b0bc40f"
+            "person-005-01bc8966"
           ]
         },
         {
@@ -23328,7 +23400,7 @@
           "placeholder": "blurs/2025-11-27-155421-cebreus.png",
           "placeholderColor": "rgb(248,248,248)",
           "analysis": {
-            "aestheticScore": 67.54439327590828,
+            "aestheticScore": 70.75061685863923,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "7530d0161393c9fc",
@@ -23409,7 +23481,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-155421-cebreus.jpeg",
               "width": 534,
-              "height": 400
+              "height": 534
             }
           ],
           "people": []
@@ -23427,7 +23499,7 @@
           "placeholder": "blurs/2025-11-27-155516-cebreus.png",
           "placeholderColor": "rgb(168,184,200)",
           "analysis": {
-            "aestheticScore": 82.92246410055326,
+            "aestheticScore": 82.26352842336067,
             "sharpness": 54,
             "qualityBucket": "good",
             "phash": "b533b52d2a2acce8",
@@ -23507,7 +23579,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-155516-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -23526,7 +23598,7 @@
           "placeholder": "blurs/2025-11-27-155553-cebreus.png",
           "placeholderColor": "rgb(248,248,248)",
           "analysis": {
-            "aestheticScore": 55.49335529052681,
+            "aestheticScore": 53.673929512758605,
             "sharpness": 83,
             "qualityBucket": "good",
             "phash": "0e9694d4b6b2b3b3",
@@ -23607,7 +23679,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-155553-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -23625,7 +23697,7 @@
           "placeholder": "blurs/2025-11-27-160718-cebreus.png",
           "placeholderColor": "rgb(200,184,168)",
           "analysis": {
-            "aestheticScore": 85.07223300975602,
+            "aestheticScore": 91.20250285700423,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "8a968aea8aecbaa2",
@@ -23706,7 +23778,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-160718-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -23724,7 +23796,7 @@
           "placeholder": "blurs/2025-11-27-160752-cebreus.png",
           "placeholderColor": "rgb(184,168,152)",
           "analysis": {
-            "aestheticScore": 66.24643840252017,
+            "aestheticScore": 66.3008410805837,
             "sharpness": 84,
             "qualityBucket": "excellent",
             "phash": "36001d294b83113e",
@@ -23804,7 +23876,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-160752-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -23822,7 +23894,7 @@
           "placeholder": "blurs/2025-11-27-160500-dasa--zoom1from3.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 60.96230733029756,
+            "aestheticScore": 58.58486513277365,
             "sharpness": 95,
             "qualityBucket": "good",
             "phash": "de99d9a6261d1f2f",
@@ -23930,7 +24002,7 @@
           "placeholder": "blurs/2025-11-27-160501-dasa--zoom2from3.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 65.40299747908028,
+            "aestheticScore": 68.93567480242373,
             "sharpness": 82,
             "qualityBucket": "excellent",
             "phash": "4b6acc0e0f572f2f",
@@ -24036,9 +24108,9 @@
           "sizeMB": 5.78,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-27-160445-cebreus.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(248,216,136)",
           "analysis": {
-            "aestheticScore": 52.24011355812332,
+            "aestheticScore": 54.371564691042146,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "90aa8a92b3747406",
@@ -24137,7 +24209,7 @@
           "placeholder": "blurs/2025-11-27-160502-dasa--zoom3from3.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 71.26289665115134,
+            "aestheticScore": 78.54819685903443,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "e39d9d1c1d0cccfc",
@@ -24245,7 +24317,7 @@
           "placeholder": "blurs/2025-11-27-160318-bobina.png",
           "placeholderColor": "rgb(184,168,152)",
           "analysis": {
-            "aestheticScore": 57.97915792590571,
+            "aestheticScore": 64.07380188236789,
             "sharpness": 76,
             "qualityBucket": "good",
             "phash": "fba6aea7a7b1b643",
@@ -24326,7 +24398,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-160318-bobina.jpeg",
               "width": 534,
-              "height": 380
+              "height": 534
             }
           ],
           "people": []
@@ -24344,7 +24416,7 @@
           "placeholder": "blurs/2025-11-27-160841-cebreus.png",
           "placeholderColor": "rgb(248,248,248)",
           "analysis": {
-            "aestheticScore": 90.21086432188469,
+            "aestheticScore": 90.15093038153088,
             "sharpness": 92,
             "qualityBucket": "excellent",
             "phash": "68649349c5cdc9c3",
@@ -24449,12 +24521,14 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-160841-cebreus.jpeg",
-              "width": 400,
+              "width": 534,
               "height": 534
             }
           ],
           "people": [
-            "person-osoba-013-119ea5df"
+            "person-060-55d1b114",
+            "person-021-7e407b97",
+            "person-008-14551ea9"
           ]
         },
         {
@@ -24470,9 +24544,9 @@
           "placeholder": "blurs/2025-11-27-161031-cebreus.png",
           "placeholderColor": "rgb(184,184,168)",
           "analysis": {
-            "aestheticScore": 62.334463665338205,
+            "aestheticScore": 72.64945729887704,
             "sharpness": 94,
-            "qualityBucket": "good",
+            "qualityBucket": "excellent",
             "phash": "0f0f171636060e0e",
             "facesDetected": false,
             "faces": []
@@ -24550,7 +24624,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-161031-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -24569,7 +24643,7 @@
           "placeholder": "blurs/2025-11-27-161454-cebreus.png",
           "placeholderColor": "rgb(120,120,120)",
           "analysis": {
-            "aestheticScore": 63.78326669857069,
+            "aestheticScore": 70.27030754044767,
             "sharpness": 41,
             "qualityBucket": "good",
             "phash": "5d79e13d3d057169",
@@ -24650,7 +24724,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-161454-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -24668,7 +24742,7 @@
           "placeholder": "blurs/2025-11-27-161608-cebreus.png",
           "placeholderColor": "rgb(136,136,120)",
           "analysis": {
-            "aestheticScore": 86.96011227202999,
+            "aestheticScore": 85.81675917518399,
             "sharpness": 88,
             "qualityBucket": "excellent",
             "phash": "7caa2a2a26242406",
@@ -24749,7 +24823,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-161608-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -24767,7 +24841,7 @@
           "placeholder": "blurs/2025-11-27-163413-cebreus.png",
           "placeholderColor": "rgb(136,120,104)",
           "analysis": {
-            "aestheticScore": 55.315813630226266,
+            "aestheticScore": 59.65046395634313,
             "sharpness": 85,
             "qualityBucket": "good",
             "phash": "aca88cc4e0e1f9e8",
@@ -24848,7 +24922,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-163413-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -24866,7 +24940,7 @@
           "placeholder": "blurs/2025-11-27-163442-cebreus.png",
           "placeholderColor": "rgb(72,56,40)",
           "analysis": {
-            "aestheticScore": 61.49888814628481,
+            "aestheticScore": 62.808328214263604,
             "sharpness": 93,
             "qualityBucket": "good",
             "phash": "61070f0f0321a51f",
@@ -24947,7 +25021,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-163442-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -24965,7 +25039,7 @@
           "placeholder": "blurs/2025-11-27-154552-dasa--collage.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 72.9586474466231,
+            "aestheticScore": 75.11140511443101,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "bae9c89cddcda99a",
@@ -25061,7 +25135,7 @@
           "placeholder": "blurs/2025-11-27-164753-cebreus.png",
           "placeholderColor": "rgb(136,168,200)",
           "analysis": {
-            "aestheticScore": 59.447599762295425,
+            "aestheticScore": 63.787235332684126,
             "sharpness": 45,
             "qualityBucket": "good",
             "phash": "f0341767a6a43430",
@@ -25172,16 +25246,15 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-164753-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
           "people": [
-            "person-jaruska-9b0bc40f",
-            "person-dasa-86077f36",
-            "person-bobo-6abf63c9",
-            "person-finda-f4999137",
-            "person-bobina-0db741fb"
+            "person-005-01bc8966",
+            "person-003-6cf69a7e",
+            "person-001-be3cbb11",
+            "person-021-7e407b97"
           ]
         },
         {
@@ -25197,7 +25270,7 @@
           "placeholder": "blurs/2025-11-27-164805-cebreus.png",
           "placeholderColor": "rgb(120,104,88)",
           "analysis": {
-            "aestheticScore": 61.09189168532298,
+            "aestheticScore": 61.34685189488382,
             "sharpness": 90,
             "qualityBucket": "good",
             "phash": "1a1b8bcba4262767",
@@ -25309,14 +25382,15 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-164805-cebreus.jpeg",
               "width": 534,
-              "height": 400
+              "height": 534
             }
           ],
           "people": [
-            "person-finda-f4999137",
-            "person-jaruska-9b0bc40f",
-            "person-dasa-86077f36",
-            "person-bobo-6abf63c9"
+            "person-007-60ea47ee",
+            "person-005-01bc8966",
+            "person-003-6cf69a7e",
+            "person-008-bd773b63",
+            "person-001-be3cbb11"
           ]
         },
         {
@@ -25332,7 +25406,7 @@
           "placeholder": "blurs/2025-11-27-161227-dasa.png",
           "placeholderColor": "rgb(136,152,152)",
           "analysis": {
-            "aestheticScore": 56.92751346824097,
+            "aestheticScore": 56.72328282856866,
             "sharpness": 94,
             "qualityBucket": "good",
             "phash": "32e42c2b83d2fce0",
@@ -25413,7 +25487,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-161227-dasa.jpeg",
               "width": 534,
-              "height": 445
+              "height": 534
             }
           ],
           "people": []
@@ -25431,7 +25505,9 @@
           "placeholder": "blurs/2025-11-27-170359-cebreus.png",
           "placeholderColor": "rgb(200,200,200)",
           "analysis": {
-            "sharpness": 3729.4420078513504,
+            "aestheticScore": 35.38646389341096,
+            "sharpness": 100,
+            "qualityBucket": "poor",
             "phash": "c0f0f00833330400",
             "facesDetected": false,
             "faces": []
@@ -25516,7 +25592,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-170359-cebreus.jpeg",
               "width": 534,
-              "height": 400
+              "height": 534
             }
           ],
           "people": []
@@ -25534,7 +25610,7 @@
           "placeholder": "blurs/2025-11-27-162535-dasa.png",
           "placeholderColor": "rgb(56,72,104)",
           "analysis": {
-            "aestheticScore": 52.622658552729895,
+            "aestheticScore": 52.20949484092108,
             "sharpness": 97,
             "qualityBucket": "good",
             "phash": "fa3098d8390b0201",
@@ -25612,7 +25688,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-162535-dasa.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -25631,7 +25707,7 @@
           "placeholder": "blurs/2025-11-27-162603-dasa.png",
           "placeholderColor": "rgb(56,40,24)",
           "analysis": {
-            "aestheticScore": 41.07440192359333,
+            "aestheticScore": 41.87178445703511,
             "sharpness": 75,
             "qualityBucket": "poor",
             "phash": "c0606bd8fdffffff",
@@ -25712,7 +25788,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-162603-dasa.jpeg",
               "width": 534,
-              "height": 461
+              "height": 534
             }
           ],
           "people": []
@@ -25730,7 +25806,7 @@
           "placeholder": "blurs/2025-11-27-172835-cebreus.png",
           "placeholderColor": "rgb(8,8,24)",
           "analysis": {
-            "aestheticScore": 81.85875191958321,
+            "aestheticScore": 82.89512666294834,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "656d78aeed6dcede",
@@ -25840,13 +25916,13 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-172835-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": [
-            "person-osoba-011-73a8dfb7",
-            "person-bobina-0db741fb",
-            "person-osoba-002-44540c09"
+            "person-021-7e407b97",
+            "person-062-f54f7b2a",
+            "person-016-fd249c9a"
           ]
         },
         {
@@ -25862,7 +25938,7 @@
           "placeholder": "blurs/2025-11-27-173120-cebreus.png",
           "placeholderColor": "rgb(8,8,8)",
           "analysis": {
-            "aestheticScore": 63.895746660731525,
+            "aestheticScore": 57.718296482300666,
             "sharpness": 90,
             "qualityBucket": "good",
             "phash": "8bd33f2363cf814e",
@@ -25940,7 +26016,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-173120-cebreus.jpeg",
-              "width": 401,
+              "width": 534,
               "height": 534
             }
           ],
@@ -25959,7 +26035,7 @@
           "placeholder": "blurs/2025-11-27-174013-cebreus--collage.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 48.4123818601414,
+            "aestheticScore": 52.87712546963285,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "6c6e64243ca999f9",
@@ -26055,7 +26131,7 @@
           "placeholder": "blurs/2025-11-27-181255-cebreus.png",
           "placeholderColor": "rgb(24,24,24)",
           "analysis": {
-            "aestheticScore": 59.763167253814075,
+            "aestheticScore": 59.63671203140095,
             "sharpness": 65,
             "qualityBucket": "good",
             "phash": "e5f3f9fdb3772d1d",
@@ -26134,7 +26210,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-181255-cebreus.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -26152,7 +26228,7 @@
           "placeholder": "blurs/2025-11-27-203001-bobina.png",
           "placeholderColor": "rgb(8,8,8)",
           "analysis": {
-            "aestheticScore": 42.91361157838476,
+            "aestheticScore": 43.536280279132484,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "417524a0b041e0e4",
@@ -26250,12 +26326,12 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-203001-bobina.jpeg",
               "width": 534,
-              "height": 287
+              "height": 534
             }
           ],
           "people": [
-            "person-finda-f4999137",
-            "person-bety-5df88ba9"
+            "person-061-aa922257",
+            "person-057-526e5ec3"
           ]
         },
         {
@@ -26271,7 +26347,7 @@
           "placeholder": "blurs/2025-11-27-203021-bobina.png",
           "placeholderColor": "rgb(8,8,24)",
           "analysis": {
-            "aestheticScore": 41.116882394920836,
+            "aestheticScore": 39.21029208182614,
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "80c0f0f97c6733e8",
@@ -26357,10 +26433,12 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-203021-bobina.jpeg",
               "width": 534,
-              "height": 381
+              "height": 534
             }
           ],
-          "people": []
+          "people": [
+            "person-021-7e407b97"
+          ]
         }
       ],
       "id": "day-2025-11-27"
@@ -26383,9 +26461,9 @@
           "placeholder": "blurs/2025-11-28-140424-bobina.png",
           "placeholderColor": "rgb(216,232,232)",
           "analysis": {
-            "aestheticScore": 76.34398595749512,
+            "aestheticScore": 64.84243949774601,
             "sharpness": 100,
-            "qualityBucket": "excellent",
+            "qualityBucket": "good",
             "phash": "ec8eba914ef62202",
             "facesDetected": false,
             "faces": []
@@ -26460,7 +26538,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-28-140424-bobina.jpeg",
               "width": 534,
-              "height": 366
+              "height": 534
             }
           ],
           "flags": [
@@ -26481,7 +26559,7 @@
           "placeholder": "blurs/2025-11-28-132857-dasa.png",
           "placeholderColor": "rgb(216,216,216)",
           "analysis": {
-            "aestheticScore": 60.24636013945799,
+            "aestheticScore": 63.14554993276317,
             "sharpness": 97,
             "qualityBucket": "good",
             "phash": "03015b07c8800000",
@@ -26558,7 +26636,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-28-132857-dasa.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -26576,7 +26654,7 @@
           "placeholder": "blurs/2025-11-28-132902-dasa.png",
           "placeholderColor": "rgb(184,184,184)",
           "analysis": {
-            "aestheticScore": 77.6965457425922,
+            "aestheticScore": 63.08807447455918,
             "sharpness": 62,
             "qualityBucket": "good",
             "phash": "e79f86e7fe03275e",
@@ -26653,7 +26731,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-28-132902-dasa.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": []
@@ -26671,7 +26749,7 @@
           "placeholder": "blurs/2025-11-28-143626-dasa--collage.png",
           "placeholderColor": "",
           "analysis": {
-            "aestheticScore": 56.507982958691805,
+            "aestheticScore": 56.77783584660101,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "3818825b496d3db2",
@@ -26751,10 +26829,9 @@
             }
           ],
           "people": [
-            "person-osoba-014-cd15cc55",
-            "person-osoba-029-1446a947",
-            "person-jarek-4d28f02d",
-            "person-osoba-012-183e8294"
+            "person-062-4781de1f",
+            "person-064-721925c4",
+            "person-021-7e407b97"
           ]
         },
         {
@@ -26770,7 +26847,7 @@
           "placeholder": "blurs/2025-11-28-152459-dasa.png",
           "placeholderColor": "rgb(168,168,168)",
           "analysis": {
-            "aestheticScore": 74.23093680221926,
+            "aestheticScore": 79.25369200271857,
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "63c3991c241034a4",
@@ -26854,11 +26931,11 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-28-152459-dasa.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "people": [
-            "person-osoba-015-cbbd0594"
+            "person-065-f72c8995"
           ]
         },
         {
@@ -26874,7 +26951,7 @@
           "placeholder": "blurs/2025-11-28-155801-dasa.png",
           "placeholderColor": "rgb(136,136,120)",
           "analysis": {
-            "aestheticScore": 47.35881118429781,
+            "aestheticScore": 49.214853063727716,
             "sharpness": 100,
             "qualityBucket": "good",
             "phash": "46c6c3462d25027e",
@@ -26958,14 +27035,14 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-28-155801-dasa.jpeg",
               "width": 534,
-              "height": 401
+              "height": 534
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-dasa-86077f36"
+            "person-003-6cf69a7e"
           ]
         }
       ],
