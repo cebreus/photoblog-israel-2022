@@ -25,14 +25,17 @@ export function createPeopleTabModel(params?: {
     box: { x: number; y: number; width: number; height: number };
   }>;
   mergeMutation?: {
-    mutateAsync: (params: {
-      sourcePersonIds: string[];
-      targetPersonId: string;
-    }) => Promise<unknown>;
+    mutateAsync: (
+      params: {
+        sourcePersonIds: string[];
+        targetPersonId: string;
+      },
+      options?: any,
+    ) => Promise<unknown>;
     isPending: boolean;
   };
   updateMutation?: {
-    mutateAsync: (params: { updates: Array<PersonUpdate> }) => Promise<unknown>;
+    mutateAsync: (params: { updates: Array<PersonUpdate> }, options?: any) => Promise<unknown>;
     isPending: boolean;
   };
 }) {
@@ -460,15 +463,26 @@ export function createPeopleTabModel(params?: {
     }
 
     const newHidden = !p.hidden;
+    const actionLabel = newHidden ? "skrýt" : "obnovit";
     logger.debug({ personId, newHidden }, "Toggling hide state");
 
     setProcessing(personId, true);
     try {
-      await params.updateMutation.mutateAsync({
-        updates: [{ id: personId, hidden: newHidden }],
-      });
-    } catch (e) {
-      logger.error({ err: e }, "Toggle hide mutation failed");
+      await params.updateMutation.mutateAsync(
+        {
+          updates: [{ id: personId, hidden: newHidden }],
+        },
+        {
+          onError: (error: Error) => {
+            logger.error({ err: error }, `Failed to ${actionLabel} person ${p.name}`);
+            toast.error(`Nepodařilo se ${actionLabel} osobu ${p.name}`, {
+              description: error.message,
+            });
+          },
+        },
+      );
+    } catch {
+      // Error handled by onError callback or mutation hook default
     } finally {
       setProcessing(personId, false);
     }
