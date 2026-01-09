@@ -1,5 +1,5 @@
-import path from "node:path";
 import type { Handle } from "@sveltejs/kit";
+import path from "node:path";
 
 import { log as rootLogger } from "$lib/logger";
 import { startTaskWatcher } from "$lib/server/task-watcher";
@@ -47,6 +47,9 @@ export const handle: Handle = async ({ event, resolve }) => {
       `${event.request.method} ${event.url.pathname} → ${response.status} (${duration}ms)`,
     );
   }
+
+  // 4. Mirror request ID in response so client can correlate logs
+  response.headers.set("X-Request-ID", requestId);
 
   return response;
 };
