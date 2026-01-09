@@ -12,6 +12,13 @@
   import UserMinus from "@lucide/svelte/icons/user-minus";
   import { toast } from "svelte-sonner";
 
+  import {
+    useInvalidateDetectionMutation,
+    useReassignFaceMutation,
+    useSetAvatarMutation,
+    useUnmatchFaceMutation,
+  } from "$lib/api/people/mutations";
+  import { useAvatarsQuery } from "$lib/api/people/queries";
   import { Button, buttonVariants } from "$lib/components/ui/button";
   import * as ButtonGroup from "$lib/components/ui/button-group";
   import * as Dialog from "$lib/components/ui/dialog";
@@ -36,6 +43,19 @@
     urlPrefix: string;
     onUpdate?: () => void;
   }>();
+
+  // TanStack Query hooks
+  const unmatchMutation = useUnmatchFaceMutation();
+  const reassignMutation = useReassignFaceMutation();
+  const invalidateDetectionMutation = useInvalidateDetectionMutation();
+  const avatarsQuery = useAvatarsQuery();
+  const setAvatarMutation = useSetAvatarMutation();
+
+  // Derive availableAvatars from query
+  const availableAvatars = $derived(avatarsQuery.data ?? []);
+
+  // Keep isWorking as state for now (will be fully replaced when all functions are refactored)
+  let isWorking = $state(false);
 
   const personImages = $derived.by(() => {
     if (!person || !open) return [];
@@ -68,12 +88,10 @@
     }),
   );
 
-  let isWorking = $state(false);
   let selectedIds = $state<Set<string>>(new Set());
   let showReassignDialog = $state(false);
   let showAvatarDialog = $state(false);
   let showIgnoreConfirm = $state(false);
-  let availableAvatars = $state<string[]>([]);
   let personSearchQuery = $state("");
 
   const filteredPeople = $derived.by(() => {
@@ -328,45 +346,26 @@
     } catch (e) {
       logger.error({ err: e }, "Bulk mark-as-junk failed");
       toast.error(DETECTION_MESSAGES.BULK_DETECTION_FAILED);
+      toast.error(DETECTION_MESSAGES.BULK_DETECTION_FAILED);
     } finally {
       isWorking = false;
     }
   }
 
-  async function loadAvatars() {
-    try {
-      const res = await tracedFetch("/api/people/avatars");
-      if (res.ok) {
-        const data = await res.json();
-        availableAvatars = data.avatars;
-      }
-    } catch (e) {
-      logger.error({ err: e }, "Failed to load avatars");
-    }
+  // No-op function - avatars are now loaded automatically via avatarsQuery
+  function loadAvatars() {
+    // Avatars are loaded automatically via TanStack Query (avatarsQuery)
   }
 
   async function setAvatar(avatar: string) {
     if (isWorking) return;
-    isWorking = true;
     try {
-      const res = await tracedFetch("/api/people/set-avatar", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ personId: person.id, avatar }),
-      });
-
-      if (res.ok) {
-        onUpdate?.();
-        showAvatarDialog = false;
-        toast.success("Avatar úspěšně změněn");
-      } else {
-        toast.error("Změna avatara selhala");
-      }
+      await setAvatarMutation.mutateAsync({ personId: person.id, avatarPath: avatar });
+      showAvatarDialog = false;
+      onUpdate?.();
     } catch (e) {
+      // Error already handled by mutation's onError callback
       logger.error({ err: e }, "Failed to set avatar");
-      toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR);
-    } finally {
-      isWorking = false;
     }
   }
 </script>
