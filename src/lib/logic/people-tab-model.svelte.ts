@@ -6,10 +6,9 @@ import { filters } from "$lib/stores/filters.svelte";
 import { people } from "$lib/stores/people.svelte";
 import { type Person, type PhotoDayItem, isImageEntry } from "$lib/types/manifest";
 import { buildImagePeopleMap } from "$lib/utils/gallery";
-import { PERSON_MESSAGES } from "$lib/utils/messages";
-import { updatePeopleOrThrow } from "$lib/utils/people-actions";
 import { untrack } from "svelte";
-import { toast } from "svelte-sonner";
+
+import { type PersonUpdate } from "$lib/api/people/types";
 
 const logger = createLogger("PeopleTabModel");
 
@@ -33,7 +32,7 @@ export function createPeopleTabModel(params?: {
     isPending: boolean;
   };
   updateMutation?: {
-    mutateAsync: (params: { updates: Array<{ id: string; name?: string }> }) => Promise<unknown>;
+    mutateAsync: (params: { updates: Array<PersonUpdate> }) => Promise<unknown>;
     isPending: boolean;
   };
 }) {
@@ -42,7 +41,6 @@ export function createPeopleTabModel(params?: {
   let lastSelectedMergeId = $state<string | null>(null);
 
   // Processing & UI State
-  let isSaving = $state(false);
   let processingIds = $state(new Set<string>());
   let lastUpdateTimestamp = $state(typeof window !== "undefined" ? Date.now() : 0);
 
@@ -343,24 +341,21 @@ export function createPeopleTabModel(params?: {
 
   async function executeBulkHide() {
     if (selectedForMerge.length === 0) return;
+    if (!params?.updateMutation) {
+      logger.error({}, "updateMutation not provided to model");
+      return;
+    }
 
-    isSaving = true;
     try {
       const updates = selectedForMerge.map((id) => ({ id, hidden: true }));
-      await updatePeopleOrThrow(updates);
-
       const hiddenIds = [...selectedForMerge];
+
+      await params.updateMutation.mutateAsync({ updates });
+
       filters.selectedPeople = filters.selectedPeople.filter((id) => !hiddenIds.includes(id));
       selectedForMerge = [];
-
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      await people.refresh();
-      toast.success(PERSON_MESSAGES.bulkHidden(hiddenIds.length));
     } catch (error) {
-      logger.error({ err: error }, "Bulk hide failed");
-      toast.error(PERSON_MESSAGES.BULK_HIDE_FAILED);
-    } finally {
-      isSaving = false;
+      logger.error({ err: error }, "Bulk hide mutation failed");
     }
   }
 
@@ -382,21 +377,18 @@ export function createPeopleTabModel(params?: {
 
   async function executeBulkRestore(hiddenIds: string[]) {
     if (hiddenIds.length === 0) return;
+    if (!params?.updateMutation) {
+      logger.error({}, "updateMutation not provided to model");
+      return;
+    }
 
-    isSaving = true;
     try {
       const updates = hiddenIds.map((id) => ({ id, hidden: false }));
-      await updatePeopleOrThrow(updates);
+      await params.updateMutation.mutateAsync({ updates });
 
       filters.selectedPeople = filters.selectedPeople.filter((id) => !hiddenIds.includes(id));
-      await new Promise((r) => setTimeout(r, 500));
-      await people.refresh();
-      toast.success(PERSON_MESSAGES.bulkRestored(hiddenIds.length));
     } catch (e) {
-      logger.error({ err: e }, "Bulk restore failed");
-      toast.error(PERSON_MESSAGES.BULK_RESTORE_FAILED);
-    } finally {
-      isSaving = false;
+      logger.error({ err: e }, "Bulk restore mutation failed");
     }
   }
 
@@ -414,21 +406,18 @@ export function createPeopleTabModel(params?: {
 
   async function executeBulkMarkAsJunk() {
     if (selectedForMerge.length === 0) return;
+    if (!params?.updateMutation) {
+      logger.error({}, "updateMutation not provided to model");
+      return;
+    }
 
-    isSaving = true;
     try {
       const updates = selectedForMerge.map((id) => ({ id, junk: true }));
-      await updatePeopleOrThrow(updates);
+      await params.updateMutation.mutateAsync({ updates });
 
       selectedForMerge = [];
-      await new Promise((r) => setTimeout(r, 400));
-      await people.refresh();
-      toast.success(PERSON_MESSAGES.bulkIgnored);
     } catch (e) {
-      logger.error({ err: e }, "Bulk mark-as-junk failed");
-      toast.error(PERSON_MESSAGES.BULK_IGNORE_FAILED);
-    } finally {
-      isSaving = false;
+      logger.error({ err: e }, "Bulk mark-as-junk mutation failed");
     }
   }
 
@@ -445,41 +434,41 @@ export function createPeopleTabModel(params?: {
 
   async function handleBulkRestoreFromJunk() {
     if (selectedJunkCount === 0) return;
+    if (!params?.updateMutation) {
+      logger.error({}, "updateMutation not provided to model");
+      return;
+    }
 
-    isSaving = true;
     try {
       const junkIds = selectedForMerge.filter((id) => people.junkPeople.some((p) => p.id === id));
       const updates = junkIds.map((id) => ({ id, junk: false }));
 
-      await updatePeopleOrThrow(updates);
+      await params.updateMutation.mutateAsync({ updates });
 
       selectedForMerge = selectedForMerge.filter((id) => !junkIds.includes(id));
-      await new Promise((r) => setTimeout(r, 400));
-      await people.refresh();
-      toast.success(PERSON_MESSAGES.bulkRestoredFromJunk(junkIds.length));
     } catch (e) {
-      logger.error({ err: e }, "Bulk restore from junk failed");
-      toast.error(PERSON_MESSAGES.BULK_RESTORE_FAILED);
-    } finally {
-      isSaving = false;
+      logger.error({ err: e }, "Bulk restore from junk mutation failed");
     }
   }
 
   async function toggleHide(personId: string) {
     const p = people.peopleWithStats.find((x) => x.id === personId);
     if (!p) return;
+    if (!params?.updateMutation) {
+      logger.error({}, "updateMutation not provided to model");
+      return;
+    }
 
     const newHidden = !p.hidden;
     logger.debug({ personId, newHidden }, "Toggling hide state");
 
     setProcessing(personId, true);
     try {
-      await updatePeopleOrThrow([{ id: personId, hidden: newHidden }]);
-      await people.refresh();
-      toast.success(newHidden ? PERSON_MESSAGES.PERSON_HIDDEN : PERSON_MESSAGES.PERSON_RESTORED);
+      await params.updateMutation.mutateAsync({
+        updates: [{ id: personId, hidden: newHidden }],
+      });
     } catch (e) {
-      logger.error({ err: e }, "Toggle hide failed");
-      toast.error(PERSON_MESSAGES.UPDATE_FAILED);
+      logger.error({ err: e }, "Toggle hide mutation failed");
     } finally {
       setProcessing(personId, false);
     }
@@ -585,36 +574,33 @@ export function createPeopleTabModel(params?: {
 
   async function executeBulkUpdateCategory(category: "person" | "statue" | "painting") {
     if (selectedForMerge.length === 0) return;
+    if (!params?.updateMutation) {
+      logger.error({}, "updateMutation not provided to model");
+      return;
+    }
 
-    isSaving = true;
     try {
       const updates = selectedForMerge.map((id) => ({ id, category }));
-      await updatePeopleOrThrow(updates);
+      await params.updateMutation.mutateAsync({ updates });
 
       selectedForMerge = [];
-      await new Promise((r) => setTimeout(r, 400));
-      await people.refresh();
-      toast.success(PERSON_MESSAGES.CATEGORY_UPDATED);
     } catch (error) {
-      logger.error({ err: error }, "Bulk category update failed");
-      toast.error(PERSON_MESSAGES.CATEGORY_UPDATE_FAILED);
-    } finally {
-      isSaving = false;
+      logger.error({ err: error }, "Bulk category update mutation failed");
     }
   }
 
   function bulkUpdateCategory(category: "person" | "statue" | "painting") {
     if (selectedForMerge.length === 0) return;
 
-    const labels = {
+    const _labels = {
       person: "Osoba",
       statue: "Socha",
       painting: "Malba",
     } as const;
 
     openBulkConfirm({
-      title: `Změnit typ u ${selectedForMerge.length} osob?`,
-      description: `Vybrané profily budou nastaveny na typ: ${labels[category]}.`,
+      title: `Změnit typ u $selectedForMerge.length osob ? `,
+      description: `Vybrané profily budou nastaveny na typ: $labels[category].`,
       confirmLabel: "Změnit typ",
       onConfirm: () => executeBulkUpdateCategory(category),
     });
@@ -630,9 +616,6 @@ export function createPeopleTabModel(params?: {
     },
     get lastSelectedMergeId() {
       return lastSelectedMergeId;
-    },
-    get isSaving() {
-      return isSaving;
     },
     get processingIds() {
       return processingIds;
