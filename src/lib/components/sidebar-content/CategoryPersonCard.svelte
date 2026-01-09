@@ -20,7 +20,7 @@
     person: Person;
     selected?: boolean;
     getThumbnailSrc: (p: Person) => string;
-    onToggle: (id: string) => void;
+    onToggle: (id: string, e?: MouseEvent | KeyboardEvent) => void;
     onOpenDetail?: (p: Person) => void;
     testId: string;
     showCount?: boolean;
@@ -37,12 +37,12 @@
     class="group relative aspect-square cursor-pointer overflow-hidden bg-slate-100 dark:bg-slate-900"
     role="button"
     tabindex="0"
-    onclick={() => onToggle(person.id)}
+    onclick={(e) => onToggle(person.id, e)}
     aria-label={person.name}
     onkeydown={(e) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
-        onToggle(person.id);
+        onToggle(person.id, e);
       }
     }}
   >

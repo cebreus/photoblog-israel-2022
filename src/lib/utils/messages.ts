@@ -79,7 +79,10 @@ export const PERSON_MESSAGES = {
   BULK_RESTORE_FAILED: "Hromadné obnovení selhalo.",
   BULK_IGNORE_FAILED: "Hromadné ignorování selhalo.",
   BULK_CATEGORY_FAILED: "Hromadná změna kategorie selhala.",
+  CATEGORY_UPDATE_FAILED: "Změna kategorie selhala.",
   MERGE_FAILED: "Sloučení selhalo.",
+  UPDATE_FAILED: "Aktualizace selhala.",
+  CATEGORY_UPDATED: "Kategorie úspěšně změněna.",
 } as const;
 
 // ============================================================================
