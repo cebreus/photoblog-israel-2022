@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
+import type { IncomingMessage, ServerResponse } from "node:http";
 import path from "node:path";
-import type { Plugin } from "vite";
+import type { Connect, ResolvedConfig, ViteDevServer } from "vite";
 
 /**
  * Vite plugin to serve gallery-specific assets at root paths.
@@ -12,18 +13,18 @@ import type { Plugin } from "vite";
  * This allows each gallery to have its own favicons and share assets
  * without needing to copy them to static root.
  */
-export function galleryAssetsPlugin(): Plugin {
+export function galleryAssetsPlugin(): any {
     let contentDir: string;
 
     return {
         name: "gallery-assets",
 
-        configResolved(config) {
+        configResolved(config: ResolvedConfig) {
             contentDir = process.env.CONTENT_DIR || "egypt-2025";
         },
 
-        configureServer(server) {
-            server.middlewares.use(async (req, res, next) => {
+        configureServer(server: ViteDevServer) {
+            server.middlewares.use(async (req: IncomingMessage, res: ServerResponse, next: Connect.NextFunction) => {
                 const url = req.url;
                 if (!url) return next();
 

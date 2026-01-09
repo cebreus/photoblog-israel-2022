@@ -117,6 +117,19 @@ export function getPhotoDays(): PhotoDay[] {
   return currentManifest.photoDays ?? [];
 }
 
+export function getManifestSignature(): string {
+  const m = getManifest();
+  const p = getPeopleManifest();
+
+  // Prefer explicit version from metadata
+  if (m.meta?.version && p.meta?.version) {
+    return `v2-${m.meta.version}-${p.meta.version}`;
+  }
+
+  // Fallback signature based on lengths and content
+  return `v1-${m.photoDays.length}-${p.people.length}-${m?.photoDays?.[0]?.items?.[0]?.id || "empty"}`;
+}
+
 let imagePeopleMap: Record<string, string[]> | null = null;
 
 export function getImagePeopleMap(): Record<string, string[]> {

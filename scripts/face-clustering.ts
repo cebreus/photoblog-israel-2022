@@ -1,18 +1,19 @@
+import { clearTaskStatus } from "$lib/server/task-status";
+import {
+  type FaceEmbeddingsManifest,
+  type FacesManifest,
+  type ImageEntry,
+  isImageEntry,
+  type ManifestMeta,
+  type Person,
+} from "$lib/types/manifest";
+import { isValidClusteringConstraints } from "$lib/utils/manifest-validators";
 import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
 import * as canvas from "canvas";
 import crypto from "node:crypto";
 import fsp from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
-import { clearTaskStatus } from "../src/lib/server/task-status";
-import {
-  type FaceEmbeddingsManifest,
-  type FacesManifest,
-  type ImageEntry,
-  isImageEntry,
-  type Person,
-} from "../src/lib/types/manifest";
-import { isValidClusteringConstraints } from "../src/lib/utils/manifest-validators";
 import { createLogger } from "./lib/core/cli-logger";
 import { parseCliArguments } from "./lib/core/cli-parser";
 import { getConcurrency } from "./lib/core/concurrency-utils";
@@ -406,6 +407,7 @@ async function loadClusteringResources(
   disconnectedPairs: Set<string>;
   junkPairs: Set<string>;
   manualConnects: Map<string, string[]>;
+  meta?: ManifestMeta;
 }> {
   const disconnectedPairs = new Set<string>();
   const junkPairs = new Set<string>();
@@ -446,6 +448,7 @@ async function loadClusteringResources(
 
   let people: Person[] = [];
   const existingPeopleManifest = await loadPeopleManifest(dataDir);
+  const meta = existingPeopleManifest?.meta;
   const faceEmbeddings = (await loadFaceEmbeddingsManifest(dataDir)) || {};
 
   if (existingPeopleManifest?.people) {
@@ -661,7 +664,7 @@ async function loadClusteringResources(
       logger.info({ count: people.length }, "Loaded existing people from manifest");
   }
 
-  return { people, disconnectedPairs, junkPairs, manualConnects };
+  return { people, disconnectedPairs, junkPairs, manualConnects, meta };
 }
 
 function prepareImageQueues(
@@ -1045,10 +1048,8 @@ async function main() {
   // Backup constraints before any changes
   await backupConstraints(dataDir);
 
-  const { people, disconnectedPairs, junkPairs, manualConnects } = await loadClusteringResources(
-    dataDir,
-    contentDir,
-  );
+  const { people, disconnectedPairs, junkPairs, manualConnects, meta } =
+    await loadClusteringResources(dataDir, contentDir);
 
   if (values.clean) {
     if (values.verbose) logger.info({ facesOutputDir }, "[CLEAN] Cleaning output directory");
@@ -1193,7 +1194,7 @@ async function main() {
   }
 
   await saveFaceEmbeddingsManifest(dataDir, faceEmbeddings);
-  await savePeopleManifest(dataDir, { people });
+  await savePeopleManifest(dataDir, { people, meta });
 
   // Clean up invalid constraints (referencing non-existent people or images)
   await gcConstraints(dataDir, logger);

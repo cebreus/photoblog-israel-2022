@@ -195,8 +195,20 @@ export type PhotoDay = {
     mergedDates?: string[];
 };
 
+export type ManifestMeta = {
+    version: number;
+    generatedAt: string;
+    generator?: string;
+};
+
 export type Manifest = {
+    meta?: ManifestMeta;
     photoDays: PhotoDay[];
+};
+
+export type PeopleManifest = {
+    meta?: ManifestMeta;
+    people: Person[];
 };
 
 export type MenuLocation = {
@@ -307,9 +319,7 @@ export type Person = {
     isUserNamed?: boolean;
 };
 
-export type PeopleManifest = {
-    people: Person[];
-};
+
 
 export type AnalysisEntry = {
     aestheticScore?: number;

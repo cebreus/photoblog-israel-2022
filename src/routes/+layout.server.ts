@@ -1,5 +1,6 @@
 import {
   getCurationManifest,
+  getManifestSignature,
   getMenuItems,
   getPeopleManifest,
   getPhotoDays,
@@ -13,6 +14,7 @@ import type {
   SiteManifest,
 } from "$lib/types/manifest";
 import { toSlug } from "$lib/utils/strings";
+import type { LayoutServerLoad } from "./$types";
 
 const UNKNOWN_AUTHOR = "Neuvedeno";
 
@@ -63,10 +65,32 @@ function gatherQualityStats(photoDays: PhotoDay[]): Map<string, number> {
   return counts;
 }
 
-export const load = async () => {
+export const load: LayoutServerLoad = async ({ request, setHeaders }) => {
   if (import.meta.env.DEV) {
     const { reloadManifests } = await import("$lib/utils/manifest-loader");
     await reloadManifests();
+  }
+
+  // ETag Implementation
+  // We use a signature derived from the in-memory manifest state.
+  // Since the manifest is the source of truth for all derived data below,
+  // matching signature means we can safely return 304 (handled by SvelteKit via setHeaders).
+  const etag = getManifestSignature();
+  setHeaders({
+    etag,
+    "cache-control": "private, no-cache", // Revalidate every time
+  });
+
+  // Optimization: If ETag matches, SvelteKit will handle the 304 response.
+  // We can't easily return "nothing" here because of TypeScript return types and SvelteKit flow,
+  // but we can trust the framework to strip the body if the status becomes 304.
+  // Ideally, we would skip the expensive calculations below, but SvelteKit's load function
+  // doesn't have a standardized "skip" return.
+  // However, for pure API endpoints, this check would allow early exit.
+  if (request.headers.get("if-none-match") === etag) {
+    // In a perfect world we would return here, but for layout we must match the type.
+    // We continue to calculate, but the bandwidth is saved.
+    // To save CPU, we would need to redesign this to cache the *output* of gatherAuthors etc. based on the specific ETag.
   }
 
   const photoDays = getPhotoDays();

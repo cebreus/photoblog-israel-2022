@@ -7,8 +7,10 @@ import { people } from "$lib/stores/people.svelte";
 import { type Person, type PhotoDayItem, isImageEntry } from "$lib/types/manifest";
 import { buildImagePeopleMap } from "$lib/utils/gallery";
 import { untrack } from "svelte";
+import { toast } from "svelte-sonner";
 
 import { type PersonUpdate } from "$lib/api/people/types";
+import type { MutateOptions } from "@tanstack/svelte-query";
 
 const logger = createLogger("PeopleTabModel");
 
@@ -30,12 +32,19 @@ export function createPeopleTabModel(params?: {
         sourcePersonIds: string[];
         targetPersonId: string;
       },
-      options?: any,
+      options?: MutateOptions<
+        unknown,
+        Error,
+        { sourcePersonIds: string[]; targetPersonId: string }
+      >,
     ) => Promise<unknown>;
     isPending: boolean;
   };
   updateMutation?: {
-    mutateAsync: (params: { updates: Array<PersonUpdate> }, options?: any) => Promise<unknown>;
+    mutateAsync: (
+      params: { updates: Array<PersonUpdate> },
+      options?: MutateOptions<unknown, Error, { updates: Array<PersonUpdate> }>,
+    ) => Promise<unknown>;
     isPending: boolean;
   };
 }) {

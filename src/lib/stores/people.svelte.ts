@@ -1,6 +1,6 @@
 import { invalidateAll } from "$app/navigation";
 import type { Person, PhotoDay } from "$lib/types/manifest";
-import { enrichPeopleWithStats, getVisiblePeople } from "$lib/utils/people";
+import { getVisiblePeople } from "$lib/utils/people";
 import { manifest } from "./manifest.svelte";
 
 export class PeopleState {
@@ -8,24 +8,8 @@ export class PeopleState {
   people = $derived<Person[]>(manifest.people);
   photoDays = $derived<PhotoDay[]>(manifest.photoDays);
 
-  peopleWithStats = $derived.by(() => {
-    if (typeof performance !== "undefined") {
-      performance.mark("people-enrich-start");
-    }
-
-    const result = enrichPeopleWithStats(this.people, this.photoDays);
-
-    if (typeof performance !== "undefined") {
-      performance.mark("people-enrich-end");
-      performance.measure("people-enrich", "people-enrich-start", "people-enrich-end");
-
-      performance.clearMarks("people-enrich-start");
-      performance.clearMarks("people-enrich-end");
-      performance.clearMeasures("people-enrich");
-    }
-
-    return result;
-  });
+  // Now strictly equal to manifest people, as enrichment happens on Backend/Build
+  peopleWithStats = $derived(this.people);
 
   // Filter people by ignored flag from manifest, hide empty profiles, and show ONLY persons (no statues/paintings)
   visiblePeople = $derived(

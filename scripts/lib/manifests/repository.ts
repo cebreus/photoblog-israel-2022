@@ -1,16 +1,4 @@
-import type {
-  AnalysisManifest,
-  ClusteringConstraints,
-  EmbeddingsManifest,
-  FaceEmbeddingsManifest,
-  FacesManifest,
-  Manifest,
-  MenuManifest,
-  PeopleManifest,
-} from "$shared/types/manifest";
-import fsp from "node:fs/promises";
-import path from "node:path";
-import type { CurationManifest } from "../../../src/lib/types/manifest";
+import type { CurationManifest } from "$lib/types/manifest";
 import {
   isValidAnalysisManifest,
   isValidClusteringConstraints,
@@ -20,10 +8,40 @@ import {
   isValidManifest,
   isValidMenuManifest,
   isValidPeopleManifest,
-} from "../../../src/lib/utils/manifest-validators";
+} from "$lib/utils/manifest-validators";
+import { enrichPeopleWithStats } from "$lib/utils/people";
+import type {
+  AnalysisManifest,
+  ClusteringConstraints,
+  EmbeddingsManifest,
+  FaceEmbeddingsManifest,
+  FacesManifest,
+  Manifest,
+  ManifestMeta,
+  MenuManifest,
+  PeopleManifest,
+} from "$shared/types/manifest";
+import fsp from "node:fs/promises";
+import path from "node:path";
 import { createLogger, type Logger } from "../core/cli-logger";
 
 const logger = createLogger("manifest-repo");
+
+function updateManifestMeta<T extends { meta?: ManifestMeta }>(data: T): T {
+  const now = new Date().toISOString();
+  const currentVersion = data.meta?.version ?? 0;
+
+  // Clone to avoid mutation side-effects if object is reused
+  return {
+    ...data,
+    meta: {
+      version: currentVersion + 1,
+      generatedAt: now,
+      generator: "photoblog-data-layer",
+    },
+  };
+}
+
 function sortObjectKeys(obj: any): any {
   if (Array.isArray(obj)) {
     return obj.map(sortObjectKeys);
@@ -166,7 +184,8 @@ export async function saveImagesManifest(
   data: Manifest,
   log: Logger = logger,
 ): Promise<void> {
-  return saveManifest(path.join(outRoot, "images.manifest.json"), data, false, log);
+  const versionedDate = updateManifestMeta(data);
+  return saveManifest(path.join(outRoot, "images.manifest.json"), versionedDate, false, log);
 }
 
 export async function loadMenuManifest(
@@ -239,7 +258,8 @@ export async function savePeopleManifest(
   data: PeopleManifest,
   log: Logger = logger,
 ): Promise<void> {
-  return saveManifest(path.join(outRoot, "people.manifest.json"), data, false, log);
+  const versionedData = updateManifestMeta(data);
+  return saveManifest(path.join(outRoot, "people.manifest.json"), versionedData, false, log);
 }
 
 export async function loadAnalysisManifest(
@@ -374,17 +394,32 @@ export async function savePeopleRelatedManifests(
   manifests: PeopleManifestsBundle,
   log: Logger = logger,
 ): Promise<void> {
+  // 1. Enrich: Recalculate face counts based on the current state of images
+  // This moves the O(N) calculation from Frontend load time to Backend write time
+  if (manifests.people.people && manifests.images.photoDays) {
+    manifests.people.people = enrichPeopleWithStats(
+      manifests.people.people,
+      manifests.images.photoDays,
+    );
+  }
+
+  // 2. Version: Increment metadata versions
+  const versionedPeople = updateManifestMeta(manifests.people);
+  const versionedImages = updateManifestMeta(manifests.images);
+
+  // Note: Faces and Constraints generally don't utilize meta/versioning yet, but could in future.
+
   return saveManifestsAtomically(
     [
       {
         name: "people",
         filePath: path.join(outRoot, "people.manifest.json"),
-        data: manifests.people,
+        data: versionedPeople,
       },
       {
         name: "images",
         filePath: path.join(outRoot, "images.manifest.json"),
-        data: manifests.images,
+        data: versionedImages,
       },
       {
         name: "faces",
