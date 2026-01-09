@@ -17,6 +17,7 @@
     useReassignFaceMutation,
     useSetAvatarMutation,
     useUnmatchFaceMutation,
+    useUpdateCategoryMutation,
   } from "$lib/api/people/mutations";
   import { useAvatarsQuery } from "$lib/api/people/queries";
   import { Button, buttonVariants } from "$lib/components/ui/button";
@@ -50,11 +51,13 @@
   const invalidateDetectionMutation = useInvalidateDetectionMutation();
   const avatarsQuery = useAvatarsQuery();
   const setAvatarMutation = useSetAvatarMutation();
+  const updateCategoryMutation = useUpdateCategoryMutation();
 
   // Derive availableAvatars from query
   const availableAvatars = $derived(avatarsQuery.data ?? []);
 
-  // Keep isWorking as state for now (will be fully replaced when all functions are refactored)
+  // Keep isWorking as state for now (functions not yet refactored still use it)
+  // TODO: Replace with derived state when all functions use TanStack Query
   let isWorking = $state(false);
 
   const personImages = $derived.by(() => {

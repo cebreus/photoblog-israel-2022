@@ -86,20 +86,25 @@ export interface MergePeopleParams {
 
 export interface UnmatchFaceParams {
   personId: string;
-  imageId: string;
-  faceIndex: number;
+  imageIds: string[];
+  ignore?: boolean;
 }
 
 export interface ReassignFaceParams {
   sourcePersonId: string;
   targetPersonId: string;
-  imageId: string;
-  faceIndex: number;
+  imageIds: string[];
 }
 
 export interface InvalidateDetectionParams {
+  personId: string;
   imageId: string;
   box: { x: number; y: number; width: number; height: number };
+}
+
+export interface UpdateCategoryParams {
+  personId: string;
+  category: "person" | "statue" | "painting";
 }
 
 export interface SetAvatarParams {

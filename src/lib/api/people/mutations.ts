@@ -22,6 +22,7 @@ import type {
   SetAvatarResponse,
   UnmatchFaceParams,
   UnmatchResponse,
+  UpdateCategoryParams,
   UpdatePeopleParams,
 } from "./types";
 import { PEOPLE_QUERY_KEYS } from "./types";
@@ -106,6 +107,19 @@ async function setAvatarFn(params: SetAvatarParams): Promise<SetAvatarResponse> 
   if (!response.ok) {
     const err = await response.json();
     throw new Error(err.error || "Avatar update failed");
+  }
+  return response.json();
+}
+
+async function updateCategoryFn(params: UpdateCategoryParams): Promise<ApiResponse> {
+  const response = await fetch("/api/people/update-category", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(params),
+  });
+  if (!response.ok) {
+    const err = await response.json();
+    throw new Error(err.error || "Category update failed");
   }
   return response.json();
 }
@@ -227,6 +241,23 @@ export function useSetAvatarMutation() {
     },
     onError: (error: Error) => {
       toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR, { description: error.message });
+    },
+  }));
+}
+
+/**
+ * Updates the category of a person (person/statue/painting).
+ * Refreshes people data after successful update.
+ */
+export function useUpdateCategoryMutation() {
+  return createMutation(() => ({
+    mutationFn: updateCategoryFn,
+    onSuccess: async () => {
+      toast.success(PERSON_MESSAGES.CATEGORY_UPDATED);
+      await people.refresh();
+    },
+    onError: (error: Error) => {
+      toast.error(PERSON_MESSAGES.CATEGORY_UPDATE_FAILED, { description: error.message });
     },
   }));
 }
