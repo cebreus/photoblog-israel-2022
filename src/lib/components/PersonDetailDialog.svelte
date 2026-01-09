@@ -28,7 +28,6 @@
   import { createLogger } from "$lib/logger";
   import { people } from "$lib/stores/people.svelte";
   import type { ImageEntry, Person } from "$lib/types/manifest";
-  import { tracedFetch } from "$lib/utils/api";
   import { DETECTION_MESSAGES, GENERIC_MESSAGES } from "$lib/utils/messages";
 
   const logger = createLogger("PersonDetailDialog");
@@ -56,9 +55,14 @@
   // Derive availableAvatars from query
   const availableAvatars = $derived(avatarsQuery.data ?? []);
 
-  // Keep isWorking as state for now (functions not yet refactored still use it)
-  // TODO: Replace with derived state when all functions use TanStack Query
-  let isWorking = $state(false);
+  // Derive isWorking from all mutations
+  const isWorking = $derived(
+    unmatchMutation.isPending ||
+      reassignMutation.isPending ||
+      invalidateDetectionMutation.isPending ||
+      setAvatarMutation.isPending ||
+      updateCategoryMutation.isPending,
+  );
 
   const personImages = $derived.by(() => {
     if (!person || !open) return [];
@@ -138,46 +142,26 @@
 
   async function performUnmatch(imageIds: string[], shouldHide = false) {
     if (isWorking) return;
-    isWorking = true;
     const isRemovingAll = imageIds.length >= crops.length;
 
     try {
-      const res = await tracedFetch("/api/people/unmatch", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ personId: person.id, imageIds, ignore: shouldHide }),
+      await unmatchMutation.mutateAsync({
+        personId: person.id,
+        imageIds,
+        ignore: shouldHide,
       });
 
-      if (res.ok) {
-        // Wait for data refresh to complete
-        await onUpdate?.();
+      // Success handling
+      await onUpdate?.();
+      selectedIds = new Set();
+      toast.success(DETECTION_MESSAGES.unmatchSuccess(imageIds.length, shouldHide));
 
-        // Clear selection to show fresh state
-        selectedIds = new Set();
-
-        toast.success(DETECTION_MESSAGES.unmatchSuccess(imageIds.length, shouldHide), {
-          duration: 5000,
-        });
-
-        // Close dialog only if all crops were removed
-        if (isRemovingAll) {
-          open = false;
-        }
-      } else {
-        const data = await res.json();
-        toast.error(GENERIC_MESSAGES.PROCESSING_ERROR, {
-          description: data.error || GENERIC_MESSAGES.OPERATION_FAILED,
-          duration: 10000,
-        });
+      if (isRemovingAll) {
+        open = false;
       }
     } catch (e) {
+      // Error handled by mutation
       logger.error({ err: e }, "Failed to unmatch faces");
-      toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR, {
-        description: GENERIC_MESSAGES.COMMUNICATION_ERROR_DESCRIPTION,
-        duration: 10000,
-      });
-    } finally {
-      isWorking = false;
     }
   }
 
@@ -188,56 +172,29 @@
     }
 
     if (isWorking) return;
-    isWorking = true;
-    try {
-      const res = await tracedFetch("/api/people/invalidate-detection", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          personId: person.id,
-          imageId: crop.id,
-          box: crop.box,
-        }),
-      });
 
-      if (res.ok) {
-        onUpdate?.();
-        toast.success(DETECTION_MESSAGES.DETECTION_INVALIDATED);
-      } else {
-        const data = await res.json();
-        toast.error(GENERIC_MESSAGES.PROCESSING_ERROR, {
-          description: data.error || DETECTION_MESSAGES.SAVE_SETTINGS_FAILED,
-        });
-      }
+    try {
+      await invalidateDetectionMutation.mutateAsync({
+        personId: person.id,
+        imageId: crop.id,
+        box: crop.box,
+      });
+      onUpdate?.();
+      toast.success(DETECTION_MESSAGES.DETECTION_INVALIDATED);
     } catch (e) {
+      // Error handled by mutation
       logger.error({ err: e }, "Failed to invalidate detection");
-      toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR);
-    } finally {
-      isWorking = false;
     }
   }
 
   async function updateCategory(category: "person" | "statue" | "painting") {
     if (isWorking) return;
-    isWorking = true;
     try {
-      const res = await tracedFetch("/api/people/update-category", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ personId: person.id, category }),
-      });
-
-      if (res.ok) {
-        onUpdate?.();
-        toast.success(DETECTION_MESSAGES.categoryChanged(category));
-      } else {
-        toast.error(DETECTION_MESSAGES.CATEGORY_CHANGE_FAILED);
-      }
+      await updateCategoryMutation.mutateAsync({ personId: person.id, category });
+      onUpdate?.();
+      // Toast is handled by mutation onSuccess
     } catch (e) {
       logger.error({ err: e }, "Failed to update category");
-      toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR);
-    } finally {
-      isWorking = false;
     }
   }
 
@@ -265,43 +222,27 @@
       return;
     }
 
-    isWorking = true;
     const isRemovingAll = ids.length >= crops.length;
 
     try {
-      const res = await tracedFetch("/api/people/reassign", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          sourcePersonId: person.id,
-          targetPersonId: targetPerson.id,
-          imageIds: ids,
-        }),
+      await reassignMutation.mutateAsync({
+        sourcePersonId: person.id,
+        targetPersonId: targetPerson.id,
+        imageIds: ids,
       });
 
-      if (res.ok) {
-        // Wait for data refresh before clearing UI state
-        await onUpdate?.();
+      // Success handling
+      await onUpdate?.();
+      selectedIds = new Set();
+      showReassignDialog = false;
+      toast.success(DETECTION_MESSAGES.assignedToPerson(targetPerson.name));
 
-        // Clear selection to show fresh state
-        selectedIds = new Set();
-        showReassignDialog = false;
-
-        toast.success(DETECTION_MESSAGES.assignedToPerson(targetPerson.name));
-
-        // Close dialog only if all crops were removed
-        if (isRemovingAll) {
-          open = false;
-        }
-      } else {
-        const data = await res.json();
-        toast.error(DETECTION_MESSAGES.ASSIGNMENT_ERROR, { description: data.error });
+      if (isRemovingAll) {
+        open = false;
       }
     } catch (e) {
+      // Error handled by mutation
       logger.error({ err: e }, "Failed to reassign faces");
-      toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR);
-    } finally {
-      isWorking = false;
     }
   }
 
@@ -315,22 +256,16 @@
     showIgnoreConfirm = false;
 
     if (isWorking) return;
-    isWorking = true;
     try {
       const selectedCrops = crops.filter((c) => selectedIds.has(c.id));
       const results = await Promise.allSettled(
         selectedCrops.map(async (crop) => {
           if (!crop.box) return;
-          const res = await tracedFetch("/api/people/invalidate-detection", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              personId: person.id,
-              imageId: crop.id,
-              box: crop.box,
-            }),
+          await invalidateDetectionMutation.mutateAsync({
+            personId: person.id,
+            imageId: crop.id,
+            box: crop.box,
           });
-          if (!res.ok) throw new Error(res.statusText);
         }),
       );
 
@@ -347,11 +282,8 @@
       onUpdate?.();
       selectedIds = new Set();
     } catch (e) {
-      logger.error({ err: e }, "Bulk mark-as-junk failed");
+      logger.error({ err: e }, "Bulk ignore failed");
       toast.error(DETECTION_MESSAGES.BULK_DETECTION_FAILED);
-      toast.error(DETECTION_MESSAGES.BULK_DETECTION_FAILED);
-    } finally {
-      isWorking = false;
     }
   }
 
