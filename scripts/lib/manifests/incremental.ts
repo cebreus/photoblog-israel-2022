@@ -1,8 +1,8 @@
+import type { Cache, ImageEntry, Manifest, StoryDataMap } from "$shared/types/manifest";
+import matter from "gray-matter";
 import fsp from "node:fs/promises";
 import path from "node:path";
-import matter from "gray-matter";
 import pc from "picocolors";
-import type { Cache, ImageEntry, Manifest, StoryDataMap } from "$shared/types/manifest";
 import { toPureWallClockISO } from "../../../shared/utils/dates";
 import { config } from "../../build.config";
 import { EMBEDDING_DIM } from "../ai/models";
@@ -94,12 +94,9 @@ function validateStoryData(
   // Log warnings
   if (warnings.length > 0) {
     logger.warn(
-      { filename, issues: warnings.length },
-      `Markdown validation issues in "${filename}":`,
+      { filename, issues: warnings.length, detail: warnings },
+      `Markdown validation issues in "${filename}":\n${warnings.map((w) => `  - ${w}`).join("\n")}`,
     );
-    for (const w of warnings) {
-      logger.warn({}, `  - ${w}`);
-    }
   }
 }
 
@@ -980,10 +977,15 @@ export async function runIncrementalBuild(
   rows.push(widths.map((w) => "-".repeat(w)).join("-+-"));
   rows.push(formatRow(totalRow));
 
-  logger.info({}, "Build statistics:");
-  for (const row of rows) {
-    logger.info({}, `  ${row}`);
-  }
+  logger.info(
+    {
+      processed: results.length,
+      cached: cachedCount,
+      failed,
+      totalSize: totalOutSize,
+    },
+    `Build statistics:\n${rows.map((row) => `  ${row}`).join("\n")}`,
+  );
 
   const duration = formatDuration(performance.now() - startTime);
   logger.info({ duration }, `Build finished in ${duration}`);

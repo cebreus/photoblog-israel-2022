@@ -7,7 +7,6 @@
  * Also handles physical file consistency (phantom assignments/thumbnails).
  */
 
-import path from "node:path";
 import type {
   AnalysisManifest,
   EmbeddingsManifest,
@@ -18,6 +17,7 @@ import type {
   PeopleManifest,
   Person,
 } from "$shared/types/manifest";
+import path from "node:path";
 import { config } from "../../build.config";
 import { createLogger } from "../core/cli-logger";
 import { cleanOrphanedAssets, findOrphanAssets, getOutputFolders } from "../gallery/cleanup";
@@ -424,18 +424,42 @@ export async function validateAndCleanManifests(
     peopleStatsUpdated;
 
   if (totalManifestCleaned > 0) {
-    logger.warn({ count: totalManifestCleaned }, "Found manifest inconsistencies");
-    if (phantomAssignmentsRemoved > 0)
-      logger.warn({ count: phantomAssignmentsRemoved }, "Phantom Assignments");
-    if (phantomThumbnailsCleaned > 0)
-      logger.warn({ count: phantomThumbnailsCleaned }, "Phantom Thumbnails");
-    if (peopleStatsUpdated > 0) logger.warn({ count: peopleStatsUpdated }, "People Stats Updated");
-    if (analysisResult.cleaned > 0)
-      logger.warn({ count: analysisResult.cleaned }, "Analysis Orphans");
-    if (embeddingsResult.cleaned > 0)
-      logger.warn({ count: embeddingsResult.cleaned }, "Embeddings Orphans");
-    if (facesResult.cleaned > 0) logger.warn({ count: facesResult.cleaned }, "Faces Orphans");
-    if (peopleResult.cleaned > 0) logger.warn({ count: peopleResult.cleaned }, "People Orphans");
+    const details: string[] = [];
+    const stats: Record<string, number> = {};
+
+    if (phantomAssignmentsRemoved > 0) {
+      details.push(`- Phantom Assignments: ${phantomAssignmentsRemoved}`);
+      stats.phantomAssignments = phantomAssignmentsRemoved;
+    }
+    if (phantomThumbnailsCleaned > 0) {
+      details.push(`- Phantom Thumbnails: ${phantomThumbnailsCleaned}`);
+      stats.phantomThumbnails = phantomThumbnailsCleaned;
+    }
+    if (peopleStatsUpdated > 0) {
+      details.push(`- People Stats Updated: ${peopleStatsUpdated}`);
+      stats.peopleStatsUpdated = peopleStatsUpdated;
+    }
+    if (analysisResult.cleaned > 0) {
+      details.push(`- Analysis Orphans: ${analysisResult.cleaned}`);
+      stats.analysisOrphans = analysisResult.cleaned;
+    }
+    if (embeddingsResult.cleaned > 0) {
+      details.push(`- Embeddings Orphans: ${embeddingsResult.cleaned}`);
+      stats.embeddingsOrphans = embeddingsResult.cleaned;
+    }
+    if (facesResult.cleaned > 0) {
+      details.push(`- Faces Orphans: ${facesResult.cleaned}`);
+      stats.facesOrphans = facesResult.cleaned;
+    }
+    if (peopleResult.cleaned > 0) {
+      details.push(`- People Orphans: ${peopleResult.cleaned}`);
+      stats.peopleOrphans = peopleResult.cleaned;
+    }
+
+    logger.warn(
+      { count: totalManifestCleaned, ...stats },
+      `Found manifest inconsistencies (${totalManifestCleaned}):\n${details.join("\n")}`,
+    );
 
     if (!dryRun) {
       logger.info({}, "Saving cleaned manifests...");
