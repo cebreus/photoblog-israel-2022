@@ -19,6 +19,7 @@ import { getConcurrency } from "./lib/core/concurrency-utils";
 import { createBar, stopAllBars } from "./lib/core/progress-manager";
 import { deleteOldFaceCrops, findBestMatch, saveFaceCrop } from "./lib/faces/clustering";
 import { backupConstraints } from "./lib/faces/constraints-backup";
+import { gcConstraints } from "./lib/faces/constraints-gc";
 import {
   filterPeopleWithValidDescriptors,
   hasValidFaceDescriptor,
