@@ -117,5 +117,8 @@
     "*.css": [
       "stylelint --fix"
     ]
+  },
+  "dependencies": {
+    "@tanstack/svelte-query": "^6.0.14"
   }
 }

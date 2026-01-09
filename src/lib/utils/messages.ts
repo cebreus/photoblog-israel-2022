@@ -83,6 +83,10 @@ export const PERSON_MESSAGES = {
   MERGE_FAILED: "Sloučení selhalo.",
   UPDATE_FAILED: "Aktualizace selhala.",
   CATEGORY_UPDATED: "Kategorie úspěšně změněna.",
+  FACE_REMOVED: "Tvář byla odpojena od osoby.",
+  FACE_REASSIGNED: "Tvář byla přesunuta k jiné osobě.",
+  DETECTION_INVALIDATED: "Detekce označena jako neplatná.",
+  AVATAR_UPDATED: "Avatar byl úspěšně nastaven.",
 } as const;
 
 // ============================================================================

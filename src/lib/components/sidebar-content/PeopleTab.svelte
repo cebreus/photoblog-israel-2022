@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { useMergePeopleMutation } from "$lib/api/people/mutations";
+  import { useConstraintsQuery } from "$lib/api/people/queries";
   import TaskOverlay from "$lib/components/ui/TaskOverlay.svelte";
   import * as Accordion from "$lib/components/ui/accordion";
   import * as Sidebar from "$lib/components/ui/sidebar";
@@ -16,14 +18,27 @@
   import PeopleSelectionControls from "./PeopleSelectionControls.svelte";
   import VisiblePeopleList from "./VisiblePeopleList.svelte";
 
-  const model = createPeopleTabModel();
+  // TanStack Query hooks
+  const constraintsQuery = useConstraintsQuery();
+  const mergeMutation = useMergePeopleMutation();
+
+  // Derive invalidDetections from query
+  const invalidDetections = $derived(constraintsQuery.data?.invalidDetections ?? []);
+
+  // Create model with data from query and mutation
+  const model = createPeopleTabModel({
+    invalidDetections,
+    mergeMutation,
+  });
 
   // Initialize logic
   model.initDetailSync();
-  model.loadConstraints();
 
-  // Derive processing state from system store
-  const isProcessing = $derived(system.activeTask !== null);
+  // Derive processing state from system store OR mutations
+  const isProcessing = $derived(system.activeTask !== null || mergeMutation.isPending);
+
+  // Background sync indicator
+  const isBackgroundFetching = $derived(constraintsQuery.isFetching);
 
   // Subscribe to derived store with optimized stats for list rendering
   const peopleList = $derived(people.peopleWithStats);
@@ -52,6 +67,14 @@
         onPreset={(mode: "all" | "unknown" | "reset" | null) => model.handleSelectionPreset(mode)}
       />
     </div>
+
+    {#if isBackgroundFetching}
+      <div
+        class="border-b bg-blue-50 px-4 py-1 text-center text-xs text-blue-600 dark:bg-blue-950/30 dark:text-blue-400"
+      >
+        Synchronizace dat...
+      </div>
+    {/if}
   </Sidebar.Header>
 
   <Sidebar.Content class="p-0">

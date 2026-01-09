@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { QueryClient } from "@tanstack/query-core";
+  import { QueryClientProvider } from "@tanstack/svelte-query";
   import { ModeWatcher } from "mode-watcher";
 
   import AppSidebar from "$lib/components/AppSidebar.svelte";
@@ -40,6 +42,18 @@
   }
 
   let { data, children }: Props = $props();
+
+  // Initialize TanStack Query client
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        enabled: browser,
+        retry: 1,
+        staleTime: 1000 * 30, // 30 seconds default
+        refetchOnWindowFocus: false,
+      },
+    },
+  });
 
   // Initialize all URL-related synchronization logic
   $effect(() => {
@@ -92,26 +106,28 @@
 
 <ModeWatcher />
 
-<Sidebar.Provider bind:open={ui.sidebarOpen} style="--sidebar-width: 24rem;">
-  <Sidebar.Inset>
-    <div class="flex min-h-screen flex-col">
-      <Header menuItems={data.menuItems} authors={data.authors} />
+<QueryClientProvider client={queryClient}>
+  <Sidebar.Provider bind:open={ui.sidebarOpen} style="--sidebar-width: 24rem;">
+    <Sidebar.Inset>
+      <div class="flex min-h-screen flex-col">
+        <Header menuItems={data.menuItems} authors={data.authors} />
 
-      <main class="flex flex-1 flex-col" data-testid="main-content">
-        {@render children?.()}
-      </main>
+        <main class="flex flex-1 flex-col" data-testid="main-content">
+          {@render children?.()}
+        </main>
 
-      <Footer />
-    </div>
-  </Sidebar.Inset>
-  <AppSidebar
-    menuItems={data.menuItems}
-    authors={data.authors}
-    qualityStats={data.qualityStats}
-    mediaStats={data.mediaStats}
-    snapshotStats={data.snapshotStats}
-    side="right"
-  />
-</Sidebar.Provider>
+        <Footer />
+      </div>
+    </Sidebar.Inset>
+    <AppSidebar
+      menuItems={data.menuItems}
+      authors={data.authors}
+      qualityStats={data.qualityStats}
+      mediaStats={data.mediaStats}
+      snapshotStats={data.snapshotStats}
+      side="right"
+    />
+  </Sidebar.Provider>
 
-<Toaster position="top-right" richColors closeButton />
+  <Toaster position="top-right" richColors closeButton />
+</QueryClientProvider>

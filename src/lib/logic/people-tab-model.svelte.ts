@@ -5,10 +5,9 @@ import { createLogger } from "$lib/logger";
 import { filters } from "$lib/stores/filters.svelte";
 import { people } from "$lib/stores/people.svelte";
 import { type Person, type PhotoDayItem, isImageEntry } from "$lib/types/manifest";
-import { tracedFetch } from "$lib/utils/api";
 import { buildImagePeopleMap } from "$lib/utils/gallery";
 import { PERSON_MESSAGES } from "$lib/utils/messages";
-import { type MergeResponse, updatePeopleOrThrow } from "$lib/utils/people-actions";
+import { updatePeopleOrThrow } from "$lib/utils/people-actions";
 import { untrack } from "svelte";
 import { toast } from "svelte-sonner";
 
@@ -21,7 +20,19 @@ export type ConfirmDialogConfig = {
   onConfirm: () => Promise<void> | void;
 };
 
-export function createPeopleTabModel() {
+export function createPeopleTabModel(params?: {
+  invalidDetections?: Array<{
+    imageId: string;
+    box: { x: number; y: number; width: number; height: number };
+  }>;
+  mergeMutation?: {
+    mutateAsync: (params: {
+      sourcePersonIds: string[];
+      targetPersonId: string;
+    }) => Promise<unknown>;
+    isPending: boolean;
+  };
+}) {
   // --- STATE ---
   let selectedForMerge = $state<string[]>([]);
   let lastSelectedMergeId = $state<string | null>(null);
@@ -38,10 +49,8 @@ export function createPeopleTabModel() {
     config: null,
   });
 
-  // Constraints
-  let invalidDetections = $state<
-    Array<{ imageId: string; box: { x: number; y: number; width: number; height: number } }>
-  >([]);
+  // Constraints (from TanStack Query)
+  const invalidDetections = $derived(params?.invalidDetections ?? []);
 
   // Person Detail
   let detailPerson = $state<Person | null>(null);
@@ -157,19 +166,7 @@ export function createPeopleTabModel() {
   });
 
   // --- API / ASYNC ---
-
-  async function loadConstraints() {
-    if (!dev) return;
-    try {
-      const res = await tracedFetch("/api/people/constraints");
-      const data = await res.json();
-      if (data.success) {
-        invalidDetections = data.invalidDetections;
-      }
-    } catch (e) {
-      logger.error({ err: e }, "Failed to load constraints");
-    }
-  }
+  // Note: loadConstraints removed - now handled by useConstraintsQuery in component
 
   function initDetailSync() {
     $effect(() => {
@@ -544,6 +541,10 @@ export function createPeopleTabModel() {
 
   async function confirmMerge() {
     if (selectedForMerge.length < 2) return;
+    if (!params?.mergeMutation) {
+      logger.error({}, "mergeMutation not provided to model");
+      return;
+    }
 
     const allPeople = people.peopleWithStats;
     const selectedPeopleData = allPeople.filter((p) => selectedForMerge.includes(p.id));
@@ -564,35 +565,20 @@ export function createPeopleTabModel() {
       { sources: sourcePersons.map((p) => p.name), target: targetPerson.name },
       "Merging people",
     );
-    isSaving = true;
 
     try {
-      const response = await tracedFetch("/api/people/merge", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          sourcePersonIds: sourcePersons.map((p) => p.id),
-          targetPersonId: targetPerson.id,
-        }),
+      // Use TanStack Query mutation - it handles loading, error, success, and cache invalidation
+      await params.mergeMutation.mutateAsync({
+        sourcePersonIds: sourcePersons.map((p) => p.id),
+        targetPersonId: targetPerson.id,
       });
 
-      if (!response.ok) {
-        const error = (await response.json()) as MergeResponse;
-        throw new Error(error.error || "Sloučení selhalo");
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      // Clear selection and close dialog after successful merge
       selectedForMerge = [];
       showMergeConfirmDialog = false;
-      await people.refresh();
-      toast.success(PERSON_MESSAGES.MERGE_SUCCESS);
     } catch (error) {
-      logger.error({ err: error }, "Failed to merge people");
-      toast.error("Sloučení se nezdařilo.", {
-        description: error instanceof Error ? error.message : String(error),
-      });
-    } finally {
-      isSaving = false;
+      // Error is already handled by mutation's onError callback
+      logger.error({ err: error }, "Merge mutation failed");
     }
   }
 
@@ -705,7 +691,6 @@ export function createPeopleTabModel() {
     },
 
     // Methods
-    loadConstraints,
     initDetailSync,
     openPersonDetail,
     togglePerson,

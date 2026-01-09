@@ -204,12 +204,12 @@ const requestId = incomingTraceId || crypto.randomUUID();
 import { log } from "$lib/logger";
 
 export async function POST({ request }) {
-  log.info("Processing...");  // Chybí requestId
+  log.info("Processing..."); // Chybí requestId
 }
 
 // ✅ Správně
 export async function POST({ request, locals }) {
-  const { log } = locals;  // Logger s requestId
+  const { log } = locals; // Logger s requestId
   log.info("Processing...");
 }
 ```
