@@ -34,37 +34,50 @@ export function galleryAssetsPlugin(): any {
                     "/assets/favicons/",
                     "/assets/share/",
                     "/assets/avatars/",
+                    "/faces/",
                 ];
 
-                const shouldRedirect = redirectPaths.some((prefix) => url.startsWith(prefix));
+                const isApiFace = url.startsWith("/api/people/faces/");
+                const isApiAvatar = url.startsWith("/api/people/assets/avatars/");
+                const isDirectRedirect = redirectPaths.some((prefix) => url.startsWith(prefix));
 
-                if (shouldRedirect) {
+                if (isApiFace || isApiAvatar || isDirectRedirect) {
                     try {
-                        // Map /assets/... to /static-${contentDir}/assets/...
+                        let relativePath = url.split("?")[0];
+
+                        // Map API paths to gallery static folder paths
+                        if (isApiFace) {
+                            relativePath = relativePath.replace("/api/people/faces/", "faces/");
+                        } else if (isApiAvatar) {
+                            relativePath = relativePath.replace("/api/people/assets/avatars/", "assets/avatars/");
+                        }
+
                         const galleryPath = path.join(
                             process.cwd(),
                             `static-${contentDir}`,
-                            url.split("?")[0] // Remove query params
+                            relativePath
                         );
 
                         const file = await readFile(galleryPath);
 
                         // Set appropriate content type
-                        if (url.endsWith(".png")) {
+                        const ext = path.extname(relativePath).toLowerCase();
+                        if (ext === ".png") {
                             res.setHeader("Content-Type", "image/png");
-                        } else if (url.endsWith(".ico")) {
+                        } else if (ext === ".ico") {
                             res.setHeader("Content-Type", "image/x-icon");
-                        } else if (url.endsWith(".svg")) {
+                        } else if (ext === ".svg") {
                             res.setHeader("Content-Type", "image/svg+xml");
-                        } else if (url.endsWith(".webp")) {
+                        } else if (ext === ".webp") {
                             res.setHeader("Content-Type", "image/webp");
+                        } else if (ext === ".jpg" || ext === ".jpeg") {
+                            res.setHeader("Content-Type", "image/jpeg");
                         }
 
                         res.end(file);
                         return;
                     } catch (e) {
                         // File not found in gallery folder, continue to next middleware
-                        // Don't log error - this is expected for some requests
                     }
                 }
 

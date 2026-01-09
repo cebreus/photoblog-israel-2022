@@ -1,10 +1,10 @@
-import { describe, expect, it } from "vitest";
 import {
-  validateIgnoreFaceInput,
+  validateInvalidateDetectionsInput,
   validateMergeInput,
   validateReassignInput,
   validateUnmatchInput,
 } from "$lib/utils/api-validators";
+import { describe, expect, it } from "vitest";
 
 describe("api-validators", () => {
   describe("validateMergeInput", () => {
@@ -55,16 +55,36 @@ describe("api-validators", () => {
     });
   });
 
-  describe("validateIgnoreFaceInput", () => {
-    it("should valid correct box", () => {
+  describe("validateInvalidateDetectionsInput", () => {
+    it("should valid correct legacy single detection", () => {
       const body = { personId: "p1", imageId: "i1", box: { x: 1, y: 1, width: 10, height: 10 } };
-      const result = validateIgnoreFaceInput(body);
+      const result = validateInvalidateDetectionsInput(body);
       expect(result.valid).toBe(true);
+      if (result.valid) {
+        expect(result.data.detections).toHaveLength(1);
+        expect(result.data.detections[0].imageId).toBe("i1");
+      }
+    });
+
+    it("should valid bulk detections", () => {
+      const body = {
+        personId: "p1",
+        detections: [
+          { imageId: "i1", box: { x: 1, y: 1, width: 10, height: 10 } },
+          { imageId: "i2", box: { x: 2, y: 2, width: 10, height: 10 } },
+        ],
+      };
+      const result = validateInvalidateDetectionsInput(body);
+      expect(result.valid).toBe(true);
+      if (result.valid) {
+        expect(result.data.detections).toHaveLength(2);
+        expect(result.data.detections[1].imageId).toBe("i2");
+      }
     });
 
     it("should fail for invalid box types", () => {
       const body = { personId: "p1", imageId: "i1", box: { x: "1", y: 1, width: 10, height: 10 } };
-      const result = validateIgnoreFaceInput(body);
+      const result = validateInvalidateDetectionsInput(body);
       expect(result.valid).toBe(false);
     });
   });

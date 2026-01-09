@@ -120,5 +120,12 @@
   },
   "dependencies": {
     "@tanstack/svelte-query": "^6.0.14"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@tensorflow/tfjs-node",
+      "canvas",
+      "sharp"
+    ]
   }
 }
