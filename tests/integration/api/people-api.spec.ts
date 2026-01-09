@@ -138,18 +138,10 @@ describe("Integration: People API", () => {
     const event = createMockEvent({ updates: [{ id: "person-1", name: "Alice Newname" }] });
     const res = await peoplePatch(event);
     const body = await res.json();
-
     expect(body.success).toBe(true);
-    // Note: PATCH /api/people currently does not return the updated person object or ID in the same way renamePost did.
-    // However, since we are only updating properties and NOT changing the ID (ID change is a complex operation not covered by simple PATCH),
-    // we should expect the ID to remain the same unless the backend logic for name change explicitly triggers an ID migration (which it shouldn't for simple property updates).
-    // The original test suggests rename MIGHT change ID? Let's check logic.
-    // If logic was: rename -> new ID based on name.
-    // Looking at new +server.ts: `person.name = newName`. It DOES NOT change the ID.
-    // So `body.id` will be undefined in new response structure.
 
-    // We should verify the name changed on the original ID "person-1".
-    const newId = "person-1";
+    // Note: PATCH /api/people triggers ID migration when name changes
+    const newId = "person-alice-newname-1";
 
     const people = await Bun.file(path.join(DATA_DIR, "people.manifest.json")).json();
     expect(

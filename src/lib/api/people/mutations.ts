@@ -7,6 +7,7 @@
 
 import { invalidateAll } from "$app/navigation";
 import { people } from "$lib/stores/people.svelte";
+import { tracedFetch } from "$lib/utils/api";
 import { GENERIC_MESSAGES, PERSON_MESSAGES } from "$lib/utils/messages";
 import { createMutation, useQueryClient } from "@tanstack/svelte-query";
 import { toast } from "svelte-sonner";
@@ -32,7 +33,7 @@ import { PEOPLE_QUERY_KEYS } from "./types";
 // ---------------------------------------------------------------------------
 
 async function updatePeopleFn(params: UpdatePeopleParams): Promise<ApiResponse> {
-  const response = await fetch("/api/people", {
+  const response = await tracedFetch("/api/people", {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(params),
@@ -45,7 +46,7 @@ async function updatePeopleFn(params: UpdatePeopleParams): Promise<ApiResponse> 
 }
 
 async function mergePeopleFn(params: MergePeopleParams): Promise<MergeResponse> {
-  const response = await fetch("/api/people/merge", {
+  const response = await tracedFetch("/api/people/merge", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(params),
@@ -58,7 +59,7 @@ async function mergePeopleFn(params: MergePeopleParams): Promise<MergeResponse> 
 }
 
 async function unmatchFaceFn(params: UnmatchFaceParams): Promise<UnmatchResponse> {
-  const response = await fetch("/api/people/unmatch", {
+  const response = await tracedFetch("/api/people/unmatch", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(params),
@@ -71,7 +72,7 @@ async function unmatchFaceFn(params: UnmatchFaceParams): Promise<UnmatchResponse
 }
 
 async function reassignFaceFn(params: ReassignFaceParams): Promise<ReassignResponse> {
-  const response = await fetch("/api/people/reassign", {
+  const response = await tracedFetch("/api/people/reassign", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(params),
@@ -86,7 +87,7 @@ async function reassignFaceFn(params: ReassignFaceParams): Promise<ReassignRespo
 async function invalidateDetectionFn(
   params: InvalidateDetectionParams,
 ): Promise<InvalidateDetectionResponse> {
-  const response = await fetch("/api/people/invalidate-detection", {
+  const response = await tracedFetch("/api/people/invalidate-detection", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(params),
@@ -99,7 +100,7 @@ async function invalidateDetectionFn(
 }
 
 async function setAvatarFn(params: SetAvatarParams): Promise<SetAvatarResponse> {
-  const response = await fetch("/api/people/set-avatar", {
+  const response = await tracedFetch("/api/people/set-avatar", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(params),
@@ -112,7 +113,7 @@ async function setAvatarFn(params: SetAvatarParams): Promise<SetAvatarResponse> 
 }
 
 async function updateCategoryFn(params: UpdateCategoryParams): Promise<ApiResponse> {
-  const response = await fetch("/api/people/update-category", {
+  const response = await tracedFetch("/api/people/update-category", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(params),

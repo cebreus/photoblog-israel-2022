@@ -1,6 +1,3 @@
-import path from "node:path";
-import process from "node:process";
-import { json, type RequestHandler } from "@sveltejs/kit";
 import { dev } from "$app/environment";
 import { reloadManifests } from "$lib/utils/manifest-loader";
 import { withManifestLock } from "$scripts/lib/manifests/lock";
@@ -12,6 +9,9 @@ import {
   savePeopleRelatedManifests,
 } from "$scripts/lib/manifests/repository";
 import { renamePerson } from "$scripts/lib/people/normalization";
+import { json, type RequestHandler } from "@sveltejs/kit";
+import path from "node:path";
+import process from "node:process";
 import { toSlug } from "../../../../shared/utils/strings";
 
 interface PersonUpdate {
@@ -51,9 +51,12 @@ export const PATCH: RequestHandler = async ({ request, locals }) => {
       const peopleManifest = await loadPeopleManifest(dataDir);
       const imagesManifest = await loadImagesManifest(dataDir);
       const facesManifest = await loadFacesManifest(dataDir);
-      const constraints = await loadClusteringConstraints(dataDir);
+      const constraints = (await loadClusteringConstraints(dataDir)) || {
+        disconnects: [],
+        connects: [],
+      };
 
-      if (!peopleManifest || !imagesManifest || !facesManifest || !constraints) {
+      if (!peopleManifest || !imagesManifest || !facesManifest) {
         throw new Error("Required manifests not found");
       }
 
