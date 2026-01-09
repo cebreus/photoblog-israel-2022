@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { useMergePeopleMutation } from "$lib/api/people/mutations";
+  import { useMergePeopleMutation, useUpdatePeopleMutation } from "$lib/api/people/mutations";
   import { useConstraintsQuery } from "$lib/api/people/queries";
   import TaskOverlay from "$lib/components/ui/TaskOverlay.svelte";
   import * as Accordion from "$lib/components/ui/accordion";
@@ -21,21 +21,25 @@
   // TanStack Query hooks
   const constraintsQuery = useConstraintsQuery();
   const mergeMutation = useMergePeopleMutation();
+  const updateMutation = useUpdatePeopleMutation();
 
   // Derive invalidDetections from query
   const invalidDetections = $derived(constraintsQuery.data?.invalidDetections ?? []);
 
-  // Create model with data from query and mutation
+  // Create model with data from query and mutations
   const model = createPeopleTabModel({
     invalidDetections,
     mergeMutation,
+    updateMutation,
   });
 
   // Initialize logic
   model.initDetailSync();
 
   // Derive processing state from system store OR mutations
-  const isProcessing = $derived(system.activeTask !== null || mergeMutation.isPending);
+  const isProcessing = $derived(
+    system.activeTask !== null || mergeMutation.isPending || updateMutation.isPending,
+  );
 
   // Background sync indicator
   const isBackgroundFetching = $derived(constraintsQuery.isFetching);

@@ -126,6 +126,7 @@ export function useUpdatePeopleMutation() {
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: PEOPLE_QUERY_KEYS.manifest });
       await people.refresh();
+      toast.success(PERSON_MESSAGES.PERSON_RENAMED);
     },
     onError: (error: Error) => {
       toast.error(PERSON_MESSAGES.UPDATE_FAILED, { description: error.message });

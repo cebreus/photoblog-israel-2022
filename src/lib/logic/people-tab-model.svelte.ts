@@ -32,6 +32,10 @@ export function createPeopleTabModel(params?: {
     }) => Promise<unknown>;
     isPending: boolean;
   };
+  updateMutation?: {
+    mutateAsync: (params: { updates: Array<{ id: string; name?: string }> }) => Promise<unknown>;
+    isPending: boolean;
+  };
 }) {
   // --- STATE ---
   let selectedForMerge = $state<string[]>([]);
@@ -291,14 +295,14 @@ export function createPeopleTabModel(params?: {
     editingName = "";
   }
 
-  async function renamePersonApi(personId: string, newName: string) {
-    if (!newName.trim()) return;
-    setProcessing(personId, true);
-    await updatePeopleOrThrow([{ id: personId, name: newName.trim() }]);
-  }
-
   async function confirmRename() {
     if (!editingPersonId || !editingName.trim()) {
+      cancelEditing();
+      return;
+    }
+
+    if (!params?.updateMutation) {
+      logger.error({}, "updateMutation not provided to model");
       cancelEditing();
       return;
     }
@@ -307,23 +311,20 @@ export function createPeopleTabModel(params?: {
     const newName = editingName.trim();
 
     logger.debug({}, "Starting rename");
-    isSaving = true;
 
     try {
-      await Promise.all([
-        renamePersonApi(personId, newName),
-        new Promise((resolve) => setTimeout(resolve, 500)),
-      ]);
+      // Use TanStack Query mutation - it handles loading, error, success, and cache invalidation
+      await params.updateMutation.mutateAsync({
+        updates: [{ id: personId, name: newName }],
+      });
 
-      await people.refresh();
+      // Update timestamp for thumbnail cache busting
       lastUpdateTimestamp = Date.now();
-      toast.success(PERSON_MESSAGES.PERSON_RENAMED);
       cancelEditing();
     } catch (error) {
-      logger.error({ err: error }, "Failed to rename person");
-      toast.error(PERSON_MESSAGES.RENAME_FAILED);
+      // Error is already handled by mutation's onError callback
+      logger.error({ err: error }, "Rename mutation failed");
     } finally {
-      isSaving = false;
       setProcessing(personId, false);
     }
   }
