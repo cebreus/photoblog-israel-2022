@@ -28,7 +28,7 @@
 
   // Create model with data from query and mutations
   const model = createPeopleTabModel({
-    invalidDetections,
+    getInvalidDetections: () => invalidDetections,
     mergeMutation,
     updateMutation,
   });

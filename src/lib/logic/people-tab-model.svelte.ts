@@ -22,7 +22,7 @@ export type ConfirmDialogConfig = {
 };
 
 export function createPeopleTabModel(params?: {
-  invalidDetections?: Array<{
+  getInvalidDetections?: () => Array<{
     imageId: string;
     box: { x: number; y: number; width: number; height: number };
   }>;
@@ -64,7 +64,7 @@ export function createPeopleTabModel(params?: {
   });
 
   // Constraints (from TanStack Query)
-  const invalidDetections = $derived(params?.invalidDetections ?? []);
+  const invalidDetections = $derived(params?.getInvalidDetections?.() ?? []);
 
   // Person Detail
   let detailPerson = $state<Person | null>(null);
