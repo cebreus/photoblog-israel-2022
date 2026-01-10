@@ -1,5 +1,9 @@
-import { confirm, intro, outro, select, spinner, text } from "@clack/prompts";
-import path from "node:path";
+/**
+ * @fileoverview Revert image renames using a JSON plan and update manifests.
+ *
+ * @description
+ * Restores original filenames and migrates generated assets, manifests, and references.
+ */
 import { createLogger } from "$scripts/core/cli-logger";
 import { parseCliArguments } from "$scripts/core/cli-parser";
 import {
@@ -18,6 +22,8 @@ import {
 import { type RenameItem, type RenameMap, safeRename } from "$scripts/gallery/renaming";
 import { readdir, readFileText } from "$scripts/utils/runtime";
 import { formatDuration } from "$scripts/utils/time";
+import { confirm, intro, outro, select, spinner, text } from "@clack/prompts";
+import path from "node:path";
 
 const logger = createLogger("revert-rename");
 

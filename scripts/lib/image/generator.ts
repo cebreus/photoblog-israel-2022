@@ -1,9 +1,15 @@
+/**
+ * @fileoverview Image variant generator: encode and emit variant and other outputs.
+ *
+ * @description
+ * Contains strategies and helpers to generate image variants, apply formats and quality settings.
+ */
+import type { FaceBox } from "$scripts/faces/detection";
+import { ImageFormat, isJpegFormat } from "$shared/types/images";
 import path from "node:path";
 import type { Sharp } from "sharp";
-import { ImageFormat, isJpegFormat } from "$shared/types/images";
 import type { QualityTypes } from "../../../src/lib/types/manifest";
 import { config } from "../../build.config";
-import type { FaceBox } from "$scripts/faces/detection";
 import type { ImageProcessOptions } from "./processor";
 import { calculateSmartCrop } from "./smart-crop";
 import { ensureDir } from "./utils";

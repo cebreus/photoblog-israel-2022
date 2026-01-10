@@ -1,5 +1,9 @@
-import path from "node:path";
-import { SUPPORTED_OUTPUT_FORMATS } from "$shared/types/images";
+/**
+ * @fileoverview Gallery cleanup helpers for removing generated assets and empty folders.
+ *
+ * @description
+ * Utilities to remove empty directories, generated assets and to clean caches for a gallery.
+ */
 import { createLogger } from "$scripts/core/cli-logger";
 import {
   fileExists,
@@ -11,6 +15,8 @@ import {
   stat,
   writeFile,
 } from "$scripts/utils/runtime";
+import { SUPPORTED_OUTPUT_FORMATS } from "$shared/types/images";
+import path from "node:path";
 
 const logger = createLogger("cleanup");
 

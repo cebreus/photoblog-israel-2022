@@ -1,4 +1,10 @@
 process.env.GLIB_LOG_LEVEL = "critical";
+/**
+ * @fileoverview Generate site favicons and related icon assets.
+ *
+ * @description
+ * Creates multiple favicon sizes and writes icon manifest files for various platforms.
+ */
 
 import { createLogger } from "$scripts/core/cli-logger";
 import { parseCliArguments } from "$scripts/core/cli-parser";

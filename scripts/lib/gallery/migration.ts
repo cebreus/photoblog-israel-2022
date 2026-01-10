@@ -1,9 +1,9 @@
-import fg from "fast-glob";
-import path from "node:path";
-import { ImageFormat } from "$shared/types/images";
-import { toSlug } from "$shared/utils/strings";
-import type { Cache } from "../../../src/lib/types/manifest";
-import { config } from "../../build.config";
+/**
+ * @fileoverview Gallery migration utilities for moving and renaming assets.
+ *
+ * @description
+ * Helpers to migrate generated assets, manifests and perform safe renames within a gallery.
+ */
 import { createLogger } from "$scripts/core/cli-logger";
 import {
   loadAnalysisManifest,
@@ -34,6 +34,12 @@ import {
   readFileText,
   writeFile,
 } from "$scripts/utils/runtime";
+import { ImageFormat } from "$shared/types/images";
+import { toSlug } from "$shared/utils/strings";
+import fg from "fast-glob";
+import path from "node:path";
+import type { Cache } from "../../../src/lib/types/manifest";
+import { config } from "../../build.config";
 import { getOutputFolders } from "./cleanup";
 import { type RenameItem, type RenameMap, safeRename } from "./renaming";
 

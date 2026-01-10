@@ -1,7 +1,13 @@
-import path from "node:path";
+/**
+ * @fileoverview AI model loader and helper wrappers.
+ *
+ * @description
+ * Provides lazy-loading and helper functions for local or remote model artifacts used for embeddings.
+ */
 import { createLogger } from "$scripts/core/cli-logger";
 import { prepareImageProcessingPath } from "$scripts/image/utils";
 import { safeRm } from "$scripts/utils/runtime";
+import path from "node:path";
 
 const logger = createLogger("ai-models");
 

@@ -1,20 +1,11 @@
 #!/usr/bin/env bun
+/**
+ * @fileoverview Audit for orphaned files and assets in galleries.
+ *
+ * @description
+ * Interactive audit script to find and optionally remove orphaned assets, face crops and stale caches.
+ */
 
-import {
-  cancel,
-  confirm,
-  intro,
-  isCancel,
-  multiselect,
-  note,
-  outro,
-  spinner,
-} from "@clack/prompts";
-import path from "node:path";
-import { parseArgs } from "node:util";
-import pc from "picocolors";
-import { type Cache, isImageEntry } from "../src/lib/types/manifest";
-import { config } from "./build.config";
 import { createLogger } from "$scripts/core/cli-logger";
 import { findOrphanAssets, findOrphanFaceCrops, getOutputFolders } from "$scripts/gallery/cleanup";
 import { resolveGalleryDirectory } from "$scripts/gallery/resolver";
@@ -31,6 +22,21 @@ import {
   savePeopleManifest,
 } from "$scripts/manifests/repository";
 import { readFileText, rm, unlink, writeFile } from "$scripts/utils/runtime";
+import {
+  cancel,
+  confirm,
+  intro,
+  isCancel,
+  multiselect,
+  note,
+  outro,
+  spinner,
+} from "@clack/prompts";
+import path from "node:path";
+import { parseArgs } from "node:util";
+import pc from "picocolors";
+import { type Cache, isImageEntry } from "../src/lib/types/manifest";
+import { config } from "./build.config";
 
 interface AuditResults {
   orphanPersonFolders: string[];

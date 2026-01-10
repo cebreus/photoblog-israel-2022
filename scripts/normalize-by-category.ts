@@ -1,16 +1,10 @@
 /**
- * Normalize all people by category.
- * Format: <category>-<name>-<hash> or <category>-NNN-<hash>
+ * @fileoverview Normalize people IDs by category prefix.
  *
- * Categories:
- * - person → person-
- * - statue → statue-
- * - painting → painting-
+ * @description
+ * Ensures person IDs follow a category-based prefix format (person-, statue-, painting-) and updates manifests.
  */
 
-import path from "node:path";
-import { confirm, intro, outro, spinner } from "@clack/prompts";
-import { toSlug } from "$shared/utils/strings";
 import { createLogger } from "$scripts/core/cli-logger";
 import { parseCliArguments } from "$scripts/core/cli-parser";
 import { withManifestLock } from "$scripts/manifests/lock";
@@ -22,6 +16,9 @@ import {
   type RenameOperation,
 } from "$scripts/people/normalization";
 import { fileExists } from "$scripts/utils/runtime";
+import { toSlug } from "$shared/utils/strings";
+import { confirm, intro, outro, spinner } from "@clack/prompts";
+import path from "node:path";
 
 const logger = createLogger("normalize-category");
 const options = parseCliArguments(process.argv.slice(2));

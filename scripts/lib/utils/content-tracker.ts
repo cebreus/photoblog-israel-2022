@@ -1,16 +1,14 @@
 /**
- * Content Hash Tracker
+ * @fileoverview Content hash tracker to detect renames by content.
  *
- * Tracks content hashes of source images to detect renames.
- * When a file is renamed (rather than deleted+new), this allows
- * migrating all references (faces, people, manifests) instead
- * of losing the data.
+ * @description
+ * Tracks compact content hashes to identify file renames and assist in migrating references.
  */
 
+import { createLogger } from "$scripts/core/cli-logger";
 import type { FacesManifest, Manifest, PeopleManifest } from "$shared/types/manifest";
 import crypto from "node:crypto";
 import path from "node:path";
-import { createLogger } from "$scripts/core/cli-logger";
 import { mkdir, open, readFileText, stat, writeFile } from "./runtime";
 
 const logger = createLogger("content-tracker");

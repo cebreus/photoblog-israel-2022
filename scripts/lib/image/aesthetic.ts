@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Aesthetic scoring utilities based on embeddings.
+ *
+ * @description
+ * Computes cosine similarity and provides helpers to build/normalize aesthetic axes and scores.
+ */
 export function cosineSimilarity(a: number[], b: number[]): number {
   if (a.length !== b.length) throw new Error("Vector length mismatch");
   let dot = 0;

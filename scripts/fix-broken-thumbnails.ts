@@ -1,9 +1,11 @@
 #!/usr/bin/env bun
+/**
+ * @fileoverview Repair broken people thumbnails in the gallery.
+ *
+ * @description
+ * Scans people thumbnails and attempts to repair or regenerate invalid or missing thumbnails.
+ */
 
-import { intro, note, outro, spinner } from "@clack/prompts";
-import path from "node:path";
-import pc from "picocolors";
-import { isImageEntry } from "../src/lib/types/manifest";
 import { createLogger } from "$scripts/core/cli-logger";
 import { resolveGalleryDirectory } from "$scripts/gallery/resolver";
 import {
@@ -11,8 +13,12 @@ import {
   loadPeopleManifest,
   savePeopleManifest,
 } from "$scripts/manifests/repository";
-import { fileExists } from "$scripts/utils/runtime";
 import { runWithPerformance } from "$scripts/utils/performance";
+import { fileExists } from "$scripts/utils/runtime";
+import { intro, note, outro, spinner } from "@clack/prompts";
+import path from "node:path";
+import pc from "picocolors";
+import { isImageEntry } from "../src/lib/types/manifest";
 
 const logger = createLogger("fix-broken-thumbnails");
 

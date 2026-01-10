@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Manifest repository helpers for reading and writing manifests.
+ *
+ * @description
+ * Provides functions to load and persist images, people and site manifests on disk.
+ */
 import type { CurationManifest } from "$lib/types/manifest";
 import {
   isValidAnalysisManifest,
@@ -10,6 +16,8 @@ import {
   isValidPeopleManifest,
 } from "$lib/utils/manifest-validators";
 import { enrichPeopleWithStats } from "$lib/utils/people";
+import { createLogger, type Logger } from "$scripts/core/cli-logger";
+import { mkdir, readFileText, rename, stat, unlink, writeFile } from "$scripts/utils/runtime";
 import type {
   AnalysisManifest,
   ClusteringConstraints,
@@ -22,8 +30,6 @@ import type {
   PeopleManifest,
 } from "$shared/types/manifest";
 import path from "node:path";
-import { createLogger, type Logger } from "$scripts/core/cli-logger";
-import { mkdir, readFileText, rename, stat, unlink, writeFile } from "$scripts/utils/runtime";
 
 const logger = createLogger("manifest-repo");
 

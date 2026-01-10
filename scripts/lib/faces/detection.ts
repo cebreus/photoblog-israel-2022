@@ -1,6 +1,12 @@
-import path from "node:path";
+/**
+ * @fileoverview Face detection wrappers using face-api and TensorFlow.
+ *
+ * @description
+ * Loads model files, initializes the face-api environment and exposes detection helpers.
+ */
 import { createLogger } from "$scripts/core/cli-logger";
 import { fileExists, readFileText, writeFile } from "$scripts/utils/runtime";
+import path from "node:path";
 
 const logger = createLogger("face-api");
 

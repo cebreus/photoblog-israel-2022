@@ -1,3 +1,9 @@
+/**
+ * @fileoverview People consistency checks and fixes.
+ *
+ * @description
+ * Utilities to detect and repair inconsistent person entries, counts and references.
+ */
 import path from "node:path";
 import {
   isImageEntry,

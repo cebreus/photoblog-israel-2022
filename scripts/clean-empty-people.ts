@@ -1,15 +1,14 @@
 #!/usr/bin/env bun
 /**
- * Clean Empty People Script 🧹
+ * @fileoverview Remove people with zero faces from the people manifest.
  *
- * Removes people with faceCount: 0 from the manifest.
- * These are usually leftovers from "invalidate detection" or "unmatch" operations
- * where the last face was removed.
+ * @description
+ * Cleans up leftover person entries (faceCount: 0) caused by detection invalidation or unmatching.
  */
 
-import path from "node:path";
 import { createLogger } from "$scripts/core/cli-logger";
 import { fileExists, readFileText, writeFile } from "$scripts/utils/runtime";
+import path from "node:path";
 
 const logger = createLogger("clean-empty-people");
 const contentDir = process.env.CONTENT_DIR || "egypt-2025";

@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Cleanup image embeddings from manifests.
+ *
+ * @description
+ * Removes stored embedding vectors from image manifests to reduce size or reset state.
+ */
 import { createLogger } from "$scripts/core/cli-logger";
 import { resolveGalleryDirectory } from "$scripts/gallery/resolver";
 import { loadImagesManifest, saveImagesManifest } from "$scripts/manifests/repository";

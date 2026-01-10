@@ -1,4 +1,3 @@
-import path from "node:path";
 import { createLogger } from "$scripts/core/cli-logger";
 import {
   loadFaceEmbeddingsManifest,
@@ -6,12 +5,15 @@ import {
   saveFaceEmbeddingsManifest,
   savePeopleManifest,
 } from "$scripts/manifests/repository";
+import path from "node:path";
 
 const logger = createLogger("migrate-embeddings");
 
 /**
- * Migrates face embeddings from people.manifest.json to separate face-embeddings.manifest.json.
- * This reduces people manifest size from ~1.5MB to ~50KB and enables lazy loading in UI.
+ * @fileoverview Migrate face embeddings to a separate manifest.
+ *
+ * @description
+ * Extracts face embeddings from people manifests into a dedicated embeddings manifest to reduce size.
  */
 async function migrateEmbeddings() {
   const contentDir = process.env.CONTENT_DIR || "egypt-2025";

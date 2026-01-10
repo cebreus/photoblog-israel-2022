@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Time helper utilities.
+ *
+ * @description
+ * Small helpers for formatting durations and timestamps used in scripts and logs.
+ */
 export function formatDuration(ms: number): string {
   if (ms < 1000) return `${ms.toFixed(0)}ms`;
 

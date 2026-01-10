@@ -1,12 +1,10 @@
 /**
- * Pre-build Consistency Checker
+ * @fileoverview Pre-build consistency checks for face clustering.
  *
- * Quick checks to run before face clustering to detect potential issues.
- * Warns about inconsistencies without blocking the build.
+ * @description
+ * Runs quick checks to warn about potential issues before clustering (missing manifests, stale constraints).
  */
 
-import path from "node:path";
-import type { PeopleManifest } from "$shared/types/manifest";
 import { createLogger } from "$scripts/core/cli-logger";
 import {
   loadFacesManifest,
@@ -14,6 +12,8 @@ import {
   loadPeopleManifest,
 } from "$scripts/manifests/repository";
 import { fileExists, readFileText } from "$scripts/utils/runtime";
+import type { PeopleManifest } from "$shared/types/manifest";
+import path from "node:path";
 
 const logger = createLogger("pre-build-check");
 

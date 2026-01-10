@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Bridge between CLI IO helpers and application logger context.
+ *
+ * @description
+ * Provides a generic interface and helpers to route IO debug/info logs into the active logger.
+ */
 import { getCurrentLogger } from "../../../src/lib/server/request-context";
 
 /**

@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Face clustering orchestration and utilities.
+ *
+ * @description
+ * Coordinates embedding analysis, clustering and saving results for face grouping.
+ */
 import { clearTaskStatus } from "$lib/server/task-status";
 import {
   type FaceEmbeddingsManifest,

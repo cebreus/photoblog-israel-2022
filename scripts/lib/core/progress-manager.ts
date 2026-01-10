@@ -1,3 +1,9 @@
+/**
+ * @fileoverview CLI progress bar utilities (multi-bar wrapper).
+ *
+ * @description
+ * Provides multi-bar management and helpers for progress display in long-running scripts.
+ */
 import { MultiBar, Presets, type SingleBar } from "cli-progress";
 import colors from "picocolors";
 

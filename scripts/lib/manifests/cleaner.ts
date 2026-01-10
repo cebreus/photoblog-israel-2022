@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Manifest cleaning utilities.
+ *
+ * @description
+ * Remove orphaned entries, enforce schema constraints and tidy manifest files.
+ */
 import { createLogger } from "$scripts/core/cli-logger";
 import {
   loadFacesManifest,

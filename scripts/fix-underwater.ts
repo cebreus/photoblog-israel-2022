@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Correct underwater photos by adjusting color and contrast.
+ *
+ * @description
+ * CLI utility that corrects underwater images and optionally outputs multiple formats.
+ */
 import { createLogger } from "$scripts/core/cli-logger";
 import { fixUnderwaterImage } from "$scripts/image/underwater";
 import { validatePathInsideRoot } from "$scripts/utils/runtime";

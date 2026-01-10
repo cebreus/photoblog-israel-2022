@@ -1,10 +1,10 @@
 /**
- * Audit script for people.manifest.json
- * Checks for inconsistencies and optionally fixes them.
+ * @fileoverview Audit people manifests for inconsistencies and missing data.
+ *
+ * @description
+ * Runs checks and optional fixes for people entries, face counts and references.
  */
 
-import path from "node:path";
-import { parseArgs } from "node:util";
 import { createLogger } from "$scripts/core/cli-logger";
 import { recalculateAllFaceCounts, removeEmptyPeople } from "$scripts/faces/people";
 import {
@@ -14,8 +14,10 @@ import {
   saveClusteringConstraints,
   savePeopleManifest,
 } from "$scripts/manifests/repository";
-import { readdir } from "$scripts/utils/runtime";
 import { runWithPerformance } from "$scripts/utils/performance";
+import { readdir } from "$scripts/utils/runtime";
+import path from "node:path";
+import { parseArgs } from "node:util";
 
 const logger = createLogger("audit-people");
 

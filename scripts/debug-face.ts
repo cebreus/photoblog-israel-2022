@@ -1,10 +1,16 @@
 #!/usr/bin/env bun
-import path from "node:path";
+/**
+ * @fileoverview Debug face detection with local models (CLI).
+ *
+ * @description
+ * Loads face-api models from disk, runs detection on an image, and logs details.
+ */
+import { createLogger } from "$scripts/core/cli-logger";
+import { convertHeicToPng } from "$scripts/image/utils";
 import * as tf from "@tensorflow/tfjs-node";
 import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
 import * as canvas from "canvas";
-import { createLogger } from "$scripts/core/cli-logger";
-import { convertHeicToPng } from "$scripts/image/utils";
+import path from "node:path";
 
 const logger = createLogger("debug-face");
 

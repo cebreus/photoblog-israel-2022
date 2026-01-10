@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Smart crop utilities to compute face-aware crop rectangles.
+ *
+ * @description
+ * Calculates crop rectangles centered on faces or groups of faces with padding and zoom.
+ */
 import { config } from "../../build.config";
 
 export interface Box {

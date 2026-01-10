@@ -1,10 +1,16 @@
+/**
+ * @fileoverview Face clustering math and utilities.
+ *
+ * @description
+ * Distance metrics, centroid calculations and helper functions used by clustering pipeline.
+ */
+import { createLogger } from "$scripts/core/cli-logger";
+import { ensureDir } from "$scripts/image/utils";
+import { safeUnlink, writeFile } from "$scripts/utils/runtime";
 import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
 import * as canvas from "canvas";
 import path from "node:path";
 import type { Person } from "../../../src/lib/types/manifest";
-import { createLogger } from "$scripts/core/cli-logger";
-import { ensureDir } from "$scripts/image/utils";
-import { safeUnlink, writeFile } from "$scripts/utils/runtime";
 
 const logger = createLogger("clustering-utils");
 

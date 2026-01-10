@@ -1,11 +1,13 @@
 #!/usr/bin/env bun
 process.env.OBJC_DISABLE_INITIALIZE_FORK_SAFETY = "YES";
 process.env.LOG_STYLE = "boxed";
+/**
+ * @fileoverview Management CLI for running maintenance and build tasks across galleries.
+ *
+ * @description
+ * Interactive command runner for operations like build, deploy, clean and migrations.
+ */
 
-import { cancel, intro, isCancel, outro, select } from "@clack/prompts";
-import path from "node:path";
-import { parseArgs } from "node:util";
-import pc from "picocolors";
 import { createLogger } from "$scripts/core/cli-logger";
 import { listAvailableGalleries } from "$scripts/gallery/resolver";
 import { validateAndCleanManifests } from "$scripts/manifests/validator";
@@ -14,6 +16,10 @@ import { setIoLogger } from "$scripts/utils/io-logger-bridge";
 import { getPerformanceRecorder, runWithPerformance } from "$scripts/utils/performance";
 import { run } from "$scripts/utils/shell";
 import { formatDuration } from "$scripts/utils/time";
+import { cancel, intro, isCancel, outro, select } from "@clack/prompts";
+import path from "node:path";
+import { parseArgs } from "node:util";
+import pc from "picocolors";
 
 const DEFAULT_GALLERY = "egypt-2025";
 const logger = createLogger("manage");

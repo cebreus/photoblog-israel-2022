@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Shell command utilities with cross-runtime compatibility.
+ *
+ * @description
+ * Helpers to run external commands, capture output and pipe with optional filtering.
+ */
 import { spawn } from "./runtime";
 
 export async function run(

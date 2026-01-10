@@ -1,3 +1,9 @@
+/**
+ * @fileoverview CLI Logger utility for scripts.
+ *
+ * @description
+ * Provides formatted console output and optional JSON file logging for script processes.
+ */
 import { fileExists, writeFile } from "$scripts/utils/runtime";
 import fs from "node:fs";
 import path from "node:path";

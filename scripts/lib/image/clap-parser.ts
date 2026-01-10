@@ -1,5 +1,11 @@
-import type { CleanApertureData } from "$shared/types/clap";
+/**
+ * @fileoverview Parse and persist CLAP (Clean Aperture) EXIF data.
+ *
+ * @description
+ * Utilities to read CLAP from ExifTool output and fallback to XPComment for HEIC files.
+ */
 import { execCapture, run } from "$scripts/utils/shell";
+import type { CleanApertureData } from "$shared/types/clap";
 
 export interface ClapRational {
   widthN: number;

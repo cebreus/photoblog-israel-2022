@@ -4,9 +4,10 @@ import { marked } from "marked";
 import { config } from "../../build.config";
 
 /**
- * Service for managing photo grid separators.
- * Centralizes all separator-related logic including creation,
- * photo assignment, and menu item generation.
+ * @fileoverview Separator service for photo grid grouping and menu generation.
+ *
+ * @description
+ * Centralizes separator creation, photo assignment and menu item generation for galleries.
  */
 
 /**

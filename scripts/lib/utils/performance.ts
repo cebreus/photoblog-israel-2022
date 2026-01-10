@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Performance measurement utilities and recorder.
+ *
+ * @description
+ * Provides lightweight performance measurement helpers and an AsyncLocalStorage-backed recorder.
+ */
 import { AsyncLocalStorage } from "node:async_hooks";
 import { createLogger } from "../core/cli-logger";
 

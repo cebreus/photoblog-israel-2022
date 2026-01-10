@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Incremental manifest builder and image pipeline orchestration.
+ *
+ * @description
+ * Implements the incremental run: scanning source, processing images, updating manifests and caches.
+ */
 import { EMBEDDING_DIM } from "$scripts/ai/models";
 import { createLogger } from "$scripts/core/cli-logger";
 import { getConcurrency } from "$scripts/core/concurrency-utils";

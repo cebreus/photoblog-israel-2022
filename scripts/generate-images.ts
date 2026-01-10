@@ -1,11 +1,11 @@
 process.env.GLIB_LOG_LEVEL = "critical";
+/**
+ * @fileoverview Image generation pipeline for creating variants and managing manifests.
+ *
+ * @description
+ * Generates previews, details and placeholders; manages caching, incremental runs and CLI options.
+ */
 
-import { intro } from "@clack/prompts";
-import path from "node:path";
-import "sharp";
-import { clearTaskStatus, saveTaskStatus } from "../src/lib/server/task-status";
-import type { QualityTypes, ScriptArgs } from "../src/lib/types/manifest";
-import { config } from "./build.config";
 import { createLogger } from "$scripts/core/cli-logger";
 import { type CliOptions, parseCliArguments } from "$scripts/core/cli-parser";
 import { getConcurrency } from "$scripts/core/concurrency-utils";
@@ -17,6 +17,12 @@ import incrementalRun from "$scripts/manifests/incremental";
 import { getPerformanceRecorder, runWithPerformance } from "$scripts/utils/performance";
 import { rm } from "$scripts/utils/runtime";
 import { formatDuration } from "$scripts/utils/time";
+import { intro } from "@clack/prompts";
+import path from "node:path";
+import "sharp";
+import { clearTaskStatus, saveTaskStatus } from "../src/lib/server/task-status";
+import type { QualityTypes, ScriptArgs } from "../src/lib/types/manifest";
+import { config } from "./build.config";
 
 let RUNTIME_RAW: Partial<CliOptions> = {};
 let RUNTIME_FORMATS = [...config.encoding.formats];

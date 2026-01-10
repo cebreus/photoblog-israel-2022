@@ -1,6 +1,8 @@
 /**
- * Build-time utilities for detecting and working with image sequences.
- * Re-exports shared utilities and adds build-specific functions.
+ * @fileoverview Sequence detection utilities for image grouping.
+ *
+ * @description
+ * Re-exports shared sequence helpers and implements build-time utilities for sequence detection.
  */
 
 // Re-export shared utilities using the $shared alias
@@ -15,8 +17,8 @@ export {
 } from "$shared/utils/sequences";
 
 import type { ImageEntry, SequenceInfo } from "$shared/types/manifest";
-import { parseSequenceSuffix } from "$shared/utils/sequences";
 import { diffIsoStringsInSeconds } from "$shared/utils/dates";
+import { parseSequenceSuffix } from "$shared/utils/sequences";
 
 /**
  * Classify media type based on filename.

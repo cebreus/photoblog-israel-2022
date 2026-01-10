@@ -1,6 +1,8 @@
 /**
- * Standalone script to clean phantom person assignments.
- * Wrapper around the cleaner library.
+ * @fileoverview Clean phantom person assignments in manifests.
+ *
+ * @description
+ * Wrapper script to remove phantom person assignments using manifest cleaner utilities.
  */
 
 import { createLogger } from "$scripts/core/cli-logger";

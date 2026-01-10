@@ -1,6 +1,9 @@
-import { confirm, intro, outro, select, spinner, text } from "@clack/prompts";
-import { exiftool } from "exiftool-vendored";
-import path from "node:path";
+/**
+ * @fileoverview Rename images and apply manifest migrations.
+ *
+ * @description
+ * Provides interactive and automated rename workflows, including backups and manifest updates.
+ */
 import { createLogger } from "$scripts/core/cli-logger";
 import { parseCliArguments } from "$scripts/core/cli-parser";
 import {
@@ -23,6 +26,9 @@ import { analyzeRenameCandidates, type RenameMap, safeRename } from "$scripts/ga
 import { loadImagesManifest } from "$scripts/manifests/repository";
 import { readdir, stat, writeFile } from "$scripts/utils/runtime";
 import { formatDuration } from "$scripts/utils/time";
+import { confirm, intro, outro, select, spinner, text } from "@clack/prompts";
+import { exiftool } from "exiftool-vendored";
+import path from "node:path";
 
 const logger = createLogger("rename-images");
 

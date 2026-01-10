@@ -1,5 +1,9 @@
-import { confirm, intro, outro, spinner } from "@clack/prompts";
-import path from "node:path";
+/**
+ * @fileoverview Normalize person name strings across the people manifest.
+ *
+ * @description
+ * Enforces consistent casing and spacing for person names and saves updated manifests.
+ */
 import { createLogger } from "$scripts/core/cli-logger";
 import { parseCliArguments } from "$scripts/core/cli-parser";
 import {
@@ -8,8 +12,10 @@ import {
   loadManifestsForNormalization,
   type RenameOperation,
 } from "$scripts/people/normalization";
-import { fileExists, readdir } from "$scripts/utils/runtime";
 import { runWithPerformance } from "$scripts/utils/performance";
+import { fileExists, readdir } from "$scripts/utils/runtime";
+import { confirm, intro, outro, spinner } from "@clack/prompts";
+import path from "node:path";
 
 const logger = createLogger("normalize-names");
 const options = parseCliArguments(process.argv.slice(2));

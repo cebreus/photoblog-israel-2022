@@ -1,7 +1,13 @@
-import path from "node:path";
+/**
+ * @fileoverview Benchmark batch processing performance for embeddings and analysis.
+ *
+ * @description
+ * Runs sequential and batched runs to measure performance impact of batching.
+ */
 import { createLogger } from "$scripts/core/cli-logger";
 import { readFileText, writeFile } from "$scripts/utils/runtime";
 import { run } from "$scripts/utils/shell";
+import path from "node:path";
 
 const logger = createLogger("benchmark");
 

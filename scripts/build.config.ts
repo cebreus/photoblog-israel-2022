@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Configuration for image generation: paths, outputs, and encoding.
+ *
+ * @description
+ * Defines output variants, encoding quality, and script-related defaults used by image pipeline.
+ */
 import { ImageFormat, SUPPORTED_INPUT_EXTENSIONS } from "../src/lib/types/images";
 
 const IMAGE_SUBDIR = "pics";

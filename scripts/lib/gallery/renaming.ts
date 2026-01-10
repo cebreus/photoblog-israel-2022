@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Image renaming utilities and rename plan generation.
+ *
+ * @description
+ * Produces deterministic rename maps, safe rename helpers and filename heuristics.
+ */
 import { fileExists, rename, scanGlob, toSafeFilename } from "$scripts/utils/runtime";
 import { SUPPORTED_INPUT_EXTENSIONS } from "$shared/types/images";
 import { toPureWallClockISO } from "$shared/utils/dates";

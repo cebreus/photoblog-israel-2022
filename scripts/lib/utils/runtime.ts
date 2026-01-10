@@ -7,8 +7,10 @@ import { logIoDebug } from "./io-logger-bridge";
 import { measure, measureSync } from "./performance";
 
 /**
- * Universal runtime utilities to handle Bun vs Node.js differences centrally.
- * This ensures that build scripts can be run by Bun (CLI) and Node.js (Vite/SvelteKit).
+ * @fileoverview Cross-runtime filesystem and process utilities.
+ *
+ * @description
+ * Provides Bun/Node abstractions for file I/O, globbing and process spawning.
  */
 
 // Safely detect Bun

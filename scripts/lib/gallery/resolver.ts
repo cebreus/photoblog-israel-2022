@@ -1,6 +1,12 @@
+/**
+ * @fileoverview Resolve and list available galleries from the content directory.
+ *
+ * @description
+ * Helper functions to list galleries and map gallery names to content directories.
+ */
+import { readdir } from "$scripts/utils/runtime";
 import { select } from "@clack/prompts";
 import path from "node:path";
-import { readdir } from "$scripts/utils/runtime";
 
 const CONTENT_ROOT = path.resolve("content");
 const DEFAULT_GALLERY = "egypt-2025";

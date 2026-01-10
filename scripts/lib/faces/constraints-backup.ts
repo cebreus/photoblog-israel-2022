@@ -1,11 +1,10 @@
 /**
- * Constraints Backup Utility
+ * @fileoverview Constraints backup utilities for clustering constraints.
  *
- * Automatically backs up clustering-constraints.json before each face clustering run.
- * Maintains a rolling backup (keeps last 5 versions).
+ * @description
+ * Creates timestamped backups and manages retention for clustering constraints files.
  */
 
-import path from "node:path";
 import { createLogger } from "$scripts/core/cli-logger";
 import {
   copyFile,
@@ -15,6 +14,7 @@ import {
   readdir,
   unlink,
 } from "$scripts/utils/runtime";
+import path from "node:path";
 
 const logger = createLogger("constraints-backup");
 

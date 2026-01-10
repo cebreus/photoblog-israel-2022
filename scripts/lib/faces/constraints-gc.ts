@@ -1,4 +1,9 @@
-import type { ClusteringConstraints } from "../../../src/lib/types/manifest";
+/**
+ * @fileoverview Garbage collection for clustering constraints.
+ *
+ * @description
+ * Removes invalid constraints referencing non-existent images or people.
+ */
 import type { Logger } from "$scripts/core/cli-logger";
 import {
   loadClusteringConstraints,
@@ -6,6 +11,7 @@ import {
   loadPeopleManifest,
   saveClusteringConstraints,
 } from "$scripts/manifests/repository";
+import type { ClusteringConstraints } from "../../../src/lib/types/manifest";
 
 /**
  * Clean up invalid constraints (referencing non-existent people or images).

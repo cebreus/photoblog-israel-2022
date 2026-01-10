@@ -1,10 +1,9 @@
-import path from "node:path";
-import type {
-  AnalysisManifest,
-  EmbeddingsManifest,
-  FacesManifest,
-  Manifest,
-} from "../src/lib/types/manifest";
+/**
+ * @fileoverview Migrate images.manifest.json into separate manifests (analysis, faces, embeddings).
+ *
+ * @description
+ * Splits the monolithic images manifest into smaller manifests and writes them to disk.
+ */
 import { createLogger } from "$scripts/core/cli-logger";
 import {
   loadManifest,
@@ -12,6 +11,13 @@ import {
   saveEmbeddingsManifest,
   saveFacesManifest,
 } from "$scripts/manifests/repository";
+import path from "node:path";
+import type {
+  AnalysisManifest,
+  EmbeddingsManifest,
+  FacesManifest,
+  Manifest,
+} from "../src/lib/types/manifest";
 
 const logger = createLogger("migrate-manifests");
 

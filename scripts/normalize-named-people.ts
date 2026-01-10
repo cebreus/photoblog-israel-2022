@@ -1,12 +1,10 @@
 /**
- * Normalize named people with hash IDs to readable format.
- * Converts: person-9b0bc40f (Jaruška) → jaruska-9b0bc40f
+ * @fileoverview Normalize named people with readable slugs while preserving hashes.
+ *
+ * @description
+ * Converts hashed person IDs (person-<hash>) to a readable slug pattern and updates manifests.
  */
 
-import path from "node:path";
-import { confirm, intro, outro, spinner } from "@clack/prompts";
-import type { Person } from "$shared/types/manifest";
-import { toSlug } from "$shared/utils/strings";
 import { createLogger } from "$scripts/core/cli-logger";
 import { parseCliArguments } from "$scripts/core/cli-parser";
 import { withManifestLock } from "$scripts/manifests/lock";
@@ -18,6 +16,10 @@ import {
   type RenameOperation,
 } from "$scripts/people/normalization";
 import { fileExists } from "$scripts/utils/runtime";
+import type { Person } from "$shared/types/manifest";
+import { toSlug } from "$shared/utils/strings";
+import { confirm, intro, outro, spinner } from "@clack/prompts";
+import path from "node:path";
 
 const logger = createLogger("normalize-named");
 const options = parseCliArguments(process.argv.slice(2));

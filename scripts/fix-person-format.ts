@@ -1,13 +1,10 @@
 /**
- * One-time script to add original hashes back to person-N IDs.
- * Converts person-1 → person-001-70767217
+ * @fileoverview Restore original hashes to person IDs in manifests.
  *
- * Uses backup manifest to recover original hashes.
+ * @description
+ * Uses backup manifests to recover original person ID hashes and apply canonical naming.
  */
 
-import path from "node:path";
-import { confirm, intro, outro, spinner } from "@clack/prompts";
-import type { PeopleManifest } from "$shared/types/manifest";
 import { createLogger } from "$scripts/core/cli-logger";
 import { parseCliArguments } from "$scripts/core/cli-parser";
 import { withManifestLock } from "$scripts/manifests/lock";
@@ -17,6 +14,9 @@ import {
   loadManifestsForNormalization,
   type RenameOperation,
 } from "$scripts/people/normalization";
+import type { PeopleManifest } from "$shared/types/manifest";
+import { confirm, intro, outro, spinner } from "@clack/prompts";
+import path from "node:path";
 
 const logger = createLogger("fix-person-format");
 const options = parseCliArguments(process.argv.slice(2));

@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Manifest lock utilities to serialize manifest writes.
+ *
+ * @description
+ * Provides filesystem-based lock helpers to prevent concurrent manifest mutations.
+ */
 import path from "node:path";
 import { mkdir, readFileText, safeUnlink, writeFile } from "$scripts/utils/runtime";
 

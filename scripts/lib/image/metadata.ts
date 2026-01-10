@@ -1,8 +1,14 @@
-import path from "node:path";
-import { exiftool } from "exiftool-vendored";
+/**
+ * @fileoverview Image metadata extraction and normalization utilities.
+ *
+ * @description
+ * Reads EXIF with ExifTool and maps to canonical manifest fields, alt text and keywords.
+ */
 import { toPureWallClockISO } from "$shared/utils/dates";
 import { METADATA_STANDARDS } from "$shared/utils/metadata-standards";
 import { isCollage, toSlug } from "$shared/utils/strings";
+import { exiftool } from "exiftool-vendored";
+import path from "node:path";
 import type { ImageEntry, ExifData as ManifestExifData } from "../../../src/lib/types/manifest";
 import { classifyMediaType, parseSequenceSuffix } from "./sequence-detector";
 import { getAltText, getAspectRatioName, getKeywords, normalizeText } from "./utils";

@@ -1,14 +1,20 @@
 #!/usr/bin/env bun
+/**
+ * @fileoverview Detect broken links and missing assets referenced by manifests.
+ *
+ * @description
+ * Scans manifests and static assets to list broken references (thumbnails, crops, files).
+ */
 
+import { createLogger } from "$scripts/core/cli-logger";
+import { resolveGalleryDirectory } from "$scripts/gallery/resolver";
+import { loadImagesManifest, loadPeopleManifest } from "$scripts/manifests/repository";
+import { runWithPerformance } from "$scripts/utils/performance";
+import { fileExists } from "$scripts/utils/runtime";
 import { intro, note, outro, spinner } from "@clack/prompts";
 import path from "node:path";
 import pc from "picocolors";
 import { isImageEntry } from "../src/lib/types/manifest";
-import { createLogger } from "$scripts/core/cli-logger";
-import { resolveGalleryDirectory } from "$scripts/gallery/resolver";
-import { loadImagesManifest, loadPeopleManifest } from "$scripts/manifests/repository";
-import { fileExists } from "$scripts/utils/runtime";
-import { runWithPerformance } from "$scripts/utils/performance";
 
 const logger = createLogger("audit-broken-links");
 

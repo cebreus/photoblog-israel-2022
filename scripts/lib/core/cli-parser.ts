@@ -1,3 +1,9 @@
+/**
+ * @fileoverview CLI argument parsing utilities for image processing scripts.
+ *
+ * @description
+ * Parses and validates CLI options used by image generator and related commands.
+ */
 import type { Quality, VariantType } from "$shared/types/images";
 import { ImageFormat, ImageVariant } from "$shared/types/images";
 import path from "node:path";

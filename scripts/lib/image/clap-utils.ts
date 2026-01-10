@@ -1,7 +1,13 @@
+/**
+ * @fileoverview Clean Aperture (CLAP) extraction utilities.
+ *
+ * @description
+ * Helpers to extract CLAP regions and write temporary cropped images using Sharp.
+ */
+import type { CleanApertureData } from "$shared/types/clap";
 import os from "node:os";
 import path from "node:path";
 import type sharp from "sharp";
-import type { CleanApertureData } from "$shared/types/clap";
 
 type SharpModule = typeof sharp;
 

@@ -1,4 +1,10 @@
 #!/usr/bin/env bun
+/**
+ * @fileoverview Deployment helper for publishing a gallery/site.
+ *
+ * @description
+ * Handles versioning, manifest comparison, and uploading artifacts to target hosts.
+ */
 import { createLogger } from "$scripts/core/cli-logger";
 import { listAvailableGalleries } from "$scripts/gallery/resolver";
 import { cp, directoryExists, readdir, readFileText, rm, writeFile } from "$scripts/utils/runtime";

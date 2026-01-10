@@ -1,6 +1,8 @@
 /**
- * Resolves the concurrency level based on the provided value or system defaults.
- * Uses navigator.hardwareConcurrency to avoid Node.js 'os' module dependency.
+ * @fileoverview Concurrency utilities for scripts.
+ *
+ * @description
+ * Resolves numeric concurrency from CLI values or hardware concurrency defaults.
  *
  * @param concurrency - The logical concurrency level (number, 'auto', or undefined)
  * @returns The resolved numeric concurrency level

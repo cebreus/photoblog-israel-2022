@@ -1,6 +1,12 @@
-import type { FaceEmbeddingsManifest } from "../../../src/lib/types/manifest";
+/**
+ * @fileoverview Face embeddings manifest utilities (cache + helpers).
+ *
+ * @description
+ * Provides cached accessors and helpers to read and query face embedding manifests.
+ */
 import type { Logger } from "$scripts/core/cli-logger";
 import { loadFaceEmbeddingsManifest } from "$scripts/manifests/repository";
+import type { FaceEmbeddingsManifest } from "../../../src/lib/types/manifest";
 
 /**
  * Cache for embeddings manifest to avoid repeated disk reads

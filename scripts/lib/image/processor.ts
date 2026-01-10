@@ -1,13 +1,19 @@
+/**
+ * @fileoverview Image processing pipeline utilities.
+ *
+ * @description
+ * Core image transformations, metadata extraction, quality scoring and encoding helpers used by the generator.
+ */
+import { aiService, EMBEDDING_DIM } from "$scripts/ai/models";
+import { createLogger } from "$scripts/core/cli-logger";
+import { detectFaces, type FaceBox } from "$scripts/faces/detection";
+import { basenameNoExt, safeUnlink, stat } from "$scripts/utils/runtime";
 import { ImageFormat } from "$shared/types/images";
 import type { ImageEntry, ImageSource, QualityTypes } from "$shared/types/manifest";
 import { createReadStream } from "node:fs";
 import path from "node:path";
 import xxhash from "xxhash-wasm";
 import { config } from "../../build.config";
-import { aiService, EMBEDDING_DIM } from "$scripts/ai/models";
-import { createLogger } from "$scripts/core/cli-logger";
-import { detectFaces, type FaceBox } from "$scripts/faces/detection";
-import { basenameNoExt, safeUnlink, stat } from "$scripts/utils/runtime";
 import {
   generateOtherOutput,
   generateVariant,

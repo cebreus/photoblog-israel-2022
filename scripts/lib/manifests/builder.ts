@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Manifest builder utilities for images and site.
+ *
+ * @description
+ * Utilities to construct and write manifests used by the site and generator.
+ */
 import { createLogger } from "$scripts/core/cli-logger";
 import { detectSequences } from "$scripts/image/sequence-detector";
 import * as SeparatorService from "$scripts/separators/service";

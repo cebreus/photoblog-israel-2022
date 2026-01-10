@@ -1,12 +1,14 @@
-import path from "node:path";
 import { createLogger } from "$scripts/core/cli-logger";
+import path from "node:path";
 import { readFileText, unlink, writeFile } from "./runtime";
 
 const logger = createLogger("build-lock");
 
 /**
- * Simple file-based lock mechanism for preventing concurrent builds
- * from overwriting each other's assets in static root.
+ * @fileoverview Build lock utilities to serialize build/migration operations.
+ *
+ * @description
+ * Simple file-based lock mechanism to prevent concurrent builds from conflicting.
  */
 
 const LOCK_FILE = path.resolve(process.cwd(), ".temp/build.lock");

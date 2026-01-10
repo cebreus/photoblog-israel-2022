@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Underwater image correction utilities.
+ *
+ * @description
+ * Implements algorithms to correct color/contrast for underwater photos.
+ */
 import {
   isHeicPath,
   isJpegPath,

@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Generate blurred placeholder images (LQIP) and small color-reduced variants.
+ *
+ * @description
+ * Produces low-resolution blurred images for progressive loading and placeholders.
+ */
 import { createLogger } from "$scripts/core/cli-logger";
 import type { CliOptions } from "$scripts/core/cli-parser";
 import { getConcurrency } from "$scripts/core/concurrency-utils";

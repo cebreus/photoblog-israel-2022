@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Image utility functions: quality, aspect ratio, and file helpers.
+ *
+ * @description
+ * Contains small helpers for image metadata, quality buckets, alt text, and safe file ops.
+ */
 import {
   isHeicPath,
   mkdir,

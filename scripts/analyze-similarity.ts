@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Analyze image similarity and build curation recommendations.
+ *
+ * @description
+ * Computes embeddings, groups similar images, and recommends duplicates or lower-quality photos for deletion.
+ */
 import { aiService } from "$scripts/ai/models";
 import { createLogger } from "$scripts/core/cli-logger";
 import { parseCliArguments } from "$scripts/core/cli-parser";
