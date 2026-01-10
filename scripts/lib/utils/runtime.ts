@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Cross-runtime filesystem and process utilities.
+ *
+ * @description
+ * Provides Bun/Node abstractions for file I/O, globbing and process spawning.
+ */
+
 import { spawnSync as nodeSpawnSync } from "node:child_process";
 import fsp from "node:fs/promises";
 import path from "node:path";
@@ -5,13 +12,6 @@ import { isHeic, isJpeg, isPng } from "../../../shared/types/images";
 import { toSlug } from "../../../shared/utils/strings";
 import { logIoDebug } from "./io-logger-bridge";
 import { measure, measureSync } from "./performance";
-
-/**
- * @fileoverview Cross-runtime filesystem and process utilities.
- *
- * @description
- * Provides Bun/Node abstractions for file I/O, globbing and process spawning.
- */
 
 // Safely detect Bun
 export const IS_BUN =
@@ -357,9 +357,15 @@ export async function safeRm(
  * Path-aware extension checks (requires node:path).
  * These are script-only utilities.
  */
-export const isHeicPath = (p: string) => isHeic(path.extname(p));
-export const isJpegPath = (p: string) => isJpeg(path.extname(p));
-export const isPngPath = (p: string) => isPng(path.extname(p));
+export function isHeicPath(p: string): boolean {
+  return isHeic(path.extname(p));
+}
+export function isJpegPath(p: string): boolean {
+  return isJpeg(path.extname(p));
+}
+export function isPngPath(p: string): boolean {
+  return isPng(path.extname(p));
+}
 
 /**
  * Validates and canonicalizes a given path, ensuring it stays within a specified safe root directory.

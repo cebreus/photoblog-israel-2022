@@ -1,4 +1,3 @@
-import type { Action } from "svelte/action";
 import { ui } from "$lib/stores/ui.svelte";
 
 interface ScrollspyOptions {
@@ -40,7 +39,7 @@ function makeObserverKey(
  *
  * Uses shared observers for performance.
  */
-export const useScrollspy: Action<HTMLElement, ScrollspyOptions> = (node, options) => {
+export function useScrollspy(node: HTMLElement, options: ScrollspyOptions) {
   const { id, rootMargin = DEFAULT_ROOT_MARGIN, threshold = DEFAULT_THRESHOLD } = options;
 
   if (!id) {
@@ -101,7 +100,7 @@ export const useScrollspy: Action<HTMLElement, ScrollspyOptions> = (node, option
   entry.observer.observe(node);
 
   return {
-    update(_newOptions) {
+    update(_newOptions: ScrollspyOptions) {
       // This action assumes options are stable for a given element during its
       // lifecycle in this app. If you need to change id/rootMargin/threshold
       // dynamically, re-initializing (destroy + create) is safer — not done
@@ -126,7 +125,7 @@ export const useScrollspy: Action<HTMLElement, ScrollspyOptions> = (node, option
       }
     },
   };
-};
+}
 
 /**
  * Clears all observers and the registry. Useful for cleanup on navigation.

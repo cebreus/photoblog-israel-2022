@@ -1,7 +1,7 @@
 import { createLogger } from "$lib/logger";
 import { json, type RequestHandler } from "@sveltejs/kit";
 
-export const POST: RequestHandler = async ({ request, locals }) => {
+export async function POST({ request, locals }: Parameters<RequestHandler>[0]) {
   // Suppress automatic request logging for this endpoint to avoid noise
   // The frontend logs are already being re-logged through the logger
   locals.skipRequestLog = true;
@@ -39,4 +39,4 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   } catch (_err) {
     return json({ error: "Failed to process log" }, { status: 500 });
   }
-};
+}

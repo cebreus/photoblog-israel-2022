@@ -60,7 +60,7 @@ const filteredPhotoDays = $derived.by(function calculateFilteredDays() {
     };
   }
 
-  function hasItems(day: { items: any[] }) {
+  function hasItems(day: PhotoDay) {
     return day.items && day.items.length > 0;
   }
 

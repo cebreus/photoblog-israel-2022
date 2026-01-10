@@ -73,7 +73,7 @@ function createPerfLogger() {
    */
   function getReport(labelFilter?: string): PerfStats[] {
     function matchesFilter(entry: PerfEntry): boolean {
-      return entry.name.includes(labelFilter!);
+      return !labelFilter || entry.name.includes(labelFilter);
     }
 
     const filtered = labelFilter ? entries.filter(matchesFilter) : entries;
@@ -135,6 +135,5 @@ export const perfLogger = createPerfLogger();
 
 // Expose to window for debugging
 if (typeof window !== "undefined") {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (window as any).perfLogger = perfLogger;
+  (window as unknown as { perfLogger: typeof perfLogger }).perfLogger = perfLogger;
 }

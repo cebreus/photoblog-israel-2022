@@ -65,7 +65,7 @@ function gatherQualityStats(photoDays: PhotoDay[]): Map<string, number> {
   return counts;
 }
 
-export const load: LayoutServerLoad = async ({ request, setHeaders }) => {
+export async function load({ request, setHeaders }: Parameters<LayoutServerLoad>[0]) {
   if (import.meta.env.DEV) {
     const { reloadManifests } = await import("$lib/utils/manifest-loader");
     await reloadManifests();
@@ -114,7 +114,7 @@ export const load: LayoutServerLoad = async ({ request, setHeaders }) => {
     curationManifest,
     peopleManifest,
   };
-};
+}
 
 function gatherMediaStats(photoDays: PhotoDay[]): Map<string, number> {
   const counts = new Map<string, number>();

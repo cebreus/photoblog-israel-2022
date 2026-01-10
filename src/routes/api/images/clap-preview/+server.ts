@@ -1,16 +1,16 @@
-import path from "node:path";
-import { error } from "@sveltejs/kit";
-import sharp from "sharp";
 import { createLogger } from "$lib/logger";
 import { isImageEntry } from "$lib/types/manifest";
 import { readClapFromFile } from "$scripts/image/clap-parser";
 import { loadImagesManifest } from "$scripts/manifests/repository";
 import { fileExists, scanGlob } from "$scripts/utils/runtime";
+import { error } from "@sveltejs/kit";
+import path from "node:path";
+import sharp from "sharp";
 import type { RequestHandler } from "./$types";
 
 const logger = createLogger("clap-preview");
 
-export const GET: RequestHandler = async ({ url }) => {
+export async function GET({ url }: Parameters<RequestHandler>[0]) {
   const id = url.searchParams.get("id");
   const contentDir = url.searchParams.get("contentDir");
 
@@ -107,4 +107,4 @@ export const GET: RequestHandler = async ({ url }) => {
     logger.error({ err: e, imageId: id }, "Preview generation failed");
     throw error(500, message);
   }
-};
+}

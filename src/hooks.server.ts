@@ -1,5 +1,7 @@
 import path from "node:path";
 
+import type { Handle } from "@sveltejs/kit";
+
 import { log as rootLogger } from "$lib/logger";
 import { runWithLogger } from "$lib/server/request-context";
 import { startTaskWatcher } from "$lib/server/task-watcher";
@@ -14,7 +16,13 @@ await startTaskWatcher(contentDir, dataDir);
 // Wire up runtime IO logging to App Logger
 setIoLogger(rootLogger);
 
-export async function handle({ event, resolve }: { event: any; resolve: any }) {
+export async function handle({
+  event,
+  resolve,
+}: {
+  event: Parameters<Handle>[0]["event"];
+  resolve: Parameters<Handle>[0]["resolve"];
+}) {
   // 1. Get traceId from FE or generate new one.
   const incomingTraceId = event.request.headers.get("X-Request-ID");
   const requestId = incomingTraceId || crypto.randomUUID();

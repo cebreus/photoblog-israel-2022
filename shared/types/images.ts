@@ -31,18 +31,30 @@ export const HEIC_EXTENSIONS = [`.${ImageFormat.HEIC}`, `.${ImageFormat.HEIF}`] 
 /**
  * Checks if the given extension (including dot) is a HEIC/HEIF format.
  */
-export const isHeic = (ext: string) => HEIC_EXTENSIONS.includes(ext.toLowerCase() as any);
-export const isHeicFormat = (format: string) =>
-    format === ImageFormat.HEIC || format === ImageFormat.HEIF;
+export function isHeic(ext: string): boolean {
+    return HEIC_EXTENSIONS.includes(ext.toLowerCase() as any);
+}
+export function isHeicFormat(format: string): boolean {
+    return format === ImageFormat.HEIC || format === ImageFormat.HEIF;
+}
 
 export const JPEG_EXTENSIONS = [`.${ImageFormat.JPG}`, `.${ImageFormat.JPEG}`] as const;
-export const isJpeg = (ext: string) => JPEG_EXTENSIONS.includes(ext.toLowerCase() as any);
-export const isJpegFormat = (format: string) =>
-    format === ImageFormat.JPEG || format === ImageFormat.JPG;
+export function isJpeg(ext: string): boolean {
+    return JPEG_EXTENSIONS.includes(ext.toLowerCase() as any);
+}
+export function isJpegFormat(format: string): boolean {
+    return format === ImageFormat.JPEG || format === ImageFormat.JPG;
+}
 
-export const isPng = (ext: string) => ext.toLowerCase() === `.${ImageFormat.PNG}`;
-export const isWebp = (ext: string) => ext.toLowerCase() === `.${ImageFormat.WEBP}`;
-export const isAvif = (ext: string) => ext.toLowerCase() === `.${ImageFormat.AVIF}`;
+export function isPng(ext: string): boolean {
+    return ext.toLowerCase() === `.${ImageFormat.PNG}`;
+}
+export function isWebp(ext: string): boolean {
+    return ext.toLowerCase() === `.${ImageFormat.WEBP}`;
+}
+export function isAvif(ext: string): boolean {
+    return ext.toLowerCase() === `.${ImageFormat.AVIF}`;
+}
 
 export const RECOGNIZED_IMAGE_FORMATS = [
     ImageFormat.AVIF,
@@ -52,28 +64,30 @@ export const RECOGNIZED_IMAGE_FORMATS = [
 
 export type RecognizedFormat = (typeof RECOGNIZED_IMAGE_FORMATS)[number];
 
-export const isRecognizedFormat = (format: string): format is RecognizedFormat =>
-    RECOGNIZED_IMAGE_FORMATS.includes(format.toLowerCase() as any);
+export function isRecognizedFormat(format: string): format is RecognizedFormat {
+    return RECOGNIZED_IMAGE_FORMATS.includes(format.toLowerCase() as any);
+}
 
 /**
  * Creates an empty map of variants for all recognized formats.
  */
-export const createEmptyVariants = <T>() =>
-    Object.fromEntries(RECOGNIZED_IMAGE_FORMATS.map((f) => [f, [] as T[]])) as Record<
+export function createEmptyVariants<T>(): Record<RecognizedFormat, T[]> {
+    return Object.fromEntries(RECOGNIZED_IMAGE_FORMATS.map((f) => [f, [] as T[]])) as Record<
         RecognizedFormat,
         T[]
     >;
+}
 
 /**
  * Normalizes image format (e.g. 'jpg' -> 'jpeg').
  */
-export const normalizeFormat = (format: string): string => {
+export function normalizeFormat(format: string): string {
     const f = format.toLowerCase();
     if (f === "jpg") {
         return ImageFormat.JPEG;
     }
     return f;
-};
+}
 
 export const SUPPORTED_INPUT_EXTENSIONS = [
     ImageFormat.JPG,

@@ -9,10 +9,10 @@ import {
   savePeopleRelatedManifests,
 } from "$scripts/manifests/repository";
 import { renamePerson } from "$scripts/people/normalization";
+import { toSlug } from "$shared/utils/strings";
 import { json, type RequestHandler } from "@sveltejs/kit";
 import path from "node:path";
 import process from "node:process";
-import { toSlug } from "$shared/utils/strings";
 
 interface PersonUpdate {
   id: string;
@@ -23,7 +23,7 @@ interface PersonUpdate {
   isUserNamed?: boolean;
 }
 
-export const PATCH: RequestHandler = async ({ request, locals }) => {
+export async function PATCH({ request, locals }: Parameters<RequestHandler>[0]) {
   const { log, logContext } = locals;
 
   if (!dev) {
@@ -165,4 +165,4 @@ export const PATCH: RequestHandler = async ({ request, locals }) => {
       { status: 500 },
     );
   }
-};
+}
