@@ -51,6 +51,10 @@
     {
       "imageId": "2025-11-26-125334-cebreus",
       "personId": "person-037-7753c8e5"
+    },
+    {
+      "imageId": "2025-11-26-082507-bobo",
+      "personId": "person-bobo-ea8ebcb0"
     }
   ],
   "connects": [
@@ -105,6 +109,10 @@
     {
       "imageId": "2025-11-26-125334-cebreus",
       "personId": "person-6568dbe6--odpojeno-od-person-037-2"
+    },
+    {
+      "imageId": "2025-11-26-082507-bobo",
+      "personId": "person-dasa-264acc31"
     }
   ],
   "invalidDetections": [

@@ -23,7 +23,7 @@
     {
       "id": "person-bobo-ea8ebcb0",
       "name": "Bobo",
-      "faceCount": 17,
+      "faceCount": 16,
       "thumbnail": "faces/person-bobo-ea8ebcb0/2025-11-27-164805-cebreus.jpg",
       "hidden": false,
       "createdAt": "2026-01-09T14:16:21.814Z",
@@ -54,7 +54,7 @@
       "id": "person-jarek-7a7cc561",
       "name": "Jarek",
       "faceCount": 6,
-      "thumbnail": "faces/person-jarek-7a7cc561/2025-11-26-092606-bobo.jpg",
+      "thumbnail": "assets/avatars/cebreus-ios.png",
       "hidden": false,
       "createdAt": "2026-01-09T14:16:21.813Z",
       "lastSeenAt": "2026-01-09T14:16:21.813Z",
@@ -63,7 +63,7 @@
     {
       "id": "person-dasa-264acc31",
       "name": "Dáša",
-      "faceCount": 6,
+      "faceCount": 7,
       "thumbnail": "faces/person-dasa-264acc31/2025-11-28-155801-dasa.jpg",
       "hidden": false,
       "createdAt": "2026-01-09T14:16:21.816Z",
@@ -71,14 +71,14 @@
       "isUserNamed": true
     },
     {
-      "id": "person-008-aa8f1097",
-      "name": "Person 008",
+      "id": "person-finda-aa8f1097",
+      "name": "Finďa",
       "faceCount": 6,
-      "thumbnail": "faces/person-008-aa8f1097/2025-11-27-164805-cebreus.jpg",
+      "thumbnail": "assets/avatars/avatar-finda.png",
       "hidden": false,
       "createdAt": "2026-01-09T14:16:22.329Z",
       "lastSeenAt": "2026-01-09T14:16:22.329Z",
-      "isUserNamed": false
+      "isUserNamed": true
     },
     {
       "id": "person-008-050d12b0",
@@ -821,8 +821,8 @@
     }
   ],
   "meta": {
-    "version": 19,
-    "generatedAt": "2026-01-09T14:26:28.190Z",
+    "version": 25,
+    "generatedAt": "2026-01-09T16:14:37.892Z",
     "generator": "photoblog-data-layer"
   }
 }
