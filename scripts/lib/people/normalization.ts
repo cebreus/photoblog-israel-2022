@@ -25,6 +25,7 @@ import {
   saveImagesManifest,
   savePeopleManifest,
 } from "../manifests/repository";
+import { logResourceUsage } from "../utils/resource-monitor";
 import { fileExists } from "../utils/runtime";
 
 export interface Manifests {
@@ -165,6 +166,9 @@ export async function batchRenamePeople(params: {
       for (const operation of operations) {
         await renamePerson(operation, manifests, facesDir);
         processed++;
+        if (processed % 100 === 0) {
+          logResourceUsage(`normalize-progress-${processed}`);
+        }
       }
 
       // Save manifests

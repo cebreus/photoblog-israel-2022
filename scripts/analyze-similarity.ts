@@ -1,6 +1,6 @@
-import path from "node:path";
 import { intro } from "@clack/prompts";
 import { AutoTokenizer, CLIPTextModelWithProjection } from "@xenova/transformers";
+import path from "node:path";
 import { type ImageEntry, isImageEntry } from "../shared/types/manifest";
 import { clearTaskStatus, saveTaskStatus } from "../src/lib/server/task-status";
 import {
@@ -306,6 +306,8 @@ async function computeAestheticScores(
       // Or just update it as we go.
       if (bar)
         bar.update(Math.floor(((i + batch.length) / imagesToEmbed.length) * (totalImages * 0.5)));
+
+      logResourceUsage(`similarity-embeddings-batch-${i / BATCH_SIZE}`);
     }
     if (embedBar) removeBar(embedBar);
   }

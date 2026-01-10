@@ -18,6 +18,7 @@ import {
   saveContentTracker,
   updateContentTracker,
 } from "../utils/content-tracker";
+import { logResourceUsage } from "../utils/resource-monitor";
 import { scanGlob } from "../utils/runtime";
 import { formatDuration } from "../utils/time";
 import { buildGeneratorManifest, generateMenuManifest, updateManifest } from "./builder";
@@ -355,13 +356,13 @@ async function processImages(
     { threads: resolvedConcurrency },
     `Using concurrency: ${resolvedConcurrency} threads`,
   );
-
   const bar = quiet ? null : createBar(toProcess.length, "[images]", { suffix: "| Processing" });
 
   // bar?.start(toProcess.length, 0); // createBar already initializes
 
   const results: ProcessedImageResult[] = [];
   let index = 0;
+  let processedCount = 0;
 
   const workerLoop = async () => {
     while (index < toProcess.length) {
@@ -376,6 +377,11 @@ async function processImages(
       const res = await processImageFn(filePath, { ...options, oldHash, previousEntry });
       if (res) results.push(res);
       bar?.increment();
+
+      processedCount++;
+      if (processedCount % 50 === 0) {
+        logResourceUsage(`progress-${processedCount}`);
+      }
     }
   };
 

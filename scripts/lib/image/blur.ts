@@ -1,12 +1,13 @@
+import { confirm, isCancel } from "@clack/prompts";
 import fsp from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { confirm, isCancel } from "@clack/prompts";
 import { config } from "../../build.config";
 import { createLogger } from "../core/cli-logger";
 import type { CliOptions } from "../core/cli-parser";
 import { getConcurrency } from "../core/concurrency-utils";
 import { createBar, stopAllBars } from "../core/progress-manager";
+import { logResourceUsage } from "../utils/resource-monitor";
 import { scanGlob, spawnSync } from "../utils/runtime";
 import { ensureDir } from "./utils";
 
@@ -194,6 +195,10 @@ export async function runBlurBuild(raw: Partial<CliOptions>, concurrency: number
       }
 
       completedCount++;
+      if (completedCount % 50 === 0) {
+        logResourceUsage(`blur-progress-${completedCount}`);
+      }
+
       bar.update(completedCount, {
         suffix: `| Processed: ${successCount} | Cached: ${skipCount} | Failed: ${failCount}`,
       });

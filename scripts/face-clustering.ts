@@ -988,6 +988,9 @@ async function processImageQueue(
     }
 
     processedCount++;
+    if (processedCount % 50 === 0) {
+      logResourceUsage(`faces-progress-${processedCount}`);
+    }
 
     if (bar) {
       bar.update(processedCount, {

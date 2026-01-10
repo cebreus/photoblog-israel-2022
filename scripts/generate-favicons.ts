@@ -1,10 +1,10 @@
 process.env.GLIB_LOG_LEVEL = "critical";
 
-import { promises as fs } from "node:fs";
-import path from "node:path";
 import { select } from "@clack/prompts";
 import { type FaviconOptions, favicons } from "favicons";
 import matter from "gray-matter";
+import { promises as fs } from "node:fs";
+import path from "node:path";
 import { createLogger } from "./lib/core/cli-logger";
 import { parseCliArguments } from "./lib/core/cli-parser";
 import { formatDuration } from "./lib/utils/time";
@@ -127,7 +127,9 @@ async function run() {
     lang: config.lang,
   };
 
+  logResourceUsage("favicons-before");
   const response = await favicons(config.sourceFile, configuration);
+  logResourceUsage("favicons-after");
 
   function isFaviconIco(image: { name: string }) {
     return image.name === "favicon.ico";
