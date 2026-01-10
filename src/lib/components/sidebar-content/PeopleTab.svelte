@@ -53,7 +53,7 @@
   }
 </script>
 
-<div class="relative flex h-full flex-col">
+<div class="relative flex h-full flex-col overflow-y-auto">
   {#if isProcessing}
     <div
       class="bg-background/50 absolute inset-0 z-50 flex items-center justify-center backdrop-blur-sm"
@@ -81,8 +81,8 @@
     {/if}
   </Sidebar.Header>
 
-  <Sidebar.Content class="p-0">
-    <div class="flex-1 overflow-hidden">
+  <div class="flex flex-col p-0">
+    <div class="flex flex-col">
       <div class="space-y-2 p-2">
         {#if people.categoryPeople.length > 0 || people.categoryStatues.length > 0 || people.categoryPaintings.length > 0}
           <Accordion.Root type="multiple" class="w-full">
@@ -168,7 +168,7 @@
         />
       </div>
     </div>
-  </Sidebar.Content>
+  </div>
 
   <Sidebar.Footer class="p-0">
     {#if model.selectedForMerge.length > 0}

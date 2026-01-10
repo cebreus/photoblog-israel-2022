@@ -138,15 +138,11 @@
       </Sidebar.Content>
     </Tabs.Content>
     <Tabs.Content value="filters" class="mt-0 flex h-full flex-col overflow-hidden">
-      <Sidebar.Content>
-        <FiltersTab {authors} {qualityStats} {mediaStats} {snapshotStats} />
-      </Sidebar.Content>
+      <FiltersTab {authors} {qualityStats} {mediaStats} {snapshotStats} />
     </Tabs.Content>
     <Tabs.Content value="people" class="mt-0 flex h-full flex-col overflow-hidden">
       {#if ui.activeTab === "people"}
-        <Sidebar.Content>
-          <PeopleTab />
-        </Sidebar.Content>
+        <PeopleTab />
       {/if}
     </Tabs.Content>
     {#if dev}
