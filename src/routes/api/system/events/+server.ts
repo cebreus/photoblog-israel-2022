@@ -1,15 +1,15 @@
-import type { RequestEvent } from "@sveltejs/kit";
-import { error } from "@sveltejs/kit";
 import { dev } from "$app/environment";
 import { type SystemEvent, systemEvents } from "$lib/server/events";
+import type { RequestEvent } from "@sveltejs/kit";
+import { error } from "@sveltejs/kit";
 
-export async function GET({ locals }: RequestEvent) {
+export async function GET({ locals, url }: RequestEvent) {
   if (!dev) {
     throw error(403, "System events are restricted to DEV mode.");
   }
 
   const { log } = locals;
-  log.info({}, "SSE client connected to system events");
+  log.info({}, `SSE client connected "${url.pathname}"`);
 
   let sendEvent: ((event: SystemEvent) => void) | undefined;
 
@@ -42,7 +42,7 @@ export async function GET({ locals }: RequestEvent) {
       if (sendEvent) {
         systemEvents.off("system:event", sendEvent);
       }
-      log.info({}, "SSE client disconnected from system events");
+      log.info({}, `SSE client disconnected "${url.pathname}"`);
     },
   });
 

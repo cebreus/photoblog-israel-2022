@@ -1,5 +1,5 @@
-import pino from "pino";
 import { browser, dev } from "$app/environment";
+import pino from "pino";
 
 // Define levels to match across FE/BE
 const _levels = {
@@ -40,7 +40,7 @@ const logger = pino({
               target: "pino-pretty",
               options: {
                 colorize: true,
-                ignore: "pid,hostname,env,label,method,path,status,durationMs",
+                ignore: "pid,hostname,env,label,method,path,route,status,durationMs",
                 translateTime: "HH:MM:ss",
                 messageFormat: "{env} > {label} \t {msg}", // Custom format: BE > app   Message
               },
