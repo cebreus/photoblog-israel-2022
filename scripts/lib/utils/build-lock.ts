@@ -1,7 +1,6 @@
-#!/usr/bin/env bun
-import { unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { createLogger } from "../core/cli-logger";
+import { createLogger } from "$scripts/core/cli-logger";
+import { readFileText, unlink, writeFile } from "./runtime";
 
 const logger = createLogger("build-lock");
 
@@ -20,7 +19,7 @@ export async function acquireLock(gallery: string): Promise<void> {
   while (true) {
     try {
       // Try to read existing lock
-      const existingLock = await Bun.file(LOCK_FILE).text();
+      const existingLock = await readFileText(LOCK_FILE);
       const lockData = JSON.parse(existingLock);
 
       // Check if lock is stale (older than 5 minutes)

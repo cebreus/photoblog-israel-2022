@@ -1,26 +1,26 @@
-import type { Cache, ImageEntry, Manifest, StoryDataMap } from "$shared/types/manifest";
-import matter from "gray-matter";
-import fsp from "node:fs/promises";
-import path from "node:path";
-import pc from "picocolors";
-import { toPureWallClockISO } from "../../../shared/utils/dates";
-import { config } from "../../build.config";
-import { EMBEDDING_DIM } from "../ai/models";
-import { createLogger } from "../core/cli-logger";
-import { getConcurrency } from "../core/concurrency-utils";
-import { createBar, stopAllBars } from "../core/progress-manager";
-import type { ProcessedImageResult } from "../image/processor";
-import { type ImageProcessOptions, processImage } from "../image/processor";
+import { EMBEDDING_DIM } from "$scripts/ai/models";
+import { createLogger } from "$scripts/core/cli-logger";
+import { getConcurrency } from "$scripts/core/concurrency-utils";
+import { createBar, stopAllBars } from "$scripts/core/progress-manager";
+import type { ProcessedImageResult } from "$scripts/image/processor";
+import { type ImageProcessOptions, processImage } from "$scripts/image/processor";
 import {
   detectRenames,
   loadContentTracker,
   migrateReferences,
   saveContentTracker,
   updateContentTracker,
-} from "../utils/content-tracker";
-import { logResourceUsage } from "../utils/resource-monitor";
-import { scanGlob } from "../utils/runtime";
-import { formatDuration } from "../utils/time";
+} from "$scripts/utils/content-tracker";
+import { logResourceUsage } from "$scripts/utils/performance";
+import { fileExists, readFileText, rm, safeUnlink, scanGlob, stat } from "$scripts/utils/runtime";
+import { formatDuration } from "$scripts/utils/time";
+import { ImageFormat } from "$shared/types/images";
+import type { Cache, ImageEntry, Manifest, StoryDataMap } from "$shared/types/manifest";
+import { toPureWallClockISO } from "$shared/utils/dates";
+import matter from "gray-matter";
+import path from "node:path";
+import pc from "picocolors";
+import { config } from "../../build.config";
 import { buildGeneratorManifest, generateMenuManifest, updateManifest } from "./builder";
 import { withManifestLock } from "./lock";
 // Repository Imports
@@ -36,15 +36,6 @@ import {
 } from "./repository";
 
 const logger = createLogger("incremental-build");
-
-async function fileExists(file: string) {
-  try {
-    await fsp.access(file);
-    return true;
-  } catch {
-    return false;
-  }
-}
 
 /**
  * Validates story data from markdown and logs warnings for common issues.
@@ -109,7 +100,7 @@ export async function loadStoryData(contentRoot: string): Promise<StoryDataMap> 
   const storyDataMap: StoryDataMap = {};
   for (const file of storyFiles) {
     try {
-      const fileContent = await fsp.readFile(file, "utf8");
+      const fileContent = await readFileText(file);
       const { data, content } = matter(fileContent);
       if (data.type === "settings") continue;
       const storyBody = (data.content || content).trim();
@@ -145,26 +136,32 @@ export async function loadStoryData(contentRoot: string): Promise<StoryDataMap> 
       validateStoryData(storyData, filename);
 
       storyDataMap[locationKey] = storyData;
-    } catch (e: any) {
-      logger.warn({ file, error: e.message }, "Could not parse story file");
+    } catch (e: unknown) {
+      logger.warn(
+        { file, error: e instanceof Error ? e.message : String(e) },
+        "Could not parse story file",
+      );
     }
   }
   logger.verbose({ count: Object.keys(storyDataMap).length }, "Loaded story entries from Markdown");
   return storyDataMap;
 }
 
-async function generateSiteManifest(): Promise<any> {
+async function generateSiteManifest(): Promise<Record<string, unknown>> {
   const siteMdPath = path.resolve(process.cwd(), config.paths.siteSource, "site.md");
   if (!(await fileExists(siteMdPath))) {
     logger.warn({ path: siteMdPath }, "site.md not found");
     return {};
   }
   try {
-    const content = await fsp.readFile(siteMdPath, "utf8");
+    const content = await readFileText(siteMdPath);
     const { data } = matter(content);
-    return data;
-  } catch (e: any) {
-    logger.error({ path: siteMdPath, error: e.message }, "Failed to parse site.md");
+    return data as Record<string, unknown>;
+  } catch (e: unknown) {
+    logger.error(
+      { path: siteMdPath, error: e instanceof Error ? e.message : String(e) },
+      "Failed to parse site.md",
+    );
     return {};
   }
 }
@@ -185,7 +182,7 @@ async function detectChanges(
   for (const file of sourceFiles) {
     const key = path.posix.normalize(path.relative(srcRoot, file));
     knownKeys.delete(key);
-    const stats = await fsp.stat(file);
+    const stats = await stat(file);
     const cached = cache.files[key];
     const baseName = path.basename(file);
 
@@ -273,7 +270,7 @@ async function loadCache(
     );
     try {
       if (!manifestOnly) {
-        await fsp.rm(outRoot, { recursive: true, force: true });
+        await rm(outRoot, { recursive: true });
       } else {
         logger.info(
           { manifestOnly: true, outRoot },
@@ -312,9 +309,7 @@ function buildOutputFilePath(outRoot: string, relativePath: string) {
 }
 
 async function unlinkOutputFile(outRoot: string, relativePath: string): Promise<void> {
-  try {
-    await fsp.unlink(buildOutputFilePath(outRoot, relativePath));
-  } catch {}
+  await safeUnlink(buildOutputFilePath(outRoot, relativePath));
 }
 
 async function deleteCacheEntry(cache: Cache, outRoot: string, key: string) {
@@ -370,9 +365,9 @@ async function processImages(
       if (pos >= toProcess.length) break;
       const filePath = toProcess[pos];
       const key = path.posix.normalize(path.relative(options.srcRoot, filePath));
-      const oldHash = (options as any).oldCache?.files?.[key]?.hash;
+      const oldHash = options.oldCache?.files?.[key]?.hash;
       const baseName = path.basename(filePath);
-      const previousEntry = (options as any).previousEntriesMap?.get(baseName);
+      const previousEntry = options.previousEntriesMap?.get(baseName);
 
       const res = await processImageFn(filePath, { ...options, oldHash, previousEntry });
       if (res) results.push(res);
@@ -736,7 +731,11 @@ async function _processBuildQueue(
   toProcess: string[],
   cache: Cache,
   previousEntries: Map<string, ImageEntry>,
-  opts: { allowUpscale?: boolean; formats?: any[]; qualityOverrides?: Record<string, number> },
+  opts: {
+    allowUpscale?: boolean;
+    formats?: ImageFormat[];
+    qualityOverrides?: Record<string, number>;
+  },
   processImageFn = processImage,
 ): Promise<ProcessedImageResult[]> {
   return processImages(
@@ -789,7 +788,7 @@ export async function runIncrementalBuild(
   },
   opts: {
     allowUpscale?: boolean;
-    formats?: any[];
+    formats?: ImageFormat[];
     qualityOverrides?: Record<string, number>;
     cacheVersion?: number;
   } = {},
@@ -920,7 +919,7 @@ export async function runIncrementalBuild(
       const folder = rel.split(path.sep)[0] || rel;
       const abs = path.join(CTX.outRoot, rel);
       try {
-        const st = await fsp.stat(abs);
+        const st = await stat(abs);
         const current = folderStats.get(folder) || { processed: 0, bytes: 0 };
         current.processed += 1;
         current.bytes += st.size;
@@ -937,7 +936,7 @@ export async function runIncrementalBuild(
   // Ensure we report even when nothing new was processed
   const expectedFolders = new Set<string>();
   for (const cfg of Object.values(config.outputs)) {
-    const folderName = (cfg as any).folderName;
+    const folderName = (cfg as { folderName: string }).folderName;
     expectedFolders.add(folderName);
   }
   for (const folder of expectedFolders) {
@@ -1002,7 +1001,7 @@ async function getDirectorySize(dir: string): Promise<number> {
 
   const files = await scanGlob("**/*", { cwd: dir, absolute: true });
   for (const file of files) {
-    const stats = await fsp.stat(file);
+    const stats = await stat(file);
     size += stats.size;
   }
 

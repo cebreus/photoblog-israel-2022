@@ -1,16 +1,17 @@
-import path from "node:path";
-import process from "node:process";
-import { json, type RequestEvent } from "@sveltejs/kit";
-import { exiftool, type WriteTags } from "exiftool-vendored";
 import { dev } from "$app/environment";
 import type { ImageEntry } from "$lib/types/manifest";
 import { reloadManifests } from "$lib/utils/manifest-loader";
-import { organizeDayItems } from "$scripts/lib/manifests/builder";
-import { withManifestLock } from "$scripts/lib/manifests/lock";
-import { loadImagesManifest, saveImagesManifest } from "$scripts/lib/manifests/repository";
-import { fileExists } from "$scripts/lib/utils/runtime";
+import { organizeDayItems } from "$scripts/manifests/builder";
+import { withManifestLock } from "$scripts/manifests/lock";
+import { loadImagesManifest, saveImagesManifest } from "$scripts/manifests/repository";
+import { fileExists } from "$scripts/utils/runtime";
+import { SEARCH_EXTENSIONS } from "$shared/types/images";
 import { getLocalNowIsoString } from "$shared/utils/dates";
 import { calculateReleaseDates } from "$shared/utils/sorting";
+import { json, type RequestEvent } from "@sveltejs/kit";
+import { exiftool, type WriteTags } from "exiftool-vendored";
+import path from "node:path";
+import process from "node:process";
 import { loadStoryData } from "./loader";
 
 /**
@@ -218,14 +219,13 @@ async function ensureReleaseDatesExist(
  * Resolve image ID to filesystem path.
  */
 async function resolveImagePath(imageId: string, contentDirRoot: string): Promise<string | null> {
-  const extensions = [".jpg", ".jpeg", ".JPG", ".JPEG", ".png", ".PNG", ".heic", ".HEIC"];
   const searchPaths = [
     path.join(contentDirRoot, "pics"),
     path.join(contentDirRoot, "pics", "collage-sources"),
   ];
 
   for (const basePath of searchPaths) {
-    for (const ext of extensions) {
+    for (const ext of SEARCH_EXTENSIONS) {
       const testPath = path.join(basePath, imageId + ext);
       if (await fileExists(testPath)) {
         return testPath;

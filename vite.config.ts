@@ -25,6 +25,9 @@ export default defineConfig({
   resolve: {
     alias: {
       $manifests: path.resolve(__dirname, "src/data", contentDir),
+      $scripts: path.resolve(__dirname, "scripts/lib"),
+      $config: path.resolve(__dirname, "scripts/build.config.ts"),
+      $shared: path.resolve(__dirname, "shared"),
     },
   },
   test: {

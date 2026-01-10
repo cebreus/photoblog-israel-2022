@@ -1,6 +1,6 @@
+import type { Quality, VariantType } from "$shared/types/images";
+import { ImageFormat, ImageVariant } from "$shared/types/images";
 import path from "node:path";
-import type { Quality, VariantType } from "../../../shared/types/images";
-import { ImageFormat, ImageVariant } from "../../../shared/types/images";
 import type { QualityTypes } from "../../../src/lib/types/manifest";
 import { config } from "../../build.config";
 import { getConcurrency } from "./concurrency-utils";
@@ -57,6 +57,8 @@ export type CliOptions = {
   sourceFolder?: string;
   filter?: string;
   force: boolean;
+  help: boolean;
+  both: boolean;
 };
 
 const QUALITY_FORMATS: readonly QualityFormat[] = [
@@ -188,6 +190,8 @@ export const DEFAULT_CLI_OPTIONS: CliOptions = {
   sourceFolder: undefined,
   filter: undefined,
   force: false,
+  help: false,
+  both: false,
 };
 
 type ArgHandler = (value: string, args: CliOptions) => void;
@@ -353,6 +357,12 @@ const CLI_FLAG_HANDLERS: Record<string, ArgHandler> = {
   },
   force: function handleForce(v, a) {
     a.force = v === "true";
+  },
+  help: function handleHelp(v, a) {
+    a.help = parseBooleanValue(v);
+  },
+  both: function handleBoth(v, a) {
+    a.both = parseBooleanValue(v);
   },
 };
 

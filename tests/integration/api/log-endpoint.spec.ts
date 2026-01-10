@@ -14,6 +14,7 @@ const mockLogger = {
   debug: vi.fn(),
   trace: vi.fn(),
   fatal: vi.fn(),
+  child: vi.fn(() => mockLogger),
 };
 
 vi.mock("$lib/logger", () => ({

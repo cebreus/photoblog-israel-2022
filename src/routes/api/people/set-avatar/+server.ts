@@ -1,8 +1,8 @@
 import { dev } from "$app/environment";
 import { getContentDir } from "$lib/config";
 import { reloadManifests } from "$lib/utils/manifest-loader";
-import { withManifestLock } from "$scripts/lib/manifests/lock";
-import { loadPeopleManifest, savePeopleManifest } from "$scripts/lib/manifests/repository";
+import { withManifestLock } from "$scripts/manifests/lock";
+import { loadPeopleManifest, savePeopleManifest } from "$scripts/manifests/repository";
 import { error, json } from "@sveltejs/kit";
 import path from "node:path";
 

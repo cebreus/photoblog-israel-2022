@@ -1,7 +1,5 @@
-import fsp from "node:fs/promises";
-import path from "node:path";
-import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
+import { config } from "$config";
 import { clearTaskStatus, saveTaskStatus } from "$lib/server/task-status";
 import {
   type FacesManifest,
@@ -13,20 +11,22 @@ import {
 import { validateMergeInput } from "$lib/utils/api-validators";
 import { reloadManifests } from "$lib/utils/manifest-loader";
 import { toSlug } from "$lib/utils/strings";
-import { config } from "$scripts/build.config";
-import type { Logger as ScriptLogger } from "$scripts/lib/core/cli-logger";
-import { mergeClusters } from "$scripts/lib/faces/clustering";
-import { migratePersonInConstraints } from "$scripts/lib/faces/constraints";
-import { recalculateFaceCount, refreshPersonThumbnail } from "$scripts/lib/faces/people";
-import { removeEmptyPersonFolder } from "$scripts/lib/gallery/cleanup";
-import { withManifestLock } from "$scripts/lib/manifests/lock";
+import type { Logger as ScriptLogger } from "$scripts/core/cli-logger";
+import { mergeClusters } from "$scripts/faces/clustering";
+import { migratePersonInConstraints } from "$scripts/faces/constraints";
+import { recalculateFaceCount, refreshPersonThumbnail } from "$scripts/faces/people";
+import { removeEmptyPersonFolder } from "$scripts/gallery/cleanup";
+import { withManifestLock } from "$scripts/manifests/lock";
 import {
   loadClusteringConstraints,
   loadFacesManifest,
   loadImagesManifest,
   loadPeopleManifest,
   savePeopleRelatedManifests,
-} from "$scripts/lib/manifests/repository";
+} from "$scripts/manifests/repository";
+import { mkdir, rename } from "$scripts/utils/runtime";
+import { error, json } from "@sveltejs/kit";
+import path from "node:path";
 
 async function safeRename(
   oldPath: string,
@@ -34,7 +34,7 @@ async function safeRename(
   log: Array<{ from: string; to: string }>,
 ) {
   try {
-    await fsp.rename(oldPath, newPath);
+    await rename(oldPath, newPath);
     log.push({ from: oldPath, to: newPath });
   } catch (e) {
     // Standard behavior in this module is to ignore missing files (ENOENT)
@@ -61,13 +61,25 @@ async function renamePhysicalFiles(
     await safeRename(oldPath, newPath, log);
   }
 
+  interface VariantOutput {
+    kind: "variant";
+    folderName: string;
+    format?: string;
+  }
+  interface OtherOutput {
+    kind: "other";
+    folderName: string;
+    format?: string;
+  }
+
   // 2. Rename generated assets
   for (const output of Object.values(config.outputs)) {
-    if (output.kind === "variant") {
+    const outObj = output as VariantOutput | OtherOutput;
+    if (outObj.kind === "variant") {
       // Variants are generated in all configured formats
       for (const format of config.encoding.formats) {
         const suffix = format === "jpeg" ? "" : `-${format}`;
-        const folder = `${output.folderName}${suffix}`;
+        const folder = `${outObj.folderName}${suffix}`;
         const ext = `.${format === "jpeg" ? "jpeg" : format}`;
 
         const oldAsset = path.resolve(imagesDir, folder, `${oldId}${ext}`);
@@ -76,10 +88,10 @@ async function renamePhysicalFiles(
       }
     } else {
       // 'other' outputs (detail, placeholder, admin_thumb)
-      const format = "format" in output && output.format ? output.format : "jpeg";
+      const format = "format" in outObj && outObj.format ? outObj.format : "jpeg";
       const ext = `.${format === "jpeg" ? "jpeg" : format}`;
-      const oldAsset = path.resolve(imagesDir, output.folderName, `${oldId}${ext}`);
-      const newAsset = path.resolve(imagesDir, output.folderName, `${newId}${ext}`);
+      const oldAsset = path.resolve(imagesDir, outObj.folderName, `${oldId}${ext}`);
+      const newAsset = path.resolve(imagesDir, outObj.folderName, `${newId}${ext}`);
       await safeRename(oldAsset, newAsset, log);
     }
   }
@@ -174,7 +186,7 @@ async function mergeAssignments(
 ) {
   const sourceDir = path.resolve(facesDir, sourceId);
   const targetDir = path.resolve(facesDir, targetId);
-  await fsp.mkdir(targetDir, { recursive: true });
+  await mkdir(targetDir, { recursive: true });
 
   for (const day of imagesManifest.photoDays) {
     for (const item of day.items) {
@@ -333,7 +345,7 @@ export async function POST({ request, locals }: { request: Request; locals: App.
           );
           for (const logEntry of transactionLog.reverse()) {
             try {
-              await fsp.rename(logEntry.to, logEntry.from);
+              await rename(logEntry.to, logEntry.from);
             } catch (rollbackErr) {
               log.error(
                 { err: rollbackErr, from: logEntry.to, to: logEntry.from },

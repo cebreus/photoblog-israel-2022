@@ -10,9 +10,9 @@ import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
 import type { Logger } from "$lib/logger";
 import type { Person } from "$lib/types/manifest";
-import { config } from "$scripts/build.config";
-import { withManifestLock } from "$scripts/lib/manifests/lock";
-import { loadPeopleManifest, savePeopleManifest } from "$scripts/lib/manifests/repository";
+import { config } from "$config";
+import { withManifestLock } from "$scripts/manifests/lock";
+import { loadPeopleManifest, savePeopleManifest } from "$scripts/manifests/repository";
 
 export type PropertyUpdateResult = {
   success: boolean;

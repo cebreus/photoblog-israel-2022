@@ -7,37 +7,43 @@ import { vi } from "vitest";
  * These are lightweight mocks that allow components to render without errors.
  */
 
-vi.mock("bits-ui", () => ({
-  // Return empty objects - components will fail gracefully if they try to use these
-  Dialog: {},
-  Switch: {},
-  Accordion: {},
-  Tabs: {},
-  ContextMenu: {},
-  Label: {},
-  Checkbox: {},
-  Separator: {},
-  NavigationMenu: {},
-  Tooltip: {},
-  Toggle: {},
-  ToggleGroup: {},
-  Collapsible: {},
-  Button: {},
-  DropdownMenu: {},
-  Select: {},
-  Popover: {},
-  AlertDialog: {},
-  ScrollArea: {},
-  mergeProps: vi.fn((...args) => Object.assign({}, ...args)),
-}));
+vi.mock("bits-ui", function mockBitsUI() {
+  return {
+    // Return empty objects - components will fail gracefully if they try to use these
+    Dialog: {},
+    Switch: {},
+    Accordion: {},
+    Tabs: {},
+    ContextMenu: {},
+    Label: {},
+    Checkbox: {},
+    Separator: {},
+    NavigationMenu: {},
+    Tooltip: {},
+    Toggle: {},
+    ToggleGroup: {},
+    Collapsible: {},
+    Button: {},
+    DropdownMenu: {},
+    Select: {},
+    Popover: {},
+    AlertDialog: {},
+    ScrollArea: {},
+    mergeProps: vi.fn(function merge(...args) {
+      return Object.assign({}, ...args);
+    }),
+  };
+});
 
-vi.mock("svelte-sonner", () => ({
-  toast: {
-    success: vi.fn(),
-    error: vi.fn(),
-    info: vi.fn(),
-    warning: vi.fn(),
-    message: vi.fn(),
-  },
-  Toaster: {},
-}));
+vi.mock("svelte-sonner", function mockSonner() {
+  return {
+    toast: {
+      success: vi.fn(),
+      error: vi.fn(),
+      info: vi.fn(),
+      warning: vi.fn(),
+      message: vi.fn(),
+    },
+    Toaster: {},
+  };
+});

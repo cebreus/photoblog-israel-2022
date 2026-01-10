@@ -10,8 +10,64 @@
     "sourceMap": true,
     "strict": true,
     "moduleResolution": "bundler",
-    "lib": ["esnext", "dom", "dom.iterable"]
-  }
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "$lib": [
+        "src/lib"
+      ],
+      "$lib/*": [
+        "src/lib/*"
+      ],
+      "$shared": [
+        "shared"
+      ],
+      "$shared/*": [
+        "shared/*"
+      ],
+      "$scripts": [
+        "scripts/lib"
+      ],
+      "$scripts/*": [
+        "scripts/lib/*"
+      ],
+      "$config": [
+        "scripts/build.config.ts"
+      ],
+      "$tests": [
+        "tests"
+      ],
+      "$tests/*": [
+        "tests/*"
+      ],
+      "$manifests": [
+        "src/data/egypt-2025"
+      ],
+      "$manifests/*": [
+        "src/data/egypt-2025/*"
+      ]
+    }
+  },
+  "include": [
+    ".svelte-kit/ambient.d.ts",
+    ".svelte-kit/non-ambient.d.ts",
+    ".svelte-kit/types/**/*.d.ts",
+    "src/**/*.js",
+    "src/**/*.ts",
+    "src/**/*.svelte",
+    "shared/**/*.ts",
+    "shared/**/*.js",
+    "scripts/**/*.ts",
+    "scripts/**/*.js",
+    "tests/**/*.js",
+    "tests/**/*.ts",
+    "tests/**/*.svelte",
+    "vite.config.ts"
+  ]
   // Path aliases are handled by https://svelte.dev/docs/kit/configuration#alias
   // except $lib which is handled by https://svelte.dev/docs/kit/configuration#files
   //

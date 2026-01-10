@@ -1,6 +1,6 @@
-import fsp from "node:fs/promises";
-import path from "node:path";
 import { select } from "@clack/prompts";
+import path from "node:path";
+import { readdir } from "$scripts/utils/runtime";
 
 const CONTENT_ROOT = path.resolve("content");
 const DEFAULT_GALLERY = "egypt-2025";
@@ -42,12 +42,15 @@ function createSelectOption(galleryName: string) {
 }
 
 async function listAvailableGalleries(): Promise<string[]> {
-  const entries = await fsp.readdir(CONTENT_ROOT, { withFileTypes: true });
+  const entries = await readdir(CONTENT_ROOT, { withFileTypes: true });
   // Filter for valid directory names
-  return entries.filter((e) => isDirectory(e) && isValidGalleryName(e.name)).map(extractName);
+  return entries.filter((e: any) => isDirectory(e) && isValidGalleryName(e.name)).map(extractName);
 }
 
-export async function resolveGalleryDirectory(): Promise<string> {
+export async function resolveGalleryDirectory(
+  options: { message?: string; initialValue?: string } = {},
+): Promise<string> {
+  const { message = "Select gallery:", initialValue = DEFAULT_GALLERY } = options;
   const fromEnvironment = process.env.CONTENT_DIR;
   if (fromEnvironment) {
     // Validate from environment variable
@@ -65,9 +68,9 @@ export async function resolveGalleryDirectory(): Promise<string> {
   }
 
   const selected = await select({
-    message: "Select gallery:",
+    message,
     options: galleries.map(createSelectOption),
-    initialValue: DEFAULT_GALLERY,
+    initialValue,
   });
 
   if (typeof selected !== "string") {

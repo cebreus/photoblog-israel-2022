@@ -1,13 +1,13 @@
+import { createLogger } from "$scripts/core/cli-logger";
+import { fixUnderwaterImage } from "$scripts/image/underwater";
+import { validatePathInsideRoot } from "$scripts/utils/runtime";
 import path from "node:path";
-import { createLogger } from "./lib/core/cli-logger";
-import { fixUnderwaterImage } from "./lib/image/underwater";
-import { validatePathInsideRoot } from "./lib/utils/path";
 
 const logger = createLogger("fix-underwater");
 
 const SAFE_INPUT_ROOT = process.cwd();
 
-import { parseCliArguments } from "./lib/core/cli-parser";
+import { parseCliArguments } from "$scripts/core/cli-parser";
 
 const options = parseCliArguments(process.argv.slice(2));
 const values = options;

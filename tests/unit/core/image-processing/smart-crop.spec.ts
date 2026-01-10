@@ -10,11 +10,11 @@
  * - scripts/lib/smart-crop.ts
  */
 
+import { type Box, calculateSmartCrop } from "$scripts/image/smart-crop";
 import { describe, expect, it, vi } from "vitest";
-import { type Box, calculateSmartCrop } from "../../../../scripts/lib/image/smart-crop";
 
 // Mock config to ensure deterministic behavior (cropFaceZoom = 1.0)
-vi.mock("../../../../scripts/build.config", () => ({
+vi.mock("$config", () => ({
   config: {
     script: {
       cropFaceZoom: 1.0,

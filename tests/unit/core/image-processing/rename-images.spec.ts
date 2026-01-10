@@ -22,7 +22,7 @@ describe("getNewBasename", () => {
     const tags = {
       DateTimeOriginal: mockDate,
       Artist: "John Doe",
-    };
+    } as any;
     const result = getNewBasename(tags, "default");
     // 2023-10-25-143000-john-doe
     expect(result).toBe("2023-10-25-143000-john-doe");
@@ -35,7 +35,7 @@ describe("getNewBasename", () => {
     const tags = {
       CreateDate: mockDate,
       Creator: "Jane Doe",
-    };
+    } as any;
     const result = getNewBasename(tags, "default");
     expect(result).toBe("2022-01-01-090000-jane-doe");
   });
@@ -46,7 +46,7 @@ describe("getNewBasename", () => {
     };
     const tags = {
       DateTimeOriginal: mockDate,
-    };
+    } as any;
     const result = getNewBasename(tags, "fallback-author");
     expect(result).toBe("2022-01-01-090000-fallback-author");
   });
@@ -58,7 +58,7 @@ describe("getNewBasename", () => {
     };
     const tags = {
       DateTimeOriginal: mockDate,
-    };
+    } as any;
     const result = getNewBasename(tags, "", "img_1234");
     // 2022-01-01-090000-img1234
     expect(result).toBe("2022-01-01-090000-img1234");
@@ -69,7 +69,7 @@ describe("getNewBasename", () => {
       toDate: () => new Date(Date.UTC(2022, 0, 1, 9, 0, 0)),
       getSeconds: () => 0,
     };
-    const tags = { DateTimeOriginal: mockDate };
+    const tags = { DateTimeOriginal: mockDate } as any;
     const result = getNewBasename(tags, "");
     expect(result).toBe("2022-01-01-090000");
   });
@@ -78,7 +78,7 @@ describe("getNewBasename", () => {
     const tags = {
       DateTimeOriginal: "2021-12-31T23:59:59",
       Author: "Test Bot",
-    };
+    } as any;
     const result = getNewBasename(tags, "default");
     expect(result).toBe("2021-12-31-235959-test-bot");
   });
@@ -88,7 +88,7 @@ describe("getNewBasename", () => {
     const tags = {
       DateTimeOriginal: mockDate,
       Artist: "Héllo Wörld",
-    };
+    } as any;
     const result = getNewBasename(tags, "def");
     expect(result).toBe("2023-01-01-120000-hello-world");
   });
@@ -102,7 +102,7 @@ describe("getNewBasename", () => {
     const tagsCreator = {
       DateTimeOriginal: mockDate,
       Creator: ["First Guy", "Second Guy"],
-    };
+    } as any;
     const result = getNewBasename(tagsCreator, "def");
     expect(result).toBe("2023-01-01-120000-first-guy");
   });

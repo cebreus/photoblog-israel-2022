@@ -10,9 +10,9 @@
  * - scripts/generate-images.ts (Service layer)
  */
 
-import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ImageFormat } from "$lib/types/images";
-import { generateOtherOutput, generateVariant } from "../../../../scripts/lib/image/generator";
+import { generateOtherOutput, generateVariant } from "$scripts/image/generator";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 // Mock Sharp
 const mockToFile = vi.fn();
@@ -40,12 +40,12 @@ const mockSharpInstance = {
 const mockSharpModule = vi.fn(() => mockSharpInstance) as any;
 
 // Mock image-utils ensureDir
-vi.mock("../../../../scripts/lib/image/utils", () => ({
+vi.mock("$scripts/image/utils", () => ({
   ensureDir: vi.fn(),
 }));
 
 // Mock config
-vi.mock("../../../../scripts/build.config", () => ({
+vi.mock("$config", () => ({
   config: {
     encoding: {
       quality: { jpeg: 80, webp: 75, avif: 70 },

@@ -12,7 +12,7 @@ import { POST as unmatchPost } from "../../../src/routes/api/people/unmatch/+ser
 const CWD = process.cwd();
 const TEST_DIR = `test-people-api-${Date.now()}`;
 const DATA_DIR = path.resolve(CWD, "src/data", TEST_DIR);
-const STATIC_DIR = path.resolve(CWD, "static", TEST_DIR);
+const STATIC_DIR = path.resolve(CWD, `static-${TEST_DIR}`);
 
 const originalContentDir = process.env.CONTENT_DIR;
 

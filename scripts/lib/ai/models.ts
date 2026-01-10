@@ -1,8 +1,7 @@
-import fsp from "node:fs/promises";
-import os from "node:os";
 import path from "node:path";
-import { createLogger } from "../core/cli-logger";
-import { spawnSync } from "../utils/runtime";
+import { createLogger } from "$scripts/core/cli-logger";
+import { prepareImageProcessingPath } from "$scripts/image/utils";
+import { safeRm } from "$scripts/utils/runtime";
 
 const logger = createLogger("ai-models");
 
@@ -39,12 +38,12 @@ export async function init(): Promise<void> {
         quantized: true,
       });
       logger.info({ modelId: MODEL_ID }, "AI Model loaded successfully");
-    } catch (e: any) {
+    } catch (error: any) {
       logger.error(
-        { modelId: MODEL_ID, err: e.message, stack: e.stack },
+        { modelId: MODEL_ID, err: error.message, stack: error.stack },
         "Failed to load AI model (Vision)",
       );
-      throw e;
+      throw error;
     }
   })();
 
@@ -61,13 +60,10 @@ async function prepareTensor(
   let tempFile: string | null = null;
 
   try {
-    const ext = path.extname(imagePath).toLowerCase();
-    if (ext === ".heic" || ext === ".heif") {
-      const tempDirPath = await fsp.mkdtemp(path.join(os.tmpdir(), "ai-embed-"));
-      tempFile = path.join(tempDirPath, `converted.jpg`);
-      spawnSync("vips", ["copy", imagePath, tempFile]);
-      processingPath = tempFile;
-    }
+    const { processingPath: resolvedPath, tempFile: contextTempFile } =
+      await prepareImageProcessingPath(imagePath);
+    processingPath = resolvedPath;
+    tempFile = contextTempFile;
 
     const { data } = await sharp(processingPath)
       .resize(224, 224, { fit: "cover" })
@@ -83,8 +79,8 @@ async function prepareTensor(
     }
 
     return { tensor: new Tensor("float32", floatData, [1, 3, 224, 224]), tempFile };
-  } catch (e: unknown) {
-    const error = e instanceof Error ? e : new Error(String(e));
+  } catch (err: unknown) {
+    const error = err instanceof Error ? err : new Error(String(err));
     logger.error(
       {
         path: imagePath,
@@ -94,12 +90,8 @@ async function prepareTensor(
       "Failed to prepare tensor",
     );
     // Use async check for directory existence using node:fs/promises access equivalent or try/catch
-    if (tempFile) {
-      try {
-        await fsp.access(path.dirname(tempFile));
-        await fsp.rm(path.dirname(tempFile), { recursive: true, force: true }).catch(() => {});
-      } catch {}
-    }
+    if (!tempFile) return null;
+    await safeRm(path.dirname(tempFile));
     return null;
   }
 }
@@ -114,8 +106,10 @@ export async function generateEmbeddingsBatch(imagePaths: string[]): Promise<num
   if (!model) await init();
 
   const { Tensor } = await import("@xenova/transformers");
-  const prepared = await Promise.all(imagePaths.map((p) => prepareTensor(p)));
-  const valid = prepared.filter((p): p is { tensor: any; tempFile: string | null } => p !== null);
+  const prepared = await Promise.all(imagePaths.map((imagePath) => prepareTensor(imagePath)));
+  const valid = prepared.filter(
+    (item): item is { tensor: any; tempFile: string | null } => item !== null,
+  );
 
   if (valid.length === 0) return imagePaths.map(() => []);
 
@@ -136,24 +130,18 @@ export async function generateEmbeddingsBatch(imagePaths: string[]): Promise<num
 
     // Map back to original order (some might have failed)
     let validIdx = 0;
-    return imagePaths.map((_p, idx) => {
+    return imagePaths.map((_path, idx) => {
       if (prepared[idx]) {
         return results[validIdx++];
       }
       return [];
     });
-  } catch (e) {
-    logger.error({ err: e }, "Failed to generate embeddings batch");
+  } catch (error) {
+    logger.error({ err: error }, "Failed to generate embeddings batch");
     return imagePaths.map(() => []);
   } finally {
-    for (const p of valid) {
-      if (p.tempFile) {
-        try {
-          await fsp.access(path.dirname(p.tempFile));
-          await fsp.rm(path.dirname(p.tempFile), { recursive: true, force: true }).catch(() => {});
-        } catch {}
-      }
-    }
+    const toCleanup = valid.map((p) => p.tempFile).filter((f): f is string => !!f);
+    await Promise.all(toCleanup.map((f) => safeRm(path.dirname(f))));
   }
 }
 

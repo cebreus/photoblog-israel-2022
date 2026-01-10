@@ -11,42 +11,42 @@
  * - src/lib/utils/metadata-standards.ts
  */
 
-import fs from "node:fs";
-import path from "node:path";
+import { config } from "$config";
+import { buildInputSet } from "$tests/utils/fixtures";
 import { exiftool } from "exiftool-vendored";
+import { mkdir, mkdtemp } from "node:fs/promises";
+import path from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { config } from "../../../scripts/build.config";
 import { buildImageEntry, type RawExifData } from "../../../scripts/lib/image/metadata";
 import { getExifToolWriteTags } from "../../../src/lib/utils/metadata-standards";
-import { buildInputSet } from "../../utils/fixtures";
 
 const CWD = process.cwd();
 
-function getTmpDir(prefix: string) {
+async function getTmpDir(prefix: string) {
   const tmpRoot = path.join(CWD, config.paths.tmp, "integration");
-  if (!fs.existsSync(tmpRoot)) {
-    fs.mkdirSync(tmpRoot, { recursive: true });
+  if (!(await Bun.file(tmpRoot).exists())) {
+    await mkdir(tmpRoot, { recursive: true });
   }
-  return fs.mkdtempSync(path.join(tmpRoot, `${prefix}-`));
+  return await mkdtemp(path.join(tmpRoot, `${prefix}-`));
 }
 
-describe("Metadata Roundtrip Integration", () => {
+describe("Metadata Roundtrip Integration", function testSuite() {
   let tmpDir: string;
   let imgPath: string;
 
-  beforeAll(async () => {
-    tmpDir = getTmpDir("meta-test");
+  beforeAll(async function setup() {
+    tmpDir = await getTmpDir("meta-test");
     await buildInputSet(tmpDir);
     // Use the portrait jpeg as our test subject
     imgPath = path.join(tmpDir, "portrait.jpeg");
   });
 
-  afterAll(async () => {
+  afterAll(async function teardown() {
     // Ensure ExifTool is closed
     await exiftool.end();
   });
 
-  it("writes and reads metadata with diacritics correctly (UTF-8) for ALL fields", async () => {
+  it("writes and reads metadata with diacritics correctly (UTF-8) for ALL fields", async function test() {
     // We test EVERY field defined in generic Metadata Standards to ensure full coverage
     const updates = {
       author: "Ondřej Ďábel",

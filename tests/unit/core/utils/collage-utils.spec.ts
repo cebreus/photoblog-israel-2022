@@ -6,7 +6,7 @@ import {
   formatRatioLabel,
   parsePresetRatio,
 } from "../../../../src/lib/utils/collage";
-import { createMockImage } from "../../../utils/gallery-test-utils";
+import { createMockImage } from "$tests/utils/gallery-test-utils";
 
 describe("collage utilities", function () {
   describe("calculateNormalizedBorderWidth", function () {

@@ -5,10 +5,15 @@
  * Warns about inconsistencies without blocking the build.
  */
 
-import fsp from "node:fs/promises";
 import path from "node:path";
-import { createLogger } from "../core/cli-logger";
-import { loadFacesManifest, loadImagesManifest, loadPeopleManifest } from "../manifests/repository";
+import type { PeopleManifest } from "$shared/types/manifest";
+import { createLogger } from "$scripts/core/cli-logger";
+import {
+  loadFacesManifest,
+  loadImagesManifest,
+  loadPeopleManifest,
+} from "$scripts/manifests/repository";
+import { fileExists, readFileText } from "$scripts/utils/runtime";
 
 const logger = createLogger("pre-build-check");
 
@@ -23,6 +28,38 @@ export interface ConsistencyCheckResult {
   issues: ConsistencyIssue[];
   hasErrors: boolean;
   hasWarnings: boolean;
+}
+
+/**
+ * Check constraints file for stale person references
+ */
+async function checkConstraintsConsistency(
+  dataDir: string,
+  peopleManifest: PeopleManifest | null,
+  issues: ConsistencyIssue[],
+): Promise<void> {
+  if (!peopleManifest?.people) return;
+
+  const constraintsPath = path.join(dataDir, "clustering-constraints.json");
+  if (!(await fileExists(constraintsPath))) return;
+
+  const content = await readFileText(constraintsPath);
+  const constraints = JSON.parse(content);
+
+  if (!constraints.disconnects) return;
+
+  const validPersonIds = new Set(peopleManifest.people.map((p) => p.id));
+  const staleDisconnects = constraints.disconnects.filter(
+    (d: { personId: string }) => !validPersonIds.has(d.personId),
+  );
+
+  if (staleDisconnects.length > 0) {
+    issues.push({
+      type: "warning",
+      category: "constraints",
+      message: `${staleDisconnects.length} disconnect rule(s) reference deleted persons`,
+    });
+  }
 }
 
 /**
@@ -51,9 +88,8 @@ export async function runPreBuildChecks(dataDir: string): Promise<ConsistencyChe
   const validImageIds = new Set<string>();
   for (const day of imagesManifest.photoDays || []) {
     for (const item of day.items || []) {
-      if (item.type !== "separator") {
-        validImageIds.add(item.id);
-      }
+      if (item.type === "separator") continue;
+      validImageIds.add(item.id);
     }
   }
 
@@ -62,28 +98,13 @@ export async function runPreBuildChecks(dataDir: string): Promise<ConsistencyChe
     const zombiePeople = peopleManifest.people.filter(
       (p) => p.faceCount === 0 && p.thumbnail && !p.junk,
     );
+
     if (zombiePeople.length > 0) {
       issues.push({
         type: "warning",
         category: "people",
         message: `${zombiePeople.length} person(s) have faceCount=0 but have thumbnails`,
         details: zombiePeople.slice(0, 5).map((p) => `${p.name} (${p.id})`),
-      });
-    }
-
-    // Check 2: People without valid descriptors
-    const noDescriptor = peopleManifest.people.filter(
-      (p) =>
-        !p.junk &&
-        (!p.faceDescriptor || p.faceDescriptor.length === 0) &&
-        (!p.clusters || p.clusters.length === 0),
-    );
-    if (noDescriptor.length > 0) {
-      issues.push({
-        type: "warning",
-        category: "people",
-        message: `${noDescriptor.length} person(s) have no valid face descriptors`,
-        details: noDescriptor.slice(0, 5).map((p) => `${p.name} (${p.id})`),
       });
     }
   }
@@ -101,29 +122,8 @@ export async function runPreBuildChecks(dataDir: string): Promise<ConsistencyChe
     }
   }
 
-  // Check 4: Constraints file exists and is valid
-  const constraintsPath = path.join(dataDir, "clustering-constraints.json");
-  try {
-    const content = await fsp.readFile(constraintsPath, "utf-8");
-    const constraints = JSON.parse(content);
-
-    // Check for stale person references in constraints
-    if (peopleManifest?.people && constraints.disconnects) {
-      const validPersonIds = new Set(peopleManifest.people.map((p) => p.id));
-      const staleDisconnects = constraints.disconnects.filter(
-        (d: { personId: string }) => !validPersonIds.has(d.personId),
-      );
-      if (staleDisconnects.length > 0) {
-        issues.push({
-          type: "warning",
-          category: "constraints",
-          message: `${staleDisconnects.length} disconnect rule(s) reference deleted persons`,
-        });
-      }
-    }
-  } catch {
-    // No constraints file is fine
-  }
+  // Check 4: Stale person references in constraints
+  await checkConstraintsConsistency(dataDir, peopleManifest, issues);
 
   // Report results
   const hasErrors = issues.some((i) => i.type === "error");

@@ -1,8 +1,8 @@
 // Re-export shared image types used across build and runtime
-export * from "../../../shared/types/images";
+export * from "$shared/types/images";
 
 // Explicit imports for use in app-specific types
-import type { VariantsByFormat } from "../../../shared/types/images";
+import type { VariantsByFormat } from "$shared/types/images";
 
 // ==========================================
 // App-Specific Types Below

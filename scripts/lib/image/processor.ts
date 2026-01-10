@@ -1,15 +1,13 @@
 import { ImageFormat } from "$shared/types/images";
 import type { ImageEntry, ImageSource, QualityTypes } from "$shared/types/manifest";
 import { createReadStream } from "node:fs";
-import fsp from "node:fs/promises";
-import os from "node:os";
 import path from "node:path";
 import xxhash from "xxhash-wasm";
 import { config } from "../../build.config";
-import { aiService, EMBEDDING_DIM } from "../ai/models";
-import { createLogger } from "../core/cli-logger";
-import { detectFaces, type FaceBox } from "../faces/detection";
-import { run } from "../utils/shell";
+import { aiService, EMBEDDING_DIM } from "$scripts/ai/models";
+import { createLogger } from "$scripts/core/cli-logger";
+import { detectFaces, type FaceBox } from "$scripts/faces/detection";
+import { basenameNoExt, safeUnlink, stat } from "$scripts/utils/runtime";
 import {
   generateOtherOutput,
   generateVariant,
@@ -23,7 +21,7 @@ import {
   type RawExifData,
   readRawMetadata,
 } from "./metadata";
-import { calculatePhash, calculateSharpness } from "./utils";
+import { calculatePhash, calculateSharpness, prepareImageProcessingPath } from "./utils";
 
 type SharpModule = typeof import("sharp");
 
@@ -83,8 +81,8 @@ let sharp: SharpModule | null = null;
 export async function loadSharpOrExplain(): Promise<void> {
   if (sharp) return;
   try {
-    const mod: any = await import("sharp");
-    sharp = mod.default ?? mod;
+    const mod = (await import("sharp")) as unknown as { default: SharpModule } | SharpModule;
+    sharp = "default" in mod ? mod.default : mod;
   } catch (err: unknown) {
     logger.error({ err }, "Failed to load sharp. Did you run bun install?");
     process.exit(1);
@@ -109,15 +107,15 @@ export function buildOutputDefinitions(): OutputDefinition[] {
       key: k as keyof typeof config.outputs,
       mode: value.kind,
       config: value,
-      isPlaceholder: isOther && Boolean((value as any).isPlaceholder),
+      isPlaceholder: isOther && Boolean((value as { isPlaceholder?: boolean }).isPlaceholder),
     };
   });
 }
 
-let xxhashModule: any = null;
+let xxhashModule: Awaited<ReturnType<typeof xxhash>> | null = null;
 async function getXxhash() {
   if (!xxhashModule) {
-    xxhashModule = await (xxhash as any)();
+    xxhashModule = await xxhash();
   }
   return xxhashModule;
 }
@@ -133,37 +131,17 @@ async function calculateFileHash(absPath: string): Promise<string> {
   return hasher.digest().toString(16);
 }
 
-async function convertHeicIfNeeded(
-  absPath: string,
-  baseName: string,
-): Promise<{ processingPath: string; tempFilePath: string | null }> {
-  const ext = path.extname(absPath).slice(1).toLowerCase();
-  if (ext === "heic" || ext === "heif") {
-    const tmpDir = os.tmpdir();
-    const tempFilePath = path.join(tmpDir, `${baseName}_converted.jpg`);
-    try {
-      await run("vips", ["copy", absPath, tempFilePath]);
-      return { processingPath: tempFilePath, tempFilePath };
-    } catch (convErr) {
-      logger.warn({ path: absPath, err: convErr }, "Failed to convert HEIC via vips");
-      return { processingPath: absPath, tempFilePath: null };
-    }
-  }
-  return { processingPath: absPath, tempFilePath: null };
-}
-
 async function prepareImageContext(
   absPath: string,
   options: ImageProcessOptions,
   sharpModule: SharpModule,
 ) {
   const key = path.posix.normalize(path.relative(options.srcRoot, absPath));
-  const baseName = path.basename(absPath, path.extname(absPath));
-  const stats = await fsp.stat(absPath);
+  const baseName = basenameNoExt(absPath);
+  const stats = await stat(absPath);
   const fileHash = await calculateFileHash(absPath);
 
-  // HEIC Conversion
-  const { processingPath, tempFilePath } = await convertHeicIfNeeded(absPath, baseName);
+  const { processingPath, tempFile } = await prepareImageProcessingPath(absPath);
   const sharpInstance = sharpModule(processingPath);
 
   return {
@@ -172,7 +150,7 @@ async function prepareImageContext(
     stats,
     fileHash,
     processingPath,
-    tempFilePath,
+    tempFile,
     sharpInstance,
   };
 }
@@ -193,7 +171,7 @@ function determineAnalysisNeeds(fileHash: string, key: string, options: ImagePro
     reusedOther = { placeholderColor: prev.placeholderColor };
 
     // Extract ID for manifest lookup (embeddings manifest is keyed by ID)
-    const id = path.basename(key, path.extname(key));
+    const id = basenameNoExt(key);
     const embedding = options.embeddingsManifest?.[id];
     const isEmbeddingValid =
       !options.curation || (Array.isArray(embedding) && embedding.length === EMBEDDING_DIM);
@@ -285,7 +263,7 @@ async function gatherImageData(
 ): Promise<ImageData> {
   // Extract image ID from key (basename without extension)
   // Split manifests are keyed by ID, not by relative path
-  const baseName = path.basename(key, path.extname(key));
+  const baseName = basenameNoExt(key);
   const id = baseName;
 
   const analysisFromManifest = options.analysisManifest?.[id];
@@ -317,10 +295,12 @@ async function gatherImageData(
 
   const exifRaw = normalizeExifData(exifTags);
   const dominant = imageStats?.dominant || { r: 0, g: 0, b: 0 };
+
   // In manifestOnly mode, don't fill in default color - leave undefined if not cached
-  const placeholderColor =
-    reusedOther.placeholderColor ||
-    (options.manifestOnly ? undefined : `rgb(${dominant.r},${dominant.g},${dominant.b})`);
+  let placeholderColor = reusedOther.placeholderColor;
+  if (!placeholderColor && !options.manifestOnly) {
+    placeholderColor = `rgb(${dominant.r},${dominant.g},${dominant.b})`;
+  }
 
   const existingFaces = facesFromManifest?.faces ?? reusedAnalysis?.faces;
   const faces = await _extractFaces(
@@ -448,10 +428,6 @@ import { isCollage } from "$shared/utils/strings";
 import { readClapFromFile } from "./clap-parser";
 import { applyClapExtract } from "./clap-utils";
 
-// ... existing imports ...
-
-// ... (keep existing helper functions)
-
 export async function processImage(
   absPath: string,
   options: ImageProcessOptions & { skipFaces?: boolean; skipEmbeddings?: boolean },
@@ -460,16 +436,16 @@ export async function processImage(
   await loadSharpOrExplain();
   const sharpModule = requireSharp();
 
-  let tempCleanupPath: string | null = null;
+  let tempFile: string | null = null;
   let clapTempPath: string | null = null;
   let key: string | undefined;
 
   try {
     const context = await prepareImageContext(absPath, options, sharpModule);
     key = context.key;
-    const { baseName, stats, fileHash, processingPath, tempFilePath } = context;
+    const { baseName, stats, fileHash, processingPath, tempFile: contextTempFile } = context;
     let { sharpInstance } = context;
-    tempCleanupPath = tempFilePath;
+    tempFile = contextTempFile;
 
     // --- Clean Aperture Application ---
     let effectiveInput = processingPath;
@@ -567,15 +543,7 @@ export async function processImage(
     );
     return null;
   } finally {
-    if (tempCleanupPath) {
-      try {
-        await fsp.unlink(tempCleanupPath);
-      } catch (_) {}
-    }
-    if (clapTempPath) {
-      try {
-        await fsp.unlink(clapTempPath);
-      } catch (_) {}
-    }
+    await safeUnlink(tempFile);
+    await safeUnlink(clapTempPath);
   }
 }

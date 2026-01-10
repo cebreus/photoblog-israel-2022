@@ -7,9 +7,9 @@
 
 import { page } from "@vitest/browser/context";
 import { describe, expect, it } from "vitest";
-import type { SequenceInfo } from "../../../shared/types/manifest";
+import type { SequenceInfo } from "$shared/types/manifest";
 import SequenceBadge from "../../../src/lib/components/SequenceBadge.svelte";
-import { renderComponent } from "../../utils/render-helpers";
+import { renderComponent } from "$tests/utils/render-helpers";
 
 function createSequenceInfo(
   type: SequenceInfo["type"],

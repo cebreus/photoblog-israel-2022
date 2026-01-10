@@ -1,6 +1,6 @@
 import type { FaceEmbeddingsManifest } from "../../../src/lib/types/manifest";
-import type { Logger } from "../core/cli-logger";
-import { loadFaceEmbeddingsManifest } from "../manifests/repository";
+import type { Logger } from "$scripts/core/cli-logger";
+import { loadFaceEmbeddingsManifest } from "$scripts/manifests/repository";
 
 /**
  * Cache for embeddings manifest to avoid repeated disk reads

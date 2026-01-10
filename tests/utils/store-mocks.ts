@@ -9,7 +9,7 @@
  * to avoid hoisting issues with Svelte 5 $state runes.
  */
 
-import type { Person, PhotoDay, QualityBucket } from "../../shared/types/manifest";
+import type { Person, PhotoDay, QualityBucket } from "$shared/types/manifest";
 
 /**
  * Default UI store state

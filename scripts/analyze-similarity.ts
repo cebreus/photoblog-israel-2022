@@ -1,24 +1,14 @@
-import { intro } from "@clack/prompts";
-import { AutoTokenizer, CLIPTextModelWithProjection } from "@xenova/transformers";
-import path from "node:path";
-import { type ImageEntry, isImageEntry } from "../shared/types/manifest";
-import { clearTaskStatus, saveTaskStatus } from "../src/lib/server/task-status";
-import {
-  type CurationGroup,
-  type CurationManifest,
-  type CurationRecommendation,
-} from "../src/lib/types/manifest";
-import { aiService } from "./lib/ai/models";
-import { createLogger } from "./lib/core/cli-logger";
-import { parseCliArguments } from "./lib/core/cli-parser";
-import { createBar, removeBar, stopAllBars } from "./lib/core/progress-manager";
-import { resolveGalleryDirectory } from "./lib/gallery/resolver";
+import { aiService } from "$scripts/ai/models";
+import { createLogger } from "$scripts/core/cli-logger";
+import { parseCliArguments } from "$scripts/core/cli-parser";
+import { createBar, removeBar, stopAllBars } from "$scripts/core/progress-manager";
+import { resolveGalleryDirectory } from "$scripts/gallery/resolver";
 import {
   calculateAestheticScore,
   createAestheticAxis,
   normalizeAestheticScore,
-} from "./lib/image/aesthetic";
-import { getQualityBucket, normalizeSharpness } from "./lib/image/utils";
+} from "$scripts/image/aesthetic";
+import { getQualityBucket, normalizeSharpness } from "$scripts/image/utils";
 import {
   loadAnalysisManifest,
   loadEmbeddingsManifest,
@@ -27,9 +17,24 @@ import {
   saveCurationManifest,
   saveEmbeddingsManifest,
   saveImagesManifest,
-} from "./lib/manifests/repository";
-import { fileExists } from "./lib/utils/runtime";
-import { formatDuration } from "./lib/utils/time";
+} from "$scripts/manifests/repository";
+import {
+  getPerformanceRecorder,
+  logResourceUsage,
+  runWithPerformance,
+} from "$scripts/utils/performance";
+import { fileExists } from "$scripts/utils/runtime";
+import { formatDuration } from "$scripts/utils/time";
+import { type ImageEntry, isImageEntry } from "$shared/types/manifest";
+import { intro } from "@clack/prompts";
+import { AutoTokenizer, CLIPTextModelWithProjection } from "@xenova/transformers";
+import path from "node:path";
+import { clearTaskStatus, saveTaskStatus } from "../src/lib/server/task-status";
+import {
+  type CurationGroup,
+  type CurationManifest,
+  type CurationRecommendation,
+} from "../src/lib/types/manifest";
 
 const logger = createLogger("analyze-similarity");
 
@@ -568,23 +573,31 @@ async function main() {
 }
 
 (async () => {
-  const startTime = performance.now();
-  const contentDir = await resolveGalleryDirectory();
-  const dataDir = path.resolve(process.cwd(), `src/data/${contentDir}`);
+  await runWithPerformance(async () => {
+    const startTime = performance.now();
+    const contentDir = await resolveGalleryDirectory();
+    const dataDir = path.resolve(process.cwd(), `src/data/${contentDir}`);
 
-  await saveTaskStatus(dataDir, {
-    id: "similarity-analysis",
-    label: "Analýza podobnosti...",
+    await saveTaskStatus(dataDir, {
+      id: "similarity-analysis",
+      label: "Analýza podobnosti...",
+    });
+
+    try {
+      await main();
+      const duration = formatDuration(performance.now() - startTime);
+
+      const perf = getPerformanceRecorder()?.getBreakdown();
+      if (perf) {
+        logger.debug({ perf }, "Performance breakdown");
+      }
+
+      logger.info({ duration }, `Total time: ${duration}`);
+    } catch (error) {
+      logger.error({ err: error }, "Script execution failed");
+      process.exit(1);
+    } finally {
+      await clearTaskStatus(dataDir);
+    }
   });
-
-  try {
-    await main();
-    const duration = formatDuration(performance.now() - startTime);
-    logger.info({ duration }, `Total time: ${duration}`);
-  } catch (error) {
-    logger.error({ err: error }, "Script execution failed");
-    process.exit(1);
-  } finally {
-    await clearTaskStatus(dataDir);
-  }
 })();

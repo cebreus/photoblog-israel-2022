@@ -7,7 +7,6 @@
  * Merged from: people-utils.ts, person-utils.ts, people-consistency.ts
  */
 
-import fsp from "node:fs/promises";
 import path from "node:path";
 import {
   type FacesManifest,
@@ -15,37 +14,8 @@ import {
   type Manifest,
   type PeopleManifest,
   type Person,
-} from "../../../shared/types/manifest";
-
-// ============================================
-// From people-utils.ts: Face Descriptors
-// ============================================
-
-export const FACE_DESCRIPTOR_DIMENSION = 128;
-
-export function hasValidFaceDescriptor(person: Person): boolean {
-  if (person.clusters && person.clusters.length > 0) return true;
-  const descriptor = person.faceDescriptor;
-  return Boolean(
-    descriptor && Array.isArray(descriptor) && descriptor.length === FACE_DESCRIPTOR_DIMENSION,
-  );
-}
-
-export function isValidDescriptor(descriptor: number[] | undefined | null): boolean {
-  return Boolean(
-    descriptor && Array.isArray(descriptor) && descriptor.length === FACE_DESCRIPTOR_DIMENSION,
-  );
-}
-
-/**
- * Filters people who have valid descriptors AND are actively participating in clustering.
- * People marked as 'junk' are excluded from being matched against new faces.
- */
-export function filterPeopleWithValidDescriptors(people: Person[]): Person[] {
-  return people.filter(function (p) {
-    return !p.junk && hasValidFaceDescriptor(p);
-  });
-}
+} from "$shared/types/manifest";
+import { fileExists, isJpegPath, readdir } from "$scripts/utils/runtime";
 
 // ============================================
 // From person-utils.ts: Reference Updates
@@ -69,18 +39,16 @@ export function updatePersonReferences(
       if (!item.people?.includes(oldPersonId)) continue;
 
       // Update images manifest
-      item.people = item.people.map(function (id) {
-        return id === oldPersonId ? newPersonId : id;
-      });
+      item.people = item.people.map((id) => (id === oldPersonId ? newPersonId : id));
       item.people = [...new Set(item.people)]; // Dedupe
       updatedCount++;
 
       // Sync faces manifest
       const faceData = facesManifest[item.id];
       if (faceData?.peopleIds?.includes(oldPersonId)) {
-        faceData.peopleIds = faceData.peopleIds.map(function (id) {
-          return id === oldPersonId ? newPersonId : id;
-        });
+        faceData.peopleIds = faceData.peopleIds.map((id) =>
+          id === oldPersonId ? newPersonId : id,
+        );
         faceData.peopleIds = [...new Set(faceData.peopleIds)];
       }
     }
@@ -107,9 +75,7 @@ export function updateImagePersonReference(
       if (!isImageEntry(item) || item.id !== imageId) continue;
       if (!item.people?.includes(oldPersonId)) continue;
 
-      item.people = item.people.map(function (id) {
-        return id === oldPersonId ? newPersonId : id;
-      });
+      item.people = item.people.map((id) => (id === oldPersonId ? newPersonId : id));
       item.people = [...new Set(item.people)];
       updated = true;
     }
@@ -118,9 +84,7 @@ export function updateImagePersonReference(
   if (facesManifest[imageId]) {
     const faceData = facesManifest[imageId];
     if (faceData.peopleIds?.includes(oldPersonId)) {
-      faceData.peopleIds = faceData.peopleIds.map(function (id) {
-        return id === oldPersonId ? newPersonId : id;
-      });
+      faceData.peopleIds = faceData.peopleIds.map((id) => (id === oldPersonId ? newPersonId : id));
       faceData.peopleIds = [...new Set(faceData.peopleIds)];
       updated = true;
     }
@@ -146,17 +110,15 @@ export function removePersonFromImage(
       if (!isImageEntry(item) || item.id !== imageId) continue;
       if (!item.people?.includes(personId)) continue;
 
-      item.people = item.people.filter(function (id) {
-        return id !== personId;
-      });
+      item.people = item.people.filter((id) => id !== personId);
       removed = true;
     }
   }
 
   if (facesManifest[imageId]?.peopleIds?.includes(personId)) {
-    facesManifest[imageId].peopleIds = facesManifest[imageId].peopleIds.filter(function (id) {
-      return id !== personId;
-    });
+    facesManifest[imageId].peopleIds = facesManifest[imageId].peopleIds.filter(
+      (id) => id !== personId,
+    );
     removed = true;
   }
 
@@ -175,7 +137,8 @@ export function recalculateFaceCount(personId: string, imagesManifest: Manifest)
   let count = 0;
   for (const day of imagesManifest.photoDays) {
     for (const item of day.items) {
-      if (isImageEntry(item) && item.people?.includes(personId)) {
+      if (!isImageEntry(item)) continue;
+      if (item.people?.includes(personId)) {
         count++;
       }
     }
@@ -199,12 +162,13 @@ export function recalculateAllFaceCounts(
 
   for (const day of imagesManifest.photoDays) {
     for (const item of day.items) {
-      if (isImageEntry(item) && item.people) {
-        for (const personId of item.people) {
-          const current = counts.get(personId);
-          if (current !== undefined) {
-            counts.set(personId, current + 1);
-          }
+      if (!isImageEntry(item)) continue;
+      if (!item.people) continue;
+
+      for (const personId of item.people) {
+        const current = counts.get(personId);
+        if (current !== undefined) {
+          counts.set(personId, current + 1);
         }
       }
     }
@@ -222,16 +186,16 @@ export function recalculateAllFaceCounts(
  */
 export async function findAvailableThumbnail(personId: string, facesDir: string): Promise<string> {
   const personDir = path.resolve(facesDir, personId);
-  try {
-    const files = await fsp.readdir(personDir);
-    const valid = files.filter((f) => f.endsWith(".jpg") && !f.startsWith("."));
-    if (valid.length > 0) {
-      return `faces/${personId}/${valid[0]}`;
-    }
-  } catch (_e) {
-    // Directory doesn't exist or is empty
-  }
-  return "";
+
+  // Check if directory exists before attempting to read
+  if (!(await fileExists(personDir))) return "";
+
+  const files = await readdir(personDir);
+  const firstValid = files.find((file: string) => isJpegPath(file) && !file.startsWith("."));
+
+  if (!firstValid) return "";
+
+  return `faces/${personId}/${firstValid}`;
 }
 
 /**
@@ -239,34 +203,30 @@ export async function findAvailableThumbnail(personId: string, facesDir: string)
  * Should be called after moving/deleting face crops.
  */
 export async function refreshPersonThumbnail(person: Person, facesDir: string): Promise<void> {
-  // Check if current thumbnail still exists
-  if (person.thumbnail) {
-    if (person.thumbnail.includes("assets/avatars/")) {
-      // It's a custom avatar, check if it exists in assets
-      // We assume facesDir is ".../faces", so assetsDir is ".../assets"
-      const assetsDir = path.resolve(facesDir, "../assets");
-      const avatarPath = path.resolve(assetsDir, "avatars", path.basename(person.thumbnail));
-      try {
-        await fsp.access(avatarPath);
-        return; // Custom avatar is valid
-      } catch {
-        // Avatar missing, fall back to finding a face crop
-      }
-    } else {
-      // It's a face crop
-      const thumbFilename = path.basename(person.thumbnail);
-      const thumbPath = path.resolve(facesDir, person.id, thumbFilename);
-
-      try {
-        await fsp.access(thumbPath);
-        return; // Current thumbnail is valid
-      } catch {
-        // Thumbnail missing, need to find new one
-      }
-    }
+  if (!person.thumbnail) {
+    person.thumbnail = await findAvailableThumbnail(person.id, facesDir);
+    return;
   }
 
-  // Find any available face crop
+  const thumb = person.thumbnail;
+  let checkPath: string;
+
+  if (thumb.includes("assets/avatars/")) {
+    // It's a custom avatar, check if it exists in assets
+    // We assume facesDir is ".../faces", so assetsDir is ".../assets"
+    const assetsDir = path.resolve(facesDir, "../assets");
+    checkPath = path.resolve(assetsDir, "avatars", path.basename(thumb));
+  } else {
+    // It's a face crop
+    checkPath = path.resolve(facesDir, person.id, path.basename(thumb));
+  }
+
+  // If the current thumbnail (avatar or face crop) effectively exists, we are done
+  if (await fileExists(checkPath)) {
+    return;
+  }
+
+  // Thumbnail missing, fall back to finding a new face crop
   person.thumbnail = await findAvailableThumbnail(person.id, facesDir);
 }
 

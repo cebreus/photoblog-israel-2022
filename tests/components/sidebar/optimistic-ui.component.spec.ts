@@ -14,7 +14,7 @@
 
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { page } from "vitest/browser";
-import { renderComponent } from "../../utils/render-helpers";
+import { renderComponent } from "$tests/utils/render-helpers";
 
 // --- Mocks Setup ---
 
@@ -74,7 +74,7 @@ import { invalidateAll } from "$app/navigation";
 import { applyMetadataUpdates } from "$lib/shared/metadata-utils";
 import { editor } from "$lib/stores/editor.svelte";
 import EditTab from "../../../src/lib/components/sidebar-content/EditTab.svelte";
-import { createMockImage } from "../../utils/gallery-test-utils";
+import { createMockImage } from "$tests/utils/gallery-test-utils";
 
 describe("Optimistic UI Updates", () => {
   const TEST_ID = "optimistic-img-1";

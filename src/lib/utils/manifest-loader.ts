@@ -1,7 +1,7 @@
-import path from "node:path";
 import { building, dev } from "$app/environment";
 import { createLogger } from "$lib/logger";
 import type { CurationManifest, Manifest, PeopleManifest } from "$lib/types/manifest";
+import path from "node:path";
 import {
   normalizePeople,
   reclassifyCollages,
@@ -28,7 +28,7 @@ export async function reloadManifests() {
       const contentDir = process.env.CONTENT_DIR || "egypt-2025"; // Fallback to egypt if not set
       const dataDir = path.resolve(process.cwd(), "src/data", contentDir);
 
-      const fsp = await import("node:fs/promises");
+      const { readFileText } = await import("$scripts/utils/runtime");
 
       let nextManifest: Manifest | null = null;
       let nextPeople: PeopleManifest | null = null;
@@ -36,7 +36,7 @@ export async function reloadManifests() {
 
       // Reload Images Manifest
       try {
-        const raw = await fsp.readFile(path.join(dataDir, "images.manifest.json"), "utf-8");
+        const raw = await readFileText(path.join(dataDir, "images.manifest.json"));
         const json = JSON.parse(raw);
         if (isValidManifest(json)) {
           nextManifest = reclassifySequences(reclassifyPanoramas(reclassifyCollages(json)));
@@ -47,7 +47,7 @@ export async function reloadManifests() {
 
       // Reload People Manifest
       try {
-        const raw = await fsp.readFile(path.join(dataDir, "people.manifest.json"), "utf-8");
+        const raw = await readFileText(path.join(dataDir, "people.manifest.json"));
         const json = JSON.parse(raw);
         if (isValidPeopleManifest(json)) {
           nextPeople = normalizePeople(json);
@@ -56,7 +56,7 @@ export async function reloadManifests() {
 
       // Reload Curation Manifest
       try {
-        const raw = await fsp.readFile(path.join(dataDir, "curation.manifest.json"), "utf-8");
+        const raw = await readFileText(path.join(dataDir, "curation.manifest.json"));
         const json = JSON.parse(raw);
         if (isValidCurationManifest(json)) {
           nextCuration = json;

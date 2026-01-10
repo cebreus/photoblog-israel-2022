@@ -8,8 +8,8 @@
  */
 
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { createMockImage } from "../../utils/gallery-test-utils";
-import { renderComponent } from "../../utils/render-helpers";
+import { createMockImage } from "$tests/utils/gallery-test-utils";
+import { renderComponent } from "$tests/utils/render-helpers";
 
 // Mock dependencies before import
 vi.mock("$lib/logger", function () {

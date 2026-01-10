@@ -1,10 +1,11 @@
-import fs from "node:fs/promises";
-import path from "node:path";
-import process from "node:process";
+import { getContentDir } from "$lib/config";
+import { fileExists, readFileBuffer } from "$scripts/utils/runtime";
+import { isHeic, MIME_TYPES } from "$shared/types/images";
 import type { RequestEvent } from "@sveltejs/kit";
 import { json } from "@sveltejs/kit";
+import path from "node:path";
+import process from "node:process";
 import sharp from "sharp";
-import { getContentDir } from "$lib/config";
 
 const IS_DEV = import.meta.env.DEV;
 
@@ -28,21 +29,19 @@ export async function GET({ params, locals }: RequestEvent): Promise<Response> {
       return json({ error: "Invalid path" }, { status: 403 });
     }
 
-    try {
-      await fs.access(fullPath);
-    } catch {
+    if (!(await fileExists(fullPath))) {
       // Common event in dev (broken image links), debug level sufficient usually,
       // but warn if we want to track missing assets
       log.debug({ filepath }, "File not found");
       return json({ error: "File not found" }, { status: 404 });
     }
 
-    const fileBuffer = await fs.readFile(fullPath);
+    const fileBuffer = await readFileBuffer(fullPath);
 
-    const ext = path.extname(fullPath).toLowerCase();
-    let contentType = "application/octet-stream";
+    const ext = path.extname(fullPath);
+    const contentType = MIME_TYPES[ext.toLowerCase()] || "application/octet-stream";
 
-    if (ext === ".heic") {
+    if (isHeic(ext)) {
       // Browser doesn't support HEIC natively, convert to JPEG for preview
       const buffer = await sharp(fullPath).jpeg({ quality: 90 }).toBuffer();
       return new Response(new Uint8Array(buffer), {
@@ -53,14 +52,7 @@ export async function GET({ params, locals }: RequestEvent): Promise<Response> {
       });
     }
 
-    if (ext === ".json") contentType = "application/json";
-    else if (ext === ".md") contentType = "text/markdown";
-    else if (ext === ".jpg" || ext === ".jpeg") contentType = "image/jpeg";
-    else if (ext === ".png") contentType = "image/png";
-    else if (ext === ".webp") contentType = "image/webp";
-    else if (ext === ".avif") contentType = "image/avif";
-
-    return new Response(fileBuffer, {
+    return new Response(new Uint8Array(fileBuffer), {
       headers: {
         "Content-Type": contentType,
         "Cache-Control": "max-age=3600",

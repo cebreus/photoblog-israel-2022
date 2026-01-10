@@ -16,7 +16,7 @@ import sharp from "sharp";
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { fixUnderwaterImage } from "../../../../scripts/lib/image/underwater";
 
-vi.mock("../../../../scripts/lib/shell-utils", () => ({
+vi.mock("../../../../scripts/lib/utils/shell", () => ({
   run: vi.fn(),
   execCapture: vi.fn(),
 }));

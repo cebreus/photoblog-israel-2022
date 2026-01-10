@@ -1,4 +1,4 @@
-import type { ImageEntry, Manifest, PhotoDay } from "../../shared/types/manifest";
+import type { ImageEntry, Manifest, PhotoDay } from "$shared/types/manifest";
 
 export function createMockImageEntry(overrides: Partial<ImageEntry> = {}): ImageEntry {
   const id = overrides.id || `img-${Math.random().toString(36).substr(2, 9)}`;

@@ -1,9 +1,9 @@
 import path from "node:path";
 import type { Sharp } from "sharp";
-import { ImageFormat } from "../../../shared/types/images";
+import { ImageFormat, isJpegFormat } from "$shared/types/images";
 import type { QualityTypes } from "../../../src/lib/types/manifest";
 import { config } from "../../build.config";
-import type { FaceBox } from "../faces/detection";
+import type { FaceBox } from "$scripts/faces/detection";
 import type { ImageProcessOptions } from "./processor";
 import { calculateSmartCrop } from "./smart-crop";
 import { ensureDir } from "./utils";
@@ -24,7 +24,10 @@ function getQuality(
   format: ImageFormat,
   qualityOverrides: Partial<Record<QualityTypes, number>>,
 ): number {
-  const qualityKey = format === ImageFormat.PNG ? ImageFormat.JPEG : format;
+  let qualityKey: QualityTypes = format as QualityTypes;
+  if (format === ImageFormat.PNG || isJpegFormat(format)) {
+    qualityKey = ImageFormat.JPEG;
+  }
   return qualityOverrides[qualityKey] ?? config.encoding.quality[qualityKey];
 }
 
@@ -123,11 +126,16 @@ export async function generateVariant(
   faces: FaceBox[] = [],
   _variantKey?: string,
 ) {
-  const outExt = format === "jpeg" ? "jpeg" : format;
-  const variantFolder =
-    format === ImageFormat.JPEG
-      ? variantConfig.folderName
-      : `${variantConfig.folderName}-${format}`;
+  let outExt: ImageFormat;
+  if (isJpegFormat(format)) {
+    outExt = ImageFormat.JPEG;
+  } else {
+    outExt = format;
+  }
+  let variantFolder = `${variantConfig.folderName}-${format}`;
+  if (isJpegFormat(format)) {
+    variantFolder = variantConfig.folderName;
+  }
   const outPath = path.posix.normalize(path.join(variantFolder, `${baseName}.${outExt}`));
 
   let info: import("sharp").OutputInfo;
@@ -205,8 +213,14 @@ export async function generateOtherOutput(
   originalMeta: import("sharp").Metadata,
   faces: FaceBox[] = [],
 ) {
-  const format = "format" in outputConfig ? outputConfig.format : ImageFormat.JPEG;
-  const outExt = format === "jpeg" ? "jpeg" : format;
+  let format: ImageFormat = ImageFormat.JPEG;
+  if ("format" in outputConfig) {
+    format = outputConfig.format as ImageFormat;
+  }
+  let outExt: ImageFormat = format;
+  if (isJpegFormat(format)) {
+    outExt = ImageFormat.JPEG;
+  }
   const outPath = path.posix.normalize(path.join(outputConfig.folderName, `${baseName}.${outExt}`));
 
   let info: import("sharp").OutputInfo;

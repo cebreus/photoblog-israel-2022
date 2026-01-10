@@ -1,12 +1,12 @@
 #!/usr/bin/env bun
-import { cp, readFile, rm, stat, writeFile } from "node:fs/promises";
+import { createLogger } from "$scripts/core/cli-logger";
+import { listAvailableGalleries } from "$scripts/gallery/resolver";
+import { cp, directoryExists, readdir, readFileText, rm, writeFile } from "$scripts/utils/runtime";
+import { run } from "$scripts/utils/shell";
+import type { ImageEntry } from "$shared/types/manifest";
+import { cancel, confirm, intro, isCancel, note, outro, select, text } from "@clack/prompts";
 import path from "node:path";
 import { parseArgs } from "node:util";
-import { cancel, confirm, intro, isCancel, note, outro, select, text } from "@clack/prompts";
-import type { ImageEntry } from "../shared/types/manifest";
-import { createLogger } from "./lib/core/cli-logger";
-import { listAvailableGalleries } from "./lib/gallery/resolver";
-import { run } from "./lib/utils/shell";
 
 type ImageManifest = Record<string, ImageEntry>;
 type SemanticVersion = { major: number; minor: number; patch: number };
@@ -55,7 +55,7 @@ function computeNextVersions(current: SemanticVersion) {
 
 async function readDeployedVersion(targetDir: string): Promise<string> {
   try {
-    const indexHtml = await readFile(path.join(targetDir, "index.html"), "utf-8");
+    const indexHtml = await readFileText(path.join(targetDir, "index.html"));
     const match = indexHtml.match(VERSION_ATTR_PATTERN);
     return match ? match[1] : "0.0.0";
   } catch {
@@ -63,23 +63,13 @@ async function readDeployedVersion(targetDir: string): Promise<string> {
   }
 }
 
-async function directoryExists(dirPath: string): Promise<boolean> {
-  try {
-    const stats = await stat(dirPath);
-    return stats.isDirectory();
-  } catch {
-    return false;
-  }
-}
-
 async function cleanDirectoryExceptGit(targetDir: string): Promise<void> {
-  const { readdir } = await import("node:fs/promises");
   const entries = await readdir(targetDir);
   const exempt = [".git", "CNAME", ".nojekyll", "README.md", "readme.md"];
 
   for (const entry of entries) {
     if (exempt.includes(entry)) continue;
-    await rm(path.join(targetDir, entry), { recursive: true, force: true });
+    await rm(path.join(targetDir, entry), { recursive: true });
   }
 }
 
@@ -91,8 +81,8 @@ async function compareManifests(
 ): Promise<{ added: string[]; removed: string[]; changed: string[] } | null> {
   try {
     const [oldContent, newContent] = await Promise.all([
-      readFile(oldManifestPath, "utf-8"),
-      readFile(newManifestPath, "utf-8"),
+      readFileText(oldManifestPath),
+      readFileText(newManifestPath),
     ]);
 
     const oldManifest = JSON.parse(oldContent) as ImageManifest;

@@ -1,7 +1,7 @@
+import type { Person } from "$shared/types/manifest";
 import fsp from "node:fs/promises";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { refreshPersonThumbnail } from "../../../../scripts/lib/faces/people";
-import type { Person } from "../../../../shared/types/manifest";
 
 // Mock dependencies
 vi.mock("node:fs/promises");
@@ -9,6 +9,10 @@ vi.mock("node:path", () => ({
   default: {
     resolve: (...args: string[]) => args.join("/"),
     basename: (p: string) => p.split("/").pop() || "",
+    extname: (p: string) => {
+      const parts = p.split(".");
+      return parts.length > 1 ? `.${parts.pop()}` : "";
+    },
   },
 }));
 
@@ -59,8 +63,13 @@ describe("people utils", () => {
         category: "person",
       };
 
-      // Mock access to fail (file missing)
-      vi.mocked(fsp.access).mockRejectedValue(new Error("ENOENT"));
+      // Mock access: fail for the specific missing image, but succeed for the directory
+      vi.mocked(fsp.access).mockImplementation(async (p) => {
+        if (typeof p === "string" && p.endsWith("missing.jpg")) {
+          throw { code: "ENOENT" };
+        }
+        return undefined;
+      });
 
       // Mock readdir for findAvailableThumbnail
       vi.mocked(fsp.readdir).mockResolvedValue([
@@ -72,7 +81,7 @@ describe("people utils", () => {
       await refreshPersonThumbnail(person, facesDir);
 
       expect(fsp.access).toHaveBeenCalled();
-      expect(fsp.readdir).toHaveBeenCalledWith("/mock/faces/person1");
+      expect(fsp.readdir).toHaveBeenCalledWith("/mock/faces/person1", undefined);
       expect(person.thumbnail).toBe("faces/person1/img2.jpg");
     });
 
@@ -91,7 +100,12 @@ describe("people utils", () => {
         category: "person",
       };
 
-      vi.mocked(fsp.access).mockRejectedValue(new Error("ENOENT"));
+      vi.mocked(fsp.access).mockImplementation(async (p) => {
+        if (typeof p === "string" && p.endsWith("missing.jpg")) {
+          throw { code: "ENOENT" };
+        }
+        return undefined;
+      });
       vi.mocked(fsp.readdir).mockResolvedValue([]);
 
       await refreshPersonThumbnail(person, facesDir);

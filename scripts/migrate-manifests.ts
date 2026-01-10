@@ -5,13 +5,13 @@ import type {
   FacesManifest,
   Manifest,
 } from "../src/lib/types/manifest";
-import { createLogger } from "./lib/core/cli-logger";
+import { createLogger } from "$scripts/core/cli-logger";
 import {
   loadManifest,
   saveAnalysisManifest,
   saveEmbeddingsManifest,
   saveFacesManifest,
-} from "./lib/manifests/repository";
+} from "$scripts/manifests/repository";
 
 const logger = createLogger("migrate-manifests");
 
@@ -46,8 +46,8 @@ async function migrate(outRoot: string) {
           phash: item.analysis.phash,
         };
 
-        if (item.analysis.embedding && item.analysis.embedding.length > 0) {
-          embeddingsManifest[imageId] = item.analysis.embedding;
+        if ((item.analysis as any).embedding && (item.analysis as any).embedding.length > 0) {
+          embeddingsManifest[imageId] = (item.analysis as any).embedding;
         }
 
         if (
@@ -85,7 +85,7 @@ if (!outRoot) {
   process.exit(1);
 }
 
-migrate(outRoot).catch((err) => {
+migrate(outRoot).catch((err: any) => {
   logger.error({ err }, "Migration failed");
   process.exit(1);
 });

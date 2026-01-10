@@ -13,16 +13,25 @@ interface PerfEntry {
   timestamp: number;
 }
 
-class PerfLogger {
-  private entries: PerfEntry[] = [];
-  private maxEntries = 100;
+interface PerfStats {
+  name: string;
+  count: number;
+  total: number;
+  avg: number;
+  min: number;
+  max: number;
+}
 
-  time(label: string) {
+function createPerfLogger() {
+  let entries: PerfEntry[] = [];
+  const maxEntries = 100;
+
+  function time(label: string): void {
     if (typeof performance === "undefined") return;
     performance.mark(`${label}-start`);
   }
 
-  timeEnd(label: string): number {
+  function timeEnd(label: string): number {
     if (typeof performance === "undefined") return 0;
 
     try {
@@ -37,15 +46,15 @@ class PerfLogger {
       const duration = measure.duration;
 
       // Store entry
-      this.entries.push({
+      entries.push({
         name: label,
         duration,
         timestamp: Date.now(),
       });
 
       // Keep only recent entries
-      if (this.entries.length > this.maxEntries) {
-        this.entries.shift();
+      if (entries.length > maxEntries) {
+        entries.shift();
       }
 
       // Clean up marks
@@ -62,57 +71,70 @@ class PerfLogger {
   /**
    * Get performance report for a specific label or all labels
    */
-  getReport(labelFilter?: string) {
-    const filtered = labelFilter
-      ? this.entries.filter((e) => e.name.includes(labelFilter))
-      : this.entries;
+  function getReport(labelFilter?: string): PerfStats[] {
+    function matchesFilter(entry: PerfEntry): boolean {
+      return entry.name.includes(labelFilter!);
+    }
 
-    const grouped = filtered.reduce(
-      (acc, entry) => {
-        if (!acc[entry.name]) {
-          acc[entry.name] = {
-            name: entry.name,
-            count: 0,
-            total: 0,
-            avg: 0,
-            min: Infinity,
-            max: 0,
-          };
-        }
+    const filtered = labelFilter ? entries.filter(matchesFilter) : entries;
 
-        const stats = acc[entry.name];
-        stats.count++;
-        stats.total += entry.duration;
-        stats.min = Math.min(stats.min, entry.duration);
-        stats.max = Math.max(stats.max, entry.duration);
-        stats.avg = stats.total / stats.count;
+    function reduceStats(
+      acc: Record<string, PerfStats>,
+      entry: PerfEntry,
+    ): Record<string, PerfStats> {
+      if (!acc[entry.name]) {
+        acc[entry.name] = {
+          name: entry.name,
+          count: 0,
+          total: 0,
+          avg: 0,
+          min: Infinity,
+          max: 0,
+        };
+      }
 
-        return acc;
-      },
-      {} as Record<
-        string,
-        { name: string; count: number; total: number; avg: number; min: number; max: number }
-      >,
-    );
+      const stats = acc[entry.name];
+      stats.count++;
+      stats.total += entry.duration;
+      stats.min = Math.min(stats.min, entry.duration);
+      stats.max = Math.max(stats.max, entry.duration);
+      stats.avg = stats.total / stats.count;
 
-    return Object.values(grouped).sort((a, b) => b.total - a.total);
+      return acc;
+    }
+
+    const grouped = filtered.reduce(reduceStats, {} as Record<string, PerfStats>);
+
+    function sortByTotal(a: PerfStats, b: PerfStats): number {
+      return b.total - a.total;
+    }
+
+    return Object.values(grouped).sort(sortByTotal);
   }
 
   /**
    * Clear all stored entries
    */
-  clear() {
-    this.entries = [];
+  function clear(): void {
+    entries = [];
     if (typeof performance !== "undefined") {
       performance.clearMarks();
       performance.clearMeasures();
     }
   }
+
+  return {
+    time,
+    timeEnd,
+    getReport,
+    clear,
+  };
 }
 
-export const perfLogger = new PerfLogger();
+export const perfLogger = createPerfLogger();
 
 // Expose to window for debugging
 if (typeof window !== "undefined") {
-  (window as unknown as { perfLogger: PerfLogger }).perfLogger = perfLogger;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (window as any).perfLogger = perfLogger;
 }

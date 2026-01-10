@@ -1,6 +1,6 @@
-import fsp from "node:fs/promises";
 import path from "node:path";
-import { createLogger } from "../core/cli-logger";
+import { createLogger } from "$scripts/core/cli-logger";
+import { fileExists, readFileText, writeFile } from "$scripts/utils/runtime";
 
 const logger = createLogger("face-api");
 
@@ -11,15 +11,19 @@ const MODEL_NAME = "ssd_mobilenetv1";
 
 let modelsLoaded = false;
 let loadingPromise: Promise<void> | null = null;
+let faceapi: typeof import("@vladmandic/face-api") | null = null;
+let loadImage: typeof import("canvas").loadImage | null = null;
 
 export async function initModels() {
   if (modelsLoaded) return;
   if (loadingPromise) return loadingPromise;
 
   loadingPromise = (async () => {
-    const faceapi = await import("@vladmandic/face-api");
+    faceapi = await import("@vladmandic/face-api");
     const tf = await import("@tensorflow/tfjs-node");
-    const { Canvas, Image, ImageData } = await import("canvas");
+    const canvas = await import("canvas");
+    loadImage = canvas.loadImage;
+    const { Canvas, Image, ImageData } = canvas;
 
     faceapi.env.monkeyPatch({
       Canvas: Canvas as unknown as typeof globalThis.HTMLCanvasElement,
@@ -58,29 +62,22 @@ async function downloadModelFiles() {
   await downloadFile(manifestFile);
 
   const manifestPath = path.join(MODELS_DIR, manifestFile);
-  const manifestContent = await fsp.readFile(manifestPath, "utf-8");
+  const manifestContent = await readFileText(manifestPath);
   const manifest = JSON.parse(manifestContent);
 
-  const downloadPromises: Promise<void>[] = [];
-  if (Array.isArray(manifest)) {
-    for (const entry of manifest) {
-      if (entry.paths) {
-        for (const shardName of entry.paths) {
-          downloadPromises.push(downloadFile(shardName));
-        }
-      }
-    }
-  }
+  if (!Array.isArray(manifest)) return;
+
+  const downloadPromises = manifest
+    .flatMap((entry: any) => entry.paths || [])
+    .map((shardName: string) => downloadFile(shardName));
+
   await Promise.all(downloadPromises);
 }
 
 async function downloadFile(filename: string) {
   const destPath = path.join(MODELS_DIR, filename);
 
-  const exists = await fsp
-    .access(destPath)
-    .then(() => true)
-    .catch(() => false);
+  const exists = await fileExists(destPath);
 
   if (exists) return;
 
@@ -93,7 +90,7 @@ async function downloadFile(filename: string) {
   }
 
   const arrayBuffer = await res.arrayBuffer();
-  await fsp.writeFile(destPath, Buffer.from(arrayBuffer));
+  await writeFile(destPath, Buffer.from(arrayBuffer));
 }
 
 export type FaceBox = {
@@ -105,10 +102,9 @@ export type FaceBox = {
 
 export async function detectFaces(input: string | Buffer): Promise<FaceBox[]> {
   await initModels();
-  try {
-    const faceapi = await import("@vladmandic/face-api");
-    const { loadImage } = await import("canvas");
+  if (!faceapi || !loadImage) throw new Error("FaceAPI not initialized");
 
+  try {
     const img = await loadImage(input);
     logger.debug({ width: img.width, height: img.height }, "Loaded image");
 
@@ -117,11 +113,11 @@ export async function detectFaces(input: string | Buffer): Promise<FaceBox[]> {
       new faceapi.SsdMobilenetv1Options({ minConfidence: 0.5 }),
     );
 
-    return detections.map((d) => ({
-      x: d.box.x,
-      y: d.box.y,
-      width: d.box.width,
-      height: d.box.height,
+    return detections.map((detection) => ({
+      x: detection.box.x,
+      y: detection.box.y,
+      width: detection.box.width,
+      height: detection.box.height,
     }));
   } catch (err) {
     logger.error({ err }, "Face detection failed");

@@ -4,7 +4,8 @@ import { page } from "$app/state";
 import { editor } from "$lib/stores/editor.svelte";
 import { filters } from "$lib/stores/filters.svelte";
 import { ui } from "$lib/stores/ui.svelte";
-import type { Author } from "$lib/types/manifest";
+import type { Author, QualityFilterBucket } from "$lib/types/manifest";
+
 import { QUALITY_BUCKETS } from "$lib/utils/gallery";
 import {
   buildAuthorsParam,
@@ -51,12 +52,22 @@ function initAuthors(url: URL) {
   }
 }
 
+function getBucketId(b: { id: QualityFilterBucket }) {
+  return b.id;
+}
+
 function initQuality(url: URL) {
   const buckets = parseQualityFromUrl(url);
-  const nextBuckets = buckets !== undefined ? buckets : QUALITY_BUCKETS.map((b) => b.id);
+  const nextBuckets =
+    buckets !== undefined ? (buckets as QualityFilterBucket[]) : QUALITY_BUCKETS.map(getBucketId);
+
   if (JSON.stringify(filters.selectedQualityBuckets) !== JSON.stringify(nextBuckets)) {
     filters.selectedQualityBuckets = nextBuckets;
   }
+}
+
+function updateAuthorSnapshots(v: boolean) {
+  if (filters.showAuthorSnapshots !== v) filters.showAuthorSnapshots = v;
 }
 
 function initInvertedPresence(url: URL) {
@@ -86,25 +97,29 @@ function initInvertedPresence(url: URL) {
   if (url.searchParams.has("no-author-snapshots")) {
     if (filters.showAuthorSnapshots !== false) filters.showAuthorSnapshots = false;
   } else {
-    setBooleanStateFromUrl(url, "author-snapshots", (v) => {
-      if (filters.showAuthorSnapshots !== v) filters.showAuthorSnapshots = v;
-    });
+    setBooleanStateFromUrl(url, "author-snapshots", updateAuthorSnapshots);
   }
 }
 
-function initPresenceParams(url: URL) {
-  setBooleanStateFromUrl(url, "labels", (v) => {
-    ui.photoLabels = v;
-  });
+function updatePhotoLabels(v: boolean) {
+  ui.photoLabels = v;
+}
 
-  setBooleanStateFromUrl(
-    url,
-    "sidebar",
-    (v) => {
-      ui.sidebarOpen = v;
-    },
-    true,
-  );
+function updateSidebar(v: boolean) {
+  ui.sidebarOpen = v;
+}
+
+function updateEditMode(v: boolean) {
+  editor.editMode = v;
+}
+
+function updateDebugMode(v: boolean) {
+  ui.debugMode = v;
+}
+
+function initPresenceParams(url: URL) {
+  setBooleanStateFromUrl(url, "labels", updatePhotoLabels);
+  setBooleanStateFromUrl(url, "sidebar", updateSidebar, true);
 
   // Only snapshots toggle - presence means TRUE
   if (url.searchParams.has("only-snapshots")) {
@@ -114,18 +129,18 @@ function initPresenceParams(url: URL) {
   }
 
   if (dev) {
-    setBooleanStateFromUrl(url, "editMode", (v) => {
-      editor.editMode = v;
-    });
-    setBooleanStateFromUrl(url, "debug", (v) => {
-      ui.debugMode = v;
-    });
-    setBooleanStateFromUrl(url, "overlay", (v) => {
+    setBooleanStateFromUrl(url, "editMode", updateEditMode);
+    setBooleanStateFromUrl(url, "debug", updateDebugMode);
+
+    function updateOverlay(v: boolean) {
       editor.showMetadataOverlay = v;
-    });
-    setBooleanStateFromUrl(url, "curation", (v) => {
+    }
+    setBooleanStateFromUrl(url, "overlay", updateOverlay);
+
+    function updateCuration(v: boolean) {
       ui.curationMode = v;
-    });
+    }
+    setBooleanStateFromUrl(url, "curation", updateCuration);
   }
 }
 
@@ -138,7 +153,10 @@ function initPeople(url: URL) {
 
 function initEditorSelection(url: URL) {
   const editCsv = url.searchParams.get("edit");
-  editor.selection = new Set(editCsv ? editCsv.split(",").filter(Boolean) : []);
+  function isNotEmpty(s: string) {
+    return !!s;
+  }
+  editor.selection = new Set(editCsv ? editCsv.split(",").filter(isNotEmpty) : []);
 }
 
 function initTabs(url: URL) {
@@ -235,7 +253,7 @@ export function syncUrlFromFilters() {
   filters.filtersSyncing = true;
   clearTimeout(debounceTimer);
 
-  debounceTimer = setTimeout(async () => {
+  debounceTimer = setTimeout(async function runSync() {
     const pageVal = page;
     const params = new URLSearchParams(pageVal.url.searchParams.toString());
 
@@ -269,9 +287,9 @@ export function syncUrlFromFilters() {
 
       // Wait for SvelteKit page store and DOM to update using double RAF
       // This is more reliable than arbitrary setTimeout and works across all devices
-      await new Promise<void>((resolve) => {
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
+      await new Promise<void>(function wait(resolve) {
+        requestAnimationFrame(function step1() {
+          requestAnimationFrame(function step2() {
             resolve();
           });
         });
@@ -291,7 +309,7 @@ function scrollToInitialHash(): void {
   if (!hash) return;
 
   // Small delay to ensure DOM elements are rendered
-  requestAnimationFrame(() => {
+  requestAnimationFrame(function doScroll() {
     const element = document.getElementById(hash);
     if (element) {
       element.scrollIntoView({ behavior: "instant", block: "start" });
@@ -312,8 +330,8 @@ export function initUrlSync(initialAuthors: Author[]) {
   setTimeout(scrollToInitialHash, 100);
 
   // 2. Setup effects for automatic URL updates
-  $effect.root(() => {
-    $effect(() => {
+  $effect.root(function setupUrlSync() {
+    $effect(function watchFilterChanges() {
       // Access reactive properties to trigger tracking
       filters.selectedAuthors;
       filters.selectedQualityBuckets;
@@ -336,7 +354,7 @@ export function initUrlSync(initialAuthors: Author[]) {
     });
 
     // 3. When URL changes (e.g., back/forward button), update the states
-    $effect(() => {
+    $effect(function watchUrlChanges() {
       const newPage = page;
       // Skip if we are currently syncing TO the URL to prevent feedback loops
       if (filters.filtersSyncing) return;

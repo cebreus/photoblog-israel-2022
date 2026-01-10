@@ -1,15 +1,15 @@
-import fsp from "node:fs/promises";
-import path from "node:path";
 import { confirm, intro, outro, spinner } from "@clack/prompts";
-import { createLogger } from "./lib/core/cli-logger";
-import { parseCliArguments } from "./lib/core/cli-parser";
+import path from "node:path";
+import { createLogger } from "$scripts/core/cli-logger";
+import { parseCliArguments } from "$scripts/core/cli-parser";
 import {
   batchRenamePeople,
   extractHash,
   loadManifestsForNormalization,
   type RenameOperation,
-} from "./lib/people/normalization";
-import { fileExists } from "./lib/utils/runtime";
+} from "$scripts/people/normalization";
+import { fileExists, readdir } from "$scripts/utils/runtime";
+import { runWithPerformance } from "$scripts/utils/performance";
 
 const logger = createLogger("normalize-names");
 const options = parseCliArguments(process.argv.slice(2));
@@ -54,7 +54,7 @@ async function main() {
 
   // Also check filesystem
   try {
-    const entries = await fsp.readdir(facesDir);
+    const entries = await readdir(facesDir);
     for (const entry of entries) {
       const match = entry.match(numberPattern);
       if (match) {
@@ -125,7 +125,7 @@ async function main() {
   }
 }
 
-main().catch((err) => {
+runWithPerformance("normalize-person-names", main).catch((err: any) => {
   logger.error({ err }, "Unhandled error");
   process.exit(1);
 });

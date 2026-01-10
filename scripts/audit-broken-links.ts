@@ -1,13 +1,14 @@
 #!/usr/bin/env bun
 
-import fsp from "node:fs/promises";
-import path from "node:path";
 import { intro, note, outro, spinner } from "@clack/prompts";
+import path from "node:path";
 import pc from "picocolors";
 import { isImageEntry } from "../src/lib/types/manifest";
-import { createLogger } from "./lib/core/cli-logger";
-import { resolveGalleryDirectory } from "./lib/gallery/resolver";
-import { loadImagesManifest, loadPeopleManifest } from "./lib/manifests/repository";
+import { createLogger } from "$scripts/core/cli-logger";
+import { resolveGalleryDirectory } from "$scripts/gallery/resolver";
+import { loadImagesManifest, loadPeopleManifest } from "$scripts/manifests/repository";
+import { fileExists } from "$scripts/utils/runtime";
+import { runWithPerformance } from "$scripts/utils/performance";
 
 const logger = createLogger("audit-broken-links");
 
@@ -33,7 +34,7 @@ async function main() {
       if (person.thumbnail) {
         const fullPath = path.join(staticDir, person.thumbnail);
         try {
-          await fsp.access(fullPath);
+          await fileExists(fullPath);
         } catch {
           brokenThumbnails.push(`${person.id}: ${person.thumbnail}`);
         }
@@ -52,7 +53,7 @@ async function main() {
               const cropPath = path.join("faces", pid, `${item.id}.jpg`);
               const fullPath = path.join(staticDir, cropPath);
               try {
-                await fsp.access(fullPath);
+                await fileExists(fullPath);
               } catch {
                 brokenCrops.push({ personId: pid, imageId: item.id, path: cropPath });
               }
@@ -78,7 +79,7 @@ async function main() {
   }
 }
 
-main().catch((err) => {
+runWithPerformance("audit-broken-links", main).catch((err: any) => {
   logger.error({ err }, "Fatal Error");
   process.exit(1);
 });

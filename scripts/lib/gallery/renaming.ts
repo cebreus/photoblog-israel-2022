@@ -1,10 +1,9 @@
-import fsp from "node:fs/promises";
+import { fileExists, rename, scanGlob, toSafeFilename } from "$scripts/utils/runtime";
+import { SUPPORTED_INPUT_EXTENSIONS } from "$shared/types/images";
+import { toPureWallClockISO } from "$shared/utils/dates";
+import { toSlug } from "$shared/utils/strings";
+import { type Tags, exiftool } from "exiftool-vendored";
 import path from "node:path";
-import { exiftool } from "exiftool-vendored";
-import { toPureWallClockISO } from "../../../shared/utils/dates";
-import { toSlug } from "../../../shared/utils/strings";
-import { toSafeFilename } from "../utils/path";
-import { fileExists, scanGlob } from "../utils/runtime";
 
 export type RenameMap = Map<string, RenameItem>;
 
@@ -29,7 +28,7 @@ export interface RenameResult {
  * Generates a new filename based on EXIF data and author logic.
  */
 export function getNewBasename(
-  tags: any,
+  tags: Tags,
   defaultAuthor: string,
   originalBasename: string = "",
   manifestAuthor?: string,
@@ -61,10 +60,14 @@ export function getNewBasename(
   try {
     // Robustly handle Date objects vs strings vs ExifDateTime (which has .toDate())
     let isoDate: string | undefined;
-    if (typeof dateObj.toDate === "function") {
-      isoDate = toPureWallClockISO(dateObj.toDate());
+    if (
+      dateObj &&
+      typeof dateObj === "object" &&
+      "toDate" in (dateObj as unknown as Record<string, unknown>)
+    ) {
+      isoDate = toPureWallClockISO((dateObj as { toDate: () => Date | string }).toDate());
     } else {
-      isoDate = toPureWallClockISO(dateObj);
+      isoDate = toPureWallClockISO(dateObj as Date | string);
     }
 
     if (!isoDate) {
@@ -82,7 +85,11 @@ export function getNewBasename(
   const metaAuthor = tags.Artist || tags.Creator || tags["By-line"] || tags.Author;
 
   if (metaAuthor) {
-    author = Array.isArray(metaAuthor) ? metaAuthor[0] : String(metaAuthor);
+    if (Array.isArray(metaAuthor)) {
+      author = metaAuthor[0];
+    } else {
+      author = String(metaAuthor);
+    }
   } else if (manifestAuthor) {
     // Fallback 1: If no EXIF author, try the one from manifest
     author = manifestAuthor;
@@ -102,7 +109,10 @@ export function getNewBasename(
   }
 
   // Re-append suffix if present
-  return suffix ? `${newBase}${suffix}` : newBase;
+  if (!suffix) {
+    return newBase;
+  }
+  return `${newBase}${suffix}`;
 }
 
 /**
@@ -111,13 +121,13 @@ export function getNewBasename(
 export async function safeRename(oldPath: string, newPath: string): Promise<RenameResult> {
   if (oldPath === newPath) return { success: true, skipped: true };
   try {
-    await fsp.rename(oldPath, newPath);
+    await rename(oldPath, newPath);
     return { success: true };
-  } catch (e: any) {
-    if (e.code === "ENOENT") {
+  } catch (e: unknown) {
+    if ((e as { code?: string }).code === "ENOENT") {
       return { success: false, error: "File not found (ENOENT)", skipped: true };
     }
-    return { success: false, error: e.message };
+    return { success: false, error: e instanceof Error ? e.message : String(e) };
   }
 }
 
@@ -127,9 +137,10 @@ export async function safeRename(oldPath: string, newPath: string): Promise<Rena
 export async function analyzeRenameCandidates(
   picsDir: string,
   defaultAuthor: string,
-  imagesManifest?: any,
+  imagesManifest?: import("$shared/types/manifest").Manifest,
 ): Promise<RenameMap> {
-  const files = await scanGlob("**/*.{jpg,jpeg,png,webp,avif,heic,JPG,JPEG,PNG,WEBP,AVIF,HEIC}", {
+  const extensions = SUPPORTED_INPUT_EXTENSIONS.join(",");
+  const files = await scanGlob(`**/*.{${extensions},${extensions.toUpperCase()}}`, {
     cwd: picsDir,
     absolute: true,
   });
@@ -141,16 +152,16 @@ export async function analyzeRenameCandidates(
   if (imagesManifest?.photoDays) {
     for (const day of imagesManifest.photoDays) {
       for (const item of day.items) {
-        if (item.type === "image" && item.exif?.author) {
+        if (item.type === "image" && item.author) {
           // Map src filename to author
-          manifestAuthors.set(item.src, item.exif.author);
+          manifestAuthors.set(item.src, item.author);
           // Also map ID purely as base just in case
-          manifestAuthors.set(item.id, item.exif.author);
+          manifestAuthors.set(item.id, item.author);
 
           // Extract and map UUID if present
           const match = item.id.match(uuidRegex);
           if (match) {
-            manifestAuthors.set(match[0], item.exif.author);
+            manifestAuthors.set(match[0], item.author);
           }
         }
       }
@@ -166,7 +177,7 @@ export async function analyzeRenameCandidates(
 
     // We handle errors gracefully here to allow batch processing to continue
     // If EXIF fails, we just skip the file (warn logic should be in caller or logged here if we passed logger)
-    let tags: any;
+    let tags: Tags;
     try {
       tags = await exiftool.read(file);
     } catch {

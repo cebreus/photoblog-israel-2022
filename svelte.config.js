@@ -24,8 +24,10 @@ const config = {
     },
     alias: {
       $manifests: path.resolve(__dirname, "src/data", contentDir),
-      $scripts: path.resolve(__dirname, "scripts"),
+      $scripts: path.resolve(__dirname, "scripts/lib"),
+      $config: path.resolve(__dirname, "scripts/build.config.ts"),
       $shared: path.resolve(__dirname, "shared"),
+      $tests: path.resolve(__dirname, "tests"),
     },
     version: {
         name: process.env.PUBLIC_VERSION || Date.now().toString(),

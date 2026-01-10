@@ -32,47 +32,59 @@ export function createMockIntersectionObserver(): MockIntersectionObserver {
   // Store the original for cleanup
   const OriginalIntersectionObserver = globalThis.IntersectionObserver;
 
-  // Create a proper class that works with `new`
-  // This is assigned directly to globalThis, not via vi.spyOn
-  globalThis.IntersectionObserver = class MockIntersectionObserver {
-    constructor(cb: IntersectionObserverCallback, _options?: IntersectionObserverInit) {
-      callback = cb;
-    }
+  // Create a proper constructor function that works with `new`
+  function MockIntersectionObserver(
+    this: any,
+    cb: IntersectionObserverCallback,
+    _options?: IntersectionObserverInit,
+  ) {
+    callback = cb;
+    this.root = null;
+    this.rootMargin = "";
+    this.thresholds = [0];
+  }
 
-    observe(target: Element) {
-      observe(target);
-    }
+  MockIntersectionObserver.prototype.observe = function observeTarget(target: Element) {
+    observe(target);
+  };
 
-    unobserve(target: Element) {
-      unobserve(target);
-    }
+  MockIntersectionObserver.prototype.unobserve = function unobserveTarget(target: Element) {
+    unobserve(target);
+  };
 
-    disconnect() {
-      disconnect();
-    }
+  MockIntersectionObserver.prototype.disconnect = function disconnectObserver() {
+    disconnect();
+  };
 
-    root = null;
-    rootMargin = "";
-    thresholds = [0];
-    takeRecords() {
-      return [];
-    }
-  } as unknown as typeof IntersectionObserver;
+  MockIntersectionObserver.prototype.takeRecords = function takeRecordsItems() {
+    return [];
+  };
 
-  const trigger = (entries: MockIntersectionObserverEntry[]) => {
+  globalThis.IntersectionObserver =
+    MockIntersectionObserver as unknown as typeof IntersectionObserver;
+
+  function trigger(entries: MockIntersectionObserverEntry[]) {
     if (!callback) {
       throw new Error("IntersectionObserver callback not initialized");
     }
 
-    const fullEntries = entries.map((entry) => ({
-      target: entry.target,
-      isIntersecting: entry.isIntersecting,
-      intersectionRatio: entry.intersectionRatio ?? (entry.isIntersecting ? 1 : 0),
-      boundingClientRect: entry.target.getBoundingClientRect(),
-      intersectionRect: entry.target.getBoundingClientRect(),
-      rootBounds: null,
-      time: Date.now(),
-    })) as IntersectionObserverEntry[];
+    function createFullEntry(entry: MockIntersectionObserverEntry) {
+      return {
+        target: entry.target,
+        isIntersecting: entry.isIntersecting,
+        intersectionRatio: entry.intersectionRatio ?? (entry.isIntersecting ? 1 : 0),
+        boundingClientRect: entry.target.getBoundingClientRect(),
+        intersectionRect: entry.target.getBoundingClientRect(),
+        rootBounds: null,
+        time: Date.now(),
+      };
+    }
+
+    const fullEntries = entries.map(createFullEntry) as IntersectionObserverEntry[];
+
+    function takeRecordsMock() {
+      return [];
+    }
 
     callback(fullEntries, {
       observe,
@@ -81,13 +93,13 @@ export function createMockIntersectionObserver(): MockIntersectionObserver {
       root: null,
       rootMargin: "",
       thresholds: [0],
-      takeRecords: () => [],
+      takeRecords: takeRecordsMock,
     } as unknown as IntersectionObserver);
-  };
+  }
 
-  const cleanup = () => {
+  function cleanup() {
     globalThis.IntersectionObserver = OriginalIntersectionObserver;
-  };
+  }
 
   return {
     observe,

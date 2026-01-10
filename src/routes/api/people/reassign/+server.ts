@@ -1,26 +1,26 @@
-import fsp from "node:fs/promises";
-import path from "node:path";
-import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
 import { clearTaskStatus, saveTaskStatus } from "$lib/server/task-status";
 import { validateReassignInput } from "$lib/utils/api-validators";
 import { reloadManifests } from "$lib/utils/manifest-loader";
-import type { Logger as ScriptLogger } from "$scripts/lib/core/cli-logger";
-import { addReassignmentConstraints } from "$scripts/lib/faces/constraints";
+import type { Logger as ScriptLogger } from "$scripts/core/cli-logger";
+import { addReassignmentConstraints } from "$scripts/faces/constraints";
 import {
   recalculateFaceCount,
   refreshPersonThumbnail,
   updateImagePersonReference,
-} from "$scripts/lib/faces/people";
-import { removeEmptyPersonFolder } from "$scripts/lib/gallery/cleanup";
-import { withManifestLock } from "$scripts/lib/manifests/lock";
+} from "$scripts/faces/people";
+import { removeEmptyPersonFolder } from "$scripts/gallery/cleanup";
+import { withManifestLock } from "$scripts/manifests/lock";
 import {
   loadClusteringConstraints,
   loadFacesManifest,
   loadImagesManifest,
   loadPeopleManifest,
   savePeopleRelatedManifests,
-} from "$scripts/lib/manifests/repository";
+} from "$scripts/manifests/repository";
+import { mkdir, rename } from "$scripts/utils/runtime";
+import { error, json } from "@sveltejs/kit";
+import path from "node:path";
 
 /**
  * Reassigns selected images from one person to another.
@@ -84,7 +84,7 @@ export async function POST({ request, locals }: { request: Request; locals: App.
       const transactionLog: Array<{ from: string; to: string }> = [];
 
       try {
-        await fsp.mkdir(path.resolve(facesDir, targetPersonId), { recursive: true });
+        await mkdir(path.resolve(facesDir, targetPersonId), { recursive: true });
 
         let movedCount = 0;
         for (const id of imageIds) {
@@ -99,7 +99,7 @@ export async function POST({ request, locals }: { request: Request; locals: App.
             const oldPath = path.resolve(facesDir, sourcePersonId, `${id}.jpg`);
             const newPath = path.resolve(facesDir, targetPersonId, `${id}.jpg`);
             try {
-              await fsp.rename(oldPath, newPath);
+              await rename(oldPath, newPath);
               transactionLog.push({ from: oldPath, to: newPath });
               movedCount++;
             } catch (e) {
@@ -167,7 +167,7 @@ export async function POST({ request, locals }: { request: Request; locals: App.
           );
           for (const logEntry of transactionLog.reverse()) {
             try {
-              await fsp.rename(logEntry.to, logEntry.from);
+              await rename(logEntry.to, logEntry.from);
             } catch (rollbackErr) {
               log.error(
                 { err: rollbackErr, from: logEntry.to, to: logEntry.from },

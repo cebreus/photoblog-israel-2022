@@ -4,25 +4,25 @@ import { type PeopleManifest, type Person } from "$lib/types/manifest";
 import { validateUnmatchInput } from "$lib/utils/api-validators";
 import { reloadManifests } from "$lib/utils/manifest-loader";
 import { toSlug } from "$lib/utils/strings";
-import type { Logger as ScriptLogger } from "$scripts/lib/core/cli-logger";
-import { addReassignmentConstraints } from "$scripts/lib/faces/constraints";
+import type { Logger as ScriptLogger } from "$scripts/core/cli-logger";
+import { addReassignmentConstraints } from "$scripts/faces/constraints";
 import {
   recalculateFaceCount,
   refreshPersonThumbnail,
   updateImagePersonReference,
-} from "$scripts/lib/faces/people";
-import { removeEmptyPersonFolder } from "$scripts/lib/gallery/cleanup";
-import { withManifestLock } from "$scripts/lib/manifests/lock";
+} from "$scripts/faces/people";
+import { removeEmptyPersonFolder } from "$scripts/gallery/cleanup";
+import { withManifestLock } from "$scripts/manifests/lock";
 import {
   loadClusteringConstraints,
   loadFacesManifest,
   loadImagesManifest,
   loadPeopleManifest,
   savePeopleRelatedManifests,
-} from "$scripts/lib/manifests/repository";
+} from "$scripts/manifests/repository";
+import { mkdir, rename } from "$scripts/utils/runtime";
 import { error, json } from "@sveltejs/kit";
 import crypto from "node:crypto";
-import fsp from "node:fs/promises";
 import path from "node:path";
 
 function createNewPerson(
@@ -165,9 +165,9 @@ export async function POST({ request, locals }: { request: Request; locals: App.
             const newDir = path.resolve(facesDir, newPerson.id);
             const newPath = path.resolve(newDir, `${imgId}.jpg`);
 
-            await fsp.mkdir(newDir, { recursive: true });
+            await mkdir(newDir, { recursive: true });
             try {
-              await fsp.rename(oldPath, newPath);
+              await rename(oldPath, newPath);
               transactionLog.push({ from: oldPath, to: newPath });
             } catch (e) {
               if ((e as NodeJS.ErrnoException).code !== "ENOENT") {
@@ -227,7 +227,7 @@ export async function POST({ request, locals }: { request: Request; locals: App.
           );
           for (const logEntry of transactionLog.reverse()) {
             try {
-              await fsp.rename(logEntry.to, logEntry.from);
+              await rename(logEntry.to, logEntry.from);
             } catch (rollbackErr) {
               log.error(
                 { err: rollbackErr, from: logEntry.to, to: logEntry.from },

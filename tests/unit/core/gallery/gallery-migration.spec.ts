@@ -47,7 +47,8 @@ vi.mock("../../../../scripts/lib/manifests/repository", () => ({
 vi.mock("fast-glob", () => ({ default: vi.fn() }));
 
 // Mock Config
-vi.mock("../../../../scripts/build.config", () => ({
+// Mock Config
+vi.mock("$config", () => ({
   config: {
     outputs: {
       preview: { kind: "variant", folderName: "previews" },

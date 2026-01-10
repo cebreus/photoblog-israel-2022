@@ -7,9 +7,9 @@
  * where the last face was removed.
  */
 
-import fs from "node:fs/promises";
 import path from "node:path";
-import { createLogger } from "./lib/core/cli-logger";
+import { createLogger } from "$scripts/core/cli-logger";
+import { fileExists, readFileText, writeFile } from "$scripts/utils/runtime";
 
 const logger = createLogger("clean-empty-people");
 const contentDir = process.env.CONTENT_DIR || "egypt-2025";
@@ -20,12 +20,12 @@ async function run() {
     const peoplePath = path.join(DATA_DIR, "people.manifest.json");
     logger.info({ contentDir }, "🧹 Cleaning empty profiles");
 
-    if (!(await fs.stat(peoplePath).catch(() => false))) {
+    if (!(await fileExists(peoplePath))) {
       logger.error({ peoplePath }, "Manifest not found!");
       return;
     }
 
-    const raw = await fs.readFile(peoplePath, "utf-8");
+    const raw = await readFileText(peoplePath);
     const data = JSON.parse(raw);
     const people = data.people || [];
 
@@ -36,7 +36,7 @@ async function run() {
 
     if (removedCount > 0) {
       data.people = cleanPeople;
-      await fs.writeFile(peoplePath, JSON.stringify(data, null, 2));
+      await writeFile(peoplePath, JSON.stringify(data, null, 2));
       logger.info({ removedCount }, "✅ Removed empty profiles");
     } else {
       logger.info({}, "✨ No empty profiles found.");

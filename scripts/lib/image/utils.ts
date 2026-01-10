@@ -1,10 +1,15 @@
-import crypto from "node:crypto"; // Bun's native crypto
-import fsp from "node:fs/promises"; // Bun's native fs/promises
+import {
+  isHeicPath,
+  mkdir,
+  readFileBuffer,
+  safeUnlink,
+  validatePathInsideRoot,
+} from "$scripts/utils/runtime";
+import { run } from "$scripts/utils/shell";
+import crypto from "node:crypto";
 import os from "node:os"; // Bun's native os module
 import path from "node:path"; // Bun's native path module
 import type { AspectRatio, QualityBucket } from "../../../src/lib/types/manifest";
-import { validatePathInsideRoot } from "../utils/path";
-import { run } from "../utils/shell";
 
 const SAFE_INPUT_ROOT = process.cwd();
 
@@ -14,16 +19,14 @@ const POOR_AESTHETIC_THRESHOLD = 45;
 const POOR_SHARPNESS_THRESHOLD = 40;
 
 export function getQualityBucket(aestheticScore: number, sharpness: number): QualityBucket {
-  const isExcellent =
-    aestheticScore >= EXCELLENT_AESTHETIC_THRESHOLD && sharpness >= EXCELLENT_SHARPNESS_THRESHOLD;
-
-  if (isExcellent) {
+  if (
+    aestheticScore >= EXCELLENT_AESTHETIC_THRESHOLD &&
+    sharpness >= EXCELLENT_SHARPNESS_THRESHOLD
+  ) {
     return "excellent";
   }
 
-  const isPoor = aestheticScore < POOR_AESTHETIC_THRESHOLD || sharpness < POOR_SHARPNESS_THRESHOLD;
-
-  if (isPoor) {
+  if (aestheticScore < POOR_AESTHETIC_THRESHOLD || sharpness < POOR_SHARPNESS_THRESHOLD) {
     return "poor";
   }
 
@@ -114,7 +117,7 @@ export function getKeywords(exif: Record<string, unknown>): string[] | undefined
 }
 
 export async function ensureDir(dir: string): Promise<void> {
-  await fsp.mkdir(dir, { recursive: true });
+  await mkdir(dir, { recursive: true });
 }
 
 export function sha1(buf: Buffer | Uint8Array | string): string {
@@ -178,28 +181,41 @@ export async function calculatePhash(sharpModule: SharpType, imagePath: string):
   }
 }
 
-export async function convertHeicToPng(inputPath: string): Promise<Buffer> {
-  const validatedInputPath = validatePathInsideRoot(inputPath, SAFE_INPUT_ROOT);
-  const tempFile = path.join(os.tmpdir(), `heic-${crypto.randomUUID()}.png`);
+export async function prepareImageProcessingPath(
+  inputPath: string,
+): Promise<{ processingPath: string; tempFile: string | null }> {
+  if (isHeicPath(inputPath)) {
+    const validatedInputPath = validatePathInsideRoot(inputPath, SAFE_INPUT_ROOT);
+    const tempFile = path.join(os.tmpdir(), `heic-proc-${crypto.randomUUID()}.png`);
 
-  try {
     try {
-      // Prefer vips as it is faster on this system
-      await run("vips", ["copy", validatedInputPath, tempFile], { stdio: "ignore" });
-    } catch {
-      // Fallback to sips if vips fails
-      await run("sips", ["-s", "format", "png", validatedInputPath, "--out", tempFile], {
-        stdio: "ignore",
-      });
+      try {
+        // Prefer vips as it is faster on this system
+        await run("vips", ["copy", validatedInputPath, tempFile], { stdio: "ignore" });
+      } catch {
+        // Fallback to sips if vips fails
+        await run("sips", ["-s", "format", "png", validatedInputPath, "--out", tempFile], {
+          stdio: "ignore",
+        });
+      }
+      return { processingPath: tempFile, tempFile };
+    } catch (e) {
+      throw new Error(`Failed to convert HEIC to intermediate PNG for ${inputPath}: ${e}`);
     }
+  }
+  return { processingPath: inputPath, tempFile: null };
+}
 
-    const buf = await fsp.readFile(tempFile);
-    return buf;
-  } catch (e) {
-    throw new Error(`Failed to convert HEIC to PNG for ${inputPath}: ${e}`);
+/**
+ * Converts HEIC to PNG Buffer using the shared processing logic.
+ */
+export async function convertHeicToPng(inputPath: string): Promise<Buffer> {
+  const { processingPath, tempFile } = await prepareImageProcessingPath(inputPath);
+  try {
+    return await readFileBuffer(processingPath);
   } finally {
-    try {
-      await fsp.unlink(tempFile);
-    } catch (_ignore) {}
+    if (tempFile) {
+      await safeUnlink(tempFile);
+    }
   }
 }

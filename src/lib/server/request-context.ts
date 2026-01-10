@@ -1,5 +1,5 @@
-import type { Logger } from "$lib/logger";
 import { AsyncLocalStorage } from "node:async_hooks";
+import type { Logger } from "../logger";
 
 // Store the entire logger instance, which already has the child bindings (requestId, etc.)
 const requestStorage = new AsyncLocalStorage<Logger>();

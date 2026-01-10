@@ -39,7 +39,7 @@ function reset() {
 }
 
 // Derived state
-const filteredPhotoDays = $derived.by(() => {
+const filteredPhotoDays = $derived.by(function calculateFilteredDays() {
   const criteria = {
     selectedAuthors,
     showSeparators,
@@ -53,15 +53,21 @@ const filteredPhotoDays = $derived.by(() => {
 
   const imagePeopleMap = buildImagePeopleMap(sourceData);
 
-  return sourceData
-    .map((day) => ({
+  function filterDayItems(day: PhotoDay) {
+    return {
       ...day,
       items: filterGalleryItems(day.items, criteria, imagePeopleMap),
-    }))
-    .filter((day) => day.items && day.items.length > 0);
+    };
+  }
+
+  function hasItems(day: { items: any[] }) {
+    return day.items && day.items.length > 0;
+  }
+
+  return sourceData.map(filterDayItems).filter(hasItems);
 });
 
-const stats = $derived.by(() => {
+const stats = $derived.by(function calculateStats() {
   return computeTotals(
     {
       selectedAuthors,

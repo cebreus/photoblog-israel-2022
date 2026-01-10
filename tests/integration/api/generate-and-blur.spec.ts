@@ -11,14 +11,14 @@
  * - scripts/lib/incremental-build.ts
  */
 
-import fs from "node:fs";
+import { buildInputSet } from "$tests/utils/fixtures";
+import { listTree } from "$tests/utils/fs-helpers";
+import { normalizeManifest } from "$tests/utils/manifest-assert";
+import { runCli, tmpDir } from "$tests/utils/process-helpers";
+import { readdir } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 import { describe, expect, it } from "vitest";
-import { buildInputSet } from "../../utils/fixtures";
-import { listTree } from "../../utils/fs-helpers";
-import { normalizeManifest } from "../../utils/manifest-assert";
-import { runCli, tmpDir } from "../../utils/process-helpers";
 
 const CWD = process.cwd();
 
@@ -49,8 +49,8 @@ describe("Integration: main images generation", () => {
     );
 
     // Manifest snapshot (normalized)
-    expect(fs.existsSync(manifest)).toBe(true);
-    const data = JSON.parse(fs.readFileSync(manifest, "utf8"));
+    expect(await Bun.file(manifest).exists()).toBe(true);
+    const data = await Bun.file(manifest).json();
     const normalized = normalizeManifest(data);
     expect(normalized).toMatchSnapshot();
 
@@ -106,7 +106,9 @@ describe("Integration: blur assets generation", () => {
       expect.objectContaining({ code: 0 }),
     );
 
-    const files = fs.readdirSync(out).filter((x) => x.endsWith(".png"));
+    const files = (await readdir(out)).filter(function isPng(x) {
+      return x.endsWith(".png");
+    });
     expect(files.length).toBeGreaterThan(0);
 
     // Width <= 24 and approximate color count <= 32 + tolerance
@@ -119,7 +121,7 @@ describe("Integration: blur assets generation", () => {
     }
   });
 
-  it("generates blur outputs as PNG only and cleans extras", async () => {
+  it("generates blur outputs as PNG only and cleans extras", async function test() {
     const src = tmpDir("blur-in2");
     await buildInputSet(src);
     const out = tmpDir("blur-out2");
@@ -140,10 +142,22 @@ describe("Integration: blur assets generation", () => {
     );
     expect(res.code).toBe(0);
 
-    let files = fs.readdirSync(out);
-    expect(files.some((f) => f.endsWith(".png"))).toBe(true);
-    expect(files.some((f) => f.endsWith(".avif"))).toBe(false);
-    expect(files.some((f) => f.endsWith(".jpeg"))).toBe(false);
+    let files = await readdir(out);
+
+    let hasPng = false;
+
+    let hasAvif = false;
+    let hasJpeg = false;
+
+    for (const f of files) {
+      if (f.endsWith(".png")) hasPng = true;
+      if (f.endsWith(".avif")) hasAvif = true;
+      if (f.endsWith(".jpeg")) hasJpeg = true;
+    }
+
+    expect(hasPng).toBe(true);
+    expect(hasAvif).toBe(false);
+    expect(hasJpeg).toBe(false);
 
     // second run with clean: only png should remain
     res = await runCli(
@@ -160,8 +174,16 @@ describe("Integration: blur assets generation", () => {
     );
     expect(res.code).toBe(0);
 
-    files = fs.readdirSync(out);
+    files = await readdir(out);
     expect(files.length).toBeGreaterThan(0);
-    expect(files.every((f) => f.endsWith(".png"))).toBe(true);
+
+    let allPng = true;
+    for (const f of files) {
+      if (!f.endsWith(".png")) {
+        allPng = false;
+        break;
+      }
+    }
+    expect(allPng).toBe(true);
   });
 });

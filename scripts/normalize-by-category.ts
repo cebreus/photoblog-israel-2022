@@ -10,18 +10,18 @@
 
 import path from "node:path";
 import { confirm, intro, outro, spinner } from "@clack/prompts";
-import { toSlug } from "../shared/utils/strings";
-import { createLogger } from "./lib/core/cli-logger";
-import { parseCliArguments } from "./lib/core/cli-parser";
-import { withManifestLock } from "./lib/manifests/lock";
+import { toSlug } from "$shared/utils/strings";
+import { createLogger } from "$scripts/core/cli-logger";
+import { parseCliArguments } from "$scripts/core/cli-parser";
+import { withManifestLock } from "$scripts/manifests/lock";
 import {
   batchRenamePeople,
   extractHash,
   isGenericName,
   loadManifestsForNormalization,
   type RenameOperation,
-} from "./lib/people/normalization";
-import { fileExists } from "./lib/utils/runtime";
+} from "$scripts/people/normalization";
+import { fileExists } from "$scripts/utils/runtime";
 
 const logger = createLogger("normalize-category");
 const options = parseCliArguments(process.argv.slice(2));
@@ -156,7 +156,7 @@ async function main() {
   });
 }
 
-main().catch((err) => {
+main().catch((err: any) => {
   logger.error({ err }, "Unhandled error");
   process.exit(1);
 });

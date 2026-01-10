@@ -1,7 +1,8 @@
-import { readFile } from "node:fs/promises";
+import { promises as fs } from "node:fs";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import path from "node:path";
 import type { Connect, ResolvedConfig, ViteDevServer } from "vite";
+import { MIME_TYPES } from "./shared/types/images";
 
 /**
  * Vite plugin to serve gallery-specific assets at root paths.
@@ -58,20 +59,13 @@ export function galleryAssetsPlugin(): any {
                             relativePath
                         );
 
-                        const file = await readFile(galleryPath);
+                        const file = await fs.readFile(galleryPath);
 
                         // Set appropriate content type
                         const ext = path.extname(relativePath).toLowerCase();
-                        if (ext === ".png") {
-                            res.setHeader("Content-Type", "image/png");
-                        } else if (ext === ".ico") {
-                            res.setHeader("Content-Type", "image/x-icon");
-                        } else if (ext === ".svg") {
-                            res.setHeader("Content-Type", "image/svg+xml");
-                        } else if (ext === ".webp") {
-                            res.setHeader("Content-Type", "image/webp");
-                        } else if (ext === ".jpg" || ext === ".jpeg") {
-                            res.setHeader("Content-Type", "image/jpeg");
+                        const contentType = MIME_TYPES[ext];
+                        if (contentType) {
+                            res.setHeader("Content-Type", contentType);
                         }
 
                         res.end(file);

@@ -1,6 +1,16 @@
-import fsp from "node:fs/promises";
 import path from "node:path";
-import { createLogger } from "../core/cli-logger";
+import { SUPPORTED_OUTPUT_FORMATS } from "$shared/types/images";
+import { createLogger } from "$scripts/core/cli-logger";
+import {
+  fileExists,
+  isJpegPath,
+  readdir,
+  readFileText,
+  safeRm,
+  safeUnlink,
+  stat,
+  writeFile,
+} from "$scripts/utils/runtime";
 
 const logger = createLogger("cleanup");
 
@@ -8,21 +18,19 @@ export async function removeEmptyDirectory(
   dirPath: string,
   log: typeof logger = logger,
 ): Promise<boolean> {
-  try {
-    const entries = await fsp.readdir(dirPath);
-    if (entries.length === 0) {
-      await fsp.rmdir(dirPath);
-      log.verbose({ dirPath }, "Removed empty directory");
-      return true;
+  const entries = await readdir(dirPath).catch((e: unknown) => {
+    if ((e as { code?: string }).code !== "ENOENT") {
+      log.warn({ dirPath, err: e }, "Failed to read directory for cleanup");
     }
-    return false;
-  } catch (e: any) {
-    if (e.code === "ENOENT") {
-      return false;
-    }
-    log.warn({ dirPath, err: e }, "Failed to check/remove directory");
-    return false;
+    return null;
+  });
+
+  if (entries !== null && entries.length === 0) {
+    await safeRm(dirPath, { recursive: true });
+    log.verbose({ dirPath }, "Removed empty directory");
+    return true;
   }
+  return false;
 }
 
 export async function removeEmptyPersonFolder(
@@ -70,26 +78,19 @@ export async function deleteGeneratedAssets(
 ): Promise<{ deleted: string[]; errors: string[] }> {
   const deleted: string[] = [];
   const errors: string[] = [];
-  const formats = ["jpeg", "jpg", "webp", "avif", "png"];
+  const formats = SUPPORTED_OUTPUT_FORMATS;
 
   for (const folder of outputFolders) {
     const dir = path.join(outputRoot, folder);
 
-    try {
-      await fsp.access(dir);
-    } catch {
-      continue;
-    }
+    // Skip non-existent directories
+    if (!(await fileExists(dir))) continue;
 
     for (const format of formats) {
       const filePath = path.join(dir, `${imageBaseName}.${format}`);
-      try {
-        await fsp.unlink(filePath);
+      if (await fileExists(filePath)) {
+        await safeUnlink(filePath);
         deleted.push(filePath);
-      } catch (e: any) {
-        if (e.code !== "ENOENT") {
-          errors.push(`Failed to delete ${filePath}: ${e.message}`);
-        }
       }
     }
   }
@@ -102,23 +103,18 @@ export async function removeFromCache(
   imageKey: string,
   log: typeof logger = logger,
 ): Promise<boolean> {
-  try {
-    const content = await fsp.readFile(cachePath, "utf-8");
-    const cache = JSON.parse(content);
+  if (!(await fileExists(cachePath))) return false;
 
-    if (cache.files?.[imageKey]) {
-      delete cache.files[imageKey];
-      await fsp.writeFile(cachePath, JSON.stringify(cache, null, 2));
-      log.verbose({ imageKey }, "Removed from cache");
-      return true;
-    }
-    return false;
-  } catch (e: any) {
-    if (e.code !== "ENOENT") {
-      log.warn({ err: e }, "Failed to update cache");
-    }
-    return false;
+  const content = await readFileText(cachePath);
+  const cache = JSON.parse(content);
+
+  if (cache.files?.[imageKey]) {
+    delete cache.files[imageKey];
+    await writeFile(cachePath, JSON.stringify(cache, null, 2));
+    log.verbose({ imageKey }, "Removed from cache");
+    return true;
   }
+  return false;
 }
 
 export async function removeImageFromConstraints(
@@ -126,45 +122,37 @@ export async function removeImageFromConstraints(
   imageId: string,
   log: typeof logger = logger,
 ): Promise<{ disconnectsRemoved: number; connectsRemoved: number }> {
-  let disconnectsRemoved = 0;
-  let connectsRemoved = 0;
-
-  try {
-    const content = await fsp.readFile(constraintsPath, "utf-8");
-    const constraints = JSON.parse(content);
-
-    const originalDisconnects = constraints.disconnects?.length || 0;
-    const originalConnects = constraints.connects?.length || 0;
-
-    if (constraints.disconnects) {
-      constraints.disconnects = constraints.disconnects.filter(
-        (c: { imageId: string }) => c.imageId !== imageId,
-      );
-      disconnectsRemoved = originalDisconnects - constraints.disconnects.length;
-    }
-
-    if (constraints.connects) {
-      constraints.connects = constraints.connects.filter(
-        (c: { imageId: string }) => c.imageId !== imageId,
-      );
-      connectsRemoved = originalConnects - constraints.connects.length;
-    }
-
-    if (disconnectsRemoved > 0 || connectsRemoved > 0) {
-      await fsp.writeFile(constraintsPath, JSON.stringify(constraints, null, 2));
-      log.verbose(
-        { disconnectsRemoved, connectsRemoved, imageId },
-        "Removed constraints for image",
-      );
-    }
-
-    return { disconnectsRemoved, connectsRemoved };
-  } catch (e: any) {
-    if (e.code !== "ENOENT") {
-      log.warn({ err: e }, "Failed to clean constraints");
-    }
+  if (!(await fileExists(constraintsPath))) {
     return { disconnectsRemoved: 0, connectsRemoved: 0 };
   }
+
+  const content = await readFileText(constraintsPath);
+  const constraints = JSON.parse(content);
+
+  const originalDisconnects = constraints.disconnects?.length || 0;
+  const originalConnects = constraints.connects?.length || 0;
+
+  if (constraints.disconnects) {
+    constraints.disconnects = constraints.disconnects.filter(
+      (c: { imageId: string }) => c.imageId !== imageId,
+    );
+  }
+
+  if (constraints.connects) {
+    constraints.connects = constraints.connects.filter(
+      (c: { imageId: string }) => c.imageId !== imageId,
+    );
+  }
+
+  const disconnectsRemoved = originalDisconnects - (constraints.disconnects?.length || 0);
+  const connectsRemoved = originalConnects - (constraints.connects?.length || 0);
+
+  if (disconnectsRemoved > 0 || connectsRemoved > 0) {
+    await writeFile(constraintsPath, JSON.stringify(constraints, null, 2));
+    log.verbose({ disconnectsRemoved, connectsRemoved, imageId }, "Removed constraints for image");
+  }
+
+  return { disconnectsRemoved, connectsRemoved };
 }
 
 export async function findOrphanFaceCrops(
@@ -176,35 +164,34 @@ export async function findOrphanFaceCrops(
   const orphanFolders: string[] = [];
   const orphanFiles: string[] = [];
 
-  try {
-    const personFolders = await fsp.readdir(facesDir);
-
-    for (const personFolder of personFolders) {
-      const personPath = path.join(facesDir, personFolder);
-      const stat = await fsp.stat(personPath);
-
-      if (!stat.isDirectory()) continue;
-
-      // Check if person exists in manifest
-      if (!validPersonIds.has(personFolder)) {
-        orphanFolders.push(personFolder);
-        continue;
-      }
-
-      // Check each face crop file
-      const files = await fsp.readdir(personPath);
-      for (const file of files) {
-        if (!file.endsWith(".jpg")) continue;
-
-        const imageId = path.basename(file, ".jpg");
-        if (!validImageIds.has(imageId)) {
-          orphanFiles.push(path.join(personFolder, file));
-        }
-      }
-    }
-  } catch (e: any) {
-    if (e.code !== "ENOENT") {
+  const personFolders = await readdir(facesDir).catch((e: unknown) => {
+    if ((e as { code?: string }).code !== "ENOENT") {
       log.warn({ err: e }, "Failed to scan faces directory");
+    }
+    return [] as string[];
+  });
+
+  for (const personFolder of personFolders) {
+    const personPath = path.join(facesDir, personFolder);
+    const s = await stat(personPath).catch(() => null);
+
+    if (!s || !s.isDirectory()) continue;
+
+    // Check if person exists in manifest
+    if (!validPersonIds.has(personFolder)) {
+      orphanFolders.push(personFolder);
+      continue;
+    }
+
+    // Check each face crop file
+    const files = await readdir(personPath).catch(() => [] as string[]);
+    for (const file of files) {
+      if (!isJpegPath(file)) continue;
+
+      const imageId = path.basename(file, path.extname(file));
+      if (!validImageIds.has(imageId)) {
+        orphanFiles.push(path.join(personFolder, file));
+      }
     }
   }
 
@@ -222,18 +209,17 @@ export async function findOrphanAssets(
   for (const folder of outputFolders) {
     const dir = path.join(outputRoot, folder);
 
-    try {
-      const files = await fsp.readdir(dir);
-
-      for (const file of files) {
-        const baseName = path.parse(file).name;
-        if (!validImageBaseNames.has(baseName)) {
-          orphans.push(path.join(folder, file));
-        }
-      }
-    } catch (e: any) {
-      if (e.code !== "ENOENT") {
+    const files = await readdir(dir).catch((e: unknown) => {
+      if ((e as { code?: string }).code !== "ENOENT") {
         log.warn({ dir, err: e }, "Failed to scan directory");
+      }
+      return [] as string[];
+    });
+
+    for (const file of files) {
+      const baseName = path.parse(file).name;
+      if (!validImageBaseNames.has(baseName)) {
+        orphans.push(path.join(folder, file));
       }
     }
   }
@@ -264,8 +250,8 @@ function formatBytes(bytes: number): string {
  */
 async function getFileSize(filePath: string): Promise<number> {
   try {
-    const stats = await fsp.stat(filePath);
-    return stats.size;
+    const s = await stat(filePath);
+    return s.size;
   } catch {
     return 0;
   }
@@ -302,9 +288,7 @@ export async function cleanOrphanedAssets(
   };
 
   // Check if faces directory exists
-  try {
-    await fsp.access(facesDir);
-  } catch {
+  if (!(await fileExists(facesDir))) {
     return result;
   }
 
@@ -329,15 +313,11 @@ export async function cleanOrphanedAssets(
     // Just count sizes without deleting
     for (const folder of orphanFolders) {
       const folderPath = path.join(facesDir, folder);
-      try {
-        const files = await fsp.readdir(folderPath);
-        for (const file of files) {
-          result.bytesFreed += await getFileSize(path.join(folderPath, file));
-        }
-        result.foldersRemoved++;
-      } catch {
-        // Ignore
+      const files = await readdir(folderPath).catch(() => [] as string[]);
+      for (const file of files) {
+        result.bytesFreed += await getFileSize(path.join(folderPath, file));
       }
+      result.foldersRemoved++;
     }
     for (const file of orphanFiles) {
       result.bytesFreed += await getFileSize(path.join(facesDir, file));
@@ -350,44 +330,34 @@ export async function cleanOrphanedAssets(
   // Delete orphan folders (entire person directories)
   for (const folder of orphanFolders) {
     const folderPath = path.join(facesDir, folder);
-    try {
-      // Count size before deleting
-      const files = await fsp.readdir(folderPath);
-      for (const file of files) {
-        result.bytesFreed += await getFileSize(path.join(folderPath, file));
-        result.faceCropsRemoved++;
-      }
-
-      await fsp.rm(folderPath, { recursive: true, force: true });
-      result.foldersRemoved++;
-      log.verbose({ folder }, "Removed orphan person folder");
-    } catch (e: any) {
-      log.warn({ folderPath, err: e }, "Failed to remove folder");
+    // Count size before deleting
+    const files = await readdir(folderPath).catch(() => [] as string[]);
+    for (const file of files) {
+      result.bytesFreed += await getFileSize(path.join(folderPath, file));
+      result.faceCropsRemoved++;
     }
+
+    await safeRm(folderPath, { recursive: true });
+    result.foldersRemoved++;
+    log.verbose({ folder }, "Removed orphan person folder");
   }
 
   // Delete orphan files (individual face crops)
   for (const file of orphanFiles) {
     const filePath = path.join(facesDir, file);
-    try {
-      result.bytesFreed += await getFileSize(filePath);
-      await fsp.unlink(filePath);
-      result.faceCropsRemoved++;
-      log.verbose({ file }, "Removed orphan face crop");
-    } catch (e: any) {
-      if (e.code !== "ENOENT") {
-        log.warn({ filePath, err: e }, "Failed to remove orphan face crop");
-      }
-    }
+    result.bytesFreed += await getFileSize(filePath);
+    await safeUnlink(filePath);
+    result.faceCropsRemoved++;
+    log.verbose({ file }, "Removed orphan face crop");
   }
 
   // Clean up now-empty directories
   try {
-    const remainingFolders = await fsp.readdir(facesDir);
+    const remainingFolders = await readdir(facesDir);
     for (const folder of remainingFolders) {
       const folderPath = path.join(facesDir, folder);
-      const stat = await fsp.stat(folderPath);
-      if (stat.isDirectory()) {
+      const s = await stat(folderPath);
+      if (s.isDirectory()) {
         const isEmpty = await removeEmptyDirectory(folderPath, log);
         if (isEmpty) {
           result.foldersRemoved++;

@@ -12,7 +12,7 @@ import {
   isSequenceMember,
   parseSequenceSuffix,
 } from "$lib/utils/sequences";
-import { createMockPanorama, createMockSequence } from "../../../utils/gallery-test-utils";
+import { createMockPanorama, createMockSequence } from "$tests/utils/gallery-test-utils";
 
 describe("fancybox sequence utilities", () => {
   describe("sequence member detection for lightbox", () => {

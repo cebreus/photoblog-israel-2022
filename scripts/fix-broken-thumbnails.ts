@@ -1,17 +1,18 @@
 #!/usr/bin/env bun
 
-import fsp from "node:fs/promises";
-import path from "node:path";
 import { intro, note, outro, spinner } from "@clack/prompts";
+import path from "node:path";
 import pc from "picocolors";
 import { isImageEntry } from "../src/lib/types/manifest";
-import { createLogger } from "./lib/core/cli-logger";
-import { resolveGalleryDirectory } from "./lib/gallery/resolver";
+import { createLogger } from "$scripts/core/cli-logger";
+import { resolveGalleryDirectory } from "$scripts/gallery/resolver";
 import {
   loadImagesManifest,
   loadPeopleManifest,
   savePeopleManifest,
-} from "./lib/manifests/repository";
+} from "$scripts/manifests/repository";
+import { fileExists } from "$scripts/utils/runtime";
+import { runWithPerformance } from "$scripts/utils/performance";
 
 const logger = createLogger("fix-broken-thumbnails");
 
@@ -57,7 +58,7 @@ async function main() {
     if (person.thumbnail) {
       const fullPath = path.join(staticDir, person.thumbnail);
       try {
-        await fsp.access(fullPath);
+        await fileExists(fullPath);
         isValid = true;
       } catch {
         isValid = false;
@@ -76,7 +77,7 @@ async function main() {
         const cropPath = `faces/${person.id}/${imageId}.jpg`;
         const fullPath = path.join(staticDir, cropPath);
         try {
-          await fsp.access(fullPath);
+          await fileExists(fullPath);
           person.thumbnail = cropPath;
           foundNew = true;
           repaired.push(`${person.name} (${person.id}) -> ${cropPath}`);
@@ -112,7 +113,7 @@ async function main() {
   outro(pc.green("✨ Repair process complete!"));
 }
 
-main().catch((err) => {
+runWithPerformance("fix-broken-thumbnails", main).catch((err: any) => {
   logger.error({ err }, "Repair process failed");
   process.exit(1);
 });

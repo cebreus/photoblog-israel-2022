@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { toSlug } from "../../../../shared/utils/strings";
+import { toSlug } from "$shared/utils/strings";
 
 describe("shared/utils/strings.ts - toSlug", () => {
   it("should format normal strings correctly", () => {

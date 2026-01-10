@@ -13,7 +13,7 @@ import {
   PANO_UPDATE_INTERVAL_MS,
   SEQUENCE_BADGE_ICONS,
   SEQUENCE_PLAYBACK_CONFIG,
-} from "../../../../shared/constants/sequences";
+} from "$shared/constants/sequences";
 
 describe("sequence constants", () => {
   describe("SEQUENCE_PLAYBACK_CONFIG", () => {

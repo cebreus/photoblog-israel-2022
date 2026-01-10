@@ -1,4 +1,4 @@
-import type { Person } from "../../shared/types/manifest";
+import type { Person } from "$shared/types/manifest";
 
 export function createMockPerson(overrides: Partial<Person> = {}): Person {
   const id = overrides.id || `person-${Math.random().toString(36).substr(2, 9)}`;

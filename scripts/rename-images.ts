@@ -1,8 +1,8 @@
-import path from "node:path";
 import { confirm, intro, outro, select, spinner, text } from "@clack/prompts";
 import { exiftool } from "exiftool-vendored";
-import { createLogger } from "./lib/core/cli-logger";
-import { parseCliArguments } from "./lib/core/cli-parser";
+import path from "node:path";
+import { createLogger } from "$scripts/core/cli-logger";
+import { parseCliArguments } from "$scripts/core/cli-parser";
 import {
   backupManifests,
   migrateAnalysisManifest,
@@ -18,11 +18,11 @@ import {
   migrateMenuManifest,
   migratePeopleManifest,
   restoreManifests,
-} from "./lib/gallery/migration";
-import { analyzeRenameCandidates, type RenameMap, safeRename } from "./lib/gallery/renaming";
-import { loadImagesManifest } from "./lib/manifests/repository";
-import { writeFile } from "./lib/utils/runtime";
-import { formatDuration } from "./lib/utils/time";
+} from "$scripts/gallery/migration";
+import { analyzeRenameCandidates, type RenameMap, safeRename } from "$scripts/gallery/renaming";
+import { loadImagesManifest } from "$scripts/manifests/repository";
+import { readdir, stat, writeFile } from "$scripts/utils/runtime";
+import { formatDuration } from "$scripts/utils/time";
 
 const logger = createLogger("rename-images");
 
@@ -32,10 +32,8 @@ const values = options;
 async function getGalleries() {
   const contentDir = path.resolve("content");
 
-  const entries = await import("node:fs/promises").then((fs) =>
-    fs.readdir(contentDir, { withFileTypes: true }),
-  );
-  return entries.filter((e) => e.isDirectory()).map((e) => e.name);
+  const entries = await readdir(contentDir, { withFileTypes: true });
+  return entries.filter((e: any) => e.isDirectory()).map((e: any) => e.name);
 }
 
 async function getGalleryOrPrompt(galleries: string[]): Promise<string> {
@@ -177,7 +175,7 @@ async function main() {
     : path.resolve(`content/${gallery}/pics`);
 
   try {
-    const stats = await (await import("node:fs/promises")).stat(picsDir);
+    const stats = await stat(picsDir);
     if (!stats.isDirectory()) {
       throw new Error("Not a directory");
     }
@@ -191,7 +189,11 @@ async function main() {
   // Only useful if we are in standard mode OR if filenames match manifest IDs
   const imagesManifest = await loadImagesManifest(`src/data/${gallery}`);
 
-  const renameMap = await analyzeRenameCandidates(picsDir, defaultAuthor, imagesManifest);
+  const renameMap = await analyzeRenameCandidates(
+    picsDir,
+    defaultAuthor,
+    imagesManifest ?? undefined,
+  );
 
   await exiftool.end();
   s.stop(`Analysis complete.`);

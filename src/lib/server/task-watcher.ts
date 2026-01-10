@@ -1,5 +1,5 @@
+import { mkdir } from "$scripts/utils/runtime";
 import fs from "node:fs";
-import fsp from "node:fs/promises";
 import path from "node:path";
 import { emitSystemEvent } from "./events";
 import { getTaskFilePath, getTaskStatus } from "./task-status";
@@ -15,7 +15,7 @@ export async function startTaskWatcher(gallery: string, dataDir: string): Promis
   const watchDir = path.dirname(taskFile);
 
   // Ensure directory exists
-  await fsp.mkdir(watchDir, { recursive: true });
+  await mkdir(watchDir, { recursive: true });
 
   let previousStatus: Awaited<ReturnType<typeof getTaskStatus>> = null;
 

@@ -1,8 +1,8 @@
+import { fileExists, writeFile } from "$scripts/utils/runtime";
 import fs from "node:fs";
 import path from "node:path";
 import pc from "picocolors";
 import pino from "pino";
-import { fileExists, writeFile } from "../utils/runtime";
 import { logProgress } from "./progress-manager";
 
 const levelColors: Record<string, (str: string) => string> = {
@@ -21,8 +21,6 @@ const pinoToWinstonLevel: Record<string, string> = {
   "20": "debug",
   "10": "trace",
 };
-
-const TRACE_ID = process.env.TRACE_ID || process.env.X_REQUEST_ID;
 
 // Lazy initialization of file stream
 let fileStream: fs.WriteStream | null = null;
@@ -70,9 +68,10 @@ export interface Logger {
 }
 
 export function createLogger(label: string): Logger {
+  const traceId = process.env.TRACE_ID || process.env.X_REQUEST_ID;
   const baseContext: Record<string, string> = { label };
-  if (TRACE_ID) {
-    baseContext.traceId = TRACE_ID;
+  if (traceId) {
+    baseContext.traceId = traceId;
   }
 
   // Pokud je požadován JSON formát, použijte standardní výstup
@@ -150,8 +149,12 @@ export function createLogger(label: string): Logger {
     },
   };
 
+  let consoleLevel: pino.Level = (process.env.LOG_LEVEL || "info") as pino.Level;
+  if (process.env.LOG_LEVEL === "verbose") {
+    consoleLevel = "debug";
+  }
   const streams = [
-    { level: (process.env.LOG_LEVEL || "info") as pino.Level, stream: consoleStream },
+    { level: consoleLevel, stream: consoleStream },
     { level: "trace" as pino.Level, stream: lazyFileStream },
   ];
 

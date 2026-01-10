@@ -1,25 +1,25 @@
-export class UIState {
-  activeTab = $state("agenda");
-  sidebarOpen = $state(true);
-  curationMode = $state(false);
-  photoLabels = $state(false);
-  debugMode = $state(false);
-  activeSections = $state(new Set<string>());
+function createUIState() {
+  let activeTab = $state("agenda");
+  let sidebarOpen = $state(true);
+  let curationMode = $state(false);
+  let photoLabels = $state(false);
+  let debugMode = $state(false);
+  let activeSections = $state(new Set<string>());
 
-  toggleSidebar() {
-    this.sidebarOpen = !this.sidebarOpen;
+  function toggleSidebar() {
+    sidebarOpen = !sidebarOpen;
   }
 
-  setSidebar(value: boolean) {
-    this.sidebarOpen = value;
+  function setSidebar(value: boolean) {
+    sidebarOpen = value;
   }
 
-  setTab(tab: string) {
-    this.activeTab = tab;
+  function setTab(tab: string) {
+    activeTab = tab;
   }
 
-  setCurationMode(value: boolean) {
-    this.curationMode = value;
+  function setCurationMode(value: boolean) {
+    curationMode = value;
   }
 
   /**
@@ -31,37 +31,87 @@ export class UIState {
    * 2. The item actually belongs to a duplicate group.
    * 3. The item is NOT already being displayed inside the curation detail view.
    */
-  isCurationVisualsVisible(hasGroup: boolean, mode: string) {
-    return this.curationMode && hasGroup && mode !== "curation";
+  function isCurationVisualsVisible(hasGroup: boolean, mode: string) {
+    return curationMode && hasGroup && mode !== "curation";
   }
 
-  setPhotoLabels(value: boolean) {
-    this.photoLabels = value;
+  function setPhotoLabels(value: boolean) {
+    photoLabels = value;
   }
 
-  setDebug(value: boolean) {
-    this.debugMode = value;
+  function setDebug(value: boolean) {
+    debugMode = value;
   }
 
   // Backwards-compatible alias; prefer using setDebug
-  setDebugMode(value: boolean) {
-    this.setDebug(value);
+  function setDebugMode(value: boolean) {
+    setDebug(value);
   }
 
-  addSection(id: string) {
-    this.activeSections.add(id);
+  function addSection(id: string) {
+    activeSections.add(id);
   }
 
-  removeSection(id: string) {
-    this.activeSections.delete(id);
+  function removeSection(id: string) {
+    activeSections.delete(id);
   }
 
-  clearSections() {
-    this.activeSections.clear();
+  function clearSections() {
+    activeSections.clear();
   }
+
+  return {
+    get activeTab() {
+      return activeTab;
+    },
+    set activeTab(v) {
+      activeTab = v;
+    },
+    get sidebarOpen() {
+      return sidebarOpen;
+    },
+    set sidebarOpen(v) {
+      sidebarOpen = v;
+    },
+    get curationMode() {
+      return curationMode;
+    },
+    set curationMode(v) {
+      curationMode = v;
+    },
+    get photoLabels() {
+      return photoLabels;
+    },
+    set photoLabels(v) {
+      photoLabels = v;
+    },
+    get debugMode() {
+      return debugMode;
+    },
+    set debugMode(v) {
+      debugMode = v;
+    },
+    get activeSections() {
+      return activeSections;
+    },
+    set activeSections(v) {
+      activeSections = v;
+    },
+    toggleSidebar,
+    setSidebar,
+    setTab,
+    setCurationMode,
+    isCurationVisualsVisible,
+    setPhotoLabels,
+    setDebug,
+    setDebugMode,
+    addSection,
+    removeSection,
+    clearSections,
+  };
 }
 
-export const ui = new UIState();
+export const ui = createUIState();
 
 declare global {
   interface Window {
@@ -70,8 +120,8 @@ declare global {
 }
 
 if (typeof window !== "undefined") {
-  $effect.root(() => {
-    $effect(() => {
+  $effect.root(function initDebugSync() {
+    $effect(function syncDebugMode() {
       window.ui_debug = ui.debugMode;
     });
   });

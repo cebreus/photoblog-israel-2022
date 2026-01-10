@@ -14,7 +14,7 @@
   let { model }: { model: PeopleTabModel } = $props();
 </script>
 
-<div class="bg-muted/40 border-t p-2">
+<div class="bg-muted/40 border-t p-2" data-testid="people-tab-bulk-actions">
   <div class="flex flex-col gap-2">
     <div class="text-muted-foreground flex items-center justify-between text-xs">
       <span>Vybráno: {model.selectedForMerge.length}</span>

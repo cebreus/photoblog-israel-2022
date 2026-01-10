@@ -3,9 +3,9 @@ import { error } from "@sveltejs/kit";
 import sharp from "sharp";
 import { createLogger } from "$lib/logger";
 import { isImageEntry } from "$lib/types/manifest";
-import { readClapFromFile } from "$scripts/lib/image/clap-parser";
-import { loadImagesManifest } from "$scripts/lib/manifests/repository";
-import { fileExists, scanGlob } from "$scripts/lib/utils/runtime";
+import { readClapFromFile } from "$scripts/image/clap-parser";
+import { loadImagesManifest } from "$scripts/manifests/repository";
+import { fileExists, scanGlob } from "$scripts/utils/runtime";
 import type { RequestHandler } from "./$types";
 
 const logger = createLogger("clap-preview");

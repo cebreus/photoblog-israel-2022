@@ -13,7 +13,7 @@ import type {
   QualityBucket,
   SequenceInfo,
   SequenceType,
-} from "../../shared/types/manifest";
+} from "$shared/types/manifest";
 
 /**
  * Creates a mock ImageEntry with sensible defaults.

@@ -1,4 +1,4 @@
-import { ImageFormat } from "../src/lib/types/images";
+import { ImageFormat, SUPPORTED_INPUT_EXTENSIONS } from "../src/lib/types/images";
 
 const IMAGE_SUBDIR = "pics";
 
@@ -97,14 +97,7 @@ export const config = {
   script: {
     concurrency: "auto" as number | "auto",
     limit: 0,
-    inputExtensions: [
-      "jpg",
-      ImageFormat.JPEG,
-      ImageFormat.PNG,
-      ImageFormat.WEBP,
-      ImageFormat.AVIF,
-      "heic",
-    ],
+    inputExtensions: SUPPORTED_INPUT_EXTENSIONS,
     cropFaceCenterRatio: 0.4,
     cropFaceZoom: 1.4, // 1.0 = Max area, > 1.0 = Zoomed in on faces
   },

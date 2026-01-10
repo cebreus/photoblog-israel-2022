@@ -1,8 +1,8 @@
 import path from "node:path";
 import { exiftool } from "exiftool-vendored";
-import { toPureWallClockISO } from "../../../shared/utils/dates";
-import { METADATA_STANDARDS } from "../../../shared/utils/metadata-standards";
-import { isCollage, toSlug } from "../../../shared/utils/strings";
+import { toPureWallClockISO } from "$shared/utils/dates";
+import { METADATA_STANDARDS } from "$shared/utils/metadata-standards";
+import { isCollage, toSlug } from "$shared/utils/strings";
 import type { ImageEntry, ExifData as ManifestExifData } from "../../../src/lib/types/manifest";
 import { classifyMediaType, parseSequenceSuffix } from "./sequence-detector";
 import { getAltText, getAspectRatioName, getKeywords, normalizeText } from "./utils";

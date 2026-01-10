@@ -13,11 +13,11 @@ export interface MetadataClipboardData {
   [key: string]: unknown;
 }
 
-export class MetadataClipboardState {
-  sourceImage = $state<ImageEntry | null>(null);
-  data = $state<MetadataClipboardData | null>(null);
+function createMetadataClipboardState() {
+  let sourceImage = $state<ImageEntry | null>(null);
+  let data = $state<MetadataClipboardData | null>(null);
 
-  copy(image: ImageEntry) {
+  function copy(image: ImageEntry) {
     const metadata: MetadataClipboardData = {
       title: image.title,
       author: image.author,
@@ -30,18 +30,34 @@ export class MetadataClipboardState {
       keywords: image.keywords,
     };
 
-    this.sourceImage = image;
-    this.data = metadata;
+    sourceImage = image;
+    data = metadata;
   }
 
-  clear() {
-    this.sourceImage = null;
-    this.data = null;
+  function clear() {
+    sourceImage = null;
+    data = null;
   }
 
-  get hasData() {
-    return this.data !== null;
-  }
+  return {
+    get sourceImage() {
+      return sourceImage;
+    },
+    set sourceImage(v) {
+      sourceImage = v;
+    },
+    get data() {
+      return data;
+    },
+    set data(v) {
+      data = v;
+    },
+    get hasData() {
+      return data !== null;
+    },
+    copy,
+    clear,
+  };
 }
 
-export const metadataClipboard = new MetadataClipboardState();
+export const metadataClipboard = createMetadataClipboardState();

@@ -11,7 +11,7 @@
 
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { page } from "vitest/browser";
-import { renderComponent } from "../../utils/render-helpers";
+import { renderComponent } from "$tests/utils/render-helpers";
 
 // Mock mode-watcher before other imports
 vi.mock("mode-watcher", () => ({

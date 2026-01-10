@@ -17,9 +17,9 @@ import path from "node:path";
 import { exiftool } from "exiftool-vendored";
 import { afterAll, describe, expect, it, vi } from "vitest";
 import * as processor from "../../../scripts/lib/image/processor";
-import { buildInputSet } from "../../utils/fixtures";
-import { listTree } from "../../utils/fs-helpers";
-import { runGenerator } from "../../utils/process-helpers";
+import { buildInputSet } from "$tests/utils/fixtures";
+import { listTree } from "$tests/utils/fs-helpers";
+import { runGenerator } from "$tests/utils/process-helpers";
 
 // Prevent ExifTool from closing between tests
 vi.spyOn(processor, "cleanup").mockImplementation(async () => {});
@@ -28,7 +28,7 @@ vi.spyOn(processor, "cleanup").mockImplementation(async () => {});
 // However, we want to ensure we don't pollute the project root.
 // process-helpers.runGenerator handles CWD mocking.
 
-import { config } from "../../../scripts/build.config";
+import { config } from "$config";
 
 const CWD = path.resolve(__dirname, "../../");
 
@@ -86,8 +86,8 @@ describe("CLI (generate-images.ts) – Integration with real FS", { timeout: 300
 
     // Check output tree
     const tree = await listTree(outDir);
-    const jpegFiles = tree.filter((p) => p.endsWith(".jpeg"));
-    const webpFiles = tree.filter((p) => p.endsWith(".webp"));
+    const jpegFiles = tree.filter((p: string) => p.endsWith(".jpeg"));
+    const webpFiles = tree.filter((p: string) => p.endsWith(".webp"));
 
     expect(jpegFiles.length).toBeGreaterThan(0);
     expect(webpFiles.length).toBeGreaterThan(0);
@@ -159,7 +159,7 @@ describe("CLI (generate-images.ts) – Integration with real FS", { timeout: 300
       { cwd: CWD },
     );
 
-    expect((await listTree(outDir)).some((p) => p.endsWith(".webp"))).toBe(true);
+    expect((await listTree(outDir)).some((p: string) => p.endsWith(".webp"))).toBe(true);
 
     // Run 2: JPEG only
     await runGenerator(
@@ -176,8 +176,8 @@ describe("CLI (generate-images.ts) – Integration with real FS", { timeout: 300
     );
 
     const tree = await listTree(outDir);
-    expect(tree.some((p) => p.endsWith(".webp"))).toBe(false);
-    expect(tree.some((p) => p.endsWith(".jpeg"))).toBe(true);
+    expect(tree.some((p: string) => p.endsWith(".webp"))).toBe(false);
+    expect(tree.some((p: string) => p.endsWith(".jpeg"))).toBe(true);
   });
 
   afterAll(async () => {

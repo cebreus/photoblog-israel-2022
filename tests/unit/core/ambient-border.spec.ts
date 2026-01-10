@@ -4,7 +4,7 @@ import sharp from "sharp";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { calculateLayout } from "../../../src/lib/utils/collage-layout-engine";
 import { renderCollage } from "../../../src/lib/utils/collage-renderer";
-import { buildInputSet } from "../../utils/fixtures";
+import { buildInputSet } from "$tests/utils/fixtures";
 
 describe("Collage Ambient Background Integration", () => {
   const TEMP_DIR = path.join(process.cwd(), "tests/.temp/ambient-test");

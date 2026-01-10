@@ -4,17 +4,8 @@
  * normalize-by-category, and fix-person-format scripts.
  */
 
-import type {
-  ClusteringConstraints,
-  FacesManifest,
-  Manifest,
-  PeopleManifest,
-  Person,
-} from "$shared/types/manifest";
-import fsp from "node:fs/promises";
-import path from "node:path";
-import { updatePersonReferences } from "../faces/people";
-import { backupManifests, restoreManifests } from "../gallery/migration";
+import { updatePersonReferences } from "$scripts/faces/people";
+import { backupManifests, restoreManifests } from "$scripts/gallery/migration";
 import {
   loadClusteringConstraints,
   loadFacesManifest,
@@ -24,9 +15,17 @@ import {
   saveFacesManifest,
   saveImagesManifest,
   savePeopleManifest,
-} from "../manifests/repository";
-import { logResourceUsage } from "../utils/resource-monitor";
-import { fileExists } from "../utils/runtime";
+} from "$scripts/manifests/repository";
+import { logResourceUsage } from "$scripts/utils/performance";
+import { fileExists, rename } from "$scripts/utils/runtime";
+import type {
+  ClusteringConstraints,
+  FacesManifest,
+  Manifest,
+  PeopleManifest,
+  Person,
+} from "$shared/types/manifest";
+import path from "node:path";
 
 export interface Manifests {
   people: PeopleManifest;
@@ -112,7 +111,7 @@ export async function renamePerson(
   const newPath = path.join(facesDir, newId);
 
   if (await fileExists(oldPath)) {
-    await fsp.rename(oldPath, newPath);
+    await rename(oldPath, newPath);
   }
 
   // 2. Update person manifest

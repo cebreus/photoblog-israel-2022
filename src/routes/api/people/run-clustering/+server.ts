@@ -3,8 +3,8 @@ import path from "node:path";
 import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
 import { saveTaskStatus } from "$lib/server/task-status";
-import { config } from "$scripts/build.config";
-import { spawn } from "$scripts/lib/utils/runtime";
+import { config } from "$config";
+import { spawn } from "$scripts/utils/runtime";
 
 export async function POST({ locals }: { locals: App.Locals }) {
   if (!dev) {

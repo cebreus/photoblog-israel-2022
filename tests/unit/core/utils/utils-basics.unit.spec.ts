@@ -1,6 +1,3 @@
-import fs from "node:fs/promises";
-import path from "node:path";
-import { beforeEach, describe, expect, it, vi } from "vitest";
 import { cn } from "$lib/utils";
 import { renderMarkdown } from "$lib/utils/markup";
 import { getMenuItems } from "$lib/utils/menu";
@@ -12,43 +9,46 @@ import {
   formatWeekdayCzech,
   toSlug,
 } from "$lib/utils/strings";
+import fs from "node:fs/promises";
+import path from "node:path";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("node:fs/promises");
 
-describe("Basics Utils", () => {
-  describe("cn", () => {
-    it("should merge class names", () => {
+describe("Basics Utils", function testSuite() {
+  describe("cn", function cnSuite() {
+    it("should merge class names", function test() {
       expect(cn("a", "b")).toBe("a b");
       expect(cn("px-2 py-1", "px-4")).toBe("py-1 px-4");
     });
 
-    it("should handle conditional classes", () => {
+    it("should handle conditional classes", function test() {
       expect(cn("a", false && "b", "c")).toBe("a c");
       expect(cn("a", true && "b", "c")).toBe("a b c");
     });
   });
 
-  describe("getSiteManifest", () => {
-    it("should return the site manifest", () => {
+  describe("getSiteManifest", function manifestSuite() {
+    it("should return the site manifest", function test() {
       const manifest = getSiteManifest();
       expect(manifest).toBeDefined();
       expect(manifest.seo?.title).toBeDefined();
     });
   });
 
-  describe("getMenuItems", () => {
-    it("should return menu items", () => {
+  describe("getMenuItems", function menuSuite() {
+    it("should return menu items", function test() {
       const menu = getMenuItems();
       expect(Array.isArray(menu)).toBe(true);
     });
   });
 
-  describe("loadPage", () => {
-    beforeEach(() => {
+  describe("loadPage", function pageSuite() {
+    beforeEach(function setup() {
       vi.resetAllMocks();
     });
 
-    it("should load a page with front matter and markdown", async () => {
+    it("should load a page with front matter and markdown", async function test() {
       const mockMarkdown = `---
 title_h1: "Test Title"
 excerpt: "Test Excerpt"
@@ -68,11 +68,11 @@ This is a test.`;
       expect(result.bodyHtml).toContain("<h1>Main Content</h1>");
       expect(fs.readFile).toHaveBeenCalledWith(
         expect.stringContaining(path.join("content/pages", "test-route", "index.md")),
-        "utf8",
+        "utf-8",
       );
     });
 
-    it("should handle missing jumbo", async () => {
+    it("should handle missing jumbo", async function test() {
       const mockMarkdown = `---
 title_h1: "No Jumbo"
 ---
@@ -85,21 +85,21 @@ Content`;
     });
   });
 
-  describe("strings", () => {
-    it("toSlug", () => {
+  describe("strings", function stringsSuite() {
+    it("toSlug", function test() {
       expect(toSlug("Hello World")).toBe("hello-world");
       expect(toSlug("Příliš žluťoučký kůň")).toBe("prilis-zlutoucky-kun");
     });
 
-    it("formatDateForDisplay", () => {
+    it("formatDateForDisplay", function test() {
       expect(formatDateForDisplay("2022-10-25")).toBe("25. října 2022");
     });
 
-    it("formatWeekdayCzech", () => {
+    it("formatWeekdayCzech", function test() {
       expect(formatWeekdayCzech("2022-10-25")).toBe("úterý");
     });
 
-    it("formatDateRange", () => {
+    it("formatDateRange", function test() {
       // Single date
       expect(formatDateRange(["2022-10-25"])).toBe("25. října 2022");
 
@@ -123,8 +123,8 @@ Content`;
     });
   });
 
-  describe("markup", () => {
-    it("renderMarkdown", () => {
+  describe("markup", function markupSuite() {
+    it("renderMarkdown", function test() {
       expect(renderMarkdown("# Test")).toContain("<h1>Test</h1>");
       expect(renderMarkdown(undefined, "<p>Pre-rendered</p>")).toBe("<p>Pre-rendered</p>");
       expect(renderMarkdown()).toBe("");

@@ -1,38 +1,63 @@
 import type { CurationManifest } from "$lib/types/manifest";
 
-export class CurationState {
-  manifest = $state<CurationManifest | null>(null);
-  currentGroupIndex = $state(0);
-  decisions = $state<Record<string, "keep" | "delete" | "separate">>({});
+function createCurationState() {
+  let manifest = $state<CurationManifest | null>(null);
+  let currentGroupIndex = $state(0);
+  let decisions = $state<Record<string, "keep" | "delete" | "separate">>({});
 
-  init(manifest: CurationManifest) {
+  function init(manifestData: CurationManifest) {
     const initialDecisions: Record<string, "keep" | "delete" | "separate"> = {};
 
-    for (const group of manifest.groups) {
+    for (const group of manifestData.groups) {
       for (const [imageId, rec] of Object.entries(group.recommendations)) {
         initialDecisions[imageId] = rec.action; // 'keep' or 'delete'
       }
     }
 
-    this.manifest = manifest;
-    this.currentGroupIndex = 0;
-    this.decisions = initialDecisions;
+    manifest = manifestData;
+    currentGroupIndex = 0;
+    decisions = initialDecisions;
   }
 
-  nextGroup() {
-    if (!this.manifest) return;
-    const next = this.currentGroupIndex + 1;
-    this.currentGroupIndex = Math.min(next, this.manifest.groups.length - 1);
+  function nextGroup() {
+    if (!manifest) return;
+    const next = currentGroupIndex + 1;
+    currentGroupIndex = Math.min(next, manifest.groups.length - 1);
   }
 
-  prevGroup() {
-    const prev = this.currentGroupIndex - 1;
-    this.currentGroupIndex = Math.max(0, prev);
+  function prevGroup() {
+    const prev = currentGroupIndex - 1;
+    currentGroupIndex = Math.max(0, prev);
   }
 
-  setDecision(imageId: string, decision: "keep" | "delete" | "separate") {
-    this.decisions[imageId] = decision;
+  function setDecision(imageId: string, decision: "keep" | "delete" | "separate") {
+    decisions[imageId] = decision;
   }
+
+  return {
+    get manifest() {
+      return manifest;
+    },
+    set manifest(v) {
+      manifest = v;
+    },
+    get currentGroupIndex() {
+      return currentGroupIndex;
+    },
+    set currentGroupIndex(v) {
+      currentGroupIndex = v;
+    },
+    get decisions() {
+      return decisions;
+    },
+    set decisions(v) {
+      decisions = v;
+    },
+    init,
+    nextGroup,
+    prevGroup,
+    setDecision,
+  };
 }
 
-export const curation = new CurationState();
+export const curation = createCurationState();

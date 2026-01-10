@@ -6,8 +6,11 @@
  */
 
 import type { Constraint } from "$shared/types/manifest";
-import { createLogger, type Logger } from "../core/cli-logger";
-import { loadClusteringConstraints, saveClusteringConstraints } from "../manifests/repository";
+import { createLogger, type Logger } from "$scripts/core/cli-logger";
+import {
+  loadClusteringConstraints,
+  saveClusteringConstraints,
+} from "$scripts/manifests/repository";
 
 const logger = createLogger("constraints");
 

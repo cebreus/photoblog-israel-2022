@@ -7,23 +7,23 @@ import type {
   PeopleManifest,
   Person,
   PhotoDay,
-} from "../../shared/types/manifest";
+} from "$shared/types/manifest";
 
 /**
  * Builder for generating consistent test data across all manifest types.
  * Helps verify "Split & Link" architecture integrity.
  */
-export class GalleryBuilder {
-  private images: ImageEntry[] = [];
-  private faces: FacesManifest = {};
-  private analysis: AnalysisManifest = {};
-  private embeddings: EmbeddingsManifest = {};
-  private people: Person[] = [];
+export function createGalleryBuilder() {
+  let images: ImageEntry[] = [];
+  let faces: FacesManifest = {};
+  let analysis: AnalysisManifest = {};
+  let embeddings: EmbeddingsManifest = {};
+  let people: Person[] = [];
 
   /**
    * Add a photo to the gallery
    */
-  addPhoto(id: string, options: Partial<Omit<ImageEntry, "id" | "type" | "src">> = {}): this {
+  function addPhoto(id: string, options: Partial<Omit<ImageEntry, "id" | "type" | "src">> = {}) {
     const entry: ImageEntry = {
       id,
       type: "image",
@@ -45,23 +45,23 @@ export class GalleryBuilder {
     };
 
     if (options.analysis) {
-      this.analysis[id] = options.analysis;
+      analysis[id] = options.analysis;
     }
 
-    this.images.push(entry);
-    return this;
+    images.push(entry);
+    return self;
   }
 
   /**
    * Add a detected face to a photo
    */
-  addFace(
+  function addFace(
     photoId: string,
     personId: string | null,
     box: { x: number; y: number; width: number; height: number },
-  ): this {
-    if (!this.faces[photoId]) {
-      this.faces[photoId] = {
+  ) {
+    if (!faces[photoId]) {
+      faces[photoId] = {
         facesDetected: true,
         faces: [],
         peopleIds: [],
@@ -69,28 +69,31 @@ export class GalleryBuilder {
       };
     }
 
-    this.faces[photoId].faces.push(box);
+    faces[photoId].faces.push(box);
 
     if (personId) {
-      if (!this.faces[photoId].peopleIds.includes(personId)) {
-        this.faces[photoId].peopleIds.push(personId);
+      if (!faces[photoId].peopleIds.includes(personId)) {
+        faces[photoId].peopleIds.push(personId);
       }
 
       // Also ensure photo links to person in ImageEntry (legacy)
-      const photo = this.images.find((p) => p.id === photoId);
+      function findById(p: ImageEntry) {
+        return p.id === photoId;
+      }
+      const photo = images.find(findById);
       if (photo) {
         if (!photo.people) photo.people = [];
         if (!photo.people.includes(personId)) photo.people.push(personId);
       }
     }
 
-    return this;
+    return self;
   }
 
   /**
    * Add a person definition
    */
-  addPerson(id: string, name: string): this {
+  function addPerson(id: string, name: string) {
     const person: Person = {
       id,
       name,
@@ -102,20 +105,20 @@ export class GalleryBuilder {
       createdAt: new Date().toISOString(),
       lastSeenAt: new Date().toISOString(),
     };
-    this.people.push(person);
-    return this;
+    people.push(person);
+    return self;
   }
 
   /**
    * Build all manifests
    */
-  build() {
+  function build() {
     // Group images by date for basic PhotoDay structure
     const photoDays: PhotoDay[] = [
       {
         date: "2025-01-01",
         id: "day-1",
-        items: this.images,
+        items: images,
       },
     ];
 
@@ -124,15 +127,24 @@ export class GalleryBuilder {
     };
 
     const peopleManifest: PeopleManifest = {
-      people: this.people,
+      people: people,
     };
 
     return {
       manifest, // images.manifest.json structure (wrapped)
-      facesManifest: this.faces,
-      analysisManifest: this.analysis,
-      embeddingsManifest: this.embeddings,
+      facesManifest: faces,
+      analysisManifest: analysis,
+      embeddingsManifest: embeddings,
       peopleManifest,
     };
   }
+
+  const self = {
+    addPhoto,
+    addFace,
+    addPerson,
+    build,
+  };
+
+  return self;
 }

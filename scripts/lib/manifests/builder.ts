@@ -1,7 +1,12 @@
-import path from "node:path";
-import { config } from "$scripts/build.config";
-import { detectSequences } from "$scripts/lib/image/sequence-detector";
-import * as SeparatorService from "$scripts/lib/separators/service";
+import { createLogger } from "$scripts/core/cli-logger";
+import { detectSequences } from "$scripts/image/sequence-detector";
+import * as SeparatorService from "$scripts/separators/service";
+import {
+  ImageFormat,
+  createEmptyVariants,
+  isRecognizedFormat,
+  normalizeFormat,
+} from "$shared/types/images";
 import type {
   ImageEntry,
   Manifest,
@@ -11,6 +16,10 @@ import type {
   StoryDataMap,
 } from "$shared/types/manifest";
 import { toSlug } from "$shared/utils/strings";
+import path from "node:path";
+import { config } from "../../build.config";
+
+const logger = createLogger("manifest-builder");
 
 type GeneratorVariant = {
   path: string;
@@ -25,11 +34,7 @@ type GeneratorManifestEntry = {
     path: string;
     width: number | null | undefined;
   };
-  variants: {
-    avif: GeneratorVariant[];
-    webp: GeneratorVariant[];
-    jpeg: GeneratorVariant[];
-  };
+  variants: ReturnType<typeof createEmptyVariants<GeneratorVariant>>;
   placeholder: {
     width: number | null;
     height: number | null;
@@ -72,15 +77,12 @@ export function buildGeneratorManifest(
     const baseName = path.basename(res.key);
     const ext = path.extname(res.key).slice(1).toLowerCase();
 
-    const grouped: GeneratorManifestEntry["variants"] = {
-      avif: [],
-      webp: [],
-      jpeg: [],
-    };
+    const grouped = createEmptyVariants<GeneratorVariant>();
 
     for (const src of res.image.sources || []) {
-      const [, subtype] = src.type.split("/");
-      if (subtype === "avif" || subtype === "webp" || subtype === "jpeg") {
+      const [, subtypeRaw] = src.type.split("/");
+      const subtype = normalizeFormat(subtypeRaw);
+      if (isRecognizedFormat(subtype)) {
         grouped[subtype].push({
           path: src.path,
           width: src.width ?? null,
@@ -97,9 +99,9 @@ export function buildGeneratorManifest(
         width: res.image.width,
       },
       variants: {
-        avif: sortGeneratorVariants(grouped.avif),
-        webp: sortGeneratorVariants(grouped.webp),
-        jpeg: sortGeneratorVariants(grouped.jpeg),
+        [ImageFormat.AVIF]: sortGeneratorVariants(grouped[ImageFormat.AVIF]),
+        [ImageFormat.WEBP]: sortGeneratorVariants(grouped[ImageFormat.WEBP]),
+        [ImageFormat.JPEG]: sortGeneratorVariants(grouped[ImageFormat.JPEG]),
       },
       placeholder: res.image.placeholder ? { width: null, height: null, type: null } : null,
       color: res.image.placeholderColor,
@@ -218,15 +220,9 @@ export function organizeDayItems(day: PhotoDay, storyData: StoryDataMap): PhotoD
         seenLocationsAuto.add(location);
 
         // WARN: This shouldn't happen if markdown separators exist
-        console.warn(
-          `⚠️  Auto-separator created for "${location}" on ${day.date}` +
-            `\n   Markdown separators for this day: ${
-              markdownSeparators
-                .filter((s: Separator) => s.location === location)
-                .map((s: Separator) => s.startDate)
-                .join(", ") || "none"
-            }` +
-            `\n   This indicates markdown separators might not be covering all photos.`,
+        logger.warn(
+          { location, date: day.date },
+          `Auto-separator created for "${location}" on ${day.date}. This indicates markdown separators might not be covering all photos.`,
         );
       }
     }
@@ -273,10 +269,17 @@ export function organizeDayItems(day: PhotoDay, storyData: StoryDataMap): PhotoD
           }
         }
 
-        console.warn(
-          `⚠️  Separator "${updatedSeparator.location}" on ${day.date} has explicit start/end dates but ${photoCount} photo(s) (need >=${config.separator.minPhotosForDisplay}).` +
-            `\n   This might indicate a timezone issue or incorrect photo location metadata.` +
-            `\n   Start: ${updatedSeparator.startDate || "N/A"} | End: ${updatedSeparator.endDate || "N/A"}`,
+        const ctx = {
+          location: updatedSeparator.location,
+          date: day.date,
+          photoCount,
+          start: updatedSeparator.startDate || "N/A",
+          end: updatedSeparator.endDate || "N/A",
+        };
+
+        logger.warn(
+          { ctx },
+          `Separator "${updatedSeparator.location}" on ${day.date} has explicit start/end dates but ${photoCount} photo(s) (need >=${config.separator.minPhotosForDisplay}).`,
         );
       }
     }
@@ -443,35 +446,51 @@ export function updateManifest(
   for (const [locationKey, story] of Object.entries(storyData)) {
     if (story.location !== locationKey) continue;
 
-    const checkAndInject = (v: { startDate?: any; endDate?: any }) => {
+    const datesToCheck = [];
+    if (story.startDate || story.endDate) {
+      datesToCheck.push({ startDate: story.startDate, endDate: story.endDate });
+    }
+    if (story.visits) {
+      for (const v of story.visits) {
+        datesToCheck.push(v);
+      }
+    }
+
+    for (const v of datesToCheck) {
       const bestDate = v.startDate || v.endDate;
-      if (!bestDate) return;
-      const dayDate = (
-        bestDate instanceof Date ? bestDate.toISOString() : String(bestDate)
-      ).substring(0, 10);
+      if (!bestDate) continue;
+
+      let dayDate = "";
+      if (typeof bestDate === "string") {
+        dayDate = bestDate.substring(0, 10);
+      } else {
+        dayDate = (bestDate as Date).toISOString().substring(0, 10);
+      }
+
       let day = findDayByDate(manifest.photoDays, dayDate);
       if (!day) {
         day = { date: dayDate, items: [], id: `day-${dayDate}` };
         manifest.photoDays.push(day);
       }
-    };
-
-    checkAndInject({ startDate: story.startDate, endDate: story.endDate });
-    if (story.visits) {
-      for (const v of story.visits) {
-        checkAndInject(v);
-      }
     }
   }
 
-  manifest.photoDays = manifest.photoDays.map((day) => organizeDayItems(day, storyData));
+  function callOrganize(day: PhotoDay) {
+    return organizeDayItems(day, storyData);
+  }
+
+  manifest.photoDays = manifest.photoDays.map(callOrganize);
   manifest.photoDays.sort(compareByDate);
 
   return manifest;
 }
 
 export function generateMenuManifest(manifest: Manifest, storyData: StoryDataMap): MenuManifest {
-  return manifest.photoDays.map((day) => mapDayToMenu(day, storyData));
+  const menu: MenuManifest = [];
+  for (const day of manifest.photoDays) {
+    menu.push(mapDayToMenu(day, storyData));
+  }
+  return menu;
 }
 
 function mapDayToMenu(d: PhotoDay, storyData: StoryDataMap): MenuManifest[number] {
@@ -487,30 +506,26 @@ function mapDayToMenu(d: PhotoDay, storyData: StoryDataMap): MenuManifest[number
     d.items.filter((i): i is Separator => i.type === "separator").map((s) => s.location),
   );
 
-  // Helper to find photos for an item
-  const getPhotosForContext = (location: string, separator?: Separator) => {
-    return d.items.filter((item): item is ImageEntry => {
-      if (!isImage(item)) return false;
-      const itemLoc = item.exif?.location;
-      if (itemLoc !== location) return false;
-
-      // If we are checking against a specific separator with time constraints
-      if (separator && (separator.startDate || separator.endDate)) {
-        const ts = item.exif?.releaseDate ?? item.exif?.date;
-        if (!ts) return false;
-        const start = separator.startDate || "1970-01-01T00:00:00";
-        const end = separator.endDate || "9999-12-31T23:59:59";
-        return ts >= start && ts <= end;
-      }
-      return true;
-    });
-  };
-
   for (const item of d.items) {
     if (item.type === "separator") {
       if (seenIds.has(item.id)) continue;
 
-      const matchingPhotos = getPhotosForContext(item.location, item);
+      const matchingPhotos: ImageEntry[] = [];
+      const location = item.location;
+      const start = item.startDate || "1970-01-01T00:00:00";
+      const end = item.endDate || "9999-12-31T23:59:59";
+
+      for (const photo of d.items) {
+        if (!isImage(photo)) continue;
+        if (photo.exif?.location !== location) continue;
+
+        if (item.startDate || item.endDate) {
+          const ts = photo.exif?.releaseDate ?? photo.exif?.date;
+          if (!ts || ts < start || ts > end) continue;
+        }
+        matchingPhotos.push(photo);
+      }
+
       const firstPhoto = matchingPhotos[0];
 
       locations.push({
@@ -534,7 +549,13 @@ function mapDayToMenu(d: PhotoDay, storyData: StoryDataMap): MenuManifest[number
       if (seenIds.has(locId)) continue;
 
       // This location has no separator (uncommon, usually dimmed)
-      const matchingPhotos = getPhotosForContext(loc);
+      const matchingPhotos: ImageEntry[] = [];
+      for (const photo of d.items) {
+        if (!isImage(photo)) continue;
+        if (photo.exif?.location !== loc) continue;
+        matchingPhotos.push(photo);
+      }
+
       const isDimmed = matchingPhotos.length <= 2;
 
       locations.push({

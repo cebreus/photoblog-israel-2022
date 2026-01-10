@@ -1,10 +1,10 @@
 import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
 import * as canvas from "canvas";
-import fsp from "node:fs/promises";
 import path from "node:path";
 import type { Person } from "../../../src/lib/types/manifest";
-import { createLogger } from "../core/cli-logger";
-import { ensureDir } from "../image/utils";
+import { createLogger } from "$scripts/core/cli-logger";
+import { ensureDir } from "$scripts/image/utils";
+import { safeUnlink, writeFile } from "$scripts/utils/runtime";
 
 const logger = createLogger("clustering-utils");
 
@@ -194,7 +194,7 @@ export function findBestMatch(
 }
 
 export async function saveFaceCrop(
-  img: any, // Canvas.Image / HTMLImageElement
+  img: canvas.Image,
   box: { x: number; y: number; width: number; height: number },
   personId: string,
   imageId: string,
@@ -217,7 +217,7 @@ export async function saveFaceCrop(
   const personDir = path.resolve(facesOutputDir, personId);
   await ensureDir(personDir);
   const cropPath = path.resolve(personDir, `${imageId}.jpg`);
-  await fsp.writeFile(cropPath, buffer);
+  await writeFile(cropPath, buffer);
 
   return buffer;
 }
@@ -231,11 +231,10 @@ export async function deleteOldFaceCrops(
   for (const personId of oldPersonIds) {
     const cropPath = path.join(facesOutputDir, personId, `${imageId}.jpg`);
     try {
-      await fsp.unlink(cropPath);
-    } catch (e: any) {
-      if (e.code !== "ENOENT") {
-        log.warn({ err: e, cropPath }, "Failed to delete old crop");
-      }
+      await safeUnlink(cropPath);
+    } catch (e: unknown) {
+      // safeUnlink already handles ENOENT, so any error here is unexpected.
+      log.warn({ err: e, cropPath }, "Failed to delete old crop");
     }
   }
 }

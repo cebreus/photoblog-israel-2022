@@ -3,8 +3,8 @@ import path from "node:path";
 import * as tf from "@tensorflow/tfjs-node";
 import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
 import * as canvas from "canvas";
-import { createLogger } from "./lib/core/cli-logger";
-import { convertHeicToPng } from "./lib/image/utils";
+import { createLogger } from "$scripts/core/cli-logger";
+import { convertHeicToPng } from "$scripts/image/utils";
 
 const logger = createLogger("debug-face");
 
@@ -70,4 +70,4 @@ async function main() {
   }
 }
 
-main().catch((err) => logger.error({ err }, "Fatal error"));
+main().catch((err: any) => logger.error({ err }, "Fatal error"));

@@ -21,9 +21,9 @@ import type {
   MenuManifest,
   PeopleManifest,
 } from "$shared/types/manifest";
-import fsp from "node:fs/promises";
 import path from "node:path";
-import { createLogger, type Logger } from "../core/cli-logger";
+import { createLogger, type Logger } from "$scripts/core/cli-logger";
+import { mkdir, readFileText, rename, stat, unlink, writeFile } from "$scripts/utils/runtime";
 
 const logger = createLogger("manifest-repo");
 
@@ -42,14 +42,14 @@ function updateManifestMeta<T extends { meta?: ManifestMeta }>(data: T): T {
   };
 }
 
-function sortObjectKeys(obj: any): any {
+function sortObjectKeys(obj: unknown): unknown {
   if (Array.isArray(obj)) {
     return obj.map(sortObjectKeys);
   } else if (obj !== null && typeof obj === "object") {
-    return Object.keys(obj)
+    return Object.keys(obj as Record<string, unknown>)
       .sort()
-      .reduce((sorted: any, key: string) => {
-        sorted[key] = sortObjectKeys(obj[key]);
+      .reduce((sorted: Record<string, unknown>, key: string) => {
+        sorted[key] = sortObjectKeys((obj as Record<string, unknown>)[key]);
         return sorted;
       }, {});
   }
@@ -63,15 +63,15 @@ export async function saveManifest<T>(
 ): Promise<void> {
   try {
     const dir = path.dirname(filePath);
-    await fsp.mkdir(dir, { recursive: true });
+    await mkdir(dir, { recursive: true });
 
     const content = sortKeys
       ? JSON.stringify(sortObjectKeys(data), null, 2)
       : JSON.stringify(data, null, 2);
 
     const tmpPath = `${filePath}.tmp`;
-    await fsp.writeFile(tmpPath, content, "utf-8");
-    await fsp.rename(tmpPath, filePath);
+    await writeFile(tmpPath, content);
+    await rename(tmpPath, filePath);
   } catch (e) {
     log.error({ err: e, filePath }, "Failed to save manifest");
     throw e;
@@ -108,7 +108,7 @@ export async function saveManifestsAtomically(
     // Phase 1: Write all to temp files
     for (const manifest of manifests) {
       const dir = path.dirname(manifest.filePath);
-      await fsp.mkdir(dir, { recursive: true });
+      await mkdir(dir, { recursive: true });
 
       const content = manifest.sortKeys
         ? JSON.stringify(sortObjectKeys(manifest.data), null, 2)
@@ -117,30 +117,24 @@ export async function saveManifestsAtomically(
       const tmpPath = `${manifest.filePath}.tmp`;
       tmpPaths.push(tmpPath);
 
-      await fsp.writeFile(tmpPath, content, "utf-8");
+      await writeFile(tmpPath, content);
       log.debug({ manifest: manifest.name }, "Written to temp file");
     }
 
     // Phase 2: Atomic rename all temp files to final
     // Note: rename() is atomic on POSIX for single file operations
-    for (let i = 0; i < manifests.length; i++) {
-      await fsp.rename(tmpPaths[i], manifests[i].filePath);
-      log.debug({ manifest: manifests[i].name }, "Renamed to final");
+    for (const manifest of manifests) {
+      await rename(`${manifest.filePath}.tmp`, manifest.filePath);
+      log.debug({ manifest: manifest.name }, "Renamed to final");
     }
 
     log.info({ count: manifests.length }, "All manifests saved atomically");
-  } catch (e) {
+  } catch (e: unknown) {
     // Rollback: cleanup any temp files that were created
     log.error({ err: e }, "Atomic save failed, cleaning up temp files");
-
-    for (const tmpPath of tmpPaths) {
-      try {
-        await fsp.unlink(tmpPath);
-      } catch {
-        // Ignore cleanup errors (file may not exist)
-      }
+    for (const manifest of manifests) {
+      await unlink(`${manifest.filePath}.tmp`).catch(() => {});
     }
-
     throw e;
   }
 }
@@ -148,7 +142,7 @@ const MAX_MANIFEST_SIZE_BYTES = 30 * 1024 * 1024; // 30MB limit
 
 export async function loadManifest<T>(filePath: string, log: Logger = logger): Promise<T | null> {
   try {
-    const stats = await fsp.stat(filePath);
+    const stats = await stat(filePath);
     if (stats.size > MAX_MANIFEST_SIZE_BYTES) {
       log.warn(
         { filePath, size: stats.size, limit: MAX_MANIFEST_SIZE_BYTES },
@@ -156,13 +150,16 @@ export async function loadManifest<T>(filePath: string, log: Logger = logger): P
       );
       return null;
     }
-    const content = await fsp.readFile(filePath, "utf-8");
+    const content = await readFileText(filePath);
     return JSON.parse(content) as T;
-  } catch (e: any) {
-    if (e.code === "ENOENT") {
+  } catch (e: unknown) {
+    if ((e as { code?: string }).code === "ENOENT") {
       return null;
     }
-    log.warn({ err: e, filePath }, "Failed to load manifest");
+    log.warn(
+      { err: e instanceof Error ? e.message : String(e), filePath },
+      "Failed to load manifest",
+    );
     return null;
   }
 }

@@ -1,11 +1,11 @@
 import path from "node:path";
-import { createLogger } from "./lib/core/cli-logger";
+import { createLogger } from "$scripts/core/cli-logger";
 import {
   loadFaceEmbeddingsManifest,
   loadPeopleManifest,
   saveFaceEmbeddingsManifest,
   savePeopleManifest,
-} from "./lib/manifests/repository";
+} from "$scripts/manifests/repository";
 
 const logger = createLogger("migrate-embeddings");
 
@@ -67,7 +67,7 @@ async function migrateEmbeddings() {
   );
 }
 
-migrateEmbeddings().catch((err) => {
+migrateEmbeddings().catch((err: any) => {
   logger.error({ err }, "Migration failed");
   process.exit(1);
 });

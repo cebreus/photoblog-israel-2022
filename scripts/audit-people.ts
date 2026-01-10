@@ -3,18 +3,19 @@
  * Checks for inconsistencies and optionally fixes them.
  */
 
-import fsp from "node:fs/promises";
 import path from "node:path";
 import { parseArgs } from "node:util";
-import { createLogger } from "./lib/core/cli-logger";
-import { recalculateAllFaceCounts, removeEmptyPeople } from "./lib/faces/people";
+import { createLogger } from "$scripts/core/cli-logger";
+import { recalculateAllFaceCounts, removeEmptyPeople } from "$scripts/faces/people";
 import {
   loadClusteringConstraints,
   loadImagesManifest,
   loadPeopleManifest,
   saveClusteringConstraints,
   savePeopleManifest,
-} from "./lib/manifests/repository";
+} from "$scripts/manifests/repository";
+import { readdir } from "$scripts/utils/runtime";
+import { runWithPerformance } from "$scripts/utils/performance";
 
 const logger = createLogger("audit-people");
 
@@ -97,7 +98,7 @@ async function main() {
   const expectedPersonIds = new Set(peopleManifest.people.map((p) => p.id));
 
   try {
-    const personDirs = await fsp.readdir(facesDir);
+    const personDirs = await readdir(facesDir);
     for (const dir of personDirs) {
       if (!expectedPersonIds.has(dir)) {
         issues++;
@@ -174,7 +175,7 @@ async function main() {
   process.exit(issues > 0 && !values.fix ? 1 : 0);
 }
 
-main().catch((e) => {
+runWithPerformance("audit-people", main).catch((e) => {
   logger.error({ err: e }, "Audit failed");
   process.exit(1);
 });

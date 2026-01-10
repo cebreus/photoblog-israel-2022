@@ -8,7 +8,7 @@
 
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { MenuManifest } from "../../../src/lib/types/manifest";
-import { renderComponent } from "../../utils/render-helpers";
+import { renderComponent } from "$tests/utils/render-helpers";
 
 // Mock UI store - use simple Set, not $state at top level
 const mockActiveSections = new Set<string>();

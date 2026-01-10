@@ -16,7 +16,7 @@ export {
 
 import type { ImageEntry, SequenceInfo } from "$shared/types/manifest";
 import { parseSequenceSuffix } from "$shared/utils/sequences";
-import { diffIsoStringsInSeconds } from "../../../shared/utils/dates";
+import { diffIsoStringsInSeconds } from "$shared/utils/dates";
 
 /**
  * Classify media type based on filename.

@@ -1,10 +1,9 @@
-import fsp from "node:fs/promises";
-import path from "node:path";
-import matter from "gray-matter";
 import { createLogger } from "$lib/logger";
-import { scanGlob } from "$scripts/lib/utils/runtime";
+import { readFileText, scanGlob } from "$scripts/utils/runtime";
 import type { StoryDataMap } from "$shared/types/manifest";
 import { toPureWallClockISO } from "$shared/utils/dates";
+import matter from "gray-matter";
+import path from "node:path";
 
 const logger = createLogger("api:reorder:loader");
 
@@ -20,7 +19,7 @@ export async function loadStoryData(contentRoot: string): Promise<StoryDataMap> 
     const files = await scanGlob("**/*.md", { cwd: contentRoot, absolute: true });
     for (const file of files) {
       try {
-        const fileContent = await fsp.readFile(file, "utf8");
+        const fileContent = await readFileText(file);
         const { data, content } = matter(fileContent);
         if (data.type === "settings") continue;
 

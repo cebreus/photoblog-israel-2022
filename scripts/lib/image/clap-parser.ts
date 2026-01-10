@@ -1,5 +1,5 @@
-import type { CleanApertureData } from "../../../shared/types/clap";
-import { execCapture, run } from "../utils/shell";
+import type { CleanApertureData } from "$shared/types/clap";
+import { execCapture, run } from "$scripts/utils/shell";
 
 export interface ClapRational {
   widthN: number;
@@ -42,8 +42,13 @@ export function clapRationalToPixels(raw: ClapRational): CleanApertureData {
 }
 
 export function pixelsToClapString(clap: CleanApertureData): string {
-  // Use denominator 1 for integer values, 10 for fractional
-  const toRational = (n: number) => (Number.isInteger(n) ? `${n} 1` : `${Math.round(n * 10)} 10`);
+  function toRational(n: number) {
+    if (Number.isInteger(n)) {
+      return `${n} 1`;
+    }
+    return `${Math.round(n * 10)} 10`;
+  }
+
   return `${toRational(clap.width)} ${toRational(clap.height)} ${toRational(clap.horizOffset)} ${toRational(clap.vertOffset)}`;
 }
 
@@ -55,7 +60,10 @@ export async function readClapFromFile(filePath: string): Promise<CleanApertureD
     const nativeStdout = await execCapture("exiftool", ["-CleanAperture", "-n", "-s3", filePath]);
     if (nativeStdout && !nativeStdout.includes("Binary data")) {
       const rational = parseClapString(nativeStdout);
-      const nativeClap = rational ? clapRationalToPixels(rational) : null;
+      let nativeClap = null;
+      if (rational) {
+        nativeClap = clapRationalToPixels(rational);
+      }
       if (nativeClap) return nativeClap;
     }
 

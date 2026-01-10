@@ -2,19 +2,19 @@ import { dev } from "$app/environment";
 import { type FacesManifest, isImageEntry } from "$lib/types/manifest";
 import { validateInvalidateDetectionsInput } from "$lib/utils/api-validators";
 import { reloadManifests } from "$lib/utils/manifest-loader";
-import type { Logger as ScriptLogger } from "$scripts/lib/core/cli-logger";
-import { refreshPersonThumbnail } from "$scripts/lib/faces/people";
-import { removeEmptyPersonFolder } from "$scripts/lib/gallery/cleanup";
-import { withManifestLock } from "$scripts/lib/manifests/lock";
+import type { Logger as ScriptLogger } from "$scripts/core/cli-logger";
+import { refreshPersonThumbnail } from "$scripts/faces/people";
+import { removeEmptyPersonFolder } from "$scripts/gallery/cleanup";
+import { withManifestLock } from "$scripts/manifests/lock";
 import {
   loadClusteringConstraints,
   loadFacesManifest,
   loadImagesManifest,
   loadPeopleManifest,
   savePeopleRelatedManifests,
-} from "$scripts/lib/manifests/repository";
+} from "$scripts/manifests/repository";
+import { unlink } from "$scripts/utils/runtime";
 import { error, json } from "@sveltejs/kit";
-import fsp from "node:fs/promises";
 import path from "node:path";
 
 /**
@@ -95,7 +95,7 @@ export async function POST({ request, locals }: { request: Request; locals: App.
           // 3.5 Delete the physical face crop file
           const facePath = path.resolve(facesDir, personId, `${imageId}.jpg`);
           try {
-            await fsp.unlink(facePath);
+            await unlink(facePath);
           } catch (e) {
             // Ignore if file already gone
             if ((e as NodeJS.ErrnoException).code !== "ENOENT") {

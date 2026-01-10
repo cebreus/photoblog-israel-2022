@@ -5,9 +5,16 @@
  * Maintains a rolling backup (keeps last 5 versions).
  */
 
-import fsp from "node:fs/promises";
 import path from "node:path";
-import { createLogger } from "../core/cli-logger";
+import { createLogger } from "$scripts/core/cli-logger";
+import {
+  copyFile,
+  directoryExists,
+  fileExists,
+  mkdir,
+  readdir,
+  unlink,
+} from "$scripts/utils/runtime";
 
 const logger = createLogger("constraints-backup");
 
@@ -23,15 +30,13 @@ const MAX_BACKUPS = 5;
 export async function backupConstraints(dataDir: string): Promise<string | null> {
   const constraintsPath = path.join(dataDir, "clustering-constraints.json");
 
-  try {
-    await fsp.access(constraintsPath);
-  } catch {
+  if (!(await fileExists(constraintsPath))) {
     // No constraints file to backup
     return null;
   }
 
   const backupDir = path.join(dataDir, BACKUP_DIR_NAME);
-  await fsp.mkdir(backupDir, { recursive: true });
+  await mkdir(backupDir, { recursive: true });
 
   // Create timestamped backup filename
   const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
@@ -39,7 +44,7 @@ export async function backupConstraints(dataDir: string): Promise<string | null>
   const backupPath = path.join(backupDir, backupFilename);
 
   // Copy constraints to backup
-  await fsp.copyFile(constraintsPath, backupPath);
+  await copyFile(constraintsPath, backupPath);
   logger.info({ backupFilename }, "Backed up constraints");
 
   // Cleanup old backups (keep only MAX_BACKUPS)
@@ -52,22 +57,20 @@ export async function backupConstraints(dataDir: string): Promise<string | null>
  * Remove old backup files, keeping only the most recent ones
  */
 async function cleanupOldBackups(backupDir: string): Promise<void> {
-  try {
-    const files = await fsp.readdir(backupDir);
-    const backupFiles = files
-      .filter((f) => f.startsWith("constraints-") && f.endsWith(".json"))
-      .sort()
-      .reverse(); // Newest first
+  if (!(await directoryExists(backupDir))) return;
 
-    if (backupFiles.length > MAX_BACKUPS) {
-      const toDelete = backupFiles.slice(MAX_BACKUPS);
-      for (const file of toDelete) {
-        await fsp.unlink(path.join(backupDir, file));
-        logger.verbose({ file }, "Removed old backup");
-      }
+  const files = await readdir(backupDir);
+  const backupFiles = files
+    .filter((file: string) => file.startsWith("constraints-") && file.endsWith(".json"))
+    .sort()
+    .reverse(); // Newest first
+
+  if (backupFiles.length > MAX_BACKUPS) {
+    const toDelete = backupFiles.slice(MAX_BACKUPS);
+    for (const file of toDelete) {
+      await unlink(path.join(backupDir, file));
+      logger.verbose({ file }, "Removed old backup");
     }
-  } catch {
-    // Ignore cleanup errors
   }
 }
 
@@ -76,15 +79,13 @@ async function cleanupOldBackups(backupDir: string): Promise<void> {
  */
 export async function listBackups(dataDir: string): Promise<string[]> {
   const backupDir = path.join(dataDir, BACKUP_DIR_NAME);
-  try {
-    const files = await fsp.readdir(backupDir);
-    return files
-      .filter((f) => f.startsWith("constraints-") && f.endsWith(".json"))
-      .sort()
-      .reverse();
-  } catch {
-    return [];
-  }
+  if (!(await directoryExists(backupDir))) return [];
+
+  const files = await readdir(backupDir);
+  return files
+    .filter((file: string) => file.startsWith("constraints-") && file.endsWith(".json"))
+    .sort()
+    .reverse();
 }
 
 /**
@@ -98,13 +99,12 @@ export async function restoreConstraints(
   const backupPath = path.join(backupDir, backupFilename);
   const constraintsPath = path.join(dataDir, "clustering-constraints.json");
 
-  try {
-    await fsp.access(backupPath);
-    await fsp.copyFile(backupPath, constraintsPath);
-    logger.info({ backupFilename }, "Restored constraints");
-    return true;
-  } catch {
-    logger.error({ backupFilename }, "Failed to restore backup");
+  if (!(await fileExists(backupPath))) {
+    logger.error({ backupFilename }, "Backup not found");
     return false;
   }
+
+  await copyFile(backupPath, constraintsPath);
+  logger.info({ backupFilename }, "Restored constraints");
+  return true;
 }

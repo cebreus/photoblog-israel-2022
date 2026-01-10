@@ -1,18 +1,18 @@
 import { dev } from "$app/environment";
 import { reloadManifests } from "$lib/utils/manifest-loader";
-import { withManifestLock } from "$scripts/lib/manifests/lock";
+import { withManifestLock } from "$scripts/manifests/lock";
 import {
   loadClusteringConstraints,
   loadFacesManifest,
   loadImagesManifest,
   loadPeopleManifest,
   savePeopleRelatedManifests,
-} from "$scripts/lib/manifests/repository";
-import { renamePerson } from "$scripts/lib/people/normalization";
+} from "$scripts/manifests/repository";
+import { renamePerson } from "$scripts/people/normalization";
 import { json, type RequestHandler } from "@sveltejs/kit";
 import path from "node:path";
 import process from "node:process";
-import { toSlug } from "../../../../shared/utils/strings";
+import { toSlug } from "$shared/utils/strings";
 
 interface PersonUpdate {
   id: string;

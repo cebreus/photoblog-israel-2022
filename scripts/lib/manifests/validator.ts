@@ -7,6 +7,10 @@
  * Also handles physical file consistency (phantom assignments/thumbnails).
  */
 
+import { createLogger } from "$scripts/core/cli-logger";
+import { cleanOrphanedAssets, findOrphanAssets, getOutputFolders } from "$scripts/gallery/cleanup";
+import { cleanPhantomAssignments, cleanPhantomPeopleThumbnails } from "$scripts/manifests/cleaner";
+import { safeUnlink } from "$scripts/utils/runtime";
 import type {
   AnalysisManifest,
   EmbeddingsManifest,
@@ -19,9 +23,6 @@ import type {
 } from "$shared/types/manifest";
 import path from "node:path";
 import { config } from "../../build.config";
-import { createLogger } from "../core/cli-logger";
-import { cleanOrphanedAssets, findOrphanAssets, getOutputFolders } from "../gallery/cleanup";
-import { fileExists } from "../utils/runtime";
 import {
   loadAnalysisManifest,
   loadEmbeddingsManifest,
@@ -68,11 +69,11 @@ function cleanAnalysisManifest(
   const result: AnalysisManifest = {};
 
   for (const [id, entry] of Object.entries(analysis)) {
-    if (validIds.has(id)) {
-      result[id] = entry;
-    } else {
+    if (!validIds.has(id)) {
       cleaned++;
+      continue;
     }
+    result[id] = entry;
   }
 
   return { cleaned, manifest: result };
@@ -91,11 +92,11 @@ function cleanEmbeddingsManifest(
   const result: EmbeddingsManifest = {};
 
   for (const [id, entry] of Object.entries(embeddings)) {
-    if (validIds.has(id)) {
-      result[id] = entry;
-    } else {
+    if (!validIds.has(id)) {
       cleaned++;
+      continue;
     }
+    result[id] = entry;
   }
 
   return { cleaned, manifest: result };
@@ -114,11 +115,11 @@ function cleanFacesManifest(
   const result: FacesManifest = {};
 
   for (const [id, entry] of Object.entries(faces)) {
-    if (validIds.has(id)) {
-      result[id] = entry;
-    } else {
+    if (!validIds.has(id)) {
       cleaned++;
+      continue;
     }
+    result[id] = entry;
   }
 
   return { cleaned, manifest: result };
@@ -139,7 +140,10 @@ function cleanPeopleManifest(
 
   // Build a set of valid person-to-image mappings from faces manifest
   const validPersonImageMappings = new Set<string>();
-  for (const [imageId, faceEntry] of Object.entries(validFacesManifest) as [string, any][]) {
+  for (const [imageId, faceEntry] of Object.entries(validFacesManifest) as [
+    string,
+    import("$shared/types/manifest").FacesManifest[string],
+  ][]) {
     for (const personId of faceEntry.peopleIds || []) {
       validPersonImageMappings.add(`${personId}:${imageId}`);
     }
@@ -184,98 +188,6 @@ function cleanPeopleManifest(
 
 /**
  * Removes person assignments from images.manifest.json where no corresponding face crop exists on disk.
- */
-async function cleanPhantomAssignments(
-  gallery: string,
-  imagesManifest: Manifest,
-  facesManifest: FacesManifest | null,
-): Promise<{ totalRemoved: number; facesRemoved: number }> {
-  const facesDir = path.resolve(process.cwd(), `static-${gallery}/faces`);
-
-  let totalRemoved = 0;
-  let facesRemoved = 0;
-
-  for (const day of imagesManifest.photoDays) {
-    for (const item of day.items) {
-      // Process all items that have people assignments, regardless of type (image, collage, etc.)
-      if (item.type === "separator" || !item.people || item.people.length === 0) {
-        continue;
-      }
-
-      const validPeople: string[] = [];
-
-      for (const personId of item.people) {
-        const cropPath = path.join(facesDir, personId, `${item.id}.jpg`);
-        const exists = await fileExists(cropPath);
-
-        if (exists) {
-          validPeople.push(personId);
-        } else {
-          logger.warn(
-            { personId, imageId: item.id },
-            "Removing phantom: Assignment removed (crop missing)",
-          );
-          totalRemoved++;
-
-          // Also remove from faces manifest if present
-          if (facesManifest?.[item.id]?.peopleIds) {
-            const idx = facesManifest[item.id].peopleIds.indexOf(personId);
-            if (idx !== -1) {
-              facesManifest[item.id].peopleIds.splice(idx, 1);
-              facesRemoved++;
-            }
-          }
-        }
-      }
-
-      if (validPeople.length === 0) {
-        delete item.people;
-      } else {
-        item.people = validPeople;
-      }
-    }
-  }
-
-  return { totalRemoved, facesRemoved };
-}
-
-/**
- * Clean people.manifest.json:
- * Removes 'thumbnail' property if the file does not exist on disk.
- */
-async function cleanPhantomPeopleThumbnails(
-  gallery: string,
-  peopleManifest: PeopleManifest,
-): Promise<{ cleanedThumbnails: number }> {
-  const staticDir = path.resolve(process.cwd(), `static-${gallery}`);
-  let cleanedThumbnails = 0;
-
-  for (const person of peopleManifest.people) {
-    if (person.thumbnail) {
-      let thumbPath = person.thumbnail;
-      if (thumbPath.startsWith("/")) {
-        const relPath = thumbPath.replace(/^\/[^/]+\//, "");
-        thumbPath = path.join(staticDir, relPath);
-      } else {
-        thumbPath = path.join(staticDir, person.thumbnail);
-      }
-
-      const exists = await fileExists(thumbPath);
-      if (!exists) {
-        logger.warn(
-          { personId: person.id, thumbnail: person.thumbnail },
-          "Removing phantom thumbnail from person",
-        );
-        person.thumbnail = "";
-        cleanedThumbnails++;
-      }
-    }
-  }
-
-  return { cleanedThumbnails };
-}
-
-/**
  * Recalculate face counts in people.manifest.json based on faces.manifest.json data.
  */
 async function recalculatePeopleStats(
@@ -301,10 +213,11 @@ async function recalculatePeopleStats(
     let detectionsCount = newCount; // Default to photo count if no embeddings
 
     if (embeddingsManifest?.[person.id]?.clusters) {
-      detectionsCount = embeddingsManifest[person.id].clusters.reduce(
-        (acc, c) => acc + c.faceCount,
-        0,
-      );
+      detectionsCount =
+        embeddingsManifest[person.id].clusters?.reduce(
+          (acc: number, c: { faceCount: number }) => acc + c.faceCount,
+          0,
+        ) ?? 0;
     }
 
     if (person.faceCount !== newCount || person.detectionsCount !== detectionsCount) {
@@ -523,7 +436,7 @@ export async function validateAndCleanManifests(
   if (!dryRun && gallery && peopleManifest) {
     // Use the FINAL valid people list from peopleResult
     // (We must assume peopleResult.manifest is what we're keeping)
-    const validPersonIds = new Set(peopleResult.manifest.people.map((p: Person) => p.id));
+    const validPersonIds = new Set<string>(peopleResult.manifest.people.map((p: Person) => p.id));
     const orphanResult = await cleanOrphanedAssets(gallery, validPersonIds, validIds, dryRun);
     orphanAssetsCleanedCount = orphanResult.faceCropsRemoved + orphanResult.foldersRemoved;
   }
@@ -534,7 +447,10 @@ export async function validateAndCleanManifests(
     const projectRoot = process.cwd();
     const outputRoot = `${projectRoot}/static-${gallery}/images`;
 
-    const outputFolders = getOutputFolders(config as any);
+    const outputFolders = getOutputFolders({
+      outputs: config.outputs,
+      formats: config.encoding.formats,
+    });
 
     // Get valid base names from images
     const validBaseNames = new Set<string>();
@@ -549,17 +465,10 @@ export async function validateAndCleanManifests(
       logger.warn({ count: orphanOutputs.length }, "Found orphaned output files");
 
       if (!dryRun) {
-        const fsp = await import("node:fs/promises");
-        const path = await import("node:path");
-
         for (const orphan of orphanOutputs) {
-          try {
-            await fsp.unlink(path.join(outputRoot, orphan));
-            orphanOutputsCleanedCount++;
-            logger.verbose({ orphan }, "Removed orphan output");
-          } catch {
-            // Ignore errors
-          }
+          await safeUnlink(path.join(outputRoot, orphan));
+          orphanOutputsCleanedCount++;
+          logger.verbose({ orphan }, "Removed orphan output");
         }
 
         if (orphanOutputsCleanedCount > 0) {
@@ -574,7 +483,6 @@ export async function validateAndCleanManifests(
       }
     }
   }
-
   return {
     analysisCleanedCount: analysisResult.cleaned,
     embeddingsCleanedCount: embeddingsResult.cleaned,

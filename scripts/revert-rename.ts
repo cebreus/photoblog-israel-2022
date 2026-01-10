@@ -1,7 +1,7 @@
-import path from "node:path";
 import { confirm, intro, outro, select, spinner, text } from "@clack/prompts";
-import { createLogger } from "./lib/core/cli-logger";
-import { parseCliArguments } from "./lib/core/cli-parser";
+import path from "node:path";
+import { createLogger } from "$scripts/core/cli-logger";
+import { parseCliArguments } from "$scripts/core/cli-parser";
 import {
   backupManifests,
   migrateAnalysisManifest,
@@ -14,10 +14,10 @@ import {
   migrateMarkdownFiles,
   migratePeopleManifest,
   restoreManifests,
-} from "./lib/gallery/migration";
-import { type RenameItem, type RenameMap, safeRename } from "./lib/gallery/renaming";
-import { readFileText } from "./lib/utils/runtime";
-import { formatDuration } from "./lib/utils/time";
+} from "$scripts/gallery/migration";
+import { type RenameItem, type RenameMap, safeRename } from "$scripts/gallery/renaming";
+import { readdir, readFileText } from "$scripts/utils/runtime";
+import { formatDuration } from "$scripts/utils/time";
 
 const logger = createLogger("revert-rename");
 
@@ -25,10 +25,10 @@ const options = parseCliArguments(process.argv.slice(2));
 
 async function getGalleries() {
   const contentDir = path.resolve("content");
-  const entries = await import("node:fs/promises").then((fs) =>
-    fs.readdir(contentDir, { withFileTypes: true }),
-  );
-  return entries.filter((e) => e.isDirectory()).map((e) => e.name);
+  const entries = await readdir(contentDir, { withFileTypes: true });
+  return (entries as import("node:fs").Dirent[])
+    .filter((e: any) => e.isDirectory())
+    .map((e: any) => e.name);
 }
 
 async function getGalleryOrPrompt(galleries: string[]): Promise<string> {

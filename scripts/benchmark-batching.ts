@@ -1,7 +1,7 @@
-import fs from "node:fs/promises";
 import path from "node:path";
-import { createLogger } from "./lib/core/cli-logger";
-import { run } from "./lib/utils/shell";
+import { createLogger } from "$scripts/core/cli-logger";
+import { readFileText, writeFile } from "$scripts/utils/runtime";
+import { run } from "$scripts/utils/shell";
 
 const logger = createLogger("benchmark");
 
@@ -13,7 +13,7 @@ async function main() {
   logger.info({ limit }, "🚀 Benchmarking Embedding Generation");
 
   // 1. Backup manifest
-  const originalManifest = await fs.readFile(manifestPath, "utf-8");
+  const originalManifest = await readFileText(manifestPath);
 
   try {
     // 2. Clear embeddings for benchmark
@@ -27,7 +27,7 @@ async function main() {
         }
       }
     }
-    await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2));
+    await writeFile(manifestPath, JSON.stringify(manifest, null, 2));
 
     // 3. Sequential Run (Batch Size 1)
     logger.info({ batchSize: 1 }, "⏱️  Running Sequential");
@@ -44,7 +44,7 @@ async function main() {
     const seqTime = (endSeq - startSeq) / 1000;
 
     // 4. Restore and Clear again
-    await fs.writeFile(manifestPath, originalManifest);
+    await writeFile(manifestPath, originalManifest);
     const manifest2 = JSON.parse(originalManifest);
     let cleared2 = 0;
     for (const day of manifest2.photoDays) {
@@ -55,7 +55,7 @@ async function main() {
         }
       }
     }
-    await fs.writeFile(manifestPath, JSON.stringify(manifest2, null, 2));
+    await writeFile(manifestPath, JSON.stringify(manifest2, null, 2));
 
     // 5. Batch Run (Batch Size 4)
     logger.info({ batchSize: 4 }, "⏱️  Running Batch");
@@ -83,8 +83,8 @@ async function main() {
     );
   } finally {
     // Restore manifest
-    await fs.writeFile(manifestPath, originalManifest);
+    await writeFile(manifestPath, originalManifest);
   }
 }
 
-main().catch((err) => logger.error({ err }, "Benchmark failed"));
+main().catch((err: any) => logger.error({ err }, "Benchmark failed"));

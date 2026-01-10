@@ -47,7 +47,7 @@ export function calculateSmartCrop(
   const faceCY = (minY + maxY) / 2;
 
   // 2. Calculate initial crop dimensions based on target aspect ratio and zoom
-  const zoom = (config.script as any).cropFaceZoom || 1.0;
+  const zoom = config.script.cropFaceZoom || 1.0;
 
   let cropW: number;
   let cropH: number;

@@ -1,7 +1,7 @@
 import os from "node:os";
 import path from "node:path";
 import type sharp from "sharp";
-import type { CleanApertureData } from "../../../shared/types/clap";
+import type { CleanApertureData } from "$shared/types/clap";
 
 type SharpModule = typeof sharp;
 
@@ -33,7 +33,7 @@ export async function applyClapExtract(
   if (top + height > nativeHeight) height = nativeHeight - top;
 
   const tempDir = os.tmpdir();
-  const tempFile = path.join(tempDir, `clap_${path.basename(inputPath)}_${Date.now()}.jpg`);
+  const tempFile = path.join(tempDir, `clap_${path.basename(inputPath)}_${Date.now()}.png`);
 
   await sharpModule(inputPath)
     .extract({ left, top, width, height })

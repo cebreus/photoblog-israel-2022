@@ -10,7 +10,7 @@ import {
   detectSequences,
   filterRepresentativeImages,
 } from "../../../../scripts/lib/image/sequence-detector";
-import { createMockImage } from "../../../utils/gallery-test-utils";
+import { createMockImage } from "$tests/utils/gallery-test-utils";
 
 describe("sequence-detector", () => {
   describe("classifyMediaType", () => {

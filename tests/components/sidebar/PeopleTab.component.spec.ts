@@ -11,7 +11,7 @@
 
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { page } from "vitest/browser";
-import { renderComponent } from "../../utils/render-helpers";
+import { renderComponent } from "$tests/utils/render-helpers";
 
 // All vi.mock calls must come FIRST, before any imports that use the mocked modules
 // Mock factories must NOT reference variables declared outside
@@ -138,6 +138,27 @@ vi.mock("$lib/stores/ui.svelte", () => ({
   },
 }));
 
+vi.mock("$lib/api/people/queries", () => ({
+  useConstraintsQuery: () => ({
+    data: { invalidDetections: [] },
+    isFetching: false,
+  }),
+  useAvatarsQuery: () => ({
+    data: [],
+    isFetching: false,
+  }),
+}));
+
+vi.mock("$lib/api/people/mutations", () => ({
+  useMergePeopleMutation: () => ({ isPending: false }),
+  useUpdatePeopleMutation: () => ({ isPending: false }),
+  useInvalidateDetectionMutation: () => ({ isPending: false }),
+  useUpdateCategoryMutation: () => ({ isPending: false }),
+  useSetAvatarMutation: () => ({ isPending: false }),
+  useReassignFaceMutation: () => ({ isPending: false }),
+  useUnmatchFaceMutation: () => ({ isPending: false }),
+}));
+
 // Import AFTER all mocks are defined
 import PeopleTab from "../../../src/lib/components/sidebar-content/PeopleTab.svelte";
 
@@ -186,9 +207,13 @@ describe("PeopleTab - Browser Mode", () => {
   });
 
   describe("Bulk Actions", () => {
-    it("renders bulk action buttons", async () => {
+    it("renders bulk action buttons when people are selected", async () => {
       renderComponent(PeopleTab);
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 200));
+
+      // Click the merge checkbox for the first person (Alice)
+      const aliceCheckbox = page.getByTestId("people-tab-person-merge-checkbox").first();
+      await aliceCheckbox.click();
 
       const bulkActions = page.getByTestId("people-tab-bulk-actions").first();
       await expect.element(bulkActions).toBeInTheDocument();

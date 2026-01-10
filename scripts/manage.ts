@@ -1,25 +1,24 @@
 #!/usr/bin/env bun
-process.env.GLIB_LOG_LEVEL = "critical";
 process.env.OBJC_DISABLE_INITIALIZE_FORK_SAFETY = "YES";
 process.env.LOG_STYLE = "boxed";
 
 import { cancel, intro, isCancel, outro, select } from "@clack/prompts";
-import { readdir } from "node:fs/promises";
 import path from "node:path";
 import { parseArgs } from "node:util";
 import pc from "picocolors";
-import { createLogger } from "./lib/core/cli-logger";
-import { validateAndCleanManifests } from "./lib/manifests/validator";
-import { acquireLock, releaseLock } from "./lib/utils/build-lock";
-import { setIoLogger } from "./lib/utils/io-logger-bridge";
-import { run } from "./lib/utils/shell";
-import { formatDuration } from "./lib/utils/time";
+import { createLogger } from "$scripts/core/cli-logger";
+import { listAvailableGalleries } from "$scripts/gallery/resolver";
+import { validateAndCleanManifests } from "$scripts/manifests/validator";
+import { acquireLock, releaseLock } from "$scripts/utils/build-lock";
+import { setIoLogger } from "$scripts/utils/io-logger-bridge";
+import { getPerformanceRecorder, runWithPerformance } from "$scripts/utils/performance";
+import { run } from "$scripts/utils/shell";
+import { formatDuration } from "$scripts/utils/time";
 
 const DEFAULT_GALLERY = "egypt-2025";
+const logger = createLogger("manage");
 const SCRIPT_DIR = import.meta.dir;
 const PROJECT_ROOT = path.resolve(SCRIPT_DIR, "..");
-const CONTENT_ROOT = path.resolve(PROJECT_ROOT, "content");
-const logger = createLogger("manage");
 setIoLogger(logger);
 
 const { values, positionals } = parseArgs({
@@ -81,24 +80,15 @@ const { values, positionals } = parseArgs({
   allowPositionals: true,
 });
 
-async function getAvailableGalleries() {
-  try {
-    const entries = await readdir(CONTENT_ROOT, { withFileTypes: true });
-    return entries
-      .filter((e) => e.isDirectory())
-      .map((e) => e.name)
-      .filter((name) => !name.startsWith("."));
-  } catch (_e: unknown) {
-    return [];
-  }
-}
-
 const command = positionals[0];
 const galleryRaw = values.gallery || process.env.CONTENT_DIR;
-let gallery = typeof galleryRaw === "string" ? galleryRaw : "";
+let gallery = "";
+if (typeof galleryRaw === "string") {
+  gallery = galleryRaw;
+}
 
 async function resolveGalleryAndContinue() {
-  const galleries = await getAvailableGalleries();
+  const galleries = await listAvailableGalleries();
 
   // 1. If gallery provided, validate it
   if (gallery) {
@@ -165,9 +155,16 @@ async function checkManifest(isCuration = false) {
   // In non-curation mode, keep it quiet (it's fast anyway)
   if (!values.verbose && !isCuration) flags.push("--quiet");
 
-  flags.push(
-    `--title=[MANAGE] Verifying manifest state${isCuration ? " (with curation analysis)" : ""}...`,
-  );
+  let titleSuffix = "";
+  if (isCuration) {
+    titleSuffix = " (with curation analysis)";
+  }
+  flags.push(`--title=[MANAGE] Verifying manifest state${titleSuffix}...`);
+
+  let logLevel = "error";
+  if (isCuration) {
+    logLevel = "info";
+  }
 
   logger.info({ gallery, curation: isCuration }, `Verifying manifest state [${gallery}]...`);
   await run("bun", flags, {
@@ -175,7 +172,7 @@ async function checkManifest(isCuration = false) {
       ...process.env,
       CONTENT_DIR: gallery,
       // In curation mode, allow info logs so user sees progress
-      LOG_LEVEL: isCuration ? "info" : "error",
+      LOG_LEVEL: logLevel,
     },
   });
 }
@@ -352,13 +349,15 @@ async function cmdProcess() {
 }
 
 async function main() {
-  const startTime = performance.now();
-  if (values.help || !command) {
-    const galleries = await getAvailableGalleries();
-    const _galleryList = galleries.length > 0 ? galleries.join(", ") : "none found";
-    process.stdout.write(`
+  await runWithPerformance(async () => {
+    const startTime = performance.now();
+    if (values.help || !command) {
+      // ... help output ...
+      const galleries = await listAvailableGalleries();
+      const _galleryList = galleries.length > 0 ? galleries.join(", ") : "none found";
+      process.stdout.write(`
   Usage: bun scripts/manage.ts [command] [options]
-
+  
   Commands:
     dev       Start development server
     build     Build for production
@@ -369,7 +368,7 @@ async function main() {
     blur      Generate blur placeholders (LQIP)
     faces     Run face clustering and recognition
     cleanup   Clean phantom assignments and orphaned manifest entries
- 
+  
   Global Options:
     --gallery, -g      Target gallery directory (default: ${pc.bold(DEFAULT_GALLERY)})
                        Available: ${_galleryList}
@@ -378,70 +377,78 @@ async function main() {
     --manifest-only    Only update manifest, skip actual file generation
     --concurrency      Number of parallel tasks (default: auto)
     --help, -h         Show this help
-
+  
   Processing Options:
     --limit            Limit number of images to process
     --watch            Watch mode for automatic regeneration (images only)
     --curation         Enable curation mode (duplicates detection)
-
+  
   AI & Analysis Options:
     --batch-size       Batch size for AI processing (default: 8)
     --time-window      Similarity time window in hours (default: 4)
     --threshold        Face similarity threshold (default: 0.6)
     --min-confidence   Minimum face detection confidence (default: 0.5)
     --min-face-size    Minimum face size in pixels to process (default: 0)
-      \n`);
-    process.exit(0);
-  }
-
-  if (command !== "dev") {
-    intro("📸 Photoblog Manager");
-  }
-
-  await resolveGalleryAndContinue();
-
-  try {
-    switch (command) {
-      case "dev":
-        await cmdDev();
-        break;
-      case "build":
-        await cmdBuild();
-        break;
-      case "preview":
-        await cmdPreview();
-        break;
-      case "process":
-        await cmdProcess();
-        break;
-      case "analyze":
-        await cmdAnalyze();
-        break;
-      case "favicons":
-        await cmdFavicons();
-        break;
-      case "images":
-        await cmdImages();
-        break;
-      case "blur":
-        await cmdBlur();
-        break;
-      case "faces":
-        await cmdFaces();
-        break;
-      default:
-        logger.error({ command }, "Unknown command");
-        process.exit(1);
+        \n`);
+      process.exit(0);
     }
 
     if (command !== "dev") {
-      const duration = performance.now() - startTime;
-      outro(`✅ Execution completed in ${formatDuration(duration)}`);
+      intro("📸 Photoblog Manager");
     }
-  } catch (error) {
-    logger.error({ command, error: (error as Error).message }, "Command execution failed");
-    process.exit(1);
-  }
+
+    await resolveGalleryAndContinue();
+
+    try {
+      switch (command) {
+        case "dev":
+          await cmdDev();
+          break;
+        case "build":
+          await cmdBuild();
+          break;
+        case "preview":
+          await cmdPreview();
+          break;
+        case "process":
+          await cmdProcess();
+          break;
+        case "analyze":
+          await cmdAnalyze();
+          break;
+        case "favicons":
+          await cmdFavicons();
+          break;
+        case "images":
+          await cmdImages();
+          break;
+        case "blur":
+          await cmdBlur();
+          break;
+        case "faces":
+          await cmdFaces();
+          break;
+        default:
+          logger.error({ command }, "Unknown command");
+          process.exit(1);
+      }
+
+      if (command !== "dev") {
+        const duration = performance.now() - startTime;
+
+        // Log performance breakdown
+        const perf = getPerformanceRecorder()?.getBreakdown();
+        if (perf) {
+          logger.debug({ perf }, "Performance breakdown");
+        }
+
+        outro(`✅ Execution completed in ${formatDuration(duration)}`);
+      }
+    } catch (error) {
+      logger.error({ command, error: (error as Error).message }, "Command execution failed");
+      process.exit(1);
+    }
+  });
 }
 
 main();

@@ -288,7 +288,7 @@ Temple of the Annunciation. Ancient city in Galilee.
 ```ts
 // Automatic separator creation if minPhotosForAutoSeparator threshold reached
 // src/lib/utils/separators.ts
-const minPhotosForAutoSeparator = 3; // config in scripts/build.config.ts
+import { config } from "$config";
 
 // Photos with same EXIF location are automatically grouped
 ```
@@ -317,7 +317,7 @@ Description (markdown supported)
 
 - Directory: `content/[gallery]/locations/`
 - API: POST/PATCH `/api/separators` still available for dev mode
-- Build: `scripts/build.config.ts` thresholds
+  import { config } from "$config";
 
 ---
 

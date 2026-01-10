@@ -1,9 +1,11 @@
-import fs from "node:fs/promises";
-import path from "node:path";
+import { getContentDir } from "$lib/config";
+import { fileExists } from "$scripts/utils/runtime";
+import { SEARCH_EXTENSIONS } from "$shared/types/images";
 import type { RequestEvent } from "@sveltejs/kit";
 import { json } from "@sveltejs/kit";
+import path from "node:path";
+import process from "node:process";
 import sharp from "sharp";
-import { getContentDir } from "$lib/config";
 
 /**
  * GET /api/collage-sources?ids=id1,id2,id3
@@ -35,13 +37,10 @@ export async function GET({ url, locals }: RequestEvent): Promise<Response> {
       ids.map(async (id) => {
         try {
           // Try common extensions
-          const extensions = [".heic", ".jpg", ".jpeg", ".png", ".HEIC", ".JPG", ".JPEG", ".PNG"];
-
-          for (const ext of extensions) {
+          for (const ext of SEARCH_EXTENSIONS) {
             const filePath = path.join(sourcesDir, `${id}${ext}`);
 
-            try {
-              await fs.access(filePath);
+            if (await fileExists(filePath)) {
               // File exists, get metadata
               const metadata = await sharp(filePath).metadata();
 
@@ -51,8 +50,6 @@ export async function GET({ url, locals }: RequestEvent): Promise<Response> {
                 height: metadata.height || 1000,
                 format: metadata.format,
               };
-            } catch {
-              // Try next extension
             }
           }
 

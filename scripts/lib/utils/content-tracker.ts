@@ -7,11 +7,11 @@
  * of losing the data.
  */
 
-import crypto from "node:crypto";
-import fsp from "node:fs/promises";
-import path from "node:path";
 import type { FacesManifest, Manifest, PeopleManifest } from "$shared/types/manifest";
-import { createLogger } from "../core/cli-logger";
+import crypto from "node:crypto";
+import path from "node:path";
+import { createLogger } from "$scripts/core/cli-logger";
+import { mkdir, open, readFileText, stat, writeFile } from "./runtime";
 
 const logger = createLogger("content-tracker");
 
@@ -34,7 +34,7 @@ const TRACKER_FILENAME = "content-hashes.json";
  * Compute SHA-256 hash of a file (first 64KB for performance)
  */
 async function computeContentHash(filePath: string): Promise<string> {
-  const handle = await fsp.open(filePath, "r");
+  const handle = await open(filePath, "r");
   try {
     // Read first 64KB - enough to detect unique content while being fast
     const buffer = Buffer.alloc(64 * 1024);
@@ -55,7 +55,7 @@ async function computeContentHash(filePath: string): Promise<string> {
 export async function loadContentTracker(cacheDir: string): Promise<ContentHashTracker> {
   const trackerPath = path.join(cacheDir, TRACKER_FILENAME);
   try {
-    const content = await fsp.readFile(trackerPath, "utf-8");
+    const content = await readFileText(trackerPath);
     const tracker = JSON.parse(content);
     if (tracker.version !== TRACKER_VERSION) {
       logger.verbose(
@@ -78,8 +78,8 @@ export async function saveContentTracker(
   tracker: ContentHashTracker,
 ): Promise<void> {
   const trackerPath = path.join(cacheDir, TRACKER_FILENAME);
-  await fsp.mkdir(cacheDir, { recursive: true });
-  await fsp.writeFile(trackerPath, JSON.stringify(tracker, null, 2));
+  await mkdir(cacheDir, { recursive: true });
+  await writeFile(trackerPath, JSON.stringify(tracker, null, 2));
 }
 
 export interface RenameDetection {
@@ -167,7 +167,7 @@ export async function updateContentTracker(
   // Update/add entries for current files
   for (const file of sourceFiles) {
     const relativePath = path.relative(srcRoot, file);
-    const stats = await fsp.stat(file);
+    const stats = await stat(file);
     const id = path.basename(relativePath, path.extname(relativePath));
 
     // Check if we already have this path tracked

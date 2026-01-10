@@ -2,7 +2,7 @@ import type { ImageFormat } from "./images";
 
 export type ImageSource = {
     variant: "default" | "xl" | "detail" | "fallback" | "placeholder" | "admin_thumb" | "pano_detail";
-    type: "image/webp" | "image/jpeg" | "image/avif" | "image/png";
+    type: "image/webp" | "image/jpeg" | "image/avif" | "image/png" | "image/heic" | "image/heif" | "image/svg+xml" | string;
     path: string;
     width?: number;
     height?: number;

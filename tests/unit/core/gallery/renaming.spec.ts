@@ -7,7 +7,7 @@ describe("renaming utils", () => {
       const tags = {
         DateTimeOriginal: new Date(Date.UTC(2025, 10, 23, 21, 52, 55)),
         Artist: "Bobo",
-      };
+      } as any;
       const name = getNewBasename(tags, "default");
       expect(name).toBe("2025-11-23-215255-bobo");
     });
@@ -15,7 +15,7 @@ describe("renaming utils", () => {
     it("should use default author if missing in EXIF", () => {
       const tags = {
         DateTimeOriginal: new Date(Date.UTC(2025, 10, 23, 21, 52, 55)),
-      };
+      } as any;
       const name = getNewBasename(tags, "cebreus");
       expect(name).toBe("2025-11-23-215255-cebreus");
     });
@@ -23,7 +23,7 @@ describe("renaming utils", () => {
     it("should use manifest author fallback if missing in EXIF", () => {
       const tags = {
         DateTimeOriginal: new Date(Date.UTC(2025, 10, 23, 21, 52, 55)),
-      };
+      } as any;
       // fallback "Bobo" from manifest
       const name = getNewBasename(tags, "cebreus", "oldName", "Bobo");
 
@@ -40,13 +40,13 @@ describe("renaming utils", () => {
       const tags = {
         DateTimeOriginal: new Date(Date.UTC(2025, 10, 23, 21, 52, 55)),
         Artist: "Bobo",
-      };
+      } as any;
       const name = getNewBasename(tags, "default", "oldBase--collage");
       expect(name).toBe("2025-11-23-215255-bobo--collage");
     });
 
     it("should throw error if no date", () => {
-      const tags = {};
+      const tags = {} as any;
       expect(() => getNewBasename(tags, "default")).toThrow("Missing creation date");
     });
   });

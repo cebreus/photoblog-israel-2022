@@ -11,8 +11,8 @@
  */
 
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { createMockPerson } from "../../utils/gallery-test-utils";
-import { renderComponent } from "../../utils/render-helpers";
+import { createMockPerson } from "$tests/utils/gallery-test-utils";
+import { renderComponent } from "$tests/utils/render-helpers";
 
 vi.mock("$lib/logger", () => {
   const mockLog = {

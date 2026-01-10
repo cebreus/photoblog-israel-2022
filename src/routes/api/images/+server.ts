@@ -1,22 +1,17 @@
-import fs from "node:fs/promises";
-import path from "node:path";
-import process from "node:process";
-import { json, type RequestEvent } from "@sveltejs/kit";
-import { exiftool } from "exiftool-vendored";
 import { dev } from "$app/environment";
 import { applyMetadataUpdates } from "$lib/shared/metadata-utils";
 import { type ImageEntry, isImageEntry, type Manifest } from "$lib/types/manifest";
 import { getPhotoDays } from "$lib/utils/images";
 import { reloadManifests } from "$lib/utils/manifest-loader";
 import { getExifToolWriteTags } from "$lib/utils/metadata-standards";
-import { config } from "$scripts/build.config";
+import { config } from "$config";
 import {
   deleteGeneratedAssets,
   getOutputFolders,
   removeFromCache,
   removeImageFromConstraints,
-} from "$scripts/lib/gallery/cleanup";
-import { withManifestLock } from "$scripts/lib/manifests/lock";
+} from "$scripts/gallery/cleanup";
+import { withManifestLock } from "$scripts/manifests/lock";
 import {
   loadAnalysisManifest,
   loadEmbeddingsManifest,
@@ -26,7 +21,12 @@ import {
   saveEmbeddingsManifest,
   saveFacesManifest,
   saveImagesManifest,
-} from "$scripts/lib/manifests/repository";
+} from "$scripts/manifests/repository";
+import { mkdir, readdir, rename, stat, unlink } from "$scripts/utils/runtime";
+import { json, type RequestEvent } from "@sveltejs/kit";
+import { exiftool } from "exiftool-vendored";
+import path from "node:path";
+import process from "node:process";
 
 type BatchItem = { id: string; src: string; [key: string]: unknown };
 type GroupedItems = Record<string, BatchItem[]>;
@@ -73,15 +73,15 @@ async function resolvePhysicalPath(contentRoot: string, fileName: string): Promi
 
   for (const dir of dirsToCheck) {
     const directPath = path.join(dir, fileName);
-    if (await fs.stat(directPath).catch(() => null)) {
+    if (await stat(directPath).catch(() => null)) {
       return directPath;
     }
 
     // Case-insensitive fallback
     try {
-      const files = await fs.readdir(dir);
+      const files = await readdir(dir);
       const candidates = files.filter(
-        (f) => path.parse(f).name.toLowerCase() === nameWithoutExt.toLowerCase(),
+        (f: string) => path.parse(f).name.toLowerCase() === nameWithoutExt.toLowerCase(),
       );
       if (candidates.length > 0) {
         return path.join(dir, candidates[0]);
@@ -267,8 +267,9 @@ export async function DELETE({ request, locals }: RequestEvent) {
 
         // 2. Clean cache
         const cachePath = path.join(tempRoot, contentDir, "images.cache.json");
-        await removeFromCache(cachePath, `${nameWithoutExt}.heic`);
-        await removeFromCache(cachePath, `${nameWithoutExt}.jpg`);
+        for (const ext of config.script.inputExtensions) {
+          await removeFromCache(cachePath, `${nameWithoutExt}.${ext}`);
+        }
 
         // 3. Clean constraints
         const constraintsPath = path.join(dataRoot, contentDir, "clustering-constraints.json");
@@ -289,7 +290,7 @@ export async function DELETE({ request, locals }: RequestEvent) {
         // Only proceed if manifest update was successful or not needed
         if (physicalPath) {
           try {
-            await fs.unlink(physicalPath);
+            await unlink(physicalPath);
           } catch (e) {
             // If unlink fails, we have a problem: Manifest updated, file remains.
             // This is an "Orphaned File" state, which is safer than "Ghost Record" (File gone, Manifest entry remains).
@@ -337,7 +338,7 @@ export async function POST({ request, locals }: RequestEvent) {
 
   for (const [contentDir, items] of Object.entries(groups)) {
     const archiveDir = path.resolve(process.cwd(), "content", contentDir, "pics", "archive");
-    await fs.mkdir(archiveDir, { recursive: true });
+    await mkdir(archiveDir, { recursive: true });
 
     const result = await processBatch(
       contentDir,
@@ -362,7 +363,7 @@ export async function POST({ request, locals }: RequestEvent) {
         // 2. Clean cache
         const cachePath = path.join(tempRoot, contentDir, "images.cache.json");
         for (const ext of config.script.inputExtensions) {
-          await removeFromCache(cachePath, `${nameWithoutExt}.${ext} `);
+          await removeFromCache(cachePath, `${nameWithoutExt}.${ext}`);
         }
 
         // 3. Clean constraints
@@ -374,7 +375,7 @@ export async function POST({ request, locals }: RequestEvent) {
         // If this fails, the manifest remains untouched and consistent.
         // If it succeeds, but manifest update crashes (unlikely), we have a ghost record.
         const destPath = path.join(archiveDir, fileName);
-        await fs.rename(physicalPath, destPath);
+        await rename(physicalPath, destPath);
 
         // 5. Update Manifest
         if (manifest) {
@@ -399,8 +400,8 @@ export async function POST({ request, locals }: RequestEvent) {
   return json({ success: true, archived, errors });
 }
 
-import { removeClapFromFile, writeClapToFile } from "$scripts/lib/image/clap-parser";
-import { run } from "$scripts/lib/utils/shell";
+import { removeClapFromFile, writeClapToFile } from "$scripts/image/clap-parser";
+import { run } from "$scripts/utils/shell";
 import { canApplyClap } from "$shared/utils/strings";
 
 export async function PATCH({ request, locals }: RequestEvent) {

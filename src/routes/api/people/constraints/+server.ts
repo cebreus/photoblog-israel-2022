@@ -1,11 +1,11 @@
 import path from "node:path";
 import { error, json } from "@sveltejs/kit";
 import { dev } from "$app/environment";
-import { withManifestLock } from "$scripts/lib/manifests/lock";
+import { withManifestLock } from "$scripts/manifests/lock";
 import {
   loadClusteringConstraints,
   saveClusteringConstraints,
-} from "$scripts/lib/manifests/repository";
+} from "$scripts/manifests/repository";
 
 export async function GET({ locals }: { locals: App.Locals }) {
   if (!dev) {

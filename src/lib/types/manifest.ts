@@ -1,8 +1,8 @@
 // Re-export shared manifest types used across build and runtime
-export * from "../../../shared/types/manifest";
+export * from "$shared/types/manifest";
 
 // Import types for use in local types
-import type { QualityBucket } from "../../../shared/types/manifest";
+import type { QualityBucket } from "$shared/types/manifest";
 
 // ==========================================
 // UI & App-Specific Types Below

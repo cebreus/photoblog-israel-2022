@@ -1,7 +1,7 @@
-import { marked } from "marked";
-import { config } from "$scripts/build.config";
 import type { ImageEntry, Separator, StoryData, StoryDataMap } from "$shared/types/manifest";
 import { toSlug } from "$shared/utils/strings";
+import { marked } from "marked";
+import { config } from "../../build.config";
 
 /**
  * Service for managing photo grid separators.

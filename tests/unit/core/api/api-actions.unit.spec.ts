@@ -1,7 +1,7 @@
-import { toast } from "svelte-sonner";
-import { beforeEach, describe, expect, it, vi } from "vitest";
 import { invalidateAll } from "$app/navigation";
 import { performImageAction } from "$lib/utils/api-actions";
+import { toast } from "svelte-sonner";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("svelte-sonner", () => ({
   toast: {
@@ -13,6 +13,10 @@ vi.mock("svelte-sonner", () => ({
 
 vi.mock("$app/navigation", () => ({
   invalidateAll: vi.fn(),
+}));
+
+vi.mock("$lib/utils/api", () => ({
+  tracedFetch: vi.fn((url, options) => global.fetch(url, options)),
 }));
 
 describe("api-actions", () => {

@@ -1,23 +1,30 @@
+import { createLogger } from "$scripts/core/cli-logger";
+import type { CliOptions } from "$scripts/core/cli-parser";
+import { getConcurrency } from "$scripts/core/concurrency-utils";
+import { createBar, stopAllBars } from "$scripts/core/progress-manager";
+import { logResourceUsage } from "$scripts/utils/performance";
+import {
+  basenameNoExt,
+  fileExists,
+  safeUnlink,
+  scanGlob,
+  stat,
+  unlink,
+} from "$scripts/utils/runtime";
+import { isPng } from "$shared/types/images";
 import { confirm, isCancel } from "@clack/prompts";
-import fsp from "node:fs/promises";
-import os from "node:os";
 import path from "node:path";
 import { config } from "../../build.config";
-import { createLogger } from "../core/cli-logger";
-import type { CliOptions } from "../core/cli-parser";
-import { getConcurrency } from "../core/concurrency-utils";
-import { createBar, stopAllBars } from "../core/progress-manager";
-import { logResourceUsage } from "../utils/resource-monitor";
-import { scanGlob, spawnSync } from "../utils/runtime";
-import { ensureDir } from "./utils";
+import { ensureDir, prepareImageProcessingPath } from "./utils";
 
 const logger = createLogger("blur");
 
-let sharpSingleton: any = null;
-async function loadSharp() {
+type SharpModule = typeof import("sharp");
+let sharpSingleton: SharpModule | null = null;
+async function loadSharp(): Promise<SharpModule> {
   if (sharpSingleton) return sharpSingleton;
-  const mod: any = await import("sharp");
-  sharpSingleton = mod.default ?? mod;
+  const mod = (await import("sharp")) as unknown as { default: SharpModule } | SharpModule;
+  sharpSingleton = "default" in mod ? mod.default : mod;
   return sharpSingleton;
 }
 
@@ -36,7 +43,7 @@ export async function processBlurImage(
   const pngCompression = raw.blurPngCompression ?? config.blur.pngCompression;
   const pngQuality = raw.blurPngQuality ?? config.blur.pngQuality;
 
-  const baseName = path.basename(file, path.extname(file));
+  const baseName = basenameNoExt(file);
   const outPath = path.join(blurOut, `${baseName}.png`);
 
   let tempPath: string | null = null;
@@ -44,7 +51,7 @@ export async function processBlurImage(
     // Basic cache check: skip if output exists and is newer than source
     if (!raw.clean && !raw.blurClean) {
       try {
-        const [inStat, outStat] = await Promise.all([fsp.stat(file), fsp.stat(outPath)]);
+        const [inStat, outStat] = await Promise.all([stat(file), stat(outPath)]);
         if (outStat.mtimeMs > inStat.mtimeMs) {
           return { status: "skipped", size: outStat.size };
         }
@@ -55,13 +62,9 @@ export async function processBlurImage(
 
     let processingPath = file;
 
-    // HEIC support via vips (consistent with image-processor.ts)
-    const ext = path.extname(file).slice(1).toLowerCase();
-    if (ext === "heic" || ext === "heif") {
-      tempPath = path.join(os.tmpdir(), `blur_tmp_${baseName}.jpg`);
-      spawnSync("vips", ["copy", file, tempPath]);
-      processingPath = tempPath;
-    }
+    const { processingPath: resolvedPath, tempFile } = await prepareImageProcessingPath(file);
+    processingPath = resolvedPath;
+    tempPath = tempFile;
 
     await ensureDir(path.dirname(outPath));
 
@@ -76,19 +79,13 @@ export async function processBlurImage(
       })
       .toFile(outPath);
 
-    const finalStat = await fsp.stat(outPath);
+    const finalStat = await stat(outPath);
     return { status: "success", size: finalStat.size };
-  } catch (err: any) {
+  } catch (err: unknown) {
     logger.error({ err, file }, "Blur processing failed");
     return { status: "fail", size: 0 };
   } finally {
-    if (tempPath) {
-      try {
-        await fsp.unlink(tempPath);
-      } catch {
-        // ignore
-      }
-    }
+    await safeUnlink(tempPath);
   }
 }
 
@@ -98,7 +95,7 @@ export async function runBlurBuild(raw: Partial<CliOptions>, concurrency: number
 
   // Validation & Fallback
   try {
-    await fsp.access(blurSrc);
+    await fileExists(blurSrc);
   } catch (_e) {
     // Only offer fallback if it's the default optimized path
     if (!raw.blurSrc || raw.blurSrc === config.blur.src) {
@@ -129,7 +126,7 @@ export async function runBlurBuild(raw: Partial<CliOptions>, concurrency: number
       blurSrc = fallbackSrc;
 
       try {
-        await fsp.access(blurSrc);
+        await fileExists(blurSrc);
       } catch (_e2) {
         throw new Error(
           `Blur generation failed: Source directory not found. Tried optimized previews (${config.blur.src}) and originals (${config.paths.source}). Please ensure that either 'static-<gallery>/images/previews-xl' exists or 'content/<gallery>/pics' contains source images.`,
@@ -155,8 +152,10 @@ export async function runBlurBuild(raw: Partial<CliOptions>, concurrency: number
       dot: false,
     });
     srcFiles.push(...files);
-  } catch (err: any) {
-    throw new Error(`Failed to scan source directory "${blurSrc}": ${err.message}`);
+  } catch (err: unknown) {
+    throw new Error(
+      `Failed to scan source directory "${blurSrc}": ${err instanceof Error ? err.message : String(err)}`,
+    );
   }
 
   if (srcFiles.length === 0) {
@@ -222,20 +221,16 @@ export async function runBlurBuild(raw: Partial<CliOptions>, concurrency: number
     "Blur generation complete",
   );
 
-  if (raw.blurClean) {
-    const srcFiles: string[] = [];
-    const files = await scanGlob("**/*", { cwd: blurOut, absolute: true, dot: false });
-    srcFiles.push(...files);
+  if (!raw.blurClean) return;
 
-    for (const p of srcFiles) {
-      const ext = path.extname(p).slice(1).toLowerCase();
-      if (ext !== "png") {
-        try {
-          await fsp.unlink(p);
-        } catch {
-          // Ignore unlink errors
-        }
-      }
+  const filesToRemove = await scanGlob("**/*", { cwd: blurOut, absolute: true, dot: false });
+  for (const p of filesToRemove) {
+    if (isPng(path.extname(p))) continue;
+
+    try {
+      await unlink(p);
+    } catch {
+      // Ignore unlink errors
     }
   }
 }
@@ -245,5 +240,5 @@ function formatBytes(bytes: number): string {
   const k = 1024;
   const sizes = ["B", "KB", "MB", "GB", "TB"];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return `${Number.parseFloat((bytes / k ** i).toFixed(1))} ${sizes[i]}`;
+  return `${parseFloat((bytes / k ** i).toFixed(1))} ${sizes[i]}`;
 }

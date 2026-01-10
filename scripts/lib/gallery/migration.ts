@@ -1,10 +1,10 @@
-import fsp from "node:fs/promises";
-import path from "node:path";
 import fg from "fast-glob";
-import { toSlug } from "../../../shared/utils/strings";
+import path from "node:path";
+import { ImageFormat } from "$shared/types/images";
+import { toSlug } from "$shared/utils/strings";
 import type { Cache } from "../../../src/lib/types/manifest";
 import { config } from "../../build.config";
-import { createLogger } from "../core/cli-logger";
+import { createLogger } from "$scripts/core/cli-logger";
 import {
   loadAnalysisManifest,
   loadClusteringConstraints,
@@ -24,24 +24,20 @@ import {
   saveManifest,
   saveMenuManifest,
   savePeopleManifest,
-} from "../manifests/repository";
-import { fileExists, readFileText, writeFile } from "../utils/runtime";
+} from "$scripts/manifests/repository";
+import {
+  copyFile,
+  directoryExists,
+  fileExists,
+  mkdir,
+  readdir,
+  readFileText,
+  writeFile,
+} from "$scripts/utils/runtime";
 import { getOutputFolders } from "./cleanup";
-import { type RenameMap, safeRename } from "./renaming";
+import { type RenameItem, type RenameMap, safeRename } from "./renaming";
 
 const logger = createLogger("migration");
-
-/**
- * Checks if a directory exists.
- */
-async function directoryExists(dirPath: string): Promise<boolean> {
-  try {
-    await fsp.access(dirPath);
-    return true;
-  } catch {
-    return false;
-  }
-}
 
 /**
  * Backs up all manifest files before migration.
@@ -51,13 +47,13 @@ export async function backupManifests(gallery: string): Promise<string> {
   const dataDir = path.resolve(`src/data/${gallery}`);
   const backupDir = path.resolve(`.temp/backup/${gallery}-${Date.now()}`);
 
-  await fsp.mkdir(backupDir, { recursive: true });
+  await mkdir(backupDir, { recursive: true });
 
   const manifests = await fg("*.manifest.json", { cwd: dataDir, absolute: true });
 
   for (const manifestPath of manifests) {
     const dest = path.join(backupDir, path.basename(manifestPath));
-    await fsp.copyFile(manifestPath, dest);
+    await copyFile(manifestPath, dest);
   }
 
   logger.info({ count: manifests.length, backupDir }, "Backed up manifests");
@@ -79,7 +75,7 @@ export async function restoreManifests(gallery: string, backupDir: string): Prom
 
   for (const backupPath of backups) {
     const dest = path.join(dataDir, path.basename(backupPath));
-    await fsp.copyFile(backupPath, dest);
+    await copyFile(backupPath, dest);
   }
 
   logger.info({ count: backups.length, backupDir }, "Restored manifests from backup");
@@ -98,7 +94,7 @@ export async function migrateGeneratedAssets(gallery: string, renameMap: RenameM
     formats: config.encoding.formats,
   });
 
-  const outputFormats = [...config.encoding.formats, "jpg", "png"];
+  const outputFormats = [...config.encoding.formats, ImageFormat.JPG, ImageFormat.PNG];
 
   for (const item of renameMap.values()) {
     for (const folder of outputFolders) {
@@ -113,23 +109,21 @@ export async function migrateGeneratedAssets(gallery: string, renameMap: RenameM
         const oldVariant = path.join(dir, `${item.oldBase}.${format}`);
         const newVariant = path.join(dir, `${item.newBase}.${format}`);
 
-        if (await fileExists(oldVariant)) {
-          await safeRename(oldVariant, newVariant);
-        }
+        if (!(await fileExists(oldVariant))) continue;
+        await safeRename(oldVariant, newVariant);
       }
     }
 
     // Rename face crops
     const facesRootDir = path.resolve(`static-${gallery}/faces`);
-    if (await directoryExists(facesRootDir)) {
-      const personDirs = await fsp.readdir(facesRootDir);
-      for (const personDir of personDirs) {
-        const oldCrop = path.join(facesRootDir, personDir, `${item.oldBase}.jpg`);
-        const newCrop = path.join(facesRootDir, personDir, `${item.newBase}.jpg`);
-        if (await fileExists(oldCrop)) {
-          await safeRename(oldCrop, newCrop);
-        }
-      }
+    if (!(await directoryExists(facesRootDir))) continue;
+
+    const personDirs = await readdir(facesRootDir);
+    for (const personDir of personDirs) {
+      const oldCrop = path.join(facesRootDir, personDir, `${item.oldBase}.jpg`);
+      const newCrop = path.join(facesRootDir, personDir, `${item.newBase}.jpg`);
+      if (!(await fileExists(oldCrop))) continue;
+      await safeRename(oldCrop, newCrop);
     }
   }
 }
@@ -171,11 +165,11 @@ export async function migrateCache(gallery: string, renameMap: RenameMap): Promi
  * Generic helper to migrate simple Key-Value manifests where Key is the ImageID/Slug.
  * Used for: Analysis, Embeddings, Faces (slugified keys).
  */
-async function migrateKeyValueManifest(
+async function migrateKeyValueManifest<T>(
   gallery: string,
   renameMap: RenameMap,
-  loader: (path: string) => Promise<any>,
-  saver: (path: string, data: any) => Promise<void>,
+  loader: (path: string) => Promise<T | null>,
+  saver: (path: string, data: T) => Promise<void>,
   keyIsSlug = true,
 ): Promise<void> {
   const dataPath = `src/data/${gallery}`;
@@ -183,13 +177,13 @@ async function migrateKeyValueManifest(
   if (!manifest) return;
 
   const lookup = new Map<string, string>();
-  for (const v of renameMap.values()) {
-    const key = keyIsSlug ? toSlug(v.oldBase) : v.oldBase;
-    const val = keyIsSlug ? toSlug(v.newBase) : v.newBase;
+  for (const renameEntry of renameMap.values()) {
+    const key = keyIsSlug ? toSlug(renameEntry.oldBase) : renameEntry.oldBase;
+    const val = keyIsSlug ? toSlug(renameEntry.newBase) : renameEntry.newBase;
     lookup.set(key, val);
   }
 
-  const newManifest: any = {};
+  const newManifest: Record<string, unknown> = {};
   let changed = false;
 
   for (const [oldId, data] of Object.entries(manifest)) {
@@ -203,7 +197,7 @@ async function migrateKeyValueManifest(
   }
 
   if (changed) {
-    await saver(dataPath, newManifest);
+    await saver(dataPath, newManifest as unknown as T);
   }
 }
 
@@ -243,9 +237,9 @@ export async function migrateImagesManifest(gallery: string, renameMap: RenameMa
   const manifest = await loadImagesManifest(`src/data/${gallery}`);
 
   if (manifest) {
-    const lookup = new Map<string, typeof renameMap extends Map<any, infer V> ? V : never>();
-    for (const v of renameMap.values()) {
-      lookup.set(v.oldName, v);
+    const lookup = new Map<string, RenameItem>();
+    for (const renameEntry of renameMap.values()) {
+      lookup.set(renameEntry.oldName, renameEntry);
     }
 
     for (const day of manifest.photoDays) {
@@ -277,9 +271,9 @@ export async function migrateImagesManifest(gallery: string, renameMap: RenameMa
 export async function migratePeopleManifest(gallery: string, renameMap: RenameMap): Promise<void> {
   const peopleManifest = await loadPeopleManifest(`src/data/${gallery}`);
   if (peopleManifest) {
-    const lookup = new Map<string, typeof renameMap extends Map<any, infer V> ? V : never>();
-    for (const v of renameMap.values()) {
-      lookup.set(toSlug(v.oldBase), v);
+    const lookup = new Map<string, RenameItem>();
+    for (const renameEntry of renameMap.values()) {
+      lookup.set(toSlug(renameEntry.oldBase), renameEntry);
     }
 
     let peopleChanged = false;
@@ -331,9 +325,9 @@ export async function migrateCurationManifest(
 ): Promise<void> {
   const curationManifest = await loadCurationManifest(`src/data/${gallery}`);
   if (curationManifest) {
-    const lookup = new Map<string, typeof renameMap extends Map<any, infer V> ? V : never>();
-    for (const v of renameMap.values()) {
-      lookup.set(toSlug(v.oldBase), v);
+    const lookup = new Map<string, RenameItem>();
+    for (const renameEntry of renameMap.values()) {
+      lookup.set(toSlug(renameEntry.oldBase), renameEntry);
     }
 
     let curChanged = false;
@@ -361,7 +355,10 @@ export async function migrateCurationManifest(
       }
 
       if (group.recommendations) {
-        const newRecs: any = {};
+        const newRecs: Record<
+          string,
+          import("../../../src/lib/types/manifest").CurationRecommendation
+        > = {};
         let recsChanged = false;
         for (const [key, val] of Object.entries(group.recommendations)) {
           const matchRec = lookup.get(key);
@@ -391,9 +388,9 @@ export async function migrateCurationManifest(
 export async function migrateMenuManifest(gallery: string, renameMap: RenameMap): Promise<void> {
   const menuManifest = await loadMenuManifest(`src/data/${gallery}`);
   if (menuManifest) {
-    const lookup = new Map<string, typeof renameMap extends Map<any, infer V> ? V : never>();
-    for (const v of renameMap.values()) {
-      lookup.set(toSlug(v.oldBase), v);
+    const lookup = new Map<string, RenameItem>();
+    for (const renameEntry of renameMap.values()) {
+      lookup.set(toSlug(renameEntry.oldBase), renameEntry);
     }
 
     let menuChanged = false;
@@ -428,15 +425,15 @@ export async function migrateClusteringConstraintsManifest(
 ): Promise<void> {
   const constraints = await loadClusteringConstraints(`src/data/${gallery}`);
   if (constraints) {
-    const lookup = new Map<string, typeof renameMap extends Map<any, infer V> ? V : never>();
-    for (const v of renameMap.values()) {
-      lookup.set(toSlug(v.oldBase), v);
+    const lookup = new Map<string, RenameItem>();
+    for (const renameEntry of renameMap.values()) {
+      lookup.set(toSlug(renameEntry.oldBase), renameEntry);
     }
 
     let changed = false;
 
     // Helper to update imageId in a list of items
-    const updateList = (list: any[] | undefined) => {
+    const updateList = (list: { imageId?: string }[] | undefined) => {
       if (!list) return;
       for (const item of list) {
         if (item.imageId) {
@@ -494,7 +491,9 @@ export async function migrateCollageFiles(gallery: string, renameMap: RenameMap)
 
   for (const jsonFile of collageFiles) {
     let contentChanged = false;
-    let jsonContent: any;
+    let jsonContent: {
+      items?: { originalPath?: string; movedPath?: string; imageId?: string; id?: string }[];
+    };
 
     try {
       const text = await readFileText(jsonFile);

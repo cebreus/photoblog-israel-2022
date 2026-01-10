@@ -8,27 +8,17 @@ import {
   type Person,
 } from "$lib/types/manifest";
 import { isValidClusteringConstraints } from "$lib/utils/manifest-validators";
-import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
-import * as canvas from "canvas";
-import crypto from "node:crypto";
-import fsp from "node:fs/promises";
-import path from "node:path";
-import sharp from "sharp";
-import { createLogger } from "./lib/core/cli-logger";
-import { parseCliArguments } from "./lib/core/cli-parser";
-import { getConcurrency } from "./lib/core/concurrency-utils";
-import { createBar, stopAllBars } from "./lib/core/progress-manager";
-import { deleteOldFaceCrops, findBestMatch, saveFaceCrop } from "./lib/faces/clustering";
-import { backupConstraints } from "./lib/faces/constraints-backup";
-import { gcConstraints } from "./lib/faces/constraints-gc";
-import {
-  filterPeopleWithValidDescriptors,
-  hasValidFaceDescriptor,
-  recalculateAllFaceCounts,
-} from "./lib/faces/people";
-import { runPreBuildChecks } from "./lib/faces/pre-build-check";
-import { resolveGalleryDirectory } from "./lib/gallery/resolver";
-import { convertHeicToPng, ensureDir } from "./lib/image/utils";
+import { createLogger } from "$scripts/core/cli-logger";
+import { parseCliArguments } from "$scripts/core/cli-parser";
+import { getConcurrency } from "$scripts/core/concurrency-utils";
+import { createBar, stopAllBars } from "$scripts/core/progress-manager";
+import { deleteOldFaceCrops, findBestMatch, saveFaceCrop } from "$scripts/faces/clustering";
+import { backupConstraints } from "$scripts/faces/constraints-backup";
+import { gcConstraints } from "$scripts/faces/constraints-gc";
+import { recalculateAllFaceCounts } from "$scripts/faces/people";
+import { runPreBuildChecks } from "$scripts/faces/pre-build-check";
+import { resolveGalleryDirectory } from "$scripts/gallery/resolver";
+import { convertHeicToPng, ensureDir } from "$scripts/image/utils";
 import {
   loadFaceEmbeddingsManifest,
   loadFacesManifest,
@@ -38,7 +28,35 @@ import {
   saveFacesManifest,
   saveImagesManifest,
   savePeopleManifest,
-} from "./lib/manifests/repository";
+} from "$scripts/manifests/repository";
+import {
+  getPerformanceRecorder,
+  logResourceUsage,
+  runWithPerformance,
+} from "$scripts/utils/performance";
+import { fileExists, readFileBuffer, readFileText, rm, stat } from "$scripts/utils/runtime";
+import { ImageFormat } from "$shared/types/images";
+import * as faceapi from "@vladmandic/face-api/dist/face-api.node.js";
+import * as canvas from "canvas";
+import crypto from "node:crypto";
+import path from "node:path";
+import sharp from "sharp";
+
+const FACE_DESCRIPTOR_DIMENSION = 128;
+
+function hasValidFaceDescriptor(person: Person): boolean {
+  if (person.clusters && person.clusters.length > 0) return true;
+  const descriptor = person.faceDescriptor;
+  return Boolean(
+    descriptor && Array.isArray(descriptor) && descriptor.length === FACE_DESCRIPTOR_DIMENSION,
+  );
+}
+
+function filterPeopleWithValidDescriptors(people: Person[]): Person[] {
+  return people.filter(function (p) {
+    return !p.junk && hasValidFaceDescriptor(p);
+  });
+}
 
 const SCRIPT_DIR = import.meta.dir;
 const logger = createLogger("face-clustering");
@@ -75,13 +93,16 @@ async function prepareImageForFaceDetection(imagePath: string, detailsDir: strin
   const fileNameWithoutExt = baseName.replace(/\.[^/.]+$/, "");
 
   // Try to find the thumbnail in the 'details' folder (optimized for 1280px)
-  const thumbnailPath = path.join(detailsDir, `${fileNameWithoutExt}.jpeg`);
+  const thumbnailPath = path.join(detailsDir, `${fileNameWithoutExt}.${ImageFormat.JPEG}`);
 
   let imgBuffer: Buffer;
   try {
-    await fsp.access(thumbnailPath);
-    if (values.verbose) logger.verbose({ thumbnailPath }, "Using thumbnail for face detection");
-    imgBuffer = await fsp.readFile(thumbnailPath);
+    if (await fileExists(thumbnailPath)) {
+      if (values.verbose) logger.verbose({ thumbnailPath }, "Using thumbnail for face detection");
+      imgBuffer = await readFileBuffer(thumbnailPath);
+    } else {
+      throw new Error("Thumbnail missing");
+    }
   } catch {
     // Fallback to original if thumbnail is missing
     if (imagePath.toLowerCase().endsWith(".heic")) {
@@ -240,7 +261,7 @@ async function processFaceDetections(
       await saveFaceCrop(img, detection.detection.box, bestMatch.id, image.id, facesOutputDir);
 
       if (!bestMatch.thumbnail || bestMatch.thumbnail.startsWith("faces/person-")) {
-        bestMatch.thumbnail = `faces/${bestMatch.id}/${image.id}.jpg`;
+        bestMatch.thumbnail = `faces/${bestMatch.id}/${image.id}.${ImageFormat.JPG}`;
       }
 
       // Multi-Cluster Update Logic
@@ -250,7 +271,7 @@ async function processFaceDetections(
       let minClusterDist = 1.0;
 
       if (bestMatch.clusters && bestMatch.clusters.length > 0) {
-        bestMatch.clusters.forEach((c, idx) => {
+        bestMatch.clusters.forEach((c: any, idx: number) => {
           const d = faceapi.euclideanDistance(c.centroid, descriptor);
           if (d < minClusterDist) {
             minClusterDist = d;
@@ -357,7 +378,7 @@ async function processFaceDetections(
       const personId = `person-${num}-${uuid}`;
       await saveFaceCrop(img, detection.detection.box, personId, image.id, facesOutputDir);
 
-      const thumbPath = `faces/${personId}/${image.id}.jpg`;
+      const thumbPath = `faces/${personId}/${image.id}.${ImageFormat.JPG}`;
       const newPerson: Person = {
         id: personId,
         name: `Person ${num}`,
@@ -415,7 +436,7 @@ async function loadClusteringResources(
   const constraintsPath = path.resolve(dataDir, "clustering-constraints.json");
 
   try {
-    const cData = await fsp.readFile(constraintsPath, "utf-8");
+    const cData = await readFileText(constraintsPath);
     const parsed = JSON.parse(cData);
 
     if (isValidClusteringConstraints(parsed)) {
@@ -548,14 +569,13 @@ async function loadClusteringResources(
         if (!rescued && p.thumbnail && p.thumbnail !== "") {
           const thumbPath = path.resolve(process.cwd(), `static-${gallery}`, p.thumbnail);
           try {
-            await fsp.stat(thumbPath);
-            const exists = true;
-            if (exists) {
+            const stats = await stat(thumbPath);
+            if (stats) {
               logger.warn(
                 { personName: p.name, personId: p.id },
                 "Rescuing person without descriptor: Calculating from thumbnail",
               );
-              const imgBuffer = await fsp.readFile(thumbPath);
+              const imgBuffer = await readFileBuffer(thumbPath);
               const img = await canvas.loadImage(imgBuffer);
 
               // Detect with single face constraint since it's a crop
@@ -689,7 +709,7 @@ function prepareImageQueues(
 
         // CRITICAL FIX: Preserve existing people that are still valid AND not disconnected
         // This prevents loss of GUI-assigned people during re-clustering
-        const preservedPeople = oldPeople.filter((personId) => {
+        const preservedPeople = oldPeople.filter((personId: string) => {
           // Person must still exist in the manifest
           if (!peopleIds.has(personId)) return false;
           // Person must NOT be explicitly disconnected from this image
@@ -745,7 +765,7 @@ async function processImageQueue(
 
     const imagePath = path.resolve(sourceDir, image.src);
     try {
-      await fsp.access(imagePath);
+      await fileExists(imagePath);
     } catch {
       logger.warn({ imagePath }, "Image file not found - cleaning ghost references");
 
@@ -757,7 +777,7 @@ async function processImageQueue(
       // Track for people cleanup (remove from person.manualImageIds)
       for (const person of people) {
         if (person.manualImageIds?.includes(image.id)) {
-          person.manualImageIds = person.manualImageIds.filter((id) => id !== image.id);
+          person.manualImageIds = person.manualImageIds.filter((id: string) => id !== image.id);
         }
       }
 
@@ -818,7 +838,7 @@ async function processImageQueue(
           const scaleX = (image.width || img.width) / img.width;
           const scaleY = (image.height || img.height) / img.height;
 
-          detections = cached.faces.map((face, i) => ({
+          detections = cached.faces.map((face: any, i: number) => ({
             detection: {
               box: {
                 x: face.x / scaleX,
@@ -1056,7 +1076,7 @@ async function main() {
 
   if (values.clean) {
     if (values.verbose) logger.info({ facesOutputDir }, "[CLEAN] Cleaning output directory");
-    await fsp.rm(facesOutputDir, { recursive: true, force: true });
+    await rm(facesOutputDir, { recursive: true });
 
     // Reset person statistics but preserve Identity Clusters (Multi-Cluster Seed)
     logger.info({}, "[CLEAN] Resetting person statistics while preserving identity centroids.");
@@ -1204,17 +1224,24 @@ async function main() {
 }
 
 (async () => {
-  // const startTime = performance.now();
-  const dataDir = path.resolve(process.cwd(), "src/data", values.gallery || "egypt-2025");
+  await runWithPerformance(async () => {
+    // const startTime = performance.now();
+    const dataDir = path.resolve(process.cwd(), "src/data", values.gallery || "egypt-2025");
 
-  try {
-    await clearTaskStatus(dataDir);
-    await main();
-  } catch (error) {
-    logger.error({ err: error }, "Script execution failed");
-    process.exit(1);
-  } finally {
-    // Always clear task status on completion or error
-    await clearTaskStatus(dataDir);
-  }
+    try {
+      await clearTaskStatus(dataDir);
+      await main();
+    } catch (error) {
+      logger.error({ err: error }, "Script execution failed");
+      process.exit(1);
+    } finally {
+      // Always clear task status on completion or error
+      await clearTaskStatus(dataDir);
+
+      const perf = getPerformanceRecorder()?.getBreakdown();
+      if (perf) {
+        logger.debug({ perf }, "Performance breakdown");
+      }
+    }
+  });
 })();

@@ -1,4 +1,3 @@
-import fsp from "node:fs/promises";
 import path from "node:path";
 import {
   isImageEntry,
@@ -6,6 +5,7 @@ import {
   type PeopleManifest,
   type Person,
 } from "../../../src/lib/types/manifest";
+import { readdir } from "$scripts/utils/runtime";
 
 /**
  * Recalculates the faceCount for a specific person based on the images manifest.
@@ -63,8 +63,8 @@ export function recalculateAllFaceCounts(
 export async function findAvailableThumbnail(personId: string, facesDir: string): Promise<string> {
   const personDir = path.resolve(facesDir, personId);
   try {
-    const files = await fsp.readdir(personDir);
-    const valid = files.filter((f) => f.endsWith(".jpg") && !f.startsWith("."));
+    const files = await readdir(personDir);
+    const valid = (files as string[]).filter((f) => f.endsWith(".jpg") && !f.startsWith("."));
     if (valid.length > 0) {
       return `faces/${personId}/${valid[0]}`;
     }

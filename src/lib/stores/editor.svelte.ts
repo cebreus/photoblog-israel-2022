@@ -6,80 +6,134 @@ const logger = createLogger("editor-store");
  * Editor state store - manages selection and edit mode.
  * Uses class-based pattern for consistency with other stores.
  */
-export class EditorState {
-  selection = $state(new Set<string>());
-  editMode = $state(false);
-  showMetadataOverlay = $state(false);
+function createEditorState() {
+  let selection = $state(new Set<string>());
+  let editMode = $state(false);
+  let showMetadataOverlay = $state(false);
   /** When true, drag & drop reordering is enabled in edit mode */
-  reorderMode = $state(false);
+  let reorderMode = $state(false);
 
-  private updateSelection(fn: (s: Set<string>) => void) {
-    const next = new Set(this.selection);
+  function updateSelection(fn: (s: Set<string>) => void) {
+    const next = new Set(selection);
     fn(next);
-    this.selection = next;
+    selection = next;
   }
 
-  toggleSelection(id: string) {
-    this.updateSelection((s) => (s.has(id) ? s.delete(id) : s.add(id)));
+  function toggleSelection(id: string) {
+    function mutateSelection(s: Set<string>) {
+      if (s.has(id)) {
+        s.delete(id);
+      } else {
+        s.add(id);
+      }
+    }
+    updateSelection(mutateSelection);
   }
 
-  addSelection(id: string) {
-    this.updateSelection((s) => s.add(id));
+  function addSelection(id: string) {
+    function mutateSelection(s: Set<string>) {
+      s.add(id);
+    }
+    updateSelection(mutateSelection);
   }
 
-  removeSelection(id: string) {
-    this.updateSelection((s) => s.delete(id));
+  function removeSelection(id: string) {
+    function mutateSelection(s: Set<string>) {
+      s.delete(id);
+    }
+    updateSelection(mutateSelection);
   }
 
-  clearSelection() {
-    this.selection = new Set();
+  function clearSelection() {
+    selection = new Set();
   }
 
-  setSelection(ids: Set<string>) {
+  function setSelection(ids: Set<string>) {
     if (!(ids instanceof Set)) {
-      logger.error("Invalid selection value, expected Set", ids);
+      logger.error({ ids }, "Invalid selection value, expected Set");
       return;
     }
-    this.selection = ids;
+    selection = ids;
   }
 
-  addMultiple(ids: string[]) {
-    this.updateSelection((s) => {
+  function addMultiple(ids: string[]) {
+    function mutateSelection(s: Set<string>) {
       for (const id of ids) s.add(id);
-    });
+    }
+    updateSelection(mutateSelection);
   }
 
-  removeMultiple(ids: string[]) {
-    this.updateSelection((s) => {
+  function removeMultiple(ids: string[]) {
+    function mutateSelection(s: Set<string>) {
       for (const id of ids) s.delete(id);
-    });
+    }
+    updateSelection(mutateSelection);
   }
 
-  toggleEditMode() {
-    this.editMode = !this.editMode;
-    if (!this.editMode) {
-      this.selection = new Set();
+  function toggleEditMode() {
+    editMode = !editMode;
+    if (!editMode) {
+      selection = new Set();
     }
   }
 
-  setEditMode(value: boolean) {
-    this.editMode = value;
+  function setEditMode(value: boolean) {
+    editMode = value;
     if (!value) {
-      this.selection = new Set();
+      selection = new Set();
     }
   }
 
-  setShowMetadataOverlay(value: boolean) {
-    this.showMetadataOverlay = value;
+  function setShowMetadataOverlay(value: boolean) {
+    showMetadataOverlay = value;
   }
 
-  setReorderMode(value: boolean) {
-    this.reorderMode = value;
+  function setReorderMode(value: boolean) {
+    reorderMode = value;
   }
 
-  toggleReorderMode() {
-    this.reorderMode = !this.reorderMode;
+  function toggleReorderMode() {
+    reorderMode = !reorderMode;
   }
+
+  return {
+    get selection() {
+      return selection;
+    },
+    set selection(v) {
+      selection = v;
+    },
+    get editMode() {
+      return editMode;
+    },
+    set editMode(v) {
+      editMode = v;
+    },
+    get showMetadataOverlay() {
+      return showMetadataOverlay;
+    },
+    set showMetadataOverlay(v) {
+      showMetadataOverlay = v;
+    },
+    get reorderMode() {
+      return reorderMode;
+    },
+    set reorderMode(v) {
+      reorderMode = v;
+    },
+    toggleSelection,
+    addSelection,
+    removeSelection,
+    clearSelection,
+    setSelection,
+    addMultiple,
+    removeMultiple,
+    toggleEditMode,
+    setEditMode,
+    setShowMetadataOverlay,
+    setReorderMode,
+    toggleReorderMode,
+  };
 }
 
-export const editor = new EditorState();
+export const editor = createEditorState();

@@ -7,37 +7,31 @@ type TaskInfo = {
   startTime: number;
 };
 
-class SystemState {
-  activeTask = $state<TaskInfo | null>(null);
-  private eventSource: EventSource | null = null;
+function createSystemState() {
+  let activeTask = $state<TaskInfo | null>(null);
+  let eventSource: EventSource | null = null;
 
-  constructor() {
-    if (browser && dev) {
-      this.connect();
-    }
-  }
-
-  private connect() {
-    if (this.eventSource) {
+  function connect() {
+    if (eventSource) {
       return;
     }
 
-    this.eventSource = new EventSource("/api/system/events");
+    eventSource = new EventSource("/api/system/events");
 
-    this.eventSource.onmessage = (event) => {
+    eventSource.onmessage = function handleMessage(event) {
       try {
         const data: SystemEvent = JSON.parse(event.data);
 
         if (data.type === "task:started") {
-          this.activeTask = {
+          activeTask = {
             id: data.task.id,
             label: data.task.label,
             startTime: data.timestamp,
           };
         } else if (data.type === "task:completed" || data.type === "task:failed") {
           // Only clear if it matches the current task
-          if (this.activeTask?.id === data.task.id) {
-            this.activeTask = null;
+          if (activeTask?.id === data.task.id) {
+            activeTask = null;
           }
         }
       } catch {
@@ -45,24 +39,39 @@ class SystemState {
       }
     };
 
-    this.eventSource.onerror = () => {
+    eventSource.onerror = function handleError() {
       // EventSource automatically reconnects
     };
   }
 
-  disconnect() {
-    if (this.eventSource) {
-      this.eventSource.close();
-      this.eventSource = null;
+  function disconnect() {
+    if (eventSource) {
+      eventSource.close();
+      eventSource = null;
     }
   }
+
+  // Initialization (logic from constructor)
+  if (browser && dev) {
+    connect();
+  }
+
+  return {
+    get activeTask() {
+      return activeTask;
+    },
+    set activeTask(v) {
+      activeTask = v;
+    },
+    disconnect,
+  };
 }
 
-export const system = new SystemState();
+export const system = createSystemState();
 
 // Cleanup on page unload
 if (browser) {
-  window.addEventListener("beforeunload", () => {
+  window.addEventListener("beforeunload", function handleUnload() {
     system.disconnect();
   });
 }

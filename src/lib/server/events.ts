@@ -12,28 +12,14 @@ export type SystemEvent = {
   timestamp: number;
 };
 
-class SystemEventEmitter extends EventEmitter {
-  private static instance: SystemEventEmitter;
-
-  static getInstance(): SystemEventEmitter {
-    if (!SystemEventEmitter.instance) {
-      SystemEventEmitter.instance = new SystemEventEmitter();
-    }
-    return SystemEventEmitter.instance;
-  }
-
-  emitSystemEvent(event: SystemEvent) {
-    this.emit("system:event", event);
-  }
-}
-
-export const systemEvents = SystemEventEmitter.getInstance();
+// Singleton event emitter instance
+export const systemEvents = new EventEmitter();
 
 export function emitSystemEvent(
   gallery: string,
   event: Omit<SystemEvent, "gallery" | "timestamp">,
 ) {
-  systemEvents.emitSystemEvent({
+  systemEvents.emit("system:event", {
     ...event,
     gallery,
     timestamp: Date.now(),

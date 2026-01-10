@@ -1,4 +1,4 @@
-import fsp from "node:fs/promises";
+import { mkdir, readFileText, unlink, writeFile } from "$scripts/utils/runtime";
 import path from "node:path";
 
 export type TaskStatus = {
@@ -26,14 +26,14 @@ export async function saveTaskStatus(
     startTime: Date.now(),
   };
 
-  await fsp.mkdir(dataDir, { recursive: true });
-  await fsp.writeFile(taskPath, JSON.stringify(status, null, 2), "utf-8");
+  await mkdir(dataDir, { recursive: true });
+  await writeFile(taskPath, JSON.stringify(status, null, 2));
 }
 
 export async function clearTaskStatus(dataDir: string): Promise<void> {
   const taskPath = getTaskFilePath(dataDir);
   try {
-    await fsp.unlink(taskPath);
+    await unlink(taskPath);
   } catch (e) {
     if ((e as NodeJS.ErrnoException).code !== "ENOENT") {
       throw e;
@@ -44,7 +44,7 @@ export async function clearTaskStatus(dataDir: string): Promise<void> {
 export async function getTaskStatus(dataDir: string): Promise<TaskStatus | null> {
   const taskPath = getTaskFilePath(dataDir);
   try {
-    const content = await fsp.readFile(taskPath, "utf-8");
+    const content = await readFileText(taskPath);
     const status = JSON.parse(content) as TaskStatus;
 
     // Verify the process is still running

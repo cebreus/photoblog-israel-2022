@@ -1,20 +1,22 @@
 process.env.GLIB_LOG_LEVEL = "critical";
 
-import fsp from "node:fs/promises";
+import { intro } from "@clack/prompts";
 import path from "node:path";
-import { intro, select } from "@clack/prompts";
 import "sharp";
 import { clearTaskStatus, saveTaskStatus } from "../src/lib/server/task-status";
 import type { QualityTypes, ScriptArgs } from "../src/lib/types/manifest";
 import { config } from "./build.config";
-import { createLogger } from "./lib/core/cli-logger";
-import { type CliOptions, parseCliArguments } from "./lib/core/cli-parser";
-import { getConcurrency } from "./lib/core/concurrency-utils";
-import { runBlurBuild } from "./lib/image/blur";
-import { cleanup } from "./lib/image/processor";
-import { sha1 } from "./lib/image/utils";
-import incrementalRun from "./lib/manifests/incremental";
-import { formatDuration } from "./lib/utils/time";
+import { createLogger } from "$scripts/core/cli-logger";
+import { type CliOptions, parseCliArguments } from "$scripts/core/cli-parser";
+import { getConcurrency } from "$scripts/core/concurrency-utils";
+import { resolveGalleryDirectory } from "$scripts/gallery/resolver";
+import { runBlurBuild } from "$scripts/image/blur";
+import { cleanup } from "$scripts/image/processor";
+import { sha1 } from "$scripts/image/utils";
+import incrementalRun from "$scripts/manifests/incremental";
+import { getPerformanceRecorder, runWithPerformance } from "$scripts/utils/performance";
+import { rm } from "$scripts/utils/runtime";
+import { formatDuration } from "$scripts/utils/time";
 
 let RUNTIME_RAW: Partial<CliOptions> = {};
 let RUNTIME_FORMATS = [...config.encoding.formats];
@@ -23,39 +25,20 @@ let RUNTIME_ALLOW_UPSCALE = false;
 
 const CACHE_VERSION = 17;
 
-let parsed = parseCliArguments(process.argv.slice(2));
-
 type ExtendedScriptArgs = ScriptArgs & { __raw: CliOptions };
 
-let ARGS: ExtendedScriptArgs = {
-  concurrency: parsed.concurrency,
-  limit: parsed.limit,
-  watch: parsed.watch,
-  clean: parsed.clean,
-  verbose: parsed.verbose,
-  quiet: parsed.quiet,
-  manifestOnly: parsed.manifestOnly ?? false,
-  curation: parsed.curation ?? false,
-  skipFaces: parsed.skipFaces ?? false,
-  skipEmbeddings: parsed.skipEmbeddings ?? false,
-  filter: parsed.filter,
-  force: parsed.force ?? false,
-  __raw: parsed,
-};
-
+let ARGS: ExtendedScriptArgs;
 let logger = createLogger("images");
-if (ARGS.quiet || (ARGS.manifestOnly && !ARGS.verbose)) logger.silent = true;
-if (ARGS.verbose) logger.level = "verbose";
-
-// Context
 let contentDir = process.env.CONTENT_DIR;
+let CTX: any;
+
 function isSrcArgFlag(a: string) {
   return a.startsWith("--src=") || a.startsWith("--blur.src=");
 }
 let hasSrcArg = process.argv.slice(2).some(isSrcArgFlag);
 
 export function resetCliState() {
-  parsed = parseCliArguments(process.argv.slice(2));
+  const parsed = parseCliArguments(process.argv.slice(2));
   ARGS = {
     concurrency: parsed.concurrency,
     limit: parsed.limit,
@@ -71,47 +54,24 @@ export function resetCliState() {
     force: parsed.force ?? false,
     __raw: parsed,
   };
-  RUNTIME_RAW = {};
-  RUNTIME_FORMATS = [...config.encoding.formats];
-  RUNTIME_QUALITY_OVERRIDES = {};
-  RUNTIME_ALLOW_UPSCALE = false;
+
+  RUNTIME_RAW = ARGS.__raw;
+  contentDir = process.env.CONTENT_DIR;
+  RUNTIME_FORMATS = RUNTIME_RAW.formats?.length
+    ? [...RUNTIME_RAW.formats]
+    : [...config.encoding.formats];
+  RUNTIME_QUALITY_OVERRIDES = RUNTIME_RAW.quality ?? {};
+  RUNTIME_ALLOW_UPSCALE = RUNTIME_RAW.allowUpscale ?? false;
+
   logger = createLogger("images");
   if (ARGS.quiet || (ARGS.manifestOnly && !ARGS.verbose)) logger.silent = true;
   if (ARGS.verbose) logger.level = "verbose";
-  contentDir = process.env.CONTENT_DIR;
-  hasSrcArg = process.argv.slice(2).some(isSrcArgFlag);
+
   CTX = initializeContext();
 }
 
-async function getGalleryOrPrompt(): Promise<string> {
-  const envDir = process.env.CONTENT_DIR;
-  if (envDir) return envDir;
-
-  const contentDirRoot = path.resolve("content");
-  const entries = await fsp.readdir(contentDirRoot, { withFileTypes: true });
-  const galleries = entries.filter((e) => e.isDirectory()).map((e) => e.name);
-
-  if (galleries.length === 0) {
-    throw new Error("No galleries found in content/ directory.");
-  }
-
-  if (galleries.length === 1) {
-    return galleries[0];
-  }
-
-  const galleryId = await select({
-    message: "Select a gallery to process:",
-    options: galleries.map((g) => ({ value: g, label: g })),
-  });
-
-  if (typeof galleryId !== "string") {
-    process.exit(0);
-  }
-  return galleryId;
-}
-
 function initializeContext() {
-  const raw = ARGS.__raw;
+  const raw = RUNTIME_RAW;
   const defaultManifestPath = path.resolve(process.cwd(), config.paths.manifest);
   const overrideManifestPath = raw?.manifest ? path.resolve(process.cwd(), raw.manifest) : null;
   return {
@@ -137,7 +97,7 @@ function initializeContext() {
   };
 }
 
-let CTX = initializeContext();
+resetCliState();
 
 function logOutputPlan() {
   const relSrc = path.posix.normalize(path.relative(process.cwd(), CTX.srcRoot));
@@ -167,8 +127,9 @@ function logOutputPlan() {
     );
   });
 }
+
 async function cleanAllOutputs() {
-  await fsp.rm(CTX.outRoot, { recursive: true, force: true });
+  await rm(CTX.outRoot, { recursive: true });
 }
 
 export async function main() {
@@ -183,7 +144,9 @@ export async function main() {
 
   if (!contentDir && !hasSrcArg) {
     try {
-      contentDir = await getGalleryOrPrompt();
+      contentDir = await resolveGalleryDirectory({
+        message: "Select a gallery to process:",
+      });
       ARGS.__raw.src = path.resolve(process.cwd(), `content/${contentDir}/pics`);
       process.env.CONTENT_DIR = contentDir;
       CTX = initializeContext();
@@ -194,17 +157,7 @@ export async function main() {
   }
   logger.verbose({ gallery: contentDir }, "Processing content");
 
-  RUNTIME_RAW = ARGS.__raw || {};
-  RUNTIME_FORMATS = RUNTIME_RAW.formats?.length
-    ? [...RUNTIME_RAW.formats]
-    : [...config.encoding.formats];
-  RUNTIME_QUALITY_OVERRIDES = RUNTIME_RAW.quality ?? {};
-  RUNTIME_ALLOW_UPSCALE = RUNTIME_RAW.allowUpscale ?? false;
-
-  // Only show output plan when it's relevant:
-  // - Not in quiet mode
-  // - Not blur-only (shows all outputs but only generates blur)
-  // - Not manifest-only subprocess (shows all outputs but generates nothing)
+  // Only show output plan when it's relevant
   const isSubprocess = process.env.LOG_STYLE === "boxed";
   const shouldShowPlan =
     !ARGS.quiet && !RUNTIME_RAW.blurOnly && !(ARGS.manifestOnly && isSubprocess);
@@ -224,59 +177,52 @@ export async function main() {
     return;
   }
 
-  if (ARGS.watch) {
-    logger.info(
-      {
-        srcRoot: path.posix.normalize(CTX.srcRoot),
-        contentRoot: path.posix.normalize(CTX.contentRoot),
-      },
-      "Watch mode enabled",
-    );
-    await incrementalRun(CTX, ARGS, {
-      allowUpscale: RUNTIME_ALLOW_UPSCALE,
-      formats: RUNTIME_FORMATS,
-      qualityOverrides: RUNTIME_QUALITY_OVERRIDES,
-      cacheVersion: CACHE_VERSION,
-    });
-  } else {
-    await incrementalRun(CTX, ARGS, {
-      allowUpscale: RUNTIME_ALLOW_UPSCALE,
-      formats: RUNTIME_FORMATS,
-      qualityOverrides: RUNTIME_QUALITY_OVERRIDES,
-      cacheVersion: CACHE_VERSION,
-    });
-  }
+  await incrementalRun(CTX, ARGS, {
+    allowUpscale: RUNTIME_ALLOW_UPSCALE,
+    formats: RUNTIME_FORMATS,
+    qualityOverrides: RUNTIME_QUALITY_OVERRIDES,
+    cacheVersion: CACHE_VERSION,
+  });
 }
 
 export async function executeMain(): Promise<void> {
-  const startTime = performance.now();
+  await runWithPerformance(async () => {
+    const startTime = performance.now();
 
-  // Determine gallery and data directory
-  const gallery = ARGS.__raw.gallery || process.env.CONTENT_DIR || "egypt-2025";
-  const dataDir = path.resolve(process.cwd(), `src/data/${gallery}`);
+    // Determine gallery and data directory
+    const gallery = ARGS.__raw.gallery || process.env.CONTENT_DIR || "egypt-2025";
+    const dataDir = path.resolve(process.cwd(), `src/data/${gallery}`);
 
-  await saveTaskStatus(dataDir, {
-    id: "image-processing",
-    label: "Generování variant obrázků...",
-  });
+    await saveTaskStatus(dataDir, {
+      id: "image-processing",
+      label: "Generování variant obrázků...",
+    });
 
-  try {
-    await main();
-  } catch (e) {
-    const errAny: any = e;
-    logger.error(
-      { err: errAny?.stack ?? String(errAny) },
-      "An unexpected error occurred in the main process",
-    );
-    process.exit(1);
-  } finally {
-    await clearTaskStatus(dataDir);
-    await cleanup();
-    if (!ARGS.quiet) {
-      const duration = formatDuration(performance.now() - startTime);
-      logger.info({ duration }, `Job completed in ${duration}`);
+    try {
+      await main();
+    } catch (e) {
+      const errAny: any = e;
+      logger.error(
+        { err: errAny?.stack ?? String(errAny) },
+        "An unexpected error occurred in the main process",
+      );
+      process.exit(1);
+    } finally {
+      await clearTaskStatus(dataDir);
+      await cleanup();
+      if (!ARGS.quiet) {
+        const duration = formatDuration(performance.now() - startTime);
+
+        // Log performance breakdown
+        const perf = getPerformanceRecorder()?.getBreakdown();
+        if (perf) {
+          logger.debug({ perf }, "Performance breakdown");
+        }
+
+        logger.info({ duration }, `Job completed in ${duration}`);
+      }
     }
-  }
+  });
 }
 
 if (import.meta.main) {

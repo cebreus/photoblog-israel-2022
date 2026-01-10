@@ -1,8 +1,5 @@
 #!/usr/bin/env bun
 
-import fsp from "node:fs/promises";
-import path from "node:path";
-import { parseArgs } from "node:util";
 import {
   cancel,
   confirm,
@@ -13,12 +10,14 @@ import {
   outro,
   spinner,
 } from "@clack/prompts";
+import path from "node:path";
+import { parseArgs } from "node:util";
 import pc from "picocolors";
 import { type Cache, isImageEntry } from "../src/lib/types/manifest";
 import { config } from "./build.config";
-import { createLogger } from "./lib/core/cli-logger";
-import { findOrphanAssets, findOrphanFaceCrops, getOutputFolders } from "./lib/gallery/cleanup";
-import { resolveGalleryDirectory } from "./lib/gallery/resolver";
+import { createLogger } from "$scripts/core/cli-logger";
+import { findOrphanAssets, findOrphanFaceCrops, getOutputFolders } from "$scripts/gallery/cleanup";
+import { resolveGalleryDirectory } from "$scripts/gallery/resolver";
 import {
   loadAnalysisManifest,
   loadEmbeddingsManifest,
@@ -30,7 +29,8 @@ import {
   saveEmbeddingsManifest,
   saveFacesManifest,
   savePeopleManifest,
-} from "./lib/manifests/repository";
+} from "$scripts/manifests/repository";
+import { readFileText, rm, unlink, writeFile } from "$scripts/utils/runtime";
 
 interface AuditResults {
   orphanPersonFolders: string[];
@@ -185,7 +185,7 @@ async function main() {
   // 5. Check constraints
   s.start("Checking constraints...");
   try {
-    const data = await fsp.readFile(constraintsPath, "utf-8");
+    const data = await readFileText(constraintsPath);
     const constraints = JSON.parse(data);
     if (constraints.disconnects) {
       for (const c of constraints.disconnects) {
@@ -329,18 +329,18 @@ async function main() {
 
   if (categories.includes("faces")) {
     for (const folder of results.orphanPersonFolders) {
-      await fsp.rm(path.join(facesDir, folder), { recursive: true, force: true });
+      await rm(path.join(facesDir, folder), { recursive: true });
       removed++;
     }
     for (const file of results.orphanFaceCrops) {
-      await fsp.unlink(path.join(facesDir, file)).catch(() => {});
+      await unlink(path.join(facesDir, file)).catch(() => {});
       removed++;
     }
   }
 
   if (categories.includes("assets")) {
     for (const file of results.orphanAssets) {
-      await fsp.unlink(path.join(outputRoot, file)).catch(() => {});
+      await unlink(path.join(outputRoot, file)).catch(() => {});
       removed++;
     }
   }
@@ -350,7 +350,7 @@ async function main() {
       delete cache.files[key];
       removed++;
     }
-    await fsp.writeFile(cachePath, JSON.stringify(cache, null, 2));
+    await writeFile(cachePath, JSON.stringify(cache, null, 2));
   }
 
   if (categories.includes("manifests")) {
@@ -373,7 +373,7 @@ async function main() {
 
   if (categories.includes("constraints")) {
     try {
-      const data = await fsp.readFile(constraintsPath, "utf-8");
+      const data = await readFileText(constraintsPath);
       const constraints = JSON.parse(data);
       const staleIds = new Set(results.staleConstraints.map((c) => c.imageId));
       if (constraints.disconnects)
@@ -382,7 +382,7 @@ async function main() {
         );
       if (constraints.connects)
         constraints.connects = constraints.connects.filter((c: any) => !staleIds.has(c.imageId));
-      await fsp.writeFile(constraintsPath, JSON.stringify(constraints, null, 2));
+      await writeFile(constraintsPath, JSON.stringify(constraints, null, 2));
       removed += results.staleConstraints.length;
     } catch {}
   }
@@ -400,7 +400,7 @@ async function main() {
 
 const logger = createLogger("audit-orphans");
 
-main().catch((err) => {
+main().catch((err: any) => {
   logger.error({ err }, "Fatal Error");
   process.exit(1);
 });

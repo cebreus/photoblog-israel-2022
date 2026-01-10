@@ -2,8 +2,8 @@ import { mkdir, readdir } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 import { describe, expect, it } from "vitest";
-import { buildInputSet } from "../../utils/fixtures";
-import { runScript, tmpDir } from "../../utils/process-helpers";
+import { buildInputSet } from "$tests/utils/fixtures";
+import { runScript, tmpDir } from "$tests/utils/process-helpers";
 
 const CWD = process.cwd();
 

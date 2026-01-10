@@ -1,35 +1,45 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { createLogger } from "../../../scripts/lib/core/cli-logger";
+import { stopAllBars } from "../../../scripts/lib/core/progress-manager";
 
 describe("CLI Logger JSON Mode", () => {
   let originalEnv: string | undefined;
+  let originalLevel: string | undefined;
   let consoleOutput: string[];
   let originalStdoutWrite: any;
+  let originalStderrWrite: any;
 
   beforeEach(() => {
-    originalEnv = Bun.env.LOG_FORMAT;
+    stopAllBars();
+    originalEnv = process.env.LOG_FORMAT;
+    originalLevel = process.env.LOG_LEVEL;
+    process.env.LOG_LEVEL = "info";
     consoleOutput = [];
 
-    // Capture stdout
+    // Capture stdout and stderr
     originalStdoutWrite = process.stdout.write;
     process.stdout.write = ((chunk: any) => {
+      consoleOutput.push(chunk.toString());
+      return true;
+    }) as any;
+
+    originalStderrWrite = process.stderr.write;
+    process.stderr.write = ((chunk: any) => {
       consoleOutput.push(chunk.toString());
       return true;
     }) as any;
   });
 
   afterEach(() => {
-    if (originalEnv !== undefined) {
-      Bun.env.LOG_FORMAT = originalEnv;
-    } else {
-      delete Bun.env.LOG_FORMAT;
-    }
+    process.env.LOG_FORMAT = originalEnv;
+    process.env.LOG_LEVEL = originalLevel;
 
     process.stdout.write = originalStdoutWrite;
+    process.stderr.write = originalStderrWrite;
   });
 
   it("should output JSON when LOG_FORMAT=json", () => {
-    Bun.env.LOG_FORMAT = "json";
+    process.env.LOG_FORMAT = "json";
     const logger = createLogger("test-logger");
 
     logger.info("Test message");
@@ -47,7 +57,7 @@ describe("CLI Logger JSON Mode", () => {
   });
 
   it("should output different log levels in JSON", () => {
-    Bun.env.LOG_FORMAT = "json";
+    process.env.LOG_FORMAT = "json";
     const logger = createLogger("test-logger");
 
     logger.info("Info message");
@@ -65,7 +75,7 @@ describe("CLI Logger JSON Mode", () => {
   });
 
   it("should include timestamp in JSON output", () => {
-    Bun.env.LOG_FORMAT = "json";
+    process.env.LOG_FORMAT = "json";
     const logger = createLogger("test-logger");
 
     logger.info("Test with timestamp");
@@ -76,7 +86,7 @@ describe("CLI Logger JSON Mode", () => {
   });
 
   it("should use pretty format when LOG_FORMAT is not json", () => {
-    delete Bun.env.LOG_FORMAT;
+    delete process.env.LOG_FORMAT;
     const logger = createLogger("test-logger");
 
     logger.info("Pretty format test");

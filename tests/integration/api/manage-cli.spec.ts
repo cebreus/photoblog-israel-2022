@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { runScript } from "../../utils/process-helpers";
+import { runScript } from "$tests/utils/process-helpers";
 
 describe("Integration: manage.ts CLI", () => {
   it("uses gallery specified via --gallery and passes flags to sub-command", async () => {

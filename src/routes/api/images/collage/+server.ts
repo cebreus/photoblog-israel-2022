@@ -1,9 +1,3 @@
-import fs from "node:fs/promises";
-import path from "node:path";
-import type { RequestEvent } from "@sveltejs/kit";
-import { json } from "@sveltejs/kit";
-import { exiftool } from "exiftool-vendored";
-import sharp from "sharp";
 import { getContentDir } from "$lib/config";
 import type { Logger } from "$lib/logger";
 import { clearTaskStatus, saveTaskStatus } from "$lib/server/task-status";
@@ -12,12 +6,19 @@ import { calculateLayout } from "$lib/utils/collage-layout-engine";
 import { renderCollage } from "$lib/utils/collage-renderer";
 import { reloadManifests } from "$lib/utils/manifest-loader";
 import { COLLAGE_MESSAGES } from "$lib/utils/messages";
+import { fileExists, mkdir, rename, writeFile } from "$scripts/utils/runtime";
+import type { RequestEvent } from "@sveltejs/kit";
+import { json } from "@sveltejs/kit";
+import { exiftool } from "exiftool-vendored";
+import path from "node:path";
+import process from "node:process";
+import sharp from "sharp";
 
-import { config as buildConfig } from "$scripts/build.config";
-import { loadSharpOrExplain, processImage } from "$scripts/lib/image/processor";
-import { generateMenuManifest, updateManifest } from "$scripts/lib/manifests/builder";
-import { loadStoryData } from "$scripts/lib/manifests/incremental";
-import { withManifestLock } from "$scripts/lib/manifests/lock";
+import { config as buildConfig } from "$config";
+import { loadSharpOrExplain, processImage } from "$scripts/image/processor";
+import { generateMenuManifest, updateManifest } from "$scripts/manifests/builder";
+import { loadStoryData } from "$scripts/manifests/incremental";
+import { withManifestLock } from "$scripts/manifests/lock";
 import {
   loadAnalysisManifest,
   loadFacesManifest,
@@ -26,7 +27,8 @@ import {
   saveFacesManifest,
   saveImagesManifest,
   saveMenuManifest,
-} from "$scripts/lib/manifests/repository";
+} from "$scripts/manifests/repository";
+import { SEARCH_EXTENSIONS } from "$shared/types/images";
 
 // DEV-only guard (reject in production)
 const IS_DEV = import.meta.env.DEV;
@@ -130,7 +132,7 @@ export async function POST({ request, locals }: RequestEvent): Promise<Response>
     const outputFilename = `pics/${basename}--collage.jpg`;
     const outputPath = path.join(contentDirRoot, outputFilename);
 
-    await fs.mkdir(path.dirname(outputPath), { recursive: true });
+    await mkdir(path.dirname(outputPath), { recursive: true });
     await saveCollageImage(buffer, outputPath);
 
     const configPath = path.join(contentDirRoot, `pics/${basename}--collage.json`);
@@ -148,7 +150,7 @@ export async function POST({ request, locals }: RequestEvent): Promise<Response>
       items: body.items.map(mapItemsForConfig),
     };
     log.info({ configPath, config: configWithPaths }, "Collage API: Saving configuration");
-    await fs.writeFile(configPath, JSON.stringify(configWithPaths, null, 2));
+    await writeFile(configPath, JSON.stringify(configWithPaths, null, 2));
 
     // Copy EXIF metadata from chosen source image into the collage.
     const startExif = Date.now();
@@ -312,55 +314,40 @@ async function resolveSourcePaths(
     let fullPath = path.join(contentDirRoot, id);
 
     if (path.extname(id)) {
-      try {
-        attemptedPaths.push(fullPath);
-        await fs.access(fullPath);
+      attemptedPaths.push(fullPath);
+      if (await fileExists(fullPath)) {
         resolved.push(fullPath);
         continue;
-      } catch {
-        const picsPath = path.join(contentDirRoot, "pics", id);
-        try {
-          attemptedPaths.push(picsPath);
-          await fs.access(picsPath);
-          resolved.push(picsPath);
-          continue;
-        } catch {
-          const sourcesPath = path.join(contentDirRoot, "pics", "collage-sources", id);
-          try {
-            attemptedPaths.push(sourcesPath);
-            await fs.access(sourcesPath);
-            resolved.push(sourcesPath);
-            continue;
-          } catch {
-            const picsSourcesPath = path.join(contentDirRoot, "pics", "collage-sources", id);
-            try {
-              attemptedPaths.push(picsSourcesPath);
-              await fs.access(picsSourcesPath);
-              resolved.push(picsSourcesPath);
-              continue;
-            } catch {
-              const errorMsg = `${COLLAGE_MESSAGES.IMAGE_NOT_FOUND(id)}\nHledáno v: ${attemptedPaths.join(", ")}`;
-              log.error({ id, attemptedPaths }, "Collage: Image not found");
-              throw new Error(errorMsg);
-            }
-          }
-        }
       }
+
+      const picsPath = path.join(contentDirRoot, "pics", id);
+      attemptedPaths.push(picsPath);
+      if (await fileExists(picsPath)) {
+        resolved.push(picsPath);
+        continue;
+      }
+
+      const sourcesPath = path.join(contentDirRoot, "pics", "collage-sources", id);
+      attemptedPaths.push(sourcesPath);
+      if (await fileExists(sourcesPath)) {
+        resolved.push(sourcesPath);
+        continue;
+      }
+
+      const picsSourcesPath = path.join(contentDirRoot, "pics", "collage-sources", id);
+      attemptedPaths.push(picsSourcesPath);
+      if (await fileExists(picsSourcesPath)) {
+        resolved.push(picsSourcesPath);
+        continue;
+      }
+
+      const errorMsg = `${COLLAGE_MESSAGES.IMAGE_NOT_FOUND(id)}\nHledáno v: ${attemptedPaths.join(", ")}`;
+      log.error({ id, attemptedPaths }, "Collage: Image not found");
+      throw new Error(errorMsg);
     }
 
     // When ID has no extension, try common image extensions in several locations.
-    const extensions = [
-      ".jpg",
-      ".jpeg",
-      ".JPG",
-      ".JPEG",
-      ".png",
-      ".PNG",
-      ".heic",
-      ".HEIC",
-      ".heif",
-      ".HEIF",
-    ];
+    const extensions = SEARCH_EXTENSIONS;
 
     const searchPaths = [
       fullPath,
@@ -374,13 +361,10 @@ async function resolveSourcePaths(
       for (const ext of extensions) {
         const testPath = basePath + ext;
         attemptedPaths.push(testPath);
-        try {
-          await fs.access(testPath);
+        if (await fileExists(testPath)) {
           fullPath = testPath;
           found = true;
           break;
-        } catch {
-          // continue trying
         }
       }
       if (found) break;
@@ -436,7 +420,7 @@ async function sortByDateTimeOriginal(paths: string[]): Promise<string[]> {
  * Persist collage buffer to disk.
  */
 async function saveCollageImage(buffer: Buffer, outputPath: string) {
-  await fs.writeFile(outputPath, buffer);
+  await writeFile(outputPath, buffer as Uint8Array);
 }
 
 /**
@@ -486,7 +470,7 @@ async function moveSourceImages(sourcePaths: string[], contentDirRoot: string, i
     const destPath = path.join(sourcesDir, imageId);
     const destDir = path.dirname(destPath);
 
-    await fs.mkdir(destDir, { recursive: true });
-    await fs.rename(src, destPath);
+    await mkdir(destDir, { recursive: true });
+    await rename(src, destPath);
   }
 }

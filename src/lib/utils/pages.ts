@@ -1,7 +1,7 @@
-import fs from "node:fs/promises";
-import path from "node:path";
-import matter from "gray-matter";
 import { renderMarkdown } from "$lib/utils/markup";
+import { readFileText } from "$scripts/utils/runtime";
+import matter from "gray-matter";
+import path from "node:path";
 
 export type PageFrontMatter = {
   type?: string;
@@ -40,7 +40,7 @@ const CONTENT_ROOT = path.resolve(process.cwd(), "content/pages");
 
 export async function loadPage(route: string): Promise<PageData> {
   const file = path.join(CONTENT_ROOT, route, "index.md");
-  const raw = await fs.readFile(file, "utf8");
+  const raw = await readFileText(file);
   const { data, content } = matter(raw);
   const fm: PageFrontMatter = data || {};
 

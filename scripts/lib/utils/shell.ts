@@ -17,7 +17,11 @@ export async function run(
   };
 
   const shouldPipe = options.stdio === "pipe" || !!options.filter || options.captureOutput;
-  const stdioMode = shouldPipe ? "pipe" : options.stdio || "inherit";
+
+  let stdioMode: "pipe" | "inherit" | "ignore" = options.stdio || "inherit";
+  if (shouldPipe) {
+    stdioMode = "pipe";
+  }
 
   const { exited, stdout, stderr } = await spawn(cmd, args, {
     stdout: stdioMode,
@@ -103,18 +107,9 @@ async function pipeWithFilter(
 }
 
 export async function execCapture(cmd: string, args: string[]): Promise<string> {
-  const { exited, stdout, stderr } = await spawn(cmd, args, {
-    stdout: "pipe",
-    stderr: "pipe",
+  const result = await run(cmd, args, {
+    stdio: "pipe",
+    captureOutput: true,
   });
-
-  const output = await new Response(stdout).text();
-  const exitCode = await exited;
-
-  if (exitCode !== 0) {
-    const error = await new Response(stderr).text();
-    throw new Error(`Command failed: ${error || output}`);
-  }
-
-  return output.trim();
+  return result?.stdout.trim() ?? "";
 }

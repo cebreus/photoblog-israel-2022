@@ -11,7 +11,7 @@
 
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { page } from "vitest/browser";
-import { renderComponent } from "../../utils/render-helpers";
+import { renderComponent } from "$tests/utils/render-helpers";
 
 // All vi.mock calls must come FIRST, before any imports that use the mocked modules
 // and must NOT reference any variables declared outside the factory
@@ -60,7 +60,7 @@ vi.mock("$lib/stores/metadata-clipboard.svelte", () => ({
 // Now import after ALL mocks are defined
 import { editor } from "$lib/stores/editor.svelte";
 import EditTab from "../../../src/lib/components/sidebar-content/EditTab.svelte";
-import { createMockImage } from "../../utils/gallery-test-utils";
+import { createMockImage } from "$tests/utils/gallery-test-utils";
 
 describe("EditTab - Browser Mode", () => {
   const mockImages = [

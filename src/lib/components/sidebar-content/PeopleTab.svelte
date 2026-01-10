@@ -53,10 +53,11 @@
   }
 </script>
 
-<div class="relative flex h-full flex-col overflow-y-auto">
+<div class="relative flex h-full flex-col overflow-y-auto" data-testid="people-tab">
   {#if isProcessing}
     <div
       class="bg-background/50 absolute inset-0 z-50 flex items-center justify-center backdrop-blur-sm"
+      data-testid="people-tab-processing-overlay"
     >
       <TaskOverlay />
     </div>

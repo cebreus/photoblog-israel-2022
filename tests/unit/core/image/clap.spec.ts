@@ -4,10 +4,7 @@ import {
   parseClapString,
   pixelsToClapString,
 } from "../../../../scripts/lib/image/clap-parser";
-import {
-  nativeClapToUserCrop,
-  userCropToNativeClap,
-} from "../../../../shared/utils/clap-transform";
+import { nativeClapToUserCrop, userCropToNativeClap } from "$shared/utils/clap-transform";
 
 describe("clap-parser", () => {
   describe("parseClapString", () => {

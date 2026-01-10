@@ -1,5 +1,5 @@
-import fsp from "node:fs/promises";
 import path from "node:path";
+import { mkdir, readFileText, safeUnlink, writeFile } from "$scripts/utils/runtime";
 
 const LOCK_TIMEOUT_MS = 30000;
 const LOCK_RETRY_INTERVAL_MS = 100;
@@ -21,10 +21,10 @@ function hasTimedOut(startTime: number): boolean {
 
 async function tryCreateLockFile(lockPath: string): Promise<boolean> {
   try {
-    await fsp.writeFile(lockPath, String(process.pid), { flag: "wx" });
+    await writeFile(lockPath, String(process.pid), { flag: "wx" });
     return true;
-  } catch (e: any) {
-    if (e.code === "EEXIST") {
+  } catch (e: unknown) {
+    if ((e as { code?: string }).code === "EEXIST") {
       return false;
     }
     throw e;
@@ -43,10 +43,10 @@ async function isProcessRunning(pid: string): Promise<boolean> {
 
 async function checkAndRemoveStaleLock(lockPath: string): Promise<void> {
   try {
-    const pid = await fsp.readFile(lockPath, "utf-8");
+    const pid = await readFileText(lockPath);
     const running = await isProcessRunning(pid);
     if (!running) {
-      await fsp.unlink(lockPath);
+      await safeUnlink(lockPath);
     }
   } catch {
     // Ignore errors reading/checking stale lock
@@ -54,11 +54,11 @@ async function checkAndRemoveStaleLock(lockPath: string): Promise<void> {
 }
 
 async function removeLockFile(lockPath: string): Promise<void> {
-  await fsp.unlink(lockPath).catch(function ignoreRemovalError() {});
+  await safeUnlink(lockPath);
 }
 
 export async function acquireManifestLock(dataDirectory: string): Promise<() => Promise<void>> {
-  await fsp.mkdir(dataDirectory, { recursive: true });
+  await mkdir(dataDirectory, { recursive: true });
   const lockPath = createLockFilePath(dataDirectory);
   const startTime = Date.now();
 
