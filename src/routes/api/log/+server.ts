@@ -1,5 +1,5 @@
-import { json, type RequestHandler } from "@sveltejs/kit";
 import { createLogger } from "$lib/logger";
+import { json, type RequestHandler } from "@sveltejs/kit";
 
 export const POST: RequestHandler = async ({ request, locals }) => {
   // Suppress automatic request logging for this endpoint to avoid noise
@@ -7,13 +7,13 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   locals.skipRequestLog = true;
 
   try {
-    const { level, msg, label, ...rest } = await request.json();
+    const { level, msg, label, traceId, ...rest } = await request.json();
 
     const logLabel = label ? `fe:${label}` : "fe";
-    const child = createLogger(logLabel);
+    // Propagate traceId as requestId if provided
+    const child = createLogger(logLabel).child(traceId ? { requestId: traceId } : {});
 
-    // Map level number to method name if needed, but Pino handles numeric levels too
-    // However, our wrapper 'createLogger' returns an object with named methods.
+    // Map numeric logging levels to method names for compatibility with our wrapper
     const levelMap: Record<number, string> = {
       10: "trace",
       20: "debug",

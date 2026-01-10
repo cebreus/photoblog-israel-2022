@@ -3,15 +3,15 @@ process.env.GLIB_LOG_LEVEL = "critical";
 process.env.OBJC_DISABLE_INITIALIZE_FORK_SAFETY = "YES";
 process.env.LOG_STYLE = "boxed";
 
+import { cancel, intro, isCancel, outro, select } from "@clack/prompts";
 import { readdir } from "node:fs/promises";
 import path from "node:path";
 import { parseArgs } from "node:util";
-import { cancel, intro, isCancel, outro, select } from "@clack/prompts";
 import pc from "picocolors";
 import { createLogger } from "./lib/core/cli-logger";
-// cleaner.ts consolidated into validator.ts
 import { validateAndCleanManifests } from "./lib/manifests/validator";
 import { acquireLock, releaseLock } from "./lib/utils/build-lock";
+import { setIoLogger } from "./lib/utils/io-logger-bridge";
 import { run } from "./lib/utils/shell";
 import { formatDuration } from "./lib/utils/time";
 
@@ -20,6 +20,7 @@ const SCRIPT_DIR = import.meta.dir;
 const PROJECT_ROOT = path.resolve(SCRIPT_DIR, "..");
 const CONTENT_ROOT = path.resolve(PROJECT_ROOT, "content");
 const logger = createLogger("manage");
+setIoLogger(logger);
 
 const { values, positionals } = parseArgs({
   args: process.argv.slice(2),

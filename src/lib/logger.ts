@@ -1,16 +1,6 @@
 import { browser, dev } from "$app/environment";
 import pino from "pino";
 
-// Define levels to match across FE/BE
-const _levels = {
-  trace: 10,
-  debug: 20,
-  info: 30,
-  warn: 40,
-  error: 50,
-  fatal: 60,
-};
-
 function getLogLevel(): string {
   if (browser) {
     // Frontend: debug in dev, warn in production
@@ -40,7 +30,8 @@ const logger = pino({
               target: "pino-pretty",
               options: {
                 colorize: true,
-                ignore: "pid,hostname,env,label,method,path,route,status,durationMs",
+                ignore:
+                  "pid,hostname,env,label,method,path,route,status,durationMs,payload,requestBody,responseBody",
                 translateTime: "HH:MM:ss",
                 messageFormat: "{env} > {label} \t {msg}", // Custom format: BE > app   Message
               },

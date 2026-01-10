@@ -1,5 +1,6 @@
 import { spawnSync as nodeSpawnSync } from "node:child_process";
 import fsp from "node:fs/promises";
+import { logIoDebug } from "./io-logger-bridge";
 
 /**
  * Universal runtime utilities to handle Bun vs Node.js differences centrally.
@@ -45,6 +46,10 @@ export async function writeFile(
           : data;
     await fsp.writeFile(filePath, buffer as any);
   }
+  logIoDebug(
+    { filePath, size: data instanceof ArrayBuffer ? data.byteLength : data.length },
+    "IO: Write file",
+  );
 }
 
 /**
@@ -60,7 +65,7 @@ export async function scanGlob(
     for await (const file of glob.scan({
       cwd: options.cwd,
       absolute: options.absolute ?? true,
-      // dot: options.dot ?? false // Bun.Glob has dot parameter in constructor or scan? Scan options.
+      // TODO: Verify dotfile handling coverage in Bun.Glob scan options
     })) {
       results.push(file);
     }
@@ -79,6 +84,7 @@ export async function scanGlob(
  * Run a command synchronously (multi-runtime).
  */
 export function spawnSync(cmd: string, args: string[], options: any = {}) {
+  logIoDebug({ cmd: `${cmd} ${args.join(" ")}` }, "IO: Spawn sync");
   if (IS_BUN) {
     return Bun.spawnSync([cmd, ...args], options);
   } else {
@@ -117,6 +123,7 @@ export async function spawn(
   args: string[],
   options: any = {},
 ): Promise<{ exited: Promise<number>; stdout?: any; stderr?: any }> {
+  logIoDebug({ cmd: `${cmd} ${args.join(" ")}` }, "IO: Spawn async");
   if (IS_BUN) {
     const proc = Bun.spawn([cmd, ...args], options);
     return {
@@ -148,5 +155,6 @@ export async function spawn(
  * Remove file or directory (multi-runtime).
  */
 export async function rm(filePath: string, options: { recursive?: boolean } = {}): Promise<void> {
+  logIoDebug({ filePath, ...options }, "IO: Remove path");
   await fsp.rm(filePath, { recursive: options.recursive ?? true, force: true });
 }
