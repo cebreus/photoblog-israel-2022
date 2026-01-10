@@ -6,6 +6,8 @@
   import type { Person } from "$lib/types/manifest";
   import { cn } from "$lib/utils";
 
+  import { dev } from "$app/environment";
+
   let {
     person,
     selected = false,
@@ -104,7 +106,13 @@
       {person.name}
     </Button>
     {#if showCount}
-      <div class="text-muted-foreground text-center text-[10px]">{person.faceCount} fotek</div>
+      <div class="text-muted-foreground text-center text-[10px]">
+        {#if dev && person.detectionsCount && person.detectionsCount > person.faceCount}
+          {person.detectionsCount} tváří / {person.faceCount} fotek
+        {:else}
+          {person.faceCount} fotek
+        {/if}
+      </div>
     {/if}
     {@render footer?.(person)}
   </div>

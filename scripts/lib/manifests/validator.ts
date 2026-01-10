@@ -25,6 +25,7 @@ import { fileExists } from "../utils/runtime";
 import {
   loadAnalysisManifest,
   loadEmbeddingsManifest,
+  loadFaceEmbeddingsManifest,
   loadFacesManifest,
   loadImagesManifest,
   loadPeopleManifest,
@@ -280,6 +281,7 @@ async function cleanPhantomPeopleThumbnails(
 async function recalculatePeopleStats(
   peopleManifest: PeopleManifest,
   facesManifest: FacesManifest,
+  embeddingsManifest: import("$shared/types/manifest").FaceEmbeddingsManifest | null,
 ): Promise<{ statsUpdated: number }> {
   const counts = new Map<string, number>();
 
@@ -296,8 +298,18 @@ async function recalculatePeopleStats(
 
   for (const person of peopleManifest.people) {
     const newCount = counts.get(person.id) || 0;
-    if (person.faceCount !== newCount) {
+    let detectionsCount = newCount; // Default to photo count if no embeddings
+
+    if (embeddingsManifest?.[person.id]?.clusters) {
+      detectionsCount = embeddingsManifest[person.id].clusters.reduce(
+        (acc, c) => acc + c.faceCount,
+        0,
+      );
+    }
+
+    if (person.faceCount !== newCount || person.detectionsCount !== detectionsCount) {
       person.faceCount = newCount;
+      person.detectionsCount = detectionsCount;
       statsUpdated++;
     }
   }
@@ -348,6 +360,7 @@ export async function validateAndCleanManifests(
   const analysisManifest = await loadAnalysisManifest(dataDir);
   const embeddingsManifest = await loadEmbeddingsManifest(dataDir);
   const facesManifest = await loadFacesManifest(dataDir);
+  const faceEmbeddingsManifest = await loadFaceEmbeddingsManifest(dataDir);
   const peopleManifest = await loadPeopleManifest(dataDir);
 
   if (!imagesManifest) {
@@ -404,7 +417,11 @@ export async function validateAndCleanManifests(
   let peopleStatsUpdated = 0;
   if (peopleManifest && !dryRun) {
     // Using facesResult.manifest (which is facesManifest filtered by valid images)
-    const statsRes = await recalculatePeopleStats(peopleManifest, facesResult.manifest);
+    const statsRes = await recalculatePeopleStats(
+      peopleManifest,
+      facesResult.manifest,
+      faceEmbeddingsManifest,
+    );
     peopleStatsUpdated = statsRes.statsUpdated;
     if (peopleStatsUpdated > 0) {
       logger.info({ updated: peopleStatsUpdated }, "Updated people statistics");

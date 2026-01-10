@@ -187,7 +187,11 @@
         </div>
       {/if}
       <div class="text-muted-foreground text-xs" data-testid="people-tab-person-count">
-        {person.faceCount} fotek
+        {#if dev && person.detectionsCount && person.detectionsCount > person.faceCount}
+          {person.detectionsCount} tváří / {person.faceCount} fotek
+        {:else}
+          {person.faceCount} fotek
+        {/if}
       </div>
     </div>
 

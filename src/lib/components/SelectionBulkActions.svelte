@@ -15,6 +15,8 @@
   import * as Tooltip from "$lib/components/ui/tooltip";
   import type { Person } from "$lib/types/manifest";
 
+  import { dev } from "$app/environment";
+
   interface Props {
     count: number;
     onClear: () => void;
@@ -208,7 +210,11 @@
               <User class="mr-1 size-3.5" />
               {person.name}
               <span class="text-muted-foreground ml-auto font-mono text-xs">
-                ({person.faceCount})
+                {#if dev && person.detectionsCount && person.detectionsCount > person.faceCount}
+                  ({person.detectionsCount} / {person.faceCount})
+                {:else}
+                  ({person.faceCount})
+                {/if}
               </span>
             </DropdownMenu.Item>
           {/each}

@@ -304,6 +304,8 @@ export type Person = {
      */
     clusters?: FaceCluster[];
     faceCount: number;
+    /** Total number of detections across all photos (can be higher than faceCount if person appears multiple times in one photo) */
+    detectionsCount?: number;
     thumbnail: string;
     manualImageIds?: string[];
     hidden: boolean;
