@@ -7,6 +7,7 @@
   import { useConstraintsQuery } from "$lib/api/people/queries";
   import PersonInvalidateDialog from "$lib/components/PersonInvalidateDialog.svelte";
   import SelectionBulkActions from "$lib/components/SelectionBulkActions.svelte";
+  import LoadingOverlay from "$lib/components/ui/LoadingOverlay.svelte";
   import TaskOverlay from "$lib/components/ui/TaskOverlay.svelte";
   import * as Accordion from "$lib/components/ui/accordion";
   import { Separator } from "$lib/components/ui/separator";
@@ -140,23 +141,21 @@
     </div>
   {/if}
 
+  <LoadingOverlay
+    visible={isBackgroundFetching && !isProcessing}
+    label="Synchronizace dat..."
+    description="Aktualizuji seznam osob"
+  />
+
   <Sidebar.Header class="p-0">
     <PeopleStats stats={model.stats} />
 
-    <div class="space-y-2 border-b p-4">
+    <div class="px-2 pb-2">
       <PeopleSelectionControls
         selectionMode={model.selectionMode as any}
         onPreset={(mode: "all" | "unknown" | "reset" | null) => model.handleSelectionPreset(mode)}
       />
     </div>
-
-    {#if isBackgroundFetching}
-      <div
-        class="border-b bg-blue-50 px-4 py-1 text-center text-xs text-blue-600 dark:bg-blue-950/30 dark:text-blue-400"
-      >
-        Synchronizace dat...
-      </div>
-    {/if}
   </Sidebar.Header>
 
   {#if dev}

@@ -4,12 +4,11 @@
   import Pencil from "@lucide/svelte/icons/pencil";
   import User from "@lucide/svelte/icons/user";
   import X from "@lucide/svelte/icons/x";
-  import { fade } from "svelte/transition";
 
+  import LoadingOverlay from "$lib/components/ui/LoadingOverlay.svelte";
   import { Button } from "$lib/components/ui/button";
   import { Input } from "$lib/components/ui/input";
   import { Separator } from "$lib/components/ui/separator";
-  import { Spinner } from "$lib/components/ui/spinner";
   import { Switch } from "$lib/components/ui/switch";
   import type { Person } from "$lib/types/manifest";
   import { cn } from "$lib/utils";
@@ -96,17 +95,11 @@
     }}
     data-testid="people-tab-person-item"
   >
-    {#if (isSaving && editingPersonId === person.id) || processingIds.has(person.id)}
-      <div
-        class="bg-background/90 absolute inset-0 flex items-center justify-center rounded backdrop-blur-sm"
-        style="z-index: 10;"
-        in:fade={{ duration: 100, delay: 300 }}
-        out:fade={{ duration: 100 }}
-        data-testid="people-tab-person-loading"
-      >
-        <Spinner class="text-primary h-6 w-6" />
-      </div>
-    {/if}
+    <LoadingOverlay
+      visible={(isSaving && editingPersonId === person.id) || processingIds.has(person.id)}
+      class="bg-background/90 rounded"
+      spinnerClass="text-primary h-6 w-6"
+    />
     <Button
       disabled={processingIds.has(person.id)}
       variant="outline"

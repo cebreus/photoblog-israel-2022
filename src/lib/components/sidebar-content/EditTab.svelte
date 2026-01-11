@@ -4,14 +4,13 @@
   import Info from "@lucide/svelte/icons/info";
   import LayoutGrid from "@lucide/svelte/icons/layout-grid";
   import { toast } from "svelte-sonner";
-  import { fade } from "svelte/transition";
 
   import MetadataPasteDialog from "$lib/components/MetadataPasteDialog.svelte";
   import ClapEditor from "$lib/components/admin/ClapEditor.svelte";
   import CollageDialog from "$lib/components/admin/CollageDialog.svelte";
+  import LoadingOverlay from "$lib/components/ui/LoadingOverlay.svelte";
   import { Button } from "$lib/components/ui/button";
   import { Label } from "$lib/components/ui/label";
-  import { Spinner } from "$lib/components/ui/spinner";
   import { getContentDir } from "$lib/config";
   import { createLogger } from "$lib/logger";
   import { applyMetadataUpdates } from "$lib/shared/metadata-utils";
@@ -514,20 +513,7 @@
 </script>
 
 <div class="relative flex h-full flex-col" data-testid="edit-tab">
-  {#if isSaving}
-    <div
-      class="bg-background/80 absolute inset-0 z-50 flex items-center justify-center backdrop-blur-sm"
-      in:fade={{ duration: 200, delay: 300 }}
-      out:fade={{ duration: 150 }}
-    >
-      <div class="flex flex-col items-center gap-3">
-        <Spinner size="lg" />
-        <span class="text-muted-foreground animate-pulse text-sm font-medium"
-          >{IMAGE_MESSAGES.SAVING_METADATA}</span
-        >
-      </div>
-    </div>
-  {/if}
+  <LoadingOverlay visible={isSaving} label={IMAGE_MESSAGES.SAVING_METADATA} />
 
   <MetadataPasteDialog
     bind:open={isPasteDialogOpen}
