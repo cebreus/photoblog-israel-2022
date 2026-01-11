@@ -73,6 +73,7 @@
             {#each sources as source}
               <div
                 class="flex items-center gap-3 rounded border border-red-100 bg-red-50 p-2 dark:border-red-900/30 dark:bg-red-900/20"
+                data-testid={`person-merge-source-item-${source.id}`}
               >
                 {#if source.thumbnail}
                   <img

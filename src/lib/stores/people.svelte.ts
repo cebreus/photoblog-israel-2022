@@ -1,30 +1,10 @@
-import { invalidateAll } from "$app/navigation";
+import { invalidate } from "$app/navigation";
 import type { Person, PhotoDay } from "$lib/types/manifest";
-import { getVisiblePeople } from "$lib/utils/people";
+import { enrichPeopleWithStats } from "$lib/utils/people";
 import { manifest } from "./manifest.svelte";
-
-function isPerson(p: Person) {
-  return !p.category || p.category === "person";
-}
-
-function isHiddenPerson(p: Person) {
-  return p.hidden && !p.junk && p.faceCount > 0 && (!p.category || p.category === "person");
-}
 
 function sortByFaceCount(a: Person, b: Person) {
   return b.faceCount - a.faceCount;
-}
-
-function isVisiblePerson(p: Person) {
-  return (!p.category || p.category === "person") && !p.junk && p.faceCount > 0;
-}
-
-function isStatue(p: Person) {
-  return p.category === "statue" && !p.junk && p.faceCount > 0;
-}
-
-function isPainting(p: Person) {
-  return p.category === "painting" && !p.junk && p.faceCount > 0;
 }
 
 function isJunk(p: Person) {
@@ -36,28 +16,52 @@ function createPeopleState() {
   const people = $derived<Person[]>(manifest.people);
   const photoDays = $derived<PhotoDay[]>(manifest.photoDays);
 
-  // Now strictly equal to manifest people, as enrichment happens on Backend/Build
-  const peopleWithStats = $derived(people);
+  // Perform client-side enrichment to ensure faceCount aligns with visible images
+  const peopleWithStats = $derived(enrichPeopleWithStats(people, photoDays));
 
-  // Filter people by ignored flag from manifest, hide empty profiles, and show ONLY persons (no statues/paintings)
-  const visiblePeople = $derived(getVisiblePeople(peopleWithStats.filter(isPerson)));
+  // Display lists (Grouped by Category, Not Junk) - Includes Hidden
+  const displayPersons = $derived(
+    peopleWithStats
+      .filter((p) => (!p.category || p.category === "person") && !p.junk)
+      .sort(sortByFaceCount),
+  );
 
-  // Hidden list shows only "person" category (statue/painting stay in their accordions even if ignored)
-  const hiddenPeople = $derived(peopleWithStats.filter(isHiddenPerson).sort(sortByFaceCount));
+  const displayStatues = $derived(
+    peopleWithStats.filter((p) => p.category === "statue" && !p.junk).sort(sortByFaceCount),
+  );
 
-  // Category lists (based on visible/active people)
-  const categoryPeople = $derived(peopleWithStats.filter(isVisiblePerson).sort(sortByFaceCount));
+  const displayPaintings = $derived(
+    peopleWithStats.filter((p) => p.category === "painting" && !p.junk).sort(sortByFaceCount),
+  );
 
-  const categoryStatues = $derived(peopleWithStats.filter(isStatue).sort(sortByFaceCount));
-
-  const categoryPaintings = $derived(peopleWithStats.filter(isPainting).sort(sortByFaceCount));
-
-  const junkPeople = $derived(peopleWithStats.filter(isJunk).sort(sortByFaceCount));
+  const displayJunk = $derived(peopleWithStats.filter(isJunk).sort(sortByFaceCount));
 
   let lastUpdateTimestamp = $state(Date.now());
 
   async function refresh() {
-    await invalidateAll();
+    await invalidate("app:people-manifest");
+    lastUpdateTimestamp = Date.now();
+  }
+
+  function optimisticMerge(sourceIds: string[], targetId: string) {
+    const currentPeople = manifest.people;
+    if (!currentPeople) return;
+
+    const targetPerson = currentPeople.find((p) => p.id === targetId);
+    if (!targetPerson) return;
+
+    // Calculate stats to add
+    const sources = currentPeople.filter((p) => sourceIds.includes(p.id));
+    const addedFaces = sources.reduce((sum, p) => sum + (p.faceCount || 0), 0);
+
+    // Update target
+    targetPerson.faceCount = (targetPerson.faceCount || 0) + addedFaces;
+
+    // Remove sources
+    const newPeople = currentPeople.filter((p) => !sourceIds.includes(p.id));
+
+    // Update manifest store
+    manifest.people = newPeople;
     lastUpdateTimestamp = Date.now();
   }
 
@@ -71,23 +75,17 @@ function createPeopleState() {
     get peopleWithStats() {
       return peopleWithStats;
     },
-    get visiblePeople() {
-      return visiblePeople;
+    get displayPersons() {
+      return displayPersons;
     },
-    get hiddenPeople() {
-      return hiddenPeople;
+    get displayStatues() {
+      return displayStatues;
     },
-    get categoryPeople() {
-      return categoryPeople;
+    get displayPaintings() {
+      return displayPaintings;
     },
-    get categoryStatues() {
-      return categoryStatues;
-    },
-    get categoryPaintings() {
-      return categoryPaintings;
-    },
-    get junkPeople() {
-      return junkPeople;
+    get displayJunk() {
+      return displayJunk;
     },
     get lastUpdateTimestamp() {
       return lastUpdateTimestamp;
@@ -96,6 +94,7 @@ function createPeopleState() {
       lastUpdateTimestamp = v;
     },
     refresh,
+    optimisticMerge,
   };
 }
 

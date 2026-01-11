@@ -27,7 +27,8 @@
   import { Spinner } from "$lib/components/ui/spinner";
   import { createLogger } from "$lib/logger";
   import { people } from "$lib/stores/people.svelte";
-  import type { ImageEntry, Person } from "$lib/types/manifest";
+  import { type ImageEntry, type Person, isImageEntry } from "$lib/types/manifest";
+  import { isGloballyVisible } from "$lib/utils/gallery";
   import { DETECTION_MESSAGES } from "$lib/utils/messages";
 
   const logger = createLogger("PersonDetailDialog");
@@ -71,29 +72,43 @@
     const images: ImageEntry[] = [];
     for (const day of days) {
       for (const item of day.items) {
-        if (item.type === "image" && item.people?.includes(person.id)) {
-          images.push(item as ImageEntry);
+        if (isGloballyVisible(item) && isImageEntry(item) && item.people?.includes(person.id)) {
+          images.push(item);
         }
       }
     }
     return images;
   });
 
-  const crops = $derived(
-    personImages.map((img) => {
-      // Find the index of the person in the parallel arrays
-      const personIndex = img.people?.indexOf(person.id) ?? -1;
-      const box =
-        personIndex !== -1 && img.analysis?.faces ? img.analysis.faces[personIndex] : undefined;
+  const crops = $derived.by(() => {
+    const result: {
+      id: string;
+      src: string;
+      original: ImageEntry;
+      box?: { x: number; y: number; width: number; height: number };
+      index: number;
+    }[] = [];
 
-      return {
-        id: img.id,
-        src: `${urlPrefix}/faces/${person.id}/${img.id}.jpg?v=${people.lastUpdateTimestamp}`,
-        original: img,
-        box,
-      };
-    }),
-  );
+    for (const img of personImages) {
+      if (!img.people) continue;
+
+      // Find all occurrences of this person in the image
+      img.people.forEach((personId, index) => {
+        if (personId === person.id) {
+          const box = img.analysis?.faces ? img.analysis.faces[index] : undefined;
+          result.push({
+            id: img.id,
+            // Add index to URL to disambiguate multiple crops of the same person in dev mode backend
+            src: `${urlPrefix}/faces/${person.id}/${img.id}.jpg?v=${people.lastUpdateTimestamp}&idx=${index}`,
+            original: img,
+            box,
+            index,
+          });
+        }
+      });
+    }
+    return result;
+  });
 
   let selectedIds = $state<Set<string>>(new Set());
   let showReassignDialog = $state(false);
@@ -316,6 +331,7 @@
               }}
               title="Změnit avatar"
               type="button"
+              data-testid="person-detail-change-avatar-btn"
             >
               <div class="relative h-8 w-8 overflow-hidden rounded-full">
                 <img
@@ -343,6 +359,7 @@
               }}
               title="Nastavit avatar"
               type="button"
+              data-testid="person-detail-set-avatar-btn"
             >
               <div
                 class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-200 transition-colors group-hover:bg-slate-300 dark:bg-slate-800 dark:group-hover:bg-slate-700"
@@ -672,7 +689,11 @@
     </div>
 
     <Dialog.Footer class="bg-muted/20 border-t px-6 py-4">
-      <Button variant="outline" onclick={() => (showReassignDialog = false)}>Zrušit</Button>
+      <Button
+        variant="outline"
+        onclick={() => (showReassignDialog = false)}
+        data-testid="reassign-selection-cancel-btn">Zrušit</Button
+      >
     </Dialog.Footer>
   </Dialog.Content>
 </Dialog.Root>
@@ -692,6 +713,7 @@
             class="ring-primary group relative aspect-square overflow-hidden rounded-lg border transition-all hover:ring-2"
             onclick={() => setAvatar(avatar)}
             disabled={isWorking}
+            data-testid={`avatar-option-${avatar}`}
           >
             <img
               src={`${urlPrefix}/${avatar}`}
@@ -708,7 +730,11 @@
     {/if}
 
     <Dialog.Footer>
-      <Button variant="outline" onclick={() => (showAvatarDialog = false)}>Zrušit</Button>
+      <Button
+        variant="outline"
+        onclick={() => (showAvatarDialog = false)}
+        data-testid="avatar-selection-cancel-btn">Zrušit</Button
+      >
     </Dialog.Footer>
   </Dialog.Content>
 </Dialog.Root>
@@ -724,8 +750,16 @@
       </Dialog.Description>
     </Dialog.Header>
     <Dialog.Footer>
-      <Button variant="outline" onclick={() => (showIgnoreConfirm = false)}>Zrušit</Button>
-      <Button variant="destructive" onclick={performIgnoreDetections}>Ano, zneplatnit</Button>
+      <Button
+        variant="outline"
+        onclick={() => (showIgnoreConfirm = false)}
+        data-testid="ignore-detection-cancel-btn">Zrušit</Button
+      >
+      <Button
+        variant="destructive"
+        onclick={performIgnoreDetections}
+        data-testid="ignore-detection-confirm-btn">Ano, zneplatnit</Button
+      >
     </Dialog.Footer>
   </Dialog.Content>
 </Dialog.Root>
