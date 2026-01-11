@@ -2760,9 +2760,7 @@
               "height": 1280
             }
           ],
-          "people": [
-            "person-005-feb6ddf0"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-24-205551-cebreus--collage",
@@ -10299,7 +10297,6 @@
           ],
           "people": [
             "person-bobo-ea8ebcb0",
-            "person-007-ffb5c176",
             "person-dasa-264acc31"
           ]
         },
@@ -10549,7 +10546,6 @@
           ],
           "people": [
             "person-jarek-7a7cc561",
-            "person-008-1025df1a",
             "person-jaruska-9f5bf07c"
           ]
         },
@@ -13324,7 +13320,6 @@
             "snapshot-others"
           ],
           "people": [
-            "person-010-6d750e68",
             "person-finda-aa8f1097",
             "person-jaruska-9f5bf07c",
             "person-dasa-264acc31",
@@ -13796,8 +13791,7 @@
             }
           ],
           "people": [
-            "person-011-10985d6a",
-            "person-012-dbea4788"
+            "person-011-10985d6a"
           ]
         },
         {
@@ -14654,9 +14648,7 @@
               "height": 534
             }
           ],
-          "people": [
-            "person-014-282150eb"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-26-122029-dasa",
@@ -17126,9 +17118,7 @@
               "height": 534
             }
           ],
-          "people": [
-            "person-015-caf37e90"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-26-133202-dasa",
@@ -17252,11 +17242,7 @@
               "height": 534
             }
           ],
-          "people": [
-            "person-017-1d234163",
-            "person-019-90445a58",
-            "person-026-29266189"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-26-133722-cebreus",
@@ -17819,7 +17805,6 @@
           ],
           "people": [
             "person-016-e2df08b4",
-            "person-018-8d8f641f",
             "statue-011-29266177"
           ]
         },
@@ -19323,9 +19308,7 @@
               "height": 534
             }
           ],
-          "people": [
-            "person-020-4d18c8fd"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-26-161403-dasa",
@@ -24497,9 +24480,7 @@
               "height": 534
             }
           ],
-          "people": [
-            "person-021-eec41b94"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-27-161031-cebreus",
@@ -25890,7 +25871,6 @@
             }
           ],
           "people": [
-            "person-022-74b2eefd",
             "person-bobina-78419b17"
           ]
         },
@@ -26795,11 +26775,7 @@
               "height": 534
             }
           ],
-          "people": [
-            "person-023-d3bbfa12",
-            "person-024-b6fcafff",
-            "person-773e9fbc--odpojeno-od-person-027-2"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-28-152459-dasa",
@@ -26901,9 +26877,7 @@
               "height": 534
             }
           ],
-          "people": [
-            "person-025-f47f6171"
-          ]
+          "people": []
         },
         {
           "id": "2025-11-28-155801-dasa",
@@ -27017,8 +26991,8 @@
     }
   ],
   "meta": {
-    "version": 1,
-    "generatedAt": "2026-01-11T13:53:03.010Z",
+    "version": 20,
+    "generatedAt": "2026-01-11T14:23:32.228Z",
     "generator": "photoblog-data-layer"
   }
 }

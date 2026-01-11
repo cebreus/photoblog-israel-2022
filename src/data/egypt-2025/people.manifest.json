@@ -161,18 +161,6 @@
       "detectionsCount": 1
     },
     {
-      "id": "person-005-feb6ddf0",
-      "name": "Person 005",
-      "faceCount": 1,
-      "thumbnail": "faces/person-005-feb6ddf0/2025-11-24-201550-cebreus.jpg",
-      "hidden": true,
-      "createdAt": "2026-01-09T14:16:29.831Z",
-      "lastSeenAt": "2026-01-09T14:16:29.831Z",
-      "isUserNamed": false,
-      "detectionsCount": 1,
-      "junk": true
-    },
-    {
       "id": "person-honza-b0373a0c",
       "name": "Honza",
       "faceCount": 1,
@@ -182,42 +170,6 @@
       "lastSeenAt": "2026-01-09T14:16:31.331Z",
       "isUserNamed": true,
       "detectionsCount": 1
-    },
-    {
-      "id": "person-007-ffb5c176",
-      "name": "Person 007",
-      "faceCount": 1,
-      "thumbnail": "faces/person-007-ffb5c176/2025-11-26-081544-cebreus.jpg",
-      "hidden": true,
-      "createdAt": "2026-01-09T14:16:31.336Z",
-      "lastSeenAt": "2026-01-09T14:16:31.336Z",
-      "isUserNamed": false,
-      "detectionsCount": 1,
-      "junk": true
-    },
-    {
-      "id": "person-008-1025df1a",
-      "name": "Person 008",
-      "faceCount": 1,
-      "thumbnail": "faces/person-008-1025df1a/2025-11-26-091503-bobina.jpg",
-      "hidden": true,
-      "createdAt": "2026-01-09T14:16:31.337Z",
-      "lastSeenAt": "2026-01-09T14:16:31.337Z",
-      "isUserNamed": false,
-      "detectionsCount": 1,
-      "junk": true
-    },
-    {
-      "id": "person-010-6d750e68",
-      "name": "Person 010",
-      "faceCount": 1,
-      "thumbnail": "faces/person-010-6d750e68/2025-11-26-095929-cebreus.jpg",
-      "hidden": true,
-      "createdAt": "2026-01-09T14:16:36.242Z",
-      "lastSeenAt": "2026-01-09T14:16:36.242Z",
-      "isUserNamed": false,
-      "detectionsCount": 1,
-      "junk": true
     },
     {
       "id": "person-011-10985d6a",
@@ -232,18 +184,6 @@
       "junk": false
     },
     {
-      "id": "person-012-dbea4788",
-      "name": "Person 012",
-      "faceCount": 1,
-      "thumbnail": "faces/person-012-dbea4788/2025-11-26-113457-cebreus.jpg",
-      "hidden": true,
-      "createdAt": "2026-01-09T14:16:36.943Z",
-      "lastSeenAt": "2026-01-09T14:16:36.943Z",
-      "isUserNamed": false,
-      "detectionsCount": 1,
-      "junk": true
-    },
-    {
       "id": "person-013-53d772a8",
       "name": "Person 013",
       "faceCount": 1,
@@ -253,30 +193,6 @@
       "lastSeenAt": "2026-01-09T14:16:38.314Z",
       "isUserNamed": false,
       "detectionsCount": 1
-    },
-    {
-      "id": "person-014-282150eb",
-      "name": "Person 014",
-      "faceCount": 1,
-      "thumbnail": "faces/person-014-282150eb/2025-11-26-131747-bobina.jpg",
-      "hidden": true,
-      "createdAt": "2026-01-09T14:16:38.314Z",
-      "lastSeenAt": "2026-01-09T14:16:38.314Z",
-      "isUserNamed": false,
-      "detectionsCount": 1,
-      "junk": true
-    },
-    {
-      "id": "person-015-caf37e90",
-      "name": "Person 015",
-      "faceCount": 1,
-      "thumbnail": "faces/person-015-caf37e90/2025-11-26-133231-dasa.jpg",
-      "hidden": true,
-      "createdAt": "2026-01-09T14:16:41.570Z",
-      "lastSeenAt": "2026-01-09T14:16:41.570Z",
-      "isUserNamed": false,
-      "detectionsCount": 1,
-      "junk": true
     },
     {
       "id": "statue-005-5cd897f4",
@@ -298,41 +214,6 @@
       "hidden": true,
       "createdAt": "2026-01-09T14:16:42.522Z",
       "lastSeenAt": "2026-01-09T14:16:42.522Z",
-      "isUserNamed": false,
-      "detectionsCount": 1
-    },
-    {
-      "id": "person-017-1d234163",
-      "name": "Person 017",
-      "faceCount": 1,
-      "thumbnail": "faces/person-017-1d234163/2025-11-26-133202-dasa.jpg",
-      "hidden": true,
-      "createdAt": "2026-01-09T14:16:42.522Z",
-      "lastSeenAt": "2026-01-09T14:16:42.522Z",
-      "isUserNamed": false,
-      "detectionsCount": 1,
-      "junk": true
-    },
-    {
-      "id": "person-018-8d8f641f",
-      "name": "Person 018",
-      "faceCount": 1,
-      "thumbnail": "faces/person-018-8d8f641f/2025-11-26-135431-cebreus.jpg",
-      "hidden": true,
-      "createdAt": "2026-01-09T14:16:43.745Z",
-      "lastSeenAt": "2026-01-09T14:16:43.745Z",
-      "isUserNamed": false,
-      "detectionsCount": 1,
-      "junk": true
-    },
-    {
-      "id": "person-019-90445a58",
-      "name": "Person 019",
-      "faceCount": 1,
-      "thumbnail": "faces/person-019-90445a58/2025-11-26-133202-dasa.jpg",
-      "hidden": true,
-      "createdAt": "2026-01-09T14:16:43.746Z",
-      "lastSeenAt": "2026-01-09T14:16:43.746Z",
       "isUserNamed": false,
       "detectionsCount": 1,
       "junk": true
@@ -374,54 +255,6 @@
       "category": "statue"
     },
     {
-      "id": "person-020-4d18c8fd",
-      "name": "Person 020",
-      "faceCount": 1,
-      "thumbnail": "faces/person-020-4d18c8fd/2025-11-26-153058-cebreus.jpg",
-      "hidden": true,
-      "createdAt": "2026-01-09T14:16:46.381Z",
-      "lastSeenAt": "2026-01-09T14:16:46.381Z",
-      "isUserNamed": false,
-      "detectionsCount": 1,
-      "junk": true
-    },
-    {
-      "id": "person-021-eec41b94",
-      "name": "Person 021",
-      "faceCount": 1,
-      "thumbnail": "faces/person-021-eec41b94/2025-11-27-160841-cebreus.jpg",
-      "hidden": true,
-      "createdAt": "2026-01-09T14:16:50.793Z",
-      "lastSeenAt": "2026-01-09T14:16:50.793Z",
-      "isUserNamed": false,
-      "detectionsCount": 1,
-      "junk": true
-    },
-    {
-      "id": "person-022-74b2eefd",
-      "name": "Person 022",
-      "faceCount": 1,
-      "thumbnail": "faces/person-022-74b2eefd/2025-11-27-172835-cebreus.jpg",
-      "hidden": true,
-      "createdAt": "2026-01-09T14:16:52.936Z",
-      "lastSeenAt": "2026-01-09T14:16:52.936Z",
-      "isUserNamed": false,
-      "detectionsCount": 1,
-      "junk": true
-    },
-    {
-      "id": "person-023-d3bbfa12",
-      "name": "Person 023",
-      "faceCount": 1,
-      "thumbnail": "faces/person-023-d3bbfa12/2025-11-28-143626-dasa--collage.jpg",
-      "hidden": true,
-      "createdAt": "2026-01-09T14:16:53.202Z",
-      "lastSeenAt": "2026-01-09T14:16:53.202Z",
-      "isUserNamed": false,
-      "detectionsCount": 1,
-      "junk": true
-    },
-    {
       "id": "person-bety-108ec0e3",
       "name": "Bety",
       "faceCount": 1,
@@ -431,30 +264,6 @@
       "lastSeenAt": "2026-01-09T14:16:53.203Z",
       "isUserNamed": true,
       "detectionsCount": 1
-    },
-    {
-      "id": "person-024-b6fcafff",
-      "name": "Person 024",
-      "faceCount": 1,
-      "thumbnail": "faces/person-024-b6fcafff/2025-11-28-143626-dasa--collage.jpg",
-      "hidden": true,
-      "createdAt": "2026-01-09T14:16:53.204Z",
-      "lastSeenAt": "2026-01-09T14:16:53.204Z",
-      "isUserNamed": false,
-      "detectionsCount": 1,
-      "junk": true
-    },
-    {
-      "id": "person-025-f47f6171",
-      "name": "Person 025",
-      "faceCount": 1,
-      "thumbnail": "faces/person-025-f47f6171/2025-11-28-152459-dasa.jpg",
-      "hidden": true,
-      "createdAt": "2026-01-09T14:16:53.443Z",
-      "lastSeenAt": "2026-01-09T14:16:53.443Z",
-      "isUserNamed": false,
-      "detectionsCount": 1,
-      "junk": true
     },
     {
       "id": "statue-009-29266176",
@@ -513,21 +322,6 @@
       "detectionsCount": 1
     },
     {
-      "id": "person-026-29266189",
-      "name": "Person 026",
-      "faceDescriptor": [],
-      "clusters": [],
-      "faceCount": 1,
-      "thumbnail": "faces/person-026-29266189/2025-11-26-133202-dasa.jpg",
-      "hidden": true,
-      "createdAt": "2026-01-09T14:25:41.679Z",
-      "lastSeenAt": "2026-01-09T14:25:41.679Z",
-      "category": "person",
-      "isUserNamed": false,
-      "detectionsCount": 1,
-      "junk": true
-    },
-    {
       "id": "statue-013-29266185",
       "name": "Statue 013",
       "faceDescriptor": [],
@@ -568,26 +362,11 @@
       "category": "statue",
       "isUserNamed": false,
       "detectionsCount": 1
-    },
-    {
-      "id": "person-773e9fbc--odpojeno-od-person-027-2",
-      "name": "Odpojeno od Person 027 2",
-      "faceDescriptor": [],
-      "clusters": [],
-      "faceCount": 1,
-      "thumbnail": "faces/person-773e9fbc--odpojeno-od-person-027-2/2025-11-28-143626-dasa--collage.jpg",
-      "hidden": true,
-      "junk": true,
-      "createdAt": "2026-01-11T13:48:03.238Z",
-      "lastSeenAt": "2026-01-11T13:48:03.238Z",
-      "category": "person",
-      "isUserNamed": false,
-      "detectionsCount": 1
     }
   ],
   "meta": {
-    "version": 125,
-    "generatedAt": "2026-01-11T13:48:03.242Z",
+    "version": 144,
+    "generatedAt": "2026-01-11T14:23:32.228Z",
     "generator": "photoblog-data-layer"
   }
 }
