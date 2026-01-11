@@ -26798,7 +26798,7 @@
           "people": [
             "person-023-d3bbfa12",
             "person-024-b6fcafff",
-            "person-027-29266190"
+            "person-773e9fbc--odpojeno-od-person-027-2"
           ]
         },
         {
@@ -27017,8 +27017,8 @@
     }
   ],
   "meta": {
-    "version": 4,
-    "generatedAt": "2026-01-11T13:23:06.698Z",
+    "version": 1,
+    "generatedAt": "2026-01-11T13:53:03.010Z",
     "generator": "photoblog-data-layer"
   }
 }

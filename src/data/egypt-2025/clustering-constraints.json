@@ -103,6 +103,14 @@
     {
       "imageId": "2025-11-25-083812-cebreus--zoom2from2",
       "personId": "person-022-10c1f376"
+    },
+    {
+      "imageId": "2025-11-28-143626-dasa--collage",
+      "personId": "person-027-29266190"
+    },
+    {
+      "imageId": "2025-11-28-143626-dasa--collage",
+      "personId": "person-da60cba5--odpojeno-od-person-027"
     }
   ],
   "connects": [
@@ -209,6 +217,14 @@
     {
       "imageId": "2025-11-25-083812-cebreus--zoom2from2",
       "personId": "person-jarek-7a7cc561"
+    },
+    {
+      "imageId": "2025-11-28-143626-dasa--collage",
+      "personId": "person-da60cba5--odpojeno-od-person-027"
+    },
+    {
+      "imageId": "2025-11-28-143626-dasa--collage",
+      "personId": "person-773e9fbc--odpojeno-od-person-027-2"
     }
   ],
   "invalidDetections": [

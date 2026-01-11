@@ -542,21 +542,6 @@
       "detectionsCount": 1
     },
     {
-      "id": "person-027-29266190",
-      "name": "Person 027",
-      "faceDescriptor": [],
-      "clusters": [],
-      "faceCount": 1,
-      "thumbnail": "faces/person-027-29266190/2025-11-28-143626-dasa--collage.jpg",
-      "hidden": true,
-      "createdAt": "2026-01-11T00:30:43.785Z",
-      "lastSeenAt": "2026-01-11T00:30:43.785Z",
-      "category": "person",
-      "isUserNamed": false,
-      "detectionsCount": 1,
-      "junk": true
-    },
-    {
       "id": "statue-014-29266190",
       "name": "Statue 014",
       "faceDescriptor": [],
@@ -583,11 +568,26 @@
       "category": "statue",
       "isUserNamed": false,
       "detectionsCount": 1
+    },
+    {
+      "id": "person-773e9fbc--odpojeno-od-person-027-2",
+      "name": "Odpojeno od Person 027 2",
+      "faceDescriptor": [],
+      "clusters": [],
+      "faceCount": 1,
+      "thumbnail": "faces/person-773e9fbc--odpojeno-od-person-027-2/2025-11-28-143626-dasa--collage.jpg",
+      "hidden": true,
+      "junk": true,
+      "createdAt": "2026-01-11T13:48:03.238Z",
+      "lastSeenAt": "2026-01-11T13:48:03.238Z",
+      "category": "person",
+      "isUserNamed": false,
+      "detectionsCount": 1
     }
   ],
   "meta": {
-    "version": 123,
-    "generatedAt": "2026-01-11T13:23:06.698Z",
+    "version": 125,
+    "generatedAt": "2026-01-11T13:48:03.242Z",
     "generator": "photoblog-data-layer"
   }
 }
