@@ -33,6 +33,7 @@
     onMarkAsJunk?: () => void;
     onRestoreFromJunk?: () => void;
     onUpdateCategory?: (cat: "person" | "statue" | "painting") => void;
+    onInvalidateDetections?: () => void;
 
     // State/Metadata
     namedPeople?: Person[];
@@ -46,6 +47,7 @@
     junkDisabled?: boolean;
     restoreDisabled?: boolean;
     categoryDisabled?: boolean;
+    invalidateDisabled?: boolean;
   }
 
   let {
@@ -63,6 +65,7 @@
     onMarkAsJunk,
     onRestoreFromJunk,
     onUpdateCategory,
+    onInvalidateDetections,
 
     namedPeople = [],
     hiddenCount = 0,
@@ -74,6 +77,7 @@
     junkDisabled = false,
     restoreDisabled = false,
     categoryDisabled = false,
+    invalidateDisabled = false,
   }: Props = $props();
 
   const isGlobalDisabled = $derived(disabled || count === 0 || isWorking);
@@ -92,6 +96,9 @@
     isGlobalDisabled || mergeDisabled || !onMergeInto || namedPeople.length === 0,
   );
   const categoryBtnDisabled = $derived(isGlobalDisabled || categoryDisabled || !onUpdateCategory);
+  const invalidateBtnDisabled = $derived(
+    isGlobalDisabled || invalidateDisabled || !onInvalidateDetections,
+  );
 </script>
 
 <ButtonGroup.Root class={className} data-testid={testId}>
@@ -260,6 +267,18 @@
       >
         <Eye class="mr-1 size-3.5" />
         Obnovit z koše {#if junkCount > 0}({junkCount}){/if}
+      </DropdownMenu.Item>
+
+      <DropdownMenu.Separator />
+
+      <DropdownMenu.Item
+        onclick={onInvalidateDetections}
+        data-testid="{testId}-invalidate"
+        class="text-destructive focus:text-destructive"
+        disabled={invalidateBtnDisabled}
+      >
+        <UserMinus class="mr-1 size-3.5" />
+        Toto není tvář, ignorovat
       </DropdownMenu.Item>
 
       <DropdownMenu.Separator />

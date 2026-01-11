@@ -1,6 +1,11 @@
 <script lang="ts">
-  import { useMergePeopleMutation, useUpdatePeopleMutation } from "$lib/api/people/mutations";
+  import {
+    useInvalidateDetectionMutation,
+    useMergePeopleMutation,
+    useUpdatePeopleMutation,
+  } from "$lib/api/people/mutations";
   import { useConstraintsQuery } from "$lib/api/people/queries";
+  import PersonInvalidateDialog from "$lib/components/PersonInvalidateDialog.svelte";
   import SelectionBulkActions from "$lib/components/SelectionBulkActions.svelte";
   import TaskOverlay from "$lib/components/ui/TaskOverlay.svelte";
   import * as Accordion from "$lib/components/ui/accordion";
@@ -26,6 +31,7 @@
   const constraintsQuery = useConstraintsQuery();
   const mergeMutation = useMergePeopleMutation();
   const updateMutation = useUpdatePeopleMutation();
+  const invalidateDetectionMutation = useInvalidateDetectionMutation();
 
   // Derive invalidDetections from query
   const invalidDetections = $derived(constraintsQuery.data?.invalidDetections ?? []);
@@ -35,6 +41,7 @@
     getInvalidDetections: () => invalidDetections,
     mergeMutation,
     updateMutation,
+    invalidateDetectionMutation,
   });
 
   // Initialize logic
@@ -42,7 +49,10 @@
 
   // Derive processing state from system store OR mutations
   const isProcessing = $derived(
-    system.activeTask !== null || mergeMutation.isPending || updateMutation.isPending,
+    system.activeTask !== null ||
+      mergeMutation.isPending ||
+      updateMutation.isPending ||
+      invalidateDetectionMutation.isPending,
   );
 
   // Background sync indicator
@@ -169,6 +179,7 @@
         onMarkAsJunk={() => model.handleBulkMarkAsJunk()}
         onRestoreFromJunk={() => model.handleBulkRestoreFromJunk()}
         onUpdateCategory={(cat) => model.bulkUpdateCategory(cat)}
+        onInvalidateDetections={() => model.handleBulkInvalidateDetections()}
         hiddenCount={model.selectedHiddenCount}
         junkCount={model.selectedJunkCount}
         canHide={model.canHide}
@@ -259,4 +270,10 @@
   <!-- <Sidebar.Footer class="bg-background sticky bottom-0 z-10 border-t px-6">oo</Sidebar.Footer> -->
 
   <PeopleMergeDialogs {model} />
+
+  <PersonInvalidateDialog
+    bind:open={model.showInvalidateConfirmDialog}
+    candidates={model.bulkInvalidationCandidates}
+    onConfirm={() => model.confirmBulkInvalidate()}
+  />
 </div>

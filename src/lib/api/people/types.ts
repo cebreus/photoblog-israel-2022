@@ -102,7 +102,7 @@ export interface InvalidateDetectionParams {
   box?: { x: number; y: number; width: number; height: number };
   detections?: Array<{
     imageId: string;
-    box: { x: number; y: number; width: number; height: number };
+    box?: { x: number; y: number; width: number; height: number };
   }>;
 }
 

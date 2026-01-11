@@ -4,10 +4,13 @@ import { page } from "$app/state";
 import { createLogger } from "$lib/logger";
 import { filters } from "$lib/stores/filters.svelte";
 import { people } from "$lib/stores/people.svelte";
-import { type Person, type PhotoDayItem, isImageEntry } from "$lib/types/manifest";
-import { buildImagePeopleMap } from "$lib/utils/gallery";
+import { isImageEntry, type Person, type PhotoDayItem } from "$lib/types/manifest";
+import { buildImagePeopleMap, isGloballyVisible } from "$lib/utils/gallery";
+import { DETECTION_MESSAGES } from "$lib/utils/messages";
 import { untrack } from "svelte";
 import { toast } from "svelte-sonner";
+
+type FaceBox = { x: number; y: number; width: number; height: number };
 
 import { type PersonUpdate } from "$lib/api/people/types";
 import type { MutateOptions } from "@tanstack/svelte-query";
@@ -47,6 +50,19 @@ export function createPeopleTabModel(params?: {
     ) => Promise<unknown>;
     isPending: boolean;
   };
+  invalidateDetectionMutation?: {
+    mutateAsync: (
+      params: {
+        personId: string;
+        detections: Array<{
+          imageId: string;
+          box: FaceBox | undefined;
+        }>;
+      },
+      options?: MutateOptions<unknown, Error, unknown>,
+    ) => Promise<unknown>;
+    isPending: boolean;
+  };
 }) {
   // --- STATE ---
   let selectedForMerge = $state<string[]>([]);
@@ -58,6 +74,7 @@ export function createPeopleTabModel(params?: {
 
   // Dialog State
   let showMergeConfirmDialog = $state(false);
+  let showInvalidateConfirmDialog = $state(false);
   let confirmDialog = $state<{ open: boolean; config: ConfirmDialogConfig | null }>({
     open: false,
     config: null,
@@ -676,6 +693,110 @@ export function createPeopleTabModel(params?: {
     });
   }
 
+  // --- BULK INVALIDATION ---
+  const bulkInvalidationCandidates = $derived.by(() => {
+    if (selectedForMerge.length === 0) return [];
+
+    // Safety check - we need access to people store
+    if (!people.photoDays) return [];
+
+    const candidates: Array<{
+      id: string; // imageId
+      src: string;
+      personId: string;
+      personName: string;
+      box?: { x: number; y: number; width: number; height: number };
+    }> = [];
+
+    const selectedIdsSet = new Set(selectedForMerge);
+    const selectedPeopleMap = new Map<string, Person>();
+    people.peopleWithStats.forEach((p) => {
+      if (selectedIdsSet.has(p.id)) selectedPeopleMap.set(p.id, p);
+    });
+
+    for (const day of people.photoDays) {
+      for (const item of day.items) {
+        if (isGloballyVisible(item) && isImageEntry(item) && item.people) {
+          item.people.forEach((personId: string, index: number) => {
+            if (selectedIdsSet.has(personId)) {
+              const person = selectedPeopleMap.get(personId);
+              if (person) {
+                const box = item.analysis?.faces ? item.analysis.faces[index] : undefined;
+                candidates.push({
+                  id: item.id,
+                  src: `/faces/${person.id}/${item.id}.jpg?v=${lastUpdateTimestamp}&idx=${index}`,
+                  personId: person.id,
+                  personName: person.name,
+                  box,
+                });
+              }
+            }
+          });
+        }
+      }
+    }
+    return candidates;
+  });
+
+  function handleBulkInvalidateDetections() {
+    if (selectedForMerge.length === 0) return;
+    if (bulkInvalidationCandidates.length === 0) {
+      toast.info("Vybrané osoby nemají žádné detekce.");
+      return;
+    }
+    showInvalidateConfirmDialog = true;
+  }
+
+  async function confirmBulkInvalidate() {
+    if (!params?.invalidateDetectionMutation) {
+      logger.error({}, "invalidateDetectionMutation not provided to model");
+      return;
+    }
+
+    // Group detections by person
+    const detectionsByPerson = new Map<
+      string,
+      Array<{ imageId: string; box: FaceBox | undefined }>
+    >();
+
+    for (const cand of bulkInvalidationCandidates) {
+      if (!detectionsByPerson.has(cand.personId)) {
+        detectionsByPerson.set(cand.personId, []);
+      }
+      // Pass even if box is undefined (let backend handle force invalidation)
+      detectionsByPerson.get(cand.personId)?.push({
+        imageId: cand.id,
+        box: cand.box,
+      });
+    }
+
+    if (detectionsByPerson.size === 0) return;
+
+    // Process sequentially to avoid race conditions on manifest saves if they are not perfectly atomic/queued
+    // Although the backend has a ManifestLock, safer to be sequential or Promise.all
+    const promises = [];
+    for (const [personId, detections] of detectionsByPerson) {
+      promises.push(
+        params.invalidateDetectionMutation.mutateAsync({
+          personId,
+          detections,
+        }),
+      );
+    }
+
+    try {
+      await Promise.all(promises);
+      toast.success(DETECTION_MESSAGES.BULK_DETECTION_INVALIDATED);
+
+      // Clear selection after success
+      selectedForMerge = [];
+      showInvalidateConfirmDialog = false;
+    } catch (e) {
+      logger.error({ err: e }, "Bulk invalidate failed");
+      // Individual errors handled by mutation, but we catch here for flow
+    }
+  }
+
   return {
     // State Accessors
     get selectedForMerge() {
@@ -698,6 +819,15 @@ export function createPeopleTabModel(params?: {
     },
     set showMergeConfirmDialog(v) {
       showMergeConfirmDialog = v;
+    },
+    get showInvalidateConfirmDialog() {
+      return showInvalidateConfirmDialog;
+    },
+    set showInvalidateConfirmDialog(v) {
+      showInvalidateConfirmDialog = v;
+    },
+    get bulkInvalidationCandidates() {
+      return bulkInvalidationCandidates;
     },
     get confirmDialog() {
       return confirmDialog;
@@ -770,6 +900,8 @@ export function createPeopleTabModel(params?: {
     handleBulkRestore,
     handleBulkMarkAsJunk,
     handleBulkRestoreFromJunk,
+    handleBulkInvalidateDetections,
+    confirmBulkInvalidate,
     toggleMergeSelection,
     openMergeDialog,
     confirmMerge,
