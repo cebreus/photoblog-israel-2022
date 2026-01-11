@@ -91,8 +91,10 @@ export function createPeopleTabModel(params?: {
       performance.mark("people-stats-start");
     }
 
-    const list = people.visiblePeople;
-    const namedCount = list.filter((p) => p.isUserNamed).length;
+    // Filter list to only named persons as requested
+    const list = people.displayPersons.filter((p) => p.isUserNamed);
+
+    const namedCount = list.length;
     const totalFaces = list.reduce((acc, p: Person) => acc + p.faceCount, 0);
     const personIds = new Set(list.map((p) => p.id));
 
@@ -161,17 +163,29 @@ export function createPeopleTabModel(params?: {
     );
   });
 
-  const selectedHiddenCount = $derived(
-    selectedForMerge.filter((id) => people.hiddenPeople.some((p) => p.id === id)).length,
+  const selectedPeopleData = $derived(
+    people.peopleWithStats.filter((p) => selectedForMerge.includes(p.id)),
+  );
+  const selectedHiddenCount = $derived(selectedPeopleData.filter((p) => p.hidden).length);
+  const selectedJunkCount = $derived(selectedPeopleData.filter((p) => p.junk).length);
+
+  const namedPeople = $derived(
+    people.peopleWithStats
+      .filter((p) => p.isUserNamed)
+      .sort((a, b) => a.name.localeCompare(b.name, "cs", { sensitivity: "base" })),
   );
 
-  const selectedJunkCount = $derived(
-    selectedForMerge.filter((id) => people.junkPeople.some((p) => p.id === id)).length,
+  const isSaving = $derived(
+    !!(params?.mergeMutation?.isPending || params?.updateMutation?.isPending),
+  );
+
+  const canHide = $derived(
+    selectedForMerge.length > 0 && selectedForMerge.length > selectedHiddenCount,
   );
 
   const selectionMode = $derived.by(() => {
     const selected = filters.selectedPeople;
-    const visibleIds = people.visiblePeople.map((p) => p.id);
+    const visibleIds = people.displayPersons.map((p) => p.id);
 
     if (selected.includes("unknown")) return "unknown";
     if (selected.length === 0) return "reset";
@@ -232,7 +246,7 @@ export function createPeopleTabModel(params?: {
 
   function togglePerson(personId: string, shiftKey = false) {
     let current = filters.selectedPeople;
-    const visibleIds = people.visiblePeople.map((p) => p.id);
+    const visibleIds = people.displayPersons.map((p) => p.id);
 
     let effectiveCurrent = current;
     if (current.length === 0) {
@@ -280,7 +294,7 @@ export function createPeopleTabModel(params?: {
   }
 
   function selectAll() {
-    filters.selectedPeople = people.visiblePeople.map((p) => p.id);
+    filters.selectedPeople = people.displayPersons.map((p) => p.id);
   }
 
   function selectUnknown() {
@@ -405,7 +419,9 @@ export function createPeopleTabModel(params?: {
   }
 
   function handleBulkRestore() {
-    const hiddenIds = selectedForMerge.filter((id) => people.hiddenPeople.some((p) => p.id === id));
+    const hiddenIds = selectedForMerge.filter((id) =>
+      people.displayPersons.some((p) => p.hidden && p.id === id),
+    );
     if (hiddenIds.length === 0) return;
 
     openBulkConfirm({
@@ -437,9 +453,10 @@ export function createPeopleTabModel(params?: {
     if (selectedForMerge.length === 0) return;
 
     openBulkConfirm({
-      title: `Ignorovat ${selectedForMerge.length} vybraných profilů?`,
-      description: "Operace je nevratná a odstraní profily ze systému i z budoucí detekce.",
-      confirmLabel: "Ignorovat profily",
+      title: `Přesunout ${selectedForMerge.length} profilů do koše?`,
+      description:
+        "Osoby v koši se nebudou používat pro další rozpoznávání tváří. Tuto akci lze vrátit zpět v sekci Koš.",
+      confirmLabel: "Přesunout do koše",
       onConfirm: () => executeBulkMarkAsJunk(),
     });
   }
@@ -452,7 +469,7 @@ export function createPeopleTabModel(params?: {
     }
 
     try {
-      const junkIds = selectedForMerge.filter((id) => people.junkPeople.some((p) => p.id === id));
+      const junkIds = selectedForMerge.filter((id) => people.displayJunk.some((p) => p.id === id));
       const updates = junkIds.map((id) => ({ id, junk: false }));
 
       await params.updateMutation.mutateAsync({ updates });
@@ -466,6 +483,8 @@ export function createPeopleTabModel(params?: {
   async function toggleHide(personId: string) {
     const p = people.peopleWithStats.find((x) => x.id === personId);
     if (!p) return;
+
+    // Safety check for mutation availability
     if (!params?.updateMutation) {
       logger.error({}, "updateMutation not provided to model");
       return;
@@ -514,11 +533,10 @@ export function createPeopleTabModel(params?: {
 
     if (shiftKey && lastSelectedMergeId) {
       const listCandidates = [
-        people.visiblePeople,
-        people.hiddenPeople,
-        people.categoryPeople,
-        people.categoryStatues,
-        people.categoryPaintings,
+        people.displayPersons,
+        people.displayStatues,
+        people.displayPaintings,
+        people.displayJunk,
       ];
 
       for (const list of listCandidates) {
@@ -595,6 +613,35 @@ export function createPeopleTabModel(params?: {
     }
   }
 
+  async function handleMergeInto(targetPersonId: string) {
+    if (selectedForMerge.length === 0) return;
+    if (!params?.mergeMutation) {
+      logger.error({}, "mergeMutation not provided to model");
+      return;
+    }
+
+    const sourcePersonIds = selectedForMerge.filter((id) => id !== targetPersonId);
+    if (sourcePersonIds.length === 0) return;
+
+    const targetPerson = people.peopleWithStats.find((p) => p.id === targetPersonId);
+    if (!targetPerson) return;
+
+    logger.info(
+      { sourceCount: sourcePersonIds.length, target: targetPerson.name },
+      "Merging selected people into target",
+    );
+
+    try {
+      await params.mergeMutation.mutateAsync({
+        sourcePersonIds,
+        targetPersonId,
+      });
+      selectedForMerge = [];
+    } catch (error) {
+      logger.error({ err: error }, "Merge-into mutation failed");
+    }
+  }
+
   async function executeBulkUpdateCategory(category: "person" | "statue" | "painting") {
     if (selectedForMerge.length === 0) return;
     if (!params?.updateMutation) {
@@ -615,15 +662,15 @@ export function createPeopleTabModel(params?: {
   function bulkUpdateCategory(category: "person" | "statue" | "painting") {
     if (selectedForMerge.length === 0) return;
 
-    const _labels = {
+    const labels = {
       person: "Osoba",
       statue: "Socha",
       painting: "Malba",
     } as const;
 
     openBulkConfirm({
-      title: `Změnit typ u $selectedForMerge.length osob ? `,
-      description: `Vybrané profily budou nastaveny na typ: $labels[category].`,
+      title: `Změnit typ u ${selectedForMerge.length} osob?`,
+      description: `Vybrané profily budou nastaveny na typ: ${labels[category]}.`,
       confirmLabel: "Změnit typ",
       onConfirm: () => executeBulkUpdateCategory(category),
     });
@@ -696,6 +743,15 @@ export function createPeopleTabModel(params?: {
     get selectionMode() {
       return selectionMode;
     },
+    get namedPeople() {
+      return namedPeople;
+    },
+    get isSaving() {
+      return isSaving;
+    },
+    get canHide() {
+      return canHide;
+    },
 
     // Methods
     initDetailSync,
@@ -717,6 +773,7 @@ export function createPeopleTabModel(params?: {
     toggleMergeSelection,
     openMergeDialog,
     confirmMerge,
+    handleMergeInto,
     bulkUpdateCategory,
     toggleHide,
   };

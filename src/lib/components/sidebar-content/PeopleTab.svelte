@@ -1,16 +1,20 @@
 <script lang="ts">
   import { useMergePeopleMutation, useUpdatePeopleMutation } from "$lib/api/people/mutations";
   import { useConstraintsQuery } from "$lib/api/people/queries";
+  import SelectionBulkActions from "$lib/components/SelectionBulkActions.svelte";
   import TaskOverlay from "$lib/components/ui/TaskOverlay.svelte";
   import * as Accordion from "$lib/components/ui/accordion";
+  import { Separator } from "$lib/components/ui/separator";
   import * as Sidebar from "$lib/components/ui/sidebar";
   import { createPeopleTabModel } from "$lib/logic/people-tab-model.svelte";
   import { filters } from "$lib/stores/filters.svelte";
   import { people } from "$lib/stores/people.svelte";
   import { system } from "$lib/stores/system.svelte";
+  import { ui } from "$lib/stores/ui.svelte";
   import type { Person } from "$lib/types/manifest";
 
-  import PeopleBulkActions from "./people/PeopleBulkActions.svelte";
+  import { dev } from "$app/environment";
+
   import PeopleMergeDialogs from "./people/PeopleMergeDialogs.svelte";
   import PeopleStats from "./people/PeopleStats.svelte";
 
@@ -45,13 +49,76 @@
   const isBackgroundFetching = $derived(constraintsQuery.isFetching);
 
   // Subscribe to derived store with optimized stats for list rendering
-  const peopleList = $derived(people.peopleWithStats);
+  const allPersons = $derived(people.displayPersons);
+  const namedPersons = $derived(allPersons.filter((p) => !p.hidden && p.isUserNamed));
+  const unnamedPersons = $derived(allPersons.filter((p) => p.hidden || !p.isUserNamed));
 
   function getThumbnailSrc(person: Person) {
     if (!person.thumbnail) return "";
     return `/${person.thumbnail}?t=${model.lastUpdateTimestamp}`;
   }
 </script>
+
+{#snippet groupedGrid(list: Person[], testIdBase: string)}
+  {@const named = list.filter((p) => !p.hidden && p.isUserNamed)}
+  {@const unnamed = list.filter((p) => !p.hidden && !p.isUserNamed)}
+  {@const hidden = list.filter((p) => p.hidden)}
+
+  <div class="flex flex-col gap-4 p-2">
+    {#if named.length > 0}
+      <div class="grid grid-cols-3 gap-2" data-testid={`${testIdBase}-named`}>
+        {#each named as person (person.id)}
+          <CategoryPersonCard
+            {person}
+            {getThumbnailSrc}
+            testId={`${testIdBase}-card`}
+            selected={model.selectedForMerge.includes(person.id)}
+            onToggle={(id, e) => model.toggleMergeSelection(person.id, e)}
+            onOpenDetail={(p) => model.openPersonDetail(p)}
+          />
+        {/each}
+      </div>
+    {/if}
+
+    {#if named.length > 0 && unnamed.length > 0}
+      <Separator />
+    {/if}
+
+    {#if unnamed.length > 0}
+      <div class="grid grid-cols-3 gap-2" data-testid={`${testIdBase}-unnamed`}>
+        {#each unnamed as person (person.id)}
+          <CategoryPersonCard
+            {person}
+            {getThumbnailSrc}
+            testId={`${testIdBase}-card`}
+            selected={model.selectedForMerge.includes(person.id)}
+            onToggle={(id, e) => model.toggleMergeSelection(person.id, e)}
+            onOpenDetail={(p) => model.openPersonDetail(p)}
+          />
+        {/each}
+      </div>
+    {/if}
+
+    {#if (named.length > 0 || unnamed.length > 0) && hidden.length > 0}
+      <Separator />
+    {/if}
+
+    {#if hidden.length > 0}
+      <div class="grid grid-cols-3 gap-2" data-testid={`${testIdBase}-hidden`}>
+        {#each hidden as person (person.id)}
+          <CategoryPersonCard
+            {person}
+            {getThumbnailSrc}
+            testId={`${testIdBase}-card`}
+            selected={model.selectedForMerge.includes(person.id)}
+            onToggle={(id, e) => model.toggleMergeSelection(person.id, e)}
+            onOpenDetail={(p) => model.openPersonDetail(p)}
+          />
+        {/each}
+      </div>
+    {/if}
+  </div>
+{/snippet}
 
 <div class="relative flex h-full flex-col overflow-y-auto" data-testid="people-tab">
   {#if isProcessing}
@@ -82,100 +149,114 @@
     {/if}
   </Sidebar.Header>
 
+  {#if dev}
+    <div
+      class="bg-background/95 sticky top-0 z-20 border-b px-4 py-2 backdrop-blur-sm"
+      data-testid="people-tab-bulk-actions-container"
+    >
+      <SelectionBulkActions
+        count={model.selectedForMerge.length}
+        onClear={() => (model.selectedForMerge = [])}
+        isWorking={model.isSaving}
+        disabled={!dev}
+        class="w-full"
+        testId="people-tab-bulk-actions"
+        onMerge={() => model.openMergeDialog()}
+        onMergeInto={(targetId) => model.handleMergeInto(targetId)}
+        namedPeople={model.namedPeople}
+        onHide={() => model.handleBulkHideAction()}
+        onRestore={() => model.handleBulkRestore()}
+        onMarkAsJunk={() => model.handleBulkMarkAsJunk()}
+        onRestoreFromJunk={() => model.handleBulkRestoreFromJunk()}
+        onUpdateCategory={(cat) => model.bulkUpdateCategory(cat)}
+        hiddenCount={model.selectedHiddenCount}
+        junkCount={model.selectedJunkCount}
+        canHide={model.canHide}
+      />
+    </div>
+  {/if}
+
   <div class="flex flex-col p-0">
     <div class="flex flex-col">
       <div class="space-y-2 p-2">
-        {#if people.categoryPeople.length > 0 || people.categoryStatues.length > 0 || people.categoryPaintings.length > 0}
-          <Accordion.Root type="multiple" class="w-full">
-            {#if people.categoryPeople.length > 0}
-              <Accordion.Item value="people">
-                <Accordion.Trigger class="px-2">Lidé</Accordion.Trigger>
+        {#if namedPersons.length > 0}
+          <VisiblePeopleList
+            visiblePeople={namedPersons}
+            {getThumbnailSrc}
+            selectedPeople={filters.selectedPeople}
+            togglePerson={(id: string, shift?: boolean) => model.togglePerson(id, shift)}
+            openPersonDetail={(p: Person, e?: MouseEvent) => model.openPersonDetail(p, e)}
+            startEditing={(p: Person) => model.startEditing(p)}
+            editingPersonId={model.editingPersonId}
+            editingName={model.editingName}
+            onEditingNameChange={(val: string) => (model.editingName = val)}
+            confirmRename={() => model.confirmRename()}
+            cancelEditing={() => model.cancelEditing()}
+            toggleHide={(id: string) =>
+              model.toggleHide ? model.toggleHide(id) : Promise.resolve()}
+            toggleMergeSelection={(id: string, e?: MouseEvent | KeyboardEvent | boolean) =>
+              model.toggleMergeSelection(id, e)}
+            processingIds={model.processingIds}
+            selectedForMerge={model.selectedForMerge}
+          />
+        {/if}
+
+        {#if dev}
+          <Accordion.Root
+            type="multiple"
+            class="w-full"
+            data-testid="people-tab-accordion-root"
+            bind:value={ui.peopleAccordionState}
+          >
+            {#if unnamedPersons.length > 0}
+              <Accordion.Item value="persons" data-testid="people-tab-unnamed-item">
+                <Accordion.Trigger class="px-2" data-testid="people-tab-unnamed-trigger">
+                  Osoby ({unnamedPersons.length})
+                </Accordion.Trigger>
                 <Accordion.Content>
-                  <div class="grid grid-cols-2 gap-2 p-2">
-                    {#each people.categoryPeople as person (person.id)}
-                      <CategoryPersonCard
-                        {person}
-                        {getThumbnailSrc}
-                        testId="people-tab-category-person-card"
-                        selected={model.selectedForMerge.includes(person.id)}
-                        onToggle={(id: string, e?: MouseEvent | KeyboardEvent) =>
-                          model.toggleMergeSelection(person.id, e)}
-                      />
-                    {/each}
-                  </div>
+                  {@render groupedGrid(unnamedPersons, "people-tab-unnamed")}
+                </Accordion.Content>
+              </Accordion.Item>
+            {/if}
+            {#if people.displayStatues.length > 0}
+              <Accordion.Item value="statues" data-testid="people-tab-category-statues-item">
+                <Accordion.Trigger class="px-2" data-testid="people-tab-category-statues-trigger">
+                  Sochy ({people.displayStatues.length})
+                </Accordion.Trigger>
+                <Accordion.Content>
+                  {@render groupedGrid(people.displayStatues, "people-tab-statues")}
                 </Accordion.Content>
               </Accordion.Item>
             {/if}
 
-            {#if people.categoryStatues.length > 0}
-              <Accordion.Item value="statues">
-                <Accordion.Trigger class="px-2">Sochy</Accordion.Trigger>
+            {#if people.displayPaintings.length > 0}
+              <Accordion.Item value="paintings" data-testid="people-tab-category-paintings-item">
+                <Accordion.Trigger class="px-2" data-testid="people-tab-category-paintings-trigger">
+                  Malby / Fresky ({people.displayPaintings.length})
+                </Accordion.Trigger>
                 <Accordion.Content>
-                  <div class="grid grid-cols-2 gap-2 p-2">
-                    {#each people.categoryStatues as person (person.id)}
-                      <CategoryPersonCard
-                        {person}
-                        {getThumbnailSrc}
-                        testId="people-tab-category-statue-card"
-                        selected={model.selectedForMerge.includes(person.id)}
-                        onToggle={(id: string, e?: MouseEvent | KeyboardEvent) =>
-                          model.toggleMergeSelection(person.id, e)}
-                      />
-                    {/each}
-                  </div>
+                  {@render groupedGrid(people.displayPaintings, "people-tab-paintings")}
                 </Accordion.Content>
               </Accordion.Item>
             {/if}
 
-            {#if people.categoryPaintings.length > 0}
-              <Accordion.Item value="paintings">
-                <Accordion.Trigger class="px-2">Malby / Fresky</Accordion.Trigger>
+            {#if people.displayJunk.length > 0}
+              <Accordion.Item value="junk" data-testid="people-tab-category-junk-item">
+                <Accordion.Trigger class="px-2" data-testid="people-tab-category-junk-trigger">
+                  Koš ({people.displayJunk.length})
+                </Accordion.Trigger>
                 <Accordion.Content>
-                  <div class="grid grid-cols-2 gap-2 p-2">
-                    {#each people.categoryPaintings as person (person.id)}
-                      <CategoryPersonCard
-                        {person}
-                        {getThumbnailSrc}
-                        testId="people-tab-category-painting-card"
-                        selected={model.selectedForMerge.includes(person.id)}
-                        onToggle={(id: string, e?: MouseEvent | KeyboardEvent) =>
-                          model.toggleMergeSelection(person.id, e)}
-                      />
-                    {/each}
-                  </div>
+                  {@render groupedGrid(people.displayJunk, "people-tab-category-junk")}
                 </Accordion.Content>
               </Accordion.Item>
             {/if}
           </Accordion.Root>
         {/if}
-
-        <VisiblePeopleList
-          visiblePeople={peopleList}
-          {getThumbnailSrc}
-          selectedPeople={filters.selectedPeople}
-          togglePerson={(id: string, shift?: boolean) => model.togglePerson(id, shift)}
-          openPersonDetail={(p: Person, e?: MouseEvent) => model.openPersonDetail(p, e)}
-          startEditing={(p: Person) => model.startEditing(p)}
-          editingPersonId={model.editingPersonId}
-          editingName={model.editingName}
-          onEditingNameChange={(val: string) => (model.editingName = val)}
-          confirmRename={() => model.confirmRename()}
-          cancelEditing={() => model.cancelEditing()}
-          toggleHide={(id: string) => (model.toggleHide ? model.toggleHide(id) : Promise.resolve())}
-          toggleMergeSelection={(id: string, e?: MouseEvent | KeyboardEvent | boolean) =>
-            model.toggleMergeSelection(id, e)}
-          processingIds={model.processingIds}
-          selectedForMerge={model.selectedForMerge}
-        />
       </div>
     </div>
   </div>
 
-  <Sidebar.Footer class="p-0">
-    {#if model.selectedForMerge.length > 0}
-      <PeopleBulkActions {model} />
-    {/if}
-  </Sidebar.Footer>
+  <!-- <Sidebar.Footer class="bg-background sticky bottom-0 z-10 border-t px-6">oo</Sidebar.Footer> -->
 
   <PeopleMergeDialogs {model} />
 </div>

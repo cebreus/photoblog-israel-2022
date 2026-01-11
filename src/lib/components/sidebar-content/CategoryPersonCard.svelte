@@ -102,13 +102,24 @@
       class="text-muted-foreground h-auto w-full cursor-pointer truncate border-none bg-transparent p-0 px-1 text-center text-[10px] font-medium hover:underline"
       title={person.name}
       onclick={() => onOpenDetail?.(person)}
+      data-testid="people-tab-person-name"
     >
       {person.name}
     </Button>
     {#if showCount}
-      <div class="text-muted-foreground text-center text-[10px]">
-        {#if dev && person.detectionsCount && person.detectionsCount > person.faceCount}
-          {person.detectionsCount} tváří / {person.faceCount} fotek
+      <div
+        class="text-muted-foreground text-center text-[10px]"
+        data-testid="people-tab-person-count"
+      >
+        {#if dev}
+          {#if person.detectionsCount !== undefined}
+            {person.detectionsCount} detekcí
+            {#if person.detectionsCount !== person.faceCount}
+              / {person.faceCount} fotek
+            {/if}
+          {:else}
+            {person.faceCount} detekcí
+          {/if}
         {:else}
           {person.faceCount} fotek
         {/if}

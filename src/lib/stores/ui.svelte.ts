@@ -5,6 +5,11 @@ function createUIState() {
   let photoLabels = $state(false);
   let debugMode = $state(false);
   let activeSections = $state(new Set<string>());
+  let peopleAccordionState = $state<string[]>(
+    typeof localStorage !== "undefined"
+      ? JSON.parse(localStorage.getItem("ui.peopleAccordionState") || '["persons"]')
+      : ["persons"],
+  );
 
   function toggleSidebar() {
     sidebarOpen = !sidebarOpen;
@@ -96,6 +101,15 @@ function createUIState() {
     },
     set activeSections(v) {
       activeSections = v;
+    },
+    get peopleAccordionState() {
+      return peopleAccordionState;
+    },
+    set peopleAccordionState(v) {
+      peopleAccordionState = v;
+      if (typeof localStorage !== "undefined") {
+        localStorage.setItem("ui.peopleAccordionState", JSON.stringify(v));
+      }
     },
     toggleSidebar,
     setSidebar,
