@@ -75,13 +75,72 @@ export async function POST({ request, locals }: { request: Request; locals: App.
       }
 
       for (const { imageId, box } of detections) {
-        // 1. Remove from faces.manifest
+        let indicesToRemove: number[] = [];
+
+        // 1. Identify indices to remove from faces.manifest
         if (facesManifest[imageId]) {
           const faceDetail = facesManifest[imageId];
-          if (faceDetail.peopleIds) {
-            faceDetail.peopleIds = faceDetail.peopleIds.filter(
-              (currentPersonId: string) => currentPersonId !== personId,
-            );
+
+          if (faceDetail.faces && faceDetail.peopleIds) {
+            // Safety check for corruption
+            if (faceDetail.faces.length !== faceDetail.peopleIds.length) {
+              log.warn(
+                {
+                  imageId,
+                  faceCount: faceDetail.faces.length,
+                  peopleCount: faceDetail.peopleIds.length,
+                },
+                "INVALIDATE: Data corruption detected (length mismatch). Proceeding with cleanup.",
+              );
+            }
+
+            if (box) {
+              // Match by geometry with tolerance
+              const BOX_MATCH_THRESHOLD = 0.1;
+
+              // Find matching index where personId matches AND box matches
+              // We search specifically for the target person's assignment at the matching location
+              faceDetail.faces.forEach((faceBox, idx) => {
+                const currentPersonId = faceDetail.peopleIds[idx];
+                if (currentPersonId === personId) {
+                  const isGeoMatch =
+                    Math.abs(faceBox.x - box.x) < BOX_MATCH_THRESHOLD &&
+                    Math.abs(faceBox.y - box.y) < BOX_MATCH_THRESHOLD &&
+                    Math.abs(faceBox.width - box.width) < BOX_MATCH_THRESHOLD &&
+                    Math.abs(faceBox.height - box.height) < BOX_MATCH_THRESHOLD;
+
+                  if (isGeoMatch) {
+                    indicesToRemove.push(idx);
+                  }
+                }
+              });
+            } else {
+              // No box provided -> FORCE INVALIDATE all occurrences of this person in this image
+              log.info(
+                { imageId, personId },
+                "INVALIDATE: Force mode (no box), removing all instances of person",
+              );
+              faceDetail.peopleIds.forEach((pid, idx) => {
+                if (pid === personId) {
+                  indicesToRemove.push(idx);
+                }
+              });
+            }
+
+            // Remove from LAST to FIRST to avoid index shifting problems
+            indicesToRemove.sort((a, b) => b - a);
+
+            for (const idx of indicesToRemove) {
+              // SPLICE ALL PARALLEL ARRAYS
+              faceDetail.faces.splice(idx, 1);
+              faceDetail.peopleIds.splice(idx, 1);
+              if (faceDetail.descriptors) {
+                faceDetail.descriptors.splice(idx, 1);
+              }
+            }
+
+            // Update facesDetected flag
+            faceDetail.facesDetected = faceDetail.faces.length > 0;
           }
         }
 
@@ -96,7 +155,9 @@ export async function POST({ request, locals }: { request: Request; locals: App.
 
         // 3. Update faceCount and delete crop
         if (targetPerson) {
-          targetPerson.faceCount = Math.max(0, targetPerson.faceCount - 1);
+          // If we removed N faces, decrement by N (usually 1, but could be more in force mode)
+          const itemsRemoved = indicesToRemove.length > 0 ? indicesToRemove.length : 1;
+          targetPerson.faceCount = Math.max(0, targetPerson.faceCount - itemsRemoved);
 
           // 3.5 Delete the physical face crop file
           const facePath = path.resolve(facesDir, personId, `${imageId}.jpg`);
@@ -111,19 +172,23 @@ export async function POST({ request, locals }: { request: Request; locals: App.
         }
 
         // 4. Update constraints
-        // Prevent duplicates - boxes within threshold are considered the same
-        const BOX_MATCH_THRESHOLD = 0.1; // 10% tolerance for position matching
-        const exists = constraints.invalidDetections.some(
-          (detection) =>
-            detection.imageId === imageId &&
-            Math.abs(detection.box.x - box.x) < BOX_MATCH_THRESHOLD &&
-            Math.abs(detection.box.y - box.y) < BOX_MATCH_THRESHOLD,
-        );
+        if (box) {
+          // Prevent duplicates - boxes within threshold are considered the same
+          const BOX_MATCH_THRESHOLD = 0.1; // 10% tolerance for position matching
+          const exists = constraints.invalidDetections.some(
+            (detection) =>
+              detection.imageId === imageId &&
+              Math.abs(detection.box.x - box.x) < BOX_MATCH_THRESHOLD &&
+              Math.abs(detection.box.y - box.y) < BOX_MATCH_THRESHOLD,
+          );
 
-        if (!exists) {
-          constraints.invalidDetections.push({ imageId, box });
+          if (!exists) {
+            constraints.invalidDetections.push({ imageId, box });
+          } else {
+            log.warn({ imageId }, "INVALIDATE: Constraint already exists, skipping duplicate");
+          }
         } else {
-          log.warn({ imageId }, "INVALIDATE: Constraint already exists, skipping duplicate");
+          log.info({ imageId }, "INVALIDATE: Skipping constraint creation (no box data available)");
         }
       }
 

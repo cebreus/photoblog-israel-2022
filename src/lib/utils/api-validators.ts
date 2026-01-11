@@ -129,7 +129,7 @@ export interface InvalidateDetectionsInput {
   personId: string;
   detections: Array<{
     imageId: string;
-    box: {
+    box?: {
       x: number;
       y: number;
       width: number;
@@ -154,36 +154,49 @@ export function validateInvalidateDetectionsInput(
   const finalDetections: InvalidateDetectionsInput["detections"] = [];
 
   // Support legacy single detection
-  if (isNonEmptyString(imageId) && box && typeof box === "object") {
-    const { x, y, width, height } = box as Record<string, unknown>;
-    if (
-      typeof x === "number" &&
-      typeof y === "number" &&
-      typeof width === "number" &&
-      typeof height === "number"
-    ) {
-      finalDetections.push({ imageId, box: { x, y, width, height } });
+  if (isNonEmptyString(imageId)) {
+    // If box is present, validate it
+    let validatedBox: InvalidateDetectionsInput["detections"][0]["box"] | undefined;
+
+    if (box && typeof box === "object") {
+      const { x, y, width, height } = box as Record<string, unknown>;
+      if (
+        typeof x === "number" &&
+        typeof y === "number" &&
+        typeof width === "number" &&
+        typeof height === "number"
+      ) {
+        validatedBox = { x, y, width, height };
+      }
+    }
+    // Only push if box was valid OR it wasn't provided at all (force invalidation)
+    if (box === undefined || validatedBox) {
+      finalDetections.push({ imageId, box: validatedBox });
     }
   }
 
   // Support bulk detections
   if (Array.isArray(detections)) {
     for (const d of detections) {
-      if (
-        d &&
-        typeof d === "object" &&
-        isNonEmptyString(d.imageId) &&
-        d.box &&
-        typeof d.box === "object"
-      ) {
-        const { x, y, width, height } = d.box;
-        if (
-          typeof x === "number" &&
-          typeof y === "number" &&
-          typeof width === "number" &&
-          typeof height === "number"
-        ) {
-          finalDetections.push({ imageId: d.imageId, box: { x, y, width, height } });
+      if (d && typeof d === "object" && isNonEmptyString(d.imageId)) {
+        let validatedBox: InvalidateDetectionsInput["detections"][0]["box"] | undefined;
+
+        if (d.box && typeof d.box === "object") {
+          const { x, y, width, height } = d.box;
+          if (
+            typeof x === "number" &&
+            typeof y === "number" &&
+            typeof width === "number" &&
+            typeof height === "number"
+          ) {
+            validatedBox = { x, y, width, height };
+          }
+        }
+
+        // Allow if box is explicitly undefined (force) OR if provided box is valid
+        // If box is provided but INVALID, we skip this detection to be safe
+        if (d.box === undefined || validatedBox) {
+          finalDetections.push({ imageId: d.imageId, box: validatedBox });
         }
       }
     }

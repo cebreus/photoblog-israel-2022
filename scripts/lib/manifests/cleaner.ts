@@ -69,10 +69,18 @@ export async function cleanPhantomAssignments(
 
           // Also remove from faces manifest if present
           if (facesManifest?.[item.id]?.peopleIds) {
-            const idx = facesManifest[item.id].peopleIds.indexOf(personId);
-            if (idx !== -1) {
-              facesManifest[item.id].peopleIds.splice(idx, 1);
-              facesRemoved++;
+            const faceEntry = facesManifest[item.id];
+            // Find ALL indices for this person (though usually 1 in phantom check context)
+            // Reverse order loop to safely splice
+            if (faceEntry.peopleIds) {
+              for (let i = faceEntry.peopleIds.length - 1; i >= 0; i--) {
+                if (faceEntry.peopleIds[i] === personId) {
+                  faceEntry.peopleIds.splice(i, 1);
+                  if (faceEntry.faces) faceEntry.faces.splice(i, 1);
+                  if (faceEntry.descriptors) faceEntry.descriptors.splice(i, 1);
+                  facesRemoved++;
+                }
+              }
             }
           }
           continue;

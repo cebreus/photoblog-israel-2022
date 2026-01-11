@@ -34,10 +34,10 @@ export function updatePersonReferences(
       // Sync faces manifest
       const faceData = facesManifest[item.id];
       if (faceData?.peopleIds?.includes(oldPersonId)) {
+        // DO NOT DEDUPE faces.manifest IDs! define 1:1 mapping with faces array.
         faceData.peopleIds = faceData.peopleIds.map(function (id) {
           return id === oldPersonId ? newPersonId : id;
         });
-        faceData.peopleIds = [...new Set(faceData.peopleIds)];
       }
     }
   }
@@ -74,10 +74,10 @@ export function updateImagePersonReference(
   if (facesManifest[imageId]) {
     const faceData = facesManifest[imageId];
     if (faceData.peopleIds?.includes(oldPersonId)) {
+      // DO NOT DEDUPE faces.manifest IDs! define 1:1 mapping with faces array.
       faceData.peopleIds = faceData.peopleIds.map(function (id) {
         return id === oldPersonId ? newPersonId : id;
       });
-      faceData.peopleIds = [...new Set(faceData.peopleIds)];
       updated = true;
     }
   }
@@ -110,10 +110,18 @@ export function removePersonFromImage(
   }
 
   if (facesManifest[imageId]?.peopleIds?.includes(personId)) {
-    facesManifest[imageId].peopleIds = facesManifest[imageId].peopleIds.filter(function (id) {
-      return id !== personId;
-    });
-    removed = true;
+    // Robust cleanup: splice all parallel arrays to maintain alignment
+    const faceEntry = facesManifest[imageId];
+    if (faceEntry.peopleIds) {
+      for (let i = faceEntry.peopleIds.length - 1; i >= 0; i--) {
+        if (faceEntry.peopleIds[i] === personId) {
+          faceEntry.peopleIds.splice(i, 1);
+          if (faceEntry.faces) faceEntry.faces.splice(i, 1);
+          if (faceEntry.descriptors) faceEntry.descriptors.splice(i, 1);
+          removed = true;
+        }
+      }
+    }
   }
 
   return removed;

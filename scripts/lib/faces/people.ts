@@ -7,7 +7,7 @@
  * Merged from: people-utils.ts, person-utils.ts, people-consistency.ts
  */
 
-import path from "node:path";
+import { fileExists, isJpegPath, readdir } from "$scripts/utils/runtime";
 import {
   type FacesManifest,
   isImageEntry,
@@ -15,7 +15,7 @@ import {
   type PeopleManifest,
   type Person,
 } from "$shared/types/manifest";
-import { fileExists, isJpegPath, readdir } from "$scripts/utils/runtime";
+import path from "node:path";
 
 // ============================================
 // From person-utils.ts: Reference Updates
@@ -116,10 +116,18 @@ export function removePersonFromImage(
   }
 
   if (facesManifest[imageId]?.peopleIds?.includes(personId)) {
-    facesManifest[imageId].peopleIds = facesManifest[imageId].peopleIds.filter(
-      (id) => id !== personId,
-    );
-    removed = true;
+    // Robust cleanup: splice all parallel arrays to maintain alignment
+    const faceEntry = facesManifest[imageId];
+    if (faceEntry.peopleIds) {
+      for (let i = faceEntry.peopleIds.length - 1; i >= 0; i--) {
+        if (faceEntry.peopleIds[i] === personId) {
+          faceEntry.peopleIds.splice(i, 1);
+          if (faceEntry.faces) faceEntry.faces.splice(i, 1);
+          if (faceEntry.descriptors) faceEntry.descriptors.splice(i, 1);
+          removed = true;
+        }
+      }
+    }
   }
 
   return removed;
