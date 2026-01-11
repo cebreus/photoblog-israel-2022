@@ -90,18 +90,6 @@
       "detectionsCount": 14
     },
     {
-      "id": "person-009-287fc854",
-      "name": "Person 009",
-      "faceCount": 0,
-      "thumbnail": "faces/person-009-287fc854/2025-11-26-134543-cebreus--zoom1from2.jpg",
-      "hidden": true,
-      "createdAt": "2026-01-09T14:16:34.044Z",
-      "lastSeenAt": "2026-01-09T14:16:34.044Z",
-      "isUserNamed": false,
-      "detectionsCount": 0,
-      "junk": true
-    },
-    {
       "id": "statue-002-fff4ed46",
       "name": "Statue 002",
       "faceCount": 1,
@@ -194,18 +182,6 @@
       "lastSeenAt": "2026-01-09T14:16:31.331Z",
       "isUserNamed": true,
       "detectionsCount": 1
-    },
-    {
-      "id": "person-006-824c9fd5",
-      "name": "Person 006",
-      "faceCount": 1,
-      "thumbnail": "faces/person-006-824c9fd5/2025-11-25-174738-bobo.jpg",
-      "hidden": true,
-      "createdAt": "2026-01-09T14:16:31.333Z",
-      "lastSeenAt": "2026-01-09T14:16:31.333Z",
-      "isUserNamed": false,
-      "detectionsCount": 1,
-      "junk": true
     },
     {
       "id": "person-007-ffb5c176",
@@ -610,8 +586,8 @@
     }
   ],
   "meta": {
-    "version": 120,
-    "generatedAt": "2026-01-11T10:48:50.807Z",
+    "version": 123,
+    "generatedAt": "2026-01-11T13:23:06.698Z",
     "generator": "photoblog-data-layer"
   }
 }

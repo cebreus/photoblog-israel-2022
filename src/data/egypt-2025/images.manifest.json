@@ -10134,7 +10134,6 @@
             "snapshot-others"
           ],
           "people": [
-            "person-006-824c9fd5",
             "person-dasa-264acc31",
             "person-finda-aa8f1097"
           ]
@@ -17519,8 +17518,7 @@
           "people": [
             "statue-001-7753c8e5",
             "person-004-6843a14c",
-            "person-022-4332240f",
-            "person-009-287fc854"
+            "person-022-4332240f"
           ]
         },
         {
@@ -27019,8 +27017,8 @@
     }
   ],
   "meta": {
-    "version": 14,
-    "generatedAt": "2026-01-11T10:48:50.808Z",
+    "version": 4,
+    "generatedAt": "2026-01-11T13:23:06.698Z",
     "generator": "photoblog-data-layer"
   }
 }
