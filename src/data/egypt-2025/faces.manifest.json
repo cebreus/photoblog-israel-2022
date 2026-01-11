@@ -40,7 +40,7 @@
       }
     ],
     "peopleIds": [
-      "person-001-998c5e79"
+      "person-jarek-7a7cc561"
     ],
     "descriptors": [
       [
@@ -500,8 +500,8 @@
     ],
     "peopleIds": [
       "person-bobo-ea8ebcb0",
-      "person-003-15914539",
-      "person-006-530126e8"
+      "person-finda-aa8f1097",
+      "person-bobina-78419b17"
     ],
     "descriptors": [
       [
@@ -907,7 +907,7 @@
       }
     ],
     "peopleIds": [
-      "person-008-050d12b0"
+      "person-jarek-7a7cc561"
     ],
     "descriptors": [
       [
@@ -1060,7 +1060,7 @@
     ],
     "peopleIds": [
       "person-finda-aa8f1097",
-      "person-010-7e057591"
+      "person-bobina-78419b17"
     ],
     "descriptors": [
       [
@@ -1360,7 +1360,7 @@
       }
     ],
     "peopleIds": [
-      "person-013-f5927255"
+      "person-002-f5927255"
     ],
     "descriptors": [
       [
@@ -1536,9 +1536,9 @@
       }
     ],
     "peopleIds": [
-      "person-001-f885ab2f",
+      "person-finda-aa8f1097",
       "person-dasa-264acc31",
-      "person-008-ebd9220f",
+      "person-bobina-78419b17",
       "person-bobo-ea8ebcb0",
       "person-jarek-7a7cc561",
       "person-jaruska-9f5bf07c"
@@ -2342,9 +2342,7 @@
         "height": 102.42066192626952
       }
     ],
-    "peopleIds": [
-      "person-016-f2bed997"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.05722081661224365,
@@ -2495,7 +2493,7 @@
       }
     ],
     "peopleIds": [
-      "person-016-f3a28ccf",
+      "person-jaruska-9f5bf07c",
       "person-bobo-ea8ebcb0"
     ],
     "descriptors": [
@@ -2814,13 +2812,13 @@
       }
     ],
     "peopleIds": [
-      "person-012-4bbe8e4c",
-      "person-014-08f0b988",
+      "person-001-4bbe8e4c",
+      "person-003-08f0b988",
       "person-jaruska-9f5bf07c",
       "person-finda-aa8f1097",
       "person-bobo-ea8ebcb0",
       "person-dasa-264acc31",
-      "person-018-78419b17"
+      "person-bobina-78419b17"
     ],
     "descriptors": [
       [
@@ -4055,9 +4053,8 @@
     "peopleIds": [
       "person-dasa-264acc31",
       "person-jaruska-9f5bf07c",
-      "person-001-f885ab2f",
-      "person-bobo-ea8ebcb0",
-      "person-020-704ebb38"
+      "person-finda-aa8f1097",
+      "person-bobo-ea8ebcb0"
     ],
     "descriptors": [
       [
@@ -5192,10 +5189,9 @@
     "peopleIds": [
       "person-bobo-ea8ebcb0",
       "person-jaruska-9f5bf07c",
-      "person-018-47be9bcc",
-      "person-008-ebd9220f",
-      "person-001-f885ab2f",
-      "person-021-6843a14c"
+      "person-jarek-7a7cc561",
+      "person-bobina-78419b17",
+      "person-finda-aa8f1097"
     ],
     "descriptors": [
       [
@@ -6387,10 +6383,7 @@
       }
     ],
     "peopleIds": [
-      "person-022-10c1f376",
-      "person-023-faa4bbe8",
-      "person-022-4332240f",
-      "person-021-6843a14c"
+      "person-jarek-7a7cc561"
     ],
     "descriptors": [
       [
@@ -6962,8 +6955,8 @@
       }
     ],
     "peopleIds": [
-      "person-025-0b874fe5",
-      "person-026-d9ffd321"
+      "person-jaruska-9f5bf07c",
+      "person-bobo-ea8ebcb0"
     ],
     "descriptors": [
       [
@@ -7559,7 +7552,7 @@
     ],
     "peopleIds": [
       "person-jaruska-9f5bf07c",
-      "person-027-ad584df0"
+      "statue-003-ad584df0"
     ],
     "descriptors": [
       [
@@ -8600,7 +8593,7 @@
       }
     ],
     "peopleIds": [
-      "person-028-a983b8ef"
+      "statue-004-a983b8ef"
     ],
     "descriptors": [
       [
@@ -8782,7 +8775,7 @@
       }
     ],
     "peopleIds": [
-      "person-029-feb6ddf0"
+      "person-005-feb6ddf0"
     ],
     "descriptors": [
       [
@@ -9134,7 +9127,7 @@
       }
     ],
     "peopleIds": [
-      "person-030-b0373a0c"
+      "person-honza-b0373a0c"
     ],
     "descriptors": [
       [
@@ -9287,7 +9280,7 @@
     ],
     "peopleIds": [
       "person-finda-aa8f1097",
-      "person-031-7e570875"
+      "person-bobina-78419b17"
     ],
     "descriptors": [
       [
@@ -9600,8 +9593,8 @@
     ],
     "peopleIds": [
       "person-bobo-ea8ebcb0",
-      "person-031-ffb5c176",
-      "person-df1a5314--odpojeno-od-person-021-6"
+      "person-007-ffb5c176",
+      "person-dasa-264acc31"
     ],
     "descriptors": [
       [
@@ -10019,8 +10012,8 @@
       }
     ],
     "peopleIds": [
-      "person-008-050d12b0",
-      "person-032-1025df1a",
+      "person-jarek-7a7cc561",
+      "person-008-1025df1a",
       "person-jaruska-9f5bf07c"
     ],
     "descriptors": [
@@ -10591,9 +10584,9 @@
       }
     ],
     "peopleIds": [
-      "person-030-824c9fd5",
-      "person-032-3453bba3",
-      "person-016-f2bed997"
+      "person-006-824c9fd5",
+      "person-dasa-264acc31",
+      "person-finda-aa8f1097"
     ],
     "descriptors": [
       [
@@ -11889,7 +11882,7 @@
       }
     ],
     "peopleIds": [
-      "person-037-7753c8e5"
+      "statue-001-7753c8e5"
     ],
     "descriptors": [
       [
@@ -12212,11 +12205,11 @@
     ],
     "peopleIds": [
       "person-finda-aa8f1097",
-      "person-020-704ebb38",
+      "person-dasa-264acc31",
       "person-jarek-7a7cc561",
       "person-bobo-ea8ebcb0",
       "person-jaruska-9f5bf07c",
-      "person-1a11be95--odpojeno-od-person-021-7"
+      "person-bobina-78419b17"
     ],
     "descriptors": [
       [
@@ -13042,12 +13035,11 @@
       }
     ],
     "peopleIds": [
-      "person-016-f2bed997",
-      "person-036-287fc854",
-      "person-jaruska-9f5bf07c",
-      "person-037-61a3177b",
       "person-bobo-ea8ebcb0",
-      "person-031-7e570875"
+      "person-dasa-264acc31",
+      "person-jaruska-9f5bf07c",
+      "person-bobina-78419b17",
+      "person-finda-aa8f1097"
     ],
     "descriptors": [
       [
@@ -13843,7 +13835,7 @@
       }
     ],
     "peopleIds": [
-      "person-021-6843a14c"
+      "person-004-6843a14c"
     ],
     "descriptors": [
       [
@@ -14019,8 +14011,8 @@
       }
     ],
     "peopleIds": [
-      "person-008-050d12b0",
-      "person-b37658a0--odpojeno-od-person-021",
+      "person-jarek-7a7cc561",
+      "statue-009-29266176",
       "person-jaruska-9f5bf07c"
     ],
     "descriptors": [
@@ -14563,8 +14555,8 @@
       }
     ],
     "peopleIds": [
-      "person-041-10985d6a",
-      "person-042-dbea4788"
+      "person-011-10985d6a",
+      "person-012-dbea4788"
     ],
     "descriptors": [
       [
@@ -14870,7 +14862,7 @@
       }
     ],
     "peopleIds": [
-      "person-039-c298d5ed",
+      "person-dasa-264acc31",
       "person-finda-aa8f1097",
       "person-bobo-ea8ebcb0",
       "person-jaruska-9f5bf07c"
@@ -15815,7 +15807,7 @@
       }
     ],
     "peopleIds": [
-      "person-039-c298d5ed"
+      "person-dasa-264acc31"
     ],
     "descriptors": [
       [
@@ -15961,7 +15953,7 @@
       }
     ],
     "peopleIds": [
-      "person-e067bfae--odpojeno-od-person-002"
+      "person-bobina-78419b17"
     ],
     "descriptors": [
       [
@@ -16313,13 +16305,13 @@
       }
     ],
     "peopleIds": [
-      "person-039-6d750e68",
-      "person-001-f885ab2f",
+      "person-010-6d750e68",
+      "person-finda-aa8f1097",
       "person-jaruska-9f5bf07c",
-      "person-039-c298d5ed",
+      "person-dasa-264acc31",
       "person-bobo-ea8ebcb0",
-      "person-018-78419b17",
-      "person-043-53d772a8"
+      "person-bobina-78419b17",
+      "person-013-53d772a8"
     ],
     "descriptors": [
       [
@@ -17375,7 +17367,7 @@
       }
     ],
     "peopleIds": [
-      "person-043-282150eb"
+      "person-014-282150eb"
     ],
     "descriptors": [
       [
@@ -17545,7 +17537,7 @@
       }
     ],
     "peopleIds": [
-      "person-6568dbe6--odpojeno-od-person-037-2"
+      "statue-013-29266185"
     ],
     "descriptors": [
       [
@@ -17696,9 +17688,7 @@
         "height": 204.47218322753906
       }
     ],
-    "peopleIds": [
-      "person-008-050d12b0"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.08022884279489517,
@@ -18039,8 +18029,7 @@
       }
     ],
     "peopleIds": [
-      "person-016-f2bed997",
-      "person-3c853d84--odpojeno-od-person-021-5"
+      "person-bobina-78419b17"
     ],
     "descriptors": [
       [
@@ -18340,8 +18329,8 @@
       }
     ],
     "peopleIds": [
-      "person-045-5cd897f4",
-      "person-65f55c33--odpojeno-od-person-021-2"
+      "statue-005-5cd897f4",
+      "statue-010-29266177"
     ],
     "descriptors": [
       [
@@ -18635,8 +18624,7 @@
       }
     ],
     "peopleIds": [
-      "person-045-caf37e90",
-      "person-022-4332240f"
+      "person-015-caf37e90"
     ],
     "descriptors": [
       [
@@ -19208,9 +19196,9 @@
       }
     ],
     "peopleIds": [
-      "person-047-e2df08b4",
-      "person-048-8d8f641f",
-      "person-f0455c97--odpojeno-od-person-021-3"
+      "person-016-e2df08b4",
+      "person-018-8d8f641f",
+      "statue-011-29266177"
     ],
     "descriptors": [
       [
@@ -19616,7 +19604,7 @@
       }
     ],
     "peopleIds": [
-      "person-047-c207e00e"
+      "statue-015-29266191"
     ],
     "descriptors": [
       [
@@ -19762,7 +19750,7 @@
       }
     ],
     "peopleIds": [
-      "person-64d255d7--odpojeno-od-person-021-4"
+      "statue-012-29266179"
     ],
     "descriptors": [
       [
@@ -19926,9 +19914,9 @@
       }
     ],
     "peopleIds": [
-      "person-047-1d234163",
-      "person-049-90445a58",
-      "person-4659eff7--odpojeno-od-person-037"
+      "person-017-1d234163",
+      "person-019-90445a58",
+      "person-026-29266189"
     ],
     "descriptors": [
       [
@@ -20704,11 +20692,10 @@
       }
     ],
     "peopleIds": [
-      "person-047-c207e00e",
-      "person-021-6843a14c",
+      "statue-001-7753c8e5",
+      "person-004-6843a14c",
       "person-022-4332240f",
-      "person-036-287fc854",
-      "person-037-7753c8e5"
+      "person-009-287fc854"
     ],
     "descriptors": [
       [
@@ -21818,10 +21805,7 @@
       }
     ],
     "peopleIds": [
-      "person-047-1ea4322c",
-      "person-047-c207e00e",
-      "person-037-7753c8e5",
-      "person-021-6843a14c"
+      "statue-001-7753c8e5"
     ],
     "descriptors": [
       [
@@ -23301,7 +23285,7 @@
       }
     ],
     "peopleIds": [
-      "person-056-36665789"
+      "person-finda-aa8f1097"
     ],
     "descriptors": [
       [
@@ -23447,7 +23431,7 @@
       }
     ],
     "peopleIds": [
-      "person-056-4d18c8fd"
+      "person-020-4d18c8fd"
     ],
     "descriptors": [
       [
@@ -23635,11 +23619,11 @@
       }
     ],
     "peopleIds": [
-      "person-037-7753c8e5",
-      "person-053-fff4ed46",
-      "person-054-c0482f6e",
-      "person-055-c3aaf5b2",
-      "person-056-779378f3"
+      "statue-014-29266190",
+      "statue-002-fff4ed46",
+      "statue-006-c0482f6e",
+      "statue-007-c3aaf5b2",
+      "statue-008-779378f3"
     ],
     "descriptors": [
       [
@@ -24706,9 +24690,7 @@
         "height": 162.9752254486084
       }
     ],
-    "peopleIds": [
-      "person-06972374--odpojeno-od-person-021-8"
-    ],
+    "peopleIds": [],
     "descriptors": [
       [
         -0.07220600545406342,
@@ -25149,7 +25131,7 @@
       }
     ],
     "peopleIds": [
-      "person-059-a872f46b"
+      "person-011-10985d6a"
     ],
     "descriptors": [
       [
@@ -25869,8 +25851,7 @@
       }
     ],
     "peopleIds": [
-      "person-060-eec41b94",
-      "person-008-050d12b0"
+      "person-021-eec41b94"
     ],
     "descriptors": [
       [
@@ -26472,7 +26453,7 @@
       }
     ],
     "peopleIds": [
-      "person-008-ebd9220f",
+      "person-bobina-78419b17",
       "person-jaruska-9f5bf07c",
       "person-dasa-264acc31",
       "person-finda-aa8f1097",
@@ -27172,10 +27153,10 @@
       }
     ],
     "peopleIds": [
-      "person-b0485856--odpojeno-od-person-002-2",
+      "person-bobina-78419b17",
       "person-dasa-264acc31",
       "person-bobo-ea8ebcb0",
-      "person-031-7e570875"
+      "person-finda-aa8f1097"
     ],
     "descriptors": [
       [
@@ -28009,8 +27990,8 @@
       }
     ],
     "peopleIds": [
-      "person-061-74b2eefd",
-      "person-e3cffa34--odpojeno-od-person-002-3"
+      "person-022-74b2eefd",
+      "person-bobina-78419b17"
     ],
     "descriptors": [
       [
@@ -28688,8 +28669,8 @@
       }
     ],
     "peopleIds": [
-      "person-061-108ec0e3",
-      "person-056-36665789"
+      "person-bety-108ec0e3",
+      "person-finda-aa8f1097"
     ],
     "descriptors": [
       [
@@ -29095,7 +29076,7 @@
       }
     ],
     "peopleIds": [
-      "person-065-f47f6171"
+      "person-025-f47f6171"
     ],
     "descriptors": [
       [
@@ -29405,9 +29386,9 @@
       }
     ],
     "peopleIds": [
-      "person-062-d3bbfa12",
-      "person-063-b6fcafff",
-      "person-021-6843a14c"
+      "person-023-d3bbfa12",
+      "person-024-b6fcafff",
+      "person-027-29266190"
     ],
     "descriptors": [
       [
