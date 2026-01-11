@@ -5,7 +5,6 @@
  * All mutations automatically invalidate relevant queries and refresh data.
  */
 
-import { invalidateAll } from "$app/navigation";
 import { people } from "$lib/stores/people.svelte";
 import { tracedFetch } from "$lib/utils/api";
 import { GENERIC_MESSAGES, PERSON_MESSAGES } from "$lib/utils/messages";
@@ -39,10 +38,23 @@ async function updatePeopleFn(params: UpdatePeopleParams): Promise<ApiResponse> 
     body: JSON.stringify(params),
   });
   if (!response.ok) {
-    const err = await response.json();
-    throw new Error(err.error || "Update failed");
+    const contentType = response.headers.get("content-type");
+    if (contentType?.includes("application/json")) {
+      const err = await response.json();
+      throw new Error(err.error || "Update failed");
+    }
+    throw new Error(`Server error: ${response.status} ${response.statusText}`);
   }
-  return response.json();
+  const res = await response.json();
+  if (res.success && res.updated === 0 && params.updates.length > 0) {
+    const errors = res.results
+      ?.filter((r: { success: boolean; error?: string }) => !r.success)
+      .map((r: { id: string; error?: string }) => r.error)
+      .filter(Boolean)
+      .join(", ");
+    throw new Error(errors || "Update applied to 0 records");
+  }
+  return res;
 }
 
 async function mergePeopleFn(params: MergePeopleParams): Promise<MergeResponse> {
@@ -52,8 +64,12 @@ async function mergePeopleFn(params: MergePeopleParams): Promise<MergeResponse> 
     body: JSON.stringify(params),
   });
   if (!response.ok) {
-    const err = await response.json();
-    throw new Error(err.error || "Sloučení selhalo");
+    const contentType = response.headers.get("content-type");
+    if (contentType?.includes("application/json")) {
+      const err = await response.json();
+      throw new Error(err.error || "Sloučení selhalo");
+    }
+    throw new Error(`Server error: ${response.status} ${response.statusText}`);
   }
   return response.json();
 }
@@ -65,8 +81,12 @@ async function unmatchFaceFn(params: UnmatchFaceParams): Promise<UnmatchResponse
     body: JSON.stringify(params),
   });
   if (!response.ok) {
-    const err = await response.json();
-    throw new Error(err.error || "Unmatch failed");
+    const contentType = response.headers.get("content-type");
+    if (contentType?.includes("application/json")) {
+      const err = await response.json();
+      throw new Error(err.error || "Unmatch failed");
+    }
+    throw new Error(`Server error: ${response.status} ${response.statusText}`);
   }
   return response.json();
 }
@@ -78,8 +98,12 @@ async function reassignFaceFn(params: ReassignFaceParams): Promise<ReassignRespo
     body: JSON.stringify(params),
   });
   if (!response.ok) {
-    const err = await response.json();
-    throw new Error(err.error || "Reassign failed");
+    const contentType = response.headers.get("content-type");
+    if (contentType?.includes("application/json")) {
+      const err = await response.json();
+      throw new Error(err.error || "Reassign failed");
+    }
+    throw new Error(`Server error: ${response.status} ${response.statusText}`);
   }
   return response.json();
 }
@@ -93,8 +117,12 @@ async function invalidateDetectionFn(
     body: JSON.stringify(params),
   });
   if (!response.ok) {
-    const err = await response.json();
-    throw new Error(err.error || "Invalidation failed");
+    const contentType = response.headers.get("content-type");
+    if (contentType?.includes("application/json")) {
+      const err = await response.json();
+      throw new Error(err.error || "Invalidation failed");
+    }
+    throw new Error(`Server error: ${response.status} ${response.statusText}`);
   }
   return response.json();
 }
@@ -106,21 +134,32 @@ async function setAvatarFn(params: SetAvatarParams): Promise<SetAvatarResponse> 
     body: JSON.stringify(params),
   });
   if (!response.ok) {
-    const err = await response.json();
-    throw new Error(err.error || "Avatar update failed");
+    const contentType = response.headers.get("content-type");
+    if (contentType?.includes("application/json")) {
+      const err = await response.json();
+      throw new Error(err.error || "Avatar update failed");
+    }
+    throw new Error(`Server error: ${response.status} ${response.statusText}`);
   }
   return response.json();
 }
 
 async function updateCategoryFn(params: UpdateCategoryParams): Promise<ApiResponse> {
-  const response = await tracedFetch("/api/people/update-category", {
-    method: "POST",
+  const response = await tracedFetch("/api/people", {
+    method: "PATCH",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(params),
+    body: JSON.stringify({
+      updates: [{ id: params.personId, category: params.category }],
+    }),
   });
   if (!response.ok) {
-    const err = await response.json();
-    throw new Error(err.error || "Category update failed");
+    // Safely check for non-JSON response if SvelteKit returns an error page
+    const contentType = response.headers.get("content-type");
+    if (contentType?.includes("application/json")) {
+      const err = await response.json();
+      throw new Error(err.error || "Category update failed");
+    }
+    throw new Error(`Server error: ${response.status} ${response.statusText}`);
   }
   return response.json();
 }
@@ -134,14 +173,22 @@ async function updateCategoryFn(params: UpdateCategoryParams): Promise<ApiRespon
  * Automatically refreshes people store and invalidates manifest.
  */
 export function useUpdatePeopleMutation() {
-  const queryClient = useQueryClient();
-
   return createMutation(() => ({
     mutationFn: updatePeopleFn,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: PEOPLE_QUERY_KEYS.manifest });
+    onSuccess: async (_data, variables) => {
+      // await queryClient.invalidateQueries({ queryKey: PEOPLE_QUERY_KEYS.manifest }); // Unused
       await people.refresh();
-      toast.success(PERSON_MESSAGES.PERSON_RENAMED);
+
+      // Show specific toast based on variables
+      if (variables.updates.some((u) => u.hidden !== undefined)) {
+        toast.success("Viditelnost změněna");
+      } else if (variables.updates.some((u) => u.junk !== undefined)) {
+        toast.success("Stav koše změněn");
+      } else if (variables.updates.some((u) => u.name !== undefined)) {
+        toast.success(PERSON_MESSAGES.PERSON_RENAMED);
+      } else {
+        toast.success("Změny uloženy");
+      }
     },
     onError: (error: Error) => {
       toast.error(PERSON_MESSAGES.UPDATE_FAILED, { description: error.message });
@@ -158,11 +205,15 @@ export function useMergePeopleMutation() {
 
   return createMutation(() => ({
     mutationFn: mergePeopleFn,
+    onMutate: (variables) => {
+      people.optimisticMerge(variables.sourcePersonIds, variables.targetPersonId);
+    },
     onSuccess: async () => {
       toast.success(PERSON_MESSAGES.MERGE_SUCCESS);
-      await queryClient.invalidateQueries({ queryKey: PEOPLE_QUERY_KEYS.constraints });
-      await people.refresh();
-      await invalidateAll();
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: PEOPLE_QUERY_KEYS.constraints }),
+        people.refresh(),
+      ]);
     },
     onError: (error: Error) => {
       toast.error(PERSON_MESSAGES.MERGE_FAILED, { description: error.message });

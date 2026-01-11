@@ -29,7 +29,10 @@ export async function POST({ request, locals }: { request: Request; locals: App.
       if (!peopleManifest) throw new Error("Manifest missing");
 
       const person = peopleManifest.people.find((p) => p.id === personId);
-      if (!person) throw new Error("Person not found");
+      if (!person) {
+        log.error({ personId }, "SET-AVATAR: Person not found");
+        throw new Error("Person not found");
+      }
 
       person.thumbnail = avatarPath;
 

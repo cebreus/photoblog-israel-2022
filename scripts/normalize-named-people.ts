@@ -26,7 +26,7 @@ const options = parseCliArguments(process.argv.slice(2));
 
 function isValidTarget(p: Person): boolean {
   // Must have hash ID pattern
-  if (!/^person-[a-f0-9]+/.test(p.id)) return false;
+  if (!/-[a-f0-9]{8}$/.test(p.id)) return false;
 
   // Skip generic patterns
   if (isGenericName(p.name)) return false;
@@ -35,8 +35,9 @@ function isValidTarget(p: Person): boolean {
   const slug = toSlug(p.name);
   if (slug.length < 2) return false;
 
-  // Skip if slug would conflict with protected patterns
-  if (/^(person|statue|painting)(-|$)/i.test(slug)) return false;
+  // Check if already normalized to <category>-<slug>-<hash>
+  const category = p.category || "person";
+  if (p.id.startsWith(`${category}-${slug}-`)) return false;
 
   return true;
 }
@@ -82,11 +83,12 @@ async function main() {
     for (const person of targets) {
       const hash = extractHash(person.id);
       const baseSlug = toSlug(person.name);
+      const category = person.category || "person";
       let counter = 1;
 
       while (true) {
         const slug = counter === 1 ? baseSlug : `${baseSlug}-${counter}`;
-        const candidateId = `${slug}-${hash}`;
+        const candidateId = `${category}-${slug}-${hash}`;
 
         const existsInManifest = manifests.people.people.some(
           (p) => p.id === candidateId && p !== person,

@@ -65,7 +65,9 @@ function gatherQualityStats(photoDays: PhotoDay[]): Map<string, number> {
   return counts;
 }
 
-export async function load({ request, setHeaders }: Parameters<LayoutServerLoad>[0]) {
+export async function load({ request, setHeaders, depends }: Parameters<LayoutServerLoad>[0]) {
+  depends("app:people-manifest");
+
   if (import.meta.env.DEV) {
     const { reloadManifests } = await import("$lib/utils/manifest-loader");
     await reloadManifests();

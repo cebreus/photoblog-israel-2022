@@ -131,7 +131,10 @@ export async function POST({ request, locals }: { request: Request; locals: App.
       if (!peopleManifest || !imagesManifest) throw new Error("Manifests missing");
 
       const sourcePerson = peopleManifest.people.find((person) => person.id === personId);
-      if (!sourcePerson) throw new Error("Source person not found");
+      if (!sourcePerson) {
+        log.error({ personId }, "UNMATCH: Source person not found");
+        throw new Error("Source person not found");
+      }
 
       const transactionLog: Array<{ from: string; to: string }> = [];
 

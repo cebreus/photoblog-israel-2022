@@ -71,6 +71,10 @@ export async function PATCH({ request, locals }: Parameters<RequestHandler>[0]) 
         const person = manifests.people.people.find((p) => p.id === update.id);
 
         if (!person) {
+          log.error(
+            { personId: update.id },
+            "UPDATE: Person not found during update (hide/junk/rename)",
+          );
           results.push({ id: update.id, success: false, error: "Person not found" });
           continue;
         }
@@ -128,7 +132,13 @@ export async function PATCH({ request, locals }: Parameters<RequestHandler>[0]) 
 
         // Apply other updates
         if (update.isUserNamed !== undefined) person.isUserNamed = update.isUserNamed;
-        if (update.hidden !== undefined) person.hidden = update.hidden;
+        if (update.hidden !== undefined) {
+          log.debug(
+            { personId: person.id, before: person.hidden, after: update.hidden },
+            "Applying hidden update",
+          );
+          person.hidden = update.hidden;
+        }
         if (update.junk !== undefined) person.junk = update.junk;
         if (update.category !== undefined) {
           if (["person", "statue", "painting"].includes(update.category)) {
@@ -142,6 +152,7 @@ export async function PATCH({ request, locals }: Parameters<RequestHandler>[0]) 
 
       if (updatedCount > 0) {
         // Atomically save all manifests - either all succeed or none
+        log.debug({ updatedCount }, "Saving manifests to disk");
         await savePeopleRelatedManifests(dataDir, manifests);
       }
     });

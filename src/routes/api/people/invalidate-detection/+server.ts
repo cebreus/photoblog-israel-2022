@@ -67,6 +67,12 @@ export async function POST({ request, locals }: { request: Request; locals: App.
       if (!constraints.invalidDetections) constraints.invalidDetections = [];
 
       const targetPerson = peopleManifest.people.find((person) => person.id === personId);
+      if (!targetPerson) {
+        log.warn(
+          { personId },
+          "INVALIDATE: Target person not found (might have been removed already)",
+        );
+      }
 
       for (const { imageId, box } of detections) {
         // 1. Remove from faces.manifest
@@ -116,6 +122,8 @@ export async function POST({ request, locals }: { request: Request; locals: App.
 
         if (!exists) {
           constraints.invalidDetections.push({ imageId, box });
+        } else {
+          log.warn({ imageId }, "INVALIDATE: Constraint already exists, skipping duplicate");
         }
       }
 

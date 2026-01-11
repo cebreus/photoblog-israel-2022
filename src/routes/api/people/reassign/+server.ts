@@ -79,7 +79,18 @@ export async function POST({ request, locals }: { request: Request; locals: App.
       const sourcePerson = peopleManifest.people.find((person) => person.id === sourcePersonId);
       const targetPerson = peopleManifest.people.find((person) => person.id === targetPersonId);
 
-      if (!sourcePerson || !targetPerson) throw new Error("Person not found");
+      if (!sourcePerson || !targetPerson) {
+        log.error(
+          {
+            sourcePersonId,
+            targetPersonId,
+            sourceFound: !!sourcePerson,
+            targetFound: !!targetPerson,
+          },
+          "REASSIGN: Person not found",
+        );
+        throw new Error("Person not found");
+      }
 
       const transactionLog: Array<{ from: string; to: string }> = [];
 

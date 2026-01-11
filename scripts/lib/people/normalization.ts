@@ -49,7 +49,8 @@ export interface RenameOperation {
  * - "jaruska-9b0bc40f" → "9b0bc40f"
  */
 export function extractHash(id: string): string {
-  const match = id.match(/-([a-f0-9]{8})$/);
+  // Try standard hash at end, optionally followed by dash
+  const match = id.match(/-([a-f0-9]{8})(-|$)/);
   return match ? match[1] : "";
 }
 

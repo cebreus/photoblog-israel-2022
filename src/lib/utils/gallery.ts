@@ -15,6 +15,22 @@ export const QUALITY_BUCKETS: { id: QualityFilterBucket; label: string }[] = [
   { id: "unrated", label: "Bez hodnocení" },
 ];
 
+/**
+ * Basic visibility check for gallery items.
+ * Hides collage sources and non-representative sequence members.
+ */
+export function isGloballyVisible(item: PhotoDayItem): boolean {
+  if (!isImageEntry(item)) return false;
+
+  // Hide source images that were used for collages
+  if (item.category === "collage-source") return false;
+
+  // Hide non-representative members of sequences
+  if (isSequenceMember(item.id) && !isRepresentative(item.id)) return false;
+
+  return true;
+}
+
 /** Check if item has a specific flag */
 function hasFlag(item: PhotoDayItem, flag: string): boolean {
   if (!isImageEntry(item)) return false;

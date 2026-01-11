@@ -51,8 +51,12 @@ export async function reloadManifests() {
         const json = JSON.parse(raw);
         if (isValidPeopleManifest(json)) {
           nextPeople = normalizePeople(json);
+        } else {
+          logger.warn({}, "People manifest invalid during reload");
         }
-      } catch (_e) {}
+      } catch (_e) {
+        logger.error({ err: _e }, "Failed to reload people manifest");
+      }
 
       // Reload Curation Manifest
       try {

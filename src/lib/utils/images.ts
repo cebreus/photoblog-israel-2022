@@ -78,6 +78,7 @@ export function normalizePeople(m: PeopleManifest): PeopleManifest {
 }
 
 // Mutable manifests for dev-mode reloading
+let lastManifestUpdate = Date.now();
 let currentManifest: Manifest = reclassifySequences(
   reclassifyPanoramas(reclassifyCollages(isValidManifest(manifest) ? manifest : { photoDays: [] })),
 );
@@ -96,6 +97,7 @@ export function updateManifests(
   newPeople: PeopleManifest | null,
   newCuration: CurationManifest | null,
 ) {
+  lastManifestUpdate = Date.now();
   // 1. Update Manifests
   if (newManifest) currentManifest = newManifest;
   if (newPeople) currentPeopleManifest = newPeople;
@@ -123,11 +125,11 @@ export function getManifestSignature(): string {
 
   // Prefer explicit version from metadata
   if (m.meta?.version && p.meta?.version) {
-    return `v2-${m.meta.version}-${p.meta.version}`;
+    return `v2-${m.meta.version}-${p.meta.version}-${lastManifestUpdate}`;
   }
 
   // Fallback signature based on lengths and content
-  return `v1-${m.photoDays.length}-${p.people.length}-${m?.photoDays?.[0]?.items?.[0]?.id || "empty"}`;
+  return `v1-${m.photoDays.length}-${p.people.length}-${m?.photoDays?.[0]?.items?.[0]?.id || "empty"}-${lastManifestUpdate}`;
 }
 
 let imagePeopleMap: Record<string, string[]> | null = null;

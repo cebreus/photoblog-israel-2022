@@ -267,7 +267,10 @@ export async function POST({ request, locals }: { request: Request; locals: App.
       try {
         for (const sourceId of sources) {
           const sourcePerson = peopleManifest.people.find((person) => person.id === sourceId);
-          if (!sourcePerson) continue;
+          if (!sourcePerson) {
+            log.error({ sourceId }, "MERGE: Source person not found, skipping");
+            continue;
+          }
 
           await processDeepRename(
             imagesManifest,
