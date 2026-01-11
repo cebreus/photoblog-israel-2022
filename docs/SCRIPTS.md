@@ -131,6 +131,14 @@ bun run process:images -- --manifest-only  # Rychlá regenerace manifestu
 
 - **`bun run prepare`** — SvelteKit synchronizace (generování typů, cest, spouští se automaticky při instalaci)
 
+**Debugging & Tracing:**
+
+- **`bun run scripts/log-to-trace.ts`** — Konvertuje JSON logy na formát Trace Events (vizualizace výkonu).
+  - `-f`, `--file <path>` — Vstupní log soubor (default: `logs/dev.log`)
+  - `-o`, `--out <path>` — Výstupní JSON (default: `trace.json`)
+  - `-i`, `--id <id>` — Filtrovat pouze události pro konkrétní RequestID nebo TraceID
+  - **Použití:** Výstupní soubor otevřete v [ui.perfetto.dev](https://ui.perfetto.dev) nebo `chrome://tracing`.
+
 ## Cache Systém
 
 Projekt používá vícevrstvý cache systém pro efektivní inkrementální buildy.

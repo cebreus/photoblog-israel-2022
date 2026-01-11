@@ -76,13 +76,13 @@ Při **Odepnutí** nově vzniklá entita **dědí kategorii** původní entity.
 - **Skrytí (Hide):**
   - Příznak `hidden: true`.
   - Entita se přesunuje do sekce "Skryté".
-  - Používá se pro lidi, které znáte, ale nechcete je mít v hlavním seznamu.
+  - **Technicky stále aktivní:** Entita existuje a clustering k ní může přiřazovat nové fotky, jen není vidět v hlavním seznamu.
 
 - **Koš (Junk Person):**
   - Příznak `junk: true`.
   - Entita se přesune do sekce "Koš".
-  - **Clustering tuto osobu ignoruje** (nehledá ji na nových fotkách).
-  - Používá se pro náhodné kolemjdoucí, které nechcete mazat, ale ani identifikovat.
+  - **Ignorováno clusteringem:** Systém tuto osobu explicitně přeskakuje při hledání shody. Tváře, které by k ní patřily, vytvoří raději novou osobu.
+  - Používá se pro náhodné kolemjdoucí, které nechcete mazat, ale ani k nim nic nového přiřazovat.
 
 - **Zneplatnění detekce (Invalidate):**
   - Souřadnice jsou zapsány do pole `invalidDetections` v `clustering-constraints.json`.

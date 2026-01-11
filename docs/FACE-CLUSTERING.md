@@ -23,6 +23,30 @@ Skript automaticky načítá existující `people.manifest.json`.
   - Pokud **snížíte** `distanceThreshold` (např. z 0.6 na 0.5), systém při příštím běhu může usoudit, že některé fotografie už nepatří k původní osobě. V takovém případě vytvoří pro tyto fotografie **novou osobu** (klon). Původní osoba a její metadata zůstávají. Tyto nové klony pak můžete v UI sloužit.
   - To je záměrné chování pro bezpečnost dat - raději duplikovat, než chybně sloučit.
 
+### Pokročilá Logika Shlukování (Heuristiky)
+
+Kromě čisté eukleidovské vzdálenosti systém používá heuristiky pro zpřesnění výsledků:
+
+1.  **Časová Penalizace (Temporal Penalty):**
+    - Pokud porovnáváme tvář s klastrem z jiného roku, přičítá se k vypočtené vzdálenosti malá penalizace (`0.02` za každý rok rozdílu, max `0.08`).
+    - _Důvod:_ Pomáhá rozlišit lidi, kteří vypadají podobně, ale vyskytují se v různých dekádách, zatímco stále umožňuje spojení téže osoby, pokud je vizuální podoba silná.
+
+2.  **Přilnavost Kategorií (Category Stickiness):**
+    - Pokud je cílová osoba v kategorii `statue` nebo `painting`, odečítá se od vzdálenosti bonus (`-0.05`).
+    - _Důvod:_ Neživé objekty (sochy) jsou často méně zřetelné nebo stylizované. Tento bonus je činí "magnetičtějšími" pro hraniční detekce a zabraňuje tomu, aby se sochy míchaly mezi živé lidi.
+
+3.  **Multi-Cluster Učení:**
+    - Každá osoba může mít více "pod-klastrů" (např. "mladý", "starý", "s brýlemi").
+    - Nová tvář se přiřadí do existujícího pod-klastru pouze pokud je velmi podobná (práh `0.25`). Jinak založí nový pod-klastr v rámci téže osoby.
+
+### Záchrana Dat (Rescue Logic)
+
+Pokud se ztratí deskriptory (např. při migraci dat), systém se pokusí "zachránit" osobu:
+
+1.  **Z Cache:** Hledá v `faces.manifest.json`.
+2.  **Z Fotky:** Pokud existuje fotka s jedinou tváří přiřazená k této osobě, přepočítá deskriptor z ní.
+3.  **Z Náhledu:** V krajním případě stáhne thumbnail osoby (`static-<gallery>/faces/...`) a pokusí se detekovat tvář přímo na něm.
+
 ## Spuštění
 
 Pro spuštění procesu shlukování použijte příkaz:
