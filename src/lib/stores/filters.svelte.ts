@@ -1,4 +1,9 @@
-import type { MediaItemType, PhotoDay, QualityFilterBucket } from "$lib/types/manifest";
+import {
+  isImageEntry,
+  type MediaItemType,
+  type PhotoDay,
+  type QualityFilterBucket,
+} from "$lib/types/manifest";
 import { computeTotals, filterGalleryItems } from "$lib/utils/gallery";
 import { manifest } from "./manifest.svelte";
 
@@ -66,7 +71,7 @@ const filteredPhotoDays = $derived.by(function calculateFilteredDays() {
   }
 
   function hasItems(day: PhotoDay) {
-    return day.items && day.items.length > 0;
+    return day.items && day.items.some(isImageEntry);
   }
 
   return sourceData.map(filterDayItems).filter(hasItems);

@@ -208,11 +208,8 @@ export function computeTotals(
   for (const day of photoDays) {
     for (const item of day.items) {
       if (!isImageEntry(item)) {
-        if (criteriaSets.showSeparators) {
-          visiblePhotos++;
-          if (item.location) {
-            uniqueLocations.add(item.location);
-          }
+        if (criteriaSets.showSeparators && item.location) {
+          uniqueLocations.add(item.location);
         }
         continue;
       }
@@ -268,18 +265,8 @@ function createMergedDay(days: PhotoDay[]): PhotoDay {
   };
 }
 
-function isImageItem(item: PhotoDayItem): boolean {
-  return (
-    item.type === "image" ||
-    item.type === "collage" ||
-    item.type === "panorama" ||
-    item.type === "sequence" ||
-    item.type === "sequence-member"
-  );
-}
-
 function countImageItems(day: PhotoDay): number {
-  return day.items.filter(isImageItem).length;
+  return day.items.filter(isImageEntry).length;
 }
 
 export function mergeSparseDays(days: PhotoDay[]): PhotoDay[] {
