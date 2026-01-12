@@ -59,7 +59,7 @@
         <Button
           variant="ghost"
           size="icon"
-          class="text-muted-foreground hover:text-foreground size-4 h-4 w-4 rounded-full p-0"
+          class="text-muted-foreground hover:text-foreground size-4 rounded-full p-0"
           onclick={() => onRemove(img.id)}
           aria-label="Odebrat z výběru"
         >

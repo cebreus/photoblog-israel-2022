@@ -64,7 +64,7 @@
       />
     {:else}
       <div class="flex h-full w-full items-center justify-center">
-        <User class="h-4 w-4 text-slate-400" />
+        <User class="size-4 text-slate-400" strokeWidth={2.5} />
       </div>
     {/if}
 

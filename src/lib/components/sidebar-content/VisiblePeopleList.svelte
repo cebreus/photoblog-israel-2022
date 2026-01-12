@@ -152,7 +152,7 @@
               confirmRename();
             }}
           >
-            <Check class="h-4 w-4 text-green-600" />
+            <Check class="size-4 text-green-600" />
           </Button>
           <Button
             variant="ghost"
@@ -165,7 +165,7 @@
               cancelEditing();
             }}
           >
-            <X class="h-4 w-4 text-red-600" />
+            <X class="size-4 text-red-600" />
           </Button>
         </div>
       {:else if dev}
@@ -189,7 +189,7 @@
           <Button
             variant="ghost"
             size="icon"
-            class="text-muted-foreground/30 hover:text-foreground h-4 w-4 shrink-0 p-0"
+            class="text-muted-foreground/30 hover:text-foreground size-4 shrink-0 p-0"
             title="Přejmenovat"
             aria-label="Přejmenovat"
             onclick={(event) => {
@@ -285,7 +285,7 @@
           toggleHide(person.id);
         }}
       >
-        <EyeOff class="h-4 w-4" />
+        <EyeOff class="size-4" strokeWidth={2.5} />
       </Button>
     {/if}
   </div>

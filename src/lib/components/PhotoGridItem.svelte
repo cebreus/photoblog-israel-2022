@@ -503,7 +503,7 @@
           onclick={() => onCopyMetadata?.(item)}
           data-testid="photo-grid-item-contextmenu-copy-metadata"
         >
-          <Copy class="h-4 w-4" />
+          <Copy class="size-4" />
           <span>Kopírovat metadata</span>
         </ContextMenu.Item>
 
@@ -512,7 +512,7 @@
           onclick={handleCopyToClipboard}
           data-testid="photo-grid-item-contextmenu-copy-to-clipboard"
         >
-          <Copy class="h-4 w-4" />
+          <Copy class="size-4" />
           <span>Kopírovat do schránky</span>
         </ContextMenu.Item>
 
@@ -525,7 +525,7 @@
               data-testid="photo-grid-item-contextmenu-paste-metadata-selection"
             >
               <div class="flex flex-1 items-center gap-2">
-                <Copy class="h-4 w-4 rotate-180" />
+                <Copy class="size-4 rotate-180" />
                 <span>Vložit na {editor.selection.size} vybraných</span>
               </div>
             </ContextMenu.Item>
@@ -547,7 +547,7 @@
               onclick={() => onPasteMetadata?.(item)}
               data-testid="photo-grid-item-contextmenu-paste-metadata"
             >
-              <Copy class="h-4 w-4 rotate-180" />
+              <Copy class="size-4 rotate-180" />
               <span>Vložit metadata</span>
             </ContextMenu.Item>
           {/if}
@@ -563,7 +563,7 @@
             data-testid="photo-grid-item-contextmenu-reset-releasedate-selection"
           >
             <div class="flex flex-1 items-center gap-2">
-              <RotateCcw class="h-4 w-4" />
+              <RotateCcw class="size-4" />
               <span>Resetovat datum řazení ({editor.selection.size}×)</span>
             </div>
           </ContextMenu.Item>
@@ -585,7 +585,7 @@
             onclick={() => onResetReleaseDate?.(item)}
             data-testid="photo-grid-item-contextmenu-reset-releasedate"
           >
-            <RotateCcw class="h-4 w-4" />
+            <RotateCcw class="size-4" />
             <span>Resetovat datum řazení</span>
           </ContextMenu.Item>
         {/if}
@@ -598,7 +598,7 @@
             onclick={() => onSwapTimes?.()}
             data-testid="photo-grid-item-contextmenu-swap-times"
           >
-            <ArrowRightLeft class="h-4 w-4" />
+            <ArrowRightLeft class="size-4" />
             <span>Prohodit časy (Swap)</span>
           </ContextMenu.Item>
 
@@ -607,7 +607,7 @@
             onclick={() => onRedistributeTimes?.()}
             data-testid="photo-grid-item-contextmenu-redistribute-times"
           >
-            <StretchHorizontal class="h-4 w-4" />
+            <StretchHorizontal class="size-4" />
             <span>Rozprostřít časy</span>
           </ContextMenu.Item>
         {/if}
@@ -619,7 +619,7 @@
           onclick={() => onDelete?.(item)}
           data-testid="photo-grid-item-contextmenu-delete-image"
         >
-          <Trash2 class="h-4 w-4" />
+          <Trash2 class="size-4" />
           <span>Smazat obrázek</span>
         </ContextMenu.Item>
 
@@ -628,7 +628,7 @@
           onclick={() => onArchive?.(item)}
           data-testid="photo-grid-item-contextmenu-archive-image"
         >
-          <Archive class="h-4 w-4" />
+          <Archive class="size-4" />
           <span>Archivovat fotku</span>
         </ContextMenu.Item>
       </ContextMenu.Content>

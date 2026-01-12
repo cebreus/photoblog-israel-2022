@@ -41,6 +41,6 @@
   data-testid="aspect-ratio-icon"
 >
   {#if IconComponent}
-    <IconComponent class="h-4 w-4" />
+    <IconComponent class="size-4" />
   {/if}
 </div>

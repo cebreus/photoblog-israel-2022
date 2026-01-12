@@ -158,7 +158,7 @@
         data-testid="person-merge-confirm"
       >
         {#if isLoading}
-          <Spinner class="mr-2 h-4 w-4" />
+          <Spinner class="mr-2 size-4" />
           Slučuji...
         {:else}
           Sloučit {sources.length + 1} osob do jedné

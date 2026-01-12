@@ -343,7 +343,7 @@
                 <div
                   class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100"
                 >
-                  <Image class="h-4 w-4 text-white" />
+                  <Image class="size-4 text-white" />
                 </div>
               </div>
               <ChevronDown
@@ -364,7 +364,7 @@
               <div
                 class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-200 transition-colors group-hover:bg-slate-300 dark:bg-slate-800 dark:group-hover:bg-slate-700"
               >
-                <User class="text-muted-foreground h-4 w-4" />
+                <User class="text-muted-foreground size-4" />
               </div>
               <ChevronDown
                 class="text-muted-foreground/70 group-hover:text-foreground h-3.5 w-3.5 transition-colors"
@@ -509,7 +509,7 @@
             class="flex-1"
             data-testid="person-detail-bulk-assign-btn"
           >
-            <User class="mr-2 h-4 w-4" />
+            <User class="mr-2 size-4" />
             Přiřadit k...
           </Button>
 
@@ -521,7 +521,7 @@
             class="flex-1"
             data-testid="person-detail-bulk-ignore-btn"
           >
-            <EyeOff class="mr-2 h-4 w-4" />
+            <EyeOff class="mr-2 size-4" />
             Skrýt
           </Button>
 
@@ -534,9 +534,9 @@
             data-testid="person-detail-bulk-unmatch-btn"
           >
             {#if isWorking}
-              <Spinner class="mr-2 h-4 w-4" />
+              <Spinner class="mr-2 size-4" />
             {:else}
-              <Trash2 class="mr-2 h-4 w-4" />
+              <Trash2 class="mr-2 size-4" />
               Odepnout
             {/if}
           </Button>
@@ -560,7 +560,7 @@
               disabled={isWorking}
               data-testid="person-detail-bulk-more"
             >
-              <MoreHorizontal class="h-4 w-4" />
+              <MoreHorizontal class="size-4" />
             </DropdownMenu.Trigger>
             <DropdownMenu.Content align="end" class="w-56">
               <DropdownMenu.Item
@@ -645,7 +645,7 @@
 
     <div class="bg-muted/20 border-b p-4">
       <div class="relative">
-        <Search class="text-muted-foreground absolute top-2.5 left-3 h-4 w-4" />
+        <Search class="text-muted-foreground absolute top-2.5 left-3 size-4" />
         <input
           bind:value={personSearchQuery}
           placeholder="Hledat osobu..."
@@ -673,7 +673,7 @@
             <div
               class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-200 dark:bg-slate-800"
             >
-              <User class="text-muted-foreground h-4 w-4" />
+              <User class="text-muted-foreground size-4" />
             </div>
           {/if}
           <div class="min-w-0 flex-1">

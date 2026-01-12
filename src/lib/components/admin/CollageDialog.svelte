@@ -915,7 +915,7 @@
                 ondragstart={(e) => handleDragStart(e, i)}
                 onmousedown={(e) => e.stopPropagation()}
               >
-                <Move class="h-4 w-4" />
+                <Move class="size-4" />
               </div>
 
               <span

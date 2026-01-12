@@ -102,7 +102,7 @@
         data-testid="person-invalidate-confirm"
       >
         {#if isLoading}
-          <Spinner class="mr-2 h-4 w-4" />
+          <Spinner class="mr-2 size-4" />
           Zpracovávám...
         {:else}
           Zneplatnit vše

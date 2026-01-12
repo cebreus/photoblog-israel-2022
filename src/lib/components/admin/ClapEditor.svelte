@@ -10,6 +10,7 @@
   import { Button } from "$lib/components/ui/button";
   import * as Dialog from "$lib/components/ui/dialog";
   import { getContentDir } from "$lib/config";
+  import { manifest } from "$lib/stores/manifest.svelte";
   import type { ImageEntry } from "$lib/types/manifest";
   import { tracedFetch } from "$lib/utils/api";
 
@@ -246,13 +247,7 @@
       // Parse response to get updated image data
       const data = await res.json();
       if (data.updatedImages && Array.isArray(data.updatedImages)) {
-        // Import store dynamically or assume it's available.
-        // Since we are inside a component, we can import it at top level, but let's add the import if missing.
-        // Actually, let's use the module level import which we will add in a separate step if needed.
-        // For now, assume we will add `import { manifest } from "$lib/stores/manifest.svelte";`
-
         // Update local store with cache busting
-        const { manifest } = await import("$lib/stores/manifest.svelte");
         for (const updatedImg of data.updatedImages) {
           manifest.refreshItem(updatedImg);
         }
@@ -651,14 +646,14 @@
 
     <div class="mt-auto flex flex-col gap-2">
       <Button variant="outline" onclick={handleReset} data-testid="clap-editor-reset">
-        <RotateCcw class="mr-2 h-4 w-4" />
+        <RotateCcw class="mr-2 size-4" />
         Reset
       </Button>
       <Button onclick={save} disabled={isLoading} data-testid="clap-editor-save">
         {#if isLoading}
-          <Loader2 class="mr-2 h-4 w-4 animate-spin" />
+          <Loader2 class="mr-2 size-4 animate-spin" />
         {:else}
-          <Check class="mr-2 h-4 w-4" />
+          <Check class="mr-2 size-4" />
         {/if}
         Uložit
       </Button>

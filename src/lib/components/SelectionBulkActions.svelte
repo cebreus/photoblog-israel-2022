@@ -126,7 +126,7 @@
           data-testid="{testId}-merge"
           disabled={mergeBtnDisabled}
         >
-          <Merge class="mr-2 h-4 w-4" />
+          <Merge class="mr-2 size-4" />
           Sloučit
         </Button>
       {/snippet}
@@ -147,7 +147,7 @@
           data-testid="{testId}-hide"
           disabled={hideBtnDisabled}
         >
-          <EyeOff class="mr-2 h-4 w-4" />
+          <EyeOff class="mr-2 size-4" />
           Skrýt
         </Button>
       {/snippet}

@@ -533,7 +533,7 @@
     {@const isEditMode = selectedImages.length === 1 && isCollage(selectedImages[0].id)}
     <div class="px-4 pt-2">
       <Button variant="outline" class="w-full gap-2" onclick={handleOpenCollageDialog}>
-        <LayoutGrid class="h-4 w-4" />
+        <LayoutGrid class="size-4" strokeWidth={2.5} />
         {#if isEditMode}
           {COLLAGE_MESSAGES.EDIT_BUTTON}
         {:else}
@@ -546,7 +546,7 @@
   {#if import.meta.env.DEV && selectedImages.length === 1 && canApplyClap(selectedImages[0])}
     <div class="px-4 pt-2">
       <Button variant="outline" class="w-full gap-2" onclick={() => (isClapEditorOpen = true)}>
-        <Crop class="h-4 w-4" />
+        <Crop class="size-4" strokeWidth={2.5} />
         Upravit výřez
       </Button>
     </div>
@@ -565,7 +565,7 @@
       <div
         class="flex items-center gap-2 rounded-md bg-blue-50 p-2 text-sm text-blue-700 dark:bg-blue-900/30 dark:text-blue-300"
       >
-        <Info class="h-4 w-4 shrink-0" />
+        <Info class="size-4 shrink-0" strokeWidth={2.5} />
         <span>
           Výběr obsahuje skupiny. Změny se projeví na celkem <strong>{affectedItemsCount}</strong> obrázcích.
         </span>
