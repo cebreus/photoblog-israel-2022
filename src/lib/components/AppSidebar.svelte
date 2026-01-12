@@ -110,14 +110,16 @@
             <SlidersHorizontal class="size-4" />
             <span class="sr-only sm:not-sr-only">Filtry</span>
           </Tabs.Trigger>
-          <Tabs.Trigger
-            value="people"
-            class="data-[state=active]:bg-sidebar-accent data-[state=active]:text-sidebar-accent-foreground flex-1 gap-2"
-            data-testid="app-sidebar-people-tab"
-          >
-            <User class="size-4" />
-            <span class="sr-only sm:not-sr-only">Lidé</span>
-          </Tabs.Trigger>
+          {#if dev}
+            <Tabs.Trigger
+              value="people"
+              class="data-[state=active]:bg-sidebar-accent data-[state=active]:text-sidebar-accent-foreground flex-1 gap-2"
+              data-testid="app-sidebar-people-tab"
+            >
+              <User class="size-4" />
+              <span class="sr-only sm:not-sr-only">Lidé</span>
+            </Tabs.Trigger>
+          {/if}
           {#if dev}
             <Tabs.Trigger
               value="edit"
@@ -140,11 +142,13 @@
     <Tabs.Content value="filters" class="mt-0 flex h-full flex-col overflow-hidden">
       <FiltersTab {authors} {qualityStats} {mediaStats} {snapshotStats} />
     </Tabs.Content>
-    <Tabs.Content value="people" class="mt-0 flex h-full flex-col overflow-hidden">
-      {#if ui.activeTab === "people"}
-        <PeopleTab />
-      {/if}
-    </Tabs.Content>
+    {#if dev}
+      <Tabs.Content value="people" class="mt-0 flex h-full flex-col overflow-hidden">
+        {#if ui.activeTab === "people"}
+          <PeopleTab />
+        {/if}
+      </Tabs.Content>
+    {/if}
     {#if dev}
       <Tabs.Content value="edit" class="mt-0 flex h-full flex-col overflow-hidden">
         <Sidebar.Content>

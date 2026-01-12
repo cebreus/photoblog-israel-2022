@@ -5,7 +5,7 @@ import { createLogger } from "$lib/logger";
 import { filters } from "$lib/stores/filters.svelte";
 import { people } from "$lib/stores/people.svelte";
 import { isImageEntry, type Person, type PhotoDayItem } from "$lib/types/manifest";
-import { buildImagePeopleMap, isGloballyVisible } from "$lib/utils/gallery";
+import { isGloballyVisible } from "$lib/utils/gallery";
 import { DETECTION_MESSAGES } from "$lib/utils/messages";
 import { untrack } from "svelte";
 import { toast } from "svelte-sonner";
@@ -126,12 +126,11 @@ export function createPeopleTabModel(params?: {
     };
 
     let totalWithFaces = 0;
-    const imagePeopleMap = buildImagePeopleMap(people.photoDays);
 
     for (const day of people.photoDays) {
       for (const item of day.items) {
         if (isGloballyVisible(item) && isImageEntry(item)) {
-          const itemPeople = item.people || imagePeopleMap[item.id] || [];
+          const itemPeople = item.people || [];
           if (itemPeople.some((id: string) => personIds.has(id))) {
             totalWithFaces++;
           }
@@ -143,7 +142,7 @@ export function createPeopleTabModel(params?: {
     for (const day of filters.filteredPhotoDays) {
       for (const item of day.items) {
         if (isGloballyVisible(item) && isImageEntry(item)) {
-          const itemPeople = item.people || imagePeopleMap[item.id] || [];
+          const itemPeople = item.people || [];
           if (itemPeople.some((id: string) => personIds.has(id))) {
             visibleWithFaces++;
           }
@@ -261,14 +260,26 @@ export function createPeopleTabModel(params?: {
 
   // --- SELECTION METHODS ---
 
+  // --- SELECTION METHODS ---
+
   function togglePerson(personId: string, shiftKey = false) {
     let current = filters.selectedPeople;
-    const visibleIds = people.displayPersons.map((p) => p.id);
+    // CRITICAL FIX: "Universe" must be consistent.
+    // If we are operating on "visibleIds" (named people), and we toggle,
+    // we should NOT accidentally include "unnamed" people in the resulting set by blindly adding/removing.
+
+    // BUT, the original logic relied on "subtraction from all".
+    // If we want "Select All" to mean "Select All Named", we need explicit actions.
+    // For simple toggling, we keep the subtraction logic but ensure we handle the 'none' case correctly.
+
+    const visibleIds = people.displayPersons.filter((p) => dev || p.isUserNamed).map((p) => p.id);
 
     let effectiveCurrent = current;
     if (current.length === 0) {
       effectiveCurrent = visibleIds;
     } else if (current.includes("none")) {
+      // If starting from NONE, we are adding one person.
+      // effectiveCurrent should be empty set to start adding to.
       effectiveCurrent = [];
     }
 
@@ -296,6 +307,8 @@ export function createPeopleTabModel(params?: {
     if (next.length === 0) {
       filters.selectedPeople = ["none"];
     } else if (next.length === visibleIds.length) {
+      // Check if we really have ALL (including unnamed if they were in visibleIds)
+      // If displayPersons covers everyone permissible, then empty array is correct.
       filters.selectedPeople = [];
     } else {
       filters.selectedPeople = next;
@@ -307,21 +320,26 @@ export function createPeopleTabModel(params?: {
   }
 
   function clearSelection() {
-    filters.selectedPeople = [];
+    filters.setPeopleNone();
   }
 
   function selectAll() {
-    filters.selectedPeople = people.displayPersons.map((p) => p.id);
+    filters.setPeopleAll();
+  }
+
+  function selectSolo(personId: string) {
+    filters.setPersonSolo(personId);
   }
 
   function selectUnknown() {
     filters.selectedPeople = ["unknown"];
   }
 
-  function handleSelectionPreset(mode: "all" | "unknown" | "reset" | null) {
-    if (mode === "all") return selectAll();
+  function handleSelectionPreset(mode: "all" | "unknown" | "reset" | "none" | null) {
+    if (mode === "all") return selectAll(); // Show all
+    if (mode === "none") return clearSelection(); // Show none
     if (mode === "unknown") return selectUnknown();
-    if (mode === "reset") return clearSelection();
+    if (mode === "reset") return selectAll(); // Default reset
   }
 
   // --- EDITING METHODS ---
@@ -889,6 +907,7 @@ export function createPeopleTabModel(params?: {
     togglePerson,
     clearSelection,
     selectAll,
+    selectSolo,
     selectUnknown,
     handleSelectionPreset,
     startEditing,

@@ -13,7 +13,6 @@
   import { Separator } from "$lib/components/ui/separator";
   import * as Sidebar from "$lib/components/ui/sidebar";
   import { createPeopleTabModel } from "$lib/logic/people-tab-model.svelte";
-  import { filters } from "$lib/stores/filters.svelte";
   import { people } from "$lib/stores/people.svelte";
   import { system } from "$lib/stores/system.svelte";
   import { ui } from "$lib/stores/ui.svelte";
@@ -25,7 +24,6 @@
   import PeopleStats from "./people/PeopleStats.svelte";
 
   import CategoryPersonCard from "./CategoryPersonCard.svelte";
-  import PeopleSelectionControls from "./PeopleSelectionControls.svelte";
   import VisiblePeopleList from "./VisiblePeopleList.svelte";
 
   // TanStack Query hooks
@@ -149,13 +147,6 @@
 
   <Sidebar.Header class="p-0">
     <PeopleStats stats={model.stats} />
-
-    <div class="px-2 pb-2">
-      <PeopleSelectionControls
-        selectionMode={model.selectionMode as any}
-        onPreset={(mode: "all" | "unknown" | "reset" | null) => model.handleSelectionPreset(mode)}
-      />
-    </div>
   </Sidebar.Header>
 
   {#if dev}
@@ -193,7 +184,6 @@
           <VisiblePeopleList
             visiblePeople={namedPersons}
             {getThumbnailSrc}
-            selectedPeople={filters.selectedPeople}
             togglePerson={(id: string, shift?: boolean) => model.togglePerson(id, shift)}
             openPersonDetail={(p: Person, e?: MouseEvent) => model.openPersonDetail(p, e)}
             startEditing={(p: Person) => model.startEditing(p)}

@@ -70,12 +70,7 @@
 </script>
 
 {#snippet personItem(person: Person)}
-  {@const isSelected =
-    selectedPeople.length === 0
-      ? true
-      : selectedPeople.includes("none")
-        ? false
-        : selectedPeople.includes(person.id)}
+  {@const isSelected = false}
   <div
     role="button"
     tabindex="0"
@@ -229,6 +224,16 @@
         {/if}
       </div>
     </div>
+
+    <Button
+      variant="ghost"
+      size="icon"
+      title="Zobrazit pouze tuto osobu (Solo Mode)"
+      class="h-8 w-8 cursor-default bg-transparent text-slate-400 opacity-0"
+      disabled
+    >
+      <!-- Placeholder to keep layout stable if needed, or just remove -->
+    </Button>
 
     <Switch
       checked={isSelected}
