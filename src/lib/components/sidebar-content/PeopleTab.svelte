@@ -184,7 +184,6 @@
           <VisiblePeopleList
             visiblePeople={namedPersons}
             {getThumbnailSrc}
-            togglePerson={(id: string, shift?: boolean) => model.togglePerson(id, shift)}
             openPersonDetail={(p: Person, e?: MouseEvent) => model.openPersonDetail(p, e)}
             startEditing={(p: Person) => model.startEditing(p)}
             editingPersonId={model.editingPersonId}

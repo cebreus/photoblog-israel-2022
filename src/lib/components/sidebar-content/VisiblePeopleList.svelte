@@ -9,7 +9,6 @@
   import { Button } from "$lib/components/ui/button";
   import { Input } from "$lib/components/ui/input";
   import { Separator } from "$lib/components/ui/separator";
-  import { Switch } from "$lib/components/ui/switch";
   import type { Person } from "$lib/types/manifest";
   import { cn } from "$lib/utils";
 
@@ -18,13 +17,11 @@
   let {
     visiblePeople = [],
     processingIds = new Set<string>(),
-    selectedPeople = [],
     selectedForMerge = [],
     editingPersonId = null,
     editingName = "",
     isSaving = false,
     getThumbnailSrc,
-    togglePerson,
     openPersonDetail,
     startEditing,
     onEditingNameChange,
@@ -35,13 +32,11 @@
   }: {
     visiblePeople: Person[];
     processingIds?: Set<string>;
-    selectedPeople?: string[];
     selectedForMerge?: string[];
     editingPersonId?: string | null;
     editingName?: string;
     isSaving?: boolean;
     getThumbnailSrc: (person: Person) => string;
-    togglePerson: (personId: string, shiftKey?: boolean) => void;
     openPersonDetail: (person: Person, e?: MouseEvent) => void;
     startEditing: (person: Person) => void;
     onEditingNameChange: (value: string) => void;
@@ -70,25 +65,8 @@
 </script>
 
 {#snippet personItem(person: Person)}
-  {@const isSelected = false}
   <div
-    role="button"
-    tabindex="0"
-    aria-pressed={isSelected}
-    class={`group hover:bg-accent/50 relative flex cursor-pointer items-center gap-3 border-b p-3 px-4 transition-colors ${isSelected ? "bg-accent/30" : ""}`}
-    onclick={(e: MouseEvent) => {
-      if (!editingPersonId) {
-        togglePerson(person.id, e.shiftKey);
-      }
-    }}
-    onkeydown={(e: KeyboardEvent) => {
-      if (editingPersonId) return;
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        togglePerson(person.id, e.shiftKey);
-      }
-    }}
-    data-testid="people-tab-person-item"
+    class="group hover:bg-accent/50 relative flex items-center gap-3 border-b p-3 px-4 transition-colors"
   >
     <LoadingOverlay
       visible={(isSaving && editingPersonId === person.id) || processingIds.has(person.id)}
@@ -224,22 +202,6 @@
         {/if}
       </div>
     </div>
-
-    <Button
-      variant="ghost"
-      size="icon"
-      title="Zobrazit pouze tuto osobu (Solo Mode)"
-      class="h-8 w-8 cursor-default bg-transparent text-slate-400 opacity-0"
-      disabled
-    >
-      <!-- Placeholder to keep layout stable if needed, or just remove -->
-    </Button>
-
-    <Switch
-      checked={isSelected}
-      class="pointer-events-none"
-      data-testid="people-tab-person-switch"
-    />
 
     {#if dev}
       {@const isMergeSelected = selectedForMerge.includes(person.id)}
