@@ -1,14 +1,16 @@
-import { describe, expect, it } from "vitest";
 import type { ImageEntry, PhotoDayItem } from "$lib/types/manifest";
 import { filterGalleryItems } from "$lib/utils/gallery";
+import { describe, expect, it } from "vitest";
 
 describe("gallery filters - collage filtering", () => {
   const defaultCriteria = {
-    selectedAuthors: [],
+    selectedAuthors: new Set<string>(),
     showSeparators: true,
-    selectedQualityBuckets: [],
-    selectedPeople: [],
-    selectedMediaTypes: [],
+    selectedQualityBuckets: new Set<
+      import("$lib/types/manifest").QualityFilterBucket | "unrated"
+    >(),
+    selectedPeople: new Set<string>(),
+    selectedMediaTypes: new Set<import("$lib/types/manifest").MediaItemType>(),
     showOthersSnapshots: true,
     showAuthorSnapshots: true,
     onlySnapshots: false,
@@ -27,14 +29,10 @@ describe("gallery filters - collage filtering", () => {
       } as ImageEntry,
     ];
 
-    const result = filterGalleryItems(
-      items,
-      {
-        ...defaultCriteria,
-        selectedMediaTypes: ["collage"],
-      },
-      {},
-    );
+    const result = filterGalleryItems(items, {
+      ...defaultCriteria,
+      selectedMediaTypes: new Set(["collage"]),
+    });
 
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe("2025-11-26-155237-cebreus--collage");
@@ -53,14 +51,10 @@ describe("gallery filters - collage filtering", () => {
       } as ImageEntry,
     ];
 
-    const result = filterGalleryItems(
-      items,
-      {
-        ...defaultCriteria,
-        selectedMediaTypes: ["collage"],
-      },
-      {},
-    );
+    const result = filterGalleryItems(items, {
+      ...defaultCriteria,
+      selectedMediaTypes: new Set(["collage"]),
+    });
 
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe("2025-11-24-205551-cebreus--collage");
@@ -79,14 +73,10 @@ describe("gallery filters - collage filtering", () => {
       } as ImageEntry,
     ];
 
-    const result = filterGalleryItems(
-      items,
-      {
-        ...defaultCriteria,
-        selectedMediaTypes: ["collage"],
-      },
-      {},
-    );
+    const result = filterGalleryItems(items, {
+      ...defaultCriteria,
+      selectedMediaTypes: new Set(["collage"]),
+    });
 
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe("test--collage");
@@ -105,14 +95,10 @@ describe("gallery filters - collage filtering", () => {
       } as ImageEntry,
     ];
 
-    const result = filterGalleryItems(
-      items,
-      {
-        ...defaultCriteria,
-        selectedMediaTypes: ["collage"],
-      },
-      {},
-    );
+    const result = filterGalleryItems(items, {
+      ...defaultCriteria,
+      selectedMediaTypes: new Set(["collage"]),
+    });
 
     expect(result).toHaveLength(0);
   });
@@ -139,14 +125,10 @@ describe("gallery filters - collage filtering", () => {
       } as ImageEntry,
     ];
 
-    const result = filterGalleryItems(
-      items,
-      {
-        ...defaultCriteria,
-        selectedMediaTypes: ["collage", "image"],
-      },
-      {},
-    );
+    const result = filterGalleryItems(items, {
+      ...defaultCriteria,
+      selectedMediaTypes: new Set(["collage", "image"]),
+    });
 
     expect(result).toHaveLength(2);
   });
@@ -164,14 +146,10 @@ describe("gallery filters - collage filtering", () => {
       } as ImageEntry,
     ];
 
-    const result = filterGalleryItems(
-      items,
-      {
-        ...defaultCriteria,
-        selectedMediaTypes: ["panorama"],
-      },
-      {},
-    );
+    const result = filterGalleryItems(items, {
+      ...defaultCriteria,
+      selectedMediaTypes: new Set(["panorama"]),
+    });
 
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe("pano-test");

@@ -1,6 +1,12 @@
-import { describe, expect, it } from "vitest";
-import type { ImageEntry, PhotoDay, QualityBucket, Separator } from "$lib/types/manifest";
+import type {
+  ImageEntry,
+  PhotoDay,
+  QualityBucket,
+  QualityFilterBucket,
+  Separator,
+} from "$lib/types/manifest";
 import { computeTotals, filterGalleryItems } from "$lib/utils/gallery";
+import { describe, expect, it } from "vitest";
 
 describe("gallery utils", () => {
   const mockImage1: ImageEntry = {
@@ -31,11 +37,11 @@ describe("gallery utils", () => {
   } as Separator;
 
   const defaultCriteria = {
-    selectedAuthors: [],
+    selectedAuthors: new Set<string>(),
     showSeparators: true,
-    selectedQualityBuckets: [],
-    selectedPeople: [],
-    selectedMediaTypes: [],
+    selectedQualityBuckets: new Set<QualityFilterBucket | "unrated">(),
+    selectedPeople: new Set<string>(),
+    selectedMediaTypes: new Set<import("$lib/types/manifest").MediaItemType>(),
     showOthersSnapshots: true,
     showAuthorSnapshots: true,
     onlySnapshots: false,
@@ -45,63 +51,51 @@ describe("gallery utils", () => {
     const items = [mockImage1, mockImage2, mockSeparator];
 
     it("returns all items when no filters applied", () => {
-      expect(filterGalleryItems(items, defaultCriteria, {})).toEqual(items);
+      const result = filterGalleryItems(items, defaultCriteria);
+      expect(result).toEqual(items);
     });
 
     it("filters by author", () => {
-      const result = filterGalleryItems(
-        items,
-        {
-          ...defaultCriteria,
-          selectedAuthors: ["author1"],
-        },
-        {},
-      );
+      const result = filterGalleryItems(items, {
+        ...defaultCriteria,
+        selectedAuthors: new Set(["author1"]),
+      });
       expect(result).toContain(mockImage1);
       expect(result).not.toContain(mockImage2);
       expect(result).toContain(mockSeparator); // Separators kept if showSeparators=true
     });
 
     it("hides separators if showSeparators is false", () => {
-      const result = filterGalleryItems(items, { ...defaultCriteria, showSeparators: false }, {});
+      const result = filterGalleryItems(items, { ...defaultCriteria, showSeparators: false });
       expect(result).toContain(mockImage1);
       expect(result).toContain(mockImage2);
       expect(result).not.toContain(mockSeparator);
     });
 
     it("hides all items if aesthetic buckets is explicitly ['none']", () => {
-      const result = filterGalleryItems(
-        items,
-        {
-          ...defaultCriteria,
-          selectedQualityBuckets: ["none"] as unknown as QualityBucket[],
-        },
-        {},
-      );
+      const result = filterGalleryItems(items, {
+        ...defaultCriteria,
+        selectedQualityBuckets: new Set(["none"] as unknown as QualityBucket[]),
+      });
       const images = result.filter((i) => i.type === "image");
       expect(images).toHaveLength(0);
     });
 
     it("shows all items if quality bucket is empty (Empty = All)", () => {
-      const result = filterGalleryItems(
-        items,
-        { ...defaultCriteria, selectedQualityBuckets: [] },
-        {},
-      );
+      const result = filterGalleryItems(items, {
+        ...defaultCriteria,
+        selectedQualityBuckets: new Set([]),
+      });
       const images = result.filter((i) => i.type === "image");
       expect(images).toHaveLength(2);
     });
 
     it("shows all items if all buckets are selected explicitly", () => {
       const allBuckets = ["excellent", "good", "poor"] as QualityBucket[];
-      const result = filterGalleryItems(
-        items,
-        {
-          ...defaultCriteria,
-          selectedQualityBuckets: allBuckets,
-        },
-        {},
-      );
+      const result = filterGalleryItems(items, {
+        ...defaultCriteria,
+        selectedQualityBuckets: new Set(allBuckets),
+      });
       expect(result).toContain(mockImage1);
       expect(result).toContain(mockImage2);
     });
@@ -116,14 +110,10 @@ describe("gallery utils", () => {
         people: [],
       } as ImageEntry;
 
-      const result = filterGalleryItems(
-        [imgWithPeople, imgWithoutPeople],
-        {
-          ...defaultCriteria,
-          selectedPeople: ["person1"],
-        },
-        { img1: ["person1", "person2"], img2: [] },
-      );
+      const result = filterGalleryItems([imgWithPeople, imgWithoutPeople], {
+        ...defaultCriteria,
+        selectedPeople: new Set(["person1"]),
+      });
 
       expect(result).toContain(imgWithPeople);
       expect(result).not.toContain(imgWithoutPeople);
@@ -132,34 +122,37 @@ describe("gallery utils", () => {
     it("filters by quality - missing analysis/bucket (line 106 branch)", () => {
       const imgNoAnalysis = { ...mockImage1, analysis: undefined } as ImageEntry;
       // When quality filter is active (not default []), images without analysis are hidden
-      const result = filterGalleryItems(
-        [imgNoAnalysis],
-        {
-          ...defaultCriteria,
-          selectedQualityBuckets: ["excellent"],
-        },
-        {},
-      );
+      const result = filterGalleryItems([imgNoAnalysis], {
+        ...defaultCriteria,
+        selectedQualityBuckets: new Set(["excellent"]),
+      });
       expect(result).not.toContain(imgNoAnalysis);
     });
 
     it("filters exclusively for snapshots when onlySnapshots is true", () => {
       const snap = { ...mockImage1, flags: ["snapshot-author"] } as ImageEntry;
       const normal = { ...mockImage2, flags: [] } as ImageEntry;
-      const result = filterGalleryItems(
-        [snap, normal],
-        {
-          ...defaultCriteria,
-          onlySnapshots: true,
-        },
-        {},
-      );
+      const result = filterGalleryItems([snap, normal], {
+        ...defaultCriteria,
+        onlySnapshots: true,
+      });
       expect(result).toContain(snap);
       expect(result).not.toContain(normal);
     });
   });
 
   describe("computeTotals", () => {
+    const defaultCriteriaArrays = {
+      selectedAuthors: [],
+      showSeparators: true,
+      selectedQualityBuckets: [],
+      selectedPeople: [],
+      selectedMediaTypes: [],
+      showOthersSnapshots: true,
+      showAuthorSnapshots: true,
+      onlySnapshots: false,
+    };
+
     const day1: PhotoDay = {
       id: "day1",
       date: "2024-01-01",
@@ -175,17 +168,17 @@ describe("gallery utils", () => {
     } as unknown as PhotoDay;
 
     it("computes totals for all images and locations", () => {
-      const { visiblePhotos, totalLocations } = computeTotals(defaultCriteria, [day1, day2]);
-      expect(visiblePhotos).toBe(3); // img1, img2, img3
+      const { visiblePhotos, totalLocations } = computeTotals(defaultCriteriaArrays, [day1, day2]);
+      expect(visiblePhotos).toBe(4); // img1, sep1, img2, img3 (separators are counted as visible items in filter logic)
       expect(totalLocations).toBe(2); // LocA, LocB
     });
 
     it("computes filtered totals", () => {
       const { visiblePhotos, totalLocations } = computeTotals(
-        { ...defaultCriteria, selectedAuthors: ["author1"] },
+        { ...defaultCriteriaArrays, selectedAuthors: ["author1"] },
         [day1, day2],
       );
-      expect(visiblePhotos).toBe(2); // img1, img3
+      expect(visiblePhotos).toBe(3); // img1, sep1, img3 (separators kept by default)
       expect(totalLocations).toBe(2);
     });
   });

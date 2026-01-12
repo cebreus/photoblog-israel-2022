@@ -10,9 +10,9 @@
  * - src/lib/utils/people-filter.ts
  */
 
-import { describe, expect, it } from "vitest";
 import type { ImageEntry, Person } from "$lib/types/manifest";
-import { type FilterCriteria, filterGalleryItems } from "$lib/utils/gallery";
+import { filterGalleryItems } from "$lib/utils/gallery";
+import { describe, expect, it } from "vitest";
 
 describe("People Filter Logic", () => {
   const mockPeople: Person[] = [
@@ -119,68 +119,52 @@ describe("People Filter Logic", () => {
     },
   ];
 
-  const defaultCriteria: FilterCriteria = {
+  const defaultCriteria = {
     // Explicitly typed
-    selectedAuthors: [],
+    selectedAuthors: new Set<string>(),
     showSeparators: true,
-    selectedQualityBuckets: [], // Empty to disable quality filter checks
-    selectedPeople: [],
-    selectedMediaTypes: [],
+    selectedQualityBuckets: new Set<
+      import("$lib/types/manifest").QualityFilterBucket | "unrated"
+    >(),
+    selectedPeople: new Set<string>(),
+    selectedMediaTypes: new Set<import("$lib/types/manifest").MediaItemType>(),
     showOthersSnapshots: true,
     showAuthorSnapshots: true,
     onlySnapshots: false,
   };
 
-  // Build map from mock data for all tests
-  const mockMap: Record<string, string[]> = {};
-  for (const img of mockImages) {
-    if (img.people) mockMap[img.id] = img.people;
-  }
-
   describe("Default Behavior (Empty Selection)", () => {
     it("should show all photos when selectedPeople is empty array (default)", () => {
       // Empty array [] = ALL selected (same as authors)
-      const result = filterGalleryItems(mockImages, defaultCriteria, mockMap);
+      const result = filterGalleryItems(mockImages, defaultCriteria);
       expect(result).toHaveLength(5);
     });
 
     it("should hide all photos when selectedPeople is ['none']", () => {
       // ["none"] = NONE selected (hide photos with detected people) -> Actually hides EVERYTHING
-      const result = filterGalleryItems(
-        mockImages,
-        {
-          ...defaultCriteria,
-          selectedPeople: ["none"],
-        },
-        mockMap,
-      );
+      const result = filterGalleryItems(mockImages, {
+        ...defaultCriteria,
+        selectedPeople: new Set(["none"]),
+      });
       expect(result).toHaveLength(0);
     });
   });
 
   describe("People Selection", () => {
     it("should filter to show only photos with selected person", () => {
-      const result = filterGalleryItems(
-        mockImages,
-        {
-          ...defaultCriteria,
-          selectedPeople: ["person-1"],
-        },
-        mockMap,
-      );
+      const result = filterGalleryItems(mockImages, {
+        ...defaultCriteria,
+        selectedPeople: new Set(["person-1"]),
+      });
       // Should show img1, img2, img3 (Alice's photos)
       expect(result.map((i) => i.id).sort()).toEqual(["img1", "img2", "img3"]);
     });
 
     it("should show photos containing ANY of the selected people", () => {
-      const result = filterGalleryItems(
-        mockImages,
-        {
-          ...defaultCriteria,
-          selectedPeople: ["person-1", "person-2"],
-        },
-        mockMap,
-      );
+      const result = filterGalleryItems(mockImages, {
+        ...defaultCriteria,
+        selectedPeople: new Set(["person-1", "person-2"]),
+      });
       // Should show img1, img2, img3, img4 (Alice OR Bob)
       // img1: [p1], img2: [p1, p2], img3: [p1], img4: [p2]
       expect(result.map((i) => i.id).sort()).toEqual(["img1", "img2", "img3", "img4"]);

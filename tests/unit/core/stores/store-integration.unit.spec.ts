@@ -21,6 +21,7 @@ vi.mock("$lib/utils/images", () => ({
 // Mock $app/navigation
 vi.mock("$app/navigation", () => ({
   invalidateAll: vi.fn(() => Promise.resolve()),
+  invalidate: vi.fn(() => Promise.resolve()),
 }));
 
 describe("Store Integration", () => {
@@ -67,22 +68,21 @@ describe("Store Integration", () => {
       expect(people).toHaveProperty("people");
       expect(people).toHaveProperty("photoDays");
       expect(people).toHaveProperty("peopleWithStats");
-      expect(people).toHaveProperty("visiblePeople");
-      expect(people).toHaveProperty("hiddenPeople");
-      expect(people).toHaveProperty("categoryPeople");
-      expect(people).toHaveProperty("categoryStatues");
-      expect(people).toHaveProperty("categoryPaintings");
-      expect(people).toHaveProperty("junkPeople");
+      expect(people).toHaveProperty("displayPersons");
+      expect(people).toHaveProperty("displayStatues");
+      expect(people).toHaveProperty("displayPaintings");
+      expect(people).toHaveProperty("displayJunk");
       expect(people).toHaveProperty("refresh");
     });
 
-    it("should have refresh method that calls invalidateAll", async () => {
-      const { invalidateAll } = await import("$app/navigation");
+    it("should have refresh method that calls invalidate", async () => {
+      const { invalidate } = await import("$app/navigation");
       const { people } = await import("$lib/stores/people.svelte");
 
       await people.refresh();
 
-      expect(invalidateAll).toHaveBeenCalledTimes(1);
+      expect(invalidate).toHaveBeenCalledTimes(1);
+      expect(invalidate).toHaveBeenCalledWith("app:people-manifest");
     });
   });
 

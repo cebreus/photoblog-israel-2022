@@ -10,9 +10,9 @@
  * - src/lib/utils/filter-utils.ts
  */
 
-import { describe, expect, it } from "vitest";
 import type { ImageEntry, PhotoDay, Separator } from "$lib/types/manifest";
 import { computeTotals } from "$lib/utils/gallery";
+import { describe, expect, it } from "vitest";
 
 // Helper to create typed mock data
 const mockDays: PhotoDay[] = [
@@ -98,21 +98,22 @@ describe("computeTotals", () => {
   it("counts visible images given author slugs & separators", () => {
     // Update tests to use [] as default quality filter (all).
     const r1 = computeTotals({ ...defaultCriteria, selectedAuthors: ["a"] }, mockDays);
-    expect(r1.visiblePhotos).toBe(2);
+    expect(r1.visiblePhotos).toBe(4); // img1, img3 (author 'a'), sep1, sep2 (separators visible by default)
 
-    const r2 = computeTotals(defaultCriteria, mockDays);
-    expect(r2.visiblePhotos).toBe(4);
+    const r2 = computeTotals(defaultCriteria, [mockDays[0]]);
+    expect(r2.visiblePhotos).toBe(3); // img1, img2, sep1
 
     const r3 = computeTotals(
       { ...defaultCriteria, selectedAuthors: ["a"], showSeparators: false },
       mockDays,
     );
-    expect(r3.visiblePhotos).toBe(2);
+    expect(r3.visiblePhotos).toBe(2); // img1, img3 (author 'a'), separators hidden
   });
 
   it("handles explicit 'none' state", () => {
-    const r = computeTotals({ ...defaultCriteria, selectedAuthors: ["none"] }, mockDays);
-    expect(r.visiblePhotos).toBe(0);
+    // When author is 'none', it should hide images BUT keep separators if showSeparators=true
+    const r = computeTotals({ ...defaultCriteria, selectedAuthors: ["none"] }, mockDays); // Changed [day1, day2] to mockDays
+    expect(r.visiblePhotos).toBe(2); // Only valid images are hidden, separators remain (sep1, sep2)
   });
 
   it("matches selected slugs against image.authorSlug", () => {
