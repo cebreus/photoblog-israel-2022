@@ -1,5 +1,5 @@
 import type { MediaItemType, PhotoDay, QualityFilterBucket } from "$lib/types/manifest";
-import { buildImagePeopleMap, computeTotals, filterGalleryItems } from "$lib/utils/gallery";
+import { computeTotals, filterGalleryItems } from "$lib/utils/gallery";
 import { manifest } from "./manifest.svelte";
 
 /** All available media types for filtering */
@@ -17,10 +17,10 @@ let showSeparators = $state(true);
 let selectedQualityBuckets = $state<QualityFilterBucket[]>([]);
 /** Media types to show (photo, panorama, sequence). Empty = all. */
 let selectedMediaTypes = $state<MediaItemType[]>([]);
-/** Show snapshots made by others (default: visible) */
-let showOthersSnapshots = $state(true);
-/** Show snapshots made by the author (default: visible) */
-let showAuthorSnapshots = $state(true);
+/** Show snapshots made by others (default: hidden) */
+let showOthersSnapshots = $state(false);
+/** Show snapshots made by the author (default: hidden) */
+let showAuthorSnapshots = $state(false);
 /** Show ONLY snapshots (hide all regular photos) */
 let onlySnapshots = $state(false);
 let filtersSyncing = $state(false);
@@ -41,22 +41,27 @@ function reset() {
 // Derived state
 const filteredPhotoDays = $derived.by(function calculateFilteredDays() {
   const criteria = {
-    selectedAuthors,
+    selectedAuthors: new Set(selectedAuthors),
     showSeparators,
-    selectedQualityBuckets,
-    selectedPeople,
-    selectedMediaTypes,
+    selectedQualityBuckets: new Set(selectedQualityBuckets),
+    selectedPeople: new Set(selectedPeople),
+    selectedMediaTypes: new Set(selectedMediaTypes.length === 0 ? [] : selectedMediaTypes), // Explicitly handle empty
     showOthersSnapshots,
     showAuthorSnapshots,
     onlySnapshots,
   };
 
-  const imagePeopleMap = buildImagePeopleMap(sourceData);
+  // Convert empty "media types" array to a Set that represents "all" (empty set handled in filter logic)
+  if (selectedMediaTypes.length > 0) {
+    criteria.selectedMediaTypes = new Set(selectedMediaTypes);
+  } else {
+    criteria.selectedMediaTypes = new Set();
+  }
 
   function filterDayItems(day: PhotoDay) {
     return {
       ...day,
-      items: filterGalleryItems(day.items, criteria, imagePeopleMap),
+      items: filterGalleryItems(day.items, criteria),
     };
   }
 
@@ -138,6 +143,44 @@ export const filters = {
   },
   set onlySnapshots(v) {
     onlySnapshots = v;
+  },
+
+  // --- ACTIONS ---
+
+  // Authors
+  setAuthorSolo(slug: string) {
+    selectedAuthors = [slug];
+  },
+  setAuthorsAll() {
+    selectedAuthors = [];
+  },
+  setAuthorsNone() {
+    selectedAuthors = ["none"];
+  },
+
+  // Media Types
+  setMediaTypeSolo(type: MediaItemType) {
+    selectedMediaTypes = [type];
+  },
+  setMediaTypesAll() {
+    selectedMediaTypes = [];
+  },
+  setMediaTypesNone() {
+    selectedMediaTypes = ["none" as MediaItemType];
+  },
+
+  // People
+  setPersonSolo(id: string) {
+    selectedPeople = [id];
+  },
+  setPeopleAll() {
+    selectedPeople = [];
+  },
+  setPeopleWithPeople() {
+    selectedPeople = ["__with_people__"];
+  },
+  setPeopleNone() {
+    selectedPeople = ["__without_people__"];
   },
 
   // Accordion Persistence

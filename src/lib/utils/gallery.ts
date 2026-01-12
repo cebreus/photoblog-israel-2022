@@ -3,7 +3,6 @@ import {
   type MediaItemType,
   type PhotoDay,
   type PhotoDayItem,
-  type QualityBucket,
   type QualityFilterBucket,
 } from "$lib/types/manifest";
 import { isRepresentative, isSequenceMember } from "$lib/utils/sequences";
@@ -57,144 +56,104 @@ function isAuthorSnapshot(item: PhotoDayItem): boolean {
 }
 
 export type FilterCriteria = {
-  selectedAuthors: string[];
+  selectedAuthors: Set<string>;
   showSeparators: boolean;
-  selectedQualityBuckets: QualityFilterBucket[];
-  selectedPeople: string[];
-  selectedMediaTypes: MediaItemType[];
+  selectedQualityBuckets: Set<QualityFilterBucket | "unrated">;
+  selectedPeople: Set<string>;
+  selectedMediaTypes: Set<MediaItemType | "none">;
   showOthersSnapshots: boolean;
   showAuthorSnapshots: boolean;
   onlySnapshots: boolean;
 };
 
-/**
- * Builds a map of image IDs to people IDs from the photo days data.
- * This replaces the dependency on images.ts
- */
-export function buildImagePeopleMap(photoDays: PhotoDay[]): Record<string, string[]> {
-  const map: Record<string, string[]> = {};
-  for (const day of photoDays) {
-    for (const item of day.items) {
-      if (item.type === "image" && item.people && item.people.length > 0) {
-        map[item.id] = item.people;
-      }
-    }
-  }
-  return map;
-}
-
 function shouldIncludeItem(
   item: PhotoDayItem,
   criteria: FilterCriteria,
   isDefaultQualityView: boolean,
-  imagePeopleMap: Record<string, string[]>,
 ): boolean {
   if (!isImageEntry(item)) {
     return true; // Always include separators as they might be needed for menu anchors
   }
 
-  // Filter ONLY snapshots mode
-  if (criteria.onlySnapshots && !isAuthorSnapshot(item) && !isOthersSnapshot(item)) {
-    return false;
-  }
+  // 1. Technical Exclusions (Always Hide)
+  if (item.category === "collage-source") return false;
+  if (isSequenceMember(item.id) && !isRepresentative(item.id)) return false;
 
-  // Hide source images that were used for collages
-  if (item.category === "collage-source") {
-    return false;
-  }
+  const isSnapAuthor = isAuthorSnapshot(item);
+  const isSnapOthers = isOthersSnapshot(item);
+  const isSnap = isSnapAuthor || isSnapOthers;
 
-  // Hide non-representative members of sequences (show only the last frame in grid)
-  if (isSequenceMember(item.id) && !isRepresentative(item.id)) {
-    return false;
-  }
+  // 2. Filter ONLY snapshots mode
+  if (criteria.onlySnapshots && !isSnap) return false;
 
-  // Determine effective type for filtering
-  let effectiveType = item.type;
+  // 3. Determine if any specific inclusion filter is active
+  const isFilteringAuthors = criteria.selectedAuthors.size > 0;
+  const isFilteringPeople = criteria.selectedPeople.size > 0;
+  const isFilteringMedia = criteria.selectedMediaTypes.size > 0;
+  const isFilteringQuality = !isDefaultQualityView;
 
-  // Panoramas can be identified by aspectRatio even if type is "image"
-  if (effectiveType === "image" && item.aspectRatio === "panorama") {
-    effectiveType = "panorama";
-  }
+  // Any active selection filter constitutes a "search" intent
+  const isActivelySearching =
+    isFilteringAuthors || isFilteringPeople || isFilteringMedia || isFilteringQuality;
 
-  // Collages can be identified by aspectRatio or ID pattern even if type is "image"
-  if (
-    effectiveType === "image" &&
-    (item.aspectRatio === "collage" || item.id.includes("--collage"))
-  ) {
-    effectiveType = "collage";
-  }
+  // 4. Attribution Filters (Must produce a match if active)
 
-  if (criteria.selectedMediaTypes.length > 0) {
-    if ((criteria.selectedMediaTypes as string[]).includes("none")) {
-      return false;
+  // Media Types
+  if (isFilteringMedia) {
+    if (criteria.selectedMediaTypes.has("none")) return false;
+
+    let effectiveType = item.type;
+    if (effectiveType === "image" && item.aspectRatio === "panorama") effectiveType = "panorama";
+    if (
+      effectiveType === "image" &&
+      (item.aspectRatio === "collage" || item.id.includes("--collage"))
+    ) {
+      effectiveType = "collage";
     }
 
-    if (!criteria.selectedMediaTypes.includes(effectiveType)) {
-      return false;
-    }
+    if (!criteria.selectedMediaTypes.has(effectiveType)) return false;
   }
 
-  // Hide others' snapshots unless explicitly enabled
-  if (!criteria.showOthersSnapshots && isOthersSnapshot(item)) {
-    return false;
+  // Authors
+  if (isFilteringAuthors) {
+    if (criteria.selectedAuthors.has("none")) return false;
+    const authorMatches = criteria.selectedAuthors.has(item.authorSlug || "neuvedeno");
+    if (!authorMatches) return false;
   }
 
-  // Hide author's snapshots unless explicitly enabled
-  if (!criteria.showAuthorSnapshots && isAuthorSnapshot(item)) {
-    return false;
-  }
-
-  if (criteria.selectedAuthors.length > 0) {
-    if (criteria.selectedAuthors.includes("none")) {
-      return false;
-    }
-    const authorMatches = criteria.selectedAuthors.includes(item.authorSlug || "neuvedeno");
-    if (!authorMatches) {
-      return false;
-    }
-  }
-
-  if (!isDefaultQualityView) {
-    if ((criteria.selectedQualityBuckets as string[]).includes("none")) {
-      return false;
-    }
-
+  // Quality
+  if (isFilteringQuality) {
+    if ((criteria.selectedQualityBuckets as Set<string>).has("none")) return false;
     const bucket = item.analysis?.qualityBucket;
-    const selectedBuckets = criteria.selectedQualityBuckets as Array<QualityBucket | "unrated">;
-    const wantsUnrated = selectedBuckets.includes("unrated");
-    const wantsRatedBuckets = selectedBuckets.filter((b) => b !== "unrated") as QualityBucket[];
-
-    // If image has no bucket, exclude unless "unrated" is selected
-    if (!bucket && !wantsUnrated) {
-      return false;
-    }
-
-    // If image has bucket, exclude unless that bucket is selected
-    if (bucket && !wantsRatedBuckets.includes(bucket)) {
-      return false;
-    }
-    // Fall through to check other filters (people, etc.)
+    const wantsUnrated = criteria.selectedQualityBuckets.has("unrated");
+    if (!bucket && !wantsUnrated) return false;
+    if (bucket && !criteria.selectedQualityBuckets.has(bucket)) return false;
   }
 
-  if (criteria.selectedPeople.length > 0) {
-    if (criteria.selectedPeople.includes("none")) {
-      return false;
-    }
-    const itemPeople = item.people || imagePeopleMap[item.id] || [];
-    const hasUnknown = criteria.selectedPeople.includes("unknown");
+  // People
+  if (isFilteringPeople) {
+    if (criteria.selectedPeople.has("none")) return false;
+    const itemPeople = item.people || [];
+    const hasUnknown = criteria.selectedPeople.has("unknown");
+    const wantsWithoutPeople = criteria.selectedPeople.has("__without_people__");
+    const wantsWithPeople = criteria.selectedPeople.has("__with_people__");
 
     if (itemPeople.length === 0) {
-      if (!hasUnknown) {
-        return false;
-      }
+      if (!hasUnknown && !wantsWithoutPeople) return false;
     } else {
-      const personMatches = itemPeople.some(function checkPerson(p: string) {
-        return criteria.selectedPeople.includes(p);
-      });
-      if (!personMatches) {
-        return false;
+      if (!wantsWithPeople) {
+        const personMatches = itemPeople.some((p) => criteria.selectedPeople.has(p));
+        if (!personMatches) return false;
       }
     }
+  }
+
+  // 5. Snapshot Visibility Policy
+  // If we are actively searching for something specific, we show matching snapshots
+  // regardless of the global "hide snapshots" settings.
+  if (isSnap && !isActivelySearching) {
+    if (isSnapAuthor && !criteria.showAuthorSnapshots) return false;
+    if (isSnapOthers && !criteria.showOthersSnapshots) return false;
   }
 
   return true;
@@ -203,38 +162,63 @@ function shouldIncludeItem(
 export function filterGalleryItems(
   items: PhotoDayItem[],
   criteria: FilterCriteria,
-  imagePeopleMap: Record<string, string[]>,
 ): PhotoDayItem[] {
-  const isDefaultQualityView = criteria.selectedQualityBuckets.length === 0;
+  // Pre-calculate quality check to avoid repeated set lookups for "unrated"
+  // But Set.has is O(1) so it's fine. Main logic is inside shouldIncludeItem.
+  const isDefaultQualityView = criteria.selectedQualityBuckets.size === 0;
 
-  return items.filter(function filterItem(item) {
+  function shouldInclude(item: PhotoDayItem): boolean {
     if (!isImageEntry(item)) {
       return criteria.showSeparators;
     }
-    return shouldIncludeItem(item, criteria, isDefaultQualityView, imagePeopleMap);
-  });
+    return shouldIncludeItem(item, criteria, isDefaultQualityView);
+  }
+
+  return items.filter(shouldInclude);
 }
 
+// Re-export this for stats calculation if needed, though stats generally needs custom accumulation
+// computeTotals iterates similarly but accumulates counts.
 export function computeTotals(
-  criteria: FilterCriteria,
-  photoDaysData: PhotoDay[],
-): { visiblePhotos: number; totalLocations: number } {
+  criteria: Omit<
+    FilterCriteria,
+    "selectedAuthors" | "selectedPeople" | "selectedMediaTypes" | "selectedQualityBuckets"
+  > & {
+    selectedAuthors: string[];
+    selectedPeople: string[];
+    selectedMediaTypes: MediaItemType[];
+    selectedQualityBuckets: QualityFilterBucket[];
+  },
+  photoDays: PhotoDay[],
+) {
+  // Convert arrays to Sets for O(1) lookups during traversal
+  const criteriaSets: FilterCriteria = {
+    ...criteria,
+    selectedAuthors: new Set(criteria.selectedAuthors),
+    selectedPeople: new Set(criteria.selectedPeople),
+    selectedMediaTypes: new Set(criteria.selectedMediaTypes),
+    selectedQualityBuckets: new Set(criteria.selectedQualityBuckets),
+  };
+
+  const isDefaultQualityView = criteriaSets.selectedQualityBuckets.size === 0;
+
   let visiblePhotos = 0;
   const uniqueLocations = new Set<string>();
 
-  const imagePeopleMap = buildImagePeopleMap(photoDaysData);
-  const allPhotoDays = photoDaysData;
-
-  for (const day of allPhotoDays) {
-    const filteredItems = filterGalleryItems(day.items, criteria, imagePeopleMap);
-
-    for (const item of filteredItems) {
-      if (item.type !== "separator") {
-        visiblePhotos++;
-        if (item.location) {
-          uniqueLocations.add(item.location);
+  for (const day of photoDays) {
+    for (const item of day.items) {
+      if (!isImageEntry(item)) {
+        if (criteriaSets.showSeparators) {
+          visiblePhotos++;
+          if (item.location) {
+            uniqueLocations.add(item.location);
+          }
         }
-      } else if (item.type === "separator" && criteria.showSeparators) {
+        continue;
+      }
+
+      if (shouldIncludeItem(item, criteriaSets, isDefaultQualityView)) {
+        visiblePhotos++;
         if (item.location) {
           uniqueLocations.add(item.location);
         }

@@ -79,26 +79,6 @@ function initInvertedPresence(url: URL) {
       if (filters.showSeparators !== separatorsParam) filters.showSeparators = separatorsParam;
     }
   }
-
-  // Others snapshots toggle
-  if (url.searchParams.has("no-others-snapshots")) {
-    if (filters.showOthersSnapshots !== false) filters.showOthersSnapshots = false;
-  } else {
-    const legacyOthers = url.searchParams.has("others-snapshots");
-    if (legacyOthers) {
-      if (filters.showOthersSnapshots !== true) filters.showOthersSnapshots = true;
-    } else {
-      const showOthers = parseOthersSnapshotsFromUrl(url);
-      if (filters.showOthersSnapshots !== showOthers) filters.showOthersSnapshots = showOthers;
-    }
-  }
-
-  // Author snapshots toggle
-  if (url.searchParams.has("no-author-snapshots")) {
-    if (filters.showAuthorSnapshots !== false) filters.showAuthorSnapshots = false;
-  } else {
-    setBooleanStateFromUrl(url, "author-snapshots", updateAuthorSnapshots);
-  }
 }
 
 function updatePhotoLabels(v: boolean) {
@@ -120,6 +100,13 @@ function updateDebugMode(v: boolean) {
 function initPresenceParams(url: URL) {
   setBooleanStateFromUrl(url, "labels", updatePhotoLabels);
   setBooleanStateFromUrl(url, "sidebar", updateSidebar, true);
+
+  // Author snapshots toggle
+  setBooleanStateFromUrl(url, "author-snapshots", updateAuthorSnapshots);
+
+  // Others snapshots
+  const showOthers = parseOthersSnapshotsFromUrl(url);
+  if (filters.showOthersSnapshots !== showOthers) filters.showOthersSnapshots = showOthers;
 
   // Only snapshots toggle - presence means TRUE
   if (url.searchParams.has("only-snapshots")) {
@@ -207,10 +194,6 @@ function syncPeople(params: URLSearchParams) {
 function syncInvertedPresence(params: URLSearchParams) {
   params.delete("separators");
   syncBooleanParam(params, "no-separators", filters.showSeparators, "inverted-presence");
-
-  syncBooleanParam(params, "no-others-snapshots", filters.showOthersSnapshots, "inverted-presence");
-
-  syncBooleanParam(params, "no-author-snapshots", filters.showAuthorSnapshots, "inverted-presence");
 }
 
 function syncPresenceParams(params: URLSearchParams) {
@@ -221,6 +204,9 @@ function syncPresenceParams(params: URLSearchParams) {
   syncBooleanParam(params, "sidebar", ui.sidebarOpen, "presence");
   syncBooleanParam(params, "curation", ui.curationMode, "presence");
   syncBooleanParam(params, "only-snapshots", filters.onlySnapshots, "presence");
+
+  syncBooleanParam(params, "others-snapshots", filters.showOthersSnapshots, "presence");
+  syncBooleanParam(params, "author-snapshots", filters.showAuthorSnapshots, "presence");
 }
 
 function syncEditorSelection(params: URLSearchParams) {

@@ -175,8 +175,8 @@ const PRESENCE_ONLY_KEYS = new Set([
   "no-separators",
   "sidebar",
   "curation",
-  "no-others-snapshots",
-  "no-author-snapshots",
+  "others-snapshots",
+  "author-snapshots",
   "only-snapshots",
 ]);
 
@@ -239,8 +239,8 @@ export function buildMediaTypesParam(selected: MediaItemType[]): string | undefi
 // ---------------------------------------------------------------------------
 
 export function parseOthersSnapshotsFromUrl(url: URL): boolean {
-  if (url.searchParams.has("no-others-snapshots")) return false;
-  return true;
+  if (url.searchParams.has("others-snapshots")) return true;
+  return false;
 }
 
 export function buildOthersSnapshotsParam(show: boolean): boolean {
