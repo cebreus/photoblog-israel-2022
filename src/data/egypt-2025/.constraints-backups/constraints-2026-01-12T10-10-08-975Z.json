@@ -57,6 +57,14 @@
       "personId": "person-bobo-ea8ebcb0"
     },
     {
+      "imageId": "2025-11-26-090727-cebreus",
+      "personId": "person-016-f2bed997"
+    },
+    {
+      "imageId": "2025-11-25-174738-bobo",
+      "personId": "person-016-f2bed997"
+    },
+    {
       "imageId": "2025-11-26-134549-cebreus--zoom2from2",
       "personId": "person-004-6843a14c"
     },
@@ -77,8 +85,32 @@
       "personId": "statue-001-7753c8e5"
     },
     {
+      "imageId": "2025-11-26-090727-cebreus",
+      "personId": "person-031-7e570875"
+    },
+    {
+      "imageId": "2025-11-27-164753-cebreus",
+      "personId": "person-031-7e570875"
+    },
+    {
       "imageId": "2025-11-26-140121-dasa--collage",
       "personId": "statue-001-7753c8e5"
+    },
+    {
+      "imageId": "2025-11-26-081434-cebreus",
+      "personId": "person-031-7e570875"
+    },
+    {
+      "imageId": "2025-11-25-083812-cebreus--zoom2from2",
+      "personId": "person-022-10c1f376"
+    },
+    {
+      "imageId": "2025-11-28-143626-dasa--collage",
+      "personId": "person-027-29266190"
+    },
+    {
+      "imageId": "2025-11-28-143626-dasa--collage",
+      "personId": "person-da60cba5--odpojeno-od-person-027"
     }
   ],
   "connects": [
@@ -123,6 +155,14 @@
       "personId": "person-bobina-78419b17"
     },
     {
+      "imageId": "2025-11-26-161403-dasa",
+      "personId": "person-29266183-"
+    },
+    {
+      "imageId": "2025-11-26-133202-dasa",
+      "personId": "person-026-29266189"
+    },
+    {
       "imageId": "2025-11-26-125334-cebreus",
       "personId": "statue-013-29266185"
     },
@@ -145,6 +185,10 @@
     {
       "imageId": "2025-11-24-205551-cebreus--collage",
       "personId": "person-finda-aa8f1097"
+    },
+    {
+      "imageId": "2025-11-28-143626-dasa--collage",
+      "personId": "person-027-29266190"
     },
     {
       "imageId": "2025-11-26-140433-dasa--collage",
@@ -173,6 +217,14 @@
     {
       "imageId": "2025-11-25-083812-cebreus--zoom2from2",
       "personId": "person-jarek-7a7cc561"
+    },
+    {
+      "imageId": "2025-11-28-143626-dasa--collage",
+      "personId": "person-da60cba5--odpojeno-od-person-027"
+    },
+    {
+      "imageId": "2025-11-28-143626-dasa--collage",
+      "personId": "person-773e9fbc--odpojeno-od-person-027-2"
     }
   ],
   "invalidDetections": [

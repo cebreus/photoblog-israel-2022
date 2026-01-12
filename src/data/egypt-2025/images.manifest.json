@@ -41,36 +41,6 @@
             "facesDetected": true,
             "faces": [
               {
-                "x": 6136.20442199707,
-                "y": 1802.7030487060545,
-                "width": 582.6625213623047,
-                "height": 639.0574035644531
-              },
-              {
-                "x": 4039.6649551391597,
-                "y": 1618.9533290863033,
-                "width": 450.34675598144526,
-                "height": 665.2739582061768
-              },
-              {
-                "x": 1049.3567276000977,
-                "y": 1867.6335868835447,
-                "width": 601.9611740112305,
-                "height": 753.8101501464841
-              },
-              {
-                "x": 5187.9715576171875,
-                "y": 1943.3456268310545,
-                "width": 477.78909301757807,
-                "height": 589.1046981811525
-              },
-              {
-                "x": 1899.1854972839353,
-                "y": 872.8622074127196,
-                "width": 510.3989181518554,
-                "height": 801.3603172302245
-              },
-              {
                 "x": 2860.6747398376465,
                 "y": 2011.2802391052242,
                 "width": 421.5206222534179,
@@ -152,19 +122,19 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-21-175802-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-finda-aa8f1097",
-            "person-dasa-264acc31",
-            "person-bobina-78419b17",
-            "person-bobo-ea8ebcb0",
-            "person-jarek-7a7cc561",
-            "person-jaruska-9f5bf07c"
+            "person-jaruska-9f5bf07c",
+            "person-034-b83565a9",
+            "person-038-21822f38",
+            "person-040-6baf723b",
+            "person-032-f9303821",
+            "person-032-5441d092"
           ]
         },
         {
@@ -286,7 +256,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-22-055754-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -402,7 +372,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-22-161654-finda.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -534,7 +504,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-23-084720-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 300
             }
           ],
           "people": []
@@ -557,20 +527,7 @@
             "qualityBucket": "good",
             "phash": "cce62b39363666c6",
             "facesDetected": true,
-            "faces": [
-              {
-                "x": 1009.0887966156005,
-                "y": 388.15217828750605,
-                "width": 746.8385353088379,
-                "height": 900.9458842277526
-              },
-              {
-                "x": 2630.933246612549,
-                "y": 950.4004840850829,
-                "width": 658.6108016967773,
-                "height": 696.7459602355955
-              }
-            ]
+            "faces": []
           },
           "exif": {
             "date": "2025-11-23T10:21:39",
@@ -643,15 +600,15 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-23-092139-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "flags": [
             "snapshot-author"
           ],
           "people": [
-            "person-jarek-7a7cc561",
-            "person-jaruska-9f5bf07c"
+            "person-032-5441d092",
+            "person-033-5d90e859"
           ]
         },
         {
@@ -672,14 +629,7 @@
             "qualityBucket": "excellent",
             "phash": "f189c6dcc6d227bd",
             "facesDetected": true,
-            "faces": [
-              {
-                "x": 999.70148563385,
-                "y": 722.8016316890717,
-                "width": 424.2462186813354,
-                "height": 579.5921022891998
-              }
-            ]
+            "faces": []
           },
           "exif": {
             "date": "2025-11-23T11:16:07",
@@ -759,7 +709,7 @@
             "snapshot-author"
           ],
           "people": [
-            "person-jarek-7a7cc561"
+            "person-031-2e7d17b6"
           ]
         },
         {
@@ -865,7 +815,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-23-104951-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 300
             }
           ],
           "people": []
@@ -963,7 +913,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-23-121048-dasa.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -986,26 +936,7 @@
             "qualityBucket": "excellent",
             "phash": "0b2b2b2b2b2392c8",
             "facesDetected": true,
-            "faces": [
-              {
-                "x": 1831.4635734558105,
-                "y": 775.5867433547974,
-                "width": 300.2177925109862,
-                "height": 359.5896520614624
-              },
-              {
-                "x": 735.3026504516602,
-                "y": 765.6006603240967,
-                "width": 266.22873687744135,
-                "height": 348.50780296325684
-              },
-              {
-                "x": 1186.7468547821043,
-                "y": 860.7937002182007,
-                "width": 280.73697280883795,
-                "height": 340.9147653579712
-              }
-            ]
+            "faces": []
           },
           "exif": {
             "date": "2025-11-23T13:58:50",
@@ -1079,7 +1010,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-23-125850-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -1087,9 +1018,9 @@
             "snapshot-others"
           ],
           "people": [
-            "person-bobo-ea8ebcb0",
-            "person-finda-aa8f1097",
-            "person-bobina-78419b17"
+            "person-032-f9303821",
+            "person-034-b83565a9",
+            "person-036-ac40bb55"
           ]
         },
         {
@@ -1110,20 +1041,7 @@
             "qualityBucket": "excellent",
             "phash": "95c68696b6b6b6aa",
             "facesDetected": true,
-            "faces": [
-              {
-                "x": 2453.1713676452637,
-                "y": 676.2741565704345,
-                "width": 245.41458892822263,
-                "height": 321.9253520965577
-              },
-              {
-                "x": 1459.1991920471191,
-                "y": 619.7558069229125,
-                "width": 219.02728271484372,
-                "height": 319.6727771759032
-              }
-            ]
+            "faces": []
           },
           "exif": {
             "date": "2025-11-23T14:11:51",
@@ -1198,15 +1116,15 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-23-131151-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-finda-aa8f1097",
-            "person-bobina-78419b17"
+            "person-038-fc732428",
+            "person-039-d6a788ef"
           ]
         },
         {
@@ -1227,14 +1145,7 @@
             "qualityBucket": "excellent",
             "phash": "8ebebfbb6220e068",
             "facesDetected": true,
-            "faces": [
-              {
-                "x": 2335.303756713867,
-                "y": 2247.8933715820312,
-                "width": 424.0988388061523,
-                "height": 531.9066467285154
-              }
-            ]
+            "faces": []
           },
           "exif": {
             "date": "2025-11-23T14:14:11",
@@ -1309,14 +1220,14 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-23-131411-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "flags": [
             "snapshot-author"
           ],
           "people": [
-            "person-jarek-7a7cc561"
+            "person-036-9430e807"
           ]
         },
         {
@@ -1420,7 +1331,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-23-151444-cebreus-fixed.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -1516,7 +1427,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-23-151450-cebreus-fixed.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -1612,7 +1523,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-23-151514-cebreus-fixed.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -1708,7 +1619,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-23-152954-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 300
             }
           ],
           "people": []
@@ -1812,7 +1723,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-23-153413-dasa.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -1869,30 +1780,6 @@
                 "y": 346.11568450927734,
                 "width": 62.79754638671875,
                 "height": 86.30990982055663
-              },
-              {
-                "x": 562.1024131774902,
-                "y": 362.84160614013666,
-                "width": 48.449039459228516,
-                "height": 65.58909416198733
-              },
-              {
-                "x": 982.55615234375,
-                "y": 376.47149562835693,
-                "width": 58.85429382324219,
-                "height": 69.32108402252199
-              },
-              {
-                "x": 921.6779708862305,
-                "y": 339.50018882751465,
-                "width": 52.07233428955078,
-                "height": 59.78364944458008
-              },
-              {
-                "x": 696.5699672698975,
-                "y": 350.9709358215332,
-                "width": 38.178348541259766,
-                "height": 50.94881057739259
               }
             ]
           },
@@ -1965,7 +1852,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-23-205255-bobo.jpeg",
               "width": 534,
-              "height": 534
+              "height": 300
             }
           ],
           "flags": [
@@ -1975,10 +1862,10 @@
             "person-001-4bbe8e4c",
             "person-003-08f0b988",
             "person-jaruska-9f5bf07c",
-            "person-finda-aa8f1097",
-            "person-bobo-ea8ebcb0",
-            "person-dasa-264acc31",
-            "person-bobina-78419b17"
+            "person-038-fc732428",
+            "person-043-1920694b",
+            "person-038-21822f38",
+            "person-042-f954b42a"
           ]
         }
       ],
@@ -2087,7 +1974,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-24-082240-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 300
             }
           ],
           "people": []
@@ -2191,7 +2078,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-24-112843-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 300
             }
           ],
           "people": []
@@ -2288,7 +2175,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-24-123506-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 300
             }
           ],
           "people": []
@@ -2395,7 +2282,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-24-152241-finda.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -2510,7 +2397,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-24-194927-dasa.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -2534,30 +2421,6 @@
             "phash": "6761696b7372efff",
             "facesDetected": true,
             "faces": [
-              {
-                "x": 3656.6820373535156,
-                "y": 1538.5909824371338,
-                "width": 481.94000244140625,
-                "height": 599.017301559448
-              },
-              {
-                "x": 4242.034286499023,
-                "y": 2148.145133972168,
-                "width": 551.2077026367188,
-                "height": 814.3588256835936
-              },
-              {
-                "x": 3062.803985595703,
-                "y": 1807.5047607421875,
-                "width": 379.37610626220703,
-                "height": 465.88046264648443
-              },
-              {
-                "x": 2791.8535652160645,
-                "y": 2315.8892669677734,
-                "width": 487.48912811279297,
-                "height": 682.2574310302733
-              },
               {
                 "x": 762.3389568328857,
                 "y": 1859.0118942260742,
@@ -2639,17 +2502,17 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-24-201212-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 300
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-dasa-264acc31",
-            "person-jaruska-9f5bf07c",
-            "person-finda-aa8f1097",
-            "person-bobo-ea8ebcb0"
+            "person-038-21822f38",
+            "person-033-5d90e859",
+            "person-046-462733c6",
+            "person-032-f9303821"
           ]
         },
         {
@@ -2674,15 +2537,8 @@
             "sharpness": 52,
             "qualityBucket": "poor",
             "phash": "4d8c0d46571f1f1f",
-            "facesDetected": true,
-            "faces": [
-              {
-                "x": 9346.299842000008,
-                "y": 2347.8704379212622,
-                "width": 167.54075050354004,
-                "height": 264.7796582988664
-              }
-            ]
+            "facesDetected": false,
+            "faces": []
           },
           "exif": {
             "date": "2025-11-24T21:15:50",
@@ -2750,7 +2606,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-24-201550-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 213
             },
             {
               "variant": "pano_detail",
@@ -2858,10 +2714,6 @@
             }
           ],
           "people": [
-            "person-bobo-ea8ebcb0",
-            "person-jaruska-9f5bf07c",
-            "person-jarek-7a7cc561",
-            "person-bobina-78419b17",
             "person-finda-aa8f1097"
           ]
         },
@@ -2883,20 +2735,7 @@
             "qualityBucket": "excellent",
             "phash": "f898b4b49c94c4e4",
             "facesDetected": true,
-            "faces": [
-              {
-                "x": 4876.983460843563,
-                "y": 3392.21995083491,
-                "width": 86.99876809120178,
-                "height": 140.15644375483177
-              },
-              {
-                "x": 4659.5923917889595,
-                "y": 3406.244001468022,
-                "width": 87.53814208507538,
-                "height": 137.48745695749955
-              }
-            ]
+            "faces": []
           },
           "exif": {
             "date": "2025-11-24T22:01:38",
@@ -2969,12 +2808,12 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-24-210138-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": [
-            "person-jaruska-9f5bf07c",
-            "person-bobo-ea8ebcb0"
+            "person-042-86742c32",
+            "person-043-1920694b"
           ]
         },
         {
@@ -2996,18 +2835,6 @@
             "phash": "882b6f9d99391b1b",
             "facesDetected": true,
             "faces": [
-              {
-                "x": 1846.6425590515134,
-                "y": 1214.5004138946533,
-                "width": 124.27518081665038,
-                "height": 183.3581085205077
-              },
-              {
-                "x": 2824.2093658447266,
-                "y": 1087.9981327056882,
-                "width": 144.3368682861328,
-                "height": 219.04843139648446
-              },
               {
                 "x": 3170.6223678588863,
                 "y": 1077.5357837677,
@@ -3087,15 +2914,16 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-24-210141-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-jaruska-9f5bf07c",
-            "person-bobo-ea8ebcb0"
+            "person-042-f954b42a",
+            "person-032-f9303821",
+            "person-042-86742c32"
           ]
         },
         {
@@ -3116,20 +2944,7 @@
             "qualityBucket": "poor",
             "phash": "6df290696d3d3434",
             "facesDetected": true,
-            "faces": [
-              {
-                "x": 1344.8091745376587,
-                "y": 2224.696159362793,
-                "width": 202.81195640563956,
-                "height": 273.8175392150879
-              },
-              {
-                "x": 1779.718160629272,
-                "y": 1836.8796110153198,
-                "width": 213.1805419921875,
-                "height": 299.106240272522
-              }
-            ]
+            "faces": []
           },
           "exif": {
             "date": "2025-11-24T22:02:59",
@@ -3200,7 +3015,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-24-210259-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -3208,8 +3023,8 @@
             "snapshot-author"
           ],
           "people": [
-            "person-jaruska-9f5bf07c",
-            "person-jarek-7a7cc561"
+            "person-042-1e36cbba",
+            "person-036-9430e807"
           ]
         },
         {
@@ -3306,7 +3121,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-24-211848-dasa.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -3403,7 +3218,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-24-215717-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 300
             }
           ],
           "people": []
@@ -3528,7 +3343,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-075730-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 400
             }
           ],
           "people": []
@@ -3640,7 +3455,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-082736-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -3740,7 +3555,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-082811-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -3840,7 +3655,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-082818-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -3938,7 +3753,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-082852-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -4058,9 +3873,9 @@
           "id": "2025-11-25-083005-cebreus",
           "type": "image",
           "src": "2025-11-25-083005-cebreus.heic",
-          "alt": "Katakomby Kom el-Šukafa, poprvé objevené v roce 1900, se skládají ze dvou samostatných komplexů, známých jako „Hlavní katakomby“ a „Caracallova síň“. Tyto podzemní stavby byly vytesány a používány v době, kdy byl Egypt součástí Římské říše. Předpokládá se, že jejich výstavba a užívání započaly na konci 1. století n. l. a následně byly rozšiřovány a zvětšovány až do 4. století n. l.\n\nK oběma komplexům se lze dostat po točitém schodišti (A), které se vine kolem hrobové šachty Hlavních katakomb. Právě touto šachtou byli zesnulí spouštěni na lanech na místo svého pohřbení. Po dosažení horního patra projdete přes zbytky alabastrové podlahy (B) a stanete před kruhovou halou, Rotundou (C). Po levé straně najdete velkou čtvercovou komoru s lavicemi vytesanými do skály. Jedná se o Triclinium (D), kde se pravděpodobně scházely rodiny zesnulých během pohřebních slavností. Zpět v Rotundě (C) najdete další chodby vedoucí do komor. Uvidíte mnoho lokulů (ve skále vytesaných výklenků pro uložení zesnulých), sarkofágy a další hrobky vytesané do podloží. Do Caracallovy síně vede proražený vchod a schodiště (E), které klesá k velkolepé hlavní hrobce (G). Jakmile budete na této prostřední úrovni, nezapomeňte prozkoumat labyrint komor a lokulů, které ji obklopují (H)., Katakomby Kom el Shoqafa, Alexandrie",
+          "alt": "Katakomby Kom el-Šukafa, poprvé objevené v roce 1900, se skládají ze dvou samostatných komplexů, známých jako „Hlavní katakomby“ a „Caracallova síň“. Tyto podzemní stavby byly vytesány a používány v době, kdy byl Egypt součástí Římské říše. Předpokládá se, že jejich výstavba a užívání započaly na konci 1. století n. l. a následně byly rozšiřovány a zvětšovány až do 4. století n. l.\n\nK oběma komplexům se lze dostat po točitém schodišti (A), které se vine kolem hrobové šachty Hlavních katakomb. Právě touto šachtou byli zesnul�� spouštěni na lanech na místo svého pohřbení. Po dosažení horního patra projdete přes zbytky alabastrové podlahy (B) a stanete před kruhovou halou, Rotundou (C). Po levé straně najdete velkou čtvercovou komoru s lavicemi vytesanými do skály. Jedná se o Triclinium (D), kde se pravděpodobně scházely rodiny zesnulých během pohřebních slavností. Zpět v Rotundě (C) najdete další chodby vedoucí do komor. Uvidíte mnoho lokulů (ve skále vytesaných výklenků pro uložení zesnulých), sarkofágy a další hrobky vytesané do podloží. Do Caracallovy síně vede proražený vchod a schodiště (E), které klesá k velkolepé hlavní hrobce (G). Jakmile budete na této prostřední úrovni, nezapomeňte prozkoumat labyrint komor a lokulů, které ji obklopují (H)., Katakomby Kom el Shoqafa, Alexandrie",
           "title": "",
-          "caption": "Katakomby Kom el-Šukafa, poprvé objevené v roce 1900, se skládají ze dvou samostatných komplexů, známých jako „Hlavní katakomby“ a „Caracallova síň“. Tyto podzemní stavby byly vytesány a používány v době, kdy byl Egypt součástí Římské říše. Předpokládá se, že jejich výstavba a užívání započaly na konci 1. století n. l. a následně byly rozšiřovány a zvětšovány až do 4. století n. l.\n\nK oběma komplexům se lze dostat po točitém schodišti (A), které se vine kolem hrobové šachty Hlavních katakomb. Právě touto šachtou byli zesnulí spouštěni na lanech na místo svého pohřbení. Po dosažení horního patra projdete přes zbytky alabastrové podlahy (B) a stanete před kruhovou halou, Rotundou (C). Po levé straně najdete velkou čtvercovou komoru s lavicemi vytesanými do skály. Jedná se o Triclinium (D), kde se pravděpodobně scházely rodiny zesnulých během pohřebních slavností. Zpět v Rotundě (C) najdete další chodby vedoucí do komor. Uvidíte mnoho lokulů (ve skále vytesaných výklenků pro uložení zesnulých), sarkofágy a další hrobky vytesané do podloží. Do Caracallovy síně vede proražený vchod a schodiště (E), které klesá k velkolepé hlavní hrobce (G). Jakmile budete na této prostřední úrovni, nezapomeňte prozkoumat labyrint komor a lokulů, které ji obklopují (H).",
+          "caption": "Katakomby Kom el-Šukafa, poprvé objevené v roce 1900, se skládají ze dvou samostatných komplexů, známých jako „Hlavní katakomby“ a „Caracallova síň“. Tyto podzemní stavby byly vytesány a používány v době, kdy byl Egypt součástí Římské říše. Předpokládá se, že jejich výstavba a užívání započaly na konci 1. století n. l. a následně byly rozšiřovány a zvětšovány až do 4. století n. l.\n\nK oběma komplexům se lze dostat po točitém schodišti (A), které se vine kolem hrobové šachty Hlavních katakomb. Právě touto šachtou byli zesnul�� spouštěni na lanech na místo svého pohřbení. Po dosažení horního patra projdete přes zbytky alabastrové podlahy (B) a stanete před kruhovou halou, Rotundou (C). Po levé straně najdete velkou čtvercovou komoru s lavicemi vytesanými do skály. Jedná se o Triclinium (D), kde se pravděpodobně scházely rodiny zesnulých během pohřebních slavností. Zpět v Rotundě (C) najdete další chodby vedoucí do komor. Uvidíte mnoho lokulů (ve skále vytesaných výklenků pro uložení zesnulých), sarkofágy a další hrobky vytesané do podloží. Do Caracallovy síně vede proražený vchod a schodiště (E), které klesá k velkolepé hlavní hrobce (G). Jakmile budete na této prostřední úrovni, nezapomeňte prozkoumat labyrint komor a lokulů, které ji obklopují (H).",
           "width": 8064,
           "height": 6048,
           "sizeMB": 5.06,
@@ -4149,7 +3964,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-083005-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -4698,7 +4513,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-084606-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -4797,7 +4612,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-084614-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -4895,7 +4710,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-084943-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -4994,7 +4809,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-085235-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -5094,7 +4909,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-085626-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -5288,7 +5103,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-090636-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -5498,7 +5313,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-092814-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -5599,7 +5414,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-093002-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -5698,7 +5513,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-093034-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -5798,7 +5613,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-093351-dasa.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -5823,12 +5638,6 @@
             "phash": "60820223091b89ec",
             "facesDetected": true,
             "faces": [
-              {
-                "x": 2161.0761108398438,
-                "y": 1584.5262794494624,
-                "width": 466.03090667724604,
-                "height": 572.9867591857912
-              },
               {
                 "x": 3173.8802261352535,
                 "y": 2303.6151008605952,
@@ -5911,12 +5720,12 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-093419-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": [
-            "person-jarek-7a7cc561",
-            "person-jaruska-9f5bf07c"
+            "person-jaruska-9f5bf07c",
+            "person-032-5441d092"
           ]
         },
         {
@@ -6012,7 +5821,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-093710-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -6036,20 +5845,7 @@
             "qualityBucket": "poor",
             "phash": "1099e5e4dcd84836",
             "facesDetected": true,
-            "faces": [
-              {
-                "x": 1652.6465435028074,
-                "y": 1243.310565948486,
-                "width": 102.26589202880858,
-                "height": 147.6302947998047
-              },
-              {
-                "x": 1963.7947196960447,
-                "y": 1264.7386264801023,
-                "width": 104.52255249023436,
-                "height": 153.22219848632812
-              }
-            ]
+            "faces": []
           },
           "exif": {
             "date": "2025-11-25T10:40:25",
@@ -6125,15 +5921,15 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-094025-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-jaruska-9f5bf07c",
-            "person-bobo-ea8ebcb0"
+            "person-048-b54294a6",
+            "statue-013-29266185"
           ]
         },
         {
@@ -6230,7 +6026,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-094206-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -6254,12 +6050,6 @@
             "phash": "8c9c9c3cf19a3a65",
             "facesDetected": true,
             "faces": [
-              {
-                "x": 3284.956226348876,
-                "y": 3725.0429878234863,
-                "width": 515.8028869628911,
-                "height": 703.1482429504395
-              },
               {
                 "x": 1656.304183959961,
                 "y": 3155.859386444092,
@@ -6341,7 +6131,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-094825-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -6349,8 +6139,8 @@
             "snapshot-author"
           ],
           "people": [
-            "person-jaruska-9f5bf07c",
-            "statue-003-ad584df0"
+            "statue-003-ad584df0",
+            "person-033-5d90e859"
           ]
         },
         {
@@ -6793,7 +6583,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-101952-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -6990,7 +6780,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-112544-bobina.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -7186,7 +6976,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-113601-bobina.jpeg",
-              "width": 534,
+              "width": 373,
               "height": 534
             }
           ],
@@ -7293,7 +7083,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-104058-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "flags": [
@@ -7433,12 +7223,6 @@
             "facesDetected": true,
             "faces": [
               {
-                "x": 2252.1536293029785,
-                "y": 1183.9289131164549,
-                "width": 118.9214401245117,
-                "height": 171.03107070922852
-              },
-              {
                 "x": 1954.044696807861,
                 "y": 1156.1854476928709,
                 "width": 118.11682891845702,
@@ -7540,7 +7324,6 @@
             ]
           },
           "people": [
-            "person-bobo-ea8ebcb0",
             "person-jaruska-9f5bf07c"
           ]
         },
@@ -7638,7 +7421,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-110638-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -7750,7 +7533,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-112118-dasa.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -7850,7 +7633,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-112858-finda.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -7956,7 +7739,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-112457-dasa.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -8059,7 +7842,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-112911-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 300
             }
           ],
           "people": []
@@ -8170,7 +7953,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-135255-bobina.jpeg",
               "width": 534,
-              "height": 534
+              "height": 355
             }
           ],
           "people": []
@@ -8276,7 +8059,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-133713-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "flags": [
@@ -8380,7 +8163,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-131320-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -8478,7 +8261,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-131147-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -8577,7 +8360,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-131217-dasa.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -8676,7 +8459,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-131142-dasa.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -8775,7 +8558,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-132137-dasa.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -8873,7 +8656,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-133004-dasa.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -8985,7 +8768,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-145714-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -9195,7 +8978,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-150525-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -9294,7 +9077,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-150559-dasa.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -9392,7 +9175,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-150836-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -9491,7 +9274,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-151216-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -9598,7 +9381,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-151454-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "flags": [
@@ -9702,7 +9485,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-151616-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -9806,7 +9589,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-152350-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": [
@@ -9906,7 +9689,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-152518-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -10004,7 +9787,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-154350-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -10034,12 +9817,6 @@
                 "y": 367.82538890838623,
                 "width": 35.16960144042969,
                 "height": 55.33912181854248
-              },
-              {
-                "x": 1030.058479309082,
-                "y": 464.56127166748047,
-                "width": 56.95934295654297,
-                "height": 81.50796890258786
               },
               {
                 "x": 1494.731616973877,
@@ -10125,14 +9902,13 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-174738-bobo.jpeg",
               "width": 534,
-              "height": 534
+              "height": 300
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-dasa-264acc31",
             "person-finda-aa8f1097"
           ]
         },
@@ -10194,18 +9970,6 @@
                 "y": 429.24153959751123,
                 "width": 211.10957430303097,
                 "height": 235.27740311622617
-              },
-              {
-                "x": 1598.79485809803,
-                "y": 579.3300419648486,
-                "width": 207.89680814743042,
-                "height": 256.7538573741913
-              },
-              {
-                "x": 1167.4307468533516,
-                "y": 415.3335105776786,
-                "width": 185.17698323726654,
-                "height": 195.59218841791153
               }
             ]
           },
@@ -10289,14 +10053,13 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-081544-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 400
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-bobo-ea8ebcb0",
             "person-dasa-264acc31"
           ]
         },
@@ -10324,12 +10087,6 @@
                 "y": 443.87913048267365,
                 "width": 122.49989390373231,
                 "height": 170.64604242642716
-              },
-              {
-                "x": 688.0980443954469,
-                "y": 365.5037607749303,
-                "width": 124.97337472438814,
-                "height": 163.35452179114026
               }
             ]
           },
@@ -10413,14 +10170,13 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-081434-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-finda-aa8f1097",
             "person-bobina-78419b17"
           ]
         },
@@ -10442,26 +10198,7 @@
             "qualityBucket": "excellent",
             "phash": "072f2f2626876411",
             "facesDetected": true,
-            "faces": [
-              {
-                "x": 620.6089557409286,
-                "y": 262.0835452079773,
-                "width": 107.79588460922241,
-                "height": 126.3834754625956
-              },
-              {
-                "x": 1065.500061750412,
-                "y": 435.7338420550028,
-                "width": 104.51458168029785,
-                "height": 141.59438705444336
-              },
-              {
-                "x": 841.3316012620926,
-                "y": 315.92187420527137,
-                "width": 96.31970357894897,
-                "height": 117.50404405593872
-              }
-            ]
+            "faces": []
           },
           "clap": {
             "width": 1562,
@@ -10538,15 +10275,15 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-091503-bobina.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "flags": [
             "snapshot-author"
           ],
           "people": [
-            "person-jarek-7a7cc561",
-            "person-jaruska-9f5bf07c"
+            "person-036-9430e807",
+            "person-048-b54294a6"
           ]
         },
         {
@@ -10643,7 +10380,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-080112-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -11069,7 +10806,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-080508-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -11175,7 +10912,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-080834-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "flags": [
@@ -11209,18 +10946,6 @@
                 "y": 158.87262984941592,
                 "width": 102.81925201416017,
                 "height": 133.59131708684956
-              },
-              {
-                "x": 1007.9767227172853,
-                "y": 304.9507488034806,
-                "width": 119.38972473144533,
-                "height": 137.4262921315319
-              },
-              {
-                "x": 552.7316093444824,
-                "y": 260.29339210942106,
-                "width": 106.98022842407228,
-                "height": 127.59599404964807
               }
             ]
           },
@@ -11293,15 +11018,13 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-082507-bobo.jpeg",
               "width": 534,
-              "height": 534
+              "height": 442
             }
           ],
           "flags": [
             "snapshot-author"
           ],
           "people": [
-            "person-jarek-7a7cc561",
-            "person-jaruska-9f5bf07c",
             "person-dasa-264acc31"
           ]
         },
@@ -11329,36 +11052,6 @@
                 "y": 359.78865376456844,
                 "width": 58.839225769042976,
                 "height": 74.44070230881562
-              },
-              {
-                "x": 1091.391658782959,
-                "y": 346.37332689343344,
-                "width": 53.18317413330079,
-                "height": 80.06391688755588
-              },
-              {
-                "x": 1267.2021865844727,
-                "y": 266.13763970904387,
-                "width": 70.44906616210938,
-                "height": 81.51043618981673
-              },
-              {
-                "x": 990.2694702148439,
-                "y": 381.8541822589812,
-                "width": 63.93146514892579,
-                "height": 88.85497396500384
-              },
-              {
-                "x": 1202.5202751159668,
-                "y": 380.1526274133901,
-                "width": 65.92388153076172,
-                "height": 90.28372556878475
-              },
-              {
-                "x": 1351.405429840088,
-                "y": 363.87472425188344,
-                "width": 80.24005889892578,
-                "height": 87.10923804611457
               }
             ]
           },
@@ -11431,18 +11124,13 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-092606-bobo.jpeg",
               "width": 534,
-              "height": 534
+              "height": 445
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-finda-aa8f1097",
-            "person-dasa-264acc31",
-            "person-jarek-7a7cc561",
-            "person-bobo-ea8ebcb0",
-            "person-jaruska-9f5bf07c",
             "person-bobina-78419b17"
           ]
         },
@@ -11538,7 +11226,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-080555-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 128
             },
             {
               "variant": "pano_detail",
@@ -11751,7 +11439,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-082550-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 135
             },
             {
               "variant": "pano_detail",
@@ -11851,7 +11539,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-081049-dasa.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -11951,7 +11639,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-085933-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -12050,7 +11738,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-085943-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 250
             }
           ],
           "people": []
@@ -12079,30 +11767,6 @@
                 "y": 1616.128898620605,
                 "width": 76.9028549194336,
                 "height": 109.38266372680674
-              },
-              {
-                "x": 1256.8344268798828,
-                "y": 1563.011581420898,
-                "width": 80.27703094482422,
-                "height": 117.8510284423828
-              },
-              {
-                "x": 1097.789011001587,
-                "y": 1602.3504123687742,
-                "width": 79.58393096923828,
-                "height": 116.30717468261707
-              },
-              {
-                "x": 1725.813652038574,
-                "y": 1592.2700614929197,
-                "width": 80.42194747924805,
-                "height": 121.8430824279785
-              },
-              {
-                "x": 1583.3828086853025,
-                "y": 1621.3154926300047,
-                "width": 81.22319412231445,
-                "height": 112.94357299804697
               },
               {
                 "x": 1430.794589996338,
@@ -12186,15 +11850,11 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-090727-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": [
-            "person-bobo-ea8ebcb0",
-            "person-dasa-264acc31",
-            "person-jaruska-9f5bf07c",
-            "person-bobina-78419b17",
-            "person-finda-aa8f1097"
+            "person-bobo-ea8ebcb0"
           ]
         },
         {
@@ -12215,14 +11875,7 @@
             "qualityBucket": "good",
             "phash": "9696723409071f1f",
             "facesDetected": true,
-            "faces": [
-              {
-                "x": 2539.000888824463,
-                "y": 2772.121845245361,
-                "width": 594.4779052734375,
-                "height": 834.5644683837892
-              }
-            ]
+            "faces": []
           },
           "exif": {
             "date": "2025-11-26T10:15:02",
@@ -12298,11 +11951,11 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-091502-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": [
-            "person-jaruska-9f5bf07c"
+            "person-033-5d90e859"
           ]
         },
         {
@@ -12323,14 +11976,7 @@
             "qualityBucket": "excellent",
             "phash": "caccc8dbb1b32f9f",
             "facesDetected": true,
-            "faces": [
-              {
-                "x": 4128.33512878418,
-                "y": 2689.6417465209956,
-                "width": 484.2288665771484,
-                "height": 631.4635848999021
-              }
-            ]
+            "faces": []
           },
           "exif": {
             "date": "2025-11-26T10:21:10",
@@ -12406,11 +12052,11 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-092110-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": [
-            "person-jaruska-9f5bf07c"
+            "person-033-5d90e859"
           ]
         },
         {
@@ -12506,7 +12152,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-084453-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -12605,7 +12251,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-091556-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -12705,7 +12351,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-093233-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 356
             }
           ],
           "people": []
@@ -12811,7 +12457,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-095057-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "flags": [
@@ -12915,7 +12561,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-095210-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "flags": [
@@ -12941,14 +12587,7 @@
             "qualityBucket": "excellent",
             "phash": "eba5383894946058",
             "facesDetected": true,
-            "faces": [
-              {
-                "x": 1570.5933837890623,
-                "y": 1263.4849662780762,
-                "width": 303.61191558837896,
-                "height": 506.1727867126465
-              }
-            ]
+            "faces": []
           },
           "exif": {
             "date": "2025-11-26T10:51:24",
@@ -13018,12 +12657,12 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-095124-dasa.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
           "people": [
-            "statue-001-7753c8e5"
+            "statue-014-29266190"
           ]
         },
         {
@@ -13045,24 +12684,6 @@
             "phash": "8c8cb99d646c6c6d",
             "facesDetected": true,
             "faces": [
-              {
-                "x": 2138.806686401367,
-                "y": 1294.6268441677094,
-                "width": 266.8904571533203,
-                "height": 379.3432219028473
-              },
-              {
-                "x": 3440.8023376464844,
-                "y": 1332.2972258726754,
-                "width": 285.77197265625,
-                "height": 346.4744305610657
-              },
-              {
-                "x": 1448.9000244140625,
-                "y": 1220.9724206129708,
-                "width": 282.8042907714844,
-                "height": 365.4711671670279
-              },
               {
                 "x": 727.7496871948242,
                 "y": 1113.2885764042535,
@@ -13157,17 +12778,18 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-095535-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-dasa-264acc31",
-            "person-finda-aa8f1097",
-            "person-bobo-ea8ebcb0",
-            "person-jaruska-9f5bf07c"
+            "person-jaruska-9f5bf07c",
+            "person-050-dce33c50",
+            "person-038-fc732428",
+            "person-051-c7208233",
+            "person-032-f9303821"
           ]
         },
         {
@@ -13189,48 +12811,6 @@
             "phash": "9edc4c298808110c",
             "facesDetected": true,
             "faces": [
-              {
-                "x": 1399.995620727539,
-                "y": 2539.133068084717,
-                "width": 285.2010269165039,
-                "height": 352.0673904418943
-              },
-              {
-                "x": 5721.040901184082,
-                "y": 3139.1327018737784,
-                "width": 756.5825500488281,
-                "height": 899.9569129943847
-              },
-              {
-                "x": 4558.754058837891,
-                "y": 3048.0768127441397,
-                "width": 646.257568359375,
-                "height": 813.2538070678714
-              },
-              {
-                "x": 2890.751049041748,
-                "y": 2489.0880775451656,
-                "width": 581.2061462402344,
-                "height": 773.383735656738
-              },
-              {
-                "x": 3558.6122360229488,
-                "y": 3206.460010528564,
-                "width": 593.9467849731445,
-                "height": 659.4947204589839
-              },
-              {
-                "x": 2227.4526901245117,
-                "y": 2972.62047958374,
-                "width": 522.7838745117188,
-                "height": 592.0544586181643
-              },
-              {
-                "x": 1831.167011260986,
-                "y": 2592.950214385986,
-                "width": 306.54845809936523,
-                "height": 374.7056121826171
-              },
               {
                 "x": 630.070595741272,
                 "y": 2442.0481224060054,
@@ -13313,19 +12893,19 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-095929-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-finda-aa8f1097",
-            "person-jaruska-9f5bf07c",
-            "person-dasa-264acc31",
-            "person-bobo-ea8ebcb0",
-            "person-bobina-78419b17",
-            "person-013-53d772a8"
+            "person-046-462733c6",
+            "person-052-572ee260",
+            "person-050-dce33c50",
+            "person-032-f9303821",
+            "person-040-6baf723b",
+            "person-053-39af8d81"
           ]
         },
         {
@@ -13352,18 +12932,6 @@
                 "y": 1655.0925807952879,
                 "width": 895.749526977539,
                 "height": 1202.1620807647703
-              },
-              {
-                "x": 2231.4630088806152,
-                "y": 3018.316772460937,
-                "width": 365.46988677978516,
-                "height": 521.3553771972659
-              },
-              {
-                "x": 4211.448486328125,
-                "y": 3146.57583618164,
-                "width": 924.9616241455077,
-                "height": 1382.4686508178706
               },
               {
                 "x": 3788.3272933959956,
@@ -13447,16 +13015,14 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-100007-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "flags": [
             "snapshot-author"
           ],
           "people": [
-            "person-jarek-7a7cc561",
-            "statue-009-29266176",
-            "person-jaruska-9f5bf07c"
+            "statue-009-29266176"
           ]
         },
         {
@@ -13560,7 +13126,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-100538-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": [
@@ -13659,7 +13225,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-100151-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 229
             },
             {
               "variant": "pano_detail",
@@ -13705,12 +13271,6 @@
                 "y": 491.67518520355213,
                 "width": 405.3928298950195,
                 "height": 503.40423202514637
-              },
-              {
-                "x": 3328.640029907226,
-                "y": 905.2254581451415,
-                "width": 356.7470169067383,
-                "height": 494.28001785278315
               }
             ]
           },
@@ -13787,7 +13347,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-113457-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": [
@@ -13985,7 +13545,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-114357-bobina.jpeg",
-              "width": 534,
+              "width": 513,
               "height": 534
             }
           ],
@@ -14019,14 +13579,7 @@
             "qualityBucket": "poor",
             "phash": "1a581d9d111b1800",
             "facesDetected": true,
-            "faces": [
-              {
-                "x": 5060.146522521973,
-                "y": 2838.3847503662105,
-                "width": 316.8408966064453,
-                "height": 538.7886199951171
-              }
-            ]
+            "faces": []
           },
           "exif": {
             "date": "2025-11-26T13:13:46",
@@ -14102,14 +13655,14 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-121346-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-bobo-ea8ebcb0"
+            "person-032-f9303821"
           ]
         },
         {
@@ -14130,14 +13683,7 @@
             "qualityBucket": "poor",
             "phash": "1b580c0cb30b1e00",
             "facesDetected": true,
-            "faces": [
-              {
-                "x": 4414.386909484863,
-                "y": 2557.6136512756343,
-                "width": 402.3257904052734,
-                "height": 556.2593536376952
-              }
-            ]
+            "faces": []
           },
           "exif": {
             "date": "2025-11-26T13:13:58",
@@ -14213,14 +13759,14 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-121358-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-dasa-264acc31"
+            "person-050-dce33c50"
           ]
         },
         {
@@ -14324,7 +13870,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-121411-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "flags": [
@@ -14352,14 +13898,7 @@
             "qualityBucket": "poor",
             "phash": "1b181999911b1c00",
             "facesDetected": true,
-            "faces": [
-              {
-                "x": 4989.870895385742,
-                "y": 3062.506462097167,
-                "width": 371.7755584716797,
-                "height": 553.6330718994141
-              }
-            ]
+            "faces": []
           },
           "exif": {
             "date": "2025-11-26T13:14:22",
@@ -14435,14 +13974,14 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-121422-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "flags": [
             "snapshot-author"
           ],
           "people": [
-            "person-jaruska-9f5bf07c"
+            "person-033-5d90e859"
           ]
         },
         {
@@ -14538,7 +14077,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-121518-dasa.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -14561,15 +14100,8 @@
             "sharpness": 100,
             "qualityBucket": "poor",
             "phash": "35b53c040e4d59fc",
-            "facesDetected": true,
-            "faces": [
-              {
-                "x": 2303.5038299560547,
-                "y": 3276.839458465576,
-                "width": 64.58567047119129,
-                "height": 90.75379943847656
-              }
-            ]
+            "facesDetected": false,
+            "faces": []
           },
           "exif": {
             "date": "2025-11-26T13:17:47",
@@ -14644,7 +14176,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-131747-bobina.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -14744,7 +14276,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-122029-dasa.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -14843,7 +14375,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-123437-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -15048,7 +14580,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-125334-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -15150,7 +14682,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-125359-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -15250,7 +14782,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-125421-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -15350,7 +14882,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-125706-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -15463,11 +14995,13 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-125755-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
-          "people": []
+          "people": [
+            "statue-011-29266177"
+          ]
         },
         {
           "id": "2025-11-26-125848-cebreus",
@@ -15564,7 +15098,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-125848-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 400
             }
           ],
           "people": []
@@ -15662,7 +15196,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-125931-dasa.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -15762,7 +15296,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-130017-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -15862,7 +15396,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-130323-cebreus.jpeg",
-              "width": 534,
+              "width": 400,
               "height": 534
             }
           ],
@@ -15963,7 +15497,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-130440-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -16062,7 +15596,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-130515-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -16175,7 +15709,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-130603-cebreus.jpeg",
-              "width": 534,
+              "width": 400,
               "height": 534
             }
           ],
@@ -16277,7 +15811,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-130753-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -16376,7 +15910,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-131110-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -16476,7 +16010,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-131135-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -16576,7 +16110,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-131155-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -16676,7 +16210,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-131935-dasa.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -16706,12 +16240,6 @@
                 "y": 422.66815392176306,
                 "width": 509.6397336125374,
                 "height": 757.7115812301636
-              },
-              {
-                "x": 4491.386280298233,
-                "y": 1634.6556736628213,
-                "width": 221.06615579128265,
-                "height": 252.71117401123047
               }
             ]
           },
@@ -16789,11 +16317,10 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-132422-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 400
             }
           ],
           "people": [
-            "statue-005-5cd897f4",
             "statue-010-29266177"
           ]
         },
@@ -16890,7 +16417,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-132537-cebreus.jpeg",
-              "width": 534,
+              "width": 400,
               "height": 534
             }
           ],
@@ -16991,7 +16518,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-133422-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -17015,12 +16542,6 @@
             "phash": "01077c6a28387027",
             "facesDetected": true,
             "faces": [
-              {
-                "x": 2573.7748489379883,
-                "y": 995.480761528015,
-                "width": 127.53279876708983,
-                "height": 189.56686878204343
-              },
               {
                 "x": 1975.2456493377683,
                 "y": 779.2081546783446,
@@ -17115,10 +16636,12 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-133231-dasa.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
-          "people": []
+          "people": [
+            "person-054-06dca020"
+          ]
         },
         {
           "id": "2025-11-26-133202-dasa",
@@ -17139,24 +16662,6 @@
             "phash": "c96bb6ec70718e8e",
             "facesDetected": true,
             "faces": [
-              {
-                "x": 145.0973196029663,
-                "y": 412.7782859802246,
-                "width": 176.1613082885742,
-                "height": 337.21741104125977
-              },
-              {
-                "x": 513.2847518920898,
-                "y": 698.2274494171143,
-                "width": 67.58782196044919,
-                "height": 112.74542427062988
-              },
-              {
-                "x": 2727.409446716308,
-                "y": 539.4840030670166,
-                "width": 142.51375579833996,
-                "height": 263.13742446899414
-              },
               {
                 "x": 2603.5012435913086,
                 "y": 609.5984916687012,
@@ -17238,7 +16743,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-133202-dasa.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -17338,7 +16843,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-133722-cebreus.jpeg",
-              "width": 534,
+              "width": 400,
               "height": 534
             }
           ],
@@ -17369,12 +16874,6 @@
                 "y": 3238.2157173156734,
                 "width": 188.39053344726562,
                 "height": 289.9364089965818
-              },
-              {
-                "x": 2405.4621047973633,
-                "y": 3022.1557388305664,
-                "width": 213.5843811035156,
-                "height": 328.4899749755857
               },
               {
                 "x": 3753.4103393554683,
@@ -17503,7 +17002,6 @@
           },
           "people": [
             "statue-001-7753c8e5",
-            "person-004-6843a14c",
             "person-022-4332240f"
           ]
         },
@@ -17705,18 +17203,6 @@
                 "y": 3139.7912187576294,
                 "width": 106.56512399514519,
                 "height": 188.64051413536072
-              },
-              {
-                "x": 333.20200959841407,
-                "y": 3077.8254469633102,
-                "width": 122.40010341008508,
-                "height": 210.14729714393616
-              },
-              {
-                "x": 546.3781384627024,
-                "y": 2705.6110023260117,
-                "width": 107.55328178405763,
-                "height": 159.61179304122925
               }
             ]
           },
@@ -17799,12 +17285,11 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-135431-cebreus.jpeg",
-              "width": 534,
+              "width": 400,
               "height": 534
             }
           ],
           "people": [
-            "person-016-e2df08b4",
             "statue-011-29266177"
           ]
         },
@@ -18004,7 +17489,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-164810-bobo.jpeg",
-              "width": 534,
+              "width": 300,
               "height": 534
             }
           ],
@@ -18105,7 +17590,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-140324-dasa.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -18208,11 +17693,7 @@
             }
           ],
           "people": [
-            "statue-014-29266190",
-            "statue-002-fff4ed46",
-            "statue-006-c0482f6e",
-            "statue-007-c3aaf5b2",
-            "statue-008-779378f3"
+            "statue-014-29266190"
           ]
         },
         {
@@ -18309,7 +17790,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-142032-dasa.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -18415,7 +17896,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-142128-dasa.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -18514,7 +17995,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-142225-dasa.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -18612,7 +18093,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-164839-bobina.jpeg",
-              "width": 534,
+              "width": 368,
               "height": 534
             }
           ],
@@ -18711,7 +18192,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-164901-bobo.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -18802,7 +18283,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-164905-bobina.jpeg",
-              "width": 534,
+              "width": 407,
               "height": 534
             }
           ],
@@ -18999,7 +18480,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-155357-cebreus.jpeg",
-              "width": 534,
+              "width": 400,
               "height": 534
             }
           ],
@@ -19099,7 +18580,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-140307-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -19221,15 +18702,8 @@
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "635d55423286bcf2",
-            "facesDetected": true,
-            "faces": [
-              {
-                "x": 2575.77832365036,
-                "y": 3212.7644934654236,
-                "width": 88.62581062316895,
-                "height": 131.85120391845703
-              }
-            ]
+            "facesDetected": false,
+            "faces": []
           },
           "exif": {
             "date": "2025-11-26T16:30:58",
@@ -19305,7 +18779,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-153058-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -19423,10 +18897,12 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-161403-dasa.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
-          "people": []
+          "people": [
+            "statue-011-29266177"
+          ]
         },
         {
           "id": "2025-11-26-192016-cebreus",
@@ -19446,14 +18922,7 @@
             "qualityBucket": "good",
             "phash": "61934565e2cec299",
             "facesDetected": true,
-            "faces": [
-              {
-                "x": 1704.4312534332275,
-                "y": 1449.5227088928223,
-                "width": 177.4566650390626,
-                "height": 261.9850616455078
-              }
-            ]
+            "faces": []
           },
           "exif": {
             "date": "2025-11-26T20:20:16",
@@ -19524,7 +18993,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-192016-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -19532,7 +19001,7 @@
             "snapshot-author"
           ],
           "people": [
-            "person-jaruska-9f5bf07c"
+            "person-056-9979834b"
           ]
         },
         {
@@ -19624,9 +19093,7 @@
               "height": 534
             }
           ],
-          "people": [
-            "person-finda-aa8f1097"
-          ]
+          "people": []
         }
       ],
       "id": "day-2025-11-26"
@@ -19736,7 +19203,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-051203-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -19958,14 +19425,7 @@
             "qualityBucket": "good",
             "phash": "c363b239b1313007",
             "facesDetected": true,
-            "faces": [
-              {
-                "x": 2462.044200897217,
-                "y": 3886.752536773681,
-                "width": 189.74260711669922,
-                "height": 266.8687248229978
-              }
-            ]
+            "faces": []
           },
           "exif": {
             "date": "2025-11-27T13:50:51",
@@ -20041,11 +19501,11 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-135051-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": [
-            "person-011-10985d6a"
+            "person-058-4317c82a"
           ]
         },
         {
@@ -20142,7 +19602,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-135056-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 400
             }
           ],
           "people": []
@@ -20241,7 +19701,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-135120-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -20438,7 +19898,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-135909-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -20537,7 +19997,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-140006-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -20636,7 +20096,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-135303-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -20735,7 +20195,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-140844-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -20833,7 +20293,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-135335-bobina.jpeg",
-              "width": 534,
+              "width": 530,
               "height": 534
             }
           ],
@@ -20933,7 +20393,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-135919-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -21032,7 +20492,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-142158-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -21130,7 +20590,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-142139-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -21230,7 +20690,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-142312-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -21328,7 +20788,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-143100-bobina.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -21427,7 +20887,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-143115-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -21526,7 +20986,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-143516-bobina.jpeg",
-              "width": 534,
+              "width": 427,
               "height": 534
             }
           ],
@@ -21626,7 +21086,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-143612-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -21725,7 +21185,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-144008-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -21824,7 +21284,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-144030-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -21923,7 +21383,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-144146-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -22021,7 +21481,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-144202-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -22121,7 +21581,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-144656-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -22220,7 +21680,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-150623-bobina.jpeg",
               "width": 534,
-              "height": 534
+              "height": 448
             }
           ],
           "people": []
@@ -22243,14 +21703,7 @@
             "qualityBucket": "good",
             "phash": "07271b61621e3e3e",
             "facesDetected": true,
-            "faces": [
-              {
-                "x": 2788.7910919189453,
-                "y": 2893.1557502746577,
-                "width": 791.7590560913085,
-                "height": 1140.2674598693848
-              }
-            ]
+            "faces": []
           },
           "exif": {
             "date": "2025-11-27T15:07:55",
@@ -22326,11 +21779,11 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-150755-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": [
-            "person-jaruska-9f5bf07c"
+            "person-042-1e36cbba"
           ]
         },
         {
@@ -22427,7 +21880,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-150755-bobina.jpeg",
               "width": 534,
-              "height": 534
+              "height": 474
             }
           ],
           "people": []
@@ -22526,7 +21979,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-150836-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -22624,7 +22077,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-151010-cebreus.jpeg",
-              "width": 534,
+              "width": 400,
               "height": 534
             }
           ],
@@ -22724,7 +22177,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-151031-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -22822,7 +22275,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-151219-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -22921,7 +22374,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-151303-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -23021,7 +22474,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-151336-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -23119,7 +22572,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-151354-bobina.jpeg",
-              "width": 534,
+              "width": 474,
               "height": 534
             }
           ],
@@ -23219,7 +22672,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-151409-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -23242,14 +22695,7 @@
             "qualityBucket": "good",
             "phash": "6a3a3a181978cecf",
             "facesDetected": true,
-            "faces": [
-              {
-                "x": 2052.6487426757812,
-                "y": 2387.406898498535,
-                "width": 135.50104522705067,
-                "height": 187.1821746826172
-              }
-            ]
+            "faces": []
           },
           "exif": {
             "date": "2025-11-27T15:17:03",
@@ -23324,12 +22770,12 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-151703-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
           "people": [
-            "person-jaruska-9f5bf07c"
+            "person-048-b54294a6"
           ]
         },
         {
@@ -23436,7 +22882,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-155421-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -23534,7 +22980,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-155516-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -23634,7 +23080,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-155553-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -23733,7 +23179,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-160718-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -23831,7 +23277,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-160752-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -24353,7 +23799,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-160318-bobina.jpeg",
               "width": 534,
-              "height": 534
+              "height": 379
             }
           ],
           "people": []
@@ -24377,12 +23823,6 @@
             "phash": "68649349c5cdc9c3",
             "facesDetected": true,
             "faces": [
-              {
-                "x": 1346.9168062210083,
-                "y": 3302.1306767463684,
-                "width": 147.44350687662757,
-                "height": 212.47973155975342
-              },
               {
                 "x": 666.9577983220418,
                 "y": 3120.573154449463,
@@ -24476,11 +23916,14 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-160841-cebreus.jpeg",
-              "width": 534,
+              "width": 400,
               "height": 534
             }
           ],
-          "people": []
+          "people": [
+            "person-004-6843a14c",
+            "statue-011-29266177"
+          ]
         },
         {
           "id": "2025-11-27-161031-cebreus",
@@ -24575,7 +24018,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-161031-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -24675,7 +24118,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-161454-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -24774,7 +24217,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-161608-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -24873,7 +24316,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-163413-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -24972,7 +24415,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-163442-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -25099,24 +24542,6 @@
                 "height": 123.65970611572266
               },
               {
-                "x": 2019.6128196716309,
-                "y": 2398.6217079162598,
-                "width": 79.89875793457031,
-                "height": 119.09687805175781
-              },
-              {
-                "x": 1178.3134574890137,
-                "y": 2408.908618927002,
-                "width": 80.11889648437494,
-                "height": 121.98126983642578
-              },
-              {
-                "x": 1378.4701080322266,
-                "y": 2434.748462677002,
-                "width": 68.27803802490234,
-                "height": 116.67343139648438
-              },
-              {
                 "x": 1566.0949630737305,
                 "y": 2455.882484436035,
                 "width": 71.3349838256836,
@@ -25197,15 +24622,12 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-164753-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
           "people": [
-            "person-bobina-78419b17",
-            "person-dasa-264acc31",
-            "person-bobo-ea8ebcb0",
-            "person-finda-aa8f1097"
+            "person-bobina-78419b17"
           ]
         },
         {
@@ -25228,34 +24650,10 @@
             "facesDetected": true,
             "faces": [
               {
-                "x": 2435.643946647644,
-                "y": 2057.068749189377,
-                "width": 182.316974401474,
-                "height": 253.65202124913503
-              },
-              {
                 "x": 2991.2212841510773,
                 "y": 1998.8458118438718,
                 "width": 177.527822971344,
                 "height": 299.7989250818887
-              },
-              {
-                "x": 3550.297569990158,
-                "y": 1838.70731083552,
-                "width": 252.881019115448,
-                "height": 346.17467657725
-              },
-              {
-                "x": 1832.3022659420967,
-                "y": 1910.2723700205481,
-                "width": 255.27195703983307,
-                "height": 314.23208951950073
-              },
-              {
-                "x": 1356.6430971622467,
-                "y": 1908.9779409567511,
-                "width": 239.4800045490265,
-                "height": 324.33988157908107
               }
             ]
           },
@@ -25333,15 +24731,15 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-164805-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 400
             }
           ],
           "people": [
-            "person-bobina-78419b17",
             "person-jaruska-9f5bf07c",
-            "person-dasa-264acc31",
-            "person-finda-aa8f1097",
-            "person-bobo-ea8ebcb0"
+            "person-042-f954b42a",
+            "person-038-21822f38",
+            "person-046-462733c6",
+            "person-043-1920694b"
           ]
         },
         {
@@ -25438,7 +24836,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-161227-dasa.jpeg",
               "width": 534,
-              "height": 534
+              "height": 445
             }
           ],
           "people": []
@@ -25543,7 +24941,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-170359-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -25639,7 +25037,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-162535-dasa.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -25739,7 +25137,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-162603-dasa.jpeg",
               "width": 534,
-              "height": 534
+              "height": 461
             }
           ],
           "people": []
@@ -25763,12 +25161,6 @@
             "phash": "656d78aeed6dcede",
             "facesDetected": true,
             "faces": [
-              {
-                "x": 3352.9749526977535,
-                "y": 587.4195928573607,
-                "width": 102.00009155273436,
-                "height": 141.8582668304444
-              },
               {
                 "x": 3879.982555389404,
                 "y": 726.9198417663573,
@@ -25867,7 +25259,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-172835-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": [
@@ -25965,7 +25357,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-173120-cebreus.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -26159,7 +25551,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-181255-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -26188,12 +25580,6 @@
                 "y": 975.1154642278498,
                 "width": 108.4086709022522,
                 "height": 142.28600699684827
-              },
-              {
-                "x": 1539.2203857898712,
-                "y": 1019.8713589754972,
-                "width": 87.92292022705078,
-                "height": 115.18788896040492
               },
               {
                 "x": 1517.4874198436737,
@@ -26275,12 +25661,12 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-203001-bobina.jpeg",
               "width": 534,
-              "height": 534
+              "height": 287
             }
           ],
           "people": [
             "person-bety-108ec0e3",
-            "person-finda-aa8f1097"
+            "person-056-dd691a17"
           ]
         },
         {
@@ -26382,7 +25768,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-203021-bobina.jpeg",
               "width": 534,
-              "height": 534
+              "height": 381
             }
           ],
           "people": []
@@ -26485,7 +25871,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-28-140424-bobina.jpeg",
               "width": 534,
-              "height": 534
+              "height": 367
             }
           ],
           "flags": [
@@ -26583,7 +25969,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-28-132857-dasa.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -26678,7 +26064,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-28-132902-dasa.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -26794,15 +26180,8 @@
             "sharpness": 100,
             "qualityBucket": "excellent",
             "phash": "63c3991c241034a4",
-            "facesDetected": true,
-            "faces": [
-              {
-                "x": 1560.0647048950195,
-                "y": 1095.8180980682373,
-                "width": 105.52783584594725,
-                "height": 145.35536956787098
-              }
-            ]
+            "facesDetected": false,
+            "faces": []
           },
           "exif": {
             "date": "2025-11-28T16:24:59",
@@ -26874,7 +26253,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-28-152459-dasa.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -26897,14 +26276,7 @@
             "qualityBucket": "good",
             "phash": "46c6c3462d25027e",
             "facesDetected": true,
-            "faces": [
-              {
-                "x": 1643.2179565429685,
-                "y": 996.7305164337157,
-                "width": 365.9805793762207,
-                "height": 499.4455833435057
-              }
-            ]
+            "faces": []
           },
           "exif": {
             "date": "2025-11-28T16:58:01",
@@ -26976,14 +26348,14 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-28-155801-dasa.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "flags": [
             "snapshot-others"
           ],
           "people": [
-            "person-dasa-264acc31"
+            "person-038-21822f38"
           ]
         }
       ],
@@ -26991,8 +26363,8 @@
     }
   ],
   "meta": {
-    "version": 20,
-    "generatedAt": "2026-01-11T14:23:32.228Z",
+    "version": 1,
+    "generatedAt": "2026-01-12T10:11:01.775Z",
     "generator": "photoblog-data-layer"
   }
 }
