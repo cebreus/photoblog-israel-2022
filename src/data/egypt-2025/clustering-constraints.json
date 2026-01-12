@@ -14,35 +14,35 @@
     },
     {
       "imageId": "2025-11-26-100007-cebreus",
-      "personId": "person-004-6843a14c"
+      "personId": "person-011-10985d6a"
     },
     {
       "imageId": "2025-11-26-132422-cebreus",
-      "personId": "person-004-6843a14c"
+      "personId": "person-011-10985d6a"
     },
     {
       "imageId": "2025-11-26-135431-cebreus",
-      "personId": "person-004-6843a14c"
+      "personId": "person-011-10985d6a"
     },
     {
       "imageId": "2025-11-26-164810-bobo",
-      "personId": "person-004-6843a14c"
+      "personId": "person-011-10985d6a"
     },
     {
       "imageId": "2025-11-26-130603-cebreus",
-      "personId": "person-004-6843a14c"
+      "personId": "person-011-10985d6a"
     },
     {
       "imageId": "2025-11-26-081544-cebreus",
-      "personId": "person-004-6843a14c"
+      "personId": "person-011-10985d6a"
     },
     {
       "imageId": "2025-11-26-092606-bobo",
-      "personId": "person-004-6843a14c"
+      "personId": "person-011-10985d6a"
     },
     {
       "imageId": "2025-11-26-161403-dasa",
-      "personId": "person-004-6843a14c"
+      "personId": "person-011-10985d6a"
     },
     {
       "imageId": "2025-11-26-133202-dasa",
@@ -58,15 +58,15 @@
     },
     {
       "imageId": "2025-11-26-134549-cebreus--zoom2from2",
-      "personId": "person-004-6843a14c"
+      "personId": "person-011-10985d6a"
     },
     {
       "imageId": "2025-11-24-205551-cebreus--collage",
-      "personId": "person-004-6843a14c"
+      "personId": "person-011-10985d6a"
     },
     {
       "imageId": "2025-11-28-143626-dasa--collage",
-      "personId": "person-004-6843a14c"
+      "personId": "person-011-10985d6a"
     },
     {
       "imageId": "2025-11-26-134549-cebreus--zoom2from2",
@@ -79,6 +79,34 @@
     {
       "imageId": "2025-11-26-140121-dasa--collage",
       "personId": "statue-001-7753c8e5"
+    },
+    {
+      "imageId": "2025-11-26-095929-cebreus",
+      "personId": "person-bobo-ea8ebcb0"
+    },
+    {
+      "imageId": "2025-11-27-164805-cebreus",
+      "personId": "person-bobo-ea8ebcb0"
+    },
+    {
+      "imageId": "2025-11-26-090727-cebreus",
+      "personId": "person-bobo-ea8ebcb0"
+    },
+    {
+      "imageId": "2025-11-24-201212-cebreus",
+      "personId": "person-bobo-ea8ebcb0"
+    },
+    {
+      "imageId": "2025-11-25-083812-cebreus--zoom2from2",
+      "personId": "person-jarek-7a7cc561"
+    },
+    {
+      "imageId": "2025-11-26-140433-dasa--collage",
+      "personId": "statue-014-29266190"
+    },
+    {
+      "imageId": "2025-11-25-094025-cebreus",
+      "personId": "statue-013-29266185"
     }
   ],
   "connects": [
@@ -173,6 +201,30 @@
     {
       "imageId": "2025-11-25-083812-cebreus--zoom2from2",
       "personId": "person-jarek-7a7cc561"
+    },
+    {
+      "imageId": "2025-11-26-095929-cebreus",
+      "personId": "person-finda-aa8f1097"
+    },
+    {
+      "imageId": "2025-11-27-164805-cebreus",
+      "personId": "person-finda-aa8f1097"
+    },
+    {
+      "imageId": "2025-11-24-201212-cebreus",
+      "personId": "person-finda-aa8f1097"
+    },
+    {
+      "imageId": "2025-11-25-083812-cebreus--zoom2from2",
+      "personId": "person-1fd3c5cc--odpojeno-od-jarek"
+    },
+    {
+      "imageId": "2025-11-26-140433-dasa--collage",
+      "personId": "person-54f18fd0--odpojeno-od-statue-014"
+    },
+    {
+      "imageId": "2025-11-25-094025-cebreus",
+      "personId": "person-bobo-ea8ebcb0"
     }
   ],
   "invalidDetections": [
@@ -471,6 +523,24 @@
         "y": 3302.1306767463684,
         "width": 147.44350687662757,
         "height": 212.47973155975342
+      }
+    },
+    {
+      "imageId": "2025-11-27-172835-cebreus",
+      "box": {
+        "x": 3879.982555389404,
+        "y": 726.9198417663573,
+        "width": 86.00111389160156,
+        "height": 137.57025146484372
+      }
+    },
+    {
+      "imageId": "2025-11-25-083812-cebreus--zoom2from2",
+      "box": {
+        "x": 1635.983304977417,
+        "y": 507.9027729034424,
+        "width": 73.00981521606445,
+        "height": 111.59834861755371
       }
     }
   ]

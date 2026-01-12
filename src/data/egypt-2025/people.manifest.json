@@ -3,73 +3,73 @@
     {
       "id": "person-jaruska-9f5bf07c",
       "name": "Jaruška",
-      "faceCount": 11,
+      "faceCount": 25,
       "thumbnail": "assets/avatars/avatar-jaruska.png",
       "hidden": false,
       "createdAt": "2026-01-09T14:16:21.816Z",
       "lastSeenAt": "2026-01-09T14:16:21.816Z",
       "isUserNamed": true,
-      "detectionsCount": 1
+      "detectionsCount": 25
     },
     {
       "id": "person-bobo-ea8ebcb0",
       "name": "Bobo",
-      "faceCount": 1,
-      "thumbnail": "faces/person-bobo-ea8ebcb0/2025-11-26-090727-cebreus.jpg",
+      "faceCount": 8,
+      "thumbnail": "faces/person-bobo-ea8ebcb0/2025-11-21-175802-cebreus.jpg",
       "hidden": false,
       "createdAt": "2026-01-09T14:16:21.814Z",
       "lastSeenAt": "2026-01-09T14:16:21.814Z",
       "isUserNamed": true,
-      "detectionsCount": 1
+      "detectionsCount": 8
     },
     {
       "id": "person-finda-aa8f1097",
       "name": "Finďa",
-      "faceCount": 2,
+      "faceCount": 12,
       "thumbnail": "assets/avatars/avatar-finda.png",
       "hidden": false,
       "createdAt": "2026-01-09T14:16:22.329Z",
       "lastSeenAt": "2026-01-09T14:16:22.329Z",
       "isUserNamed": true,
-      "detectionsCount": 1
+      "detectionsCount": 12
     },
     {
       "id": "person-dasa-264acc31",
       "name": "Dáša",
-      "faceCount": 2,
+      "faceCount": 10,
       "thumbnail": "assets/avatars/avatar-dasa.jpg",
       "hidden": false,
       "createdAt": "2026-01-09T14:16:21.816Z",
       "lastSeenAt": "2026-01-09T14:16:21.816Z",
       "isUserNamed": true,
-      "detectionsCount": 1
+      "detectionsCount": 10
     },
     {
       "id": "person-bobina-78419b17",
       "name": "Bobina",
-      "faceCount": 6,
-      "thumbnail": "faces/person-bobina-78419b17/2025-11-27-172835-cebreus.jpg",
+      "faceCount": 13,
+      "thumbnail": "faces/person-bobina-78419b17/2025-11-21-175802-cebreus.jpg",
       "hidden": false,
       "createdAt": "2026-01-09T14:16:24.228Z",
       "lastSeenAt": "2026-01-09T14:16:24.228Z",
       "isUserNamed": true,
-      "detectionsCount": 1
+      "detectionsCount": 13
     },
     {
       "id": "person-jarek-7a7cc561",
       "name": "Jarek",
-      "faceCount": 1,
+      "faceCount": 7,
       "thumbnail": "assets/avatars/cebreus-ios.png",
       "hidden": false,
       "createdAt": "2026-01-09T14:16:21.813Z",
       "lastSeenAt": "2026-01-09T14:16:21.813Z",
       "isUserNamed": true,
-      "detectionsCount": 1
+      "detectionsCount": 7
     },
     {
       "id": "statue-001-7753c8e5",
       "name": "Statue 001",
-      "faceCount": 2,
+      "faceCount": 1,
       "thumbnail": "",
       "hidden": true,
       "createdAt": "2026-01-09T14:16:34.606Z",
@@ -81,25 +81,14 @@
     {
       "id": "person-011-10985d6a",
       "name": "Person 011",
-      "faceCount": 1,
+      "faceCount": 3,
       "thumbnail": "faces/person-011-10985d6a/2025-11-26-113457-cebreus.jpg",
       "hidden": true,
       "createdAt": "2026-01-09T14:16:36.938Z",
       "lastSeenAt": "2026-01-09T14:16:36.938Z",
       "isUserNamed": false,
-      "detectionsCount": 1,
+      "detectionsCount": 3,
       "junk": false
-    },
-    {
-      "id": "person-004-6843a14c",
-      "name": "Person 004",
-      "faceCount": 2,
-      "thumbnail": "faces/person-004-6843a14c/2025-11-27-160841-cebreus.jpg",
-      "hidden": true,
-      "createdAt": "2026-01-09T14:16:24.428Z",
-      "lastSeenAt": "2026-01-09T14:16:24.428Z",
-      "isUserNamed": false,
-      "detectionsCount": 1
     },
     {
       "id": "person-001-4bbe8e4c",
@@ -209,7 +198,7 @@
     {
       "id": "statue-011-29266177",
       "name": "Statue 011",
-      "faceCount": 4,
+      "faceCount": 1,
       "thumbnail": "faces/statue-011-29266177/2025-11-26-135431-cebreus.jpg",
       "hidden": true,
       "createdAt": "2026-01-09T14:20:23.864Z",
@@ -233,7 +222,7 @@
     {
       "id": "statue-013-29266185",
       "name": "Statue 013",
-      "faceCount": 2,
+      "faceCount": 1,
       "thumbnail": "faces/statue-013-29266185/2025-11-26-125334-cebreus.jpg",
       "hidden": true,
       "createdAt": "2026-01-09T14:25:41.680Z",
@@ -245,8 +234,8 @@
     {
       "id": "statue-014-29266190",
       "name": "Statue 014",
-      "faceCount": 2,
-      "thumbnail": "faces/statue-014-29266190/2025-11-26-140433-dasa--collage.jpg",
+      "faceCount": 1,
+      "thumbnail": "faces/statue-014-29266190/2025-11-26-095124-dasa.jpg",
       "hidden": true,
       "createdAt": "2026-01-11T00:31:44.909Z",
       "lastSeenAt": "2026-01-11T00:31:44.909Z",
@@ -267,284 +256,34 @@
       "detectionsCount": 1
     },
     {
-      "id": "person-031-2e7d17b6",
-      "name": "Person 031",
-      "faceCount": 1,
-      "thumbnail": "faces/person-031-2e7d17b6/2025-11-23-101607-cebreus.jpg",
-      "hidden": false,
-      "createdAt": "2026-01-12T10:10:09.259Z",
-      "lastSeenAt": "2026-01-12T10:10:09.259Z",
-      "isUserNamed": false,
-      "detectionsCount": 1
-    },
-    {
-      "id": "person-032-5441d092",
-      "name": "Person 032",
-      "faceCount": 3,
-      "thumbnail": "faces/person-032-5441d092/2025-11-25-093419-cebreus.jpg",
-      "hidden": false,
-      "createdAt": "2026-01-12T10:10:09.286Z",
-      "lastSeenAt": "2026-01-12T10:10:09.286Z",
-      "isUserNamed": false,
-      "detectionsCount": 1
-    },
-    {
-      "id": "person-032-f9303821",
-      "name": "Person 032",
-      "faceCount": 7,
-      "thumbnail": "faces/person-032-f9303821/2025-11-26-121346-cebreus.jpg",
-      "hidden": false,
-      "createdAt": "2026-01-12T10:10:09.287Z",
-      "lastSeenAt": "2026-01-12T10:10:09.287Z",
-      "isUserNamed": false,
-      "detectionsCount": 1
-    },
-    {
-      "id": "person-033-5d90e859",
-      "name": "Person 033",
-      "faceCount": 6,
-      "thumbnail": "faces/person-033-5d90e859/2025-11-26-121422-cebreus.jpg",
-      "hidden": false,
-      "createdAt": "2026-01-12T10:10:09.314Z",
-      "lastSeenAt": "2026-01-12T10:10:09.314Z",
-      "isUserNamed": false,
-      "detectionsCount": 1
-    },
-    {
-      "id": "person-034-b83565a9",
-      "name": "Person 034",
-      "faceCount": 2,
-      "thumbnail": "faces/person-034-b83565a9/2025-11-21-175802-cebreus.jpg",
-      "hidden": false,
-      "createdAt": "2026-01-12T10:10:09.329Z",
-      "lastSeenAt": "2026-01-12T10:10:09.329Z",
-      "isUserNamed": false,
-      "detectionsCount": 1
-    },
-    {
-      "id": "person-036-ac40bb55",
-      "name": "Person 036",
-      "faceCount": 1,
-      "thumbnail": "faces/person-036-ac40bb55/2025-11-23-125850-cebreus.jpg",
-      "hidden": false,
-      "createdAt": "2026-01-12T10:10:09.350Z",
-      "lastSeenAt": "2026-01-12T10:10:09.350Z",
-      "isUserNamed": false,
-      "detectionsCount": 1
-    },
-    {
-      "id": "person-036-9430e807",
-      "name": "Person 036",
-      "faceCount": 3,
-      "thumbnail": "faces/person-036-9430e807/2025-11-26-091503-bobina.jpg",
-      "hidden": false,
-      "createdAt": "2026-01-12T10:10:09.350Z",
-      "lastSeenAt": "2026-01-12T10:10:09.350Z",
-      "isUserNamed": false,
-      "detectionsCount": 1
-    },
-    {
-      "id": "person-038-fc732428",
-      "name": "Person 038",
-      "faceCount": 3,
-      "thumbnail": "faces/person-038-fc732428/2025-11-26-095535-cebreus.jpg",
-      "hidden": false,
-      "createdAt": "2026-01-12T10:10:09.388Z",
-      "lastSeenAt": "2026-01-12T10:10:09.388Z",
-      "isUserNamed": false,
-      "detectionsCount": 1
-    },
-    {
-      "id": "person-038-21822f38",
-      "name": "Person 038",
-      "faceCount": 5,
-      "thumbnail": "faces/person-038-21822f38/2025-11-28-155801-dasa.jpg",
-      "hidden": false,
-      "createdAt": "2026-01-12T10:10:09.389Z",
-      "lastSeenAt": "2026-01-12T10:10:09.389Z",
-      "isUserNamed": false,
-      "detectionsCount": 1
-    },
-    {
-      "id": "person-039-d6a788ef",
-      "name": "Person 039",
-      "faceCount": 1,
-      "thumbnail": "faces/person-039-d6a788ef/2025-11-23-131151-cebreus.jpg",
-      "hidden": false,
-      "createdAt": "2026-01-12T10:10:09.389Z",
-      "lastSeenAt": "2026-01-12T10:10:09.389Z",
-      "isUserNamed": false,
-      "detectionsCount": 1
-    },
-    {
-      "id": "person-040-6baf723b",
-      "name": "Person 040",
-      "faceCount": 2,
-      "thumbnail": "faces/person-040-6baf723b/2025-11-26-095929-cebreus.jpg",
-      "hidden": false,
-      "createdAt": "2026-01-12T10:10:09.389Z",
-      "lastSeenAt": "2026-01-12T10:10:09.389Z",
-      "isUserNamed": false,
-      "detectionsCount": 1
-    },
-    {
-      "id": "person-042-86742c32",
-      "name": "Person 042",
-      "faceCount": 2,
-      "thumbnail": "faces/person-042-86742c32/2025-11-24-210141-cebreus.jpg",
-      "hidden": false,
-      "createdAt": "2026-01-12T10:10:09.589Z",
-      "lastSeenAt": "2026-01-12T10:10:09.589Z",
-      "isUserNamed": false,
-      "detectionsCount": 1
-    },
-    {
-      "id": "person-042-1e36cbba",
-      "name": "Person 042",
-      "faceCount": 2,
-      "thumbnail": "faces/person-042-1e36cbba/2025-11-27-150755-cebreus.jpg",
-      "hidden": false,
-      "createdAt": "2026-01-12T10:10:09.590Z",
-      "lastSeenAt": "2026-01-12T10:10:09.590Z",
-      "isUserNamed": false,
-      "detectionsCount": 1
-    },
-    {
-      "id": "person-042-f954b42a",
-      "name": "Person 042",
-      "faceCount": 3,
-      "thumbnail": "faces/person-042-f954b42a/2025-11-27-164805-cebreus.jpg",
-      "hidden": false,
-      "createdAt": "2026-01-12T10:10:09.590Z",
-      "lastSeenAt": "2026-01-12T10:10:09.590Z",
-      "isUserNamed": false,
-      "detectionsCount": 1
-    },
-    {
-      "id": "person-043-1920694b",
-      "name": "Person 043",
-      "faceCount": 3,
-      "thumbnail": "faces/person-043-1920694b/2025-11-27-164805-cebreus.jpg",
-      "hidden": false,
-      "createdAt": "2026-01-12T10:10:09.610Z",
-      "lastSeenAt": "2026-01-12T10:10:09.610Z",
-      "isUserNamed": false,
-      "detectionsCount": 1
-    },
-    {
-      "id": "person-046-462733c6",
-      "name": "Person 046",
-      "faceCount": 3,
-      "thumbnail": "faces/person-046-462733c6/2025-11-27-164805-cebreus.jpg",
-      "hidden": false,
-      "createdAt": "2026-01-12T10:10:09.684Z",
-      "lastSeenAt": "2026-01-12T10:10:09.684Z",
-      "isUserNamed": false,
-      "detectionsCount": 1
-    },
-    {
-      "id": "person-048-b54294a6",
-      "name": "Person 048",
-      "faceCount": 3,
-      "thumbnail": "faces/person-048-b54294a6/2025-11-27-151703-cebreus.jpg",
-      "hidden": false,
-      "createdAt": "2026-01-12T10:10:10.307Z",
-      "lastSeenAt": "2026-01-12T10:10:10.307Z",
-      "isUserNamed": false,
-      "detectionsCount": 1
-    },
-    {
-      "id": "person-050-dce33c50",
-      "name": "Person 050",
-      "faceCount": 3,
-      "thumbnail": "faces/person-050-dce33c50/2025-11-26-121358-cebreus.jpg",
-      "hidden": false,
-      "createdAt": "2026-01-12T10:10:11.635Z",
-      "lastSeenAt": "2026-01-12T10:10:11.635Z",
-      "isUserNamed": false,
-      "detectionsCount": 1
-    },
-    {
-      "id": "person-051-c7208233",
-      "name": "Person 051",
-      "faceCount": 1,
-      "thumbnail": "faces/person-051-c7208233/2025-11-26-095535-cebreus.jpg",
-      "hidden": false,
-      "createdAt": "2026-01-12T10:10:11.987Z",
-      "lastSeenAt": "2026-01-12T10:10:11.987Z",
-      "isUserNamed": false,
-      "detectionsCount": 1
-    },
-    {
-      "id": "person-052-572ee260",
-      "name": "Person 052",
-      "faceCount": 1,
-      "thumbnail": "faces/person-052-572ee260/2025-11-26-095929-cebreus.jpg",
-      "hidden": false,
-      "createdAt": "2026-01-12T10:10:12.115Z",
-      "lastSeenAt": "2026-01-12T10:10:12.115Z",
-      "isUserNamed": false,
-      "detectionsCount": 1
-    },
-    {
       "id": "person-053-39af8d81",
       "name": "Person 053",
       "faceCount": 1,
       "thumbnail": "faces/person-053-39af8d81/2025-11-26-095929-cebreus.jpg",
-      "hidden": false,
+      "hidden": true,
       "createdAt": "2026-01-12T10:10:12.400Z",
       "lastSeenAt": "2026-01-12T10:10:12.400Z",
       "isUserNamed": false,
       "detectionsCount": 1
     },
     {
-      "id": "person-054-06dca020",
-      "name": "Person 054",
+      "id": "person-54f18fd0--odpojeno-od-statue-014",
+      "name": "Odpojeno od Statue 014",
+      "faceDescriptor": [],
+      "clusters": [],
       "faceCount": 1,
-      "thumbnail": "faces/person-054-06dca020/2025-11-26-133231-dasa.jpg",
-      "hidden": false,
-      "createdAt": "2026-01-12T10:10:13.195Z",
-      "lastSeenAt": "2026-01-12T10:10:13.195Z",
-      "isUserNamed": false,
-      "detectionsCount": 1
-    },
-    {
-      "id": "person-056-9979834b",
-      "name": "Person 056",
-      "faceCount": 1,
-      "thumbnail": "faces/person-056-9979834b/2025-11-26-192016-cebreus.jpg",
-      "hidden": false,
-      "createdAt": "2026-01-12T10:10:13.843Z",
-      "lastSeenAt": "2026-01-12T10:10:13.843Z",
-      "isUserNamed": false,
-      "detectionsCount": 1
-    },
-    {
-      "id": "person-056-dd691a17",
-      "name": "Person 056",
-      "faceCount": 1,
-      "thumbnail": "faces/person-056-dd691a17/2025-11-27-203001-bobina.jpg",
-      "hidden": false,
-      "createdAt": "2026-01-12T10:10:13.843Z",
-      "lastSeenAt": "2026-01-12T10:10:13.843Z",
-      "isUserNamed": false,
-      "detectionsCount": 1
-    },
-    {
-      "id": "person-058-4317c82a",
-      "name": "Person 058",
-      "faceCount": 1,
-      "thumbnail": "faces/person-058-4317c82a/2025-11-27-135051-cebreus.jpg",
-      "hidden": false,
-      "createdAt": "2026-01-12T10:10:13.996Z",
-      "lastSeenAt": "2026-01-12T10:10:13.996Z",
+      "thumbnail": "faces/person-54f18fd0--odpojeno-od-statue-014/2025-11-26-140433-dasa--collage.jpg",
+      "hidden": true,
+      "createdAt": "2026-01-12T14:05:38.117Z",
+      "lastSeenAt": "2026-01-12T14:05:38.117Z",
+      "category": "statue",
       "isUserNamed": false,
       "detectionsCount": 1
     }
   ],
   "meta": {
-    "version": 1,
-    "generatedAt": "2026-01-12T10:10:19.044Z",
+    "version": 23,
+    "generatedAt": "2026-01-12T14:05:50.563Z",
     "generator": "photoblog-data-layer"
   }
 }
