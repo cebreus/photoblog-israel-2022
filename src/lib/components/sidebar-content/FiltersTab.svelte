@@ -9,7 +9,9 @@
   import { Switch } from "$lib/components/ui/switch";
   import { ToggleGroup, ToggleGroupItem } from "$lib/components/ui/toggle-group";
   import { filters } from "$lib/stores/filters.svelte";
+  import { people } from "$lib/stores/people.svelte";
   import { ui } from "$lib/stores/ui.svelte";
+  import type { Person } from "$lib/types/manifest";
   import { getMenuItems } from "$lib/utils/menu";
 
   import AuthorsFilter from "./filters/AuthorsFilter.svelte";
@@ -66,6 +68,8 @@
     (Array.from(qualityStats.values()) as number[]).reduce((sum, val) => sum + val, 0),
   );
 
+  const totalPeople = $derived(people.displayPersons.filter((p: Person) => p.isUserNamed).length);
+
   $effect(() => {
     filters.initPersistence();
   });
@@ -73,7 +77,7 @@
 
 <div class="contents" data-testid="filters-tab">
   <Sidebar.Content class="gap-y-0">
-    <FiltersStats {totalPhotos} {totalAuthors} {totalLocations} />
+    <FiltersStats {totalPhotos} {totalAuthors} {totalPeople} {totalLocations} />
 
     <label
       class="flex cursor-pointer items-center justify-between gap-4 border-b px-6 py-3"
