@@ -350,3 +350,12 @@ export const EMPTY_MESSAGES = {
   NO_DATA_DESCRIPTION:
     "Tato galerie zatím neobsahuje žádný obsah. Nahrajte první fotografie pro začátek.",
 } as const;
+// ============================================================================
+// Error Page Messages
+// ============================================================================
+
+export const ERROR_MESSAGES = {
+  NOT_FOUND_TITLE: "Stránka nenalezena",
+  NOT_FOUND_DESCRIPTION: "Litujeme, ale požadovaná stránka neexistuje nebo byla přesunuta.",
+  GO_HOME: "Zpět na úvod",
+} as const;
