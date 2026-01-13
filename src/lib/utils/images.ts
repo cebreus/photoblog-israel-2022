@@ -1,7 +1,4 @@
 import { dev } from "$app/environment";
-import curationManifest from "$manifests/curation.manifest.json" with { type: "json" };
-import manifest from "$manifests/images.manifest.json" with { type: "json" };
-import peopleManifestImport from "$manifests/people.manifest.json" with { type: "json" };
 import { isCollage } from "$shared/utils/strings";
 import type {
   CurationManifest,
@@ -15,6 +12,26 @@ import {
   isValidManifest,
   isValidPeopleManifest,
 } from "./manifest-validators";
+
+// Use glob imports to handle missing optional manifests gracefully
+const curationGlob = import.meta.glob("$manifests/curation.manifest.json", {
+  eager: true,
+  import: "default",
+});
+const curationManifest = Object.values(curationGlob)[0] as CurationManifest | undefined;
+
+const maxResolutionGlob = import.meta.glob("$manifests/images.manifest.json", {
+  eager: true,
+  import: "default",
+});
+const manifest = Object.values(maxResolutionGlob)[0] as Manifest | undefined;
+
+const peopleGlob = import.meta.glob("$manifests/people.manifest.json", {
+  eager: true,
+  import: "default",
+});
+// Renamed to avoid confusion with type
+const peopleManifestData = Object.values(peopleGlob)[0] as PeopleManifest | undefined;
 
 /** Re-classify collages that were incorrectly typed as "image" */
 export function reclassifyCollages(m: Manifest): Manifest {
@@ -82,8 +99,8 @@ let lastManifestUpdate = Date.now();
 let currentManifest: Manifest = reclassifySequences(
   reclassifyPanoramas(reclassifyCollages(isValidManifest(manifest) ? manifest : { photoDays: [] })),
 );
-let currentPeopleManifest: PeopleManifest = isValidPeopleManifest(peopleManifestImport)
-  ? normalizePeople(peopleManifestImport)
+let currentPeopleManifest: PeopleManifest = isValidPeopleManifest(peopleManifestData)
+  ? normalizePeople(peopleManifestData)
   : { people: [] };
 let currentCurationManifest: CurationManifest = isValidCurationManifest(curationManifest)
   ? curationManifest
