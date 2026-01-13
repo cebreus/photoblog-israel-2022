@@ -13,6 +13,7 @@
   import * as ButtonGroup from "$lib/components/ui/button-group";
   import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
   import * as Tooltip from "$lib/components/ui/tooltip";
+  import * as m from "$lib/paraglide/messages";
   import type { Person } from "$lib/types/manifest";
 
   import { dev } from "$app/environment";
@@ -127,11 +128,11 @@
           disabled={mergeBtnDisabled}
         >
           <Merge class="mr-2 size-4" />
-          Sloučit
+          {m.ui_merge()}
         </Button>
       {/snippet}
     </Tooltip.Trigger>
-    <Tooltip.Content>Sloučit vybrané osoby do jedné</Tooltip.Content>
+    <Tooltip.Content>{m.ui_merge_tooltip()}</Tooltip.Content>
   </Tooltip.Root>
 
   <!-- Primary Hide Action -->
@@ -148,11 +149,11 @@
           disabled={hideBtnDisabled}
         >
           <EyeOff class="mr-2 size-4" />
-          Skrýt
+          {m.filters_hide_title()}
         </Button>
       {/snippet}
     </Tooltip.Trigger>
-    <Tooltip.Content>Skrýt vybrané osoby z hlavního přehledu</Tooltip.Content>
+    <Tooltip.Content>{m.ui_hide_tooltip()}</Tooltip.Content>
   </Tooltip.Root>
 
   <Tooltip.Root>
@@ -166,11 +167,11 @@
           disabled={isGlobalDisabled}
           data-testid="{testId}-clear"
         >
-          Zrušit
+          {m.ui_cancel()}
         </Button>
       {/snippet}
     </Tooltip.Trigger>
-    <Tooltip.Content>Zrušit výběr</Tooltip.Content>
+    <Tooltip.Content>{m.ui_cancel_selection_tooltip()}</Tooltip.Content>
   </Tooltip.Root>
 
   <DropdownMenu.Root>
@@ -185,13 +186,13 @@
             })}
             disabled={isGlobalDisabled}
             data-testid="{testId}-more-trigger"
-            aria-label="Další akce"
+            aria-label={m.aria_more_actions()}
           >
             <MoreHorizontal class="size-4" />
           </DropdownMenu.Trigger>
         {/snippet}
       </Tooltip.Trigger>
-      <Tooltip.Content>Další akce</Tooltip.Content>
+      <Tooltip.Content>{m.aria_more_actions()}</Tooltip.Content>
     </Tooltip.Root>
 
     <DropdownMenu.Content align="end" class="w-56">
@@ -201,12 +202,13 @@
         disabled={mergeBtnDisabled}
       >
         <Merge class="mr-1 size-3.5" />
-        Sloučit vybrané
+        {m.ui_merge_selected()}
       </DropdownMenu.Item>
 
       <DropdownMenu.Sub>
         <DropdownMenu.SubTrigger data-testid="{testId}-merge-sub" disabled={mergeIntoDisabled}>
-          <Merge class="mr-1 size-3.5" /> Sloučit do...
+          <Merge class="mr-1 size-3.5" />
+          {m.ui_merge_into()}
         </DropdownMenu.SubTrigger>
         <DropdownMenu.SubContent>
           {#each namedPeople as person (person.id)}
@@ -236,7 +238,7 @@
         disabled={hideBtnDisabled}
       >
         <EyeOff class="mr-1 size-3.5" />
-        Skrýt vybrané
+        {m.ui_hide_selected()}
       </DropdownMenu.Item>
 
       <DropdownMenu.Item
@@ -245,7 +247,8 @@
         disabled={restoreBtnDisabled}
       >
         <Eye class="mr-1 size-3.5" />
-        Obnovit skryté {#if hiddenCount > 0}({hiddenCount}){/if}
+        {m.ui_restore_hidden()}
+        {#if hiddenCount > 0}({hiddenCount}){/if}
       </DropdownMenu.Item>
 
       <DropdownMenu.Separator />
@@ -257,7 +260,7 @@
         disabled={junkBtnDisabled}
       >
         <UserMinus class="mr-1 size-3.5" />
-        Přesunout do koše
+        {m.ui_move_to_bin()}
       </DropdownMenu.Item>
 
       <DropdownMenu.Item
@@ -266,7 +269,8 @@
         disabled={restoreJunkDisabled}
       >
         <Eye class="mr-1 size-3.5" />
-        Obnovit z koše {#if junkCount > 0}({junkCount}){/if}
+        {m.ui_restore_from_bin()}
+        {#if junkCount > 0}({junkCount}){/if}
       </DropdownMenu.Item>
 
       <DropdownMenu.Separator />
@@ -278,18 +282,18 @@
         disabled={invalidateBtnDisabled}
       >
         <UserMinus class="mr-1 size-3.5" />
-        Toto není tvář, ignorovat
+        {m.ui_not_a_face_ignore()}
       </DropdownMenu.Item>
 
       <DropdownMenu.Separator />
-      <DropdownMenu.Label>Kategorie osob</DropdownMenu.Label>
+      <DropdownMenu.Label>{m.ui_person_category()}</DropdownMenu.Label>
       <DropdownMenu.Item
         onclick={() => onUpdateCategory?.("person")}
         data-testid="{testId}-type-person"
         disabled={categoryBtnDisabled}
       >
         <User class="mr-1 size-3.5" />
-        Nastavit: Osoba
+        {m.ui_set_type_person()}
       </DropdownMenu.Item>
       <DropdownMenu.Item
         onclick={() => onUpdateCategory?.("statue")}
@@ -297,7 +301,7 @@
         disabled={categoryBtnDisabled}
       >
         <Landmark class="mr-1 size-3.5" />
-        Nastavit: Socha
+        {m.ui_set_type_statue()}
       </DropdownMenu.Item>
       <DropdownMenu.Item
         onclick={() => onUpdateCategory?.("painting")}
@@ -305,7 +309,7 @@
         disabled={categoryBtnDisabled}
       >
         <Palette class="mr-1 size-3.5" />
-        Nastavit: Malba
+        {m.ui_set_type_painting()}
       </DropdownMenu.Item>
     </DropdownMenu.Content>
   </DropdownMenu.Root>

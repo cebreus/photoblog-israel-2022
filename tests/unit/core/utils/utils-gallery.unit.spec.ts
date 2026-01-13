@@ -169,7 +169,7 @@ describe("gallery utils", () => {
 
     it("computes totals for all images and locations", () => {
       const { visiblePhotos, totalLocations } = computeTotals(defaultCriteriaArrays, [day1, day2]);
-      expect(visiblePhotos).toBe(4); // img1, sep1, img2, img3 (separators are counted as visible items in filter logic)
+      expect(visiblePhotos).toBe(3); // img1, img2, img3 (separators are NOT counted as visible items in filter logic)
       expect(totalLocations).toBe(2); // LocA, LocB
     });
 
@@ -178,7 +178,7 @@ describe("gallery utils", () => {
         { ...defaultCriteriaArrays, selectedAuthors: ["author1"] },
         [day1, day2],
       );
-      expect(visiblePhotos).toBe(3); // img1, sep1, img3 (separators kept by default)
+      expect(visiblePhotos).toBe(2); // img1, img3 (separators kept by default but not counted)
       expect(totalLocations).toBe(2);
     });
   });

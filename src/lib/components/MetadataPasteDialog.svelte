@@ -5,8 +5,10 @@
   import { Button } from "$lib/components/ui/button";
   import Checkbox from "$lib/components/ui/checkbox/checkbox.svelte";
   import * as Dialog from "$lib/components/ui/dialog";
+  import * as m from "$lib/paraglide/messages";
   import type { ImageEntry } from "$lib/types/manifest";
   import { cn } from "$lib/utils";
+  import { getPlural } from "$lib/utils/i18n";
 
   type MetadataFieldKey =
     | "title"
@@ -21,19 +23,19 @@
 
   interface MetadataFieldDef {
     key: MetadataFieldKey;
-    label: string;
+    labelKey: keyof typeof m;
   }
 
   const FIELD_DEFS: MetadataFieldDef[] = [
-    { key: "title", label: "Název (Title)" },
-    { key: "author", label: "Autor" },
-    { key: "location", label: "Místo (Location)" },
-    { key: "city", label: "Město" },
-    { key: "state", label: "Stát / Provincie" },
-    { key: "country", label: "Země" },
-    { key: "countryCode", label: "Kód země" },
-    { key: "caption", label: "Popisek (Caption)" },
-    { key: "keywords", label: "Klíčová slova" },
+    { key: "title", labelKey: "image_label_title" },
+    { key: "author", labelKey: "image_label_author" },
+    { key: "location", labelKey: "image_label_location" },
+    { key: "city", labelKey: "image_label_city" },
+    { key: "state", labelKey: "image_label_state" },
+    { key: "country", labelKey: "image_label_country" },
+    { key: "countryCode", labelKey: "image_label_country_code" },
+    { key: "caption", labelKey: "image_label_caption" },
+    { key: "keywords", labelKey: "image_label_keywords" },
   ];
 
   let {
@@ -107,6 +109,7 @@
 
       return {
         ...def,
+        label: ((m as Record<string, unknown>)[def.labelKey] as () => string)(),
         sourceVal: sourceVal || "-",
         imageCells,
       };
@@ -190,21 +193,20 @@
 <Dialog.Root bind:open>
   <Dialog.Content class="flex max-h-[95vh] flex-col gap-0 p-0 xl:max-w-7xl">
     <Dialog.Header class="p-6 pb-4">
-      <Dialog.Title>Vložit metadata</Dialog.Title>
+      <Dialog.Title>{m.ui_paste_metadata()}</Dialog.Title>
       <Dialog.Description>
-        Vyberte pole k přepsání. Zobrazuji náhled změn pro {images.length - excludedImageIds.size} z {images.length}
-        {images.length === 1
-          ? "obrázku"
-          : images.length >= 2 && images.length <= 4
-            ? "obrázků"
-            : "obrázků"}.
+        {m.ui_select_fields_to_overwrite({
+          count: images.length - excludedImageIds.size,
+          total: images.length,
+          plural: getPlural(images.length, "fotka"),
+        })}
       </Dialog.Description>
     </Dialog.Header>
 
     <div class="bg-muted/10 relative min-h-0 flex-1 overflow-auto border-y">
       {#if !clipboardData}
         <div class="text-muted-foreground p-8 text-center text-sm">
-          Žádná data nejsou ve schránce.
+          {m.ui_no_clipboard_data()}
         </div>
       {:else}
         <table class="w-max min-w-full border-collapse border-spacing-0 text-sm">
@@ -220,7 +222,7 @@
                     indeterminate={someSelected && !allSelected}
                     onCheckedChange={(v) => toggleAll(v === true)}
                   />
-                  <span>Vybrat vše</span>
+                  <span>{m.ui_select_all()}</span>
                 </div>
               </th>
 
@@ -249,7 +251,9 @@
                           {img.src.split("/").pop()}
                         </span>
                         {#if isExcluded}
-                          <span class="text-[10px] font-bold text-red-500">VYLUČENO</span>
+                          <span class="text-[10px] font-bold text-red-500"
+                            >{m.ui_excluded_caps()}</span
+                          >
                         {/if}
                       </div>
                     </div>
@@ -258,7 +262,7 @@
                       variant="ghost"
                       size="icon"
                       class="h-6 w-6 rounded-full hover:bg-red-100 dark:hover:bg-red-900/30"
-                      title={isExcluded ? "Zahrnout obrázek zpět" : "Vyjmout obrázek z vkládání"}
+                      title={isExcluded ? m.aria_include_image() : m.aria_exclude_image()}
                       onclick={() => toggleImageExclusion(img.id)}
                       data-testid={`metadata-paste-dialog-exclude-${img.id}`}
                     >
@@ -323,13 +327,13 @@
                         <!-- Change Mode: Original -> New -->
                         <div
                           class="text-muted-foreground/60 text-[10px]"
-                          aria-label="Původní hodnota"
+                          aria-label={m.aria_original_value()}
                         >
                           {cell.originalVal}
                         </div>
                         <div
                           class="-ml-1.5 flex w-fit max-w-48 items-center gap-1.5 rounded bg-emerald-50 px-1.5 py-1 font-semibold text-emerald-600 dark:bg-emerald-950/30 dark:text-emerald-400"
-                          title="Nová hodnota"
+                          title={m.aria_new_value()}
                         >
                           <span>→</span>
                           <span class="truncate">{row.sourceVal}</span>
@@ -354,13 +358,13 @@
     </div>
 
     <Dialog.Footer class="bg-background z-20 gap-2 border-t p-4 pt-4">
-      <Button variant="outline" onclick={() => (open = false)}>Zrušit</Button>
+      <Button variant="outline" onclick={() => (open = false)}>{m.ui_cancel()}</Button>
       <Button
         onclick={handleConfirm}
         disabled={images.length - excludedImageIds.size === 0}
         data-testid="metadata-paste-dialog-confirm"
       >
-        Vložit ({images.length - excludedImageIds.size})
+        {m.image_context_paste_metadata()} ({images.length - excludedImageIds.size})
       </Button>
     </Dialog.Footer>
   </Dialog.Content>

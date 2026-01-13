@@ -3,6 +3,7 @@
   import UserMinus from "@lucide/svelte/icons/user-minus";
 
   import { Button } from "$lib/components/ui/button";
+  import * as m from "$lib/paraglide/messages";
   import type { Person } from "$lib/types/manifest";
 
   let {
@@ -23,7 +24,7 @@
     class="h-6 flex-1 px-0 text-[10px]"
     onclick={() => onRestore(person.id)}
     data-testid="people-tab-hidden-person-restore-button"
-    title="Obnovit"
+    title={m.aria_restore()}
   >
     <Eye class="h-3.5 w-3.5" />
   </Button>
@@ -33,7 +34,7 @@
     class="h-6 flex-1 px-0 text-[10px]"
     onclick={() => onMarkAsJunk(person.id)}
     data-testid="people-tab-hidden-person-junk-button"
-    title="Ignorovat"
+    title={m.aria_ignore()}
   >
     <UserMinus class="text-destructive h-3.5 w-3.5" />
   </Button>

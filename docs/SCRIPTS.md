@@ -44,7 +44,7 @@ Vývojové servery. Doporučujeme používat interaktivní režim.
 
 Build celého webu pro deployment.
 
-- **`bun run build`** — Interaktivní výběr galerie
+- **`bun run build`** — Interaktivní výběr galerie. Spouští i `paraglide-js compile`.
 
 ## Generování assetů (Process pipeline)
 
@@ -421,4 +421,4 @@ Step 2 a Step 4 používají **různé modely** z důvodu optimalizace:
 
 ---
 
-_Poslední aktualizace: 2026-01-05_
+_Poslední aktualizace: 2026-01-12_

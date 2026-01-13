@@ -2,7 +2,6 @@ import { log } from "$lib/logger";
 import type { CollageCrop, CollageTemplateId } from "$lib/types/collage";
 import type { ImageEntry } from "$lib/types/manifest";
 import { calculateLayout } from "./collage-layout-engine";
-import { COLLAGE_MESSAGES } from "./messages";
 
 /**
  * Normalize the user-entered border width so it scales with source image dimensions.
@@ -157,13 +156,15 @@ export function gcd(a: number, b: number): number {
   return b === 0 ? Math.abs(a) : gcd(b, a % b);
 }
 
+import * as m from "$lib/paraglide/messages";
+
 export function formatDimensionLabel(width?: number, height?: number): string {
-  if (!width || !height) return COLLAGE_MESSAGES.NOT_AVAILABLE;
+  if (!width || !height) return m.collage_not_available();
   return `${Math.round(width)} × ${Math.round(height)}`;
 }
 
 export function formatRatioLabel(width?: number, height?: number): string {
-  if (!width || !height) return COLLAGE_MESSAGES.NOT_AVAILABLE;
+  if (!width || !height) return m.collage_not_available();
   const w = Math.round(width);
   const h = Math.round(height);
   const divisor = Math.max(gcd(w, h), 1);

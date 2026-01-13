@@ -71,7 +71,7 @@ const filteredPhotoDays = $derived.by(function calculateFilteredDays() {
   }
 
   function hasItems(day: PhotoDay) {
-    return day.items && day.items.some(isImageEntry);
+    return day.items?.some(isImageEntry);
   }
 
   return sourceData.map(filterDayItems).filter(hasItems);

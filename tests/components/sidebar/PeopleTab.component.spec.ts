@@ -9,9 +9,9 @@
  * - src/lib/components/sidebar-content/PeopleTab.svelte
  */
 
+import { renderComponent } from "$tests/utils/render-helpers";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { page } from "vitest/browser";
-import { renderComponent } from "$tests/utils/render-helpers";
 
 // All vi.mock calls must come FIRST, before any imports that use the mocked modules
 // Mock factories must NOT reference variables declared outside
@@ -91,6 +91,7 @@ vi.mock("$lib/stores/people.svelte", () => {
       people: mockPeople,
       photoDays: [],
       peopleWithStats: mockPeople,
+      displayPersons: mockPeople,
       visiblePeople: mockPeople.filter(
         (p) => !p.hidden && !p.junk && p.faceCount > 0 && (!p.category || p.category === "person"),
       ),

@@ -5,9 +5,9 @@
  * All mutations automatically invalidate relevant queries and refresh data.
  */
 
+import * as m from "$lib/paraglide/messages";
 import { people } from "$lib/stores/people.svelte";
 import { tracedFetch } from "$lib/utils/api";
-import { GENERIC_MESSAGES, PERSON_MESSAGES } from "$lib/utils/messages";
 import { createMutation, useQueryClient } from "@tanstack/svelte-query";
 import { toast } from "svelte-sonner";
 import type {
@@ -67,7 +67,7 @@ async function mergePeopleFn(params: MergePeopleParams): Promise<MergeResponse> 
     const contentType = response.headers.get("content-type");
     if (contentType?.includes("application/json")) {
       const err = await response.json();
-      throw new Error(err.error || "Sloučení selhalo");
+      throw new Error(err.error || m.person_merge_failed());
     }
     throw new Error(`Server error: ${response.status} ${response.statusText}`);
   }
@@ -181,17 +181,17 @@ export function useUpdatePeopleMutation() {
 
       // Show specific toast based on variables
       if (variables.updates.some((u) => u.hidden !== undefined)) {
-        toast.success("Viditelnost změněna");
+        toast.success(m.mutation_visibility_changed());
       } else if (variables.updates.some((u) => u.junk !== undefined)) {
-        toast.success("Stav koše změněn");
+        toast.success(m.mutation_bin_status_changed());
       } else if (variables.updates.some((u) => u.name !== undefined)) {
-        toast.success(PERSON_MESSAGES.PERSON_RENAMED);
+        toast.success(m.person_person_renamed());
       } else {
-        toast.success("Změny uloženy");
+        toast.success(m.mutation_changes_saved());
       }
     },
     onError: (error: Error) => {
-      toast.error(PERSON_MESSAGES.UPDATE_FAILED, { description: error.message });
+      toast.error(m.person_update_failed(), { description: error.message });
     },
   }));
 }
@@ -209,14 +209,14 @@ export function useMergePeopleMutation() {
       people.optimisticMerge(variables.sourcePersonIds, variables.targetPersonId);
     },
     onSuccess: async () => {
-      toast.success(PERSON_MESSAGES.MERGE_SUCCESS);
+      toast.success(m.person_merge_success());
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: PEOPLE_QUERY_KEYS.constraints }),
         people.refresh(),
       ]);
     },
     onError: (error: Error) => {
-      toast.error(PERSON_MESSAGES.MERGE_FAILED, { description: error.message });
+      toast.error(m.person_merge_failed(), { description: error.message });
     },
   }));
 }
@@ -231,12 +231,12 @@ export function useUnmatchFaceMutation() {
   return createMutation(() => ({
     mutationFn: unmatchFaceFn,
     onSuccess: async () => {
-      toast.success(PERSON_MESSAGES.FACE_REMOVED);
+      toast.success(m.person_face_removed());
       await queryClient.invalidateQueries({ queryKey: PEOPLE_QUERY_KEYS.constraints });
       await people.refresh();
     },
     onError: (error: Error) => {
-      toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR, { description: error.message });
+      toast.error(m.generic_communication_error(), { description: error.message });
     },
   }));
 }
@@ -251,12 +251,12 @@ export function useReassignFaceMutation() {
   return createMutation(() => ({
     mutationFn: reassignFaceFn,
     onSuccess: async () => {
-      toast.success(PERSON_MESSAGES.FACE_REASSIGNED);
+      toast.success(m.person_face_reassigned());
       await queryClient.invalidateQueries({ queryKey: PEOPLE_QUERY_KEYS.constraints });
       await people.refresh();
     },
     onError: (error: Error) => {
-      toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR, { description: error.message });
+      toast.error(m.generic_communication_error(), { description: error.message });
     },
   }));
 }
@@ -271,12 +271,12 @@ export function useInvalidateDetectionMutation() {
   return createMutation(() => ({
     mutationFn: invalidateDetectionFn,
     onSuccess: async () => {
-      toast.success(PERSON_MESSAGES.DETECTION_INVALIDATED);
+      toast.success(m.person_detection_invalidated());
       await queryClient.invalidateQueries({ queryKey: PEOPLE_QUERY_KEYS.constraints });
       await people.refresh();
     },
     onError: (error: Error) => {
-      toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR, { description: error.message });
+      toast.error(m.generic_communication_error(), { description: error.message });
     },
   }));
 }
@@ -289,11 +289,11 @@ export function useSetAvatarMutation() {
   return createMutation(() => ({
     mutationFn: setAvatarFn,
     onSuccess: async () => {
-      toast.success(PERSON_MESSAGES.AVATAR_UPDATED);
+      toast.success(m.person_avatar_updated());
       await people.refresh();
     },
     onError: (error: Error) => {
-      toast.error(GENERIC_MESSAGES.COMMUNICATION_ERROR, { description: error.message });
+      toast.error(m.generic_communication_error(), { description: error.message });
     },
   }));
 }
@@ -306,11 +306,11 @@ export function useUpdateCategoryMutation() {
   return createMutation(() => ({
     mutationFn: updateCategoryFn,
     onSuccess: async () => {
-      toast.success(PERSON_MESSAGES.CATEGORY_UPDATED);
+      toast.success(m.person_category_updated());
       await people.refresh();
     },
     onError: (error: Error) => {
-      toast.error(PERSON_MESSAGES.CATEGORY_UPDATE_FAILED, { description: error.message });
+      toast.error(m.person_category_update_failed(), { description: error.message });
     },
   }));
 }

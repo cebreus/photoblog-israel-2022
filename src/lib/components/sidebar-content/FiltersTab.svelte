@@ -8,6 +8,7 @@
   import * as Sidebar from "$lib/components/ui/sidebar";
   import { Switch } from "$lib/components/ui/switch";
   import { ToggleGroup, ToggleGroupItem } from "$lib/components/ui/toggle-group";
+  import * as m from "$lib/paraglide/messages";
   import { filters } from "$lib/stores/filters.svelte";
   import { people } from "$lib/stores/people.svelte";
   import { ui } from "$lib/stores/ui.svelte";
@@ -84,12 +85,12 @@
       data-testid="filters-tab-location-control"
     >
       <div class="text-sm font-semibold">
-        Zobrazit popisky
-        <p class="text-xs text-slate-400">Zobrazí popisky u fotek</p>
+        {m.ui_show_labels()}
+        <p class="text-xs text-slate-400">{m.ui_show_labels_description()}</p>
       </div>
       <Switch
         bind:checked={ui.photoLabels}
-        aria-label={ui.photoLabels ? "Skrýt popisky" : "Zobrazit popisky"}
+        aria-label={ui.photoLabels ? m.ui_hide_labels_aria() : m.ui_show_labels()}
         data-testid="filters-tab-location-switch"
       />
     </label>
@@ -99,12 +100,12 @@
       data-testid="filters-tab-separators-control"
     >
       <div class="text-sm font-semibold">
-        Zobrazit zastávky
-        <p class="text-xs text-slate-400">Popisky zastávek na cestě</p>
+        {m.ui_show_stops()}
+        <p class="text-xs text-slate-400">{m.ui_show_stops_description()}</p>
       </div>
       <Switch
         bind:checked={filters.showSeparators}
-        aria-label={filters.showSeparators ? "Skrýt zastávky" : "Zobrazit zastávky"}
+        aria-label={filters.showSeparators ? m.ui_hide_stops_aria() : m.ui_show_stops()}
         data-testid="filters-tab-separators-switch"
       />
     </label>
@@ -128,7 +129,7 @@
 
   <Sidebar.Footer class="border-sidebar-border bg-sidebar border-t p-4 px-6">
     <div class="flex items-center justify-between gap-4">
-      <div class="text-sm font-semibold">Vzhled</div>
+      <div class="text-sm font-semibold">{m.ui_appearance()}</div>
       <div class="flex items-center">
         <ToggleGroup
           type="single"
@@ -139,7 +140,7 @@
         >
           <ToggleGroupItem
             value="light"
-            aria-label="Světlý režim"
+            aria-label={m.ui_theme_light()}
             class="h-7 w-7 hover:bg-slate-100 data-[state=on]:bg-slate-200 dark:hover:bg-slate-800 dark:data-[state=on]:bg-slate-700"
             data-testid="theme-toggle-light"
           >
@@ -147,7 +148,7 @@
           </ToggleGroupItem>
           <ToggleGroupItem
             value="system"
-            aria-label="Systémový režim"
+            aria-label={m.ui_theme_system()}
             class="h-7 w-7 hover:bg-slate-100 data-[state=on]:bg-slate-200 dark:hover:bg-slate-800 dark:data-[state=on]:bg-slate-700"
             data-testid="theme-toggle-system"
           >
@@ -155,7 +156,7 @@
           </ToggleGroupItem>
           <ToggleGroupItem
             value="dark"
-            aria-label="Tmavý režim"
+            aria-label={m.ui_theme_dark()}
             class="h-7 w-7 hover:bg-slate-100 data-[state=on]:bg-slate-200 dark:hover:bg-slate-800 dark:data-[state=on]:bg-slate-700"
             data-testid="theme-toggle-dark"
           >

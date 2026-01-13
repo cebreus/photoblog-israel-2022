@@ -5,8 +5,16 @@
   import * as Accordion from "$lib/components/ui/accordion";
   import { Badge } from "$lib/components/ui/badge/";
   import { Button } from "$lib/components/ui/button";
+  import * as m from "$lib/paraglide/messages";
   import { MEDIA_TYPES, filters } from "$lib/stores/filters.svelte";
   import type { MediaItemType } from "$lib/types/manifest";
+
+  const TYPE_LABELS: Record<string, () => string> = {
+    image: m.media_type_image,
+    panorama: m.media_type_panorama,
+    sequence: m.media_type_sequence,
+    collage: m.media_type_collage,
+  };
 
   let { mediaStats = new Map() } = $props<{
     mediaStats: Map<string, number>;
@@ -54,7 +62,7 @@
     class="py-3 text-sm font-semibold no-underline"
     data-testid="filters-accordion-trigger-media-types"
   >
-    Typ média
+    {m.filters_mediatypes_title()}
   </Accordion.Trigger>
   <Accordion.Content>
     <div class="mb-2 flex w-full justify-end gap-x-2" data-testid="filters-tab-mediatypes-control">
@@ -67,10 +75,10 @@
           e.stopPropagation();
           filters.setMediaTypesAll();
         }}
-        title="Resetovat filtr"
+        title={m.filters_reset_title()}
         data-testid="filter-mediatypes-show-all"
       >
-        Všechna média
+        {m.filters_mediatypes_all()}
       </Button>
     </div>
 
@@ -87,7 +95,7 @@
             <span
               class={`truncate text-sm ${isChecked && count > 0 ? "text-foreground font-medium" : "text-muted-foreground"}`}
             >
-              {type.label}
+              {TYPE_LABELS[type.id]?.() ?? type.label}
             </span>
             <Badge
               variant="secondary"
@@ -100,7 +108,7 @@
           <Button
             variant="link"
             size="sm"
-            title="Zobrazit pouze tento typ"
+            title={m.filters_mediatypes_show_only_title()}
             class="text-xs"
             disabled={count === 0}
             onclick={(e) => {
@@ -109,13 +117,13 @@
             }}
             data-testid={`filter-solo-mediatype-${type.id}`}
           >
-            Pouze
+            {m.filters_authors_solo()}
           </Button>
 
           <Button
             variant={isChecked ? "outline" : "ghost"}
             size="icon"
-            title={isChecked ? "Skrýt" : "Zobrazit"}
+            title={isChecked ? m.filters_hide_title() : m.filters_show_title()}
             class="text-primary size-8"
             disabled={count === 0}
             onclick={() => handleMediaTypeToggle(type.id, !isChecked)}
@@ -130,7 +138,7 @@
         </div>
       {/each}
       <p class="pt-1 text-xs text-slate-400">
-        Pokud vypnete všechny typy médií, v galerii se nic nezobrazí.
+        {m.filters_mediatypes_hint()}
       </p>
     </div>
   </Accordion.Content>

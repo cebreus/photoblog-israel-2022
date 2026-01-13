@@ -5,6 +5,7 @@
   import { useScrollspy } from "$lib/actions/scrollspy";
   import { buttonVariants } from "$lib/components/ui/button";
   import * as Dialog from "$lib/components/ui/dialog";
+  import * as m from "$lib/paraglide/messages";
   import { editor } from "$lib/stores/editor.svelte";
   import { filters } from "$lib/stores/filters.svelte";
   import type { Separator } from "$lib/types/manifest";
@@ -40,7 +41,7 @@
 
   async function handleRedistribute(e: MouseEvent) {
     e.stopPropagation();
-    if (!confirm(`Opravdu chcete rovnoměrně přerozdělit fotky v lokalitě "${item.location}"?`)) {
+    if (!confirm(m.separator_redistribute_confirm({ location: item.location }))) {
       return;
     }
 
@@ -51,21 +52,21 @@
       });
       const result = await res.json();
       if (result.success) {
-        toast.success(`Přerozděleno ${result.redistributed} fotek`, { duration: 4000 });
+        toast.success(m.separator_redistribute_success({ count: result.redistributed }), {
+          duration: 4000,
+        });
         invalidateAll();
       } else {
-        toast.error(result.error || "Chyba při přerozdělování");
+        toast.error(result.error || m.separator_redistribute_error());
       }
     } catch (err) {
-      toast.error("Chyba při komunikaci se serverem");
+      toast.error(m.separator_redistribute_server_error());
     }
   }
 
   async function handleResetLocation(e: MouseEvent) {
     e.stopPropagation();
-    if (
-      !confirm(`Opravdu chcete vrátit fotky v lokalitě "${item.location}" do původního pořadí?`)
-    ) {
+    if (!confirm(m.separator_reset_confirm({ location: item.location }))) {
       return;
     }
 
@@ -76,13 +77,13 @@
       });
       const result = await res.json();
       if (result.success) {
-        toast.success("Lokace resetována");
+        toast.success(m.separator_reset_success());
         invalidateAll();
       } else {
-        toast.error("Chyba při resetování");
+        toast.error(m.separator_reset_error());
       }
     } catch (err) {
-      toast.error("Chyba při komunikaci se serverem");
+      toast.error(m.separator_redistribute_server_error());
     }
   }
 </script>
@@ -97,7 +98,7 @@
         )}
         onclick={handleRedistribute}
       >
-        Rovnoměrně rozprostřít
+        {m.separator_action_redistribute()}
       </button>
 
       <button
@@ -107,7 +108,7 @@
         )}
         onclick={handleResetLocation}
       >
-        Resetovat lokaci
+        {m.separator_action_reset()}
       </button>
     </div>
   {/if}
@@ -202,7 +203,7 @@
               })}
               data-testid="photo-grid-separator-show-story"
             >
-              Zobrazit příběh
+              {m.separator_view_story()}
             </span>
             {@render ActionButtons()}
           </Dialog.Trigger>

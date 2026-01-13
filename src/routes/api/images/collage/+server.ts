@@ -60,7 +60,7 @@ export async function POST({ request, locals }: RequestEvent): Promise<Response>
   const { log, logContext } = locals;
 
   if (!IS_DEV) {
-    return json({ success: false, error: COLLAGE_MESSAGES.DEV_ONLY }, { status: 403 });
+    return json({ success: false, error: COLLAGE_MESSAGES.DEV_ONLY() }, { status: 403 });
   }
 
   const contentDirName = getContentDir();
@@ -282,10 +282,10 @@ export async function POST({ request, locals }: RequestEvent): Promise<Response>
  */
 function validateCollageRequest(body: CollageRequest) {
   if (!body.items || body.items.length < 2) {
-    throw new Error(COLLAGE_MESSAGES.MIN_IMAGES);
+    throw new Error(COLLAGE_MESSAGES.MIN_IMAGES());
   }
   if (body.template === "grid-2x2" && body.items.length < 4) {
-    throw new Error(COLLAGE_MESSAGES.GRID_MIN_IMAGES);
+    throw new Error(COLLAGE_MESSAGES.GRID_MIN_IMAGES());
   }
   if (
     (body.template === "grid-2-3" ||
@@ -435,7 +435,7 @@ async function copyMetadataFromSource(
   await exiftool.write(
     targetPath,
     {
-      Software: COLLAGE_MESSAGES.SOFTWARE_LABEL,
+      Software: COLLAGE_MESSAGES.SOFTWARE_LABEL(),
     },
     [
       "-TagsFromFile",

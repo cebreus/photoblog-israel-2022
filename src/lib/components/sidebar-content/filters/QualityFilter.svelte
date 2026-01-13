@@ -4,6 +4,7 @@
   import * as Accordion from "$lib/components/ui/accordion";
   import { Badge } from "$lib/components/ui/badge/";
   import { Button } from "$lib/components/ui/button";
+  import * as m from "$lib/paraglide/messages";
   import { filters } from "$lib/stores/filters.svelte";
   import type { QualityFilterBucket } from "$lib/types/manifest";
   import { QUALITY_BUCKETS } from "$lib/utils/gallery";
@@ -55,7 +56,7 @@
       class="py-3 hover:no-underline"
       data-testid="filters-accordion-trigger-quality"
     >
-      <span class="text-sm font-semibold">Kvalita fotek</span>
+      <span class="text-sm font-semibold">{m.filters_quality_title()}</span>
     </Accordion.Trigger>
     <Accordion.Content>
       <div class="mb-2 flex w-full justify-end gap-x-2" data-testid="filters-tab-quality-control">
@@ -68,10 +69,10 @@
             e.stopPropagation();
             filters.selectedQualityBuckets = [];
           }}
-          title="Zobrazit všechnu kvalitu"
+          title={m.filters_quality_show_all_title()}
           data-testid="filter-quality-show-all"
         >
-          Všechna kvalita
+          {m.filters_quality_show_all()}
         </Button>
       </div>
 
@@ -101,7 +102,7 @@
             <Button
               variant="link"
               size="sm"
-              title="Zobrazit pouze tuto kvalitu"
+              title={m.filters_quality_show_only()}
               class="text-xs"
               disabled={count === 0}
               onclick={(e) => {
@@ -110,13 +111,13 @@
               }}
               data-testid={`filter-solo-quality-${bucket.id}`}
             >
-              Pouze
+              {m.filters_authors_solo()}
             </Button>
 
             <Button
               variant={isActive ? "outline" : "ghost"}
               size="icon"
-              title={isActive ? "Skrýt" : "Zobrazit"}
+              title={isActive ? m.filters_hide_title() : m.filters_show_title()}
               class="text-primary size-8"
               disabled={count === 0}
               onclick={() => toggleQualityBucket(bucket.id)}
@@ -131,8 +132,7 @@
           </div>
         {/each}
         <p class="pt-1 text-xs text-slate-400">
-          Kvalita je určena automaticky pomocí AI. Pokud odškrtnete všechny možnosti, galerie bude
-          prázdná.
+          {m.filters_quality_hint()}
         </p>
       </div>
     </Accordion.Content>

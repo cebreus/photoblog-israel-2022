@@ -4,8 +4,8 @@
   import { untrack } from "svelte";
 
   import { Button } from "$lib/components/ui/button";
+  import * as m from "$lib/paraglide/messages";
   import type { ImageEntry, SequenceInfo } from "$lib/types/manifest";
-  import { SEQUENCE_MESSAGES } from "$lib/utils/messages";
 
   import {
     DEFAULT_FRAME_DELAY_MS,
@@ -48,14 +48,14 @@
 
   const typeLabel = $derived.by(function getTypeLabel(): string {
     const labels: Record<string, string> = {
-      pano: SEQUENCE_MESSAGES.TYPE_PANORAMA,
-      zoom: SEQUENCE_MESSAGES.TYPE_ZOOM,
-      timelapse: SEQUENCE_MESSAGES.TYPE_TIMELAPSE,
-      "focus-stack": SEQUENCE_MESSAGES.TYPE_FOCUS_STACK,
-      pan: SEQUENCE_MESSAGES.TYPE_PAN,
-      burst: SEQUENCE_MESSAGES.TYPE_BURST,
+      pano: m.sequence_type_panorama(),
+      zoom: m.sequence_type_zoom(),
+      timelapse: m.sequence_type_timelapse(),
+      "focus-stack": m.sequence_type_focus_stack(),
+      pan: m.sequence_type_pan(),
+      burst: m.sequence_type_burst(),
     };
-    return labels[sequenceInfo.type] ?? SEQUENCE_MESSAGES.TYPE_SEQUENCE;
+    return labels[sequenceInfo.type] ?? m.sequence_type_sequence();
   });
 
   function advanceFrame(): void {

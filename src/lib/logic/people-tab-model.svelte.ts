@@ -2,11 +2,11 @@ import { browser, dev } from "$app/environment";
 import { goto } from "$app/navigation";
 import { page } from "$app/state";
 import { createLogger } from "$lib/logger";
+import * as m from "$lib/paraglide/messages";
 import { filters } from "$lib/stores/filters.svelte";
 import { people } from "$lib/stores/people.svelte";
 import { isImageEntry, type Person, type PhotoDayItem } from "$lib/types/manifest";
 import { isGloballyVisible } from "$lib/utils/gallery";
-import { DETECTION_MESSAGES } from "$lib/utils/messages";
 import { untrack } from "svelte";
 import { toast } from "svelte-sonner";
 
@@ -427,11 +427,10 @@ export function createPeopleTabModel(params?: {
     openBulkConfirm({
       title:
         selectedForMerge.length === 1
-          ? "Opravdu chcete skrýt tuto osobu?"
-          : `Opravdu chcete skrýt ${selectedForMerge.length} vybraných osob?`,
-      description:
-        "Hromadné skrytí způsobí, že se vybrané osoby nebudou zobrazovat v přehledech ani filtrech.",
-      confirmLabel: "Skrýt",
+          ? m.person_bulk_hide_confirm_title_single()
+          : m.person_bulk_hide_confirm_title_plural({ count: selectedForMerge.length }),
+      description: m.person_bulk_hide_confirm_description(),
+      confirmLabel: m.person_bulk_hide_confirm_action(),
       onConfirm: () => executeBulkHide(),
     });
   }
@@ -460,9 +459,9 @@ export function createPeopleTabModel(params?: {
     if (hiddenIds.length === 0) return;
 
     openBulkConfirm({
-      title: `Obnovit ${hiddenIds.length} skrytých osob?`,
-      description: "Obnovené osoby se znovu objeví ve výběrech i ve fotkách.",
-      confirmLabel: "Obnovit",
+      title: m.person_bulk_restore_confirm_title({ count: hiddenIds.length }),
+      description: m.person_bulk_restore_confirm_description(),
+      confirmLabel: m.person_bulk_restore_confirm_action(),
       onConfirm: () => executeBulkRestore(hiddenIds),
     });
   }
@@ -488,10 +487,9 @@ export function createPeopleTabModel(params?: {
     if (selectedForMerge.length === 0) return;
 
     openBulkConfirm({
-      title: `Přesunout ${selectedForMerge.length} profilů do koše?`,
-      description:
-        "Osoby v koši se nebudou používat pro další rozpoznávání tváří. Tuto akci lze vrátit zpět v sekci Koš.",
-      confirmLabel: "Přesunout do koše",
+      title: m.person_bulk_junk_confirm_title({ count: selectedForMerge.length }),
+      description: m.person_bulk_junk_confirm_description(),
+      confirmLabel: m.person_bulk_junk_confirm_action(),
       onConfirm: () => executeBulkMarkAsJunk(),
     });
   }
@@ -538,7 +536,7 @@ export function createPeopleTabModel(params?: {
         {
           onError: (error: Error) => {
             logger.error({ err: error }, `Failed to ${actionLabel} person ${p.name}`);
-            toast.error(`Nepodařilo se ${actionLabel} osobu ${p.name}`, {
+            toast.error(m.person_toast_error_generic({ action: actionLabel, name: p.name }), {
               description: error.message,
             });
           },
@@ -697,16 +695,17 @@ export function createPeopleTabModel(params?: {
   function bulkUpdateCategory(category: "person" | "statue" | "painting") {
     if (selectedForMerge.length === 0) return;
 
-    const labels = {
-      person: "Osoba",
-      statue: "Socha",
-      painting: "Malba",
-    } as const;
-
     openBulkConfirm({
-      title: `Změnit typ u ${selectedForMerge.length} osob?`,
-      description: `Vybrané profily budou nastaveny na typ: ${labels[category]}.`,
-      confirmLabel: "Změnit typ",
+      title: m.person_bulk_category_confirm_title({ count: selectedForMerge.length }),
+      description: m.person_bulk_category_confirm_description({
+        category:
+          category === "person"
+            ? m.person_category_person()
+            : category === "statue"
+              ? m.person_category_statue()
+              : m.person_category_painting(),
+      }),
+      confirmLabel: m.person_bulk_category_confirm_action(),
       onConfirm: () => executeBulkUpdateCategory(category),
     });
   }
@@ -759,7 +758,7 @@ export function createPeopleTabModel(params?: {
   function handleBulkInvalidateDetections() {
     if (selectedForMerge.length === 0) return;
     if (bulkInvalidationCandidates.length === 0) {
-      toast.info("Vybrané osoby nemají žádné detekce.");
+      toast.info(m.person_bulk_invalidate_no_detections());
       return;
     }
     showInvalidateConfirmDialog = true;
@@ -804,7 +803,7 @@ export function createPeopleTabModel(params?: {
 
     try {
       await Promise.all(promises);
-      toast.success(DETECTION_MESSAGES.BULK_DETECTION_INVALIDATED);
+      toast.success(m.detection_bulk_detection_invalidated());
 
       // Clear selection after success
       selectedForMerge = [];

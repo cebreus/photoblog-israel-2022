@@ -13,6 +13,7 @@
   import { Separator } from "$lib/components/ui/separator";
   import * as Sidebar from "$lib/components/ui/sidebar";
   import { createPeopleTabModel } from "$lib/logic/people-tab-model.svelte";
+  import * as m from "$lib/paraglide/messages";
   import { people } from "$lib/stores/people.svelte";
   import { system } from "$lib/stores/system.svelte";
   import { ui } from "$lib/stores/ui.svelte";
@@ -141,8 +142,8 @@
 
   <LoadingOverlay
     visible={isBackgroundFetching && !isProcessing}
-    label="Synchronizace dat..."
-    description="Aktualizuji seznam osob"
+    label={m.people_tab_loading_label()}
+    description={m.people_tab_loading_description()}
   />
 
   <Sidebar.Header class="p-0">
@@ -210,7 +211,7 @@
             {#if unnamedPersons.length > 0}
               <Accordion.Item value="persons" data-testid="people-tab-unnamed-item">
                 <Accordion.Trigger class="px-2" data-testid="people-tab-unnamed-trigger">
-                  Osoby ({unnamedPersons.length})
+                  {m.people_tab_unnamed_title()} ({unnamedPersons.length})
                 </Accordion.Trigger>
                 <Accordion.Content>
                   {@render groupedGrid(unnamedPersons, "people-tab-unnamed")}
@@ -220,7 +221,7 @@
             {#if people.displayStatues.length > 0}
               <Accordion.Item value="statues" data-testid="people-tab-category-statues-item">
                 <Accordion.Trigger class="px-2" data-testid="people-tab-category-statues-trigger">
-                  Sochy ({people.displayStatues.length})
+                  {m.people_tab_statues_title()} ({people.displayStatues.length})
                 </Accordion.Trigger>
                 <Accordion.Content>
                   {@render groupedGrid(people.displayStatues, "people-tab-statues")}
@@ -231,7 +232,7 @@
             {#if people.displayPaintings.length > 0}
               <Accordion.Item value="paintings" data-testid="people-tab-category-paintings-item">
                 <Accordion.Trigger class="px-2" data-testid="people-tab-category-paintings-trigger">
-                  Malby / Fresky ({people.displayPaintings.length})
+                  {m.people_tab_paintings_title()} ({people.displayPaintings.length})
                 </Accordion.Trigger>
                 <Accordion.Content>
                   {@render groupedGrid(people.displayPaintings, "people-tab-paintings")}
@@ -242,7 +243,7 @@
             {#if people.displayJunk.length > 0}
               <Accordion.Item value="junk" data-testid="people-tab-category-junk-item">
                 <Accordion.Trigger class="px-2" data-testid="people-tab-category-junk-trigger">
-                  Koš ({people.displayJunk.length})
+                  {m.people_tab_junk_title()} ({people.displayJunk.length})
                 </Accordion.Trigger>
                 <Accordion.Content>
                   {@render groupedGrid(people.displayJunk, "people-tab-category-junk")}

@@ -13,6 +13,7 @@
   import { Label } from "$lib/components/ui/label";
   import { getContentDir } from "$lib/config";
   import { createLogger } from "$lib/logger";
+  import * as m from "$lib/paraglide/messages";
   import { applyMetadataUpdates } from "$lib/shared/metadata-utils";
   import { editor } from "$lib/stores/editor.svelte";
   import { manifest } from "$lib/stores/manifest.svelte";
@@ -25,7 +26,6 @@
     isCollage,
     loadCollageConfig,
   } from "$lib/utils/collage-config";
-  import { COLLAGE_MESSAGES, IMAGE_MESSAGES } from "$lib/utils/messages";
   import { smartToast } from "$lib/utils/toasts";
 
   import { invalidateAll } from "$app/navigation";
@@ -264,7 +264,7 @@
 
       if (!res.ok) {
         const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData.message || IMAGE_MESSAGES.METADATA_UPDATE_FAILED);
+        throw new Error(errorData.message || m.image_metadata_update_failed());
       }
 
       const responseData = await res.json();
@@ -281,7 +281,7 @@
         }
       }
 
-      toast.success(IMAGE_MESSAGES.imageSaved(imageIds.length));
+      toast.success(m.image_imagesaved({ count: imageIds.length }));
 
       // If server returned fresh photoDays (e.g. after releaseDate change),
       // update the manifest store for smooth re-render without full page reload.
@@ -298,16 +298,14 @@
   }
 
   function handleFieldInput(field: keyof FormData, value: string) {
-    // biome-ignore lint/suspicious/noExplicitAny: Dynamic field access requires any
-    formData[field] = value as any;
+    (formData as Record<string, unknown>)[field] = value;
     if (explicitClears[field]) {
       explicitClears[field] = false;
     }
   }
 
   function handleFieldClear(field: keyof FormData) {
-    // biome-ignore lint/suspicious/noExplicitAny: Dynamic field access requires any
-    formData[field] = "" as any;
+    (formData as Record<string, unknown>)[field] = "";
     explicitClears[field] = true;
   }
 
@@ -317,8 +315,7 @@
   function restoreGeoValue(field: keyof FormData) {
     const prevValue = previousGeoValues[field];
     if (prevValue !== undefined) {
-      // biome-ignore lint/suspicious/noExplicitAny: Dynamic field access requires any
-      formData[field] = prevValue as any;
+      (formData as Record<string, unknown>)[field] = prevValue;
       explicitClears[field] = !formData[field];
       const newPrev = { ...previousGeoValues };
       delete newPrev[field];
@@ -328,7 +325,7 @@
 
   async function handleFetchGeoData() {
     if (!activeImage?.exif?.latitude || !activeImage?.exif?.longitude) {
-      toast.error(IMAGE_MESSAGES.NO_GPS_COORDINATES);
+      toast.error(m.image_no_gps_coordinates());
       return;
     }
 
@@ -337,7 +334,7 @@
       const { latitude, longitude } = activeImage.exif;
       const res = await fetch(`/api/geocode?lat=${latitude}&lng=${longitude}`);
 
-      if (!res.ok) throw new Error(IMAGE_MESSAGES.MAP_FETCH_FAILED);
+      if (!res.ok) throw new Error(m.image_map_fetch_failed());
 
       const data = await res.json();
       const snapshot = { ...formData };
@@ -346,10 +343,8 @@
       const applyField = (field: keyof FormData, value: string | undefined) => {
         if (explicitClears[field]) return;
         if (value && value !== snapshot[field]) {
-          // biome-ignore lint/suspicious/noExplicitAny: Dynamic field access requires any
-          newPrevious[field] = snapshot[field] as any;
-          // biome-ignore lint/suspicious/noExplicitAny: Dynamic field access requires any
-          formData[field] = value as any;
+          (newPrevious as Record<string, unknown>)[field] = snapshot[field];
+          (formData as Record<string, unknown>)[field] = value;
           explicitClears[field] = false;
         }
       };
@@ -363,13 +358,13 @@
       previousGeoValues = newPrevious;
 
       if (Object.keys(newPrevious).length > 0) {
-        toast.success(IMAGE_MESSAGES.GEO_DATA_LOADED);
+        toast.success(m.image_geo_data_loaded());
       } else {
-        toast.info(IMAGE_MESSAGES.GEO_DATA_SAME);
+        toast.info(m.image_geo_data_same());
       }
     } catch (e) {
       logger.error({ err: e }, "Failed to fetch geo data");
-      toast.error(IMAGE_MESSAGES.GEO_FETCH_FAILED);
+      toast.error(m.image_geo_fetch_failed());
     } finally {
       isFetchingGeo = false;
     }
@@ -402,7 +397,7 @@
         const config = await loadCollageConfig(selected[0].id);
 
         if (!config) {
-          toast.error(COLLAGE_MESSAGES.LOAD_CONFIG_FAILED);
+          toast.error(m.collage_load_config_failed());
           return;
         }
 
@@ -412,7 +407,7 @@
         const placeholders = await createSourceImagePlaceholders(config, urlPrefix);
 
         if (placeholders.length !== config.items.length) {
-          toast.error(COLLAGE_MESSAGES.SOURCE_IMAGES_NOT_FOUND);
+          toast.error(m.collage_source_images_not_found());
           logger.error(
             `[Collage] Created ${placeholders.length} placeholders but config has ${config.items.length} items`,
           );
@@ -422,7 +417,7 @@
         collageSourceImages = placeholders;
         existingCollageConfig = config;
       } catch (e) {
-        toast.error(COLLAGE_MESSAGES.LOAD_FAILED(String(e)));
+        toast.error(m.collage_loadfailed({ err: String(e) }));
         return;
       }
     } else {
@@ -436,7 +431,7 @@
 
   function handlePasteMetadata() {
     if (!metadataClipboard.data) {
-      toast.error(IMAGE_MESSAGES.NO_CLIPBOARD_DATA);
+      toast.error(m.image_no_clipboard_data());
       return;
     }
     isPasteDialogOpen = true;
@@ -481,7 +476,7 @@
 
       if (!res.ok) {
         const err = await res.json();
-        throw new Error(err.message || IMAGE_MESSAGES.METADATA_PASTE_FAILED);
+        throw new Error(err.message || m.image_metadata_paste_failed());
       }
 
       for (const img of selectedImages) {
@@ -494,10 +489,10 @@
     const promise = performOperation();
 
     smartToast(promise, {
-      loading: IMAGE_MESSAGES.APPLYING_METADATA_PASTE,
-      success: IMAGE_MESSAGES.METADATA_PASTED,
+      loading: m.image_applying_metadata_paste(),
+      success: m.image_metadata_pasted(),
       error: (e) =>
-        IMAGE_MESSAGES.ERROR_TITLE(e instanceof Error ? e.message : IMAGE_MESSAGES.UNKNOWN_ERROR),
+        m.image_errortitle({ msg: e instanceof Error ? e.message : m.image_unknown_error() }),
       delay: 500,
     });
 
@@ -513,7 +508,7 @@
 </script>
 
 <div class="relative flex h-full flex-col" data-testid="edit-tab">
-  <LoadingOverlay visible={isSaving} label={IMAGE_MESSAGES.SAVING_METADATA} />
+  <LoadingOverlay visible={isSaving} label={m.image_saving_metadata()} />
 
   <MetadataPasteDialog
     bind:open={isPasteDialogOpen}
@@ -535,9 +530,9 @@
       <Button variant="outline" class="w-full gap-2" onclick={handleOpenCollageDialog}>
         <LayoutGrid class="size-4" strokeWidth={2.5} />
         {#if isEditMode}
-          {COLLAGE_MESSAGES.EDIT_BUTTON}
+          {m.collage_edit_button()}
         {:else}
-          {COLLAGE_MESSAGES.CREATE_TRIGGER_BUTTON(selectedImages.length)}
+          {m.collage_createtriggerbutton({ count: selectedImages.length })}
         {/if}
       </Button>
     </div>
@@ -547,7 +542,7 @@
     <div class="px-4 pt-2">
       <Button variant="outline" class="w-full gap-2" onclick={() => (isClapEditorOpen = true)}>
         <Crop class="size-4" strokeWidth={2.5} />
-        Upravit výřez
+        {m.ui_edit_crop()}
       </Button>
     </div>
   {/if}
@@ -567,7 +562,7 @@
       >
         <Info class="size-4 shrink-0" strokeWidth={2.5} />
         <span>
-          Výběr obsahuje skupiny. Změny se projeví na celkem <strong>{affectedItemsCount}</strong> obrázcích.
+          {@html m.ui_selection_contains_groups({ count: affectedItemsCount })}
         </span>
       </div>
     </div>
@@ -582,7 +577,7 @@
     }}
   >
     <div class="space-y-1">
-      <Label>Datum řazení</Label>
+      <Label>{m.image_field_release_date()}</Label>
       <div class="flex flex-col gap-1">
         <div class="flex gap-2">
           <input
@@ -601,13 +596,13 @@
         </div>
         {#if activeImage?.exif?.date}
           <div class="text-muted-foreground flex items-center gap-2 text-xs">
-            <span>Původní (EXIF):</span>
+            <span>{m.ui_original_exif()}</span>
             <button
               type="button"
               class="hover:text-foreground cursor-pointer underline"
               onclick={handleResetReleaseDate}
-              title="Použít původní čas"
-              aria-label="Použít původní čas"
+              title={m.aria_use_original_time()}
+              aria-label={m.aria_use_original_time()}
             >
               {new Date(activeImage.exif.date).toLocaleString()}
             </button>
@@ -616,7 +611,7 @@
       </div>
     </div>
     <MetadataInputField
-      label={IMAGE_MESSAGES.LABEL_CAPTION}
+      label={m.image_label_caption()}
       name="caption"
       type="textarea"
       value={formData.caption}
@@ -643,7 +638,7 @@
     />
 
     <MetadataInputField
-      label={IMAGE_MESSAGES.LABEL_TITLE}
+      label={m.image_label_title()}
       name="title"
       value={formData.title}
       onInput={(v) => handleFieldInput("title", v)}
@@ -652,7 +647,7 @@
     />
 
     <MetadataInputField
-      label={IMAGE_MESSAGES.LABEL_AUTHOR}
+      label={m.image_label_author()}
       name="author"
       value={formData.author}
       onInput={(v) => handleFieldInput("author", v)}
@@ -661,10 +656,10 @@
     />
 
     <MetadataInputField
-      label={IMAGE_MESSAGES.LABEL_KEYWORDS}
+      label={m.image_label_keywords()}
       name="keywords"
       value={formData.keywords}
-      placeholder={IMAGE_MESSAGES.KEYWORDS_PLACEHOLDER}
+      placeholder={m.image_keywords_placeholder()}
       onInput={function handleKeywordsInput(v) {
         handleFieldInput("keywords", v);
       }}
@@ -675,7 +670,7 @@
     />
 
     <div class="grid gap-2">
-      <Label for="snapshot-type" class="text-sm font-medium">Typ fotky</Label>
+      <Label for="snapshot-type" class="text-sm font-medium">{m.ui_photo_type()}</Label>
       <select
         id="snapshot-type"
         class="border-input placeholder:text-muted-foreground focus-visible:ring-ring flex h-9 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
@@ -685,18 +680,18 @@
         }}
         data-testid="edit-tab-snapshot-type"
       >
-        <option value="none">Běžná fotka</option>
-        <option value="author">Momentka autora</option>
-        <option value="others">Momentka ostatních</option>
+        <option value="none">{m.ui_regular_photo()}</option>
+        <option value="author">{m.image_flag_snapshot()}</option>
+        <option value="others">{m.image_flag_others()}</option>
       </select>
       <p class="text-muted-foreground text-xs">
-        Momentky ostatních jsou skryté ve výchozím zobrazení
+        {m.image_flag_others_hint()}
       </p>
     </div>
 
     <div class="mt-auto flex justify-end pt-4">
       <Button class="w-full" size="lg" type="submit" data-testid="edit-tab-submit-button">
-        {IMAGE_MESSAGES.SAVE_CHANGES}
+        {m.image_save_changes()}
       </Button>
     </div>
   </form>

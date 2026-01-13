@@ -9,6 +9,7 @@
   import PhotoGridItem from "$lib/components/PhotoGridItem.svelte";
   import PhotoGridSeparator from "$lib/components/PhotoGridSeparator.svelte";
   import { createLogger } from "$lib/logger";
+  import * as m from "$lib/paraglide/messages";
   import { editor } from "$lib/stores/editor.svelte";
   import { filters } from "$lib/stores/filters.svelte";
   import { metadataClipboard } from "$lib/stores/metadata-clipboard.svelte";
@@ -22,7 +23,6 @@
   } from "$lib/types/manifest";
   import { tracedFetch } from "$lib/utils/api";
   import { performImageAction } from "$lib/utils/api-actions";
-  import { IMAGE_MESSAGES } from "$lib/utils/messages";
   import { reorderArray, saveImageOrder } from "$lib/utils/reorder";
   import { findIndexById, getRange } from "$lib/utils/selection";
   import { toSlug } from "$lib/utils/strings";
@@ -216,15 +216,15 @@
     const result = await saveImageOrder({ dayId, imageIds: newOrder });
 
     if (result.success) {
-      toast.success("Pořadí uloženo", {
+      toast.success(m.grid_order_saved(), {
         action: {
           label: "Vrátit zpět",
           onClick: async () => {
             const undoResult = await saveImageOrder({ dayId, imageIds: previousOrder });
             if (undoResult.success) {
-              toast.success("Vráceno zpět");
+              toast.success(m.grid_undo_success());
             } else {
-              toast.error("Nepodařilo se vrátit změny");
+              toast.error(m.grid_undo_error());
             }
           },
         },
@@ -335,7 +335,7 @@
 
   function handleCopyMetadata(item: ImageEntry) {
     metadataClipboard.copy(item);
-    toast.success(IMAGE_MESSAGES.metadataCopied(item.src.split("/").pop() || ""));
+    toast.success(m.image_metadata_copied({ filename: item.src.split("/").pop() || "" }));
   }
 
   function handlePasteMetadata(item: ImageEntry, onlyThis = false) {
@@ -370,7 +370,7 @@
       logger.debug({ itemId: item.id }, "Single Paste");
       // Prevent pasting to the same image that was copied
       if (clipboard.sourceImage?.id === item.id) {
-        toast.error(IMAGE_MESSAGES.PASTE_TO_SELF);
+        toast.error(m.image_paste_to_self());
         return;
       }
 
@@ -419,7 +419,7 @@
     }
 
     if (targetImages.length === 0) {
-      toast.info(IMAGE_MESSAGES.NO_IMAGES_TO_EDIT);
+      toast.info(m.image_no_images_to_edit());
       // If we filtered everything out, we still close the dialog
       isPasteDialogOpen = false;
       return;
@@ -454,7 +454,7 @@
       });
 
       if (!res.ok) {
-        let errorMessage = IMAGE_MESSAGES.METADATA_PASTE_FAILED;
+        let errorMessage = m.image_metadata_paste_failed();
         try {
           const err = await res.json();
           errorMessage = err.message || errorMessage;
@@ -473,10 +473,10 @@
     const promise = performOperation();
 
     smartToast(promise, {
-      loading: IMAGE_MESSAGES.APPLYING_METADATA_PASTE,
-      success: IMAGE_MESSAGES.METADATA_PASTED,
+      loading: m.image_applying_metadata_paste(),
+      success: m.image_metadata_pasted(),
       error: (e) =>
-        IMAGE_MESSAGES.ERROR_TITLE(e instanceof Error ? e.message : IMAGE_MESSAGES.UNKNOWN_ERROR),
+        m.image_errortitle({ msg: e instanceof Error ? e.message : m.image_unknown_error() }),
       delay: 500,
     });
 
@@ -523,7 +523,7 @@
     }
 
     if (targetImages.length === 0) {
-      toast.error("Žádné obrázky k resetování");
+      toast.error(m.image_no_images_to_reset());
       return;
     }
 
@@ -553,9 +553,9 @@
     const promise = performReset();
 
     smartToast(promise, {
-      loading: `Resetuji datum řazení (${targetImages.length}×)...`,
-      success: `Datum řazení resetováno (${targetImages.length}×)`,
-      error: (e) => (e instanceof Error ? e.message : "Nepodařilo se resetovat"),
+      loading: m.image_reset_release_date_loading({ count: targetImages.length }),
+      success: m.image_reset_release_date_success({ count: targetImages.length }),
+      error: (e) => (e instanceof Error ? e.message : m.image_reset_release_date_error()),
       delay: 500,
     });
 
@@ -569,9 +569,7 @@
 
   async function handleSwapTimes() {
     if (editor.selection.size < 2) {
-      toast.error(
-        "Pro prohození časů musí být vybrány alespoň 2 fotky (reprezentující 2 skupiny).",
-      );
+      toast.error(m.image_swap_times_min_selection());
       return;
     }
     const ids = Array.from(editor.selection);
@@ -588,9 +586,9 @@
     });
 
     smartToast(promise, {
-      loading: "Prohazuji časy...",
-      success: "Časy úspěšně prohozeny",
-      error: (e) => (e instanceof Error ? e.message : "Chyba při prohození"),
+      loading: m.image_swap_times_loading(),
+      success: m.image_swap_times_success(),
+      error: (e) => (e instanceof Error ? e.message : m.image_swap_times_error()),
     });
 
     try {
@@ -603,7 +601,7 @@
 
   async function handleRedistributeTimes() {
     if (editor.selection.size < 2) {
-      toast.error("Pro rozprostření časů musí být vybrány alespoň 2 fotky.");
+      toast.error(m.image_redistribute_times_min_selection());
       return;
     }
     const ids = Array.from(editor.selection);
@@ -634,16 +632,16 @@
     });
 
     toast.promise(promise, {
-      loading: `Rozprostírám časy (${ids.length}×)...`,
-      success: (result) => `Časy rozprostřeny (${result.redistributed}×)`,
-      error: (e) => (e instanceof Error ? e.message : "Chyba při rozprostření"),
+      loading: m.image_redistribute_times_loading({ count: ids.length }),
+      success: (result) => m.image_redistribute_times_success({ count: result.redistributed }),
+      error: (e) => (e instanceof Error ? e.message : m.image_redistribute_times_error()),
       action: {
-        label: "Vrátit zpět",
+        label: m.image_undo(),
         onClick: async () => {
           let successCount = 0;
           const total = ids.length;
 
-          const undoToastId = toast.loading(`Vracím změny (0/${total})...`);
+          const undoToastId = toast.loading(m.image_undo_loading({ current: 0, total }));
 
           try {
             // To prevent flooding, we can do parallel limits or sequential. Sequential is safer.
@@ -661,14 +659,16 @@
               successCount++;
               // Update toast occasionally
               if (successCount % 5 === 0)
-                toast.loading(`Vracím změny (${successCount}/${total})...`, { id: undoToastId });
+                toast.loading(m.image_undo_loading({ current: successCount, total }), {
+                  id: undoToastId,
+                });
             }
 
-            toast.success("Změny vráceny", { id: undoToastId });
+            toast.success(m.image_undo_success(), { id: undoToastId });
             await invalidateAll();
           } catch (e) {
             logger.error({ err: e }, "Failed to undo redistribution");
-            toast.error("Nepodařilo se vrátit všechny změny", { id: undoToastId });
+            toast.error(m.image_undo_error(), { id: undoToastId });
           }
         },
       },

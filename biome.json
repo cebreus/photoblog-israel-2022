@@ -19,6 +19,15 @@
   },
   "overrides": [
     {
+      "includes": ["src/lib/paraglide/**/*"],
+      "linter": {
+        "enabled": false
+      },
+      "formatter": {
+        "enabled": false
+      }
+    },
+    {
       "includes": ["scripts/**", "tests/**"],
       "linter": {
         "rules": {

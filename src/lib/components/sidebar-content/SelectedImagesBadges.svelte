@@ -4,6 +4,7 @@
 
   import { Badge } from "$lib/components/ui/badge";
   import { Button } from "$lib/components/ui/button";
+  import * as m from "$lib/paraglide/messages";
   import type { ImageEntry } from "$lib/types/manifest";
 
   let { images, hasClipboardData, onRemove, onClearAll, onPaste } = $props<{
@@ -24,7 +25,7 @@
         onclick={onClearAll}
         data-testid="edit-tab-clear-selection"
       >
-        Odebrat vše
+        {m.ui_remove_all()}
       </Badge>
     {/if}
 
@@ -32,10 +33,10 @@
       <Badge
         class="cursor-pointer font-mono text-xs"
         onclick={onPaste}
-        aria-label="Vložit metadata na vybrané obrázky"
+        aria-label={m.aria_paste_metadata_selected()}
         data-testid="edit-tab-paste-metadata"
       >
-        Vložit metadata
+        {m.ui_paste_metadata()}
       </Badge>
     {/if}
 
@@ -53,7 +54,7 @@
         </span>
         {#if img.sequenceInfo}
           <span class="text-muted-foreground ml-0.5 text-[10px]">
-            (skupina {img.sequenceInfo.total})
+            {m.ui_group_count({ count: img.sequenceInfo.total })}
           </span>
         {/if}
         <Button
@@ -61,7 +62,7 @@
           size="icon"
           class="text-muted-foreground hover:text-foreground size-4 rounded-full p-0"
           onclick={() => onRemove(img.id)}
-          aria-label="Odebrat z výběru"
+          aria-label={m.aria_remove_from_selection()}
         >
           <X size={10} />
         </Button>

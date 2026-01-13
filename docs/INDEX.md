@@ -44,6 +44,7 @@
 - [TESTING.md](./TESTING.md) — strategie testů, 6 Vitest projektů, Playwright E2E.
 - [CODE-QUALITY.md](./CODE-QUALITY.md) — lint (Biome), formátování (Prettier), type-check.
 - [LOGGING.md](./LOGGING.md) — strukturované logování (Pino), wide events, E2E trasování.
+- [I18N.md](./I18N.md) — internationalization (Paraglide-js), pluralizace, dynamické překlady.
 
 ## Maintenance (NOVÉ!)
 
@@ -72,4 +73,4 @@
 
 ---
 
-Poslední aktualizace: 2026-01-06
+Poslední aktualizace: 2026-01-13

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { PLURALS } from "$lib/utils/messages";
+  import { getPlural } from "$lib/utils/i18n";
 
   type Stats = {
     total: number;
@@ -26,7 +26,8 @@
       {stats.visibleWithFaces}
     </div>
     <div class="text-xs text-slate-500">
-      Fotky{#if stats.totalWithFaces > 0}
+      {getPlural(stats.totalWithFaces, "fotka")}
+      {#if stats.totalWithFaces > 0}
         / zobrazeno{/if}
     </div>
   </div>
@@ -38,7 +39,7 @@
     >
       {stats.total}
     </div>
-    <div class="text-xs text-slate-500 capitalize">{PLURALS.osoba(stats.total)}</div>
+    <div class="text-xs text-slate-500 capitalize">{getPlural(stats.total, "osoba")}</div>
   </div>
 
   <div>
@@ -48,6 +49,6 @@
     >
       {stats.faces}
     </div>
-    <div class="text-xs text-slate-500 capitalize">{PLURALS.tvar(stats.faces)}</div>
+    <div class="text-xs text-slate-500 capitalize">{getPlural(stats.faces, "tvar")}</div>
   </div>
 </div>

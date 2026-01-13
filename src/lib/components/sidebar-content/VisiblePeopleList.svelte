@@ -9,6 +9,7 @@
   import { Button } from "$lib/components/ui/button";
   import { Input } from "$lib/components/ui/input";
   import { Separator } from "$lib/components/ui/separator";
+  import * as m from "$lib/paraglide/messages";
   import type { Person } from "$lib/types/manifest";
   import { cn } from "$lib/utils";
 
@@ -81,7 +82,7 @@
         e.stopPropagation();
         openPersonDetail(person, e);
       }}
-      aria-label="Otevřít detail osoby"
+      aria-label={m.person_open_detail_aria()}
       data-testid="people-tab-person-thumbnail-button"
     >
       {#if person.thumbnail}
@@ -118,7 +119,7 @@
             variant="ghost"
             size="icon"
             class="h-7 w-7 hover:bg-green-100 dark:hover:bg-green-900"
-            aria-label="Potvrdit"
+            aria-label={m.ui_confirm()}
             data-testid="people-tab-person-confirm"
             onclick={(event) => {
               event.stopPropagation();
@@ -131,7 +132,7 @@
             variant="ghost"
             size="icon"
             class="h-7 w-7 hover:bg-red-100 dark:hover:bg-red-900"
-            aria-label="Zrušit"
+            aria-label={m.ui_cancel()}
             data-testid="people-tab-person-cancel"
             onclick={(event) => {
               event.stopPropagation();
@@ -147,7 +148,7 @@
             variant="ghost"
             class="hover:text-primary h-auto flex-1 cursor-pointer justify-start border-none bg-transparent p-0 text-left text-sm font-medium transition-colors hover:underline"
             data-testid="people-tab-person-name"
-            title="Otevřít detail / Dvojklik pro přejmenování"
+            title={m.person_rename_hint()}
             onclick={(event) => {
               event.stopPropagation();
               openPersonDetail(person, event);
@@ -163,8 +164,8 @@
             variant="ghost"
             size="icon"
             class="text-muted-foreground/30 hover:text-foreground size-4 shrink-0 p-0"
-            title="Přejmenovat"
-            aria-label="Přejmenovat"
+            title={m.person_rename_button_aria()}
+            aria-label={m.person_rename_button_aria()}
             onclick={(event) => {
               event.stopPropagation();
               startEditing(person);
@@ -190,15 +191,15 @@
       <div class="text-muted-foreground text-xs" data-testid="people-tab-person-count">
         {#if dev}
           {#if person.detectionsCount !== undefined}
-            {person.detectionsCount} detekcí
+            {m.person_detections_count({ count: person.detectionsCount })}
             {#if person.detectionsCount !== person.faceCount}
-              / {person.faceCount} fotek
+              / {m.person_photos_count({ count: person.faceCount })}
             {/if}
           {:else}
-            {person.faceCount} detekcí
+            {m.person_detections_count({ count: person.faceCount })}
           {/if}
         {:else}
-          {person.faceCount} fotek
+          {m.person_photos_count({ count: person.faceCount })}
         {/if}
       </div>
     </div>
@@ -219,7 +220,7 @@
           toggleMergeSelection(person.id, event.shiftKey);
         }}
         aria-pressed={isMergeSelected}
-        aria-label={isMergeSelected ? "Zrušit výběr pro sloučení" : "Vybrat pro sloučení"}
+        aria-label={isMergeSelected ? m.person_unselect_merge_aria() : m.person_select_merge_aria()}
         data-testid="people-tab-person-merge-checkbox"
       >
         {#if isMergeSelected}
@@ -243,8 +244,8 @@
         variant="ghost"
         size="icon"
         class="h-8 w-8 text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-200"
-        aria-label="Skrýt osobu"
-        title="Skrýt osobu"
+        aria-label={m.person_hide_person_aria()}
+        title={m.person_hide_person_aria()}
         disabled={processingIds.has(person.id)}
         data-testid="people-tab-person-hide-button"
         onclick={(event) => {
@@ -291,9 +292,11 @@
     </div>
   {:else}
     <div class="text-muted-foreground p-8 text-center text-sm" data-testid="people-tab-empty-state">
-      Žádné osoby nebyly detekovány.
+      {m.person_no_detections()}
       <br />
-      <span class="text-xs opacity-70">Spusťte <code>bun scripts/face-clustering.ts</code></span>
+      <span class="text-xs opacity-70"
+        >{m.person_face_clustering_hint()} <code>bun scripts/face-clustering.ts</code></span
+      >
     </div>
   {/if}
 </div>

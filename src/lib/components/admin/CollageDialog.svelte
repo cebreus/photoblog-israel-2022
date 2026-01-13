@@ -107,8 +107,8 @@
 
   // Constants
   const BACKGROUND_STYLES = [
-    { id: "ambient", label: COLLAGE_MESSAGES.BACKGROUND_STYLE_AMBIENT },
-    { id: "color", label: COLLAGE_MESSAGES.BACKGROUND_STYLE_COLOR },
+    { id: "ambient", label: COLLAGE_MESSAGES.BACKGROUND_STYLE_AMBIENT() },
+    { id: "color", label: COLLAGE_MESSAGES.BACKGROUND_STYLE_COLOR() },
   ];
 
   let abortController: AbortController | null = null;
@@ -173,8 +173,13 @@
           if ("backgroundStyle" in (existingConfig.border || {})) {
             // Old format: border contains backgroundStyle and color
             backgroundEnabled = true;
-            backgroundStyle = (existingConfig.border as any).backgroundStyle || "ambient";
-            backgroundColor = (existingConfig.border as any).color || "#ffffff";
+            backgroundStyle =
+              ((existingConfig.border as unknown as Record<string, unknown>).backgroundStyle as
+                | "ambient"
+                | "color") || "ambient";
+            backgroundColor =
+              ((existingConfig.border as unknown as Record<string, unknown>).color as string) ||
+              "#ffffff";
             log.info({ backgroundStyle, backgroundColor }, "[CollageDialog] Migrated old format");
           } else if (existingConfig.background) {
             // New format: separate background object
@@ -345,7 +350,7 @@
     try {
       localStorage.setItem("collage-draft", JSON.stringify(draft));
     } catch (e) {
-      log.warn({ err: e }, COLLAGE_MESSAGES.LOAD_CONFIG_FAILED);
+      log.warn({ err: e }, COLLAGE_MESSAGES.LOAD_CONFIG_FAILED());
     }
   });
 
@@ -633,7 +638,7 @@
     const uniqueImages = new Set(collageItems.map((i) => i.data.id));
     if (uniqueImages.size < collageItems.length) {
       toast.info(
-        COLLAGE_MESSAGES.DUPLICATES_WARNING || "Upozornění: Koláž obsahuje duplicitní obrázky.",
+        COLLAGE_MESSAGES.DUPLICATES_WARNING() || "Upozornění: Koláž obsahuje duplicitní obrázky.",
       );
     }
 
@@ -690,7 +695,7 @@
       log.debug({ durationMs: Date.now() - startAPI }, "[Collage] API call duration");
 
       if (!data.success) {
-        throw new Error(data.error || COLLAGE_MESSAGES.OPERATION_FAILED);
+        throw new Error(data.error || COLLAGE_MESSAGES.OPERATION_FAILED());
       }
 
       const outputPath = data.outputPath;
@@ -705,7 +710,7 @@
       try {
         localStorage.removeItem("collage-draft");
       } catch (e) {
-        log.warn({ err: e }, COLLAGE_MESSAGES.OPERATION_FAILED);
+        log.warn({ err: e }, COLLAGE_MESSAGES.OPERATION_FAILED());
       }
 
       // Only invalidate (reload page) when creating NEW collage
@@ -722,7 +727,7 @@
       }
     } catch (e) {
       if (e instanceof DOMException && e.name === "AbortError") {
-        toast.info(COLLAGE_MESSAGES.CANCELLED);
+        toast.info(COLLAGE_MESSAGES.CANCELLED());
       } else {
         toast.error(e instanceof Error ? e.message : String(e));
       }
@@ -738,7 +743,7 @@
         abortController.abort();
       }
 
-      if (confirm(COLLAGE_MESSAGES.CLOSE_CONFIRM)) {
+      if (confirm(COLLAGE_MESSAGES.CLOSE_CONFIRM())) {
         // Reset state when user closes dialog
         collageItems = [];
         imageConfigs = {};
@@ -786,7 +791,7 @@
           title={disabled
             ? COLLAGE_MESSAGES.TOOLTIP_EXACT(t.capacity, count)
             : t.capacity === Infinity
-              ? COLLAGE_MESSAGES.TOOLTIP_FLEXIBLE
+              ? COLLAGE_MESSAGES.TOOLTIP_FLEXIBLE()
               : COLLAGE_MESSAGES.TOOLTIP_REQUIRED(t.capacity)}
           data-testid={`collage-template-${t.id}`}
         >
@@ -915,7 +920,7 @@
                 ondragstart={(e) => handleDragStart(e, i)}
                 onmousedown={(e) => e.stopPropagation()}
               >
-                <Move class="size-4" />
+                <Move class="h-4 w-4" />
               </div>
 
               <span
@@ -1059,9 +1064,9 @@
       data-testid="collage-create-button"
     >
       {#if loading}
-        {isEditMode ? COLLAGE_MESSAGES.SAVING : COLLAGE_MESSAGES.CREATING}
+        {isEditMode ? COLLAGE_MESSAGES.SAVING() : COLLAGE_MESSAGES.CREATING}
       {:else}
-        {isEditMode ? COLLAGE_MESSAGES.SAVE_BUTTON : COLLAGE_MESSAGES.CREATE_BUTTON}
+        {isEditMode ? COLLAGE_MESSAGES.SAVE_BUTTON() : COLLAGE_MESSAGES.CREATE_BUTTON}
       {/if}
     </Button>
     <p class="text-muted-foreground mt-2 text-center text-[10px]">

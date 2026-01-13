@@ -26,10 +26,10 @@
   import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
   import { Spinner } from "$lib/components/ui/spinner";
   import { createLogger } from "$lib/logger";
+  import * as m from "$lib/paraglide/messages";
   import { people } from "$lib/stores/people.svelte";
   import { type ImageEntry, type Person, isImageEntry } from "$lib/types/manifest";
   import { isGloballyVisible } from "$lib/utils/gallery";
-  import { DETECTION_MESSAGES } from "$lib/utils/messages";
 
   const logger = createLogger("PersonDetailDialog");
 
@@ -169,7 +169,12 @@
       // Success handling
       await onUpdate?.();
       selectedIds = new Set();
-      toast.success(DETECTION_MESSAGES.unmatchSuccess(imageIds.length, shouldHide));
+      selectedIds = new Set();
+      if (shouldHide) {
+        toast.success(m.detection_hidden_success({ count: imageIds.length }));
+      } else {
+        toast.success(m.detection_unmatch_success({ count: imageIds.length }));
+      }
 
       if (isRemovingAll) {
         open = false;
@@ -182,7 +187,7 @@
 
   async function ignoreDetection(crop: (typeof crops)[0]) {
     if (!crop.box) {
-      toast.error(DETECTION_MESSAGES.DETECTION_ERROR);
+      toast.error(m.detection_detection_error());
       return;
     }
 
@@ -195,7 +200,7 @@
         box: crop.box,
       });
       onUpdate?.();
-      toast.success(DETECTION_MESSAGES.DETECTION_INVALIDATED);
+      toast.success(m.detection_detection_invalidated());
     } catch (e) {
       // Error handled by mutation
       logger.error({ err: e }, "Failed to invalidate detection");
@@ -250,7 +255,7 @@
       await onUpdate?.();
       selectedIds = new Set();
       showReassignDialog = false;
-      toast.success(DETECTION_MESSAGES.assignedToPerson(targetPerson.name));
+      toast.success(m.detection_assignedtoperson({ name: targetPerson.name }));
 
       if (isRemovingAll) {
         open = false;
@@ -287,7 +292,7 @@
         detections,
       });
 
-      toast.success(DETECTION_MESSAGES.BULK_DETECTION_INVALIDATED);
+      toast.success(m.detection_bulk_detection_invalidated());
       onUpdate?.();
       selectedIds = new Set();
     } catch (e) {
@@ -329,7 +334,7 @@
                 loadAvatars();
                 showAvatarDialog = true;
               }}
-              title="Změnit avatar"
+              title={m.person_detail_change_avatar()}
               type="button"
               data-testid="person-detail-change-avatar-btn"
             >
@@ -357,7 +362,7 @@
                 loadAvatars();
                 showAvatarDialog = true;
               }}
-              title="Nastavit avatar"
+              title={m.person_detail_set_avatar()}
               type="button"
               data-testid="person-detail-set-avatar-btn"
             >
@@ -377,12 +382,12 @@
             class="text-muted-foreground ml-1 text-sm font-normal"
             data-testid="person-detail-header-count"
           >
-            ({crops.length} detekcí)
+            ({m.person_detections_count({ count: crops.length })})
           </span>
         </Dialog.Title>
       </div>
       <Dialog.Description class="sr-only">
-        Detail osoby a všechny detekované tváře
+        {m.person_detail_title()}
       </Dialog.Description>
     </Dialog.Header>
 
@@ -395,7 +400,7 @@
           class="text-muted-foreground flex h-full items-center justify-center"
           data-testid="person-detail-empty-state"
         >
-          Žádné detekované tváře. (Možná běží clustering nebo refresh dat?)
+          {m.person_detail_empty()}
         </div>
       {:else}
         <!-- Grid layout with Cards (No overlaps) -->
@@ -477,7 +482,8 @@
             onclick={selectAll}
             data-testid="person-detail-select-all-btn"
           >
-            <CheckCheck class="mr-1 h-3.5 w-3.5" /> Vybrat vše
+            <CheckCheck class="mr-1 h-3.5 w-3.5" />
+            {m.person_detail_select_all()}
           </Button>
         </div>
       {:else}
@@ -510,7 +516,7 @@
             data-testid="person-detail-bulk-assign-btn"
           >
             <User class="mr-2 size-4" />
-            Přiřadit k...
+            {m.person_detail_assign_to()}
           </Button>
 
           <Button
@@ -522,7 +528,7 @@
             data-testid="person-detail-bulk-ignore-btn"
           >
             <EyeOff class="mr-2 size-4" />
-            Skrýt
+            {m.person_detail_hide()}
           </Button>
 
           <Button
@@ -537,7 +543,7 @@
               <Spinner class="mr-2 size-4" />
             {:else}
               <Trash2 class="mr-2 size-4" />
-              Odepnout
+              {m.person_detail_unmatch()}
             {/if}
           </Button>
 
@@ -548,7 +554,7 @@
             disabled={isWorking}
             data-testid="person-detail-bulk-clear"
           >
-            Zrušit
+            {m.ui_cancel()}
           </Button>
 
           <DropdownMenu.Root>
@@ -569,7 +575,8 @@
                 disabled={isWorking || selectedIds.size === 0}
               >
                 <Trash2 class="mr-1 size-3.5" />
-                Odepnout vybrané
+                {m.person_detail_unmatch()}
+                {m.ui_select_all_days()}
               </DropdownMenu.Item>
 
               <DropdownMenu.Item
@@ -578,7 +585,8 @@
                 disabled={isWorking || selectedIds.size === 0}
               >
                 <EyeOff class="mr-1 size-3.5" />
-                Skrýt vybrané
+                {m.person_detail_hide()}
+                {m.ui_select_all_days()}
               </DropdownMenu.Item>
 
               <DropdownMenu.Separator />
@@ -590,31 +598,31 @@
                 disabled={isWorking || selectedIds.size === 0}
               >
                 <UserMinus class="mr-1 size-3.5" />
-                Není tvář, ignorovat
+                {m.person_detail_ignore_confirm_action()}
               </DropdownMenu.Item>
 
               <DropdownMenu.Separator />
-              <DropdownMenu.Label>Kategorie osob</DropdownMenu.Label>
+              <DropdownMenu.Label>{m.person_detail_reassign_title()}</DropdownMenu.Label>
               <DropdownMenu.Item
                 onclick={() => updateCategory("person")}
                 data-testid="person-detail-type-person"
               >
                 <User class="mr-1 size-3.5" />
-                Nastavit: Osoba
+                {m.ui_confirm()}: {m.plural_osoba_one()}
               </DropdownMenu.Item>
               <DropdownMenu.Item
                 onclick={() => updateCategory("statue")}
                 data-testid="person-detail-type-statue"
               >
                 <Landmark class="mr-1 size-3.5" />
-                Nastavit: Socha
+                {m.ui_confirm()}: Socha
               </DropdownMenu.Item>
               <DropdownMenu.Item
                 onclick={() => updateCategory("painting")}
                 data-testid="person-detail-type-painting"
               >
                 <Palette class="mr-1 size-3.5" />
-                Nastavit: Malba
+                {m.ui_confirm()}: Malba
               </DropdownMenu.Item>
             </DropdownMenu.Content>
           </DropdownMenu.Root>
@@ -628,7 +636,7 @@
         disabled={isWorking}
         data-testid="person-detail-close-btn"
       >
-        Zavřít
+        {m.person_detail_close()}
       </Button>
     </Dialog.Footer>
   </Dialog.Content>
@@ -638,9 +646,8 @@
 <Dialog.Root bind:open={showReassignDialog}>
   <Dialog.Content class="max-w-md gap-0 p-0" data-testid="reassign-selection-dialog">
     <Dialog.Header class="border-b px-6 py-4">
-      <Dialog.Title>Přiřadit k osobě</Dialog.Title>
-      <Dialog.Description>Vyberte osobu, ke které chcete přiřadit vybrané tváře.</Dialog.Description
-      >
+      <Dialog.Title>{m.person_detail_reassign_title()}</Dialog.Title>
+      <Dialog.Description>{m.person_detail_reassign_desc()}</Dialog.Description>
     </Dialog.Header>
 
     <div class="bg-muted/20 border-b p-4">
@@ -648,7 +655,7 @@
         <Search class="text-muted-foreground absolute top-2.5 left-3 size-4" />
         <input
           bind:value={personSearchQuery}
-          placeholder="Hledat osobu..."
+          placeholder={m.person_detail_search_placeholder()}
           class="bg-background focus:ring-primary/50 w-full rounded-md border py-2 pr-4 pl-9 focus:ring-2 focus:outline-none"
           data-testid="reassign-search-input"
         />
@@ -678,12 +685,14 @@
           {/if}
           <div class="min-w-0 flex-1">
             <div class="truncate font-medium">{p.name}</div>
-            <div class="text-muted-foreground text-[10px]">{p.faceCount} fotek</div>
+            <div class="text-muted-foreground text-[10px]">
+              {m.person_photos_count({ count: p.faceCount })}
+            </div>
           </div>
         </button>
       {:else}
         <div class="p-8 text-center text-muted-foreground text-sm">
-          Žádné osoby neodpovídají hledání.
+          {m.person_detail_no_results()}
         </div>
       {/each}
     </div>
@@ -692,7 +701,7 @@
       <Button
         variant="outline"
         onclick={() => (showReassignDialog = false)}
-        data-testid="reassign-selection-cancel-btn">Zrušit</Button
+        data-testid="reassign-selection-cancel-btn">{m.ui_cancel()}</Button
       >
     </Dialog.Footer>
   </Dialog.Content>
@@ -700,12 +709,12 @@
 <Dialog.Root bind:open={showAvatarDialog}>
   <Dialog.Content class="max-w-2xl" data-testid="avatar-selection-dialog">
     <Dialog.Header>
-      <Dialog.Title>Vybrat avatar</Dialog.Title>
-      <Dialog.Description>Vyberte předpřipravený avatar pro tuto osobu.</Dialog.Description>
+      <Dialog.Title>{m.person_detail_avatar_title()}</Dialog.Title>
+      <Dialog.Description>{m.person_detail_avatar_desc()}</Dialog.Description>
     </Dialog.Header>
 
     {#if availableAvatars.length === 0}
-      <div class="text-muted-foreground p-8 text-center">Žádné avatary nenalezeny.</div>
+      <div class="text-muted-foreground p-8 text-center">{m.person_detail_avatar_empty()}</div>
     {:else}
       <div class="grid max-h-[60vh] grid-cols-4 gap-4 overflow-y-auto p-4">
         {#each availableAvatars as avatar}
@@ -733,7 +742,7 @@
       <Button
         variant="outline"
         onclick={() => (showAvatarDialog = false)}
-        data-testid="avatar-selection-cancel-btn">Zrušit</Button
+        data-testid="avatar-selection-cancel-btn">{m.ui_cancel()}</Button
       >
     </Dialog.Footer>
   </Dialog.Content>
@@ -743,22 +752,21 @@
 <Dialog.Root bind:open={showIgnoreConfirm}>
   <Dialog.Content>
     <Dialog.Header>
-      <Dialog.Title>Opravdu zneplatnit detekce?</Dialog.Title>
+      <Dialog.Title>{m.person_detail_ignore_confirm_title()}</Dialog.Title>
       <Dialog.Description>
-        Tato akce trvale označí vybrané detekce ({selectedIds.size}) jako "neplatné" (není tvář).
-        Tváře budou z fotek odstraněny a systém je už nebude znovu detekovat.
+        {m.person_detail_ignore_confirm_desc({ count: selectedIds.size })}
       </Dialog.Description>
     </Dialog.Header>
     <Dialog.Footer>
       <Button
         variant="outline"
         onclick={() => (showIgnoreConfirm = false)}
-        data-testid="ignore-detection-cancel-btn">Zrušit</Button
+        data-testid="ignore-detection-cancel-btn">{m.ui_cancel()}</Button
       >
       <Button
         variant="destructive"
         onclick={performIgnoreDetections}
-        data-testid="ignore-detection-confirm-btn">Ano, zneplatnit</Button
+        data-testid="ignore-detection-confirm-btn">{m.person_detail_ignore_confirm_action()}</Button
       >
     </Dialog.Footer>
   </Dialog.Content>

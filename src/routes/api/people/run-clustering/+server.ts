@@ -1,10 +1,10 @@
+import { dev } from "$app/environment";
+import { config } from "$config";
+import { saveTaskStatus } from "$lib/server/task-status";
+import { spawn } from "$scripts/utils/runtime";
+import { error, json } from "@sveltejs/kit";
 import crypto from "node:crypto";
 import path from "node:path";
-import { error, json } from "@sveltejs/kit";
-import { dev } from "$app/environment";
-import { saveTaskStatus } from "$lib/server/task-status";
-import { config } from "$config";
-import { spawn } from "$scripts/utils/runtime";
 
 export async function POST({ locals }: { locals: App.Locals }) {
   if (!dev) {
@@ -24,12 +24,12 @@ export async function POST({ locals }: { locals: App.Locals }) {
       label: "Analýza obličejů...",
     });
 
-    // Extract Trace ID from logger bindings if available, or generate a new one
+    // Extract Trace ID from logger bindings if available, or use requestId from locals
     const traceId =
-      // biome-ignore lint/suspicious/noExplicitAny: accessing internal pino bindings
-      (log as any).bindings?.()?.requestId ||
-      // biome-ignore lint/suspicious/noExplicitAny: accessing potentially untyped locals prop
-      (locals as any).requestId ||
+      ((log as unknown as { bindings(): Record<string, unknown> }).bindings()?.requestId as
+        | string
+        | undefined) ||
+      locals.requestId ||
       crypto.randomUUID();
 
     // Run the clustering script in background

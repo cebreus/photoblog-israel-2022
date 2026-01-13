@@ -10,13 +10,8 @@
  * - src/lib/utils/strings.ts
  */
 
+import { formatDateForDisplay, formatDateRange, formatWeekday, toSlug } from "$lib/utils/strings";
 import { describe, expect, it } from "vitest";
-import {
-  formatDateForDisplay,
-  formatDateRange,
-  formatWeekdayCzech,
-  toSlug,
-} from "$lib/utils/strings";
 
 describe("String Utils", () => {
   describe("toSlug", () => {
@@ -56,10 +51,10 @@ describe("String Utils", () => {
     });
   });
 
-  describe("formatWeekdayCzech", () => {
-    it("returns correct Czech weekday", () => {
+  describe("formatWeekday", () => {
+    it("returns correct weekday", () => {
       const date = "2025-11-21T12:00:00Z"; // Friday
-      expect(formatWeekdayCzech(date)).toBe("pátek");
+      expect(formatWeekday(date)).toBe("pátek");
     });
   });
 

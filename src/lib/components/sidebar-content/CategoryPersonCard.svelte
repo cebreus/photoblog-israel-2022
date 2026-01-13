@@ -3,6 +3,7 @@
   import type { Snippet } from "svelte";
 
   import { Button } from "$lib/components/ui/button";
+  import * as m from "$lib/paraglide/messages";
   import type { Person } from "$lib/types/manifest";
   import { cn } from "$lib/utils";
 
@@ -52,7 +53,7 @@
       <span
         class="absolute top-1 left-1 z-10 rounded bg-amber-500 px-1 py-0.5 text-[10px] text-white shadow"
       >
-        Skrytá
+        {m.person_hidden_label()}
       </span>
     {/if}
 
@@ -113,15 +114,15 @@
       >
         {#if dev}
           {#if person.detectionsCount !== undefined}
-            {person.detectionsCount} detekcí
+            {m.person_detections_count({ count: person.detectionsCount })}
             {#if person.detectionsCount !== person.faceCount}
-              / {person.faceCount} fotek
+              / {m.person_photos_count({ count: person.faceCount })}
             {/if}
           {:else}
-            {person.faceCount} detekcí
+            {m.person_detections_count({ count: person.faceCount })}
           {/if}
         {:else}
-          {person.faceCount} fotek
+          {m.person_photos_count({ count: person.faceCount })}
         {/if}
       </div>
     {/if}

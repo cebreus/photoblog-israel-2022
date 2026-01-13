@@ -1,10 +1,10 @@
 import { dev } from "$app/environment";
+import { config } from "$config";
 import { applyMetadataUpdates } from "$lib/shared/metadata-utils";
 import { type ImageEntry, isImageEntry, type Manifest } from "$lib/types/manifest";
 import { getPhotoDays } from "$lib/utils/images";
 import { reloadManifests } from "$lib/utils/manifest-loader";
 import { getExifToolWriteTags } from "$lib/utils/metadata-standards";
-import { config } from "$config";
 import {
   deleteGeneratedAssets,
   getOutputFolders,
@@ -528,8 +528,7 @@ export async function PATCH({ request, locals }: RequestEvent) {
           }
 
           // 1. Prepare metadata for EXIF write
-          // biome-ignore lint/suspicious/noExplicitAny: Dynamic metadata merging requires any
-          const fullExifUpdates: any = { ...filteredUpdates };
+          const fullExifUpdates: Record<string, string | string[] | null> = { ...filteredUpdates };
 
           // Use target's existing keywords/flags if not explicitly updated
           if (updates.keywords === undefined) {

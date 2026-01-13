@@ -3,12 +3,7 @@ import { renderMarkdown } from "$lib/utils/markup";
 import { getMenuItems } from "$lib/utils/menu";
 import { loadPage } from "$lib/utils/pages";
 import { getSiteManifest } from "$lib/utils/site";
-import {
-  formatDateForDisplay,
-  formatDateRange,
-  formatWeekdayCzech,
-  toSlug,
-} from "$lib/utils/strings";
+import { formatDateForDisplay, formatDateRange, formatWeekday, toSlug } from "$lib/utils/strings";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -95,8 +90,8 @@ Content`;
       expect(formatDateForDisplay("2022-10-25")).toBe("25. října 2022");
     });
 
-    it("formatWeekdayCzech", function test() {
-      expect(formatWeekdayCzech("2022-10-25")).toBe("úterý");
+    it("formatWeekday", function test() {
+      expect(formatWeekday("2022-10-25")).toBe("úterý");
     });
 
     it("formatDateRange", function test() {

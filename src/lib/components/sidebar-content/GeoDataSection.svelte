@@ -3,7 +3,7 @@
 
   import * as Accordion from "$lib/components/ui/accordion";
   import { Button } from "$lib/components/ui/button";
-  import { IMAGE_MESSAGES } from "$lib/utils/messages";
+  import * as m from "$lib/paraglide/messages";
 
   import MetadataInputField from "./MetadataInputField.svelte";
 
@@ -44,13 +44,13 @@
 
 <Accordion.Root type="single" value="geo">
   <Accordion.Item value="geo">
-    <Accordion.Trigger class="text-sm font-medium">{IMAGE_MESSAGES.GEO_LABEL}</Accordion.Trigger>
+    <Accordion.Trigger class="text-sm font-medium">{m.image_geo_label()}</Accordion.Trigger>
     <Accordion.Content class="mb-2 border-b">
       <div class="space-y-4 pt-2">
         <!-- Location -->
         <div class="space-y-2">
           <MetadataInputField
-            label={IMAGE_MESSAGES.LABEL_LOCATION}
+            label={m.image_label_location()}
             name="location"
             value={location}
             onInput={(v) => onFieldInput("location", v)}
@@ -63,10 +63,10 @@
               size="sm"
               class="text-muted-foreground hover:text-foreground group mt-1 flex h-auto items-center gap-1 p-0 text-xs transition-colors hover:bg-transparent"
               onclick={() => onRestore("location")}
-              aria-label={IMAGE_MESSAGES.RESTORE_VALUE_ARIA}
+              aria-label={m.image_restore_value_aria()}
             >
               <RotateCcw size={10} class="transition-transform group-hover:-rotate-90" />
-              {IMAGE_MESSAGES.ORIGINAL_VALUE}
+              {m.image_original_value()}
               <span class="bg-muted rounded px-1 font-mono">{previousValues.location || "∅"}</span>
             </Button>
           {/if}
@@ -75,7 +75,7 @@
         <!-- City -->
         <div class="space-y-2">
           <MetadataInputField
-            label={IMAGE_MESSAGES.LABEL_CITY}
+            label={m.image_label_city()}
             name="city"
             value={city}
             onInput={(v) => onFieldInput("city", v)}
@@ -88,10 +88,10 @@
               size="sm"
               class="text-muted-foreground hover:text-foreground group mt-1 flex h-auto items-center gap-1 p-0 text-xs transition-colors hover:bg-transparent"
               onclick={() => onRestore("city")}
-              aria-label={IMAGE_MESSAGES.RESTORE_VALUE_ARIA}
+              aria-label={m.image_restore_value_aria()}
             >
               <RotateCcw size={10} class="transition-transform group-hover:-rotate-90" />
-              {IMAGE_MESSAGES.ORIGINAL_VALUE}
+              {m.image_original_value()}
               <span class="bg-muted rounded px-1 font-mono">{previousValues.city || "∅"}</span>
             </Button>
           {/if}
@@ -100,7 +100,7 @@
         <!-- State -->
         <div class="space-y-2">
           <MetadataInputField
-            label={IMAGE_MESSAGES.LABEL_STATE}
+            label={m.image_label_state()}
             name="state"
             value={state}
             onInput={(v) => onFieldInput("state", v)}
@@ -113,10 +113,10 @@
               size="sm"
               class="text-muted-foreground hover:text-foreground group mt-1 flex h-auto items-center gap-1 p-0 text-xs transition-colors hover:bg-transparent"
               onclick={() => onRestore("state")}
-              aria-label={IMAGE_MESSAGES.RESTORE_VALUE_ARIA}
+              aria-label={m.image_restore_value_aria()}
             >
               <RotateCcw size={10} class="transition-transform group-hover:-rotate-90" />
-              {IMAGE_MESSAGES.ORIGINAL_VALUE}
+              {m.image_original_value()}
               <span class="bg-muted rounded px-1 font-mono">{previousValues.state || "∅"}</span>
             </Button>
           {/if}
@@ -125,7 +125,7 @@
         <!-- Country -->
         <div class="space-y-2">
           <MetadataInputField
-            label={IMAGE_MESSAGES.LABEL_COUNTRY}
+            label={m.image_label_country()}
             name="country"
             value={country}
             onInput={(v) => onFieldInput("country", v)}
@@ -138,10 +138,10 @@
               size="sm"
               class="text-muted-foreground hover:text-foreground group mt-1 flex h-auto items-center gap-1 p-0 text-xs transition-colors hover:bg-transparent"
               onclick={() => onRestore("country")}
-              aria-label={IMAGE_MESSAGES.RESTORE_VALUE_ARIA}
+              aria-label={m.image_restore_value_aria()}
             >
               <RotateCcw size={10} class="transition-transform group-hover:-rotate-90" />
-              {IMAGE_MESSAGES.ORIGINAL_VALUE}
+              {m.image_original_value()}
               <span class="bg-muted rounded px-1 font-mono">{previousValues.country || "∅"}</span>
             </Button>
           {/if}
@@ -150,7 +150,7 @@
         <!-- Country Code -->
         <div class="space-y-2">
           <MetadataInputField
-            label={IMAGE_MESSAGES.LABEL_COUNTRY_CODE}
+            label={m.image_label_country_code()}
             name="countryCode"
             value={countryCode}
             onInput={(v) => onFieldInput("countryCode", v)}
@@ -163,10 +163,10 @@
               size="sm"
               class="text-muted-foreground hover:text-foreground group mt-1 flex h-auto items-center gap-1 p-0 text-xs transition-colors hover:bg-transparent"
               onclick={() => onRestore("countryCode")}
-              aria-label={IMAGE_MESSAGES.RESTORE_VALUE_ARIA}
+              aria-label={m.image_restore_value_aria()}
             >
               <RotateCcw size={10} class="transition-transform group-hover:-rotate-90" />
-              {IMAGE_MESSAGES.ORIGINAL_VALUE}
+              {m.image_original_value()}
               <span class="bg-muted rounded px-1 font-mono"
                 >{previousValues.countryCode || "∅"}</span
               >
@@ -183,7 +183,7 @@
               href={googleMapsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={IMAGE_MESSAGES.OPEN_IN_MAPS_ARIA}
+              aria-label={m.image_open_in_maps_aria()}
             >
               Google Maps
             </Button>
@@ -194,12 +194,12 @@
             class="flex-1 gap-2"
             onclick={onFetchGeo}
             disabled={isFetching || !hasGpsCoords}
-            aria-label={IMAGE_MESSAGES.FETCH_FROM_GPS_ARIA}
+            aria-label={m.image_fetch_from_gps_aria()}
           >
             {#if isFetching}
-              {IMAGE_MESSAGES.FETCHING}
+              {m.image_fetching()}
             {:else}
-              {IMAGE_MESSAGES.FETCH_FROM_MAP}
+              {m.image_fetch_from_map()}
             {/if}
           </Button>
         </div>

@@ -1,7 +1,7 @@
-import { toast } from "svelte-sonner";
 import { invalidateAll } from "$app/navigation";
+import * as m from "$lib/paraglide/messages";
 import { tracedFetch } from "$lib/utils/api";
-import { IMAGE_MESSAGES } from "$lib/utils/messages";
+import { toast } from "svelte-sonner";
 
 export type ImageAction = "delete" | "archive";
 
@@ -55,7 +55,7 @@ export async function performImageAction(options: ActionOptions): Promise<void> 
 
     if (count > 0) {
       const actionPast = isDelete ? "smazáno" : "archivováno";
-      toast.success(IMAGE_MESSAGES.actionSuccess(actionPast, count));
+      toast.success(m.image_action_success({ action: actionPast, count }));
     }
 
     if (onSuccess) onSuccess(result);

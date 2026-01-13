@@ -10,6 +10,7 @@
   import { Button } from "$lib/components/ui/button";
   import * as Dialog from "$lib/components/ui/dialog";
   import { getContentDir } from "$lib/config";
+  import * as m from "$lib/paraglide/messages";
   import { manifest } from "$lib/stores/manifest.svelte";
   import type { ImageEntry } from "$lib/types/manifest";
   import { tracedFetch } from "$lib/utils/api";
@@ -253,7 +254,7 @@
         }
       }
 
-      toast.success("Ořez uložen");
+      toast.success(m.clap_save_success());
       onClose?.(); // Still call this to close dialog
       open = false;
     } catch (e: any) {
@@ -492,7 +493,7 @@
 
 {#snippet header()}
   <div class="flex items-center gap-4">
-    <h2 class="text-lg font-semibold" data-testid="clap-editor-title">Upravit výřez</h2>
+    <h2 class="text-lg font-semibold" data-testid="clap-editor-title">{m.clap_title()}</h2>
   </div>
 {/snippet}
 
@@ -617,24 +618,24 @@
     data-testid="clap-sidebar"
   >
     <div class="flex flex-col gap-2">
-      <h3 class="text-sm font-semibold">Informace</h3>
+      <h3 class="text-sm font-semibold">{m.clap_info_title()}</h3>
       {#if metadata}
         <div
           class="text-muted-foreground grid grid-cols-2 gap-1 text-xs"
           data-testid="clap-metadata"
         >
-          <span>Rozměry:</span>
+          <span>{m.clap_dimensions()}</span>
           <span class="text-right font-mono">{metadata.nativeWidth} × {metadata.nativeHeight}</span>
-          <span>Orientace:</span>
+          <span>{m.clap_orientation()}</span>
           <span class="text-right font-mono">{metadata.orientation}</span>
         </div>
       {:else}
-        <span class="text-muted-foreground text-xs">Načítání metadat...</span>
+        <span class="text-muted-foreground text-xs">{m.clap_metadata_loading()}</span>
       {/if}
     </div>
 
     <div class="flex flex-col gap-2">
-      <h3 class="text-sm font-semibold">Poměr stran</h3>
+      <h3 class="text-sm font-semibold">{m.clap_aspect_ratio_title()}</h3>
       <AspectRatioPicker
         bind:value={selectedRatio}
         onSelect={handleRatioSelect}
@@ -647,7 +648,7 @@
     <div class="mt-auto flex flex-col gap-2">
       <Button variant="outline" onclick={handleReset} data-testid="clap-editor-reset">
         <RotateCcw class="mr-2 size-4" />
-        Reset
+        {m.clap_action_reset()}
       </Button>
       <Button onclick={save} disabled={isLoading} data-testid="clap-editor-save">
         {#if isLoading}
@@ -655,7 +656,7 @@
         {:else}
           <Check class="mr-2 size-4" />
         {/if}
-        Uložit
+        {m.clap_action_save()}
       </Button>
     </div>
   </div>

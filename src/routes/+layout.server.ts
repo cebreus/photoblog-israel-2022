@@ -73,15 +73,20 @@ export async function load({ request, setHeaders, depends }: Parameters<LayoutSe
     await reloadManifests();
   }
 
-  // ETag Implementation
-  // We use a signature derived from the in-memory manifest state.
-  // Since the manifest is the source of truth for all derived data below,
-  // matching signature means we can safely return 304 (handled by SvelteKit via setHeaders).
+  // Manifest signature (exposed as a non-standard header to avoid clashing with SvelteKit ETag)
+  // We used to set `etag` here, but that conflicts with SvelteKit's internal ETag handling during
+  // prerender, causing a server error. Expose the signature on `x-manifest-signature` instead.
   const etag = getManifestSignature();
-  setHeaders({
-    etag,
-    "cache-control": "private, no-cache", // Revalidate every time
-  });
+  try {
+    setHeaders({
+      "x-manifest-signature": etag,
+      "cache-control": "private, no-cache", // Revalidate every time
+    });
+  } catch (e) {
+    // On prerender SvelteKit may call load multiple times for the same request and
+    // calling setHeaders a second time throws; ignore duplicate-header errors.
+    if (!(e instanceof Error) || !/already set/i.test(e.message)) throw e;
+  }
 
   // Optimization: If ETag matches, SvelteKit will handle the 304 response.
   // We can't easily return "nothing" here because of TypeScript return types and SvelteKit flow,

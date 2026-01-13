@@ -10,6 +10,11 @@ declare global {
       log: Logger; // Logger s kontextem požadavku
       logContext: Record<string, unknown>; // Objekt pro sběr byznys kontextu
       skipRequestLog?: boolean; // Potlačení automatického logování požadavku
+      paraglide: {
+        lang: string;
+        textDirection: "ltr" | "rtl";
+      };
+      requestId?: string;
     }
     // interface PageData {}
     // interface PageState {}

@@ -6,6 +6,7 @@
   import { Badge } from "$lib/components/ui/badge/";
   import { Button } from "$lib/components/ui/button";
   import { createLogger } from "$lib/logger";
+  import * as m from "$lib/paraglide/messages";
   import { filters } from "$lib/stores/filters.svelte";
   import { ui } from "$lib/stores/ui.svelte";
   import { toSlug } from "$lib/utils/strings";
@@ -76,7 +77,7 @@
       class="py-3 text-sm font-semibold no-underline"
       data-testid="filters-accordion-trigger-authors"
     >
-      Autoři
+      {m.filters_authors_title()}
     </Accordion.Trigger>
 
     <Accordion.Content>
@@ -87,7 +88,7 @@
         <Button
           variant="outline"
           size="sm"
-          title="Skrýt všechny autory"
+          title={m.filters_hide_all_title()}
           class="h-7 px-3 text-xs"
           onclick={(e) => {
             e.stopPropagation();
@@ -95,7 +96,7 @@
           }}
           data-testid="filter-authors-hide-all"
         >
-          Bez autorů
+          {m.filters_authors_none()}
         </Button>
 
         <Button
@@ -107,10 +108,10 @@
             e.stopPropagation();
             filters.setAuthorsAll();
           }}
-          title="Resetovat filtr"
+          title={m.filters_reset_title()}
           data-testid="filter-authors-reset"
         >
-          Všechno
+          {m.filters_authors_all()}
         </Button>
       </div>
 
@@ -141,7 +142,7 @@
             <Button
               variant="link"
               size="sm"
-              title="Zobrazit pouze tohoto autora"
+              title={m.filters_show_only_title()}
               class="text-xs"
               onclick={(e) => {
                 e.stopPropagation();
@@ -149,13 +150,13 @@
               }}
               data-testid={`filter-solo-author-${slugKey}`}
             >
-              Pouze
+              {m.filters_authors_solo()}
             </Button>
 
             <Button
               variant={isActive ? "outline" : "ghost"}
               size="icon"
-              title={isActive ? "Skrýt" : "Zobrazit"}
+              title={isActive ? m.filters_hide_title() : m.filters_show_title()}
               class="text-primary size-8"
               onclick={() => toggleAuthor(slugKey, author.name)}
               data-testid={`filter-visibility-author-${slugKey}`}
@@ -169,7 +170,7 @@
           </div>
         {/each}
         <p class="pt-1 text-xs text-slate-400">
-          Zobrazí se fotky od vybraných autorů. Pokud není vybrán nikdo, galerie bude prázdná.
+          {m.filters_authors_hint()}
         </p>
       </div>
     </Accordion.Content>

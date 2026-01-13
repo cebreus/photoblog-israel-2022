@@ -1,8 +1,8 @@
-import sharp from "sharp";
 import { log } from "$lib/logger";
+import * as m from "$lib/paraglide/messages";
 import type { CollageBackground, CollageBorder } from "$lib/types/collage";
 import type { LayoutItem, SharedLayout } from "$lib/utils/collage-layout-engine";
-import { COLLAGE_MESSAGES } from "$lib/utils/messages";
+import sharp from "sharp";
 import { calculateAmbientCanvasSize, getAmbientPlacementRect } from "./collage";
 import { AMBIENT_BACKEND_CONFIG, AMBIENT_SHARED_CONFIG } from "./collage-constants";
 
@@ -19,8 +19,8 @@ export async function renderCollage(
   _border?: CollageBorder,
   background?: CollageBackground,
 ): Promise<Buffer> {
-  log.debug(`[Collage] Velikost plátna: ${layout.width}x${layout.height}`);
-  log.debug(`[Collage] Zpracování ${layout.placements.length} obrázků`);
+  log.debug({}, `[Collage] Velikost plátna: ${layout.width}x${layout.height}`);
+  log.debug({}, `[Collage] Zpracování ${layout.placements.length} obrázků`);
 
   async function processPlacement(p: (typeof layout.placements)[0], _idx: number) {
     const pipeline = sharp(p.item.path).rotate(); // Use item.path and auto-rotate
@@ -31,7 +31,7 @@ export async function renderCollage(
       const inH = meta.height ?? 0;
 
       if (inW === 0 || inH === 0) {
-        throw new Error(COLLAGE_MESSAGES.INVALID_DIMENSIONS(p.item.path ?? "unknown"));
+        throw new Error(m.collage_invalid_dimensions({ path: p.item.path ?? "unknown" }));
       }
 
       // Determine how the source must be scaled to fill the placement.
@@ -86,7 +86,7 @@ export async function renderCollage(
     );
     const bleedScale = AMBIENT_SHARED_CONFIG.bleedScale;
 
-    log.info(`[Collage] Generating ambient background base: ${blurW}x${blurH}`);
+    log.info({}, `[Collage] Generating ambient background base: ${blurW}x${blurH}`);
 
     // Base color based on mode
     const baseRGB = { r: 0, g: 0, b: 0 };
@@ -127,7 +127,10 @@ export async function renderCollage(
             blend: "over" as const,
           };
         } catch (err) {
-          log.warn(`[Collage] Failed to prepare ambient thumbnail for item ${idx}: ${err}`);
+          log.warn(
+            { err },
+            `[Collage] Failed to prepare ambient thumbnail for item ${idx}: ${err}`,
+          );
           return null;
         }
       }),
@@ -135,6 +138,7 @@ export async function renderCollage(
 
     const validBgInputs = bgInputs.filter((i) => i !== null) as NonNullable<(typeof bgInputs)[0]>[];
     log.info(
+      {},
       `[Collage] Compositing ${validBgInputs.length} ambient thumbnails on ${blurW}x${blurH} base`,
     );
     const compositeBuffer = await sharp(baseBgBuffer).composite(validBgInputs).png().toBuffer();

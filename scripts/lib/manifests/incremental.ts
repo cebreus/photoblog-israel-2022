@@ -154,22 +154,56 @@ export async function loadStoryData(contentRoot: string): Promise<StoryDataMap> 
 }
 
 async function generateSiteManifest(): Promise<Record<string, unknown>> {
-  const siteMdPath = path.resolve(process.cwd(), config.paths.siteSource, "site.md");
-  if (!(await fileExists(siteMdPath))) {
+  const siteDir = path.resolve(process.cwd(), config.paths.siteSource);
+  const siteMdPath = path.join(siteDir, "site.md");
+
+  let baseManifest: Record<string, unknown> = {};
+
+  if (await fileExists(siteMdPath)) {
+    try {
+      const content = await readFileText(siteMdPath);
+      const { data } = matter(content);
+      baseManifest = data as Record<string, unknown>;
+    } catch (e: unknown) {
+      logger.error(
+        { path: siteMdPath, error: e instanceof Error ? e.message : String(e) },
+        "Failed to parse site.md",
+      );
+    }
+  } else {
     logger.warn({ path: siteMdPath }, "site.md not found");
-    return {};
   }
-  try {
-    const content = await readFileText(siteMdPath);
-    const { data } = matter(content);
-    return data as Record<string, unknown>;
-  } catch (e: unknown) {
-    logger.error(
-      { path: siteMdPath, error: e instanceof Error ? e.message : String(e) },
-      "Failed to parse site.md",
-    );
-    return {};
+
+  // Look for localized site manifests (site.en.md, site.cs.md, etc.)
+  const localizedFiles = await scanGlob("site.*.md", { cwd: siteDir, absolute: true });
+  const localized: Record<string, unknown> = {};
+
+  for (const file of localizedFiles) {
+    const filename = path.basename(file);
+    if (filename === "site.md") continue;
+
+    // Extract language code: site.en.md -> en
+    const match = filename.match(/^site\.([a-z]{2})\.md$/);
+    if (!match) continue;
+    const lang = match[1];
+
+    try {
+      const content = await readFileText(file);
+      const { data } = matter(content);
+      localized[lang] = data;
+    } catch (e: unknown) {
+      logger.warn(
+        { path: file, error: e instanceof Error ? e.message : String(e) },
+        "Failed to parse localized site manifest",
+      );
+    }
   }
+
+  if (Object.keys(localized).length > 0) {
+    baseManifest.localized = localized;
+  }
+
+  return baseManifest;
 }
 async function detectChanges(
   sourceFiles: string[],

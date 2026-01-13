@@ -4,6 +4,7 @@
   import * as Accordion from "$lib/components/ui/accordion";
   import { Badge } from "$lib/components/ui/badge/";
   import { Button } from "$lib/components/ui/button/";
+  import * as m from "$lib/paraglide/messages";
   import { filters } from "$lib/stores/filters.svelte";
 
   let { snapshotStats = { total: 0, author: 0, others: 0 } } = $props<{
@@ -30,7 +31,7 @@
       class="py-3 hover:no-underline"
       data-testid="filters-accordion-trigger-snapshots"
     >
-      Momentky
+      {m.filters_snapshots_title()}
     </Accordion.Trigger>
 
     <Accordion.Content>
@@ -41,7 +42,7 @@
         <Button
           variant="outline"
           size="sm"
-          title="Skrýt všechny momentky"
+          title={m.filters_snapshots_hide_all_title()}
           class="h-7 px-3 text-xs"
           disabled={isAllHidden}
           onclick={(e) => {
@@ -52,7 +53,7 @@
           }}
           data-testid="filter-snapshots-hide-all"
         >
-          Bez momentek
+          {m.filters_snapshots_hide_all()}
         </Button>
 
         <Button
@@ -67,10 +68,10 @@
             filters.showOthersSnapshots = true;
             filters.onlySnapshots = false;
           }}
-          title="Zobrazit všechno s momentkami"
+          title={m.filters_snapshots_show_all_title()}
           data-testid="filter-snapshots-show-all"
         >
-          Všechno
+          {m.filters_snapshots_all()}
         </Button>
       </div>
 
@@ -82,7 +83,7 @@
           <span
             class={`truncate text-sm ${isAuthorSnapshotsActive && snapshotStats.author > 0 ? "text-foreground font-medium" : "text-muted-foreground"}`}
           >
-            Momentky autora
+            {m.filters_snapshots_author_title()}
           </span>
           <Badge
             variant="secondary"
@@ -95,7 +96,7 @@
         <Button
           variant="link"
           size="sm"
-          title="Zobrazit pouze momentky autora"
+          title={m.filters_snapshots_author_show_only()}
           class="text-xs"
           disabled={snapshotStats.author === 0}
           onclick={(e) => {
@@ -106,13 +107,13 @@
           }}
           data-testid="filter-solo-author-snapshots"
         >
-          Pouze
+          {m.filters_authors_solo()}
         </Button>
 
         <Button
           variant={isAuthorSnapshotsActive ? "outline" : "ghost"}
           size="icon"
-          title={isAuthorSnapshotsActive ? "Skrýt" : "Zobrazit"}
+          title={isAuthorSnapshotsActive ? m.filters_hide_title() : m.filters_show_title()}
           class="text-primary size-8"
           disabled={snapshotStats.author === 0}
           onclick={() => (filters.showAuthorSnapshots = !filters.showAuthorSnapshots)}
@@ -134,7 +135,7 @@
           <span
             class={`truncate text-sm ${isOthersSnapshotsActive && snapshotStats.others > 0 ? "text-foreground font-medium" : "text-muted-foreground"}`}
           >
-            Další momentky
+            {m.filters_snapshots_others_title()}
           </span>
           <Badge
             variant="secondary"
@@ -147,7 +148,7 @@
         <Button
           variant="link"
           size="sm"
-          title="Zobrazit pouze další momentky"
+          title={m.filters_snapshots_others_show_only()}
           class="text-xs"
           disabled={snapshotStats.others === 0}
           onclick={(e) => {
@@ -158,13 +159,13 @@
           }}
           data-testid="filter-solo-others-snapshots"
         >
-          Pouze
+          {m.filters_authors_solo()}
         </Button>
 
         <Button
           variant={isOthersSnapshotsActive ? "outline" : "ghost"}
           size="icon"
-          title={isOthersSnapshotsActive ? "Skrýt" : "Zobrazit"}
+          title={isOthersSnapshotsActive ? m.filters_hide_title() : m.filters_show_title()}
           class="text-primary size-8"
           disabled={snapshotStats.others === 0}
           onclick={() => (filters.showOthersSnapshots = !filters.showOthersSnapshots)}
@@ -179,7 +180,7 @@
       </div>
 
       <p class="pt-1 text-xs text-slate-400">
-        Momentky jsou soukromé snímky a nemají obecnou dokumentární hodnotu.
+        {m.filters_snapshots_hint()}
       </p>
     </Accordion.Content>
   </Accordion.Item>

@@ -5,6 +5,7 @@
   import { Input } from "$lib/components/ui/input";
   import { Label } from "$lib/components/ui/label";
   import { Textarea } from "$lib/components/ui/textarea";
+  import * as m from "$lib/paraglide/messages";
 
   let {
     label,
@@ -54,7 +55,7 @@
       size="icon"
       type="button"
       onclick={onClear}
-      aria-label="Smazat hodnotu"
+      aria-label={m.aria_clear_value()}
     >
       <Trash2 class="size-4" />
     </Button>

@@ -32,8 +32,13 @@ export async function POST({ request, locals }: Parameters<RequestHandler>[0]) {
       logObj = { ...others, ...args[0] };
     }
 
-    // biome-ignore lint/suspicious/noExplicitAny: dynamic method access
-    (child as any)[methodName](logObj, msg);
+    const loggerWithMethods = child as unknown as Record<
+      string,
+      (obj: object, msg?: string) => void
+    >;
+    if (typeof loggerWithMethods[methodName] === "function") {
+      loggerWithMethods[methodName](logObj, msg);
+    }
 
     return json({ success: true });
   } catch (_err) {

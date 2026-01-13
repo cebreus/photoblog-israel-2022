@@ -1,6 +1,6 @@
 <script lang="ts">
   import { filters } from "$lib/stores/filters.svelte";
-  import { PLURALS } from "$lib/utils/messages";
+  import { getPlural } from "$lib/utils/i18n";
 
   let { totalPhotos, totalAuthors, totalPeople, totalLocations } = $props<{
     totalPhotos: number;
@@ -25,9 +25,8 @@
       {/if}
       {filters.visiblePhotos}
     </div>
-    <div class="text-xs text-slate-500">
-      {PLURALS.fotka(filters.visiblePhotos)}{#if totalPhotos > 0}
-        / zobrazeno{/if}
+    <div class="text-xs text-slate-500 capitalize">
+      {getPlural(totalPhotos, "fotka")}
     </div>
   </div>
 
@@ -39,7 +38,7 @@
       {totalAuthors} / {totalPeople}
     </div>
     <div class="text-xs text-slate-500 capitalize">
-      {PLURALS.autor(totalAuthors)} / {PLURALS.osoba(totalPeople)}
+      {getPlural(totalAuthors, "autor")} / {getPlural(totalPeople, "osoba")}
     </div>
   </div>
 
@@ -50,6 +49,8 @@
     >
       {totalLocations}
     </div>
-    <div class="text-xs text-slate-500 capitalize">{PLURALS.zastavka(totalLocations)}</div>
+    <div class="text-xs text-slate-500 capitalize">
+      {getPlural(totalLocations, "zastavka")}
+    </div>
   </div>
 </div>

@@ -1,22 +1,27 @@
 import path from "node:path";
 
-import type { Handle } from "@sveltejs/kit";
-
-import { log as rootLogger } from "$lib/logger";
-import { runWithLogger } from "$lib/server/request-context";
-import { startTaskWatcher } from "$lib/server/task-watcher";
 import { setIoLogger } from "$scripts/utils/io-logger-bridge";
 import { getPerformanceRecorder, runWithPerformance } from "$scripts/utils/performance";
 
+import type { Handle } from "@sveltejs/kit";
+import { sequence } from "@sveltejs/kit/hooks";
+
+import { i18n } from "$lib/i18n";
+import { log as rootLogger } from "$lib/logger";
+import { runWithLogger } from "$lib/server/request-context";
+import { startTaskWatcher } from "$lib/server/task-watcher";
+
 // Initialize task watchers for all galleries on server start
 const contentDir = process.env.CONTENT_DIR || "egypt-2025";
+
 const dataDir = path.resolve(process.cwd(), `src/data/${contentDir}`);
+
 await startTaskWatcher(contentDir, dataDir);
 
 // Wire up runtime IO logging to App Logger
 setIoLogger(rootLogger);
 
-export async function handle({
+async function originalHandle({
   event,
   resolve,
 }: {
@@ -25,6 +30,7 @@ export async function handle({
 }) {
   // 1. Get traceId from FE or generate new one.
   const incomingTraceId = event.request.headers.get("X-Request-ID");
+
   const requestId = incomingTraceId || crypto.randomUUID();
 
   // 2. Create child logger with request context
@@ -36,19 +42,23 @@ export async function handle({
 
   // 3. Attach logger to locals for API routes
   event.locals.log = requestLogger;
+
   event.locals.logContext = {};
 
   // Capture Request Body (for debugging)
   // We clone the request because reading the body consumes the stream
   let requestBody: unknown;
+
   if (event.request.method !== "GET" && event.request.method !== "HEAD") {
     try {
       const clonedReq = event.request.clone();
       const contentType = clonedReq.headers.get("content-type");
+
       if (contentType?.includes("application/json")) {
         requestBody = await clonedReq.json();
       } else if (contentType?.includes("text/")) {
         const text = await clonedReq.text();
+
         requestBody = text.slice(0, 1000); // Limit length
       } else if (contentType?.includes("multipart/form-data")) {
         requestBody = "[Multipart data]";
@@ -67,15 +77,20 @@ export async function handle({
   async function runProcess() {
     async function runWithPerf() {
       const res = await resolve(event);
+
       perfBreakdown = getPerformanceRecorder()?.getBreakdown();
+
       return res;
     }
+
     return runWithPerformance(runWithPerf);
   }
+
   const response = await runWithLogger(requestLogger, runProcess);
 
   // Capture Response Body (only for JSON responses to verify data returned)
   let responseBody: unknown;
+
   const isApiRoute = event.url.pathname.startsWith("/api");
   const isError = response.status >= 400;
   const isVerbose = process.env.VERBOSE === "true" || process.env.LOG_LEVEL === "debug";
@@ -85,14 +100,17 @@ export async function handle({
   if (!shouldLog) {
     // 4. Mirror request ID in response so client can correlate logs
     response.headers.set("X-Request-ID", requestId);
+
     return response;
   }
 
   const contentType = response.headers.get("content-type");
+
   if (contentType?.includes("application/json")) {
     try {
       // Clone to read without consuming
       const clonedRes = response.clone();
+
       responseBody = await clonedRes.json();
     } catch (_e) {
       responseBody = "[Failed to read response body]";
@@ -108,6 +126,7 @@ export async function handle({
   };
 
   const perf = perfBreakdown;
+
   if (perf && Object.keys(perf).length > 0) {
     logPayload.perf = perf;
   }
@@ -116,6 +135,7 @@ export async function handle({
   if (requestBody) {
     logPayload.payload = requestBody;
   }
+
   if (responseBody) {
     logPayload.responseBody = responseBody;
   }
@@ -130,3 +150,5 @@ export async function handle({
 
   return response;
 }
+
+export const handle = sequence(originalHandle, i18n.handle());

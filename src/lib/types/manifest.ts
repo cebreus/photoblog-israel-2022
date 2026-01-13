@@ -74,6 +74,7 @@ export type SiteManifest = {
     version?: string;
     icons?: Record<string, boolean>;
   };
+  localized?: Record<string, Partial<SiteManifest>>;
 };
 
 import type { ImageFormat } from "./images";

@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { HTMLAttributes } from "svelte/elements";
 
+  import * as m from "$lib/paraglide/messages";
   import { type WithElementRef, cn } from "$lib/utils";
 
   import { useSidebar } from "./context.svelte.js";
@@ -19,10 +20,10 @@
   bind:this={ref}
   data-sidebar="rail"
   data-slot="sidebar-rail"
-  aria-label="Přepnout postranní panel"
+  aria-label={m.aria_toggle_sidebar()}
   tabIndex={-1}
   onclick={sidebar.toggle}
-  title="Přepnout postranní panel"
+  title={m.aria_toggle_sidebar()}
   class={cn(
     "hover:after:bg-sidebar-border absolute inset-y-0 z-20 hidden w-4 -translate-x-1/2 transition-all ease-linear group-data-[side=left]:-right-4 group-data-[side=right]:left-0 after:absolute after:inset-y-0 after:left-[calc(1/2*100%-1px)] after:w-[2px] sm:flex",
     "in-data-[side=left]:cursor-w-resize in-data-[side=right]:cursor-e-resize",

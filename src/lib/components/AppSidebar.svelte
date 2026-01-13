@@ -12,6 +12,7 @@
   import PeopleTab from "$lib/components/sidebar-content/PeopleTab.svelte";
   import * as Sidebar from "$lib/components/ui/sidebar";
   import * as Tabs from "$lib/components/ui/tabs";
+  import * as m from "$lib/paraglide/messages";
   import { editor } from "$lib/stores/editor.svelte";
   import { ui } from "$lib/stores/ui.svelte";
   import type { MenuManifest, PhotoDay } from "$lib/types/manifest";
@@ -100,7 +101,7 @@
             data-testid="app-sidebar-agenda-tab"
           >
             <Calendar class="size-4" />
-            <span class="sr-only sm:not-sr-only">Agenda</span>
+            <span class="sr-only sm:not-sr-only">{m.sidebar_agenda()}</span>
           </Tabs.Trigger>
           <Tabs.Trigger
             value="filters"
@@ -108,7 +109,7 @@
             data-testid="app-sidebar-filters-tab"
           >
             <SlidersHorizontal class="size-4" />
-            <span class="sr-only sm:not-sr-only">Filtry</span>
+            <span class="sr-only sm:not-sr-only">{m.sidebar_filters()}</span>
           </Tabs.Trigger>
           {#if dev}
             <Tabs.Trigger
@@ -117,7 +118,7 @@
               data-testid="app-sidebar-people-tab"
             >
               <User class="size-4" />
-              <span class="sr-only sm:not-sr-only">Lidé</span>
+              <span class="sr-only sm:not-sr-only">{m.sidebar_people()}</span>
             </Tabs.Trigger>
           {/if}
           {#if dev}
@@ -127,7 +128,7 @@
               data-testid="app-sidebar-edit-tab"
             >
               <Pencil class="size-4" />
-              <span class="sr-only">Editace</span>
+              <span class="sr-only">{m.sidebar_edit()}</span>
             </Tabs.Trigger>
           {/if}
         </Tabs.List>

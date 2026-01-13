@@ -14,6 +14,7 @@
   import JsonViewer from "$lib/components/debug/JsonViewer.svelte";
   import { Button } from "$lib/components/ui/button";
   import * as ContextMenu from "$lib/components/ui/context-menu";
+  import * as m from "$lib/paraglide/messages";
   import { editor } from "$lib/stores/editor.svelte";
   import { metadataClipboard } from "$lib/stores/metadata-clipboard.svelte";
   import { people } from "$lib/stores/people.svelte";
@@ -162,7 +163,7 @@
         </div>
       {/if}
       {#if item.author}
-        <div class="truncate" title={item.author}>Author: {item.author}</div>
+        <div class="truncate" title={item.author}>{m.image_label_author()}: {item.author}</div>
       {/if}
       {#if item.width && item.height}
         <div class="opacity-70">{item.width}x{item.height}</div>
@@ -179,10 +180,10 @@
         size="sm"
         class="flex-1 gap-2"
         onclick={handleDelete}
-        aria-label="Smazat tuto fotku"
+        aria-label={m.aria_delete_photo()}
       >
         <Trash2 class="size-3" />
-        Smazat
+        {m.image_delete()}
       </Button>
       <Button
         variant="secondary"
@@ -192,10 +193,10 @@
           e.stopPropagation();
           onArchive?.(item);
         }}
-        aria-label="Archivovat tuto fotku"
+        aria-label={m.aria_archive_photo()}
       >
         <Archive class="size-3" />
-        Archivovat
+        {m.image_archive()}
       </Button>
     </div>
   </div>
@@ -206,20 +207,20 @@
   {@const isReleaseDateModified =
     item.exif?.releaseDate && item.exif?.date && item.exif.releaseDate !== item.exif.date}
   {@const metadataRows = [
-    { label: "Soubor", value: fileName, isTechnical: true },
+    { label: m.image_field_file(), value: fileName, isTechnical: true },
     {
-      label: "Pořízení",
+      label: m.image_field_date(),
       value: formatWallClock(item.exif?.date || ""),
       isTechnical: true,
     },
     {
-      label: "Řazení",
+      label: m.image_field_release_date(),
       value: formatWallClock(item.exif?.releaseDate || ""),
       isTechnical: true,
       isModified: isReleaseDateModified,
     },
     {
-      label: "Lidé",
+      label: m.image_field_people(),
       value: (item.people || [])
         .map((id) => people.people.find((p) => p.id === id)?.name)
         .filter(Boolean)
@@ -227,33 +228,33 @@
       isTechnical: true,
     },
 
-    { label: "Autor", value: item.author },
-    { label: "Místo", value: item.location },
-    { label: "Město", value: item.city },
-    { label: "Stát / Provincie", value: item.exif?.state },
+    { label: m.image_label_author(), value: item.author },
+    { label: m.image_label_location(), value: item.location },
+    { label: m.image_label_city(), value: item.city },
+    { label: m.image_label_state(), value: item.exif?.state },
     {
-      label: "Země",
+      label: m.image_label_country(),
       value: item.exif?.country
         ? `${item.exif.country}${item.exif.countryCode ? ` (${item.exif.countryCode})` : ""}`
         : item.exif?.countryCode || "",
     },
-    { label: "Klíčová slova", value: item.keywords?.join(", ") },
-    { label: "Popisek", value: item.caption },
-    { label: "Název", value: item.title },
+    { label: m.image_label_keywords(), value: item.keywords?.join(", ") },
+    { label: m.image_label_caption(), value: item.caption },
+    { label: m.image_label_title(), value: item.title },
     {
-      label: "Rozměry",
+      label: m.image_field_dimensions(),
       value: item.width && item.height ? `${item.width} x ${item.height}` : "",
       isTechnical: true,
     },
     {
-      label: "Velikost",
+      label: m.image_field_size(),
       value: item.sizeMB != null ? `${item.sizeMB} MB` : "",
       isTechnical: true,
     },
     {
       label: "Aesthetic / Sharpness",
       value: item.analysis
-        ? `${item.analysis.aestheticScore?.toFixed(2) ?? ""} / ${item.analysis.sharpness?.toFixed(2) ?? "—"}<br /><span title="Quality Bucket">${item.analysis.qualityBucket ?? "—"}</span>`
+        ? `${item.analysis.aestheticScore?.toFixed(2) ?? ""} / ${item.analysis.sharpness?.toFixed(2) ?? "—"}<br /><span title="${m.aria_quality_bucket()}">${item.analysis.qualityBucket ?? "—"}</span>`
         : "—",
       isTechnical: true,
     },
@@ -386,26 +387,26 @@
             <div
               class="rounded bg-indigo-600/80 px-1.5 py-0.5 text-[9px] font-black text-white shadow-sm backdrop-blur-sm"
             >
-              MOMENTKA
+              {m.image_flag_snapshot()}
             </div>
           {/if}
           {#if dev && item.flags?.includes("snapshot-others")}
             <div
               class="rounded bg-slate-600/80 px-1.5 py-0.5 text-[9px] font-black text-white shadow-sm backdrop-blur-sm"
             >
-              CIZÍ MOMENTKA
+              {m.image_flag_snapshot_others()}
             </div>
           {/if}
           {#if showCurationVisuals}
             <div class="rounded bg-amber-500 px-1.5 py-0.5 text-[10px] font-bold text-white shadow">
-              DUPLICITY
+              {m.image_curation_duplicates()}
             </div>
             {#if item.id === curationGroup?.bestCandidateId}
               <div
                 class="rounded bg-green-600 px-1.5 py-0.5 text-[10px] font-bold text-white shadow"
                 data-testid="curation-recommendation-badge"
               >
-                DOPORUČENO
+                {m.image_curation_recommended()}
               </div>
             {/if}
           {/if}
@@ -469,14 +470,14 @@
                 onclick={handleOpenDialog}
               >
                 <ArrowRightLeft class="mr-2 size-4" />
-                Porovnat duplicity
+                {m.image_curation_compare()}
               </Button>
             </div>
           {/if}
         </div>
       {:else}
         <!-- Ensure clickable link visually implies action if hovered? -->
-        <span class="sr-only">Otevřít detail fotky</span>
+        <span class="sr-only">{m.image_open_detail_aria()}</span>
       {/if}
     </svelte:element>
 
@@ -503,8 +504,8 @@
           onclick={() => onCopyMetadata?.(item)}
           data-testid="photo-grid-item-contextmenu-copy-metadata"
         >
-          <Copy class="size-4" />
-          <span>Kopírovat metadata</span>
+          <Copy class="h-4 w-4" />
+          <span>{m.image_context_copy_metadata()}</span>
         </ContextMenu.Item>
 
         <ContextMenu.Item
@@ -512,8 +513,8 @@
           onclick={handleCopyToClipboard}
           data-testid="photo-grid-item-contextmenu-copy-to-clipboard"
         >
-          <Copy class="size-4" />
-          <span>Kopírovat do schránky</span>
+          <Copy class="h-4 w-4" />
+          <span>{m.image_context_copy_clipboard()}</span>
         </ContextMenu.Item>
 
         {#if metadataClipboard.sourceImage?.id !== item.id && metadataClipboard.data}
@@ -525,8 +526,8 @@
               data-testid="photo-grid-item-contextmenu-paste-metadata-selection"
             >
               <div class="flex flex-1 items-center gap-2">
-                <Copy class="size-4 rotate-180" />
-                <span>Vložit na {editor.selection.size} vybraných</span>
+                <Copy class="h-4 w-4 rotate-180" />
+                <span>{m.image_context_paste_selection({ count: editor.selection.size })}</span>
               </div>
             </ContextMenu.Item>
 
@@ -537,7 +538,7 @@
               data-testid="photo-grid-item-contextmenu-paste-metadata-single"
             >
               <div class="text-muted-foreground flex flex-1 items-center gap-2 pl-6 text-xs">
-                <span>↳ Pouze na tento obrázek</span>
+                <span>↳ {m.image_context_paste_single()}</span>
               </div>
             </ContextMenu.Item>
           {:else}
@@ -547,8 +548,8 @@
               onclick={() => onPasteMetadata?.(item)}
               data-testid="photo-grid-item-contextmenu-paste-metadata"
             >
-              <Copy class="size-4 rotate-180" />
-              <span>Vložit metadata</span>
+              <Copy class="h-4 w-4 rotate-180" />
+              <span>{m.image_context_paste_metadata()}</span>
             </ContextMenu.Item>
           {/if}
         {/if}
@@ -563,8 +564,12 @@
             data-testid="photo-grid-item-contextmenu-reset-releasedate-selection"
           >
             <div class="flex flex-1 items-center gap-2">
-              <RotateCcw class="size-4" />
-              <span>Resetovat datum řazení ({editor.selection.size}×)</span>
+              <RotateCcw class="h-4 w-4" />
+              <span
+                >{m.image_context_reset_release_date_selection({
+                  count: editor.selection.size,
+                })}</span
+              >
             </div>
           </ContextMenu.Item>
 
@@ -575,7 +580,7 @@
             data-testid="photo-grid-item-contextmenu-reset-releasedate-single"
           >
             <div class="text-muted-foreground flex flex-1 items-center gap-2 pl-6 text-xs">
-              <span>↳ Pouze tento obrázek</span>
+              <span>↳ {m.image_context_reset_release_date_single()}</span>
             </div>
           </ContextMenu.Item>
         {:else}
@@ -585,8 +590,8 @@
             onclick={() => onResetReleaseDate?.(item)}
             data-testid="photo-grid-item-contextmenu-reset-releasedate"
           >
-            <RotateCcw class="size-4" />
-            <span>Resetovat datum řazení</span>
+            <RotateCcw class="h-4 w-4" />
+            <span>{m.image_context_reset_release_date()}</span>
           </ContextMenu.Item>
         {/if}
 
@@ -598,8 +603,8 @@
             onclick={() => onSwapTimes?.()}
             data-testid="photo-grid-item-contextmenu-swap-times"
           >
-            <ArrowRightLeft class="size-4" />
-            <span>Prohodit časy (Swap)</span>
+            <ArrowRightLeft class="h-4 w-4" />
+            <span>{m.image_context_swap_times()}</span>
           </ContextMenu.Item>
 
           <ContextMenu.Item
@@ -607,8 +612,8 @@
             onclick={() => onRedistributeTimes?.()}
             data-testid="photo-grid-item-contextmenu-redistribute-times"
           >
-            <StretchHorizontal class="size-4" />
-            <span>Rozprostřít časy</span>
+            <StretchHorizontal class="h-4 w-4" />
+            <span>{m.image_context_redistribute_times()}</span>
           </ContextMenu.Item>
         {/if}
 
@@ -619,8 +624,8 @@
           onclick={() => onDelete?.(item)}
           data-testid="photo-grid-item-contextmenu-delete-image"
         >
-          <Trash2 class="size-4" />
-          <span>Smazat obrázek</span>
+          <Trash2 class="h-4 w-4" />
+          <span>{m.image_context_delete()}</span>
         </ContextMenu.Item>
 
         <ContextMenu.Item
@@ -628,8 +633,8 @@
           onclick={() => onArchive?.(item)}
           data-testid="photo-grid-item-contextmenu-archive-image"
         >
-          <Archive class="size-4" />
-          <span>Archivovat fotku</span>
+          <Archive class="h-4 w-4" />
+          <span>{m.image_context_archive()}</span>
         </ContextMenu.Item>
       </ContextMenu.Content>
     </ContextMenu.Portal>

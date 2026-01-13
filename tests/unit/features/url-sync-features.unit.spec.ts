@@ -28,8 +28,8 @@ vi.mock("$lib/stores/filters.svelte", () => {
       selectedQualityBuckets: [],
       selectedPeople: [],
       selectedMediaTypes: [],
-      showOthersSnapshots: true,
-      showAuthorSnapshots: true,
+      showOthersSnapshots: false,
+      showAuthorSnapshots: false,
     },
     MEDIA_TYPES: [
       { id: "image", label: "Fotografie" },
@@ -97,8 +97,8 @@ describe("initializeFiltersFromUrl", () => {
     filters.selectedQualityBuckets = [];
     filters.selectedPeople = [];
     filters.selectedMediaTypes = [];
-    filters.showOthersSnapshots = true;
-    filters.showAuthorSnapshots = true;
+    filters.showOthersSnapshots = false;
+    filters.showAuthorSnapshots = false;
     filters.showSeparators = true;
 
     ui.photoLabels = false;
@@ -237,13 +237,13 @@ describe("initializeFiltersFromUrl", () => {
     });
 
     it("handles snapshot filters", () => {
-      // author snapshots hidden
-      initializeFiltersFromUrl(new URL("https://example.com/?no-author-snapshots"));
-      expect(filters.showAuthorSnapshots).toBe(false);
+      // author snapshots enabled
+      initializeFiltersFromUrl(new URL("https://example.com/?author-snapshots"));
+      expect(filters.showAuthorSnapshots).toBe(true);
 
-      // others snapshots hidden
-      initializeFiltersFromUrl(new URL("https://example.com/?no-others-snapshots"));
-      expect(filters.showOthersSnapshots).toBe(false);
+      // others snapshots enabled
+      initializeFiltersFromUrl(new URL("https://example.com/?others-snapshots"));
+      expect(filters.showOthersSnapshots).toBe(true);
     });
   });
 });

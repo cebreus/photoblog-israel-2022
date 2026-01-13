@@ -48,8 +48,8 @@ vi.mock("$lib/stores/filters.svelte", () => {
       selectedQualityBuckets: [],
       selectedPeople: [],
       selectedMediaTypes: [],
-      showOthersSnapshots: true,
-      showAuthorSnapshots: true,
+      showOthersSnapshots: false,
+      showAuthorSnapshots: false,
     },
     MEDIA_TYPES: [
       { id: "image", label: "Fotografie" },
@@ -103,8 +103,8 @@ describe("syncUrlFromFilters", () => {
     filters.selectedQualityBuckets = [];
     filters.selectedPeople = [];
     filters.selectedMediaTypes = [];
-    filters.showOthersSnapshots = true;
-    filters.showAuthorSnapshots = true;
+    filters.showOthersSnapshots = false;
+    filters.showAuthorSnapshots = false;
     filters.showSeparators = true;
     filters.filtersSyncing = false;
 
@@ -273,19 +273,19 @@ describe("syncUrlFromFilters", () => {
   });
 
   it("handles snapshot filters", async () => {
-    filters.showAuthorSnapshots = false;
+    filters.showAuthorSnapshots = true;
     syncUrlFromFilters();
     await vi.advanceTimersByTimeAsync(50);
     expect(vi.mocked(goto)).toHaveBeenCalledWith(
-      expect.stringContaining("no-author-snapshots"),
+      expect.stringContaining("author-snapshots"),
       expect.any(Object),
     );
 
-    filters.showOthersSnapshots = false;
+    filters.showOthersSnapshots = true;
     syncUrlFromFilters();
     await vi.advanceTimersByTimeAsync(50);
     expect(vi.mocked(goto)).toHaveBeenCalledWith(
-      expect.stringContaining("no-others-snapshots"),
+      expect.stringContaining("others-snapshots"),
       expect.any(Object),
     );
   });

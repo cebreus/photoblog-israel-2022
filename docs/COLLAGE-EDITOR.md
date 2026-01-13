@@ -606,11 +606,11 @@ bun run test:e2e -- --grep "collage"
 
 ### Lokalizace
 
-Všechny texty jsou centralizovány v `src/lib/utils/messages.ts` pod `COLLAGE_MESSAGES`. Pro přidání nového jazyka:
+Všechny texty jsou spravovány pomocí **Paraglide-js**.
 
-1. Vytvořit nový soubor `messages.<lang>.ts`
-2. Implementovat i18n provider
-3. Přepnout import v komponentách
+1. Zdrojové texty jsou v `messages/cs.json`.
+2. Překlady jsou v `messages/en.json`.
+3. Pro přidání nového klíče upravte `messages/cs.json` a spusťte `npx paraglide-js compile`.
 
 ## Související dokumenty
 

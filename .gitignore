@@ -46,3 +46,7 @@ content/*/Egypt-*
 MASTER_AUDIT.md
 content/egypt-2025/_schovane/
 scripts/models/ai/
+
+# Paraglide
+src/lib/paraglide
+project.inlang/cache/
