@@ -99,12 +99,29 @@ export default defineConfig({
 
 **Path aliases** (SvelteKit managed):
 
-| Alias        | Cesta                    |
-| ------------ | ------------------------ |
-| `$lib`       | `src/lib`                |
-| `$manifests` | `src/data/<CONTENT_DIR>` |
-| `$scripts`   | `scripts/`               |
-| `$shared`    | `shared/`                |
+| Alias        | Cesta                     |
+| ------------ | ------------------------- |
+| `$lib`       | `src/lib`                 |
+| `$manifests` | `src/data/<CONTENT_DIR>`  |
+| `$scripts`   | `scripts/lib`             |
+| `$config`    | `scripts/build.config.ts` |
+| `$shared`    | `shared/`                 |
+| `$tests`     | `tests/`                  |
+
+## 6. Známá omezení a deprecations
+
+### SvelteKit `config.kit.files.assets`
+
+- **Stav:** Deprecated (bude odstraněno ve SvelteKit 3).
+- **Důvod použití:** Projekt využívá tuto volbu pro dynamické přepínání adresáře se statickými assety (`static-${contentDir}`) na základě zvolené galerie.
+- **Rozhodnutí:** Ponecháno i přes varování (`pnpm check`), protože alternativy (symlinky na Windows, kopírování dat) přinášejí větší složitost.
+- **Plán migrace:** Při přechodu na SvelteKit 3 bude nutné implementovat správu symlinku (`static` -> `static-${contentDir}`) přímo v CLI wrapperu (`scripts/manage.ts`) před každým spuštěním Vite.
+
+### TypeScript `paths`
+
+- **Stav:** Odstraněno z `tsconfig.json`.
+- **Důvod:** Původní `baseUrl` a `paths` v `tsconfig.json` kolidovaly s automaticky generovanou konfigurací SvelteKitu (`.svelte-kit/tsconfig.json`).
+- **Řešení:** Všechny aliasy jsou nyní definovány pouze v `svelte.config.js` (`kit.alias`) a SvelteKit je automaticky propaguje do TypeScriptu.
 
 ## 4. Tailwind CSS
 

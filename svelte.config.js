@@ -20,7 +20,7 @@ const config = {
       precompress: false,
     }),
     files: {
-        assets: `static-${contentDir}`
+      assets: `static-${contentDir}`,
     },
     alias: {
       $manifests: path.resolve(__dirname, "src/data", contentDir),

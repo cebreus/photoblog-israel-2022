@@ -14,43 +14,7 @@
       "esnext",
       "dom",
       "dom.iterable"
-    ],
-    "baseUrl": ".",
-    "paths": {
-      "$lib": [
-        "src/lib"
-      ],
-      "$lib/*": [
-        "src/lib/*"
-      ],
-      "$shared": [
-        "shared"
-      ],
-      "$shared/*": [
-        "shared/*"
-      ],
-      "$scripts": [
-        "scripts/lib"
-      ],
-      "$scripts/*": [
-        "scripts/lib/*"
-      ],
-      "$config": [
-        "scripts/build.config.ts"
-      ],
-      "$tests": [
-        "tests"
-      ],
-      "$tests/*": [
-        "tests/*"
-      ],
-      "$manifests": [
-        "src/data/egypt-2025"
-      ],
-      "$manifests/*": [
-        "src/data/egypt-2025/*"
-      ]
-    }
+    ]
   },
   "include": [
     ".svelte-kit/ambient.d.ts",
