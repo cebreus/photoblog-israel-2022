@@ -37,45 +37,48 @@
 </script>
 
 <div class="container mx-auto space-y-16 p-8">
-  <h1 class="border-b pb-6 text-5xl font-bold">Design Manual</h1>
+  <h1 class="border-b pb-6 text-5xl font-bold dark:border-slate-700">Design Manual</h1>
 
   <!-- Section: Colors -->
   <section>
     <h2 class="mb-8 text-4xl font-semibold">Colour Scheme</h2>
     <div class="prose prose-lg mb-12 max-w-none">
-      <p>
+      <p class="dark:text-slate-300">
         The colour palette is a customised version of the default
-        <a href="https://tailwindcss.com/docs/colors" target="_blank" rel="noopener noreferrer"
-          >Tailwind CSS colour system</a
-        >. The main neutral colour is <strong>Slate</strong>, which has been modified to have a
-        richer, bluer hue and is used for backgrounds and text.
+        <a
+          href="https://tailwindcss.com/docs/colors"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="dark:text-blue-400 dark:hover:text-blue-300">Tailwind CSS colour system</a
+        >. The main neutral colour is <strong class="dark:text-white">Slate</strong>, which has been
+        modified to have a richer, bluer hue and is used for backgrounds and text.
       </p>
-      <p>
-        The primary accent colour is <strong>Blue</strong>, used for links, buttons, and
-        highlighting active elements. <strong>Orange</strong>
+      <p class="dark:text-slate-300">
+        The primary accent colour is <strong class="dark:text-white">Blue</strong>, used for links,
+        buttons, and highlighting active elements. <strong class="dark:text-white">Orange</strong>
         serves as a secondary accent for filters and notifications.
-        <strong>Red</strong>
+        <strong class="dark:text-white">Red</strong>
         is reserved for destructive actions and error states. All customisations can be found in
-        <code>src/app.css</code>.
+        <code class="dark:bg-slate-700 dark:text-slate-200">src/app.css</code>.
       </p>
     </div>
     <div class="grid grid-cols-12 items-center gap-x-2 gap-y-3">
       <!-- Headers -->
-      <div class="text-right text-sm font-bold">Colour</div>
-      <div class="text-center font-mono text-xs">50</div>
-      <div class="text-center font-mono text-xs">100</div>
-      <div class="text-center font-mono text-xs">200</div>
-      <div class="text-center font-mono text-xs">300</div>
-      <div class="text-center font-mono text-xs">400</div>
-      <div class="text-center font-mono text-xs">500</div>
-      <div class="text-center font-mono text-xs">600</div>
-      <div class="text-center font-mono text-xs">700</div>
-      <div class="text-center font-mono text-xs">800</div>
-      <div class="text-center font-mono text-xs">900</div>
-      <div class="text-center font-mono text-xs">950</div>
+      <div class="text-right text-sm font-bold dark:text-slate-300">Colour</div>
+      <div class="text-center font-mono text-xs dark:text-slate-400">50</div>
+      <div class="text-center font-mono text-xs dark:text-slate-400">100</div>
+      <div class="text-center font-mono text-xs dark:text-slate-400">200</div>
+      <div class="text-center font-mono text-xs dark:text-slate-400">300</div>
+      <div class="text-center font-mono text-xs dark:text-slate-400">400</div>
+      <div class="text-center font-mono text-xs dark:text-slate-400">500</div>
+      <div class="text-center font-mono text-xs dark:text-slate-400">600</div>
+      <div class="text-center font-mono text-xs dark:text-slate-400">700</div>
+      <div class="text-center font-mono text-xs dark:text-slate-400">800</div>
+      <div class="text-center font-mono text-xs dark:text-slate-400">900</div>
+      <div class="text-center font-mono text-xs dark:text-slate-400">950</div>
 
       <!-- Red -->
-      <div class="text-right text-sm font-bold">Red</div>
+      <div class="text-right text-sm font-bold dark:text-slate-300">Red</div>
       <div class="h-12 w-full rounded-lg border bg-red-50 shadow-md"></div>
       <div class="h-12 w-full rounded-lg border bg-red-100 shadow-md"></div>
       <div class="h-12 w-full rounded-lg border bg-red-200 shadow-md"></div>
@@ -89,7 +92,7 @@
       <div class="h-12 w-full rounded-lg border bg-red-950 shadow-md"></div>
 
       <!-- Orange -->
-      <div class="text-right text-sm font-bold">Orange</div>
+      <div class="text-right text-sm font-bold dark:text-slate-300">Orange</div>
       <div class="h-12 w-full rounded-lg border bg-orange-50 shadow-md"></div>
       <div class="h-12 w-full rounded-lg border bg-orange-100 shadow-md"></div>
       <div class="h-12 w-full rounded-lg border bg-orange-200 shadow-md"></div>
@@ -103,7 +106,7 @@
       <div class="h-12 w-full rounded-lg border bg-orange-950 shadow-md"></div>
 
       <!-- Blue -->
-      <div class="text-right text-sm font-bold">Blue</div>
+      <div class="text-right text-sm font-bold dark:text-slate-300">Blue</div>
       <div class="h-12 w-full rounded-lg border bg-blue-50 shadow-md"></div>
       <div class="h-12 w-full rounded-lg border bg-blue-100 shadow-md"></div>
       <div class="h-12 w-full rounded-lg border bg-blue-200 shadow-md"></div>
@@ -117,7 +120,7 @@
       <div class="h-12 w-full rounded-lg border bg-blue-950 shadow-md"></div>
 
       <!-- Slate -->
-      <div class="text-right text-sm font-bold">Slate</div>
+      <div class="text-right text-sm font-bold dark:text-slate-300">Slate</div>
       <div class="h-12 w-full rounded-lg border bg-slate-50 shadow-md"></div>
       <div class="h-12 w-full rounded-lg border bg-slate-100 shadow-md"></div>
       <div class="h-12 w-full rounded-lg border bg-slate-200 shadow-md"></div>
@@ -136,9 +139,10 @@
   <section>
     <h2 class="mb-8 text-4xl font-semibold">Typography</h2>
     <div class="prose prose-lg mb-12 max-w-none">
-      <p>
-        This section is not using the <code>@tailwindcss/typography</code> plugin to ensure the raw heading
-        styles are displayed without prose styling.
+      <p class="dark:text-slate-300">
+        This section is not using the <code class="dark:bg-slate-700 dark:text-slate-200"
+          >@tailwindcss/typography</code
+        > plugin to ensure the raw heading styles are displayed without prose styling.
       </p>
     </div>
     <div class="space-y-6">
@@ -152,15 +156,15 @@
 
     <div class="mt-12">
       <h3 class="mb-4 text-2xl font-medium">Font Stacks</h3>
-      <p class="text-gray-700">
+      <p class="text-gray-700 dark:text-slate-300">
         The project currently uses the default Tailwind CSS font stacks, as no custom fonts are
         defined in either <code>tailwind.config.ts</code> or
         <code>src/app.css</code>.
       </p>
-      <ul class="mt-4 list-inside list-disc space-y-2">
+      <ul class="mt-4 list-inside list-disc space-y-2 dark:text-slate-300">
         <li>
           <span class="font-bold">Sans-serif:</span>
-          <code class="text-xs"
+          <code class="text-xs dark:bg-slate-700 dark:text-slate-200"
             >'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', "Segoe UI",
             'Roboto', "Helvetica Neue", 'Arial', "Noto Sans", 'sans-serif', "Apple Color Emoji",
             "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"</code
@@ -168,13 +172,13 @@
         </li>
         <li>
           <span class="font-bold">Serif:</span>
-          <code class="text-xs"
+          <code class="text-xs dark:bg-slate-700 dark:text-slate-200"
             >'ui-serif', 'Georgia', 'Cambria', "Times New Roman", 'Times', 'serif'</code
           >
         </li>
         <li>
           <span class="font-bold">Monospace:</span>
-          <code class="text-xs"
+          <code class="text-xs dark:bg-slate-700 dark:text-slate-200"
             >'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono",
             "Courier New", 'monospace'</code
           >
@@ -186,7 +190,7 @@
   <!-- Section: Spacing -->
   <section>
     <h2 class="mb-8 text-4xl font-semibold">Spacing and Sizing Scale</h2>
-    <p class="mb-8 text-gray-600">
+    <p class="mb-8 text-gray-600 dark:text-slate-400">
       A visual demonstration of the default spacing and sizing scale (e.g., for padding, margin,
       width, and height) in Tailwind CSS. The values are in rem (1rem = 16px).
     </p>
@@ -194,11 +198,11 @@
       {#each spacing as item}
         <div class="text-center">
           <div
-            class="bg-blue-200 ring-1 ring-blue-300"
+            class="bg-blue-200 ring-1 ring-blue-300 dark:bg-blue-800 dark:ring-blue-700"
             style="width: {item.px}px; height: {item.px}px;"
             title="Class: p-{item.size} | px: {item.px}"
           ></div>
-          <p class="mt-1 text-xs">p-{item.size}</p>
+          <p class="mt-1 text-xs dark:text-slate-400">p-{item.size}</p>
         </div>
       {/each}
     </div>
