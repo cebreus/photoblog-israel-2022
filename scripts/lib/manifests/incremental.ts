@@ -4,12 +4,19 @@
  * @description
  * Implements the incremental run: scanning source, processing images, updating manifests and caches.
  */
+import { config } from "$config";
 import { EMBEDDING_DIM } from "$scripts/ai/models";
 import { createLogger } from "$scripts/core/cli-logger";
 import { getConcurrency } from "$scripts/core/concurrency-utils";
 import { createBar, stopAllBars } from "$scripts/core/progress-manager";
 import type { ProcessedImageResult } from "$scripts/image/processor";
 import { type ImageProcessOptions, processImage } from "$scripts/image/processor";
+import {
+  buildGeneratorManifest,
+  generateMenuManifest,
+  updateManifest,
+} from "$scripts/manifests/builder";
+import { withManifestLock } from "$scripts/manifests/lock";
 import {
   detectRenames,
   loadContentTracker,
@@ -26,10 +33,8 @@ import { toPureWallClockISO } from "$shared/utils/dates";
 import matter from "gray-matter";
 import path from "node:path";
 import pc from "picocolors";
-import { config } from "../../build.config";
-import { buildGeneratorManifest, generateMenuManifest, updateManifest } from "./builder";
-import { withManifestLock } from "./lock";
 // Repository Imports
+import { buildAndWriteMapManifest } from "$scripts/manifests/map-builder";
 import {
   loadAnalysisManifest,
   loadEmbeddingsManifest,
@@ -39,7 +44,7 @@ import {
   saveFacesManifest,
   saveImagesManifest,
   saveManifest,
-} from "./repository";
+} from "$scripts/manifests/repository";
 
 const logger = createLogger("incremental-build");
 
@@ -575,7 +580,12 @@ async function updateCacheAndManifests({
     const siteManifest = await generateSiteManifest();
     savePromises.push(saveManifest(paths.siteManifestPath, siteManifest));
 
+    // Generate optimized map manifest
+    const dataDir = path.dirname(paths.manifestPath);
+    savePromises.push(buildAndWriteMapManifest(finalManifest, dataDir));
+
     // Save split manifests (BUG #5 fix: prevent data loss on cache reset)
+
     if (results.length > 0) {
       // Build analysis entries from results
       type AnalysisEntryType = {

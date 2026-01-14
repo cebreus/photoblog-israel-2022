@@ -22,8 +22,11 @@
     slug?: string;
   };
 
-  let { menuItems = [], authors = [] }: { menuItems?: MenuManifest; authors?: AuthorStats[] } =
-    $props();
+  let {
+    menuItems = [],
+    authors = [],
+    hideSidebarTrigger = false,
+  }: { menuItems?: MenuManifest; authors?: AuthorStats[]; hideSidebarTrigger?: boolean } = $props();
 
   const siteManifest = $derived(page.data.siteManifest);
 </script>
@@ -43,62 +46,66 @@
     <!-- <LanguageSwitcher /> -->
   </div>
 
-  {#if dev}
-    <Button
-      variant={editor.editMode ? "destructive" : "secondary"}
-      class="mr-3"
-      size="icon"
-      onclick={() => editor.toggleEditMode()}
-      aria-label={editor.editMode ? m.header_edit_off() : m.header_edit_on()}
-      title={editor.editMode ? m.header_edit_off() : m.header_edit_on()}
-      data-testid="header-edit-trigger"
-    >
-      <Pencil strokeWidth={2.5} />
-    </Button>
-
-    {#if editor.editMode}
+  {#if !hideSidebarTrigger}
+    {#if dev}
       <Button
-        variant={editor.reorderMode ? "default" : "ghost"}
+        variant={editor.editMode ? "destructive" : "secondary"}
+        class="mr-3"
         size="icon"
-        onclick={() => editor.toggleReorderMode()}
-        aria-label={editor.reorderMode ? m.header_reorder_off() : m.header_reorder_on()}
-        title={editor.reorderMode ? m.header_reorder_off() : m.header_reorder_on()}
-        data-testid="header-reorder-trigger"
+        onclick={() => editor.toggleEditMode()}
+        aria-label={editor.editMode ? m.header_edit_off() : m.header_edit_on()}
+        title={editor.editMode ? m.header_edit_off() : m.header_edit_on()}
+        data-testid="header-edit-trigger"
       >
-        <GripVertical strokeWidth={2.5} />
+        <Pencil strokeWidth={2.5} />
+      </Button>
+
+      {#if editor.editMode}
+        <Button
+          variant={editor.reorderMode ? "default" : "ghost"}
+          size="icon"
+          onclick={() => editor.toggleReorderMode()}
+          aria-label={editor.reorderMode ? m.header_reorder_off() : m.header_reorder_on()}
+          title={editor.reorderMode ? m.header_reorder_off() : m.header_reorder_on()}
+          data-testid="header-reorder-trigger"
+        >
+          <GripVertical strokeWidth={2.5} />
+        </Button>
+      {/if}
+
+      <Button
+        variant={editor.showMetadataOverlay ? "default" : "ghost"}
+        size="icon"
+        onclick={() => editor.setShowMetadataOverlay(!editor.showMetadataOverlay)}
+        aria-label={m.header_metadata_overlay()}
+        data-testid="header-metadata-overlay-trigger"
+      >
+        <Tags strokeWidth={2.5} />
+      </Button>
+
+      <Button
+        variant={ui.debugMode ? "default" : "ghost"}
+        size="icon"
+        onclick={() => ui.setDebugMode(!ui.debugMode)}
+        aria-label={m.header_debug_mode()}
+        data-testid="header-debug-trigger"
+      >
+        <Bug strokeWidth={2.5} />
+      </Button>
+
+      <Button
+        variant={ui.curationMode ? "default" : "ghost"}
+        size="icon"
+        onclick={() => ui.setCurationMode(!ui.curationMode)}
+        aria-label={m.header_curation_mode()}
+        data-testid="header-curation-trigger"
+      >
+        <Sparkles strokeWidth={2.5} />
       </Button>
     {/if}
-
-    <Button
-      variant={editor.showMetadataOverlay ? "default" : "ghost"}
-      size="icon"
-      onclick={() => editor.setShowMetadataOverlay(!editor.showMetadataOverlay)}
-      aria-label={m.header_metadata_overlay()}
-      data-testid="header-metadata-overlay-trigger"
-    >
-      <Tags strokeWidth={2.5} />
-    </Button>
-
-    <Button
-      variant={ui.debugMode ? "default" : "ghost"}
-      size="icon"
-      onclick={() => ui.setDebugMode(!ui.debugMode)}
-      aria-label={m.header_debug_mode()}
-      data-testid="header-debug-trigger"
-    >
-      <Bug strokeWidth={2.5} />
-    </Button>
-
-    <Button
-      variant={ui.curationMode ? "default" : "ghost"}
-      size="icon"
-      onclick={() => ui.setCurationMode(!ui.curationMode)}
-      aria-label={m.header_curation_mode()}
-      data-testid="header-curation-trigger"
-    >
-      <Sparkles strokeWidth={2.5} />
-    </Button>
   {/if}
 
-  <Sidebar.Trigger class="-me-1 rotate-180" data-testid="header-sidebar-trigger" />
+  {#if !hideSidebarTrigger}
+    <Sidebar.Trigger class="-me-1 rotate-180" data-testid="header-sidebar-trigger" />
+  {/if}
 </header>

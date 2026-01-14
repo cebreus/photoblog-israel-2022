@@ -59,6 +59,10 @@
     },
   });
 
+  // Reactive derived state for sidebar visibility
+  // Using Svelte 5 runes for cleaner logic separation
+  let hideSidebar = $derived(page.route.id === "/map");
+
   // Initialize all URL-related synchronization logic
   // Synchronize Paraglide runtime with SvelteKit URL state immediately on client
   if (browser) {
@@ -140,24 +144,36 @@
 <ModeWatcher />
 
 <QueryClientProvider client={queryClient}>
-  <Sidebar.Provider bind:open={ui.sidebarOpen} style="--sidebar-width: 24rem;">
+  <Sidebar.Provider
+    open={!hideSidebar && ui.sidebarOpen}
+    onOpenChange={(v) => !hideSidebar && ui.setSidebar(v)}
+    style="--sidebar-width: 24rem;"
+  >
     <Sidebar.Inset>
       <div class="flex min-h-screen flex-col">
-        <Header menuItems={data.menuItems} authors={data.authors} />
+        <Header
+          menuItems={data.menuItems}
+          authors={data.authors}
+          hideSidebarTrigger={hideSidebar}
+        />
         <main class="flex flex-1 flex-col" data-testid="main-content">
           {@render children?.()}
         </main>
-        <Footer />
+        {#if !hideSidebar}
+          <Footer />
+        {/if}
       </div>
     </Sidebar.Inset>
-    <AppSidebar
-      menuItems={data.menuItems}
-      authors={data.authors}
-      qualityStats={data.qualityStats}
-      mediaStats={data.mediaStats}
-      snapshotStats={data.snapshotStats}
-      side="right"
-    />
+    {#if !hideSidebar}
+      <AppSidebar
+        menuItems={data.menuItems}
+        authors={data.authors}
+        qualityStats={data.qualityStats}
+        mediaStats={data.mediaStats}
+        snapshotStats={data.snapshotStats}
+        side="right"
+      />
+    {/if}
   </Sidebar.Provider>
   <Toaster position="top-right" richColors closeButton />
 </QueryClientProvider>

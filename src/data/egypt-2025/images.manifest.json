@@ -3,7 +3,7 @@
     {
       "date": "2025-11-21",
       "cities": [
-        "Brno"
+        "Prague"
       ],
       "locations": [
         "Brno hl.n.",
@@ -15,36 +15,65 @@
           "id": "loc-brno-hln-1735",
           "type": "separator",
           "location": "Brno hl.n.",
-          "city": "Brno",
+          "city": "Prague",
           "hasPhotos": false,
           "startDate": "2025-11-21T17:35:00",
           "endDate": "2025-11-21T18:37:00",
           "source": "visit"
         },
         {
-          "id": "2025-11-21-175802-cebreus",
-          "type": "image",
-          "src": "2025-11-21-175802-cebreus.heic",
-          "alt": "Brno hl.n., Brno",
-          "title": "",
-          "width": 8064,
-          "height": 6048,
-          "sizeMB": 4.74,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-21-175802-cebreus.png",
-          "placeholderColor": "rgb(216,200,184)",
+          "id": "2025-11-21-175802-cebreus--collage",
+          "type": "collage",
+          "src": "2025-11-21-175802-cebreus--collage.jpg",
+          "alt": "This is a test caption from E2E, Brno hl.n., Prague",
+          "title": "E2E Test Title 1768413502585",
+          "caption": "This is a test caption from E2E",
+          "width": 8234,
+          "height": 3258,
+          "sizeMB": 6.39,
+          "aspectRatio": "collage",
+          "placeholder": "blurs/2025-11-21-175802-cebreus--collage.png",
+          "placeholderColor": "rgb(24,104,152)",
           "analysis": {
-            "aestheticScore": 42.121518917830265,
-            "sharpness": 100,
-            "qualityBucket": "poor",
-            "phash": "4527a61713535a5c",
+            "sharpness": 5322.139604680682,
+            "phash": "b899bbf3e1859e9a",
             "facesDetected": true,
             "faces": [
               {
-                "x": 2860.6747398376465,
-                "y": 2011.2802391052242,
-                "width": 421.5206222534179,
-                "height": 510.8834152221679
+                "x": 699.1531555652618,
+                "y": 1054.6925108001258,
+                "width": 311.3194239139557,
+                "height": 397.72903079420036
+              },
+              {
+                "x": 1083.0436779856682,
+                "y": 629.931619985977,
+                "width": 246.74517041444778,
+                "height": 314.3180030282654
+              },
+              {
+                "x": 1553.8398914337158,
+                "y": 1156.712618204249,
+                "width": 215.55237072706223,
+                "height": 302.5673116801045
+              },
+              {
+                "x": 2129.4299146533012,
+                "y": 1000.4192224124872,
+                "width": 187.2564274072647,
+                "height": 263.82640372927824
+              },
+              {
+                "x": 2672.9172234535217,
+                "y": 1106.3601988220216,
+                "width": 199.75131368637085,
+                "height": 282.957070239983
+              },
+              {
+                "x": 3155.316567480564,
+                "y": 1072.8546914646413,
+                "width": 246.3724194765091,
+                "height": 332.495538935142
               }
             ]
           },
@@ -52,10 +81,9 @@
             "date": "2025-11-21T17:58:02",
             "releaseDate": "2025-11-21T17:58:02",
             "location": "Brno hl.n.",
-            "city": "Brno",
+            "city": "Prague",
             "latitude": 49.191417,
             "longitude": 16.6135,
-            "orientation": 1,
             "country": "Česko",
             "countryCode": "CZ",
             "state": "Jihomoravský kraj"
@@ -63,79 +91,72 @@
           "author": "Cebreus",
           "authorSlug": "cebreus",
           "location": "Brno hl.n.",
-          "city": "Brno",
+          "city": "Prague",
           "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=49.191417,16.6135",
           "date": "2025-11-21T17:58:02",
           "sources": [
             {
               "variant": "default",
               "type": "image/webp",
-              "path": "/images/previews-webp/2025-11-21-175802-cebreus.webp",
+              "path": "/images/previews-webp/2025-11-21-175802-cebreus--collage.webp",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/jpeg",
-              "path": "/images/previews/2025-11-21-175802-cebreus.jpeg",
+              "path": "/images/previews/2025-11-21-175802-cebreus--collage.jpeg",
               "width": 370
             },
             {
               "variant": "default",
               "type": "image/avif",
-              "path": "/images/previews-avif/2025-11-21-175802-cebreus.avif",
+              "path": "/images/previews-avif/2025-11-21-175802-cebreus--collage.avif",
               "width": 370
             },
             {
               "variant": "xl",
               "type": "image/webp",
-              "path": "/images/previews-xl-webp/2025-11-21-175802-cebreus.webp",
+              "path": "/images/previews-xl-webp/2025-11-21-175802-cebreus--collage.webp",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/jpeg",
-              "path": "/images/previews-xl/2025-11-21-175802-cebreus.jpeg",
+              "path": "/images/previews-xl/2025-11-21-175802-cebreus--collage.jpeg",
               "width": 534
             },
             {
               "variant": "xl",
               "type": "image/avif",
-              "path": "/images/previews-xl-avif/2025-11-21-175802-cebreus.avif",
+              "path": "/images/previews-xl-avif/2025-11-21-175802-cebreus--collage.avif",
               "width": 534
             },
             {
               "variant": "detail",
               "type": "image/jpeg",
-              "path": "/images/details/2025-11-21-175802-cebreus.jpeg",
-              "width": 1707,
+              "path": "/images/details/2025-11-21-175802-cebreus--collage.jpeg",
+              "width": 3235,
               "height": 1280
             },
             {
               "variant": "fallback",
               "type": "image/jpeg",
-              "path": "/images/previews-xxs/2025-11-21-175802-cebreus.jpeg",
+              "path": "/images/previews-xxs/2025-11-21-175802-cebreus--collage.jpeg",
               "width": 190,
               "height": 127
             },
             {
               "variant": "admin_thumb",
               "type": "image/jpeg",
-              "path": "/images/previews-admin/2025-11-21-175802-cebreus.jpeg",
+              "path": "/images/previews-admin/2025-11-21-175802-cebreus--collage.jpeg",
               "width": 534,
-              "height": 401
+              "height": 211
             }
           ],
           "flags": [
             "snapshot-others"
           ],
-          "people": [
-            "person-jaruska-9f5bf07c",
-            "person-finda-aa8f1097",
-            "person-dasa-264acc31",
-            "person-bobina-78419b17",
-            "person-bobo-ea8ebcb0",
-            "person-jarek-7a7cc561"
-          ]
+          "people": []
         },
         {
           "id": "loc-praha-hln-2103",
@@ -170,97 +191,6 @@
         "Blend Club Aqua Resort"
       ],
       "items": [
-        {
-          "id": "2025-11-22-055754-cebreus",
-          "type": "image",
-          "src": "2025-11-22-055754-cebreus.heic",
-          "alt": "Photoblog image",
-          "title": "",
-          "width": 8064,
-          "height": 6048,
-          "sizeMB": 3.71,
-          "aspectRatio": "landscape-4-3",
-          "placeholder": "blurs/2025-11-22-055754-cebreus.png",
-          "placeholderColor": "rgb(56,104,152)",
-          "analysis": {
-            "aestheticScore": 59.731700153174984,
-            "sharpness": 89,
-            "qualityBucket": "good",
-            "phash": "9313cd9ff742c301",
-            "facesDetected": false,
-            "faces": []
-          },
-          "exif": {
-            "date": "2025-11-22T05:57:54",
-            "releaseDate": "2025-11-22T05:57:54",
-            "orientation": 1,
-            "country": "Egypt",
-            "countryCode": "EGY"
-          },
-          "author": "Cebreus",
-          "authorSlug": "cebreus",
-          "date": "2025-11-22T05:57:54",
-          "sources": [
-            {
-              "variant": "default",
-              "type": "image/webp",
-              "path": "/images/previews-webp/2025-11-22-055754-cebreus.webp",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/jpeg",
-              "path": "/images/previews/2025-11-22-055754-cebreus.jpeg",
-              "width": 370
-            },
-            {
-              "variant": "default",
-              "type": "image/avif",
-              "path": "/images/previews-avif/2025-11-22-055754-cebreus.avif",
-              "width": 370
-            },
-            {
-              "variant": "xl",
-              "type": "image/webp",
-              "path": "/images/previews-xl-webp/2025-11-22-055754-cebreus.webp",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/jpeg",
-              "path": "/images/previews-xl/2025-11-22-055754-cebreus.jpeg",
-              "width": 534
-            },
-            {
-              "variant": "xl",
-              "type": "image/avif",
-              "path": "/images/previews-xl-avif/2025-11-22-055754-cebreus.avif",
-              "width": 534
-            },
-            {
-              "variant": "detail",
-              "type": "image/jpeg",
-              "path": "/images/details/2025-11-22-055754-cebreus.jpeg",
-              "width": 1707,
-              "height": 1280
-            },
-            {
-              "variant": "fallback",
-              "type": "image/jpeg",
-              "path": "/images/previews-xxs/2025-11-22-055754-cebreus.jpeg",
-              "width": 190,
-              "height": 127
-            },
-            {
-              "variant": "admin_thumb",
-              "type": "image/jpeg",
-              "path": "/images/previews-admin/2025-11-22-055754-cebreus.jpeg",
-              "width": 534,
-              "height": 401
-            }
-          ],
-          "people": []
-        },
         {
           "id": "loc-mezinarodni-letiste-hurghada-0806",
           "type": "separator",
@@ -1896,7 +1826,7 @@
           "sizeMB": 1.69,
           "aspectRatio": "landscape-16-9",
           "placeholder": "blurs/2025-11-24-082240-cebreus.png",
-          "placeholderColor": "rgb(152,184,200)",
+          "placeholderColor": "rgb(120,120,88)",
           "analysis": {
             "aestheticScore": 64.32829462567507,
             "sharpness": 63,
@@ -2628,14 +2558,33 @@
           "sizeMB": 2.37,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-24-205551-cebreus--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(8,8,8)",
           "analysis": {
             "aestheticScore": 55.33587785668262,
-            "sharpness": 100,
+            "sharpness": 5626.386531568852,
             "qualityBucket": "good",
             "phash": "b4b6b6c3de9a9392",
-            "facesDetected": false,
-            "faces": []
+            "facesDetected": true,
+            "faces": [
+              {
+                "x": 1478.444932937622,
+                "y": 1011.0933179855346,
+                "width": 172.15342712402344,
+                "height": 282.0995178222656
+              },
+              {
+                "x": 583.6631383895874,
+                "y": 1024.5204648971558,
+                "width": 47.90427875518799,
+                "height": 69.19421195983887
+              },
+              {
+                "x": 538.5862998962402,
+                "y": 1015.4023475646973,
+                "width": 48.87618541717529,
+                "height": 71.24571990966797
+              }
+            ]
           },
           "exif": {
             "date": "2025-11-24T21:55:51",
@@ -2709,7 +2658,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-24-205551-cebreus--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": [
@@ -3781,10 +3730,10 @@
           "sizeMB": 3.82,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-082944-cebreus--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(104,88,72)",
           "analysis": {
             "aestheticScore": 73.05884981582379,
-            "sharpness": 89,
+            "sharpness": 2980.034622441641,
             "qualityBucket": "excellent",
             "phash": "f6c5f9cacaa2b6b6",
             "facesDetected": false,
@@ -3863,7 +3812,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-082944-cebreus--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -3872,9 +3821,9 @@
           "id": "2025-11-25-083005-cebreus",
           "type": "image",
           "src": "2025-11-25-083005-cebreus.heic",
-          "alt": "Katakomby Kom el-Šukafa, poprvé objevené v roce 1900, se skládají ze dvou samostatných komplexů, známých jako „Hlavní katakomby“ a „Caracallova síň“. Tyto podzemní stavby byly vytesány a používány v době, kdy byl Egypt součástí Římské říše. Předpokládá se, že jejich výstavba a užívání započaly na konci 1. století n. l. a následně byly rozšiřovány a zvětšovány až do 4. století n. l.\n\nK oběma komplexům se lze dostat po točitém schodišti (A), které se vine kolem hrobové šachty Hlavních katakomb. Právě touto šachtou byli zesnul�� spouštěni na lanech na místo svého pohřbení. Po dosažení horního patra projdete přes zbytky alabastrové podlahy (B) a stanete před kruhovou halou, Rotundou (C). Po levé straně najdete velkou čtvercovou komoru s lavicemi vytesanými do skály. Jedná se o Triclinium (D), kde se pravděpodobně scházely rodiny zesnulých během pohřebních slavností. Zpět v Rotundě (C) najdete další chodby vedoucí do komor. Uvidíte mnoho lokulů (ve skále vytesaných výklenků pro uložení zesnulých), sarkofágy a další hrobky vytesané do podloží. Do Caracallovy síně vede proražený vchod a schodiště (E), které klesá k velkolepé hlavní hrobce (G). Jakmile budete na této prostřední úrovni, nezapomeňte prozkoumat labyrint komor a lokulů, které ji obklopují (H)., Katakomby Kom el Shoqafa, Alexandrie",
+          "alt": "Katakomby Kom el-Šukafa, poprvé objevené v roce 1900, se skládají ze dvou samostatných komplexů, známých jako „Hlavní katakomby“ a „Caracallova síň“. Tyto podzemní stavby byly vytesány a používány v době, kdy byl Egypt součástí Římské říše. Předpokládá se, že jejich výstavba a užívání započaly na konci 1. století n. l. a následně byly rozšiřovány a zvětšovány až do 4. století n. l.\n\nK oběma komplexům se lze dostat po točitém schodišti (A), které se vine kolem hrobové šachty Hlavních katakomb. Právě touto šachtou byli zesnulí spouštěni na lanech na místo svého pohřbení. Po dosažení horního patra projdete přes zbytky alabastrové podlahy (B) a stanete před kruhovou halou, Rotundou (C). Po levé straně najdete velkou čtvercovou komoru s lavicemi vytesanými do skály. Jedná se o Triclinium (D), kde se pravděpodobně scházely rodiny zesnulých během pohřebních slavností. Zpět v Rotundě (C) najdete další chodby vedoucí do komor. Uvidíte mnoho lokulů (ve skále vytesaných výklenků pro uložení zesnulých), sarkofágy a další hrobky vytesané do podloží. Do Caracallovy síně vede proražený vchod a schodiště (E), které klesá k velkolepé hlavní hrobce (G). Jakmile budete na této prostřední úrovni, nezapomeňte prozkoumat labyrint komor a lokulů, které ji obklopují (H)., Katakomby Kom el Shoqafa, Alexandrie",
           "title": "",
-          "caption": "Katakomby Kom el-Šukafa, poprvé objevené v roce 1900, se skládají ze dvou samostatných komplexů, známých jako „Hlavní katakomby“ a „Caracallova síň“. Tyto podzemní stavby byly vytesány a používány v době, kdy byl Egypt součástí Římské říše. Předpokládá se, že jejich výstavba a užívání započaly na konci 1. století n. l. a následně byly rozšiřovány a zvětšovány až do 4. století n. l.\n\nK oběma komplexům se lze dostat po točitém schodišti (A), které se vine kolem hrobové šachty Hlavních katakomb. Právě touto šachtou byli zesnul�� spouštěni na lanech na místo svého pohřbení. Po dosažení horního patra projdete přes zbytky alabastrové podlahy (B) a stanete před kruhovou halou, Rotundou (C). Po levé straně najdete velkou čtvercovou komoru s lavicemi vytesanými do skály. Jedná se o Triclinium (D), kde se pravděpodobně scházely rodiny zesnulých během pohřebních slavností. Zpět v Rotundě (C) najdete další chodby vedoucí do komor. Uvidíte mnoho lokulů (ve skále vytesaných výklenků pro uložení zesnulých), sarkofágy a další hrobky vytesané do podloží. Do Caracallovy síně vede proražený vchod a schodiště (E), které klesá k velkolepé hlavní hrobce (G). Jakmile budete na této prostřední úrovni, nezapomeňte prozkoumat labyrint komor a lokulů, které ji obklopují (H).",
+          "caption": "Katakomby Kom el-Šukafa, poprvé objevené v roce 1900, se skládají ze dvou samostatných komplexů, známých jako „Hlavní katakomby“ a „Caracallova síň“. Tyto podzemní stavby byly vytesány a používány v době, kdy byl Egypt součástí Římské říše. Předpokládá se, že jejich výstavba a užívání započaly na konci 1. století n. l. a následně byly rozšiřovány a zvětšovány až do 4. století n. l.\n\nK oběma komplexům se lze dostat po točitém schodišti (A), které se vine kolem hrobové šachty Hlavních katakomb. Právě touto šachtou byli zesnulí spouštěni na lanech na místo svého pohřbení. Po dosažení horního patra projdete přes zbytky alabastrové podlahy (B) a stanete před kruhovou halou, Rotundou (C). Po levé straně najdete velkou čtvercovou komoru s lavicemi vytesanými do skály. Jedná se o Triclinium (D), kde se pravděpodobně scházely rodiny zesnulých během pohřebních slavností. Zpět v Rotundě (C) najdete další chodby vedoucí do komor. Uvidíte mnoho lokulů (ve skále vytesaných výklenků pro uložení zesnulých), sarkofágy a další hrobky vytesané do podloží. Do Caracallovy síně vede proražený vchod a schodiště (E), které klesá k velkolepé hlavní hrobce (G). Jakmile budete na této prostřední úrovni, nezapomeňte prozkoumat labyrint komor a lokulů, které ji obklopují (H).",
           "width": 8064,
           "height": 6048,
           "sizeMB": 5.06,
@@ -3979,7 +3928,7 @@
           "sizeMB": 4.83,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-083807-cebreus--zoom1from2.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(104,88,72)",
           "analysis": {
             "aestheticScore": 51.55770275541224,
             "sharpness": 87,
@@ -4068,7 +4017,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-083807-cebreus--zoom1from2.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -4097,7 +4046,7 @@
           "sizeMB": 1.6,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-083812-cebreus--zoom2from2.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(24,24,24)",
           "analysis": {
             "aestheticScore": 62.19927307145094,
             "sharpness": 100,
@@ -4198,7 +4147,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-083812-cebreus--zoom2from2.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -4225,10 +4174,10 @@
           "sizeMB": 13.81,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-084249-cebreus--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(104,88,72)",
           "analysis": {
             "aestheticScore": 48.5303187795364,
-            "sharpness": 98,
+            "sharpness": 3278.190894566016,
             "qualityBucket": "good",
             "phash": "a3a92d60a9b9706a",
             "facesDetected": false,
@@ -4307,7 +4256,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-084249-cebreus--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 232
             }
           ],
           "people": []
@@ -4323,10 +4272,10 @@
           "sizeMB": 3.49,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-084330-cebreus--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(72,56,40)",
           "analysis": {
             "aestheticScore": 34.83786217403185,
-            "sharpness": 100,
+            "sharpness": 4097.440987323188,
             "qualityBucket": "poor",
             "phash": "898d0e0a8b87b6ae",
             "facesDetected": false,
@@ -4405,7 +4354,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-084330-cebreus--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -4718,7 +4667,7 @@
           "sizeMB": 6.32,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-085235-cebreus.png",
-          "placeholderColor": "rgb(88,72,56)",
+          "placeholderColor": "rgb(152,152,136)",
           "analysis": {
             "aestheticScore": 37.47843022845714,
             "sharpness": 95,
@@ -4916,10 +4865,10 @@
           "sizeMB": 3.87,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-090256-cebreus--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(56,56,56)",
           "analysis": {
             "aestheticScore": 61.67623519497392,
-            "sharpness": 100,
+            "sharpness": 3651.759038747827,
             "qualityBucket": "good",
             "phash": "9bcecb9b83e2feda",
             "facesDetected": false,
@@ -4998,7 +4947,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-090256-cebreus--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 400
             }
           ],
           "people": []
@@ -5123,10 +5072,10 @@
           "sizeMB": 3.96,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-092409-cebreus--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(24,24,24)",
           "analysis": {
             "aestheticScore": 46.92203040564077,
-            "sharpness": 100,
+            "sharpness": 3910.548200178621,
             "qualityBucket": "good",
             "phash": "afb8bae987939292",
             "facesDetected": false,
@@ -5205,7 +5154,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-092409-cebreus--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 400
             }
           ],
           "people": []
@@ -5322,7 +5271,7 @@
           "sizeMB": 4.13,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-093002-cebreus.png",
-          "placeholderColor": "rgb(200,184,152)",
+          "placeholderColor": "rgb(24,56,104)",
           "analysis": {
             "aestheticScore": 69.40530104961334,
             "sharpness": 100,
@@ -5829,7 +5778,7 @@
           "sizeMB": 1.29,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-094025-cebreus.png",
-          "placeholderColor": "rgb(56,40,40)",
+          "placeholderColor": "rgb(56,56,40)",
           "analysis": {
             "aestheticScore": 41.36089649174595,
             "sharpness": 72,
@@ -6146,7 +6095,7 @@
           "sizeMB": 3.09,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-095052-cebreus--zoom1from3.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(56,104,168)",
           "analysis": {
             "aestheticScore": 59.467347865063275,
             "sharpness": 62,
@@ -6229,7 +6178,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-095052-cebreus--zoom1from3.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "sequenceInfo": {
@@ -6257,7 +6206,7 @@
           "sizeMB": 0.96,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-095053-cebreus--zoom2from3.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(72,120,184)",
           "analysis": {
             "aestheticScore": 76.74961984209476,
             "sharpness": 69,
@@ -6340,7 +6289,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-095053-cebreus--zoom2from3.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "sequenceInfo": {
@@ -6368,7 +6317,7 @@
           "sizeMB": 0.79,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-095055-cebreus--zoom3from3.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(72,120,184)",
           "analysis": {
             "aestheticScore": 77.82526187497753,
             "sharpness": 68,
@@ -6451,7 +6400,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-095055-cebreus--zoom3from3.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "sequenceInfo": {
@@ -6590,10 +6539,10 @@
           "sizeMB": 2.5,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-102006-cebreus--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(24,24,24)",
           "analysis": {
             "aestheticScore": 58.30685268887186,
-            "sharpness": 100,
+            "sharpness": 4452.322058571119,
             "qualityBucket": "good",
             "phash": "a69aaa0ed2c38536",
             "facesDetected": false,
@@ -6672,7 +6621,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-102006-cebreus--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -6787,10 +6736,10 @@
           "sizeMB": 5.4,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-102804-cebreus--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(168,152,136)",
           "analysis": {
             "aestheticScore": 62.63085618865533,
-            "sharpness": 98,
+            "sharpness": 3255.412374653256,
             "qualityBucket": "good",
             "phash": "a61694acb0b0984a",
             "facesDetected": false,
@@ -6869,7 +6818,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-102804-cebreus--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 300
             }
           ],
           "people": []
@@ -7096,7 +7045,7 @@
           "sizeMB": 7.18,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-104318-cebreus--zoom2from2.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(184,200,200)",
           "analysis": {
             "aestheticScore": 50.299884727895844,
             "sharpness": 100,
@@ -7179,7 +7128,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-104318-cebreus--zoom2from2.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "sequenceInfo": {
@@ -7205,7 +7154,7 @@
           "sizeMB": 2.71,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-104322-cebreus--zoom1from2.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(216,216,200)",
           "analysis": {
             "aestheticScore": 70.87293917571175,
             "sharpness": 80,
@@ -7301,7 +7250,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-104322-cebreus--zoom1from2.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "sequenceInfo": {
@@ -7442,7 +7391,7 @@
           "sizeMB": 2.09,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-112118-dasa.png",
-          "placeholderColor": "rgb(8,8,8)",
+          "placeholderColor": "rgb(40,72,136)",
           "analysis": {
             "aestheticScore": 48.283716835933,
             "sharpness": 100,
@@ -8368,7 +8317,7 @@
           "sizeMB": 2.32,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-25-131142-dasa.png",
-          "placeholderColor": "rgb(24,8,8)",
+          "placeholderColor": "rgb(40,24,8)",
           "analysis": {
             "aestheticScore": 51.528738295702745,
             "sharpness": 100,
@@ -8566,7 +8515,7 @@
           "sizeMB": 0.93,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-25-133004-dasa.png",
-          "placeholderColor": "rgb(200,216,216)",
+          "placeholderColor": "rgb(216,232,232)",
           "analysis": {
             "aestheticScore": 70.31681902945827,
             "sharpness": 100,
@@ -8776,10 +8725,10 @@
           "sizeMB": 1.55,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-25-150152-dasa--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(8,8,8)",
           "analysis": {
             "aestheticScore": 55.81366609687397,
-            "sharpness": 100,
+            "sharpness": 3543.58642025169,
             "qualityBucket": "good",
             "phash": "b6b0a269469aba2c",
             "facesDetected": false,
@@ -8858,7 +8807,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-25-150152-dasa--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -10387,7 +10336,7 @@
           "sizeMB": 2.14,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-081030-cebreus--zoom1from4.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(72,88,120)",
           "analysis": {
             "aestheticScore": 60.903924022077284,
             "sharpness": 75,
@@ -10468,7 +10417,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-081030-cebreus--zoom1from4.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "sequenceInfo": {
@@ -10496,7 +10445,7 @@
           "sizeMB": 8.74,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-081032-cebreus--zoom2from4.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(104,120,152)",
           "analysis": {
             "aestheticScore": 64.99787573166958,
             "sharpness": 60,
@@ -10577,7 +10526,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-081032-cebreus--zoom2from4.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "sequenceInfo": {
@@ -10605,7 +10554,7 @@
           "sizeMB": 1.86,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-081034-cebreus--zoom3from4.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(152,152,152)",
           "analysis": {
             "aestheticScore": 54.89806272149144,
             "sharpness": 30,
@@ -10686,7 +10635,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-081034-cebreus--zoom3from4.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "sequenceInfo": {
@@ -11240,7 +11189,7 @@
           "sizeMB": 1.86,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-081035-cebreus--zoom4from4.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(168,168,152)",
           "analysis": {
             "aestheticScore": 53.55543626229304,
             "sharpness": 30,
@@ -11321,7 +11270,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-081035-cebreus--zoom4from4.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "sequenceInfo": {
@@ -11859,7 +11808,7 @@
           "sizeMB": 3.77,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-091502-cebreus.png",
-          "placeholderColor": "rgb(168,184,216)",
+          "placeholderColor": "rgb(136,120,88)",
           "analysis": {
             "aestheticScore": 60.167945572749915,
             "sharpness": 95,
@@ -13355,10 +13304,10 @@
           "sizeMB": 28.42,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-26-113557-dasa--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(216,200,168)",
           "analysis": {
             "aestheticScore": 100,
-            "sharpness": 100,
+            "sharpness": 6566.494208055678,
             "qualityBucket": "excellent",
             "phash": "92b296a2b2967a8e",
             "facesDetected": false,
@@ -13437,7 +13386,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-113557-dasa--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 400
             }
           ],
           "people": []
@@ -14382,10 +14331,10 @@
           "sizeMB": 25.25,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-26-123858-cebreus--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(24,24,24)",
           "analysis": {
             "aestheticScore": 78.31961994675676,
-            "sharpness": 100,
+            "sharpness": 4038.0301391320086,
             "qualityBucket": "excellent",
             "phash": "969617749616daca",
             "facesDetected": false,
@@ -14464,7 +14413,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-123858-cebreus--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 399
             }
           ],
           "people": []
@@ -14481,7 +14430,7 @@
           "sizeMB": 6.31,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-125334-cebreus.png",
-          "placeholderColor": "rgb(184,168,152)",
+          "placeholderColor": "rgb(72,72,56)",
           "analysis": {
             "aestheticScore": 77.40218058581279,
             "sharpness": 94,
@@ -16317,7 +16266,7 @@
           "sizeMB": 0.31,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-26-132537-cebreus.png",
-          "placeholderColor": "rgb(200,200,184)",
+          "placeholderColor": "rgb(216,216,184)",
           "analysis": {
             "aestheticScore": 37.792675274237276,
             "sharpness": 100,
@@ -16835,7 +16784,7 @@
           "sizeMB": 4.92,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-134543-cebreus--zoom1from2.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(56,56,56)",
           "analysis": {
             "aestheticScore": 38.981816837090534,
             "sharpness": 100,
@@ -16961,7 +16910,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-134543-cebreus--zoom1from2.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "sequenceInfo": {
@@ -16991,7 +16940,7 @@
           "sizeMB": 1.86,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-26-134549-cebreus--zoom2from2.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(56,56,56)",
           "analysis": {
             "aestheticScore": 76.76290321743161,
             "sharpness": 100,
@@ -17135,7 +17084,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-134549-cebreus--zoom2from2.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "sequenceInfo": {
@@ -17278,14 +17227,21 @@
           "sizeMB": 5.15,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-26-140121-dasa--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(8,8,8)",
           "analysis": {
             "aestheticScore": 68.5399137453382,
-            "sharpness": 100,
+            "sharpness": 4107.925945395505,
             "qualityBucket": "excellent",
             "phash": "c6c88ccec988989b",
-            "facesDetected": false,
-            "faces": []
+            "facesDetected": true,
+            "faces": [
+              {
+                "x": 1970.4957677423954,
+                "y": 433.4702903053977,
+                "width": 212.09336817264557,
+                "height": 397.6439142400569
+              }
+            ]
           },
           "exif": {
             "date": "2025-11-26T15:01:21",
@@ -17360,7 +17316,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-140121-dasa--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 402
             }
           ],
           "people": [
@@ -17581,14 +17537,39 @@
           "sizeMB": 5.69,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-26-140433-dasa--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(56,56,40)",
           "analysis": {
             "aestheticScore": 46.041714086753,
-            "sharpness": 100,
+            "sharpness": 4415.376145550674,
             "qualityBucket": "good",
             "phash": "8cd41e2ca4e4e4e6",
-            "facesDetected": false,
-            "faces": []
+            "facesDetected": true,
+            "faces": [
+              {
+                "x": 4011.0189056396484,
+                "y": 346.93090438842773,
+                "width": 423.8785400390625,
+                "height": 553.2056922912597
+              },
+              {
+                "x": 3316.650650024414,
+                "y": 1683.9035339355466,
+                "width": 286.806884765625,
+                "height": 347.31550598144526
+              },
+              {
+                "x": 1683.1157455444336,
+                "y": 2339.2185058593745,
+                "width": 253.39389038085938,
+                "height": 342.73617553710966
+              },
+              {
+                "x": 4024.626480102539,
+                "y": 1302.6765975952148,
+                "width": 309.0841369628906,
+                "height": 385.5116271972656
+              }
+            ]
           },
           "exif": {
             "date": "2025-11-26T15:04:33",
@@ -17663,7 +17644,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-140433-dasa--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": [
@@ -18274,10 +18255,10 @@
           "sizeMB": 15.29,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-26-155237-cebreus--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(8,8,8)",
           "analysis": {
             "aestheticScore": 59.83155758579465,
-            "sharpness": 100,
+            "sharpness": 7675.523032473452,
             "qualityBucket": "good",
             "phash": "a686869696b6b2b3",
             "facesDetected": false,
@@ -18356,7 +18337,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-155237-cebreus--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 301
             }
           ],
           "people": []
@@ -18571,10 +18552,10 @@
           "sizeMB": 6.82,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-26-153129-cebreus--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(40,24,24)",
           "analysis": {
             "aestheticScore": 66.99400429140466,
-            "sharpness": 100,
+            "sharpness": 3666.914265473133,
             "qualityBucket": "excellent",
             "phash": "b1a98e3c32b6ba8e",
             "facesDetected": false,
@@ -18653,7 +18634,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-153129-cebreus--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -18981,14 +18962,21 @@
           "sizeMB": 2.25,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-26-191950-dasa--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(8,8,8)",
           "analysis": {
             "aestheticScore": 53.04596218318588,
-            "sharpness": 100,
+            "sharpness": 5225.975464797107,
             "qualityBucket": "good",
             "phash": "2632b8b2b2b6ebe5",
-            "facesDetected": false,
-            "faces": []
+            "facesDetected": true,
+            "faces": [
+              {
+                "x": 164.3054609298706,
+                "y": 757.0178146362305,
+                "width": 226.39570331573486,
+                "height": 308.71771240234364
+              }
+            ]
           },
           "exif": {
             "date": "2025-11-26T20:19:50",
@@ -19056,7 +19044,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-26-191950-dasa--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -19185,10 +19173,10 @@
           "sizeMB": 4.69,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-27-064239-bobo--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(8,8,8)",
           "analysis": {
             "aestheticScore": 65.9056457523528,
-            "sharpness": 100,
+            "sharpness": 3856.5054884184515,
             "qualityBucket": "excellent",
             "phash": "9c9a989087c6ccce",
             "facesDetected": false,
@@ -19262,7 +19250,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-064239-bobo--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 400
             }
           ],
           "people": []
@@ -19278,10 +19266,10 @@
           "sizeMB": 2.1,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-27-113855-bobina--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(8,8,8)",
           "analysis": {
             "aestheticScore": 46.53579367992941,
-            "sharpness": 100,
+            "sharpness": 4671.952817480703,
             "qualityBucket": "good",
             "phash": "f474cb4be3a5a4a6",
             "facesDetected": false,
@@ -19358,7 +19346,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-113855-bobina--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 400
             }
           ],
           "people": []
@@ -19683,10 +19671,10 @@
           "sizeMB": 7.09,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-27-135126-bobina--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(232,200,152)",
           "analysis": {
             "aestheticScore": 58.80639105814269,
-            "sharpness": 100,
+            "sharpness": 5899.1346377917425,
             "qualityBucket": "good",
             "phash": "989ad8cccce4c4cc",
             "facesDetected": false,
@@ -19750,7 +19738,7 @@
               "variant": "detail",
               "type": "image/jpeg",
               "path": "/images/details/2025-11-27-135126-bobina--collage.jpeg",
-              "width": 1707,
+              "width": 1706,
               "height": 1280
             },
             {
@@ -19765,7 +19753,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-135126-bobina--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -20078,7 +20066,7 @@
           "sizeMB": 6.32,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-27-140844-cebreus.png",
-          "placeholderColor": "rgb(88,120,168)",
+          "placeholderColor": "rgb(104,136,184)",
           "analysis": {
             "aestheticScore": 58.43398951429964,
             "sharpness": 100,
@@ -20276,7 +20264,7 @@
           "sizeMB": 5.13,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-27-135919-cebreus.png",
-          "placeholderColor": "rgb(72,72,72)",
+          "placeholderColor": "rgb(88,120,168)",
           "analysis": {
             "aestheticScore": 50.008450328873565,
             "sharpness": 100,
@@ -22060,7 +22048,7 @@
           "sizeMB": 6.12,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-27-151031-cebreus.png",
-          "placeholderColor": "rgb(136,168,216)",
+          "placeholderColor": "rgb(120,152,200)",
           "analysis": {
             "aestheticScore": 55.1871301735841,
             "sharpness": 59,
@@ -22864,7 +22852,7 @@
           "sizeMB": 2.3,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-27-155516-cebreus.png",
-          "placeholderColor": "rgb(168,184,200)",
+          "placeholderColor": "rgb(152,168,184)",
           "analysis": {
             "aestheticScore": 82.26352842336067,
             "sharpness": 54,
@@ -23259,7 +23247,7 @@
           "sizeMB": 6.92,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-27-160500-dasa--zoom1from3.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(88,120,168)",
           "analysis": {
             "aestheticScore": 58.58486513277365,
             "sharpness": 95,
@@ -23340,7 +23328,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-160500-dasa--zoom1from3.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "sequenceInfo": {
@@ -23367,7 +23355,7 @@
           "sizeMB": 2.04,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-27-160501-dasa--zoom2from3.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(184,152,104)",
           "analysis": {
             "aestheticScore": 68.93567480242373,
             "sharpness": 82,
@@ -23448,7 +23436,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-160501-dasa--zoom2from3.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "sequenceInfo": {
@@ -23558,7 +23546,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-160445-cebreus.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -23574,7 +23562,7 @@
           "sizeMB": 2.81,
           "aspectRatio": "portrait-3-4",
           "placeholder": "blurs/2025-11-27-160502-dasa--zoom3from3.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(184,152,104)",
           "analysis": {
             "aestheticScore": 78.54819685903443,
             "sharpness": 100,
@@ -23654,7 +23642,7 @@
               "variant": "admin_thumb",
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-160502-dasa--zoom3from3.jpeg",
-              "width": 534,
+              "width": 401,
               "height": 534
             }
           ],
@@ -23994,7 +23982,7 @@
           "sizeMB": 1.72,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-27-161454-cebreus.png",
-          "placeholderColor": "rgb(120,120,120)",
+          "placeholderColor": "rgb(120,120,104)",
           "analysis": {
             "aestheticScore": 70.27030754044767,
             "sharpness": 41,
@@ -24390,10 +24378,10 @@
           "sizeMB": 5.54,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-27-154552-dasa--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(200,216,216)",
           "analysis": {
             "aestheticScore": 75.11140511443101,
-            "sharpness": 100,
+            "sharpness": 3461.7451178892056,
             "qualityBucket": "excellent",
             "phash": "bae9c89cddcda99a",
             "facesDetected": false,
@@ -24470,7 +24458,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-154552-dasa--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 400
             }
           ],
           "people": []
@@ -24600,7 +24588,7 @@
           "sizeMB": 2.38,
           "aspectRatio": "landscape-4-3",
           "placeholder": "blurs/2025-11-27-164805-cebreus.png",
-          "placeholderColor": "rgb(120,104,88)",
+          "placeholderColor": "rgb(136,120,104)",
           "analysis": {
             "aestheticScore": 61.34685189488382,
             "sharpness": 90,
@@ -25324,10 +25312,10 @@
           "sizeMB": 2.68,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-27-174013-cebreus--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(40,40,40)",
           "analysis": {
             "aestheticScore": 52.87712546963285,
-            "sharpness": 100,
+            "sharpness": 3821.4473874121045,
             "qualityBucket": "good",
             "phash": "6c6e64243ca999f9",
             "facesDetected": false,
@@ -25404,7 +25392,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-27-174013-cebreus--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 401
             }
           ],
           "people": []
@@ -26030,14 +26018,21 @@
           "sizeMB": 3.88,
           "aspectRatio": "collage",
           "placeholder": "blurs/2025-11-28-143626-dasa--collage.png",
-          "placeholderColor": "",
+          "placeholderColor": "rgb(8,8,8)",
           "analysis": {
             "aestheticScore": 56.77783584660101,
-            "sharpness": 100,
+            "sharpness": 5326.745712221567,
             "qualityBucket": "good",
             "phash": "3818825b496d3db2",
-            "facesDetected": false,
-            "faces": []
+            "facesDetected": true,
+            "faces": [
+              {
+                "x": 1068.7369343936443,
+                "y": 635.6489227215447,
+                "width": 59.228940188884735,
+                "height": 99.03621713320419
+              }
+            ]
           },
           "exif": {
             "date": "2025-11-28T14:36:26",
@@ -26108,7 +26103,7 @@
               "type": "image/jpeg",
               "path": "/images/previews-admin/2025-11-28-143626-dasa--collage.jpeg",
               "width": 534,
-              "height": 534
+              "height": 400
             }
           ],
           "people": []
@@ -26314,7 +26309,7 @@
   ],
   "meta": {
     "version": 1,
-    "generatedAt": "2026-01-12T14:19:40.792Z",
+    "generatedAt": "2026-01-14T21:00:34.572Z",
     "generator": "photoblog-data-layer"
   }
 }

@@ -1,0 +1,2075 @@
+{
+  "meta": {
+    "version": 1,
+    "generatedAt": "2026-01-14T21:00:34.580Z",
+    "generator": "map-manifest-builder"
+  },
+  "locations": [
+    {
+      "id": "Brno hl.n.",
+      "lat": 49.191417,
+      "lng": 16.6135,
+      "name": "Brno hl.n.",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-21-175802-cebreus--collage.jpeg",
+      "images": [
+        {
+          "id": "2025-11-21-175802-cebreus--collage",
+          "alt": "This is a test caption from E2E, Brno hl.n., Prague",
+          "detail": "/images/details/2025-11-21-175802-cebreus--collage.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-21-175802-cebreus--collage.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "Blend Club Aqua Resort",
+      "lat": 27.093507,
+      "lng": 33.839129,
+      "name": "Blend Club Aqua Resort",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-22-161654-finda.jpeg",
+      "images": [
+        {
+          "id": "2025-11-22-161654-finda",
+          "alt": "Blend Club Aqua Resort, Hurgada",
+          "detail": "/images/details/2025-11-22-161654-finda.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-22-161654-finda.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "27.2062,33.8554",
+      "lat": 27.206203,
+      "lng": 33.855431,
+      "name": "27.2062, 33.8554",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-23-084720-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-23-084720-cebreus",
+          "alt": "Hurgáda",
+          "detail": "/images/details/2025-11-23-084720-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-23-084720-cebreus.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "27.1859,33.9187",
+      "lat": 27.185853,
+      "lng": 33.918689,
+      "name": "27.1859, 33.9187",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-23-092139-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-23-092139-cebreus",
+          "alt": "Prague",
+          "detail": "/images/details/2025-11-23-092139-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-23-092139-cebreus.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "27.1850,33.9645",
+      "lat": 27.184989,
+      "lng": 33.964486,
+      "name": "27.1850, 33.9645",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-23-101607-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-23-101607-cebreus",
+          "alt": "Hurgáda",
+          "detail": "/images/details/2025-11-23-101607-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-23-101607-cebreus.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "Paradise pláž",
+      "lat": 27.180319,
+      "lng": 33.961003,
+      "name": "Paradise pláž",
+      "count": 5,
+      "thumbnail": "/images/previews-xxs/2025-11-23-104951-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-23-104951-cebreus",
+          "alt": "Paradise pláž, Giftun ostrov",
+          "detail": "/images/details/2025-11-23-104951-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-23-104951-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-23-121048-dasa",
+          "alt": "Paradise pláž, Giftun ostrov",
+          "detail": "/images/details/2025-11-23-121048-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-23-121048-dasa.jpeg"
+        },
+        {
+          "id": "2025-11-23-125850-cebreus",
+          "alt": "Paradise pláž, Giftun ostrov",
+          "detail": "/images/details/2025-11-23-125850-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-23-125850-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-23-131151-cebreus",
+          "alt": "Paradise pláž, Giftun ostrov",
+          "detail": "/images/details/2025-11-23-131151-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-23-131151-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-23-131411-cebreus",
+          "alt": "Paradise pláž, Giftun ostrov",
+          "detail": "/images/details/2025-11-23-131411-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-23-131411-cebreus.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "27.2316,33.8475",
+      "lat": 27.231561,
+      "lng": 33.847478,
+      "name": "27.2316, 33.8475",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-23-151444-cebreus-fixed.jpeg",
+      "images": [
+        {
+          "id": "2025-11-23-151444-cebreus-fixed",
+          "alt": "Hurgáda",
+          "detail": "/images/details/2025-11-23-151444-cebreus-fixed.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-23-151444-cebreus-fixed.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "27.2315,33.8475",
+      "lat": 27.23155,
+      "lng": 33.847478,
+      "name": "27.2315, 33.8475",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-23-151450-cebreus-fixed.jpeg",
+      "images": [
+        {
+          "id": "2025-11-23-151450-cebreus-fixed",
+          "alt": "Hurgáda",
+          "detail": "/images/details/2025-11-23-151450-cebreus-fixed.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-23-151450-cebreus-fixed.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "27.2314,33.8478",
+      "lat": 27.231419,
+      "lng": 33.847839,
+      "name": "27.2314, 33.8478",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-23-151514-cebreus-fixed.jpeg",
+      "images": [
+        {
+          "id": "2025-11-23-151514-cebreus-fixed",
+          "alt": "Hurgáda",
+          "detail": "/images/details/2025-11-23-151514-cebreus-fixed.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-23-151514-cebreus-fixed.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "27.2342,33.8504",
+      "lat": 27.234167,
+      "lng": 33.850431,
+      "name": "27.2342, 33.8504",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-23-152954-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-23-152954-cebreus",
+          "alt": "Hurgáda",
+          "detail": "/images/details/2025-11-23-152954-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-23-152954-cebreus.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "Diamond Red Sea—Diving in Hurghada",
+      "lat": 27.234164,
+      "lng": 33.848553,
+      "name": "Diamond Red Sea—Diving in Hurghada",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-23-153413-dasa.jpeg",
+      "images": [
+        {
+          "id": "2025-11-23-153413-dasa",
+          "alt": "Diamond Red Sea—Diving in Hurghada, Hurgháda",
+          "detail": "/images/details/2025-11-23-153413-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-23-153413-dasa.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "27.4189,33.6165",
+      "lat": 27.418864,
+      "lng": 33.616456,
+      "name": "27.4189, 33.6165",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-24-082240-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-24-082240-cebreus",
+          "alt": "Egyptská asociace cestovních kanceláří",
+          "detail": "/images/details/2025-11-24-082240-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-24-082240-cebreus.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "29.3371,32.4737",
+      "lat": 29.337067,
+      "lng": 32.473689,
+      "name": "29.3371, 32.4737",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-24-112843-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-24-112843-cebreus",
+          "alt": "Photoblog image",
+          "detail": "/images/details/2025-11-24-112843-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-24-112843-cebreus.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "29.9037,31.7603",
+      "lat": 29.903728,
+      "lng": 31.760311,
+      "name": "29.9037, 31.7603",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-24-123506-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-24-123506-cebreus",
+          "alt": "Elektrárna New Capital Power Plant\nKomplex o výkonu 4 800 MW, který stojí u Al-Qattamya na silnici směrem k Ain Sokhna. Jde o kombinovanou cyklovou elektrárnu – dva plynové motory v každém modulu vyrábějí elektřinu a jejich odpadní teplo se využívá k výrobě páry pro parní turbínu, což zvyšuje celkovou účinnost. Hlavním palivem je zemní plyn, s možností přepnout na light fuel oil jako záložní variantu., Káhira",
+          "detail": "/images/details/2025-11-24-123506-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-24-123506-cebreus.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "Pyramid Front Hotel",
+      "lat": 29.989652,
+      "lng": 31.137222,
+      "name": "Pyramid Front Hotel",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-24-152241-finda.jpeg",
+      "images": [
+        {
+          "id": "2025-11-24-152241-finda",
+          "alt": "Pyramid Front Hotel, Gíza",
+          "detail": "/images/details/2025-11-24-152241-finda.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-24-152241-finda.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "Cairo Tower",
+      "lat": 30.046311,
+      "lng": 31.224239,
+      "name": "Cairo Tower",
+      "count": 4,
+      "thumbnail": "/images/previews-xxs/2025-11-24-194927-dasa.jpeg",
+      "images": [
+        {
+          "id": "2025-11-24-194927-dasa",
+          "alt": "Cairo Tower, Káhira",
+          "detail": "/images/details/2025-11-24-194927-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-24-194927-dasa.jpeg"
+        },
+        {
+          "id": "2025-11-24-201212-cebreus",
+          "alt": "Cairo Tower, Káhira",
+          "detail": "/images/details/2025-11-24-201212-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-24-201212-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-24-201550-cebreus",
+          "alt": "Cairo Tower, Káhira",
+          "detail": "/images/previews-webp/2025-11-24-201550-cebreus.webp",
+          "thumb": "/images/previews-xxs/2025-11-24-201550-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-24-205551-cebreus--collage",
+          "alt": "Cairo Tower, Káhira",
+          "detail": "/images/details/2025-11-24-205551-cebreus--collage.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-24-205551-cebreus--collage.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "30.0467,31.2249",
+      "lat": 30.046731,
+      "lng": 31.224947,
+      "name": "30.0467, 31.2249",
+      "count": 2,
+      "thumbnail": "/images/previews-xxs/2025-11-24-210138-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-24-210138-cebreus",
+          "alt": "Káhira",
+          "detail": "/images/details/2025-11-24-210138-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-24-210138-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-24-210141-cebreus",
+          "alt": "Káhira",
+          "detail": "/images/details/2025-11-24-210141-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-24-210141-cebreus.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "29.9901,31.1272",
+      "lat": 29.990084,
+      "lng": 31.127183,
+      "name": "29.9901, 31.1272",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-24-210259-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-24-210259-cebreus",
+          "alt": "Káhira",
+          "detail": "/images/details/2025-11-24-210259-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-24-210259-cebreus.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "Al-Ahly Sporting Club ",
+      "lat": 30.044119,
+      "lng": 31.2243,
+      "name": "Al-Ahly Sporting Club ",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-24-211848-dasa.jpeg",
+      "images": [
+        {
+          "id": "2025-11-24-211848-dasa",
+          "alt": "Al-Ahly Sporting Club, Káhira",
+          "detail": "/images/details/2025-11-24-211848-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-24-211848-dasa.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "30.0298,31.1784",
+      "lat": 30.029828,
+      "lng": 31.178367,
+      "name": "30.0298, 31.1784",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-24-215717-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-24-215717-cebreus",
+          "alt": "Taxi z Káhiry zpět na hotel v Gíze, Gíza",
+          "detail": "/images/details/2025-11-24-215717-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-24-215717-cebreus.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "31.1092,29.8773",
+      "lat": 31.109164,
+      "lng": 29.877317,
+      "name": "31.1092, 29.8773",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-25-075730-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-25-075730-cebreus",
+          "alt": "Plynové fléry ropné rafinerie v Káhiře. Kontrolované spalování přebytečného plynu a vedlejší plynných produktů.",
+          "detail": "/images/details/2025-11-25-075730-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-075730-cebreus.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "Hrobka z ulice Tigran",
+      "lat": 31.178472,
+      "lng": 29.892917,
+      "name": "Hrobka z ulice Tigran",
+      "count": 4,
+      "thumbnail": "/images/previews-xxs/2025-11-25-082736-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-25-082736-cebreus",
+          "alt": "Freska nad pravým sarkofágem: Výjev s klečící postavou zesnulého s palmovými ratolestmi v rukou, který se modlí před rituálním podstavcem. Scénu doplňují postavy sfing a dekorativní girlandy typické pro římské období., Hrobka z ulice Tigran, Alexandrie",
+          "detail": "/images/details/2025-11-25-082736-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-082736-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-25-082811-cebreus",
+          "alt": "Centrální freska nad sarkofágem: Zobrazení zesnulého jako mumifikovaného Usira ležícího na zdobeném lůžku. Po stranách stojí bohyně Eset a Nebthet pod velkým okřídleným slunečním diskem, symbolem ochrany., Hrobka z ulice Tigran, Alexandrie",
+          "detail": "/images/details/2025-11-25-082811-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-082811-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-25-082818-cebreus",
+          "alt": "Freska nad levým sarkofágem: Symbolická scéna vzkříšení Usira. Bůh posmrtného života stojí uprostřed s palmovými ratolestmi, doprovázen okřídlenou postavou syna Hora a manželky Eset, zatímco u jeho nohou sedí šakalové (bůh Anubis)., Hrobka z ulice Tigran, Alexandrie",
+          "detail": "/images/details/2025-11-25-082818-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-082818-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-25-082852-cebreus",
+          "alt": "Hrobka z ulice Tigran, Alexandrie",
+          "detail": "/images/details/2025-11-25-082852-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-082852-cebreus.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "Katakomby Kom el Shoqafa",
+      "lat": 31.178306,
+      "lng": 29.893253,
+      "name": "Katakomby Kom el Shoqafa",
+      "count": 12,
+      "thumbnail": "/images/previews-xxs/2025-11-25-082944-cebreus--collage.jpeg",
+      "images": [
+        {
+          "id": "2025-11-25-082944-cebreus--collage",
+          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
+          "detail": "/images/details/2025-11-25-082944-cebreus--collage.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-082944-cebreus--collage.jpeg"
+        },
+        {
+          "id": "2025-11-25-083005-cebreus",
+          "alt": "Katakomby Kom el-Šukafa, poprvé objevené v roce 1900, se skládají ze dvou samostatných komplexů, známých jako „Hlavní katakomby“ a „Caracallova síň“. Tyto podzemní stavby byly vytesány a používány v době, kdy byl Egypt součástí Římské říše. Předpokládá se, že jejich výstavba a užívání započaly na konci 1. století n. l. a následně byly rozšiřovány a zvětšovány až do 4. století n. l.\n\nK oběma komplexům se lze dostat po točitém schodišti (A), které se vine kolem hrobové šachty Hlavních katakomb. Právě touto šachtou byli zesnulí spouštěni na lanech na místo svého pohřbení. Po dosažení horního patra projdete přes zbytky alabastrové podlahy (B) a stanete před kruhovou halou, Rotundou (C). Po levé straně najdete velkou čtvercovou komoru s lavicemi vytesanými do skály. Jedná se o Triclinium (D), kde se pravděpodobně scházely rodiny zesnulých během pohřebních slavností. Zpět v Rotundě (C) najdete další chodby vedoucí do komor. Uvidíte mnoho lokulů (ve skále vytesaných výklenků pro uložení zesnulých), sarkofágy a další hrobky vytesané do podloží. Do Caracallovy síně vede proražený vchod a schodiště (E), které klesá k velkolepé hlavní hrobce (G). Jakmile budete na této prostřední úrovni, nezapomeňte prozkoumat labyrint komor a lokulů, které ji obklopují (H)., Katakomby Kom el Shoqafa, Alexandrie",
+          "detail": "/images/details/2025-11-25-083005-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-083005-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-25-083807-cebreus--zoom1from2",
+          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
+          "detail": "/images/details/2025-11-25-083807-cebreus--zoom1from2.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-083807-cebreus--zoom1from2.jpeg"
+        },
+        {
+          "id": "2025-11-25-083812-cebreus--zoom2from2",
+          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
+          "detail": "/images/details/2025-11-25-083812-cebreus--zoom2from2.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-083812-cebreus--zoom2from2.jpeg"
+        },
+        {
+          "id": "2025-11-25-084249-cebreus--collage",
+          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
+          "detail": "/images/details/2025-11-25-084249-cebreus--collage.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-084249-cebreus--collage.jpeg"
+        },
+        {
+          "id": "2025-11-25-084330-cebreus--collage",
+          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
+          "detail": "/images/details/2025-11-25-084330-cebreus--collage.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-084330-cebreus--collage.jpeg"
+        },
+        {
+          "id": "2025-11-25-084606-cebreus",
+          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
+          "detail": "/images/details/2025-11-25-084606-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-084606-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-25-084614-cebreus",
+          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
+          "detail": "/images/details/2025-11-25-084614-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-084614-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-25-084943-cebreus",
+          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
+          "detail": "/images/details/2025-11-25-084943-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-084943-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-25-085235-cebreus",
+          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
+          "detail": "/images/details/2025-11-25-085235-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-085235-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-25-085626-cebreus",
+          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
+          "detail": "/images/details/2025-11-25-085626-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-085626-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-25-090256-cebreus--collage",
+          "alt": "Katakomby Kom el Shoqafa, Alexandrie",
+          "detail": "/images/details/2025-11-25-090256-cebreus--collage.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-090256-cebreus--collage.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "31.1790,29.8927",
+      "lat": 31.178953,
+      "lng": 29.892739,
+      "name": "31.1790, 29.8927",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-25-090636-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-25-090636-cebreus",
+          "alt": "Alexandrie",
+          "detail": "/images/details/2025-11-25-090636-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-090636-cebreus.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "Serapeum",
+      "lat": 31.181322,
+      "lng": 29.896389,
+      "name": "Serapeum",
+      "count": 13,
+      "thumbnail": "/images/previews-xxs/2025-11-25-092409-cebreus--collage.jpeg",
+      "images": [
+        {
+          "id": "2025-11-25-092409-cebreus--collage",
+          "alt": "Serapeum, Alexandrie",
+          "detail": "/images/details/2025-11-25-092409-cebreus--collage.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-092409-cebreus--collage.jpeg"
+        },
+        {
+          "id": "2025-11-25-092814-cebreus",
+          "alt": "Pompeiův sloup, Serapeum, Alexandrie",
+          "detail": "/images/details/2025-11-25-092814-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-092814-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-25-093002-cebreus",
+          "alt": "Pompeiův sloup\n\nTento 26,85 metru vysoký monolit z červené asuánské žuly je největším antickým sloupem v Alexandrii. Ačkoliv nese název „Pompeiův“, byl ve skutečnosti vztyčen až v roce 297 n. l. na počest římského císaře Diokleciána po potlačení vzpoury ve městě. Jedná se o jednu z mála dochovaných nadzemních částí původního komplexu., Serapeum, Alexandrie",
+          "detail": "/images/details/2025-11-25-093002-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-093002-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-25-093034-cebreus",
+          "alt": "Sfingy u paty sloupu\n\nDvojice žulových sfing, které střeží prostranství u paty Pompeiovy sloupu, pochází původně z období Ptolemaiovců. Tyto sochy kombinují tradiční egyptskou formu lvího těla s lidskou hlavou a v areálu byly druhotně umístěny jako dekorativní a ochranný prvek chrámu., Serapeum, Alexandrie",
+          "detail": "/images/details/2025-11-25-093034-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-093034-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-25-093351-dasa",
+          "alt": "Socha býka Apise v podzemí\n\nSocha posvátného býka Apise v životní velikosti, vytesaná z černého dioritu, se nachází v podzemních chodbách komplexu. Socha pochází z doby římského císaře Hadriána (2. století n. l.) a reprezentuje božstvo Serapida v jeho zvířecí inkarnaci, což dokládá synkretismus egyptského a řeckého náboženství., Serapeum, Alexandrie",
+          "detail": "/images/details/2025-11-25-093351-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-093351-dasa.jpeg"
+        },
+        {
+          "id": "2025-11-25-093419-cebreus",
+          "alt": "Serapeum, Alexandrie",
+          "detail": "/images/details/2025-11-25-093419-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-093419-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-25-093710-cebreus",
+          "alt": "Serapeum, Alexandrie",
+          "detail": "/images/details/2025-11-25-093710-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-093710-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-25-094025-cebreus",
+          "alt": "Serapeum, Alexandrie",
+          "detail": "/images/details/2025-11-25-094025-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-094025-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-25-094206-cebreus",
+          "alt": "Serapeum, Alexandrie",
+          "detail": "/images/details/2025-11-25-094206-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-094206-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-25-094825-cebreus",
+          "alt": "Serapeum, Alexandrie",
+          "detail": "/images/details/2025-11-25-094825-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-094825-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-25-095052-cebreus--zoom1from3",
+          "alt": "Pompeiův sloup, Serapeum, Alexandrie",
+          "detail": "/images/details/2025-11-25-095052-cebreus--zoom1from3.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-095052-cebreus--zoom1from3.jpeg"
+        },
+        {
+          "id": "2025-11-25-095053-cebreus--zoom2from3",
+          "alt": "Pompeiův sloup, Serapeum, Alexandrie",
+          "detail": "/images/details/2025-11-25-095053-cebreus--zoom2from3.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-095053-cebreus--zoom2from3.jpeg"
+        },
+        {
+          "id": "2025-11-25-095055-cebreus--zoom3from3",
+          "alt": "Pompeiův sloup, Serapeum, Alexandrie",
+          "detail": "/images/details/2025-11-25-095055-cebreus--zoom3from3.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-095055-cebreus--zoom3from3.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "Kom El Deka",
+      "lat": 31.194325,
+      "lng": 29.903844,
+      "name": "Kom El Deka",
+      "count": 8,
+      "thumbnail": "/images/previews-xxs/2025-11-25-101952-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-25-101952-cebreus",
+          "alt": "Římské divadlo (Odeon)\n\nDominantou areálu je jediné zachovalé římské divadlo v Egyptě ze 4. století n. l. Má tvar podkovy s 13 řadami mramorových sedadel pro přibližně 600 diváků. Na sedadlech jsou dodnes patrné byzantské nápisy a graffiti, které dokumentují i pozdější využití stavby jako místa pro akademické diskuse., Kom El Deka, Alexandrie",
+          "detail": "/images/details/2025-11-25-101952-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-101952-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-25-102006-cebreus--collage",
+          "alt": "Kom El Deka, Alexandrie",
+          "detail": "/images/details/2025-11-25-102006-cebreus--collage.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-102006-cebreus--collage.jpeg"
+        },
+        {
+          "id": "2025-11-25-112544-bobina",
+          "alt": "Kom El Deka, Alexandrie",
+          "detail": "/images/details/2025-11-25-112544-bobina.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-112544-bobina.jpeg"
+        },
+        {
+          "id": "2025-11-25-102804-cebreus--collage",
+          "alt": "Kom El Deka, Alexandrie",
+          "detail": "/images/details/2025-11-25-102804-cebreus--collage.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-102804-cebreus--collage.jpeg"
+        },
+        {
+          "id": "2025-11-25-113601-bobina",
+          "alt": "Kom El Deka, Alexandrie",
+          "detail": "/images/details/2025-11-25-113601-bobina.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-113601-bobina.jpeg"
+        },
+        {
+          "id": "2025-11-25-104058-cebreus",
+          "alt": "Kom El Deka, Alexandrie",
+          "detail": "/images/details/2025-11-25-104058-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-104058-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-25-104318-cebreus--zoom2from2",
+          "alt": "Římské divadlo (Odeon), Kom El Deka, Alexandrie",
+          "detail": "/images/details/2025-11-25-104318-cebreus--zoom2from2.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-104318-cebreus--zoom2from2.jpeg"
+        },
+        {
+          "id": "2025-11-25-104322-cebreus--zoom1from2",
+          "alt": "Kom El Deka, Alexandrie",
+          "detail": "/images/details/2025-11-25-104322-cebreus--zoom1from2.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-104322-cebreus--zoom1from2.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "Alexandrijská opera",
+      "lat": 31.196419,
+      "lng": 29.902097,
+      "name": "Alexandrijská opera",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-25-110638-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-25-110638-cebreus",
+          "alt": "Alexandrijská opera, oficiálně známá jako Divadlo Sayeda Darwishe, byla postavena v roce 1918 podle návrhu francouzského architekta Georgese Barqa a slavnostně otevřena v roce 1921. Původně nesla název Teatro Mohamed Ali a architektonicky představuje eklektický styl s výraznými prvky italské renesance a baroka, což je patrné zejména na bohatě zdobené fasádě a interiéru. V roce 2004 prošla budova rozsáhlou rekonstrukcí, byla zapsána na seznam egyptského národního dědictví a přejmenována na počest významného alexandrijského hudebního skladatele Sayeda Darwishe., Alexandrijská opera, Alexandrie",
+          "detail": "/images/details/2025-11-25-110638-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-110638-cebreus.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "Alexandrijská knihovna",
+      "lat": 31.208111,
+      "lng": 29.908919,
+      "name": "Alexandrijská knihovna",
+      "count": 4,
+      "thumbnail": "/images/previews-xxs/2025-11-25-112118-dasa.jpeg",
+      "images": [
+        {
+          "id": "2025-11-25-112118-dasa",
+          "alt": "Obvodová stěna hlavní budovy\n\nTato zakřivená stěna je obložena šedou žulou dovezenou z Asuánu. Fasáda obsahuje reliéfní rytiny znaků a písmen ze 120 různých lidských písem a abeced, což symbolizuje souhrn lidského vědění. Stavba byla dokončena v roce 2002 podle návrhu norského ateliéru Snøhetta., Alexandrijská knihovna, Alexandrie",
+          "detail": "/images/details/2025-11-25-112118-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-112118-dasa.jpeg"
+        },
+        {
+          "id": "2025-11-25-112858-finda",
+          "alt": "Střešní konstrukce čítárny \n\nDetail střechy hlavní čítárny, která má tvar nakloněného disku o průměru 160 metrů. Konstrukce je tvořena panely ze skla a eloxovaného hliníku, které jsou orientovány na sever. Toto technické řešení umožňuje průnik denního světla do interiéru, ale eliminuje přímé sluneční záření a horko., Alexandrijská knihovna, Alexandrie",
+          "detail": "/images/details/2025-11-25-112858-finda.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-112858-finda.jpeg"
+        },
+        {
+          "id": "2025-11-25-112457-dasa",
+          "alt": "Busta Alexandra Velikého\n\nBronzová busta na žulovém podstavci umístěná na promenádě v exteriéru knihovny. Socha zobrazuje makedonského krále Alexandra Velikého, zakladatele města (založeno 331 př. n. l.). Jedná se o dar řecké vlády Egyptu u příležitosti otevření nové knihovny., Alexandrijská knihovna, Alexandrie",
+          "detail": "/images/details/2025-11-25-112457-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-112457-dasa.jpeg"
+        },
+        {
+          "id": "2025-11-25-112911-cebreus",
+          "alt": "Kompozitní socha od umělce Salaha Abdela Karima s názvem „Ryba a moře“, v níž umělec použil železný šrot v kompozici inspirované mořskými hlubinami a alexandrijským mořským prostředím., Alexandrijská knihovna, Alexandrie",
+          "detail": "/images/details/2025-11-25-112911-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-112911-cebreus.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "Pevnost Qaitbay",
+      "lat": 31.213464,
+      "lng": 29.885728,
+      "name": "Pevnost Qaitbay",
+      "count": 7,
+      "thumbnail": "/images/previews-xxs/2025-11-25-135255-bobina.jpeg",
+      "images": [
+        {
+          "id": "2025-11-25-135255-bobina",
+          "alt": "Pevnost Qaitbay, Alexandrie",
+          "detail": "/images/details/2025-11-25-135255-bobina.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-135255-bobina.jpeg"
+        },
+        {
+          "id": "2025-11-25-133713-cebreus",
+          "alt": "Pevnost Qaitbay, Alexandrie",
+          "detail": "/images/details/2025-11-25-133713-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-133713-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-25-131320-cebreus",
+          "alt": "Pevnost Qaitbay, Alexandrie",
+          "detail": "/images/details/2025-11-25-131320-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-131320-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-25-131147-cebreus",
+          "alt": "Pevnost Qaitbay, Alexandrie",
+          "detail": "/images/details/2025-11-25-131147-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-131147-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-25-131217-dasa",
+          "alt": "Pevnost Qaitbay, Alexandrie",
+          "detail": "/images/details/2025-11-25-131217-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-131217-dasa.jpeg"
+        },
+        {
+          "id": "2025-11-25-131142-dasa",
+          "alt": "Pevnost Qaitbay, Alexandrie",
+          "detail": "/images/details/2025-11-25-131142-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-131142-dasa.jpeg"
+        },
+        {
+          "id": "2025-11-25-132137-dasa",
+          "alt": "Pevnost Qaitbay, Alexandrie",
+          "detail": "/images/details/2025-11-25-132137-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-132137-dasa.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "31.2133,29.8854",
+      "lat": 31.213294,
+      "lng": 29.885431,
+      "name": "31.2133, 29.8854",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-25-133004-dasa.jpeg",
+      "images": [
+        {
+          "id": "2025-11-25-133004-dasa",
+          "alt": "Alexandrie",
+          "detail": "/images/details/2025-11-25-133004-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-133004-dasa.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "Královská vlaková garáž",
+      "lat": 31.2835,
+      "lng": 30.025044,
+      "name": "Královská vlaková garáž",
+      "count": 2,
+      "thumbnail": "/images/previews-xxs/2025-11-25-145714-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-25-145714-cebreus",
+          "alt": "Vlak krále Farúka, Královská vlaková garáž, Alexandrie",
+          "detail": "/images/details/2025-11-25-145714-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-145714-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-25-150152-dasa--collage",
+          "alt": "Vlak krále Farúka, Královská vlaková garáž, Alexandrie",
+          "detail": "/images/details/2025-11-25-150152-dasa--collage.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-150152-dasa--collage.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "Královský skleník",
+      "lat": 31.287067,
+      "lng": 30.024589,
+      "name": "Královský skleník",
+      "count": 6,
+      "thumbnail": "/images/previews-xxs/2025-11-25-150525-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-25-150525-cebreus",
+          "alt": "Královský skleník, Alexandrie",
+          "detail": "/images/details/2025-11-25-150525-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-150525-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-25-150559-dasa",
+          "alt": "Královský skleník, Alexandrie",
+          "detail": "/images/details/2025-11-25-150559-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-150559-dasa.jpeg"
+        },
+        {
+          "id": "2025-11-25-150836-cebreus",
+          "alt": "Královský skleník, Alexandrie",
+          "detail": "/images/details/2025-11-25-150836-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-150836-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-25-151216-cebreus",
+          "alt": "Královský skleník, Alexandrie",
+          "detail": "/images/details/2025-11-25-151216-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-151216-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-25-151454-cebreus",
+          "alt": "Královský skleník, Alexandrie",
+          "detail": "/images/details/2025-11-25-151454-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-151454-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-25-151616-cebreus",
+          "alt": "Královský skleník, Alexandrie",
+          "detail": "/images/details/2025-11-25-151616-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-151616-cebreus.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "31.2893,30.0219",
+      "lat": 31.289289,
+      "lng": 30.021894,
+      "name": "31.2893, 30.0219",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-25-152350-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-25-152350-cebreus",
+          "alt": "Alexandrie",
+          "detail": "/images/details/2025-11-25-152350-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-152350-cebreus.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "31.2894,30.0217",
+      "lat": 31.289408,
+      "lng": 30.021667,
+      "name": "31.2894, 30.0217",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-25-152518-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-25-152518-cebreus",
+          "alt": "V pravé části dominuje Palác Al-Haramlik (často označovaný zjednodušeně jako Palác Montaza), dokončený v roce 1932 za vlády krále Fuada I., který sloužil jako letní sídlo egyptské královské rodiny. V levé části fotografie stojí hotel Helnan Palestine, modernistická stavba vybudovaná v roce 1964., Alexandrie",
+          "detail": "/images/details/2025-11-25-152518-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-152518-cebreus.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "31.2893,30.0217",
+      "lat": 31.289278,
+      "lng": 30.021736,
+      "name": "31.2893, 30.0217",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-25-154350-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-25-154350-cebreus",
+          "alt": "Maják u Čajového ostrova (Montaza)\n\nDekorativní maják s mostem v pseudo-italském stylu, který sloužil k navigaci královských jachet do soukromého přístavu. Dokončen v roce 1925 (za vlády krále Fuada I.). Původní antický maják na ostrově Pharos (div světa) stál na opačné straně Alexandrie, Alexandrie",
+          "detail": "/images/details/2025-11-25-154350-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-25-154350-cebreus.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "Gízská nekropole",
+      "lat": 29.96845,
+      "lng": 31.123806,
+      "name": "Gízská nekropole",
+      "count": 25,
+      "thumbnail": "/images/previews-xxs/2025-11-26-081544-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-26-081544-cebreus",
+          "alt": "Gízská nekropole, Gíza",
+          "detail": "/images/details/2025-11-26-081544-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-081544-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-081434-cebreus",
+          "alt": "Gízská nekropole, Gíza",
+          "detail": "/images/details/2025-11-26-081434-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-081434-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-091503-bobina",
+          "alt": "Gízská nekropole",
+          "detail": "/images/details/2025-11-26-091503-bobina.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-091503-bobina.jpeg"
+        },
+        {
+          "id": "2025-11-26-080112-cebreus",
+          "alt": "Gízská nekropole, Gíza",
+          "detail": "/images/details/2025-11-26-080112-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-080112-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-080508-cebreus",
+          "alt": "Gízská nekropole, Gíza",
+          "detail": "/images/details/2025-11-26-080508-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-080508-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-080834-cebreus",
+          "alt": "Gízská nekropole, Gíza",
+          "detail": "/images/details/2025-11-26-080834-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-080834-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-080555-cebreus",
+          "alt": "Gízská nekropole, Gíza",
+          "detail": "/images/previews-webp/2025-11-26-080555-cebreus.webp",
+          "thumb": "/images/previews-xxs/2025-11-26-080555-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-082550-cebreus",
+          "alt": "Gízská nekropole, Gíza",
+          "detail": "/images/previews-webp/2025-11-26-082550-cebreus.webp",
+          "thumb": "/images/previews-xxs/2025-11-26-082550-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-081049-dasa",
+          "alt": "Gízská nekropole",
+          "detail": "/images/details/2025-11-26-081049-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-081049-dasa.jpeg"
+        },
+        {
+          "id": "2025-11-26-085933-cebreus",
+          "alt": "Gízská nekropole, Gíza",
+          "detail": "/images/details/2025-11-26-085933-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-085933-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-085943-cebreus",
+          "alt": "Gízská nekropole, Gíza",
+          "detail": "/images/details/2025-11-26-085943-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-085943-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-090727-cebreus",
+          "alt": "Gízská nekropole, Gíza",
+          "detail": "/images/details/2025-11-26-090727-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-090727-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-091502-cebreus",
+          "alt": "Gízská nekropole, Gíza",
+          "detail": "/images/details/2025-11-26-091502-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-091502-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-092110-cebreus",
+          "alt": "Gízská nekropole, Gíza",
+          "detail": "/images/details/2025-11-26-092110-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-092110-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-084453-cebreus",
+          "alt": "Gízská nekropole, Gíza",
+          "detail": "/images/details/2025-11-26-084453-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-084453-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-091556-cebreus",
+          "alt": "Gízská nekropole, Gíza",
+          "detail": "/images/details/2025-11-26-091556-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-091556-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-093233-cebreus",
+          "alt": "Gízská nekropole, Gíza",
+          "detail": "/images/details/2025-11-26-093233-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-093233-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-095057-cebreus",
+          "alt": "Gízská nekropole, Gíza",
+          "detail": "/images/details/2025-11-26-095057-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-095057-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-095210-cebreus",
+          "alt": "Gízská nekropole, Gíza",
+          "detail": "/images/details/2025-11-26-095210-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-095210-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-095124-dasa",
+          "alt": "Gízská nekropole",
+          "detail": "/images/details/2025-11-26-095124-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-095124-dasa.jpeg"
+        },
+        {
+          "id": "2025-11-26-095535-cebreus",
+          "alt": "Gízská nekropole, Gíza",
+          "detail": "/images/details/2025-11-26-095535-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-095535-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-095929-cebreus",
+          "alt": "Gízská nekropole, Gíza",
+          "detail": "/images/details/2025-11-26-095929-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-095929-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-100007-cebreus",
+          "alt": "Gízská nekropole, Gíza",
+          "detail": "/images/details/2025-11-26-100007-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-100007-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-100538-cebreus",
+          "alt": "Gízská nekropole, Gíza",
+          "detail": "/images/details/2025-11-26-100538-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-100538-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-100151-cebreus",
+          "alt": "Gízská nekropole, Gíza",
+          "detail": "/images/previews-webp/2025-11-26-100151-cebreus.webp",
+          "thumb": "/images/previews-xxs/2025-11-26-100151-cebreus.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "29.9677,31.1253",
+      "lat": 29.967678,
+      "lng": 31.125314,
+      "name": "29.9677, 31.1253",
+      "count": 4,
+      "thumbnail": "/images/previews-xxs/2025-11-26-081030-cebreus--zoom1from4.jpeg",
+      "images": [
+        {
+          "id": "2025-11-26-081030-cebreus--zoom1from4",
+          "alt": "Gíza",
+          "detail": "/images/details/2025-11-26-081030-cebreus--zoom1from4.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-081030-cebreus--zoom1from4.jpeg"
+        },
+        {
+          "id": "2025-11-26-081032-cebreus--zoom2from4",
+          "alt": "Gíza",
+          "detail": "/images/details/2025-11-26-081032-cebreus--zoom2from4.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-081032-cebreus--zoom2from4.jpeg"
+        },
+        {
+          "id": "2025-11-26-081034-cebreus--zoom3from4",
+          "alt": "Gíza",
+          "detail": "/images/details/2025-11-26-081034-cebreus--zoom3from4.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-081034-cebreus--zoom3from4.jpeg"
+        },
+        {
+          "id": "2025-11-26-081035-cebreus--zoom4from4",
+          "alt": "Gíza",
+          "detail": "/images/details/2025-11-26-081035-cebreus--zoom4from4.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-081035-cebreus--zoom4from4.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "Egyptský papyrusový institut",
+      "lat": 29.985372,
+      "lng": 31.141575,
+      "name": "Egyptský papyrusový institut",
+      "count": 3,
+      "thumbnail": "/images/previews-xxs/2025-11-26-113457-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-26-113457-cebreus",
+          "alt": "Egyptský papyrusový institut, Gíza",
+          "detail": "/images/details/2025-11-26-113457-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-113457-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-113557-dasa--collage",
+          "alt": "Egyptský papyrusový institut, Gíza",
+          "detail": "/images/details/2025-11-26-113557-dasa--collage.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-113557-dasa--collage.jpeg"
+        },
+        {
+          "id": "2025-11-26-114357-bobina",
+          "alt": "Egyptský papyrusový institut, Gíza",
+          "detail": "/images/details/2025-11-26-114357-bobina.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-114357-bobina.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "Velké egyptské muzeum",
+      "lat": 29.996072,
+      "lng": 31.118131,
+      "name": "Velké egyptské muzeum",
+      "count": 49,
+      "thumbnail": "/images/previews-xxs/2025-11-26-121346-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-26-121346-cebreus",
+          "alt": "Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-121346-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-121346-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-121358-cebreus",
+          "alt": "Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-121358-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-121358-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-121411-cebreus",
+          "alt": "Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-121411-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-121411-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-121422-cebreus",
+          "alt": "Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-121422-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-121422-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-121518-dasa",
+          "alt": "Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-121518-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-121518-dasa.jpeg"
+        },
+        {
+          "id": "2025-11-26-131747-bobina",
+          "alt": "Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-131747-bobina.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-131747-bobina.jpeg"
+        },
+        {
+          "id": "2025-11-26-122029-dasa",
+          "alt": "Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-122029-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-122029-dasa.jpeg"
+        },
+        {
+          "id": "2025-11-26-123437-cebreus",
+          "alt": "Kolos Ramesse II. z červené žuly, datovaný do 19. dynastie (vláda 1279–1213 př. n. l.). Objekt o hmotnosti 83 tun a výšce 11 metrů pochází z lokality Mit Rahina (Memfis). Do atria muzea byl instalován z logistických důvodů již v roce 2018, před dokončením střešní konstrukce a fasády budovy., Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-123437-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-123437-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-123858-cebreus--collage",
+          "alt": "Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-123858-cebreus--collage.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-123858-cebreus--collage.jpeg"
+        },
+        {
+          "id": "2025-11-26-125334-cebreus",
+          "alt": "V popředí stojí socha Senusreta III. z křemence (12. dynastie, 1870–1831 př. n. l.) původem z Herakleopolis Magna, u jejíž nohou jsou zobrazeny dvě princezny; povrch nese stopy uzurpace Ramessem II. a Merenptahem. V pozadí je umístěn sedící kolos Amenhotepa III. (18. dynastie)., Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-125334-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-125334-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-125359-cebreus",
+          "alt": "Sedící socha Amenhotepa III. z žuly (18. dynastie, 1390–1352 př. n. l.). Artefakt původem ze zádušního chrámu v Kom el-Hetan (Západní Théby) náleží k rozsáhlému souboru děl vytvořených k oslavě královského jubilea, svátku Sed., Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-125359-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-125359-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-125421-cebreus",
+          "alt": "Stojící socha královny Hatšepsut z červené žuly (18. dynastie, 1473–1458 př. n. l.). Nález ze zádušního chrámu v Dér el-Bahárí vykazuje plnou královskou stylizaci s mužskými atributy moci a absencí feminních rysů, typickou pro pozdní fázi její vlády., Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-125421-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-125421-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-125706-cebreus",
+          "alt": "Pískovcová hlava kolosu Achnatona původem z Atonovy kolonády v Karnaku (18. dynastie, 1353–1336 př. n. l.). Objekt v amarnském stylu nese na čelence nemes reliéf čtyř pštrosích per, symbolizujících teologické spojení panovníka s bohem vzduchu Šu., Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-125706-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-125706-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-125755-cebreus",
+          "alt": "Pískovcový sloup s reliéfem Ptolemaia IX. (116–107 / 88–81 př. n. l.). Fragment zdobí hluboký reliéf (en creux) a hieroglyfické nápisy. Výzdoba odpovídá helénistickému období s plnějšími formami zobrazení postav., Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-125755-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-125755-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-125848-cebreus",
+          "alt": "Sfinga Amenemheta III. z šedé žuly (12. dynastie, 1831–1786 př. n. l., Tanis). Ikonografie se vyznačuje masivní lví hřívou namísto pokrývky hlavy a realistickými rysy tváře. Povrch nese stopy pozdější uzurpace., Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-125848-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-125848-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-125931-dasa",
+          "alt": "Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-125931-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-125931-dasa.jpeg"
+        },
+        {
+          "id": "2025-11-26-130017-cebreus",
+          "alt": "Žulový naos krále Nektaneba I. (30. dynastie, 380–362 př. n. l., Hermopolis Magna). Monolitická schrána sloužila k uložení kultovní sochy božstva v interiéru chrámu., Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-130017-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-130017-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-130323-cebreus",
+          "alt": "Čedičový pyramidion krále Amenemheta III. (12. dynastie, 1831–1786 př. n. l.). Monolitický vrchlík Černé pyramidy v Dahšúru nese texty vzývající boha Amona-Rea, vyobrazení okřídleného slunce a očí uren pro magickou ochranu., Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-130323-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-130323-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-130440-cebreus",
+          "alt": "Skalní kaple (naos) se sedícími sochami (Nová říše). Votivní objekt vytesaný do pískovcového bloku obsahuje ve výklenku poškozené postavy, pravděpodobně majitele hrobky s manželkou či božstvem., Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-130440-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-130440-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-130515-cebreus",
+          "alt": "Sfinga královny Hatšepsut z žuly (18. dynastie, 1473–1458 př. n. l., Dér el-Bahárí). Skulptura kombinuje lví tělo s lidskou hlavou v pokrývce nemes a s královským vousem. Na hrudi je vytesána kartuše s trůnním jménem Maat-ka-Re., Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-130515-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-130515-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-130603-cebreus",
+          "alt": "Pískovcový sloup s reliéfem Ptolemaia IX. (116–107 / 88–81 př. n. l.). Fragment zdobí hluboký reliéf (en creux) a hieroglyfické nápisy. Výzdoba odpovídá helénistickému období s plnějšími formami zobrazení postav., Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-130603-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-130603-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-130753-cebreus",
+          "alt": "Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-130753-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-130753-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-131110-cebreus",
+          "alt": "Torzo sochy z římského období (cca 2. století n. l.). Dílo z mramoru či světlého vápence zobrazuje mužskou postavu, pravděpodobně boha Serapida, v řaseném oděvu. Stylisticky odpovídá helénistické tradici Alexandrie., Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-131110-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-131110-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-131135-cebreus",
+          "alt": "Sloupová hlavice s tváří bohyně Hathor (22. dynastie, vláda Osorkona II., 872–837 př. n. l.). Prvek z červené žuly pochází z chrámu v Bubastisu. Zobrazuje tvář bohyně s kravskýma ušima, na níž spočívá stylizovaný model chrámu., Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-131135-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-131135-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-131155-cebreus",
+          "alt": "Kamenný sarkofág obdélníkového půdorysu (Pozdní doba). Víko sarkofágu je tvarováno do podoby klenuté střechy svatyně typu per-nu (svatyně Dolního Egypta) s rohovými sloupky. Tento typ masivní vnější schrány sloužil k ochraně vnitřních rakví s mumií v pohřební komoře., Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-131155-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-131155-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-131935-dasa",
+          "alt": "Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-131935-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-131935-dasa.jpeg"
+        },
+        {
+          "id": "2025-11-26-132422-cebreus",
+          "alt": "Vápencová socha písaře Nefera (Stará říše, 5. dynastie, Abúsír). Nefer zastával tituly „známý krále“ a „dozorce písařů posádek“. Je zobrazen v kanonické pozici se zkříženýma nohama a papyrovým svitkem rozvinutým na klíně, připraven k psaní. Socha si zachovala zbytky původní polychromie., Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-132422-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-132422-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-132537-cebreus",
+          "alt": "Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-132537-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-132537-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-133422-cebreus",
+          "alt": "Vápencový okenní rám krále Unase (Stará říše, 5. dynastie, Sakkára). Architektonický prvek pochází z panovníkova zádušního chrámu a nese hieroglyfický nápis se třemi královskými tituly: Horovým jménem, jménem Obou paní a titulem krále Horního a Dolního Egypta. Kartuše jsou následovány formulí přející život, stabilitu a moc., Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-133422-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-133422-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-133231-dasa",
+          "alt": "Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-133231-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-133231-dasa.jpeg"
+        },
+        {
+          "id": "2025-11-26-133202-dasa",
+          "alt": "Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-133202-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-133202-dasa.jpeg"
+        },
+        {
+          "id": "2025-11-26-133722-cebreus",
+          "alt": "Vápencová stéla ve formě nepravých dveří úředníka Meniho (Stará říše, 6. dynastie, Dendera). Meni byl významný hodnostář spravující pyramidová města poblíž Memfidy a zemědělské statky ve své domovské provincii. Součástí výzdoby veřejí jsou oči wedžat, které měly umožnit jeho duši ka vyhlížet ven z hrobky., Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-133722-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-133722-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-134543-cebreus--zoom1from2",
+          "alt": "Dřevěné modely núbijských lučištníků a egyptských kopiníků (Střední říše, 11. dynastie, cca 2000 př. n. l., Asijút). Nález z hrobky nomarchy Mesehtiho obsahuje 40 figurek v každé skupině, které demonstrují etnickou a vojenskou organizaci armády dané doby., Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-134543-cebreus--zoom1from2.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-134543-cebreus--zoom1from2.jpeg"
+        },
+        {
+          "id": "2025-11-26-134549-cebreus--zoom2from2",
+          "alt": "Dřevěné modely núbijských lučištníků a egyptských kopiníků (Střední říše, 11. dynastie, cca 2000 př. n. l., Asijút). Nález z hrobky nomarchy Mesehtiho obsahuje 40 figurek v každé skupině, které demonstrují etnickou a vojenskou organizaci armády dané doby., Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-134549-cebreus--zoom2from2.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-134549-cebreus--zoom2from2.jpeg"
+        },
+        {
+          "id": "2025-11-26-135431-cebreus",
+          "alt": "Klečící socha královny Hatšepsut z červené žuly (18. dynastie, 1473–1458 př. n. l.). Panovnice je zobrazena s pokrývkou hlavy nemes v pozici obětujícího krále, držícího v rukou kulovité nádoby nu. Ačkoliv vládla jako regentka za svého synovce Thutmose III., nechala se později korunovat a zobrazovat jako mužský faraon. Její vláda se vyznačovala spíše rozvojem obchodu než válečnými výboji., Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-135431-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-135431-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-140121-dasa--collage",
+          "alt": "Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-140121-dasa--collage.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-140121-dasa--collage.jpeg"
+        },
+        {
+          "id": "2025-11-26-140324-dasa",
+          "alt": "Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-140324-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-140324-dasa.jpeg"
+        },
+        {
+          "id": "2025-11-26-140433-dasa--collage",
+          "alt": "Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-140433-dasa--collage.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-140433-dasa--collage.jpeg"
+        },
+        {
+          "id": "2025-11-26-142032-dasa",
+          "alt": "Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-142032-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-142032-dasa.jpeg"
+        },
+        {
+          "id": "2025-11-26-142128-dasa",
+          "alt": "Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-142128-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-142128-dasa.jpeg"
+        },
+        {
+          "id": "2025-11-26-142225-dasa",
+          "alt": "Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-142225-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-142225-dasa.jpeg"
+        },
+        {
+          "id": "2025-11-26-164839-bobina",
+          "alt": "Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-164839-bobina.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-164839-bobina.jpeg"
+        },
+        {
+          "id": "2025-11-26-164901-bobo",
+          "alt": "Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-164901-bobo.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-164901-bobo.jpeg"
+        },
+        {
+          "id": "2025-11-26-155237-cebreus--collage",
+          "alt": "Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-155237-cebreus--collage.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-155237-cebreus--collage.jpeg"
+        },
+        {
+          "id": "2025-11-26-155357-cebreus",
+          "alt": "Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-155357-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-155357-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-140307-cebreus",
+          "alt": "Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-140307-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-140307-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-153129-cebreus--collage",
+          "alt": "První sluneční loď krále Chufua (4. dynastie, cca 2566 př. n. l.). Plavidlo o délce 43 metrů z libanonského cedru bylo nalezeno v roce 1954 v jámě u Velké pyramidy v Gíze. Konstrukce využívá systém čepů a lan z trávy halfah bez použití kovových hřebíků., Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-153129-cebreus--collage.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-153129-cebreus--collage.jpeg"
+        },
+        {
+          "id": "2025-11-26-153058-cebreus",
+          "alt": "První sluneční loď krále Chufua (4. dynastie, cca 2566 př. n. l.). Plavidlo o délce 43 metrů z libanonského cedru bylo nalezeno v roce 1954 v jámě u Velké pyramidy v Gíze. Konstrukce využívá systém čepů a lan z trávy halfah bez použití kovových hřebíků., Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-153058-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-153058-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-26-161403-dasa",
+          "alt": "Velké egyptské muzeum, Gíza",
+          "detail": "/images/details/2025-11-26-161403-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-161403-dasa.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "29.9930,31.1193",
+      "lat": 29.993008,
+      "lng": 31.119294,
+      "name": "29.9930, 31.1193",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-26-164905-bobina.jpeg",
+      "images": [
+        {
+          "id": "2025-11-26-164905-bobina",
+          "alt": "Photoblog image",
+          "detail": "/images/details/2025-11-26-164905-bobina.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-164905-bobina.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "29.9894,31.2112",
+      "lat": 29.989361,
+      "lng": 31.211206,
+      "name": "29.9894, 31.2112",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-26-192016-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-26-192016-cebreus",
+          "alt": "Photoblog image",
+          "detail": "/images/details/2025-11-26-192016-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-192016-cebreus.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "29.9921,31.2092",
+      "lat": 29.992078,
+      "lng": 31.209153,
+      "name": "29.9921, 31.2092",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-26-191950-dasa--collage.jpeg",
+      "images": [
+        {
+          "id": "2025-11-26-191950-dasa--collage",
+          "alt": "Photoblog image",
+          "detail": "/images/details/2025-11-26-191950-dasa--collage.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-26-191950-dasa--collage.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "Železniční stanice Luxor",
+      "lat": 25.696567,
+      "lng": 32.644447,
+      "name": "Železniční stanice Luxor",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-27-051203-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-27-051203-cebreus",
+          "alt": "Železniční stanice Luxor, Luxor",
+          "detail": "/images/details/2025-11-27-051203-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-051203-cebreus.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "25.6378,32.5965",
+      "lat": 25.637814,
+      "lng": 32.596456,
+      "name": "25.6378, 32.5965",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-27-113855-bobina--collage.jpeg",
+      "images": [
+        {
+          "id": "2025-11-27-113855-bobina--collage",
+          "alt": "Luxor",
+          "detail": "/images/details/2025-11-27-113855-bobina--collage.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-113855-bobina--collage.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "Karnak",
+      "lat": 25.719436,
+      "lng": 32.656075,
+      "name": "Karnak",
+      "count": 34,
+      "thumbnail": "/images/previews-xxs/2025-11-27-135051-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-27-135051-cebreus",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-135051-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-135051-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-135056-cebreus",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-135056-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-135056-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-135120-cebreus",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-135120-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-135120-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-135126-bobina--collage",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-135126-bobina--collage.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-135126-bobina--collage.jpeg"
+        },
+        {
+          "id": "2025-11-27-135909-cebreus",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-135909-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-135909-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-140006-cebreus",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-140006-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-140006-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-135303-cebreus",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-135303-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-135303-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-140844-cebreus",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-140844-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-140844-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-135335-bobina",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-135335-bobina.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-135335-bobina.jpeg"
+        },
+        {
+          "id": "2025-11-27-135919-cebreus",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-135919-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-135919-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-142158-cebreus",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-142158-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-142158-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-142139-cebreus",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-142139-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-142139-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-142312-cebreus",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-142312-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-142312-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-143100-bobina",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-143100-bobina.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-143100-bobina.jpeg"
+        },
+        {
+          "id": "2025-11-27-143115-cebreus",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-143115-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-143115-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-143516-bobina",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-143516-bobina.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-143516-bobina.jpeg"
+        },
+        {
+          "id": "2025-11-27-143612-cebreus",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-143612-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-143612-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-144008-cebreus",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-144008-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-144008-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-144030-cebreus",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-144030-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-144030-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-144146-cebreus",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-144146-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-144146-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-144202-cebreus",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-144202-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-144202-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-144656-cebreus",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-144656-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-144656-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-150623-bobina",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-150623-bobina.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-150623-bobina.jpeg"
+        },
+        {
+          "id": "2025-11-27-150755-cebreus",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-150755-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-150755-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-150755-bobina",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-150755-bobina.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-150755-bobina.jpeg"
+        },
+        {
+          "id": "2025-11-27-150836-cebreus",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-150836-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-150836-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-151010-cebreus",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-151010-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-151010-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-151031-cebreus",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-151031-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-151031-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-151219-cebreus",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-151219-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-151219-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-151303-cebreus",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-151303-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-151303-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-151336-cebreus",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-151336-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-151336-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-151354-bobina",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-151354-bobina.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-151354-bobina.jpeg"
+        },
+        {
+          "id": "2025-11-27-151409-cebreus",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-151409-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-151409-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-151703-cebreus",
+          "alt": "Karnak, Luxor",
+          "detail": "/images/details/2025-11-27-151703-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-151703-cebreus.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "Luxorský chrám",
+      "lat": 25.700553,
+      "lng": 32.640428,
+      "name": "Luxorský chrám",
+      "count": 22,
+      "thumbnail": "/images/previews-xxs/2025-11-27-155421-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-27-155421-cebreus",
+          "alt": "Luxorský chrám, Luxor",
+          "detail": "/images/details/2025-11-27-155421-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-155421-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-155516-cebreus",
+          "alt": "Luxorský chrám, Luxor",
+          "detail": "/images/details/2025-11-27-155516-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-155516-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-155553-cebreus",
+          "alt": "Luxorský chrám, Luxor",
+          "detail": "/images/details/2025-11-27-155553-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-155553-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-160718-cebreus",
+          "alt": "Luxorský chrám, Luxor",
+          "detail": "/images/details/2025-11-27-160718-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-160718-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-160752-cebreus",
+          "alt": "Luxorský chrám, Luxor",
+          "detail": "/images/details/2025-11-27-160752-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-160752-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-160500-dasa--zoom1from3",
+          "alt": "Luxorský chrám",
+          "detail": "/images/details/2025-11-27-160500-dasa--zoom1from3.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-160500-dasa--zoom1from3.jpeg"
+        },
+        {
+          "id": "2025-11-27-160501-dasa--zoom2from3",
+          "alt": "Luxorský chrám",
+          "detail": "/images/details/2025-11-27-160501-dasa--zoom2from3.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-160501-dasa--zoom2from3.jpeg"
+        },
+        {
+          "id": "2025-11-27-160445-cebreus",
+          "alt": "Luxorský chrám, Luxor",
+          "detail": "/images/details/2025-11-27-160445-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-160445-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-160502-dasa--zoom3from3",
+          "alt": "Luxorský chrám",
+          "detail": "/images/details/2025-11-27-160502-dasa--zoom3from3.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-160502-dasa--zoom3from3.jpeg"
+        },
+        {
+          "id": "2025-11-27-160318-bobina",
+          "alt": "Luxorský chrám, Luxor",
+          "detail": "/images/details/2025-11-27-160318-bobina.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-160318-bobina.jpeg"
+        },
+        {
+          "id": "2025-11-27-160841-cebreus",
+          "alt": "Luxorský chrám, Luxor",
+          "detail": "/images/details/2025-11-27-160841-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-160841-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-161031-cebreus",
+          "alt": "Luxorský chrám, Luxor",
+          "detail": "/images/details/2025-11-27-161031-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-161031-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-161454-cebreus",
+          "alt": "Luxorský chrám, Luxor",
+          "detail": "/images/details/2025-11-27-161454-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-161454-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-161608-cebreus",
+          "alt": "Luxorský chrám, Luxor",
+          "detail": "/images/details/2025-11-27-161608-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-161608-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-163413-cebreus",
+          "alt": "Luxorský chrám, Luxor",
+          "detail": "/images/details/2025-11-27-163413-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-163413-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-163442-cebreus",
+          "alt": "Luxorský chrám, Luxor",
+          "detail": "/images/details/2025-11-27-163442-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-163442-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-154552-dasa--collage",
+          "alt": "Luxorský chrám",
+          "detail": "/images/details/2025-11-27-154552-dasa--collage.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-154552-dasa--collage.jpeg"
+        },
+        {
+          "id": "2025-11-27-164753-cebreus",
+          "alt": "Luxorský chrám, Luxor",
+          "detail": "/images/details/2025-11-27-164753-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-164753-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-164805-cebreus",
+          "alt": "Luxorský chrám, Luxor",
+          "detail": "/images/details/2025-11-27-164805-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-164805-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-161227-dasa",
+          "alt": "Luxorský chrám, Luxor",
+          "detail": "/images/details/2025-11-27-161227-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-161227-dasa.jpeg"
+        },
+        {
+          "id": "2025-11-27-170359-cebreus",
+          "alt": "Luxorský chrám, Luxor",
+          "detail": "/images/details/2025-11-27-170359-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-170359-cebreus.jpeg"
+        },
+        {
+          "id": "2025-11-27-162603-dasa",
+          "alt": "Luxorský chrám, Luxor",
+          "detail": "/images/details/2025-11-27-162603-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-162603-dasa.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "25.6989,32.6404",
+      "lat": 25.698894,
+      "lng": 32.640381,
+      "name": "25.6989, 32.6404",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-27-162535-dasa.jpeg",
+      "images": [
+        {
+          "id": "2025-11-27-162535-dasa",
+          "alt": "Luxor",
+          "detail": "/images/details/2025-11-27-162535-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-162535-dasa.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "25.6985,32.6381",
+      "lat": 25.698478,
+      "lng": 32.638097,
+      "name": "25.6985, 32.6381",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-27-172835-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-27-172835-cebreus",
+          "alt": "Luxor",
+          "detail": "/images/details/2025-11-27-172835-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-172835-cebreus.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "25.6947,32.6354",
+      "lat": 25.694692,
+      "lng": 32.635386,
+      "name": "25.6947, 32.6354",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-27-173120-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-27-173120-cebreus",
+          "alt": "Luxor",
+          "detail": "/images/details/2025-11-27-173120-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-173120-cebreus.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "25.6895,32.6380",
+      "lat": 25.689514,
+      "lng": 32.638031,
+      "name": "25.6895, 32.6380",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-27-174013-cebreus--collage.jpeg",
+      "images": [
+        {
+          "id": "2025-11-27-174013-cebreus--collage",
+          "alt": "Luxor",
+          "detail": "/images/details/2025-11-27-174013-cebreus--collage.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-174013-cebreus--collage.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "25.7039,32.6440",
+      "lat": 25.703875,
+      "lng": 32.644028,
+      "name": "25.7039, 32.6440",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-27-181255-cebreus.jpeg",
+      "images": [
+        {
+          "id": "2025-11-27-181255-cebreus",
+          "alt": "Luxor",
+          "detail": "/images/details/2025-11-27-181255-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-181255-cebreus.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "25.6379,32.5964",
+      "lat": 25.637914,
+      "lng": 32.596367,
+      "name": "25.6379, 32.5964",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-27-203001-bobina.jpeg",
+      "images": [
+        {
+          "id": "2025-11-27-203001-bobina",
+          "alt": "Luxor",
+          "detail": "/images/details/2025-11-27-203001-bobina.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-203001-bobina.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "25.6379,32.5963",
+      "lat": 25.637864,
+      "lng": 32.596325,
+      "name": "25.6379, 32.5963",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-27-203021-bobina.jpeg",
+      "images": [
+        {
+          "id": "2025-11-27-203021-bobina",
+          "alt": "Luxor",
+          "detail": "/images/details/2025-11-27-203021-bobina.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-27-203021-bobina.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "25.6388,32.5966",
+      "lat": 25.638819,
+      "lng": 32.5966,
+      "name": "25.6388, 32.5966",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-28-140424-bobina.jpeg",
+      "images": [
+        {
+          "id": "2025-11-28-140424-bobina",
+          "alt": "Photoblog image",
+          "detail": "/images/details/2025-11-28-140424-bobina.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-28-140424-bobina.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "25.6220,32.5691",
+      "lat": 25.621972,
+      "lng": 32.569144,
+      "name": "25.6220, 32.5691",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-28-132857-dasa.jpeg",
+      "images": [
+        {
+          "id": "2025-11-28-132857-dasa",
+          "alt": "Photoblog image",
+          "detail": "/images/details/2025-11-28-132857-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-28-132857-dasa.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "25.6219,32.5690",
+      "lat": 25.621922,
+      "lng": 32.569003,
+      "name": "25.6219, 32.5690",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-28-132902-dasa.jpeg",
+      "images": [
+        {
+          "id": "2025-11-28-132902-dasa",
+          "alt": "Photoblog image",
+          "detail": "/images/details/2025-11-28-132902-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-28-132902-dasa.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "25.6178,32.5582",
+      "lat": 25.617831,
+      "lng": 32.558156,
+      "name": "25.6178, 32.5582",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-28-143626-dasa--collage.jpeg",
+      "images": [
+        {
+          "id": "2025-11-28-143626-dasa--collage",
+          "alt": "Photoblog image",
+          "detail": "/images/details/2025-11-28-143626-dasa--collage.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-28-143626-dasa--collage.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "25.5126,32.4826",
+      "lat": 25.512561,
+      "lng": 32.482636,
+      "name": "25.5126, 32.4826",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-28-152459-dasa.jpeg",
+      "images": [
+        {
+          "id": "2025-11-28-152459-dasa",
+          "alt": "Photoblog image",
+          "detail": "/images/details/2025-11-28-152459-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-28-152459-dasa.jpeg"
+        }
+      ]
+    },
+    {
+      "id": "25.4729,32.5131",
+      "lat": 25.472942,
+      "lng": 32.513144,
+      "name": "25.4729, 32.5131",
+      "count": 1,
+      "thumbnail": "/images/previews-xxs/2025-11-28-155801-dasa.jpeg",
+      "images": [
+        {
+          "id": "2025-11-28-155801-dasa",
+          "alt": "Photoblog image",
+          "detail": "/images/details/2025-11-28-155801-dasa.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-28-155801-dasa.jpeg"
+        }
+      ]
+    }
+  ]
+}

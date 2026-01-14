@@ -143,7 +143,7 @@ if [ -n "$STAGED_FILES" ]; then
     grep -v "+layout.server.ts" | \
     grep -v "manifest-loader.ts" | \
     xargs grep -nE "await\s+import\s*\(" /dev/null 2>/dev/null | \
-    grep -vE "(sharp|@fancyapps|@vladmandic|@tensorflow|@xenova|node:fs/promises|node:path|node:stream|canvas|pngjs)" || true)
+    grep -vE "(sharp|@fancyapps|@vladmandic|@tensorflow|@xenova|node:fs/promises|node:path|node:stream|canvas|pngjs|leaflet)" || true)
   
   if [ -n "$DYNAMIC_IMPORTS" ]; then
     echo ""
