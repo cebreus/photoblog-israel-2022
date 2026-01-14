@@ -176,6 +176,8 @@
   "header_debug_mode": "Toggle debug mode",
   "header_edit_off": "Disable editing",
   "header_edit_on": "Enable editing",
+  "header_gallery": "Gallery",
+  "header_map": "Map",
   "header_metadata_overlay": "Show/hide photo labels",
   "header_reorder_off": "Disable reordering",
   "header_reorder_on": "Enable photo reordering (drag & drop)",

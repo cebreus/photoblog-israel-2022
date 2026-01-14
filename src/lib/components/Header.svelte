@@ -6,6 +6,8 @@
   import Tags from "@lucide/svelte/icons/tags";
 
   import { Button } from "$lib/components/ui/button";
+  import * as NavigationMenu from "$lib/components/ui/navigation-menu";
+  import { navigationMenuTriggerStyle } from "$lib/components/ui/navigation-menu/navigation-menu-trigger.svelte";
   import * as Sidebar from "$lib/components/ui/sidebar";
   import { i18n, languageTag } from "$lib/i18n";
   import * as m from "$lib/paraglide/messages";
@@ -38,11 +40,35 @@
   <div class="mr-auto flex items-center gap-3">
     <a
       href={i18n.resolveRoute("/", languageTag())}
-      class="text-lg font-semibold uppercase"
+      class="shrink-0 text-lg font-semibold uppercase"
       data-testid="header-logo"
     >
       {siteManifest?.open_graph?.site_name}
     </a>
+
+    <NavigationMenu.Root class="hidden md:flex">
+      <NavigationMenu.List>
+        <NavigationMenu.Item>
+          <NavigationMenu.Link
+            href={i18n.resolveRoute("/", languageTag())}
+            class={navigationMenuTriggerStyle()}
+            data-active={page.url.pathname === i18n.resolveRoute("/", languageTag()) || undefined}
+          >
+            {m.header_gallery()}
+          </NavigationMenu.Link>
+        </NavigationMenu.Item>
+        <NavigationMenu.Item>
+          <NavigationMenu.Link
+            href={i18n.resolveRoute("/map", languageTag())}
+            class={navigationMenuTriggerStyle()}
+            data-active={page.url.pathname.startsWith(i18n.resolveRoute("/map", languageTag())) ||
+              undefined}
+          >
+            {m.header_map()}
+          </NavigationMenu.Link>
+        </NavigationMenu.Item>
+      </NavigationMenu.List>
+    </NavigationMenu.Root>
     <!-- <LanguageSwitcher /> -->
   </div>
 
