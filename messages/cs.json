@@ -266,6 +266,8 @@
   "image_unknown_error": "Neznámá chyba",
   "language_switch_to_cs": "Přepnout do češtiny",
   "language_switch_to_en": "Přepnout do angličtiny",
+  "language_name_cs": "Čeština",
+  "language_name_en": "English",
   "language_switcher_label": "Změnit jazyk",
   "mutation_bin_status_changed": "Stav koše změněn",
   "mutation_changes_saved": "Změny uloženy",

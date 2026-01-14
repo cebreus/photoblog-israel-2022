@@ -266,6 +266,8 @@
   "image_unknown_error": "Unknown error",
   "language_switch_to_cs": "Switch to Czech",
   "language_switch_to_en": "Switch to English",
+  "language_name_cs": "Czech",
+  "language_name_en": "English",
   "language_switcher_label": "Switch language",
   "mutation_bin_status_changed": "Bin status changed",
   "mutation_changes_saved": "Changes saved",

@@ -8,6 +8,7 @@
   import Header from "$lib/components/Header.svelte";
   import * as Sidebar from "$lib/components/ui/sidebar";
   import { Toaster } from "$lib/components/ui/sonner";
+  import { detectLanguageFromPath, i18n } from "$lib/i18n";
   import * as m from "$lib/paraglide/messages";
   import { manifest } from "$lib/stores/manifest.svelte";
   import { ui } from "$lib/stores/ui.svelte";
@@ -22,6 +23,7 @@
   } from "$lib/types/manifest";
 
   import { browser, dev } from "$app/environment";
+  import { page } from "$app/state";
 
   import faviconHtml from "../../.temp/favicons.html?raw";
   import "../app.css";
@@ -58,9 +60,26 @@
   });
 
   // Initialize all URL-related synchronization logic
+  // Synchronize Paraglide runtime with SvelteKit URL state immediately on client
+  if (browser) {
+    const lang = detectLanguageFromPath(page.url.pathname);
+    if (i18n.locale !== lang) {
+      i18n.locale = lang;
+    }
+  }
+
   $effect(() => {
     if (browser) {
       initUrlSync(data.authors);
+    }
+  });
+
+  // Synchronize Paraglide runtime with SvelteKit URL state
+  // This is crucial for client-side navigation to update the active language
+  $effect(() => {
+    const lang = detectLanguageFromPath(page.url.pathname);
+    if (i18n.locale !== lang) {
+      i18n.locale = lang;
     }
   });
 

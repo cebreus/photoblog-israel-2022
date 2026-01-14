@@ -5,8 +5,8 @@
   import Sparkles from "@lucide/svelte/icons/sparkles";
   import Tags from "@lucide/svelte/icons/tags";
 
-  import LanguageSwitcher from "$lib/components/LanguageSwitcher.svelte";
   import { Button } from "$lib/components/ui/button";
+  import { LanguageSwitcher } from "$lib/components/ui/language-switcher";
   import * as Sidebar from "$lib/components/ui/sidebar";
   import { i18n, languageTag } from "$lib/i18n";
   import * as m from "$lib/paraglide/messages";
