@@ -11,7 +11,14 @@ const log = createLogger("tiles");
 const CONTENT_DIR = process.env.CONTENT_DIR || "egypt-2025";
 const MANIFEST_PATH = join(__dirname, `../src/data/${CONTENT_DIR}/map.manifest.json`);
 const OUTPUT_DIR = join(__dirname, `../static-${CONTENT_DIR}/tiles`);
-const TILE_TEMPLATE = "https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png";
+
+// Tile sources
+const TILE_SOURCES = {
+  street: "https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+  satellite:
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+};
+
 const MAX_ZOOM = 16;
 const GLOBAL_MAX_ZOOM = 5; // Download all tiles up to this zoom
 const CONCURRENCY = 50; // Higher concurrency since we have fewer tiles
@@ -34,13 +41,15 @@ function latLonToTile(lat: number, lon: number, zoom: number) {
   return { x, y };
 }
 
-async function downloadTile(z: number, x: number, y: number) {
-  const url = TILE_TEMPLATE.replace("{z}", z.toString())
+async function downloadTile(z: number, x: number, y: number, tileType: "street" | "satellite") {
+  const template = TILE_SOURCES[tileType];
+  const url = template
+    .replace("{z}", z.toString())
     .replace("{x}", x.toString())
     .replace("{y}", y.toString())
     .replace("{r}", RETINA);
 
-  const dir = join(OUTPUT_DIR, z.toString(), x.toString());
+  const dir = join(OUTPUT_DIR, tileType, z.toString(), x.toString());
   const file = join(dir, `${y}.png`);
 
   if (await exists(file)) {
@@ -119,33 +128,43 @@ async function main() {
   }
 
   const total = keysToDownload.size;
-  log.info({ total }, `Identified ${total} unique tiles to check/download.`);
+  const totalTiles = total * 2; // street + satellite
+  log.info(
+    { total, totalTiles },
+    `Identified ${total} unique tiles × 2 sources = ${totalTiles} downloads.`,
+  );
 
   let processed = 0;
   let downloaded = 0;
-  const queue = Array.from(keysToDownload).map((key) => {
-    const [z, x, y] = key.split("/").map(Number);
-    return async () => {
-      const res = await downloadTile(z, x, y);
-      if (res) downloaded++;
-      processed++;
-      if (processed % 100 === 0) {
-        log.raw(
-          `\rProgress: ${processed}/${total} (${Math.round((processed / total) * 100)}%), New: ${downloaded}`,
-        );
-      }
-    };
-  });
 
-  // Simple concurrency loop
-  const results = [];
-  while (queue.length > 0) {
-    const batch = queue.splice(0, CONCURRENCY);
-    results.push(Promise.all(batch.map((fn) => fn())));
-    await results[results.length - 1];
+  // Download both street and satellite tiles
+  for (const tileType of ["street", "satellite"] as const) {
+    log.info({ tileType }, `Downloading ${tileType} tiles...`);
+
+    const queue = Array.from(keysToDownload).map((key) => {
+      const [z, x, y] = key.split("/").map(Number);
+      return async () => {
+        const res = await downloadTile(z, x, y, tileType);
+        if (res) downloaded++;
+        processed++;
+        if (processed % 100 === 0) {
+          log.raw(
+            `\rProgress: ${processed}/${totalTiles} (${Math.round((processed / totalTiles) * 100)}%), New: ${downloaded}`,
+          );
+        }
+      };
+    });
+
+    // Simple concurrency loop
+    const results = [];
+    while (queue.length > 0) {
+      const batch = queue.splice(0, CONCURRENCY);
+      results.push(Promise.all(batch.map((fn) => fn())));
+      await results[results.length - 1];
+    }
   }
 
-  log.info({ downloaded }, `Done! Downloaded ${downloaded} new tiles.`);
+  log.info({ downloaded, total: totalTiles }, `Done! Downloaded ${downloaded} new tiles.`);
 }
 
 main().catch((err) => log.error({ err }, "Fatal error"));

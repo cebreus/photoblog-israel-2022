@@ -58,10 +58,27 @@
         // Create map
         map = L.map(mapContainer).setView([0, 0], 2);
 
-        L.tileLayer("/tiles/{z}/{x}/{y}.png", {
+        // Base layers
+        const streetLayer = L.tileLayer("/tiles/street/{z}/{x}/{y}.png", {
           attribution: "&copy; OpenStreetMap contributors &copy; CARTO",
           maxZoom: 16,
-        }).addTo(map);
+        });
+
+        const satelliteLayer = L.tileLayer("/tiles/satellite/{z}/{x}/{y}.png", {
+          attribution:
+            "&copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+          maxZoom: 16,
+        });
+
+        // Add default layer (street)
+        streetLayer.addTo(map);
+
+        // Layer control
+        const baseMaps = {
+          Mapa: streetLayer,
+          Satelit: satelliteLayer,
+        };
+        L.control.layers(baseMaps).addTo(map);
 
         log.info({ step: "Rendering markers" }, "Map instance created");
 
