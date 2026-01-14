@@ -6,8 +6,8 @@ import { getPerformanceRecorder, runWithPerformance } from "$scripts/utils/perfo
 import type { Handle } from "@sveltejs/kit";
 import { sequence } from "@sveltejs/kit/hooks";
 
-import { i18n } from "$lib/i18n";
 import { log as rootLogger } from "$lib/logger";
+import { paraglideMiddleware } from "$lib/paraglide/server";
 import { runWithLogger } from "$lib/server/request-context";
 import { startTaskWatcher } from "$lib/server/task-watcher";
 
@@ -151,4 +151,15 @@ async function originalHandle({
   return response;
 }
 
-export const handle = sequence(originalHandle, i18n.handle());
+// Paraglide 2.x middleware wrapper
+const paraglideHandle: Handle = ({ event, resolve }) =>
+  paraglideMiddleware(event.request, ({ request: localizedRequest, locale }) => {
+    event.request = localizedRequest;
+    return resolve(event, {
+      transformPageChunk: ({ html }) => {
+        return html.replace("%lang%", locale);
+      },
+    });
+  });
+
+export const handle = sequence(paraglideHandle, originalHandle);

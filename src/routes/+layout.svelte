@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { ParaglideJS } from "@inlang/paraglide-js-adapter-sveltekit";
   import { QueryClient } from "@tanstack/query-core";
   import { QueryClientProvider } from "@tanstack/svelte-query";
   import { ModeWatcher } from "mode-watcher";
@@ -9,7 +8,6 @@
   import Header from "$lib/components/Header.svelte";
   import * as Sidebar from "$lib/components/ui/sidebar";
   import { Toaster } from "$lib/components/ui/sonner";
-  import { i18n } from "$lib/i18n";
   import * as m from "$lib/paraglide/messages";
   import { manifest } from "$lib/stores/manifest.svelte";
   import { ui } from "$lib/stores/ui.svelte";
@@ -122,27 +120,25 @@
 </svelte:head>
 <ModeWatcher />
 
-<ParaglideJS {i18n}>
-  <QueryClientProvider client={queryClient}>
-    <Sidebar.Provider bind:open={ui.sidebarOpen} style="--sidebar-width: 24rem;">
-      <Sidebar.Inset>
-        <div class="flex min-h-screen flex-col">
-          <Header menuItems={data.menuItems} authors={data.authors} />
-          <main class="flex flex-1 flex-col" data-testid="main-content">
-            {@render children?.()}
-          </main>
-          <Footer />
-        </div>
-      </Sidebar.Inset>
-      <AppSidebar
-        menuItems={data.menuItems}
-        authors={data.authors}
-        qualityStats={data.qualityStats}
-        mediaStats={data.mediaStats}
-        snapshotStats={data.snapshotStats}
-        side="right"
-      />
-    </Sidebar.Provider>
-    <Toaster position="top-right" richColors closeButton />
-  </QueryClientProvider>
-</ParaglideJS>
+<QueryClientProvider client={queryClient}>
+  <Sidebar.Provider bind:open={ui.sidebarOpen} style="--sidebar-width: 24rem;">
+    <Sidebar.Inset>
+      <div class="flex min-h-screen flex-col">
+        <Header menuItems={data.menuItems} authors={data.authors} />
+        <main class="flex flex-1 flex-col" data-testid="main-content">
+          {@render children?.()}
+        </main>
+        <Footer />
+      </div>
+    </Sidebar.Inset>
+    <AppSidebar
+      menuItems={data.menuItems}
+      authors={data.authors}
+      qualityStats={data.qualityStats}
+      mediaStats={data.mediaStats}
+      snapshotStats={data.snapshotStats}
+      side="right"
+    />
+  </Sidebar.Provider>
+  <Toaster position="top-right" richColors closeButton />
+</QueryClientProvider>
