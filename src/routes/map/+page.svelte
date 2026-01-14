@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { PUBLIC_USE_LOCAL_TILES } from "$env/static/public";
   import type { MapManifest } from "$shared/types/map";
   import type { Fancybox } from "@fancyapps/ui";
   import type * as L from "leaflet";
@@ -21,6 +22,22 @@
   let mapContainer: HTMLDivElement;
   let isLoading = $state(false);
   let loadError = $state<string | null>(null);
+
+  /**
+   * Get tile URL based on build configuration
+   */
+  function getTileUrl(type: "street" | "satellite"): string {
+    if (PUBLIC_USE_LOCAL_TILES === "true") {
+      return `/map-tiles-${type}/{z}/{x}/{y}.png`;
+    }
+
+    const cdnUrls = {
+      street: "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+      satellite:
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    };
+    return cdnUrls[type];
+  }
 
   onMount(function handleMount() {
     if (!browser || !mapContainer || !mapManifest) {
@@ -59,12 +76,13 @@
         map = L.map(mapContainer).setView([0, 0], 2);
 
         // Base layers
-        const streetLayer = L.tileLayer("/tiles/street/{z}/{x}/{y}.png", {
+        const streetLayer = L.tileLayer(getTileUrl("street"), {
           attribution: "&copy; OpenStreetMap contributors &copy; CARTO",
           maxZoom: 16,
+          subdomains: PUBLIC_USE_LOCAL_TILES === "true" ? "" : "abcd",
         });
 
-        const satelliteLayer = L.tileLayer("/tiles/satellite/{z}/{x}/{y}.png", {
+        const satelliteLayer = L.tileLayer(getTileUrl("satellite"), {
           attribution:
             "&copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
           maxZoom: 16,

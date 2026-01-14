@@ -10,7 +10,7 @@ const log = createLogger("tiles");
 // Configuration
 const CONTENT_DIR = process.env.CONTENT_DIR || "egypt-2025";
 const MANIFEST_PATH = join(__dirname, `../src/data/${CONTENT_DIR}/map.manifest.json`);
-const OUTPUT_DIR = join(__dirname, `../static-${CONTENT_DIR}/tiles`);
+const STATIC_DIR = join(__dirname, `../static-${CONTENT_DIR}`);
 
 // Tile sources
 const TILE_SOURCES = {
@@ -49,7 +49,7 @@ async function downloadTile(z: number, x: number, y: number, tileType: "street" 
     .replace("{y}", y.toString())
     .replace("{r}", RETINA);
 
-  const dir = join(OUTPUT_DIR, tileType, z.toString(), x.toString());
+  const dir = join(STATIC_DIR, `map-tiles-${tileType}`, z.toString(), x.toString());
   const file = join(dir, `${y}.png`);
 
   if (await exists(file)) {
