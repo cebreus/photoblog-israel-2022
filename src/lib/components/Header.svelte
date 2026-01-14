@@ -6,7 +6,6 @@
   import Tags from "@lucide/svelte/icons/tags";
 
   import { Button } from "$lib/components/ui/button";
-  import { LanguageSwitcher } from "$lib/components/ui/language-switcher";
   import * as Sidebar from "$lib/components/ui/sidebar";
   import { i18n, languageTag } from "$lib/i18n";
   import * as m from "$lib/paraglide/messages";
@@ -41,7 +40,7 @@
     >
       {siteManifest?.open_graph?.site_name}
     </a>
-    <LanguageSwitcher />
+    <!-- <LanguageSwitcher /> -->
   </div>
 
   {#if dev}
