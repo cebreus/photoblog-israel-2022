@@ -31,7 +31,7 @@ const logger = pino({
               options: {
                 colorize: true,
                 ignore:
-                  "pid,hostname,env,label,method,path,route,status,durationMs,payload,requestBody,responseBody",
+                  "pid,hostname,env,label,method,path,route,status,durationMs,payload,requestBody,responseBody,perf",
                 translateTime: "HH:MM:ss",
                 messageFormat: "{env} > {label} \t {msg}", // Custom format: BE > app   Message
               },
