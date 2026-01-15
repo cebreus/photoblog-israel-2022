@@ -18,6 +18,9 @@
   let { menuItems = [], mode = "default" }: { menuItems: MenuManifest; mode?: "default" | "map" } =
     $props();
 
+  // Reactive set of visible location IDs from the map synchronization store
+  const visibleLocationIds = $derived(agendaMapSync.visibleMenuLocationIds);
+
   // Helper to localize anchor links (e.g. /#day-1 -> /en#day-1)
   function localizeHref(href: string) {
     if (href.startsWith("/#")) {
@@ -171,7 +174,7 @@
                       }}
                       class={[
                         menuLocation.latitude !== undefined ? "map-location-available" : "",
-                        agendaMapSync.visibleMenuLocationIds.has(menuLocation.id)
+                        visibleLocationIds.has(menuLocation.mapLocationId || menuLocation.id)
                           ? "map-highlighted"
                           : "",
                       ]
