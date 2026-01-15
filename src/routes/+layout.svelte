@@ -59,9 +59,8 @@
     },
   });
 
-  // Reactive derived state for sidebar visibility
-  // Using Svelte 5 runes for cleaner logic separation
-  let hideSidebar = $derived(page.route.id === "/map");
+  // Reactively determine if we are on the map page
+  let isMapPage = $derived(page.route.id === "/map");
 
   // Initialize all URL-related synchronization logic
   // Synchronize Paraglide runtime with SvelteKit URL state immediately on client
@@ -145,35 +144,31 @@
 
 <QueryClientProvider client={queryClient}>
   <Sidebar.Provider
-    open={!hideSidebar && ui.sidebarOpen}
-    onOpenChange={(v) => !hideSidebar && ui.setSidebar(v)}
+    open={ui.sidebarOpen}
+    onOpenChange={(v) => ui.setSidebar(v)}
     style="--sidebar-width: 24rem;"
   >
     <Sidebar.Inset>
       <div class="flex min-h-screen flex-col">
-        <Header
-          menuItems={data.menuItems}
-          authors={data.authors}
-          hideSidebarTrigger={hideSidebar}
-        />
+        <Header menuItems={data.menuItems} authors={data.authors} />
         <main class="flex flex-1 flex-col" data-testid="main-content">
           {@render children?.()}
         </main>
-        {#if !hideSidebar}
+        {#if !isMapPage}
           <Footer />
         {/if}
       </div>
     </Sidebar.Inset>
-    {#if !hideSidebar}
-      <AppSidebar
-        menuItems={data.menuItems}
-        authors={data.authors}
-        qualityStats={data.qualityStats}
-        mediaStats={data.mediaStats}
-        snapshotStats={data.snapshotStats}
-        side="right"
-      />
-    {/if}
+    <AppSidebar
+      menuItems={data.menuItems}
+      authors={data.authors}
+      qualityStats={data.qualityStats}
+      mediaStats={data.mediaStats}
+      snapshotStats={data.snapshotStats}
+      side="right"
+      variant={isMapPage ? "floating" : "sidebar"}
+      collapsible={isMapPage ? "offcanvas" : "icon"}
+    />
   </Sidebar.Provider>
   <Toaster position="top-right" richColors closeButton />
 </QueryClientProvider>

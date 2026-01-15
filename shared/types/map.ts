@@ -29,6 +29,10 @@ export type MapLocation = {
     thumbnail: string;
     /** Images at this location */
     images: MapImage[];
+    /** References to MenuLocation IDs for Agenda integration (1:N relationship) */
+    menuLocationIds?: string[];
+    /** Days when photos were taken at this location (ISO date strings: YYYY-MM-DD) */
+    days?: string[];
 };
 
 export type MapManifest = {

@@ -7,6 +7,7 @@
   import * as Sidebar from "$lib/components/ui/sidebar";
   import { i18n, languageTag } from "$lib/i18n";
   import * as m from "$lib/paraglide/messages";
+  import { agendaMapSync } from "$lib/stores/agenda-map-sync.svelte";
   import { filters } from "$lib/stores/filters.svelte";
   import { ui } from "$lib/stores/ui.svelte";
   import type { MenuManifest } from "$lib/types/manifest";
@@ -14,7 +15,8 @@
 
   import { page } from "$app/state";
 
-  let { menuItems = [] }: { menuItems: MenuManifest } = $props();
+  let { menuItems = [], mode = "default" }: { menuItems: MenuManifest; mode?: "default" | "map" } =
+    $props();
 
   // Helper to localize anchor links (e.g. /#day-1 -> /en#day-1)
   function localizeHref(href: string) {
@@ -81,12 +83,28 @@
             >
               {#snippet child({ props }: { props: HTMLAttributes<HTMLElement> })}
                 <div class="flex w-full items-center" {...props}>
-                  <a href={menuDay.href} class="flex grow items-center gap-2">
-                    <Calendar class="size-4" />
-                    <span class="capitalize"
-                      >{formatWeekday(menuDay.date)} {formatDateForDisplay(menuDay.date)}</span
+                  {#if mode === "map"}
+                    <button
+                      class="flex grow items-center gap-2 text-left"
+                      onclick={() => {
+                        window.dispatchEvent(
+                          new CustomEvent("agenda:zoom-day", { detail: menuDay.date }),
+                        );
+                      }}
                     >
-                  </a>
+                      <Calendar class="size-4" />
+                      <span class="capitalize"
+                        >{formatWeekday(menuDay.date)} {formatDateForDisplay(menuDay.date)}</span
+                      >
+                    </button>
+                  {:else}
+                    <a href={menuDay.href} class="flex grow items-center gap-2">
+                      <Calendar class="size-4" />
+                      <span class="capitalize"
+                        >{formatWeekday(menuDay.date)} {formatDateForDisplay(menuDay.date)}</span
+                      >
+                    </a>
+                  {/if}
                   <Collapsible.Trigger
                     class="ml-auto"
                     aria-label="{m.sidebar_expand_day()} {menuDay.date}"
@@ -104,13 +122,61 @@
                   {@const isHashActiveLocation = page.url.hash === menuLocation.href}
                   <Sidebar.MenuSubItem>
                     <Sidebar.MenuSubButton
-                      href={menuLocation.href}
-                      isHashActive={isHashActiveLocation}
+                      href={mode === "map" ? undefined : menuLocation.href}
+                      isHashActive={mode === "map" ? false : isHashActiveLocation}
                       isScrollspyActive={ui.activeSections.has(menuLocation.id)}
                       isDimmed={menuLocation.isDimmed}
                       firstPhotoExifDate={menuLocation.firstPhotoExifDate}
                       startDate={menuLocation.startDate}
                       endDate={menuLocation.endDate}
+                      onclick={(e: MouseEvent) => {
+                        if (mode === "map") {
+                          e.preventDefault();
+                          // Expect map location ID if available, or just dispatch generic zoom
+                          if (menuLocation.mapLocationId) {
+                            agendaMapSync.zoomToMapLocation(
+                              menuLocation.mapLocationId,
+                              menuLocation.latitude ?? 0,
+                              menuLocation.longitude ?? 0,
+                            );
+                          } else {
+                            // Fallback if no map ID (should not happen for mapped locations)
+                          }
+                        } else {
+                          // Ctrl/Cmd + Click → Zoom to map location
+                          if (
+                            (e.ctrlKey || e.metaKey) &&
+                            menuLocation.latitude !== undefined &&
+                            menuLocation.longitude !== undefined &&
+                            menuLocation.mapLocationId
+                          ) {
+                            e.preventDefault();
+                            agendaMapSync.zoomToMapLocation(
+                              menuLocation.mapLocationId,
+                              menuLocation.latitude,
+                              menuLocation.longitude,
+                            );
+                            // Navigate to /map
+                            window.location.href = "/map";
+                          }
+                        }
+                      }}
+                      onmouseenter={() => {
+                        if (menuLocation.mapLocationId) {
+                          agendaMapSync.hoverMapLocation(menuLocation.mapLocationId);
+                        }
+                      }}
+                      onmouseleave={() => {
+                        agendaMapSync.hoverMapLocation(null);
+                      }}
+                      class={[
+                        menuLocation.latitude !== undefined ? "map-location-available" : "",
+                        agendaMapSync.visibleMenuLocationIds.has(menuLocation.id)
+                          ? "map-highlighted"
+                          : "",
+                      ]
+                        .filter(Boolean)
+                        .join(" ")}
                     >
                       {menuLocation.label}
                     </Sidebar.MenuSubButton>
@@ -124,3 +190,24 @@
     {/each}
   </Sidebar.Group>
 </Sidebar.Menu>
+
+<style>
+  /* Map location indicator */
+  :global(.map-location-available) {
+    position: relative;
+  }
+
+  :global(.map-location-available:hover::after) {
+    content: " 📍";
+    opacity: 0.6;
+    font-size: 0.875rem;
+  }
+
+  /* Highlighted when visible on map */
+  :global(.map-highlighted) {
+    background: rgba(59, 130, 246, 0.08) !important;
+    border-left: 3px solid #3b82f6 !important;
+    /* font-weight: 500 caused font rendering issues (deformed kerning) on some systems */
+    padding-left: calc(0.75rem - 3px) !important; /* Compensate for border */
+  }
+</style>

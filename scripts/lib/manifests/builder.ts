@@ -534,6 +534,11 @@ function mapDayToMenu(d: PhotoDay, storyData: StoryDataMap): MenuManifest[number
 
       const firstPhoto = matchingPhotos[0];
 
+      // Find first photo with GPS data for map integration
+      const photoWithGPS = matchingPhotos.find(
+        (p) => p.exif?.latitude !== undefined && p.exif?.longitude !== undefined,
+      );
+
       locations.push({
         id: item.id,
         label: item.location,
@@ -542,6 +547,16 @@ function mapDayToMenu(d: PhotoDay, storyData: StoryDataMap): MenuManifest[number
         firstPhotoExifDate: firstPhoto?.exif?.releaseDate ?? firstPhoto?.exif?.date,
         startDate: item.startDate ?? storyData[item.location]?.startDate,
         endDate: item.endDate ?? storyData[item.location]?.endDate,
+        // 🆕 GPS data for map integration
+        latitude: photoWithGPS?.exif?.latitude,
+        longitude: photoWithGPS?.exif?.longitude,
+        mapLocationId:
+          photoWithGPS?.exif?.location ||
+          (photoWithGPS?.exif?.latitude !== undefined &&
+            photoWithGPS?.exif?.longitude !== undefined &&
+            photoWithGPS.exif)
+            ? `${(photoWithGPS.exif.latitude as number).toFixed(4)},${(photoWithGPS.exif.longitude as number).toFixed(4)}`
+            : undefined,
       });
       seenIds.add(item.id);
     } else if (isImage(item)) {
@@ -564,6 +579,9 @@ function mapDayToMenu(d: PhotoDay, storyData: StoryDataMap): MenuManifest[number
 
       const isDimmed = matchingPhotos.length <= 2;
 
+      // Check if this location has GPS (from the founding image)
+      const hasGPS = item.exif?.latitude !== undefined && item.exif?.longitude !== undefined;
+
       locations.push({
         id: locId,
         label: loc,
@@ -571,6 +589,14 @@ function mapDayToMenu(d: PhotoDay, storyData: StoryDataMap): MenuManifest[number
         isDimmed,
         firstPhotoExifDate: item.exif?.releaseDate ?? item.exif?.date,
         // No explicit start/end dates for pure image groups
+        // 🆕 GPS data for map integration
+        latitude: hasGPS ? item.exif?.latitude : undefined,
+        longitude: hasGPS ? item.exif?.longitude : undefined,
+        mapLocationId:
+          hasGPS && item.exif?.latitude && item.exif?.longitude
+            ? item.exif?.location ||
+              `${item.exif.latitude.toFixed(4)},${item.exif.longitude.toFixed(4)}`
+            : undefined,
       });
       seenIds.add(locId);
     }

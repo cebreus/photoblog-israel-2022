@@ -220,6 +220,12 @@ export type MenuLocation = {
     firstPhotoExifDate?: string;
     startDate?: string;
     endDate?: string;
+    /** GPS latitude for map integration (from first photo with GPS) */
+    latitude?: number;
+    /** GPS longitude for map integration (from first photo with GPS) */
+    longitude?: number;
+    /** Reference to MapLocation ID for bidirectional Agenda-Map linking */
+    mapLocationId?: string;
 };
 
 export type MenuDay = {

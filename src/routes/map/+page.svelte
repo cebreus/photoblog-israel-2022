@@ -9,6 +9,7 @@
   import { createLogger } from "$lib/logger";
 
   import { browser } from "$app/environment";
+  import { page } from "$app/state";
 
   const log = createLogger("map");
 
@@ -22,6 +23,16 @@
   let mapContainer: HTMLDivElement;
   let isLoading = $state(false);
   let loadError = $state<string | null>(null);
+  let activeLocationId = $state<string | null>(null);
+  let hoveredLocationId = $state<string | null>(null);
+
+  // Leaflet instances - top level so they're accessible everywhere
+  let map: L.Map | null = null;
+  let Leaflet: typeof L | null = null;
+  let clusterGroup: L.MarkerClusterGroup | null = null;
+  let markerMap = new Map<string, L.Marker>();
+  let streetLayer: L.TileLayer | null = null;
+  let satelliteLayer: L.TileLayer | null = null;
 
   /**
    * Get tile URL based on build configuration
@@ -32,21 +43,192 @@
     }
 
     const cdnUrls = {
-      street: "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+      street:
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
       satellite:
         "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
     };
     return cdnUrls[type];
   }
 
+  // Handle location click from agenda (zoom to marker)
+  function handleLocationClick(location: { id: string; lat: number; lng: number }) {
+    if (!map || !mapManifest || !Leaflet) return;
+
+    activeLocationId = location.id;
+
+    // Get current map center and zoom
+    const currentCenter = map.getCenter();
+    const currentZoom = map.getZoom();
+    const targetLatLng: [number, number] = [location.lat, location.lng];
+
+    // Calculate distance between current center and target (in degrees)
+    const distance = Math.sqrt(
+      (currentCenter.lat - location.lat) ** 2 + (currentCenter.lng - location.lng) ** 2,
+    );
+
+    // Debug logging
+    log.info(
+      {
+        from: { lat: currentCenter.lat, lng: currentCenter.lng },
+        to: { lat: location.lat, lng: location.lng },
+        distance: parseFloat(distance.toFixed(4)),
+        currentZoom,
+        targetId: location.id,
+      },
+      "Map navigation",
+    );
+
+    // Find marker - first try by ID, then by coordinates
+    let marker = markerMap.get(location.id);
+
+    // If not found by ID, find by matching coordinates
+    if (!marker) {
+      for (const [markerId, m] of markerMap.entries()) {
+        const markerLatLng = m.getLatLng();
+        if (
+          Math.abs(markerLatLng.lat - location.lat) < 0.001 &&
+          Math.abs(markerLatLng.lng - location.lng) < 0.001
+        ) {
+          marker = m;
+          break;
+        }
+      }
+    }
+
+    // Skip animation for very close locations (< 0.005 degrees ≈ 500m)
+    if (distance < 0.005) {
+      // Just highlight the marker, no movement needed
+      if (marker) highlightMarker(marker);
+      return;
+    }
+
+    // Single smooth flyTo animation - duration scales with distance
+    // Short distances: ~2s, Long distances: up to 5s for cinematic effect
+    const duration = Math.max(2, Math.min(5, 1.5 + distance * 1.5));
+
+    map.flyTo(targetLatLng, 15, {
+      duration,
+      easeLinearity: 0.25,
+    });
+
+    // Highlight marker after animation completes
+    map.once("moveend", () => {
+      if (marker) highlightMarker(marker);
+    });
+  }
+
+  // Highlight marker with animation
+  function highlightMarker(marker: L.Marker) {
+    const icon = marker.getElement();
+    if (!icon) return;
+
+    icon.classList.add("marker-highlighted");
+
+    const timeout = setTimeout(() => {
+      icon.classList.remove("marker-highlighted");
+      activeLocationId = null;
+    }, 3000);
+  }
+
+  // Effect: Highlight active marker
+  $effect(function highlightActiveMarker() {
+    if (!activeLocationId) return;
+
+    const marker = markerMap.get(activeLocationId);
+    if (!marker) return;
+
+    const icon = marker.getElement();
+    if (!icon) return;
+
+    icon.classList.add("marker-highlighted");
+
+    const timeout = setTimeout(() => {
+      icon.classList.remove("marker-highlighted");
+      activeLocationId = null;
+    }, 3000);
+
+    return () => clearTimeout(timeout);
+  });
+
+  // Effect: Sync hover from timeline to map markers
+  $effect(function syncTimelineHover() {
+    if (!hoveredLocationId) {
+      for (const marker of markerMap.values()) {
+        marker.getElement()?.classList.remove("marker-hovered");
+      }
+    } else {
+      const marker = markerMap.get(hoveredLocationId);
+      marker?.getElement()?.classList.add("marker-hovered");
+    }
+  });
+
+  // Zoom to day logic
+  function zoomToDay(day: string) {
+    if (!map || !mapManifest || !Leaflet) return;
+
+    // Find locations present on this day
+    const dayLocations = mapManifest.locations.filter((loc) => loc.days?.includes(day));
+
+    if (dayLocations.length > 0) {
+      if (dayLocations.length === 1) {
+        handleLocationClick(dayLocations[0] as unknown as { id: string; lat: number; lng: number });
+      } else {
+        const bounds = Leaflet.latLngBounds(dayLocations.map((l) => [l.lat, l.lng]));
+        if (map) {
+          (map as L.Map).fitBounds(bounds, { padding: [50, 50], maxZoom: 15 });
+        }
+
+        // Highlight all markers for this day
+        dayLocations.forEach((loc) => {
+          const marker = markerMap.get(loc.id);
+          if (marker) highlightMarker(marker);
+        });
+      }
+    }
+  }
+
+  // Effect: Watch URL hash for day navigation (deep linking)
+  $effect(() => {
+    const hash = page.url.hash;
+    if (hash?.startsWith("#day-") && map && mapManifest && Leaflet) {
+      const day = hash.replace("#day-", "");
+      zoomToDay(day);
+    }
+  });
+
+  // Effect: Listen for agenda interactions (click mode)
+  $effect(() => {
+    const onZoomDay = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      zoomToDay(detail);
+    };
+
+    const onZoomToLocation = (e: Event) => {
+      const { mapLocationId, lat, lng } = (e as CustomEvent).detail;
+      if (lat && lng) {
+        handleLocationClick({ id: mapLocationId, lat, lng });
+      }
+    };
+
+    if (browser) {
+      window.addEventListener("agenda:zoom-day", onZoomDay);
+      window.addEventListener("agenda:zoom-to-map", onZoomToLocation);
+    }
+    return () => {
+      if (browser) {
+        window.removeEventListener("agenda:zoom-day", onZoomDay);
+        window.removeEventListener("agenda:zoom-to-map", onZoomToLocation);
+      }
+    };
+  });
+
   onMount(function handleMount() {
     if (!browser || !mapContainer || !mapManifest) {
       return;
     }
 
-    let map: L.Map | null = null;
-    let clusterGroup: L.MarkerClusterGroup | null = null;
-    let FancyboxInstance: typeof Fancybox | null = null; // Store Fancybox instance locally
+    let FancyboxInstance: typeof Fancybox | null = null;
 
     (async function initMap() {
       try {
@@ -56,6 +238,7 @@
         // Load Leaflet core (default export)
         const leafletModule = await import("leaflet");
         const L = leafletModule.default;
+        Leaflet = L;
 
         // Load styles
         await import("leaflet/dist/leaflet.css");
@@ -76,16 +259,20 @@
         map = L.map(mapContainer).setView([0, 0], 2);
 
         // Base layers
-        const streetLayer = L.tileLayer(getTileUrl("street"), {
-          attribution: "&copy; OpenStreetMap contributors &copy; CARTO",
-          maxZoom: 16,
-          subdomains: PUBLIC_USE_LOCAL_TILES === "true" ? "" : "abcd",
+        streetLayer = L.tileLayer(getTileUrl("street"), {
+          attribution:
+            "&copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012",
+          maxZoom: 19,
+          keepBuffer: 2, // Retain loaded tiles for smoother animations
+          updateWhenIdle: false, // Load tiles continuously during panning
         });
 
-        const satelliteLayer = L.tileLayer(getTileUrl("satellite"), {
+        satelliteLayer = L.tileLayer(getTileUrl("satellite"), {
           attribution:
             "&copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
           maxZoom: 16,
+          keepBuffer: 2, // Retain loaded tiles for smoother animations
+          updateWhenIdle: false, // Load tiles continuously during panning
         });
 
         // Add default layer (street)
@@ -102,8 +289,8 @@
 
         // Create cluster group
         clusterGroup = L.markerClusterGroup({
-          maxClusterRadius: 35,
-          disableClusteringAtZoom: 16,
+          maxClusterRadius: 25,
+          disableClusteringAtZoom: 15,
           spiderfyOnMaxZoom: true,
           showCoverageOnHover: false,
           zoomToBoundsOnClick: true,
@@ -129,6 +316,9 @@
 
           const marker = L.marker([location.lat, location.lng], { icon });
 
+          // Track marker for programmatic access
+          markerMap.set(location.id, marker);
+
           marker.on("click", function openGallery() {
             const galleryItems = location.images.map((img) => ({
               src: img.detail,
@@ -138,6 +328,15 @@
             if (FancyboxInstance) {
               FancyboxInstance.show(galleryItems);
             }
+          });
+
+          // Hover events for timeline sync
+          marker.on("mouseover", function handleMarkerHover() {
+            hoveredLocationId = location.id;
+          });
+
+          marker.on("mouseout", function handleMarkerUnhover() {
+            hoveredLocationId = null;
           });
 
           clusterGroup.addLayer(marker);
@@ -295,5 +494,46 @@
 
   :global(.marker-cluster span) {
     font-weight: 600;
+  }
+
+  /* Highlighted marker (from timeline click) */
+  :global(.marker-highlighted .marker-wrapper) {
+    border-color: #3b82f6 !important;
+    border-width: 4px !important;
+    transform: scale(1.15);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+    z-index: 10000 !important;
+    animation: pulse-highlight 1.5s ease-in-out 2;
+  }
+
+  @keyframes pulse-highlight {
+    0%,
+    100% {
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+      border-color: #3b82f6;
+    }
+    50% {
+      box-shadow: 0 0 35px rgba(59, 130, 246, 1);
+      border-color: #60a5fa;
+    }
+  }
+
+  /* Hovered marker (from timeline hover) */
+  :global(.marker-hovered .marker-wrapper) {
+    border-color: #3b82f6;
+    border-width: 3px;
+    filter: brightness(1.2);
+    z-index: 9999;
+    animation: pulse-hover 1.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse-hover {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
   }
 </style>

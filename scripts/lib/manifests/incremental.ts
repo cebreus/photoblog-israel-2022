@@ -574,15 +574,16 @@ async function updateCacheAndManifests({
   if (shouldWriteSiteManifests) {
     savePromises.push(saveImagesManifest(path.dirname(paths.manifestPath), finalManifest));
 
+    // Generate menu manifest first (needed for map linking)
     const menuManifest = generateMenuManifest(finalManifest, storyData);
     savePromises.push(saveManifest(paths.menuManifestPath, menuManifest));
 
     const siteManifest = await generateSiteManifest();
     savePromises.push(saveManifest(paths.siteManifestPath, siteManifest));
 
-    // Generate optimized map manifest
+    // Generate optimized map manifest with menu context
     const dataDir = path.dirname(paths.manifestPath);
-    savePromises.push(buildAndWriteMapManifest(finalManifest, dataDir));
+    savePromises.push(buildAndWriteMapManifest(finalManifest, menuManifest, dataDir));
 
     // Save split manifests (BUG #5 fix: prevent data loss on cache reset)
 

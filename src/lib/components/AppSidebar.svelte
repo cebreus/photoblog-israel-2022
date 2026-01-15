@@ -79,84 +79,95 @@
       }
     });
   });
+
+  // Check if we're on map page
+  let isMapPage = $derived(page.route.id === "/map");
 </script>
 
 <Sidebar.Root bind:ref {collapsible} {side} {...restProps} data-testid="app-sidebar">
-  <Tabs.Root
-    value={ui.activeTab}
-    onValueChange={(v) => {
-      ui.activeTab = v;
-      if (v === "edit") {
-        editor.setEditMode(true);
-      }
-    }}
-    class="flex h-full w-full flex-col"
-  >
-    <Sidebar.Header class="p-0">
-      <div class="border-sidebar-border flex h-14 flex-row items-center border-b px-4">
-        <Tabs.List class="w-full bg-transparent p-0">
-          <Tabs.Trigger
-            value="agenda"
-            class="data-[state=active]:bg-sidebar-accent data-[state=active]:text-sidebar-accent-foreground flex-1 gap-2"
-            data-testid="app-sidebar-agenda-tab"
-          >
-            <Calendar class="size-4" />
-            <span class="sr-only sm:not-sr-only">{m.sidebar_agenda()}</span>
-          </Tabs.Trigger>
-          <Tabs.Trigger
-            value="filters"
-            class="data-[state=active]:bg-sidebar-accent data-[state=active]:text-sidebar-accent-foreground flex-1 gap-2"
-            data-testid="app-sidebar-filters-tab"
-          >
-            <SlidersHorizontal class="size-4" />
-            <span class="sr-only sm:not-sr-only">{m.sidebar_filters()}</span>
-          </Tabs.Trigger>
-          {#if dev}
+  {#if isMapPage}
+    <!-- Map page: Show MapTimeline without tabs -->
+    <Sidebar.Content>
+      <AgendaTab {menuItems} mode="map" />
+    </Sidebar.Content>
+  {:else}
+    <!-- Gallery page: Show tabs as usual -->
+    <Tabs.Root
+      value={ui.activeTab}
+      onValueChange={(v) => {
+        ui.activeTab = v;
+        if (v === "edit") {
+          editor.setEditMode(true);
+        }
+      }}
+      class="flex h-full w-full flex-col"
+    >
+      <Sidebar.Header class="p-0">
+        <div class="border-sidebar-border flex h-14 flex-row items-center border-b px-4">
+          <Tabs.List class="w-full bg-transparent p-0">
             <Tabs.Trigger
-              value="people"
+              value="agenda"
               class="data-[state=active]:bg-sidebar-accent data-[state=active]:text-sidebar-accent-foreground flex-1 gap-2"
-              data-testid="app-sidebar-people-tab"
+              data-testid="app-sidebar-agenda-tab"
             >
-              <User class="size-4" />
-              <span class="sr-only sm:not-sr-only">{m.sidebar_people()}</span>
+              <Calendar class="size-4" />
+              <span class="sr-only sm:not-sr-only">{m.sidebar_agenda()}</span>
             </Tabs.Trigger>
-          {/if}
-          {#if dev}
             <Tabs.Trigger
-              value="edit"
+              value="filters"
               class="data-[state=active]:bg-sidebar-accent data-[state=active]:text-sidebar-accent-foreground flex-1 gap-2"
-              data-testid="app-sidebar-edit-tab"
+              data-testid="app-sidebar-filters-tab"
             >
-              <Pencil class="size-4" />
-              <span class="sr-only">{m.sidebar_edit()}</span>
+              <SlidersHorizontal class="size-4" />
+              <span class="sr-only sm:not-sr-only">{m.sidebar_filters()}</span>
             </Tabs.Trigger>
-          {/if}
-        </Tabs.List>
-      </div>
-    </Sidebar.Header>
+            {#if dev}
+              <Tabs.Trigger
+                value="people"
+                class="data-[state=active]:bg-sidebar-accent data-[state=active]:text-sidebar-accent-foreground flex-1 gap-2"
+                data-testid="app-sidebar-people-tab"
+              >
+                <User class="size-4" />
+                <span class="sr-only sm:not-sr-only">{m.sidebar_people()}</span>
+              </Tabs.Trigger>
+            {/if}
+            {#if dev}
+              <Tabs.Trigger
+                value="edit"
+                class="data-[state=active]:bg-sidebar-accent data-[state=active]:text-sidebar-accent-foreground flex-1 gap-2"
+                data-testid="app-sidebar-edit-tab"
+              >
+                <Pencil class="size-4" />
+                <span class="sr-only">{m.sidebar_edit()}</span>
+              </Tabs.Trigger>
+            {/if}
+          </Tabs.List>
+        </div>
+      </Sidebar.Header>
 
-    <Tabs.Content value="agenda" class="mt-0 flex h-full flex-col overflow-hidden">
-      <Sidebar.Content>
-        <AgendaTab {menuItems} />
-      </Sidebar.Content>
-    </Tabs.Content>
-    <Tabs.Content value="filters" class="mt-0 flex h-full flex-col overflow-hidden">
-      <FiltersTab {authors} {qualityStats} {mediaStats} {snapshotStats} />
-    </Tabs.Content>
-    {#if dev}
-      <Tabs.Content value="people" class="mt-0 flex h-full flex-col overflow-hidden">
-        {#if ui.activeTab === "people"}
-          <PeopleTab />
-        {/if}
-      </Tabs.Content>
-    {/if}
-    {#if dev}
-      <Tabs.Content value="edit" class="mt-0 flex h-full flex-col overflow-hidden">
+      <Tabs.Content value="agenda" class="mt-0 flex h-full flex-col overflow-hidden">
         <Sidebar.Content>
-          <EditTab {items} />
+          <AgendaTab {menuItems} />
         </Sidebar.Content>
       </Tabs.Content>
-    {/if}
-  </Tabs.Root>
+      <Tabs.Content value="filters" class="mt-0 flex h-full flex-col overflow-hidden">
+        <FiltersTab {authors} {qualityStats} {mediaStats} {snapshotStats} />
+      </Tabs.Content>
+      {#if dev}
+        <Tabs.Content value="people" class="mt-0 flex h-full flex-col overflow-hidden">
+          {#if ui.activeTab === "people"}
+            <PeopleTab />
+          {/if}
+        </Tabs.Content>
+      {/if}
+      {#if dev}
+        <Tabs.Content value="edit" class="mt-0 flex h-full flex-col overflow-hidden">
+          <Sidebar.Content>
+            <EditTab {items} />
+          </Sidebar.Content>
+        </Tabs.Content>
+      {/if}
+    </Tabs.Root>
+  {/if}
   <Sidebar.Rail />
 </Sidebar.Root>

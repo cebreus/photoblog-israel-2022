@@ -8,7 +8,13 @@
 
 import { createLogger } from "$scripts/core/cli-logger";
 import { saveManifest } from "$scripts/manifests/repository";
-import type { ImageEntry, ImageSource, Manifest, PhotoDay } from "$shared/types/manifest";
+import type {
+  ImageEntry,
+  ImageSource,
+  Manifest,
+  MenuManifest,
+  PhotoDay,
+} from "$shared/types/manifest";
 import { isImageEntry } from "$shared/types/manifest";
 import type { MapImage, MapLocation, MapManifest } from "$shared/types/map";
 import path from "node:path";
@@ -69,8 +75,10 @@ function groupImagesByLocation(photoDays: PhotoDay[]): Map<string, ImageEntry[]>
 
 /**
  * Generates the optimized map manifest from the full images manifest.
+ * @param manifest - The full images manifest
+ * @param menuManifest - The menu manifest for bidirectional linking
  */
-export function generateMapManifest(manifest: Manifest): MapManifest {
+export function generateMapManifest(manifest: Manifest, menuManifest?: MenuManifest): MapManifest {
   const locationGroups = groupImagesByLocation(manifest.photoDays);
   const locations: MapLocation[] = [];
 
@@ -101,6 +109,36 @@ export function generateMapManifest(manifest: Manifest): MapManifest {
       });
     }
 
+    //🆕 Bidirectional linking: find matching MenuLocations and extract days
+    const menuLocationIds: string[] = [];
+    const daysSet = new Set<string>();
+
+    // Collect days from images
+    for (const img of images) {
+      // Find the day this image belongs to
+      for (const day of manifest.photoDays) {
+        if (day.items.some((item) => item.id === img.id)) {
+          daysSet.add(day.date);
+          break;
+        }
+      }
+    }
+
+    // If menuManifest provided, find matching MenuLocations
+    if (menuManifest) {
+      for (const day of Array.from(daysSet)) {
+        const menuDay = menuManifest.find((md) => md.date === day);
+        if (menuDay) {
+          for (const menuLoc of menuDay.locations) {
+            // Match by mapLocationId (which should equal our locationKey)
+            if (menuLoc.mapLocationId === locationKey) {
+              menuLocationIds.push(menuLoc.id);
+            }
+          }
+        }
+      }
+    }
+
     locations.push({
       id: locationKey,
       lat: latitude,
@@ -109,6 +147,9 @@ export function generateMapManifest(manifest: Manifest): MapManifest {
       count: images.length,
       thumbnail: thumbnail.path,
       images: mapImages,
+      // 🆕 Bidirectional linking data
+      menuLocationIds: menuLocationIds.length > 0 ? menuLocationIds : undefined,
+      days: daysSet.size > 0 ? Array.from(daysSet).sort() : undefined,
     });
   }
 
@@ -143,9 +184,16 @@ export async function writeMapManifest(
 
 /**
  * Generates and writes the map manifest.
+ * @param manifest - The full images manifest
+ * @param menuManifest - The menu manifest for bidirectional linking
+ * @param dataDir - Output directory path
  */
-export async function buildAndWriteMapManifest(manifest: Manifest, dataDir: string): Promise<void> {
-  const mapManifest = generateMapManifest(manifest);
+export async function buildAndWriteMapManifest(
+  manifest: Manifest,
+  menuManifest: MenuManifest | undefined,
+  dataDir: string,
+): Promise<void> {
+  const mapManifest = generateMapManifest(manifest, menuManifest);
   const outputPath = path.join(dataDir, "map.manifest.json");
   await writeMapManifest(mapManifest, outputPath);
 }
