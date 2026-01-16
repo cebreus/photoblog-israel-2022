@@ -5,15 +5,15 @@
   import Sparkles from "@lucide/svelte/icons/sparkles";
   import Tags from "@lucide/svelte/icons/tags";
 
-  import { Button } from "$lib/components/ui/button";
+  import { Button, buttonVariants } from "$lib/components/ui/button";
   import * as NavigationMenu from "$lib/components/ui/navigation-menu";
-  import { navigationMenuTriggerStyle } from "$lib/components/ui/navigation-menu/navigation-menu-trigger.svelte";
   import * as Sidebar from "$lib/components/ui/sidebar";
   import { i18n, languageTag } from "$lib/i18n";
   import * as m from "$lib/paraglide/messages";
   import { editor } from "$lib/stores/editor.svelte";
   import { ui } from "$lib/stores/ui.svelte";
   import type { MenuManifest } from "$lib/types/manifest";
+  import { cn } from "$lib/utils";
 
   import { dev } from "$app/environment";
   import { page } from "$app/state";
@@ -32,7 +32,7 @@
 </script>
 
 <header
-  class="sticky top-0 z-10 flex h-14 flex-row items-center gap-2 border-b border-slate-700 bg-slate-800 px-6 text-slate-100"
+  class="dark sticky top-0 z-10 flex h-14 flex-row items-center gap-2 border-b border-slate-700 bg-slate-800 px-6 text-slate-100"
   data-testid="header"
 >
   <div class="mr-auto flex items-center gap-3">
@@ -49,7 +49,7 @@
         <NavigationMenu.Item>
           <NavigationMenu.Link
             href={i18n.resolveRoute("/", languageTag())}
-            class={navigationMenuTriggerStyle()}
+            class={cn(buttonVariants({ variant: "link", size: "sm" }), "data-[active]:underline")}
             data-active={page.url.pathname === i18n.resolveRoute("/", languageTag()) || undefined}
           >
             {m.header_gallery()}
@@ -58,7 +58,7 @@
         <NavigationMenu.Item>
           <NavigationMenu.Link
             href={i18n.resolveRoute("/map", languageTag())}
-            class={navigationMenuTriggerStyle()}
+            class={cn(buttonVariants({ variant: "link", size: "sm" }), "data-[active]:underline")}
             data-active={page.url.pathname.startsWith(i18n.resolveRoute("/map", languageTag())) ||
               undefined}
           >
