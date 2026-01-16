@@ -54,6 +54,85 @@ vi.mock("$lib/logger", () => {
   };
 });
 
+vi.mock("$lib/paraglide/messages", () => {
+  return new Proxy(
+    {},
+    {
+      get: (target, prop) => {
+        return (args: any) => {
+          if (args && typeof args === "object" && "count" in args) {
+            return `${String(prop)}: ${args.count}`;
+          }
+          return String(prop);
+        };
+      },
+    },
+  );
+});
+
+// Mock people tab model
+vi.mock("$lib/logic/people-tab-model.svelte", () => ({
+  createPeopleTabModel: () => {
+    let selected: string[] = [];
+    return {
+      stats: {
+        total: 10,
+        named: 5,
+        faces: 20,
+        totalWithFaces: 8,
+        visibleWithFaces: 8,
+      },
+      get selectedForMerge() {
+        return selected;
+      },
+      set selectedForMerge(val) {
+        selected = val;
+      },
+      selectedHiddenCount: 0,
+      selectedJunkCount: 0,
+      canHide: false,
+      namedPeople: [],
+      isSaving: false,
+      processingIds: new Set(),
+      editingPersonId: null,
+      editingName: "",
+
+      get showMergeConfirmDialog() {
+        return false;
+      },
+      set showMergeConfirmDialog(v) {},
+
+      get showInvalidateConfirmDialog() {
+        return false;
+      },
+      set showInvalidateConfirmDialog(v) {},
+
+      bulkInvalidationCandidates: [],
+      lastUpdateTimestamp: 0,
+
+      initDetailSync: vi.fn(),
+      toggleMergeSelection: vi.fn((id) => {
+        if (selected.includes(id)) selected = selected.filter((x) => x !== id);
+        else selected = [...selected, id];
+      }),
+      openPersonDetail: vi.fn(),
+      openMergeDialog: vi.fn(),
+      handleMergeInto: vi.fn(),
+      handleBulkHideAction: vi.fn(),
+      handleBulkRestore: vi.fn(),
+      handleBulkMarkAsJunk: vi.fn(),
+      handleBulkRestoreFromJunk: vi.fn(),
+      bulkUpdateCategory: vi.fn(),
+      handleBulkInvalidateDetections: vi.fn(),
+      startEditing: vi.fn(),
+      confirmRename: vi.fn(),
+      cancelEditing: vi.fn(),
+      toggleHide: vi.fn(),
+      confirmBulkInvalidate: vi.fn(),
+    };
+  },
+}));
+
 // Mock people store with test data created inside factory
 vi.mock("$lib/stores/people.svelte", () => {
   // Create mock people inside factory to avoid hoisting issues
@@ -61,7 +140,7 @@ vi.mock("$lib/stores/people.svelte", () => {
     id: string,
     name: string,
     faceCount: number,
-    options: { hidden?: boolean; junk?: boolean; category?: string } = {},
+    options: { hidden?: boolean; junk?: boolean; category?: string; isUserNamed?: boolean } = {},
   ) => ({
     id,
     name,
@@ -74,24 +153,40 @@ vi.mock("$lib/stores/people.svelte", () => {
     category: options.category,
     createdAt: new Date().toISOString(),
     lastSeenAt: new Date().toISOString(),
+    isUserNamed:
+      options.isUserNamed ??
+      (options.category === "person" &&
+        !options.junk &&
+        !options.hidden &&
+        !name.startsWith("Person")),
   });
 
   const mockPeople = [
-    createPerson("alice--named", "Alice", 10, { category: "person" }),
-    createPerson("bob--named", "Bob", 5, { category: "person" }),
-    createPerson("person-1", "Person 1", 8),
-    createPerson("statue-1", "Sphinx", 3, { category: "statue" }),
-    createPerson("painting-1", "Mona Lisa", 2, { category: "painting" }),
-    createPerson("hidden-1", "Hidden Person", 4, { hidden: true }),
-    createPerson("junk-1", "Junk Face", 1, { junk: true }),
+    createPerson("alice--named", "Alice", 10, { category: "person", isUserNamed: true }),
+    createPerson("bob--named", "Bob", 5, { category: "person", isUserNamed: true }),
+    createPerson("person-1", "Person 1", 8, { isUserNamed: false }),
+    createPerson("statue-1", "Sphinx", 3, { category: "statue", isUserNamed: false }),
+    createPerson("painting-1", "Mona Lisa", 2, { category: "painting", isUserNamed: false }),
+    createPerson("hidden-1", "Hidden Person", 4, { hidden: true, isUserNamed: true }),
+    createPerson("junk-1", "Junk Face", 1, { junk: true, isUserNamed: false }),
   ];
+
+  const displayStatues = mockPeople.filter(
+    (p) => p.category === "statue" && !p.junk && p.faceCount > 0,
+  );
+
+  const displayPaintings = mockPeople.filter(
+    (p) => p.category === "painting" && !p.junk && p.faceCount > 0,
+  );
+
+  const displayJunk = mockPeople.filter((p) => p.junk && p.faceCount > 0);
 
   return {
     people: {
       people: mockPeople,
       photoDays: [],
       peopleWithStats: mockPeople,
-      displayPersons: mockPeople,
+      displayPersons: mockPeople.filter((p) => (!p.category || p.category === "person") && !p.junk),
       visiblePeople: mockPeople.filter(
         (p) => !p.hidden && !p.junk && p.faceCount > 0 && (!p.category || p.category === "person"),
       ),
@@ -101,13 +196,12 @@ vi.mock("$lib/stores/people.svelte", () => {
       categoryPeople: mockPeople.filter(
         (p) => (!p.category || p.category === "person") && !p.junk && p.faceCount > 0,
       ),
-      categoryStatues: mockPeople.filter(
-        (p) => p.category === "statue" && !p.junk && p.faceCount > 0,
-      ),
-      categoryPaintings: mockPeople.filter(
-        (p) => p.category === "painting" && !p.junk && p.faceCount > 0,
-      ),
-      junkPeople: mockPeople.filter((p) => p.junk && p.faceCount > 0),
+      categoryStatues: displayStatues,
+      displayStatues,
+      categoryPaintings: displayPaintings,
+      displayPaintings,
+      junkPeople: displayJunk,
+      displayJunk,
       refresh: vi.fn(),
       setPeople: vi.fn(),
       setPhotoDays: vi.fn(),
@@ -128,16 +222,25 @@ vi.mock("$lib/stores/filters.svelte", () => ({
   },
 }));
 
-vi.mock("$lib/stores/ui.svelte", () => ({
-  ui: {
-    activeTab: "people",
-    sidebarOpen: true,
-    curationMode: false,
-    photoLabels: false,
-    debugMode: false,
-    activeSections: new Set(),
-  },
-}));
+vi.mock("$lib/stores/ui.svelte", () => {
+  let accordionState: string[] = [];
+  return {
+    ui: {
+      activeTab: "people",
+      sidebarOpen: true,
+      curationMode: false,
+      photoLabels: false,
+      debugMode: false,
+      activeSections: new Set(),
+      get peopleAccordionState() {
+        return accordionState;
+      },
+      set peopleAccordionState(v) {
+        accordionState = v;
+      },
+    },
+  };
+});
 
 vi.mock("$lib/api/people/queries", () => ({
   useConstraintsQuery: () => ({
@@ -192,13 +295,16 @@ describe("PeopleTab - Browser Mode", () => {
       await expect.element(aliceText).toBeInTheDocument();
     });
 
-    it.skip("shows category people", async () => {
+    it("shows category people", async () => {
       renderComponent(PeopleTab);
       await new Promise((resolve) => setTimeout(resolve, 100));
 
       // Click accordion trigger to expand statues section
-      // We use a regex to match "Sochy" regardless of count
-      const trigger = page.getByText(/Sochy/i).first();
+      const root = page.getByTestId("people-tab-accordion-root");
+      await expect.element(root).toBeInTheDocument();
+
+      const trigger = page.getByTestId("people-tab-category-statues-trigger");
+      await expect.element(trigger).toBeInTheDocument();
       await trigger.click();
 
       // Look for statue "Sphinx"
@@ -206,7 +312,6 @@ describe("PeopleTab - Browser Mode", () => {
       await expect.element(sphinxText).toBeInTheDocument();
     });
   });
-
   describe("Bulk Actions", () => {
     it("renders bulk action buttons when people are selected", async () => {
       renderComponent(PeopleTab);

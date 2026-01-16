@@ -8,27 +8,35 @@ import { vi } from "vitest";
  */
 
 vi.mock("bits-ui", function mockBitsUI() {
+  const Mock = (props: any) => props.children?.();
+  const MockWithRoot = {
+    Root: Mock,
+    Item: Mock,
+    Trigger: Mock,
+    Content: Mock,
+    List: Mock,
+  };
+
   return {
-    // Return empty objects - components will fail gracefully if they try to use these
-    Dialog: {},
-    Switch: {},
-    Accordion: {},
-    Tabs: {},
-    ContextMenu: {},
-    Label: {},
-    Checkbox: {},
-    Separator: {},
-    NavigationMenu: {},
-    Tooltip: {},
-    Toggle: {},
-    ToggleGroup: {},
-    Collapsible: {},
-    Button: {},
-    DropdownMenu: {},
-    Select: {},
-    Popover: {},
-    AlertDialog: {},
-    ScrollArea: {},
+    Dialog: MockWithRoot,
+    Switch: Mock,
+    Accordion: MockWithRoot,
+    Tabs: MockWithRoot,
+    ContextMenu: MockWithRoot,
+    Label: Mock,
+    Checkbox: Mock,
+    Separator: Mock,
+    NavigationMenu: MockWithRoot,
+    Tooltip: MockWithRoot,
+    Toggle: Mock,
+    ToggleGroup: MockWithRoot,
+    Collapsible: MockWithRoot,
+    Button: Mock,
+    DropdownMenu: MockWithRoot,
+    Select: MockWithRoot,
+    Popover: MockWithRoot,
+    AlertDialog: MockWithRoot,
+    ScrollArea: MockWithRoot,
     mergeProps: vi.fn(function merge(...args) {
       return Object.assign({}, ...args);
     }),
