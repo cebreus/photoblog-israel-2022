@@ -56,6 +56,11 @@
   - CLAP: HEIC crop metadata
   - Svelte 5 $state runes
   - Migration checklist
+- [**CONVENTIONAL-COMMITS.md**](./CONVENTIONAL-COMMITS.md) — Conventional Commits specifikace:
+  - Povolené typy a scopes
+  - Pravidla pro commit messages
+  - Příklady správného formátu
+  - AI Agent integrace
 
 ## Specializované funkce
 
@@ -73,4 +78,4 @@
 
 ---
 
-Poslední aktualizace: 2026-01-13
+Poslední aktualizace: 2026-01-17
