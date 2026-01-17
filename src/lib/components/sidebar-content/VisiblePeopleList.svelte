@@ -1,13 +1,10 @@
 <script lang="ts">
-  import Check from "@lucide/svelte/icons/check";
   import EyeOff from "@lucide/svelte/icons/eye-off";
-  import Pencil from "@lucide/svelte/icons/pencil";
   import User from "@lucide/svelte/icons/user";
-  import X from "@lucide/svelte/icons/x";
 
+  import InlineRename from "$lib/components/ui/InlineRename.svelte";
   import LoadingOverlay from "$lib/components/ui/LoadingOverlay.svelte";
   import { Button } from "$lib/components/ui/button";
-  import { Input } from "$lib/components/ui/input";
   import { Separator } from "$lib/components/ui/separator";
   import * as m from "$lib/paraglide/messages";
   import type { Person } from "$lib/types/manifest";
@@ -100,94 +97,20 @@
     </Button>
 
     <div class="min-w-0 flex-1">
-      {#if dev && editingPersonId === person.id}
-        <div class="flex items-center gap-2">
-          <Input
-            type="text"
-            value={editingName}
-            oninput={(event: Event & { currentTarget: EventTarget & HTMLInputElement }) =>
-              onEditingNameChange(event.currentTarget.value)}
-            onclick={(event: MouseEvent) => event.stopPropagation()}
-            onkeydown={(event: KeyboardEvent) => {
-              if (event.key === "Enter") confirmRename();
-              if (event.key === "Escape") cancelEditing();
-            }}
-            class="flex-1 text-sm font-medium"
-            data-testid="people-tab-person-name-input"
-          />
-          <Button
-            variant="ghost"
-            size="icon"
-            class="h-7 w-7 hover:bg-green-100 dark:hover:bg-green-900"
-            aria-label={m.ui_confirm()}
-            data-testid="people-tab-person-confirm"
-            onclick={(event) => {
-              event.stopPropagation();
-              confirmRename();
-            }}
-          >
-            <Check class="size-4 text-green-600" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            class="h-7 w-7 hover:bg-red-100 dark:hover:bg-red-900"
-            aria-label={m.ui_cancel()}
-            data-testid="people-tab-person-cancel"
-            onclick={(event) => {
-              event.stopPropagation();
-              cancelEditing();
-            }}
-          >
-            <X class="size-4 text-red-600" />
-          </Button>
-        </div>
-      {:else if dev}
-        <div class="flex items-center gap-2">
-          <Button
-            variant="ghost"
-            class="hover:text-primary h-auto flex-1 cursor-pointer justify-start border-none bg-transparent p-0 text-left text-sm font-medium transition-colors hover:underline"
-            data-testid="people-tab-person-name"
-            title={m.person_rename_hint()}
-            onclick={(event) => {
-              event.stopPropagation();
-              openPersonDetail(person, event);
-            }}
-            ondblclick={(event) => {
-              event.stopPropagation();
-              startEditing(person);
-            }}
-          >
-            {person.name}
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            class="text-muted-foreground/30 hover:text-foreground size-4 shrink-0 p-0"
-            title={m.person_rename_button_aria()}
-            aria-label={m.person_rename_button_aria()}
-            onclick={(event) => {
-              event.stopPropagation();
-              startEditing(person);
-            }}
-            data-testid="people-tab-person-edit-btn"
-          >
-            <Pencil class="h-3 w-3" />
-          </Button>
-        </div>
-      {:else}
-        <Button
-          variant="ghost"
-          class="h-auto justify-start p-0 text-sm font-medium hover:underline"
-          data-testid="people-tab-person-name"
-          onclick={(event) => {
-            event.stopPropagation();
-            openPersonDetail(person, event);
-          }}
-        >
-          {person.name}
-        </Button>
-      {/if}
+      <InlineRename
+        value={person.name}
+        isEditing={editingPersonId === person.id}
+        onSave={async (newName) => {
+          onEditingNameChange(newName);
+          await confirmRename();
+        }}
+        isSaving={isSaving && editingPersonId === person.id}
+        canEdit={dev}
+        showEditIcon={dev}
+        testId="people-tab-person-name"
+        labelClass="hover:text-primary h-auto flex-1 cursor-pointer justify-start border-none bg-transparent p-0 text-left text-sm font-medium transition-colors hover:underline"
+        inputClass="flex-1 text-sm font-medium"
+      />
       <div class="text-muted-foreground text-xs" data-testid="people-tab-person-count">
         {#if dev}
           {#if person.detectionsCount !== undefined}

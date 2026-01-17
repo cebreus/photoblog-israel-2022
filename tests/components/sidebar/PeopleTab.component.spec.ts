@@ -58,7 +58,7 @@ vi.mock("$lib/paraglide/messages", () => {
   return new Proxy(
     {},
     {
-      get: (target, prop) => {
+      get: (_target, prop) => {
         return (args: any) => {
           if (args && typeof args === "object" && "count" in args) {
             return `${String(prop)}: ${args.count}`;
@@ -100,12 +100,12 @@ vi.mock("$lib/logic/people-tab-model.svelte", () => ({
       get showMergeConfirmDialog() {
         return false;
       },
-      set showMergeConfirmDialog(v) {},
+      set showMergeConfirmDialog(_v) {},
 
       get showInvalidateConfirmDialog() {
         return false;
       },
-      set showInvalidateConfirmDialog(v) {},
+      set showInvalidateConfirmDialog(_v) {},
 
       bulkInvalidationCandidates: [],
       lastUpdateTimestamp: 0,

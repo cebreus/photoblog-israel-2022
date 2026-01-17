@@ -5,6 +5,7 @@ import { createLogger } from "$lib/logger";
 import * as m from "$lib/paraglide/messages";
 import { filters } from "$lib/stores/filters.svelte";
 import { people } from "$lib/stores/people.svelte";
+import { ui } from "$lib/stores/ui.svelte";
 import { isImageEntry, type Person, type PhotoDayItem } from "$lib/types/manifest";
 import { isGloballyVisible } from "$lib/utils/gallery";
 import { untrack } from "svelte";
@@ -87,9 +88,8 @@ export function createPeopleTabModel(params?: {
   let detailPerson = $state<Person | null>(null);
   let showPersonDetail = $state(false);
 
-  // Editing State
-  let editingPersonId = $state<string | null>(null);
-  let editingName = $state("");
+  // Editing State - uses UI store for persistence across manifest reloads
+  // Access via ui.editingPersonId and ui.editingName
 
   // Selection Logic State
   let lastSelectedFilterId = $state<string | null>(null);
@@ -345,17 +345,17 @@ export function createPeopleTabModel(params?: {
   // --- EDITING METHODS ---
 
   function startEditing(person: Person) {
-    editingPersonId = person.id;
-    editingName = person.name;
+    ui.editingPersonId = person.id;
+    ui.editingName = person.name;
   }
 
   function cancelEditing() {
-    editingPersonId = null;
-    editingName = "";
+    ui.editingPersonId = null;
+    ui.editingName = "";
   }
 
   async function confirmRename() {
-    if (!editingPersonId || !editingName.trim()) {
+    if (!ui.editingPersonId || !ui.editingName.trim()) {
       cancelEditing();
       return;
     }
@@ -366,8 +366,8 @@ export function createPeopleTabModel(params?: {
       return;
     }
 
-    const personId = editingPersonId;
-    const newName = editingName.trim();
+    const personId = ui.editingPersonId;
+    const newName = ui.editingName.trim();
 
     logger.debug({}, "Starting rename");
 
@@ -865,13 +865,13 @@ export function createPeopleTabModel(params?: {
       showPersonDetail = v;
     },
     get editingPersonId() {
-      return editingPersonId;
+      return ui.editingPersonId;
     },
     get editingName() {
-      return editingName;
+      return ui.editingName;
     },
     set editingName(v) {
-      editingName = v;
+      ui.editingName = v;
     },
 
     // Derived

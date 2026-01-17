@@ -11,6 +11,10 @@ function createUIState() {
       : ["persons"],
   );
 
+  // Editing state for inline renaming (persisted across manifest reloads)
+  let editingPersonId = $state<string | null>(null);
+  let editingName = $state("");
+
   function toggleSidebar() {
     sidebarOpen = !sidebarOpen;
   }
@@ -110,6 +114,18 @@ function createUIState() {
       if (typeof localStorage !== "undefined") {
         localStorage.setItem("ui.peopleAccordionState", JSON.stringify(v));
       }
+    },
+    get editingPersonId() {
+      return editingPersonId;
+    },
+    set editingPersonId(v) {
+      editingPersonId = v;
+    },
+    get editingName() {
+      return editingName;
+    },
+    set editingName(v) {
+      editingName = v;
     },
     toggleSidebar,
     setSidebar,

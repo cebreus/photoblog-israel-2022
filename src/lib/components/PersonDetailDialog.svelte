@@ -18,8 +18,10 @@
     useSetAvatarMutation,
     useUnmatchFaceMutation,
     useUpdateCategoryMutation,
+    useUpdatePeopleMutation,
   } from "$lib/api/people/mutations";
   import { useAvatarsQuery } from "$lib/api/people/queries";
+  import InlineRename from "$lib/components/ui/InlineRename.svelte";
   import { Button, buttonVariants } from "$lib/components/ui/button";
   import * as ButtonGroup from "$lib/components/ui/button-group";
   import * as Dialog from "$lib/components/ui/dialog";
@@ -52,6 +54,7 @@
   const avatarsQuery = useAvatarsQuery();
   const setAvatarMutation = useSetAvatarMutation();
   const updateCategoryMutation = useUpdateCategoryMutation();
+  const updatePeopleMutation = useUpdatePeopleMutation();
 
   // Derive availableAvatars from query
   const availableAvatars = $derived(avatarsQuery.data ?? []);
@@ -62,7 +65,8 @@
       reassignMutation.isPending ||
       invalidateDetectionMutation.isPending ||
       setAvatarMutation.isPending ||
-      updateCategoryMutation.isPending,
+      updateCategoryMutation.isPending ||
+      updatePeopleMutation.isPending,
   );
 
   const personImages = $derived.by(() => {
@@ -317,6 +321,17 @@
       logger.error({ err: e }, "Failed to set avatar");
     }
   }
+
+  async function handleRename(newName: string) {
+    try {
+      await updatePeopleMutation.mutateAsync({
+        updates: [{ id: person.id, name: newName }],
+      });
+      onUpdate?.();
+    } catch (e) {
+      logger.error({ err: e }, "Failed to rename person");
+    }
+  }
 </script>
 
 <Dialog.Root bind:open>
@@ -376,7 +391,12 @@
               />
             </button>
           {/if}
-          <span data-testid="person-detail-header-name">{person.name}</span>
+          <InlineRename
+            value={person.name}
+            onSave={handleRename}
+            isSaving={updatePeopleMutation.isPending}
+            testId="person-detail-header-name"
+          />
 
           <span
             class="text-muted-foreground ml-1 text-sm font-normal"
