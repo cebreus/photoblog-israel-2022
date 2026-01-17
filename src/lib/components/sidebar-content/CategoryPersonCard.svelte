@@ -75,7 +75,7 @@
           "flex h-5 w-5 items-center justify-center rounded border border-white shadow-sm transition-colors",
           selected ? "bg-primary border-primary" : "bg-black/40 group-hover:bg-black/60",
         )}
-        data-testid={mergeButtonTestId ?? `${testId}-merge-button`}
+        data-testid={mergeButtonTestId ?? "person-card-merge-button"}
       >
         {#if selected}
           <svg

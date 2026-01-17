@@ -76,12 +76,12 @@
 
   <div class="flex flex-col gap-4 p-2">
     {#if named.length > 0}
-      <div class="grid grid-cols-3 gap-2" data-testid={`${testIdBase}-named`}>
+      <div class="grid grid-cols-3 gap-2" data-testid="people-grid-named">
         {#each named as person (person.id)}
           <CategoryPersonCard
             {person}
             {getThumbnailSrc}
-            testId={`${testIdBase}-card`}
+            testId="person-card"
             selected={model.selectedForMerge.includes(person.id)}
             onToggle={(id, e) => model.toggleMergeSelection(person.id, e)}
             onOpenDetail={(p) => model.openPersonDetail(p)}
@@ -95,12 +95,12 @@
     {/if}
 
     {#if unnamed.length > 0}
-      <div class="grid grid-cols-3 gap-2" data-testid={`${testIdBase}-unnamed`}>
+      <div class="grid grid-cols-3 gap-2" data-testid="people-grid-unnamed">
         {#each unnamed as person (person.id)}
           <CategoryPersonCard
             {person}
             {getThumbnailSrc}
-            testId={`${testIdBase}-card`}
+            testId="person-card"
             selected={model.selectedForMerge.includes(person.id)}
             onToggle={(id, e) => model.toggleMergeSelection(person.id, e)}
             onOpenDetail={(p) => model.openPersonDetail(p)}
@@ -114,12 +114,12 @@
     {/if}
 
     {#if hidden.length > 0}
-      <div class="grid grid-cols-3 gap-2" data-testid={`${testIdBase}-hidden`}>
+      <div class="grid grid-cols-3 gap-2" data-testid="people-grid-hidden">
         {#each hidden as person (person.id)}
           <CategoryPersonCard
             {person}
             {getThumbnailSrc}
-            testId={`${testIdBase}-card`}
+            testId="person-card"
             selected={model.selectedForMerge.includes(person.id)}
             onToggle={(id, e) => model.toggleMergeSelection(person.id, e)}
             onOpenDetail={(p) => model.openPersonDetail(p)}

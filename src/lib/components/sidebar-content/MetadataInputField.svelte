@@ -38,7 +38,7 @@
         {value}
         {placeholder}
         oninput={(e) => onInput(e.currentTarget.value)}
-        data-testid={`metadata-input-${name}`}
+        data-testid="metadata-input-textarea"
       />
     {:else}
       <Input
@@ -47,7 +47,7 @@
         {value}
         {placeholder}
         oninput={(e) => onInput(e.currentTarget.value)}
-        data-testid={`metadata-input-${name}`}
+        data-testid="metadata-input"
       />
     {/if}
     <Button
