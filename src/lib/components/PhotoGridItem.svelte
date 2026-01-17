@@ -525,21 +525,17 @@
               onclick={() => onPasteMetadata?.(item)}
               data-testid="photo-grid-item-contextmenu-paste-metadata-selection"
             >
-              <div class="flex flex-1 items-center gap-2">
-                <Copy class="h-4 w-4 rotate-180" />
-                <span>{m.image_context_paste_selection({ count: editor.selection.size })}</span>
-              </div>
+              <Copy class="h-4 w-4 rotate-180" />
+              <span>{m.image_context_paste_selection({ count: editor.selection.size })}</span>
             </ContextMenu.Item>
 
             <!-- Paste ONLY to this one (ignoring selection) -->
             <ContextMenu.Item
-              class="flex items-center gap-2"
+              class="text-muted-foreground flex items-center gap-2 pl-8 text-xs"
               onclick={() => onPasteMetadata?.(item, true)}
               data-testid="photo-grid-item-contextmenu-paste-metadata-single"
             >
-              <div class="text-muted-foreground flex flex-1 items-center gap-2 pl-6 text-xs">
-                <span>↳ {m.image_context_paste_single()}</span>
-              </div>
+              <span>↳ {m.image_context_paste_single()}</span>
             </ContextMenu.Item>
           {:else}
             <!-- Standard single paste -->
@@ -563,25 +559,21 @@
             onclick={() => onResetReleaseDate?.(item)}
             data-testid="photo-grid-item-contextmenu-reset-releasedate-selection"
           >
-            <div class="flex flex-1 items-center gap-2">
-              <RotateCcw class="h-4 w-4" />
-              <span
-                >{m.image_context_reset_release_date_selection({
-                  count: editor.selection.size,
-                })}</span
-              >
-            </div>
+            <RotateCcw class="h-4 w-4" />
+            <span
+              >{m.image_context_reset_release_date_selection({
+                count: editor.selection.size,
+              })}</span
+            >
           </ContextMenu.Item>
 
           <!-- Reset ONLY this one (ignoring selection) -->
           <ContextMenu.Item
-            class="flex items-center gap-2"
+            class="text-muted-foreground flex items-center gap-2 pl-8 text-xs"
             onclick={() => onResetReleaseDate?.(item, true)}
             data-testid="photo-grid-item-contextmenu-reset-releasedate-single"
           >
-            <div class="text-muted-foreground flex flex-1 items-center gap-2 pl-6 text-xs">
-              <span>↳ {m.image_context_reset_release_date_single()}</span>
-            </div>
+            <span>↳ {m.image_context_reset_release_date_single()}</span>
           </ContextMenu.Item>
         {:else}
           <!-- Standard single reset -->

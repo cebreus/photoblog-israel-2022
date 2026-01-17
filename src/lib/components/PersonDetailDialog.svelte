@@ -26,6 +26,7 @@
   import * as ButtonGroup from "$lib/components/ui/button-group";
   import * as Dialog from "$lib/components/ui/dialog";
   import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
+  import { Input } from "$lib/components/ui/input";
   import { Spinner } from "$lib/components/ui/spinner";
   import { createLogger } from "$lib/logger";
   import * as m from "$lib/paraglide/messages";
@@ -343,14 +344,14 @@
       <div class="flex items-center justify-between">
         <Dialog.Title class="flex items-center gap-2" data-testid="person-detail-dialog-title">
           {#if person.thumbnail}
-            <button
-              class="group hover:bg-muted ring-offset-background focus-visible:ring-ring flex items-center gap-1.5 rounded-full py-0 pr-2 pl-0 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+            <Button
+              variant="ghost"
+              class="group hover:bg-muted ring-offset-background focus-visible:ring-ring flex h-auto items-center gap-1.5 rounded-full p-0 pr-2 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
               onclick={() => {
                 loadAvatars();
                 showAvatarDialog = true;
               }}
               title={m.person_detail_change_avatar()}
-              type="button"
               data-testid="person-detail-change-avatar-btn"
             >
               <div class="relative h-8 w-8 overflow-hidden rounded-full">
@@ -369,16 +370,16 @@
               <ChevronDown
                 class="text-muted-foreground/70 group-hover:text-foreground h-3.5 w-3.5 transition-colors"
               />
-            </button>
+            </Button>
           {:else}
-            <button
-              class="group hover:bg-muted ring-offset-background focus-visible:ring-ring flex items-center gap-1.5 rounded-full py-0 pr-2 pl-0 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+            <Button
+              variant="ghost"
+              class="group hover:bg-muted ring-offset-background focus-visible:ring-ring flex h-auto items-center gap-1.5 rounded-full p-0 pr-2 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
               onclick={() => {
                 loadAvatars();
                 showAvatarDialog = true;
               }}
               title={m.person_detail_set_avatar()}
-              type="button"
               data-testid="person-detail-set-avatar-btn"
             >
               <div
@@ -389,7 +390,7 @@
               <ChevronDown
                 class="text-muted-foreground/70 group-hover:text-foreground h-3.5 w-3.5 transition-colors"
               />
-            </button>
+            </Button>
           {/if}
           <InlineRename
             value={person.name}
@@ -673,10 +674,10 @@
     <div class="bg-muted/20 border-b p-4">
       <div class="relative">
         <Search class="text-muted-foreground absolute top-2.5 left-3 size-4" />
-        <input
+        <Input
           bind:value={personSearchQuery}
           placeholder={m.person_detail_search_placeholder()}
-          class="bg-background focus:ring-primary/50 w-full rounded-md border py-2 pr-4 pl-9 focus:ring-2 focus:outline-none"
+          class="pl-9"
           data-testid="reassign-search-input"
         />
       </div>
@@ -684,8 +685,9 @@
 
     <div class="max-h-75 overflow-y-auto p-2" data-testid="reassign-person-list">
       {#each filteredPeople as p}
-        <button
-          class="hover:bg-accent flex w-full items-center gap-3 rounded-md p-2 text-left transition-colors disabled:pointer-events-none disabled:opacity-50"
+        <Button
+          variant="ghost"
+          class="hover:bg-accent flex h-auto w-full items-center gap-3 rounded-md p-2 text-left transition-colors"
           onclick={() => assignToPerson(p)}
           disabled={isWorking}
           data-testid={`reassign-person-option-${p.id}`}
@@ -709,7 +711,7 @@
               {m.person_photos_count({ count: p.faceCount })}
             </div>
           </div>
-        </button>
+        </Button>
       {:else}
         <div class="p-8 text-center text-muted-foreground text-sm">
           {m.person_detail_no_results()}
@@ -738,8 +740,9 @@
     {:else}
       <div class="grid max-h-[60vh] grid-cols-4 gap-4 overflow-y-auto p-4">
         {#each availableAvatars as avatar}
-          <button
-            class="ring-primary group relative aspect-square overflow-hidden rounded-lg border transition-all hover:ring-2"
+          <Button
+            variant="ghost"
+            class="ring-primary group relative aspect-square h-auto overflow-hidden rounded-lg border p-0 transition-all hover:ring-2"
             onclick={() => setAvatar(avatar)}
             disabled={isWorking}
             data-testid={`avatar-option-${avatar}`}
@@ -753,7 +756,7 @@
             <div
               class="absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/10"
             ></div>
-          </button>
+          </Button>
         {/each}
       </div>
     {/if}
