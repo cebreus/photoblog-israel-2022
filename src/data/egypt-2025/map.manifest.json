@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": 1,
-    "generatedAt": "2026-01-14T21:00:34.580Z",
+    "generatedAt": "2026-01-17T07:30:26.712Z",
     "generator": "map-manifest-builder"
   },
   "locations": [
@@ -11,14 +11,17 @@
       "lng": 16.6135,
       "name": "Brno hl.n.",
       "count": 1,
-      "thumbnail": "/images/previews-xxs/2025-11-21-175802-cebreus--collage.jpeg",
+      "thumbnail": "/images/previews-xxs/2025-11-21-175802-cebreus.jpeg",
       "images": [
         {
-          "id": "2025-11-21-175802-cebreus--collage",
-          "alt": "This is a test caption from E2E, Brno hl.n., Prague",
-          "detail": "/images/details/2025-11-21-175802-cebreus--collage.jpeg",
-          "thumb": "/images/previews-xxs/2025-11-21-175802-cebreus--collage.jpeg"
+          "id": "2025-11-21-175802-cebreus",
+          "alt": "Brno hl.n., Brno",
+          "detail": "/images/details/2025-11-21-175802-cebreus.jpeg",
+          "thumb": "/images/previews-xxs/2025-11-21-175802-cebreus.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-21"
       ]
     },
     {
@@ -35,6 +38,9 @@
           "detail": "/images/details/2025-11-22-161654-finda.jpeg",
           "thumb": "/images/previews-xxs/2025-11-22-161654-finda.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-22"
       ]
     },
     {
@@ -51,6 +57,9 @@
           "detail": "/images/details/2025-11-23-084720-cebreus.jpeg",
           "thumb": "/images/previews-xxs/2025-11-23-084720-cebreus.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-23"
       ]
     },
     {
@@ -67,6 +76,9 @@
           "detail": "/images/details/2025-11-23-092139-cebreus.jpeg",
           "thumb": "/images/previews-xxs/2025-11-23-092139-cebreus.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-23"
       ]
     },
     {
@@ -83,6 +95,9 @@
           "detail": "/images/details/2025-11-23-101607-cebreus.jpeg",
           "thumb": "/images/previews-xxs/2025-11-23-101607-cebreus.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-23"
       ]
     },
     {
@@ -123,6 +138,9 @@
           "detail": "/images/details/2025-11-23-131411-cebreus.jpeg",
           "thumb": "/images/previews-xxs/2025-11-23-131411-cebreus.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-23"
       ]
     },
     {
@@ -139,6 +157,9 @@
           "detail": "/images/details/2025-11-23-151444-cebreus-fixed.jpeg",
           "thumb": "/images/previews-xxs/2025-11-23-151444-cebreus-fixed.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-23"
       ]
     },
     {
@@ -155,6 +176,9 @@
           "detail": "/images/details/2025-11-23-151450-cebreus-fixed.jpeg",
           "thumb": "/images/previews-xxs/2025-11-23-151450-cebreus-fixed.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-23"
       ]
     },
     {
@@ -171,6 +195,9 @@
           "detail": "/images/details/2025-11-23-151514-cebreus-fixed.jpeg",
           "thumb": "/images/previews-xxs/2025-11-23-151514-cebreus-fixed.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-23"
       ]
     },
     {
@@ -187,6 +214,9 @@
           "detail": "/images/details/2025-11-23-152954-cebreus.jpeg",
           "thumb": "/images/previews-xxs/2025-11-23-152954-cebreus.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-23"
       ]
     },
     {
@@ -203,6 +233,9 @@
           "detail": "/images/details/2025-11-23-153413-dasa.jpeg",
           "thumb": "/images/previews-xxs/2025-11-23-153413-dasa.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-23"
       ]
     },
     {
@@ -219,6 +252,9 @@
           "detail": "/images/details/2025-11-24-082240-cebreus.jpeg",
           "thumb": "/images/previews-xxs/2025-11-24-082240-cebreus.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-24"
       ]
     },
     {
@@ -235,6 +271,9 @@
           "detail": "/images/details/2025-11-24-112843-cebreus.jpeg",
           "thumb": "/images/previews-xxs/2025-11-24-112843-cebreus.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-24"
       ]
     },
     {
@@ -251,6 +290,9 @@
           "detail": "/images/details/2025-11-24-123506-cebreus.jpeg",
           "thumb": "/images/previews-xxs/2025-11-24-123506-cebreus.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-24"
       ]
     },
     {
@@ -267,6 +309,9 @@
           "detail": "/images/details/2025-11-24-152241-finda.jpeg",
           "thumb": "/images/previews-xxs/2025-11-24-152241-finda.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-24"
       ]
     },
     {
@@ -301,6 +346,9 @@
           "detail": "/images/details/2025-11-24-205551-cebreus--collage.jpeg",
           "thumb": "/images/previews-xxs/2025-11-24-205551-cebreus--collage.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-24"
       ]
     },
     {
@@ -323,6 +371,9 @@
           "detail": "/images/details/2025-11-24-210141-cebreus.jpeg",
           "thumb": "/images/previews-xxs/2025-11-24-210141-cebreus.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-24"
       ]
     },
     {
@@ -339,6 +390,9 @@
           "detail": "/images/details/2025-11-24-210259-cebreus.jpeg",
           "thumb": "/images/previews-xxs/2025-11-24-210259-cebreus.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-24"
       ]
     },
     {
@@ -355,6 +409,12 @@
           "detail": "/images/details/2025-11-24-211848-dasa.jpeg",
           "thumb": "/images/previews-xxs/2025-11-24-211848-dasa.jpeg"
         }
+      ],
+      "menuLocationIds": [
+        "loc-al-ahly-sporting-club"
+      ],
+      "days": [
+        "2025-11-24"
       ]
     },
     {
@@ -371,6 +431,9 @@
           "detail": "/images/details/2025-11-24-215717-cebreus.jpeg",
           "thumb": "/images/previews-xxs/2025-11-24-215717-cebreus.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-24"
       ]
     },
     {
@@ -387,6 +450,9 @@
           "detail": "/images/details/2025-11-25-075730-cebreus.jpeg",
           "thumb": "/images/previews-xxs/2025-11-25-075730-cebreus.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-25"
       ]
     },
     {
@@ -421,6 +487,9 @@
           "detail": "/images/details/2025-11-25-082852-cebreus.jpeg",
           "thumb": "/images/previews-xxs/2025-11-25-082852-cebreus.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-25"
       ]
     },
     {
@@ -503,6 +572,9 @@
           "detail": "/images/details/2025-11-25-090256-cebreus--collage.jpeg",
           "thumb": "/images/previews-xxs/2025-11-25-090256-cebreus--collage.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-25"
       ]
     },
     {
@@ -519,6 +591,9 @@
           "detail": "/images/details/2025-11-25-090636-cebreus.jpeg",
           "thumb": "/images/previews-xxs/2025-11-25-090636-cebreus.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-25"
       ]
     },
     {
@@ -607,6 +682,9 @@
           "detail": "/images/details/2025-11-25-095055-cebreus--zoom3from3.jpeg",
           "thumb": "/images/previews-xxs/2025-11-25-095055-cebreus--zoom3from3.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-25"
       ]
     },
     {
@@ -665,6 +743,9 @@
           "detail": "/images/details/2025-11-25-104322-cebreus--zoom1from2.jpeg",
           "thumb": "/images/previews-xxs/2025-11-25-104322-cebreus--zoom1from2.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-25"
       ]
     },
     {
@@ -681,6 +762,12 @@
           "detail": "/images/details/2025-11-25-110638-cebreus.jpeg",
           "thumb": "/images/previews-xxs/2025-11-25-110638-cebreus.jpeg"
         }
+      ],
+      "menuLocationIds": [
+        "loc-alexandrijska-opera"
+      ],
+      "days": [
+        "2025-11-25"
       ]
     },
     {
@@ -715,6 +802,9 @@
           "detail": "/images/details/2025-11-25-112911-cebreus.jpeg",
           "thumb": "/images/previews-xxs/2025-11-25-112911-cebreus.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-25"
       ]
     },
     {
@@ -767,6 +857,9 @@
           "detail": "/images/details/2025-11-25-132137-dasa.jpeg",
           "thumb": "/images/previews-xxs/2025-11-25-132137-dasa.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-25"
       ]
     },
     {
@@ -783,6 +876,9 @@
           "detail": "/images/details/2025-11-25-133004-dasa.jpeg",
           "thumb": "/images/previews-xxs/2025-11-25-133004-dasa.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-25"
       ]
     },
     {
@@ -805,6 +901,9 @@
           "detail": "/images/details/2025-11-25-150152-dasa--collage.jpeg",
           "thumb": "/images/previews-xxs/2025-11-25-150152-dasa--collage.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-25"
       ]
     },
     {
@@ -851,6 +950,9 @@
           "detail": "/images/details/2025-11-25-151616-cebreus.jpeg",
           "thumb": "/images/previews-xxs/2025-11-25-151616-cebreus.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-25"
       ]
     },
     {
@@ -867,6 +969,9 @@
           "detail": "/images/details/2025-11-25-152350-cebreus.jpeg",
           "thumb": "/images/previews-xxs/2025-11-25-152350-cebreus.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-25"
       ]
     },
     {
@@ -883,6 +988,9 @@
           "detail": "/images/details/2025-11-25-152518-cebreus.jpeg",
           "thumb": "/images/previews-xxs/2025-11-25-152518-cebreus.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-25"
       ]
     },
     {
@@ -899,6 +1007,9 @@
           "detail": "/images/details/2025-11-25-154350-cebreus.jpeg",
           "thumb": "/images/previews-xxs/2025-11-25-154350-cebreus.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-25"
       ]
     },
     {
@@ -1059,6 +1170,9 @@
           "detail": "/images/previews-webp/2025-11-26-100151-cebreus.webp",
           "thumb": "/images/previews-xxs/2025-11-26-100151-cebreus.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-26"
       ]
     },
     {
@@ -1093,6 +1207,9 @@
           "detail": "/images/details/2025-11-26-081035-cebreus--zoom4from4.jpeg",
           "thumb": "/images/previews-xxs/2025-11-26-081035-cebreus--zoom4from4.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-26"
       ]
     },
     {
@@ -1121,6 +1238,9 @@
           "detail": "/images/details/2025-11-26-114357-bobina.jpeg",
           "thumb": "/images/previews-xxs/2025-11-26-114357-bobina.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-26"
       ]
     },
     {
@@ -1425,6 +1545,9 @@
           "detail": "/images/details/2025-11-26-161403-dasa.jpeg",
           "thumb": "/images/previews-xxs/2025-11-26-161403-dasa.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-26"
       ]
     },
     {
@@ -1441,6 +1564,9 @@
           "detail": "/images/details/2025-11-26-164905-bobina.jpeg",
           "thumb": "/images/previews-xxs/2025-11-26-164905-bobina.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-26"
       ]
     },
     {
@@ -1457,6 +1583,9 @@
           "detail": "/images/details/2025-11-26-192016-cebreus.jpeg",
           "thumb": "/images/previews-xxs/2025-11-26-192016-cebreus.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-26"
       ]
     },
     {
@@ -1473,6 +1602,9 @@
           "detail": "/images/details/2025-11-26-191950-dasa--collage.jpeg",
           "thumb": "/images/previews-xxs/2025-11-26-191950-dasa--collage.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-26"
       ]
     },
     {
@@ -1489,6 +1621,12 @@
           "detail": "/images/details/2025-11-27-051203-cebreus.jpeg",
           "thumb": "/images/previews-xxs/2025-11-27-051203-cebreus.jpeg"
         }
+      ],
+      "menuLocationIds": [
+        "loc-zeleznicni-stanice-luxor"
+      ],
+      "days": [
+        "2025-11-27"
       ]
     },
     {
@@ -1505,6 +1643,9 @@
           "detail": "/images/details/2025-11-27-113855-bobina--collage.jpeg",
           "thumb": "/images/previews-xxs/2025-11-27-113855-bobina--collage.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-27"
       ]
     },
     {
@@ -1719,6 +1860,9 @@
           "detail": "/images/details/2025-11-27-151703-cebreus.jpeg",
           "thumb": "/images/previews-xxs/2025-11-27-151703-cebreus.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-27"
       ]
     },
     {
@@ -1861,6 +2005,9 @@
           "detail": "/images/details/2025-11-27-162603-dasa.jpeg",
           "thumb": "/images/previews-xxs/2025-11-27-162603-dasa.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-27"
       ]
     },
     {
@@ -1877,6 +2024,9 @@
           "detail": "/images/details/2025-11-27-162535-dasa.jpeg",
           "thumb": "/images/previews-xxs/2025-11-27-162535-dasa.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-27"
       ]
     },
     {
@@ -1893,6 +2043,9 @@
           "detail": "/images/details/2025-11-27-172835-cebreus.jpeg",
           "thumb": "/images/previews-xxs/2025-11-27-172835-cebreus.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-27"
       ]
     },
     {
@@ -1909,6 +2062,9 @@
           "detail": "/images/details/2025-11-27-173120-cebreus.jpeg",
           "thumb": "/images/previews-xxs/2025-11-27-173120-cebreus.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-27"
       ]
     },
     {
@@ -1925,6 +2081,9 @@
           "detail": "/images/details/2025-11-27-174013-cebreus--collage.jpeg",
           "thumb": "/images/previews-xxs/2025-11-27-174013-cebreus--collage.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-27"
       ]
     },
     {
@@ -1941,6 +2100,9 @@
           "detail": "/images/details/2025-11-27-181255-cebreus.jpeg",
           "thumb": "/images/previews-xxs/2025-11-27-181255-cebreus.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-27"
       ]
     },
     {
@@ -1957,6 +2119,9 @@
           "detail": "/images/details/2025-11-27-203001-bobina.jpeg",
           "thumb": "/images/previews-xxs/2025-11-27-203001-bobina.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-27"
       ]
     },
     {
@@ -1973,6 +2138,9 @@
           "detail": "/images/details/2025-11-27-203021-bobina.jpeg",
           "thumb": "/images/previews-xxs/2025-11-27-203021-bobina.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-27"
       ]
     },
     {
@@ -1989,6 +2157,9 @@
           "detail": "/images/details/2025-11-28-140424-bobina.jpeg",
           "thumb": "/images/previews-xxs/2025-11-28-140424-bobina.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-28"
       ]
     },
     {
@@ -2005,6 +2176,9 @@
           "detail": "/images/details/2025-11-28-132857-dasa.jpeg",
           "thumb": "/images/previews-xxs/2025-11-28-132857-dasa.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-28"
       ]
     },
     {
@@ -2021,6 +2195,9 @@
           "detail": "/images/details/2025-11-28-132902-dasa.jpeg",
           "thumb": "/images/previews-xxs/2025-11-28-132902-dasa.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-28"
       ]
     },
     {
@@ -2037,6 +2214,9 @@
           "detail": "/images/details/2025-11-28-143626-dasa--collage.jpeg",
           "thumb": "/images/previews-xxs/2025-11-28-143626-dasa--collage.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-28"
       ]
     },
     {
@@ -2053,6 +2233,9 @@
           "detail": "/images/details/2025-11-28-152459-dasa.jpeg",
           "thumb": "/images/previews-xxs/2025-11-28-152459-dasa.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-28"
       ]
     },
     {
@@ -2069,6 +2252,9 @@
           "detail": "/images/details/2025-11-28-155801-dasa.jpeg",
           "thumb": "/images/previews-xxs/2025-11-28-155801-dasa.jpeg"
         }
+      ],
+      "days": [
+        "2025-11-28"
       ]
     }
   ]

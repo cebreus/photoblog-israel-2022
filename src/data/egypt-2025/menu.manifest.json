@@ -12,7 +12,10 @@
         "isDimmed": true,
         "firstPhotoExifDate": "2025-11-21T17:58:02",
         "startDate": "2025-11-21T17:35:00",
-        "endDate": "2025-11-21T18:37:00"
+        "endDate": "2025-11-21T18:37:00",
+        "latitude": 49.191417,
+        "longitude": 16.6135,
+        "mapLocationId": "49.1914,16.6135"
       },
       {
         "id": "loc-praha-hln-2103",
@@ -52,7 +55,10 @@
         "isDimmed": true,
         "firstPhotoExifDate": "2025-11-22T17:16:54",
         "startDate": "2025-11-22T11:42:00",
-        "endDate": "2025-11-22T23:59:00"
+        "endDate": "2025-11-22T23:59:00",
+        "latitude": 27.093507,
+        "longitude": 33.839129,
+        "mapLocationId": "27.0935,33.8391"
       }
     ]
   },
@@ -84,7 +90,10 @@
         "isDimmed": false,
         "firstPhotoExifDate": "2025-11-23T11:49:51",
         "startDate": "2025-11-23T11:49:00",
-        "endDate": "2025-11-23T14:39:00"
+        "endDate": "2025-11-23T14:39:00",
+        "latitude": 27.180319,
+        "longitude": 33.961003,
+        "mapLocationId": "27.1803,33.9610"
       },
       {
         "id": "loc-diamond-red-seadiving-in-hurghada-1549",
@@ -93,7 +102,10 @@
         "isDimmed": true,
         "firstPhotoExifDate": "2025-11-23T16:34:13",
         "startDate": "2025-11-23T15:49:00",
-        "endDate": "2025-11-23T16:46:00"
+        "endDate": "2025-11-23T16:46:00",
+        "latitude": 27.234164,
+        "longitude": 33.848553,
+        "mapLocationId": "27.2342,33.8486"
       },
       {
         "id": "loc-blend-club-aqua-resort-1733",
@@ -126,7 +138,10 @@
         "isDimmed": true,
         "firstPhotoExifDate": "2025-11-24T16:22:41",
         "startDate": "2025-11-24T14:34:00",
-        "endDate": "2025-11-24T20:13:00"
+        "endDate": "2025-11-24T20:13:00",
+        "latitude": 29.989652,
+        "longitude": 31.137222,
+        "mapLocationId": "29.9897,31.1372"
       },
       {
         "id": "loc-cairo-tower-2049",
@@ -135,14 +150,20 @@
         "isDimmed": false,
         "firstPhotoExifDate": "2025-11-24T20:49:27",
         "startDate": "2025-11-24T20:49:00",
-        "endDate": "2025-11-24T22:00:00"
+        "endDate": "2025-11-24T22:00:00",
+        "latitude": 30.046311,
+        "longitude": 31.224239,
+        "mapLocationId": "30.0463,31.2242"
       },
       {
         "id": "loc-al-ahly-sporting-club",
         "label": "Al-Ahly Sporting Club ",
         "href": "/#2025-11-24-211848-dasa",
         "isDimmed": true,
-        "firstPhotoExifDate": "2025-11-24T22:18:48"
+        "firstPhotoExifDate": "2025-11-24T22:18:48",
+        "latitude": 30.044119,
+        "longitude": 31.2243,
+        "mapLocationId": "Al-Ahly Sporting Club "
       },
       {
         "id": "loc-pyramid-front-hotel-2314",
@@ -167,7 +188,10 @@
         "isDimmed": false,
         "firstPhotoExifDate": "2025-11-25T09:27:36",
         "startDate": "2025-11-25T09:16:00",
-        "endDate": "2025-11-25T09:29:00"
+        "endDate": "2025-11-25T09:29:00",
+        "latitude": 31.178472,
+        "longitude": 29.892917,
+        "mapLocationId": "31.1785,29.8929"
       },
       {
         "id": "loc-katakomby-kom-el-shoqafa-0929",
@@ -176,7 +200,10 @@
         "isDimmed": false,
         "firstPhotoExifDate": "2025-11-25T09:29:44",
         "startDate": "2025-11-25T09:29:00",
-        "endDate": "2025-11-25T10:06:00"
+        "endDate": "2025-11-25T10:06:00",
+        "latitude": 31.178306,
+        "longitude": 29.893253,
+        "mapLocationId": "31.1783,29.8933"
       },
       {
         "id": "loc-serapeum-1017",
@@ -185,7 +212,10 @@
         "isDimmed": false,
         "firstPhotoExifDate": "2025-11-25T10:24:09",
         "startDate": "2025-11-25T10:17:00",
-        "endDate": "2025-11-25T10:59:00"
+        "endDate": "2025-11-25T10:59:00",
+        "latitude": 31.181322,
+        "longitude": 29.896389,
+        "mapLocationId": "31.1813,29.8964"
       },
       {
         "id": "loc-kom-el-deka-1119",
@@ -194,14 +224,20 @@
         "isDimmed": false,
         "firstPhotoExifDate": "2025-11-25T11:19:52",
         "startDate": "2025-11-25T11:19:00",
-        "endDate": "2025-11-25T12:02:00"
+        "endDate": "2025-11-25T12:02:00",
+        "latitude": 31.194325,
+        "longitude": 29.903844,
+        "mapLocationId": "31.1943,29.9038"
       },
       {
         "id": "loc-alexandrijska-opera",
         "label": "Alexandrijská opera",
         "href": "/#2025-11-25-110638-cebreus",
         "isDimmed": true,
-        "firstPhotoExifDate": "2025-11-25T12:06:38"
+        "firstPhotoExifDate": "2025-11-25T12:06:38",
+        "latitude": 31.196419,
+        "longitude": 29.902097,
+        "mapLocationId": "Alexandrijská opera"
       },
       {
         "id": "loc-alexandrijska-knihovna-1217",
@@ -210,7 +246,10 @@
         "isDimmed": false,
         "firstPhotoExifDate": "2025-11-25T12:21:18",
         "startDate": "2025-11-25T12:17:00",
-        "endDate": "2025-11-25T12:34:00"
+        "endDate": "2025-11-25T12:34:00",
+        "latitude": 31.208111,
+        "longitude": 29.908919,
+        "mapLocationId": "31.2081,29.9089"
       },
       {
         "id": "loc-pevnost-qaitbay-1350",
@@ -219,7 +258,10 @@
         "isDimmed": false,
         "firstPhotoExifDate": "2025-11-25T13:52:55",
         "startDate": "2025-11-25T13:50:00",
-        "endDate": "2025-11-25T14:40:00"
+        "endDate": "2025-11-25T14:40:00",
+        "latitude": 31.213464,
+        "longitude": 29.885728,
+        "mapLocationId": "31.2135,29.8857"
       },
       {
         "id": "loc-kralovska-vlakova-garaz-1550",
@@ -228,7 +270,10 @@
         "isDimmed": false,
         "firstPhotoExifDate": "2025-11-25T15:51:52",
         "startDate": "2025-11-25T15:50:00",
-        "endDate": "2025-11-25T16:00:00"
+        "endDate": "2025-11-25T16:00:00",
+        "latitude": 31.2835,
+        "longitude": 30.025044,
+        "mapLocationId": "31.2835,30.0250"
       },
       {
         "id": "loc-kralovsky-sklenik-1605",
@@ -237,7 +282,10 @@
         "isDimmed": false,
         "firstPhotoExifDate": "2025-11-25T16:05:25",
         "startDate": "2025-11-25T16:05:00",
-        "endDate": "2025-11-25T16:20:00"
+        "endDate": "2025-11-25T16:20:00",
+        "latitude": 31.287067,
+        "longitude": 30.024589,
+        "mapLocationId": "31.2871,30.0246"
       },
       {
         "id": "loc-athineos-cafe-and-restaurant",
@@ -269,7 +317,10 @@
         "isDimmed": false,
         "firstPhotoExifDate": "2025-11-26T09:04:32",
         "startDate": "2025-11-26T08:40:00",
-        "endDate": "2025-11-26T12:00:00"
+        "endDate": "2025-11-26T12:00:00",
+        "latitude": 29.96845,
+        "longitude": 31.123806,
+        "mapLocationId": "29.9685,31.1238"
       },
       {
         "id": "loc-egyptsky-papyrusovy-institut-1230",
@@ -278,7 +329,10 @@
         "isDimmed": false,
         "firstPhotoExifDate": "2025-11-26T12:34:57",
         "startDate": "2025-11-26T12:30:00",
-        "endDate": "2025-11-26T12:50:00"
+        "endDate": "2025-11-26T12:50:00",
+        "latitude": 29.985372,
+        "longitude": 31.141575,
+        "mapLocationId": "29.9854,31.1416"
       },
       {
         "id": "loc-velke-egyptske-muzeum-1310",
@@ -287,7 +341,10 @@
         "isDimmed": false,
         "firstPhotoExifDate": "2025-11-26T13:13:46",
         "startDate": "2025-11-26T13:10:00",
-        "endDate": "2025-11-26T17:20:00"
+        "endDate": "2025-11-26T17:20:00",
+        "latitude": 29.996072,
+        "longitude": 31.118131,
+        "mapLocationId": "29.9961,31.1181"
       }
     ]
   },
@@ -302,7 +359,10 @@
         "label": "Železniční stanice Luxor",
         "href": "/#2025-11-27-051203-cebreus",
         "isDimmed": true,
-        "firstPhotoExifDate": "2025-11-27T06:12:03"
+        "firstPhotoExifDate": "2025-11-27T06:12:03",
+        "latitude": 25.696567,
+        "longitude": 32.644447,
+        "mapLocationId": "Železniční stanice Luxor"
       },
       {
         "id": "loc-karnak-1330",
@@ -311,7 +371,10 @@
         "isDimmed": false,
         "firstPhotoExifDate": "2025-11-27T13:49:15",
         "startDate": "2025-11-27T13:30:00",
-        "endDate": "2025-11-27T15:20:00"
+        "endDate": "2025-11-27T15:20:00",
+        "latitude": 25.719436,
+        "longitude": 32.656075,
+        "mapLocationId": "25.7194,32.6561"
       },
       {
         "id": "loc-luxorsky-chram-1550",
@@ -320,7 +383,10 @@
         "isDimmed": false,
         "firstPhotoExifDate": "2025-11-27T15:54:21",
         "startDate": "2025-11-27T15:50:00",
-        "endDate": "2025-11-27T17:15:00"
+        "endDate": "2025-11-27T17:15:00",
+        "latitude": 25.700553,
+        "longitude": 32.640428,
+        "mapLocationId": "25.7006,32.6404"
       }
     ]
   },
