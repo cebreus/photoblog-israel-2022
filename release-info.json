@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 2,
+  "applicationVersion": "1.0.0",
+  "coreVersion": "0.0.1",
+  "coreCommitSha": "132b77c196e9a3de96be36fa5e9d0f724d21389c",
+  "coreDirty": true,
+  "galleryCommitSha": "240c3010a7a8582ce0b1f24b7c9b34491ca47d62",
+  "galleryDirty": true,
+  "galleryStateFingerprint": "99b3c651986de7a34efb0244414f7be331df4157c6f2caea2c0822991526e1c0",
+  "builtAt": "2026-10-05T08:41:44.591Z"
+}
