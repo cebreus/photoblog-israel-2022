@@ -1,0 +1,1 @@
+function e(e){switch(e){case`/`:case`/(gallery)`:return`gallery`;case`/map`:case`/(gallery)/map`:return`map`;case`/travel-guide`:case`/(gallery)/travel-guide`:return`travel-guide`;default:return`internal`}}export{e as t};

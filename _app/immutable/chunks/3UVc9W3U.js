@@ -1,0 +1,1 @@
+import{r as e}from"./CURMX6Cd.js";var t=()=>`Galerie je prázdná`,n=()=>`Gallery is empty for now`,r=((r={},i={})=>(i.locale??e())===`en`?n(r):t(r));export{r as t};

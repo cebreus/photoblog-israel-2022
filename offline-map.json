@@ -1,0 +1,56 @@
+{
+  "version": 3,
+  "plannerVersion": 1,
+  "snapshotId": "064ebef8d4638ac41e686c46aa245c12045a8d3fca1c5d6520ae5e4cdf8aa816",
+  "gallery": "israel-2022",
+  "updatedAt": "2026-10-30T13:49:54.543Z",
+  "locationsSha256": "8ab44b4eb770255236a9e31dcc6476e69ee63e1b684ed1e948f22b3691c4e2f4",
+  "byZoom": {
+    "0": 1,
+    "1": 4,
+    "2": 16,
+    "3": 9,
+    "4": 9,
+    "5": 12,
+    "6": 12,
+    "7": 15,
+    "8": 23,
+    "9": 38,
+    "10": 71,
+    "11": 238,
+    "12": 425,
+    "13": 642,
+    "14": 1485,
+    "15": 1789,
+    "16": 2087,
+    "17": 2460
+  },
+  "layers": {
+    "street": {
+      "format": "png",
+      "extension": "png",
+      "mimeType": "image/png",
+      "path": "map-tiles-street",
+      "attribution": "© CARTO; © OpenStreetMap contributors",
+      "offlinePermissionEvidence": "Offline distribution approved by the repository owner on 2026-10-18 for this personal photoblog; no separate provider licence document is on file.",
+      "sourceId": "carto-voyager-legacy-trial",
+      "maxZoom": 17,
+      "expected": 9336,
+      "sha256": "31c04b8f1d8c820195c9b2dcb743dda974c95c66ce2b3e73b1f20e7ab4a5ec28",
+      "acquiredAt": "2026-10-09T20:34:18.005Z"
+    },
+    "satellite": {
+      "format": "jpeg",
+      "extension": "jpg",
+      "mimeType": "image/jpeg",
+      "path": "map-tiles-satellite",
+      "attribution": "© Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community",
+      "offlinePermissionEvidence": "Offline distribution approved by the repository owner on 2026-10-18 for this personal photoblog; no separate provider licence document is on file.",
+      "sourceId": "esri-world-imagery-legacy-trial",
+      "maxZoom": 16,
+      "expected": 6876,
+      "sha256": "4eb33ab21afaea8f7840e2969b75fd48f5e26a7edf0adbda5c0be3f7e6808d85",
+      "acquiredAt": "2026-10-09T20:34:18.005Z"
+    }
+  }
+}

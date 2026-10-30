@@ -1,4 +1,3 @@
 User-agent: *
-Allow: /*.*?
-
-# Sitemap: https://israel-2022.cebre.us/sitemap.xml
+Disallow:
+Sitemap: https://israel-2022.cebre.us/sitemap.xml

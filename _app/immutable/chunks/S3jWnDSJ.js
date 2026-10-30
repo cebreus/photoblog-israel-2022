@@ -1,0 +1,1 @@
+import{bt as e,et as t,vt as n}from"./C9xQ-Iyh.js";var r=e(null),i={ask(e){return t(r)?.resolve(!1),new Promise(t=>{n(r,{...e,resolve:t},!0)})},get pending(){return t(r)},settle(e){t(r)?.resolve(e),n(r,null)}};export{i as t};
