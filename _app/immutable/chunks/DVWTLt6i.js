@@ -1,0 +1,1 @@
+import{r as e}from"./WrP0333C.js";var t=((t={},n={})=>(n.locale??e())===`en`?`Map`:`Mapa`);export{t};

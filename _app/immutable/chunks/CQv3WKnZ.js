@@ -1,0 +1,1 @@
+import{i as e,t}from"./WrP0333C.js";import{n,t as r}from"./CcbLGeeb.js";var i=r,a={route:o,resolveRoute:(t,n)=>e(o(t),{locale:n}),get locale(){return r()},set locale(e){n(e)}};function o(e){return t(e)}export{i as n,a as t};

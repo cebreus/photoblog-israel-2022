@@ -1,0 +1,1 @@
+import{Bt as e}from"../chunks/BH08aRqw.js";import"../chunks/xihTtKlq.js";import"../chunks/CYlCCpFW.js";var t=e({prerender:()=>n}),n=!1;function r(e){}export{r as component,t as universal};

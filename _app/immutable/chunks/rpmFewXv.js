@@ -1,0 +1,1 @@
+import{Tt as e,kt as t}from"./BH08aRqw.js";var n=Symbol(`audio-player`);function r(e){return t(n,e)}function i(){let t=e(n);if(!t)throw Error(`AudioPlayer.Root is required`);return t}export{r as n,i as t};

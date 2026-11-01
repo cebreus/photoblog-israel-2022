@@ -1,1 +1,0 @@
-import{r as e}from"./CURMX6Cd.js";var t=()=>`Načítání`,n=()=>`Loading`,r=((r={},i={})=>(i.locale??e())===`en`?n(r):t(r));export{r as t};

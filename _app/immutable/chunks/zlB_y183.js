@@ -1,0 +1,1 @@
+import{r as e}from"./WrP0333C.js";var t=((t={},n={})=>(n.locale??e())===`en`?`Gallery is empty for now`:`Galerie je prázdná`);export{t};
